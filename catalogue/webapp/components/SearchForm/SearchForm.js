@@ -118,7 +118,7 @@ const SearchForm = ({
           ? form['items.locations.locationType'].value.split(',')
           : []
         : [];
-
+    const source = `search_form/${search || 'works'}`;
     const state = {
       query: inputQuery,
       workType,
@@ -129,8 +129,9 @@ const SearchForm = ({
       sort,
       search,
       itemsLocationsLocationType,
+      source,
     };
-    const link = worksLink(state);
+    const link = worksLink(state, source);
     setSearchParamsState(state);
 
     return Router.push(link.href, link.as);

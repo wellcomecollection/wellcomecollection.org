@@ -1,12 +1,10 @@
 locals {
-  edge_lambda_request_version  = 30
-  edge_lambda_response_version = 31
+  edge_lambda_request_version  = 36
+  edge_lambda_response_version = 37
 }
 
 # Setup terraform for this service
 terraform {
-  required_version = ">= 0.11.10"
-
   backend "s3" {
     key            = "build-state/cache.tfstate"
     dynamodb_table = "terraform-locktable"
@@ -18,7 +16,7 @@ terraform {
 
 # Make sure we're using AWS as provider
 provider "aws" {
-  version = "~> 1.56.0"
+  version = "~> 2.0"
   region  = "us-east-1"
 
   assume_role {
@@ -31,7 +29,7 @@ provider "aws" {
 data "terraform_remote_state" "router" {
   backend = "s3"
 
-  config {
+  config = {
     bucket   = "wellcomecollection-infra"
     key      = "build-state/router.tfstate"
     region   = "eu-west-1"
@@ -42,7 +40,7 @@ data "terraform_remote_state" "router" {
 data "terraform_remote_state" "assets" {
   backend = "s3"
 
-  config {
+  config = {
     bucket   = "wellcomecollection-infra"
     key      = "build-state/router.tfstate"
     region   = "eu-west-1"
@@ -65,13 +63,14 @@ resource "aws_s3_bucket" "lambdas" {
 }
 
 output "s3_edge_lambda_origin_version_id" {
-  value = "${data.aws_s3_bucket_object.edge_lambda_origin.version_id}"
+  value = data.aws_s3_bucket_object.edge_lambda_origin.version_id
 }
 
 output "latest_edge_lambda_origin_request_version" {
-  value = "${aws_lambda_function.edge_lambda_request.version}"
+  value = aws_lambda_function.edge_lambda_request.version
 }
 
 output "latest_edge_lambda_origin_response_version" {
-  value = "${aws_lambda_function.edge_lambda_response.version}"
+  value = aws_lambda_function.edge_lambda_response.version
 }
+

@@ -112,3 +112,40 @@ export function getIIIFPresentationCredit(manifest: IIIFManifest): ?string {
   const attribution = getIIIFMetadata(manifest, 'Attribution');
   return attribution ? attribution.value.split('<br/>')[0] : null;
 }
+
+function getManifests(iiifManifest: IIIFManifest): IIIFManifest[] {
+  return iiifManifest.manifests || [];
+}
+
+export function getManifestViewType(
+  iiifManifest: IIIFManifest
+): 'multi' | 'audio' | 'video' | 'iiif' | 'pdf' | 'none' {
+  const manifests = getManifests(iiifManifest);
+  const video =
+    iiifManifest.mediaSequences &&
+    iiifManifest.mediaSequences.find(sequence =>
+      sequence.elements.find(
+        element => element['@type'] === 'dctypes:MovingImage'
+      )
+    );
+  const audio =
+    iiifManifest.mediaSequences &&
+    iiifManifest.mediaSequences.find(sequence =>
+      sequence.elements.find(element => element['@type'] === 'dctypes:Sound')
+    );
+  const canvases = getCanvases(iiifManifest);
+  const downloadOptions = getDownloadOptionsFromManifest(iiifManifest);
+  const pdfRendering =
+    downloadOptions.find(option => option.label === 'Download PDF') || false;
+  return manifests.length > 0
+    ? 'multi'
+    : audio
+    ? 'audio'
+    : video
+    ? 'video'
+    : canvases.length > 0
+    ? 'iiif'
+    : pdfRendering
+    ? 'pdf'
+    : 'none';
+}

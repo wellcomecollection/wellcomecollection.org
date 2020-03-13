@@ -2,7 +2,7 @@
 import fetch from 'isomorphic-unfetch';
 
 const rootUris = {
-  prod: 'https://api.wellcomecollection.org/stacks/v1/items',
+  prod: 'https://api.wellcomecollection.org/stacks/v1/works',
 };
 
 type Environment = {|
@@ -15,12 +15,11 @@ type GetStacksWorkProps = {|
 |};
 
 type StacksWork = Object;
-
-export async function getStacksWork({
+const getStacksWork = async ({
   workId,
   env = 'prod',
-}: GetStacksWorkProps): Promise<StacksWork> {
-  const url = `${rootUris[env]}/works/${workId}`;
+}: GetStacksWorkProps): Promise<StacksWork> => {
+  const url = `${rootUris[env]}/${workId}`;
 
   const response = await fetch(url, {
     headers: {
@@ -30,4 +29,6 @@ export async function getStacksWork({
   });
 
   return response.json();
-}
+};
+
+export default getStacksWork;

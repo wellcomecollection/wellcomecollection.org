@@ -42,7 +42,9 @@
     "prettier": "^1.16.4"
   },
   "dependencies": {
-    "flow-bin": "^0.108.0"
+    "flow-bin": "^0.108.0",
+    "jest-puppeteer": "^4.4.0",
+    "puppeteer": "^2.1.1"
   },
   "private": true,
   "workspaces": [

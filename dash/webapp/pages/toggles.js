@@ -45,12 +45,12 @@ type AbTest = {|
 
 const abTests: AbTest[] = [
   {
-    id: 'altNewsletterSignupCopy',
-    title: 'Alternative NewsletterPromo copy',
-    range: [0, 100],
+    range: [0, 50],
+    id: 'availableOnline',
+    title: 'Show the "Available online" section on a work page',
     defaultValue: false,
     description:
-      'Uses different (longer/more descriptive) copy in the NewsletterPromo component',
+      'Removes the previews from the top of the page and shows the "Available online" section instead.',
   },
 ];
 const IndexPage = () => {

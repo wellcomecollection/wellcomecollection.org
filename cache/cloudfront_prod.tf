@@ -11,19 +11,19 @@ locals {
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {
   function_name = "cf_edge_lambda_request"
-  qualifier     = "${local.edge_lambda_request_version}"
+  qualifier     = local.edge_lambda_request_version
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_response" {
   function_name = "cf_edge_lambda_response"
-  qualifier     = "${local.edge_lambda_response_version}"
+  qualifier     = local.edge_lambda_response_version
 }
 
 # Create the CloudFront distribution
 resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   origin {
-    domain_name = "${data.terraform_remote_state.router.alb_dns_name}"
-    origin_id   = "${local.default_origin_id}"
+    domain_name = data.terraform_remote_state.router.outputs.alb_dns_name
+    origin_id   = local.default_origin_id
 
     custom_origin_config {
       origin_protocol_policy = "https-only"
@@ -34,8 +34,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   }
 
   origin {
-    domain_name = "${local.assets_s3_website_endpoint}"
-    origin_id   = "${local.assets_origin_id}"
+    domain_name = local.assets_s3_website_endpoint
+    origin_id   = local.assets_origin_id
   }
 
   enabled         = true
@@ -54,7 +54,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     allowed_methods        = ["HEAD", "GET", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods         = ["HEAD", "GET", "OPTIONS"]
     viewer_protocol_policy = "redirect-to-https"
-    target_origin_id       = "${local.default_origin_id}"
+    target_origin_id       = local.default_origin_id
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
@@ -67,9 +67,6 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "page",
         "current",
         "uri",
-
-        # dotmailer gives us a 'result' (if we run out of params,
-        # consider making new urls for newsletter pages instead)
         "result",
       ]
 
@@ -85,12 +82,12 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
 
     lambda_function_association {
       event_type = "origin-request"
-      lambda_arn = "${data.aws_lambda_function.versioned_edge_lambda_request.arn}"
+      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_request.qualified_arn
     }
 
     lambda_function_association {
       event_type = "origin-response"
-      lambda_arn = "${data.aws_lambda_function.versioned_edge_lambda_response.arn}"
+      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_response.qualified_arn
     }
   }
 
@@ -99,7 +96,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     allowed_methods        = ["HEAD", "GET", "OPTIONS"]
     cached_methods         = ["HEAD", "GET", "OPTIONS"]
     viewer_protocol_policy = "redirect-to-https"
-    target_origin_id       = "${local.default_origin_id}"
+    target_origin_id       = local.default_origin_id
     path_pattern           = "/works*"
     min_ttl                = 0
     default_ttl            = 3600
@@ -124,26 +121,27 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         forward = "whitelist"
 
         whitelisted_names = [
-          "toggles",          # feature toggles
-          "toggle_*",         # feature toggles
+          "toggles",  # feature toggles
+          "toggle_*", # feature toggles
           "WC_auth_redirect",
+          "_queryType",
         ]
       }
     }
 
     lambda_function_association {
       event_type = "origin-request"
-      lambda_arn = "${data.aws_lambda_function.versioned_edge_lambda_request.arn}"
+      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_request.qualified_arn
     }
 
     lambda_function_association {
       event_type = "origin-response"
-      lambda_arn = "${data.aws_lambda_function.versioned_edge_lambda_response.arn}"
+      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_response.qualified_arn
     }
   }
 
   ordered_cache_behavior {
-    target_origin_id       = "${local.default_origin_id}"
+    target_origin_id       = local.default_origin_id
     path_pattern           = "/_next/*"
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
@@ -163,7 +161,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   }
 
   ordered_cache_behavior {
-    target_origin_id       = "${local.default_origin_id}"
+    target_origin_id       = local.default_origin_id
     path_pattern           = "/events/*"
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
@@ -187,7 +185,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   }
 
   ordered_cache_behavior {
-    target_origin_id       = "${local.assets_origin_id}"
+    target_origin_id       = local.assets_origin_id
     path_pattern           = "/humans.txt"
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
@@ -206,7 +204,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   }
 
   ordered_cache_behavior {
-    target_origin_id       = "${local.assets_origin_id}"
+    target_origin_id       = local.assets_origin_id
     path_pattern           = "/robots.txt"
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
@@ -225,7 +223,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = "${data.aws_acm_certificate.wellcomecollection_ssl_cert.arn}"
+    acm_certificate_arn      = data.aws_acm_certificate.wellcomecollection_ssl_cert.arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2018"
   }
@@ -238,3 +236,4 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
 
   retain_on_delete = true
 }
+
