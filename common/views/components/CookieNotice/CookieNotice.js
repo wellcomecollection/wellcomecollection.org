@@ -21,10 +21,6 @@ const CookieNoticeStyle = styled.div.attrs({
   right: 0;
   z-index: 1000;
 
-  .icon {
-    height: 1.3em;
-  }
-
   .icon__shape {
     fill: ${props => props.theme.colors.white};
   }
@@ -52,16 +48,11 @@ const CookieNotice = () => {
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
             <div className="flex flex--h-space-between">
-              <div className="flex">
+              <div className="flex flex--v-center">
+                <Icon name="cookies" />
                 <Space
                   as="span"
-                  h={{ size: 's', properties: ['margin-right'] }}
-                >
-                  <Icon name="cookies" />
-                </Space>
-                <Space
-                  as="span"
-                  h={{ size: 's', properties: ['margin-right'] }}
+                  h={{ size: 's', properties: ['margin-left', 'margin-right'] }}
                 >
                   <h2 className="no-margin inline">Wellcome uses cookies.</h2>
                 </Space>
