@@ -1,4 +1,4 @@
-resource "aws_cloudfront_distribution" "www_stage_wc_org" {
+resource "aws_cloudfront_distribution" "stage_wc_org" {
   origin {
     domain_name = data.terraform_remote_state.experience.outputs.stage_alb_dns
     origin_id   = local.default_origin_id
@@ -20,9 +20,9 @@ resource "aws_cloudfront_distribution" "www_stage_wc_org" {
   is_ipv6_enabled = true
 
   aliases = [
-//    "www-stage.wellcomecollection.org",
-//    "content.www-stage.wellcomecollection.org",
-//    "works.www-stage.wellcomecollection.org",
+    "www-stage.wellcomecollection.org",
+    "content.www-stage.wellcomecollection.org",
+    "works.www-stage.wellcomecollection.org",
   ]
 
   default_cache_behavior {

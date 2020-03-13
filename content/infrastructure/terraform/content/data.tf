@@ -9,9 +9,7 @@ data "terraform_remote_state" "infra_shared" {
   }
 }
 
-locals {
-  vpc_id = data.terraform_remote_state.infra_shared.outputs.experience_vpc_id
-
-  private_subnets = data.terraform_remote_state.infra_shared.outputs.experience_vpc_private_subnets
-  public_subnets = data.terraform_remote_state.infra_shared.outputs.experience_vpc_public_subnets
+data "aws_ssm_parameter" "nginx_image_uri" {
+  name = "/platform/images/latest/nginx_experience"
+  provider = aws.platform
 }
