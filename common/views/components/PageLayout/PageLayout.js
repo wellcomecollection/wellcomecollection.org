@@ -8,6 +8,7 @@ import convertUrlToString from '../../../utils/convert-url-to-string';
 import JsonLd from '../JsonLd/JsonLd';
 import Header from '../Header/Header';
 import InfoBanner from '../InfoBanner/InfoBanner';
+import CookieNotice from '../CookieNotice/CookieNotice';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer/Footer';
 import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
@@ -119,6 +120,7 @@ const PageLayout = ({
       </Head>
 
       <div className={isPreview ? 'is-preview' : undefined}>
+        <CookieNotice />
         <a className="skip-link" href="#main">
           Skip to main content
         </a>
