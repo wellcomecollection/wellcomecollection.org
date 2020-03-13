@@ -25,6 +25,7 @@ variable "security_group_ids" {
 
 variable "env_vars" {
   type = map(string)
+  default = {}
 }
 
 variable "secret_env_vars" {
