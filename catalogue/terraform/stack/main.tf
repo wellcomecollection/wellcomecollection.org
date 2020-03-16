@@ -4,7 +4,7 @@ variable "alb_listener_https_arn" {}
 variable "alb_listener_http_arn" {}
 
 module "catalogue-service" {
-  source = "../../../../infrastructure/terraform/modules/service"
+  source = "../../../infrastructure/terraform/modules/service"
 
   namespace    = "catalogue-${var.env_suffix}"
 
@@ -24,12 +24,16 @@ module "catalogue-service" {
     var.service_egress_security_group_id
   ]
 
+  env_vars = {
+    PROD_SUBDOMAIN = var.subdomain
+  }
+
   vpc_id  = local.vpc_id
   subnets = local.private_subnets
 }
 
 module "path_listener" {
-  source = "../../../../infrastructure/terraform/modules/alb_listener_rule"
+  source = "../../../infrastructure/terraform/modules/alb_listener_rule"
 
   alb_listener_https_arn = var.alb_listener_https_arn
   alb_listener_http_arn  = var.alb_listener_http_arn
@@ -43,19 +47,19 @@ module "path_listener" {
 # This is used for the static assets served from _next with multiple next apps
 # See: https://github.com/zeit/next.js#multi-zones
 module "subdomain_listener" {
-  source = "../../../../infrastructure/terraform/modules/alb_listener_rule"
+  source = "../../../infrastructure/terraform/modules/alb_listener_rule"
 
   alb_listener_https_arn = var.alb_listener_https_arn
   alb_listener_http_arn  = var.alb_listener_http_arn
   target_group_arn       = module.catalogue-service.target_group_arn
 
   priority               = "201"
-  values                 = [var.subdomain]
+  values                 = ["${var.subdomain}.wellcomecollection.org"]
   field                  = "host-header"
 }
 
 module "embed_path_rule" {
-  source = "../../../../infrastructure/terraform/modules/alb_listener_rule"
+  source = "../../../infrastructure/terraform/modules/alb_listener_rule"
 
   alb_listener_https_arn = var.alb_listener_https_arn
   alb_listener_http_arn  = var.alb_listener_http_arn
@@ -67,7 +71,7 @@ module "embed_path_rule" {
 }
 
 module "images_search_rule" {
-  source = "../../../../infrastructure/terraform/modules/alb_listener_rule"
+  source = "../../../infrastructure/terraform/modules/alb_listener_rule"
 
   alb_listener_https_arn = var.alb_listener_https_arn
   alb_listener_http_arn  = var.alb_listener_http_arn

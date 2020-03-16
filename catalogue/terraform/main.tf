@@ -1,5 +1,5 @@
 module "catalogue-prod" {
-  source = "./catalogue"
+  source = "./stack"
 
   container_image = "wellcome/catalogue_webapp:test"
   env_suffix      = "prod"
@@ -13,13 +13,13 @@ module "catalogue-prod" {
   interservice_security_group_id   = local.prod_interservice_security_group_id
   service_egress_security_group_id = local.prod_service_egress_security_group_id
 
-  subdomain = "works.www.wellcomecollection.org"
+  subdomain = "works.www"
 }
 
 module "catalogue-stage" {
-  source = "./catalogue"
+  source = "./stack"
 
-  container_image = "wellcome/catalogue_webapp:test"
+  container_image = "wellcome/catalogue_webapp:${var.container_tag}"
   env_suffix      = "stage"
 
   cluster_arn  = local.stage_cluster_arn
@@ -31,5 +31,5 @@ module "catalogue-stage" {
   interservice_security_group_id   = local.stage_interservice_security_group_id
   service_egress_security_group_id = local.stage_service_egress_security_group_id
 
-  subdomain = "works.www-stage.wellcomecollection.org"
+  subdomain = "works.www-stage"
 }
