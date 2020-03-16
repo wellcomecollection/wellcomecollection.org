@@ -1,28 +1,6 @@
-locals {
-  default_origin_id = "origin"
-
-  # TODO: We should read this from the static terraform state
-  # but I didn't want to create coupling as we need to upgrade to tf0.12
-  assets_s3_website_endpoint = "i.wellcomecollection.org.s3.amazonaws.com"
-
-  assets_s3_website_uri = "i.wellcomecollection.org"
-  assets_origin_id      = "S3-${local.assets_s3_website_uri}"
-}
-
-data "aws_lambda_function" "versioned_edge_lambda_request" {
-  function_name = "cf_edge_lambda_request"
-  qualifier     = local.edge_lambda_request_version
-}
-
-data "aws_lambda_function" "versioned_edge_lambda_response" {
-  function_name = "cf_edge_lambda_response"
-  qualifier     = local.edge_lambda_response_version
-}
-
-# Create the CloudFront distribution
-resource "aws_cloudfront_distribution" "wellcomecollection_org" {
+resource "aws_cloudfront_distribution" "wc_org" {
   origin {
-    domain_name = data.terraform_remote_state.router.outputs.alb_dns_name
+    domain_name = data.terraform_remote_state.experience.outputs.prod_alb_dns
     origin_id   = local.default_origin_id
 
     custom_origin_config {
@@ -42,12 +20,9 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   is_ipv6_enabled = true
 
   aliases = [
-    "blog.wellcomecollection.org",
-    "content.wellcomecollection.org",
-    "next.wellcomecollection.org",
-    "wellcomecollection.org",
-    "whats-on.wellcomecollection.org",
-    "works.wellcomecollection.org",
+    #"wellcomecollection.org",
+    "content.www.wellcomecollection.org",
+    "works.www.wellcomecollection.org",
   ]
 
   default_cache_behavior {
@@ -223,7 +198,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = local.wellcome_cdn_cert_arn_old
+    acm_certificate_arn      = local.wellcome_cdn_cert_arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2018"
   }
