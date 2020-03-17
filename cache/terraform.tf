@@ -3,7 +3,6 @@ locals {
   edge_lambda_response_version = 37
 
   wellcome_cdn_cert_arn = "arn:aws:acm:us-east-1:130871440101:certificate/bb840c52-56bb-4bf8-86f8-59e7deaf9c98"
-  wellcome_cdn_cert_arn_old = "arn:aws:acm:us-east-1:130871440101:certificate/9b4d357e-689f-4fd3-bf12-4e6c5fd4af35"
 }
 
 # Setup terraform for this service

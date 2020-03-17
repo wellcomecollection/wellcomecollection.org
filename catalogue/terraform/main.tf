@@ -1,7 +1,7 @@
 module "catalogue-prod" {
   source = "./stack"
 
-  container_image = "wellcome/catalogue_webapp:test"
+  container_image = "wellcome/catalogue_webapp:${var.container_tag}"
   env_suffix      = "prod"
 
   cluster_arn  = local.prod_cluster_arn

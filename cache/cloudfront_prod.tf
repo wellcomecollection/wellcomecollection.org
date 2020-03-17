@@ -22,7 +22,12 @@ data "aws_lambda_function" "versioned_edge_lambda_response" {
 # Create the CloudFront distribution
 resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   origin {
-    domain_name = data.terraform_remote_state.router.outputs.alb_dns_name
+    // The value below is for the old ALB please leave this comment
+    // while we soak test the new infrastructure - if there is an
+    // issue replace domain_name with the value below:
+    //
+    // data.terraform_remote_state.router.outputs.alb_dns_name
+    domain_name = data.terraform_remote_state.experience.outputs.prod_alb_dns
     origin_id   = local.default_origin_id
 
     custom_origin_config {
@@ -45,7 +50,9 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     "wellcomecollection.org",
     "blog.wellcomecollection.org",
     "content.wellcomecollection.org",
+    "content.www.wellcomecollection.org",
     "works.wellcomecollection.org",
+    "works.www.wellcomecollection.org",
   ]
 
   default_cache_behavior {
@@ -221,7 +228,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = local.wellcome_cdn_cert_arn_old
+    acm_certificate_arn      = local.wellcome_cdn_cert_arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2018"
   }
