@@ -107,7 +107,8 @@ export class HomePage extends Component<Props> {
                     [font('wb', 1)]: true,
                   })}
                 >
-                  The free museum and library for the incurably curious
+                  The free museum and library for the incurably curious is
+                  currently closed.
                   <Space
                     v={{
                       size: 'm',
@@ -119,13 +120,6 @@ export class HomePage extends Component<Props> {
                       [font('hnl', 4)]: true,
                     })}
                   >
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Consequuntur, eum doloremque. Blanditiis deleniti nesciunt
-                      sint voluptatem molestias, nostrum odit quas laborum
-                      debitis, autem voluptas, modi ipsum cupiditate explicabo
-                      officia atque.
-                    </p>
                     <ul className="plain-list no-padding">
                       <li>
                         <Space
@@ -135,16 +129,10 @@ export class HomePage extends Component<Props> {
                           }}
                           as="div"
                         >
-                          {/* <Button
-                            type="primary"
-                            text="Read our latest stories"
-                            url={`/stories`}
-                          /> */}
                           <MoreLink
                             url={`/stories`}
                             name="Read our latest stories"
                           />
-                          {/* <a href="/stories">Read our latest stories</a> */}
                         </Space>
                       </li>
                       <li>
@@ -155,18 +143,12 @@ export class HomePage extends Component<Props> {
                           }}
                           as="div"
                         >
-                          {/* <Button
-                            type="primary"
-                            text="Search out digital collections"
-                            url={`/works`}
-                          /> */}
                           <MoreLink
                             url={`/works`}
-                            name="Search out digital collections"
+                            name="Explore our digital collections"
                           />
                         </Space>
                       </li>
-                      {/* <a href="/works">Search out digital collections</a> */}
                     </ul>
                   </Space>
                 </Space>
