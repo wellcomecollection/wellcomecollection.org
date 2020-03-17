@@ -45,7 +45,9 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     "wellcomecollection.org",
     "blog.wellcomecollection.org",
     "content.wellcomecollection.org",
+    "content.www.wellcomecollection.org",
     "works.wellcomecollection.org",
+    "works.www.wellcomecollection.org",
   ]
 
   default_cache_behavior {
@@ -221,7 +223,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = local.wellcome_cdn_cert_arn_old
+    acm_certificate_arn      = local.wellcome_cdn_cert_arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2018"
   }
