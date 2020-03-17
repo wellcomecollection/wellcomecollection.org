@@ -27,8 +27,8 @@ locals {
     "subnet-89ed74d1"
   ]
   loadbalancer_cloudwatch_id = "arn:aws:elasticloadbalancing:eu-west-1:130871440101:loadbalancer/app/router/06b0f682147c7a8a"
-  old_alb_listener_https_arn     = "arn:aws:elasticloadbalancing:eu-west-1:130871440101:listener/app/router/06b0f682147c7a8a/ca60ee9ae8ea212b"
-  old_alb_listener_http_arn      = "arn:aws:elasticloadbalancing:eu-west-1:130871440101:listener/app/router/06b0f682147c7a8a/40b56658bfc288ed"
+  old_alb_listener_https_arn = "arn:aws:elasticloadbalancing:eu-west-1:130871440101:listener/app/router/06b0f682147c7a8a/ca60ee9ae8ea212b"
+  old_alb_listener_http_arn  = "arn:aws:elasticloadbalancing:eu-west-1:130871440101:listener/app/router/06b0f682147c7a8a/40b56658bfc288ed"
   cluster_name               = "router_cluster"
 }
 

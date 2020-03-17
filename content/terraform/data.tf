@@ -9,3 +9,8 @@ data "terraform_remote_state" "experience_shared" {
     region         = "eu-west-1"
   }
 }
+
+data "aws_ssm_parameter" "nginx_image_uri" {
+  name = "/platform/images/latest/nginx_experience"
+  provider = aws.platform
+}
