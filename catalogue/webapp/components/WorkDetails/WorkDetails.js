@@ -74,6 +74,7 @@ const WorkDetails = ({
   >(getItemsWithPhysicalLocation(work));
   const itemsRef = useRef(itemsWithPhysicalLocations);
   itemsRef.current = itemsWithPhysicalLocations;
+  const [hasRequestableItems, setHasRequestableItems] = useState(false);
   const singleItem = itemsWithPhysicalLocations.length === 1;
   useEffect(() => {
     const fetchWork = async () => {
@@ -109,6 +110,12 @@ const WorkDetails = ({
 
     fetchWork();
   }, []);
+
+  useEffect(() => {
+    setHasRequestableItems(
+      Boolean(itemsWithPhysicalLocations.find(item => item.requestable))
+    );
+  }, [itemsWithPhysicalLocations]);
 
   // Determin digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -236,16 +243,14 @@ const WorkDetails = ({
             <>
               <ResponsiveTable
                 headings={
-                  itemsWithPhysicalLocations.find(item => item.requestable)
+                  hasRequestableItems
                     ? ['', 'Location/Shelfmark', 'Status', 'Access']
                     : ['Location/Shelfmark', 'Status', 'Access']
                 }
               >
                 <thead>
                   <tr className={classNames({ [font('hnm', 5)]: true })}>
-                    {itemsWithPhysicalLocations.find(
-                      item => item.requestable
-                    ) && <th></th>}
+                    {hasRequestableItems && <th></th>}
                     <th>Location/Shelfmark</th>
                     <th>Status</th>
                     <th>Access</th>
@@ -257,37 +262,39 @@ const WorkDetails = ({
                       key={item.id}
                       className={classNames({ [font('hnm', 5)]: true })}
                     >
-                      <td>
-                        <span hidden={singleItem}>
-                          {item.requestable && (
-                            <>
-                              <label className="visually-hidden">
-                                Request {item.id}
-                              </label>
-                              <Checkbox
-                                id={item.id}
-                                text=""
-                                checked={item.checked}
-                                name={item.id}
-                                value={item.id}
-                                onChange={() => {
-                                  const newArray = itemsWithPhysicalLocations.map(
-                                    i => {
-                                      if (item.id === i.id) {
-                                        return { ...i, checked: !i.checked };
-                                      } else {
-                                        return i;
+                      {hasRequestableItems && (
+                        <td style={{ padding: '0' }}>
+                          <span hidden={singleItem}>
+                            {item.requestable && (
+                              <>
+                                <label className="visually-hidden">
+                                  Request {item.id}
+                                </label>
+                                <Checkbox
+                                  id={item.id}
+                                  text=""
+                                  checked={item.checked}
+                                  name={item.id}
+                                  value={item.id}
+                                  onChange={() => {
+                                    const newArray = itemsWithPhysicalLocations.map(
+                                      i => {
+                                        if (item.id === i.id) {
+                                          return { ...i, checked: !i.checked };
+                                        } else {
+                                          return i;
+                                        }
                                       }
-                                    }
-                                  );
+                                    );
 
-                                  setItemsWithPhysicalLocations(newArray);
-                                }}
-                              />
-                            </>
-                          )}
-                        </span>
-                      </td>
+                                    setItemsWithPhysicalLocations(newArray);
+                                  }}
+                                />
+                              </>
+                            )}
+                          </span>
+                        </td>
+                      )}
                       <td>
                         <span
                           className={classNames({ [font('hnl', 5)]: true })}
