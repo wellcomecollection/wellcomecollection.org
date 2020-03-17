@@ -484,14 +484,24 @@ class EventPage extends Component<Props, State> {
                   .concat(event.policies.map(policy => ({ ...policy })))
                   .concat(
                     event.interpretations.map(
-                      ({ interpretationType, isPrimary }) => ({
-                        id: null,
-                        icon: camelize(interpretationType.title),
-                        title: interpretationType.title,
-                        description: isPrimary
-                          ? interpretationType.primaryDescription
-                          : interpretationType.description,
-                      })
+                      ({ interpretationType, isPrimary }) => {
+                        const iconName = camelize(interpretationType.title);
+                        return {
+                          id: null,
+                          icon: [
+                            'britishSignLanguage',
+                            'speechToText',
+                            'hearingLoop',
+                            'audioDescribed',
+                          ].includes(iconName)
+                            ? iconName
+                            : null,
+                          title: interpretationType.title,
+                          description: isPrimary
+                            ? interpretationType.primaryDescription
+                            : interpretationType.description,
+                        };
+                      }
                     )
                   )
                   .filter(Boolean)}

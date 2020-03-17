@@ -1,6 +1,9 @@
 locals {
-  edge_lambda_request_version  = 30
-  edge_lambda_response_version = 31
+  edge_lambda_request_version  = 36
+  edge_lambda_response_version = 37
+
+  wellcome_cdn_cert_arn = "arn:aws:acm:us-east-1:130871440101:certificate/bb840c52-56bb-4bf8-86f8-59e7deaf9c98"
+  wellcome_cdn_cert_arn_old = "arn:aws:acm:us-east-1:130871440101:certificate/9b4d357e-689f-4fd3-bf12-4e6c5fd4af35"
 }
 
 # Setup terraform for this service
@@ -37,6 +40,17 @@ data "terraform_remote_state" "router" {
   }
 }
 
+data "terraform_remote_state" "experience" {
+  backend = "s3"
+
+  config = {
+    role_arn       = "arn:aws:iam::130871440101:role/experience-developer"
+    bucket         = "wellcomecollection-experience-infra"
+    key            = "terraform/experience.tfstate"
+    region         = "eu-west-1"
+  }
+}
+
 data "terraform_remote_state" "assets" {
   backend = "s3"
 
@@ -46,11 +60,6 @@ data "terraform_remote_state" "assets" {
     region   = "eu-west-1"
     role_arn = "arn:aws:iam::130871440101:role/experience-developer"
   }
-}
-
-# Lookup certificate to use ARN later on
-data "aws_acm_certificate" "wellcomecollection_ssl_cert" {
-  domain = "wellcomecollection.org"
 }
 
 resource "aws_s3_bucket" "lambdas" {

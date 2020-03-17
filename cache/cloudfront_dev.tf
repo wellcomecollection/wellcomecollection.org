@@ -33,10 +33,10 @@ resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
       query_string = true
 
       query_string_cache_keys = [
-        "page",
         "current",
-        "uri",
+        "page",
         "result",
+        "uri",
       ]
 
       cookies {
@@ -76,14 +76,14 @@ resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
       query_string = true
 
       query_string_cache_keys = [
-        "page",
-        "current",
-        "query",
-        "workType",
-        "sierraId",
-        "canvas",
-        "items.locations.locationType",
         "_queryType",
+        "canvas",
+        "current",
+        "items.locations.locationType",
+        "page",
+        "query",
+        "sierraId",
+        "workType",
       ]
 
       cookies {
@@ -109,7 +109,7 @@ resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = data.aws_acm_certificate.wellcomecollection_ssl_cert.arn
+    acm_certificate_arn      = local.wellcome_cdn_cert_arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2018"
   }

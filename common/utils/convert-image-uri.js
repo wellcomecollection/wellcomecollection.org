@@ -1,7 +1,7 @@
 // @flow
 import urlTemplate from 'url-template';
 
-const prismicBaseUri = 'https://images.prismic.io/wellcomecollection/';
+const prismicBaseUri = 'https://images.prismic.io/wellcomecollection';
 const iiifBaseUri = 'https://iiif.wellcomecollection.org/image/';
 
 function determineSrc(url: string): string {
