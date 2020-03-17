@@ -35,7 +35,7 @@ export class ArticleSeriesPage extends Component<Props> {
       period,
       pageSize: 100,
     });
-    if (events && events.results.length > 0) {
+    if (events) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
       return {
         events,
