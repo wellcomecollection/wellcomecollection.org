@@ -7,7 +7,6 @@ locals {
 
   assets_s3_website_uri = "i.wellcomecollection.org"
   assets_origin_id      = "S3-${local.assets_s3_website_uri}"
-  prod_alb_origin_id    = "origin-alb"
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {
@@ -23,6 +22,11 @@ data "aws_lambda_function" "versioned_edge_lambda_response" {
 # Create the CloudFront distribution
 resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   origin {
+    // The value below is for the old ALB please leave this comment
+    // while we soak test the new infrastructure - if there is an
+    // issue replace domain_name with the value below:
+    //
+    // data.terraform_remote_state.router.outputs.alb_dns_name
     domain_name = data.terraform_remote_state.experience.outputs.prod_alb_dns
     origin_id   = local.default_origin_id
 
