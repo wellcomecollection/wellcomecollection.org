@@ -1,6 +1,6 @@
 // @flow
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { type Work } from '@weco/common/model/work';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
@@ -72,11 +72,13 @@ const WorkDetails = ({
   const [itemsWithPhysicalLocations, setItemsWithPhysicalLocations] = useState<
     PhysicalItemAugmented[]
   >(getItemsWithPhysicalLocation(work));
+  const itemsRef = useRef(itemsWithPhysicalLocations);
+  itemsRef.current = itemsWithPhysicalLocations;
   const singleItem = itemsWithPhysicalLocations.length === 1;
   useEffect(() => {
     const fetchWork = async () => {
       const stacksWork = await getStacksWork({ workId: work.id });
-      var merged = itemsWithPhysicalLocations.map(physicalItem => {
+      var merged = itemsRef.current.map(physicalItem => {
         const matchingItem = stacksWork.items.find(
           item => item.id === physicalItem.id
         );
@@ -184,14 +186,18 @@ const WorkDetails = ({
           const itemsOnHold = userHolds.results.map(hold => {
             return hold.item.id;
           });
-          const newArray = itemsWithPhysicalLocations.map(item => {
+          const newArray = itemsRef.current.map(item => {
             if (itemsOnHold.includes(item.id)) {
               return {
                 ...item,
                 requestable: false,
+                requested: true,
               };
             } else {
-              return item;
+              return {
+                ...item,
+                requested: false,
+              };
             }
           });
 
@@ -225,7 +231,8 @@ const WorkDetails = ({
 
       <TogglesContext.Consumer>
         {({ stacksRequestService }) =>
-          stacksRequestService && (
+          stacksRequestService &&
+          itemsWithPhysicalLocations.length > 0 && (
             <>
               <ResponsiveTable
                 headings={
@@ -250,35 +257,37 @@ const WorkDetails = ({
                       key={item.id}
                       className={classNames({ [font('hnm', 5)]: true })}
                     >
-                      {item.requestable && (
-                        <td>
-                          <span hidden={singleItem}>
-                            <label className="visually-hidden">
-                              Request {item.id}
-                            </label>
-                            <Checkbox
-                              id={item.id}
-                              text=""
-                              checked={item.checked}
-                              name={item.id}
-                              value={item.id}
-                              onChange={() => {
-                                const newArray = itemsWithPhysicalLocations.map(
-                                  i => {
-                                    if (item.id === i.id) {
-                                      return { ...i, checked: !i.checked };
-                                    } else {
-                                      return i;
+                      <td>
+                        <span hidden={singleItem}>
+                          {item.requestable && (
+                            <>
+                              <label className="visually-hidden">
+                                Request {item.id}
+                              </label>
+                              <Checkbox
+                                id={item.id}
+                                text=""
+                                checked={item.checked}
+                                name={item.id}
+                                value={item.id}
+                                onChange={() => {
+                                  const newArray = itemsWithPhysicalLocations.map(
+                                    i => {
+                                      if (item.id === i.id) {
+                                        return { ...i, checked: !i.checked };
+                                      } else {
+                                        return i;
+                                      }
                                     }
-                                  }
-                                );
+                                  );
 
-                                setItemsWithPhysicalLocations(newArray);
-                              }}
-                            />
-                          </span>
-                        </td>
-                      )}
+                                  setItemsWithPhysicalLocations(newArray);
+                                }}
+                              />
+                            </>
+                          )}
+                        </span>
+                      </td>
                       <td>
                         <span
                           className={classNames({ [font('hnl', 5)]: true })}
@@ -303,7 +312,10 @@ const WorkDetails = ({
                             'You have requested this item'
                           ) : (
                             <span data-test-id="itemStatus">
-                              {item.status && item.status.label}
+                              {(item.requested &&
+                                'You have requested this item') ||
+                                (item.status && item.status.label) ||
+                                'Unknown'}
                             </span>
                           )}
                         </span>
@@ -382,40 +394,42 @@ const WorkDetails = ({
                                     [font('hnm', 5)]: true,
                                   })}
                                 >
-                                  {item.requestable && (
-                                    <td>
-                                      <>
-                                        <label className="visually-hidden">
-                                          Request {item.id}
-                                        </label>
-                                        <Checkbox
-                                          id={item.id}
-                                          text=""
-                                          checked={item.checked}
-                                          name={item.id}
-                                          value={item.id}
-                                          onChange={() => {
-                                            const newArray = itemsWithPhysicalLocations.map(
-                                              i => {
-                                                if (item.id === i.id) {
-                                                  return {
-                                                    ...i,
-                                                    checked: !i.checked,
-                                                  };
-                                                } else {
-                                                  return i;
+                                  <td>
+                                    <span hidden={singleItem}>
+                                      {item.requestable && (
+                                        <>
+                                          <label className="visually-hidden">
+                                            Request {item.id}
+                                          </label>
+                                          <Checkbox
+                                            id={item.id}
+                                            text=""
+                                            checked={item.checked}
+                                            name={item.id}
+                                            value={item.id}
+                                            onChange={() => {
+                                              const newArray = itemsWithPhysicalLocations.map(
+                                                i => {
+                                                  if (item.id === i.id) {
+                                                    return {
+                                                      ...i,
+                                                      checked: !i.checked,
+                                                    };
+                                                  } else {
+                                                    return i;
+                                                  }
                                                 }
-                                              }
-                                            );
+                                              );
 
-                                            setItemsWithPhysicalLocations(
-                                              newArray
-                                            );
-                                          }}
-                                        />
-                                      </>
-                                    </td>
-                                  )}
+                                              setItemsWithPhysicalLocations(
+                                                newArray
+                                              );
+                                            }}
+                                          />
+                                        </>
+                                      )}
+                                    </span>
+                                  </td>
                                   <td>
                                     <span
                                       className={classNames({
@@ -443,7 +457,11 @@ const WorkDetails = ({
                                         'You have requested this item'
                                       ) : (
                                         <span data-test-id="itemStatus">
-                                          {item.status && item.status.label}
+                                          {(item.requested &&
+                                            'You have requested this item') ||
+                                            (item.status &&
+                                              item.status.label) ||
+                                            'Unknown'}
                                         </span>
                                       )}
                                     </span>
