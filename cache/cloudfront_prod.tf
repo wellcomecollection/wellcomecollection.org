@@ -7,6 +7,7 @@ locals {
 
   assets_s3_website_uri = "i.wellcomecollection.org"
   assets_origin_id      = "S3-${local.assets_s3_website_uri}"
+  prod_alb_origin_id    = "origin-alb"
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {
@@ -24,6 +25,18 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   origin {
     domain_name = data.terraform_remote_state.router.outputs.alb_dns_name
     origin_id   = local.default_origin_id
+
+    custom_origin_config {
+      origin_protocol_policy = "https-only"
+      http_port              = "80"
+      https_port             = "443"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+
+  origin {
+    domain_name = data.terraform_remote_state.experience.outputs.prod_alb_dns
+    origin_id   = local.prod_alb_origin_id
 
     custom_origin_config {
       origin_protocol_policy = "https-only"
@@ -96,7 +109,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     allowed_methods        = ["HEAD", "GET", "OPTIONS"]
     cached_methods         = ["HEAD", "GET", "OPTIONS"]
     viewer_protocol_policy = "redirect-to-https"
-    target_origin_id       = local.default_origin_id
+    target_origin_id       = local.prod_alb_origin_id
     path_pattern           = "/works*"
     min_ttl                = 0
     default_ttl            = 3600
