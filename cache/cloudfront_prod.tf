@@ -42,11 +42,9 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   is_ipv6_enabled = true
 
   aliases = [
+    "wellcomecollection.org",
     "blog.wellcomecollection.org",
     "content.wellcomecollection.org",
-    "next.wellcomecollection.org",
-    "wellcomecollection.org",
-    "whats-on.wellcomecollection.org",
     "works.wellcomecollection.org",
   ]
 
