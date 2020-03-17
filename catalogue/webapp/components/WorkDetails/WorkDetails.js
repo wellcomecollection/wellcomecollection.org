@@ -53,7 +53,6 @@ type Props = {|
   childManifestsCount: number,
   imageCount: number,
   itemUrl: ?NextLinkType,
-  showAvailableOnline: boolean,
 |};
 
 const WorkDetails = ({
@@ -62,7 +61,6 @@ const WorkDetails = ({
   childManifestsCount,
   imageCount,
   itemUrl,
-  showAvailableOnline,
 }: Props) => {
   const [itemsWithPhysicalLocations, setItemsWithPhysicalLocations] = useState<
     PhysicalItemWithStatus[]
@@ -198,7 +196,7 @@ const WorkDetails = ({
       })}
     >
       <Layout12>
-        {digitalLocation && showAvailableOnline && (
+        {digitalLocation && (
           <WorkDetailsSection headingText="Available online">
             {video && (
               <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
