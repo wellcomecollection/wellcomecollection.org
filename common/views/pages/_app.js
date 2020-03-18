@@ -33,7 +33,6 @@ const isClient = !isServer;
 let toggles;
 let openingTimes;
 let globalAlert;
-let isPreview;
 let engagement;
 let previouslyAccruedTimeOnSpaPage = 0;
 let accruedHiddenTimeOnPage = 0;
@@ -143,12 +142,10 @@ export default class WecoApp extends App {
     toggles = isServer ? router.query.toggles : toggles;
     openingTimes = isServer ? router.query.openingTimes : openingTimes;
     globalAlert = isServer ? router.query.globalAlert : globalAlert;
-    isPreview = isServer ? router.query.isPreview : isPreview;
 
     let pageProps = {};
     if (Component.getInitialProps) {
       ctx.query.toggles = toggles;
-      ctx.query.isPreview = isPreview;
 
       // If the getInitialProps fails, we should propegate this failure through to the repsonse.
       try {
@@ -170,7 +167,6 @@ export default class WecoApp extends App {
       toggles,
       openingTimes,
       globalAlert,
-      isPreview,
     };
   }
 
@@ -184,9 +180,6 @@ export default class WecoApp extends App {
     }
     if (isClient && !globalAlert) {
       globalAlert = props.globalAlert;
-    }
-    if (isClient && !isPreview) {
-      isPreview = props.isPreview;
     }
 
     super(props);
@@ -278,7 +271,7 @@ export default class WecoApp extends App {
       .catch(console.log);
 
     // Prismic preview and validation warnings
-    if (isPreview || document.cookie.match('isPreview=true')) {
+    if (document.cookie.match('isPreview=true')) {
       window.prismic = {
         endpoint: 'https://wellcomecollection.prismic.io/api/v2',
       };
