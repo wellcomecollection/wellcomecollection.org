@@ -18,7 +18,7 @@ const ItemRequestButton = ({
 }: Props) => {
   const authState = useAuth();
 
-  async function makeRequest(items) {
+  async function makeRequests(items: PhysicalItemAugmented[]) {
     if (items.find(item => item.checked)) {
       if (authState.type === 'authorized') {
         const requestPromises = items
@@ -68,7 +68,7 @@ const ItemRequestButton = ({
       text="Request to view in library"
       clickHandler={event => {
         event.preventDefault();
-        makeRequest(itemsWithPhysicalLocations);
+        makeRequests(itemsWithPhysicalLocations);
       }}
     />
   ) : null;
