@@ -3,17 +3,12 @@ import type { Context } from 'next';
 import { Component } from 'react';
 import { classNames, font, cssGrid } from '@weco/common/utils/classnames';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
-import {
-  getEvents,
-  orderEventsByNextAvailableDate,
-  filterEventsForNext7Days,
-} from '@weco/common/services/prismic/events';
+import { getEvents } from '@weco/common/services/prismic/events';
 import { getArticles } from '@weco/common/services/prismic/articles';
 import { convertJsonToDates } from './event';
 import { exhibitionLd, eventLd, articleLd } from '@weco/common/utils/json-ld';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
-import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -155,21 +150,6 @@ export class HomePage extends Component<Props> {
               </div>
             </div>
           </div>
-        </SpacingSection>
-
-        <SpacingSection>
-          <SpacingComponent>
-            <SectionHeader title="This week" />
-          </SpacingComponent>
-          <SpacingComponent>
-            <ExhibitionsAndEvents
-              exhibitions={exhibitions}
-              events={orderEventsByNextAvailableDate(
-                filterEventsForNext7Days(events)
-              )}
-              links={[{ text: 'All exhibitions and events', url: '/whats-on' }]}
-            />
-          </SpacingComponent>
         </SpacingSection>
 
         <SpacingSection>
