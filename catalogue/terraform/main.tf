@@ -2,7 +2,7 @@ module "catalogue-prod" {
   source = "./stack"
 
   container_image = "wellcome/catalogue_webapp:${var.container_tag}"
-  nginx_image     = data.aws_ssm_parameter.nginx_image_uri.value
+  nginx_image     = local.nginx_image
   env_suffix      = "prod"
 
   cluster_arn  = local.prod_cluster_arn

@@ -16,4 +16,7 @@ locals {
 
   stage_interservice_security_group_id   = data.terraform_remote_state.experience_shared.outputs.stage_interservice_security_group_id
   stage_service_egress_security_group_id = data.terraform_remote_state.experience_shared.outputs.stage_service_egress_security_group_id
+
+  // Latest is available at data.aws_ssm_parameter.nginx_image_uri.value - test in staging before deployment
+  nginx_image = "760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/nginx_experience:d0d9a9c7ab728e9c4fc6222ce0127208e1ff4c96"
 }
