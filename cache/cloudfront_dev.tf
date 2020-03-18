@@ -1,7 +1,7 @@
 # Create the CloudFront distribution
 resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
   origin {
-    domain_name = data.terraform_remote_state.router.outputs.alb_dns_name
+    domain_name = data.terraform_remote_state.experience.outputs.prod_alb_dns
     origin_id   = "origin"
 
     custom_origin_config {

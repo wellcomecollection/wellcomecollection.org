@@ -1,13 +1,8 @@
-data "aws_acm_certificate" "wellcomecollection_ssl_cert" {
-  provider = aws.us-east-1
-  domain   = "wellcomecollection.org"
-}
-
 # This is a cache that essentially does nothing, but gives us a shield against our origin ALB
 resource "aws_cloudfront_distribution" "preview" {
   origin {
-    domain_name = local.alb_dns_name
-    origin_id   = local.alb_id
+    domain_name = local.prod_alb_dns
+    origin_id   = local.prod_cf_origin_id
 
     custom_origin_config {
       origin_protocol_policy = "https-only"
@@ -26,7 +21,7 @@ resource "aws_cloudfront_distribution" "preview" {
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"
-    target_origin_id       = local.alb_id
+    target_origin_id       = local.prod_cf_origin_id
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
@@ -43,7 +38,7 @@ resource "aws_cloudfront_distribution" "preview" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = data.aws_acm_certificate.wellcomecollection_ssl_cert.arn
+    acm_certificate_arn      = local.wellcome_cdn_cert_arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2018"
   }
