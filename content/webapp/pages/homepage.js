@@ -102,8 +102,7 @@ export class HomePage extends Component<Props> {
                     [font('wb', 1)]: true,
                   })}
                 >
-                  The free museum and library for the incurably curious is
-                  currently closed.
+                  The free museum and library for the incurably curious
                   <Space
                     v={{
                       size: 'm',
@@ -115,6 +114,22 @@ export class HomePage extends Component<Props> {
                       [font('hnl', 4)]: true,
                     })}
                   >
+                    <p>
+                      Our venue on Euston Road is currently closed, in the
+                      interests of the health and wellbeing of our staff and
+                      visitors, during the current COVID-19 pandemic.
+                    </p>
+                    <p>
+                      Wherever in the world you are, you can still enjoy reading
+                      our stories and exploring our collections here on our
+                      website, and follow us on social media.
+                    </p>
+                    <p>
+                      {`We're still publishing new content every week, and we're
+                      currently putting our heads together to think about how we
+                      can share more online about human health and experience
+                      during these unprecedented times.`}
+                    </p>
                     <ul className="plain-list no-padding">
                       <li>
                         <Space
