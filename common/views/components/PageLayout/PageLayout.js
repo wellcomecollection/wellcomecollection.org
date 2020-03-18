@@ -55,7 +55,6 @@ const PageLayout = ({
       : 'Wellcome Collection | The free museum and library for the incurably curious';
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
-  const isPreview = false;
   return (
     <Fragment>
       <Head>
@@ -119,7 +118,7 @@ const PageLayout = ({
         )}
       </Head>
 
-      <div className={isPreview ? 'is-preview' : undefined}>
+      <div>
         <CookieNotice />
         <a className="skip-link" href="#main">
           Skip to main content
