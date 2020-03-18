@@ -17,8 +17,6 @@ import { type UiEvent } from '@weco/common/model/events';
 import { type Article } from '@weco/common/model/articles';
 import { type PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
-
-// import Button from '@weco/common/views/components/Buttons/Button/Button';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 
 type Props = {|
