@@ -88,7 +88,7 @@ export type WorkCatalogueItem = {|
 
 type StacksItemStatus = {| id: string, label: string, type: 'ItemStatus' |};
 
-// We have the items form the catalogue API and add additional data from the stacks API,
+// We have the items from the catalogue API and add additional data from the stacks API,
 // data from UI interactions and data we work out based on location and status
 export type PhysicalItemAugmented = {|
   ...WorkCatalogueItem,
