@@ -32,7 +32,7 @@ const ItemRequestButton = ({
                 return {
                   id: item.id,
                   requested: true,
-                  requestSucceeded: response.status === 202,
+                  requestSucceeded: response === 202,
                 };
               })
               .catch(err => console.log('error', err));
