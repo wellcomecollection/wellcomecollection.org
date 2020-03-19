@@ -39,7 +39,7 @@ data "aws_acm_certificate" "wellcomecollection_ssl_cert" {
 }
 
 module "dash" {
-  source              = "../../terraform-modules/https_s3_website"
+  source              = "../../infrastructure/terraform/modules/s3_website"
   website_uri         = "dash.wellcomecollection.org"
   acm_certificate_arn = data.aws_acm_certificate.wellcomecollection_ssl_cert.arn
 }
