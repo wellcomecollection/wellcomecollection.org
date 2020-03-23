@@ -508,15 +508,42 @@ const WorkDetails = ({
                           isActive={showResultsModal}
                           setIsActive={setShowResultsModal}
                         >
-                          <ul>
+                          <h2
+                            className={classNames({
+                              [font('hnm', 5)]: true,
+                            })}
+                          >
+                            {itemsWithPhysicalLocations.filter(
+                              item => item.requested
+                            ).length ===
+                            itemsWithPhysicalLocations.filter(
+                              item => item.requestSucceeded
+                            ).length
+                              ? 'Your items have been requested'
+                              : 'We were unable to request all of your items'}
+                          </h2>
+                          <ul className="plain-list no-padding">
                             {itemsWithPhysicalLocations
                               .filter(item => item.requested)
                               .map(item => (
                                 <li key={item.id}>
                                   <span
                                     className={classNames({
+                                      [font('hnm', 5)]: true,
+                                    })}
+                                  >
+                                    {item.title}
+                                  </span>
+
+                                  <Space
+                                    as="span"
+                                    className={classNames({
                                       [font('hnl', 5)]: true,
                                     })}
+                                    h={{
+                                      size: 'l',
+                                      properties: ['margin-left'],
+                                    }}
                                   >
                                     {(function() {
                                       const physicalLocation = item.locations.find(
@@ -527,15 +554,22 @@ const WorkDetails = ({
                                         ? physicalLocation.label
                                         : null;
                                     })()}
-                                    {`: ${
+                                    {` : ${
                                       item.requestSucceeded
                                         ? 'item has been requested'
                                         : 'item request failed'
                                     }`}
-                                  </span>
+                                  </Space>
                                 </li>
                               ))}
                           </ul>
+                          <Button
+                            type="primary"
+                            text="Continue"
+                            clickHandler={() => {
+                              setShowResultsModal(false);
+                            }}
+                          />
                         </Modal>
                       </div>
                     </>
