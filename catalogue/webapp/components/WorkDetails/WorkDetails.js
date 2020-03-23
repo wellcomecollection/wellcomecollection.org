@@ -244,13 +244,14 @@ const WorkDetails = ({
               <ResponsiveTable
                 headings={
                   hasRequestableItems
-                    ? ['', 'Location/Shelfmark', 'Status', 'Access']
-                    : ['Location/Shelfmark', 'Status', 'Access']
+                    ? ['', 'Title', 'Location/Shelfmark', 'Status', 'Access']
+                    : ['Title', 'Location/Shelfmark', 'Status', 'Access']
                 }
               >
                 <thead>
                   <tr className={classNames({ [font('hnm', 5)]: true })}>
                     {hasRequestableItems && <th></th>}
+                    <th>Title</th>
                     <th>Location/Shelfmark</th>
                     <th>Status</th>
                     <th>Access</th>
@@ -295,6 +296,13 @@ const WorkDetails = ({
                           </span>
                         </td>
                       )}
+                      <td>
+                        <span
+                          className={classNames({ [font('hnl', 5)]: true })}
+                        >
+                          {item.title || 'Unknown'}
+                        </span>
+                      </td>
                       <td>
                         <span
                           className={classNames({ [font('hnl', 5)]: true })}

@@ -81,6 +81,7 @@ export type PhysicalLocation = {|
 
 export type WorkCatalogueItem = {|
   id: string,
+  title?: string,
   identifiers: [],
   locations: (DigitalLocation | PhysicalLocation)[],
   type: string,
