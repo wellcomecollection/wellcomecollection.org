@@ -2,8 +2,11 @@ const path = require('path');
 const withTM = require('@weco/next-plugin-transpile-modules');
 const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
 const buildHash = process.env.BUILD_HASH || 'test';
+const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = function(webpack, assetPrefix) {
+  const prodSubdomain = process.env.PROD_SUBDOMAIN || assetPrefix;
+
   const withBundleAnalyzerConfig = withBundleAnalyzer({
     analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
     analyzeBrowser: ['browser', 'both'].includes(process.env.BUNDLE_ANALYZE),
@@ -39,6 +42,7 @@ module.exports = function(webpack, assetPrefix) {
           },
         ],
       });
+
       config.plugins.push(
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new webpack.NormalModuleReplacementPlugin(
@@ -56,9 +60,10 @@ module.exports = function(webpack, assetPrefix) {
     },
   });
 
-  const isProd = process.env.NODE_ENV === 'production';
   return withTM({
-    assetPrefix: isProd ? `https://${assetPrefix}.wellcomecollection.org` : '',
+    assetPrefix: isProd
+      ? `https://${prodSubdomain}.wellcomecollection.org`
+      : '',
     transpileModules: ['@weco'],
     ...withBundleAnalyzerConfig,
   });

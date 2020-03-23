@@ -45,7 +45,7 @@ const ButtonInner = ({
 type ButtonProps = {|
   ...ButtonInnerProps,
   tabIndex?: string,
-  url?: string,
+  externalLink?: string,
   type: 'primary' | 'secondary' | 'tertiary',
   extraClasses?: string,
   className?: string,
@@ -84,12 +84,12 @@ const Button = forwardRef(
       ariaControls,
       ariaExpanded,
       link,
-      url, // url is deprecated, we should be using link
+      externalLink,
     }: ButtonProps,
     ref
   ) => {
     const fontSize = type === 'tertiary' ? 6 : 5;
-    const HtmlTag = url ? 'a' : 'button';
+    const HtmlTag = externalLink ? 'a' : 'button';
     function handleClick(e) {
       if (clickHandler) {
         clickHandler(e);
@@ -128,7 +128,7 @@ const Button = forwardRef(
         ref={ref}
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
-        href={url}
+        href={externalLink}
         target={target}
         download={download}
         rel={rel}
@@ -138,7 +138,7 @@ const Button = forwardRef(
         } flex-inline flex--v-center`}
         onClick={handleClick}
         disabled={disabled}
-        type={url ? null : 'button'}
+        type={externalLink ? null : 'button'}
       >
         <ButtonInner
           icon={icon}

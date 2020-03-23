@@ -43,11 +43,9 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
 
   aliases = [
     "wellcomecollection.org",
-    "next.wellcomecollection.org",
     "blog.wellcomecollection.org",
-    "works.wellcomecollection.org",
     "content.wellcomecollection.org",
-    "whats-on.wellcomecollection.org",
+    "works.wellcomecollection.org",
   ]
 
   default_cache_behavior {
@@ -64,10 +62,10 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
       query_string = true
 
       query_string_cache_keys = [
-        "page",
         "current",
-        "uri",
+        "page",
         "result",
+        "uri",
       ]
 
       cookies {
@@ -82,12 +80,12 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
 
     lambda_function_association {
       event_type = "origin-request"
-      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_request.arn
+      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_request.qualified_arn
     }
 
     lambda_function_association {
       event_type = "origin-response"
-      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_response.arn
+      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_response.qualified_arn
     }
   }
 
@@ -107,14 +105,14 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
       query_string = true
 
       query_string_cache_keys = [
-        "page",
-        "current",
-        "query",
-        "workType",
-        "sierraId",
-        "canvas",
-        "items.locations.locationType",
         "_queryType",
+        "canvas",
+        "current",
+        "items.locations.locationType",
+        "page",
+        "query",
+        "sierraId",
+        "workType",
       ]
 
       cookies {
@@ -131,12 +129,12 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
 
     lambda_function_association {
       event_type = "origin-request"
-      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_request.arn
+      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_request.qualified_arn
     }
 
     lambda_function_association {
       event_type = "origin-response"
-      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_response.arn
+      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_response.qualified_arn
     }
   }
 
@@ -223,7 +221,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = data.aws_acm_certificate.wellcomecollection_ssl_cert.arn
+    acm_certificate_arn      = local.wellcome_cdn_cert_arn_old
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2018"
   }

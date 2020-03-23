@@ -41,8 +41,7 @@ export async function requestItem({
       type: 'Request',
     }),
   }).then(r => {
-    if (r.status === 200) return r.json();
-    console.error('invalid /requests', r);
+    return r.status;
   });
 
   return response;

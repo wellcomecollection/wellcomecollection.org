@@ -9,21 +9,34 @@ exports[`Feature: 2. As a library member I want to request an item
 <div
   data-test-id="libraryLoginCTA"
 >
-  <a
-    className="btn btn--primary  font-hnm font-size-5  flex-inline flex--v-center"
-    href="/loginUrl"
-    onClick={[Function]}
+  <Button
+    clickHandler={[Function]}
+    externalLink="/loginUrl"
+    text="Log in to request"
+    type="primary"
   >
-    <span
-      className="flex flex--v-center flex--h-center"
+    <a
+      className="btn btn--primary  font-hnm font-size-5  flex-inline flex--v-center"
+      href="/loginUrl"
+      onClick={[Function]}
+      type={null}
     >
-      <span
-        className="btn__text"
+      <ButtonInner
+        text="Log in to request"
+        textHidden={false}
       >
-        Log in to request
-      </span>
-    </span>
-  </a>
+        <span
+          className="flex flex--v-center flex--h-center"
+        >
+          <span
+            className="btn__text"
+          >
+            Log in to request
+          </span>
+        </span>
+      </ButtonInner>
+    </a>
+  </Button>
 </div>
 `;
 

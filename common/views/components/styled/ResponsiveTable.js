@@ -18,26 +18,23 @@ const StyledTable: ComponentType<Props> = styled.table`
   td,
   tr {
     display: block;
-    width: 100%;
   }
 
   /* Hide table headers (but not display: none;, for accessibility) */
-  thead tr {
+  thead {
     position: absolute;
     top: -9999px;
     left: -9999px;
   }
 
   tr {
-    margin-bottom: 24px;
+    margin-bottom: ${props => `${props.theme.spacingUnit * 4}px`};
   }
 
   th,
   td {
-    min-width: 150px;
     text-align: left;
     font-weight: normal;
-    padding-right: 30px;
   }
 
   td {
@@ -45,7 +42,6 @@ const StyledTable: ComponentType<Props> = styled.table`
     border: none;
     position: relative;
     padding-left: 50%;
-    margin-bottom: 6px;
   }
 
   td:before {
@@ -70,13 +66,23 @@ const StyledTable: ComponentType<Props> = styled.table`
   ${props => props.theme.media.medium`
   display: table;
   width: auto;
+  margin-bottom: ${props => `${props.theme.spacingUnit * 4}px`};
 
+  thead {
+    position: static;
+    display: table-header-group;
+  }
+  tbody {
+    display: table-row-group;
+  }
   tr {
     display: table-row;
   }
   th,
   td {
     display: table-cell;
+    padding-bottom: ${props => `${props.theme.spacingUnit}px`};
+    padding-right: ${props => `${props.theme.spacingUnit * 4}px`};
   }
   thead tr {
     position: static;

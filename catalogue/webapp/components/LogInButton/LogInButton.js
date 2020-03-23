@@ -1,4 +1,5 @@
 // @flow
+import Button from '@weco/common/views/components/Buttons/Button/Button';
 type Props = {| workId: string, loginUrl: string |};
 const LogInButton = ({ workId, loginUrl }: Props) => {
   function setRedirectCookie(workId: string) {
@@ -11,17 +12,14 @@ const LogInButton = ({ workId, loginUrl }: Props) => {
 
   return (
     <div data-test-id="libraryLoginCTA">
-      <a
-        href={loginUrl}
-        className="btn btn--primary  font-hnm font-size-5  flex-inline flex--v-center"
-        onClick={event => {
+      <Button
+        type="primary"
+        text="Log in to request"
+        externalLink={loginUrl}
+        clickHandler={event => {
           setRedirectCookie(workId);
         }}
-      >
-        <span className="flex flex--v-center flex--h-center">
-          <span className="btn__text">Log in to request</span>
-        </span>
-      </a>
+      />
     </div>
   );
 };

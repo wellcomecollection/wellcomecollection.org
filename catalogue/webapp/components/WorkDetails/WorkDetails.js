@@ -1,6 +1,6 @@
 // @flow
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { type Work } from '@weco/common/model/work';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
@@ -25,6 +25,7 @@ import {
   getDownloadOptionsFromManifest,
   getIIIFPresentationCredit,
 } from '@weco/common/utils/iiif';
+import { getUserHolds } from '../../services/stacks/requests';
 import NextLink from 'next/link';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
@@ -38,7 +39,6 @@ import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
-import WorkItemStatus from '../WorkItemStatus/WorkItemStatus';
 import LogInButton from '../LogInButton/LogInButton';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
@@ -49,9 +49,9 @@ import { trackEvent } from '@weco/common/utils/ga';
 import ResponsiveTable from '@weco/common/views/components/styled/ResponsiveTable';
 import useAuth from '@weco/common/hooks/useAuth';
 import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
-
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ItemRequestButton from '@weco/catalogue/components/ItemRequestButton/ItemRequestButton';
+
 type Props = {|
   work: Work,
   iiifPresentationManifest: ?IIIFManifest,
@@ -72,49 +72,52 @@ const WorkDetails = ({
   const [itemsWithPhysicalLocations, setItemsWithPhysicalLocations] = useState<
     PhysicalItemAugmented[]
   >(getItemsWithPhysicalLocation(work));
-
+  const itemsRef = useRef(itemsWithPhysicalLocations);
+  itemsRef.current = itemsWithPhysicalLocations;
+  const [hasRequestableItems, setHasRequestableItems] = useState(false);
+  const singleItem = itemsWithPhysicalLocations.length === 1;
   useEffect(() => {
-    let updateLocations = true;
-    getStacksWork({ workId: work.id }).then(work => {
-      if (updateLocations) {
-        const updatedPhysicalItems = itemsWithPhysicalLocations.map(
-          physicalItem => {
-            const matchingItem = work.items.find(
-              item => item.id === physicalItem.id
-            );
-            const physicalItemLocation = physicalItem.locations.find(
-              l => l.type === 'PhysicalLocation'
-            );
-            const physicalItemLocationType =
-              physicalItemLocation && physicalItemLocation.locationType;
-            const physicalItemLocationLabel =
-              physicalItemLocationType && physicalItemLocationType.label;
-            const inClosedStores =
-              physicalItemLocationLabel &&
-              physicalItemLocationLabel.match(/[Cc]losed stores/);
-
-            return {
-              ...physicalItem,
-              ...matchingItem,
-              requestable: Boolean(
-                inClosedStores &&
-                  matchingItem.status &&
-                  matchingItem.status.label === 'Available'
-              ),
-            };
-          }
+    const fetchWork = async () => {
+      const stacksWork = await getStacksWork({ workId: work.id });
+      var merged = itemsRef.current.map(physicalItem => {
+        const matchingItem = stacksWork.items.find(
+          item => item.id === physicalItem.id
         );
-
-        setItemsWithPhysicalLocations(updatedPhysicalItems);
-      }
-    });
-
-    return () => {
-      updateLocations = false;
+        const physicalItemLocation = physicalItem.locations.find(
+          location => location.type === 'PhysicalLocation'
+        );
+        const physicalItemLocationType =
+          physicalItemLocation && physicalItemLocation.locationType;
+        const physicalItemLocationLabel =
+          physicalItemLocationType && physicalItemLocationType.label;
+        const inClosedStores =
+          physicalItemLocationLabel &&
+          physicalItemLocationLabel.match(/[Cc]losed stores/);
+        const requestable = Boolean(
+          inClosedStores &&
+            matchingItem.status &&
+            matchingItem.status.label === 'Available'
+        );
+        return {
+          ...physicalItem,
+          ...matchingItem,
+          requestable: requestable,
+          checked: !!(requestable && singleItem),
+        };
+      });
+      setItemsWithPhysicalLocations(merged);
     };
+
+    fetchWork();
   }, []);
 
-  // Determine digital location
+  useEffect(() => {
+    setHasRequestableItems(
+      Boolean(itemsWithPhysicalLocations.find(item => item.requestable))
+    );
+  }, [itemsWithPhysicalLocations]);
+
+  // Determin digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
@@ -180,7 +183,37 @@ const WorkDetails = ({
   );
 
   const authState = useAuth();
-  const [isActive, setIsActive] = useState(false);
+  const [showRequestModal, setShowRequestModal] = useState(false);
+  const [showResultsModal, setShowResultsModal] = useState(false);
+
+  useEffect(() => {
+    if (authState.type === 'authorized') {
+      getUserHolds({ token: authState.token.id_token })
+        .then(userHolds => {
+          const itemsOnHold = userHolds.results.map(hold => {
+            return hold.item.id;
+          });
+          const newArray = itemsRef.current.map(item => {
+            if (itemsOnHold.includes(item.id)) {
+              return {
+                ...item,
+                requestable: false,
+                requested: true,
+              };
+            } else {
+              return {
+                ...item,
+                requested: false,
+              };
+            }
+          });
+
+          setItemsWithPhysicalLocations(newArray);
+        })
+        .catch(console.error);
+    }
+  }, [authState]);
+
   const WhereToFindIt = () => (
     <WorkDetailsSection headingText="Where to find it">
       {locationOfWork && (
@@ -205,14 +238,22 @@ const WorkDetails = ({
 
       <TogglesContext.Consumer>
         {({ stacksRequestService }) =>
-          stacksRequestService && (
+          stacksRequestService &&
+          itemsWithPhysicalLocations.length > 0 && (
             <>
-              <ResponsiveTable headings={['Location/Shelfmark', 'Status']}>
+              <ResponsiveTable
+                headings={
+                  hasRequestableItems
+                    ? ['', 'Location/Shelfmark', 'Status', 'Access']
+                    : ['Location/Shelfmark', 'Status', 'Access']
+                }
+              >
                 <thead>
                   <tr className={classNames({ [font('hnm', 5)]: true })}>
-                    <th></th>
+                    {hasRequestableItems && <th></th>}
                     <th>Location/Shelfmark</th>
                     <th>Status</th>
+                    <th>Access</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -221,35 +262,39 @@ const WorkDetails = ({
                       key={item.id}
                       className={classNames({ [font('hnm', 5)]: true })}
                     >
-                      <td>
-                        {item.status && item.status.label === 'Available' && (
-                          <>
-                            <label className="visually-hidden">
-                              Request {item.id}
-                            </label>
-                            <Checkbox
-                              id={item.id}
-                              text=""
-                              checked={item.checked}
-                              name={item.id}
-                              value={item.id}
-                              onChange={() => {
-                                const newArray = itemsWithPhysicalLocations.map(
-                                  i => {
-                                    if (item.id === i.id) {
-                                      return { ...i, checked: !i.checked };
-                                    } else {
-                                      return i;
-                                    }
-                                  }
-                                );
+                      {hasRequestableItems && (
+                        <td style={{ padding: '0' }}>
+                          <span hidden={singleItem}>
+                            {item.requestable && (
+                              <>
+                                <label className="visually-hidden">
+                                  Request {item.id}
+                                </label>
+                                <Checkbox
+                                  id={item.id}
+                                  text=""
+                                  checked={item.checked}
+                                  name={item.id}
+                                  value={item.id}
+                                  onChange={() => {
+                                    const newArray = itemsWithPhysicalLocations.map(
+                                      i => {
+                                        if (item.id === i.id) {
+                                          return { ...i, checked: !i.checked };
+                                        } else {
+                                          return i;
+                                        }
+                                      }
+                                    );
 
-                                setItemsWithPhysicalLocations(newArray);
-                              }}
-                            />
-                          </>
-                        )}
-                      </td>
+                                    setItemsWithPhysicalLocations(newArray);
+                                  }}
+                                />
+                              </>
+                            )}
+                          </span>
+                        </td>
+                      )}
                       <td>
                         <span
                           className={classNames({ [font('hnl', 5)]: true })}
@@ -270,7 +315,24 @@ const WorkDetails = ({
                             [font('hnl', 5)]: true,
                           })}
                         >
-                          <WorkItemStatus item={item} />
+                          {item.requestSucceeded ? (
+                            'You have requested this item'
+                          ) : (
+                            <span data-test-id="itemStatus">
+                              {(item.requested &&
+                                'You have requested this item') ||
+                                (item.status && item.status.label) ||
+                                'Unknown'}
+                            </span>
+                          )}
+                        </span>
+                      </td>
+                      <td>
+                        <span
+                          className={classNames({ [font('hnl', 5)]: true })}
+                        >
+                          {item.requestable ? 'Online request' : 'In library'}
+                          {/* TODO check logic and wording is correct */}
                         </span>
                       </td>
                     </tr>
@@ -291,13 +353,31 @@ const WorkDetails = ({
                           type="primary"
                           text="Request"
                           clickHandler={() => {
-                            setIsActive(!isActive);
+                            if (
+                              itemsWithPhysicalLocations.find(
+                                item => item.checked
+                              )
+                            ) {
+                              setShowRequestModal(!showRequestModal);
+                            } else {
+                              window.alert('please make a selection');
+                            }
                           }}
                         />
 
-                        <Modal isActive={isActive} setIsActive={setIsActive}>
+                        <Modal
+                          isActive={showRequestModal}
+                          setIsActive={setShowRequestModal}
+                        >
+                          {/* TODO move back into own component? */}
                           <ResponsiveTable
-                            headings={['Location/Shelfmark', 'Status']}
+                            headings={
+                              itemsWithPhysicalLocations.find(
+                                item => item.requestable
+                              )
+                                ? ['', 'Location/Shelfmark', 'Status', 'Access']
+                                : ['Location/Shelfmark', 'Status', 'Access']
+                            }
                           >
                             <thead>
                               <tr
@@ -305,9 +385,12 @@ const WorkDetails = ({
                                   [font('hnm', 5)]: true,
                                 })}
                               >
-                                <th></th>
+                                {itemsWithPhysicalLocations.find(
+                                  item => item.requestable
+                                ) && <th></th>}
                                 <th>Location/Shelfmark</th>
                                 <th>Status</th>
+                                <th>Access</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -319,8 +402,8 @@ const WorkDetails = ({
                                   })}
                                 >
                                   <td>
-                                    {item.status &&
-                                      item.status.label === 'Available' && (
+                                    <span hidden={singleItem}>
+                                      {item.requestable && (
                                         <>
                                           <label className="visually-hidden">
                                             Request {item.id}
@@ -352,6 +435,7 @@ const WorkDetails = ({
                                           />
                                         </>
                                       )}
+                                    </span>
                                   </td>
                                   <td>
                                     <span
@@ -370,13 +454,89 @@ const WorkDetails = ({
                                       })()}
                                     </span>
                                   </td>
+                                  <td>
+                                    <span
+                                      className={classNames({
+                                        [font('hnl', 5)]: true,
+                                      })}
+                                    >
+                                      {item.requestSucceeded ? (
+                                        'You have requested this item'
+                                      ) : (
+                                        <span data-test-id="itemStatus">
+                                          {(item.requested &&
+                                            'You have requested this item') ||
+                                            (item.status &&
+                                              item.status.label) ||
+                                            'Unknown'}
+                                        </span>
+                                      )}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span
+                                      className={classNames({
+                                        [font('hnl', 5)]: true,
+                                      })}
+                                    >
+                                      {item.requestable
+                                        ? 'Online request'
+                                        : 'In library'}{' '}
+                                      {/* TODO in library not accurate if requested but status hasn't changed yet */}
+                                    </span>
+                                  </td>
                                 </tr>
                               ))}
                             </tbody>
                           </ResponsiveTable>
-                          <ItemRequestButton
-                            items={itemsWithPhysicalLocations}
-                          />
+                          <div>
+                            <ItemRequestButton
+                              itemsWithPhysicalLocations={
+                                itemsWithPhysicalLocations
+                              }
+                              setItemsWithPhysicalLocations={
+                                setItemsWithPhysicalLocations
+                              }
+                              setShowRequestModal={setShowRequestModal}
+                              setShowResultsModal={setShowResultsModal}
+                            />
+                          </div>
+                        </Modal>
+                      </div>
+
+                      <div data-test-id="resultsModalCTA">
+                        <Modal
+                          isActive={showResultsModal}
+                          setIsActive={setShowResultsModal}
+                        >
+                          <ul>
+                            {itemsWithPhysicalLocations
+                              .filter(item => item.requested)
+                              .map(item => (
+                                <li key={item.id}>
+                                  <span
+                                    className={classNames({
+                                      [font('hnl', 5)]: true,
+                                    })}
+                                  >
+                                    {(function() {
+                                      const physicalLocation = item.locations.find(
+                                        location =>
+                                          location.type === 'PhysicalLocation'
+                                      );
+                                      return physicalLocation
+                                        ? physicalLocation.label
+                                        : null;
+                                    })()}
+                                    {`: ${
+                                      item.requestSucceeded
+                                        ? 'item has been requested'
+                                        : 'item request failed'
+                                    }`}
+                                  </span>
+                                </li>
+                              ))}
+                          </ul>
                         </Modal>
                       </div>
                     </>
