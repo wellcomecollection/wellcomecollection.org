@@ -1,4 +1,4 @@
-const work = {
+const stacksWork = {
   id: '{workId}',
   items: [
     {
@@ -32,7 +32,7 @@ const work = {
       type: 'Item',
     },
     {
-      id: '{itemId}',
+      id: '{itemIdAvailable}',
       dueDate: '{dueDate}',
       status: {
         id: '-',
@@ -255,4 +255,4 @@ const work = {
   type: 'Work',
 };
 
-export default work;
+export default stacksWork;
