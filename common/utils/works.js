@@ -81,6 +81,7 @@ export type PhysicalLocation = {|
 
 export type WorkCatalogueItem = {|
   id: string,
+  title?: string,
   identifiers: [],
   locations: (DigitalLocation | PhysicalLocation)[],
   type: string,
@@ -88,16 +89,22 @@ export type WorkCatalogueItem = {|
 
 type StacksItemStatus = {| id: string, label: string, type: 'ItemStatus' |};
 
-export type PhysicalItemWithStatus = {|
+// We have the items from the catalogue API and add additional data from the stacks API,
+// data from UI interactions and data we work out based on location and status
+export type PhysicalItemAugmented = {|
   ...WorkCatalogueItem,
   locations: PhysicalLocation[],
   dueDate?: string,
   status?: StacksItemStatus,
+  checked: boolean,
+  requestable: boolean,
+  requested: boolean,
+  requestSucceeded: boolean,
 |};
 
 export function getItemsWithPhysicalLocation(
   work: Work
-): PhysicalItemWithStatus[] {
+): PhysicalItemAugmented[] {
   return (
     work.items &&
     work.items

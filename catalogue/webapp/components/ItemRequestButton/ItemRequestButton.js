@@ -1,101 +1,76 @@
 // @flow
-import { useEffect, useState } from 'react';
-import { Tag } from '@weco/common/views/components/Tags/Tags';
-import { classNames, font } from '@weco/common/utils/classnames';
-import { type PhysicalItemWithStatus } from '@weco/common/utils/works';
-
-import { requestItem, getUserHolds } from '../../services/stacks/requests';
+import { type PhysicalItemAugmented } from '@weco/common/utils/works';
+import Button from '@weco/common/views/components/Buttons/Button/Button';
+import { requestItem } from '../../services/stacks/requests';
 import useAuth from '@weco/common/hooks/useAuth';
 
-type Props = {| item: PhysicalItemWithStatus, workId: string |};
-const ItemRequestButton = ({ item, workId }: Props) => {
-  const [requestedState, setRequestedState] = useState<string>('unknown');
-
-  function setRedirectCookie(workId: string, itemId: string) {
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set('action', `requestItem:/works/${workId}/items/${item.id}`);
-
-    const url = `${window.location.pathname}?${searchParams.toString()}`;
-    document.cookie = `WC_auth_redirect=${url}; path=/`;
-  }
-
+type Props = {|
+  itemsWithPhysicalLocations: PhysicalItemAugmented[],
+  setItemsWithPhysicalLocations: (PhysicalItemAugmented[]) => void,
+  setShowRequestModal: boolean => void,
+  setShowResultsModal: boolean => void,
+|};
+const ItemRequestButton = ({
+  itemsWithPhysicalLocations,
+  setItemsWithPhysicalLocations,
+  setShowRequestModal,
+  setShowResultsModal,
+}: Props) => {
   const authState = useAuth();
 
-  function updateRequestedState() {
-    if (authState.type === 'authorized') {
-      getUserHolds({ token: authState.token.id_token })
-        .then(userHolds => {
-          const itemsOnHold = userHolds.results.map(hold => {
-            return hold.item.id;
+  async function makeRequests(items: PhysicalItemAugmented[]) {
+    if (items.find(item => item.checked)) {
+      if (authState.type === 'authorized') {
+        const requestPromises = items
+          .filter(item => item.checked)
+          .map(item => {
+            return requestItem({
+              itemId: item.id,
+              token: authState.token.id_token,
+            })
+              .then(response => {
+                return {
+                  id: item.id,
+                  requested: true,
+                  requestSucceeded: response === 202,
+                };
+              })
+              .catch(err => console.log('error', err));
           });
-
-          if (itemsOnHold.includes(item.id)) {
-            setRequestedState('requested');
-          }
-        })
-        .catch(console.error);
-    }
-  }
-
-  function makeRequest(itemId: string) {
-    if (authState.type === 'authorized') {
-      requestItem({
-        itemId: itemId,
-        token: authState.token.id_token,
-      })
-        .then(_ => setRequestedState('requested'))
-        .catch(console.error);
-    }
-  }
-
-  useEffect(() => {
-    updateRequestedState();
-  }, [authState]);
-
-  return item.status && item.status.label === 'Available' ? (
-    <Tag
-      className={classNames({
-        'line-height-1': true,
-        'inline-block bg-green font-white': true,
-        'bg-hover-black': true,
-        'border-color-green border-width-1': true,
-      })}
-    >
-      <div className={`${font('hnm', 5)}`}>
-        {(function() {
-          if (authState.type === 'authorized') {
-            if (requestedState === 'requested') {
-              return 'You have requested this item';
-            } else {
-              return (
-                <a
-                  data-test-id="libraryRequestCTA"
-                  href={'#'}
-                  onClick={event => {
-                    event.preventDefault();
-                    makeRequest(item.id);
-                  }}
-                >
-                  Request to view in the library
-                </a>
+        Promise.all(requestPromises).then(requests => {
+          setItemsWithPhysicalLocations(
+            itemsWithPhysicalLocations.map(item => {
+              const matchingRequest = requests.find(
+                request => request && request.id === item.id
               );
-            }
-          } else if (authState.type === 'unauthorized') {
-            return (
-              <a
-                data-test-id="libraryLoginCTA"
-                href={authState.loginUrl}
-                onClick={event => {
-                  setRedirectCookie(workId, item.id);
-                }}
-              >
-                Login to request and view in the library
-              </a>
-            );
-          }
-        })()}
-      </div>
-    </Tag>
+              if (matchingRequest) {
+                return {
+                  ...item,
+                  ...matchingRequest,
+                };
+              } else {
+                return item;
+              }
+            })
+          );
+          setShowRequestModal(false);
+          setShowResultsModal(true);
+        });
+      }
+    } else {
+      window.alert('please make a selection');
+    }
+  }
+
+  return authState.type === 'authorized' ? (
+    <Button
+      type="primary"
+      text="Request to view in library"
+      clickHandler={event => {
+        event.preventDefault();
+        makeRequests(itemsWithPhysicalLocations);
+      }}
+    />
   ) : null;
 };
 

@@ -2,7 +2,6 @@
 import { type Node, useEffect, useRef, useContext } from 'react';
 import useFocusTrap from '../../../hooks/useFocusTrap';
 import styled from 'styled-components';
-import { CSSTransition } from 'react-transition-group';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
@@ -11,11 +10,12 @@ import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 
 type Props = {|
   children: Node,
-  isActive: Boolean,
+  isActive: boolean,
   setIsActive: (value: boolean) => void,
 |};
 
 const Overlay = styled.div`
+  z-index: 1000;
   position: fixed;
   top: 0;
   left: 0;
@@ -66,39 +66,13 @@ const ModalWindow = styled(Space).attrs({
     'shadow bg-white': true,
   }),
 })`
-  z-index: 1;
+  z-index: 1001;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   position: fixed;
   overflow: auto;
-  transition: opacity 350ms ease;
-
-  &,
-  &.fade-exit-done {
-    z-index: -1;
-    pointer-events: none;
-  }
-
-  &.fade-enter,
-  &.fade-exit,
-  &.fade-enter-done {
-    z-index: 2;
-    pointer-events: all;
-  }
-
-  &,
-  &.fade-enter,
-  &.fade-exit-active,
-  &.fade-exit-done {
-    opacity: 0;
-  }
-
-  &.fade-enter-active,
-  &.fade-enter-done {
-    opacity: 1;
-  }
 
   ${props => props.theme.media.medium`
     top: 50%;
@@ -110,7 +84,6 @@ const ModalWindow = styled(Space).attrs({
     max-height: 90vh;
     max-width: ${props.theme.sizes.large}px
     border-radius: ${props.theme.borderRadiusUnit}px;
-    display: flex;
   `}
 `;
 
@@ -159,7 +132,7 @@ const Modal = ({ children, isActive, setIsActive }: Props) => {
   return (
     <>
       {isActive && <Overlay onClick={() => setIsActive(false)} />}
-      <CSSTransition in={isActive} classNames="fade" timeout={350}>
+      {isActive && (
         <ModalWindow ref={modalRef}>
           <CloseButton
             ref={closeButtonRef}
@@ -171,7 +144,7 @@ const Modal = ({ children, isActive, setIsActive }: Props) => {
           </CloseButton>
           {children}
         </ModalWindow>
-      </CSSTransition>
+      )}
     </>
   );
 };

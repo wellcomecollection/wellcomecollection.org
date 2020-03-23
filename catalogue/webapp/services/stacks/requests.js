@@ -33,10 +33,15 @@ export async function requestItem({
       'Content-Type': 'application/json',
       Authorization: token,
     },
-    body: JSON.stringify({ itemId: itemId }),
+    body: JSON.stringify({
+      item: {
+        id: itemId,
+        type: 'Item',
+      },
+      type: 'Request',
+    }),
   }).then(r => {
-    if (r.status === 200) return r.json();
-    console.error('invalid /requests', r);
+    return r.status;
   });
 
   return response;
