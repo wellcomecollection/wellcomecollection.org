@@ -1,8 +1,3 @@
-variable "interservice_security_group_id" {}
-variable "service_egress_security_group_id" {}
-variable "alb_listener_https_arn" {}
-variable "alb_listener_http_arn" {}
-
 module "content-service" {
   source = "../../../infrastructure/terraform/modules/service"
 
@@ -16,7 +11,7 @@ module "content-service" {
   container_image = var.container_image
   container_port  = 3000
 
-  nginx_container_image = data.aws_ssm_parameter.nginx_image_uri.value
+  nginx_container_image = var.nginx_image
   nginx_container_port  = 80
 
   security_group_ids = [

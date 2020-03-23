@@ -58,7 +58,6 @@ type Props = {|
   childManifestsCount: number,
   imageCount: number,
   itemUrl: ?NextLinkType,
-  showAvailableOnline: boolean,
 |};
 
 const WorkDetails = ({
@@ -67,7 +66,6 @@ const WorkDetails = ({
   childManifestsCount,
   imageCount,
   itemUrl,
-  showAvailableOnline,
 }: Props) => {
   const [itemsWithPhysicalLocations, setItemsWithPhysicalLocations] = useState<
     PhysicalItemAugmented[]
@@ -244,13 +242,14 @@ const WorkDetails = ({
               <ResponsiveTable
                 headings={
                   hasRequestableItems
-                    ? ['', 'Location/Shelfmark', 'Status', 'Access']
-                    : ['Location/Shelfmark', 'Status', 'Access']
+                    ? ['', 'Title', 'Location/Shelfmark', 'Status', 'Access']
+                    : ['Title', 'Location/Shelfmark', 'Status', 'Access']
                 }
               >
                 <thead>
                   <tr className={classNames({ [font('hnm', 5)]: true })}>
                     {hasRequestableItems && <th></th>}
+                    <th>Title</th>
                     <th>Location/Shelfmark</th>
                     <th>Status</th>
                     <th>Access</th>
@@ -295,6 +294,13 @@ const WorkDetails = ({
                           </span>
                         </td>
                       )}
+                      <td>
+                        <span
+                          className={classNames({ [font('hnl', 5)]: true })}
+                        >
+                          {item.title || 'Unknown'}
+                        </span>
+                      </td>
                       <td>
                         <span
                           className={classNames({ [font('hnl', 5)]: true })}
@@ -369,79 +375,86 @@ const WorkDetails = ({
                           isActive={showRequestModal}
                           setIsActive={setShowRequestModal}
                         >
-                          {/* TODO move back into own component? */}
-                          <ResponsiveTable
-                            headings={
-                              itemsWithPhysicalLocations.find(
-                                item => item.requestable
-                              )
-                                ? ['', 'Location/Shelfmark', 'Status', 'Access']
-                                : ['Location/Shelfmark', 'Status', 'Access']
-                            }
+                          <h2
+                            className={classNames({
+                              [font('hnm', 5)]: true,
+                            })}
                           >
-                            <thead>
-                              <tr
-                                className={classNames({
-                                  [font('hnm', 5)]: true,
-                                })}
-                              >
-                                {itemsWithPhysicalLocations.find(
-                                  item => item.requestable
-                                ) && <th></th>}
-                                <th>Location/Shelfmark</th>
-                                <th>Status</th>
-                                <th>Access</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {itemsWithPhysicalLocations.map(item => (
-                                <tr
-                                  key={item.id}
-                                  className={classNames({
-                                    [font('hnm', 5)]: true,
-                                  })}
-                                >
-                                  <td>
-                                    <span hidden={singleItem}>
-                                      {item.requestable && (
-                                        <>
-                                          <label className="visually-hidden">
-                                            Request {item.id}
-                                          </label>
-                                          <Checkbox
-                                            id={item.id}
-                                            text=""
-                                            checked={item.checked}
-                                            name={item.id}
-                                            value={item.id}
-                                            onChange={() => {
-                                              const newArray = itemsWithPhysicalLocations.map(
-                                                i => {
-                                                  if (item.id === i.id) {
-                                                    return {
-                                                      ...i,
-                                                      checked: !i.checked,
-                                                    };
-                                                  } else {
-                                                    return i;
-                                                  }
-                                                }
-                                              );
-
-                                              setItemsWithPhysicalLocations(
-                                                newArray
-                                              );
-                                            }}
-                                          />
-                                        </>
-                                      )}
-                                    </span>
-                                  </td>
-                                  <td>
-                                    <span
+                            Request items
+                          </h2>
+                          <p
+                            className={classNames({
+                              [font('hnl', 5)]: true,
+                            })}
+                          >
+                            You are about to request the following items:
+                          </p>
+                          <p
+                            className={classNames({
+                              [font('hnm', 6)]: true,
+                            })}
+                          >
+                            {work.title}
+                          </p>
+                          <ul className="plain-list no-padding">
+                            {itemsWithPhysicalLocations.map(
+                              item =>
+                                item.requestable && (
+                                  <li
+                                    key={item.id}
+                                    className={classNames({
+                                      [font('hnm', 5)]: true,
+                                    })}
+                                  >
+                                    <Space
+                                      as="span"
                                       className={classNames({
                                         [font('hnl', 5)]: true,
                                       })}
+                                      h={{
+                                        size: 's',
+                                        properties: ['margin-right'],
+                                      }}
+                                    >
+                                      <label className="visually-hidden">
+                                        Request {item.id}
+                                      </label>
+                                      <Checkbox
+                                        id={item.id}
+                                        text=""
+                                        checked={item.checked}
+                                        name={item.id}
+                                        value={item.id}
+                                        onChange={() => {
+                                          const newArray = itemsWithPhysicalLocations.map(
+                                            i => {
+                                              if (item.id === i.id) {
+                                                return {
+                                                  ...i,
+                                                  checked: !i.checked,
+                                                };
+                                              } else {
+                                                return i;
+                                              }
+                                            }
+                                          );
+
+                                          setItemsWithPhysicalLocations(
+                                            newArray
+                                          );
+                                        }}
+                                      />
+                                    </Space>
+                                    {item.title}
+                                    <Space
+                                      as="span"
+                                      className={classNames({
+                                        [font('hnl', 5)]: true,
+                                      })}
+                                      h={{
+                                        size: 'l',
+                                        properties: ['margin-left'],
+                                      }}
                                     >
                                       {(function() {
                                         const physicalLocation = item.locations.find(
@@ -452,43 +465,11 @@ const WorkDetails = ({
                                           ? physicalLocation.label
                                           : null;
                                       })()}
-                                    </span>
-                                  </td>
-                                  <td>
-                                    <span
-                                      className={classNames({
-                                        [font('hnl', 5)]: true,
-                                      })}
-                                    >
-                                      {item.requestSucceeded ? (
-                                        'You have requested this item'
-                                      ) : (
-                                        <span data-test-id="itemStatus">
-                                          {(item.requested &&
-                                            'You have requested this item') ||
-                                            (item.status &&
-                                              item.status.label) ||
-                                            'Unknown'}
-                                        </span>
-                                      )}
-                                    </span>
-                                  </td>
-                                  <td>
-                                    <span
-                                      className={classNames({
-                                        [font('hnl', 5)]: true,
-                                      })}
-                                    >
-                                      {item.requestable
-                                        ? 'Online request'
-                                        : 'In library'}{' '}
-                                      {/* TODO in library not accurate if requested but status hasn't changed yet */}
-                                    </span>
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </ResponsiveTable>
+                                    </Space>
+                                  </li>
+                                )
+                            )}
+                          </ul>
                           <div>
                             <ItemRequestButton
                               itemsWithPhysicalLocations={
@@ -500,6 +481,22 @@ const WorkDetails = ({
                               setShowRequestModal={setShowRequestModal}
                               setShowResultsModal={setShowResultsModal}
                             />
+                            <button
+                              className="plain-button"
+                              onClick={() => {
+                                setShowRequestModal(false);
+                              }}
+                            >
+                              <Space
+                                as="span"
+                                className={classNames({
+                                  [font('hnl', 6)]: true,
+                                })}
+                                h={{ size: 'l', properties: ['margin-left'] }}
+                              >
+                                Cancel
+                              </Space>
+                            </button>
                           </div>
                         </Modal>
                       </div>
@@ -509,15 +506,42 @@ const WorkDetails = ({
                           isActive={showResultsModal}
                           setIsActive={setShowResultsModal}
                         >
-                          <ul>
+                          <h2
+                            className={classNames({
+                              [font('hnm', 5)]: true,
+                            })}
+                          >
+                            {itemsWithPhysicalLocations.filter(
+                              item => item.requested
+                            ).length ===
+                            itemsWithPhysicalLocations.filter(
+                              item => item.requestSucceeded
+                            ).length
+                              ? 'Your items have been requested'
+                              : 'We were unable to request all of your items'}
+                          </h2>
+                          <ul className="plain-list no-padding">
                             {itemsWithPhysicalLocations
                               .filter(item => item.requested)
                               .map(item => (
                                 <li key={item.id}>
                                   <span
                                     className={classNames({
+                                      [font('hnm', 5)]: true,
+                                    })}
+                                  >
+                                    {item.title}
+                                  </span>
+
+                                  <Space
+                                    as="span"
+                                    className={classNames({
                                       [font('hnl', 5)]: true,
                                     })}
+                                    h={{
+                                      size: 'l',
+                                      properties: ['margin-left'],
+                                    }}
                                   >
                                     {(function() {
                                       const physicalLocation = item.locations.find(
@@ -528,15 +552,22 @@ const WorkDetails = ({
                                         ? physicalLocation.label
                                         : null;
                                     })()}
-                                    {`: ${
+                                    {` : ${
                                       item.requestSucceeded
                                         ? 'item has been requested'
                                         : 'item request failed'
                                     }`}
-                                  </span>
+                                  </Space>
                                 </li>
                               ))}
                           </ul>
+                          <Button
+                            type="primary"
+                            text="Continue"
+                            clickHandler={() => {
+                              setShowResultsModal(false);
+                            }}
+                          />
                         </Modal>
                       </div>
                     </>
@@ -561,7 +592,7 @@ const WorkDetails = ({
       })}
     >
       <Layout12>
-        {digitalLocation && showAvailableOnline && (
+        {digitalLocation && (
           <WorkDetailsSection headingText="Available online">
             {video && (
               <Space v={{ size: 'l', properties: ['margin-bottom'] }}>

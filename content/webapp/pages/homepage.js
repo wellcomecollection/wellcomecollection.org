@@ -2,30 +2,19 @@
 import type { Context } from 'next';
 import { Component } from 'react';
 import { classNames, font, cssGrid } from '@weco/common/utils/classnames';
-import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
-import {
-  getEvents,
-  orderEventsByNextAvailableDate,
-  filterEventsForNext7Days,
-} from '@weco/common/services/prismic/events';
 import { getArticles } from '@weco/common/services/prismic/articles';
-import { convertJsonToDates } from './event';
-import { exhibitionLd, eventLd, articleLd } from '@weco/common/utils/json-ld';
+import { articleLd } from '@weco/common/utils/json-ld';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
-import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { type UiExhibition } from '@weco/common/model/exhibitions';
-import { type UiEvent } from '@weco/common/model/events';
 import { type Article } from '@weco/common/model/articles';
 import { type PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
+import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 
 type Props = {|
-  exhibitions: PaginatedResults<UiExhibition>,
-  events: PaginatedResults<UiEvent>,
   articles: PaginatedResults<Article>,
 |};
 
@@ -35,24 +24,9 @@ const pageImage =
   'https://images.prismic.io/wellcomecollection/fc1e68b0528abbab8429d95afb5cfa4c74d40d52_tf_180516_2060224.jpg?auto=compress,format&w=800';
 export class HomePage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const exhibitionsPromise = getExhibitions(ctx.req, {
-      period: 'next-seven-days',
-      order: 'asc',
-    });
-    const eventsPromise = getEvents(ctx.req, {
-      period: 'current-and-coming-up',
-    });
-    const articlesPromise = getArticles(ctx.req, { pageSize: 4 });
-    const [exhibitions, events, articles] = await Promise.all([
-      exhibitionsPromise,
-      eventsPromise,
-      articlesPromise,
-    ]);
-
-    if (events && exhibitions && articles) {
+    const articles = await getArticles(ctx.req, { pageSize: 4 });
+    if (articles) {
       return {
-        exhibitions,
-        events,
         articles,
       };
     } else {
@@ -61,25 +35,13 @@ export class HomePage extends Component<Props> {
   };
 
   render() {
-    const events = this.props.events.results.map(convertJsonToDates);
-    const exhibitions = this.props.exhibitions.results.map(exhibition => {
-      return {
-        start: exhibition.start && new Date(exhibition.start),
-        end: exhibition.end && new Date(exhibition.end),
-        ...exhibition,
-      };
-    });
     const articles = this.props.articles;
     return (
       <PageLayout
         title={''}
         description={pageDescription}
         url={'/'}
-        jsonLd={[
-          ...exhibitions.map(exhibitionLd),
-          ...events.map(eventLd),
-          ...articles.results.map(articleLd),
-        ]}
+        jsonLd={[...articles.results.map(articleLd)]}
         openGraphType={'website'}
         siteSection={null}
         imageUrl={pageImage}
@@ -105,25 +67,68 @@ export class HomePage extends Component<Props> {
                   })}
                 >
                   The free museum and library for the incurably curious
+                  <Space
+                    v={{
+                      size: 'm',
+                      properties: ['margin-top'],
+                    }}
+                    as="div"
+                    className={classNames({
+                      'no-margin': true,
+                      [font('hnl', 4)]: true,
+                    })}
+                  >
+                    <p>
+                      Our venue on Euston Road is currently closed, in the
+                      interests of the health and wellbeing of our staff and
+                      visitors, during the current COVID-19 pandemic.
+                    </p>
+                    <p>
+                      Wherever in the world you are, you can still enjoy reading
+                      our stories and exploring our collections here on our
+                      website, and follow us on social media.
+                    </p>
+                    <p>
+                      {`We're still publishing new content every week, and we're
+                      currently putting our heads together to think about how we
+                      can share more online about human health and experience
+                      during these unprecedented times.`}
+                    </p>
+                    <ul className="plain-list no-padding">
+                      <li>
+                        <Space
+                          v={{
+                            size: 'm',
+                            properties: ['margin-bottom'],
+                          }}
+                          as="div"
+                        >
+                          <MoreLink
+                            url={`/stories`}
+                            name="Read our latest stories"
+                          />
+                        </Space>
+                      </li>
+                      <li>
+                        <Space
+                          v={{
+                            size: 'm',
+                            properties: ['margin-bottom'],
+                          }}
+                          as="div"
+                        >
+                          <MoreLink
+                            url={`/works`}
+                            name="Explore our digital collections"
+                          />
+                        </Space>
+                      </li>
+                    </ul>
+                  </Space>
                 </Space>
               </div>
             </div>
           </div>
-        </SpacingSection>
-
-        <SpacingSection>
-          <SpacingComponent>
-            <SectionHeader title="This week" />
-          </SpacingComponent>
-          <SpacingComponent>
-            <ExhibitionsAndEvents
-              exhibitions={exhibitions}
-              events={orderEventsByNextAvailableDate(
-                filterEventsForNext7Days(events)
-              )}
-              links={[{ text: 'All exhibitions and events', url: '/whats-on' }]}
-            />
-          </SpacingComponent>
         </SpacingSection>
 
         <SpacingSection>
