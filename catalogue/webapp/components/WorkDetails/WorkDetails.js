@@ -377,79 +377,86 @@ const WorkDetails = ({
                           isActive={showRequestModal}
                           setIsActive={setShowRequestModal}
                         >
-                          {/* TODO move back into own component? */}
-                          <ResponsiveTable
-                            headings={
-                              itemsWithPhysicalLocations.find(
-                                item => item.requestable
-                              )
-                                ? ['', 'Location/Shelfmark', 'Status', 'Access']
-                                : ['Location/Shelfmark', 'Status', 'Access']
-                            }
+                          <h2
+                            className={classNames({
+                              [font('hnm', 5)]: true,
+                            })}
                           >
-                            <thead>
-                              <tr
-                                className={classNames({
-                                  [font('hnm', 5)]: true,
-                                })}
-                              >
-                                {itemsWithPhysicalLocations.find(
-                                  item => item.requestable
-                                ) && <th></th>}
-                                <th>Location/Shelfmark</th>
-                                <th>Status</th>
-                                <th>Access</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {itemsWithPhysicalLocations.map(item => (
-                                <tr
-                                  key={item.id}
-                                  className={classNames({
-                                    [font('hnm', 5)]: true,
-                                  })}
-                                >
-                                  <td>
-                                    <span hidden={singleItem}>
-                                      {item.requestable && (
-                                        <>
-                                          <label className="visually-hidden">
-                                            Request {item.id}
-                                          </label>
-                                          <Checkbox
-                                            id={item.id}
-                                            text=""
-                                            checked={item.checked}
-                                            name={item.id}
-                                            value={item.id}
-                                            onChange={() => {
-                                              const newArray = itemsWithPhysicalLocations.map(
-                                                i => {
-                                                  if (item.id === i.id) {
-                                                    return {
-                                                      ...i,
-                                                      checked: !i.checked,
-                                                    };
-                                                  } else {
-                                                    return i;
-                                                  }
-                                                }
-                                              );
-
-                                              setItemsWithPhysicalLocations(
-                                                newArray
-                                              );
-                                            }}
-                                          />
-                                        </>
-                                      )}
-                                    </span>
-                                  </td>
-                                  <td>
-                                    <span
+                            Request items
+                          </h2>
+                          <p
+                            className={classNames({
+                              [font('hnl', 5)]: true,
+                            })}
+                          >
+                            You are about to request the following items:
+                          </p>
+                          <p
+                            className={classNames({
+                              [font('hnm', 6)]: true,
+                            })}
+                          >
+                            {work.title}
+                          </p>
+                          <ul className="plain-list no-padding">
+                            {itemsWithPhysicalLocations.map(
+                              item =>
+                                item.requestable && (
+                                  <li
+                                    key={item.id}
+                                    className={classNames({
+                                      [font('hnm', 5)]: true,
+                                    })}
+                                  >
+                                    <Space
+                                      as="span"
                                       className={classNames({
                                         [font('hnl', 5)]: true,
                                       })}
+                                      h={{
+                                        size: 's',
+                                        properties: ['margin-right'],
+                                      }}
+                                    >
+                                      <label className="visually-hidden">
+                                        Request {item.id}
+                                      </label>
+                                      <Checkbox
+                                        id={item.id}
+                                        text=""
+                                        checked={item.checked}
+                                        name={item.id}
+                                        value={item.id}
+                                        onChange={() => {
+                                          const newArray = itemsWithPhysicalLocations.map(
+                                            i => {
+                                              if (item.id === i.id) {
+                                                return {
+                                                  ...i,
+                                                  checked: !i.checked,
+                                                };
+                                              } else {
+                                                return i;
+                                              }
+                                            }
+                                          );
+
+                                          setItemsWithPhysicalLocations(
+                                            newArray
+                                          );
+                                        }}
+                                      />
+                                    </Space>
+                                    {item.title}
+                                    <Space
+                                      as="span"
+                                      className={classNames({
+                                        [font('hnl', 5)]: true,
+                                      })}
+                                      h={{
+                                        size: 'l',
+                                        properties: ['margin-left'],
+                                      }}
                                     >
                                       {(function() {
                                         const physicalLocation = item.locations.find(
@@ -460,43 +467,11 @@ const WorkDetails = ({
                                           ? physicalLocation.label
                                           : null;
                                       })()}
-                                    </span>
-                                  </td>
-                                  <td>
-                                    <span
-                                      className={classNames({
-                                        [font('hnl', 5)]: true,
-                                      })}
-                                    >
-                                      {item.requestSucceeded ? (
-                                        'You have requested this item'
-                                      ) : (
-                                        <span data-test-id="itemStatus">
-                                          {(item.requested &&
-                                            'You have requested this item') ||
-                                            (item.status &&
-                                              item.status.label) ||
-                                            'Unknown'}
-                                        </span>
-                                      )}
-                                    </span>
-                                  </td>
-                                  <td>
-                                    <span
-                                      className={classNames({
-                                        [font('hnl', 5)]: true,
-                                      })}
-                                    >
-                                      {item.requestable
-                                        ? 'Online request'
-                                        : 'In library'}{' '}
-                                      {/* TODO in library not accurate if requested but status hasn't changed yet */}
-                                    </span>
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </ResponsiveTable>
+                                    </Space>
+                                  </li>
+                                )
+                            )}
+                          </ul>
                           <div>
                             <ItemRequestButton
                               itemsWithPhysicalLocations={
@@ -508,6 +483,22 @@ const WorkDetails = ({
                               setShowRequestModal={setShowRequestModal}
                               setShowResultsModal={setShowResultsModal}
                             />
+                            <button
+                              className="plain-button"
+                              onClick={() => {
+                                setShowRequestModal(false);
+                              }}
+                            >
+                              <Space
+                                as="span"
+                                className={classNames({
+                                  [font('hnl', 6)]: true,
+                                })}
+                                h={{ size: 'l', properties: ['margin-left'] }}
+                              >
+                                Cancel
+                              </Space>
+                            </button>
                           </div>
                         </Modal>
                       </div>
