@@ -161,7 +161,8 @@ const useAuth = () => {
       const { verifier, loginUrl } = createLoginUrlWithVerifier();
       window.localStorage.setItem('auth.verifier', verifier);
       setState(({ type: authStates.unauthorized, loginUrl }: Unauthorized));
-      // TODO: let the user know something failed?
+      // TODO: nicer solution than window.alert
+      window.alert('Authorisation failed. Please try to log in again.');
     }
   }
 
