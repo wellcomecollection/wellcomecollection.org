@@ -372,7 +372,7 @@ class EventPage extends Component<Props, State> {
                     <Fragment>
                       <Button
                         type="primary"
-                        url={event.thirdPartyBooking.url}
+                        externalLink={event.thirdPartyBooking.url}
                         trackingEvent={{
                           category: 'component',
                           action: 'booking-tickets:click',
@@ -405,7 +405,7 @@ class EventPage extends Component<Props, State> {
                   ) : (
                     <Button
                       type="primary"
-                      url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
+                      externalLink={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                       trackingEvent={{
                         category: 'component',
                         action: 'booking-tickets:click',
