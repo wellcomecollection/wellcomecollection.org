@@ -292,8 +292,27 @@ const IIIFViewerComponent = ({
     : null;
 
   // Download info from manifest
+  const urlTemplateMain = mainImageService['@id']
+    ? iiifImageTemplate(mainImageService['@id'])
+    : null;
+  const largeImage = urlTemplateMain && {
+    '@id': urlTemplateMain({ size: 'full' }),
+    format: 'JPG',
+    label: 'Download current full size image',
+  };
+  const smallImage = urlTemplateMain && {
+    '@id': urlTemplateMain({ size: '760,' }),
+    format: 'JPG',
+    label: 'Download current small size image',
+  };
   const iiifPresentationDownloadOptions =
-    (manifest && getDownloadOptionsFromManifest(manifest)) || [];
+    (manifest &&
+      [
+        ...getDownloadOptionsFromManifest(manifest),
+        largeImage,
+        smallImage,
+      ].filter(Boolean)) ||
+    [largeImage, smallImage].filter(Boolean);
 
   const parentManifestUrl = manifest && manifest.within;
 
