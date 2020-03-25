@@ -24,7 +24,8 @@ function getButtonMarkup(event) {
       >
         <Button
           type="primary"
-          url={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
+          externalLink={`https://www.eventbrite.com/e/${event.eventbriteId ||
+            ''}/`}
           icon="ticketAvailable"
           text="Book free tickets"
         />
@@ -42,7 +43,7 @@ function getBookingEnquiryMarkup(event) {
     return (
       <Button
         type="primary"
-        url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
+        externalLink={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
         icon="email"
         text="Email to book"
       />

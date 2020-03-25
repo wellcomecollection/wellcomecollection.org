@@ -93,6 +93,7 @@ export class ArticleSeriesPage extends Component<Props> {
       copyrightHolder: image.copyright && image.copyright.holder,
       copyrightLink: image.copyright && image.copyright.link,
     };
+
     const FeaturedMedia = book.cover && (
       // $FlowFixMe
       <UiImage
@@ -209,7 +210,7 @@ export class ArticleSeriesPage extends Component<Props> {
             {book.orderLink && (
               <Button
                 type={`primary`}
-                url={book.orderLink}
+                externalLink={book.orderLink}
                 text="Buy the book"
               />
             )}

@@ -21,7 +21,8 @@ const EventbriteButton = ({ event }: Props) => {
           <Space v={{ size: 's', properties: ['margin-bottom'] }}>
             <Button
               type="primary"
-              url={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
+              externalLink={`https://www.eventbrite.com/e/${event.eventbriteId ||
+                ''}/`}
               trackingEvent={{
                 category: 'component',
                 action: 'booking-tickets:click',
