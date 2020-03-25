@@ -297,12 +297,12 @@ const IIIFViewerComponent = ({
     : null;
   const largeImage = urlTemplateMain && {
     '@id': urlTemplateMain({ size: 'full' }),
-    format: 'JPG',
+    format: 'image/jpeg',
     label: 'This image (Full size)',
   };
   const smallImage = urlTemplateMain && {
     '@id': urlTemplateMain({ size: '760,' }),
-    format: 'JPG',
+    format: 'image/jpeg',
     label: 'This image (760 pixels)',
   };
   const iiifPresentationDownloadOptions =
