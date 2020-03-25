@@ -12,6 +12,7 @@ const DownloadLinkStyle = styled.a.attrs({
   }),
 })`
   display: inline-block;
+  white-space: nowrap;
   background: ${props => props.theme.colors.white};
   color: ${props => props.theme.colors.green};
   text-decoration: none;
