@@ -9,8 +9,8 @@ import base64url from 'base64url';
 const authDomain = 'https://id.wellcomecollection.org';
 const authParams = {
   response_type: 'code',
-  client_id: '5n4vt54rjsg6t691c5b5kiacdv', // l
-  // client_id: '4sl9v9v3i72fs66i0kpgqent8b', // p
+  // client_id: '5n4vt54rjsg6t691c5b5kiacdv', // localhost
+  client_id: '4sl9v9v3i72fs66i0kpgqent8b', // production
   scope: ['openid'].join(' '),
 };
 
@@ -158,8 +158,10 @@ const useAuth = () => {
       };
       Router.replace(link, link, { shallow: true });
     } else {
-      console.error('getToken returned undefined. Failed to authorise.');
-      // TODO: something else? Try again?
+      const { verifier, loginUrl } = createLoginUrlWithVerifier();
+      window.localStorage.setItem('auth.verifier', verifier);
+      setState(({ type: authStates.unauthorized, loginUrl }: Unauthorized));
+      // TODO: let the user know something failed?
     }
   }
 
