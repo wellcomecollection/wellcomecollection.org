@@ -26,7 +26,10 @@ import MainViewer from './parts/MainViewer';
 import ThumbsViewer from './parts/ThumbsViewer';
 import GridViewer from './parts/GridViewer';
 import Control from '../Buttons/Control/Control';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Download from '@weco/catalogue/components/Download/Download';
 import dynamic from 'next/dynamic';
+
 const LoadingComponent = () => (
   <div
     style={{
@@ -292,8 +295,27 @@ const IIIFViewerComponent = ({
     : null;
 
   // Download info from manifest
+  const urlTemplateMain = mainImageService['@id']
+    ? iiifImageTemplate(mainImageService['@id'])
+    : null;
+  const largeImage = urlTemplateMain && {
+    '@id': urlTemplateMain({ size: 'full' }),
+    format: 'image/jpeg',
+    label: 'This image (Full size)',
+  };
+  const smallImage = urlTemplateMain && {
+    '@id': urlTemplateMain({ size: '760,' }),
+    format: 'image/jpeg',
+    label: 'This image (760 pixels)',
+  };
   const iiifPresentationDownloadOptions =
-    (manifest && getDownloadOptionsFromManifest(manifest)) || [];
+    (manifest &&
+      [
+        ...getDownloadOptionsFromManifest(manifest),
+        largeImage,
+        smallImage,
+      ].filter(Boolean)) ||
+    [largeImage, smallImage].filter(Boolean);
 
   const parentManifestUrl = manifest && manifest.within;
 
@@ -543,6 +565,23 @@ const IIIFViewerComponent = ({
           </>
         )}
       </IIIFViewerBackground>
+      {!enhanced && (
+        <Layout12>
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Download
+              ariaControlsId="itemDownloads"
+              title={title}
+              workId={workId}
+              license={licenseInfo}
+              iiifImageLocationCredit={iiifImageLocationCredit}
+              downloadOptions={
+                downloadOptions || iiifPresentationDownloadOptions
+              }
+              useDarkControl={true}
+            />
+          </Space>
+        </Layout12>
+      )}
     </div>
   );
 };

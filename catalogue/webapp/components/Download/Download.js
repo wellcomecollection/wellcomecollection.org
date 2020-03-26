@@ -160,9 +160,9 @@ const Download = ({
                   .filter(option => option.format !== 'text/plain') // We're taking out raw text for now
                   .map(option => {
                     const action =
-                      option.label === 'Download full size'
+                      option.label === 'This image (Full size)'
                         ? 'download large work image'
-                        : option.label === 'Download small (760px)'
+                        : option.label === 'This image (760 pixels)'
                         ? 'download small work image'
                         : option.label;
                     const format = getFormatString(option.format);
@@ -171,7 +171,11 @@ const Download = ({
                       <li key={option.label}>
                         <DownloadLink
                           href={option['@id']}
-                          linkText={option.label}
+                          linkText={
+                            option.label === 'Download as PDF'
+                              ? 'Whole item PDF'
+                              : option.label
+                          }
                           format={format}
                           trackingEvent={{
                             category: 'Button',

@@ -17,12 +17,12 @@ export function getDownloadOptionsFromImageUrl(
     {
       '@id': convertImageUri(imageUrl, 'full'),
       format: 'image/jpeg',
-      label: 'Download full size',
+      label: 'This image (Full size)',
     },
     {
       '@id': convertImageUri(imageUrl, 760),
       format: 'image/jpeg',
-      label: 'Download small (760px)',
+      label: 'This image (760 pixels)',
     },
   ];
 }
