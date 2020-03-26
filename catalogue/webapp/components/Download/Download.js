@@ -159,11 +159,9 @@ const Download = ({
                 {downloadOptions
                   .filter(option => option.format !== 'text/plain') // We're taking out raw text for now
                   .map(option => {
-                    const action = option.label.startsWith(
-                      'This image (Full size'
-                    )
+                    const action = option['@id'].match(/\/full\/full\//)
                       ? 'download large work image'
-                      : option.label.startsWith('This image (760')
+                      : option['@id'].match(/\/full\/760/)
                       ? 'download small work image'
                       : option.label;
                     const format = getFormatString(option.format);
