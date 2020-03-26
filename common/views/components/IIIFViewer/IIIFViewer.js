@@ -313,14 +313,12 @@ const IIIFViewerComponent = ({
   const largeImage = urlTemplateMain && {
     '@id': urlTemplateMain({ size: 'full' }),
     format: 'image/jpeg',
-    label: `This image (Full size ${imageDimensions.fullWidth} x
-      ${imageDimensions.fullHeight} pixels)`,
+    label: `This image (${imageDimensions.fullWidth}x${imageDimensions.fullHeight} pixels)`,
   };
   const smallImage = urlTemplateMain && {
     '@id': urlTemplateMain({ size: '760,' }),
     format: 'image/jpeg',
-    label: `This image (${imageDimensions.smallWidth} x
-    ${imageDimensions.smallHeight} pixels)`,
+    label: `This image (${imageDimensions.smallWidth}x${imageDimensions.smallHeight} pixels)`,
   };
   const iiifPresentationDownloadOptions =
     (manifest &&

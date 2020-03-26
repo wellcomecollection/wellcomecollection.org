@@ -174,7 +174,7 @@ const Download = ({
                           href={option['@id']}
                           linkText={
                             option.label === 'Download as PDF'
-                              ? 'Whole item PDF'
+                              ? 'Whole item'
                               : option.label
                           }
                           format={format}
