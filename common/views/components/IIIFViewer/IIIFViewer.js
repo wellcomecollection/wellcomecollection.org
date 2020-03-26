@@ -323,9 +323,9 @@ const IIIFViewerComponent = ({
   const iiifPresentationDownloadOptions =
     (manifest &&
       [
-        ...getDownloadOptionsFromManifest(manifest),
         largeImage,
         smallImage,
+        ...getDownloadOptionsFromManifest(manifest),
       ].filter(Boolean)) ||
     [largeImage, smallImage].filter(Boolean);
 
