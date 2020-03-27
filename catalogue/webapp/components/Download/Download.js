@@ -167,7 +167,7 @@ const Download = ({
                     const format = getFormatString(option.format);
 
                     return (
-                      <li key={option.label}>
+                      <li key={option['@id']}>
                         <DownloadLink
                           href={option['@id']}
                           linkText={

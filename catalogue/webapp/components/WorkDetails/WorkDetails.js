@@ -1,6 +1,7 @@
 // @flow
 import moment from 'moment';
 import { useEffect, useState, useRef } from 'react';
+import fetch from 'isomorphic-unfetch';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { type Work } from '@weco/common/model/work';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
@@ -74,6 +75,18 @@ const WorkDetails = ({
   itemsRef.current = itemsWithPhysicalLocations;
   const [hasRequestableItems, setHasRequestableItems] = useState(false);
   const singleItem = itemsWithPhysicalLocations.length === 1;
+  const [imageJSON, setImageJSON] = useState(null);
+  const fetchImageJSON = async () => {
+    try {
+      const imageJSON =
+        iiifImageLocation &&
+        (await fetch(iiifImageLocation.url).then(resp => resp.json()));
+      setImageJSON(imageJSON);
+    } catch (e) {}
+  };
+  useEffect(() => {
+    fetchImageJSON();
+  }, []);
   useEffect(() => {
     const fetchWork = async () => {
       const stacksWork = await getStacksWork({ workId: work.id });
@@ -140,8 +153,9 @@ const WorkDetails = ({
 
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImageDownloadOptions = iiifImageLocationUrl
-    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
+    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl, imageJSON)
     : [];
+
   const iiifPresentationDownloadOptions = iiifPresentationManifest
     ? getDownloadOptionsFromManifest(iiifPresentationManifest)
     : [];
