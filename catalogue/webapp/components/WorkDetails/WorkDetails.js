@@ -248,7 +248,7 @@ const WorkDetails = ({
               >
                 <thead>
                   <tr className={classNames({ [font('hnm', 5)]: true })}>
-                    {hasRequestableItems && <th></th>}
+                    {hasRequestableItems && !singleItem && <th></th>}
                     <th>Title</th>
                     <th>Location/Shelfmark</th>
                     <th>Status</th>
@@ -262,7 +262,12 @@ const WorkDetails = ({
                       className={classNames({ [font('hnm', 5)]: true })}
                     >
                       {hasRequestableItems && (
-                        <td style={{ padding: '0' }}>
+                        <td
+                          className={classNames({
+                            'is-hidden': singleItem,
+                            'no-padding': true,
+                          })}
+                        >
                           <span hidden={singleItem}>
                             {item.requestable && (
                               <>
