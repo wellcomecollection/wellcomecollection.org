@@ -12,27 +12,35 @@ export function getProductionDates(work: Work) {
 
 export function getDownloadOptionsFromImageUrl(
   imageUrl: string,
-  imageJSON: Object
+  imageJSON: ?Object
 ): IIIFRendering[] {
   const smallImageWidth = 760;
   const imageDimensions = {
-    fullWidth: imageJSON ? `${imageJSON.width}` : '',
-    fullHeight: imageJSON ? `${imageJSON.height}` : '',
+    fullWidth: imageJSON ? `${imageJSON.width}` : null,
+    fullHeight: imageJSON ? `${imageJSON.height}` : null,
     smallWidth: `${smallImageWidth}`,
     smallHeight: imageJSON
       ? `${Math.round(imageJSON.height / (imageJSON.width / smallImageWidth))}`
-      : '',
+      : null,
   };
   return [
     {
       '@id': convertImageUri(imageUrl, 'full'),
       format: 'image/jpeg',
-      label: `This image (${imageDimensions.fullWidth}x${imageDimensions.fullHeight} pixels)`,
+      label: `This image (${
+        imageDimensions.fullWidth && imageDimensions.fullHeight
+          ? `${imageDimensions.fullWidth}x${imageDimensions.fullHeight} pixels`
+          : 'Full size'
+      })`,
     },
     {
       '@id': convertImageUri(imageUrl, 760),
       format: 'image/jpeg',
-      label: `This image (${imageDimensions.smallWidth}x${imageDimensions.smallHeight} pixels)`,
+      label: `This image (${
+        imageDimensions.smallHeight
+          ? `${imageDimensions.smallWidth}x${imageDimensions.smallHeight} pixels`
+          : '760px'
+      })`,
     },
   ];
 }
