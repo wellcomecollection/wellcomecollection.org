@@ -221,18 +221,23 @@ const WorkDetails = ({
         />
       )}
 
-      {encoreLink && (
-        <Space
-          v={{
-            size: 'l',
-            properties: ['margin-bottom'],
-          }}
-        >
-          <WorkDetailsText
-            text={[`<a href="${encoreLink}">Wellcome library</a>`]}
-          />
-        </Space>
-      )}
+      <TogglesContext.Consumer>
+        {({ stacksRequestService }) =>
+          !stacksRequestService &&
+          encoreLink && (
+            <Space
+              v={{
+                size: 'l',
+                properties: ['margin-bottom'],
+              }}
+            >
+              <WorkDetailsText
+                text={[`<a href="${encoreLink}">Wellcome library</a>`]}
+              />
+            </Space>
+          )
+        }
+      </TogglesContext.Consumer>
 
       <TogglesContext.Consumer>
         {({ stacksRequestService }) =>
