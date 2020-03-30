@@ -232,6 +232,23 @@ const IIIFViewerComponent = ({
         ? currentCanvas.images[0].resource.service['@id']
         : '',
   };
+  const [imageJSON, setImageJSON] = useState(null);
+  const fetchImageJSON = async () => {
+    try {
+      const imageJSON =
+        iiifImageLocation &&
+        (await fetch(iiifImageLocation.url).then(resp => resp.json()));
+      setImageJSON(imageJSON);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    fetchImageJSON();
+  }, []);
+
+  const imageDownloadOptions = iiifImageLocationUrl
+    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl, imageJSON)
+    : [];
 
   function setFullScreen() {
     if (
@@ -290,44 +307,16 @@ const IIIFViewerComponent = ({
     navigationCanvases && navigationCanvases.length > 1;
 
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
-  const downloadOptions = iiifImageLocationUrl
-    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
-    : null;
-
   // Download info from manifest
-  const smallImageWidth = 760;
-  const imageDimensions = {
-    fullWidth: currentCanvas ? `${currentCanvas.width}` : '',
-    fullHeight: currentCanvas ? `${currentCanvas.height}` : '',
-    smallWidth: `${smallImageWidth}`,
-    smallHeight: currentCanvas
-      ? `${Math.round(
-          currentCanvas.height / (currentCanvas.width / smallImageWidth)
-        )}`
-      : '',
-  };
-
-  const urlTemplateMain = mainImageService['@id']
-    ? iiifImageTemplate(mainImageService['@id'])
-    : null;
-  const largeImage = urlTemplateMain && {
-    '@id': urlTemplateMain({ size: 'full' }),
-    format: 'image/jpeg',
-    label: `This image (${imageDimensions.fullWidth}x${imageDimensions.fullHeight} pixels)`,
-  };
-  const smallImage = urlTemplateMain && {
-    '@id': urlTemplateMain({ size: '760,' }),
-    format: 'image/jpeg',
-    label: `This image (${imageDimensions.smallWidth}x${imageDimensions.smallHeight} pixels)`,
-  };
+  const imageDownloads = getDownloadOptionsFromImageUrl(
+    mainImageService['@id']
+  );
   const iiifPresentationDownloadOptions =
-    (manifest &&
-      [
-        largeImage,
-        smallImage,
-        ...getDownloadOptionsFromManifest(manifest),
-      ].filter(Boolean)) ||
-    [largeImage, smallImage].filter(Boolean);
+    (manifest && [
+      ...imageDownloads,
+      ...getDownloadOptionsFromManifest(manifest),
+    ]) ||
+    [];
 
   const parentManifestUrl = manifest && manifest.within;
 
@@ -428,7 +417,10 @@ const IIIFViewerComponent = ({
         title={title}
         licenseInfo={licenseInfo}
         iiifImageLocationCredit={iiifImageLocationCredit}
-        downloadOptions={downloadOptions}
+        downloadOptions={[
+          ...imageDownloadOptions,
+          ...iiifPresentationDownloadOptions,
+        ]}
         iiifPresentationDownloadOptions={iiifPresentationDownloadOptions}
         parentManifest={parentManifest}
         lang={lang}
@@ -586,9 +578,10 @@ const IIIFViewerComponent = ({
               workId={workId}
               license={licenseInfo}
               iiifImageLocationCredit={iiifImageLocationCredit}
-              downloadOptions={
-                downloadOptions || iiifPresentationDownloadOptions
-              }
+              downloadOptions={[
+                ...imageDownloadOptions,
+                ...iiifPresentationDownloadOptions,
+              ]}
               useDarkControl={true}
             />
           </Space>
