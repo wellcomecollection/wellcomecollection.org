@@ -9,8 +9,8 @@ import base64url from 'base64url';
 const authDomain = 'https://id.wellcomecollection.org';
 const authParams = {
   response_type: 'code',
-  // client_id: '5n4vt54rjsg6t691c5b5kiacdv', // l
-  client_id: '4sl9v9v3i72fs66i0kpgqent8b', // p
+  // client_id: '5n4vt54rjsg6t691c5b5kiacdv', // localhost
+  client_id: '4sl9v9v3i72fs66i0kpgqent8b', // production
   scope: ['openid'].join(' '),
 };
 
@@ -145,17 +145,25 @@ const useAuth = () => {
     const verifier = window.localStorage.getItem('auth.verifier');
     const token = await getToken(code, verifier);
 
-    window.localStorage.setItem('auth.token', JSON.stringify(token));
-    setState({ type: authStates.authorized, token });
-    const link = {
-      pathname: Router.asPath.split('?')[0],
-      // TODO: This is very app specific, but it's an absolute pain to try and get this to work
-      // The side effect is that it removes the rest of the URL params if there are any
-      query: {
-        action: Router.query.action,
-      },
-    };
-    Router.replace(link, link, { shallow: true });
+    if (token) {
+      window.localStorage.setItem('auth.token', JSON.stringify(token));
+      setState({ type: authStates.authorized, token });
+      const link = {
+        pathname: Router.asPath.split('?')[0],
+        // TODO: This is very app specific, but it's an absolute pain to try and get this to work
+        // The side effect is that it removes the rest of the URL params if there are any
+        query: {
+          action: Router.query.action,
+        },
+      };
+      Router.replace(link, link, { shallow: true });
+    } else {
+      const { verifier, loginUrl } = createLoginUrlWithVerifier();
+      window.localStorage.setItem('auth.verifier', verifier);
+      setState(({ type: authStates.unauthorized, loginUrl }: Unauthorized));
+      // TODO: nicer solution than window.alert
+      window.alert('Authorisation failed. Please try to log in again.');
+    }
   }
 
   return state;
