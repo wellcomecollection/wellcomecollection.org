@@ -50,7 +50,7 @@ Digital Experience:
 	Gareth Estchild
 	David McCormick
   Dominique Marshall
-	Alice Richmond
+  Alice Richmond
 
 Digital Preservation and Data:
 	Jonathan Tweed
