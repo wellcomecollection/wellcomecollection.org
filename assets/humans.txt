@@ -49,6 +49,8 @@ Digital Experience:
 	Lyndsay Thackrah
 	Gareth Estchild
 	David McCormick
+	Dominique Marshall
+	Alice Richmond
 
 Digital Preservation and Data:
 	Jonathan Tweed
