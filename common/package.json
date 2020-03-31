@@ -36,7 +36,7 @@
     "lscache": "^1.1.0",
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
-    "next": "^9.1.6",
+    "next": "^9.3.2",
     "nprogress": "^0.2.0",
     "openseadragon": "^2.4.0",
     "prismic-dom": "^2.1.0",
