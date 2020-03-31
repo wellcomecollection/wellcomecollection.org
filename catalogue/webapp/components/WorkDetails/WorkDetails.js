@@ -381,7 +381,7 @@ const WorkDetails = ({
                           }}
                           trackingEvent={{
                             category: 'Button',
-                            action: 'open stacks request modal window',
+                            action: 'open Stacks request modal window',
                             label: work.id,
                           }}
                         />

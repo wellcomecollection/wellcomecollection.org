@@ -70,6 +70,13 @@ const ItemRequestButton = ({
         event.preventDefault();
         makeRequests(itemsWithPhysicalLocations);
       }}
+      trackingEvent={{
+        category: 'Button',
+        action: 'confirm Stacks request',
+        label: `item id(s): ${itemsWithPhysicalLocations
+          .map(i => i.id)
+          .join()}`,
+      }}
     />
   ) : null;
 };
