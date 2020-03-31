@@ -47,7 +47,6 @@ const ItemRenderer = memo(({ style, index, data }) => {
                 setActiveIndex(index);
               }}
               isActive={activeIndex === index}
-              thumbNumber={index + 1}
               isFocusable={false}
             />
           </ThumbnailSpacer>

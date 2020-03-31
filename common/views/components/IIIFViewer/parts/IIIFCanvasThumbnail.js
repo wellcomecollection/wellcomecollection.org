@@ -73,7 +73,6 @@ type IIIFCanvasThumbnailProps = {|
   canvas: IIIFCanvas,
   lang?: string,
   isActive: boolean,
-  thumbNumber: number,
   clickHandler?: () => void,
   isFocusable?: boolean,
 |};
@@ -83,7 +82,6 @@ const IIIFCanvasThumbnail = ({
   lang,
   clickHandler,
   isActive,
-  thumbNumber,
   isFocusable,
 }: IIIFCanvasThumbnailProps) => {
   const thumbnailService = canvas.thumbnail.service;
@@ -125,12 +123,14 @@ const IIIFCanvasThumbnail = ({
             isLazy={false}
           />
         </ImageContainer>
-        <div>
-          <IIIFViewerThumbNumber isActive={isActive}>
-            <span className="visually-hidden">image </span>
-            {thumbNumber}
-          </IIIFViewerThumbNumber>
-        </div>
+        {canvas.label.trim() !== '-' && (
+          <div>
+            <IIIFViewerThumbNumber isActive={isActive}>
+              <span className="visually-hidden">page </span>
+              {canvas.label}
+            </IIIFViewerThumbNumber>
+          </div>
+        )}
       </IIIFViewerThumbInner>
     </IIIFViewerThumb>
   );

@@ -265,7 +265,6 @@ const NoScriptViewer = ({
                           canvas={canvas}
                           lang={lang}
                           isActive={canvasNumber === canvasIndex + 1}
-                          thumbNumber={canvasNumber}
                         />
                       </ThumbnailLink>
                     </NextLink>

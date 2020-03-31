@@ -49,7 +49,6 @@ const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
                 setGridVisible(false);
               }}
               isActive={activeIndex === itemIndex}
-              thumbNumber={itemIndex + 1}
               isFocusable={gridVisible}
             />
           </ThumbnailSpacer>
