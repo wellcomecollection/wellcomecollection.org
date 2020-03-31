@@ -232,22 +232,26 @@ const IIIFViewerComponent = ({
         ? currentCanvas.images[0].resource.service['@id']
         : '',
   };
-  const [imageJSON, setImageJSON] = useState(null);
-  const fetchImageJSON = async () => {
+  const [imageJson, setImageJson] = useState(null);
+  const fetchImageJson = async () => {
     try {
-      const imageJSON =
+      const imageJson =
         iiifImageLocation &&
         (await fetch(iiifImageLocation.url).then(resp => resp.json()));
-      setImageJSON(imageJSON);
+      setImageJson(imageJson);
     } catch (e) {}
   };
 
   useEffect(() => {
-    fetchImageJSON();
+    fetchImageJson();
   }, []);
 
   const imageDownloadOptions = iiifImageLocationUrl
-    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl, imageJSON)
+    ? getDownloadOptionsFromImageUrl({
+        url: iiifImageLocationUrl,
+        width: imageJson && imageJson.width,
+        height: imageJson && imageJson.height,
+      })
     : [];
 
   function setFullScreen() {
@@ -308,9 +312,11 @@ const IIIFViewerComponent = ({
 
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
   // Download info from manifest
-  const imageDownloads = getDownloadOptionsFromImageUrl(
-    mainImageService['@id']
-  );
+  const imageDownloads = getDownloadOptionsFromImageUrl({
+    url: mainImageService['@id'],
+    width: currentCanvas && currentCanvas.width,
+    height: currentCanvas && currentCanvas.height,
+  });
   const iiifPresentationDownloadOptions =
     (manifest && [
       ...imageDownloads,

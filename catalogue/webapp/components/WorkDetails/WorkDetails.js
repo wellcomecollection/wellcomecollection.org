@@ -75,17 +75,17 @@ const WorkDetails = ({
   itemsRef.current = itemsWithPhysicalLocations;
   const [hasRequestableItems, setHasRequestableItems] = useState(false);
   const singleItem = itemsWithPhysicalLocations.length === 1;
-  const [imageJSON, setImageJSON] = useState(null);
-  const fetchImageJSON = async () => {
+  const [imageJson, setImageJson] = useState(null);
+  const fetchImageJson = async () => {
     try {
-      const imageJSON =
+      const imageJson =
         iiifImageLocation &&
         (await fetch(iiifImageLocation.url).then(resp => resp.json()));
-      setImageJSON(imageJSON);
+      setImageJson(imageJson);
     } catch (e) {}
   };
   useEffect(() => {
-    fetchImageJSON();
+    fetchImageJson();
   }, []);
   useEffect(() => {
     const fetchWork = async () => {
@@ -153,9 +153,12 @@ const WorkDetails = ({
 
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImageDownloadOptions = iiifImageLocationUrl
-    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl, imageJSON)
+    ? getDownloadOptionsFromImageUrl({
+        url: iiifImageLocationUrl,
+        width: imageJson && imageJson.width,
+        height: imageJson && imageJson.height,
+      })
     : [];
-
   const iiifPresentationDownloadOptions = iiifPresentationManifest
     ? getDownloadOptionsFromManifest(iiifPresentationManifest)
     : [];

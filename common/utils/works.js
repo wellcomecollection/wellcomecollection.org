@@ -10,39 +10,51 @@ export function getProductionDates(work: Work) {
     .reduce((a, b) => a.concat(b), []);
 }
 
+type DownloadImage = {|
+  url: string,
+  width: ?number,
+  height: ?number,
+|};
+
 export function getDownloadOptionsFromImageUrl(
-  imageUrl: string,
-  imageJSON: ?Object
+  downloadImage: DownloadImage
 ): IIIFRendering[] {
   const smallImageWidth = 760;
   const imageDimensions = {
-    fullWidth: imageJSON ? `${imageJSON.width}` : null,
-    fullHeight: imageJSON ? `${imageJSON.height}` : null,
-    smallWidth: `${smallImageWidth}`,
-    smallHeight: imageJSON
-      ? `${Math.round(imageJSON.height / (imageJSON.width / smallImageWidth))}`
-      : null,
+    fullWidth: downloadImage.width || null,
+    fullHeight: downloadImage.height || null,
+    smallWidth: smallImageWidth,
+    smallHeight:
+      downloadImage.width && downloadImage.height
+        ? `${Math.round(
+            downloadImage.height / (downloadImage.width / smallImageWidth)
+          )}`
+        : null,
   };
-  return [
-    {
-      '@id': convertImageUri(imageUrl, 'full'),
-      format: 'image/jpeg',
-      label: `This image (${
-        imageDimensions.fullWidth && imageDimensions.fullHeight
-          ? `${imageDimensions.fullWidth}x${imageDimensions.fullHeight} pixels`
-          : 'Full size'
-      })`,
-    },
-    {
-      '@id': convertImageUri(imageUrl, 760),
-      format: 'image/jpeg',
-      label: `This image (${
-        imageDimensions.smallHeight
-          ? `${imageDimensions.smallWidth}x${imageDimensions.smallHeight} pixels`
-          : '760px'
-      })`,
-    },
-  ];
+  if (downloadImage.url) {
+    return [
+      {
+        '@id': convertImageUri(downloadImage.url, 'full'),
+        format: 'image/jpeg',
+        label: `This image (${
+          imageDimensions.fullWidth && imageDimensions.fullHeight
+            ? `${imageDimensions.fullWidth}x${imageDimensions.fullHeight} pixels`
+            : 'Full size'
+        })`,
+      },
+      {
+        '@id': convertImageUri(downloadImage.url, 760),
+        format: 'image/jpeg',
+        label: `This image (${
+          imageDimensions.smallHeight
+            ? `${imageDimensions.smallWidth}x${imageDimensions.smallHeight} pixels`
+            : '760px'
+        })`,
+      },
+    ];
+  } else {
+    return [];
+  }
 }
 
 export function getEncoreLink(sierraId: string): string {
