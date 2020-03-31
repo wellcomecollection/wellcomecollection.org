@@ -27,7 +27,7 @@
     "koa": "^2.5.0",
     "koa-router": "^7.4.0",
     "lazysizes": "^4.1.4",
-    "next": "^9.1.6",
+    "next": "^9.3.2",
     "next-cookies": "^2.0.3",
     "node-sass": "^4.8.3",
     "nodemon": "^1.17.5",
