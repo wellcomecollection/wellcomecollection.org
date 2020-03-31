@@ -13,6 +13,13 @@ exports[`Feature: 2. As a library member I want to request an item
     clickHandler={[Function]}
     externalLink="/loginUrl"
     text="Log in to request"
+    trackingEvent={
+      Object {
+        "action": "follow Cognito login link",
+        "category": "Button",
+        "label": "{workId}",
+      }
+    }
     type="primary"
   >
     <a
@@ -50,6 +57,13 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
   <Button
     clickHandler={[Function]}
     text="Request"
+    trackingEvent={
+      Object {
+        "action": "open Stacks request modal window",
+        "category": "Button",
+        "label": "{workId}",
+      }
+    }
     type="primary"
   >
     <button
