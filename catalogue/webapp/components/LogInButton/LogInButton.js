@@ -19,6 +19,11 @@ const LogInButton = ({ workId, loginUrl }: Props) => {
         clickHandler={event => {
           setRedirectCookie(workId);
         }}
+        trackingEvent={{
+          category: 'Button',
+          action: 'follow Cognito login link',
+          label: workId,
+        }}
       />
     </div>
   );

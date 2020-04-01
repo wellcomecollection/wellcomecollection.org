@@ -379,6 +379,11 @@ const WorkDetails = ({
                               window.alert('please make a selection');
                             }
                           }}
+                          trackingEvent={{
+                            category: 'Button',
+                            action: 'open Stacks request modal window',
+                            label: work.id,
+                          }}
                         />
 
                         <Modal
