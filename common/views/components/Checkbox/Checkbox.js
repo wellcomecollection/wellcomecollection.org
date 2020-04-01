@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
+import Icon from '../Icon/Icon';
 import { AppContext } from '../AppContext/AppContext';
 
 const CheckboxLabel = styled.label.attrs({
@@ -20,17 +21,12 @@ const CheckboxBox = styled.span.attrs({
   width: 1.2em;
   height: 1.2em;
   border: 2px solid ${props => props.theme.colors.pumice};
-  border-radius: 3px;
   transition: all 400ms ease;
 
-  &:after {
-    content: '';
+  .icon {
     position: absolute;
-    width: 60%;
-    height: 60%;
     opacity: 0;
     transition: opacity 400ms ease;
-    background: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%0A%20%20%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M6%2012l-6%206%2012%2012%2020-20-6-6-14%2014z%22%3E%3C/path%3E%0A%3C/svg%3E%0A');
   }
 `;
 
@@ -44,10 +40,9 @@ const CheckboxInput = styled.input.attrs({
   height: 1em;
 
   &:checked ~ ${CheckboxBox} {
-    background: ${props => props.theme.colors.green};
-    border-color: ${props => props.theme.colors.green};
+    border-color: ${props => props.theme.colors.black};
 
-    &:after {
+    .icon {
       opacity: 1;
     }
   }
@@ -72,7 +67,9 @@ function Checkbox({ id, text, ...inputProps }: CheckboxProps) {
   return (
     <CheckboxLabel htmlFor={id}>
       <CheckboxInput id={id} {...inputProps} hideFocus={!isKeyboard} />
-      <CheckboxBox />
+      <CheckboxBox>
+        <Icon name="check" extraClasses={`icon--match-text`} />
+      </CheckboxBox>
       <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>
         {text}
       </Space>
