@@ -295,25 +295,37 @@ const IIIFViewerComponent = ({
     : null;
 
   // Download info from manifest
+  const smallImageWidth = 760;
+  const imageDimensions = {
+    fullWidth: currentCanvas ? `${currentCanvas.width}` : '',
+    fullHeight: currentCanvas ? `${currentCanvas.height}` : '',
+    smallWidth: `${smallImageWidth}`,
+    smallHeight: currentCanvas
+      ? `${Math.round(
+          currentCanvas.height / (currentCanvas.width / smallImageWidth)
+        )}`
+      : '',
+  };
+
   const urlTemplateMain = mainImageService['@id']
     ? iiifImageTemplate(mainImageService['@id'])
     : null;
   const largeImage = urlTemplateMain && {
     '@id': urlTemplateMain({ size: 'full' }),
     format: 'image/jpeg',
-    label: 'This image (Full size)',
+    label: `This image (${imageDimensions.fullWidth}x${imageDimensions.fullHeight} pixels)`,
   };
   const smallImage = urlTemplateMain && {
     '@id': urlTemplateMain({ size: '760,' }),
     format: 'image/jpeg',
-    label: 'This image (760 pixels)',
+    label: `This image (${imageDimensions.smallWidth}x${imageDimensions.smallHeight} pixels)`,
   };
   const iiifPresentationDownloadOptions =
     (manifest &&
       [
-        ...getDownloadOptionsFromManifest(manifest),
         largeImage,
         smallImage,
+        ...getDownloadOptionsFromManifest(manifest),
       ].filter(Boolean)) ||
     [largeImage, smallImage].filter(Boolean);
 
