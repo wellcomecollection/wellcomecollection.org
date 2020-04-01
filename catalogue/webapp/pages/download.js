@@ -54,7 +54,11 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
     iiifImageLocation.url;
 
   const iiifImageDownloadOptions = iiifImageLocationUrl
-    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
+    ? getDownloadOptionsFromImageUrl({
+        url: iiifImageLocationUrl,
+        width: null,
+        height: null,
+      })
     : [];
   const iiifPresentationDownloadOptions = manifest
     ? getDownloadOptionsFromManifest(manifest)

@@ -232,6 +232,27 @@ const IIIFViewerComponent = ({
         ? currentCanvas.images[0].resource.service['@id']
         : '',
   };
+  const [imageJson, setImageJson] = useState(null);
+  const fetchImageJson = async () => {
+    try {
+      const imageJson =
+        iiifImageLocation &&
+        (await fetch(iiifImageLocation.url).then(resp => resp.json()));
+      setImageJson(imageJson);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    fetchImageJson();
+  }, []);
+
+  const imageDownloadOptions = iiifImageLocationUrl
+    ? getDownloadOptionsFromImageUrl({
+        url: iiifImageLocationUrl,
+        width: imageJson && imageJson.width,
+        height: imageJson && imageJson.height,
+      })
+    : [];
 
   function setFullScreen() {
     if (
@@ -290,44 +311,18 @@ const IIIFViewerComponent = ({
     navigationCanvases && navigationCanvases.length > 1;
 
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
-  const downloadOptions = iiifImageLocationUrl
-    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
-    : null;
-
   // Download info from manifest
-  const smallImageWidth = 760;
-  const imageDimensions = {
-    fullWidth: currentCanvas ? `${currentCanvas.width}` : '',
-    fullHeight: currentCanvas ? `${currentCanvas.height}` : '',
-    smallWidth: `${smallImageWidth}`,
-    smallHeight: currentCanvas
-      ? `${Math.round(
-          currentCanvas.height / (currentCanvas.width / smallImageWidth)
-        )}`
-      : '',
-  };
-
-  const urlTemplateMain = mainImageService['@id']
-    ? iiifImageTemplate(mainImageService['@id'])
-    : null;
-  const largeImage = urlTemplateMain && {
-    '@id': urlTemplateMain({ size: 'full' }),
-    format: 'image/jpeg',
-    label: `This image (${imageDimensions.fullWidth}x${imageDimensions.fullHeight} pixels)`,
-  };
-  const smallImage = urlTemplateMain && {
-    '@id': urlTemplateMain({ size: '760,' }),
-    format: 'image/jpeg',
-    label: `This image (${imageDimensions.smallWidth}x${imageDimensions.smallHeight} pixels)`,
-  };
+  const imageDownloads = getDownloadOptionsFromImageUrl({
+    url: mainImageService['@id'],
+    width: currentCanvas && currentCanvas.width,
+    height: currentCanvas && currentCanvas.height,
+  });
   const iiifPresentationDownloadOptions =
-    (manifest &&
-      [
-        largeImage,
-        smallImage,
-        ...getDownloadOptionsFromManifest(manifest),
-      ].filter(Boolean)) ||
-    [largeImage, smallImage].filter(Boolean);
+    (manifest && [
+      ...imageDownloads,
+      ...getDownloadOptionsFromManifest(manifest),
+    ]) ||
+    [];
 
   const parentManifestUrl = manifest && manifest.within;
 
@@ -428,7 +423,10 @@ const IIIFViewerComponent = ({
         title={title}
         licenseInfo={licenseInfo}
         iiifImageLocationCredit={iiifImageLocationCredit}
-        downloadOptions={downloadOptions}
+        downloadOptions={[
+          ...imageDownloadOptions,
+          ...iiifPresentationDownloadOptions,
+        ]}
         iiifPresentationDownloadOptions={iiifPresentationDownloadOptions}
         parentManifest={parentManifest}
         lang={lang}
@@ -586,9 +584,10 @@ const IIIFViewerComponent = ({
               workId={workId}
               license={licenseInfo}
               iiifImageLocationCredit={iiifImageLocationCredit}
-              downloadOptions={
-                downloadOptions || iiifPresentationDownloadOptions
-              }
+              downloadOptions={[
+                ...imageDownloadOptions,
+                ...iiifPresentationDownloadOptions,
+              ]}
               useDarkControl={true}
             />
           </Space>
