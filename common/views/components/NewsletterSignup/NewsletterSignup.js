@@ -1,7 +1,7 @@
 // @flow
 import { useState, useEffect } from 'react';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
-import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 
@@ -172,8 +172,9 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
           </Space>
 
           <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-            <Checkbox
+            <CheckboxRadio
               id="whats_on"
+              type={`checkbox`}
               text="I'd like to receive regular updates from Wellcome Collection"
               value="addressbook_40131"
               name="addressbook_40131"
@@ -199,8 +200,9 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
                   v={{ size: 'm', properties: ['margin-bottom'] }}
                   key={addressBook.id}
                 >
-                  <Checkbox
+                  <CheckboxRadio
                     id={addressBook.id}
+                    type={`checkbox`}
                     text={addressBook.label}
                     value={addressBook.name}
                     name={addressBook.name}

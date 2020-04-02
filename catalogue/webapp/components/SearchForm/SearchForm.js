@@ -56,10 +56,6 @@ const ClearSearch = styled.button`
   right: 12px;
 `;
 
-const SearchTypeRadioGroup = styled(RadioGroup)`
-  margin-top: 30px;
-`;
-
 const SearchForm = ({
   ariaDescribedBy,
   shouldShowFilters,
@@ -195,25 +191,27 @@ const SearchForm = ({
 
       {shouldShowFilters && (
         <>
-          <SearchTypeRadioGroup
-            name="search"
-            selected={worksRouteProps.search ? 'images' : ''}
-            onChange={() => {
-              searchForm.current && updateUrl(searchForm.current);
-            }}
-            options={[
-              {
-                id: 'all-collection',
-                value: '',
-                label: 'All collection',
-              },
-              {
-                id: 'images',
-                value: 'images',
-                label: 'Images only',
-              },
-            ]}
-          />
+          <Space v={{ size: 'm', properties: ['margin-top'] }}>
+            <RadioGroup
+              name="search"
+              selected={worksRouteProps.search ? 'images' : ''}
+              onChange={() => {
+                searchForm.current && updateUrl(searchForm.current);
+              }}
+              options={[
+                {
+                  id: 'all-collection',
+                  value: '',
+                  label: 'All collection',
+                },
+                {
+                  id: 'images',
+                  value: 'images',
+                  label: 'Images only',
+                },
+              ]}
+            />
+          </Space>
           <SearchFilters
             searchForm={searchForm}
             worksRouteProps={worksRouteProps}

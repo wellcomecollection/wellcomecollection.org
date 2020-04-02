@@ -6,7 +6,7 @@ import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
-import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import NextLink from 'next/link';
 import { type SearchFiltersSharedProps } from './SearchFilters';
 import TogglesContext from '../TogglesContext/TogglesContext';
@@ -127,8 +127,9 @@ const SearchFiltersDesktop = ({
                 return (
                   (workType.count > 0 || isChecked) && (
                     <li key={workType.data.id}>
-                      <Checkbox
+                      <CheckboxRadio
                         id={workType.data.id}
+                        type={`checkbox`}
                         text={`${workType.data.label} (${workType.count})`}
                         value={workType.data.id}
                         name={`workType`}
@@ -151,8 +152,9 @@ const SearchFiltersDesktop = ({
                 v={{ size: 'xs', properties: ['margin-top'] }}
               >
                 <div className="flex">
-                  <Checkbox
+                  <CheckboxRadio
                     id="digitised"
+                    type={`checkbox`}
                     text={`Digitised`}
                     value={'iiif-image,iiif-presentation'}
                     name={`items.locations.locationType`}
