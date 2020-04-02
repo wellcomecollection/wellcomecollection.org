@@ -4,9 +4,9 @@ import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
 import Space from '../styled/Space';
 import { classNames } from '../../../utils/classnames';
 
-type Props<T> = {|
+type Props = {|
   name: string,
-  selected: ?T,
+  selected: string,
   onChange: (value: string) => void,
   options: Array<{|
     value: string,
@@ -15,7 +15,7 @@ type Props<T> = {|
   |}>,
 |};
 
-const RadioGroup = ({ name, selected, onChange, options }: Props<T>) => (
+const RadioGroup = ({ name, selected, onChange, options }: Props) => (
   <div>
     {options.map(({ value, label, id }, index) => (
       <Space
