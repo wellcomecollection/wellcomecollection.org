@@ -49,7 +49,7 @@ import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import ResponsiveTable from '@weco/common/views/components/styled/ResponsiveTable';
 import useAuth from '@weco/common/hooks/useAuth';
-import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ItemRequestButton from '@weco/catalogue/components/ItemRequestButton/ItemRequestButton';
 
@@ -296,8 +296,9 @@ const WorkDetails = ({
                                 <label className="visually-hidden">
                                   Request {item.id}
                                 </label>
-                                <Checkbox
+                                <CheckboxRadio
                                   id={item.id}
+                                  type={`checkbox`}
                                   text=""
                                   checked={item.checked}
                                   name={item.id}
@@ -451,8 +452,9 @@ const WorkDetails = ({
                                       <label className="visually-hidden">
                                         Request {item.id}
                                       </label>
-                                      <Checkbox
+                                      <CheckboxRadio
                                         id={item.id}
+                                        type={`checkbox`}
                                         text=""
                                         checked={item.checked}
                                         name={item.id}

@@ -11,7 +11,7 @@ import { classNames, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
-import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { type SearchFiltersSharedProps } from './SearchFilters';
 
 const OpenFiltersButton = styled(Space).attrs({
@@ -299,8 +299,9 @@ const SearchFiltersMobile = ({
                             v={{ size: 'l', properties: ['margin-bottom'] }}
                             key={`mobile-${workType.data.id}`}
                           >
-                            <Checkbox
+                            <CheckboxRadio
                               id={`mobile-${workType.data.id}`}
+                              type={`checkbox`}
                               text={`${workType.data.label} (${workType.count})`}
                               value={workType.data.id}
                               name={`workType`}

@@ -1,92 +1,44 @@
 // @flow
 import React from 'react';
-import styled from 'styled-components';
-import { font } from '../../../utils/classnames';
+import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
+import Space from '../styled/Space';
+import { classNames } from '../../../utils/classnames';
 
-type Props<T> = {|
+type Props = {|
   name: string,
-  selected: ?T,
-  onChange: (value: T) => void,
+  selected: string,
+  onChange: (value: string) => void,
   options: Array<{|
-    value: T,
+    value: string,
     id: string,
     label: string,
   |}>,
-  className?: string,
 |};
 
-const FieldWrapper = styled.span`
-  display: inline-flex;
-  align-items: center;
-  padding: 6px;
-  font-size: 50px;
-
-  &:not:last-of-type {
-    margin-right: 12px;
-  }
-`;
-
-const RadioInput = styled.input.attrs({ type: 'radio' })`
-  appearance: none;
-  display: inline-block;
-  position: relative;
-  border-radius: 50%;
-  width: 23px;
-  height: 23px;
-  border: 2px solid ${({ theme }) => theme.colors.pumice};
-  cursor: pointer;
-
-  &:focus {
-    outline: none;
-    border-color: ${({ theme }) => theme.colors.pewter};
-  }
-
-  &:checked::before {
-    content: ' ';
-    display: inline-block;
-    position: absolute;
-    width: 13px;
-    height: 13px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    background-color: ${({ theme }) => theme.colors.green};
-  }
-`;
-
-const Label = styled.label`
-  color: ${({ theme, active }) =>
-    active ? theme.colors.black : theme.colors.pewter};
-  margin-left: 6px;
-  cursor: pointer;
-`;
-
-const RadioGroup = <+T>({
-  name,
-  selected,
-  onChange,
-  options,
-  className,
-}: Props<T>) => (
-  <div className={className}>
-    {options.map(({ value, label, id }) => (
-      <FieldWrapper key={String(value)}>
-        <RadioInput
+const RadioGroup = ({ name, selected, onChange, options }: Props) => (
+  <div>
+    {options.map(({ value, label, id }, index) => (
+      <Space
+        key={value}
+        h={
+          index !== options.length - 1
+            ? { size: 'm', properties: ['margin-right'] }
+            : undefined
+        }
+        className={classNames({
+          'flex-inline flex--h-center': true,
+        })}
+      >
+        <CheckboxRadio
           id={id}
+          text={label}
+          type={`radio`}
           name={name}
           value={value}
           checked={selected === value}
           onChange={() => onChange(value)}
         />
-        <Label
-          className={font('hnl', 5)}
-          htmlFor={id}
-          active={selected === value}
-        >
-          {label}
-        </Label>
-      </FieldWrapper>
+      </Space>
     ))}
   </div>
 );

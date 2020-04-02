@@ -7,20 +7,21 @@ import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import { AppContext } from '../AppContext/AppContext';
 
-const CheckboxLabel = styled.label.attrs({
+const CheckboxRadioLabel = styled.label.attrs({
   className: classNames({
     'flex-inline flex--v-center': true,
   }),
 })``;
 
-const CheckboxBox = styled.span.attrs({
+const CheckboxRadioBox = styled.span.attrs({
   className: classNames({
     'flex-inline flex--v-center flex--h-center relative': true,
   }),
 })`
-  width: 1.2em;
-  height: 1.2em;
+  width: 1.3em;
+  height: 1.3em;
   border: 2px solid ${props => props.theme.colors.pumice};
+  border-radius: ${props => (props.type === 'radio' ? '50%' : '0')};
   transition: all 400ms ease;
 
   .icon {
@@ -30,16 +31,16 @@ const CheckboxBox = styled.span.attrs({
   }
 `;
 
-const CheckboxInput = styled.input.attrs({
-  type: 'checkbox',
-})`
+const CheckboxRadioInput = styled.input.attrs(props => ({
+  type: props.type === 'checkbox' ? 'checkbox' : 'radio',
+}))`
   position: absolute;
   opacity: 0;
   z-index: 1;
   width: 1em;
   height: 1em;
 
-  &:checked ~ ${CheckboxBox} {
+  &:checked ~ ${CheckboxRadioBox} {
     border-color: ${props => props.theme.colors.black};
 
     .icon {
@@ -47,12 +48,13 @@ const CheckboxInput = styled.input.attrs({
     }
   }
 
-  &:focus ~ ${CheckboxBox} {
+  &:focus ~ ${CheckboxRadioBox} {
     border-color: ${props => !props.hideFocus && props.theme.colors.black};
   }
 `;
 
-type CheckboxProps = {|
+type CheckboxRadioProps = {|
+  type: 'checkbox' | 'radio',
   id: string,
   text: string,
   checked: boolean,
@@ -61,20 +63,28 @@ type CheckboxProps = {|
   value: string,
 |};
 
-function Checkbox({ id, text, ...inputProps }: CheckboxProps) {
+function CheckboxRadio({ id, text, type, ...inputProps }: CheckboxRadioProps) {
   const { isKeyboard } = useContext(AppContext);
 
   return (
-    <CheckboxLabel htmlFor={id}>
-      <CheckboxInput id={id} {...inputProps} hideFocus={!isKeyboard} />
-      <CheckboxBox>
-        <Icon name="check" extraClasses={`icon--match-text`} />
-      </CheckboxBox>
+    <CheckboxRadioLabel htmlFor={id}>
+      <CheckboxRadioInput
+        id={id}
+        type={type}
+        {...inputProps}
+        hideFocus={!isKeyboard}
+      />
+      <CheckboxRadioBox type={type}>
+        <Icon
+          name={type === 'checkbox' ? 'check' : 'indicator'}
+          extraClasses={`icon--match-text`}
+        />
+      </CheckboxRadioBox>
       <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>
         {text}
       </Space>
-    </CheckboxLabel>
+    </CheckboxRadioLabel>
   );
 }
 
-export default Checkbox;
+export default CheckboxRadio;
