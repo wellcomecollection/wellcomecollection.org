@@ -28,6 +28,7 @@ type Props = {|
 |};
 
 const SearchInputWrapper = styled.div`
+  font-size: 20px;
   background: ${props => props.theme.colors.white};
   margin-right: ${props => 12 * props.theme.spacingUnit}px;
 
@@ -41,7 +42,7 @@ const SearchInputWrapper = styled.div`
 `;
 
 const SearchButtonWrapper = styled.div`
-  height: ${props => 10 * props.theme.spacingUnit}px;
+  height: 60px;
   top: 0;
   right: 0;
   width: ${props => 10 * props.theme.spacingUnit}px;
@@ -155,13 +156,13 @@ const SearchForm = ({
       <SearchInputWrapper className="relative">
         <TextInput
           label={'Search the catalogue'}
-          placeholder={placeholder || 'Search for books and pictures'}
           name="query"
           value={inputQuery}
           autoFocus={inputQuery === ''}
-          onChange={event => setInputQuery(event.currentTarget.value)}
+          handleInput={event => setInputQuery(event.currentTarget.value)}
           ref={searchInput}
           required
+          shouldValidate={false}
           className={classNames({
             [font('hnm', 3)]: true,
             'search-query': true,

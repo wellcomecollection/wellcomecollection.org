@@ -20,6 +20,14 @@ const TextInputWrap = styled.div.attrs({
       top: 7px;
     }
   }
+  overflow: hidden;
+  border-radius: 6px;
+
+  ${props =>
+    props.hasErrorBorder &&
+    `
+    box-shadow: 0 0 0 1px ${props.theme.colors.red};
+  `}
 `;
 
 const TextInputLabel = styled.label.attrs({
@@ -27,6 +35,7 @@ const TextInputLabel = styled.label.attrs({
     absolute: true,
   }),
 })`
+  white-space: nowrap;
   top: 50%;
   left: 15px;
   transform: translateY(-50%);
@@ -34,7 +43,7 @@ const TextInputLabel = styled.label.attrs({
   transition: top 125ms ease-in, font-size 125ms ease-in,
     transform 125ms ease-in;
   pointer-events: none;
-  color: ${props => props.theme.colors.pumice};
+  color: ${props => props.theme.colors.silver};
 
   ${props =>
     (!props.isEnhanced || props.hasValue) &&
@@ -63,9 +72,9 @@ const TextInputInput = styled.input.attrs(props => ({
 
   ${props =>
     !props.isValid &&
+    props.shouldValidate &&
     `
   border-color: ${props.theme.colors.red};
-  box-shadow: 0 0 0 1px ${props.theme.colors.red};
   `}
 `;
 
@@ -77,11 +86,15 @@ const TextInputCheckmark = styled.span.attrs({
   top: 50%;
   transform: translateY(-50%);
   right: 10px;
+  line-height: 0;
 `;
 
-const TextInputErrorMessage = styled.span`
+const TextInputErrorMessage = styled.span.attrs({
+  className: classNames({
+    'font-hnm': true,
+  }),
+})`
   font-size: 14px;
-  font-weight: bold;
   margin-top: 10px;
   padding-left: 15px;
   color: ${props => props.theme.colors.red};
@@ -89,57 +102,79 @@ const TextInputErrorMessage = styled.span`
 
 type Props = {
   label: string,
+  pattern: ?string,
+  required: ?boolean,
   type: ?string,
+  placeholder: ?string,
   errorMessage: ?string,
+  value: string,
+  shouldValidate: boolean,
+  handleInput: event => void,
   // We can also pass inputProps here
 };
 
 // $FlowFixMe (forwardRef)
 const TextInput = forwardRef(
   (
-    { label, type, errorMessage, ...inputProps }: Props,
+    {
+      label,
+      type,
+      value,
+      pattern,
+      required,
+      errorMessage,
+      shouldValidate,
+      handleInput,
+      ...inputProps
+    }: Props,
     ref // eslint-disable-line
   ) => {
     const { isEnhanced } = useContext(AppContext);
-    const [value, setValue] = useState('');
     const [isValid, setIsValid] = useState(true);
     const [showValid, setShowValid] = useState(false);
 
-    function handleInput(event) {
+    function onInput(event) {
+      handleInput(event);
       const isValid = event.currentTarget.validity.valid;
 
       setShowValid(false);
-      setValue(event.currentTarget.value);
 
       if (isValid) {
         setIsValid(isValid);
       }
     }
 
-    function handleBlur(event) {
+    function onBlur(event) {
       setIsValid(event.currentTarget.validity.valid);
       setShowValid(value && true);
     }
 
     return (
       <TextInputContainer>
-        <TextInputWrap value={value}>
+        <TextInputWrap
+          value={value}
+          hasErrorBorder={shouldValidate && !isValid}
+        >
           <TextInputLabel isEnhanced={isEnhanced} hasValue={!!value}>
             {label}
           </TextInputLabel>
           <TextInputInput
-            onInput={handleInput}
-            onBlur={handleBlur}
+            required={required}
+            value={value}
+            pattern={pattern}
+            onInput={onInput}
+            onBlur={onBlur}
             isValid={isValid}
+            shouldValidate={shouldValidate}
             type={type}
           />
-          {isValid && showValid && (
+          {isValid && showValid && shouldValidate && (
             <TextInputCheckmark>
               <Icon name={`check`} extraClasses={`icon--green`} />
             </TextInputCheckmark>
           )}
         </TextInputWrap>
-        {errorMessage && !isValid && (
+        {errorMessage && !isValid && shouldValidate && (
           <TextInputErrorMessage>{errorMessage}</TextInputErrorMessage>
         )}
       </TextInputContainer>

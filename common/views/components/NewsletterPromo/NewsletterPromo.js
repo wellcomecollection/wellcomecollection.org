@@ -25,17 +25,9 @@ const FormElementWrapper = styled.div`
   ${props => props.theme.media.medium`
     display: flex;
     flex: 1;
+    align-items: flex-start;
   `}
 `;
-
-const NewsletterInput = styled(TextInput).attrs({
-  required: true,
-  id: 'newsletter-input',
-  type: 'email',
-  name: 'email',
-  label: 'Your email address',
-  placeholder: 'Your email address',
-})``;
 
 const NewsletterButton = styled.button.attrs({
   className: classNames({
@@ -45,6 +37,7 @@ const NewsletterButton = styled.button.attrs({
 })`
   width: 100%;
   margin-top: 10px;
+  height: 60px;
 
   ${props => props.theme.media.medium`
     width: auto;
@@ -115,6 +108,7 @@ const NewsletterPromo = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [value, setValue] = useState('');
 
   const headingText = 'Stay in the know';
   const bodyText =
@@ -244,7 +238,19 @@ const NewsletterPromo = () => {
                       />
                       <input type="hidden" name="addressbookid" value="40131" />
                       <FormElementWrapper>
-                        <NewsletterInput />
+                        <TextInput
+                          required={true}
+                          id={'newsletter-input'}
+                          type={'email'}
+                          name={'email'}
+                          label={'Your email address'}
+                          errorMessage={'Enter a valid email address'}
+                          value={value}
+                          handleInput={event =>
+                            setValue(event.currentTarget.value)
+                          }
+                          shouldValidate={true}
+                        />
                         <NewsletterButton disabled={isSubmitting}>
                           {isSubmitting ? 'Sending…' : 'Subscribe'}
                         </NewsletterButton>
