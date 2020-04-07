@@ -1,5 +1,5 @@
 // @flow
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
@@ -109,6 +109,8 @@ const NewsletterPromo = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
   const [value, setValue] = useState('');
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const emailInputRef = useRef(null);
 
   const headingText = 'Stay in the know';
   const bodyText =
@@ -239,6 +241,7 @@ const NewsletterPromo = () => {
                       <input type="hidden" name="addressbookid" value="40131" />
                       <FormElementWrapper>
                         <TextInput
+                          ref={emailInputRef}
                           required={true}
                           id={'newsletter-input'}
                           type={'email'}
@@ -249,7 +252,8 @@ const NewsletterPromo = () => {
                           handleInput={event =>
                             setValue(event.currentTarget.value)
                           }
-                          shouldValidate={true}
+                          isValid={isEmailValid}
+                          setIsValid={setIsEmailValid}
                         />
                         <NewsletterButton disabled={isSubmitting}>
                           {isSubmitting ? 'Sending…' : 'Subscribe'}

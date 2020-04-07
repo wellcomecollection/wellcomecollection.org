@@ -71,8 +71,7 @@ const TextInputInput = styled.input.attrs(props => ({
   }
 
   ${props =>
-    !props.isValid &&
-    props.shouldValidate &&
+    props.hasErrorBorder &&
     `
   border-color: ${props.theme.colors.red};
   `}
@@ -103,13 +102,15 @@ const TextInputErrorMessage = styled.span.attrs({
 type Props = {
   label: string,
   pattern: ?string,
+  name: ?string,
   required: ?boolean,
   type: ?string,
   placeholder: ?string,
   errorMessage: ?string,
   value: string,
-  shouldValidate: boolean,
   handleInput: event => void,
+  isValid: boolean,
+  setIsValid: (value: boolean) => void,
   // We can also pass inputProps here
 };
 
@@ -120,62 +121,55 @@ const TextInput = forwardRef(
       label,
       type,
       value,
+      name,
       pattern,
       required,
       errorMessage,
-      shouldValidate,
       handleInput,
+      isValid,
+      setIsValid,
       ...inputProps
     }: Props,
     ref // eslint-disable-line
   ) => {
     const { isEnhanced } = useContext(AppContext);
-    const [isValid, setIsValid] = useState(true);
-    const [showValid, setShowValid] = useState(false);
+    const [showValidity, setShowValidity] = useState(false);
 
     function onInput(event) {
       handleInput(event);
-      const isValid = event.currentTarget.validity.valid;
-
-      setShowValid(false);
-
-      if (isValid) {
-        setIsValid(isValid);
-      }
+      setIsValid(event.currentTarget.validity.valid);
+      setShowValidity(false);
     }
 
     function onBlur(event) {
       setIsValid(event.currentTarget.validity.valid);
-      setShowValid(value && true);
+      setShowValidity(value && true);
     }
 
     return (
       <TextInputContainer>
-        <TextInputWrap
-          value={value}
-          hasErrorBorder={shouldValidate && !isValid}
-        >
+        <TextInputWrap value={value} hasErrorBorder={!isValid && showValidity}>
           <TextInputLabel isEnhanced={isEnhanced} hasValue={!!value}>
             {label}
           </TextInputLabel>
           <TextInputInput
             ref={ref}
+            name={name}
             required={required}
             value={value}
             pattern={pattern}
             onInput={onInput}
             onBlur={onBlur}
-            isValid={isValid}
-            shouldValidate={shouldValidate}
+            hasErrorBorder={!isValid && showValidity}
             type={type}
           />
-          {isValid && showValid && shouldValidate && (
+          {isValid && showValidity && (
             <TextInputCheckmark>
               <Icon name={`check`} extraClasses={`icon--green`} />
             </TextInputCheckmark>
           )}
         </TextInputWrap>
-        {errorMessage && !isValid && shouldValidate && (
+        {errorMessage && !isValid && showValidity && (
           <TextInputErrorMessage>{errorMessage}</TextInputErrorMessage>
         )}
       </TextInputContainer>
