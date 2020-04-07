@@ -1,11 +1,13 @@
 // @flow
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import fetch from 'isomorphic-unfetch';
 import Raven from 'raven-js';
 import TextInput from '../TextInput/TextInput';
+
 import { trackEvent } from '../../../utils/ga';
 
 const ErrorMessage = styled(Space).attrs({
@@ -111,6 +113,7 @@ const NewsletterPromo = () => {
   const [value, setValue] = useState('');
   const [isEmailValid, setIsEmailValid] = useState(true);
   const emailInputRef = useRef(null);
+  const { isEnhanced } = useContext(AppContext);
 
   const headingText = 'Stay in the know';
   const bodyText =
@@ -118,6 +121,7 @@ const NewsletterPromo = () => {
 
   async function handleSubmit(event) {
     event.preventDefault();
+
     setIsSubmitting(true);
     setIsError(false);
 
@@ -221,7 +225,10 @@ const NewsletterPromo = () => {
                 </CopyWrap>
                 {!isSuccess && (
                   <>
-                    <NewsletterForm onSubmit={handleSubmit}>
+                    <NewsletterForm
+                      onSubmit={handleSubmit}
+                      noValidate={isEnhanced}
+                    >
                       {isError && (
                         <ErrorMessage>
                           There was a problem. Please try again.
