@@ -39,7 +39,7 @@ const TextInputLabel = styled.label.attrs({
   top: 50%;
   left: 15px;
   transform: translateY(-50%);
-  font-size: 16px;
+  font-size: inherit;
   transition: top 125ms ease-in, font-size 125ms ease-in,
     transform 125ms ease-in;
   pointer-events: none;
@@ -159,6 +159,7 @@ const TextInput = forwardRef(
             {label}
           </TextInputLabel>
           <TextInputInput
+            ref={ref}
             required={required}
             value={value}
             pattern={pattern}
