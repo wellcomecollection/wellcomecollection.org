@@ -26,7 +26,7 @@ const NewsletterButton = styled.button.attrs({
 })`
   width: 100%;
   margin-top: 10px;
-  height: 60px;
+  height: 55px;
 
   ${props => props.theme.media.medium`
     width: auto;

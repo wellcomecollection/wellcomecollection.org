@@ -3,21 +3,20 @@ import { forwardRef, useContext } from 'react';
 import styled from 'styled-components';
 import Icon from '../Icon/Icon';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-// import Space, { type SpaceComponentProps } from '../styled/Space';
 import { classNames } from '../../../utils/classnames';
-
-const TextInputContainer = styled.div``;
 
 const TextInputWrap = styled.div.attrs({
   className: classNames({
     'flex relative': true,
   }),
 })`
+  font-size: ${props => (props.big ? '20px' : '16px')};
+
   &:focus-within {
     label {
       font-size: 14px;
       transform: translateY(0%);
-      top: 7px;
+      top: 4px;
     }
   }
   overflow: hidden;
@@ -35,11 +34,22 @@ const TextInputLabel = styled.label.attrs({
     absolute: true,
   }),
 })`
+  /* Styles for browsers that don't support :focus-within (<=IE11) */
+  font-size: 14px;
+  transform: translateY(0%);
+  top: 4px;
+
+  /* IE doesn't support :focus-within, but you can't test for :focus-within
+  using @supports. Fortunately, IE doesn't support @supports, so this only
+  targets browsers that support @suports (> IE11) */
+  @supports (display: block) {
+    font-size: inherit;
+    transform: translateY(-50%);
+    top: 50%;
+  }
+
   white-space: nowrap;
-  top: 50%;
   left: 15px;
-  transform: translateY(-50%);
-  font-size: inherit;
   transition: top 125ms ease-in, font-size 125ms ease-in,
     transform 125ms ease-in;
   pointer-events: none;
@@ -48,16 +58,18 @@ const TextInputLabel = styled.label.attrs({
   ${props =>
     (!props.isEnhanced || props.hasValue) &&
     `
-      top: 7px;
+    @supports (display: block) {
+      top: 4px;
       transform: translateY(0);
       font-size: 14px;
+    }
   `}
 `;
 
 const TextInputInput = styled.input.attrs(props => ({
   type: props.type || 'text',
 }))`
-  padding: 25px 10px 10px 15px;
+  padding: 27px 40px 8px 15px;
   appearance: none;
   border: 0;
   height: 100%;
@@ -70,11 +82,15 @@ const TextInputInput = styled.input.attrs(props => ({
     outline: 0;
   }
 
+  &:-ms-clear {
+    display: none;
+  }
+
   ${props =>
     props.hasErrorBorder &&
     `
-  border-color: ${props.theme.colors.red};
-  `}
+      border-color: ${props.theme.colors.red};
+    `}
 `;
 
 const TextInputCheckmark = styled.span.attrs({
@@ -101,19 +117,20 @@ const TextInputErrorMessage = styled.span.attrs({
 
 type Props = {
   label: string,
-  pattern: ?string,
-  name: ?string,
-  required: ?boolean,
-  type: ?string,
-  placeholder: ?string,
-  errorMessage: ?string,
   value: string,
   handleInput: (event: Event) => void,
-  isValid: boolean,
-  setIsValid: (value: boolean) => void,
-  showValidity: boolean,
-  setShowValidity: (value: boolean) => void,
-  // We can also pass inputProps here
+  name: ?string,
+  type: ?string,
+  pattern: ?string,
+  required: ?boolean,
+  placeholder: ?string,
+  errorMessage: ?string,
+  isValid: ?boolean,
+  setIsValid: ?(value: boolean) => void,
+  showValidity: ?boolean,
+  setShowValidity: ?(value: boolean) => void,
+  autoFocus: ?boolean,
+  big: ?boolean,
 };
 
 // $FlowFixMe (forwardRef)
@@ -132,7 +149,8 @@ const TextInput = forwardRef(
       setIsValid,
       showValidity,
       setShowValidity,
-      ...inputProps
+      autoFocus,
+      big,
     }: Props,
     ref // eslint-disable-line
   ) => {
@@ -140,18 +158,22 @@ const TextInput = forwardRef(
 
     function onInput(event) {
       handleInput(event);
-      setIsValid(event.currentTarget.validity.valid);
-      setShowValidity(false);
+      setIsValid && setIsValid(event.currentTarget.validity.valid);
+      setShowValidity && setShowValidity(false);
     }
 
     function onBlur(event) {
-      setIsValid(event.currentTarget.validity.valid);
-      setShowValidity(!!value && true);
+      setIsValid && setIsValid(event.currentTarget.validity.valid);
+      setShowValidity && setShowValidity(!!value && true);
     }
 
     return (
-      <TextInputContainer>
-        <TextInputWrap value={value} hasErrorBorder={!isValid && showValidity}>
+      <div>
+        <TextInputWrap
+          value={value}
+          hasErrorBorder={!isValid && showValidity}
+          big={big}
+        >
           <TextInputLabel isEnhanced={isEnhanced} hasValue={!!value}>
             {label}
           </TextInputLabel>
@@ -165,6 +187,7 @@ const TextInput = forwardRef(
             onBlur={onBlur}
             hasErrorBorder={!isValid && showValidity}
             type={type}
+            autoFocus={autoFocus}
           />
           {isValid && showValidity && (
             <TextInputCheckmark>
@@ -175,7 +198,7 @@ const TextInput = forwardRef(
         {errorMessage && !isValid && showValidity && (
           <TextInputErrorMessage>{errorMessage}</TextInputErrorMessage>
         )}
-      </TextInputContainer>
+      </div>
     );
   }
 );

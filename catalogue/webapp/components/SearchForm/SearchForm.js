@@ -161,12 +161,8 @@ const SearchForm = ({
           autoFocus={inputQuery === ''}
           handleInput={event => setInputQuery(event.currentTarget.value)}
           ref={searchInput}
-          required
-          shouldValidate={false}
-          className={classNames({
-            [font('hnm', 3)]: true,
-            'search-query': true,
-          })}
+          required={true}
+          big={true}
         />
 
         {inputQuery && (
