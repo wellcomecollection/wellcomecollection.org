@@ -1,5 +1,5 @@
 // @flow
-import { useState, useRef, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
@@ -100,8 +100,6 @@ const NewsletterPromo = () => {
   const [value, setValue] = useState('');
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [showEmailValidity, setShowEmailValidity] = useState(false);
-
-  const emailInputRef = useRef(null);
   const { isEnhanced } = useContext(AppContext);
 
   const headingText = 'Stay in the know';
@@ -111,9 +109,10 @@ const NewsletterPromo = () => {
   async function handleSubmit(event) {
     event.preventDefault();
 
+    setShowEmailValidity(true);
+
     if (!isEmailValid) {
       setIsSubmitError(false);
-      setShowEmailValidity(true);
 
       return;
     }
@@ -240,7 +239,6 @@ const NewsletterPromo = () => {
                       <input type="hidden" name="addressbookid" value="40131" />
                       <FormElementWrapper>
                         <TextInput
-                          ref={emailInputRef}
                           required={true}
                           id={'newsletter-input'}
                           type={'email'}
