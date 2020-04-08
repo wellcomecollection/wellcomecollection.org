@@ -155,6 +155,7 @@ const SearchForm = ({
     >
       <SearchInputWrapper className="relative">
         <TextInput
+          id={'works-search-input'}
           label={'Search the catalogue'}
           name="query"
           value={inputQuery}

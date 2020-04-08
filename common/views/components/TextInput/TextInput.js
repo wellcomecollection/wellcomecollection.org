@@ -119,6 +119,7 @@ type Props = {
   label: string,
   value: string,
   handleInput: (event: Event) => void,
+  id: string,
   name: ?string,
   type: ?string,
   pattern: ?string,
@@ -140,6 +141,7 @@ const TextInput = forwardRef(
       label,
       type,
       value,
+      id,
       name,
       pattern,
       required,
@@ -174,11 +176,12 @@ const TextInput = forwardRef(
           hasErrorBorder={!isValid && showValidity}
           big={big}
         >
-          <TextInputLabel isEnhanced={isEnhanced} hasValue={!!value}>
+          <TextInputLabel isEnhanced={isEnhanced} hasValue={!!value} for={id}>
             {label}
           </TextInputLabel>
           <TextInputInput
             ref={ref}
+            id={id}
             name={name}
             required={required}
             value={value}
