@@ -1,5 +1,5 @@
 // @flow
-import { forwardRef, useContext, useState } from 'react';
+import { forwardRef, useContext } from 'react';
 import styled from 'styled-components';
 import Icon from '../Icon/Icon';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
@@ -108,9 +108,11 @@ type Props = {
   placeholder: ?string,
   errorMessage: ?string,
   value: string,
-  handleInput: event => void,
+  handleInput: (event: Event) => void,
   isValid: boolean,
   setIsValid: (value: boolean) => void,
+  showValidity: boolean,
+  setShowValidity: (value: boolean) => void,
   // We can also pass inputProps here
 };
 
@@ -128,12 +130,13 @@ const TextInput = forwardRef(
       handleInput,
       isValid,
       setIsValid,
+      showValidity,
+      setShowValidity,
       ...inputProps
     }: Props,
     ref // eslint-disable-line
   ) => {
     const { isEnhanced } = useContext(AppContext);
-    const [showValidity, setShowValidity] = useState(false);
 
     function onInput(event) {
       handleInput(event);
@@ -143,7 +146,7 @@ const TextInput = forwardRef(
 
     function onBlur(event) {
       setIsValid(event.currentTarget.validity.valid);
-      setShowValidity(value && true);
+      setShowValidity(!!value && true);
     }
 
     return (
