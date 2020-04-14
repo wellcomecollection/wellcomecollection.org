@@ -2,11 +2,10 @@ import { useState } from 'react';
 import { storiesOf } from '@storybook/react';
 import TextInput from '../../../common/views/components/TextInput/TextInput';
 import Readme from '../../../common/views/components/TextInput/README.md';
+import useValidation from '../../../common/hooks/useValidation';
 
 const TextInputExample = () => {
   const [value, setValue] = useState('');
-  const [isValid, setIsValid] = useState(true);
-  const [showValidity, setShowValidity] = useState(false);
 
   return (
     <TextInput
@@ -18,10 +17,7 @@ const TextInputExample = () => {
       errorMessage={'Enter a valid email address.'}
       value={value}
       handleChange={event => setValue(event.currentTarget.value)}
-      isValid={isValid}
-      setIsValid={setIsValid}
-      showValidity={showValidity}
-      setShowValidity={setShowValidity}
+      {...useValidation()}
     />
   );
 };
