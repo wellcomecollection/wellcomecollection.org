@@ -118,7 +118,7 @@ const TextInputErrorMessage = styled.span.attrs({
 type Props = {
   label: string,
   value: string,
-  handleInput: (event: Event) => void,
+  handleChange: (event: Event) => void,
   id: string,
   name: ?string,
   type: ?string,
@@ -146,7 +146,7 @@ const TextInput = forwardRef(
       pattern,
       required,
       errorMessage,
-      handleInput,
+      handleChange,
       isValid,
       setIsValid,
       showValidity,
@@ -158,10 +158,15 @@ const TextInput = forwardRef(
   ) => {
     const { isEnhanced } = useContext(AppContext);
 
-    function onInput(event) {
-      handleInput(event);
-      setIsValid && setIsValid(event.currentTarget.validity.valid);
-      setShowValidity && setShowValidity(false);
+    function onChange(event) {
+      const isValueValid = event.currentTarget.validity.valid;
+
+      handleChange(event);
+      setIsValid && setIsValid(isValueValid);
+
+      if (isValueValid && setShowValidity) {
+        setShowValidity(false);
+      }
     }
 
     function onBlur(event) {
@@ -176,7 +181,11 @@ const TextInput = forwardRef(
           hasErrorBorder={!isValid && showValidity}
           big={big}
         >
-          <TextInputLabel isEnhanced={isEnhanced} hasValue={!!value} for={id}>
+          <TextInputLabel
+            isEnhanced={isEnhanced}
+            hasValue={!!value}
+            htmlFor={id}
+          >
             {label}
           </TextInputLabel>
           <TextInputInput
@@ -186,7 +195,7 @@ const TextInput = forwardRef(
             required={required}
             value={value}
             pattern={pattern}
-            onInput={onInput}
+            onChange={onChange}
             onBlur={onBlur}
             hasErrorBorder={!isValid && showValidity}
             type={type}

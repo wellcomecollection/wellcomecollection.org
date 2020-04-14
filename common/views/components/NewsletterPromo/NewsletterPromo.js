@@ -8,6 +8,7 @@ import fetch from 'isomorphic-unfetch';
 import Raven from 'raven-js';
 import TextInput from '../TextInput/TextInput';
 import { trackEvent } from '../../../utils/ga';
+import useValidation from '../../../hooks/useValidation';
 
 const FormElementWrapper = styled.div`
   width: 100%;
@@ -98,9 +99,8 @@ const NewsletterPromo = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitError, setIsSubmitError] = useState(false);
   const [value, setValue] = useState('');
-  const [isEmailValid, setIsEmailValid] = useState(true);
-  const [showEmailValidity, setShowEmailValidity] = useState(false);
   const { isEnhanced } = useContext(AppContext);
+  const emailValidation = useValidation();
 
   const headingText = 'Stay in the know';
   const bodyText =
@@ -109,9 +109,9 @@ const NewsletterPromo = () => {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    setShowEmailValidity(true);
+    emailValidation.setShowValidity(true);
 
-    if (!isEmailValid) {
+    if (!emailValidation.isValid) {
       setIsSubmitError(false);
 
       return;
@@ -150,7 +150,7 @@ const NewsletterPromo = () => {
         break;
       default:
         setIsSubmitError(true);
-        setIsEmailValid(false);
+        emailValidation.setIsValid(false);
 
         if (status) {
           Raven.captureException(
@@ -250,13 +250,10 @@ const NewsletterPromo = () => {
                               : 'Enter a valid email address.'
                           }
                           value={value}
-                          handleInput={event =>
+                          handleChange={event =>
                             setValue(event.currentTarget.value)
                           }
-                          isValid={isEmailValid}
-                          setIsValid={setIsEmailValid}
-                          showValidity={showEmailValidity}
-                          setShowValidity={setShowEmailValidity}
+                          {...emailValidation}
                         />
                         <NewsletterButton disabled={isSubmitting}>
                           {isSubmitting ? 'Sending…' : 'Subscribe'}
