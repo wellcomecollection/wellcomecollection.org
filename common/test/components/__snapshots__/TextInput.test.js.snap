@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextInput A valid input will hide its valid state at the point new input is added 1`] = `
+<span
+  className="TextInput__TextInputCheckmark-sc-1860hhu-3 bEVYrx absolute"
+  data-test-id="TextInputCheckmark"
+>
+  <Icon
+    extraClasses="icon--green"
+    name="check"
+  >
+    <div
+      className="icon icon--green"
+    >
+      <svg
+        aria-hidden={true}
+        className="icon__svg"
+      >
+        <svg
+          viewBox="0 0 24 24"
+        >
+          <path
+            className="icon__shape"
+            d="M21.13 6.64a1 1 0 0 0-1.41 0L10 16.34l-5-5a1 1 0 0 0-1.41 1.41l5.67 5.67a1 1 0 0 0 1.41 0l10.4-10.4a1 1 0 0 0 .06-1.38z"
+            fillRule="nonzero"
+          />
+        </svg>
+      </svg>
+    </div>
+  </Icon>
+</span>
+`;
+
+exports[`TextInput A valid input will hide its valid state at the point new input is added 2`] = `null`;
+
+exports[`TextInput The input will hide errors at the point it becomes valid 1`] = `
+<span
+  className="TextInput__TextInputErrorMessage-sc-1860hhu-4 IKSWN font-hnm"
+  data-test-id="TextInputErrorMessage"
+>
+  test error message
+</span>
+`;
+
+exports[`TextInput The input will hide errors at the point it becomes valid 2`] = `null`;
+
+exports[`TextInput The input will validate when blurred 1`] = `
+<span
+  className="TextInput__TextInputErrorMessage-sc-1860hhu-4 IKSWN font-hnm"
+  data-test-id="TextInputErrorMessage"
+>
+  test error message
+</span>
+`;

@@ -94,6 +94,7 @@ const TextInputInput = styled.input.attrs(props => ({
 `;
 
 const TextInputCheckmark = styled.span.attrs({
+  'data-test-id': 'TextInputCheckmark',
   className: classNames({
     absolute: true,
   }),
@@ -105,6 +106,7 @@ const TextInputCheckmark = styled.span.attrs({
 `;
 
 const TextInputErrorMessage = styled.span.attrs({
+  'data-test-id': 'TextInputErrorMessage',
   className: classNames({
     'font-hnm': true,
   }),
