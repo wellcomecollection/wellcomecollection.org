@@ -43,7 +43,7 @@ module.exports = app
     server.use(middleware);
     server.use(bodyParser());
 
-    route('/', '/homepage', router, app);
+    pageVanityUrl(router, app, '/', 'XphUbREAACMAgRNP', '/homepage');
     route('/whats-on', '/whats-on', router, app);
     route(`/whats-on/:period(${periodPaths})`, '/whats-on', router, app);
 
