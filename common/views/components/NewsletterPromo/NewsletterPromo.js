@@ -195,14 +195,16 @@ const NewsletterPromo = () => {
                   >
                     {isSuccess ? 'Thank you for signing up!' : headingText}
                   </h2>
-                  <p
-                    className={classNames({
-                      [font('hnl', 5)]: true,
-                      'no-margin': true,
-                    })}
-                  >
-                    {bodyText}
-                  </p>
+                  {!isSuccess && (
+                    <p
+                      className={classNames({
+                        [font('hnl', 5)]: true,
+                        'no-margin': true,
+                      })}
+                    >
+                      {bodyText}
+                    </p>
+                  )}
                   {isSuccess && (
                     <div
                       className={classNames({
