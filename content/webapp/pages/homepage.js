@@ -13,9 +13,14 @@ import { type Article } from '@weco/common/model/articles';
 import { type PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
+import { getPage } from '@weco/common/services/prismic/pages';
+import type { Page as PageType } from '@weco/common/model/pages';
+
+import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 
 type Props = {|
   articles: PaginatedResults<Article>,
+  page: PageType,
 |};
 
 const pageDescription =
@@ -24,10 +29,13 @@ const pageImage =
   'https://images.prismic.io/wellcomecollection/fc1e68b0528abbab8429d95afb5cfa4c74d40d52_tf_180516_2060224.jpg?auto=compress,format&w=800';
 export class HomePage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const articles = await getArticles(ctx.req, { pageSize: 4 });
-    if (articles) {
+    const { id } = ctx.query;
+    const articles = await getArticles(ctx.req, { pageSize: 4 }); // TODO make client side?
+    const page = await getPage(ctx.req, id);
+    if (articles || page) {
       return {
         articles,
+        page,
       };
     } else {
       return { statusCode: 404 };
@@ -36,6 +44,8 @@ export class HomePage extends Component<Props> {
 
   render() {
     const articles = this.props.articles;
+    const page = this.props.page;
+    const standFirst = page.body.find(slice => slice.type === 'standfirst');
     return (
       <PageLayout
         title={''}
@@ -67,68 +77,72 @@ export class HomePage extends Component<Props> {
                   })}
                 >
                   The free museum and library for the incurably curious
-                  <Space
-                    v={{
-                      size: 'm',
-                      properties: ['margin-top'],
-                    }}
-                    as="div"
-                    className={classNames({
-                      'no-margin': true,
-                      [font('hnl', 4)]: true,
-                    })}
-                  >
-                    <p>
-                      Our venue on Euston Road is currently closed, in the
-                      interests of the health and wellbeing of our staff and
-                      visitors, during the current COVID-19 pandemic.
-                    </p>
-                    <p>
-                      Wherever in the world you are, you can still enjoy reading
-                      our stories and exploring our collections here on our
-                      website, and follow us on social media.
-                    </p>
-                    <p>
-                      {`We're still publishing new content every week, and we're
-                      currently putting our heads together to think about how we
-                      can share more online about human health and experience
-                      during these unprecedented times.`}
-                    </p>
-                    <ul className="plain-list no-padding">
-                      <li>
-                        <Space
-                          v={{
-                            size: 'm',
-                            properties: ['margin-bottom'],
-                          }}
-                          as="div"
-                        >
-                          <MoreLink
-                            url={`/stories`}
-                            name="Read our latest stories"
-                          />
-                        </Space>
-                      </li>
-                      <li>
-                        <Space
-                          v={{
-                            size: 'm',
-                            properties: ['margin-bottom'],
-                          }}
-                          as="div"
-                        >
-                          <MoreLink
-                            url={`/works`}
-                            name="Explore our digital collections"
-                          />
-                        </Space>
-                      </li>
-                    </ul>
-                  </Space>
+                  {/* TODO - new component - show this default text unless prismic text */}
+                  <div style={{ background: 'grey' }}>
+                    <Space
+                      v={{
+                        size: 'm',
+                        properties: ['margin-top'],
+                      }}
+                      as="div"
+                      className={classNames({
+                        'no-margin': true,
+                        [font('hnl', 4)]: true,
+                      })}
+                    >
+                      {standFirst && (
+                        <PageHeaderStandfirst html={standFirst.value} />
+                      )}
+                      {/* TODO -  show this default links unless prismic promos */}
+                      <ul className="plain-list no-padding">
+                        <li>
+                          <Space
+                            v={{
+                              size: 'm',
+                              properties: ['margin-bottom'],
+                            }}
+                            as="div"
+                          >
+                            <MoreLink
+                              url={`/stories`}
+                              name="Read our latest stories"
+                            />
+                          </Space>
+                        </li>
+                        <li>
+                          <Space
+                            v={{
+                              size: 'm',
+                              properties: ['margin-bottom'],
+                            }}
+                            as="div"
+                          >
+                            <MoreLink
+                              url={`/works`}
+                              name="Explore our digital collections"
+                            />
+                          </Space>
+                        </li>
+                      </ul>
+                    </Space>
+                  </div>
                 </Space>
               </div>
             </div>
           </div>
+        </SpacingSection>
+
+        <SpacingSection>
+          <SpacingComponent>
+            <SectionHeader title="What's online" />
+          </SpacingComponent>
+          <SpacingComponent>
+            <CardGrid
+              items={articles.results}
+              itemsPerRow={4}
+              itemsHaveTransparentBackground={true}
+            />
+          </SpacingComponent>
         </SpacingSection>
 
         <SpacingSection>
