@@ -46,6 +46,4 @@ const BodyComponent = (
   />
 );
 
-export default BodyComponent;
-
 stories.add('Body', () => BodyComponent);
