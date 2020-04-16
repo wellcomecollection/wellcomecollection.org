@@ -250,9 +250,7 @@ const NewsletterPromo = () => {
                               : 'Enter a valid email address.'
                           }
                           value={value}
-                          handleChange={event =>
-                            setValue(event.currentTarget.value)
-                          }
+                          setValue={setValue}
                           {...emailValidation}
                         />
                         <NewsletterButton disabled={isSubmitting}>

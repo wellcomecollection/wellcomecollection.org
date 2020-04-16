@@ -16,7 +16,7 @@ const TextInputExample = () => {
       label={'Your email address'}
       errorMessage={'Enter a valid email address.'}
       value={value}
-      handleChange={event => setValue(event.currentTarget.value)}
+      setValue={setValue}
       {...useValidation()}
     />
   );

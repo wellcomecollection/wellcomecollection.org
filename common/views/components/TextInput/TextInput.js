@@ -120,7 +120,7 @@ const TextInputErrorMessage = styled.span.attrs({
 type Props = {
   label: string,
   value: string,
-  handleChange: (event: Event) => void,
+  setValue: (value: string) => void,
   id: string,
   name: ?string,
   type: ?string,
@@ -143,12 +143,12 @@ const TextInput = forwardRef(
       label,
       type,
       value,
+      setValue,
       id,
       name,
       pattern,
       required,
       errorMessage,
-      handleChange,
       isValid,
       setIsValid,
       showValidity,
@@ -163,7 +163,7 @@ const TextInput = forwardRef(
     function onChange(event) {
       const isValueValid = event.currentTarget.validity.valid;
 
-      handleChange(event);
+      setValue(event.currentTarget.value);
       setIsValid && setIsValid(isValueValid);
 
       if (isValueValid && setShowValidity) {

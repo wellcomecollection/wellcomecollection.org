@@ -10,10 +10,9 @@ const ExampleTextInput = () => {
     <TextInput
       type="email"
       value={value}
-      handleChange={event => setValue(event.currentTarget.value)}
+      setValue={setValue}
       required={true}
       errorMessage={`test error message`}
-      handle
       {...useValidation()}
     />
   );

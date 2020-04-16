@@ -159,8 +159,8 @@ const SearchForm = ({
           label={'Search the catalogue'}
           name="query"
           value={inputQuery}
+          setValue={setInputQuery}
           autoFocus={inputQuery === ''}
-          handleInput={event => setInputQuery(event.currentTarget.value)}
           ref={searchInput}
           required={true}
           big={true}
@@ -177,7 +177,6 @@ const SearchForm = ({
               });
 
               setInputQuery('');
-              // $FlowFixMe
               searchInput.current && searchInput.current.focus();
             }}
             type="button"
