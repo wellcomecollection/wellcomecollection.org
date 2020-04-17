@@ -454,6 +454,24 @@ export function parseSingleLevelGroup(
   /* eslint-enable */
 }
 
+type ManualPromo = {|
+  type: 'manualPromo',
+  title: ?string,
+  summary: ?string,
+  image: ?ImageType,
+  url: ?string,
+|};
+
+function parseManualPromo(fragment: PrismicFragment): ManualPromo {
+  return {
+    type: 'manualPromo',
+    title: asText(fragment.data.title) || null,
+    summary: asText(fragment.data.summary) || null,
+    image: fragment.data.image ? parseImage(fragment.data.image) : null,
+    url: fragment.data.url || null,
+  };
+}
+
 // Prismic return `[ { type: 'paragraph', text: '', spans: [] } ]` when you have
 // inserted text, then removed it, so we need to do this check.
 export function isStructuredText(structuredTextObject: HTMLString): boolean {
@@ -563,6 +581,8 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
                       return parseArticle(item.content);
                     case 'events':
                       return parseEventDoc(item.content);
+                    case 'manual-promo':
+                      return parseManualPromo(item.content);
                   }
                 })
                 .filter(Boolean),
