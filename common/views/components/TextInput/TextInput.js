@@ -170,6 +170,11 @@ const TextInput = forwardRef(
       const isValueValid = event.currentTarget.validity.valid;
 
       setValue(event.currentTarget.value);
+
+      if (isValid && setShowValidity) {
+        setShowValidity(false);
+      }
+
       setIsValid && setIsValid(isValueValid);
 
       if (isValueValid && setShowValidity) {

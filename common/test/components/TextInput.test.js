@@ -53,7 +53,7 @@ describe('TextInput', () => {
       wrapper.find("[data-test-id='TextInputErrorMessage']")
     ).toMatchSnapshot();
   });
-  test(`A valid input will hide its valid state at the point new input is added`, () => {
+  test(`A valid input will hide its valid state at the point valid input is added`, () => {
     const wrapper = mountWithTheme(<ExampleTextInput />);
     const input = wrapper.find('input');
 
@@ -72,6 +72,24 @@ describe('TextInput', () => {
 
     expect(
       wrapper.find("[data-test-id='TextInputCheckmark']")
+    ).toMatchSnapshot();
+  });
+
+  test(`A valid input will hide its valid state at the point invalid input is added`, () => {
+    const wrapper = mountWithTheme(<ExampleTextInput />);
+    const input = wrapper.find('input');
+
+    input.simulate('focus');
+    input.instance().value = 'valid@email.com';
+    input.simulate('change');
+    input.simulate('blur');
+
+    input.simulate('focus');
+    input.instance().value = 'invalidemail@';
+    input.simulate('change');
+
+    expect(
+      wrapper.find("[data-test-id='TextInputErrorMessage']")
     ).toMatchSnapshot();
   });
 });

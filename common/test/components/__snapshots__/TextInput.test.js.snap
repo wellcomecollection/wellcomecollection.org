@@ -1,6 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TextInput A valid input will hide its valid state at the point new input is added 1`] = `
+exports[`TextInput A valid input will hide its valid state at the point invalid input is added 1`] = `null`;
+
+exports[`TextInput A valid input will hide its valid state at the point valid input is added 1`] = `
 <span
   className="TextInput__TextInputCheckmark-sc-1860hhu-3 bEVYrx absolute"
   data-test-id="TextInputCheckmark"
@@ -31,7 +33,7 @@ exports[`TextInput A valid input will hide its valid state at the point new inpu
 </span>
 `;
 
-exports[`TextInput A valid input will hide its valid state at the point new input is added 2`] = `null`;
+exports[`TextInput A valid input will hide its valid state at the point valid input is added 2`] = `null`;
 
 exports[`TextInput The input will hide errors at the point it becomes valid 1`] = `
 <span
