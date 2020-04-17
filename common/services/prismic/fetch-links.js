@@ -91,3 +91,9 @@ export const eventsFields = [
   'events.series',
   'events.times',
 ];
+export const manualPromosFields = [
+  'manual-promo.title',
+  'manual-promo.summary',
+  'manual-promo.image',
+  'manual-promo.url',
+];

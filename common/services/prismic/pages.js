@@ -10,6 +10,8 @@ import {
   eventSeriesFields,
   exhibitionFields,
   teamsFields,
+  eventsFields,
+  manualPromosFields,
 } from './fetch-links';
 
 export function parsePage(document: PrismicDocument): Page {
@@ -53,12 +55,24 @@ export function parsePage(document: PrismicDocument): Page {
 }
 
 export async function getPage(req: ?Request, id: string): Promise<?Page> {
+  console.log(
+    pagesFields.concat(
+      eventSeriesFields,
+      collectionVenuesFields,
+      exhibitionFields,
+      teamsFields,
+      eventsFields,
+      manualPromosFields
+    )
+  );
   const page = await getDocument(req, id, {
     fetchLinks: pagesFields.concat(
       eventSeriesFields,
       collectionVenuesFields,
       exhibitionFields,
-      teamsFields
+      teamsFields,
+      eventsFields,
+      manualPromosFields
     ),
   });
 
