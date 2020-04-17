@@ -13,6 +13,8 @@ const TextInputWrap = styled.div.attrs({
   font-size: ${props => (props.big ? '20px' : '16px')};
 
   &:focus-within {
+    box-shadow: 0 0 0 3px rgba(92, 184, 191, 0.7); // turquoise @ 0.7 opacity
+
     label {
       font-size: 14px;
       transform: translateY(0%);
@@ -80,6 +82,7 @@ const TextInputInput = styled.input.attrs(props => ({
 
   &:focus {
     outline: 0;
+    border-color: ${props => props.theme.colors.turquoise};
   }
 
   &:-ms-clear {
@@ -89,7 +92,10 @@ const TextInputInput = styled.input.attrs(props => ({
   ${props =>
     props.hasErrorBorder &&
     `
-      border-color: ${props.theme.colors.red};
+      &,
+      &:focus {
+        border-color: ${props.theme.colors.red};
+      }
     `}
 `;
 
