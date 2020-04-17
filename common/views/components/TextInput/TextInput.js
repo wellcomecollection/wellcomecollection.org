@@ -13,7 +13,7 @@ const TextInputWrap = styled.div.attrs({
   font-size: ${props => (props.big ? '20px' : '16px')};
 
   &:focus-within {
-    box-shadow: 0 0 0 3px rgba(92, 184, 191, 0.7); // turquoise @ 0.7 opacity
+    box-shadow: ${props => props.theme.focusBoxShadow};
 
     label {
       font-size: 14px;
