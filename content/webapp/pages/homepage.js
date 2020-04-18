@@ -10,11 +10,11 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { type Article } from '@weco/common/model/articles';
+import type { Page as PageType } from '@weco/common/model/pages';
 import { type PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
-import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import { getPage } from '@weco/common/services/prismic/pages';
-import type { Page as PageType } from '@weco/common/model/pages';
+import HomepageCardGrid from '@weco/common/views/components/HomepageCardGrid/HomepageCardGrid';
 
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 
@@ -46,6 +46,8 @@ export class HomePage extends Component<Props> {
     const articles = this.props.articles;
     const page = this.props.page;
     const standFirst = page.body.find(slice => slice.type === 'standfirst');
+    const contentList = page.body.find(slice => slice.type === 'contentList');
+
     return (
       <PageLayout
         title={''}
@@ -77,7 +79,6 @@ export class HomePage extends Component<Props> {
                   })}
                 >
                   The free museum and library for the incurably curious
-                  {/* TODO - new component - show this default text unless prismic text */}
                   <div style={{ background: 'grey' }}>
                     <Space
                       v={{
@@ -93,37 +94,6 @@ export class HomePage extends Component<Props> {
                       {standFirst && (
                         <PageHeaderStandfirst html={standFirst.value} />
                       )}
-                      {/* TODO -  show this default links unless prismic promos */}
-                      <ul className="plain-list no-padding">
-                        <li>
-                          <Space
-                            v={{
-                              size: 'm',
-                              properties: ['margin-bottom'],
-                            }}
-                            as="div"
-                          >
-                            <MoreLink
-                              url={`/stories`}
-                              name="Read our latest stories"
-                            />
-                          </Space>
-                        </li>
-                        <li>
-                          <Space
-                            v={{
-                              size: 'm',
-                              properties: ['margin-bottom'],
-                            }}
-                            as="div"
-                          >
-                            <MoreLink
-                              url={`/works`}
-                              name="Explore our digital collections"
-                            />
-                          </Space>
-                        </li>
-                      </ul>
                     </Space>
                   </div>
                 </Space>
@@ -131,20 +101,16 @@ export class HomePage extends Component<Props> {
             </div>
           </div>
         </SpacingSection>
-
-        <SpacingSection>
-          <SpacingComponent>
-            <SectionHeader title="What's online" />
-          </SpacingComponent>
-          <SpacingComponent>
-            <CardGrid
-              items={articles.results}
-              itemsPerRow={4}
-              itemsHaveTransparentBackground={true}
-            />
-          </SpacingComponent>
-        </SpacingSection>
-
+        {contentList && (
+          <SpacingSection>
+            <SpacingComponent>
+              <SectionHeader title={contentList.value.title} />
+            </SpacingComponent>
+            <SpacingComponent>
+              <HomepageCardGrid items={contentList.value.items} />
+            </SpacingComponent>
+          </SpacingSection>
+        )}
         <SpacingSection>
           <SpacingComponent>
             <SectionHeader title="Latest stories" />
