@@ -7,6 +7,17 @@
         "label": "Title"
       }
     },
+    "format": {
+      "type": "Link",
+      "config": {
+        "label": "Format",
+        "select": "document",
+        "customtypes": [
+          "article-formats",
+          "event-formats"
+        ]
+      }
+    },
     "summary": {
       "type": "StructuredText",
       "config": {

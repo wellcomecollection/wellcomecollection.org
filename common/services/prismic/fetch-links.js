@@ -93,6 +93,7 @@ export const eventsFields = [
 ];
 export const manualPromosFields = [
   'manual-promo.title',
+  'manual-promo.format',
   'manual-promo.summary',
   'manual-promo.image',
   'manual-promo.url',
