@@ -21,6 +21,7 @@ import type { GenericContentFields } from '../../model/generic-content-fields';
 import type { LabelField } from '../../model/label-field';
 import type { SameAs } from '../../model/same-as';
 import type { HtmlSerializer } from './html-serializers';
+import { type UiImageProps } from '@weco/common/views/components/Images/Images';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
@@ -458,7 +459,7 @@ type ManualPromo = {|
   type: 'manualPromo',
   title: ?string,
   summary: ?string,
-  image: ?ImageType,
+  image: ?UiImageProps,
   url: ?string,
 |};
 
@@ -467,7 +468,14 @@ function parseManualPromo(fragment: PrismicFragment): ManualPromo {
     type: 'manualPromo',
     title: asText(fragment.data.title) || null,
     summary: asText(fragment.data.summary) || null,
-    image: fragment.data.image ? parseImage(fragment.data.image) : null,
+    image: fragment.data.image
+      ? {
+          ...checkAndParseImage(fragment.data.image),
+          sizesQueries:
+            '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
+          showTasl: false,
+        }
+      : null,
     url: fragment.data.url || null,
   };
 }
