@@ -32,10 +32,9 @@ const ManualPromo = ({ item }: Props) => {
             showTasl={false}
           />
         )}
-        {/*
-        {labels.length > 0 && (
+        {/* {item.format && (
           <div style={{ position: 'absolute', bottom: 0 }}>
-            <LabelsList labels={labels} />
+            <LabelsList labels={[item.format]} />
           </div>
         )} */}
       </div>
@@ -47,21 +46,19 @@ const ManualPromo = ({ item }: Props) => {
         }}
         h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
         className={classNames({
-          {item.title && (
-            olumn flex-1 flex--h-space-between': true,
+          'flex flex--column flex-1 flex--h-space-between': true,
         })}
-        >
+      >
         <div>
-          {i  tem.title && (
-              <Space
-                v={{
-                  size: 's',
-                  properties: ['margin-bottom'],
-                }}
-                as="h2"
-                className={classNames({
-            </Space>
-          )romo-link__title': true,
+          {item.title && (
+            <Space
+              v={{
+                size: 's',
+                properties: ['margin-bottom'],
+              }}
+              as="h2"
+              className={classNames({
+                'promo-link__title': true,
                 [font('wb', 3)]: true,
               })}
             >
