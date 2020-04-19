@@ -47,19 +47,27 @@ const ManualPromo = ({ item }: ManualPromoType) => {
         })}
       >
         <div>
-          <Space
-            v={{
-              size: 's',
-              properties: ['margin-bottom'],
-            }}
-            as="h2"
-            className={classNames({
-              'promo-link__title': true,
-              [font('wb', 3)]: true,
-            })}
-          >
-            {item.title}
-          </Space>
+          {item.title && (
+            <Space
+              v={{
+                size: 's',
+                properties: ['margin-bottom'],
+              }}
+              as="h2"
+              className={classNames({
+                'promo-link__title': true,
+                [font('wb', 3)]: true,
+              })}
+            >
+              {item.title}
+            </Space>
+          )}
+
+          {item.summary && (
+            <p className={`${font('hnl', 5)} no-padding no-margin`}>
+              {item.summary}
+            </p>
+          )}
         </div>
       </Space>
     </a>
