@@ -1,12 +1,16 @@
 // @flow
-import type { ManualPromoType } from '@weco/common/model/manual-promo';
+import type { ManualPromo as ManualPromoType } from '@weco/common/model/manual-promo';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';
 // import LabelsList from '../LabelsList/LabelsList';
 import Space from '../styled/Space';
 
-const ManualPromo = ({ item }: ManualPromoType) => {
+type Props = {|
+  item: ManualPromoType,
+|};
+
+const ManualPromo = ({ item }: Props) => {
   return (
     <a
       data-component="ManualPromo"
@@ -16,7 +20,7 @@ const ManualPromo = ({ item }: ManualPromoType) => {
         trackEvent({
           category: 'ManualPromo',
           action: 'follow link',
-          label: `${item.title}`,
+          label: `${item.title || ''}`,
         });
       }}
     >
@@ -43,19 +47,21 @@ const ManualPromo = ({ item }: ManualPromoType) => {
         }}
         h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
         className={classNames({
-          'flex flex--column flex-1 flex--h-space-between': true,
-        })}
-      >
-        <div>
           {item.title && (
-            <Space
-              v={{
-                size: 's',
-                properties: ['margin-bottom'],
-              }}
-              as="h2"
-              className={classNames({
-                'promo-link__title': true,
+            olumn flex-1 flex--h-space-between': true,
+        })}
+        >
+        <div>
+          {i  tem.title && (
+              <Space
+                v={{
+                  size: 's',
+                  properties: ['margin-bottom'],
+                }}
+                as="h2"
+                className={classNames({
+            </Space>
+          )romo-link__title': true,
                 [font('wb', 3)]: true,
               })}
             >

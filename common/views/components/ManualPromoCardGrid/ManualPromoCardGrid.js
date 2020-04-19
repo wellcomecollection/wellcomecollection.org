@@ -1,6 +1,6 @@
 // @flow
 import { classNames, cssGrid } from '../../../utils/classnames';
-import type { ManualPromoType } from '@weco/common/model/manual-promo';
+import type { ManualPromo as ManualPromoType } from '@weco/common/model/manual-promo';
 import FeaturedCard from '../FeaturedCard/FeaturedCard';
 import ManualPromo from '../ManualPromo/ManualPromo';
 import Space from '@weco/common/views/components/styled/Space';
@@ -20,7 +20,7 @@ const ManualPromoCardGrid = ({ items }: Props) => {
         <div className="css-grid">
           {firstThreePromos.map((item, i) => (
             <div
-              key={item.id}
+              key={i}
               className={classNames({
                 [cssGrid({
                   s: 12,
@@ -38,7 +38,7 @@ const ManualPromoCardGrid = ({ items }: Props) => {
       {fourthPromo && (
         <Space v={{ size: 'l', properties: ['padding-top'] }}>
           <FeaturedCard
-            id={`featured-card-${fourthPromo.title.trim()}`}
+            id={`featured-card-manual-promo`}
             image={fourthPromo.image}
             labels={[]}
             link={{
