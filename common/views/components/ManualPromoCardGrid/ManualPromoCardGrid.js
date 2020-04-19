@@ -1,10 +1,11 @@
 // @flow
 import { classNames, cssGrid } from '../../../utils/classnames';
+import type { ManualPromoType } from '@weco/common/model/manual-promo';
 import FeaturedCard from '../FeaturedCard/FeaturedCard';
-import ManualPromo from '@weco/common/model/manual-promo';
+import ManualPromo from '../ManualPromo/ManualPromo';
 
 type Props = {|
-  items: $ReadOnlyArray<ManualPromo>,
+  items: $ReadOnlyArray<ManualPromoType>,
 |};
 
 const ManualPromoCardGrid = ({ items }: Props) => {
@@ -28,27 +29,7 @@ const ManualPromoCardGrid = ({ items }: Props) => {
                 })]: true,
               })}
             >
-              {' '}
-              <pre
-                style={{
-                  maxWidth: '600px',
-                  margin: '0 auto 24px',
-                  fontSize: '14px',
-                }}
-              >
-                <code
-                  style={{
-                    display: 'block',
-                    padding: '24px',
-                    backgroundColor: '#EFE1AA',
-                    color: '#000',
-                    border: '4px solid #000',
-                    borderRadius: '6px',
-                  }}
-                >
-                  {JSON.stringify(item, null, 1)}
-                </code>
-              </pre>
+              <ManualPromo item={item} />
             </div>
           ))}
         </div>
