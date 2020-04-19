@@ -17,11 +17,11 @@ import type {
 } from '../../model/background-texture';
 import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
+import type { ManualPromo } from '../../model/manual-promo';
 import type { GenericContentFields } from '../../model/generic-content-fields';
 import type { LabelField } from '../../model/label-field';
 import type { SameAs } from '../../model/same-as';
 import type { HtmlSerializer } from './html-serializers';
-import { type UiImageProps } from '@weco/common/views/components/Images/Images';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
@@ -454,14 +454,6 @@ export function parseSingleLevelGroup(
   );
   /* eslint-enable */
 }
-
-type ManualPromo = {|
-  type: 'manualPromo',
-  title: ?string,
-  summary: ?string,
-  image: ?UiImageProps,
-  url: ?string,
-|};
 
 function parseManualPromo(fragment: PrismicFragment): ManualPromo {
   return {
