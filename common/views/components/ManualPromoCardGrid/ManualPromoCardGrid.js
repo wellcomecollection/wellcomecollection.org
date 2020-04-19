@@ -3,6 +3,7 @@ import { classNames, cssGrid } from '../../../utils/classnames';
 import type { ManualPromoType } from '@weco/common/model/manual-promo';
 import FeaturedCard from '../FeaturedCard/FeaturedCard';
 import ManualPromo from '../ManualPromo/ManualPromo';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   items: $ReadOnlyArray<ManualPromoType>,
@@ -35,24 +36,26 @@ const ManualPromoCardGrid = ({ items }: Props) => {
         </div>
       </div>
       {fourthPromo && (
-        <FeaturedCard
-          id={`featured-card-${fourthPromo.title.trim()}`}
-          image={fourthPromo.image}
-          labels={[]}
-          link={{
-            url: '#',
-            text: 'Remote diagnosis from wee to the web',
-          }}
-          background="charcoal"
-          color="white"
-        >
-          {fourthPromo.title && (
-            <h2 className="font-wb font-size-2">{fourthPromo.title}</h2>
-          )}
-          {fourthPromo.summary && (
-            <p className="font-hnl font-size-5">{fourthPromo.summary}</p>
-          )}
-        </FeaturedCard>
+        <Space v={{ size: 'l', properties: ['padding-top'] }}>
+          <FeaturedCard
+            id={`featured-card-${fourthPromo.title.trim()}`}
+            image={fourthPromo.image}
+            labels={[]}
+            link={{
+              url: '#',
+              text: 'Remote diagnosis from wee to the web',
+            }}
+            background="charcoal"
+            color="white"
+          >
+            {fourthPromo.title && (
+              <h2 className="font-wb font-size-2">{fourthPromo.title}</h2>
+            )}
+            {fourthPromo.summary && (
+              <p className="font-hnl font-size-5">{fourthPromo.summary}</p>
+            )}
+          </FeaturedCard>
+        </Space>
       )}
     </>
   );
