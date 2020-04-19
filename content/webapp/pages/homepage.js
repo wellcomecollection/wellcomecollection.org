@@ -1,9 +1,11 @@
 // @flow
 import type { Context } from 'next';
 import { Component } from 'react';
-import { classNames, font, cssGrid } from '@weco/common/utils/classnames';
+import styled from 'styled-components';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { getArticles } from '@weco/common/services/prismic/articles';
 import { articleLd } from '@weco/common/utils/json-ld';
+import { getPage } from '@weco/common/services/prismic/pages';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -13,10 +15,30 @@ import { type Article } from '@weco/common/model/articles';
 import type { Page as PageType } from '@weco/common/model/pages';
 import { type PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
-import { getPage } from '@weco/common/services/prismic/pages';
+import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import HomepageCardGrid from '@weco/common/views/components/HomepageCardGrid/HomepageCardGrid';
-
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
+
+const PageHeading = styled(Space).attrs({
+  as: 'h1',
+  v: {
+    size: 'l',
+    properties: ['margin-top', 'margin-bottom'],
+  },
+  className: classNames({
+    'no-margin': true,
+    [font('wb', 1)]: true,
+  }),
+})`
+  max-width: 780px;
+`;
+
+const CreamBox = styled(Space).attrs({
+  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background: ${props => props.theme.colors.cream};
+`;
 
 type Props = {|
   articles: PaginatedResults<Article>,
@@ -59,48 +81,19 @@ export class HomePage extends Component<Props> {
         imageUrl={pageImage}
         imageAltText={''}
       >
-        <SpacingSection>
-          <div className="css-grid__container">
-            <div className="css-grid">
-              <div
-                className={classNames({
-                  [cssGrid({ s: 12, m: 12, l: 10, xl: 9 })]: true,
-                })}
-              >
-                <Space
-                  v={{
-                    size: 'm',
-                    properties: ['margin-top'],
-                  }}
-                  as="h1"
-                  className={classNames({
-                    'no-margin': true,
-                    [font('wb', 1)]: true,
-                  })}
-                >
-                  The free museum and library for the incurably curious
-                  <div style={{ background: 'grey' }}>
-                    <Space
-                      v={{
-                        size: 'm',
-                        properties: ['margin-top'],
-                      }}
-                      as="div"
-                      className={classNames({
-                        'no-margin': true,
-                        [font('hnl', 4)]: true,
-                      })}
-                    >
-                      {standFirst && (
-                        <PageHeaderStandfirst html={standFirst.value} />
-                      )}
-                    </Space>
-                  </div>
-                </Space>
-              </div>
-            </div>
-          </div>
-        </SpacingSection>
+        <Layout10>
+          <SpacingSection>
+            <PageHeading>
+              The free museum and library for the incurably curious
+            </PageHeading>
+            {standFirst && (
+              <CreamBox>
+                <PageHeaderStandfirst html={standFirst.value} />
+              </CreamBox>
+            )}
+          </SpacingSection>
+        </Layout10>
+
         {contentList && (
           <SpacingSection>
             <SpacingComponent>
