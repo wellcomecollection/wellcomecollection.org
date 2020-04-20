@@ -474,7 +474,6 @@ function parseLink(url): ?string {
       return `/${url.type}/${url.id}`;
     }
   } else {
-    console.log('test three');
     return null;
   }
 }
