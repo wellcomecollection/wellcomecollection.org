@@ -46,8 +46,8 @@ const ManualPromoCardGrid = ({ items }: Props) => {
                 : []
             }
             link={{
-              url: '#',
-              text: 'Remote diagnosis from wee to the web',
+              url: fourthPromo.url || '',
+              text: fourthPromo.title || '',
             }}
             background="charcoal"
             color="white"

@@ -49,9 +49,10 @@
       }
     },
     "url": {
-      "type": "Text",
+      "type": "Link",
       "config": {
-        "label": "URL"
+        "label": "Promo link",
+        "customtypes": []
       }
     }
   }

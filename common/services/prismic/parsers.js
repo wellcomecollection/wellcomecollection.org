@@ -466,10 +466,21 @@ function parseFormat(
       }
     : null;
 }
+function parseLink(url): ?string {
+  if (url) {
+    if (url.link_type === 'Web' || url.link_type === 'Media') {
+      return url.url;
+    } else if (url.link_type === 'Document' && isDocumentLink(url)) {
+      return `/${url.type}/${url.id}`;
+    }
+  } else {
+    console.log('test three');
+    return null;
+  }
+}
 
 function parseManualPromo(fragment: PrismicFragment): ManualPromo {
   const { title, format, summary, image, url } = fragment.data;
-
   return {
     type: 'manualPromo',
     title: asText(title) || null,
@@ -483,7 +494,7 @@ function parseManualPromo(fragment: PrismicFragment): ManualPromo {
           showTasl: false,
         }
       : null,
-    url: url || null,
+    url: parseLink(url),
   };
 }
 
