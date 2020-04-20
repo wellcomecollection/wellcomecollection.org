@@ -163,9 +163,11 @@ a {
     text-decoration: none;
   }
 
-  &:focus {
-    outline: 0;
-    box-shadow: 0 0 0 3px rgba(92, 184, 191, 0.7);
+  .is-keyboard & {
+    &:focus {
+      outline: 0;
+      box-shadow: 0 0 0 3px rgba(92, 184, 191, 0.7);
+    }
   }
 }
 
