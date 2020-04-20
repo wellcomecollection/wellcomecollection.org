@@ -40,7 +40,11 @@ const ManualPromoCardGrid = ({ items }: Props) => {
           <FeaturedCard
             id={`featured-card-manual-promo`}
             image={fourthPromo.image}
-            labels={[]}
+            labels={
+              fourthPromo.format
+                ? [{ url: null, text: fourthPromo.format.title }]
+                : []
+            }
             link={{
               url: '#',
               text: 'Remote diagnosis from wee to the web',

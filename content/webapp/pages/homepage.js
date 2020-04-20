@@ -93,7 +93,6 @@ export class HomePage extends Component<Props> {
             )}
           </SpacingSection>
         </Layout10>
-
         {contentList && (
           <SpacingSection>
             <SpacingComponent>
@@ -104,7 +103,6 @@ export class HomePage extends Component<Props> {
             </SpacingComponent>
           </SpacingSection>
         )}
-
         <SpacingSection>
           <SpacingComponent>
             <SectionHeader title="Latest stories" />

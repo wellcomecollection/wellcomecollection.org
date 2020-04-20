@@ -455,20 +455,35 @@ export function parseSingleLevelGroup(
   /* eslint-enable */
 }
 
+function parseFormat(
+  frag: Object
+): ?{ id: string, title: string, description: ?HTMLString } {
+  return isDocumentLink(frag)
+    ? {
+        id: frag.id,
+        title: parseTitle(frag.data.title),
+        description: asHtml(frag.data.description),
+      }
+    : null;
+}
+
 function parseManualPromo(fragment: PrismicFragment): ManualPromo {
+  const { title, format, summary, image, url } = fragment.data;
+
   return {
     type: 'manualPromo',
-    title: asText(fragment.data.title) || null,
-    summary: asText(fragment.data.summary) || null,
-    image: fragment.data.image
+    title: asText(title) || null,
+    format: parseFormat(format),
+    summary: asText(summary) || null,
+    image: image
       ? {
-          ...checkAndParseImage(fragment.data.image),
+          ...checkAndParseImage(image),
           sizesQueries:
             '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
           showTasl: false,
         }
       : null,
-    url: fragment.data.url || null,
+    url: url || null,
   };
 }
 

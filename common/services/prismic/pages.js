@@ -12,6 +12,8 @@ import {
   teamsFields,
   eventsFields,
   manualPromosFields,
+  eventFormatsFields,
+  articleFormatsFields,
 } from './fetch-links';
 
 export function parsePage(document: PrismicDocument): Page {
@@ -62,7 +64,9 @@ export async function getPage(req: ?Request, id: string): Promise<?Page> {
       exhibitionFields,
       teamsFields,
       eventsFields,
-      manualPromosFields
+      manualPromosFields,
+      eventFormatsFields,
+      articleFormatsFields
     ),
   });
   if (page) {

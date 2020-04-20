@@ -3,7 +3,7 @@ import type { ManualPromo as ManualPromoType } from '@weco/common/model/manual-p
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';
-// import LabelsList from '../LabelsList/LabelsList';
+import LabelsList from '../LabelsList/LabelsList';
 import Space from '../styled/Space';
 
 type Props = {|
@@ -32,11 +32,11 @@ const ManualPromo = ({ item }: Props) => {
             showTasl={false}
           />
         )}
-        {/* {item.format && (
+        {item.format && (
           <div style={{ position: 'absolute', bottom: 0 }}>
-            <LabelsList labels={[item.format]} />
+            <LabelsList labels={[{ url: null, text: item.format.title }]} />
           </div>
-        )} */}
+        )}
       </div>
 
       <Space
