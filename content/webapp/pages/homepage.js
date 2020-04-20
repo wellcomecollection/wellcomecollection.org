@@ -52,9 +52,10 @@ const pageImage =
 export class HomePage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { id } = ctx.query;
-    const articles = await getArticles(ctx.req, { pageSize: 4 }); // TODO make client side?
-    const page = await getPage(ctx.req, id);
-    if (articles || page) {
+    const articlesPromise = getArticles(ctx.req, { pageSize: 4 }); // TODO make client side?
+    const pagePromise = await getPage(ctx.req, id);
+    const [articles, page] = await Promise.all([articlesPromise, pagePromise]);
+    if (articles && page) {
       return {
         articles,
         page,
