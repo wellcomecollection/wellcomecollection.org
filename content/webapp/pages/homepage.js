@@ -16,7 +16,7 @@ import type { Page as PageType } from '@weco/common/model/pages';
 import { type PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
-import ManualPromoCardGrid from '@weco/common/views/components/ManualPromoCardGrid/ManualPromoCardGrid';
+import SimpleCardGrid from '@weco/common/views/components/SimpleCardGrid/SimpleCardGrid';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 
 const PageHeading = styled(Space).attrs({
@@ -100,7 +100,7 @@ export class HomePage extends Component<Props> {
               <SectionHeader title={contentList.value.title} />
             </SpacingComponent>
             <SpacingComponent>
-              <ManualPromoCardGrid items={contentList.value.items} />
+              <SimpleCardGrid items={contentList.value.items} />
             </SpacingComponent>
           </SpacingSection>
         )}
