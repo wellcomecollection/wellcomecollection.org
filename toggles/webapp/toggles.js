@@ -2,9 +2,16 @@ module.exports = {
   toggles: [
     {
       id: 'unfilteredSearchResults',
-      title: 'Complete catalogue search',
+      title: 'Entire catalogue search',
       defaultValue: false,
-      description: 'Search the complete catalogue without any filters',
+      description: 'Search the entire catalogue, including all work types',
+    },
+    {
+      id: 'searchToolbar',
+      title: 'Search toolbar',
+      defaultValue: false,
+      description:
+        'Select from search query algorithms and other search functionality',
     },
     {
       id: 'relevanceRating',
