@@ -1,7 +1,7 @@
 module.exports = {
   toggles: [
     {
-      id: 'unfilteredSerchResults',
+      id: 'unfilteredSearchResults',
       title: 'Entire catalogue search',
       defaultValue: false,
       description: 'Search the entire catalogue, including all work types',
