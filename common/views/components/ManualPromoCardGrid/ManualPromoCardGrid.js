@@ -1,24 +1,23 @@
 // @flow
 import { classNames, cssGrid } from '../../../utils/classnames';
-import type { ManualPromo as ManualPromoType } from '@weco/common/model/manual-promo';
+import type { Card as CardType } from '@weco/common/model/card';
 import FeaturedCard from '../FeaturedCard/FeaturedCard';
-import ManualPromo from '../ManualPromo/ManualPromo';
+import Card from '../Card/Card';
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
-  items: $ReadOnlyArray<ManualPromoType>,
+  items: $ReadOnlyArray<CardType>,
 |};
 
-const ManualPromoCardGrid = ({ items }: Props) => {
-  const manualPromos = items.filter(item => item.type === 'manualPromo');
-  const firstThreePromos = manualPromos.slice(0, 3);
-  const fourthPromo = manualPromos[4];
-
+const CardGrid = ({ items }: Props) => {
+  const cards = items.filter(item => item.type === 'card');
+  const firstThreeCards = cards.slice(0, 3);
+  const fourthCard = cards[3];
   return (
     <>
       <div className="css-grid__container">
         <div className="css-grid">
-          {firstThreePromos.map((item, i) => (
+          {firstThreeCards.map((item, i) => (
             <div
               key={i}
               className={classNames({
@@ -30,33 +29,33 @@ const ManualPromoCardGrid = ({ items }: Props) => {
                 })]: true,
               })}
             >
-              <ManualPromo item={item} />
+              <Card item={item} />
             </div>
           ))}
         </div>
       </div>
-      {fourthPromo && (
+      {fourthCard && (
         <Space v={{ size: 'l', properties: ['padding-top'] }}>
           <FeaturedCard
-            id={`featured-card-manual-promo`}
-            image={fourthPromo.image}
+            id={`featured-card`}
+            image={fourthCard.image}
             labels={
-              fourthPromo.format
-                ? [{ url: null, text: fourthPromo.format.title }]
+              fourthCard.format
+                ? [{ url: null, text: fourthCard.format.title }]
                 : []
             }
             link={{
-              url: fourthPromo.url || '',
-              text: fourthPromo.title || '',
+              url: fourthCard.link || '',
+              text: fourthCard.title || '',
             }}
             background="charcoal"
             color="white"
           >
-            {fourthPromo.title && (
-              <h2 className="font-wb font-size-2">{fourthPromo.title}</h2>
+            {fourthCard.title && (
+              <h2 className="font-wb font-size-2">{fourthCard.title}</h2>
             )}
-            {fourthPromo.summary && (
-              <p className="font-hnl font-size-5">{fourthPromo.summary}</p>
+            {fourthCard.description && (
+              <p className="font-hnl font-size-5">{fourthCard.description}</p>
             )}
           </FeaturedCard>
         </Space>
@@ -65,4 +64,4 @@ const ManualPromoCardGrid = ({ items }: Props) => {
   );
 };
 
-export default ManualPromoCardGrid;
+export default CardGrid;

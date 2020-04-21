@@ -1,5 +1,5 @@
 // @flow
-import type { ManualPromo as ManualPromoType } from '@weco/common/model/manual-promo';
+import type { Card as CardType } from '@weco/common/model/card';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';
@@ -7,18 +7,17 @@ import LabelsList from '../LabelsList/LabelsList';
 import Space from '../styled/Space';
 
 type Props = {|
-  item: ManualPromoType,
+  item: CardType,
 |};
 
-const ManualPromo = ({ item }: Props) => {
+const Card = ({ item }: Props) => {
   return (
     <a
-      data-component="ManualPromo"
-      href={item.url}
+      href={item.link}
       className="plain-link promo-link bg-cream rounded-corners overflow-hidden flex-ie-block flex--column"
       onClick={() => {
         trackEvent({
-          category: 'ManualPromo',
+          category: 'Card',
           action: 'follow link',
           label: `${item.title || ''}`,
         });
@@ -66,9 +65,9 @@ const ManualPromo = ({ item }: Props) => {
             </Space>
           )}
 
-          {item.summary && (
+          {item.description && (
             <p className={`${font('hnl', 5)} no-padding no-margin`}>
-              {item.summary}
+              {item.description}
             </p>
           )}
         </div>
@@ -77,4 +76,4 @@ const ManualPromo = ({ item }: Props) => {
   );
 };
 
-export default ManualPromo;
+export default Card;

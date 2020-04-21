@@ -17,7 +17,7 @@ import type {
 } from '../../model/background-texture';
 import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
-import type { ManualPromo } from '../../model/manual-promo';
+import type { Card } from '../../model/card';
 import type { GenericContentFields } from '../../model/generic-content-fields';
 import type { LabelField } from '../../model/label-field';
 import type { SameAs } from '../../model/same-as';
@@ -478,13 +478,14 @@ function parseLink(url): ?string {
   }
 }
 
-function parseManualPromo(fragment: PrismicFragment): ManualPromo {
-  const { title, format, summary, image, url } = fragment.data;
+function parseCard(fragment: PrismicFragment): Card {
+  const { title, format, description, image, link } = fragment.data;
+  console.log(fragment.data);
   return {
-    type: 'manualPromo',
+    type: 'card',
     title: asText(title) || null,
     format: parseFormat(format),
-    summary: asText(summary) || null,
+    description: asText(description) || null,
     image: image
       ? {
           ...checkAndParseImage(image),
@@ -493,7 +494,7 @@ function parseManualPromo(fragment: PrismicFragment): ManualPromo {
           showTasl: false,
         }
       : null,
-    url: parseLink(url),
+    link: parseLink(link),
   };
 }
 
@@ -606,8 +607,8 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
                       return parseArticle(item.content);
                     case 'events':
                       return parseEventDoc(item.content);
-                    case 'manual-promo':
-                      return parseManualPromo(item.content);
+                    case 'card':
+                      return parseCard(item.content);
                   }
                 })
                 .filter(Boolean),

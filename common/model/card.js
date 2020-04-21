@@ -2,11 +2,11 @@
 import type { HTMLString } from '../services/prismic/types';
 import { type UiImageProps } from '@weco/common/views/components/Images/Images';
 
-export type ManualPromo = {|
-  type: 'manualPromo',
+export type Card = {|
+  type: 'card',
   format: ?{ id: string, title: string, description: ?HTMLString },
   title: ?string,
-  summary: ?string,
+  description: ?string,
   image: ?UiImageProps,
-  url: ?string,
+  link: ?string,
 |};
