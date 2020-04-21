@@ -1,59 +1,57 @@
 {
-  "Contact": {
-    "title": {
-      "type": "StructuredText",
-      "config": {
-        "single": "paragraph,hyperlink,strong,em,heading1",
-        "label": "Title"
-      }
-    },
-    "format": {
-      "type": "Link",
-      "config": {
-        "label": "Format",
-        "select": "document",
-        "customtypes": [
-          "article-formats",
-          "event-formats"
-        ]
-      }
-    },
-    "summary": {
-      "type": "StructuredText",
-      "config": {
-        "single": "paragraph,hyperlink,strong,em",
-        "label": "Summary"
-      }
-    },
-    "image": {
-      "type": "Image",
-      "config": {
-        "label": "Image",
-        "thumbnails": [
-          {
-            "name": "32:15",
-            "width": 3200,
-            "height": 1500
-          },
-          {
-            "name": "16:9",
-            "width": 3200,
-            "height": 1800
-          },
-          {
-            "name": "square",
-            "width": 3200,
-            "height": 3200
-          }
-        ]
-      }
-    },
-    "url": {
-      "type": "Link",
-      "config": {
-        "label": "Promo link",
-        "customtypes": []
-      }
+  "title": {
+    "type": "StructuredText",
+    "config": {
+      "single": "paragraph,hyperlink,strong,em,heading1",
+      "label": "Title"
+    }
+  },
+  "format": {
+    "type": "Link",
+    "config": {
+      "label": "Format",
+      "select": "document",
+      "customtypes": [
+        "article-formats",
+        "event-formats"
+      ]
+    }
+  },
+  "summary": {
+    "type": "StructuredText",
+    "config": {
+      "single": "paragraph,hyperlink,strong,em",
+      "label": "Summary"
+    }
+  },
+  "image": {
+    "type": "Image",
+    "config": {
+      "label": "Image",
+      "thumbnails": [
+        {
+          "name": "32:15",
+          "width": 3200,
+          "height": 1500
+        },
+        {
+          "name": "16:9",
+          "width": 3200,
+          "height": 1800
+        },
+        {
+          "name": "square",
+          "width": 3200,
+          "height": 3200
+        }
+      ]
+    }
+  },
+  "url": {
+    "type": "Link",
+    "config": {
+      "label": "Promo link",
+      "customtypes": []
     }
   }
 }
