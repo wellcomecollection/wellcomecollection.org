@@ -11,7 +11,7 @@ import {
   exhibitionFields,
   teamsFields,
   eventsFields,
-  manualPromosFields,
+  cardsFields,
   eventFormatsFields,
   articleFormatsFields,
 } from './fetch-links';
@@ -64,7 +64,7 @@ export async function getPage(req: ?Request, id: string): Promise<?Page> {
       exhibitionFields,
       teamsFields,
       eventsFields,
-      manualPromosFields,
+      cardsFields,
       eventFormatsFields,
       articleFormatsFields
     ),

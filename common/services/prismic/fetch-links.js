@@ -91,10 +91,10 @@ export const eventsFields = [
   'events.series',
   'events.times',
 ];
-export const manualPromosFields = [
-  'manual-promo.title',
-  'manual-promo.format',
-  'manual-promo.summary',
-  'manual-promo.image',
-  'manual-promo.url',
+export const cardsFields = [
+  'card.title',
+  'card.format',
+  'card.description',
+  'card.image',
+  'card.link',
 ];
