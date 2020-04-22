@@ -38,7 +38,12 @@ const CardGrid = ({ items }: Props) => {
         <Space v={{ size: 'l', properties: ['padding-top'] }}>
           <FeaturedCard
             id={`featured-card`}
-            image={fourthCard.image}
+            image={{
+              ...fourthCard.image,
+              sizesQueries:
+                '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
+              showTasl: false,
+            }}
             labels={
               fourthCard.format
                 ? [{ url: null, text: fourthCard.format.title }]

@@ -485,14 +485,7 @@ function parseCard(fragment: PrismicFragment): Card {
     title: asText(title) || null,
     format: parseFormat(format),
     description: asText(description) || null,
-    image: image
-      ? {
-          ...checkAndParseImage(image),
-          sizesQueries:
-            '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
-          showTasl: false,
-        }
-      : null,
+    image: image ? checkAndParseImage(image) : null,
     link: parseLink(link),
   };
 }
