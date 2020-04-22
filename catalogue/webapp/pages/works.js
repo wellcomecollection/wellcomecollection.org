@@ -1,6 +1,6 @@
 // @flow
 import { type Context } from 'next';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
@@ -31,6 +31,8 @@ import cookies from 'next-cookies';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import WorkSearchResults from '../components/WorkSearchResults/WorkSearchResults';
 import ImageSearchResults from '../components/ImageSearchResults/ImageSearchResults';
+import CollectionSearch from '@weco/common/views/components/CollectionSearch/CollectionSearch';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
@@ -81,6 +83,7 @@ const Works = ({
   }, []);
 
   const isImageSearch = worksRouteProps.search === 'images';
+  const { collectionSearch } = useContext(TogglesContext);
 
   if (works && works.type === 'Error') {
     return (
@@ -242,6 +245,7 @@ const Works = ({
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
+                {collectionSearch && <CollectionSearch query={query} />}
                 {isImageSearch ? (
                   <ImageSearchResults works={works} apiProps={apiProps} />
                 ) : (
