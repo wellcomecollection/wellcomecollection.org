@@ -13,11 +13,11 @@ export const staticBooks = [
           {
             type: 'paragraph',
             text:
-              'The new science of contagion and the surprising ways it shapes our lives and behaviour',
+              'The new science of contagion and the surprising ways it shapes our lives and behaviour.',
             spans: [
               {
                 start: 0,
-                end: 86,
+                end: 87,
                 type: 'strong',
               },
             ],
@@ -36,28 +36,75 @@ export const staticBooks = [
           },
           {
             type: 'paragraph',
-            text:
-              '“It is hard to imagine a more timely book… much of the modern world will make more sense having read it.” – The Times',
-            spans: [],
-          },
-          {
-            type: 'paragraph',
-            text:
-              '“Brilliant and authoritative” – Alex Bellos, author of ‘Alex’s Adventures in Numberland’',
-            spans: [],
-          },
-          {
-            type: 'paragraph',
-            text:
-              '“Prepares the ground comprehensively for readers to make sense of what is happening today, by distilling the wisdom gathered by studying previous epidemics over more than a century.” – Financial Times',
-            spans: [],
-          },
-          {
-            type: 'paragraph',
             text: '',
             spans: [],
           },
         ],
+      },
+      {
+        type: 'quote',
+        weight: 'default',
+        value: {
+          text: [
+            {
+              type: 'paragraph',
+              text:
+                '“It is hard to imagine a more timely book… much of the modern world will make more sense having read it.”',
+              spans: [],
+            },
+          ],
+          citation: [
+            {
+              type: 'paragraph',
+              text: 'The Times',
+              spans: [],
+            },
+          ],
+          isPullOrReview: true,
+        },
+      },
+      {
+        type: 'quote',
+        weight: 'default',
+        value: {
+          text: [
+            {
+              type: 'paragraph',
+              text: '“Brilliant and authoritative.”',
+              spans: [],
+            },
+          ],
+          citation: [
+            {
+              type: 'paragraph',
+              text: 'Alex Bellos, author of ‘Alex’s Adventures in Numberland’',
+              spans: [],
+            },
+          ],
+          isPullOrReview: true,
+        },
+      },
+      {
+        type: 'quote',
+        weight: 'default',
+        value: {
+          text: [
+            {
+              type: 'paragraph',
+              text:
+                '“Prepares the ground comprehensively for readers to make sense of what is happening today, by distilling the wisdom gathered by studying previous epidemics over more than a century.”',
+              spans: [],
+            },
+          ],
+          citation: [
+            {
+              type: 'paragraph',
+              text: 'Financial Times',
+              spans: [],
+            },
+          ],
+          isPullOrReview: true,
+        },
       },
     ],
     promo: {
@@ -65,11 +112,10 @@ export const staticBooks = [
         'The new science of contagion and the surprising ways it shapes our lives and behaviour.',
       image: {
         contentUrl:
-          'https://images.prismic.io/wellcomecollection/ed0754b5-c4e8-4dd4-a08c-5c03822b8a47_Rules+of+Contagion+cover.jpg?auto=compress,format&rect=0,853,1630,917&w=3200&h=1800',
+          'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,856,1621,912&w=3200&h=1800',
         width: 3200,
         height: 1800,
-        alt:
-          'Book cover: white with black and orange text, and featuring a photo of a mosquito',
+        alt: 'Bright yellow book cover with bold black text',
         tasl: {
           title: null,
           author: null,
@@ -87,11 +133,10 @@ export const staticBooks = [
       'The new science of contagion and the surprising ways it shapes our lives and behaviour.',
     promoImage: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/ed0754b5-c4e8-4dd4-a08c-5c03822b8a47_Rules+of+Contagion+cover.jpg?auto=compress,format&rect=0,853,1630,917&w=3200&h=1800',
+        'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,856,1621,912&w=3200&h=1800',
       width: 3200,
       height: 1800,
-      alt:
-        'Book cover: white with black and orange text, and featuring a photo of a mosquito',
+      alt: 'Bright yellow book cover with bold black text',
       tasl: {
         title: null,
         author: null,
@@ -105,11 +150,10 @@ export const staticBooks = [
     },
     image: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/ed0754b5-c4e8-4dd4-a08c-5c03822b8a47_Rules+of+Contagion+cover.jpg?auto=compress,format',
-      width: 1630,
-      height: 2622,
-      alt:
-        'Book cover: white with black and orange text, and featuring a photo of a mosquito',
+        'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format',
+      width: 1621,
+      height: 2624,
+      alt: 'Bright yellow book cover with bold black text',
       tasl: {
         title: null,
         author: null,
@@ -122,11 +166,10 @@ export const staticBooks = [
       crops: {
         '32:15': {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/ed0754b5-c4e8-4dd4-a08c-5c03822b8a47_Rules+of+Contagion+cover.jpg?auto=compress,format&rect=0,929,1630,764&w=3200&h=1500',
+            'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,932,1621,760&w=3200&h=1500',
           width: 3200,
           height: 1500,
-          alt:
-            'Book cover: white with black and orange text, and featuring a photo of a mosquito',
+          alt: 'Bright yellow book cover with bold black text',
           tasl: {
             title: null,
             author: null,
@@ -140,11 +183,10 @@ export const staticBooks = [
         },
         '16:9': {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/ed0754b5-c4e8-4dd4-a08c-5c03822b8a47_Rules+of+Contagion+cover.jpg?auto=compress,format&rect=0,853,1630,917&w=3200&h=1800',
+            'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,856,1621,912&w=3200&h=1800',
           width: 3200,
           height: 1800,
-          alt:
-            'Book cover: white with black and orange text, and featuring a photo of a mosquito',
+          alt: 'Bright yellow book cover with bold black text',
           tasl: {
             title: null,
             author: null,
@@ -158,11 +200,10 @@ export const staticBooks = [
         },
         square: {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/ed0754b5-c4e8-4dd4-a08c-5c03822b8a47_Rules+of+Contagion+cover.jpg?auto=compress,format&rect=0,496,1630,1630&w=3200&h=3200',
+            'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,501,1621,1621&w=3200&h=3200',
           width: 3200,
           height: 3200,
-          alt:
-            'Book cover: white with black and orange text, and featuring a photo of a mosquito',
+          alt: 'Bright yellow book cover with bold black text',
           tasl: {
             title: null,
             author: null,
@@ -178,11 +219,10 @@ export const staticBooks = [
     },
     squareImage: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/ed0754b5-c4e8-4dd4-a08c-5c03822b8a47_Rules+of+Contagion+cover.jpg?auto=compress,format&rect=0,496,1630,1630&w=3200&h=3200',
+        'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,501,1621,1621&w=3200&h=3200',
       width: 3200,
       height: 3200,
-      alt:
-        'Book cover: white with black and orange text, and featuring a photo of a mosquito',
+      alt: 'Bright yellow book cover with bold black text',
       tasl: {
         title: null,
         author: null,
@@ -196,11 +236,10 @@ export const staticBooks = [
     },
     widescreenImage: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/ed0754b5-c4e8-4dd4-a08c-5c03822b8a47_Rules+of+Contagion+cover.jpg?auto=compress,format&rect=0,853,1630,917&w=3200&h=1800',
+        'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,856,1621,912&w=3200&h=1800',
       width: 3200,
       height: 1800,
-      alt:
-        'Book cover: white with black and orange text, and featuring a photo of a mosquito',
+      alt: 'Bright yellow book cover with bold black text',
       tasl: {
         title: null,
         author: null,
@@ -227,11 +266,10 @@ export const staticBooks = [
     authorDescription: [],
     cover: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/ed0754b5-c4e8-4dd4-a08c-5c03822b8a47_Rules+of+Contagion+cover.jpg?auto=compress,format',
-      width: 1630,
-      height: 2622,
-      alt:
-        'Book cover: white with black and orange text, and featuring a photo of a mosquito',
+        'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format',
+      width: 1621,
+      height: 2624,
+      alt: 'Bright yellow book cover with bold black text',
       tasl: {
         title: null,
         author: null,
@@ -244,11 +282,10 @@ export const staticBooks = [
       crops: {
         '32:15': {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/ed0754b5-c4e8-4dd4-a08c-5c03822b8a47_Rules+of+Contagion+cover.jpg?auto=compress,format&rect=0,929,1630,764&w=3200&h=1500',
+            'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,932,1621,760&w=3200&h=1500',
           width: 3200,
           height: 1500,
-          alt:
-            'Book cover: white with black and orange text, and featuring a photo of a mosquito',
+          alt: 'Bright yellow book cover with bold black text',
           tasl: {
             title: null,
             author: null,
@@ -262,11 +299,10 @@ export const staticBooks = [
         },
         '16:9': {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/ed0754b5-c4e8-4dd4-a08c-5c03822b8a47_Rules+of+Contagion+cover.jpg?auto=compress,format&rect=0,853,1630,917&w=3200&h=1800',
+            'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,856,1621,912&w=3200&h=1800',
           width: 3200,
           height: 1800,
-          alt:
-            'Book cover: white with black and orange text, and featuring a photo of a mosquito',
+          alt: 'Bright yellow book cover with bold black text',
           tasl: {
             title: null,
             author: null,
@@ -280,11 +316,10 @@ export const staticBooks = [
         },
         square: {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/ed0754b5-c4e8-4dd4-a08c-5c03822b8a47_Rules+of+Contagion+cover.jpg?auto=compress,format&rect=0,496,1630,1630&w=3200&h=3200',
+            'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,501,1621,1621&w=3200&h=3200',
           width: 3200,
           height: 3200,
-          alt:
-            'Book cover: white with black and orange text, and featuring a photo of a mosquito',
+          alt: 'Bright yellow book cover with bold black text',
           tasl: {
             title: null,
             author: null,
