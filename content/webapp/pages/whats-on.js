@@ -33,7 +33,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import FacilityPromo from '@weco/common/views/components/FacilityPromo/FacilityPromo';
-import Divider from '@weco/common/views/components/Divider/Divider';
+// import Divider from '@weco/common/views/components/Divider/Divider';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';
@@ -129,9 +129,10 @@ const DateRange = ({
 }: DateRangeProps) => {
   const fromDate = dateRange[0];
   const toDate = dateRange[1];
-  const collectionOpeningTimes =
-    openingTimes && openingTimes.collectionOpeningTimes;
-  const listHeader = getListHeader(collectionOpeningTimes);
+  // TODO: reinstate after lockdown
+  // const collectionOpeningTimes =
+  // openingTimes && openingTimes.collectionOpeningTimes;
+  // const listHeader = getListHeader(collectionOpeningTimes);
 
   return (
     <Fragment>
@@ -161,7 +162,8 @@ const DateRange = ({
           </Fragment>
         )}
       </Space>
-      {!(listHeader.todayOpeningHours && listHeader.todayOpeningHours.opens) &&
+      {/* TODO: reinstate after lockdown */}
+      {/* {!(listHeader.todayOpeningHours && listHeader.todayOpeningHours.opens) &&
         period === 'today' && (
           <Fragment>
             <Space
@@ -187,7 +189,7 @@ const DateRange = ({
               <Divider extraClasses={'divider--dashed'} />
             </Space>
           </Fragment>
-        )}
+        )} */}
     </Fragment>
   );
 };

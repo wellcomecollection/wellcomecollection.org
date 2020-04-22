@@ -59,7 +59,7 @@ const Works = ({
 
   useEffect(() => {
     trackSearch(apiProps, {
-      totalResults: works && works.totalResults ? works.totalResults : null,
+      totalResults: works && works.totalResults ? works.totalResults : 0,
       source: Router.query.source || 'unspecified',
     });
   }, [worksRouteProps]);

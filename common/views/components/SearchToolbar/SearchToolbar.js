@@ -47,7 +47,7 @@ const Input = styled(Space).attrs({
   },
 })``;
 
-const SearchRelevanceBar = () => {
+const SearchToolbar = () => {
   const [queryTypes, setQueryTypes] = useState<string[]>([]);
   const [selectedQueryType, setSelectedQueryType] = useState<?string>(null);
 
@@ -94,7 +94,7 @@ const SearchRelevanceBar = () => {
               >
                 <Input
                   type="radio"
-                  name="searchRelevance"
+                  name="seachToolbarQueryType"
                   value={queryType}
                   checked={queryType === selectedQueryType}
                   onChange={event => {
@@ -133,4 +133,4 @@ const SearchRelevanceBar = () => {
   );
 };
 
-export default SearchRelevanceBar;
+export default SearchToolbar;

@@ -1,5 +1,6 @@
 // @flow
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
@@ -7,35 +8,16 @@ import fetch from 'isomorphic-unfetch';
 import Raven from 'raven-js';
 import TextInput from '../TextInput/TextInput';
 import { trackEvent } from '../../../utils/ga';
-
-const ErrorMessage = styled(Space).attrs({
-  'aria-live': 'polite',
-  as: 'p',
-  h: { size: 'l', negative: true, properties: ['bottom'] },
-  className: classNames({
-    'absolute font-red': true,
-    [font('hnm', 5)]: true,
-  }),
-})`
-  top: 100%;
-`;
+import useValidation from '../../../hooks/useValidation';
 
 const FormElementWrapper = styled.div`
   width: 100%;
   ${props => props.theme.media.medium`
     display: flex;
     flex: 1;
+    align-items: flex-start;
   `}
 `;
-
-const NewsletterInput = styled(TextInput).attrs({
-  required: true,
-  id: 'newsletter-input',
-  type: 'email',
-  name: 'email',
-  label: 'Your email address',
-  placeholder: 'Your email address',
-})``;
 
 const NewsletterButton = styled.button.attrs({
   className: classNames({
@@ -45,6 +27,7 @@ const NewsletterButton = styled.button.attrs({
 })`
   width: 100%;
   margin-top: 10px;
+  height: 55px;
 
   ${props => props.theme.media.medium`
     width: auto;
@@ -114,7 +97,10 @@ const CopyWrap = styled(Space).attrs({
 const NewsletterPromo = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [isSubmitError, setIsSubmitError] = useState(false);
+  const [value, setValue] = useState('');
+  const { isEnhanced } = useContext(AppContext);
+  const emailValidation = useValidation();
 
   const headingText = 'Stay in the know';
   const bodyText =
@@ -122,8 +108,17 @@ const NewsletterPromo = () => {
 
   async function handleSubmit(event) {
     event.preventDefault();
+
+    emailValidation.setShowValidity(true);
+
+    if (!emailValidation.isValid) {
+      setIsSubmitError(false);
+
+      return;
+    }
+
     setIsSubmitting(true);
-    setIsError(false);
+    setIsSubmitError(false);
 
     const formEls = [...event.currentTarget.elements];
     const data = {
@@ -154,7 +149,8 @@ const NewsletterPromo = () => {
         });
         break;
       default:
-        setIsError(true);
+        setIsSubmitError(true);
+        emailValidation.setIsValid(false);
 
         if (status) {
           Raven.captureException(
@@ -195,14 +191,16 @@ const NewsletterPromo = () => {
                   >
                     {isSuccess ? 'Thank you for signing up!' : headingText}
                   </h2>
-                  <p
-                    className={classNames({
-                      [font('hnl', 5)]: true,
-                      'no-margin': true,
-                    })}
-                  >
-                    {bodyText}
-                  </p>
+                  {!isSuccess && (
+                    <p
+                      className={classNames({
+                        [font('hnl', 5)]: true,
+                        'no-margin': true,
+                      })}
+                    >
+                      {bodyText}
+                    </p>
+                  )}
                   {isSuccess && (
                     <div
                       className={classNames({
@@ -225,12 +223,10 @@ const NewsletterPromo = () => {
                 </CopyWrap>
                 {!isSuccess && (
                   <>
-                    <NewsletterForm onSubmit={handleSubmit}>
-                      {isError && (
-                        <ErrorMessage>
-                          There was a problem. Please try again.
-                        </ErrorMessage>
-                      )}
+                    <NewsletterForm
+                      onSubmit={handleSubmit}
+                      noValidate={isEnhanced}
+                    >
                       <input type="hidden" name="userid" value="225683" />
                       <input
                         type="hidden"
@@ -244,7 +240,21 @@ const NewsletterPromo = () => {
                       />
                       <input type="hidden" name="addressbookid" value="40131" />
                       <FormElementWrapper>
-                        <NewsletterInput />
+                        <TextInput
+                          required={true}
+                          id={'newsletter-input'}
+                          type={'email'}
+                          name={'email'}
+                          label={'Your email address'}
+                          errorMessage={
+                            isSubmitError
+                              ? 'There was a problem. Please try again.'
+                              : 'Enter a valid email address.'
+                          }
+                          value={value}
+                          setValue={setValue}
+                          {...emailValidation}
+                        />
                         <NewsletterButton disabled={isSubmitting}>
                           {isSubmitting ? 'Sending…' : 'Subscribe'}
                         </NewsletterButton>
@@ -259,7 +269,6 @@ const NewsletterPromo = () => {
                     [font('hnl', 6)]: true,
                     'no-margin': true,
                   })}
-                  style={{ marginTop: isError ? '16px' : undefined }}
                 >
                   <a href="/newsletter">All our newsletters</a>
                 </p>
