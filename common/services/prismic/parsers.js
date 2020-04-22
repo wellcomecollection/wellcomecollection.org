@@ -11,6 +11,7 @@ import type { ImageType } from '../../model/image';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/places';
+import type { Format } from '../../model/format';
 import type {
   BackgroundTexture,
   PrismicBackgroundTexture,
@@ -455,9 +456,7 @@ export function parseSingleLevelGroup(
   /* eslint-enable */
 }
 
-function parseFormat(
-  frag: Object
-): ?{ id: string, title: string, description: ?HTMLString } {
+export function parseFormat(frag: Object): ?Format {
   return isDocumentLink(frag)
     ? {
         id: frag.id,
@@ -466,6 +465,7 @@ function parseFormat(
       }
     : null;
 }
+
 function parseLink(url): ?string {
   if (url) {
     if (url.link_type === 'Web' || url.link_type === 'Media') {
@@ -480,7 +480,6 @@ function parseLink(url): ?string {
 
 function parseCard(fragment: PrismicFragment): Card {
   const { title, format, description, image, link } = fragment.data;
-  console.log(fragment.data);
   return {
     type: 'card',
     title: asText(title) || null,
