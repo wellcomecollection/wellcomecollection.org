@@ -6,8 +6,15 @@ import { boolean, text } from '@storybook/addon-knobs/react';
 const ButtonExample = () => {
   const hasIcon = boolean('Has icon?', false);
   const buttonText = text('Button text', 'Click me');
+  const isDisabled = boolean('Is disabled?', false);
 
-  return <ButtonSolid icon={hasIcon ? 'book' : undefined} text={buttonText} />;
+  return (
+    <ButtonSolid
+      disabled={isDisabled}
+      icon={hasIcon ? 'book' : undefined}
+      text={buttonText}
+    />
+  );
 };
 
 const stories = storiesOf('Components', module);

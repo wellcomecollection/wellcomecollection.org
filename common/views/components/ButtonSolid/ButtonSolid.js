@@ -22,6 +22,14 @@ export const BaseButton = styled.button`
     cursor: pointer;
   }
 
+  &:focus {
+    outline: 0;
+
+    .is-keyboard & {
+      box-shadow: ${props => props.theme.focusBoxShadow};
+    }
+  }
+
   &[disabled],
   &.disabled {
     background: ${props => props.theme.colors.pewter};
@@ -67,8 +75,8 @@ type ButtonProps = {|
   icon?: string,
   size: 'large' | 'small',
   trackingEvent?: GaEvent,
+  disabled?: boolean,
   // id?: string, // TODO still needed?
-  // disabled?: boolean,// TODO still needed?
   // target?: string,// TODO still needed?
   // download?: string, // TODO what's this for?
   // rel?: string, // TODO what's this for?
@@ -127,6 +135,7 @@ const ButtonSolid = ({
   clickHandler,
   ariaControls,
   ariaExpanded,
+  disabled,
 }: ButtonProps) => {
   function handleClick(e) {
     if (clickHandler) {
@@ -141,6 +150,7 @@ const ButtonSolid = ({
       aria-controls={ariaControls}
       aria-expanded={ariaExpanded}
       onClick={handleClick}
+      disabled={disabled}
     >
       {icon && (
         <Space as="span" h={{ size: 'xs', properties: ['margin-right'] }}>
