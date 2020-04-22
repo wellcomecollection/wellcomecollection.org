@@ -1,6 +1,6 @@
 // @flow
 import type { HTMLString } from '../services/prismic/types';
-import { type ImageType } from '@weco/common/model/Image';
+import { type ImageType } from '@weco/common/model/image';
 
 export type Card = {|
   type: 'card',
