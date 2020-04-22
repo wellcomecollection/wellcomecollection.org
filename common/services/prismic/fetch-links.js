@@ -46,7 +46,6 @@ export const bookFields = ['books.title'];
 export const eventFormatsFields = [
   'event-formats.title',
   'event-formats.description',
-  'event-formats.shortName',
 ];
 export const eventAccessOptionsFields = [
   'event-access-options.title',
@@ -98,3 +97,5 @@ export const cardsFields = [
   'card.image',
   'card.link',
 ];
+
+export const labelsFields = ['labels.title', 'labels.description'];
