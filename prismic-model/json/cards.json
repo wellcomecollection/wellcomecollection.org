@@ -15,7 +15,8 @@
         "select": "document",
         "customtypes": [
           "event-formats",
-          "article-formats"
+          "article-formats",
+          "labels"
         ]
       }
     },
