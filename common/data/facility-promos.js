@@ -26,7 +26,7 @@ export const cafePromo: Promo = {
   id: 'cafePromo',
   contentType: 'place',
   title: 'Café',
-  url: 'https://wellcomecollection.org/pages/Wvl1wiAAADMJ3zNe',
+  url: 'https://wellcomecollection.org/pages/WwgaIh8AAB8AGhC_',
   description:
     'Join us for a quick cup of coffee and a pastry, afternoon tea, or a light meal with a glass of wine.',
   image: {
@@ -81,7 +81,7 @@ export const shopPromo: Promo = {
   id: 'shopPromo',
   contentType: 'place',
   title: 'Shop',
-  url: 'https://wellcomecollection.org/pages/WwgaIh8AAB8AGhC_',
+  url: 'https://wellcomecollection.org/pages/Wvl1wiAAADMJ3zNe',
   description: 'Come and browse a selection of our quirky gifts and books.',
   image: {
     type: 'picture',

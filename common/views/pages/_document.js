@@ -15,7 +15,7 @@ export default function WeDoc(css: string) {
 
     render() {
       return (
-        <html id="top" lang="en">
+        <html id="top" lang="en" className="is-keyboard">
           <Head>
             {/* Google Tag Manager */}
             <script

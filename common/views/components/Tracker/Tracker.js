@@ -37,7 +37,7 @@ const trackSearchResultSelected = (
   track(params, 'Search result selected', 'search_relevance_implicit', data);
 };
 
-type SearchData = {| source: string, totalResults: ?number |};
+type SearchData = {| source: string, totalResults: number |};
 const trackSearch = (params: CatalogueApiProps, data: SearchData) => {
   const query = params.query;
   if (query && query !== '') {
