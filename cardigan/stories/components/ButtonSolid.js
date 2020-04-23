@@ -5,11 +5,11 @@ import Readme from '../../../common/views/components/ButtonSolid/README.md';
 import { boolean, text } from '@storybook/addon-knobs/react';
 
 const ButtonExample = () => {
-  const hasIcon = boolean('Has icon?', false);
   const buttonText = text('Button text', 'Click me');
+  const hasIcon = boolean('Has icon?', false);
   const isDisabled = boolean('Is disabled?', false);
   const isBig = boolean('Is big?', false);
-  const isLink = boolean('Is link', false);
+  const isLink = boolean('Is link?', false);
   return isLink ? (
     <ButtonSolidLink
       link={`https://google.com`}
