@@ -7,6 +7,13 @@ module.exports = {
       description: 'Search the entire catalogue, including all work types',
     },
     {
+      id: 'collectionSearch',
+      title: 'Search and explore archive collections',
+      defaultValue: false,
+      description:
+        'Search for top-level collections and surface them on work pages',
+    },
+    {
       id: 'searchToolbar',
       title: 'Search toolbar',
       defaultValue: false,
