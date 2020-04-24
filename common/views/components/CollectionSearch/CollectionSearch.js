@@ -13,7 +13,7 @@ const Container = styled(Space).attrs({
   v: { size: 's', properties: ['padding-bottom'] },
 })`
   background: ${props => props.theme.colors.cream};
-  border-top: 5px solid ${props => props.theme.colors.green};
+  border-top: 5px solid ${props => props.theme.colors.cyan};
 `;
 
 type Props = {| query: string |};
@@ -44,7 +44,7 @@ const CollectionSearch = ({ query }: Props) => {
               <a
                 className="plain-link"
                 style={{
-                  borderTop: '1px solid #007868',
+                  borderTop: '1px solid #298187',
                   padding: '5px',
                   display: 'block',
                 }}
