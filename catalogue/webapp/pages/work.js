@@ -5,7 +5,7 @@ import {
   type CatalogueApiError,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import fetch from 'isomorphic-unfetch';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import {
@@ -25,16 +25,19 @@ import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
+import Collection from '@weco/common/views/components/Collection/Collection';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWork } from '../services/catalogue/works';
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type Props = {|
   work: Work | CatalogueApiError,
 |};
 
 export const WorkPage = ({ work }: Props) => {
+  const { collectionSearch } = useContext(TogglesContext);
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
     page: 1,
@@ -195,6 +198,7 @@ export const WorkPage = ({ work }: Props) => {
         childManifestsCount={childManifestsCount}
         imageCount={imageTotal}
       />
+      {collectionSearch && <Collection work={work} />}
     </CataloguePageLayout>
   );
 };
