@@ -24,7 +24,7 @@ const CollectionSearch = ({ query }: Props) => {
     fetch(url)
       .then(resp => resp.json())
       .then(resp => setCollections(resp));
-  }, []);
+  }, [query]);
 
   return (
     <Container>
