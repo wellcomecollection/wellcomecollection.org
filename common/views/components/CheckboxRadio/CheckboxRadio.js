@@ -11,7 +11,9 @@ const CheckboxRadioLabel = styled.label.attrs({
   className: classNames({
     'flex-inline flex--v-center': true,
   }),
-})``;
+})`
+  cursor: pointer;
+`;
 
 const CheckboxRadioBox = styled.span.attrs({
   className: classNames({
@@ -48,8 +50,16 @@ const CheckboxRadioInput = styled.input.attrs(props => ({
     }
   }
 
-  &:focus ~ ${CheckboxRadioBox} {
-    border-color: ${props => !props.hideFocus && props.theme.colors.black};
+  &:hover ~ ${CheckboxRadioBox} {
+    border-color: ${props => props.theme.colors.black};
+  }
+
+  .is-keyboard & {
+    &:focus ~ ${CheckboxRadioBox} {
+      outline: 0;
+      box-shadow: ${props => props.theme.focusBoxShadow};
+      border-color: ${props => props.theme.colors.black};
+    }
   }
 `;
 
