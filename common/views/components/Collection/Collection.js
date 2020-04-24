@@ -2,6 +2,7 @@
 import { type Work } from '@weco/common/model/work';
 import { type Node, useEffect, useState } from 'react';
 import fetch from 'isomorphic-unfetch';
+import NextLink from 'next/link';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -12,15 +13,39 @@ const Child = ({ child, currentWorkId }: childProps) => {
   return (
     <li
       key={child.path.path}
-      style={{
-        background:
-          child.work && child.work.id === currentWorkId ? '#298187' : '',
-        color: child.work && child.work.id === currentWorkId ? 'white' : '',
-        padding: child.work && child.work.id === currentWorkId ? '2px' : '',
-      }}
+      id={child.work ? `collection-${child.work.id}` : ''}
     >
-      {child.path.label || child.path.path}
-      {child.work && `: ${child.work.title}`}
+      {child.work && (
+        <NextLink href={`/works/${child.work.id}#collection-${child.work.id}`}>
+          <a
+            className="plain-link"
+            style={{
+              borderTop: '1px solid #298187',
+              padding: '5px',
+              display: 'block',
+              background:
+                child.work && child.work.id === currentWorkId ? '#298187' : '',
+              color:
+                child.work && child.work.id === currentWorkId ? 'white' : '',
+            }}
+          >
+            {child.path.label || child.path.path}
+            {child.work && `: ${child.work.title}`}
+          </a>
+        </NextLink>
+      )}
+      {!child.work && (
+        <div
+          style={{
+            background:
+              child.work && child.work.id === currentWorkId ? '#298187' : '',
+            color: child.work && child.work.id === currentWorkId ? 'white' : '',
+          }}
+        >
+          {child.path.label || child.path.path}
+          {child.work && `: ${child.work.title}`}
+        </div>
+      )}
       {child.children && (
         <ul>
           {child.children.map(child => (
@@ -78,6 +103,8 @@ const Collection = ({ work }: Props) => {
           marginBottom: '15px',
           marginLeft: '15px',
         }}
+        name="collection"
+        id="collection"
       >
         {collection.work
           ? `${collection.work.title} ${collection.path.label}`
