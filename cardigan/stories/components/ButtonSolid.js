@@ -12,7 +12,7 @@ const ButtonExample = () => {
   const isLink = boolean('Is link?', false);
   return isLink ? (
     <ButtonSolidLink
-      link={`https://google.com`}
+      link={`https://wellcomecollection.org`}
       icon={hasIcon ? 'eye' : undefined}
       text={buttonText}
       big={isBig}
