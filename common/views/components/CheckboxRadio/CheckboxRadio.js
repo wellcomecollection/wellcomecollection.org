@@ -24,12 +24,10 @@ const CheckboxRadioBox = styled.span.attrs({
   height: 1.3em;
   border: 2px solid ${props => props.theme.colors.pumice};
   border-radius: ${props => (props.type === 'radio' ? '50%' : '0')};
-  transition: all 400ms ease;
 
   .icon {
     position: absolute;
     opacity: 0;
-    transition: opacity 400ms ease;
   }
 `;
 
