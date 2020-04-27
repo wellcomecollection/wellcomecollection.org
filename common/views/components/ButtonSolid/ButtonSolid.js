@@ -78,7 +78,7 @@ export const SolidButton = styled(BaseButton)`
   border: 2px solid ${props => props.theme.colors.green};
   background: ${props => props.theme.colors.green};
   color: ${props => props.theme.colors.white};
-  padding: ${props => (props.big ? '21px 20px' : '15px 20px')};
+  padding: ${props => (props.isBig ? '21px 20px' : '15px 20px')};
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
@@ -92,7 +92,7 @@ export type ButtonSolidProps = {|
   text: string,
   icon?: string,
   trackingEvent?: GaEvent,
-  big?: boolean,
+  isBig?: boolean,
   disabled?: boolean,
   ariaControls?: string,
   ariaExpanded?: boolean,
@@ -110,7 +110,7 @@ const ButtonSolid = forwardRef(
       ariaControls,
       ariaExpanded,
       disabled,
-      big,
+      isBig,
     }: ButtonSolidProps,
     ref
   ) => {
@@ -124,7 +124,7 @@ const ButtonSolid = forwardRef(
         aria-expanded={ariaExpanded}
         onClick={handleClick}
         disabled={disabled}
-        big={big}
+        isBig={isBig}
         ref={ref}
       >
         <SolidButtonInner>

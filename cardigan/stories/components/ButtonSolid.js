@@ -15,14 +15,14 @@ const ButtonExample = () => {
       link={`https://wellcomecollection.org`}
       icon={hasIcon ? 'eye' : undefined}
       text={buttonText}
-      big={isBig}
+      isBig={isBig}
     />
   ) : (
     <ButtonSolid
       disabled={isDisabled}
       icon={hasIcon ? 'eye' : undefined}
       text={buttonText}
-      big={isBig}
+      isBig={isBig}
     />
   );
 };
