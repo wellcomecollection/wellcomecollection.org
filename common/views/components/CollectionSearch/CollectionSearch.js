@@ -4,6 +4,7 @@ import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import styled from 'styled-components';
 import Space from '../styled/Space';
+import { workLink } from '../../../services/catalogue/routes';
 
 const Container = styled(Space).attrs({
   h: {
@@ -40,7 +41,7 @@ const CollectionSearch = ({ query }: Props) => {
       {collections &&
         collections.results.map(work => {
           return (
-            <NextLink key={work.id} href={`/works/${work.id}`}>
+            <NextLink key={work.id} {...workLink({ id: work.id })}>
               <a
                 className="plain-link"
                 style={{

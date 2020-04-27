@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { classNames } from '@weco/common/utils/classnames';
+import { workLink } from '@weco/common/services/catalogue/routes';
 
 type childProps = {| child: any, currentWorkId: string |};
 const Child = ({ child, currentWorkId }: childProps) => {
@@ -16,7 +17,7 @@ const Child = ({ child, currentWorkId }: childProps) => {
       id={child.work ? `collection-${child.work.id}` : ''}
     >
       {child.work && (
-        <NextLink href={`/works/${child.work.id}#collection-${child.work.id}`}>
+        <NextLink {...workLink({ id: child.work.id })} scroll={false}>
           <a
             className="plain-link"
             style={{
@@ -92,7 +93,7 @@ const Collection = ({ work }: Props) => {
     fetch(url)
       .then(resp => resp.json())
       .then(resp => setCollection(resp.collection));
-  }, []);
+  }, [work.id]);
 
   return collection ? (
     <CollectionContainer>
