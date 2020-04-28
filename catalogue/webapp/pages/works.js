@@ -185,7 +185,7 @@ const Works = ({
                   workTypeAggregations={
                     works && works.aggregations
                       ? works.aggregations.workType.buckets
-                      : null
+                      : []
                   }
                 />
               </div>

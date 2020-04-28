@@ -23,7 +23,7 @@ type Props = {|
   ariaDescribedBy: string,
   shouldShowFilters: boolean,
   worksRouteProps: WorksRouteProps,
-  workTypeAggregations: ?(CatalogueAggregationBucket[]),
+  workTypeAggregations: CatalogueAggregationBucket[],
   placeholder?: string,
 |};
 
