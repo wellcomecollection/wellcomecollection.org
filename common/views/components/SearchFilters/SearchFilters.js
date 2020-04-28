@@ -1,3 +1,4 @@
+// @flow
 import { useState, useEffect, useContext } from 'react';
 import { type WorksRouteProps } from '@weco/common/services/catalogue/routes';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
@@ -8,7 +9,7 @@ import theme from '@weco/common/views/themes/default';
 import TogglesContext from '../TogglesContext/TogglesContext';
 
 type Props = {|
-  searchForm: React.Ref<typeof HTMLFormElement>,
+  searchForm: {| current: ?HTMLFormElement |},
   worksRouteProps: WorksRouteProps,
   workTypeAggregations: CatalogueAggregationBucket[],
   changeHandler: () => void,
@@ -16,11 +17,11 @@ type Props = {|
 
 export type SearchFiltersSharedProps = {|
   ...Props,
-  inputDateFrom: string,
-  inputDateTo: string,
-  setInputDateFrom: () => void,
-  setInputDateTo: () => void,
-  workTypeFilters: string[],
+  inputDateFrom: ?string,
+  inputDateTo: ?string,
+  setInputDateFrom: (value: string) => void,
+  setInputDateTo: (value: string) => void,
+  workTypeFilters: CatalogueAggregationBucket[],
   productionDatesFrom: ?string,
   productionDatesTo: ?string,
   workTypeInUrlArray: string[],

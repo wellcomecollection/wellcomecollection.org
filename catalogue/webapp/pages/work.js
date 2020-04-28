@@ -157,7 +157,7 @@ export const WorkPage = ({ work }: Props) => {
               ariaDescribedBy="search-form-description"
               shouldShowFilters={false}
               worksRouteProps={savedSearchFormState}
-              workTypeAggregations={null}
+              workTypeAggregations={[]}
             />
           </div>
         </div>
