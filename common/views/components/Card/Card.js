@@ -24,9 +24,9 @@ const Card = ({ item }: Props) => {
       }}
     >
       <div className="relative">
-        {item.image && (
+        {item.image && item.image.crops && item.image.crops['16:9'] && (
           <UiImage
-            {...item.image}
+            {...item.image.crops['16:9']}
             sizesQueries="(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(33.24vw - 43px), calc(100vw - 36px)"
             showTasl={false}
           />
