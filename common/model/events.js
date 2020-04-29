@@ -1,6 +1,7 @@
 // @flow
 import { isDatePast } from '../utils/format-date';
 import type { GenericContentFields } from './generic-content-fields';
+import type { Format } from './format';
 import type { HTMLString } from './content-blocks';
 import type { BackgroundTexture } from './background-texture';
 import type { ImageType } from './image';
@@ -16,14 +17,6 @@ type DateTimeRange = {|
 export type EventTime = {|
   range: DateTimeRange,
   isFullyBooked: boolean,
-|};
-
-// e.g. 'Tour' | 'Youth event' | 'Workshop' | 'Discussion' | 'Walking tour';
-export type EventFormat = {|
-  id: string,
-  title: string,
-  shortName: ?string,
-  description: ?string,
 |};
 
 export type EventSeries = {|
@@ -86,7 +79,7 @@ export type EventSchedule = {|
 
 export type Event = {|
   ...GenericContentFields,
-  format: ?EventFormat,
+  format: ?Format,
   hasEarlyRegistration: boolean,
   ticketSalesStart: ?Date,
   times: EventTime[],
@@ -129,7 +122,7 @@ export type EventPromo = {|
   isFullyBooked: boolean,
   hasNotFullyBookedTimes: boolean,
   description: ?HTMLString,
-  format: ?EventFormat,
+  format: ?Format,
   bookingType: ?string,
   image: ?ImageType,
   interpretations: Interpretation[],

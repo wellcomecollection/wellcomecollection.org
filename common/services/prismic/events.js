@@ -1,5 +1,5 @@
 // @flow
-import type { UiEvent, EventFormat, EventTime } from '../../model/events';
+import type { UiEvent, EventTime } from '../../model/events';
 import type {
   PrismicDocument,
   PaginatedResults,
@@ -26,8 +26,8 @@ import {
 import {
   parseTitle,
   parsePlace,
+  parseFormat,
   asText,
-  asHtml,
   isDocumentLink,
   parseTimestamp,
   parseBoolean,
@@ -42,17 +42,6 @@ import { getNextWeekendDateRange, isPast } from '../../utils/dates';
 
 const startField = 'my.events.times.startDateTime';
 const endField = 'my.events.times.endDateTime';
-
-function parseEventFormat(frag: Object): ?EventFormat {
-  return isDocumentLink(frag)
-    ? {
-        id: frag.id,
-        title: parseTitle(frag.data.title),
-        shortName: asText(frag.data.shortName),
-        description: asHtml(frag.data.description),
-      }
-    : null;
-}
 
 function parseEventBookingType(eventDoc: PrismicDocument): ?string {
   return !isEmptyObj(eventDoc.data.eventbriteEvent)
@@ -203,7 +192,7 @@ export function parseEventDoc(
         : null,
     bookingType: parseEventBookingType(document),
     cost: data.cost,
-    format: data.format && parseEventFormat(data.format),
+    format: data.format && parseFormat(data.format),
     interpretations,
     policies: Array.isArray(data.policies)
       ? parseLabelTypeList(data.policies, 'policy')

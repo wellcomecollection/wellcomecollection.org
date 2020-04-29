@@ -135,6 +135,7 @@ export default {
             'events',
             'articles',
             'exhibitions',
+            'card',
           ]),
         },
       }),
