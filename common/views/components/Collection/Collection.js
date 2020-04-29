@@ -9,51 +9,95 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { classNames } from '@weco/common/utils/classnames';
 import { workLink } from '@weco/common/services/catalogue/routes';
 
-type childProps = {| child: any, currentWorkId: string |};
-const Child = ({ child, currentWorkId }: childProps) => {
+type childProps = {|
+  child: any,
+  currentWorkPath: string,
+  expandedPaths: string[],
+  setExpandedPaths: (string[]) => void,
+|};
+const Child = ({
+  child,
+  currentWorkPath,
+  expandedPaths,
+  setExpandedPaths,
+}: childProps) => {
+  const isExpanded = child.children || expandedPaths.includes(child.path.path);
+  const canToggleExpanded = !currentWorkPath.startsWith(child.path.path);
   return (
     <li
       key={child.path.path}
       id={child.work ? `collection-${child.work.id}` : ''}
+      style={{
+        listStyle: 'none',
+        padding: 0,
+        margin: 0,
+      }}
     >
-      {child.work && (
-        <NextLink {...workLink({ id: child.work.id })} scroll={false}>
-          <a
-            className="plain-link"
+      <div style={{ display: 'flex' }}>
+        <div
+          onClick={
+            canToggleExpanded
+              ? () =>
+                  setExpandedPaths(
+                    isExpanded
+                      ? expandedPaths.filter(
+                          path => !path.startsWith(child.path.path)
+                        )
+                      : expandedPaths.concat(child.path.path)
+                  )
+              : null
+          }
+          style={{
+            cursor: canToggleExpanded ? 'pointer' : 'default',
+            width: '30px',
+            textAlign: 'center',
+            padding: '5px',
+            color: '#298187',
+            fontWeight: 'bold',
+          }}
+        >
+          {isExpanded ? '-' : '+'}
+        </div>
+        {child.work && (
+          <NextLink {...workLink({ id: child.work.id })} scroll={false}>
+            <a
+              className="plain-link"
+              style={{
+                borderTop: '1px solid #298187',
+                width: '100%',
+                marginLeft: '10px',
+                padding: '5px',
+                background:
+                  child.path.path === currentWorkPath ? '#298187' : '',
+                color: child.path.path === currentWorkPath ? 'white' : '',
+              }}
+            >
+              {child.path.label || child.path.path}
+              {child.work && `: ${child.work.title}`}
+            </a>
+          </NextLink>
+        )}
+        {!child.work && (
+          <div
             style={{
-              borderTop: '1px solid #298187',
-              padding: '5px',
-              display: 'block',
-              background:
-                child.work && child.work.id === currentWorkId ? '#298187' : '',
-              color:
-                child.work && child.work.id === currentWorkId ? 'white' : '',
+              background: child.path.path === currentWorkPath ? '#298187' : '',
+              color: child.path.path === currentWorkPath ? 'white' : '',
             }}
           >
             {child.path.label || child.path.path}
             {child.work && `: ${child.work.title}`}
-          </a>
-        </NextLink>
-      )}
-      {!child.work && (
-        <div
-          style={{
-            background:
-              child.work && child.work.id === currentWorkId ? '#298187' : '',
-            color: child.work && child.work.id === currentWorkId ? 'white' : '',
-          }}
-        >
-          {child.path.label || child.path.path}
-          {child.work && `: ${child.work.title}`}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
       {child.children && (
         <ul>
           {child.children.map(child => (
             <Child
               key={child.path.path}
               child={child}
-              currentWorkId={currentWorkId}
+              currentWorkPath={currentWorkPath}
+              expandedPaths={expandedPaths}
+              setExpandedPaths={setExpandedPaths}
             />
           ))}
         </ul>
@@ -88,12 +132,21 @@ const CollectionContainer = ({ children }: CollectionContainerProps) => {
 type Props = {| work: Work |};
 const Collection = ({ work }: Props) => {
   const [collection, setCollection] = useState();
+  const [expandedPaths, setExpandedPaths] = useState([]);
   useEffect(() => {
-    const url = `https://api.wellcomecollection.org/catalogue/v2/works/${work.id}?include=collection`;
+    const url = `https://api.wellcomecollection.org/catalogue/v2/works/${
+      work.id
+    }?include=collection&_expandPaths=${expandedPaths.join(',')}`;
     fetch(url)
       .then(resp => resp.json())
-      .then(resp => setCollection(resp.collection));
-  }, [work.id]);
+      .then(resp =>
+        setCollection({
+          currentWorkPath: resp.collectionPath.path,
+          tree: resp.collection,
+        })
+      );
+  }, [work.id, expandedPaths]);
+  useEffect(() => setExpandedPaths([]), [work.id]);
 
   return collection ? (
     <CollectionContainer>
@@ -107,17 +160,19 @@ const Collection = ({ work }: Props) => {
         name="collection"
         id="collection"
       >
-        {collection.work
-          ? `${collection.work.title} ${collection.path.label}`
-          : collection.path.label || collection.path.path}
+        {collection.tree.work
+          ? `${collection.tree.work.title} ${collection.tree.path.label}`
+          : collection.tree.path.label || collection.tree.path.path}
       </h2>
-      <ul>
-        {collection.children.map(child => {
+      <ul style={{ padding: 0 }}>
+        {collection.tree.children.map(child => {
           return (
             <Child
               key={child.path.path}
               child={child}
-              currentWorkId={work.id}
+              currentWorkPath={collection.currentWorkPath}
+              expandedPaths={expandedPaths}
+              setExpandedPaths={setExpandedPaths}
             />
           );
         })}
