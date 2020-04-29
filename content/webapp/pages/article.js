@@ -4,6 +4,7 @@ import { Fragment, Component } from 'react';
 import type { Article } from '@weco/common/model/articles';
 import type { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';
 import type { PrismicApiError } from '@weco/common/services/prismic/types';
+import { getPrismicApi } from '@weco/common/services/prismic/api';
 import { getArticle } from '@weco/common/services/prismic/articles';
 import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -46,8 +47,12 @@ export class ArticlePage extends Component<Props, State> {
   static getInitialProps = async (
     ctx: Context
   ): Promise<?Props | PrismicApiError> => {
-    const { id } = ctx.query;
-    const article = await getArticle(ctx.req, id);
+    const { id, memoizedPrismic } = ctx.query;
+    // console.log('MEMO', memoizedPrismic);
+    const prismicApi = await getPrismicApi(ctx.req, memoizedPrismic);
+    // console.log('API', prismicApi);
+    const article = await getArticle(ctx.req, id, prismicApi);
+    // console.log('ARTICLE', article);
     if (article) {
       return {
         article,
@@ -73,7 +78,6 @@ export class ArticlePage extends Component<Props, State> {
 
   render() {
     const { article } = this.props;
-
     const breadcrumbs = {
       items: [
         {

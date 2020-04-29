@@ -1,6 +1,6 @@
 // @flow
 import Prismic from 'prismic-javascript';
-import Raven from 'raven-js';
+// import Raven from 'raven-js';
 import type {
   PrismicDocument,
   PrismicQueryOpts,
@@ -10,21 +10,7 @@ import type {
 } from './types';
 import Cookies from 'cookies';
 
-const oneMinute = 1000 * 60;
 const apiUri = 'https://wellcomecollection.prismic.io/api/v2';
-
-let memoizedPrismic;
-
-function periodicallyUpdatePrismic() {
-  setInterval(async () => {
-    try {
-      memoizedPrismic = await Prismic.getApi(apiUri);
-    } catch (error) {
-      Raven.captureException(new Error(`Prismic error: ${error}`));
-    }
-  }, oneMinute);
-}
-periodicallyUpdatePrismic();
 
 export function isPreview(req: ?Request): boolean {
   const cookies = req && new Cookies(req);
@@ -34,25 +20,33 @@ export function isPreview(req: ?Request): boolean {
     : false;
 }
 
-export async function getPrismicApi(req: ?Request) {
+export async function getPrismicApi(req: ?Request, memoizedPrismic: any) {
+  // TODO flow
+  // console.log('memo', memoizedPrismic);
   if (req && isPreview(req)) {
     const api = await Prismic.getApi(apiUri, { req });
     return api;
   } else {
     if (!memoizedPrismic) {
-      memoizedPrismic = await Prismic.getApi(apiUri);
+      console.log('NOT memoized');
+      const prismicApi = await Prismic.getApi(apiUri);
+      return prismicApi;
+    } else {
+      console.log('IS memoized');
+      const prismicApi = await Prismic.getApi(apiUri);
+      return prismicApi;
+      // return memoizedPrismic;
     }
-    return memoizedPrismic;
   }
 }
 
 export async function getDocument(
   req: ?Request,
   id: string,
-  opts: PrismicQueryOpts
+  opts: PrismicQueryOpts,
+  prismicApi: any
 ): Promise<?PrismicDocument> {
-  const api = await getPrismicApi(req);
-  const doc = await api.getByID(id, opts);
+  const doc = await prismicApi.getByID(id, opts);
   return doc;
 }
 

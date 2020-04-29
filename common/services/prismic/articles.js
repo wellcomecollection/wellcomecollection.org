@@ -304,8 +304,12 @@ export function parseArticle(document: PrismicDocument): Article {
   }
 }
 
-export async function getArticle(req: ?Request, id: string): Promise<?Article> {
-  const document = await getDocument(req, id, { graphQuery });
+export async function getArticle(
+  req: ?Request,
+  id: string,
+  prismicApi: any
+): Promise<?Article> {
+  const document = await getDocument(req, id, { graphQuery }, prismicApi); // TODO flow
   return document &&
     (document.type === 'articles' || document.type === 'webcomics')
     ? parseArticle(document)
