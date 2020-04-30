@@ -10,6 +10,8 @@ import type {
 } from './types';
 import Cookies from 'cookies';
 
+// import util from 'util';
+
 const apiUri = 'https://wellcomecollection.prismic.io/api/v2';
 
 export function isPreview(req: ?Request): boolean {
@@ -22,7 +24,6 @@ export function isPreview(req: ?Request): boolean {
 
 export async function getPrismicApi(req: ?Request, memoizedPrismic: any) {
   // TODO flow
-  // console.log('memo', memoizedPrismic);
   if (req && isPreview(req)) {
     const api = await Prismic.getApi(apiUri, { req });
     return api;
@@ -33,9 +34,7 @@ export async function getPrismicApi(req: ?Request, memoizedPrismic: any) {
       return prismicApi;
     } else {
       console.log('IS memoized');
-      const prismicApi = await Prismic.getApi(apiUri);
-      return prismicApi;
-      // return memoizedPrismic;
+      return memoizedPrismic;
     }
   }
 }
@@ -47,6 +46,7 @@ export async function getDocument(
   prismicApi: any
 ): Promise<?PrismicDocument> {
   const doc = await prismicApi.getByID(id, opts);
+  // console.log('DOC: ', util.inspect(doc, { showHidden: false, depth: null }));
   return doc;
 }
 
