@@ -20,7 +20,7 @@ const Child = ({
   currentWorkPath,
   expandedPaths,
   setExpandedPaths,
-}: childProps) => {
+}: ChildProps) => {
   const isExpanded = child.children || expandedPaths.includes(child.path.path);
   const canToggleExpanded = !currentWorkPath.startsWith(child.path.path);
   return (
