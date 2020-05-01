@@ -9,7 +9,7 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { classNames } from '@weco/common/utils/classnames';
 import { workLink } from '@weco/common/services/catalogue/routes';
 
-type childProps = {|
+type ChildProps = {|
   child: any,
   currentWorkPath: string,
   expandedPaths: string[],
