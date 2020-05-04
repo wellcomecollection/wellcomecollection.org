@@ -61,7 +61,7 @@ const ImageViewer = ({
   rotation,
   loadHandler,
   mainViewerRef,
-  index,
+  index = 0,
 }: ImageViewerProps) => {
   const imageViewer = useRef();
   const isOnScreen = useOnScreen({
@@ -82,8 +82,8 @@ const ImageViewer = ({
       .join(',')
   );
   useEffect(() => {
-    if (setActiveIndex && index && isOnScreen) {
-      setActiveIndex && setActiveIndex(index);
+    if (setActiveIndex && isOnScreen) {
+      setActiveIndex(index);
       setZoomInfoUrl && setZoomInfoUrl(infoUrl);
     }
   }, [isOnScreen]);
