@@ -128,7 +128,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
 
 type Props = {|
   listHeight: number,
-  mainViewerRef: any,
+  mainViewerRef: { current: HTMLElement | null },
   setActiveIndex: number => void,
   pageWidth: number,
   canvases: [],
@@ -216,6 +216,7 @@ const MainViewer = ({
         setActiveIndex,
         setIsLoading,
         ocrText,
+        mainViewerRef,
       }}
       itemSize={itemHeight}
       onItemsRendered={debounceHandleOnItemsRendered.current}
