@@ -13,8 +13,6 @@ const ImageWrapper = styled.div`
   bottom: 0;
   right: 0;
   padding: 0;
-  transition: opacity 1000ms ease;
-  opacity: ${props => (props.imageLoading ? 0 : 1)};
   img {
     cursor: pointer;
     margin: auto;
@@ -43,7 +41,7 @@ type ImageViewerProps = {|
   setActiveIndex?: number => void,
   rotation: number,
   loadHandler?: Function,
-  mainViewerRef?: ?HTMLElement,
+  mainViewerRef?: any,
   index?: number,
 |};
 
@@ -65,9 +63,9 @@ const ImageViewer = ({
 }: ImageViewerProps) => {
   const imageViewer = useRef();
   const isOnScreen = useOnScreen({
-    root: mainViewerRef,
+    root: mainViewerRef && mainViewerRef._outerRef,
     ref: imageViewer,
-    threshold: 0.1,
+    threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
   });
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
   const [imageSrcSet, setImageSrcSet] = useState(

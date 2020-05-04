@@ -128,7 +128,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
 
 type Props = {|
   listHeight: number,
-  mainViewerRef: { current: HTMLElement | null },
+  mainViewerRef: any,
   setActiveIndex: number => void,
   pageWidth: number,
   canvases: [],
