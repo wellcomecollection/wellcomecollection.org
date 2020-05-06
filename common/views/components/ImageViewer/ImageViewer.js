@@ -1,6 +1,7 @@
 // @flow
 import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { FixedSizeList } from 'react-window';
 import { type IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '../../../utils/image-sizes';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
@@ -13,8 +14,6 @@ const ImageWrapper = styled.div`
   bottom: 0;
   right: 0;
   padding: 0;
-  transition: opacity 1000ms ease;
-  opacity: ${props => (props.imageLoading ? 0 : 1)};
   img {
     cursor: pointer;
     margin: auto;
@@ -43,7 +42,7 @@ type ImageViewerProps = {|
   setActiveIndex?: number => void,
   rotation: number,
   loadHandler?: Function,
-  mainViewerRef?: ?HTMLElement,
+  mainViewerRef?: FixedSizeList,
   index?: number,
 |};
 
@@ -61,13 +60,13 @@ const ImageViewer = ({
   rotation,
   loadHandler,
   mainViewerRef,
-  index,
+  index = 0,
 }: ImageViewerProps) => {
   const imageViewer = useRef();
   const isOnScreen = useOnScreen({
-    root: mainViewerRef,
+    root: mainViewerRef && mainViewerRef._outerRef,
     ref: imageViewer,
-    threshold: 0.1,
+    threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
   });
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
   const [imageSrcSet, setImageSrcSet] = useState(
@@ -82,8 +81,8 @@ const ImageViewer = ({
       .join(',')
   );
   useEffect(() => {
-    if (setActiveIndex && index && isOnScreen) {
-      setActiveIndex && setActiveIndex(index);
+    if (setActiveIndex && isOnScreen) {
+      setActiveIndex(index);
       setZoomInfoUrl && setZoomInfoUrl(infoUrl);
     }
   }, [isOnScreen]);
