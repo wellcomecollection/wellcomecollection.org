@@ -1,6 +1,7 @@
 // @flow
 import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { FixedSizeList } from 'react-window';
 import { type IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '../../../utils/image-sizes';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
@@ -41,7 +42,7 @@ type ImageViewerProps = {|
   setActiveIndex?: number => void,
   rotation: number,
   loadHandler?: Function,
-  mainViewerRef?: any,
+  mainViewerRef?: FixedSizeList,
   index?: number,
 |};
 
