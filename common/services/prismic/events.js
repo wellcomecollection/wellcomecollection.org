@@ -168,12 +168,11 @@ export function parseEventDoc(
     data.times &&
     data.times
       .sort(
-        (x, y) => moment(x.endDateTime).unix() - moment(y.endDateTime).unix()
+        (x, y) => moment(y.endDateTime).unix() - moment(x.endDateTime).unix()
       )
       .map(time => {
         return parseTimestamp(time.endDateTime);
-      })
-      .find((date, i) => i === times.length - 1);
+      })[0];
   const isRelaxedPerformance = parseBoolean(data.isRelaxedPerformance);
 
   const schedule = eventSchedule.map((event, i) => {
