@@ -9,6 +9,7 @@ import type {
 import type { Team } from '../../model/team';
 import Prismic from 'prismic-javascript';
 import sortBy from 'lodash.sortby';
+import moment from 'moment';
 import { getDocument, getTypeByIds, getDocuments } from './api';
 import {
   eventAccessOptionsFields,
@@ -163,9 +164,15 @@ export function parseEventDoc(
     [];
 
   const displayTime = determineDisplayTime(times);
-  const lastEndTime = times
-    .map(time => time.range.endDateTime)
-    .find((date, i) => i === times.length - 1);
+  const lastEndTime =
+    data.times &&
+    data.times
+      .sort(
+        (x, y) => moment(y.endDateTime).unix() - moment(x.endDateTime).unix()
+      )
+      .map(time => {
+        return parseTimestamp(time.endDateTime);
+      })[0];
   const isRelaxedPerformance = parseBoolean(data.isRelaxedPerformance);
 
   const schedule = eventSchedule.map((event, i) => {
