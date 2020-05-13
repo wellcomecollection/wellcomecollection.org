@@ -19,7 +19,6 @@ import OpeningTimesContext from '../../views/components/OpeningTimesContext/Open
 import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
 import JsonLd from '../../views/components/JsonLd/JsonLd';
-import { TrackerScript } from '../../views/components/Tracker/Tracker';
 import { trackEvent } from '../../utils/ga';
 import { AppContextProvider } from '../components/AppContext/AppContext';
 
@@ -467,7 +466,6 @@ export default class WecoApp extends App {
                         }
                       </TogglesContext.Consumer>
                       <LoadingIndicator />
-                      <TrackerScript />
                       {!pageProps.statusCode && <Component {...pageProps} />}
                       {pageProps.statusCode && pageProps.statusCode !== 200 && (
                         <ErrorPage statusCode={pageProps.statusCode} />
