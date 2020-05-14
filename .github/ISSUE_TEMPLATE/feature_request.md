@@ -10,7 +10,9 @@ assignees: ''
 
 # User story
 As a _(who? user/persona)_
+
 I need/want/expect _(what? to do this thing)_
+
 So that _(why? accomplish a goal/get a benefit)_
 
 # Implementation 
