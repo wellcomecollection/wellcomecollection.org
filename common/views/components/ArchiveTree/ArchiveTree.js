@@ -5,6 +5,12 @@ import { font, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 
+const Container = styled.div`
+  border: 1px solid ${props => props.theme.colors.pumice};
+  border-radius: 6px;
+  height: 200px;
+  overflow: scroll;
+`;
 const Tree = styled(Space).attrs({
   className: classNames({ [font('lr', 5)]: true }),
   v: { size: 'm', properties: ['margin-top', 'margin-bottom'] },
@@ -117,17 +123,33 @@ type Props = {|
 |};
 
 const ArchiveTree = ({ collection, currentWork }: Props) => {
-  const [scale, setScale] = useState(0.8);
+  const [scale, setScale] = useState(0.75);
   const selected = useRef(null);
   const container = useRef(null);
 
   useEffect(() => {
-    const top = selected && selected.current && selected.current.scrollTop;
-    const left = selected && selected.current && selected.current.scrollLeft;
-    console.log(selected.current);
-    console.log(top, left);
-    if (container && container.current && top && left) {
-      container.current.scrollTo(top, left);
+    const containerTop =
+      container &&
+      container.current &&
+      container.current.getBoundingClientRect().top;
+    const containerLeft =
+      container &&
+      container.current &&
+      container.current.getBoundingClientRect().left;
+    const selectedTop =
+      selected &&
+      selected.current &&
+      selected.current.getBoundingClientRect().top;
+    const selectedLeft =
+      selected &&
+      selected.current &&
+      selected.current.getBoundingClientRect().left;
+    console.log('?', selectedLeft - containerLeft);
+    if (container && container.current) {
+      container.current.scrollTo(
+        160,
+        Math.floor(selectedTop - containerTop - 80)
+      ); // TODO use half container height and half selected height rather than 80
     }
     // selected &&
     //   selected.current &&
@@ -137,16 +159,7 @@ const ArchiveTree = ({ collection, currentWork }: Props) => {
     //   });
   }, [selected, container]);
   return (
-    <div
-      style={{
-        border: '1px dotted black',
-        borderRadius: '6px',
-        height: '200px',
-        overflow: 'scroll',
-        marginLeft: '-30px',
-      }}
-      ref={container}
-    >
+    <Container ref={container}>
       <Space v={{ size: 'm', properties: ['margin-top'] }}>
         <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
           <Button
@@ -190,7 +203,7 @@ const ArchiveTree = ({ collection, currentWork }: Props) => {
           />
         </Tree>
       </div>
-    </div>
+    </Container>
   );
 };
 export default ArchiveTree;
