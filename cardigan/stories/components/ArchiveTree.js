@@ -847,6 +847,7 @@ const ArchiveTreeExample = () => {
           ],
         },
       ]}
+      currentWork="b5ufy8am"
     />
   );
 };

@@ -1,6 +1,6 @@
 // @flow
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
@@ -26,8 +26,8 @@ const Tree = styled(Space).attrs({
 
   a {
     text-decoration: none;
-    display: block;
-    padding: 0 0 10px 10px;
+    display: inline-block;
+    padding: 10px;
   }
 
   ul ul {
@@ -46,7 +46,7 @@ const Tree = styled(Space).attrs({
 
     li::before {
       border-top: 2px solid #000;
-      top: 10px;
+      top: 20px;
       width: 22px;
       height: 0;
     }
@@ -55,7 +55,7 @@ const Tree = styled(Space).attrs({
       border-left: 2px solid #000;
       height: 100%;
       width: 0px;
-      top: 0;
+      top: 10px;
     }
 
     li:last-child::after {
@@ -64,26 +64,50 @@ const Tree = styled(Space).attrs({
   }
 `;
 
+const WorkLink = styled.a`
+  display: inline-block;
+  background: ${props => (props.selected ? '#ffce3c' : 'transparent')};
+  font-weight: ${props => (props.selected ? 'bold' : 'normal')};
+  border: 1px dotted black;
+  border-color: ${props => (props.selected ? 'black' : 'transparent')};
+  border-radius: 6px;
+`;
+
 type Props = {|
   collection: any, // TODO
+  currentWork: string,
+  selected: any, // TODO
 |};
 
-const NestedList = ({ collection }: Props) => {
+const NestedList = ({ collection, currentWork, selected }: Props) => {
   return (
     <ul>
       {collection.map(item => {
         return (
           <li key="item.work.id">
-            <a href={`/works/${item.work.id}`}>{item.work.title}</a>
-            {item.children && <NestedList collection={item.children} />}
+            <WorkLink
+              href={`/works/${item.work.id}`}
+              selected={currentWork === item.work.id}
+              ref={currentWork === item.work.id ? selected : null}
+            >
+              {item.work.title}
+            </WorkLink>
+            {item.children && (
+              <NestedList
+                collection={item.children}
+                currentWork={currentWork}
+                selected={selected}
+              />
+            )}
           </li>
         );
       })}
     </ul>
   );
 };
-const ArchiveTree = ({ collection }: Props) => {
+const ArchiveTree = ({ collection, currentWork }: Props) => {
   const [scale, setScale] = useState(1);
+  const selected = useRef(null);
   return (
     <>
       <Space v={{ size: 'm', properties: ['margin-top'] }}>
@@ -109,16 +133,24 @@ const ArchiveTree = ({ collection }: Props) => {
           fontFamily="hnl"
           clickHandler={() => {
             if (scale < 1) {
-              setScale(scale + 0.25);
+              setScale(scale + 0.25); // TODO tidy
             } else if (scale < 3) {
               setScale(scale + 1);
             }
           }}
         />
       </Space>
-      <div style={{ overflow: 'scroll' }}>
+      <div
+        style={{
+          overflow: 'scroll',
+        }}
+      >
         <Tree scale={scale}>
-          <NestedList collection={collection} />
+          <NestedList
+            collection={collection}
+            currentWork={currentWork}
+            selected={selected}
+          />
         </Tree>
       </div>
     </>
