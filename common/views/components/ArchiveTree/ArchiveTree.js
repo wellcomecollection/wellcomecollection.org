@@ -1,14 +1,18 @@
 // @flow
 import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
+import { useState } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
+import Button from '@weco/common/views/components/Buttons/Button/Button';
 
 const Tree = styled(Space).attrs({
-  className: classNames({ [font('lr', 6)]: true }),
+  className: classNames({ [font('lr', 5)]: true }),
   v: { size: 'l', properties: ['margin-top', 'margin-bottom'] },
 })`
   list-style: none;
   padding-left: 0;
+  transform: scale(${props => props.scale});
+  transform-origin: top left;
 
   li {
     position: relative;
@@ -75,12 +79,42 @@ const NestedList = ({ collection }: Props) => {
   );
 };
 const ArchiveTree = ({ collection }: Props) => {
+  const [scale, setScale] = useState(1);
   return (
-    <div style={{ border: '1px solid transparent', overflow: 'scroll' }}>
-      <Tree>
-        <NestedList collection={collection} />
-      </Tree>
-    </div>
+    <>
+      {scale}
+      <Button
+        extraClasses="btn--primary"
+        icon={'zoomOut'}
+        text={'Zoom out'}
+        fontFamily="hnl"
+        clickHandler={() => {
+          if (scale > 1) {
+            setScale(scale - 1);
+          } else if (scale > 0.25) {
+            setScale(scale - 0.25);
+          }
+        }}
+      />
+      <Button
+        extraClasses="btn--primary"
+        icon={'zoomIn'}
+        text={'Zoom in'}
+        fontFamily="hnl"
+        clickHandler={() => {
+          if (scale < 1) {
+            setScale(scale + 0.25);
+          } else if (scale < 3) {
+            setScale(scale + 1);
+          }
+        }}
+      />
+      <div style={{ border: '1px solid transparent', overflow: 'scroll' }}>
+        <Tree scale={scale}>
+          <NestedList collection={collection} />
+        </Tree>
+      </div>
+    </>
   );
 };
 export default ArchiveTree;
