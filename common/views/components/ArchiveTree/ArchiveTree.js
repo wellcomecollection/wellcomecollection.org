@@ -1,6 +1,6 @@
 // @flow
 import styled from 'styled-components';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
@@ -12,11 +12,11 @@ const Tree = styled(Space).attrs({
   transform: scale(${props => props.scale});
   transform-origin: 0 0;
 
-    ul {
-      list-style: none;
-      padding-left: 0;
-      margin-left: 0;
-    }
+  ul {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+  }
 
   li {
     position: relative;
@@ -28,6 +28,7 @@ const Tree = styled(Space).attrs({
     text-decoration: none;
     display: inline-block;
     padding: 10px;
+    white-space: nowrap;
     :hover,
     :focus {
       text-decoration: underline;
@@ -77,13 +78,13 @@ const WorkLink = styled.a`
   border-radius: 6px;
 `;
 
-type Props = {|
+type NestedListProps = {|
   collection: any, // TODO
   currentWork: string,
   selected: any, // TODO
 |};
 
-const NestedList = ({ collection, currentWork, selected }: Props) => {
+const NestedList = ({ collection, currentWork, selected }: NestedListProps) => {
   return (
     <ul>
       {collection.map(item => {
@@ -109,13 +110,45 @@ const NestedList = ({ collection, currentWork, selected }: Props) => {
     </ul>
   );
 };
+
+type Props = {|
+  collection: any, // TODO
+  currentWork: string,
+|};
+
 const ArchiveTree = ({ collection, currentWork }: Props) => {
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(0.8);
   const selected = useRef(null);
-  return (;
-    <>
+  const container = useRef(null);
+
+  useEffect(() => {
+    const top = selected && selected.current && selected.current.scrollTop;
+    const left = selected && selected.current && selected.current.scrollLeft;
+    console.log(selected.current);
+    console.log(top, left);
+    if (container && container.current && top && left) {
+      container.current.scrollTo(top, left);
+    }
+    // selected &&
+    //   selected.current &&
+    //   selected.current.scrollIntoView({
+    //     block: 'center',
+    //     inline: 'nearest',
+    //   });
+  }, [selected, container]);
+  return (
+    <div
+      style={{
+        border: '1px dotted black',
+        borderRadius: '6px',
+        height: '200px',
+        overflow: 'scroll',
+        marginLeft: '-30px',
+      }}
+      ref={container}
+    >
       <Space v={{ size: 'm', properties: ['margin-top'] }}>
-        <Space as="sp;an" h={{ size: 'm', properties: ['margin-right'] }}>
+        <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
           <Button
             extraClasses="btn--primary"
             icon={'zoomOut'}
@@ -157,7 +190,7 @@ const ArchiveTree = ({ collection, currentWork }: Props) => {
           />
         </Tree>
       </div>
-    </>
+    </div>
   );
 };
 export default ArchiveTree;
