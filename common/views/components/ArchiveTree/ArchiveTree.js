@@ -7,12 +7,16 @@ import Button from '@weco/common/views/components/Buttons/Button/Button';
 
 const Tree = styled(Space).attrs({
   className: classNames({ [font('lr', 5)]: true }),
-  v: { size: 'l', properties: ['margin-top', 'margin-bottom'] },
+  v: { size: 'm', properties: ['margin-top', 'margin-bottom'] },
 })`
-  list-style: none;
-  padding-left: 0;
   transform: scale(${props => props.scale});
-  transform-origin: top left;
+  transform-origin: 0 0;
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+  }
 
   li {
     position: relative;
@@ -82,34 +86,37 @@ const ArchiveTree = ({ collection }: Props) => {
   const [scale, setScale] = useState(1);
   return (
     <>
-      {scale}
-      <Button
-        extraClasses="btn--primary"
-        icon={'zoomOut'}
-        text={'Zoom out'}
-        fontFamily="hnl"
-        clickHandler={() => {
-          if (scale > 1) {
-            setScale(scale - 1);
-          } else if (scale > 0.25) {
-            setScale(scale - 0.25);
-          }
-        }}
-      />
-      <Button
-        extraClasses="btn--primary"
-        icon={'zoomIn'}
-        text={'Zoom in'}
-        fontFamily="hnl"
-        clickHandler={() => {
-          if (scale < 1) {
-            setScale(scale + 0.25);
-          } else if (scale < 3) {
-            setScale(scale + 1);
-          }
-        }}
-      />
-      <div style={{ border: '1px solid transparent', overflow: 'scroll' }}>
+      <Space v={{ size: 'm', properties: ['margin-top'] }}>
+        <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+          <Button
+            extraClasses="btn--primary"
+            icon={'zoomOut'}
+            text={'Zoom out'}
+            fontFamily="hnl"
+            clickHandler={() => {
+              if (scale > 1) {
+                setScale(scale - 1);
+              } else if (scale > 0.25) {
+                setScale(scale - 0.25);
+              }
+            }}
+          />
+        </Space>
+        <Button
+          extraClasses="btn--primary"
+          icon={'zoomIn'}
+          text={'Zoom in'}
+          fontFamily="hnl"
+          clickHandler={() => {
+            if (scale < 1) {
+              setScale(scale + 0.25);
+            } else if (scale < 3) {
+              setScale(scale + 1);
+            }
+          }}
+        />
+      </Space>
+      <div style={{ overflow: 'scroll' }}>
         <Tree scale={scale}>
           <NestedList collection={collection} />
         </Tree>
