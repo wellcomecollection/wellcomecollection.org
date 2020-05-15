@@ -28,6 +28,10 @@ const Tree = styled(Space).attrs({
     text-decoration: none;
     display: inline-block;
     padding: 10px;
+    :hover,
+    :focus {
+      text-decoration: underline;
+    }
   }
 
   ul ul {
