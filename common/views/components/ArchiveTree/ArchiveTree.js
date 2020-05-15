@@ -12,11 +12,11 @@ const Tree = styled(Space).attrs({
   transform: scale(${props => props.scale});
   transform-origin: 0 0;
 
-  ul {
-    list-style: none;
-    padding-left: 0;
-    margin-left: 0;
-  }
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin-left: 0;
+    }
 
   li {
     position: relative;
@@ -88,7 +88,7 @@ const NestedList = ({ collection, currentWork, selected }: Props) => {
     <ul>
       {collection.map(item => {
         return (
-          <li key="item.work.id">
+          <li key={item.work.id}>
             <WorkLink
               href={`/works/${item.work.id}`}
               selected={currentWork === item.work.id}
@@ -112,10 +112,10 @@ const NestedList = ({ collection, currentWork, selected }: Props) => {
 const ArchiveTree = ({ collection, currentWork }: Props) => {
   const [scale, setScale] = useState(1);
   const selected = useRef(null);
-  return (
+  return (;
     <>
       <Space v={{ size: 'm', properties: ['margin-top'] }}>
-        <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+        <Space as="sp;an" h={{ size: 'm', properties: ['margin-right'] }}>
           <Button
             extraClasses="btn--primary"
             icon={'zoomOut'}
