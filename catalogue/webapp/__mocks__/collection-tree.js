@@ -13591,7 +13591,2047 @@ const collectionTree = [
           alternativeTitles: [],
           type: 'Work',
         },
-        children: [],
+        children: [
+          {
+            path: {
+              path: 'PPCRI/L/2',
+              level: 'Section',
+              label: 'PP/CRI/L/2',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'eeesjgtq',
+              title: 'Notepads',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+            children: [
+              {
+                path: {
+                  path: 'PPCRI/L/2/1',
+                  level: 'Series',
+                  label: 'PP/CRI/L/2/1',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'ezxbrqb2',
+                  title: 'Notepads 1979-1981',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+                children: [
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/1',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/1',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'cg9vttqg',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/10',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/10',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'r32cmyeq',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/11',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/11',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'xgecjdqr',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/12',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/12',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'k7a373uq',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/13',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/13',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'ddjr4dyc',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/14',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/14',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'zxxd8yk4',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/15',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/15',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'qkdddga8',
+                      title: 'Loose leaves from notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/16',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/16',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'jwkxbapj',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/17',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/17',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'vyafzffp',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/18',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/18',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'nk5ststf',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/19',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/19',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'wy75338d',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/20',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/20',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'yvdquhpp',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/21',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/21',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'xp59v45w',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/3',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/3',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'n9q439rz',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/4',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/4',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'yrt93xsx',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/5',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/5',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'xq8x2xgu',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/6',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/6',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'gnnsn3dp',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/7',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/7',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'qwy2zybx',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/8',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/8',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'sr4sqp2t',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/1/9',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/1/9',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 's3ux4c5c',
+                      title: 'Loose leaves from notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                ],
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/2/2',
+                  level: 'Series',
+                  label: 'PP/CRI/L/2/2',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'y7xjg7wq',
+                  title: 'Notepads c.1993-2000',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+                children: [
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/2/1',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/2/1',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'hyj4e9xn',
+                      title: 'Notepads',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/2/2',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/2/2',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'knkykfd2',
+                      title: 'Notepads',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/2/3',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/2/3',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'wpfkqwa9',
+                      title: 'Notepads',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/2/4',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/2/4',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'w9vngba6',
+                      title: 'Notepads',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/2/5',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/2/5',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'rzg4sf4r',
+                      title: 'Notepads',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/2/6',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/2/6',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'ytqjsb9e',
+                      title: 'Notepad',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/2/2/7',
+                      level: 'Item',
+                      label: 'PP/CRI/L/2/2/7',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'd7karks3',
+                      title: 'Notepads',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            path: {
+              path: 'PPCRI/L/3',
+              level: 'Section',
+              label: 'PP/CRI/L/3',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'gvrmkzmk',
+              title: 'Perspex Slides',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+            children: [
+              {
+                path: {
+                  path: 'PPCRI/L/3/1',
+                  level: 'Item',
+                  label: 'PP/CRI/L/3/1',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'zfv87f2t',
+                  title: 'Perspex Slides',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+            ],
+          },
+          {
+            path: {
+              path: 'PPCRI/L/4',
+              level: 'Section',
+              label: 'PP/CRI/L/4',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'v5k9mtdb',
+              title: '3-D Models',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+            children: [
+              {
+                path: {
+                  path: 'PPCRI/L/4/1',
+                  level: 'Item',
+                  label: 'PP/CRI/L/4/1',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'mef9cu4k',
+                  title: '3-D Models',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+            ],
+          },
+          {
+            path: {
+              path: 'PPCRI/L/5',
+              level: 'Section',
+              label: 'PP/CRI/L/5',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'hxzgupzp',
+              title: 'Draft Writings',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+            children: [
+              {
+                path: {
+                  path: 'PPCRI/L/5/1',
+                  level: 'Item',
+                  label: 'PP/CRI/L/5/1',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'pz446n32',
+                  title: "'Sailing with Jacques'",
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/5/10',
+                  level: 'Item',
+                  label: 'PP/CRI/L/5/10',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'efyufr9r',
+                  title: "'Max Perutz obituary'",
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/5/11',
+                  level: 'Item',
+                  label: 'PP/CRI/L/5/11',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'g2aq54wf',
+                  title: "'2002 Scientific American'",
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/5/2',
+                  level: 'Item',
+                  label: 'PP/CRI/L/5/2',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'zymwgq8z',
+                  title: "'Book on Cortex'",
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/5/3',
+                  level: 'Series',
+                  label: 'PP/CRI/L/5/3',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'qqw6ccc8',
+                  title: '<i>Life Itself: Its Origin and Nature</i>',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+                children: [
+                  {
+                    path: {
+                      path: 'PPCRI/L/5/3/1',
+                      level: 'Item',
+                      label: 'PP/CRI/L/5/3/1',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'yxm63kvy',
+                      title: 'Papers by others',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/5/3/2',
+                      level: 'Series',
+                      label: 'PP/CRI/L/5/3/2',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'tk9gr686',
+                      title: 'Drafts of <i>Life Itself</i>',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                    children: [
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/3/2/1',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/3/2/1',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'puscgj7b',
+                          title: "'Directed P.'",
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/3/2/2',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/3/2/2',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'zr57ykkv',
+                          title: 'Untitled folder',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/3/2/3',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/3/2/3',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'q74r8jn3',
+                          title: 'Untitled folder',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/3/2/4',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/3/2/4',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'mtjuc8r3',
+                          title: 'Untitled folder',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/3/2/5',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/3/2/5',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'vvub2ypq',
+                          title: 'Untitled folder',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/3/2/6',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/3/2/6',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'gwusqsr7',
+                          title: 'Untitled folder',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/3/2/7',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/3/2/7',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'vt7x22zu',
+                          title: 'Untitled folder',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/3/2/8',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/3/2/8',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'pmabbcqa',
+                          title: 'Untitled folder',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/5/3/3',
+                      level: 'Series',
+                      label: 'PP/CRI/L/5/3/3',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'vvtubgwy',
+                      title: 'Texts for review',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                    children: [
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/3/3/1',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/3/3/1',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'vfznkuqy',
+                          title: "'The Young Earth'",
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/3/3/2',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/3/3/2',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'twwzx3wh',
+                          title: "'Margulis: Microcosmos'",
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/3/3/3',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/3/3/3',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'rzrfnaee',
+                          title:
+                            "'The Search for Extraterrestrial Intelligence'",
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/3/3/4',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/3/3/4',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'cmpg38n9',
+                          title: "'T. Gánti'",
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/5/4',
+                  level: 'Series',
+                  label: 'PP/CRI/L/5/4',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'f8krb6pq',
+                  title: "'The Neural Basis of Awareness'",
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+                children: [
+                  {
+                    path: {
+                      path: 'PPCRI/L/5/4/1',
+                      level: 'Item',
+                      label: 'PP/CRI/L/5/4/1',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'uvhkkxfx',
+                      title: "'Awareness Mss Drafts'",
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/5/4/2',
+                      level: 'Item',
+                      label: 'PP/CRI/L/5/4/2',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'bbqx9rxz',
+                      title: "'Old draft'",
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/5/4/3',
+                      level: 'Item',
+                      label: 'PP/CRI/L/5/4/3',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'dc2pzqn3',
+                      title: "'Awareness Mss Drafts of Feb 12 [19]85'",
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                ],
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/5/5',
+                  level: 'Series',
+                  label: 'PP/CRI/L/5/5',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'xqbyvwes',
+                  title:
+                    '<i>What Mad Pursuit: A Personal View of Scientific Discovery</i>',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+                children: [
+                  {
+                    path: {
+                      path: 'PPCRI/L/5/5/1',
+                      level: 'Series',
+                      label: 'PP/CRI/L/5/5/1',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'u4956c6s',
+                      title: 'Early notes',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                    children: [
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/1/1',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/1/1',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'ban8tzpu',
+                          title: "'Sloan Book'",
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/1/2',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/1/2',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'nsu638rd',
+                          title: '\'Notes etc. for "What Mad Pursuit"\'',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/5/5/2',
+                      level: 'Series',
+                      label: 'PP/CRI/L/5/5/2',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'fss4zxwh',
+                      title: 'Early drafts',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                    children: [
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/2/1',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/2/1',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'xf82har6',
+                          title: 'Untitled folder',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/2/2',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/2/2',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'f62ehwn7',
+                          title: 'Untitled folder',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/2/3',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/2/3',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'u6fdnwrn',
+                          title: 'Untitled folder',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/2/4',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/2/4',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'fmgn6jep',
+                          title: 'Untitled folder',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/5/5/3',
+                      level: 'Series',
+                      label: 'PP/CRI/L/5/5/3',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'u5xz7w6n',
+                      title: 'Comments by colleagues',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                    children: [
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/3/1',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/3/1',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'r8u9uarp',
+                          title: "'Ron Cape's comments'",
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/3/2',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/3/2',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'fqeppvk6',
+                          title: "Leslie [Orgel]'s copy",
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/3/3',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/3/3',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'nux9s3gh',
+                          title: "'Pat's comments'",
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/3/4',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/3/4',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'k6ztfvf9',
+                          title: "'Rama's copy'",
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/5/5/4',
+                      level: 'Series',
+                      label: 'PP/CRI/L/5/5/4',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'e72xwad6',
+                      title: 'Later drafts',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                    children: [
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/4/1',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/4/1',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'g8cx7gxr',
+                          title: 'Untitled folder',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/4/2',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/4/2',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'qj7drk58',
+                          title: 'Untitled folder',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/4/3',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/4/3',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'etvw3rh4',
+                          title: "'My copy'",
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/4/4',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/4/4',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'h38wpe8q',
+                          title: '\'"Final" MSS\'',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/4/5',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/4/5',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'ctr4jv7s',
+                          title: "'As sent to Publisher'",
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/4/6',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/4/6',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'nvpftkfy',
+                          title: 'Untitled folder',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/4/7',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/4/7',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'yfqfbkp7',
+                          title: "'Clean copy'",
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/5/5/5',
+                      level: 'Series',
+                      label: 'PP/CRI/L/5/5/5',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'bb3p8y3b',
+                      title: 'Final editing',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                    children: [
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/5/1',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/5/1',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'xssb27vk',
+                          title: 'Galley proofs',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/5/5/2',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/5/5/2',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'hgqd9p84',
+                          title: 'Correspondence',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/5/6',
+                  level: 'Series',
+                  label: 'PP/CRI/L/5/6',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'cjwjj8jf',
+                  title:
+                    '<i>The Astonishing Hypothesis: The Scientific Search for the Soul</i>',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+                children: [
+                  {
+                    path: {
+                      path: 'PPCRI/L/5/6/1',
+                      level: 'Item',
+                      label: 'PP/CRI/L/5/6/1',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'cm55j84d',
+                      title: "'Notes on Topics for Book'",
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/5/6/2',
+                      level: 'Series',
+                      label: 'PP/CRI/L/5/6/2',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'pjtm77vx',
+                      title: 'Early stages',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                    children: [
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/2/1',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/2/1',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'bfqtrbx4',
+                          title: 'Chapter A',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/2/10',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/2/10',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'wfr4m823',
+                          title: "Chapters K and L: Brain Damage'",
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/2/11',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/2/11',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'gkyc26xq',
+                          title: 'Chapter M',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/2/12',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/2/12',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'cavrgu7t',
+                          title: 'Chapter N',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/2/13',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/2/13',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'xy8ez3vj',
+                          title: 'Chapter P',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/2/14',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/2/14',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 's3888p32',
+                          title: 'Chapter Q',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/2/16',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/2/16',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'ef96zf98',
+                          title: 'Chapter 1',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/2/17',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/2/17',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'cjgvsvtt',
+                          title: 'Chapter 2',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/2/18',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/2/18',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'u2as2qu9',
+                          title: 'Chapter 3',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/2/19',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/2/19',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'dg7jrqua',
+                          title: 'Chapter 4',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/2/2',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/2/2',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'dkhk5pys',
+                          title: 'Chapter B',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/2/20',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/2/20',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'sedu9v3t',
+                          title: 'Chapter 5',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/2/3',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/2/3',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'he2qe5s4',
+                          title: 'Chapter C',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/2/5',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/2/5',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'sqqu939p',
+                          title:
+                            "Chapter E: The General Nature of the Human Brain'",
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/2/6',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/2/6',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'j6ar6qsf',
+                          title: 'Chapter F',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/2/7',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/2/7',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'x995ts9x',
+                          title: 'Chapter G',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/2/8',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/2/8',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'xxh48jrj',
+                          title:
+                            "Chapter H: The Primate Visual Cortex - V1 and V2'",
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/2/9',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/2/9',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'nevesjwy',
+                          title: "Chapter J: The Primate Visual Cortex'",
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/5/6/3',
+                      level: 'Series',
+                      label: 'PP/CRI/L/5/6/3',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'fc5d7xre',
+                      title: 'First draft',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                    children: [
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/3/1',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/3/1',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'sk3q25v2',
+                          title: '[First rough draft]',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/3/2',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/3/2',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'nc8j4ubm',
+                          title: 'Notes on first rough draft',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/3/3',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/3/3',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'bc4bgmyc',
+                          title: 'Chapters 1, 2 and 4',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/3/4',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/3/4',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'xwygnsnp',
+                          title: 'Chapter 5',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/3/5',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/3/5',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'wtahcyqh',
+                          title: 'Chapters 5-8',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/3/6',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/3/6',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'bk5tejgr',
+                          title: 'Chapter 10',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/3/7',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/3/7',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'qjr2tyxm',
+                          title: 'Chapters 1-17 and Postscript',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/5/6/4',
+                      level: 'Series',
+                      label: 'PP/CRI/L/5/6/4',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'mqgee7at',
+                      title: 'Version 2',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                    children: [
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/4/1',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/4/1',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'uu5u8xtt',
+                          title: 'Version 2: Chapters 1-5',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/4/2',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/4/2',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'd7zz9ut6',
+                          title: 'Chapter 4: Seeing',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/4/3',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/4/3',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'qgkzzwh3',
+                          title: 'Chapters 4 and 4A',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/4/4',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/4/4',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'shz9576q',
+                          title: 'Chapters 9-11 and 13',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/4/5',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/4/5',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'nnura3rq',
+                          title: 'Chapters 14-16',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/4/6',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/4/6',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'djwzva8f',
+                          title: 'Partial Version 2',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/4/7',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/4/7',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'czg6t5yp',
+                          title: "'Double-side old version 2'",
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/5/6/6',
+                      level: 'Series',
+                      label: 'PP/CRI/L/5/6/6',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'hjrrsug2',
+                      title: "'Astonishing Hypothesis' late proofs",
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                    children: [
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/6/1',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/6/1',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'nyu3k9y2',
+                          title: 'Page proofs',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/6/2',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/6/2',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'm7drntfx',
+                          title: 'Bound advance proof',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                      {
+                        path: {
+                          path: 'PPCRI/L/5/6/6/3',
+                          level: 'Item',
+                          label: 'PP/CRI/L/5/6/6/3',
+                          type: 'CollectionPath',
+                        },
+                        work: {
+                          id: 'csnq4d3b',
+                          title: 'Bound mock-up',
+                          alternativeTitles: [],
+                          type: 'Work',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/L/5/6/7',
+                      level: 'Item',
+                      label: 'PP/CRI/L/5/6/7',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'uefadtqk',
+                      title: "'Astonishing Hypothesis' artwork",
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                ],
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/5/7',
+                  level: 'Item',
+                  label: 'PP/CRI/L/5/7',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'b8wyc6yd',
+                  title: "'Scientific American Book'",
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/5/9',
+                  level: 'Item',
+                  label: 'PP/CRI/L/5/9',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'mgcjk65c',
+                  title: "'Oxford Companion to the Mind - Richard Gregory'",
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+            ],
+          },
+          {
+            path: {
+              path: 'PPCRI/L/6',
+              level: 'Series',
+              label: 'PP/CRI/L/6',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'b6jbfka8',
+              title: 'Lecture Notes',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+            children: [
+              {
+                path: {
+                  path: 'PPCRI/L/6/1',
+                  level: 'Item',
+                  label: 'PP/CRI/L/6/1',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'dq5nbsw7',
+                  title: "'Miami Lecture'",
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/6/2',
+                  level: 'Item',
+                  label: 'PP/CRI/L/6/2',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'j2gwrde6',
+                  title: 'Lecture Notes',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/6/3',
+                  level: 'Item',
+                  label: 'PP/CRI/L/6/3',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'em7m6j5p',
+                  title: 'Lecture Notes',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/6/4',
+                  level: 'Item',
+                  label: 'PP/CRI/L/6/4',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'sucytp5e',
+                  title: 'Lecture Notes',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+            ],
+          },
+          {
+            path: {
+              path: 'PPCRI/L/7',
+              level: 'Series',
+              label: 'PP/CRI/L/7',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'wwjw6ft2',
+              title: 'Seminar Notes',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+            children: [
+              {
+                path: {
+                  path: 'PPCRI/L/7/2',
+                  level: 'Item',
+                  label: 'PP/CRI/L/7/2',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'zcxjfaw2',
+                  title: 'Seminar Notes',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/7/3',
+                  level: 'Item',
+                  label: 'PP/CRI/L/7/3',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'mhxgejwg',
+                  title: 'Seminar Notes',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/7/4',
+                  level: 'Item',
+                  label: 'PP/CRI/L/7/4',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'etx59wyc',
+                  title: 'Seminar Notes',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/7/5',
+                  level: 'Item',
+                  label: 'PP/CRI/L/7/5',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'sxesc5bj',
+                  title: 'Seminar Notes',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/7/6',
+                  level: 'Item',
+                  label: 'PP/CRI/L/7/6',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'r5rx6pzy',
+                  title: 'Seminar Notes',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/7/7',
+                  level: 'Item',
+                  label: 'PP/CRI/L/7/7',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'y5wgwmhy',
+                  title: 'Seminar Notes',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/7/8',
+                  level: 'Item',
+                  label: 'PP/CRI/L/7/8',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'acm3md54',
+                  title: 'Seminar Notes',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/L/7/9',
+                  level: 'Item',
+                  label: 'PP/CRI/L/7/9',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'h7f2xcd3',
+                  title: 'Seminar Notes',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+            ],
+          },
+        ],
       },
       {
         path: {
@@ -13606,7 +15646,180 @@ const collectionTree = [
           alternativeTitles: [],
           type: 'Work',
         },
-        children: [],
+        children: [
+          {
+            path: {
+              path: 'PPCRI/M/1',
+              level: 'Series',
+              label: 'PP/CRI/M/1',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'bp9dwmvb',
+              title: 'Publications by Crick',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+            children: [
+              {
+                path: {
+                  path: 'PPCRI/M/1/1',
+                  level: 'Item',
+                  label: 'PP/CRI/M/1/1',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'zrzbyuwy',
+                  title: 'Reprints 1-50',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/M/1/2',
+                  level: 'Item',
+                  label: 'PP/CRI/M/1/2',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'j27ny3vh',
+                  title: 'Reprints 51-55',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/M/1/3',
+                  level: 'Item',
+                  label: 'PP/CRI/M/1/3',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'u4ztmysw',
+                  title: 'Reprints 56-65',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/M/1/4',
+                  level: 'Item',
+                  label: 'PP/CRI/M/1/4',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'nwjw9dz8',
+                  title: 'Reprints 66-75',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/M/1/5',
+                  level: 'Item',
+                  label: 'PP/CRI/M/1/5',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'xz7awkbx',
+                  title: 'Reprints 76-100',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/M/1/6',
+                  level: 'Item',
+                  label: 'PP/CRI/M/1/6',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'sejaput7',
+                  title: 'Reprints 101-120',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/M/1/7',
+                  level: 'Item',
+                  label: 'PP/CRI/M/1/7',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'saw43h8a',
+                  title: 'Reprints 121-144',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+            ],
+          },
+          {
+            path: {
+              path: 'PPCRI/M/2',
+              level: 'Series',
+              label: 'PP/CRI/M/2',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'yhvfsk6j',
+              title: 'Publications concerning Crick',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+            children: [
+              {
+                path: {
+                  path: 'PPCRI/M/2/1',
+                  level: 'Item',
+                  label: 'PP/CRI/M/2/1',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'kj9dhknu',
+                  title: 'Publications 1977-1996',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/M/2/2',
+                  level: 'Item',
+                  label: 'PP/CRI/M/2/2',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'uhk9dd4f',
+                  title: 'Publications 1998',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/M/2/3',
+                  level: 'Item',
+                  label: 'PP/CRI/M/2/3',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'nhruqb4p',
+                  title: 'Publications 1999-2001',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+            ],
+          },
+        ],
       },
       {
         path: {
@@ -13621,7 +15834,408 @@ const collectionTree = [
           alternativeTitles: [],
           type: 'Work',
         },
-        children: [],
+        children: [
+          {
+            path: {
+              path: 'PPCRI/N/10',
+              level: 'Item',
+              label: 'PP/CRI/N/10',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'gdnk8hnd',
+              title:
+                'Institute for Neural Computation, University of California, San Diego',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+          },
+          {
+            path: {
+              path: 'PPCRI/N/11',
+              level: 'Series',
+              label: 'PP/CRI/N/11',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'jy478pk8',
+              title: 'National Academy of Sciences',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+            children: [
+              {
+                path: {
+                  path: 'PPCRI/N/11/1',
+                  level: 'Item',
+                  label: 'PP/CRI/N/11/1',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'gvu2s933',
+                  title: 'Membership papers',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/N/11/3',
+                  level: 'Item',
+                  label: 'PP/CRI/N/11/3',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'zyqw9jq3',
+                  title: 'Membership nomination',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+            ],
+          },
+          {
+            path: {
+              path: 'PPCRI/N/12',
+              level: 'Series',
+              label: 'PP/CRI/N/12',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'xgwc9vm9',
+              title: 'Royal Society',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+            children: [
+              {
+                path: {
+                  path: 'PPCRI/N/12/1',
+                  level: 'Series',
+                  label: 'PP/CRI/N/12/1',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'mdpkmuws',
+                  title: 'Membership papers',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+                children: [
+                  {
+                    path: {
+                      path: 'PPCRI/N/12/1/1',
+                      level: 'Item',
+                      label: 'PP/CRI/N/12/1/1',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'dfufrp2z',
+                      title: 'Membership papers 1996',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/N/12/1/2',
+                      level: 'Item',
+                      label: 'PP/CRI/N/12/1/2',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'j2kb7jba',
+                      title: 'Membership papers 1997',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/N/12/1/3',
+                      level: 'Item',
+                      label: 'PP/CRI/N/12/1/3',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'fgbd8jhf',
+                      title: 'Membership papers 1998',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/N/12/1/4',
+                      level: 'Item',
+                      label: 'PP/CRI/N/12/1/4',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'ywcetsrq',
+                      title: 'Membership papers 1999',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/N/12/1/5',
+                      level: 'Item',
+                      label: 'PP/CRI/N/12/1/5',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'xust9vm5',
+                      title: 'Membership papers 2000',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/N/12/1/7',
+                      level: 'Item',
+                      label: 'PP/CRI/N/12/1/7',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'nbuvzcyr',
+                      title: 'Membership papers 2002',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/N/12/1/8',
+                      level: 'Item',
+                      label: 'PP/CRI/N/12/1/8',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'b35evbpc',
+                      title: 'Membership papers 2003-2004',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                ],
+              },
+              {
+                path: {
+                  path: 'PPCRI/N/12/2',
+                  level: 'Series',
+                  label: 'PP/CRI/N/12/2',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'vbbgye3d',
+                  title: 'Royal Society Club',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/N/12/3',
+                  level: 'Item',
+                  label: 'PP/CRI/N/12/3',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'puxcpe8x',
+                  title:
+                    '<i>Philosophical Transactions</i> of the Royal Society',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/N/12/5',
+                  level: 'Series',
+                  label: 'PP/CRI/N/12/5',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'dcasevd3',
+                  title: 'Fellowship/membership nominations',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+            ],
+          },
+          {
+            path: {
+              path: 'PPCRI/N/13',
+              level: 'Series',
+              label: 'PP/CRI/N/13',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'ys4mh6n3',
+              title: 'Royal Society of Edinburgh',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+          },
+          {
+            path: {
+              path: 'PPCRI/N/14',
+              level: 'Series',
+              label: 'PP/CRI/N/14',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'u3mkmpy8',
+              title: 'Society for Neuroscience',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+          },
+          {
+            path: {
+              path: 'PPCRI/N/15',
+              level: 'Item',
+              label: 'PP/CRI/N/15',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'xszhv5v9',
+              title: 'Miscellaneous Societies',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+          },
+          {
+            path: {
+              path: 'PPCRI/N/16',
+              level: 'Item',
+              label: 'PP/CRI/N/16',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'kwx35sdb',
+              title: 'Mind Science Foundation proposals',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+          },
+          {
+            path: {
+              path: 'PPCRI/N/2',
+              level: 'Item',
+              label: 'PP/CRI/N/2',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'mdyd5wbr',
+              title: 'American Academy of Achievement',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+          },
+          {
+            path: {
+              path: 'PPCRI/N/3',
+              level: 'Item',
+              label: 'PP/CRI/N/3',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'gs89zdq3',
+              title: 'American Academy of Art and Sciences',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+          },
+          {
+            path: {
+              path: 'PPCRI/N/4',
+              level: 'Item',
+              label: 'PP/CRI/N/4',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'nhdxnjps',
+              title: 'American Association for the Advancement of Science',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+          },
+          {
+            path: {
+              path: 'PPCRI/N/5',
+              level: 'Item',
+              label: 'PP/CRI/N/5',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'j9pma3yt',
+              title: 'American Philosophical Society',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+          },
+          {
+            path: {
+              path: 'PPCRI/N/6',
+              level: 'Item',
+              label: 'PP/CRI/N/6',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'u7q6zpq7',
+              title: 'Deutsche Akademie der Naturforscher Leopoldina',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+          },
+          {
+            path: {
+              path: 'PPCRI/N/7',
+              level: 'Series',
+              label: 'PP/CRI/N/7',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'mx7w5gbu',
+              title: 'European Molecular Biology Organization',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+          },
+          {
+            path: {
+              path: 'PPCRI/N/8',
+              level: 'Item',
+              label: 'PP/CRI/N/8',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'tvqyqk4w',
+              title: 'Euroscience',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+          },
+          {
+            path: {
+              path: 'PPCRI/N/9',
+              level: 'Item',
+              label: 'PP/CRI/N/9',
+              type: 'CollectionPath',
+            },
+            work: {
+              id: 'hz8kzch5',
+              title: 'Institut de France Académie des Sciences',
+              alternativeTitles: [],
+              type: 'Work',
+            },
+          },
+        ],
       },
     ],
   },
