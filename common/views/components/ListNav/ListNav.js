@@ -1,18 +1,64 @@
 // @flow
 import { useState } from 'react';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
+
+const ListNavBreadcrumb = styled.nav`
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: inline-flex;
+  }
+
+  li {
+    cursor: pointer;
+    margin-right: 10px;
+
+    &:after {
+      content: '>';
+      margin-left: 10px;
+    }
+
+    &:last-child:after {
+      display: none;
+    }
+  }
+`;
 
 const List = styled.ul`
   list-style: none;
+  transition: opacity 350ms ease, transform 350ms ease;
+  width: 100%;
 
   li {
     padding: 20px;
     background: #eee;
     border-top: 1px solid #fff;
+    transition: background 350ms ease;
+    cursor: pointer;
 
     &:first-child {
       border-top: 0;
     }
+
+    &:hover {
+      background: #ddd;
+    }
+  }
+
+  &.slide-enter,
+  &.slide-exit-active,
+  &.slide-exit-done {
+    position: absolute;
+    opacity: 0;
+    transform: translateX(4%);
+  }
+
+  &.slide-enter-active,
+  &.slide-enter-done {
+    opacity: 1;
+    transform: translateX(0%);
   }
 `;
 
@@ -51,7 +97,7 @@ const ListNav = () => {
       parentId: 'c',
     },
     i: {
-      childIds: [],
+      childIds: ['m', 'n', 'o'],
       parentId: 'c',
     },
     j: {
@@ -66,25 +112,54 @@ const ListNav = () => {
       childIds: [],
       parentId: 'e',
     },
+    m: {
+      childIds: [],
+      parentId: 'i',
+    },
+    n: {
+      childIds: [],
+      parentId: 'i',
+    },
+    o: {
+      childIds: [],
+      parentId: 'i',
+    },
   };
   const [currentItemId, setCurrentItemId] = useState('a');
 
+  function getAncestors(ids) {
+    const [firstId] = ids;
+    if (!items[firstId].parentId) return ids;
+
+    return getAncestors([items[firstId].parentId, ...ids]);
+  }
+
   return (
     <div>
-      <h2>Section {currentItemId}</h2>
-      {items[currentItemId].parentId && (
-        <span onClick={() => setCurrentItemId(items[currentItemId].parentId)}>
-          back up to {items[currentItemId].parentId}
-        </span>
-      )}
-      <List>
-        {items[currentItemId].childIds.map(id => (
-          <li key={id} onClick={() => setCurrentItemId(id)}>
-            {id}{' '}
-            {items[id].childIds.length > 0 && `(${items[id].childIds.length})`}
-          </li>
-        ))}
-      </List>
+      <ListNavBreadcrumb>
+        you are in:{' '}
+        <ul>
+          {getAncestors([currentItemId]).map((ancestor, index, arr) => (
+            <li key={ancestor} onClick={() => setCurrentItemId(ancestor)}>
+              {ancestor}
+            </li>
+          ))}
+        </ul>
+      </ListNavBreadcrumb>
+      <TransitionGroup className="relative">
+        <CSSTransition key={currentItemId} classNames="slide" timeout={350}>
+          <List>
+            {items[currentItemId].childIds.map(id => (
+              <li key={id} onClick={() => setCurrentItemId(id)}>
+                {id}{' '}
+                {items[id].childIds.length > 0 &&
+                  `(${items[id].childIds.length})`}
+              </li>
+            ))}
+            {!items[currentItemId].childIds.length && <li>No children</li>}
+          </List>
+        </CSSTransition>
+      </TransitionGroup>
     </div>
   );
 };
