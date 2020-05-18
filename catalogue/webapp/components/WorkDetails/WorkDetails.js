@@ -44,7 +44,7 @@ import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
 import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
-
+import collectionTree from '@weco/catalogue/__mocks__/collection-tree';
 type Props = {|
   work: Work,
   iiifPresentationManifest: ?IIIFManifest,
@@ -195,10 +195,12 @@ const WorkDetails = ({
             })}
           >
             {work.collection && (
-              <ArchiveTree
-                collection={[work.collection]}
-                currentWork={work.id}
-              />
+              <div style={{ height: '200px', overflow: 'hidden' }}>
+                <ArchiveTree
+                  collection={collectionTree}
+                  currentWork={work.id}
+                />
+              </div>
             )}
           </div>
           <div

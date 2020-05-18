@@ -8,7 +8,7 @@ import Button from '@weco/common/views/components/Buttons/Button/Button';
 const Container = styled.div`
   border: 1px solid ${props => props.theme.colors.pumice};
   border-radius: 6px;
-  height: 200px;
+  max-height: 100%;
   overflow: scroll;
 `;
 const Tree = styled(Space).attrs({
@@ -123,7 +123,7 @@ type Props = {|
 |};
 
 const ArchiveTree = ({ collection, currentWork }: Props) => {
-  const [scale, setScale] = useState(0.75);
+  const [scale, setScale] = useState(0.5);
   const selected = useRef(null);
   const container = useRef(null);
 
@@ -192,7 +192,7 @@ const ArchiveTree = ({ collection, currentWork }: Props) => {
       </Space>
       <div
         style={{
-          overflow: 'scroll',
+          overflow: 'scroll', // scroll // TODO position the tree absolutely
         }}
       >
         <Tree scale={scale}>
