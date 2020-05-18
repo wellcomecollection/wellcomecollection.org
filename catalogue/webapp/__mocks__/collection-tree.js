@@ -8096,255 +8096,224 @@ const collectionTree = [
             children: [
               {
                 path: {
-                  path: 'PPCRI/F/1',
-                  level: 'Series',
-                  label: 'PP/CRI/F/1',
+                  path: 'PPCRI/F/1/1',
+                  level: 'Item',
+                  label: 'PP/CRI/F/1/1',
                   type: 'CollectionPath',
                 },
                 work: {
-                  id: 'za8hwzap',
-                  title: 'Dissertation in Draft',
+                  id: 'fdc93scg',
+                  title: 'Dissertation in Draft: Contents and Figures',
                   alternativeTitles: [],
                   type: 'Work',
                 },
-                children: [
-                  {
-                    path: {
-                      path: 'PPCRI/F/1/1',
-                      level: 'Item',
-                      label: 'PP/CRI/F/1/1',
-                      type: 'CollectionPath',
-                    },
-                    work: {
-                      id: 'fdc93scg',
-                      title: 'Dissertation in Draft: Contents and Figures',
-                      alternativeTitles: [],
-                      type: 'Work',
-                    },
-                  },
-                  {
-                    path: {
-                      path: 'PPCRI/F/1/11',
-                      level: 'Item',
-                      label: 'PP/CRI/F/1/11',
-                      type: 'CollectionPath',
-                    },
-                    work: {
-                      id: 'kn5mx86e',
-                      title: 'Dissertation in Draft: Chapter XI',
-                      alternativeTitles: [],
-                      type: 'Work',
-                    },
-                  },
-                  {
-                    path: {
-                      path: 'PPCRI/F/1/12',
-                      level: 'Item',
-                      label: 'PP/CRI/F/1/12',
-                      type: 'CollectionPath',
-                    },
-                    work: {
-                      id: 'znr6x3e6',
-                      title: 'Dissertation in Draft: Chapter XII',
-                      alternativeTitles: [],
-                      type: 'Work',
-                    },
-                  },
-                  {
-                    path: {
-                      path: 'PPCRI/F/1/13',
-                      level: 'Item',
-                      label: 'PP/CRI/F/1/13',
-                      type: 'CollectionPath',
-                    },
-                    work: {
-                      id: 'hcmhygfc',
-                      title: 'Dissertation in Draft: Chapter XIII',
-                      alternativeTitles: [],
-                      type: 'Work',
-                    },
-                  },
-                  {
-                    path: {
-                      path: 'PPCRI/F/1/14',
-                      level: 'Item',
-                      label: 'PP/CRI/F/1/14',
-                      type: 'CollectionPath',
-                    },
-                    work: {
-                      id: 'wkdann97',
-                      title: 'Dissertation in Draft: Chapter XIV',
-                      alternativeTitles: [],
-                      type: 'Work',
-                    },
-                  },
-                  {
-                    path: {
-                      path: 'PPCRI/F/1/15',
-                      level: 'Item',
-                      label: 'PP/CRI/F/1/15',
-                      type: 'CollectionPath',
-                    },
-                    work: {
-                      id: 'ft7yjebc',
-                      title: 'Dissertation in Draft: Appendix I',
-                      alternativeTitles: [],
-                      type: 'Work',
-                    },
-                  },
-                  {
-                    path: {
-                      path: 'PPCRI/F/1/16',
-                      level: 'Item',
-                      label: 'PP/CRI/F/1/16',
-                      type: 'CollectionPath',
-                    },
-                    work: {
-                      id: 'u58dt75a',
-                      title: 'Dissertation in Draft: Appendix II',
-                      alternativeTitles: [],
-                      type: 'Work',
-                    },
-                  },
-                  {
-                    path: {
-                      path: 'PPCRI/F/1/17',
-                      level: 'Item',
-                      label: 'PP/CRI/F/1/17',
-                      type: 'CollectionPath',
-                    },
-                    work: {
-                      id: 'g5cqqaza',
-                      title: 'Dissertation in Draft: References',
-                      alternativeTitles: [],
-                      type: 'Work',
-                    },
-                  },
-                  {
-                    path: {
-                      path: 'PPCRI/F/1/2',
-                      level: 'Item',
-                      label: 'PP/CRI/F/1/2',
-                      type: 'CollectionPath',
-                    },
-                    work: {
-                      id: 'bn9w8t6u',
-                      title: 'Dissertation in Draft: Chapter II',
-                      alternativeTitles: [],
-                      type: 'Work',
-                    },
-                  },
-                  {
-                    path: {
-                      path: 'PPCRI/F/1/3',
-                      level: 'Item',
-                      label: 'PP/CRI/F/1/3',
-                      type: 'CollectionPath',
-                    },
-                    work: {
-                      id: 'j8uww5dg',
-                      title: 'Dissertation in Draft: Chapter III',
-                      alternativeTitles: [],
-                      type: 'Work',
-                    },
-                  },
-                  {
-                    path: {
-                      path: 'PPCRI/F/1/4',
-                      level: 'Item',
-                      label: 'PP/CRI/F/1/4',
-                      type: 'CollectionPath',
-                    },
-                    work: {
-                      id: 'gmrcj286',
-                      title: 'Dissertation in Draft: Chapter IV',
-                      alternativeTitles: [],
-                      type: 'Work',
-                    },
-                  },
-                  {
-                    path: {
-                      path: 'PPCRI/F/1/5',
-                      level: 'Item',
-                      label: 'PP/CRI/F/1/5',
-                      type: 'CollectionPath',
-                    },
-                    work: {
-                      id: 'sjpgk26f',
-                      title: 'Dissertation in Draft: Chapter V',
-                      alternativeTitles: [],
-                      type: 'Work',
-                    },
-                  },
-                  {
-                    path: {
-                      path: 'PPCRI/F/1/6',
-                      level: 'Item',
-                      label: 'PP/CRI/F/1/6',
-                      type: 'CollectionPath',
-                    },
-                    work: {
-                      id: 'put8t2x5',
-                      title: 'Dissertation in Draft: Chapter VI',
-                      alternativeTitles: [],
-                      type: 'Work',
-                    },
-                  },
-                  {
-                    path: {
-                      path: 'PPCRI/F/1/7',
-                      level: 'Item',
-                      label: 'PP/CRI/F/1/7',
-                      type: 'CollectionPath',
-                    },
-                    work: {
-                      id: 'e26yt9fu',
-                      title: 'Dissertation in Draft: Chapter VII',
-                      alternativeTitles: [],
-                      type: 'Work',
-                    },
-                  },
-                  {
-                    path: {
-                      path: 'PPCRI/F/1/8',
-                      level: 'Item',
-                      label: 'PP/CRI/F/1/8',
-                      type: 'CollectionPath',
-                    },
-                    work: {
-                      id: 'fkj8anyc',
-                      title: 'Dissertation in Draft: Chapter VIII',
-                      alternativeTitles: [],
-                      type: 'Work',
-                    },
-                  },
-                  {
-                    path: {
-                      path: 'PPCRI/F/1/9',
-                      level: 'Item',
-                      label: 'PP/CRI/F/1/9',
-                      type: 'CollectionPath',
-                    },
-                    work: {
-                      id: 'e48vrgmk',
-                      title: 'Dissertation in Draft: Chapter IX',
-                      alternativeTitles: [],
-                      type: 'Work',
-                    },
-                  },
-                ],
               },
               {
                 path: {
-                  path: 'PPCRI/F/2',
+                  path: 'PPCRI/F/1/11',
                   level: 'Item',
-                  label: 'PP/CRI/F/2',
+                  label: 'PP/CRI/F/1/11',
                   type: 'CollectionPath',
                 },
                 work: {
-                  id: 'szes8wbz',
-                  title:
-                    'PhD Dissertation: <i>Polypeptides and Proteins: X-Ray Studies</i>',
+                  id: 'kn5mx86e',
+                  title: 'Dissertation in Draft: Chapter XI',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/F/1/12',
+                  level: 'Item',
+                  label: 'PP/CRI/F/1/12',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'znr6x3e6',
+                  title: 'Dissertation in Draft: Chapter XII',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/F/1/13',
+                  level: 'Item',
+                  label: 'PP/CRI/F/1/13',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'hcmhygfc',
+                  title: 'Dissertation in Draft: Chapter XIII',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/F/1/14',
+                  level: 'Item',
+                  label: 'PP/CRI/F/1/14',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'wkdann97',
+                  title: 'Dissertation in Draft: Chapter XIV',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/F/1/15',
+                  level: 'Item',
+                  label: 'PP/CRI/F/1/15',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'ft7yjebc',
+                  title: 'Dissertation in Draft: Appendix I',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/F/1/16',
+                  level: 'Item',
+                  label: 'PP/CRI/F/1/16',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'u58dt75a',
+                  title: 'Dissertation in Draft: Appendix II',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/F/1/17',
+                  level: 'Item',
+                  label: 'PP/CRI/F/1/17',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'g5cqqaza',
+                  title: 'Dissertation in Draft: References',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/F/1/2',
+                  level: 'Item',
+                  label: 'PP/CRI/F/1/2',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'bn9w8t6u',
+                  title: 'Dissertation in Draft: Chapter II',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/F/1/3',
+                  level: 'Item',
+                  label: 'PP/CRI/F/1/3',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'j8uww5dg',
+                  title: 'Dissertation in Draft: Chapter III',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/F/1/4',
+                  level: 'Item',
+                  label: 'PP/CRI/F/1/4',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'gmrcj286',
+                  title: 'Dissertation in Draft: Chapter IV',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/F/1/5',
+                  level: 'Item',
+                  label: 'PP/CRI/F/1/5',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'sjpgk26f',
+                  title: 'Dissertation in Draft: Chapter V',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/F/1/6',
+                  level: 'Item',
+                  label: 'PP/CRI/F/1/6',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'put8t2x5',
+                  title: 'Dissertation in Draft: Chapter VI',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/F/1/7',
+                  level: 'Item',
+                  label: 'PP/CRI/F/1/7',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'e26yt9fu',
+                  title: 'Dissertation in Draft: Chapter VII',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/F/1/8',
+                  level: 'Item',
+                  label: 'PP/CRI/F/1/8',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'fkj8anyc',
+                  title: 'Dissertation in Draft: Chapter VIII',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/F/1/9',
+                  level: 'Item',
+                  label: 'PP/CRI/F/1/9',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'e48vrgmk',
+                  title: 'Dissertation in Draft: Chapter IX',
                   alternativeTitles: [],
                   type: 'Work',
                 },
