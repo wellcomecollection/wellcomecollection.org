@@ -6,7 +6,7 @@ import collectionTree from '@weco/catalogue/__mocks__/collection-tree';
 const stories = storiesOf('Components', module);
 
 const ArchiveTreeExample = () => {
-  return <ArchiveTree collection={collectionTree} currentWork="b5ufy8am" />;
+  return <ArchiveTree collection={collectionTree} currentWork="be8qkecp" />;
 };
 
 stories.add('Archive Tree', ArchiveTreeExample, {

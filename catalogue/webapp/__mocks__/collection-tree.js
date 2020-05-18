@@ -16004,6 +16004,36 @@ const collectionTree = [
                   alternativeTitles: [],
                   type: 'Work',
                 },
+                children: [
+                  {
+                    path: {
+                      path: 'PPCRI/N/12/2/1',
+                      level: 'Item',
+                      label: 'PP/CRI/N/12/2/1',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'ny244hwu',
+                      title: 'Royal Society Club 1986-1997',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/N/12/2/2',
+                      level: 'Item',
+                      label: 'PP/CRI/N/12/2/2',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'pvyu5tqt',
+                      title: 'Royal Society Club 1998-2003',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                ],
               },
               {
                 path: {
@@ -16033,6 +16063,36 @@ const collectionTree = [
                   alternativeTitles: [],
                   type: 'Work',
                 },
+                children: [
+                  {
+                    path: {
+                      path: 'PPCRI/N/12/5/1',
+                      level: 'Item',
+                      label: 'PP/CRI/N/12/5/1',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'ruz53yyh',
+                      title: 'Fellowship nomination',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                  {
+                    path: {
+                      path: 'PPCRI/N/12/5/2',
+                      level: 'Item',
+                      label: 'PP/CRI/N/12/5/2',
+                      type: 'CollectionPath',
+                    },
+                    work: {
+                      id: 'qb4ap5bt',
+                      title: 'Nominations 1999-2001',
+                      alternativeTitles: [],
+                      type: 'Work',
+                    },
+                  },
+                ],
               },
             ],
           },
@@ -16049,6 +16109,50 @@ const collectionTree = [
               alternativeTitles: [],
               type: 'Work',
             },
+            children: [
+              {
+                path: {
+                  path: 'PPCRI/N/13/1',
+                  level: 'Item',
+                  label: 'PP/CRI/N/13/1',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'gtyebaup',
+                  title: 'Membership papers 1991-1997',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/N/13/2',
+                  level: 'Item',
+                  label: 'PP/CRI/N/13/2',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'x7mdewzf',
+                  title: 'Membership papers 1998-1999',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/N/13/3',
+                  level: 'Item',
+                  label: 'PP/CRI/N/13/3',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'sdq7723y',
+                  title: 'Membership papers 2000-2004',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+            ],
           },
           {
             path: {
@@ -16063,6 +16167,36 @@ const collectionTree = [
               alternativeTitles: [],
               type: 'Work',
             },
+            children: [
+              {
+                path: {
+                  path: 'PPCRI/N/14/1',
+                  level: 'Item',
+                  label: 'PP/CRI/N/14/1',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'a4gtr3y2',
+                  title: 'Membership papers 1984-1998',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/N/14/2',
+                  level: 'Item',
+                  label: 'PP/CRI/N/14/2',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'qa24acsh',
+                  title: 'Membership papers 1999-2003',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+            ],
           },
           {
             path: {
@@ -16175,6 +16309,36 @@ const collectionTree = [
               alternativeTitles: [],
               type: 'Work',
             },
+            children: [
+              {
+                path: {
+                  path: 'PPCRI/N/7/1',
+                  level: 'Item',
+                  label: 'PP/CRI/N/7/1',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'skp2kvyt',
+                  title: 'European Molecular Biology Organization 1992-1999',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+              {
+                path: {
+                  path: 'PPCRI/N/7/2',
+                  level: 'Item',
+                  label: 'PP/CRI/N/7/2',
+                  type: 'CollectionPath',
+                },
+                work: {
+                  id: 'uwk5qcdf',
+                  title: 'European Molecular Biology Organization 2000-2004',
+                  alternativeTitles: [],
+                  type: 'Work',
+                },
+              },
+            ],
           },
           {
             path: {
