@@ -1,5 +1,6 @@
 // @flow
 import { useState, useEffect } from 'react';
+import { classNames } from '../../../utils/classnames';
 import fetch from 'isomorphic-unfetch';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
@@ -34,16 +35,32 @@ const ListNavBreadcrumb = styled.nav`
 `;
 
 const List = styled.ul`
+  padding: 0;
+  margin: 10px 0 0;
   list-style: none;
   transition: opacity 350ms ease, transform 350ms ease;
   width: 100%;
 
   li {
-    padding: 20px;
+    position: relative;
     background: #eee;
     border-top: 1px solid #fff;
     transition: background 350ms ease;
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+
+    &.is-active {
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 5px;
+        background: ${props => props.theme.colors.yellow};
+      }
+    }
 
     &:first-child {
       border-top: 0;
@@ -67,6 +84,11 @@ const List = styled.ul`
     opacity: 1;
     transform: translateX(0%);
   }
+`;
+
+const ListInner = styled.div`
+  padding: 20px;
+  width: 100%;
 `;
 
 const ListNav = () => {
@@ -104,6 +126,7 @@ const ListNav = () => {
   }
   const [currentItemId, setCurrentItemId] = useState('hz43r7re');
   const [breadcrumb, setBreadcrumb] = useState([]);
+
   useEffect(() => {
     const url = `https://api.wellcomecollection.org/catalogue/v2/works/${currentItemId}?include=collection`;
 
@@ -117,10 +140,12 @@ const ListNav = () => {
   }, [currentItemId]);
 
   const [items, setItems] = useState([]);
+  const [activeItem, setActiveItem] = useState({ work: { id: null } });
 
   return (
     <div>
       <ListNavBreadcrumb>
+        <span className={'font-lr font-size-6'}>you are in: </span>
         <ul className={'font-lr font-size-6'}>
           {breadcrumb.map(crumb => (
             <li key={crumb.id} onClick={() => setCurrentItemId(crumb.id)}>
@@ -130,27 +155,60 @@ const ListNav = () => {
         </ul>
       </ListNavBreadcrumb>
       {breadcrumb.length > 1 && (
-        <button
+        <span
+          className={'font-lr font-size-6'}
           onClick={() => setCurrentItemId(breadcrumb[breadcrumb.length - 2].id)}
+          style={{
+            cursor: 'pointer',
+            border: '1px solid grey',
+            borderRadius: '3px',
+            padding: '5px',
+          }}
         >
           back
-        </button>
+        </span>
       )}
       <TransitionGroup className="relative">
         <CSSTransition key={currentItemId} classNames="slide" timeout={350}>
           <List>
             {items.map(item => (
               <li
+                className={classNames({
+                  relative: true,
+                  'is-active': activeItem.work.id === item.work.id,
+                })}
                 key={item.work.id}
-                onClick={() => setCurrentItemId(item.work.id)}
               >
-                <div className={'font-lr font-size-6'}>{item.path.label}</div>
-                <span className={'font-size-6'}>{item.work.title}</span>
+                <ListInner onClick={() => setActiveItem(item)}>
+                  <div className={'font-lr font-size-6'}>{item.path.label}</div>
+                  <span className={'font-size-6'}>{item.work.title}</span>
+                </ListInner>
+
+                <span
+                  onClick={() => setCurrentItemId(item.work.id)}
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    right: '20px',
+                    padding: '3px 5px',
+                    border: '1px solid grey',
+                    borderRadius: '3px',
+                    background: 'white',
+                  }}
+                  className={classNames({
+                    'font-lr font-size-6': true,
+                  })}
+                >
+                  contents &gt;
+                </span>
               </li>
             ))}
             {!items.length && (
               <li>
-                <span className={'font-size-6'}>Nothing here</span>
+                <ListInner>
+                  <span className={'font-size-6'}>Nothing here</span>
+                </ListInner>
               </li>
             )}
           </List>
