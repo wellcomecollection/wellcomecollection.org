@@ -41,7 +41,6 @@ const workIncludes = [
   'contributors',
   'production',
   'notes',
-  'collection', // TODO temp/toggle?
 ];
 
 export async function getWorks({
