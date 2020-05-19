@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
+import NextLink from 'next/link';
+import { workLink } from '@weco/common/services/catalogue/routes';
 
 const Container = styled.div`
   border: 1px solid ${props => props.theme.colors.pumice};
@@ -82,6 +84,7 @@ const WorkLink = styled.a`
   border: 1px dotted black;
   border-color: ${props => (props.selected ? 'black' : 'transparent')};
   border-radius: 6px;
+  cursor: pointer;
 `;
 
 type NestedListProps = {|
@@ -96,13 +99,14 @@ const NestedList = ({ collection, currentWork, selected }: NestedListProps) => {
       {collection.map(item => {
         return (
           <li key={item.work.id}>
-            <WorkLink
-              href={`/works/${item.work.id}`}
-              selected={currentWork === item.work.id}
-              ref={currentWork === item.work.id ? selected : null}
-            >
-              {item.work.title}
-            </WorkLink>
+            <NextLink {...workLink({ id: item.work.id })} scroll={false}>
+              <WorkLink
+                selected={currentWork === item.work.id}
+                ref={currentWork === item.work.id ? selected : null}
+              >
+                {item.work.title}
+              </WorkLink>
+            </NextLink>
             {item.children && (
               <NestedList
                 collection={item.children}
