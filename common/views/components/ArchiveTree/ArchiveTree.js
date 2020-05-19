@@ -99,7 +99,11 @@ const NestedList = ({ collection, currentWork, selected }: NestedListProps) => {
       {collection.map(item => {
         return (
           <li key={item.work.id}>
-            <NextLink {...workLink({ id: item.work.id })} scroll={false}>
+            <NextLink
+              {...workLink({ id: item.work.id })}
+              scroll={false}
+              passHref
+            >
               <WorkLink
                 selected={currentWork === item.work.id}
                 ref={currentWork === item.work.id ? selected : null}
