@@ -1,5 +1,6 @@
 // @flow
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import fetch from 'isomorphic-unfetch';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 
@@ -63,100 +64,58 @@ const List = styled.ul`
 `;
 
 const ListNav = () => {
-  const items = {
-    a: {
-      childIds: ['b', 'c', 'd', 'e'],
-      parentId: null,
-    },
-    b: {
-      childIds: ['f', 'g'],
-      parentId: 'a',
-    },
-    c: {
-      childIds: ['h', 'i', 'j'],
-      parentId: 'a',
-    },
-    d: {
-      childIds: [],
-      parentId: 'a',
-    },
-    e: {
-      childIds: ['k', 'l'],
-      parentId: 'a',
-    },
-    f: {
-      childIds: [],
-      parentId: 'b',
-    },
-    g: {
-      childIds: [],
-      parentId: 'b',
-    },
-    h: {
-      childIds: [],
-      parentId: 'c',
-    },
-    i: {
-      childIds: ['m', 'n', 'o'],
-      parentId: 'c',
-    },
-    j: {
-      childIds: [],
-      parentId: 'c',
-    },
-    k: {
-      childIds: [],
-      parentId: 'e',
-    },
-    l: {
-      childIds: [],
-      parentId: 'e',
-    },
-    m: {
-      childIds: [],
-      parentId: 'i',
-    },
-    n: {
-      childIds: [],
-      parentId: 'i',
-    },
-    o: {
-      childIds: [],
-      parentId: 'i',
-    },
-  };
-  const [currentItemId, setCurrentItemId] = useState('a');
-
-  function getAncestors(ids) {
-    const [firstId] = ids;
-    if (!items[firstId].parentId) return ids;
-
-    return getAncestors([items[firstId].parentId, ...ids]);
+  function findAncestors() {
+    // TODO: write this for a breadcrumb
   }
+  function findChildren(path, collectionChildren) {
+    const pathParts = path.split('/'); // ['PPCRI', 'A', '1', '1']
+    const pathsToChildren = pathParts
+      .reduce((acc, curr, index) => {
+        if (index === 0) return [pathParts[0]];
+
+        return [...acc, `${acc[index - 1]}/${curr}`];
+      }, [])
+      .slice(1); // ['PPCRI/A', 'PPCRI/A/1', 'PPCRI/A/1/1']
+
+    return pathsToChildren.reduce(
+      (acc, curr) => acc.find(i => i.path.path === curr).children,
+      collectionChildren
+    );
+  }
+  const [currentItemId, setCurrentItemId] = useState('hz43r7re');
+  useEffect(() => {
+    const url = `https://api.wellcomecollection.org/catalogue/v2/works/${currentItemId}?include=collection`;
+
+    fetch(url)
+      .then(resp => resp.json())
+      .then(resp => {
+        setItems(
+          findChildren(resp.collectionPath.path, resp.collection.children)
+        );
+      });
+  }, [currentItemId]);
+
+  const [items, setItems] = useState([]);
 
   return (
     <div>
-      <ListNavBreadcrumb>
-        you are in:{' '}
-        <ul>
-          {getAncestors([currentItemId]).map((ancestor, index, arr) => (
-            <li key={ancestor} onClick={() => setCurrentItemId(ancestor)}>
-              {ancestor}
-            </li>
-          ))}
-        </ul>
-      </ListNavBreadcrumb>
       <TransitionGroup className="relative">
         <CSSTransition key={currentItemId} classNames="slide" timeout={350}>
           <List>
-            {items[currentItemId].childIds.map(id => (
-              <li key={id} onClick={() => setCurrentItemId(id)}>
-                {id}{' '}
-                {items[id].childIds.length > 0 &&
-                  `(${items[id].childIds.length})`}
+            {items.map(item => (
+              <li
+                key={item.work.id}
+                onClick={() => setCurrentItemId(item.work.id)}
+              >
+                <div className={'font-lr font-size-6'}>{item.path.label}</div>
+                <span className={'font-size-6'}>{item.work.title}</span>
               </li>
             ))}
-            {!items[currentItemId].childIds.length && <li>No children</li>}
+            {!items.length && (
+              <li>
+                <span className={'font-size-6'}>Nothing here</span>
+              </li>
+            )}
           </List>
         </CSSTransition>
       </TransitionGroup>
