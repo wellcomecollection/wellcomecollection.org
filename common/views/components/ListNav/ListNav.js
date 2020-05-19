@@ -8,7 +8,7 @@ import styled from 'styled-components';
 const ListNavBreadcrumb = styled.nav`
   ul {
     list-style: none;
-    margin: 0;
+    margin: 0 0 10px;
     padding: 0;
     display: inline-flex;
   }
@@ -36,7 +36,7 @@ const ListNavBreadcrumb = styled.nav`
 
 const List = styled.ul`
   padding: 0;
-  margin: 10px 0 0;
+  margin: 0;
   list-style: none;
   transition: opacity 350ms ease, transform 350ms ease;
   width: 100%;
@@ -71,12 +71,18 @@ const List = styled.ul`
     }
   }
 
-  &.slide-enter,
-  &.slide-exit-active,
-  &.slide-exit-done {
+  &.slide-enter {
     position: absolute;
     opacity: 0;
-    transform: translateX(4%);
+    transform: ${props =>
+      props.isReverse ? 'translateX(-100%)' : 'translateX(100%)'};
+  }
+
+  &.slide-exit-active,
+  &.slide-exit-done {
+    transform: ${props =>
+      props.isReverse ? 'translateX(100%)' : 'translateX(-100%)'};
+  };
   }
 
   &.slide-enter-active,
@@ -91,8 +97,22 @@ const ListInner = styled.div`
   width: 100%;
 `;
 
+const ViewChildrenButton = styled.span`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 20px;
+  padding: 3px 5px;
+  border: 1px solid grey;
+  border-radius: 3px;
+  background: white;
+
+  &:hover {
+    background: ${props => props.theme.colors.yellow};
+  }
+`;
+
 const ListNav = () => {
-  // TODO: name this betterer?
   function findTree(path, collection) {
     const pathParts = path.split('/'); // ['PPCRI', 'A', '1', '1']
     const pathsToChildren = pathParts
@@ -126,6 +146,7 @@ const ListNav = () => {
   }
   const [currentItemId, setCurrentItemId] = useState('hz43r7re');
   const [breadcrumb, setBreadcrumb] = useState([]);
+  const [isReverse, setIsReverse] = useState(false);
 
   useEffect(() => {
     const url = `https://api.wellcomecollection.org/catalogue/v2/works/${currentItemId}?include=collection`;
@@ -148,29 +169,23 @@ const ListNav = () => {
         <span className={'font-lr font-size-6'}>you are in: </span>
         <ul className={'font-lr font-size-6'}>
           {breadcrumb.map(crumb => (
-            <li key={crumb.id} onClick={() => setCurrentItemId(crumb.id)}>
+            <li
+              key={crumb.id}
+              onClick={() => {
+                setIsReverse(true);
+                setTimeout(() => {
+                  setCurrentItemId(crumb.id);
+                }, 0);
+              }}
+            >
               {crumb.path}
             </li>
           ))}
         </ul>
       </ListNavBreadcrumb>
-      {breadcrumb.length > 1 && (
-        <span
-          className={'font-lr font-size-6'}
-          onClick={() => setCurrentItemId(breadcrumb[breadcrumb.length - 2].id)}
-          style={{
-            cursor: 'pointer',
-            border: '1px solid grey',
-            borderRadius: '3px',
-            padding: '5px',
-          }}
-        >
-          back
-        </span>
-      )}
       <TransitionGroup className="relative">
         <CSSTransition key={currentItemId} classNames="slide" timeout={350}>
-          <List>
+          <List isReverse={isReverse}>
             {items.map(item => (
               <li
                 className={classNames({
@@ -183,25 +198,21 @@ const ListNav = () => {
                   <div className={'font-lr font-size-6'}>{item.path.label}</div>
                   <span className={'font-size-6'}>{item.work.title}</span>
                 </ListInner>
-
-                <span
-                  onClick={() => setCurrentItemId(item.work.id)}
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    right: '20px',
-                    padding: '3px 5px',
-                    border: '1px solid grey',
-                    borderRadius: '3px',
-                    background: 'white',
-                  }}
-                  className={classNames({
-                    'font-lr font-size-6': true,
-                  })}
-                >
-                  contents &gt;
-                </span>
+                {item.path.level !== 'Item' && (
+                  <ViewChildrenButton
+                    onClick={() => {
+                      setIsReverse(false);
+                      setTimeout(() => {
+                        setCurrentItemId(item.work.id);
+                      }, 0);
+                    }}
+                    className={classNames({
+                      'font-lr font-size-6': true,
+                    })}
+                  >
+                    {item.path.level} &gt;
+                  </ViewChildrenButton>
+                )}
               </li>
             ))}
             {!items.length && (
