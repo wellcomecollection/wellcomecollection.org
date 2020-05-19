@@ -21,9 +21,15 @@ const ListNavBreadcrumb = styled.nav`
       margin-left: 10px;
     }
 
-    &:last-child:after {
-      display: none;
+    &:hover {
+      background: ${props => props.theme.colors.yellow}
     }
+
+    &:last-child {
+      background: ${props => props.theme.colors.yellow}
+      &:after {
+        display: none;
+      }
   }
 `;
 
@@ -64,10 +70,8 @@ const List = styled.ul`
 `;
 
 const ListNav = () => {
-  function findAncestors() {
-    // TODO: write this for a breadcrumb
-  }
-  function findChildren(path, collectionChildren) {
+  // TODO: name this betterer?
+  function findTree(path, collection) {
     const pathParts = path.split('/'); // ['PPCRI', 'A', '1', '1']
     const pathsToChildren = pathParts
       .reduce((acc, curr, index) => {
@@ -78,20 +82,37 @@ const ListNav = () => {
       .slice(1); // ['PPCRI/A', 'PPCRI/A/1', 'PPCRI/A/1/1']
 
     return pathsToChildren.reduce(
-      (acc, curr) => acc.find(i => i.path.path === curr).children,
-      collectionChildren
+      (acc, curr) => {
+        const foundItem = acc.children.find(i => i.path.path === curr);
+
+        return {
+          ancestors: [
+            ...acc.ancestors,
+            {
+              id: foundItem.work.id,
+              path: foundItem.path.path,
+            },
+          ],
+          children: foundItem.children,
+        };
+      },
+      {
+        children: collection.children,
+        ancestors: [{ id: collection.work.id, path: collection.path.path }],
+      }
     );
   }
   const [currentItemId, setCurrentItemId] = useState('hz43r7re');
+  const [breadcrumb, setBreadcrumb] = useState([]);
   useEffect(() => {
     const url = `https://api.wellcomecollection.org/catalogue/v2/works/${currentItemId}?include=collection`;
 
     fetch(url)
       .then(resp => resp.json())
       .then(resp => {
-        setItems(
-          findChildren(resp.collectionPath.path, resp.collection.children)
-        );
+        const tree = findTree(resp.collectionPath.path, resp.collection);
+        setItems(tree.children);
+        setBreadcrumb(tree.ancestors);
       });
   }, [currentItemId]);
 
@@ -99,6 +120,22 @@ const ListNav = () => {
 
   return (
     <div>
+      <ListNavBreadcrumb>
+        <ul className={'font-lr font-size-6'}>
+          {breadcrumb.map(crumb => (
+            <li key={crumb.id} onClick={() => setCurrentItemId(crumb.id)}>
+              {crumb.path}
+            </li>
+          ))}
+        </ul>
+      </ListNavBreadcrumb>
+      {breadcrumb.length > 1 && (
+        <button
+          onClick={() => setCurrentItemId(breadcrumb[breadcrumb.length - 2].id)}
+        >
+          back
+        </button>
+      )}
       <TransitionGroup className="relative">
         <CSSTransition key={currentItemId} classNames="slide" timeout={350}>
           <List>
