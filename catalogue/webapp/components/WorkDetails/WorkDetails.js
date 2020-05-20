@@ -191,7 +191,8 @@ const WorkDetails = ({
       })}
     >
       <Layout12>
-        {work.collection && (
+        {
+          // TODO toggle
           <Space
             v={{
               size: 'l',
@@ -201,30 +202,35 @@ const WorkDetails = ({
               row: true,
             })}
           >
-            <div style={{ height: '140px', overflow: 'hidden' }}>
-              <ArchiveTree collection={collectionTree} currentWork={work.id} />
-            </div>
-            <Button
-              type="primary"
-              text="Where am I?"
-              clickHandler={() => {
-                setShowArchiveTreeModal(!showArchiveTreeModal);
-              }}
-              icon="tree"
-              // trackingEvent={{
-              //   category: 'Button',
-              //   action: 'open Stacks request modal window',
-              //   label: work.id,
-              // }}
-            />
+            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+              <button
+                onClick={() => {
+                  setShowArchiveTreeModal(!showArchiveTreeModal);
+                }}
+                className={classNames({
+                  'btn btn--primary': true,
+                  [font('hnm', 5)]: true,
+                })}
+                style={{ width: '240px' }}
+              >
+                <Icon name="tree" />
+                <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
+                  Archive structure
+                </Space>
+              </button>
+            </Space>
             <Modal
               isActive={showArchiveTreeModal}
               setIsActive={setShowArchiveTreeModal}
             >
-              <ArchiveTree collection={collectionTree} currentWork={work.id} />
+              <ArchiveTree
+                collection={collectionTree}
+                currentWork={work.id}
+                showZoom={true}
+              />
             </Modal>
           </Space>
-        )}
+        }
         {digitalLocation && (
           <WorkDetailsSection headingText="Available online">
             {video && (

@@ -8,10 +8,8 @@ import NextLink from 'next/link';
 import { workLink } from '@weco/common/services/catalogue/routes';
 
 const Container = styled.div`
-  border: 1px solid ${props => props.theme.colors.pumice};
-  border-radius: 6px;
-  max-height: 100%;
   overflow: scroll;
+  height: 90vh;
 `;
 const Tree = styled(Space).attrs({
   className: classNames({ [font('lr', 5)]: true }),
@@ -58,14 +56,14 @@ const Tree = styled(Space).attrs({
     }
 
     li::before {
-      border-top: 2px solid #000;
+      border-top: 2px solid ${props => props.theme.colors.green};
       top: 20px;
       width: 22px;
       height: 0;
     }
 
     li::after {
-      border-left: 2px solid #000;
+      border-left: 2px solid ${props => props.theme.colors.green};
       height: 100%;
       width: 0px;
       top: 10px;
@@ -81,8 +79,9 @@ const WorkLink = styled.a`
   display: inline-block;
   background: ${props => (props.selected ? '#ffce3c' : 'transparent')};
   font-weight: ${props => (props.selected ? 'bold' : 'normal')};
-  border: 1px dotted black;
-  border-color: ${props => (props.selected ? 'black' : 'transparent')};
+  border: 1px dotted ${props => props.theme.colors.green};
+  border-color: ${props =>
+    props.selected ? props.theme.colors.green : 'transparent'};
   border-radius: 6px;
   cursor: pointer;
 `;
@@ -128,81 +127,84 @@ const NestedList = ({ collection, currentWork, selected }: NestedListProps) => {
 type Props = {|
   collection: any, // TODO
   currentWork: string,
+  showZoom: boolean,
 |};
 
-const ArchiveTree = ({ collection, currentWork }: Props) => {
-  const [scale, setScale] = useState(0.5);
+const ArchiveTree = ({ collection, currentWork, showZoom }: Props) => {
+  const [scale, setScale] = useState(showZoom ? 1 : 0.5);
   const selected = useRef(null);
   const container = useRef(null);
-
   useEffect(() => {
     const containerTop =
-      container &&
-      container.current &&
-      container.current.getBoundingClientRect().top;
+      (container &&
+        container.current &&
+        container.current.getBoundingClientRect().top) ||
+      0;
     const containerLeft =
-      container &&
-      container.current &&
-      container.current.getBoundingClientRect().left;
+      (container &&
+        container.current &&
+        container.current.getBoundingClientRect().left) ||
+      0;
+    const containerHeight =
+      (container && container.current && container.current.offsetHeight) || 0;
     const selectedTop =
-      selected &&
-      selected.current &&
-      selected.current.getBoundingClientRect().top;
+      (selected &&
+        selected.current &&
+        selected.current.getBoundingClientRect().top) ||
+      0;
     const selectedLeft =
-      selected &&
-      selected.current &&
-      selected.current.getBoundingClientRect().left;
-    console.log('?', selectedLeft - containerLeft);
+      (selected &&
+        selected.current &&
+        selected.current.getBoundingClientRect().left) ||
+      0;
+    const selectedHeight =
+      (selected && selected.current && selected.current.offsetHeight) || 0;
     if (container && container.current) {
+      console.log(containerTop, selectedTop);
       container.current.scrollTo(
-        160,
-        Math.floor(selectedTop - containerTop - 80)
-      ); // TODO use half container height and half selected height rather than 80
+        Math.floor(selectedLeft - containerLeft - 60),
+        Math.floor(
+          selectedTop - containerTop - containerHeight / 2 + selectedHeight / 2
+        )
+      );
     }
-    // selected &&
-    //   selected.current &&
-    //   selected.current.scrollIntoView({
-    //     block: 'center',
-    //     inline: 'nearest',
-    //   });
-  }, [selected, container]);
+  });
+
   return (
-    <Container ref={container}>
-      <Space v={{ size: 'm', properties: ['margin-top'] }}>
-        <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+    <>
+      {showZoom && (
+        <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+            <Button
+              extraClasses="btn--primary"
+              icon={'zoomOut'}
+              text={'Zoom out'}
+              fontFamily="hnl"
+              clickHandler={() => {
+                if (scale > 1) {
+                  setScale(scale - 1);
+                } else if (scale > 0.25) {
+                  setScale(scale - 0.25);
+                }
+              }}
+            />
+          </Space>
           <Button
             extraClasses="btn--primary"
-            icon={'zoomOut'}
-            text={'Zoom out'}
+            icon={'zoomIn'}
+            text={'Zoom in'}
             fontFamily="hnl"
             clickHandler={() => {
-              if (scale > 1) {
-                setScale(scale - 1);
-              } else if (scale > 0.25) {
-                setScale(scale - 0.25);
+              if (scale < 1) {
+                setScale(scale + 0.25); // TODO tidy
+              } else if (scale < 3) {
+                setScale(scale + 1);
               }
             }}
           />
         </Space>
-        <Button
-          extraClasses="btn--primary"
-          icon={'zoomIn'}
-          text={'Zoom in'}
-          fontFamily="hnl"
-          clickHandler={() => {
-            if (scale < 1) {
-              setScale(scale + 0.25); // TODO tidy
-            } else if (scale < 3) {
-              setScale(scale + 1);
-            }
-          }}
-        />
-      </Space>
-      <div
-        style={{
-          overflow: 'scroll', // scroll // TODO position the tree absolutely
-        }}
-      >
+      )}
+      <Container ref={container}>
         <Tree scale={scale}>
           <NestedList
             collection={collection}
@@ -210,8 +212,8 @@ const ArchiveTree = ({ collection, currentWork }: Props) => {
             selected={selected}
           />
         </Tree>
-      </div>
-    </Container>
+      </Container>
+    </>
   );
 };
 export default ArchiveTree;
