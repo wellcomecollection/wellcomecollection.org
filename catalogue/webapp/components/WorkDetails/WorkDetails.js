@@ -45,7 +45,6 @@ import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
 import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
 import collectionTree from '@weco/catalogue/__mocks__/collection-tree';
-import Modal from '@weco/common/views/components/Modal/Modal';
 
 type Props = {|
   work: Work,
@@ -63,7 +62,6 @@ const WorkDetails = ({
   itemUrl,
 }: Props) => {
   const [imageJson, setImageJson] = useState(null);
-  const [showArchiveTreeModal, setShowArchiveTreeModal] = useState(false);
   const fetchImageJson = async () => {
     try {
       const imageJson =
@@ -192,44 +190,10 @@ const WorkDetails = ({
     >
       <Layout12>
         {
-          // TODO toggle
-          <Space
-            v={{
-              size: 'l',
-              properties: ['margin-bottom'],
-            }}
-            className={classNames({
-              row: true,
-            })}
-          >
-            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-              <button
-                onClick={() => {
-                  setShowArchiveTreeModal(!showArchiveTreeModal);
-                }}
-                className={classNames({
-                  'btn btn--primary': true,
-                  [font('hnm', 5)]: true,
-                })}
-                style={{ width: '240px' }}
-              >
-                <Icon name="tree" />
-                <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
-                  Archive structure
-                </Space>
-              </button>
-            </Space>
-            <Modal
-              isActive={showArchiveTreeModal}
-              setIsActive={setShowArchiveTreeModal}
-            >
-              <ArchiveTree
-                collection={collectionTree}
-                currentWork={work.id}
-                showZoom={true}
-              />
-            </Modal>
-          </Space>
+          <>
+            {/* // TODO toggle */}
+            <ArchiveTree collection={collectionTree} currentWork={work.id} />
+          </>
         }
         {digitalLocation && (
           <WorkDetailsSection headingText="Available online">

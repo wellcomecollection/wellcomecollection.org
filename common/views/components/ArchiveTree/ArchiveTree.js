@@ -6,6 +6,9 @@ import Space from '@weco/common/views/components/styled/Space';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import NextLink from 'next/link';
 import { workLink } from '@weco/common/services/catalogue/routes';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Modal from '@weco/common/views/components/Modal/Modal';
+import fetch from 'isomorphic-unfetch';
 
 const Container = styled.div`
   overflow: scroll;
@@ -90,9 +93,15 @@ type NestedListProps = {|
   collection: any, // TODO
   currentWork: string,
   selected: any, // TODO
+  setShowArchiveTreeModal: any, // TODO
 |};
 
-const NestedList = ({ collection, currentWork, selected }: NestedListProps) => {
+const NestedList = ({
+  collection,
+  currentWork,
+  selected,
+  setShowArchiveTreeModal,
+}: NestedListProps) => {
   return (
     <ul>
       {collection.map(item => {
@@ -106,6 +115,9 @@ const NestedList = ({ collection, currentWork, selected }: NestedListProps) => {
               <WorkLink
                 selected={currentWork === item.work.id}
                 ref={currentWork === item.work.id ? selected : null}
+                onClick={() => {
+                  setShowArchiveTreeModal(false);
+                }}
               >
                 {item.work.title}
               </WorkLink>
@@ -115,6 +127,7 @@ const NestedList = ({ collection, currentWork, selected }: NestedListProps) => {
                 collection={item.children}
                 currentWork={currentWork}
                 selected={selected}
+                setShowArchiveTreeModal={setShowArchiveTreeModal}
               />
             )}
           </li>
@@ -127,13 +140,24 @@ const NestedList = ({ collection, currentWork, selected }: NestedListProps) => {
 type Props = {|
   collection: any, // TODO
   currentWork: string,
-  showZoom: boolean,
 |};
 
-const ArchiveTree = ({ collection, currentWork, showZoom }: Props) => {
-  const [scale, setScale] = useState(showZoom ? 1 : 0.5);
+const ArchiveTree = ({ collection, currentWork }: Props) => {
+  const [showArchiveTreeModal, setShowArchiveTreeModal] = useState(false);
+  const [scale, setScale] = useState(1);
   const selected = useRef(null);
   const container = useRef(null);
+  // For testing we only have full tree data for the Crick Archive
+  const [belongsToCrickArchive, setBelongsToCrickArchive] = useState(true);
+  useEffect(() => {
+    const url = `https://api.wellcomecollection.org/catalogue/v2/works/${currentWork}?include=collection&_`;
+    fetch(url)
+      .then(resp => resp.json())
+      .then(resp =>
+        setBelongsToCrickArchive(resp.collection.work.id === 'hz43r7re')
+      );
+  }, []);
+
   useEffect(() => {
     const containerTop =
       (container &&
@@ -162,7 +186,7 @@ const ArchiveTree = ({ collection, currentWork, showZoom }: Props) => {
     if (container && container.current) {
       console.log(containerTop, selectedTop);
       container.current.scrollTo(
-        Math.floor(selectedLeft - containerLeft - 60),
+        Math.floor(selectedLeft - containerLeft),
         Math.floor(
           selectedTop - containerTop - containerHeight / 2 + selectedHeight / 2
         )
@@ -170,9 +194,37 @@ const ArchiveTree = ({ collection, currentWork, showZoom }: Props) => {
     }
   });
 
-  return (
-    <>
-      {showZoom && (
+  return belongsToCrickArchive ? (
+    <Space
+      v={{
+        size: 'l',
+        properties: ['margin-bottom'],
+      }}
+      className={classNames({
+        row: true,
+      })}
+    >
+      <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+        <button
+          onClick={() => {
+            setShowArchiveTreeModal(!showArchiveTreeModal);
+          }}
+          className={classNames({
+            'btn btn--primary': true,
+            [font('hnm', 5)]: true,
+          })}
+          style={{ width: '240px' }}
+        >
+          <Icon name="tree" />
+          <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
+            Archive structure
+          </Space>
+        </button>
+      </Space>
+      <Modal
+        isActive={showArchiveTreeModal}
+        setIsActive={setShowArchiveTreeModal}
+      >
         <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <Button
@@ -196,24 +248,26 @@ const ArchiveTree = ({ collection, currentWork, showZoom }: Props) => {
             fontFamily="hnl"
             clickHandler={() => {
               if (scale < 1) {
-                setScale(scale + 0.25); // TODO tidy
+                setScale(scale + 0.25);
               } else if (scale < 3) {
                 setScale(scale + 1);
               }
             }}
           />
         </Space>
-      )}
-      <Container ref={container}>
-        <Tree scale={scale}>
-          <NestedList
-            collection={collection}
-            currentWork={currentWork}
-            selected={selected}
-          />
-        </Tree>
-      </Container>
-    </>
-  );
+        <Container ref={container}>
+          {/* /* TODO container ref */}
+          <Tree scale={scale}>
+            <NestedList
+              collection={collection}
+              currentWork={currentWork}
+              selected={selected}
+              setShowArchiveTreeModal={setShowArchiveTreeModal}
+            />
+          </Tree>
+        </Container>
+      </Modal>
+    </Space>
+  ) : null;
 };
 export default ArchiveTree;
