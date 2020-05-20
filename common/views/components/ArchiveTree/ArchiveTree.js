@@ -227,11 +227,10 @@ const ArchiveTree = ({ collection, currentWork }: Props) => {
             'btn btn--primary': true,
             [font('hnm', 5)]: true,
           })}
-          style={{ width: '240px' }}
         >
           <Icon name="tree" />
           <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
-            Archive structure
+            {`Part of the ${collection[0].work.title}`}
           </Space>
         </button>
       </Space>
