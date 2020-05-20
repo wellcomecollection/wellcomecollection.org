@@ -1,9 +1,12 @@
 // @flow
 import { useState, useEffect } from 'react';
+import { workLink } from '../../../services/catalogue/routes';
+import NextLink from 'next/link';
 import { classNames } from '../../../utils/classnames';
 import fetch from 'isomorphic-unfetch';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
+import Modal from '../Modal/Modal';
 
 const ListNavBreadcrumb = styled.nav`
   ul {
@@ -22,12 +25,9 @@ const ListNavBreadcrumb = styled.nav`
       margin-left: 10px;
     }
 
-    &:hover {
-      background: ${props => props.theme.colors.yellow}
-    }
-
     &:last-child {
-      background: ${props => props.theme.colors.yellow}
+      background: ${props => props.theme.colors.yellow};
+
       &:after {
         display: none;
       }
@@ -40,6 +40,12 @@ const List = styled.ul`
   list-style: none;
   transition: opacity 350ms ease, transform 350ms ease;
   width: 100%;
+
+  a {
+    display: block;
+    width: 100%;
+    text-decoration: none;
+  }
 
   li {
     position: relative;
@@ -112,7 +118,11 @@ const ViewChildrenButton = styled.span`
   }
 `;
 
-const ListNav = () => {
+type Props = {|
+  work: { id: string },
+|};
+
+const ListNav = ({ work }: Props) => {
   function findTree(path, collection) {
     const pathParts = path.split('/'); // ['PPCRI', 'A', '1', '1']
     const pathsToChildren = pathParts
@@ -144,7 +154,7 @@ const ListNav = () => {
       }
     );
   }
-  const [currentItemId, setCurrentItemId] = useState('hz43r7re');
+  const [currentItemId, setCurrentItemId] = useState(work.id);
   const [breadcrumb, setBreadcrumb] = useState([]);
   const [isReverse, setIsReverse] = useState(false);
 
@@ -161,71 +171,94 @@ const ListNav = () => {
   }, [currentItemId]);
 
   const [items, setItems] = useState([]);
-  const [activeItem, setActiveItem] = useState({ work: { id: null } });
+  const [isModalActive, setIsModalActive] = useState(false);
 
   return (
-    <div>
-      <ListNavBreadcrumb>
-        <span className={'font-lr font-size-6'}>you are in: </span>
+    <>
+      <ListNavBreadcrumb onClick={() => setIsModalActive(true)}>
+        <span className={'font-lr font-size-6'}>You are in: </span>
         <ul className={'font-lr font-size-6'}>
           {breadcrumb.map(crumb => (
-            <li
-              key={crumb.id}
-              onClick={() => {
-                setIsReverse(true);
-                setTimeout(() => {
-                  setCurrentItemId(crumb.id);
-                }, 0);
-              }}
-            >
-              {crumb.path}
-            </li>
+            <li key={crumb.id}>{crumb.path}</li>
           ))}
         </ul>
       </ListNavBreadcrumb>
-      <TransitionGroup className="relative">
-        <CSSTransition key={currentItemId} classNames="slide" timeout={350}>
-          <List isReverse={isReverse}>
-            {items.map(item => (
-              <li
-                className={classNames({
-                  relative: true,
-                  'is-active': activeItem.work.id === item.work.id,
-                })}
-                key={item.work.id}
-              >
-                <ListInner onClick={() => setActiveItem(item)}>
-                  <div className={'font-lr font-size-6'}>{item.path.label}</div>
-                  <span className={'font-size-6'}>{item.work.title}</span>
-                </ListInner>
-                {item.path.level !== 'Item' && (
-                  <ViewChildrenButton
-                    onClick={() => {
-                      setIsReverse(false);
-                      setTimeout(() => {
-                        setCurrentItemId(item.work.id);
-                      }, 0);
-                    }}
+      <Modal isActive={isModalActive} setIsActive={setIsModalActive}>
+        <div
+          style={{
+            width: '500px',
+            minHeight: '70vh',
+            maxWidth: '100%',
+            position: 'relative',
+          }}
+        >
+          {breadcrumb.length > 1 && (
+            <span
+              onClick={() => {
+                setIsReverse(true);
+                setTimeout(() => {
+                  setCurrentItemId(breadcrumb[breadcrumb.length - 2].id);
+                }, 0);
+              }}
+              style={{ position: 'absolute', top: '-30px', left: '0' }}
+              className="font-lr font-size-6"
+            >
+              &lt; up to {breadcrumb[breadcrumb.length - 2].path}
+            </span>
+          )}
+          <TransitionGroup className="relative">
+            <CSSTransition key={currentItemId} classNames="slide" timeout={350}>
+              <List isReverse={isReverse}>
+                {items.map(item => (
+                  <li
                     className={classNames({
-                      'font-lr font-size-6': true,
+                      relative: true,
+                      'is-active': work.id === item.work.id,
                     })}
+                    key={item.work.id}
                   >
-                    {item.path.level} &gt;
-                  </ViewChildrenButton>
-                )}
-              </li>
-            ))}
-            {!items.length && (
-              <li>
-                <ListInner>
-                  <span className={'font-size-6'}>Nothing here</span>
-                </ListInner>
-              </li>
-            )}
-          </List>
-        </CSSTransition>
-      </TransitionGroup>
-    </div>
+                    <NextLink
+                      {...workLink({ id: item.work.id })}
+                      scroll={false}
+                    >
+                      <a>
+                        <ListInner
+                          onClick={() => {
+                            // setIsModalActive(false);
+                          }}
+                        >
+                          <div className={'font-lr font-size-6'}>
+                            {item.path.label}
+                          </div>
+                          <span className={'font-size-6'}>
+                            {item.work.title}
+                          </span>
+                        </ListInner>
+                      </a>
+                    </NextLink>
+                    {item.path.level !== 'Item' && (
+                      <ViewChildrenButton
+                        onClick={() => {
+                          setIsReverse(false);
+                          setTimeout(() => {
+                            setCurrentItemId(item.work.id);
+                          }, 0);
+                        }}
+                        className={classNames({
+                          'font-lr font-size-6': true,
+                        })}
+                      >
+                        {item.path.level} &gt;
+                      </ViewChildrenButton>
+                    )}
+                  </li>
+                ))}
+              </List>
+            </CSSTransition>
+          </TransitionGroup>
+        </div>
+      </Modal>
+    </>
   );
 };
 

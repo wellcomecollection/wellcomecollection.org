@@ -3,7 +3,7 @@ import ListNav from '../../../common/views/components/ListNav/ListNav';
 import Readme from '../../../common/views/components/ListNav/README.md';
 
 const ListNavExample = () => {
-  return <ListNav />;
+  return <ListNav workId="hz43r7re" />;
 };
 
 const stories = storiesOf('Components', module);

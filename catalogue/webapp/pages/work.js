@@ -25,7 +25,8 @@ import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
-import Collection from '@weco/common/views/components/Collection/Collection';
+import ListNav from '@weco/common/views/components/ListNav/ListNav';
+// import Collection from '@weco/common/views/components/Collection/Collection';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWork } from '../services/catalogue/works';
 import Space from '@weco/common/views/components/styled/Space';
@@ -190,7 +191,21 @@ export const WorkPage = ({ work }: Props) => {
           </div>
         </div>
       </Space>
-
+      <div className="container">
+        <div className="grid">
+          <Space
+            v={{
+              size: 's',
+              properties: ['padding-top', 'padding-bottom'],
+            }}
+            className={classNames({
+              [grid({ s: 12 })]: true,
+            })}
+          >
+            {collectionSearch && <ListNav work={work} />}
+          </Space>
+        </div>
+      </div>
       <WorkDetails
         work={work}
         itemUrl={itemUrlObject}
@@ -198,7 +213,6 @@ export const WorkPage = ({ work }: Props) => {
         childManifestsCount={childManifestsCount}
         imageCount={imageTotal}
       />
-      {collectionSearch && <Collection work={work} />}
     </CataloguePageLayout>
   );
 };
