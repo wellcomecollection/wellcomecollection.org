@@ -163,7 +163,7 @@ const ArchiveTree = ({ collection, currentWork }: Props) => {
   const selected = useRef(null);
   const container = useRef(null);
   // For testing we only have full tree data for the Crick Archive
-  const [belongsToCrickArchive, setBelongsToCrickArchive] = useState(true);
+  const [belongsToCrickArchive, setBelongsToCrickArchive] = useState(false);
   useEffect(() => {
     const url = `https://api.wellcomecollection.org/catalogue/v2/works/${currentWork}?include=collection&_`;
     fetch(url)
