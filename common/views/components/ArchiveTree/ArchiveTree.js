@@ -89,11 +89,26 @@ const WorkLink = styled.a`
   cursor: pointer;
 `;
 
+type Collection = {|
+  path: {|
+    path: string,
+    level: string,
+    label: string,
+    type: string,
+  |},
+  work: {|
+    id: string,
+    title: string,
+    alternativeTitles: [],
+    type: 'Work',
+  |},
+  children: ?(Collection[]),
+|};
 type NestedListProps = {|
-  collection: any, // TODO
+  collection: Collection[],
   currentWork: string,
-  selected: any, // TODO
-  setShowArchiveTreeModal: any, // TODO
+  selected: { current: HTMLElement | null },
+  setShowArchiveTreeModal: boolean => void,
 |};
 
 const NestedList = ({
@@ -138,7 +153,7 @@ const NestedList = ({
 };
 
 type Props = {|
-  collection: any, // TODO
+  collection: Collection[],
   currentWork: string,
 |};
 
@@ -184,7 +199,6 @@ const ArchiveTree = ({ collection, currentWork }: Props) => {
     const selectedHeight =
       (selected && selected.current && selected.current.offsetHeight) || 0;
     if (container && container.current) {
-      console.log(containerTop, selectedTop);
       container.current.scrollTo(
         Math.floor(selectedLeft - containerLeft - 100),
         Math.floor(
@@ -256,7 +270,6 @@ const ArchiveTree = ({ collection, currentWork }: Props) => {
           />
         </Space>
         <Container ref={container}>
-          {/* /* TODO container ref */}
           <Tree scale={scale}>
             <NestedList
               collection={collection}

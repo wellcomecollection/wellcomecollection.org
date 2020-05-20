@@ -47,6 +47,7 @@ describe('Feature: 2. As a library member I want to request an item', () => {
           itemUrl={null}
           childManifestsCount={1}
           imageCount={1}
+          collectionSearch={false}
         />
       </TogglesContext.Provider>
     );
@@ -67,6 +68,7 @@ describe('Feature: 2. As a library member I want to request an item', () => {
         itemUrl={null}
         childManifestsCount={1}
         imageCount={1}
+        collectionSearch={false}
       />
     );
     await updateWrapperAsync(wrapper);
@@ -93,6 +95,7 @@ describe('Feature: 2. As a library member I want to request an item', () => {
           itemUrl={null}
           childManifestsCount={1}
           imageCount={1}
+          collectionSearch={false}
         />
       </TogglesContext.Provider>
     );
