@@ -164,6 +164,11 @@ const ArchiveTree = ({ collection, currentWork }: Props) => {
   const container = useRef(null);
   // For testing we only have full tree data for the Crick Archive
   const [belongsToCrickArchive, setBelongsToCrickArchive] = useState(false);
+  const [
+    {
+      work: { title: archiveTitle },
+    },
+  ] = collection;
   useEffect(() => {
     const url = `https://api.wellcomecollection.org/catalogue/v2/works/${currentWork}?include=collection&_`;
     fetch(url)
@@ -230,7 +235,7 @@ const ArchiveTree = ({ collection, currentWork }: Props) => {
         >
           <Icon name="tree" />
           <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
-            {`Part of the ${collection[0].work.title}`}
+            {`Part of the ${archiveTitle}`}
           </Space>
         </button>
       </Space>
