@@ -186,7 +186,7 @@ const ArchiveTree = ({ collection, currentWork }: Props) => {
     if (container && container.current) {
       console.log(containerTop, selectedTop);
       container.current.scrollTo(
-        Math.floor(selectedLeft - containerLeft),
+        Math.floor(selectedLeft - containerLeft - 100),
         Math.floor(
           selectedTop - containerTop - containerHeight / 2 + selectedHeight / 2
         )

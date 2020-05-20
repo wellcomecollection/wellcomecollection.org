@@ -52,6 +52,7 @@ type Props = {|
   childManifestsCount: number,
   imageCount: number,
   itemUrl: ?NextLinkType,
+  collectionSearch: boolean,
 |};
 
 const WorkDetails = ({
@@ -60,6 +61,7 @@ const WorkDetails = ({
   childManifestsCount,
   imageCount,
   itemUrl,
+  collectionSearch,
 }: Props) => {
   const [imageJson, setImageJson] = useState(null);
   const fetchImageJson = async () => {
@@ -189,12 +191,9 @@ const WorkDetails = ({
       })}
     >
       <Layout12>
-        {
-          <>
-            {/* // TODO toggle */}
-            <ArchiveTree collection={collectionTree} currentWork={work.id} />
-          </>
-        }
+        {collectionSearch && (
+          <ArchiveTree collection={collectionTree} currentWork={work.id} />
+        )}
         {digitalLocation && (
           <WorkDetailsSection headingText="Available online">
             {video && (
