@@ -197,7 +197,6 @@ export const WorkPage = ({ work }: Props) => {
         iiifPresentationManifest={iiifPresentationManifest}
         childManifestsCount={childManifestsCount}
         imageCount={imageTotal}
-        collectionSearch={collectionSearch}
       />
       {collectionSearch && <Collection work={work} />}
     </CataloguePageLayout>

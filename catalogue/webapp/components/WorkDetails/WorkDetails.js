@@ -45,14 +45,12 @@ import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
 import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
 import collectionTree from '@weco/catalogue/__mocks__/collection-tree';
-
 type Props = {|
   work: Work,
   iiifPresentationManifest: ?IIIFManifest,
   childManifestsCount: number,
   imageCount: number,
   itemUrl: ?NextLinkType,
-  collectionSearch: boolean,
 |};
 
 const WorkDetails = ({
@@ -61,7 +59,6 @@ const WorkDetails = ({
   childManifestsCount,
   imageCount,
   itemUrl,
-  collectionSearch,
 }: Props) => {
   const [imageJson, setImageJson] = useState(null);
   const fetchImageJson = async () => {
@@ -191,9 +188,13 @@ const WorkDetails = ({
       })}
     >
       <Layout12>
-        {collectionSearch && (
-          <ArchiveTree collection={collectionTree} currentWork={work.id} />
-        )}
+        <TogglesContext.Consumer>
+          {({ collectionSearch }) =>
+            collectionSearch && (
+              <ArchiveTree collection={collectionTree} currentWork={work.id} />
+            )
+          }
+        </TogglesContext.Consumer>
         {digitalLocation && (
           <WorkDetailsSection headingText="Available online">
             {video && (
