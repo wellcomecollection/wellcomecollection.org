@@ -14,6 +14,13 @@ module.exports = {
         'Search for top-level collections and surface them on work pages',
     },
     {
+      id: 'imagesEndpoint',
+      title: 'Use the images endpoint for image searches',
+      defaultValue: false,
+      description:
+        'Rather than searching for works filtered by iiif-image, use the new (beta) images endpoint for image search',
+    },
+    {
       id: 'searchToolbar',
       title: 'Search toolbar',
       defaultValue: false,
