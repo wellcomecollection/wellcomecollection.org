@@ -9,6 +9,7 @@ import { workLink } from '@weco/common/services/catalogue/routes';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import fetch from 'isomorphic-unfetch';
+import collectionTree from '@weco/catalogue/__mocks__/collection-tree';
 
 const Container = styled.div`
   overflow: scroll;
@@ -153,11 +154,11 @@ const NestedList = ({
 };
 
 type Props = {|
-  collection: Collection[],
+  collection?: Collection[],
   currentWork: string,
 |};
 
-const ArchiveTree = ({ collection, currentWork }: Props) => {
+const ArchiveTree = ({ collection = collectionTree, currentWork }: Props) => {
   const [showArchiveTreeModal, setShowArchiveTreeModal] = useState(false);
   const [scale, setScale] = useState(1);
   const selected = useRef(null);
