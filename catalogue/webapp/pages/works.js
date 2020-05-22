@@ -6,6 +6,8 @@ import Head from 'next/head';
 import {
   type CatalogueApiError,
   type CatalogueResultsList,
+  type Work,
+  type Image,
 } from '@weco/common/model/catalogue';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
@@ -18,13 +20,14 @@ import {
   WorksRoute,
 } from '@weco/common/services/catalogue/routes';
 import {
-  type CatalogueApiProps,
+  type CatalogueWorksApiProps,
   worksRouteToApiUrl,
   worksRouteToApiUrlWithDefaults,
 } from '@weco/common/services/catalogue/api';
 import Space from '@weco/common/views/components/styled/Space';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
+import { getImages } from '../services/catalogue/images';
 import { getWorks } from '../services/catalogue/works';
 import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
 import cookies from 'next-cookies';
@@ -35,11 +38,12 @@ import CollectionSearch from '@weco/common/views/components/CollectionSearch/Col
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type Props = {|
-  works: ?CatalogueResultsList | CatalogueApiError,
+  works: ?CatalogueResultsList<Work> | CatalogueApiError,
+  images: ?CatalogueResultsList<Image> | CatalogueApiError,
   worksRouteProps: WorksRouteProps,
   unfilteredSearchResults: boolean,
   shouldGetWorks: boolean,
-  apiProps: CatalogueApiProps,
+  apiProps: CatalogueWorksApiProps,
 |};
 
 const Works = ({
@@ -344,7 +348,7 @@ const IMAGES_LOCATION_TYPE = 'iiif-image';
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = WorksRoute.fromQuery(ctx.query);
-  const { unfilteredSearchResults } = ctx.query.toggles;
+  const { unfilteredSearchResults, imagesEndpoint } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
 
@@ -355,9 +359,10 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const apiProps = apiPropsFn(
     {
       ...params,
-      itemsLocationsLocationType: isImageSearch
-        ? [IMAGES_LOCATION_TYPE]
-        : params.itemsLocationsLocationType,
+      itemsLocationsLocationType:
+        isImageSearch && !imagesEndpoint
+          ? [IMAGES_LOCATION_TYPE]
+          : params.itemsLocationsLocationType,
     },
     {
       _queryType,
@@ -365,16 +370,30 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     }
   );
 
-  const shouldGetWorks = !!(params.query && params.query !== '');
-  // TODO: increase pageSize to 100 when `isImageSearch` (but only if `isEnhanced`)
+  const hasQuery = !!(params.query && params.query !== '');
+  const shouldGetWorks = hasQuery && !imagesEndpoint;
+  const shouldGetImages = hasQuery && isImageSearch && imagesEndpoint;
+
   const worksOrError = shouldGetWorks
     ? await getWorks({
         params: apiProps,
       })
     : null;
 
+  // TODO: increase pageSize to 100 when `isImageSearch` (but only if `isEnhanced`)
+  // TODO: construct images endpoint params independently rather than extracting from works
+  const maybeImages = shouldGetImages
+    ? await getImages({
+        params: {
+          query: apiProps.query,
+          page: apiProps.page,
+        },
+      })
+    : null;
+
   return {
     works: worksOrError,
+    images: maybeImages,
     worksRouteProps: params,
     unfilteredSearchResults,
     shouldGetWorks,

@@ -9,16 +9,8 @@ import {
 import { type IIIFCanvas } from '@weco/common/model/iiif';
 import Raven from 'raven-js';
 import { serialiseUrl } from '@weco/common/services/catalogue/routes';
-import { type CatalogueApiProps } from '@weco/common/services/catalogue/api';
-
-const rootUris = {
-  prod: 'https://api.wellcomecollection.org/catalogue',
-  stage: 'https://api-stage.wellcomecollection.org/catalogue',
-};
-
-type Environment = {|
-  env?: $Keys<typeof rootUris>,
-|};
+import { type CatalogueWorksApiProps } from '@weco/common/services/catalogue/api';
+import { type Environment, rootUris } from './common';
 
 type GetWorkProps = {|
   id: string,
@@ -26,7 +18,7 @@ type GetWorkProps = {|
 |};
 
 type GetWorksProps = {|
-  params: CatalogueApiProps,
+  params: CatalogueWorksApiProps,
   pageSize?: number,
   ...Environment,
 |};
@@ -47,7 +39,7 @@ export async function getWorks({
   params,
   env = 'prod',
   pageSize = 25,
-}: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
+}: GetWorksProps): Promise<CatalogueResultsList<Work> | CatalogueApiError> {
   const filterQueryString = Object.keys(serialiseUrl(params)).map(key => {
     const val = params[key];
     return `${key}=${encodeURIComponent(val)}`;
@@ -60,7 +52,7 @@ export async function getWorks({
     const res = await fetch(url);
     const json = await res.json();
 
-    return (json: CatalogueResultsList | CatalogueApiError);
+    return (json: CatalogueResultsList<Work> | CatalogueApiError);
   } catch (error) {
     return {
       description: '',
