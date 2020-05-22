@@ -136,47 +136,28 @@ const ListNav = ({ work }: Props) => {
 
     return pathsToChildren.reduce(
       (acc, curr) => {
-        const foundItem = acc.children.find(i => i.path.path === curr);
-        /* const foundItem = acc.children.find(i => i.path.path === curr); */
+        const foundItem = acc[0].children.find(i => i.path.path === curr);
 
-        return {
-          ancestors: [
-            ...acc.ancestors,
-            {
-              id: foundItem.work.id,
-              path: foundItem.path.path,
-              children: foundItem.children,
-            },
-          ],
-          children: foundItem.children,
-        };
-      },
-      {
-        children: collection.children,
-        ancestors: [
+        return [
           {
-            id: collection.work.id,
-            path: collection.path.path,
-            children: collection.children,
+            id: foundItem.work.id,
+            path: foundItem.path,
+            children: foundItem.children,
           },
-        ],
-      }
+          ...acc,
+        ];
+      },
+      [
+        {
+          id: collection.work.id,
+          path: collection.path,
+          children: collection.children,
+        },
+      ]
     );
   }
   const [currentNavItemId, setCurrentNavItemId] = useState(work.id);
-  const [breadcrumb, setBreadcrumb] = useState([]);
   const [isReverse, setIsReverse] = useState(false);
-  const [currentPath, setCurrentPath] = useState('');
-
-  useEffect(() => {
-    const url = `https://api.wellcomecollection.org/catalogue/v2/works/${work.id}?include=collection`;
-
-    fetch(url)
-      .then(resp => resp.json())
-      .then(resp => {
-        setCurrentPath(resp.collectionPath.label);
-      });
-  }, [work]);
 
   useEffect(() => {
     const url = `https://api.wellcomecollection.org/catalogue/v2/works/${currentNavItemId}?include=collection`;
@@ -184,15 +165,17 @@ const ListNav = ({ work }: Props) => {
     fetch(url)
       .then(resp => resp.json())
       .then(resp => {
-        const tree = findTree(resp.collectionPath.path, resp.collection);
-        const items = tree.ancestors[tree.ancestors.length - 1].children;
-
-        setItems(items);
-        setBreadcrumb(tree.ancestors);
+        setTree(findTree(resp.collectionPath.path, resp.collection));
       });
   }, [currentNavItemId]);
 
-  const [items, setItems] = useState([]);
+  const [tree, setTree] = useState([
+    {
+      id: null,
+      path: { label: null },
+      children: [],
+    },
+  ]);
   const [isModalActive, setIsModalActive] = useState(false);
 
   return (
@@ -200,7 +183,7 @@ const ListNav = ({ work }: Props) => {
       <ListNavBreadcrumb onClick={() => setIsModalActive(true)}>
         <span className={'font-lr font-size-6'}>You are in: </span>
         <ul className={'font-lr font-size-6'}>
-          <li>{currentPath}</li>
+          <li>{tree[0].path.label}</li>
         </ul>
       </ListNavBreadcrumb>
       <Modal isActive={isModalActive} setIsActive={setIsModalActive}>
@@ -212,28 +195,6 @@ const ListNav = ({ work }: Props) => {
             position: 'relative',
           }}
         >
-          {breadcrumb.length > 1 && (
-            <span
-              onClick={() => {
-                setIsReverse(true);
-                setTimeout(() => {
-                  setCurrentNavItemId(breadcrumb[breadcrumb.length - 2].id);
-                }, 0);
-              }}
-              style={{
-                position: 'absolute',
-                top: '-30px',
-                left: '0',
-                padding: '3px',
-                border: '1px solid #ccc',
-                borderRadius: '3px',
-                cursor: 'pointer',
-              }}
-              className="font-lr font-size-6"
-            >
-              &lt; up to {breadcrumb[breadcrumb.length - 2].path}
-            </span>
-          )}
           <TransitionGroup className="relative">
             <CSSTransition
               key={currentNavItemId}
@@ -241,7 +202,7 @@ const ListNav = ({ work }: Props) => {
               timeout={350}
             >
               <List isReverse={isReverse}>
-                {items.map(item => (
+                {tree[0].children.map(item => (
                   <li
                     className={classNames({
                       relative: true,
