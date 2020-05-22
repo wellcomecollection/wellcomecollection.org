@@ -140,7 +140,7 @@ const ListNav = ({ work }: Props) => {
 
         return [
           {
-            id: foundItem.work.id,
+            work: foundItem.work,
             path: foundItem.path,
             children: foundItem.children,
           },
@@ -149,7 +149,7 @@ const ListNav = ({ work }: Props) => {
       },
       [
         {
-          id: collection.work.id,
+          work: collection.work,
           path: collection.path,
           children: collection.children,
         },
@@ -165,17 +165,31 @@ const ListNav = ({ work }: Props) => {
     fetch(url)
       .then(resp => resp.json())
       .then(resp => {
-        setTree(findTree(resp.collectionPath.path, resp.collection));
+        const tree = findTree(resp.collectionPath.path, resp.collection);
+        const isTopLevel = tree.length === 1;
+        setNavItems(
+          isTopLevel
+            ? [
+                {
+                  work: tree[0].work,
+                  path: tree[0].path,
+                  children: tree[0].children,
+                },
+              ]
+            : tree[1].children
+        );
+        setTree(tree);
       });
   }, [currentNavItemId]);
 
   const [tree, setTree] = useState([
     {
-      id: null,
+      work: { id: null },
       path: { label: null },
       children: [],
     },
   ]);
+  const [navItems, setNavItems] = useState([]);
   const [isModalActive, setIsModalActive] = useState(false);
 
   return (
@@ -202,7 +216,7 @@ const ListNav = ({ work }: Props) => {
               timeout={350}
             >
               <List isReverse={isReverse}>
-                {tree[0].children.map(item => (
+                {navItems.map(item => (
                   <li
                     className={classNames({
                       relative: true,
@@ -229,12 +243,12 @@ const ListNav = ({ work }: Props) => {
                         </ListInner>
                       </a>
                     </NextLink>
-                    {item.path.level !== 'Item' && (
+                    {item.children && item.children[0] && (
                       <ViewChildrenButton
                         onClick={() => {
                           setIsReverse(false);
                           setTimeout(() => {
-                            setCurrentNavItemId(item.work.id);
+                            setCurrentNavItemId(item.children[0].work.id);
                           }, 0);
                         }}
                         className={classNames({
