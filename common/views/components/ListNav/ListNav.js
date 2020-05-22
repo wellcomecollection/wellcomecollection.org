@@ -7,6 +7,7 @@ import fetch from 'isomorphic-unfetch';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 import Modal from '../Modal/Modal';
+import DropdownButton from '../DropdownButton/DropdownButton';
 
 const ListNavBreadcrumb = styled.nav`
   ul {
@@ -14,15 +15,20 @@ const ListNavBreadcrumb = styled.nav`
     margin: 0 0 10px;
     padding: 0;
     display: inline-flex;
+    align-items: center;
   }
 
   li {
+    position: relative;
     cursor: pointer;
-    margin-right: 10px;
+    margin-right: 20px;
 
     &:after {
+      position: absolute;
+      right: -15px;
+      top: 50%;
+      transform: translateY(-50%);
       content: '>';
-      margin-left: 10px;
     }
 
     &:last-child {
@@ -31,6 +37,32 @@ const ListNavBreadcrumb = styled.nav`
       &:after {
         display: none;
       }
+    }
+
+    ul {
+      display: block;
+
+      li {
+        border-top: 1px solid #ccc;
+        padding-top: 8px;
+
+        &:first-child {
+          border-top: 0;
+        }
+
+        &:after {
+          display: none;
+        }
+
+        &:last-child {
+          background: none;
+
+          &:after {
+            display: none;
+          }
+        }
+      }
+    }
   }
 `;
 
@@ -159,6 +191,17 @@ const ListNav = ({ work }: Props) => {
   const [currentNavItemId, setCurrentNavItemId] = useState(work.id);
   const [isReverse, setIsReverse] = useState(false);
 
+  function makeCrumbs(tree) {
+    const allCrumbs = tree.reverse();
+    const firstCrumb = allCrumbs[0];
+    const lastCrumb = allCrumbs.length > 1 && allCrumbs[allCrumbs.length - 1];
+    const middleCrumbs = allCrumbs.filter(
+      crumb => crumb !== firstCrumb && crumb !== lastCrumb
+    );
+
+    return { firstCrumb, middleCrumbs, lastCrumb };
+  }
+
   useEffect(() => {
     const url = `https://api.wellcomecollection.org/catalogue/v2/works/${currentNavItemId}?include=collection`;
 
@@ -178,29 +221,99 @@ const ListNav = ({ work }: Props) => {
               ]
             : tree[1].children
         );
-        setTree(tree);
+
+        setBreadcrumb(makeCrumbs(tree));
       });
   }, [currentNavItemId]);
 
-  const [tree, setTree] = useState([
-    {
-      work: { id: null },
-      path: { label: null },
-      children: [],
-    },
-  ]);
   const [navItems, setNavItems] = useState([]);
   const [isModalActive, setIsModalActive] = useState(false);
+  const [breadcrumb, setBreadcrumb] = useState({
+    firstCrumb: null,
+    middleCrumbs: [],
+    lastCrumb: null,
+  });
 
   return (
     <>
-      <ListNavBreadcrumb onClick={() => setIsModalActive(true)}>
-        <span className={'font-lr font-size-6'}>You are in: </span>
-        <ul className={'font-lr font-size-6'}>
-          <li>{tree[0].path.label}</li>
-        </ul>
-      </ListNavBreadcrumb>
+      <span
+        onClick={() => setIsModalActive(true)}
+        className={'font-lr font-size-6 bg-yellow'}
+        style={{ cursor: 'pointer' }}
+      >
+        Archive navigation
+      </span>
       <Modal isActive={isModalActive} setIsActive={setIsModalActive}>
+        <ListNavBreadcrumb>
+          <ul className={'font-lr font-size-6'}>
+            {breadcrumb.firstCrumb && (
+              <li
+                onClick={() => {
+                  setIsReverse(true);
+                  setTimeout(() => {
+                    setCurrentNavItemId(breadcrumb.firstCrumb.work.id);
+                  }, 0);
+                }}
+              >
+                {breadcrumb.firstCrumb.path.label}
+              </li>
+            )}
+            {breadcrumb.middleCrumbs.length > 1 && (
+              <li>
+                <DropdownButton label="…">
+                  <ul>
+                    {breadcrumb.middleCrumbs.map(crumb => {
+                      return (
+                        <li
+                          key={crumb.work.id}
+                          onClick={() => {
+                            setIsReverse(true);
+                            setTimeout(() => {
+                              setCurrentNavItemId(crumb.work.id);
+                            }, 0);
+                          }}
+                        >
+                          {crumb.path.label}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </DropdownButton>
+              </li>
+            )}
+            {breadcrumb.middleCrumbs.length === 1 && (
+              <>
+                {breadcrumb.middleCrumbs.map(crumb => {
+                  return (
+                    <li
+                      key={crumb.work.id}
+                      onClick={() => {
+                        setIsReverse(true);
+                        setTimeout(() => {
+                          setCurrentNavItemId(crumb.work.id);
+                        }, 0);
+                      }}
+                    >
+                      {crumb.path.label}
+                    </li>
+                  );
+                })}
+              </>
+            )}
+            {breadcrumb.lastCrumb && (
+              <li
+                onClick={() => {
+                  setIsReverse(true);
+                  setTimeout(() => {
+                    setCurrentNavItemId(breadcrumb.lastCrumb.work.id);
+                  }, 0);
+                }}
+              >
+                {breadcrumb.lastCrumb.path.label}
+              </li>
+            )}
+          </ul>
+        </ListNavBreadcrumb>
         <div
           style={{
             width: '500px',
@@ -216,7 +329,7 @@ const ListNav = ({ work }: Props) => {
               timeout={350}
             >
               <List isReverse={isReverse}>
-                {navItems.map(item => (
+                {navItems.map((item, index) => (
                   <li
                     className={classNames({
                       relative: true,
