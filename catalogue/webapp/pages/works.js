@@ -23,8 +23,10 @@ import {
   type CatalogueWorksApiProps,
   worksRouteToApiUrl,
   worksRouteToApiUrlWithDefaults,
+  worksPropsToImagesProps,
 } from '@weco/common/services/catalogue/api';
 import Space from '@weco/common/views/components/styled/Space';
+import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getImages } from '../services/catalogue/images';
@@ -48,6 +50,7 @@ type Props = {|
 
 const Works = ({
   works,
+  images,
   worksRouteProps,
   unfilteredSearchResults,
   shouldGetWorks,
@@ -55,6 +58,8 @@ const Works = ({
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
+  const results: ?CatalogueResultsList<Work | Image> | CatalogueApiError =
+    works || images;
 
   const {
     query,
@@ -65,7 +70,7 @@ const Works = ({
 
   useEffect(() => {
     trackSearch(apiProps, {
-      totalResults: works && works.totalResults ? works.totalResults : 0,
+      totalResults: results && results.totalResults ? results.totalResults : 0,
       source: Router.query.source || 'unspecified',
     });
   }, [worksRouteProps]);
@@ -87,17 +92,17 @@ const Works = ({
   }, []);
 
   const isImageSearch = worksRouteProps.search === 'images';
-  const { collectionSearch } = useContext(TogglesContext);
+  const { collectionSearch, imagesEndpoint } = useContext(TogglesContext);
 
-  if (works && works.type === 'Error') {
+  if (results && results.type === 'Error') {
     return (
       <ErrorPage
         title={
-          works.httpStatus === 500
+          results.httpStatus === 500
             ? `We're experiencing technical difficulties at the moment. We're working to get this fixed.`
             : undefined
         }
-        statusCode={works.httpStatus}
+        statusCode={results.httpStatus}
       />
     );
   }
@@ -105,7 +110,7 @@ const Works = ({
   return (
     <Fragment>
       <Head>
-        {works && works.prevPage && (
+        {results && results.prevPage && (
           <link
             rel="prev"
             href={convertUrlToString(
@@ -116,7 +121,7 @@ const Works = ({
             )}
           />
         )}
-        {works && works.nextPage && (
+        {results && results.nextPage && (
           <link
             rel="next"
             href={convertUrlToString(
@@ -197,9 +202,9 @@ const Works = ({
           </div>
         </Space>
 
-        {!works && <StaticWorksContent />}
+        {!results && <StaticWorksContent />}
 
-        {works && works.results.length > 0 && (
+        {results && results.results.length > 0 && (
           <Fragment>
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
@@ -213,8 +218,8 @@ const Works = ({
                       <Fragment>
                         <Paginator
                           currentPage={page || 1}
-                          pageSize={works.pageSize}
-                          totalResults={works.totalResults}
+                          pageSize={results.pageSize}
+                          totalResults={results.totalResults}
                           link={worksLink(
                             {
                               ...worksRouteProps,
@@ -249,16 +254,43 @@ const Works = ({
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
-                {collectionSearch && <CollectionSearch query={query} />}
-                {isImageSearch ? (
-                  <ImageSearchResults works={works} apiProps={apiProps} />
-                ) : (
-                  <WorkSearchResults
-                    works={works}
-                    worksRouteProps={worksRouteProps}
-                    apiProps={apiProps}
-                  />
-                )}
+                {(() => {
+                  if (collectionSearch) {
+                    return <CollectionSearch query={query} />;
+                  }
+                  if (
+                    works &&
+                    works.type !== 'Error' &&
+                    isImageSearch &&
+                    !imagesEndpoint
+                  ) {
+                    return (
+                      <ImageSearchResults works={works} apiProps={apiProps} />
+                    );
+                  }
+                  if (
+                    images &&
+                    images.type !== 'Error' &&
+                    isImageSearch &&
+                    imagesEndpoint
+                  ) {
+                    return (
+                      <ImageEndpointSearchResults
+                        images={images}
+                        apiProps={worksPropsToImagesProps(apiProps)}
+                      />
+                    );
+                  }
+                  if (works && works.type !== 'Error') {
+                    return (
+                      <WorkSearchResults
+                        works={works}
+                        worksRouteProps={worksRouteProps}
+                        apiProps={apiProps}
+                      />
+                    );
+                  }
+                })()}
               </div>
 
               <Space
@@ -278,8 +310,8 @@ const Works = ({
                         <Fragment>
                           <Paginator
                             currentPage={page || 1}
-                            pageSize={works.pageSize}
-                            totalResults={works.totalResults}
+                            pageSize={results.pageSize}
+                            totalResults={results.totalResults}
                             link={worksLink(
                               {
                                 ...worksRouteProps,
@@ -309,7 +341,7 @@ const Works = ({
           </Fragment>
         )}
 
-        {works && works.results.length === 0 && (
+        {results && results.results.length === 0 && (
           <Space
             v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
           >
@@ -381,19 +413,15 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     : null;
 
   // TODO: increase pageSize to 100 when `isImageSearch` (but only if `isEnhanced`)
-  // TODO: construct images endpoint params independently rather than extracting from works
-  const maybeImages = shouldGetImages
+  const imagesOrError = shouldGetImages
     ? await getImages({
-        params: {
-          query: apiProps.query,
-          page: apiProps.page,
-        },
+        params: worksPropsToImagesProps(apiProps),
       })
     : null;
 
   return {
     works: worksOrError,
-    images: maybeImages,
+    images: imagesOrError,
     worksRouteProps: params,
     unfilteredSearchResults,
     shouldGetWorks,

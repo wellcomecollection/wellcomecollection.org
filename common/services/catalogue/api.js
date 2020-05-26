@@ -79,3 +79,14 @@ export function worksRouteToApiUrlWithDefaults(
     ...overrides,
   };
 }
+
+// TODO: construct images endpoint params independently rather than extracting from works
+export function worksPropsToImagesProps(
+  worksProps: CatalogueWorksApiProps
+): CatalogueImagesApiProps {
+  return {
+    query: worksProps.query,
+    page: worksProps.page,
+    'locations.license': undefined,
+  };
+}

@@ -6,7 +6,15 @@ export type Work = {
 
 export type Image = {
   type: 'Image',
-  ...Object,
+  id: string,
+  locations: Array<{
+    url: string,
+    ...Object,
+  }>,
+  source: {
+    id: string,
+    type: string,
+  },
 };
 
 export type CatalogueApiError = {|
