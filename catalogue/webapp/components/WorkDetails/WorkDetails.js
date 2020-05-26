@@ -43,7 +43,6 @@ import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/Expla
 import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
-import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
 
 type Props = {|
   work: Work,
@@ -188,11 +187,6 @@ const WorkDetails = ({
       })}
     >
       <Layout12>
-        <TogglesContext.Consumer>
-          {({ collectionSearch }) =>
-            collectionSearch && <ArchiveTree currentWork={work.id} />
-          }
-        </TogglesContext.Consumer>
         {digitalLocation && (
           <WorkDetailsSection headingText="Available online">
             {video && (

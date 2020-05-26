@@ -8,6 +8,8 @@ import LinkLabels from '../LinkLabels/LinkLabels';
 import Space from '../styled/Space';
 import Number from '@weco/common/views/components/Number/Number';
 import styled from 'styled-components';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
 
 const WorkHeaderContainer = styled.div.attrs(props => ({
   className: classNames({
@@ -59,6 +61,11 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
             })}
             lang={work.language && work.language.id}
           >
+            <TogglesContext.Consumer>
+              {({ collectionSearch }) =>
+                collectionSearch && <ArchiveTree currentWork={work.id} />
+              }
+            </TogglesContext.Consumer>
             {work.title}
           </h1>
 
