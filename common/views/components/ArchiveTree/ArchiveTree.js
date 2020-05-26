@@ -219,7 +219,7 @@ const ArchiveTree = ({ collection = collectionTree, currentWork }: Props) => {
         <Button
           extraClasses="btn--primary"
           icon="tree"
-          text={`Part of the ${archiveTitle}`}
+          text={`${archiveTitle} contents`}
           fontFamily="hnm"
           textHidden={true}
           clickHandler={() => {
