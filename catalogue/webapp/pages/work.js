@@ -25,7 +25,7 @@ import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
-import ListNav from '@weco/common/views/components/ListNav/ListNav';
+import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
 // import Collection from '@weco/common/views/components/Collection/Collection';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWork } from '../services/catalogue/works';
@@ -202,7 +202,7 @@ export const WorkPage = ({ work }: Props) => {
               [grid({ s: 12 })]: true,
             })}
           >
-            {collectionSearch && <ListNav work={work} />}
+            {collectionSearch && <ArchiveBreadcrumb work={work} />}
           </Space>
         </div>
       </div>
