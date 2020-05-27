@@ -47,6 +47,9 @@ const ImageEndpointSearchResults = ({ images, apiProps }: Props) => {
                   id: result.id,
                   position: i,
                   resultIdentifiers: result.source.id,
+                  resultLanguage: undefined,
+                  resultSubjects: undefined,
+                  resultWorkType: '',
                   source: 'image_endpoint_result/work_link',
                 });
               }}
