@@ -25,12 +25,15 @@ type Collection = {|
   children: ?(Collection[]),
 |};
 
-// TODO flow
-function addMathchingPathIndex(
+function addMathchingPathIndex({
   currentWorkPath,
   children = [],
-  indicesArray = []
-) {
+  indicesArray = [],
+}: {|
+  currentWorkPath: string,
+  children: Collection[],
+  indicesArray: number[],
+|}) {
   const matchingIndex =
     children &&
     children.findIndex(work => {
@@ -40,7 +43,11 @@ function addMathchingPathIndex(
         currentWorkPathLength < currentPathLength &&
         currentWorkPath.includes(work.path.path)
       ) {
-        addMathchingPathIndex(currentWorkPath, work.children, indicesArray);
+        addMathchingPathIndex({
+          currentWorkPath,
+          children: work.children || [],
+          indicesArray,
+        });
         return true;
       } else if (currentWorkPath === work.path.path) {
         return true;
@@ -48,7 +55,7 @@ function addMathchingPathIndex(
     });
   indicesArray.unshift(matchingIndex);
 }
-// TODO flow
+
 function getMatchingPathIndices({
   currentWorkPath,
   children,
@@ -57,7 +64,7 @@ function getMatchingPathIndices({
   children: Collection[],
 }): number[] {
   const indicesArray = [];
-  addMathchingPathIndex(currentWorkPath, children, indicesArray);
+  addMathchingPathIndex({ currentWorkPath, children, indicesArray });
   return indicesArray.map(index => Number(index)).filter(v => v >= 0);
 }
 
@@ -129,7 +136,7 @@ const WorksGrid = ({ title, works }: WorksGridProps) => {
             >
               <NextLink
                 {...workLink({ id: item.work.id })}
-                scroll={false}
+                scroll={true}
                 passHref
               >
                 <WorkLink selected={false}>
@@ -156,16 +163,21 @@ const RelatedArchiveWorks = ({ work }: Props) => {
   const workChildren = getWorkChildren(tree, matchingPathIndices) || [];
   const workSiblings = getWorkSiblings(tree, matchingPathIndices) || [];
 
-  useEffect(() => {
-    const url = `https://api.wellcomecollection.org/catalogue/v2/works/${work.id}?include=collection`;
-    fetch(url)
-      .then(resp => resp.json())
-      .then(resp => {
-        setCollection({
-          currentWorkPath: resp.collectionPath.path,
-          tree: resp.collection,
-        });
+  const fetchCollection = async workId => {
+    try {
+      const url = `https://api.wellcomecollection.org/catalogue/v2/works/${workId}?include=collection`;
+      const response = await fetch(url);
+      const work = await response.json();
+
+      setCollection({
+        currentWorkPath: work.collectionPath.path,
+        tree: work.collection,
       });
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    fetchCollection(work.id);
   }, [work.id]);
 
   return collection ? (
