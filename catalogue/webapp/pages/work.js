@@ -31,7 +31,7 @@ import { getWork } from '../services/catalogue/works';
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import ArchiveWorkChildren from '@weco/common/views/components/ArchiveWorkChildren/ArchiveWorkChildren';
+import RelatedArchiveWorks from '@weco/common/views/components/RelatedArchiveWorks/RelatedArchiveWorks';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -192,7 +192,6 @@ export const WorkPage = ({ work }: Props) => {
         </div>
       </Space>
 
-      {collectionSearch && <ArchiveWorkChildren work={work} />}
       <WorkDetails
         work={work}
         itemUrl={itemUrlObject}
@@ -200,6 +199,7 @@ export const WorkPage = ({ work }: Props) => {
         childManifestsCount={childManifestsCount}
         imageCount={imageTotal}
       />
+      {collectionSearch && <RelatedArchiveWorks work={work} />}
       {collectionSearch && <Collection work={work} />}
     </CataloguePageLayout>
   );
