@@ -30,6 +30,13 @@ const ArchiveBreadcrumbNav = styled.nav`
       align-items: baseline;
     }
 
+    &.is-last a {
+      background: #333;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+
     .icon {
       margin-right: 5px;
       position: relative;
@@ -139,7 +146,7 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
       ? `${firstCrumb.work.title}/${activeFirstLevel.work.title}`
       : firstCrumb.work.title;
     const lastCrumb = allCrumbs.length > 2 && allCrumbs[allCrumbs.length - 2];
-    const middleCrumbs = allCrumbs.length > 3 && allCrumbs.slice(2, -2);
+    const middleCrumbs = allCrumbs.length > 3 ? allCrumbs.slice(2, -2) : [];
 
     console.log({ lastCrumb, middleCrumbs });
     return {
@@ -267,7 +274,7 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
           </>
         )}
         {breadcrumb.lastCrumb && (
-          <li>
+          <li className="is-last">
             <NextLink {...workLink({ id: breadcrumb.lastCrumb.work.id })}>
               <a>
                 <Icon
