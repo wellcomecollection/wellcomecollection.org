@@ -141,8 +141,8 @@ const Collection = ({ work }: Props) => {
       .then(resp => resp.json())
       .then(resp =>
         setCollection({
-          currentWorkPath: resp.collectionPath.path,
-          tree: resp.collection,
+          currentWorkPath: resp.collectionPath && resp.collectionPath.path,
+          tree: resp.collection || { work: {}, path: {}, children: [] },
         })
       );
   }, [work.id, expandedPaths]);
@@ -160,9 +160,10 @@ const Collection = ({ work }: Props) => {
         name="collection"
         id="collection"
       >
-        {collection.tree.work
+        {collection.tree && collection.tree.work
           ? `${collection.tree.work.title} ${collection.tree.path.label}`
-          : collection.tree.path.label || collection.tree.path.path}
+          : (collection.tree && collection.tree.path.label) ||
+            (collection.tree && collection.tree.path.path)}
       </h2>
       <ul style={{ padding: 0 }}>
         {collection.tree.children.map(child => {
