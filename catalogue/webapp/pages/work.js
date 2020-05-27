@@ -26,7 +26,7 @@ import BackToResults from '@weco/common/views/components/BackToResults/BackToRes
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
-// import Collection from '@weco/common/views/components/Collection/Collection';
+import Collection from '@weco/common/views/components/Collection/Collection';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWork } from '../services/catalogue/works';
 import Space from '@weco/common/views/components/styled/Space';
@@ -213,6 +213,7 @@ export const WorkPage = ({ work }: Props) => {
         childManifestsCount={childManifestsCount}
         imageCount={imageTotal}
       />
+      {collectionSearch && <Collection work={work} />}
     </CataloguePageLayout>
   );
 };

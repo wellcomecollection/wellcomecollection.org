@@ -145,10 +145,9 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
     const firstCrumbLabel = activeFirstLevel
       ? `${firstCrumb.work.title}/${activeFirstLevel.work.title}`
       : firstCrumb.work.title;
-    const lastCrumb = allCrumbs.length > 2 && allCrumbs[allCrumbs.length - 2];
-    const middleCrumbs = allCrumbs.length > 3 ? allCrumbs.slice(2, -2) : [];
+    const lastCrumb = allCrumbs.length > 3 && allCrumbs[allCrumbs.length - 2];
+    const middleCrumbs = allCrumbs.length > 1 ? allCrumbs.slice(2, -2) : [];
 
-    console.log({ lastCrumb, middleCrumbs });
     return {
       firstCrumb,
       firstCrumbLabel,
@@ -186,7 +185,11 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
           {breadcrumb.firstCrumb && (
             <DropdownButton label={breadcrumb.firstCrumbLabel}>
               <ul>
-                <li>
+                <li
+                  className={classNames({
+                    'is-active': breadcrumb.firstCrumb.work.id === work.id,
+                  })}
+                >
                   <NextLink
                     {...workLink({ id: breadcrumb.firstCrumb.work.id })}
                   >
