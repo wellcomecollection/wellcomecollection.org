@@ -1,6 +1,7 @@
 // @flow
 import { useState, useEffect } from 'react';
 import { workLink } from '../../../services/catalogue/routes';
+import { getTreeBranches } from '../../../utils/works';
 import { classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
@@ -90,38 +91,6 @@ const ConditionalWrapper = ({ condition, wrapper, children }) =>
   condition ? wrapper(children) : children;
 
 const ArchiveBreadcrumb = ({ work }: Props) => {
-  function findTree(path, collection) {
-    const pathParts = path.split('/'); // ['PPCRI', 'A', '1', '1']
-    const pathsToChildren = pathParts
-      .reduce((acc, curr, index) => {
-        if (index === 0) return [pathParts[0]];
-
-        return [...acc, `${acc[index - 1]}/${curr}`];
-      }, [])
-      .slice(1); // ['PPCRI/A', 'PPCRI/A/1', 'PPCRI/A/1/1']
-
-    return pathsToChildren.reduce(
-      (acc, curr) => {
-        const foundItem = acc[0].children.find(i => i.path.path === curr);
-
-        return [
-          {
-            work: foundItem.work,
-            path: foundItem.path,
-            children: foundItem.children,
-          },
-          ...acc,
-        ];
-      },
-      [
-        {
-          work: collection.work,
-          path: collection.path,
-          children: collection.children,
-        },
-      ]
-    );
-  }
   function makeCrumbs(tree) {
     const allCrumbs = tree.reverse();
     const firstCrumb = allCrumbs[0];
@@ -143,7 +112,7 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
       .then(resp => {
         if (!resp.collectionPath) return;
 
-        const tree = findTree(resp.collectionPath.path, resp.collection);
+        const tree = getTreeBranches(resp.collectionPath.path, resp.collection);
         setBreadcrumb(makeCrumbs(tree));
       });
   }, [work]);
