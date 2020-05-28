@@ -254,10 +254,10 @@ const Works = ({
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
+                {collectionSearch && !isImageSearch && (
+                  <CollectionSearch query={query} />
+                )}
                 {(() => {
-                  if (collectionSearch) {
-                    return <CollectionSearch query={query} />;
-                  }
                   if (
                     works &&
                     works.type !== 'Error' &&
@@ -403,8 +403,10 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   );
 
   const hasQuery = !!(params.query && params.query !== '');
-  const shouldGetWorks = hasQuery && !imagesEndpoint;
-  const shouldGetImages = hasQuery && isImageSearch && imagesEndpoint;
+  const isEndpointImageSearch = isImageSearch && imagesEndpoint;
+
+  const shouldGetWorks = hasQuery && !isEndpointImageSearch;
+  const shouldGetImages = hasQuery && isEndpointImageSearch;
 
   const worksOrError = shouldGetWorks
     ? await getWorks({
