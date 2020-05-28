@@ -186,7 +186,7 @@ export const WorkPage = ({ work }: Props) => {
           row: true,
         })}
       >
-        {collectionSearch && (
+        {archivesPrototype && (
           <div className="container">
             <div className="grid">
               <Space
