@@ -8,6 +8,7 @@ import { classNames, cssGrid, font } from '../../../utils/classnames';
 import { workLink } from '@weco/common/services/catalogue/routes';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Space from '@weco/common/views/components/styled/Space';
+import Icon from '@weco/common/views/components/Icon/Icon';
 
 type Collection = {|
   path: {|
@@ -94,7 +95,7 @@ const WorkLink = styled.a`
   border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
   padding: ${props => `${props.theme.spacingUnit * 2}px`};
   cursor: pointer;
-  height: 100px;
+  min-height: 100px;
   text-decoration: none;
   &:hover,
   &:focus {
@@ -140,7 +141,20 @@ const WorksGrid = ({ title, works }: WorksGridProps) => {
                 passHref
               >
                 <WorkLink selected={false}>
-                  {item.work.title} {item.path.path}
+                  {item.path.level !== 'Item' && (
+                    <Space
+                      as="span"
+                      h={{ size: 'xs', properties: ['margin-right'] }}
+                    >
+                      <Icon
+                        extraClasses={`icon--match-text icon--currentColor`}
+                        name="folder"
+                      />
+                    </Space>
+                  )}
+                  {item.work.title}
+                  <br />
+                  {item.path.path}
                 </WorkLink>
               </NextLink>
             </div>
@@ -184,12 +198,12 @@ const RelatedArchiveWorks = ({ work }: Props) => {
     <>
       {workChildren.length > 0 && (
         <WorksGrid
-          title={`Items in: ${work.title} ${currentWorkPath}`}
+          title={`${work.title} ${currentWorkPath} contains:`}
           works={workChildren}
         />
       )}
       {workSiblings.length > 0 && (
-        <WorksGrid title={`More items at this level`} works={workSiblings} />
+        <WorksGrid title={`More at this level`} works={workSiblings} />
       )}
     </>
   ) : null;
