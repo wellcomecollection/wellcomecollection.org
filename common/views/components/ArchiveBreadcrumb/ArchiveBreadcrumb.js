@@ -1,8 +1,8 @@
 // @flow
 import { useState, useEffect } from 'react';
 import { workLink } from '../../../services/catalogue/routes';
-import NextLink from 'next/link';
 import { classNames } from '../../../utils/classnames';
+import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import styled from 'styled-components';
 import DropdownButton from '../DropdownButton/DropdownButton';
@@ -24,17 +24,17 @@ const ArchiveBreadcrumbNav = styled.nav`
   }
 
   li {
-    a {
+    .crumb-inner {
       text-decoration: none;
       display: flex;
       align-items: baseline;
-    }
-
-    &.is-last a {
-      background: #333;
-      color: white;
       padding: 3px 8px;
       border-radius: 3px;
+    }
+
+    a:hover {
+      background: #333;
+      color: white;
     }
 
     .icon {
@@ -44,7 +44,6 @@ const ArchiveBreadcrumbNav = styled.nav`
     }
 
     position: relative;
-    cursor: pointer;
     margin-right: 20px;
 
     &:after {
@@ -69,21 +68,6 @@ const ArchiveBreadcrumbNav = styled.nav`
       li {
         margin-bottom: 1px;
 
-        a {
-          padding: 3px 8px;
-          border-radius: 3px;
-
-          &:hover {
-            background: #333;
-            color: white;
-          }
-        }
-
-        &.is-active a {
-          background: #333;
-          color: white;
-        }
-
         &:after {
           display: none;
         }
@@ -101,6 +85,9 @@ const ArchiveBreadcrumbNav = styled.nav`
 type Props = {|
   work: { id: string },
 |};
+
+const ConditionalWrapper = ({ condition, wrapper, children }) =>
+  condition ? wrapper(children) : children;
 
 const ArchiveBreadcrumb = ({ work }: Props) => {
   function findTree(path, collection) {
@@ -138,20 +125,11 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
   function makeCrumbs(tree) {
     const allCrumbs = tree.reverse();
     const firstCrumb = allCrumbs[0];
-    const activeFirstLevel =
-      allCrumbs[1] &&
-      allCrumbs[0].children.find(c => c.work.id === allCrumbs[1].work.id);
-
-    const firstCrumbLabel = activeFirstLevel
-      ? `${firstCrumb.work.title}/${activeFirstLevel.work.title}`
-      : firstCrumb.work.title;
-    const lastCrumb = allCrumbs.length > 3 && allCrumbs[allCrumbs.length - 2];
-    const middleCrumbs = allCrumbs.length > 1 ? allCrumbs.slice(2, -2) : [];
+    const lastCrumb = allCrumbs.length > 1 && allCrumbs[allCrumbs.length - 1];
+    const middleCrumbs = allCrumbs.length > 2 ? allCrumbs.slice(1, -1) : [];
 
     return {
       firstCrumb,
-      firstCrumbLabel,
-      activeFirstLevel,
       middleCrumbs,
       lastCrumb,
     };
@@ -172,8 +150,6 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
 
   const [breadcrumb, setBreadcrumb] = useState({
     firstCrumb: null,
-    firstCrumbLabel: '',
-    activeFirstLevel: null,
     middleCrumbs: [],
     lastCrumb: null,
   });
@@ -181,53 +157,30 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
   return (
     <ArchiveBreadcrumbNav>
       <ul>
-        <li>
-          {breadcrumb.firstCrumb && (
-            <DropdownButton label={breadcrumb.firstCrumbLabel}>
-              <ul>
-                <li
-                  className={classNames({
-                    'is-active': breadcrumb.firstCrumb.work.id === work.id,
-                  })}
-                >
-                  <NextLink
-                    {...workLink({ id: breadcrumb.firstCrumb.work.id })}
-                  >
-                    <a>
-                      <Icon
-                        extraClasses={`icon--match-text icon--currentColor`}
-                        name={`archive`}
-                      />
-                      {breadcrumb.firstCrumb.work.title}
-                    </a>
-                  </NextLink>
-                </li>
-                {breadcrumb.firstCrumb.children.map(child => (
-                  <li
-                    key={child.work.id}
-                    className={classNames({
-                      'is-active':
-                        breadcrumb.activeFirstLevel &&
-                        child.work.id === breadcrumb.activeFirstLevel.work.id,
-                    })}
-                  >
-                    <NextLink {...workLink({ id: child.work.id })}>
-                      <a>
-                        <Icon
-                          extraClasses={`icon--match-text icon--currentColor`}
-                          name={
-                            child.path.level === 'Item' ? 'document' : 'folder'
-                          }
-                        />
-                        {child.work.title} {child.path.label}
-                      </a>
-                    </NextLink>
-                  </li>
-                ))}
-              </ul>
-            </DropdownButton>
-          )}
-        </li>
+        {breadcrumb.firstCrumb && (
+          <li>
+            <ConditionalWrapper
+              condition={breadcrumb.firstCrumb.work.id !== work.id}
+              wrapper={children => (
+                <NextLink {...workLink({ id: breadcrumb.firstCrumb.work.id })}>
+                  <a className="crumb-inner">{children}</a>
+                </NextLink>
+              )}
+            >
+              <span
+                className={classNames({
+                  'crumb-inner': breadcrumb.firstCrumb.work.id === work.id,
+                })}
+              >
+                <Icon
+                  extraClasses={`icon--match-text icon--currentColor`}
+                  name={`archive`}
+                />
+                {breadcrumb.firstCrumb.work.title}
+              </span>
+            </ConditionalWrapper>
+          </li>
+        )}
         {breadcrumb.middleCrumbs.length > 1 && (
           <li>
             <DropdownButton label="…">
@@ -236,7 +189,7 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
                   return (
                     <li key={crumb.work.id}>
                       <NextLink {...workLink({ id: crumb.work.id })}>
-                        <a>
+                        <a className="crumb-inner">
                           <Icon
                             extraClasses={`icon--match-text icon--currentColor`}
                             name={
@@ -261,7 +214,7 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
               return (
                 <li key={crumb.work.id}>
                   <NextLink {...workLink({ id: crumb.work.id })}>
-                    <a>
+                    <a className="crumb-inner">
                       <Icon
                         extraClasses={`icon--match-text icon--currentColor`}
                         name={
@@ -277,21 +230,19 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
           </>
         )}
         {breadcrumb.lastCrumb && (
-          <li className="is-last">
-            <NextLink {...workLink({ id: breadcrumb.lastCrumb.work.id })}>
-              <a>
-                <Icon
-                  extraClasses={`icon--match-text icon--currentColor`}
-                  name={
-                    breadcrumb.lastCrumb.path.level === 'Item'
-                      ? 'document'
-                      : 'folder'
-                  }
-                />
-                {breadcrumb.lastCrumb.work.title}{' '}
-                {breadcrumb.lastCrumb.path.label}
-              </a>
-            </NextLink>
+          <li>
+            <span className="crumb-inner">
+              <Icon
+                extraClasses={`icon--match-text icon--currentColor`}
+                name={
+                  breadcrumb.lastCrumb.path.level === 'Item'
+                    ? 'document'
+                    : 'folder'
+                }
+              />
+              {breadcrumb.lastCrumb.work.title}{' '}
+              {breadcrumb.lastCrumb.path.label}
+            </span>
           </li>
         )}
       </ul>

@@ -185,29 +185,29 @@ export const WorkPage = ({ work }: Props) => {
           row: true,
         })}
       >
+        {collectionSearch && (
+          <div className="container">
+            <div className="grid">
+              <Space
+                v={{
+                  size: 's',
+                  properties: ['padding-top', 'padding-bottom'],
+                }}
+                className={classNames({
+                  [grid({ s: 12 })]: true,
+                })}
+              >
+                <ArchiveBreadcrumb work={work} />
+              </Space>
+            </div>
+          </div>
+        )}
         <div className="container">
           <div className="grid">
             <WorkHeader work={work} childManifestsCount={childManifestsCount} />
           </div>
         </div>
       </Space>
-      {collectionSearch && (
-        <div className="container">
-          <div className="grid">
-            <Space
-              v={{
-                size: 's',
-                properties: ['padding-top', 'padding-bottom'],
-              }}
-              className={classNames({
-                [grid({ s: 12 })]: true,
-              })}
-            >
-              <ArchiveBreadcrumb work={work} />
-            </Space>
-          </div>
-        </div>
-      )}
       <WorkDetails
         work={work}
         itemUrl={itemUrlObject}
