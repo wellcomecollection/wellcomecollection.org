@@ -1,5 +1,6 @@
 // @flow
 import { useState, useEffect } from 'react';
+import { type Work } from '@weco/common/model/work';
 import { workLink } from '../../../services/catalogue/routes';
 import { getTreeBranches } from '../../../utils/works';
 import { classNames } from '../../../utils/classnames';
@@ -84,7 +85,7 @@ const ArchiveBreadcrumbNav = styled.nav`
 `;
 
 type Props = {|
-  work: { id: string },
+  work: Work,
 |};
 
 const ConditionalWrapper = ({ condition, wrapper, children }) =>
