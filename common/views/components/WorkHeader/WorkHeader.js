@@ -62,8 +62,8 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
             lang={work.language && work.language.id}
           >
             <TogglesContext.Consumer>
-              {({ collectionSearch }) =>
-                collectionSearch && <ArchiveTree currentWork={work.id} />
+              {({ archivesPrototype }) =>
+                archivesPrototype && <ArchiveTree currentWork={work.id} />
               }
             </TogglesContext.Consumer>
             {work.title}

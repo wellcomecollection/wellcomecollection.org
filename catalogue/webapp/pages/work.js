@@ -38,7 +38,7 @@ type Props = {|
 |};
 
 export const WorkPage = ({ work }: Props) => {
-  const { collectionSearch } = useContext(TogglesContext);
+  const { collectionSearch, archivesPrototype } = useContext(TogglesContext);
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
     page: 1,
@@ -199,8 +199,8 @@ export const WorkPage = ({ work }: Props) => {
         childManifestsCount={childManifestsCount}
         imageCount={imageTotal}
       />
-      {collectionSearch && <RelatedArchiveWorks work={work} />}
-      {collectionSearch && <Collection work={work} />}
+      {archivesPrototype && <RelatedArchiveWorks work={work} />}
+      {collectionSearch && !archivesPrototype && <Collection work={work} />}
     </CataloguePageLayout>
   );
 };
