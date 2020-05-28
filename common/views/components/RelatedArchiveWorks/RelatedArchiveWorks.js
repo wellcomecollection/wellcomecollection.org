@@ -5,60 +5,11 @@ import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import { classNames, cssGrid, font } from '../../../utils/classnames';
+import { getTreeBranches, type Collection } from '@weco/common/utils/works';
 import { workLink } from '@weco/common/services/catalogue/routes';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
-
-function findTree(path, collection) {
-  // stolen from David - move into shared file
-  const pathParts = path.split('/'); // ['PPCRI', 'A', '1', '1']
-  const pathsToChildren = pathParts
-    .reduce((acc, curr, index) => {
-      if (index === 0) return [pathParts[0]];
-
-      return [...acc, `${acc[index - 1]}/${curr}`];
-    }, [])
-    .slice(1); // ['PPCRI/A', 'PPCRI/A/1', 'PPCRI/A/1/1']
-
-  return pathsToChildren.reduce(
-    (acc, curr) => {
-      const foundItem = acc[0].children.find(i => i.path.path === curr);
-
-      return [
-        {
-          work: foundItem.work,
-          path: foundItem.path,
-          children: foundItem.children,
-        },
-        ...acc,
-      ];
-    },
-    [
-      {
-        work: collection.work,
-        path: collection.path,
-        children: collection.children,
-      },
-    ]
-  );
-}
-
-type Collection = {|
-  path: {|
-    path: string,
-    level: string,
-    label: string,
-    type: string,
-  |},
-  work: {|
-    id: string,
-    title: string,
-    alternativeTitles: [],
-    type: 'Work',
-  |},
-  children: ?(Collection[]),
-|};
 
 const WorkLink = styled.a`
   display: block;
@@ -142,7 +93,7 @@ const RelatedArchiveWorks = ({ work }: Props) => {
   const tree =
     (workWithCollection &&
       workWithCollection.collectionPath &&
-      findTree(
+      getTreeBranches(
         workWithCollection.collectionPath.path,
         workWithCollection.collection
       )) ||
@@ -175,7 +126,7 @@ const RelatedArchiveWorks = ({ work }: Props) => {
         )}
       {parentTree && parentTree.children && parentTree.children.length > 0 && (
         <WorksGrid
-          title={`Siblings of ${currentTree.work.title} ${currentTree.path.path}`}
+          title={`Siblings of ${currentTree.work.title} ${currentTree.path.path}:`}
           works={parentTree.children}
         />
       )}

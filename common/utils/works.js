@@ -233,3 +233,57 @@ export function getItemIdentifiersWith(
     return acc;
   }, []);
 }
+
+export type Collection = {|
+  path: {|
+    path: string,
+    level: string,
+    label: string,
+    type: string,
+  |},
+  work: {|
+    id: string,
+    title: string,
+    alternativeTitles: [],
+    type: 'Work',
+  |},
+  children?: Collection[],
+|};
+
+export function getTreeBranches(
+  path: string,
+  collection: Collection
+): Collection[] {
+  const pathParts = path.split('/'); // ['PPCRI', 'A', '1', '1']
+  const pathsToChildren = pathParts
+    .reduce((acc, curr, index) => {
+      if (index === 0) return [pathParts[0]];
+
+      return [...acc, `${acc[index - 1]}/${curr}`];
+    }, [])
+    .slice(1); // ['PPCRI/A', 'PPCRI/A/1', 'PPCRI/A/1/1']
+
+  return pathsToChildren.reduce(
+    (acc, curr) => {
+      const foundItem =
+        (acc[0].children && acc[0].children.find(i => i.path.path === curr)) ||
+        {};
+
+      return [
+        {
+          work: foundItem.work,
+          path: foundItem.path,
+          children: foundItem.children,
+        },
+        ...acc,
+      ];
+    },
+    [
+      {
+        work: collection.work,
+        path: collection.path,
+        children: collection.children,
+      },
+    ]
+  );
+}
