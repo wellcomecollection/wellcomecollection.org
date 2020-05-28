@@ -10,6 +10,40 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 
+function findTree(path, collection) {
+  // stolen from David - move into shared file
+  const pathParts = path.split('/'); // ['PPCRI', 'A', '1', '1']
+  const pathsToChildren = pathParts
+    .reduce((acc, curr, index) => {
+      if (index === 0) return [pathParts[0]];
+
+      return [...acc, `${acc[index - 1]}/${curr}`];
+    }, [])
+    .slice(1); // ['PPCRI/A', 'PPCRI/A/1', 'PPCRI/A/1/1']
+
+  return pathsToChildren.reduce(
+    (acc, curr) => {
+      const foundItem = acc[0].children.find(i => i.path.path === curr);
+
+      return [
+        {
+          work: foundItem.work,
+          path: foundItem.path,
+          children: foundItem.children,
+        },
+        ...acc,
+      ];
+    },
+    [
+      {
+        work: collection.work,
+        path: collection.path,
+        children: collection.children,
+      },
+    ]
+  );
+}
+
 type Collection = {|
   path: {|
     path: string,
@@ -25,69 +59,6 @@ type Collection = {|
   |},
   children: ?(Collection[]),
 |};
-
-function addMathchingPathIndex({
-  currentWorkPath,
-  children = [],
-  indicesArray = [],
-}: {|
-  currentWorkPath: string,
-  children: Collection[],
-  indicesArray: number[],
-|}) {
-  const matchingIndex =
-    children &&
-    children.findIndex(work => {
-      const currentPathLength = currentWorkPath.split('/').length;
-      const currentWorkPathLength = work.path.path.split('/').length;
-      if (
-        currentWorkPathLength < currentPathLength &&
-        currentWorkPath.includes(work.path.path)
-      ) {
-        addMathchingPathIndex({
-          currentWorkPath,
-          children: work.children || [],
-          indicesArray,
-        });
-        return true;
-      } else if (currentWorkPath === work.path.path) {
-        return true;
-      }
-    });
-  indicesArray.unshift(matchingIndex);
-}
-
-function getMatchingPathIndices({
-  currentWorkPath,
-  children,
-}: {
-  currentWorkPath: string,
-  children: Collection[],
-}): number[] {
-  const indicesArray = [];
-  addMathchingPathIndex({ currentWorkPath, children, indicesArray });
-  return indicesArray.map(index => Number(index)).filter(v => v >= 0);
-}
-
-function getWorkChildren(tree = { children: [] }, indicesArray = []) {
-  let childrenAtIndex = tree.children;
-  for (let i of indicesArray) {
-    childrenAtIndex = childrenAtIndex && childrenAtIndex[i].children;
-  }
-  return childrenAtIndex;
-}
-
-function getWorkSiblings(tree, indicesArray) {
-  const parentsIndicesArray = indicesArray.slice(0, indicesArray.length - 1);
-  const parentTree = getWorkChildren(tree, parentsIndicesArray);
-  return (
-    parentTree &&
-    parentTree.map(work => ({
-      ...work,
-      children: [],
-    }))
-  );
-}
 
 const WorkLink = styled.a`
   display: block;
@@ -167,26 +138,24 @@ const WorksGrid = ({ title, works }: WorksGridProps) => {
 
 type Props = {| work: Work |};
 const RelatedArchiveWorks = ({ work }: Props) => {
-  const [collection, setCollection] = useState();
-  const { currentWorkPath = '', tree = { children: [] } } = collection || {};
-
-  const matchingPathIndices = getMatchingPathIndices({
-    currentWorkPath,
-    children: tree.children,
-  });
-  const workChildren = getWorkChildren(tree, matchingPathIndices) || [];
-  const workSiblings = getWorkSiblings(tree, matchingPathIndices) || [];
+  const [workWithCollection, setWorkWithCollection] = useState({});
+  const tree =
+    (workWithCollection &&
+      workWithCollection.collectionPath &&
+      findTree(
+        workWithCollection.collectionPath.path,
+        workWithCollection.collection
+      )) ||
+    [];
+  const currentTree = tree[0];
+  const parentTree = tree[1];
 
   const fetchCollection = async workId => {
     try {
       const url = `https://api.wellcomecollection.org/catalogue/v2/works/${workId}?include=collection`;
       const response = await fetch(url);
       const work = await response.json();
-
-      setCollection({
-        currentWorkPath: work.collectionPath.path,
-        tree: work.collection,
-      });
+      setWorkWithCollection(work);
     } catch (e) {}
   };
 
@@ -194,16 +163,21 @@ const RelatedArchiveWorks = ({ work }: Props) => {
     fetchCollection(work.id);
   }, [work.id]);
 
-  return collection ? (
+  return workWithCollection ? (
     <>
-      {workChildren.length > 0 && (
+      {currentTree &&
+        currentTree.children &&
+        currentTree.children.length > 0 && (
+          <WorksGrid
+            title={`${currentTree.work.title} ${currentTree.path.path} contains:`}
+            works={currentTree.children}
+          />
+        )}
+      {parentTree && parentTree.children && parentTree.children.length > 0 && (
         <WorksGrid
-          title={`${work.title} ${currentWorkPath} contains:`}
-          works={workChildren}
+          title={`Siblings of ${currentTree.work.title} ${currentTree.path.path}`}
+          works={parentTree.children}
         />
-      )}
-      {workSiblings.length > 0 && (
-        <WorksGrid title={`More at this level`} works={workSiblings} />
       )}
     </>
   ) : null;
