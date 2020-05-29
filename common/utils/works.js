@@ -241,12 +241,7 @@ export type Collection = {|
     label: string,
     type: string,
   |},
-  work: {|
-    id: string,
-    title: string,
-    alternativeTitles: [],
-    type: 'Work',
-  |},
+  work: Work,
   children?: Collection[],
 |};
 
