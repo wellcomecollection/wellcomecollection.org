@@ -6,7 +6,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import NextLink from 'next/link';
 import { workLink } from '@weco/common/services/catalogue/routes';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import fetch from 'isomorphic-unfetch';
 import collectionTree from '@weco/catalogue/__mocks__/collection-tree';
@@ -175,7 +174,9 @@ const ArchiveTree = ({ collection = collectionTree, currentWork }: Props) => {
     fetch(url)
       .then(resp => resp.json())
       .then(resp =>
-        setBelongsToCrickArchive(resp.collection.work.id === 'hz43r7re')
+        setBelongsToCrickArchive(
+          resp.collection && resp.collection.work.id === 'hz43r7re'
+        )
       );
   }, []);
 
@@ -215,30 +216,18 @@ const ArchiveTree = ({ collection = collectionTree, currentWork }: Props) => {
   });
 
   return belongsToCrickArchive ? (
-    <Space
-      v={{
-        size: 'l',
-        properties: ['margin-bottom'],
-      }}
-      className={classNames({
-        row: true,
-      })}
-    >
-      <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-        <button
-          onClick={() => {
+    <>
+      <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+        <Button
+          extraClasses="btn--primary"
+          icon="tree"
+          text={`${archiveTitle} contents`}
+          fontFamily="hnm"
+          textHidden={true}
+          clickHandler={() => {
             setShowArchiveTreeModal(!showArchiveTreeModal);
           }}
-          className={classNames({
-            'btn btn--primary': true,
-            [font('hnm', 5)]: true,
-          })}
-        >
-          <Icon name="tree" />
-          <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
-            {`Part of the ${archiveTitle}`}
-          </Space>
-        </button>
+        />
       </Space>
       <Modal
         isActive={showArchiveTreeModal}
@@ -285,7 +274,7 @@ const ArchiveTree = ({ collection = collectionTree, currentWork }: Props) => {
           </Tree>
         </Container>
       </Modal>
-    </Space>
+    </>
   ) : null;
 };
 export default ArchiveTree;

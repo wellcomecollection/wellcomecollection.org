@@ -21,11 +21,15 @@ const ButtonInner = ({
   text,
 }: ButtonInnerProps) => (
   <span className="flex flex--v-center flex--h-center">
-    {icon && (!iconPosition || iconPosition === 'start') && (
-      <Space as="span" h={{ size: 'xs', properties: ['margin-right'] }}>
+    {icon &&
+      (!iconPosition || iconPosition === 'start') &&
+      (textHidden ? (
         <Icon name={icon} />
-      </Space>
-    )}
+      ) : (
+        <Space as="span" h={{ size: 'xs', properties: ['margin-right'] }}>
+          <Icon name={icon} />
+        </Space>
+      ))}
     <span
       className={classNames({
         'visually-hidden': textHidden,
@@ -34,11 +38,15 @@ const ButtonInner = ({
     >
       {text}
     </span>
-    {icon && iconPosition === 'end' && (
-      <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>
+    {icon &&
+      iconPosition === 'end' &&
+      (textHidden ? (
         <Icon name={icon} />
-      </Space>
-    )}
+      ) : (
+        <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>
+          <Icon name={icon} />
+        </Space>
+      ))}
   </span>
 );
 
