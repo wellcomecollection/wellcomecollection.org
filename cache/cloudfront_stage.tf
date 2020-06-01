@@ -121,7 +121,7 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 86400
+    min_ttl                = 0
     default_ttl            = 86400
     max_ttl                = 31536000
 
