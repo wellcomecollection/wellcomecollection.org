@@ -25,6 +25,7 @@ import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
+import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
 import Collection from '@weco/common/views/components/Collection/Collection';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWork } from '../services/catalogue/works';
@@ -185,13 +186,29 @@ export const WorkPage = ({ work }: Props) => {
           row: true,
         })}
       >
+        {archivesPrototype && (
+          <div className="container">
+            <div className="grid">
+              <Space
+                v={{
+                  size: 's',
+                  properties: ['padding-top', 'padding-bottom'],
+                }}
+                className={classNames({
+                  [grid({ s: 12 })]: true,
+                })}
+              >
+                <ArchiveBreadcrumb work={work} />
+              </Space>
+            </div>
+          </div>
+        )}
         <div className="container">
           <div className="grid">
             <WorkHeader work={work} childManifestsCount={childManifestsCount} />
           </div>
         </div>
       </Space>
-
       <WorkDetails
         work={work}
         itemUrl={itemUrlObject}
