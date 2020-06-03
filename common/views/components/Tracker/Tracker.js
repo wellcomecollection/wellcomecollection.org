@@ -1,6 +1,9 @@
 // @flow
 import Router from 'next/router';
-import { type CatalogueApiProps } from '../../../services/catalogue/api';
+import {
+  type CatalogueWorksApiProps,
+  type CatalogueImagesApiProps,
+} from '../../../services/catalogue/api';
 
 type RelevanceRatingData = {|
   position: number,
@@ -14,7 +17,7 @@ type RelevanceRatingData = {|
 type ServiceName = 'search_relevance_implicit' | 'search_relevance_explicit';
 
 const trackRelevanceRating = (
-  params: CatalogueApiProps,
+  params: CatalogueWorksApiProps,
   data: RelevanceRatingData
 ) => {
   track(params, 'Relevance rating', 'search_relevance_explicit', data);
@@ -30,14 +33,17 @@ type SearchResultSelectedData = {|
   resultSubjects: ?string,
 |};
 const trackSearchResultSelected = (
-  params: CatalogueApiProps,
+  params: CatalogueWorksApiProps | CatalogueImagesApiProps,
   data: SearchResultSelectedData
 ) => {
   track(params, 'Search result selected', 'search_relevance_implicit', data);
 };
 
 type SearchData = {| source: string, totalResults: number |};
-const trackSearch = (params: CatalogueApiProps, data: SearchData) => {
+const trackSearch = (
+  params: CatalogueWorksApiProps | CatalogueImagesApiProps,
+  data: SearchData
+) => {
   const query = params.query;
   if (query && query !== '') {
     track(params, 'Search', 'search_relevance_implicit', data);
@@ -51,7 +57,7 @@ type SearchImageExpandedData = {|
   id: string,
 |};
 const trackSearchImageExpanded = (
-  params: CatalogueApiProps,
+  params: CatalogueWorksApiProps | CatalogueImagesApiProps,
   data: SearchImageExpandedData
 ) => {
   track(params, 'Search image expanded', 'search_relevance_implicit', data);
@@ -64,7 +70,7 @@ type TrackingEventData =
   | SearchImageExpandedData;
 
 const track = (
-  params: CatalogueApiProps,
+  params: CatalogueWorksApiProps | CatalogueImagesApiProps,
   eventName: string,
   serviceName: ServiceName,
   data: ?TrackingEventData

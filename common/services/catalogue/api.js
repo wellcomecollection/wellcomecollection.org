@@ -12,7 +12,7 @@ function toIsoDateString(s: ?string): ?string {
   return null;
 }
 
-export type CatalogueApiProps = {|
+export type CatalogueWorksApiProps = {|
   query: ?string,
   page: ?number,
   workType: ?(string[]),
@@ -25,15 +25,16 @@ export type CatalogueApiProps = {|
   aggregations: ?(string[]),
 |};
 
-export type TrackingProps = {|
-  ...CatalogueApiProps,
-  source: string,
+export type CatalogueImagesApiProps = {|
+  query: ?string,
+  page: ?number,
+  'locations.license': ?(string[]),
 |};
 
 export function worksRouteToApiUrl(
   worksRouteProps: WorksRouteProps,
-  overrides: $Shape<CatalogueApiProps>
-): CatalogueApiProps {
+  overrides: $Shape<CatalogueWorksApiProps>
+): CatalogueWorksApiProps {
   return {
     query: worksRouteProps.query,
     page: worksRouteProps.page,
@@ -56,8 +57,8 @@ export const defaultItemsLocationsLocationType = [
 ];
 export function worksRouteToApiUrlWithDefaults(
   worksRouteProps: WorksRouteProps,
-  overrides: $Shape<CatalogueApiProps>
-): CatalogueApiProps {
+  overrides: $Shape<CatalogueWorksApiProps>
+): CatalogueWorksApiProps {
   return {
     query: worksRouteProps.query,
     page: worksRouteProps.page,
@@ -76,5 +77,16 @@ export function worksRouteToApiUrlWithDefaults(
     ),
     'production.dates.to': toIsoDateString(worksRouteProps.productionDatesTo),
     ...overrides,
+  };
+}
+
+// TODO: construct images endpoint params independently rather than extracting from works
+export function worksPropsToImagesProps(
+  worksProps: CatalogueWorksApiProps
+): CatalogueImagesApiProps {
+  return {
+    query: worksProps.query,
+    page: worksProps.page,
+    'locations.license': undefined,
   };
 }
