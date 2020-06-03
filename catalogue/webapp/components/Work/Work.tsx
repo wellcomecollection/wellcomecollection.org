@@ -1,17 +1,10 @@
-// @flow
-import Router from 'next/router';
-import {
-  type Work,
-  type CatalogueApiError,
-  type CatalogueApiRedirect,
-} from '@weco/common/model/catalogue';
+import { Work as WorkType } from '@weco/common/model/catalogue';
 import { useEffect, useState, useContext } from 'react';
 import fetch from 'isomorphic-unfetch';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
   sierraIdFromPresentationManifestUrl,
-  type DigitalLocation,
 } from '@weco/common/utils/works';
 import {
   getFirstChildManifestLocation,
@@ -21,24 +14,28 @@ import { itemLink } from '@weco/common/services/catalogue/routes';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import { workLd } from '@weco/common/utils/json-ld';
-import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
-import WorkDetails from '../components/WorkDetails/WorkDetails';
 import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
 import Collection from '@weco/common/views/components/Collection/Collection';
-import SearchForm from '../components/SearchForm/SearchForm';
-import { getWork } from '../services/catalogue/works';
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import RelatedArchiveWorks from '@weco/common/views/components/RelatedArchiveWorks/RelatedArchiveWorks';
+import SearchForm from '../SearchForm/SearchForm';
+import WorkDetails from '../WorkDetails/WorkDetails';
 
-type Props = {|
-  work: Work | CatalogueApiError,
-|};
+declare global {
+  interface Window {
+    dataLayer: any[];
+  }
+}
 
-export const WorkPage = ({ work }: Props) => {
+type Props = {
+  work: WorkType;
+};
+
+const Work = ({ work }: Props) => {
   const { collectionSearch, archivesPrototype } = useContext(TogglesContext);
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
@@ -51,11 +48,11 @@ export const WorkPage = ({ work }: Props) => {
     productionDatesTo: null,
     search: null,
   });
-  const isWork = work && work.type !== 'Error';
 
-  const iiifPresentationLocation = isWork
-    ? getDigitalLocationOfType(work, 'iiif-presentation')
-    : null;
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
   const [iiifPresentationManifest, setIIIFPresentationManifest] = useState(
     null
   );
@@ -92,47 +89,25 @@ export const WorkPage = ({ work }: Props) => {
     iiifPresentationManifest &&
     getFirstChildManifestLocation(iiifPresentationManifest);
 
-  const iiifImageLocation: ?DigitalLocation = isWork
-    ? getDigitalLocationOfType(work, 'iiif-image')
-    : null;
+  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
   const imageUrl =
     iiifImageLocation && iiifImageLocation.url
       ? iiifImageTemplate(iiifImageLocation.url)({ size: `800,` })
       : null;
 
-  const itemUrlObject =
-    work && work.type !== 'Error'
-      ? itemLink({
-          workId: work.id,
-          sierraId:
-            (firstChildManifestLocation &&
-              sierraIdFromPresentationManifestUrl(
-                firstChildManifestLocation
-              )) ||
-            (iiifPresentationLocation &&
-              sierraIdFromPresentationManifestUrl(
-                iiifPresentationLocation.url
-              )) ||
-            null,
-          langCode: work.language && work.language.id,
-          canvas: 1,
-          page: 1,
-        })
-      : null;
-
-  if (work.type === 'Error') {
-    return (
-      <ErrorPage
-        title={
-          work.httpStatus === 410
-            ? 'This catalogue item has been removed.'
-            : null
-        }
-        statusCode={work.httpStatus}
-      />
-    );
-  }
+  const itemUrlObject = itemLink({
+    workId: work.id,
+    sierraId:
+      (firstChildManifestLocation &&
+        sierraIdFromPresentationManifestUrl(firstChildManifestLocation)) ||
+      (iiifPresentationLocation &&
+        sierraIdFromPresentationManifestUrl(iiifPresentationLocation.url)) ||
+      null,
+    langCode: work.language && work.language.id,
+    canvas: 1,
+    page: 1,
+  });
 
   return (
     <CataloguePageLayout
@@ -221,33 +196,4 @@ export const WorkPage = ({ work }: Props) => {
   );
 };
 
-WorkPage.getInitialProps = async (
-  ctx
-): Promise<Props | CatalogueApiRedirect> => {
-  const { id } = ctx.query;
-  const { stagingApi } = ctx.query.toggles;
-
-  const workOrError = await getWork({
-    id,
-    env: stagingApi ? 'stage' : 'prod',
-  });
-
-  if (workOrError && workOrError.type === 'Redirect') {
-    const { res } = ctx;
-    if (res) {
-      res.writeHead(workOrError.status, {
-        Location: workOrError.redirectToId,
-      });
-      res.end();
-    } else {
-      Router.push(workOrError.redirectToId);
-    }
-    return workOrError;
-  } else {
-    return {
-      work: workOrError,
-    };
-  }
-};
-
-export default WorkPage;
+export default Work;
