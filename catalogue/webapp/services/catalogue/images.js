@@ -16,7 +16,7 @@ type GetImagesProps = {|
 
 export async function getImages({
   params,
-  env = 'stage', // TODO switch this to prod once the images search is deployed
+  env = 'prod',
   pageSize = 25,
 }: GetImagesProps): Promise<CatalogueResultsList<Image> | CatalogueApiError> {
   const filterQueryString = Object.keys(serialiseUrl(params)).map(key => {
