@@ -1,11 +1,12 @@
 // @flow
 import { type Work } from '@weco/common/model/work';
-import { type Node, useEffect, useState } from 'react';
+import { type Node, useEffect, useState, useContext } from 'react';
 import fetch from 'isomorphic-unfetch';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { classNames } from '@weco/common/utils/classnames';
 import { workLink } from '@weco/common/services/catalogue/routes';
 
@@ -133,8 +134,11 @@ type Props = {| work: Work |};
 const Collection = ({ work }: Props) => {
   const [collection, setCollection] = useState();
   const [expandedPaths, setExpandedPaths] = useState([]);
+  const { stagingApi } = useContext(TogglesContext);
   useEffect(() => {
-    const url = `https://api.wellcomecollection.org/catalogue/v2/works/${
+    const url = `https://api${
+      stagingApi ? '-stage' : ''
+    }.wellcomecollection.org/catalogue/v2/works/${
       work.id
     }?include=collection&_expandPaths=${expandedPaths.join(',')}`;
     fetch(url)

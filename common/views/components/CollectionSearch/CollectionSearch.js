@@ -1,9 +1,10 @@
 // @flow
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import styled from 'styled-components';
 import Space from '../styled/Space';
+import TogglesContext from '../TogglesContext/TogglesContext';
 import { workLink } from '../../../services/catalogue/routes';
 
 const Container = styled(Space).attrs({
@@ -20,8 +21,11 @@ const Container = styled(Space).attrs({
 type Props = {| query: string |};
 const CollectionSearch = ({ query }: Props) => {
   const [collections, setCollections] = useState(null);
+  const { stagingApi } = useContext(TogglesContext);
   useEffect(() => {
-    const url = `https://api.wellcomecollection.org/catalogue/v2/works?collection.depth=1&query=${query}`;
+    const url = `https://api${
+      stagingApi ? '-stage' : ''
+    }.wellcomecollection.org/catalogue/v2/works?collection.depth=1&query=${query}`;
     fetch(url)
       .then(resp => resp.json())
       .then(resp => setCollections(resp));

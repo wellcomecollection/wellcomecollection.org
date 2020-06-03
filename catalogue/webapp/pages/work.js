@@ -207,9 +207,11 @@ WorkPage.getInitialProps = async (
   ctx
 ): Promise<Props | CatalogueApiRedirect> => {
   const { id } = ctx.query;
+  const { stagingApi } = ctx.query.toggles;
 
   const workOrError = await getWork({
     id,
+    env: stagingApi ? 'stage' : 'prod',
   });
 
   if (workOrError && workOrError.type === 'Redirect') {
