@@ -28,6 +28,12 @@ module.exports = {
         'Select from search query algorithms and other search functionality',
     },
     {
+      id: 'stagingApi',
+      title: 'Staging API',
+      defaultValue: false,
+      description: 'Use the staging catalogue API',
+    },
+    {
       id: 'relevanceRating',
       title: 'Rate search result relevance',
       defaultValue: false,

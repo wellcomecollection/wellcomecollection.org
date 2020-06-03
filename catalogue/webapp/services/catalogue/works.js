@@ -82,7 +82,7 @@ export async function getWork({
   const res = await fetch(url, { redirect: 'manual' });
 
   // When records from Miro have been merged with Sierra data, we redirect the
-  // latter to the former. This would happen quietly on the API requtes, but we
+  // latter to the former. This would happen quietly on the API request, but we
   // would then have duplicates emerging, which wouldn't be useful for search
   // engines so we respect the redirect on the client
   if (res.status === 301 || res.status === 302) {

@@ -344,7 +344,7 @@ const IMAGES_LOCATION_TYPE = 'iiif-image';
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = WorksRoute.fromQuery(ctx.query);
-  const { unfilteredSearchResults } = ctx.query.toggles;
+  const { unfilteredSearchResults, stagingApi } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
 
@@ -370,6 +370,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const worksOrError = shouldGetWorks
     ? await getWorks({
         params: apiProps,
+        env: stagingApi ? 'stage' : 'prod',
       })
     : null;
 
