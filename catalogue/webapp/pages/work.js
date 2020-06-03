@@ -51,11 +51,11 @@ export const WorkPage = ({ work }: Props) => {
     productionDatesTo: null,
     search: null,
   });
+  const isWork = work && work.type !== 'Error';
 
-  const iiifPresentationLocation = getDigitalLocationOfType(
-    work,
-    'iiif-presentation'
-  );
+  const iiifPresentationLocation = isWork
+    ? getDigitalLocationOfType(work, 'iiif-presentation')
+    : null;
   const [iiifPresentationManifest, setIIIFPresentationManifest] = useState(
     null
   );
@@ -92,10 +92,9 @@ export const WorkPage = ({ work }: Props) => {
     iiifPresentationManifest &&
     getFirstChildManifestLocation(iiifPresentationManifest);
 
-  const iiifImageLocation: ?DigitalLocation = getDigitalLocationOfType(
-    work,
-    'iiif-image'
-  );
+  const iiifImageLocation: ?DigitalLocation = isWork
+    ? getDigitalLocationOfType(work, 'iiif-image')
+    : null;
 
   const imageUrl =
     iiifImageLocation && iiifImageLocation.url
