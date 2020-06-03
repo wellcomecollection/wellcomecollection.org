@@ -1,11 +1,12 @@
 // @flow
 import { type Work } from '@weco/common/model/work';
-import { type Node, useEffect, useState } from 'react';
+import { type Node, useEffect, useState, useContext } from 'react';
 import fetch from 'isomorphic-unfetch';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { classNames } from '@weco/common/utils/classnames';
 import { workLink } from '@weco/common/services/catalogue/routes';
 
@@ -133,16 +134,19 @@ type Props = {| work: Work |};
 const Collection = ({ work }: Props) => {
   const [collection, setCollection] = useState();
   const [expandedPaths, setExpandedPaths] = useState([]);
+  const { stagingApi } = useContext(TogglesContext);
   useEffect(() => {
-    const url = `https://api.wellcomecollection.org/catalogue/v2/works/${
+    const url = `https://api${
+      stagingApi ? '-stage' : ''
+    }.wellcomecollection.org/catalogue/v2/works/${
       work.id
     }?include=collection&_expandPaths=${expandedPaths.join(',')}`;
     fetch(url)
       .then(resp => resp.json())
       .then(resp =>
         setCollection({
-          currentWorkPath: resp.collectionPath.path,
-          tree: resp.collection,
+          currentWorkPath: resp.collectionPath && resp.collectionPath.path,
+          tree: resp.collection || { work: {}, path: {}, children: [] },
         })
       );
   }, [work.id, expandedPaths]);
@@ -160,9 +164,10 @@ const Collection = ({ work }: Props) => {
         name="collection"
         id="collection"
       >
-        {collection.tree.work
+        {collection.tree && collection.tree.work
           ? `${collection.tree.work.title} ${collection.tree.path.label}`
-          : collection.tree.path.label || collection.tree.path.path}
+          : (collection.tree && collection.tree.path.label) ||
+            (collection.tree && collection.tree.path.path)}
       </h2>
       <ul style={{ padding: 0 }}>
         {collection.tree.children.map(child => {

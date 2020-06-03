@@ -63,9 +63,6 @@ jobs:
       - add_ssh_keys
       - setup_remote_docker
       - run:
-          name: Workaround for GoogleChrome/puppeteer#290
-          command: ./setup_puppeteer.sh
-      - run:
           name: Yarn test
           command: yarn && yarn test
       - run:

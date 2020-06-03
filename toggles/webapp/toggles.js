@@ -1,6 +1,13 @@
 module.exports = {
   toggles: [
     {
+      id: 'archivesPrototype',
+      title: 'View additions to the work page relating to archives',
+      defaultValue: false,
+      description:
+        'View prototypes of breadcrumbs and onward journey links for archives',
+    },
+    {
       id: 'unfilteredSearchResults',
       title: 'Entire catalogue search',
       defaultValue: false,
@@ -26,6 +33,12 @@ module.exports = {
       defaultValue: false,
       description:
         'Select from search query algorithms and other search functionality',
+    },
+    {
+      id: 'stagingApi',
+      title: 'Staging API',
+      defaultValue: false,
+      description: 'Use the staging catalogue API',
     },
     {
       id: 'relevanceRating',

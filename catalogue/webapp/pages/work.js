@@ -25,19 +25,21 @@ import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
+import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
 import Collection from '@weco/common/views/components/Collection/Collection';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWork } from '../services/catalogue/works';
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import RelatedArchiveWorks from '@weco/common/views/components/RelatedArchiveWorks/RelatedArchiveWorks';
 
 type Props = {|
   work: Work | CatalogueApiError,
 |};
 
 export const WorkPage = ({ work }: Props) => {
-  const { collectionSearch } = useContext(TogglesContext);
+  const { collectionSearch, archivesPrototype } = useContext(TogglesContext);
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
     page: 1,
@@ -184,13 +186,29 @@ export const WorkPage = ({ work }: Props) => {
           row: true,
         })}
       >
+        {archivesPrototype && (
+          <div className="container">
+            <div className="grid">
+              <Space
+                v={{
+                  size: 's',
+                  properties: ['padding-top', 'padding-bottom'],
+                }}
+                className={classNames({
+                  [grid({ s: 12 })]: true,
+                })}
+              >
+                <ArchiveBreadcrumb work={work} />
+              </Space>
+            </div>
+          </div>
+        )}
         <div className="container">
           <div className="grid">
             <WorkHeader work={work} childManifestsCount={childManifestsCount} />
           </div>
         </div>
       </Space>
-
       <WorkDetails
         work={work}
         itemUrl={itemUrlObject}
@@ -198,7 +216,8 @@ export const WorkPage = ({ work }: Props) => {
         childManifestsCount={childManifestsCount}
         imageCount={imageTotal}
       />
-      {collectionSearch && <Collection work={work} />}
+      {archivesPrototype && <RelatedArchiveWorks work={work} />}
+      {collectionSearch && !archivesPrototype && <Collection work={work} />}
     </CataloguePageLayout>
   );
 };
@@ -207,9 +226,11 @@ WorkPage.getInitialProps = async (
   ctx
 ): Promise<Props | CatalogueApiRedirect> => {
   const { id } = ctx.query;
+  const { stagingApi } = ctx.query.toggles;
 
   const workOrError = await getWork({
     id,
+    env: stagingApi ? 'stage' : 'prod',
   });
 
   if (workOrError && workOrError.type === 'Redirect') {
