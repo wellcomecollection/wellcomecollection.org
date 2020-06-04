@@ -57,7 +57,7 @@ export function parseBook(document: PrismicDocument): Book {
 export async function getBook(
   req: ?Request,
   id: string,
-  memoizedPrismic: ?{}
+  memoizedPrismic: ?Object
 ): Promise<?Book> {
   const document = await getDocument(
     req,
@@ -88,7 +88,7 @@ type ArticleQueryProps = {|
 export async function getBooks(
   req: ?Request,
   { predicates = [], ...opts }: ArticleQueryProps,
-  memoizedPrismic: ?{}
+  memoizedPrismic: ?Object
 ): Promise<PaginatedResults<Book>> {
   const orderings =
     '[my.books.datePublished desc, document.first_publication_date desc]';

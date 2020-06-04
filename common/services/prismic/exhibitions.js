@@ -269,7 +269,7 @@ export async function getExhibitions(
     period,
     page = 1,
   }: GetExhibitionsProps = {},
-  memoizedPrismic: ?{}
+  memoizedPrismic: ?Object
 ): Promise<PaginatedResults<UiExhibition>> {
   const orderings = `[my.exhibitions.isPermanent desc,${endField}${
     order === 'desc' ? ' desc' : ''
@@ -355,7 +355,7 @@ function putPermanentAfterCurrentExhibitions(
 export async function getExhibition(
   req: ?Request,
   id: string,
-  memoizedPrismic: ?{}
+  memoizedPrismic: ?Object
 ): Promise<?UiExhibition> {
   const document = await getDocument(
     req,

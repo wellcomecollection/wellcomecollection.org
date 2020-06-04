@@ -54,7 +54,7 @@ type ArticleSeriesWithArticles = {|
 export async function getArticleSeries(
   req: ?Request,
   { id, ...opts }: ArticleSeriesProps,
-  memoizedPrismic: ?{}
+  memoizedPrismic: ?Object
 ): Promise<?ArticleSeriesWithArticles> {
   // GOTCHA: This is for body squabbles where we have the `webcomics` type.
   // This will have to remain like this until we figure out how to migrate it.

@@ -21,7 +21,7 @@ export function parsePlaceDoc(document: PrismicDocument): Place {
 export async function getPlace(
   req: ?Request,
   id: string,
-  memoizedPrismic: ?{}
+  memoizedPrismic: ?Object
 ): Promise<?Place> {
   const document = await getDocument(req, id, {}, memoizedPrismic);
 

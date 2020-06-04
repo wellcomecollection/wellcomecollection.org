@@ -34,7 +34,7 @@ export async function getDocument(
   req: ?Request,
   id: string,
   opts: PrismicQueryOpts,
-  memoizedPrismic: ?{}
+  memoizedPrismic: ?Object
 ): Promise<?PrismicDocument> {
   const prismicApi =
     memoizedPrismic && !isPreview(req)
@@ -50,7 +50,7 @@ export async function getDocuments(
   req: ?Request,
   predicates: Predicate[],
   opts: PrismicQueryOpts,
-  memoizedPrismic: ?{}
+  memoizedPrismic: ?Object
 ): Promise<PaginatedResults<PrismicDocument>> {
   const prismicApi =
     memoizedPrismic && !isPreview(req)

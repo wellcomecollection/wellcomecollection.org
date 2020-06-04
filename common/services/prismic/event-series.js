@@ -35,7 +35,7 @@ type EventSeriesProps = {|
 export async function getEventSeries(
   req: ?Request,
   { id, ...opts }: EventSeriesProps,
-  memoizedPrismic: ?{}
+  memoizedPrismic: ?Object
 ) {
   const events = await getEvents(
     req,

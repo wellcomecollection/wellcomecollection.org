@@ -307,7 +307,7 @@ export function parseArticle(document: PrismicDocument): Article {
 export async function getArticle(
   req: ?Request,
   id: string,
-  memoizedPrismic: ?{}
+  memoizedPrismic: ?Object
 ): Promise<?Article> {
   const document = await getDocument(req, id, { graphQuery }, memoizedPrismic);
   return document &&
@@ -324,7 +324,7 @@ type ArticleQueryProps = {|
 export async function getArticles(
   req: ?Request,
   { predicates = [], ...opts }: ArticleQueryProps,
-  memoizedPrismic: ?{}
+  memoizedPrismic: ?Object
 ): Promise<PaginatedResults<Article>> {
   const orderings =
     '[my.articles.publishDate, my.webcomics.publishDate, document.first_publication_date desc]';

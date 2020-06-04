@@ -289,7 +289,7 @@ type EventQueryProps = {|
 export async function getEvent(
   req: ?Request,
   { id }: EventQueryProps,
-  memoizedPrismic: ?{}
+  memoizedPrismic: ?Object
 ): Promise<?UiEvent> {
   const document = await getDocument(
     req,

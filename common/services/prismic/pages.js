@@ -55,7 +55,7 @@ export function parsePage(document: PrismicDocument): Page {
 export async function getPage(
   req: ?Request,
   id: string,
-  memoizedPrismic: ?{}
+  memoizedPrismic: ?Object
 ): Promise<?Page> {
   const page = await getDocument(
     req,
