@@ -27,16 +27,9 @@ const ArchiveBreadcrumbNav = styled.nav`
 
   li {
     .crumb-inner {
-      text-decoration: none;
       display: flex;
       align-items: baseline;
       padding: 3px 8px;
-      border-radius: 3px;
-    }
-
-    a:hover {
-      background: #333;
-      color: white;
     }
 
     .icon {
@@ -46,16 +39,15 @@ const ArchiveBreadcrumbNav = styled.nav`
     }
 
     position: relative;
-    margin-right: 20px;
+    margin-right: 15px;
 
     &:after {
+      content: '〉';
       position: absolute;
       right: -15px;
       top: 50%;
       transform: translateY(-50%);
-      font-family: monospace;
-      color: #ccc;
-      content: '>';
+      color: #888;
     }
 
     &:last-child {
