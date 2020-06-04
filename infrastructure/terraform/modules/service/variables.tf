@@ -66,3 +66,7 @@ variable "desired_task_count" {
 }
 
 variable "healthcheck_path" {}
+
+variable "use_fargate_spot" {
+  default = false
+}
