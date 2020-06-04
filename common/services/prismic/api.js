@@ -10,8 +10,6 @@ import type {
 } from './types';
 import Cookies from 'cookies';
 
-// import util from 'util';
-
 const apiUri = 'https://wellcomecollection.prismic.io/api/v2';
 
 export function isPreview(req: ?Request): boolean {
@@ -22,20 +20,13 @@ export function isPreview(req: ?Request): boolean {
     : false;
 }
 
-export async function getPrismicApi(req: ?Request, memoizedPrismic: any) {
-  // TODO flow
+export async function getPrismicApi(req: ?Request) {
   if (req && isPreview(req)) {
     const api = await Prismic.getApi(apiUri, { req });
     return api;
   } else {
-    if (!memoizedPrismic) {
-      console.log('NOT memoized');
-      const prismicApi = await Prismic.getApi(apiUri);
-      return prismicApi;
-    } else {
-      console.log('IS memoized');
-      return memoizedPrismic;
-    }
+    const prismicApi = await Prismic.getApi(apiUri);
+    return prismicApi;
   }
 }
 
@@ -43,10 +34,13 @@ export async function getDocument(
   req: ?Request,
   id: string,
   opts: PrismicQueryOpts,
-  prismicApi: any
+  memoizedPrismic: ?{}
 ): Promise<?PrismicDocument> {
+  const prismicApi =
+    memoizedPrismic && !isPreview(req)
+      ? memoizedPrismic
+      : await getPrismicApi(req);
   const doc = await prismicApi.getByID(id, opts);
-  // console.log('DOC: ', util.inspect(doc, { showHidden: false, depth: null }));
   return doc;
 }
 
@@ -55,10 +49,14 @@ type Predicate = string;
 export async function getDocuments(
   req: ?Request,
   predicates: Predicate[],
-  opts: PrismicQueryOpts
+  opts: PrismicQueryOpts,
+  memoizedPrismic: ?{}
 ): Promise<PaginatedResults<PrismicDocument>> {
-  const api = await getPrismicApi(req);
-  const docs: PrismicApiSearchResponse = await api.query(
+  const prismicApi =
+    memoizedPrismic && !isPreview(req)
+      ? memoizedPrismic
+      : await getPrismicApi(req);
+  const docs: PrismicApiSearchResponse = await prismicApi.query(
     predicates.concat([Prismic.Predicates.not('document.tags', ['delist'])]),
     // uncomment this and comment out the line above to show delisted content
     // predicates,

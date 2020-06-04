@@ -24,7 +24,13 @@ const pageImage =
   'https://images.prismic.io/wellcomecollection/fc1e68b0528abbab8429d95afb5cfa4c74d40d52_tf_180516_2060224.jpg?auto=compress,format&w=800';
 export class HomePage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const articles = await getArticles(ctx.req, { pageSize: 4 });
+    const { memoizedPrismic } = ctx.query;
+    ctx.query.memoizedPrismic = undefined; // Once we've got memoizedPrismic, we need to remove it before making requests - otherwise we hit circular object issues with JSON.stringify
+    const articles = await getArticles(
+      ctx.req,
+      { pageSize: 4 },
+      memoizedPrismic
+    );
     if (articles) {
       return {
         articles,

@@ -4,7 +4,6 @@ import { Fragment, Component } from 'react';
 import type { Article } from '@weco/common/model/articles';
 import type { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';
 import type { PrismicApiError } from '@weco/common/services/prismic/types';
-import { getPrismicApi } from '@weco/common/services/prismic/api';
 import { getArticle } from '@weco/common/services/prismic/articles';
 import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -48,11 +47,8 @@ export class ArticlePage extends Component<Props, State> {
     ctx: Context
   ): Promise<?Props | PrismicApiError> => {
     const { id, memoizedPrismic } = ctx.query;
-    // console.log('MEMO', memoizedPrismic);
-    const prismicApi = await getPrismicApi(ctx.req, memoizedPrismic);
-    // console.log('API', prismicApi);
-    const article = await getArticle(ctx.req, id, prismicApi);
-    // console.log('ARTICLE', article);
+    ctx.query.memoizedPrismic = undefined; // Once we've got memoizedPrismic, we need to remove it before making requests - otherwise we hit circular object issues with JSON.stringify
+    const article = await getArticle(ctx.req, id, memoizedPrismic);
     if (article) {
       return {
         article,

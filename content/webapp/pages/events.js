@@ -28,13 +28,18 @@ const pageDescription =
   'Choose from an inspiring range of free talks, tours, discussions and more on at Wellcome Collection in London.';
 export class ArticleSeriesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const { page = 1 } = ctx.query;
+    const { page = 1, memoizedPrismic } = ctx.query;
+    ctx.query.memoizedPrismic = undefined; // Once we've got memoizedPrismic, we need to remove it before making requests - otherwise we hit circular object issues with JSON.stringify
     const { period = 'current-and-coming-up' } = ctx.query;
-    const events = await getEvents(ctx.req, {
-      page,
-      period,
-      pageSize: 100,
-    });
+    const events = await getEvents(
+      ctx.req,
+      {
+        page,
+        period,
+        pageSize: 100,
+      },
+      memoizedPrismic
+    );
     if (events) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
       return {

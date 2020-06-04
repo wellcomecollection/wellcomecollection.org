@@ -34,13 +34,18 @@ type EventSeriesProps = {|
 
 export async function getEventSeries(
   req: ?Request,
-  { id, ...opts }: EventSeriesProps
+  { id, ...opts }: EventSeriesProps,
+  memoizedPrismic: ?{}
 ) {
-  const events = await getEvents(req, {
-    page: 1,
-    predicates: [Prismic.Predicates.at('my.events.series.series', id)],
-    ...opts,
-  });
+  const events = await getEvents(
+    req,
+    {
+      page: 1,
+      predicates: [Prismic.Predicates.at('my.events.series.series', id)],
+      ...opts,
+    },
+    memoizedPrismic
+  );
 
   if (events && events.results && events.results.length > 0) {
     const series = events.results[0].series.find(series => series.id === id);

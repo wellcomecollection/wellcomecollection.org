@@ -68,9 +68,14 @@ const pageDescription =
   'Our words and pictures explore the connections between science, medicine, life and art. Dive into a story no matter where in the world you are.';
 export class StoriesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const { page = 1 } = ctx.query;
-    const articlesPromise = getArticles(ctx.req, { page });
-    const seriesPromise = getArticleSeries(ctx.req, { id: 'XjlgkREAACUA_s3s' });
+    const { page = 1, memoizedPrismic } = ctx.query;
+    ctx.query.memoizedPrismic = undefined; // Once we've got memoizedPrismic, we need to remove it before making requests - otherwise we hit circular object issues with JSON.stringify
+    const articlesPromise = getArticles(ctx.req, { page }, memoizedPrismic);
+    const seriesPromise = getArticleSeries(
+      ctx.req,
+      { id: 'XjlgkREAACUA_s3s' },
+      memoizedPrismic
+    );
     const [articles, seriesAndArticles] = await Promise.all([
       articlesPromise,
       seriesPromise,

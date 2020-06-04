@@ -53,7 +53,8 @@ type ArticleSeriesWithArticles = {|
 
 export async function getArticleSeries(
   req: ?Request,
-  { id, ...opts }: ArticleSeriesProps
+  { id, ...opts }: ArticleSeriesProps,
+  memoizedPrismic: ?{}
 ): Promise<?ArticleSeriesWithArticles> {
   // GOTCHA: This is for body squabbles where we have the `webcomics` type.
   // This will have to remain like this until we figure out how to migrate it.
@@ -61,11 +62,15 @@ export async function getArticleSeries(
     id === 'WleP3iQAACUAYEoN'
       ? 'my.webcomics.series.series'
       : 'my.articles.series.series';
-  const articles = await getArticles(req, {
-    page: opts.page || 1,
-    predicates: [Prismic.Predicates.at(seriesField, id)],
-    ...opts,
-  });
+  const articles = await getArticles(
+    req,
+    {
+      page: opts.page || 1,
+      predicates: [Prismic.Predicates.at(seriesField, id)],
+      ...opts,
+    },
+    memoizedPrismic
+  );
 
   if (articles && articles.results && articles.results.length > 0) {
     const series = articles.results[0].series.find(series => series.id === id);
@@ -110,7 +115,7 @@ export async function getArticleSeries(
   } else {
     // TODO: (perf) we shouldn't really be doing two calls here, but it's for
     // when a series has no events attached.
-    const document = await getDocument(req, id, {});
+    const document = await getDocument(req, id, {}, memoizedPrismic);
     return document && { series: parseArticleSeries(document), articles: [] };
   }
 }

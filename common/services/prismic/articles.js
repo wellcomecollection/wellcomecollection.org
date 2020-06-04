@@ -307,9 +307,9 @@ export function parseArticle(document: PrismicDocument): Article {
 export async function getArticle(
   req: ?Request,
   id: string,
-  prismicApi: any
+  memoizedPrismic: ?{}
 ): Promise<?Article> {
-  const document = await getDocument(req, id, { graphQuery }, prismicApi); // TODO flow
+  const document = await getDocument(req, id, { graphQuery }, memoizedPrismic);
   return document &&
     (document.type === 'articles' || document.type === 'webcomics')
     ? parseArticle(document)
@@ -323,7 +323,8 @@ type ArticleQueryProps = {|
 
 export async function getArticles(
   req: ?Request,
-  { predicates = [], ...opts }: ArticleQueryProps
+  { predicates = [], ...opts }: ArticleQueryProps,
+  memoizedPrismic: ?{}
 ): Promise<PaginatedResults<Article>> {
   const orderings =
     '[my.articles.publishDate, my.webcomics.publishDate, document.first_publication_date desc]';
@@ -336,7 +337,8 @@ export async function getArticles(
       orderings,
       graphQuery,
       ...opts,
-    }
+    },
+    memoizedPrismic
   );
 
   const articles = paginatedResults.results.map(doc => {

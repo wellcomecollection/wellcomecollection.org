@@ -268,7 +268,8 @@ export async function getExhibitions(
     order = 'desc',
     period,
     page = 1,
-  }: GetExhibitionsProps = {}
+  }: GetExhibitionsProps = {},
+  memoizedPrismic: ?{}
 ): Promise<PaginatedResults<UiExhibition>> {
   const orderings = `[my.exhibitions.isPermanent desc,${endField}${
     order === 'desc' ? ' desc' : ''
@@ -292,7 +293,8 @@ export async function getExhibitions(
       ),
       orderings,
       page,
-    }
+    },
+    memoizedPrismic
   );
 
   const uiExhibitions: UiExhibition[] = paginatedResults.results.map(
@@ -352,20 +354,26 @@ function putPermanentAfterCurrentExhibitions(
 
 export async function getExhibition(
   req: ?Request,
-  id: string
+  id: string,
+  memoizedPrismic: ?{}
 ): Promise<?UiExhibition> {
-  const document = await getDocument(req, id, {
-    fetchLinks: peopleFields.concat(
-      exhibitionFields,
-      organisationsFields,
-      contributorsFields,
-      placesFields,
-      exhibitionResourcesFields,
-      eventSeriesFields,
-      articlesFields,
-      eventsFields
-    ),
-  });
+  const document = await getDocument(
+    req,
+    id,
+    {
+      fetchLinks: peopleFields.concat(
+        exhibitionFields,
+        organisationsFields,
+        contributorsFields,
+        placesFields,
+        exhibitionResourcesFields,
+        eventSeriesFields,
+        articlesFields,
+        eventsFields
+      ),
+    },
+    memoizedPrismic
+  );
 
   if (document && document.type === 'exhibitions') {
     const exhibition = parseExhibitionDoc(document);
