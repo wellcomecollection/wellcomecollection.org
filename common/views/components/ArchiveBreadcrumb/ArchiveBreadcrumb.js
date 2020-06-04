@@ -34,6 +34,7 @@ const ArchiveBreadcrumbNav = styled.nav`
     }
 
     > .icon {
+      min-width: 1em;
       position: relative;
       top: 5px;
     }
