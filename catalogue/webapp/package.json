@@ -46,6 +46,7 @@
     "react-window": "^1.8.5",
     "sass-loader": "^7.0.1",
     "supertest": "^4.0.2",
+    "typescript": "^3.9.3",
     "uuid": "^3.3.3",
     "webpack": "^4.25.1"
   },
