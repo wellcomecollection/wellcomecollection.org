@@ -22,40 +22,32 @@ const ArchiveBreadcrumbNav = styled.nav`
     margin: 0 0 10px;
     padding: 0;
     display: inline-flex;
-    align-items: center;
+    align-items: flex-start;
   }
 
   li {
     .crumb-inner {
-      text-decoration: none;
       display: flex;
       align-items: baseline;
       padding: 3px 8px;
-      border-radius: 3px;
+      max-width: 35em;
     }
 
-    a:hover {
-      background: #333;
-      color: white;
-    }
-
-    .icon {
-      margin-right: 5px;
+    > .icon {
+      min-width: 1em;
       position: relative;
-      top: 2px;
+      top: 5px;
     }
 
     position: relative;
-    margin-right: 20px;
+    margin-right: 24px;
 
     &:after {
-      position: absolute;
-      right: -15px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-family: monospace;
-      color: #ccc;
       content: '>';
+      position: absolute;
+      top: 3px;
+      right: -15px;
+      color: #888;
     }
 
     &:last-child {
@@ -66,6 +58,8 @@ const ArchiveBreadcrumbNav = styled.nav`
 
     ul {
       display: block;
+      min-width: max-content;
+      white-space: normal;
 
       li {
         margin-bottom: 1px;
@@ -128,7 +122,11 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
     <ArchiveBreadcrumbNav>
       <ul>
         {breadcrumb.firstCrumb && (
-          <li>
+          <li className={'flex'}>
+            <Icon
+              extraClasses={`icon--match-text icon--currentColor`}
+              name={`archive`}
+            />
             <ConditionalWrapper
               condition={breadcrumb.firstCrumb.work.id !== work.id}
               wrapper={children => (
@@ -142,10 +140,6 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
                   'crumb-inner': breadcrumb.firstCrumb.work.id === work.id,
                 })}
               >
-                <Icon
-                  extraClasses={`icon--match-text icon--currentColor`}
-                  name={`archive`}
-                />
                 {breadcrumb.firstCrumb.work.title}
               </span>
             </ConditionalWrapper>
@@ -153,44 +147,46 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
         )}
         {breadcrumb.middleCrumbs.length > 1 && (
           <li>
-            <DropdownButton label="…">
-              <ul>
-                {breadcrumb.middleCrumbs.map(crumb => {
-                  return (
-                    <li key={crumb.work.id}>
-                      <NextLink {...workLink({ id: crumb.work.id })}>
-                        <a className="crumb-inner">
-                          <Icon
-                            extraClasses={`icon--match-text icon--currentColor`}
-                            name={
-                              crumb.path.level === 'Item'
-                                ? 'document'
-                                : 'folder'
-                            }
-                          />
-                          {crumb.work.title} {crumb.path.label}
-                        </a>
-                      </NextLink>
-                    </li>
-                  );
-                })}
-              </ul>
-            </DropdownButton>
+            <div style={{ position: 'relative', top: '-5px' }}>
+              <DropdownButton label="…">
+                <ul>
+                  {breadcrumb.middleCrumbs.map(crumb => {
+                    return (
+                      <li key={crumb.work.id} className={`flex`}>
+                        <Icon
+                          extraClasses={`icon--match-text icon--currentColor`}
+                          name={
+                            crumb.path.level === 'Item'
+                              ? 'digitalImage'
+                              : 'folder'
+                          }
+                        />
+                        <NextLink {...workLink({ id: crumb.work.id })}>
+                          <a className="crumb-inner">
+                            {crumb.work.title} {crumb.path.label}
+                          </a>
+                        </NextLink>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </DropdownButton>
+            </div>
           </li>
         )}
         {breadcrumb.middleCrumbs.length === 1 && (
           <>
             {breadcrumb.middleCrumbs.map(crumb => {
               return (
-                <li key={crumb.work.id}>
+                <li key={crumb.work.id} className={'flex'}>
+                  <Icon
+                    extraClasses={`icon--match-text icon--currentColor`}
+                    name={
+                      crumb.path.level === 'Item' ? 'digitalImage' : 'folder'
+                    }
+                  />
                   <NextLink {...workLink({ id: crumb.work.id })}>
                     <a className="crumb-inner">
-                      <Icon
-                        extraClasses={`icon--match-text icon--currentColor`}
-                        name={
-                          crumb.path.level === 'Item' ? 'document' : 'folder'
-                        }
-                      />
                       {crumb.work.title} {crumb.path.label}
                     </a>
                   </NextLink>
@@ -200,16 +196,16 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
           </>
         )}
         {breadcrumb.lastCrumb && (
-          <li>
+          <li className={'flex'}>
+            <Icon
+              extraClasses={`icon--match-text icon--currentColor`}
+              name={
+                breadcrumb.lastCrumb.path.level === 'Item'
+                  ? 'digitalImage'
+                  : 'folder'
+              }
+            />
             <span className="crumb-inner">
-              <Icon
-                extraClasses={`icon--match-text icon--currentColor`}
-                name={
-                  breadcrumb.lastCrumb.path.level === 'Item'
-                    ? 'document'
-                    : 'folder'
-                }
-              />
               {breadcrumb.lastCrumb.work.title}{' '}
               {breadcrumb.lastCrumb.path.label}
             </span>
