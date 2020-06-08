@@ -3,7 +3,7 @@ import {
   ButtonIconWrapper,
   SolidButton,
   type ButtonSolidProps,
-} from './ButtonSolid';
+} from '../ButtonSolid/ButtonSolid';
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
 import NextLink from 'next/link';
