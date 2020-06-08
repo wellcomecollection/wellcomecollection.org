@@ -7,6 +7,7 @@ import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { classNames, font } from '../../../utils/classnames';
 import cookies from 'next-cookies';
+import Toggler from '../Toggler/Toggler';
 
 const Form = styled(Space).attrs({
   className: classNames({
@@ -36,6 +37,12 @@ const Heading = styled(Space).attrs({
     properties: ['padding-right', 'margin-right'],
   },
 })`
+  border-right: 1px solid ${props => `${props.theme.colors.charcoal}`};
+`;
+
+const Section = styled.div`
+  padding-right: 5px;
+  margin-right: 5px;
   border-right: 1px solid ${props => `${props.theme.colors.charcoal}`};
 `;
 
@@ -74,40 +81,46 @@ const SearchToolbar = () => {
         <div
           className="flex"
           style={{
-            flexGrow: 1,
             alignItems: 'center',
           }}
         >
           <Heading>🔍 Search</Heading>
-          <div>Query type:</div>
+          <Section>
+            <div className="flex">
+              <div>Query type:</div>
 
-          {queryTypes.map(queryType => (
-            <label key={queryType}>
-              <Space
-                h={{
-                  size: 'm',
-                  properties: ['margin-left'],
-                }}
-                className={classNames({
-                  flex: true,
-                })}
-              >
-                <Input
-                  type="radio"
-                  name="seachToolbarQueryType"
-                  value={queryType}
-                  checked={queryType === selectedQueryType}
-                  onChange={event => {
-                    const val = event.currentTarget.value;
-                    setSelectedQueryType(val);
-                    document.cookie = `_queryType=${val}; path=/; max-age=31536000`;
-                    window.location.reload();
-                  }}
-                />
-                {queryType}
-              </Space>
-            </label>
-          ))}
+              {queryTypes.map(queryType => (
+                <label key={queryType}>
+                  <Space
+                    h={{
+                      size: 'm',
+                      properties: ['margin-left'],
+                    }}
+                    className={classNames({
+                      flex: true,
+                    })}
+                  >
+                    <Input
+                      type="radio"
+                      name="seachToolbarQueryType"
+                      value={queryType}
+                      checked={queryType === selectedQueryType}
+                      onChange={event => {
+                        const val = event.currentTarget.value;
+                        setSelectedQueryType(val);
+                        document.cookie = `_queryType=${val}; path=/; max-age=31536000`;
+                        window.location.reload();
+                      }}
+                    />
+                    {queryType}
+                  </Space>
+                </label>
+              ))}
+            </div>
+          </Section>
+        </div>
+        <div style={{ flexGrow: 1 }}>
+          <Toggler name="collectionSearch" label="Include collection search" />
         </div>
         <a
           href="https://docs.wellcomecollection.org/catalogue/search_relevance/tests"

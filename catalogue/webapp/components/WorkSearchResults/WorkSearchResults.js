@@ -6,14 +6,17 @@ import RelevanceRater from '@weco/common/views/components/RelevanceRater/Relevan
 import { trackSearchResultSelected } from '@weco/common/views/components/Tracker/Tracker';
 import WorkCard from '../WorkCard/WorkCard';
 import { grid } from '@weco/common/utils/classnames';
-import { type CatalogueResultsList } from '@weco/common/model/catalogue';
-import { type CatalogueApiProps } from '@weco/common/services/catalogue/api';
+import {
+  type CatalogueResultsList,
+  type Work,
+} from '@weco/common/model/catalogue';
+import { type CatalogueWorksApiProps } from '@weco/common/services/catalogue/api';
 import { type WorksRouteProps } from '@weco/common/services/catalogue/routes';
 
 type Props = {|
-  works: CatalogueResultsList,
+  works: CatalogueResultsList<Work>,
   worksRouteProps: WorksRouteProps,
-  apiProps: CatalogueApiProps,
+  apiProps: CatalogueWorksApiProps,
 |};
 
 const WorkSearchResults = ({ works, worksRouteProps, apiProps }: Props) => {

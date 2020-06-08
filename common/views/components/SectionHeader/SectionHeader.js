@@ -25,7 +25,7 @@ type Props = {|
 
 const SectionHeader = ({ title }: Props) => {
   return (
-    <div className={`row ${font('wb', 3)}`}>
+    <div className={`row ${font('wb', 2)}`}>
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>

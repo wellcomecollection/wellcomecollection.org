@@ -4,13 +4,16 @@ import { useState } from 'react';
 import ExpandedImage from '../ExpandedImage/ExpandedImage';
 import ImageCard from '../ImageCard/ImageCard';
 import { trackSearchResultSelected } from '@weco/common/views/components/Tracker/Tracker';
-import { type CatalogueResultsList } from '@weco/common/model/catalogue';
-import { type CatalogueApiProps } from '@weco/common/services/catalogue/api';
+import {
+  type CatalogueResultsList,
+  type Work,
+} from '@weco/common/model/catalogue';
+import { type CatalogueWorksApiProps } from '@weco/common/services/catalogue/api';
 import { transparentGif } from '@weco/common/utils/backgrounds';
 
 type Props = {|
-  works: CatalogueResultsList,
-  apiProps: CatalogueApiProps,
+  works: CatalogueResultsList<Work>,
+  apiProps: CatalogueWorksApiProps,
 |};
 
 const ImageSearchResults = ({ works, apiProps }: Props) => {

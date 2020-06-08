@@ -190,7 +190,7 @@ const SearchFiltersDesktop = ({
                     {...worksLink(
                       {
                         ...worksRouteProps,
-                        page: null,
+                        page: 1,
                         productionDatesTo: null,
                       },
                       'cancel_filter/production_dates_to'

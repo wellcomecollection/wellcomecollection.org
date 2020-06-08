@@ -1,11 +1,13 @@
 // @flow
 import { type Context } from 'next';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
   type CatalogueApiError,
   type CatalogueResultsList,
+  type Work,
+  type Image,
 } from '@weco/common/model/catalogue';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
@@ -18,30 +20,37 @@ import {
   WorksRoute,
 } from '@weco/common/services/catalogue/routes';
 import {
-  type CatalogueApiProps,
+  type CatalogueWorksApiProps,
   worksRouteToApiUrl,
   worksRouteToApiUrlWithDefaults,
+  worksPropsToImagesProps,
 } from '@weco/common/services/catalogue/api';
 import Space from '@weco/common/views/components/styled/Space';
+import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
+import { getImages } from '../services/catalogue/images';
 import { getWorks } from '../services/catalogue/works';
 import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
 import cookies from 'next-cookies';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import WorkSearchResults from '../components/WorkSearchResults/WorkSearchResults';
 import ImageSearchResults from '../components/ImageSearchResults/ImageSearchResults';
+import CollectionSearch from '@weco/common/views/components/CollectionSearch/CollectionSearch';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type Props = {|
-  works: ?CatalogueResultsList | CatalogueApiError,
+  works: ?CatalogueResultsList<Work> | CatalogueApiError,
+  images: ?CatalogueResultsList<Image> | CatalogueApiError,
   worksRouteProps: WorksRouteProps,
   unfilteredSearchResults: boolean,
   shouldGetWorks: boolean,
-  apiProps: CatalogueApiProps,
+  apiProps: CatalogueWorksApiProps,
 |};
 
 const Works = ({
   works,
+  images,
   worksRouteProps,
   unfilteredSearchResults,
   shouldGetWorks,
@@ -49,6 +58,8 @@ const Works = ({
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
+  const results: ?CatalogueResultsList<Work | Image> | CatalogueApiError =
+    works || images;
 
   const {
     query,
@@ -59,7 +70,7 @@ const Works = ({
 
   useEffect(() => {
     trackSearch(apiProps, {
-      totalResults: works && works.totalResults ? works.totalResults : 0,
+      totalResults: results && results.totalResults ? results.totalResults : 0,
       source: Router.query.source || 'unspecified',
     });
   }, [worksRouteProps]);
@@ -81,16 +92,17 @@ const Works = ({
   }, []);
 
   const isImageSearch = worksRouteProps.search === 'images';
+  const { collectionSearch, imagesEndpoint } = useContext(TogglesContext);
 
-  if (works && works.type === 'Error') {
+  if (results && results.type === 'Error') {
     return (
       <ErrorPage
         title={
-          works.httpStatus === 500
+          results.httpStatus === 500
             ? `We're experiencing technical difficulties at the moment. We're working to get this fixed.`
             : undefined
         }
-        statusCode={works.httpStatus}
+        statusCode={results.httpStatus}
       />
     );
   }
@@ -98,7 +110,7 @@ const Works = ({
   return (
     <Fragment>
       <Head>
-        {works && works.prevPage && (
+        {results && results.prevPage && (
           <link
             rel="prev"
             href={convertUrlToString(
@@ -109,7 +121,7 @@ const Works = ({
             )}
           />
         )}
-        {works && works.nextPage && (
+        {results && results.nextPage && (
           <link
             rel="next"
             href={convertUrlToString(
@@ -182,7 +194,7 @@ const Works = ({
                   workTypeAggregations={
                     works && works.aggregations
                       ? works.aggregations.workType.buckets
-                      : null
+                      : []
                   }
                 />
               </div>
@@ -190,9 +202,9 @@ const Works = ({
           </div>
         </Space>
 
-        {!works && <StaticWorksContent />}
+        {!results && <StaticWorksContent />}
 
-        {works && works.results.length > 0 && (
+        {results && results.results.length > 0 && (
           <Fragment>
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
@@ -206,8 +218,8 @@ const Works = ({
                       <Fragment>
                         <Paginator
                           currentPage={page || 1}
-                          pageSize={works.pageSize}
-                          totalResults={works.totalResults}
+                          pageSize={results.pageSize}
+                          totalResults={results.totalResults}
                           link={worksLink(
                             {
                               ...worksRouteProps,
@@ -242,15 +254,43 @@ const Works = ({
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
-                {isImageSearch ? (
-                  <ImageSearchResults works={works} apiProps={apiProps} />
-                ) : (
-                  <WorkSearchResults
-                    works={works}
-                    worksRouteProps={worksRouteProps}
-                    apiProps={apiProps}
-                  />
+                {collectionSearch && !isImageSearch && (
+                  <CollectionSearch query={query} />
                 )}
+                {(() => {
+                  if (
+                    works &&
+                    works.type !== 'Error' &&
+                    isImageSearch &&
+                    !imagesEndpoint
+                  ) {
+                    return (
+                      <ImageSearchResults works={works} apiProps={apiProps} />
+                    );
+                  }
+                  if (
+                    images &&
+                    images.type !== 'Error' &&
+                    isImageSearch &&
+                    imagesEndpoint
+                  ) {
+                    return (
+                      <ImageEndpointSearchResults
+                        images={images}
+                        apiProps={worksPropsToImagesProps(apiProps)}
+                      />
+                    );
+                  }
+                  if (works && works.type !== 'Error') {
+                    return (
+                      <WorkSearchResults
+                        works={works}
+                        worksRouteProps={worksRouteProps}
+                        apiProps={apiProps}
+                      />
+                    );
+                  }
+                })()}
               </div>
 
               <Space
@@ -270,8 +310,8 @@ const Works = ({
                         <Fragment>
                           <Paginator
                             currentPage={page || 1}
-                            pageSize={works.pageSize}
-                            totalResults={works.totalResults}
+                            pageSize={results.pageSize}
+                            totalResults={results.totalResults}
                             link={worksLink(
                               {
                                 ...worksRouteProps,
@@ -301,7 +341,7 @@ const Works = ({
           </Fragment>
         )}
 
-        {works && works.results.length === 0 && (
+        {results && results.results.length === 0 && (
           <Space
             v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
           >
@@ -340,7 +380,11 @@ const IMAGES_LOCATION_TYPE = 'iiif-image';
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = WorksRoute.fromQuery(ctx.query);
-  const { unfilteredSearchResults } = ctx.query.toggles;
+  const {
+    unfilteredSearchResults,
+    imagesEndpoint,
+    stagingApi,
+  } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
 
@@ -351,9 +395,10 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const apiProps = apiPropsFn(
     {
       ...params,
-      itemsLocationsLocationType: isImageSearch
-        ? [IMAGES_LOCATION_TYPE]
-        : params.itemsLocationsLocationType,
+      itemsLocationsLocationType:
+        isImageSearch && !imagesEndpoint
+          ? [IMAGES_LOCATION_TYPE]
+          : params.itemsLocationsLocationType,
     },
     {
       _queryType,
@@ -361,16 +406,31 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     }
   );
 
-  const shouldGetWorks = !!(params.query && params.query !== '');
-  // TODO: increase pageSize to 100 when `isImageSearch` (but only if `isEnhanced`)
+  const hasQuery = !!(params.query && params.query !== '');
+  const isEndpointImageSearch = isImageSearch && imagesEndpoint;
+
+  const shouldGetWorks = hasQuery && !isEndpointImageSearch;
+  const shouldGetImages = hasQuery && isEndpointImageSearch;
+  const apiEnv = stagingApi ? 'stage' : 'prod';
+
   const worksOrError = shouldGetWorks
     ? await getWorks({
         params: apiProps,
+        env: apiEnv,
+      })
+    : null;
+
+  // TODO: increase pageSize to 100 when `isImageSearch` (but only if `isEnhanced`)
+  const imagesOrError = shouldGetImages
+    ? await getImages({
+        params: worksPropsToImagesProps(apiProps),
+        env: apiEnv,
       })
     : null;
 
   return {
     works: worksOrError,
+    images: imagesOrError,
     worksRouteProps: params,
     unfilteredSearchResults,
     shouldGetWorks,

@@ -59,7 +59,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
 
 type Props = {|
   listHeight: number,
-  mainViewerRef: { current: HTMLElement | null },
+  mainViewerRef: { current: FixedSizeList | null },
   activeIndex: number,
   setActiveIndex: number => void,
   canvases: any,

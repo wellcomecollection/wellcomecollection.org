@@ -1,5 +1,5 @@
 // @flow
-import type { UiEvent, EventFormat, EventTime } from '../../model/events';
+import type { UiEvent, EventTime } from '../../model/events';
 import type {
   PrismicDocument,
   PaginatedResults,
@@ -9,6 +9,7 @@ import type {
 import type { Team } from '../../model/team';
 import Prismic from 'prismic-javascript';
 import sortBy from 'lodash.sortby';
+import moment from 'moment';
 import { getDocument, getTypeByIds, getDocuments } from './api';
 import {
   eventAccessOptionsFields,
@@ -26,8 +27,8 @@ import {
 import {
   parseTitle,
   parsePlace,
+  parseFormat,
   asText,
-  asHtml,
   isDocumentLink,
   parseTimestamp,
   parseBoolean,
@@ -42,17 +43,6 @@ import { getNextWeekendDateRange, isPast } from '../../utils/dates';
 
 const startField = 'my.events.times.startDateTime';
 const endField = 'my.events.times.endDateTime';
-
-function parseEventFormat(frag: Object): ?EventFormat {
-  return isDocumentLink(frag)
-    ? {
-        id: frag.id,
-        title: parseTitle(frag.data.title),
-        shortName: asText(frag.data.shortName),
-        description: asHtml(frag.data.description),
-      }
-    : null;
-}
 
 function parseEventBookingType(eventDoc: PrismicDocument): ?string {
   return !isEmptyObj(eventDoc.data.eventbriteEvent)
@@ -174,9 +164,15 @@ export function parseEventDoc(
     [];
 
   const displayTime = determineDisplayTime(times);
-  const lastEndTime = times
-    .map(time => time.range.endDateTime)
-    .find((date, i) => i === times.length - 1);
+  const lastEndTime =
+    data.times &&
+    data.times
+      .sort(
+        (x, y) => moment(y.endDateTime).unix() - moment(x.endDateTime).unix()
+      )
+      .map(time => {
+        return parseTimestamp(time.endDateTime);
+      })[0];
   const isRelaxedPerformance = parseBoolean(data.isRelaxedPerformance);
 
   const schedule = eventSchedule.map((event, i) => {
@@ -203,7 +199,7 @@ export function parseEventDoc(
         : null,
     bookingType: parseEventBookingType(document),
     cost: data.cost,
-    format: data.format && parseEventFormat(data.format),
+    format: data.format && parseFormat(data.format),
     interpretations,
     policies: Array.isArray(data.policies)
       ? parseLabelTypeList(data.policies, 'policy')

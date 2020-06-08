@@ -7,6 +7,10 @@ provider "aws" {
   version = "~> 2.47.0"
 }
 
+provider "template" {
+  version = "~> 2.1"
+}
+
 provider "aws" {
   alias = "platform"
 
