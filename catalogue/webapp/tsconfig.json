@@ -3,9 +3,7 @@
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "baseUrl": ".",
-    "paths": {
-      "@weco/common/*": ["../../common/*"]
-    },
+    "paths": {},
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
