@@ -8,14 +8,12 @@ import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
 import NextLink from 'next/link';
 import { type NextLinkType } from '../../../model/next-link-type';
+import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
 type ButtonSolidLinkProps = {|
   ...ButtonSolidProps,
   link: NextLinkType | string,
 |};
-
-const ConditionalWrapper = ({ condition, wrapper, children }) =>
-  condition ? wrapper(children) : children;
 
 const ButtonSolidLink = ({
   text,
