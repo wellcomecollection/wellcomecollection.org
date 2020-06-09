@@ -1,7 +1,7 @@
 // @flow
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { type IIIFRendering } from '@weco/common/model/iiif';
-import type { LicenseData } from '@weco/common/utils/licenses';
+import { type LicenseData } from '@weco/common/utils/licenses';
 import { useState, useEffect, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
