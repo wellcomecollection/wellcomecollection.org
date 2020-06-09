@@ -1,3 +1,4 @@
+import { NextPage, NextPageContext } from 'next';
 import Router from 'next/router';
 import {
   Work as WorkType,
@@ -12,7 +13,7 @@ type Props = {
   workResponse: WorkType | CatalogueApiError;
 };
 
-export const WorkPage = ({ workResponse }: Props) => {
+export const WorkPage: NextPage<Props> = ({ workResponse }) => {
   if (workResponse.type === 'Work') {
     return <Work work={workResponse} />;
   }
@@ -27,10 +28,9 @@ export const WorkPage = ({ workResponse }: Props) => {
   }
 };
 
-WorkPage.getInitialProps = async (
-  ctx
-): Promise<Props | CatalogueApiRedirect> => {
+WorkPage.getInitialProps = async (ctx: NextPageContext) => {
   const { id } = ctx.query;
+  // @ts-ignore
   const { stagingApi } = ctx.query.toggles;
 
   const workResponse = await getWork({
@@ -49,7 +49,6 @@ WorkPage.getInitialProps = async (
       } else {
         Router.push(workResponse.redirectToId);
       }
-      return workResponse;
     }
 
     if (workResponse.type === 'Work' || workResponse.type === 'Error') {
