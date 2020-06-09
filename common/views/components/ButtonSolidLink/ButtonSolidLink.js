@@ -1,3 +1,4 @@
+// @flow
 import {
   SolidButtonInner,
   ButtonIconWrapper,
@@ -30,17 +31,26 @@ const ButtonSolidLink = ({
     clickHandler && clickHandler(event);
     trackingEvent && trackEvent(trackingEvent);
   }
+
+  const isNextLink = typeof link === 'object';
+
   return (
     <ConditionalWrapper
-      condition={link.as || link.href}
-      wrapper={children => <NextLink {...link}>{children}</NextLink>}
+      condition={isNextLink}
+      wrapper={children =>
+        typeof link === 'object' && (
+          <NextLink {...link} passHref>
+            {children}
+          </NextLink>
+        )
+      }
     >
       <SolidButton
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
         onClick={handleClick}
         isBig={isBig}
-        href={link.as || link.href ? undefined : link}
+        href={isNextLink ? undefined : link}
       >
         <SolidButtonInner>
           {icon && (
