@@ -9,9 +9,9 @@ exports[`Feature: 2. As a library member I want to request an item
 <div
   data-test-id="libraryLoginCTA"
 >
-  <Button
+  <ButtonSolidLink
     clickHandler={[Function]}
-    externalLink="/loginUrl"
+    link="/loginUrl"
     text="Log in to request"
     trackingEvent={
       Object {
@@ -20,30 +20,122 @@ exports[`Feature: 2. As a library member I want to request an item
         "label": "{workId}",
       }
     }
-    type="primary"
   >
-    <a
-      className="btn btn--primary  font-hnm font-size-5  flex-inline flex--v-center"
-      href="/loginUrl"
-      onClick={[Function]}
-      type={null}
+    <ConditionalWrapper
+      condition={false}
+      wrapper={[Function]}
     >
-      <ButtonInner
-        text="Log in to request"
-        textHidden={false}
+      <ButtonSolid__SolidButton
+        href="/loginUrl"
+        onClick={[Function]}
       >
-        <span
-          className="flex flex--v-center flex--h-center"
+        <StyledComponent
+          forwardedComponent={
+            Object {
+              "$$typeof": Symbol(react.forward_ref),
+              "attrs": Array [
+                [Function],
+              ],
+              "componentStyle": ComponentStyle {
+                "componentId": "ButtonSolid__SolidButton-xui0q4-3",
+                "isStatic": false,
+                "lastClassName": "hVleSf",
+                "rules": Array [
+                  "line-height:1;border-radius:",
+                  [Function],
+                  ";text-decoration:none;text-align:center;transition:all ",
+                  [Function],
+                  ";border:0;white-space:nowrap;padding:",
+                  [Function],
+                  ";&:not([disabled]):hover,&:not([disabled]):focus{cursor:pointer;}&:focus{outline:0;.is-keyboard &{box-shadow:",
+                  [Function],
+                  ";}}&[disabled],&.disabled{background:",
+                  [Function],
+                  ";border-color:",
+                  [Function],
+                  ";cursor:not-allowed;}&.disabled{pointer-events:none;}.icon__shape{transition:fill ",
+                  [Function],
+                  ";fill:currentColor;}.icon__stroke{transition:stroke ",
+                  [Function],
+                  ";stroke:currentColor;}",
+                  "border:2px solid ",
+                  [Function],
+                  ";background:",
+                  [Function],
+                  ";color:",
+                  [Function],
+                  ";padding:",
+                  [Function],
+                  ";&:not([disabled]):hover,&:not([disabled]):focus{border-color:",
+                  [Function],
+                  ";background:",
+                  [Function],
+                  ";}",
+                ],
+              },
+              "displayName": "ButtonSolid__SolidButton",
+              "foldedComponentIds": Array [
+                "ButtonSolid__BaseButton-xui0q4-0",
+              ],
+              "render": [Function],
+              "styledComponentId": "ButtonSolid__SolidButton-xui0q4-3",
+              "target": "button",
+              "toString": [Function],
+              "warnTooManyClasses": [Function],
+              "withComponent": [Function],
+            }
+          }
+          forwardedRef={null}
+          href="/loginUrl"
+          onClick={[Function]}
         >
-          <span
-            className="btn__text"
+          <a
+            className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 hVleSf flex-inline flex--v-center"
+            href="/loginUrl"
+            onClick={[Function]}
           >
-            Log in to request
-          </span>
-        </span>
-      </ButtonInner>
-    </a>
-  </Button>
+            <ButtonSolid__SolidButtonInner>
+              <StyledComponent
+                forwardedComponent={
+                  Object {
+                    "$$typeof": Symbol(react.forward_ref),
+                    "attrs": Array [
+                      Object {
+                        "className": "font-hnm font-size-5  flex flex--v-center",
+                      },
+                    ],
+                    "componentStyle": ComponentStyle {
+                      "componentId": "ButtonSolid__SolidButtonInner-xui0q4-1",
+                      "isStatic": false,
+                      "lastClassName": "bEUyiw",
+                      "rules": Array [
+                        "height:1em;",
+                      ],
+                    },
+                    "displayName": "ButtonSolid__SolidButtonInner",
+                    "foldedComponentIds": Array [],
+                    "render": [Function],
+                    "styledComponentId": "ButtonSolid__SolidButtonInner-xui0q4-1",
+                    "target": "span",
+                    "toString": [Function],
+                    "warnTooManyClasses": [Function],
+                    "withComponent": [Function],
+                  }
+                }
+                forwardedRef={null}
+              >
+                <span
+                  className="ButtonSolid__SolidButtonInner-xui0q4-1 bEUyiw font-hnm font-size-5  flex flex--v-center"
+                >
+                  Log in to request
+                </span>
+              </StyledComponent>
+            </ButtonSolid__SolidButtonInner>
+          </a>
+        </StyledComponent>
+      </ButtonSolid__SolidButton>
+    </ConditionalWrapper>
+  </ButtonSolidLink>
 </div>
 `;
 
@@ -54,7 +146,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
 <div
   data-test-id="requestModalCTA"
 >
-  <Button
+  <ForwardRef
     clickHandler={[Function]}
     text="Request"
     trackingEvent={
@@ -64,29 +156,118 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
         "label": "{workId}",
       }
     }
-    type="primary"
   >
-    <button
-      className="btn btn--primary  font-hnm font-size-5  flex-inline flex--v-center"
+    <ButtonSolid__SolidButton
       onClick={[Function]}
-      type="button"
     >
-      <ButtonInner
-        text="Request"
-        textHidden={false}
+      <StyledComponent
+        forwardedComponent={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "attrs": Array [
+              [Function],
+            ],
+            "componentStyle": ComponentStyle {
+              "componentId": "ButtonSolid__SolidButton-xui0q4-3",
+              "isStatic": false,
+              "lastClassName": "hVleSf",
+              "rules": Array [
+                "line-height:1;border-radius:",
+                [Function],
+                ";text-decoration:none;text-align:center;transition:all ",
+                [Function],
+                ";border:0;white-space:nowrap;padding:",
+                [Function],
+                ";&:not([disabled]):hover,&:not([disabled]):focus{cursor:pointer;}&:focus{outline:0;.is-keyboard &{box-shadow:",
+                [Function],
+                ";}}&[disabled],&.disabled{background:",
+                [Function],
+                ";border-color:",
+                [Function],
+                ";cursor:not-allowed;}&.disabled{pointer-events:none;}.icon__shape{transition:fill ",
+                [Function],
+                ";fill:currentColor;}.icon__stroke{transition:stroke ",
+                [Function],
+                ";stroke:currentColor;}",
+                "border:2px solid ",
+                [Function],
+                ";background:",
+                [Function],
+                ";color:",
+                [Function],
+                ";padding:",
+                [Function],
+                ";&:not([disabled]):hover,&:not([disabled]):focus{border-color:",
+                [Function],
+                ";background:",
+                [Function],
+                ";}",
+              ],
+            },
+            "displayName": "ButtonSolid__SolidButton",
+            "foldedComponentIds": Array [
+              "ButtonSolid__BaseButton-xui0q4-0",
+            ],
+            "render": [Function],
+            "styledComponentId": "ButtonSolid__SolidButton-xui0q4-3",
+            "target": "button",
+            "toString": [Function],
+            "warnTooManyClasses": [Function],
+            "withComponent": [Function],
+          }
+        }
+        forwardedRef={null}
+        onClick={[Function]}
       >
-        <span
-          className="flex flex--v-center flex--h-center"
+        <button
+          className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 hVleSf flex-inline flex--v-center"
+          onClick={[Function]}
         >
-          <span
-            className="btn__text"
-          >
-            Request
-          </span>
-        </span>
-      </ButtonInner>
-    </button>
-  </Button>
+          <ButtonSolid__SolidButtonInner>
+            <StyledComponent
+              forwardedComponent={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "attrs": Array [
+                    Object {
+                      "className": "font-hnm font-size-5  flex flex--v-center",
+                    },
+                  ],
+                  "componentStyle": ComponentStyle {
+                    "componentId": "ButtonSolid__SolidButtonInner-xui0q4-1",
+                    "isStatic": false,
+                    "lastClassName": "bEUyiw",
+                    "rules": Array [
+                      "height:1em;",
+                    ],
+                  },
+                  "displayName": "ButtonSolid__SolidButtonInner",
+                  "foldedComponentIds": Array [],
+                  "render": [Function],
+                  "styledComponentId": "ButtonSolid__SolidButtonInner-xui0q4-1",
+                  "target": "span",
+                  "toString": [Function],
+                  "warnTooManyClasses": [Function],
+                  "withComponent": [Function],
+                }
+              }
+              forwardedRef={null}
+            >
+              <span
+                className="ButtonSolid__SolidButtonInner-xui0q4-1 bEUyiw font-hnm font-size-5  flex flex--v-center"
+              >
+                <span
+                  className=""
+                >
+                  Request
+                </span>
+              </span>
+            </StyledComponent>
+          </ButtonSolid__SolidButtonInner>
+        </button>
+      </StyledComponent>
+    </ButtonSolid__SolidButton>
+  </ForwardRef>
   <Modal
     isActive={false}
     setIsActive={[Function]}
