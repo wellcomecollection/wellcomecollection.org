@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useState, useRef, useEffect } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import NextLink from 'next/link';
 import { workLink } from '@weco/common/services/catalogue/routes';
 import Modal from '@weco/common/views/components/Modal/Modal';
@@ -218,12 +218,10 @@ const ArchiveTree = ({ collection = collectionTree, currentWork }: Props) => {
   return belongsToCrickArchive ? (
     <>
       <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-        <Button
-          extraClasses="btn--primary"
+        <ButtonSolid
           icon="tree"
           text={`${archiveTitle} contents`}
-          fontFamily="hnm"
-          textHidden={true}
+          isTextHidden={true}
           clickHandler={() => {
             setShowArchiveTreeModal(!showArchiveTreeModal);
           }}
@@ -235,11 +233,9 @@ const ArchiveTree = ({ collection = collectionTree, currentWork }: Props) => {
       >
         <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-            <Button
-              extraClasses="btn--primary"
+            <ButtonSolid
               icon={'zoomOut'}
               text={'Zoom out'}
-              fontFamily="hnl"
               clickHandler={() => {
                 if (scale > 1) {
                   setScale(scale - 1);
@@ -249,11 +245,9 @@ const ArchiveTree = ({ collection = collectionTree, currentWork }: Props) => {
               }}
             />
           </Space>
-          <Button
-            extraClasses="btn--primary"
+          <ButtonSolid
             icon={'zoomIn'}
             text={'Zoom in'}
-            fontFamily="hnl"
             clickHandler={() => {
               if (scale < 1) {
                 setScale(scale + 0.25);

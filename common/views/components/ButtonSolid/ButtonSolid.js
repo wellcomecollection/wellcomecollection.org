@@ -91,6 +91,7 @@ export const SolidButton = styled(BaseButton)`
 export type ButtonSolidProps = {|
   text: string,
   icon?: string,
+  isTextHidden?: boolean,
   trackingEvent?: GaEvent,
   isBig?: boolean,
   disabled?: boolean,
@@ -105,6 +106,7 @@ const ButtonSolid = forwardRef(
     {
       icon,
       text,
+      isTextHidden,
       trackingEvent,
       clickHandler,
       ariaControls,
@@ -128,12 +130,20 @@ const ButtonSolid = forwardRef(
         ref={ref}
       >
         <SolidButtonInner>
-          {icon && (
-            <ButtonIconWrapper>
-              <Icon name={icon} />
-            </ButtonIconWrapper>
-          )}
-          {text}
+          <>
+            {icon && (
+              <ButtonIconWrapper>
+                <Icon name={icon} />
+              </ButtonIconWrapper>
+            )}
+            <span
+              className={classNames({
+                'visually-hidden': isTextHidden,
+              })}
+            >
+              {text}
+            </span>
+          </>
         </SolidButtonInner>
       </SolidButton>
     );
