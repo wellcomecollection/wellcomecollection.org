@@ -138,7 +138,7 @@ const ButtonSolid = forwardRef(
             )}
             <span
               className={classNames({
-                'visually-hidden': isTextHidden,
+                'visually-hidden': !!isTextHidden,
               })}
             >
               {text}
