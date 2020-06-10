@@ -1,7 +1,7 @@
 // @flow
 import fetch from 'isomorphic-unfetch';
 import { useState, useEffect } from 'react';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
 type Props = {|
   manifestLocation: string,
@@ -54,8 +54,7 @@ const IIIFPresentationDisplay = ({ manifestLocation }: Props) => {
             </div>
           ))}
         {!showAll && validSequences.length > 1 && (
-          <Button
-            type={'primary'}
+          <ButtonSolid
             text={'Show all'}
             clickHandler={event => setShowAll(true)}
           />
