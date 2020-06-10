@@ -102,8 +102,8 @@ const MultipleManifestList = ({
         iconPosition="end"
         fontFamily="hnl"
         text={buttonText}
-        ariaConftrols="hiddenContent"
-        ariaExpfanded={showHidden}
+        ariaControls="hiddenContent"
+        ariaExpanded={showHidden}
         clickHandler={() => {
           setShowHidden(!showHidden);
         }}
