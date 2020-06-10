@@ -152,7 +152,7 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
                 <ul>
                   {breadcrumb.middleCrumbs.map(crumb => {
                     return (
-                      <li key={crumb.work.id} className={`flex`}>
+                      <li key={crumb.path.path} className={`flex`}>
                         <Icon
                           extraClasses={`icon--match-text icon--currentColor`}
                           name={
@@ -161,11 +161,17 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
                               : 'folder'
                           }
                         />
-                        <NextLink {...workLink({ id: crumb.work.id })}>
-                          <a className="crumb-inner">
-                            {crumb.work.title} {crumb.path.label}
-                          </a>
-                        </NextLink>
+                        {crumb.work && crumb.work.id ? (
+                          <NextLink {...workLink({ id: crumb.work.id })}>
+                            <a className="crumb-inner">
+                              {crumb.work.title} {crumb.path.label}
+                            </a>
+                          </NextLink>
+                        ) : (
+                          <span className="crumb-inner">
+                            Unknown (not available) {crumb.path.path}
+                          </span>
+                        )}
                       </li>
                     );
                   })}

@@ -79,6 +79,7 @@ const RequestLocation = ({ work }: Props) => {
           physicalItemLocationLabel.match(/[Cc]losed stores/);
         const requestable = Boolean(
           inClosedStores &&
+            matchingItem &&
             matchingItem.status &&
             matchingItem.status.label === 'Available'
         );
