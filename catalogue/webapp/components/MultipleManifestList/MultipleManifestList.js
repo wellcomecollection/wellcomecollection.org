@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import { ShameButton } from '@weco/common/views/components/ViewerTopBar/ViewerTopBar';
 
 const HiddenContent = styled.div.attrs(props => ({
   className: classNames({
@@ -45,13 +46,6 @@ const HiddenContent = styled.div.attrs(props => ({
     fill: currentColor;
   }
 `;
-
-// TODO: update this with a more considered button from our system
-const ShameButton = styled.button.attrs(props => ({
-  className: classNames({
-    'btn relative hnl btn--primary-black': true,
-  }),
-}))``;
 
 type Props = {|
   buttonText: string,
@@ -101,13 +95,14 @@ const MultipleManifestList = ({
       })}
     >
       <ShameButton
+        isDark
         ariaControls="hiddenContent"
         ariaExpanded={showHidden}
         onClick={() => {
           setShowHidden(!showHidden);
         }}
       >
-        <span>{buttonText}</span>
+        <span className={`btn__text`}>{buttonText}</span>
         <Icon name="chevron" />
       </ShameButton>
       <HiddenContent id="hiddenContent" hidden={!showHidden}>

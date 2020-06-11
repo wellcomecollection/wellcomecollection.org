@@ -11,15 +11,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import Icon from '@weco/common/views/components/Icon/Icon';
-
-// TODO: update this with a more considered button from our system
-const ShameButton = styled.button.attrs(props => ({
-  className: classNames({
-    'btn relative': true,
-    'btn--tertiary hnm': !props.isDark,
-    'btn--primary-black hnl': props.isDark,
-  }),
-}))``;
+import { ShameButton } from '@weco/common/views/components/ViewerTopBar/ViewerTopBar';
 
 export const DownloadOptions = styled.div.attrs(props => ({
   className: classNames({
@@ -126,7 +118,7 @@ const Download = ({
                     setAlignmentOfDownloadOptions();
                   }}
                 >
-                  <span>Downloads</span>
+                  <span className={`btn__text`}>Downloads</span>
                   <Icon name={useDarkControl ? 'download' : 'chevron'} />
                 </ShameButton>
               </h2>

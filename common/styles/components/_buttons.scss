@@ -52,10 +52,11 @@
   }
 }
 
-.btn--secondary,
 .btn--tertiary {
   background: color('white');
   color: color('green');
+  padding: $spacing-unit+1 (2 * ($spacing-unit+1));
+  border: 1px solid color('green');
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
@@ -64,34 +65,10 @@
   }
 }
 
-.btn--secondary {
-  border: 2px solid color('green');
-}
-
-.btn--tertiary {
-  padding: $spacing-unit+1 (2 * ($spacing-unit+1));
-  border: 1px solid color('green');
-}
-
 .btn--primary-black {
   border: none;
   color: color('white');
   background: transparent;
-  outline: none;
-  transition: all $transition-properties;
-
-  &:not([disabled]):hover,
-  &:not([disabled]):focus {
-    border-color: color('black');
-    background: color('yellow');
-    color: color('black');
-  }
-}
-
-.btn--secondary-black {
-  border-color: color('charcoal');
-  color: color('smoke');
-  background: color('charcoal');
   outline: none;
   transition: all $transition-properties;
 

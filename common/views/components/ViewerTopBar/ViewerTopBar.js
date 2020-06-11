@@ -6,13 +6,32 @@ import styled from 'styled-components';
 import { workLink } from '@weco/common/services/catalogue/routes';
 import { classNames, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import { trackEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/Download';
 import MultipleManifestList from '@weco/catalogue/components/MultipleManifestList/MultipleManifestList';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
+
+// TODO: update this with a more considered button from our system
+export const ShameButton = styled.button.attrs(props => ({
+  className: classNames({
+    'btn relative flex flex--v-center': true,
+    'btn--tertiary': !props.isDark,
+    'btn--primary-black': props.isDark,
+    [font('hnm', 5)]: true,
+  }),
+}))`
+  overflow: hidden;
+
+  .btn__text {
+    position: absolute;
+    right: 100%;
+    @media (min-width: ${props => props.theme.sizes.large}px) {
+      position: static;
+    }
+  }
+`;
 
 const TopBar = styled.div`
   position: relative;
@@ -37,20 +56,6 @@ const TopBar = styled.div`
   }
   .plain-link {
     max-width: 100%;
-  }
-  .icon__shape {
-    fill: currentColor;
-  }
-  button {
-    overflow: hidden;
-    display: inline-block;
-    .btn__text {
-      position: absolute;
-      right: 100%;
-      @media (min-width: ${props => props.theme.sizes.large}px) {
-        position: static;
-      }
-    }
   }
 `;
 
@@ -118,12 +123,10 @@ const ViewerTopBar = ({
     <TopBar className="flex">
       {enhanced && canvases && canvases.length > 1 && (
         <ViewAllContainer>
-          <Button
-            extraClasses="btn--primary-black"
-            icon={gridVisible ? 'detailView' : 'gridView'}
-            text={gridVisible ? 'Detail view' : 'View all'}
-            fontFamily="hnl"
-            clickHandler={() => {
+          <ShameButton
+            isDark
+            ref={viewToggleRef}
+            onClick={() => {
               setGridVisible(!gridVisible);
               trackEvent({
                 category: 'Control',
@@ -133,8 +136,12 @@ const ViewerTopBar = ({
                 label: `${workId}`,
               });
             }}
-            ref={viewToggleRef}
-          />
+          >
+            <Icon name={gridVisible ? 'detailView' : 'gridView'} />
+            <span className={`btn__text`}>
+              {gridVisible ? 'Detail view' : 'View all'}
+            </span>
+          </ShameButton>
         </ViewAllContainer>
       )}
       <TitleContainer isEnhanced={enhanced && canvases && canvases.length > 1}>
@@ -166,12 +173,9 @@ const ViewerTopBar = ({
                 // $FlowFixMe
                 document.webkitFullscreenEnabled) && (
                 <Space h={{ size: 'm', properties: ['margin-right'] }}>
-                  <Button
-                    extraClasses="btn--primary-black"
-                    icon="expand"
-                    text="Full screen"
-                    fontFamily="hnl"
-                    clickHandler={() => {
+                  <ShameButton
+                    isDark
+                    onClick={() => {
                       if (viewerRef && viewerRef.current) {
                         if (
                           !document.fullscreenElement &&
@@ -197,7 +201,10 @@ const ViewerTopBar = ({
                         }
                       }
                     }}
-                  />
+                  >
+                    <Icon name="expand" />
+                    <span className={`btn__text`}>Full screen</span>
+                  </ShameButton>
                 </Space>
               )}
             <Space h={{ size: 'm', properties: ['margin-right'] }}>
