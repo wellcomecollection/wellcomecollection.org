@@ -9,6 +9,7 @@ import Raven from 'raven-js';
 import TextInput from '../TextInput/TextInput';
 import { trackEvent } from '../../../utils/ga';
 import useValidation from '../../../hooks/useValidation';
+import ButtonSolid from '../ButtonSolid/ButtonSolid';
 
 const FormElementWrapper = styled.div`
   width: 100%;
@@ -19,21 +20,18 @@ const FormElementWrapper = styled.div`
   `}
 `;
 
-const NewsletterButton = styled.button.attrs({
-  className: classNames({
-    'btn btn--primary': true,
-    [font('hnm', 5)]: true,
-  }),
-})`
-  width: 100%;
-  margin-top: 10px;
-  height: 55px;
+const ShameButtonWrap = styled.div`
+  button {
+    height: 55px;
+    width: 100%;
+    margin-top: 10px;
+    justify-content: center;
 
-  ${props => props.theme.media.medium`
-    width: auto;
-    margin-left: 10px;
-    margin-top: 0;
-  `}
+    ${props => props.theme.media.medium`
+      margin-left: 10px;
+      margin-top: 0;
+    `}
+  }
 `;
 
 const NewsletterForm = styled(Space).attrs({
@@ -255,9 +253,12 @@ const NewsletterPromo = () => {
                           setValue={setValue}
                           {...emailValidation}
                         />
-                        <NewsletterButton disabled={isSubmitting}>
-                          {isSubmitting ? 'Sending…' : 'Subscribe'}
-                        </NewsletterButton>
+                        <ShameButtonWrap>
+                          <ButtonSolid
+                            text={isSubmitting ? 'Sending…' : 'Subscribe'}
+                            disabled={isSubmitting}
+                          />
+                        </ShameButtonWrap>
                       </FormElementWrapper>
                     </NewsletterForm>
                   </>
