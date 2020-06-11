@@ -5,7 +5,7 @@ import { type IIIFManifest } from '@weco/common/model/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
 const HiddenContent = styled.div.attrs(props => ({
@@ -45,6 +45,13 @@ const HiddenContent = styled.div.attrs(props => ({
     fill: currentColor;
   }
 `;
+
+// TODO: update this with a more considered button from our system
+const ShameButton = styled.button.attrs(props => ({
+  className: classNames({
+    'btn relative hnl btn--primary-black': true,
+  }),
+}))``;
 
 type Props = {|
   buttonText: string,
@@ -93,21 +100,16 @@ const MultipleManifestList = ({
         relative: true,
       })}
     >
-      <Button
-        extraClasses={classNames({
-          relative: true,
-          'btn--primary-black': true,
-        })}
-        icon="chevron"
-        iconPosition="end"
-        fontFamily="hnl"
-        text={buttonText}
+      <ShameButton
         ariaControls="hiddenContent"
         ariaExpanded={showHidden}
-        clickHandler={() => {
+        onClick={() => {
           setShowHidden(!showHidden);
         }}
-      />
+      >
+        <span>{buttonText}</span>
+        <Icon name="chevron" />
+      </ShameButton>
       <HiddenContent id="hiddenContent" hidden={!showHidden}>
         <SpacingComponent>
           <ul className="no-margin no-padding plain-list">
