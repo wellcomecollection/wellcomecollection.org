@@ -5,6 +5,7 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import useValidation from '../../../hooks/useValidation';
+import ButtonSolid from '../ButtonSolid/ButtonSolid';
 
 type Props = {|
   isSuccess?: boolean,
@@ -223,7 +224,7 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
           </Space>
 
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <button className="btn btn--primary">Subscribe</button>
+            <ButtonSolid text="Subscribe" />
           </Space>
 
           {isCheckboxError && isSubmitAttempted && (
