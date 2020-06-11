@@ -3,7 +3,7 @@ import {
   SolidButtonInner,
   ButtonIconWrapper,
   SolidButton,
-  type ButtonSolidProps,
+  type ButtonSolidBaseProps,
 } from '../ButtonSolid/ButtonSolid';
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
@@ -12,7 +12,8 @@ import { type NextLinkType } from '../../../model/next-link-type';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
 type ButtonSolidLinkProps = {|
-  ...ButtonSolidProps,
+  ...ButtonSolidBaseProps,
+  clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void,
   link: NextLinkType | string,
 |};
 
@@ -24,7 +25,6 @@ const ButtonSolidLink = ({
   clickHandler,
   ariaControls,
   ariaExpanded,
-  disabled,
   isBig,
 }: ButtonSolidLinkProps) => {
   function handleClick(event) {

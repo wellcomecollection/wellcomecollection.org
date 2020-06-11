@@ -88,16 +88,21 @@ export const SolidButton = styled(BaseButton)`
 `;
 
 // TODO move styles here - styled component
-export type ButtonSolidProps = {|
+
+export type ButtonSolidBaseProps = {|
   text: string,
   icon?: string,
   isTextHidden?: boolean,
   trackingEvent?: GaEvent,
   isBig?: boolean,
-  disabled?: boolean,
   ariaControls?: string,
   ariaExpanded?: boolean,
-  clickHandler?: (event: Event) => void,
+|};
+
+type ButtonSolidProps = {|
+  ...ButtonSolidBaseProps,
+  disabled?: boolean,
+  clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void,
 |};
 
 // $FlowFixMe (forwardRef)
