@@ -92,11 +92,13 @@ export const SolidButton = styled(BaseButton)`
 export type ButtonSolidBaseProps = {|
   text: string,
   icon?: string,
+  type?: 'submit' | 'reset' | 'button',
   isTextHidden?: boolean,
   trackingEvent?: GaEvent,
   isBig?: boolean,
   ariaControls?: string,
   ariaExpanded?: boolean,
+  ariaLive?: 'off' | 'polite' | 'assertive',
 |};
 
 type ButtonSolidProps = {|
@@ -111,11 +113,13 @@ const ButtonSolid = forwardRef(
     {
       icon,
       text,
+      type,
       isTextHidden,
       trackingEvent,
       clickHandler,
       ariaControls,
       ariaExpanded,
+      ariaLive,
       disabled,
       isBig,
     }: ButtonSolidProps,
@@ -127,8 +131,10 @@ const ButtonSolid = forwardRef(
     }
     return (
       <SolidButton
+        type={type}
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
+        aria-live={ariaLive}
         onClick={handleClick}
         disabled={disabled}
         isBig={isBig}
