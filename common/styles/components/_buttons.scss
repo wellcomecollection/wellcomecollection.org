@@ -40,18 +40,6 @@
   }
 }
 
-.btn--primary {
-  border: 2px solid color('green');
-  background: color('green');
-  color: color('white');
-
-  &:not([disabled]):hover,
-  &:not([disabled]):focus {
-    border-color: color('black');
-    background: color('black');
-  }
-}
-
 .btn--tertiary {
   background: color('white');
   color: color('green');
@@ -65,17 +53,3 @@
   }
 }
 
-.btn--primary-black {
-  border: none;
-  color: color('white');
-  background: transparent;
-  outline: none;
-  transition: all $transition-properties;
-
-  &:not([disabled]):hover,
-  &:not([disabled]):focus {
-    border-color: color('black');
-    background: color('yellow');
-    color: color('black');
-  }
-}

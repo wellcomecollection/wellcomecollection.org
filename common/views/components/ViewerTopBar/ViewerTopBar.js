@@ -17,8 +17,6 @@ import Space from '@weco/common/views/components/styled/Space';
 export const ShameButton = styled.button.attrs(props => ({
   className: classNames({
     'btn relative flex flex--v-center': true,
-    'btn--tertiary': !props.isDark,
-    'btn--primary-black': props.isDark,
     [font('hnm', 5)]: true,
   }),
 }))`
@@ -30,6 +28,19 @@ export const ShameButton = styled.button.attrs(props => ({
     @media (min-width: ${props => props.theme.sizes.large}px) {
       position: static;
     }
+  }
+
+  border: none;
+  color: ${props => props.theme.colors.white};
+  background: transparent;
+  outline: none;
+  transition: all ${props => props.theme.transitionProperties};
+
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
+    border-color: ${props => props.theme.colors.black};
+    background: ${props => props.theme.colors.yellow};
+    color: ${props => props.theme.colors.black};
   }
 `;
 
@@ -124,7 +135,6 @@ const ViewerTopBar = ({
       {enhanced && canvases && canvases.length > 1 && (
         <ViewAllContainer>
           <ShameButton
-            isDark
             ref={viewToggleRef}
             onClick={() => {
               setGridVisible(!gridVisible);
@@ -174,7 +184,6 @@ const ViewerTopBar = ({
                 document.webkitFullscreenEnabled) && (
                 <Space h={{ size: 'm', properties: ['margin-right'] }}>
                   <ShameButton
-                    isDark
                     onClick={() => {
                       if (viewerRef && viewerRef.current) {
                         if (
