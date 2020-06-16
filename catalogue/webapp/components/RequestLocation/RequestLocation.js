@@ -6,7 +6,7 @@ import ResponsiveTable from '@weco/common/views/components/styled/ResponsiveTabl
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ItemRequestButton from '@weco/catalogue/components/ItemRequestButton/ItemRequestButton';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Space from '@weco/common/views/components/styled/Space';
 import getStacksWork from '@weco/catalogue/services/stacks/items';
 import {
@@ -213,8 +213,7 @@ const RequestLocation = ({ work }: Props) => {
           ) : (
             <>
               <div data-test-id="requestModalCTA">
-                <Button
-                  type="primary"
+                <ButtonSolid
                   text="Request"
                   clickHandler={() => {
                     if (itemsWithPhysicalLocations.find(item => item.checked)) {
@@ -416,8 +415,7 @@ const RequestLocation = ({ work }: Props) => {
                           </li>
                         ))}
                     </ul>
-                    <Button
-                      type="primary"
+                    <ButtonSolid
                       text="Continue"
                       clickHandler={() => {
                         setShowResultsModal(false);

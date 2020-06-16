@@ -38,7 +38,7 @@ import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
 import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -72,7 +72,7 @@ const WorkDetails = ({
     fetchImageJson();
   }, []);
 
-  // Determin digital location
+  // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
@@ -246,8 +246,7 @@ const WorkDetails = ({
                     properties: ['margin-right'],
                   }}
                 >
-                  <Button
-                    type="primary"
+                  <ButtonSolidLink
                     icon="eye"
                     text="View"
                     trackingEvent={{
@@ -266,8 +265,7 @@ const WorkDetails = ({
                       properties: ['margin-right'],
                     }}
                   >
-                    <Button
-                      type="primary"
+                    <ButtonSolidLink
                       icon="gridView"
                       text="Overview"
                       trackingEvent={{

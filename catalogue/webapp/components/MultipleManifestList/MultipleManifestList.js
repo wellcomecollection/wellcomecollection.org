@@ -5,8 +5,9 @@ import { type IIIFManifest } from '@weco/common/model/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import { ShameButton } from '@weco/common/views/components/ViewerTopBar/ViewerTopBar';
 
 const HiddenContent = styled.div.attrs(props => ({
   className: classNames({
@@ -93,21 +94,17 @@ const MultipleManifestList = ({
         relative: true,
       })}
     >
-      <Button
-        extraClasses={classNames({
-          relative: true,
-          'btn--primary-black': true,
-        })}
-        icon="chevron"
-        iconPosition="end"
-        fontFamily="hnl"
-        text={buttonText}
-        ariaConftrols="hiddenContent"
-        ariaExpfanded={showHidden}
-        clickHandler={() => {
+      <ShameButton
+        isDark
+        ariaControls="hiddenContent"
+        ariaExpanded={showHidden}
+        onClick={() => {
           setShowHidden(!showHidden);
         }}
-      />
+      >
+        <span className={`btn__text`}>{buttonText}</span>
+        <Icon name="chevron" />
+      </ShameButton>
       <HiddenContent id="hiddenContent" hidden={!showHidden}>
         <SpacingComponent>
           <ul className="no-margin no-padding plain-list">

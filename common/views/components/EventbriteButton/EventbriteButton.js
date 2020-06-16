@@ -1,6 +1,7 @@
 // @flow
 import type { UiEvent } from '../../../model/events';
-import Button from '../Buttons/Button/Button';
+import ButtonSolid from '../ButtonSolid/ButtonSolid';
+import ButtonSolidLink from '../ButtonSolidLink/ButtonSolidLink';
 import { Fragment } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
@@ -15,14 +16,12 @@ const EventbriteButton = ({ event }: Props) => {
   return (
     <div>
       {event.isCompletelySoldOut ? (
-        <Button type="primary" disabled={true} text="Fully booked" />
+        <ButtonSolid disabled={true} text="Fully booked" />
       ) : (
         <Fragment>
           <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-            <Button
-              type="primary"
-              externalLink={`https://www.eventbrite.com/e/${event.eventbriteId ||
-                ''}/`}
+            <ButtonSolidLink
+              link={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
               trackingEvent={{
                 category: 'component',
                 action: 'booking-tickets:click',
