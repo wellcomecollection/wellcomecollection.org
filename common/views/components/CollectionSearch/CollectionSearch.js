@@ -14,8 +14,10 @@ const Container = styled(Space).attrs({
   },
   v: { size: 's', properties: ['padding-bottom'] },
 })`
-  background: ${props => props.theme.colors.cream};
-  border-top: 5px solid ${props => props.theme.colors.cyan};
+  border-top: 1px solid ${props => props.theme.colors.cyan};
+  border-bottom: 1px solid ${props => props.theme.colors.cyan};
+  border-left: 1px solid ${props => props.theme.colors.cream};
+  border-right: 1px solid ${props => props.theme.colors.cream};
 `;
 
 type Props = {| query: string |};
@@ -36,8 +38,8 @@ const CollectionSearch = ({ query }: Props) => {
       <h2
         className="h2"
         style={{
-          marginTop: '5px',
-          marginBottom: '15px',
+          marginTop: '10px',
+          marginBottom: '10px',
         }}
       >
         Collections
@@ -49,13 +51,12 @@ const CollectionSearch = ({ query }: Props) => {
               <a
                 className="plain-link"
                 style={{
-                  borderTop: '1px solid #298187',
-                  padding: '5px',
+                  borderTop: '1px solid #e8e8e8',
+                  padding: '10px 0',
                   display: 'block',
                 }}
               >
                 {work.title}
-                <h3 className="font-hnm font-size-4 card-link__title"></h3>
               </a>
             </NextLink>
           );
