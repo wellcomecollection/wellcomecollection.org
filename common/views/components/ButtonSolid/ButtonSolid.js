@@ -57,7 +57,7 @@ export const BaseButton = styled.button.attrs(props => ({
   }
 `;
 
-export const SolidButtonInner = styled.span.attrs({
+export const BaseButtonInner = styled.span.attrs({
   className: classNames({
     [font('hnm', 5)]: true,
     'flex flex--v-center': true,
@@ -140,7 +140,7 @@ const ButtonSolid = forwardRef(
         isBig={isBig}
         ref={ref}
       >
-        <SolidButtonInner>
+        <BaseButtonInner>
           <>
             {icon && (
               <ButtonIconWrapper>
@@ -155,7 +155,7 @@ const ButtonSolid = forwardRef(
               {text}
             </span>
           </>
-        </SolidButtonInner>
+        </BaseButtonInner>
       </SolidButton>
     );
   }
