@@ -325,7 +325,7 @@ type EventsQueryProps = {|
 export async function getEvents(
   req: ?Request,
   { predicates = [], period, ...opts }: EventsQueryProps,
-  memoizedPrismic
+  memoizedPrismic: ?Object
 ): Promise<PaginatedResults<UiEvent>> {
   const graphQuery = `{
     events {
