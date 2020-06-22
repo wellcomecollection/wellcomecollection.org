@@ -5,7 +5,8 @@ import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { classNames, font } from '@weco/common/utils/classnames';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import { classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { inputValue, nodeListValueToArray } from '@weco/common/utils/forms';
 import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
@@ -30,27 +31,20 @@ type Props = {|
 const SearchInputWrapper = styled.div`
   font-size: 20px;
   background: ${props => props.theme.colors.white};
-  margin-right: ${props => 12 * props.theme.spacingUnit}px;
-
-  ${props => props.theme.media.medium`
-    margin-right: ${props => 16 * props.theme.spacingUnit}px;
-  `}
+  margin-right: 80px;
 
   .search-query {
     height: ${props => 10 * props.theme.spacingUnit}px;
   }
 `;
 
-const SearchButtonWrapper = styled.div`
-  height: 60px;
+const SearchButtonWrapper = styled.div.attrs({
+  className: classNames({
+    absolute: true,
+  }),
+})`
   top: 0;
   right: 0;
-  width: ${props => 10 * props.theme.spacingUnit}px;
-  border: ${props => props.theme.borderRadiusUnit}px;
-
-  ${props => props.theme.media.medium`
-    width: ${props => 14 * props.theme.spacingUnit}px;
-  `}
 `;
 
 const ClearSearch = styled.button`
@@ -275,21 +269,13 @@ const SearchForm = ({
           </noscript>
         </>
       )}
-      <SearchButtonWrapper className="absolute bg-green rounded-corners">
-        <button
-          className={classNames({
-            'full-width': true,
-            'full-height': true,
-            'line-height-1': true,
-            'plain-button no-padding': true,
-            [font('hnl', 3)]: true,
-          })}
-        >
-          <span className="visually-hidden">Search</span>
-          <span className="flex flex--v-center flex--h-center">
-            <Icon name="search" title="Search" extraClasses="icon--white" />
-          </span>
-        </button>
+      <SearchButtonWrapper>
+        <ButtonSolid
+          icon="search"
+          text="search"
+          isTextHidden={true}
+          isBig={true}
+        />
       </SearchButtonWrapper>
     </form>
   );
