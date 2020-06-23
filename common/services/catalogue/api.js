@@ -75,6 +75,7 @@ export const defaultAccessConditions = [
   '!open-with-advisory',
   '!restricted',
   '!closed',
+  '!licensed-resources',
 ];
 export function worksRouteToApiUrlWithDefaults(
   worksRouteProps: WorksRouteProps,
