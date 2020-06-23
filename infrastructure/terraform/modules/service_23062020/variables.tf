@@ -14,11 +14,6 @@ variable "container_port" {
   type = number
 }
 
-variable "nginx_container_image" {}
-variable "nginx_container_port" {
-  type = number
-}
-
 variable "security_group_ids" {
   type = list(string)
 }

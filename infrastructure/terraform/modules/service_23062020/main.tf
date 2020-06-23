@@ -1,6 +1,6 @@
 resource "aws_lb_target_group" "http" {
   name                 = var.namespace
-  port                 = var.nginx_container_port
+  port                 = module.nginx_container.container_port
   protocol             = "HTTP"
   vpc_id               = var.vpc_id
   deregistration_delay = 10
@@ -9,7 +9,7 @@ resource "aws_lb_target_group" "http" {
   health_check {
     interval            = 10
     path                = var.healthcheck_path
-    port                = var.nginx_container_port
+    port                = module.nginx_container.container_port
     protocol            = "HTTP"
     timeout             = 5
     healthy_threshold   = 3
@@ -86,5 +86,5 @@ module "service" {
   target_group_arn = aws_lb_target_group.http.arn
 
   container_name = "nginx"
-  container_port = var.nginx_container_port
+  container_port = module.nginx_container.container_port
 }

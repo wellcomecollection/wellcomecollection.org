@@ -25,7 +25,7 @@ module "catalogue-prod" {
 // "works.www-stage.wellcomecollection.org/works"
 
 module "catalogue-stage" {
-  source = "./stack_new"
+  source = "./stack"
 
   container_image = "wellcome/catalogue_webapp:${var.container_tag}"
   nginx_image     = local.nginx_image
@@ -39,6 +39,8 @@ module "catalogue-stage" {
 
   interservice_security_group_id   = local.stage_interservice_security_group_id
   service_egress_security_group_id = local.stage_service_egress_security_group_id
+
+  use_new_service = true
 
   subdomain = "works.www-stage"
 }
