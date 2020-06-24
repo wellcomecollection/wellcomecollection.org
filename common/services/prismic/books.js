@@ -54,10 +54,19 @@ export function parseBook(document: PrismicDocument): Book {
   };
 }
 
-export async function getBook(req: ?Request, id: string): Promise<?Book> {
-  const document = await getDocument(req, id, {
-    fetchLinks: contributorsFields.concat(peopleFields, organisationsFields),
-  });
+export async function getBook(
+  req: ?Request,
+  id: string,
+  memoizedPrismic: ?Object
+): Promise<?Book> {
+  const document = await getDocument(
+    req,
+    id,
+    {
+      fetchLinks: contributorsFields.concat(peopleFields, organisationsFields),
+    },
+    memoizedPrismic
+  );
 
   if (document && document.type === 'books') {
     const book = parseBook(document);
@@ -78,7 +87,8 @@ type ArticleQueryProps = {|
 
 export async function getBooks(
   req: ?Request,
-  { predicates = [], ...opts }: ArticleQueryProps
+  { predicates = [], ...opts }: ArticleQueryProps,
+  memoizedPrismic: ?Object
 ): Promise<PaginatedResults<Book>> {
   const orderings =
     '[my.books.datePublished desc, document.first_publication_date desc]';
@@ -88,7 +98,8 @@ export async function getBooks(
     {
       orderings,
       ...opts,
-    }
+    },
+    memoizedPrismic
   );
 
   const books = paginatedResults.results.map(doc => {

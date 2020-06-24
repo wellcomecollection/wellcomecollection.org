@@ -2,12 +2,13 @@ import { storiesOf } from '@storybook/react';
 import FeaturedCard from '../../../common/views/components/FeaturedCard/FeaturedCard';
 import Readme from '../../../common/views/components/FeaturedCard/README.md';
 import { image } from '../content';
-import { select } from '@storybook/addon-knobs';
+import { select, boolean } from '@storybook/addon-knobs';
 
 const stories = storiesOf('Components', module);
 
 const FeaturedCardExample = () => {
   const imageWithoutTasl = { ...image(), showTasl: false };
+  const isReversed = boolean('is reversed', false);
   const color = select('text colour', ['white', 'black'], 'white');
   const background = select(
     'background colour',
@@ -23,6 +24,7 @@ const FeaturedCardExample = () => {
       link={{ url: '#', text: 'Remote diagnosis from wee to the web' }}
       background={background}
       color={color}
+      isReversed={isReversed}
     >
       <h2 className="font-wb font-size-2">
         Remote diagnosis from wee to the Web

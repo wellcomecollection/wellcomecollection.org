@@ -19,8 +19,7 @@ export const BaseButton = styled.button.attrs(props => ({
   transition: all ${props => props.theme.transitionProperties};
   border: 0;
   white-space: nowrap;
-  padding: ${props =>
-    `${props.theme.spacingUnit} ${2 * props.theme.spacingUnit}`};
+  padding: 15px 20px;
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
@@ -78,7 +77,12 @@ export const SolidButton = styled(BaseButton)`
   border: 2px solid ${props => props.theme.colors.green};
   background: ${props => props.theme.colors.green};
   color: ${props => props.theme.colors.white};
-  padding: ${props => (props.isBig ? '21px 20px' : '15px 20px')};
+
+  ${props =>
+    props.isBig &&
+    `
+    padding: 21px 20px 20px;
+  `}
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
