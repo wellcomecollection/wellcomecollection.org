@@ -313,14 +313,24 @@ const pageDescription =
 export class WhatsOnPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const period = ctx.query.period || 'current-and-coming-up';
-    const exhibitionsPromise = getExhibitions(ctx.req, {
-      period,
-      order: 'asc',
-    });
-    const eventsPromise = getEvents(ctx.req, {
-      period: 'current-and-coming-up',
-      pageSize: 100,
-    });
+    const { memoizedPrismic } = ctx.query;
+    ctx.query.memoizedPrismic = undefined; // Once we've got memoizedPrismic, we need to remove it before making requests - otherwise we hit circular object issues with JSON.stringify
+    const exhibitionsPromise = getExhibitions(
+      ctx.req,
+      {
+        period,
+        order: 'asc',
+      },
+      memoizedPrismic
+    );
+    const eventsPromise = getEvents(
+      ctx.req,
+      {
+        period: 'current-and-coming-up',
+        pageSize: 100,
+      },
+      memoizedPrismic
+    );
 
     const [exhibitions, events] = await Promise.all([
       exhibitionsPromise,

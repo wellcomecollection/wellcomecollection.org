@@ -46,8 +46,9 @@ export class ArticlePage extends Component<Props, State> {
   static getInitialProps = async (
     ctx: Context
   ): Promise<?Props | PrismicApiError> => {
-    const { id } = ctx.query;
-    const article = await getArticle(ctx.req, id);
+    const { id, memoizedPrismic } = ctx.query;
+    ctx.query.memoizedPrismic = undefined; // Once we've got memoizedPrismic, we need to remove it before making requests - otherwise we hit circular object issues with JSON.stringify
+    const article = await getArticle(ctx.req, id, memoizedPrismic);
     if (article) {
       return {
         article,
@@ -73,7 +74,6 @@ export class ArticlePage extends Component<Props, State> {
 
   render() {
     const { article } = this.props;
-
     const breadcrumbs = {
       items: [
         {

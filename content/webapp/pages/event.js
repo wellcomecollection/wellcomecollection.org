@@ -143,8 +143,9 @@ class EventPage extends Component<Props, State> {
   };
 
   static getInitialProps = async (ctx: Context) => {
-    const { id } = ctx.query;
-    const event = await getEvent(ctx.req, { id });
+    const { id, memoizedPrismic } = ctx.query;
+    ctx.query.memoizedPrismic = undefined; // Once we've got memoizedPrismic, we need to remove it before making requests - otherwise we hit circular object issues with JSON.stringify
+    const event = await getEvent(ctx.req, { id }, memoizedPrismic);
 
     if (event) {
       return {

@@ -9,22 +9,7 @@ import type {
 } from './types';
 import Cookies from 'cookies';
 
-const oneMinute = 1000 * 60;
 const apiUri = 'https://wellcomecollection.prismic.io/api/v2';
-
-let memoizedPrismic;
-
-function periodicallyUpdatePrismic() {
-  setInterval(async () => {
-    try {
-      memoizedPrismic = await Prismic.getApi(apiUri);
-    } catch (error) {
-      // FIXME: this is tipping us over our Sentry quota.
-      // Raven.captureException(new Error(`Prismic error: ${error}`));
-    }
-  }, oneMinute);
-}
-periodicallyUpdatePrismic();
 
 export function isPreview(req: ?Request): boolean {
   const cookies = req && new Cookies(req);
@@ -39,20 +24,22 @@ export async function getPrismicApi(req: ?Request) {
     const api = await Prismic.getApi(apiUri, { req });
     return api;
   } else {
-    if (!memoizedPrismic) {
-      memoizedPrismic = await Prismic.getApi(apiUri);
-    }
-    return memoizedPrismic;
+    const prismicApi = await Prismic.getApi(apiUri);
+    return prismicApi;
   }
 }
 
 export async function getDocument(
   req: ?Request,
   id: string,
-  opts: PrismicQueryOpts
+  opts: PrismicQueryOpts,
+  memoizedPrismic: ?Object
 ): Promise<?PrismicDocument> {
-  const api = await getPrismicApi(req);
-  const doc = await api.getByID(id, opts);
+  const prismicApi =
+    memoizedPrismic && !isPreview(req)
+      ? memoizedPrismic
+      : await getPrismicApi(req);
+  const doc = await prismicApi.getByID(id, opts);
   return doc;
 }
 
@@ -61,10 +48,14 @@ type Predicate = string;
 export async function getDocuments(
   req: ?Request,
   predicates: Predicate[],
-  opts: PrismicQueryOpts
+  opts: PrismicQueryOpts,
+  memoizedPrismic: ?Object
 ): Promise<PaginatedResults<PrismicDocument>> {
-  const api = await getPrismicApi(req);
-  const docs: PrismicApiSearchResponse = await api.query(
+  const prismicApi =
+    memoizedPrismic && !isPreview(req)
+      ? memoizedPrismic
+      : await getPrismicApi(req);
+  const docs: PrismicApiSearchResponse = await prismicApi.query(
     predicates.concat([Prismic.Predicates.not('document.tags', ['delist'])]),
     // uncomment this and comment out the line above to show delisted content
     // predicates,
