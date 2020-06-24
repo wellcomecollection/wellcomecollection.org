@@ -3,7 +3,11 @@ To reduce exit rate on stories by providing up to three more paths to follow
 once they have finished reading. The general idea is to provide visit, read,
 or research paths.
 
+## Usage
+Editorial team no longer use this component for onward journeys (reported June 2020)
+
 ## Research
+
 ### Hypothesis
 ​​By providing people with links to other related content at the bottom of the
 page we would create more onward journeys and fewer people leaving the site
