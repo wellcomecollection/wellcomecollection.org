@@ -11,7 +11,9 @@ const CheckboxRadioLabel = styled.label.attrs({
   className: classNames({
     'flex-inline flex--v-center': true,
   }),
-})``;
+})`
+  cursor: pointer;
+`;
 
 const CheckboxRadioBox = styled.span.attrs({
   className: classNames({
@@ -22,12 +24,10 @@ const CheckboxRadioBox = styled.span.attrs({
   height: 1.3em;
   border: 2px solid ${props => props.theme.colors.pumice};
   border-radius: ${props => (props.type === 'radio' ? '50%' : '0')};
-  transition: all 400ms ease;
 
   .icon {
     position: absolute;
     opacity: 0;
-    transition: opacity 400ms ease;
   }
 `;
 
@@ -48,8 +48,16 @@ const CheckboxRadioInput = styled.input.attrs(props => ({
     }
   }
 
-  &:focus ~ ${CheckboxRadioBox} {
-    border-color: ${props => !props.hideFocus && props.theme.colors.black};
+  &:hover ~ ${CheckboxRadioBox} {
+    border-color: ${props => props.theme.colors.black};
+  }
+
+  .is-keyboard & {
+    &:focus ~ ${CheckboxRadioBox} {
+      outline: 0;
+      box-shadow: ${props => props.theme.focusBoxShadow};
+      border-color: ${props => props.theme.colors.black};
+    }
   }
 `;
 

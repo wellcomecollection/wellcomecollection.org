@@ -9,7 +9,8 @@ import Body from '@weco/common/views/components/Body/Body';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';
 import EventSchedule from '@weco/common/views/components/EventSchedule/EventSchedule';
 import Dot from '@weco/common/views/components/Dot/Dot';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import EventbriteButton from '@weco/common/views/components/EventbriteButton/EventbriteButton';
 import Message from '@weco/common/views/components/Message/Message';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -363,17 +364,12 @@ class EventPage extends Component<Props, State> {
                 <Fragment>
                   {event.isCompletelySoldOut ? (
                     <Fragment>
-                      <Button
-                        type="primary"
-                        disabled={true}
-                        text="Fully booked"
-                      />
+                      <ButtonSolid disabled={true} text="Fully booked" />
                     </Fragment>
                   ) : (
                     <Fragment>
-                      <Button
-                        type="primary"
-                        externalLink={event.thirdPartyBooking.url}
+                      <ButtonSolidLink
+                        link={event.thirdPartyBooking.url}
                         trackingEvent={{
                           category: 'component',
                           action: 'booking-tickets:click',
@@ -404,9 +400,8 @@ class EventPage extends Component<Props, State> {
                   {event.isCompletelySoldOut ? (
                     <Message text={`Fully booked`} />
                   ) : (
-                    <Button
-                      type="primary"
-                      externalLink={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
+                    <ButtonSolidLink
+                      link={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                       trackingEvent={{
                         category: 'component',
                         action: 'booking-tickets:click',

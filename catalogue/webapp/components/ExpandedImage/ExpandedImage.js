@@ -4,7 +4,7 @@ import { workLink, itemLink } from '@weco/common/services/catalogue/routes';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
 import { getWork } from '../../services/catalogue/works';
@@ -272,18 +272,18 @@ const ExpandedImage = ({
             )}
 
             <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-              <Space
-                h={{ size: 'm', properties: ['margin-right'] }}
-                className="inline-block"
-              >
-                <Button
-                  type="primary"
-                  text="View image"
-                  icon="eye"
-                  link={maybeItemLink}
-                  clickHandler={onImageLinkClick}
-                />
-              </Space>
+              {maybeItemLink && (
+                <Space
+                  h={{ size: 'm', properties: ['margin-right'] }}
+                  className="inline-block"
+                >
+                  <ButtonSolidLink
+                    text="View image"
+                    icon="eye"
+                    link={maybeItemLink}
+                  />
+                </Space>
+              )}
               <NextLink {...workLink({ id })} passHref>
                 <a
                   className={classNames({

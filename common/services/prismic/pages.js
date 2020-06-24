@@ -10,6 +10,11 @@ import {
   eventSeriesFields,
   exhibitionFields,
   teamsFields,
+  eventsFields,
+  cardsFields,
+  eventFormatsFields,
+  articleFormatsFields,
+  labelsFields,
 } from './fetch-links';
 
 export function parsePage(document: PrismicDocument): Page {
@@ -65,8 +70,13 @@ export async function getPage(
         eventSeriesFields,
         collectionVenuesFields,
         exhibitionFields,
-        teamsFields
-      ),
+        teamsFields,
+        eventsFields,
+        cardsFields,
+        eventFormatsFields,
+        articleFormatsFields,
+        labelsFields
+        ),
     },
     memoizedPrismic
   );

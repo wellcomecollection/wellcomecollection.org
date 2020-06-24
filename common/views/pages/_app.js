@@ -19,7 +19,6 @@ import OpeningTimesContext from '../../views/components/OpeningTimesContext/Open
 import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
 import JsonLd from '../../views/components/JsonLd/JsonLd';
-import { TrackerScript } from '../../views/components/Tracker/Tracker';
 import { trackEvent } from '../../utils/ga';
 import { AppContextProvider } from '../components/AppContext/AppContext';
 
@@ -189,10 +188,6 @@ export default class WecoApp extends App {
     togglesContext: toggles,
   };
 
-  updateToggles = (newToggles: Object) => {
-    this.setState({ togglesContext: { ...toggles, ...newToggles } });
-  };
-
   componentWillUnmount() {
     Router.events.off('routeChangeStart', trackRouteChangeStart);
     Router.events.off('routeChangeComplete', trackRouteChangeComplete);
@@ -349,7 +344,6 @@ export default class WecoApp extends App {
 
   render() {
     const { togglesContext } = this.state;
-    const updateToggles = this.updateToggles;
     const { Component, pageProps, openingTimes, globalAlert } = this.props;
     const polyfillFeatures = [
       'default',
@@ -428,7 +422,7 @@ export default class WecoApp extends App {
           <JsonLd data={libraryLd(wellcomeLibraryWithHours)} />
         </Head>
         <AppContextProvider>
-          <TogglesContext.Provider value={{ ...togglesContext, updateToggles }}>
+          <TogglesContext.Provider value={{ ...togglesContext }}>
             <OpeningTimesContext.Provider value={parsedOpeningTimes}>
               <GlobalAlertContext.Provider value={globalAlert}>
                 <ThemeProvider theme={theme}>
@@ -467,7 +461,6 @@ export default class WecoApp extends App {
                         }
                       </TogglesContext.Consumer>
                       <LoadingIndicator />
-                      <TrackerScript />
                       {!pageProps.statusCode && <Component {...pageProps} />}
                       {pageProps.statusCode && pageProps.statusCode !== 200 && (
                         <ErrorPage statusCode={pageProps.statusCode} />

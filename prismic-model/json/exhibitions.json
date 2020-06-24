@@ -375,7 +375,8 @@
                     "books",
                     "events",
                     "articles",
-                    "exhibitions"
+                    "exhibitions",
+                    "card"
                   ]
                 }
               }

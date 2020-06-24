@@ -1,17 +1,10 @@
-// @flow
-import Router from 'next/router';
-import {
-  type Work,
-  type CatalogueApiError,
-  type CatalogueApiRedirect,
-} from '@weco/common/model/catalogue';
-import { useEffect, useState } from 'react';
+import { Work as WorkType } from '@weco/common/model/catalogue';
+import { useEffect, useState, useContext } from 'react';
 import fetch from 'isomorphic-unfetch';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
   sierraIdFromPresentationManifestUrl,
-  type DigitalLocation,
 } from '@weco/common/utils/works';
 import {
   getFirstChildManifestLocation,
@@ -21,20 +14,29 @@ import { itemLink } from '@weco/common/services/catalogue/routes';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import { workLd } from '@weco/common/utils/json-ld';
-import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
-import WorkDetails from '../components/WorkDetails/WorkDetails';
-import SearchForm from '../components/SearchForm/SearchForm';
-import { getWork } from '../services/catalogue/works';
+import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
+import Collection from '@weco/common/views/components/Collection/Collection';
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import RelatedArchiveWorks from '@weco/common/views/components/RelatedArchiveWorks/RelatedArchiveWorks';
+import SearchForm from '../SearchForm/SearchForm';
+import WorkDetails from '../WorkDetails/WorkDetails';
 
-type Props = {|
-  work: Work | CatalogueApiError,
-|};
+declare global {
+  interface Window {
+    dataLayer: any[];
+  }
+}
 
-export const WorkPage = ({ work }: Props) => {
+type Props = {
+  work: WorkType;
+};
+
+const Work = ({ work }: Props) => {
+  const { collectionSearch, archivesPrototype } = useContext(TogglesContext);
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
     page: 1,
@@ -87,48 +89,25 @@ export const WorkPage = ({ work }: Props) => {
     iiifPresentationManifest &&
     getFirstChildManifestLocation(iiifPresentationManifest);
 
-  const iiifImageLocation: ?DigitalLocation = getDigitalLocationOfType(
-    work,
-    'iiif-image'
-  );
+  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
   const imageUrl =
     iiifImageLocation && iiifImageLocation.url
       ? iiifImageTemplate(iiifImageLocation.url)({ size: `800,` })
       : null;
 
-  const itemUrlObject =
-    work && work.type !== 'Error'
-      ? itemLink({
-          workId: work.id,
-          sierraId:
-            (firstChildManifestLocation &&
-              sierraIdFromPresentationManifestUrl(
-                firstChildManifestLocation
-              )) ||
-            (iiifPresentationLocation &&
-              sierraIdFromPresentationManifestUrl(
-                iiifPresentationLocation.url
-              )) ||
-            null,
-          langCode: work.language && work.language.id,
-          canvas: 1,
-          page: 1,
-        })
-      : null;
-
-  if (work.type === 'Error') {
-    return (
-      <ErrorPage
-        title={
-          work.httpStatus === 410
-            ? 'This catalogue item has been removed.'
-            : null
-        }
-        statusCode={work.httpStatus}
-      />
-    );
-  }
+  const itemUrlObject = itemLink({
+    workId: work.id,
+    sierraId:
+      (firstChildManifestLocation &&
+        sierraIdFromPresentationManifestUrl(firstChildManifestLocation)) ||
+      (iiifPresentationLocation &&
+        sierraIdFromPresentationManifestUrl(iiifPresentationLocation.url)) ||
+      null,
+    langCode: work.language && work.language.id,
+    canvas: 1,
+    page: 1,
+  });
 
   return (
     <CataloguePageLayout
@@ -154,7 +133,7 @@ export const WorkPage = ({ work }: Props) => {
               ariaDescribedBy="search-form-description"
               shouldShowFilters={false}
               worksRouteProps={savedSearchFormState}
-              workTypeAggregations={null}
+              workTypeAggregations={[]}
             />
           </div>
         </div>
@@ -181,13 +160,29 @@ export const WorkPage = ({ work }: Props) => {
           row: true,
         })}
       >
+        {archivesPrototype && (
+          <div className="container">
+            <div className="grid">
+              <Space
+                v={{
+                  size: 's',
+                  properties: ['padding-top', 'padding-bottom'],
+                }}
+                className={classNames({
+                  [grid({ s: 12 })]: true,
+                })}
+              >
+                <ArchiveBreadcrumb work={work} />
+              </Space>
+            </div>
+          </div>
+        )}
         <div className="container">
           <div className="grid">
             <WorkHeader work={work} childManifestsCount={childManifestsCount} />
           </div>
         </div>
       </Space>
-
       <WorkDetails
         work={work}
         itemUrl={itemUrlObject}
@@ -195,35 +190,10 @@ export const WorkPage = ({ work }: Props) => {
         childManifestsCount={childManifestsCount}
         imageCount={imageTotal}
       />
+      {archivesPrototype && <RelatedArchiveWorks work={work} />}
+      {collectionSearch && !archivesPrototype && <Collection work={work} />}
     </CataloguePageLayout>
   );
 };
 
-WorkPage.getInitialProps = async (
-  ctx
-): Promise<Props | CatalogueApiRedirect> => {
-  const { id } = ctx.query;
-
-  const workOrError = await getWork({
-    id,
-  });
-
-  if (workOrError && workOrError.type === 'Redirect') {
-    const { res } = ctx;
-    if (res) {
-      res.writeHead(workOrError.status, {
-        Location: workOrError.redirectToId,
-      });
-      res.end();
-    } else {
-      Router.push(workOrError.redirectToId);
-    }
-    return workOrError;
-  } else {
-    return {
-      work: workOrError,
-    };
-  }
-};
-
-export default WorkPage;
+export default Work;

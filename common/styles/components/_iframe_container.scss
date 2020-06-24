@@ -1,5 +1,4 @@
 .iframe-container {
-  // relative
   padding-bottom: 56.25%; /* 16:9 */
   height: 0;
 }
@@ -21,7 +20,6 @@
 }
 
 .iframe-container__trigger {
-  // absolute
   z-index: 2;
   top: 0;
   left: 0;
@@ -30,10 +28,6 @@
 
   &:hover,
   &:focus {
-    .iframe-container__launch {
-      background: color('green');
-    }
-
     .iframe-container__overlay {
       background: color('transparent');
     }
@@ -45,7 +39,6 @@
 }
 
 .iframe-container__launch {
-  // absolute
   display: none;
   z-index: 1;
   top: 50%;
@@ -58,7 +51,6 @@
 }
 
 .iframe-container__close {
-  // absolute
   top: 2 * $spacing-unit;
   right: 2 * $spacing-unit;
   z-index: 2;

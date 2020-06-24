@@ -1,6 +1,6 @@
 // @flow
 import { type PhysicalItemAugmented } from '@weco/common/utils/works';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { requestItem } from '../../services/stacks/requests';
 import useAuth from '@weco/common/hooks/useAuth';
 
@@ -63,8 +63,7 @@ const ItemRequestButton = ({
   }
 
   return authState.type === 'authorized' ? (
-    <Button
-      type="primary"
+    <ButtonSolid
       text="Request to view in library"
       clickHandler={event => {
         event.preventDefault();

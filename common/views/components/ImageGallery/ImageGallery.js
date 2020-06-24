@@ -4,7 +4,7 @@ import { Fragment, Component, createRef } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import { CaptionedImage } from '../Images/Images';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
-import Button from '../Buttons/Button/Button';
+import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import Control from '../Buttons/Control/Control';
 import Icon from '../Icon/Icon';
 import Layout12 from '../Layout12/Layout12';
@@ -280,21 +280,27 @@ class ImageGallery extends Component<Props, State> {
                   ))}
 
                   {titleStyle && (
-                    <Button
-                      ref={this.openButtonRef}
-                      ariaControls={`image-gallery-${id}`}
-                      ariaExpanded={isActive}
-                      type="primary"
-                      icon="gallery"
-                      clickHandler={() => {
-                        this.handleOpenClicked();
+                    <div
+                      style={{
+                        position: 'absolute',
+                        bottom: '24px',
+                        left: '50%',
+                        transform: 'translateX(-50%) translateY(50%)',
+                        zIndex: 2,
+                        opacity: `${isActive ? 0 : 1}`,
                       }}
-                      extraClasses={classNames({
-                        'image-gallery-v2__button absolute': true,
-                        'opacity-0': isActive,
-                      })}
-                      text={`${items.length} images`}
-                    />
+                    >
+                      <ButtonSolid
+                        ref={this.openButtonRef}
+                        ariaControls={`image-gallery-${id}`}
+                        ariaExpanded={isActive}
+                        icon="gallery"
+                        clickHandler={() => {
+                          this.handleOpenClicked();
+                        }}
+                        text={`${items.length} images`}
+                      />
+                    </div>
                   )}
                 </Space>
               </Layout12>

@@ -103,6 +103,11 @@ const IndexPage = () => {
               Catalogue search progress notes
             </a>
           </li>
+          <li>
+            <a href="https://docs.google.com/spreadsheets/d/1wArVKfs9UCSy4LAJWsjY51Hjj-6MK5I42biRhM4kHmg/edit?pli=1#gid=0">
+              Digital Engagement Indicators
+            </a>
+          </li>
         </ul>
       </div>
     </div>

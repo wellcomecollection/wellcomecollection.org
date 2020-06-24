@@ -18,6 +18,7 @@ const spacingUnits = {
 const theme = {
   spacingUnit: 6,
   borderRadiusUnit: 6,
+  transitionProperties: '150ms ease',
   sizes: {
     small: 0,
     medium: 600,

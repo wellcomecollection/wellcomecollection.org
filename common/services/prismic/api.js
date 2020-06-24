@@ -1,6 +1,5 @@
 // @flow
 import Prismic from 'prismic-javascript';
-
 import type {
   PrismicDocument,
   PrismicQueryOpts,

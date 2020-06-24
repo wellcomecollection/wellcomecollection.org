@@ -1,6 +1,6 @@
 // @flow
 import { useState, useEffect } from 'react';
-import { type CatalogueApiProps } from '../../../services/catalogue/api';
+import { type CatalogueWorksApiProps } from '../../../services/catalogue/api';
 import { trackRelevanceRating } from '../Tracker/Tracker';
 import Rating from '../Rating/Rating';
 
@@ -10,7 +10,7 @@ type Props = {|
   query: string,
   page: ?number,
   workType: ?(string[]),
-  apiProps: CatalogueApiProps,
+  apiProps: CatalogueWorksApiProps,
 |};
 
 function storeRating(key, value) {
