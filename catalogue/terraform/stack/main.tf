@@ -1,32 +1,3 @@
-module "catalogue-service" {
-  source = "../../../infrastructure/terraform/modules/service"
-
-  namespace    = "catalogue-${var.env_suffix}"
-
-  namespace_id = var.namespace_id
-  cluster_arn  = var.cluster_arn
-
-  healthcheck_path = "/management/healthcheck"
-
-  container_image = var.container_image
-  container_port  = 3000
-
-  nginx_container_image = var.nginx_image
-  nginx_container_port  = 80
-
-  security_group_ids = [
-    var.interservice_security_group_id,
-    var.service_egress_security_group_id
-  ]
-
-  env_vars = {
-    PROD_SUBDOMAIN = var.subdomain
-  }
-
-  vpc_id  = local.vpc_id
-  subnets = local.private_subnets
-}
-
 module "catalogue-service-23062020" {
   source = "../../../infrastructure/terraform/modules/service_23062020"
 
@@ -54,7 +25,7 @@ module "catalogue-service-23062020" {
 }
 
 locals {
-  target_group_arn = var.use_new_service ? module.catalogue-service-23062020.target_group_arn : module.catalogue-service.target_group_arn
+  target_group_arn = module.catalogue-service-23062020.target_group_arn
 }
 
 module "path_listener" {

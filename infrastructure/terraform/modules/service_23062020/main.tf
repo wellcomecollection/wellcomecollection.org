@@ -23,25 +23,25 @@ resource "aws_lb_target_group" "http" {
 }
 
 module "log_router_container" {
-  source    = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/firelens?ref=v2.6.1"
+  source    = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/firelens?ref=v2.6.2"
   namespace = var.namespace
 }
 
 module "log_router_container_secrets_permissions" {
-  source    = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/secrets?ref=v2.6.1"
+  source    = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/secrets?ref=v2.6.2"
   secrets   = module.log_router_container.shared_secrets_logging
   role_name = module.task_definition.task_execution_role_name
 }
 
 module "nginx_container" {
-  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/nginx/frontend?ref=v2.6.1"
+  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/nginx/frontend?ref=v2.6.2"
 
   forward_port      = var.container_port
   log_configuration = module.log_router_container.container_log_configuration
 }
 
 module "app_container" {
-  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/container_definition?ref=v2.6.1"
+  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/container_definition?ref=v2.6.2"
   name   = "app"
 
   image = var.container_image
@@ -52,8 +52,14 @@ module "app_container" {
   log_configuration = module.log_router_container.container_log_configuration
 }
 
+module "app_container_secrets_permissions" {
+  source    = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/secrets?ref=v2.6.2"
+  secrets   = var.secret_env_vars
+  role_name = module.task_definition.task_execution_role_name
+}
+
 module "task_definition" {
-  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/task_definition?ref=v2.6.1"
+  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/task_definition?ref=v2.6.2"
 
   cpu    = var.app_cpu + var.nginx_cpu
   memory = var.app_memory + var.nginx_memory
@@ -68,7 +74,7 @@ module "task_definition" {
 }
 
 module "service" {
-  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/service?ref=v2.6.1"
+  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/service?ref=v2.6.2"
 
   cluster_arn  = var.cluster_arn
   service_name = var.namespace

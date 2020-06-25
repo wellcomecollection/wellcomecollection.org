@@ -15,8 +15,3 @@ variable "nginx_image" {}
 variable "aws_region" {
   default = "eu-west-1"
 }
-
-// TODO: Remove this variable after moving to new service
-variable "use_new_service" {
-  default = false
-}
