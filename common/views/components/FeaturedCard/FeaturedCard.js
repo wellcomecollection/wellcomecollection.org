@@ -28,6 +28,7 @@ type Props = {|
   link: Link,
   background: string,
   color: string,
+  isReversed?: boolean,
 |};
 
 function convertItemToFeaturedCardProps(
@@ -182,6 +183,14 @@ const FeaturedCardWrap = styled.div`
   `}
 `;
 
+const FeaturedCardLink = styled.a.attrs(props => ({
+  className: classNames({
+    'grid flex-end promo-link plain-link': true,
+  }),
+}))`
+  flex-direction: ${props => (props.isReversed ? 'row-reverse' : 'row')};
+`;
+
 const FeaturedCardLeft = styled.div.attrs({
   className: classNames({
     [grid({ s: 12, m: 12, l: 7, xl: 7 })]: true,
@@ -193,7 +202,9 @@ const FeaturedCardRight = styled.div.attrs({
     'flex flex--column': true,
   }),
 })`
-  padding-left: ${props => props.theme.gutter.small}px;
+  padding-left: ${props => (props.isReversed ? 0 : props.theme.gutter.small)}px;
+  padding-right: ${props =>
+    props.isReversed ? props.theme.gutter.small : 0}px;
   transform: translateY(-60px);
   width: 100%;
   height: 100%;
@@ -201,10 +212,12 @@ const FeaturedCardRight = styled.div.attrs({
 
   ${props => props.theme.media.medium`
     padding-left: 0;
+    padding-right: 0;
   `}
 
   ${props => props.theme.media.large`
-    margin-left: -${props => props.theme.gutter.large}px;
+    margin-left: ${props =>
+      props.isReversed ? 0 : -props.theme.gutter.large + 'px'};
     transform: translateY(0);
   `}
 `;
@@ -221,6 +234,18 @@ const FeaturedCardCopy = styled(Space).attrs(props => ({
   `}
 `;
 
+const FeaturedCardShim = styled.div.attrs(props => ({
+  className: classNames({
+    [`bg-${props.background}`]: true,
+    'is-hidden-s is-hidden-m': true,
+    [grid({ s: 12, m: 11, l: 5, xl: 5 })]: true,
+  }),
+}))`
+  height: 20px;
+  margin-left: ${props =>
+    props.isReversed ? props.theme.gutter.large + 'px' : null};
+`;
+
 const FeaturedCard = ({
   id,
   image,
@@ -229,12 +254,14 @@ const FeaturedCard = ({
   link,
   color,
   background,
+  isReversed,
 }: Props) => {
   return (
     <div className="container">
       <FeaturedCardWrap>
-        <NextLink href={link.url}>
-          <a
+        <NextLink href={link.url} passHref>
+          <FeaturedCardLink
+            isReversed={isReversed}
             onClick={() => {
               trackEvent({
                 category: 'FeaturedCard',
@@ -242,7 +269,6 @@ const FeaturedCard = ({
                 label: `${id}`,
               });
             }}
-            className="grid flex-end promo-link plain-link"
           >
             <FeaturedCardLeft>
               {image && <UiImage {...image} />}
@@ -253,7 +279,7 @@ const FeaturedCard = ({
                 [grid({ s: 12, m: 11, l: 5, xl: 5 })]: true,
               })}
             >
-              <FeaturedCardRight>
+              <FeaturedCardRight isReversed={isReversed}>
                 {labels && labels.length > 0 && <LabelsList labels={labels} />}
                 <FeaturedCardCopy
                   className={classNames({
@@ -269,15 +295,8 @@ const FeaturedCard = ({
                 [grid({ s: 12, m: 12, l: 7, xl: 7 })]: true,
               })}
             ></div>
-            <div
-              style={{ height: '20px' }}
-              className={classNames({
-                [`bg-${background}`]: true,
-                'is-hidden-s is-hidden-m': true,
-                [grid({ s: 12, m: 11, l: 5, xl: 5 })]: true,
-              })}
-            ></div>
-          </a>
+            <FeaturedCardShim background={background} isReversed={isReversed} />
+          </FeaturedCardLink>
         </NextLink>
       </FeaturedCardWrap>
     </div>

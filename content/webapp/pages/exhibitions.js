@@ -21,9 +21,13 @@ const pageDescription =
   'Explore the connections between science, medicine, life and art through our permanent and temporary exhibitions. Admission is always free.';
 export class ExhibitionsPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const { page = 1 } = ctx.query;
-    const { period } = ctx.query;
-    const exhibitions = await getExhibitions(ctx.req, { page, period });
+    const { page = 1, period, memoizedPrismic } = ctx.query;
+    ctx.query.memoizedPrismic = undefined; // Once we've got memoizedPrismic, we need to remove it before making requests - otherwise we hit circular object issues with JSON.stringify
+    const exhibitions = await getExhibitions(
+      ctx.req,
+      { page, period },
+      memoizedPrismic
+    );
     if (exhibitions && exhibitions.results.length > 0) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'xhibitions';
       return {

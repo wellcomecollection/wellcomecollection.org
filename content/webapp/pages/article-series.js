@@ -22,11 +22,16 @@ type Props = {|
 
 export class ArticleSeriesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const { id } = ctx.query;
-    const seriesAndArticles = await getArticleSeries(ctx.req, {
-      id,
-      pageSize: 100,
-    });
+    const { id, memoizedPrismic } = ctx.query;
+    ctx.query.memoizedPrismic = undefined; // Once we've got memoizedPrismic, we need to remove it before making requests - otherwise we hit circular object issues with JSON.stringify
+    const seriesAndArticles = await getArticleSeries(
+      ctx.req,
+      {
+        id,
+        pageSize: 100,
+      },
+      memoizedPrismic
+    );
 
     if (seriesAndArticles) {
       const { series, articles } = seriesAndArticles;

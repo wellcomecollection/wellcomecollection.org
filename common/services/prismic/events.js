@@ -284,11 +284,17 @@ type EventQueryProps = {|
 
 export async function getEvent(
   req: ?Request,
-  { id }: EventQueryProps
+  { id }: EventQueryProps,
+  memoizedPrismic: ?Object
 ): Promise<?UiEvent> {
-  const document = await getDocument(req, id, {
-    fetchLinks: fetchLinks,
-  });
+  const document = await getDocument(
+    req,
+    id,
+    {
+      fetchLinks: fetchLinks,
+    },
+    memoizedPrismic
+  );
 
   if (document && document.type === 'events') {
     const scheduleIds = document.data.schedule
@@ -314,7 +320,8 @@ type EventsQueryProps = {|
 
 export async function getEvents(
   req: ?Request,
-  { predicates = [], period, ...opts }: EventsQueryProps
+  { predicates = [], period, ...opts }: EventsQueryProps,
+  memoizedPrismic: ?Object
 ): Promise<PaginatedResults<UiEvent>> {
   const graphQuery = `{
     events {
@@ -410,7 +417,8 @@ export async function getEvents(
       page: opts.page,
       pageSize: opts.pageSize,
       graphQuery,
-    }
+    },
+    memoizedPrismic
   );
 
   const events = paginatedResults.results.map(doc => {

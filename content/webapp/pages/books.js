@@ -17,8 +17,9 @@ const pageDescription =
   'We publish adventurous and unusual books that explore health, medicine and the complexities of the human condition.';
 export class BooksPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const { page = 1 } = ctx.query;
-    const books = await getBooks(ctx.req, { page });
+    const { page = 1, memoizedPrismic } = ctx.query;
+    ctx.query.memoizedPrismic = undefined; // Once we've got memoizedPrismic, we need to remove it before making requests - otherwise we hit circular object issues with JSON.stringify
+    const books = await getBooks(ctx.req, { page }, memoizedPrismic);
     if (books) {
       return {
         books,
