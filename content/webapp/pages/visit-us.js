@@ -34,6 +34,7 @@ import {
 } from '@weco/content/content/visit-us-content';
 import Space from '@weco/common/views/components/styled/Space';
 import Contact from '@weco/common/views/components/Contact/Contact';
+import VisitUsBody from '@weco/common/views/components/VisitUsBody/VisitUsBody';
 
 type ContainerProps = {|
   children: any,
@@ -306,7 +307,9 @@ export class Page extends Component<Props> {
             <SpacingSection>{Header}</SpacingSection>
             <div>
               <SpacingSection>
-                <div className="basic-page">{BespokeBody}</div>
+                <div className="basic-page">
+                  <VisitUsBody />
+                </div>
               </SpacingSection>
             </div>
           </article>
