@@ -8,6 +8,7 @@ import EventDateRange from '../EventDateRange/EventDateRange';
 import { type UiEvent, isEventFullyBooked } from '../../../model/events';
 import Moment from 'moment';
 import Space from '../styled/Space';
+import { CardOuter, CardBody } from '../Card/Card';
 
 type Props = {|
   event: UiEvent,
@@ -27,11 +28,10 @@ const EventPromo = ({
   const fullyBooked = isEventFullyBooked(event);
   const isPast = event.isPast;
   return (
-    <a
+    <CardOuter
       data-component="EventPromo"
       data-component-state={JSON.stringify({ position: position })}
       href={(event.promo && event.promo.link) || `/events/${event.id}`}
-      className="plain-link promo-link bg-cream rounded-corners overflow-hidden flex-ie-block flex--column"
       onClick={() => {
         trackEvent({
           category: 'EventPromo',
@@ -58,16 +58,7 @@ const EventPromo = ({
         )}
       </div>
 
-      <Space
-        v={{
-          size: 'm',
-          properties: ['padding-top', 'padding-bottom'],
-        }}
-        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-        className={classNames({
-          'flex flex--column flex-1 flex--h-space-between': true,
-        })}
-      >
+      <CardBody>
         <div>
           <Space
             v={{
@@ -155,8 +146,8 @@ const EventPromo = ({
             ))}
           </Space>
         )}
-      </Space>
-    </a>
+      </CardBody>
+    </CardOuter>
   );
 };
 
