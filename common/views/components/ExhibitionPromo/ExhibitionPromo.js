@@ -8,6 +8,7 @@ import LabelsList from '../LabelsList/LabelsList';
 import { type ExhibitionPromo as ExhibitionPromoProps } from '../../../model/exhibitions';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import Space from '../styled/Space';
+import { CardOuter, CardBody } from '../Card/Card';
 
 type Props = {|
   ...ExhibitionPromoProps,
@@ -27,12 +28,11 @@ const ExhibitionPromo = ({
   position = 0,
 }: Props) => {
   return (
-    <a
+    <CardOuter
       data-component="ExhibitionPromo"
       data-component-state={JSON.stringify({ position: position })}
       id={id}
       href={url}
-      className="plain-link promo-link bg-cream rounded-corners overflow-hidden flex--column flex-ie-block"
       onClick={() => {
         trackEvent({
           category: 'ExhibitionPromo',
@@ -74,16 +74,7 @@ const ExhibitionPromo = ({
         </div>
       </div>
 
-      <Space
-        v={{
-          size: 'm',
-          properties: ['padding-top', 'padding-bottom'],
-        }}
-        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-        className={`
-          flex flex--column flex-1 flex--h-space-between
-        `}
-      >
+      <CardBody>
         <div>
           <Space
             v={{
@@ -117,8 +108,8 @@ const ExhibitionPromo = ({
             statusOverride={statusOverride}
           />
         </div>
-      </Space>
-    </a>
+      </CardBody>
+    </CardOuter>
   );
 };
 
