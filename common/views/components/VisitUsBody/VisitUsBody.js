@@ -77,12 +77,19 @@ const VisitUsBody = () => {
     {
       id: 1,
       title: 'Things to do and see',
-      items: [<ExampleCard />, <ExampleCard />],
+      featuredItem: <ExampleFeaturedCard />,
+      items: [<ExampleCard />, <ExampleCard />, <ExampleCard />],
     },
     {
       id: 2,
       title: 'Planning a visit',
-      items: [<ExampleCard />, <ExampleCard />, <ExampleCard />],
+      items: [
+        <ExampleCard />,
+        <ExampleCard />,
+        <ExampleCard />,
+        <ExampleCard />,
+        <ExampleCard />,
+      ],
     },
     {
       id: 3,
@@ -91,24 +98,7 @@ const VisitUsBody = () => {
     },
     {
       id: 4,
-      title: 'Services',
-      items: [
-        <ExampleCard />,
-        <ExampleCard />,
-        <ExampleCard />,
-        <ExampleCard />,
-        <ExampleCard />,
-      ],
-    },
-    {
-      id: 4,
-      title: 'Four things',
-      items: [
-        <ExampleCard />,
-        <ExampleCard />,
-        <ExampleCard />,
-        <ExampleCard />,
-      ],
+      items: [<ExampleCard />, <ExampleCard />],
     },
   ];
 
@@ -130,6 +120,11 @@ const VisitUsBody = () => {
               {section.title && (
                 <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                   <SectionHeader title={section.title} />
+                </Space>
+              )}
+              {section.featuredItem && (
+                <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                  <Layout12>{section.featuredItem}</Layout12>
                 </Space>
               )}
               <GridFactory items={section.items} />

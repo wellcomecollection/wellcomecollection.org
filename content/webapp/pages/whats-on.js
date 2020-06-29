@@ -413,11 +413,13 @@ export class WhatsOnPage extends Component<Props> {
                         <Space
                           v={{ size: 'xl', properties: ['margin-bottom'] }}
                         >
-                          <FeaturedCardExhibition
-                            exhibition={firstExhibition}
-                            background={'cream'}
-                            color={'black'}
-                          />
+                          <Layout12>
+                            <FeaturedCardExhibition
+                              exhibition={firstExhibition}
+                              background={'cream'}
+                              color={'black'}
+                            />
+                          </Layout12>
                         </Space>
                         <CardGrid
                           items={exhibitions.slice(1)}
