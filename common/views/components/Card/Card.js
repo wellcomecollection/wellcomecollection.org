@@ -5,16 +5,49 @@ import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import Space from '../styled/Space';
+import styled from 'styled-components';
 
 type Props = {|
   item: CardType,
 |};
 
+export const CardOuter = styled.a.attrs(props => ({
+  className:
+    'plain-link promo-link rounded-corners overflow-hidden flex-ie-block flex--column',
+}))`
+  background: ${props => props.theme.colors.cream};
+
+  .bg-cream & {
+    background: ${props => props.theme.colors.white};
+  }
+
+  .bg-charcoal & {
+    background: ${props => props.theme.colors.transparent};
+    color: ${props => props.theme.colors.white};
+  }
+`;
+
+export const CardBody = styled(Space).attrs(props => ({
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  className: 'flex flex--column flex-1 flex--h-space-between',
+}))`
+  ${props =>
+    props.theme.makeSpacePropertyValues(
+      'm',
+      ['padding-left', 'padding-right'],
+      false
+    )}
+
+  .bg-charcoal & {
+    padding-left: 0;
+    padding-right: 0;
+  }
+`;
+
 const Card = ({ item }: Props) => {
   return (
-    <a
+    <CardOuter
       href={item.link}
-      className="plain-link promo-link bg-cream rounded-corners overflow-hidden flex-ie-block flex--column"
       onClick={() => {
         trackEvent({
           category: 'Card',
@@ -38,16 +71,7 @@ const Card = ({ item }: Props) => {
         )}
       </div>
 
-      <Space
-        v={{
-          size: 'm',
-          properties: ['padding-top', 'padding-bottom'],
-        }}
-        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-        className={classNames({
-          'flex flex--column flex-1 flex--h-space-between': true,
-        })}
-      >
+      <CardBody>
         <div>
           {item.title && (
             <Space
@@ -71,8 +95,8 @@ const Card = ({ item }: Props) => {
             </p>
           )}
         </div>
-      </Space>
-    </a>
+      </CardBody>
+    </CardOuter>
   );
 };
 
