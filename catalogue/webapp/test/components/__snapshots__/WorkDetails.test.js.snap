@@ -39,13 +39,13 @@ exports[`Feature: 2. As a library member I want to request an item
               "componentStyle": ComponentStyle {
                 "componentId": "ButtonSolid__SolidButton-xui0q4-3",
                 "isStatic": false,
-                "lastClassName": "bjmhOA",
+                "lastClassName": "dCHInk",
                 "rules": Array [
                   "line-height:1;border-radius:",
                   [Function],
                   ";text-decoration:none;text-align:center;transition:all ",
                   [Function],
-                  ";border:0;white-space:nowrap;padding:15px 20px;&:not([disabled]):hover,&:not([disabled]):focus{cursor:pointer;}&:focus{outline:0;.is-keyboard &{box-shadow:",
+                  ";border:0;white-space:nowrap;padding:15px 20px;&:not([disabled]):hover}&:focus{outline:0;.is-keyboard &{box-shadow:",
                   [Function],
                   ";}}&[disabled],&.disabled{background:",
                   [Function],
@@ -64,7 +64,7 @@ exports[`Feature: 2. As a library member I want to request an item
                   [Function],
                   ";",
                   [Function],
-                  " &:not([disabled]):hover,&:not([disabled]):focus{border-color:",
+                  " &:not([disabled]):hover{border-color:",
                   [Function],
                   ";background:",
                   [Function],
@@ -88,7 +88,7 @@ exports[`Feature: 2. As a library member I want to request an item
           onClick={[Function]}
         >
           <a
-            className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 bjmhOA flex-inline flex--v-center"
+            className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 dCHInk flex-inline flex--v-center"
             href="/loginUrl"
             onClick={[Function]}
           >
@@ -168,13 +168,13 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
             "componentStyle": ComponentStyle {
               "componentId": "ButtonSolid__SolidButton-xui0q4-3",
               "isStatic": false,
-              "lastClassName": "bjmhOA",
+              "lastClassName": "dCHInk",
               "rules": Array [
                 "line-height:1;border-radius:",
                 [Function],
                 ";text-decoration:none;text-align:center;transition:all ",
                 [Function],
-                ";border:0;white-space:nowrap;padding:15px 20px;&:not([disabled]):hover,&:not([disabled]):focus{cursor:pointer;}&:focus{outline:0;.is-keyboard &{box-shadow:",
+                ";border:0;white-space:nowrap;padding:15px 20px;&:not([disabled]):hover}&:focus{outline:0;.is-keyboard &{box-shadow:",
                 [Function],
                 ";}}&[disabled],&.disabled{background:",
                 [Function],
@@ -193,7 +193,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                 [Function],
                 ";",
                 [Function],
-                " &:not([disabled]):hover,&:not([disabled]):focus{border-color:",
+                " &:not([disabled]):hover{border-color:",
                 [Function],
                 ";background:",
                 [Function],
@@ -216,7 +216,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
         onClick={[Function]}
       >
         <button
-          className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 bjmhOA flex-inline flex--v-center"
+          className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 dCHInk flex-inline flex--v-center"
           onClick={[Function]}
         >
           <ButtonSolid__SolidButtonInner>
