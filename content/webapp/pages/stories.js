@@ -195,15 +195,11 @@ export class StoriesPage extends Component<Props> {
             </Space>
             <div className="row__wobbly-background" />
             <div className="container container--scroll container--scroll-cream touch-scroll">
-              <div className="grid grid--scroll grid--theme-4">
+              <div className="grid grid--scroll grid--theme-4 card-theme card-theme--transparent">
                 {articles.slice(1, 5).map((article, i) => {
                   return (
                     <div className="grid__cell" key={article.id}>
-                      <StoryPromo
-                        item={article}
-                        position={i}
-                        hasTransparentBackground={true}
-                      />
+                      <StoryPromo item={article} position={i} />
                     </div>
                   );
                 })}

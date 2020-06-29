@@ -17,20 +17,25 @@ export const CardOuter = styled.a.attrs(props => ({
 }))`
   background: ${props => props.theme.colors.cream};
 
-  .bg-cream & {
+  .card-theme.card-theme--white & {
     background: ${props => props.theme.colors.white};
   }
 
-  .bg-charcoal & {
+  .card-theme.card-theme--transparent & {
     background: ${props => props.theme.colors.transparent};
+  }
+
+  .card-theme.bg-charcoal & {
     color: ${props => props.theme.colors.white};
   }
 `;
 
 export const CardBody = styled(Space).attrs(props => ({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  className: 'flex flex--column flex-1 flex--h-space-between',
+  className: 'flex flex--column flex-1',
 }))`
+  justify-content: space-between;
+
   ${props =>
     props.theme.makeSpacePropertyValues(
       'm',
@@ -38,9 +43,10 @@ export const CardBody = styled(Space).attrs(props => ({
       false
     )}
 
-  .bg-charcoal & {
+  .card-theme.card-theme--transparent & {
     padding-left: 0;
     padding-right: 0;
+    justify-content: unset;
   }
 `;
 
