@@ -83,6 +83,7 @@ module.exports = app
       'WwLIBiAAAPMiB_zC',
       '/landing-page'
     );
+    pageVanityUrl(router, app, '/visit-us1', 'WwLIBiAAAPMiB_zC', '/visit-us');
 
     router.post('/newsletter-signup', handleNewsletterSignup);
 
