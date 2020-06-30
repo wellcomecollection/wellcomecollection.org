@@ -40,11 +40,11 @@ const getVisuallySimilarImagesFromApi = async (
   }));
 };
 
-const RelatedImages = ({ originalId, sourceType = 'work' }: Props) => {
-  const [relatedImages, setRelatedImages] = useState([]);
+const VisuallySimilarImages = ({ originalId, sourceType = 'work' }: Props) => {
+  const [similarImages, setSimilarImages] = useState([]);
   useEffect(() => {
     const fetchRelatedImages = async () =>
-      setRelatedImages(
+      setSimilarImages(
         sourceType === 'work'
           ? await getSimilarImages({
               id: originalId,
@@ -54,11 +54,11 @@ const RelatedImages = ({ originalId, sourceType = 'work' }: Props) => {
       );
     fetchRelatedImages();
   }, []);
-  return relatedImages.length === 0 ? null : (
+  return similarImages.length === 0 ? null : (
     <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
       <h3 className={font('wb', 5)}>Visually similar images</h3>
       <Wrapper>
-        {relatedImages.map(related => (
+        {similarImages.map(related => (
           <NextLink href={`/works/${related.workId}`} key={related.id}>
             <a>
               <Image
@@ -85,4 +85,4 @@ const RelatedImages = ({ originalId, sourceType = 'work' }: Props) => {
     </Space>
   );
 };
-export default RelatedImages;
+export default VisuallySimilarImages;

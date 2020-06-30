@@ -11,7 +11,7 @@ import { getWork } from '../../services/catalogue/works';
 import { useEffect, useState, useRef, useContext } from 'react';
 import useFocusTrap from '@weco/common/hooks/useFocusTrap';
 import styled from 'styled-components';
-import RelatedImages from '../RelatedImages/RelatedImages';
+import VisuallySimilarImages from '../VisuallySimilarImages/VisuallySimilarImages';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
@@ -300,7 +300,7 @@ const ExpandedImage = ({
                 </a>
               </NextLink>
             </Space>
-            <RelatedImages
+            <VisuallySimilarImages
               originalId={imageId || workId}
               sourceType={imageId ? 'image' : 'work'}
             />
