@@ -42,7 +42,7 @@ const ImageSearchResults = ({ works, apiProps }: Props) => {
           {expandedImageId === result.id && (
             <ExpandedImage
               title={result.title}
-              id={result.id}
+              workId={result.id}
               setExpandedImageId={setExpandedImageId}
               onWorkLinkClick={() => {
                 trackSearchResultSelected(apiProps, {
