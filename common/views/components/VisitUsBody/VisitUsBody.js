@@ -6,6 +6,7 @@ import GridFactory from '../GridFactory/GridFactory';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import Card from '../Card/Card';
 import FeaturedCard from '../FeaturedCard/FeaturedCard';
+import { classNames } from '../../../utils/classnames';
 
 const ExampleFeaturedCard = () => (
   <FeaturedCard
@@ -102,20 +103,40 @@ const VisitUsBody = () => {
     },
   ];
 
-  const backgroundColors = ['white', 'cream', 'white', 'charcoal'];
+  const sectionThemes = [
+    {
+      rowBackground: 'white',
+      cardBackground: 'cream',
+    },
+    {
+      rowBackground: 'cream',
+      cardBackground: 'white',
+    },
+    {
+      rowBackground: 'white',
+      cardBackground: 'cream',
+    },
+    {
+      rowBackground: 'charcoal',
+      cardBackground: 'transparent',
+    },
+  ];
 
   return (
     <>
       {sections.map((section, index) => {
-        const backgroundColor =
-          backgroundColors[index % backgroundColors.length];
+        const sectionTheme = sectionThemes[index % sectionThemes.length];
 
         return (
           <SpacingSection key={section.id}>
-            <WobblyEdge background={backgroundColor} isStatic />
+            <WobblyEdge background={sectionTheme.rowBackground} isStatic />
             <Space
               v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-              className={`row bg-${backgroundColor}`}
+              className={classNames({
+                'row card-theme': true,
+                [`bg-${sectionTheme.rowBackground}`]: true,
+                [`card-theme--${sectionTheme.cardBackground}`]: true,
+              })}
             >
               {section.title && (
                 <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
