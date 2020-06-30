@@ -4,11 +4,14 @@ import NextLink from 'next/link';
 import Image from '@weco/common/views/components/Image/Image';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { getImage } from '../../services/catalogue/images';
+import type { SimilarImage } from '../../services/image-similarity';
 import { getSimilarImages } from '../../services/image-similarity';
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   originalId: string,
+  sourceType: 'image' | 'work',
 |};
 
 const Wrapper = styled.div`
@@ -26,15 +29,28 @@ const Wrapper = styled.div`
   }
 `;
 
-const RelatedImages = ({ originalId }: Props) => {
+const getVisuallySimilarImagesFromApi = async (
+  imageId: string
+): Promise<SimilarImage[]> => {
+  const image = await getImage({ id: imageId });
+  return image.visuallySimilar.map(i => ({
+    id: i.id,
+    uri: i.locations[0] && i.locations[0].url,
+    workId: i.source.id,
+  }));
+};
+
+const RelatedImages = ({ originalId, sourceType = 'work' }: Props) => {
   const [relatedImages, setRelatedImages] = useState([]);
   useEffect(() => {
     const fetchRelatedImages = async () =>
       setRelatedImages(
-        await getSimilarImages({
-          id: originalId,
-          n: 6,
-        })
+        sourceType === 'work'
+          ? await getSimilarImages({
+              id: originalId,
+              n: 5,
+            })
+          : await getVisuallySimilarImagesFromApi(originalId)
       );
     fetchRelatedImages();
   }, []);
@@ -43,10 +59,10 @@ const RelatedImages = ({ originalId }: Props) => {
       <h3 className={font('wb', 5)}>Visually similar images</h3>
       <Wrapper>
         {relatedImages.map(related => (
-          <NextLink href={`/works/${related.id}`} key={related.id}>
+          <NextLink href={`/works/${related.workId}`} key={related.id}>
             <a>
               <Image
-                contentUrl={related.miroUri}
+                contentUrl={related.uri}
                 defaultSize={250}
                 width={250}
                 alt=""
