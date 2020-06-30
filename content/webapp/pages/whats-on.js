@@ -512,7 +512,7 @@ export class WhatsOnPage extends Component<Props> {
                           [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                         })}
                       >
-                        <div className="css-grid grid--scroll">
+                        <div className="css-grid grid--scroll card-theme card-theme--transparent">
                           {tryTheseTooPromos
                             .concat(eatShopPromos)
                             .map(promo => (

@@ -7,6 +7,7 @@ import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import Space from '../styled/Space';
+import { CardOuter, CardBody } from '../Card/Card';
 
 type Props = {|
   item: Article,
@@ -25,7 +26,7 @@ const StoryPromo = ({
 }: Props) => {
   const positionInSeries = getPositionInSeries(item);
   return (
-    <a
+    <CardOuter
       onClick={() => {
         trackEvent({
           category: 'StoryPromo',
@@ -35,17 +36,10 @@ const StoryPromo = ({
       }}
       href={(item.promo && item.promo.link) || `/articles/${item.id}`}
       className={classNames({
-        'story-promo': true,
-        'plain-link': true,
-        'promo-link': true,
         'bg-cream': !hasTransparentBackground,
-        'rounded-corners': true,
-        'overflow-hidden': true,
-        'flex-ie-block': true,
-        'flex--column': true,
       })}
     >
-      <div className="relative story-promo__image">
+      <div className="relative">
         {/* FIXME: Image type tidy */}
         {item.promoImage && (
           // $FlowFixMe
@@ -63,21 +57,7 @@ const StoryPromo = ({
         )}
       </div>
 
-      <Space
-        v={{
-          size: 'm',
-          properties: ['padding-top', 'padding-bottom'],
-        }}
-        h={
-          !hasTransparentBackground
-            ? { size: 'm', properties: ['padding-left', 'padding-right'] }
-            : undefined
-        }
-        className={classNames({
-          'story-promo__text flex flex--column flex-1': true,
-          'flex--h-space-between': !hasTransparentBackground,
-        })}
-      >
+      <CardBody>
         <div>
           {positionInSeries && (
             <PartNumberIndicator
@@ -119,8 +99,8 @@ const StoryPromo = ({
             ))}
           </Space>
         )}
-      </Space>
-    </a>
+      </CardBody>
+    </CardOuter>
   );
 };
 
