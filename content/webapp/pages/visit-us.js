@@ -32,14 +32,9 @@ import {
   // eatShopList,
   // lastPara,
 } from '@weco/content/content/visit-us-content';
-import Space from '@weco/common/views/components/styled/Space';
+// import Space from '@weco/common/views/components/styled/Space';
 // import Contact from '@weco/common/views/components/Contact/Contact';
 import VisitUsBody from '@weco/common/views/components/VisitUsBody/VisitUsBody';
-
-import GridFactory from '@weco/common/views/components/GridFactory/GridFactory';
-import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
-import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
-import Card from '@weco/common/views/components/Card/Card';
 
 // type ContainerProps = {|
 //   children: any,
@@ -260,13 +255,7 @@ export class Page extends Component<Props> {
     const DateInfo = page.datePublished && (
       <HTMLDate date={new Date(page.datePublished)} />
     );
-    const hasFeaturedMedia =
-      page.body.length > 1 &&
-      (page.body[0].type === 'picture' || page.body[0].type === 'videoEmbed');
-    const body = hasFeaturedMedia
-      ? page.body.slice(1, page.body.length)
-      : page.body;
-    const filteredBody = body.filter(slice => slice.type === 'contentList');
+
     // TODO: This is not the way to do site sections
     const breadcrumbs = {
       items: page.siteSection
@@ -298,7 +287,7 @@ export class Page extends Component<Props> {
         highlightHeading={true}
       />
     );
-    const backgroundColors = ['white', 'cream', 'white', 'charcoal'];
+
     return (
       <>
         <Head>
@@ -317,72 +306,8 @@ export class Page extends Component<Props> {
           <article data-wio-id={page.id}>
             <SpacingSection>{Header}</SpacingSection>
             <div>
-              {/* TODO use parsers */}
-              {/* TODO why no links? */}
               <SpacingSection>
                 <div className="basic-page">
-                  {filteredBody.map((slice, index) => {
-                    const backgroundColor =
-                      backgroundColors[index % backgroundColors.length];
-                    const cards = slice.value.items.map((item, i) => (
-                      <Card
-                        key={i}
-                        item={{
-                          format: {
-                            id: item.id,
-                            title: item.type,
-                          },
-                          title: item.title,
-                          description: item.promo.caption,
-                          image: {
-                            contentUrl: item.promo.image.contentUrl,
-                            alt: '',
-                            width: 1600,
-                            height: 900,
-                            crops: {
-                              '16:9': {
-                                contentUrl: item.image.crops['16:9'].contentUrl,
-                                alt: '',
-                                width: 1600,
-                                height: 900,
-                              },
-                            },
-                          },
-                          link: item.promo.link,
-                        }}
-                      />
-                    ));
-                    return (
-                      <SpacingSection key={index}>
-                        <WobblyEdge background={backgroundColor} isStatic />
-                        <Space
-                          v={{
-                            size: 'xl',
-                            properties: ['padding-top', 'padding-bottom'],
-                          }}
-                          className={`row bg-${backgroundColor}`}
-                        >
-                          {slice.value.title && (
-                            <Space
-                              v={{ size: 'l', properties: ['margin-bottom'] }}
-                            >
-                              <SectionHeader title={slice.value.title} />
-                            </Space>
-                          )}
-                          {/* TODO first card (and hasFeatured?)
-                          {slice.featuredItem && (
-                            <Space
-                              v={{ size: 'l', properties: ['margin-bottom'] }}
-                            >
-                              <Layout12>{slice.featuredItem}</Layout12>
-                            </Space>
-                          )} */}
-                          <GridFactory items={cards} />
-                        </Space>
-                        <WobblyEdge background={'white'} isStatic />
-                      </SpacingSection>
-                    );
-                  })}
                   <VisitUsBody />
                 </div>
               </SpacingSection>
