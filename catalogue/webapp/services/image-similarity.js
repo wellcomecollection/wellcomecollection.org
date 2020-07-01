@@ -11,9 +11,8 @@ const SIMILARITY_MEASURE: { [key: SimilarityMeasure]: string } = {
 
 export type SimilarImage = {|
   id: string,
-  miroId: string,
-  workUri: string,
-  miroUri: string,
+  uri: string,
+  workId: string,
 |};
 
 export const getSimilarImages = async ({
@@ -35,9 +34,8 @@ export const getSimilarImages = async ({
     const data = await res.json();
     return data.neighbours.map(neighbour => ({
       id: neighbour.catalogue_id,
-      miroId: neighbour.miro_id,
-      workUri: neighbour.catalogue_uri,
-      miroUri: neighbour.miro_uri,
+      uri: neighbour.miro_uri,
+      workId: neighbour.catalogue_id,
     }));
   } catch (e) {
     return [];
