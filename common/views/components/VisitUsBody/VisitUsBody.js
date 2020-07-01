@@ -8,7 +8,7 @@ import Card from '../Card/Card';
 import FeaturedCard from '../FeaturedCard/FeaturedCard';
 import { classNames } from '../../../utils/classnames';
 
-const ExampleFeaturedCard = () => (
+const ExampleFeaturedCard = ({ backgroundColor, color, isReversed }) => (
   <FeaturedCard
     image={{
       contentUrl: 'https://placehold.it/800x450',
@@ -26,9 +26,9 @@ const ExampleFeaturedCard = () => (
     }}
     labels={[]}
     link={{ url: '#', text: 'accessibility' }}
-    background={'yellow'}
-    color={'black'}
-    isReversed={false}
+    background={backgroundColor}
+    color={color}
+    isReversed={isReversed}
   >
     <h2 className="font-wb font-size-2">Accessibility</h2>
     <p className="font-hnl font-size-5">
@@ -73,12 +73,25 @@ const VisitUsBody = () => {
   const sections = [
     {
       id: 0,
-      items: [<ExampleFeaturedCard />],
+      featuredItem: (backgroundColor, color, isReversed) => (
+        <ExampleFeaturedCard
+          backgroundColor={backgroundColor}
+          color={color}
+          isReversed={isReversed}
+        />
+      ),
+      items: [],
     },
     {
       id: 1,
       title: 'Things to do and see',
-      featuredItem: <ExampleFeaturedCard />,
+      featuredItem: (backgroundColor, color, isReversed) => (
+        <ExampleFeaturedCard
+          backgroundColor={backgroundColor}
+          color={color}
+          isReversed={isReversed}
+        />
+      ),
       items: [<ExampleCard />, <ExampleCard />, <ExampleCard />],
     },
     {
@@ -95,6 +108,13 @@ const VisitUsBody = () => {
     {
       id: 3,
       title: 'Eating and drinking',
+      featuredItem: (backgroundColor, color, isReversed) => (
+        <ExampleFeaturedCard
+          backgroundColor={backgroundColor}
+          color={color}
+          isRversed={isReversed}
+        />
+      ),
       items: [<ExampleCard />, <ExampleCard />, <ExampleCard />],
     },
     {
@@ -107,26 +127,39 @@ const VisitUsBody = () => {
     {
       rowBackground: 'white',
       cardBackground: 'cream',
+      featuredCardBackground: 'charcoal',
+      featuredCardText: 'white',
     },
     {
       rowBackground: 'cream',
       cardBackground: 'white',
+      featuredCardBackground: 'white',
+      featuredCardText: 'black',
     },
     {
       rowBackground: 'white',
       cardBackground: 'cream',
+      featuredCardBackground: 'cream',
+      featuredCardText: 'black',
     },
     {
       rowBackground: 'charcoal',
       cardBackground: 'transparent',
+      featuredCardBackground: 'white',
+      featuredCardText: 'black',
     },
   ];
+
+  // Rules for FeaturedCard colours and layout:
+  // White when on a cream background
+  // Charcoal when standalone
+  // Cream when on a white background
+  // Image on the right when standalone
 
   return (
     <>
       {sections.map((section, index) => {
         const sectionTheme = sectionThemes[index % sectionThemes.length];
-
         return (
           <SpacingSection key={section.id}>
             <WobblyEdge background={sectionTheme.rowBackground} isStatic />
@@ -145,7 +178,17 @@ const VisitUsBody = () => {
               )}
               {section.featuredItem && (
                 <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                  <Layout12>{section.featuredItem}</Layout12>
+                  <Layout12>
+                    {section.featuredItem(
+                      section.items.length === 0
+                        ? 'charcoal'
+                        : sectionTheme.featuredCardBackground,
+                      section.items.length === 0
+                        ? 'white'
+                        : sectionTheme.featuredCardText,
+                      section.items.length === 0
+                    )}
+                  </Layout12>
                 </Space>
               )}
               <GridFactory items={section.items} />
