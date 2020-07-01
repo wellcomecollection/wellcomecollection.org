@@ -88,7 +88,7 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
         const cardItems = hasFeatured
           ? section.value.items.slice(1)
           : section.value.items;
-        // TODO better way of parsing these
+        // TODO check things are there
         const featuredItem = hasFeatured ? (
           <FeaturedCard
             image={{
