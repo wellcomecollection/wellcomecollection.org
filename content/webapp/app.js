@@ -66,6 +66,7 @@ module.exports = app
 
     route('/places/:id', '/place', router, app);
     route('/pages/:id', '/page', router, app);
+    route('/landing-pages/:id', '/landing-page', router, app);
 
     route('/newsletter', '/newsletter', router, app);
 
@@ -80,7 +81,7 @@ module.exports = app
       router,
       app,
       '/visit-us',
-      'WwLIBiAAAPMiB_zC',
+      'XvxzjhQAAJmq1t__',
       '/landing-page'
     );
     pageVanityUrl(router, app, '/visit-us1', 'WwLIBiAAAPMiB_zC', '/visit-us');
