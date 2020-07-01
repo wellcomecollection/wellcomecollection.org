@@ -79,6 +79,15 @@
                   "single": "heading1",
                   "useAsTitle": true
                 }
+              },
+              "hasFeatured": {
+                "type": "Select",
+                "config": {
+                  "label": "Feature the first item?",
+                  "options": [
+                    "yes"
+                  ]
+                }
               }
             },
             "repeat": {

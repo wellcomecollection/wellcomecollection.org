@@ -6,6 +6,7 @@ import link from './parts/link';
 import timestamp from './parts/timestamp';
 import structuredText from './parts/structured-text';
 import captionedImageSlice from './parts/captioned-image-slice';
+import boolean from './parts/boolean';
 
 const LandingPage = {
   Page: {
@@ -25,6 +26,7 @@ const LandingPage = {
           contentList: slice('Content list', {
             nonRepeat: {
               title,
+              hasFeatured: boolean('Feature the first item?'),
             },
             repeat: {
               content: link('Content item', 'document', [
