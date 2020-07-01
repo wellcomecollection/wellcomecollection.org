@@ -76,7 +76,7 @@ export async function getPage(
         eventFormatsFields,
         articleFormatsFields,
         labelsFields
-        ),
+      ),
     },
     memoizedPrismic
   );

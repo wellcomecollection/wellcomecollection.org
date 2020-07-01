@@ -4,6 +4,7 @@ import promo from './parts/promo';
 import link from './parts/link';
 import timestamp from './parts/timestamp';
 import structuredText from './parts/structured-text';
+import captionedImageSlice from './parts/captioned-image-slice';
 
 type SliceProps = {|
   nonRepeat?: { [string]: any },
@@ -28,6 +29,7 @@ const LandingPage = {
       type: 'Slices',
       config: {
         choices: {
+          editorialImage: captionedImageSlice(),
           standfirst: slice('Standfirst', {
             nonRepeat: {
               text: structuredText('Standfirst', 'single'),
