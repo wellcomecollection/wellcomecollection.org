@@ -57,18 +57,26 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
     {
       rowBackground: 'white',
       cardBackground: 'cream',
+      featuredCardBackground: 'charcoal',
+      featuredCardText: 'white',
     },
     {
       rowBackground: 'cream',
       cardBackground: 'white',
+      featuredCardBackground: 'white',
+      featuredCardText: 'black',
     },
     {
       rowBackground: 'white',
       cardBackground: 'cream',
+      featuredCardBackground: 'cream',
+      featuredCardText: 'black',
     },
     {
       rowBackground: 'charcoal',
       cardBackground: 'transparent',
+      featuredCardBackground: 'white',
+      featuredCardText: 'black',
     },
   ];
 
@@ -206,9 +214,9 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
               url: firstItem.promo.link,
               text: firstItem.title,
             }}
-            background={'yellow'} // TODO - how set this properly?
-            color={'black'}
-            isReversed={false}
+            background={sectionTheme.featuredCardBackground}
+            color={sectionTheme.featuredCardBackText}
+            isReversed={section.value.items.length === 1}
           >
             <h2 className="font-wb font-size-2">{firstItem.title}</h2>
             <p className="font-hnl font-size-5">{firstItem.promo.caption}</p>
