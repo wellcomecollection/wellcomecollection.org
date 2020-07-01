@@ -51,9 +51,7 @@ type Props = {|
 |};
 
 const Body = ({ body, isDropCapped, pageId }: Props) => {
-  const featuredText = body.find(
-    slice => slice.type === 'text' && slice.weight === 'featured'
-  );
+  const featuredText = body.find(slice => slice.type === 'standfirst');
   const sections = body.filter(slice => slice.type === 'contentList');
   const sectionThemes = [
     {
@@ -81,7 +79,7 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
       })}
     >
       {/*  'Visit us' specific content */}
-      {pageId === 'WwLIBiAAAPMiB_zC' && ( // TODO move this out
+      {pageId === 'XvxzjhQAAJmq1t__' && ( // TODO move this out
         <OpeningTimesContext.Consumer>
           {openingTimes => (
             <Container>
