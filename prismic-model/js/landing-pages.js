@@ -1,24 +1,11 @@
 // @flow
+import { slice } from './parts/body';
 import title from './parts/title';
 import promo from './parts/promo';
 import link from './parts/link';
 import timestamp from './parts/timestamp';
 import structuredText from './parts/structured-text';
 import captionedImageSlice from './parts/captioned-image-slice';
-
-type SliceProps = {|
-  nonRepeat?: { [string]: any },
-  repeat?: { [string]: any },
-|};
-
-function slice(label: string, { nonRepeat, repeat }: SliceProps) {
-  return {
-    type: 'Slice',
-    fieldset: label,
-    'non-repeat': nonRepeat,
-    repeat,
-  };
-}
 
 const LandingPage = {
   Page: {
