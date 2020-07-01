@@ -189,11 +189,15 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
       )}
       {sections.map((section, index) => {
         const sectionTheme = sectionThemes[index % sectionThemes.length];
+        const hasFeatured =
+          Boolean(section.value.hasFeatured) ||
+          section.value.items.length === 1;
         const firstItem = section.value.items[0];
-        const remainingItems = section.value.items.slice(1); // TODO only featured if toggle
-        console.log(firstItem);
+        const cardItems = hasFeatured
+          ? section.value.items.slice(1)
+          : section.value.items;
         // TODO better way of parsing these
-        const featuredItem = (
+        const featuredItem = hasFeatured ? (
           <FeaturedCard
             image={{
               contentUrl: firstItem.promo.image.contentUrl,
@@ -221,8 +225,8 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
             <h2 className="font-wb font-size-2">{firstItem.title}</h2>
             <p className="font-hnl font-size-5">{firstItem.promo.caption}</p>
           </FeaturedCard>
-        );
-        const cards = remainingItems.map((item, i) => (
+        ) : null;
+        const cards = cardItems.map((item, i) => (
           <Card
             key={i}
             item={{
@@ -271,7 +275,7 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
                   <Layout12>{featuredItem}</Layout12>
                 </Space>
               )}
-              <GridFactory items={cards} />
+              {cards.length > 0 && <GridFactory items={cards} />}
             </Space>
             <WobblyEdge background={'white'} isStatic />
           </SpacingSection>
