@@ -215,7 +215,7 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
               text: firstItem.title,
             }}
             background={sectionTheme.featuredCardBackground}
-            color={sectionTheme.featuredCardBackText}
+            color={sectionTheme.featuredCardText}
             isReversed={section.value.items.length === 1}
           >
             <h2 className="font-wb font-size-2">{firstItem.title}</h2>
