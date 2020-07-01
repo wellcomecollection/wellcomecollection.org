@@ -26,29 +26,31 @@ const LandingPage = {
     body: {
       fieldset: 'Body content',
       type: 'Slices',
-      choices: {
-        standfirst: slice('Standfirst', {
-          nonRepeat: {
-            text: structuredText('Standfirst', 'single'),
-          },
-        }),
-        contentList: slice('Content list', {
-          nonRepeat: {
-            title,
-          },
-          repeat: {
-            content: link('Content item', 'document', [
-              'pages',
-              'event-series',
-              'books',
-              'events',
-              'articles',
-              'exhibitions',
-              'card',
-              'landing-pages',
-            ]),
-          },
-        }),
+      config: {
+        choices: {
+          standfirst: slice('Standfirst', {
+            nonRepeat: {
+              text: structuredText('Standfirst', 'single'),
+            },
+          }),
+          contentList: slice('Content list', {
+            nonRepeat: {
+              title,
+            },
+            repeat: {
+              content: link('Content item', 'document', [
+                'pages',
+                'event-series',
+                'books',
+                'events',
+                'articles',
+                'exhibitions',
+                'card',
+                'landing-pages',
+              ]),
+            },
+          }),
+        },
       },
     },
   },

@@ -17,49 +17,51 @@
     "body": {
       "fieldset": "Body content",
       "type": "Slices",
-      "choices": {
-        "standfirst": {
-          "type": "Slice",
-          "fieldset": "Standfirst",
-          "non-repeat": {
-            "text": {
-              "type": "StructuredText",
-              "config": {
-                "single": "paragraph,hyperlink,strong,em",
-                "label": "Standfirst"
-              }
-            }
-          }
-        },
-        "contentList": {
-          "type": "Slice",
-          "fieldset": "Content list",
-          "non-repeat": {
-            "title": {
-              "type": "StructuredText",
-              "config": {
-                "label": "Title",
-                "single": "heading1",
-                "useAsTitle": true
+      "config": {
+        "choices": {
+          "standfirst": {
+            "type": "Slice",
+            "fieldset": "Standfirst",
+            "non-repeat": {
+              "text": {
+                "type": "StructuredText",
+                "config": {
+                  "single": "paragraph,hyperlink,strong,em",
+                  "label": "Standfirst"
+                }
               }
             }
           },
-          "repeat": {
-            "content": {
-              "type": "Link",
-              "config": {
-                "label": "Content item",
-                "select": "document",
-                "customtypes": [
-                  "pages",
-                  "event-series",
-                  "books",
-                  "events",
-                  "articles",
-                  "exhibitions",
-                  "card",
-                  "landing-pages"
-                ]
+          "contentList": {
+            "type": "Slice",
+            "fieldset": "Content list",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              }
+            },
+            "repeat": {
+              "content": {
+                "type": "Link",
+                "config": {
+                  "label": "Content item",
+                  "select": "document",
+                  "customtypes": [
+                    "pages",
+                    "event-series",
+                    "books",
+                    "events",
+                    "articles",
+                    "exhibitions",
+                    "card",
+                    "landing-pages"
+                  ]
+                }
               }
             }
           }
