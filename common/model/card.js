@@ -32,10 +32,9 @@ export function convertItemToCardProps(
         crops: {
           '16:9': {
             contentUrl:
-              item.image &&
-              item.image.crops &&
-              item.image.crops['16:9'] &&
-              item.image.crops['16:9'].contentUrl,
+              item.image && item.image.crops && item.image.crops['16:9']
+                ? item.image.crops['16:9'].contentUrl
+                : '',
             alt: '',
             width: 1600,
             height: 900,
