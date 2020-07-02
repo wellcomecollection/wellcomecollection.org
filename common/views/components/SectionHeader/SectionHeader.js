@@ -19,6 +19,12 @@ const YellowBox = styled.div`
   `}
 `;
 
+const TitleWrapper = styled.span`
+  .bg-charcoal & {
+    color: ${props => props.theme.colors.white};
+  }
+`;
+
 type Props = {|
   title: string,
 |};
@@ -35,7 +41,7 @@ const SectionHeader = ({ title }: Props) => {
               h={{ size: 's', properties: ['margin-left'] }}
               className={`inline no-margin`}
             >
-              {title}
+              <TitleWrapper>{title}</TitleWrapper>
             </Space>
           </div>
         </div>

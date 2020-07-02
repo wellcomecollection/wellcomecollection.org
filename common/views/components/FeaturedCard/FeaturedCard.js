@@ -256,46 +256,44 @@ const FeaturedCard = ({
   isReversed,
 }: Props) => {
   return (
-    <div className="container">
-      <FeaturedCardWrap>
-        <FeaturedCardLink
-          href={link.url}
-          isReversed={isReversed}
-          onClick={() => {
-            trackEvent({
-              category: 'FeaturedCard',
-              action: 'follow link',
-              label: `${id}`,
-            });
-          }}
+    <FeaturedCardWrap>
+      <FeaturedCardLink
+        href={link.url}
+        isReversed={isReversed}
+        onClick={() => {
+          trackEvent({
+            category: 'FeaturedCard',
+            action: 'follow link',
+            label: `${id}`,
+          });
+        }}
+      >
+        <FeaturedCardLeft>{image && <UiImage {...image} />}</FeaturedCardLeft>
+        <div
+          className={classNames({
+            flex: true,
+            [grid({ s: 12, m: 11, l: 5, xl: 5 })]: true,
+          })}
         >
-          <FeaturedCardLeft>{image && <UiImage {...image} />}</FeaturedCardLeft>
-          <div
-            className={classNames({
-              flex: true,
-              [grid({ s: 12, m: 11, l: 5, xl: 5 })]: true,
-            })}
-          >
-            <FeaturedCardRight isReversed={isReversed}>
-              {labels && labels.length > 0 && <LabelsList labels={labels} />}
-              <FeaturedCardCopy
-                className={classNames({
-                  [`bg-${background} font-${color}`]: true,
-                })}
-              >
-                {children}
-              </FeaturedCardCopy>
-            </FeaturedCardRight>
-          </div>
-          <div
-            className={classNames({
-              [grid({ s: 12, m: 12, l: 7, xl: 7 })]: true,
-            })}
-          ></div>
-          <FeaturedCardShim background={background} isReversed={isReversed} />
-        </FeaturedCardLink>
-      </FeaturedCardWrap>
-    </div>
+          <FeaturedCardRight isReversed={isReversed}>
+            {labels && labels.length > 0 && <LabelsList labels={labels} />}
+            <FeaturedCardCopy
+              className={classNames({
+                [`bg-${background} font-${color}`]: true,
+              })}
+            >
+              {children}
+            </FeaturedCardCopy>
+          </FeaturedCardRight>
+        </div>
+        <div
+          className={classNames({
+            [grid({ s: 12, m: 12, l: 7, xl: 7 })]: true,
+          })}
+        ></div>
+        <FeaturedCardShim background={background} isReversed={isReversed} />
+      </FeaturedCardLink>
+    </FeaturedCardWrap>
   );
 };
 

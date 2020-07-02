@@ -187,11 +187,13 @@ export class StoriesPage extends Component<Props> {
             })}
           >
             <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-              <FeaturedCardArticle
-                article={firstArticle}
-                background={'charcoal'}
-                color={'white'}
-              />
+              <Layout12>
+                <FeaturedCardArticle
+                  article={firstArticle}
+                  background={'charcoal'}
+                  color={'white'}
+                />
+              </Layout12>
             </Space>
             <div className="row__wobbly-background" />
             <div className="container container--scroll container--scroll-cream touch-scroll">

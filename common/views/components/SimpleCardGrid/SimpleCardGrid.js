@@ -3,6 +3,7 @@ import { classNames, cssGrid } from '../../../utils/classnames';
 import type { Card as CardType } from '@weco/common/model/card';
 import FeaturedCard from '../FeaturedCard/FeaturedCard';
 import Card from '../Card/Card';
+import Layout12 from '../Layout12/Layout12';
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
@@ -36,33 +37,35 @@ const CardGrid = ({ items }: Props) => {
       </div>
       {fourthCard && (
         <Space v={{ size: 'l', properties: ['padding-top'] }}>
-          <FeaturedCard
-            id={`featured-card`}
-            image={{
-              ...fourthCard.image,
-              sizesQueries:
-                '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
-              showTasl: false,
-            }}
-            labels={
-              fourthCard.format
-                ? [{ url: null, text: fourthCard.format.title }]
-                : []
-            }
-            link={{
-              url: fourthCard.link || '',
-              text: fourthCard.title || '',
-            }}
-            background="charcoal"
-            color="white"
-          >
-            {fourthCard.title && (
-              <h2 className="font-wb font-size-2">{fourthCard.title}</h2>
-            )}
-            {fourthCard.description && (
-              <p className="font-hnl font-size-5">{fourthCard.description}</p>
-            )}
-          </FeaturedCard>
+          <Layout12>
+            <FeaturedCard
+              id={`featured-card`}
+              image={{
+                ...fourthCard.image,
+                sizesQueries:
+                  '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
+                showTasl: false,
+              }}
+              labels={
+                fourthCard.format
+                  ? [{ url: null, text: fourthCard.format.title }]
+                  : []
+              }
+              link={{
+                url: fourthCard.link || '',
+                text: fourthCard.title || '',
+              }}
+              background="charcoal"
+              color="white"
+            >
+              {fourthCard.title && (
+                <h2 className="font-wb font-size-2">{fourthCard.title}</h2>
+              )}
+              {fourthCard.description && (
+                <p className="font-hnl font-size-5">{fourthCard.description}</p>
+              )}
+            </FeaturedCard>
+          </Layout12>
         </Space>
       )}
     </>
