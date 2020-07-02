@@ -10,6 +10,9 @@ import type { Node, Element, ElementProps } from 'react';
 import Body from '../Body/Body';
 import SpacingSection from '../SpacingSection/SpacingSection';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
+import CompactCard from '../CompactCard/CompactCard';
+import Image from '../Image/Image';
+import Space from '../styled/Space';
 
 /*eslint-disable */
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
@@ -27,6 +30,37 @@ type Props = {|
   Siblings?: Element<typeof SeriesNavigation>[],
   outroProps?: ?ElementProps<typeof Outro>,
 |};
+
+// FIXME: obviously we can't carry on like this!
+const ShameWhatWeDoHack = () => (
+  <Layout8>
+    <Space v={{ size: 'l', properties: ['margin-top'] }}>
+      <div className="border-bottom-width-1 border-color-smoke"></div>
+    </Space>
+    <CompactCard
+      url="/user-panel"
+      title="Join our user panel"
+      labels={{ labels: [] }}
+      description="Are you able to find the information you are looking for? Help improve our website, in-venue technology, and other services by answering questions like these as part of our user panel."
+      urlOverride={null}
+      partNumber={null}
+      color={null}
+      Image={
+        <Image
+          contentUrl={`https://images.prismic.io/wellcomecollection/996aff41-b1cf-44e4-86ce-181438358c21_user_panel_square.jpg?auto=compress,format`}
+          width={3200}
+          height={3200}
+          alt={''}
+          tasl={null}
+        />
+      }
+      DateInfo={null}
+      StatusIndicator={null}
+      ExtraInfo={null}
+      xOfY={{ x: 1, y: 1 }}
+    />
+  </Layout8>
+);
 
 const ContentPage = ({
   id,
@@ -62,6 +96,7 @@ const ContentPage = ({
             <SpacingSection>
               <div className="basic-page">
                 <Fragment>{Body}</Fragment>
+                {id === 'WwLGFCAAAPMiB_Ps' && <ShameWhatWeDoHack />}
               </div>
             </SpacingSection>
           )}
