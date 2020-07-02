@@ -11,7 +11,9 @@ import GridFactory from '../GridFactory/GridFactory';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import SectionHeader from '../SectionHeader/SectionHeader';
 import Card from '../Card/Card';
-import FeaturedCard from '../FeaturedCard/FeaturedCard';
+import FeaturedCard, {
+  convertItemToFeaturedCardProps,
+} from '../FeaturedCard/FeaturedCard';
 import VisitUsStaticContent from './VisitUsStaticContent';
 
 type BodySlice = {|
@@ -64,8 +66,6 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
         'basic-body': true,
       })}
     >
-      {pageId === 'XvxzjhQAAJmq1t__' && <VisitUsStaticContent />}
-
       {featuredText && (
         <Layout8>
           <SpacingSection>
@@ -78,74 +78,59 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
           </SpacingSection>
         </Layout8>
       )}
-
+      {pageId === 'XvxzjhQAAJmq1t__' && <VisitUsStaticContent />}
       {sections.map((section, index) => {
         const sectionTheme = sectionThemes[index % sectionThemes.length];
         const hasFeatured =
           Boolean(section.value.hasFeatured) ||
           section.value.items.length === 1;
         const firstItem = section.value.items[0];
+        const firstItemProps = convertItemToFeaturedCardProps(firstItem);
         const cardItems = hasFeatured
           ? section.value.items.slice(1)
           : section.value.items;
-        // TODO check things are there
-        const featuredItem = hasFeatured ? (
-          <FeaturedCard
-            image={{
-              contentUrl: firstItem.promo.image.contentUrl,
-              alt: '',
-              width: 1600,
-              height: 900,
-              crops: {
-                '16:9': {
-                  contentUrl: firstItem.image.crops['16:9'].contentUrl,
-                  alt: '',
-                  width: 1600,
-                  height: 900,
-                },
-              },
-            }}
-            labels={[]}
-            link={{
-              url: firstItem.promo.link,
-              text: firstItem.title,
-            }}
-            background={sectionTheme.featuredCardBackground}
-            color={sectionTheme.featuredCardText}
-            isReversed={section.value.items.length === 1}
-          >
-            <h2 className="font-wb font-size-2">{firstItem.title}</h2>
-            <p className="font-hnl font-size-5">{firstItem.promo.caption}</p>
-          </FeaturedCard>
-        ) : null;
-        const cards = cardItems.map((item, i) => (
-          <Card
-            key={i}
-            item={{
-              format: {
-                id: item.id,
-                title: item.type,
-              },
-              title: item.title,
-              description: item.promo.caption,
-              image: {
+        const featuredItem =
+          hasFeatured && firstItem ? (
+            <FeaturedCard
+              {...firstItemProps}
+              background={sectionTheme.featuredCardBackground}
+              color={sectionTheme.featuredCardText}
+              isReversed={false}
+            >
+              <h2 className="font-wb font-size-2">{firstItem.title}</h2>
+              <p className="font-hnl font-size-5">{firstItem.promo.caption}</p>
+            </FeaturedCard>
+          ) : null;
+        const cards = cardItems.map((item, i) => {
+          const cardProps = {
+            type: 'card',
+            format: null,
+            title: item.title,
+            description: item.promo && item.promo.caption,
+            image: item.promo &&
+              item.promo.image && {
                 contentUrl: item.promo.image.contentUrl,
                 alt: '',
                 width: 1600,
                 height: 900,
+                tasl: item.promo.image.tasl,
                 crops: {
                   '16:9': {
-                    contentUrl: item.image.crops['16:9'].contentUrl,
+                    contentUrl:
+                      item.image &&
+                      item.image.crops &&
+                      item.image.crops['16:9'] &&
+                      item.image.crops['16:9'].contentUrl,
                     alt: '',
                     width: 1600,
                     height: 900,
                   },
                 },
               },
-              link: item.promo.link,
-            }}
-          />
-        ));
+            link: item.promo && item.promo.link,
+          };
+          return <Card key={i} item={cardProps} />;
+        });
         return (
           <SpacingSection key={index}>
             <WobblyEdge background={sectionTheme.rowBackground} isStatic />
