@@ -33,7 +33,7 @@ const UserPanelPage = () => {
     <PageLayout
       title={'Join our user panel'}
       description={'Sign up for news and information from Wellcome Collection'}
-      hideNewsletterPromo={false}
+      hideNewsletterPromo={true}
       url={{ pathname: `/user-panel` }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'website'}
@@ -102,9 +102,7 @@ const UserPanelPage = () => {
                     Wellcome Collection's services for everyone.`}
                   </p>
                   <p>
-                    {`We're on a mission to improve access for all, so if you
-                    experience barriers to our services we'd especially love to
-                    talk to you.`}
+                    {`We are committed to inclusion, to improving access for all, and to listening to everyone's voice. If you are Deaf, disabled or neurodivergent, we would like to understand where you experience barriers to using our services. We actively encourage Black, Asian and non-white users to be involved in our research, to help us provide services that work for all communities.`}
                   </p>
                   <p>
                     {`You can participate from anywhere in the world, using your
@@ -116,7 +114,7 @@ const UserPanelPage = () => {
                 <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
                   <ButtonSolidLink
                     text={'Sign up now'}
-                    link={'https://wellcomecollection.org.uk'}
+                    link={'https://airtable.com/shrGZSipOO4Yz57TT'}
                   />
                 </Space>
                 <div className="body-text spaced-text">
