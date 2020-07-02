@@ -14,6 +14,7 @@ import Card from '../Card/Card';
 import FeaturedCard, {
   convertItemToFeaturedCardProps,
 } from '../FeaturedCard/FeaturedCard';
+import { convertItemToCardProps } from '@weco/common/model/card';
 import VisitUsStaticContent from './VisitUsStaticContent';
 
 type BodySlice = {|
@@ -102,33 +103,7 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
             </FeaturedCard>
           ) : null;
         const cards = cardItems.map((item, i) => {
-          const cardProps = {
-            type: 'card',
-            format: null,
-            title: item.title,
-            description: item.promo && item.promo.caption,
-            image: item.promo &&
-              item.promo.image && {
-                contentUrl: item.promo.image.contentUrl,
-                alt: '',
-                width: 1600,
-                height: 900,
-                tasl: item.promo.image.tasl,
-                crops: {
-                  '16:9': {
-                    contentUrl:
-                      item.image &&
-                      item.image.crops &&
-                      item.image.crops['16:9'] &&
-                      item.image.crops['16:9'].contentUrl,
-                    alt: '',
-                    width: 1600,
-                    height: 900,
-                  },
-                },
-              },
-            link: item.promo && item.promo.link,
-          };
+          const cardProps = convertItemToCardProps(item);
           return <Card key={i} item={cardProps} />;
         });
         return (
