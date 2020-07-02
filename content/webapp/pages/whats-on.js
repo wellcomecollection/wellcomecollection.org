@@ -345,7 +345,7 @@ export class WhatsOnPage extends Component<Props> {
         events,
         dateRange,
         tryTheseTooPromos: [readingRoomPromo],
-        eatShopPromos: [shopPromo, cafePromo, restaurantPromo],
+        eatShopPromos: [cafePromo, shopPromo, restaurantPromo],
         cafePromo,
         shopPromo,
         dailyTourPromo,

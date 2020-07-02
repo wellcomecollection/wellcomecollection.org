@@ -11,7 +11,7 @@ import { getWork } from '../../services/catalogue/works';
 import { useEffect, useState, useRef, useContext } from 'react';
 import useFocusTrap from '@weco/common/hooks/useFocusTrap';
 import styled from 'styled-components';
-import RelatedImages from '../RelatedImages/RelatedImages';
+import VisuallySimilarImages from '../VisuallySimilarImages/VisuallySimilarImages';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
@@ -19,7 +19,8 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 
 type Props = {|
   title: string,
-  id: string,
+  workId: string,
+  imageId?: string,
   setExpandedImageId: (id: string) => void,
   onWorkLinkClick: () => void,
   onImageLinkClick: (id: string) => void,
@@ -154,7 +155,8 @@ const CloseButton = styled(Space).attrs({
 
 const ExpandedImage = ({
   title,
-  id,
+  workId,
+  imageId,
   setExpandedImageId,
   onWorkLinkClick,
   onImageLinkClick,
@@ -164,6 +166,8 @@ const ExpandedImage = ({
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
   const endRef = useRef(null);
+
+  const displayTitle = title || (detailedWork && detailedWork.title) || '';
 
   useEffect(() => {
     const focusables = modalRef &&
@@ -192,7 +196,7 @@ const ExpandedImage = ({
   }, []);
   useEffect(() => {
     const fetchDetailedWork = async () => {
-      const res = await getWork({ id });
+      const res = await getWork({ id: workId });
       if (res.type === 'Work') {
         setDetailedWork(res);
       }
@@ -222,7 +226,7 @@ const ExpandedImage = ({
   const maybeItemLink =
     detailedWork &&
     itemLink({
-      workId: id,
+      workId,
       langCode: detailedWork.language && detailedWork.language.id,
     });
 
@@ -244,7 +248,7 @@ const ExpandedImage = ({
               <ImageWrapper>
                 <Image
                   defaultSize={400}
-                  alt={title}
+                  alt={displayTitle}
                   contentUrl={iiifImageLocation.url}
                   tasl={null}
                 />
@@ -260,7 +264,7 @@ const ExpandedImage = ({
                 'no-margin': true,
               })}
             >
-              {title}
+              {displayTitle}
             </Space>
             {license && (
               <Space
@@ -284,7 +288,7 @@ const ExpandedImage = ({
                   />
                 </Space>
               )}
-              <NextLink {...workLink({ id })} passHref>
+              <NextLink {...workLink({ id: workId })} passHref>
                 <a
                   className={classNames({
                     'inline-block': true,
@@ -296,7 +300,10 @@ const ExpandedImage = ({
                 </a>
               </NextLink>
             </Space>
-            <RelatedImages originalId={id} />
+            <VisuallySimilarImages
+              originalId={imageId || workId}
+              sourceType={imageId ? 'image' : 'work'}
+            />
           </InfoWrapper>
         </ModalInner>
       </Modal>
