@@ -35,7 +35,7 @@ type Props = {|
 const ShameWhatWeDoHack = () => (
   <Layout8>
     <Space v={{ size: 'l', properties: ['margin-top'] }}>
-      <div className="border-bottom-width-1 border-color-smoke"></div>
+      <div className="border-bottom-width-1 border-color-pumice"></div>
     </Space>
     <CompactCard
       url="/user-panel"
