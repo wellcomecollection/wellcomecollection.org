@@ -38,6 +38,8 @@ export function convertItemToCardProps(
             alt: '',
             width: 1600,
             height: 900,
+            crops: {},
+            tasl: item.promo.image.tasl,
           },
         },
       },
