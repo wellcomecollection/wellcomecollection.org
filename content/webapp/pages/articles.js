@@ -62,7 +62,6 @@ ArticlesPage.getInitialProps = async (
   ctx: Context
 ): Promise<?Props | PrismicApiError> => {
   const { page = 1, memoizedPrismic } = ctx.query;
-  ctx.query.memoizedPrismic = undefined; // Once we've got memoizedPrismic, we need to remove it before making requests - otherwise we hit circular object issues with JSON.stringify
   const articles = await getArticles(ctx.req, { page }, memoizedPrismic);
 
   return {

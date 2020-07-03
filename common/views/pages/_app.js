@@ -161,6 +161,8 @@ export default class WecoApp extends App {
       }
     }
 
+    delete ctx.query.memoizedPrismic; // We need to remove memoizedPrismic value here otherwise we hit circular object issues with JSON.stringify
+
     return {
       pageProps,
       toggles,
