@@ -32,7 +32,7 @@ const UserPanelPage = () => {
   return (
     <PageLayout
       title={'Join our user panel'}
-      description={'Sign up for news and information from Wellcome Collection'}
+      description={`Get involved in shaping better website and gallery experiences for everyone. We’re looking for people to take part in online and in-person interviews, usability tests, surveys and more`}
       hideNewsletterPromo={true}
       url={{ pathname: `/user-panel` }}
       jsonLd={{ '@type': 'WebPage' }}
