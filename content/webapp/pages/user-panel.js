@@ -94,13 +94,25 @@ const UserPanelPage = () => {
 
                   <h2>Who can take part?</h2>
                   <p>
-                    {`We’re looking for people who visit our exhibitions, read our stories, attend our events and use our Library and collections – anyone who’s interested in helping us improve our services.`}
+                    We’re looking for people who visit our exhibitions, read our
+                    stories, attend our events and use our Library and
+                    collections – anyone who’s interested in helping us improve
+                    our services.
                   </p>
                   <p>
-                    {`We are committed to inclusion, to improving access for all, and to listening to everyone’s voice. If you are D/deaf, disabled, neurodivergent, Black, Asian and/or non-white we would like to understand where you experience barriers to our services. We actively encourage you to take part in our research, to help us provide services that work for all communities.`}
+                    We are committed to inclusion, to improving access for all,
+                    and to listening to everyone’s voice. If you are D/deaf,
+                    disabled, neurodivergent, Black, Asian and/or non-white we
+                    would like to understand where you experience barriers to
+                    our services. We actively encourage you to take part in our
+                    research, to help us provide services that work for all
+                    communities.
                   </p>
                   <p>
-                    {`You can participate from anywhere in the world, using your own devices and equipment. If you use assistive technology in your daily life, we’d love you to tell us how we can improve our digital offer for everyone.`}
+                    You can participate from anywhere in the world, using your
+                    own devices and equipment. If you use assistive technology
+                    in your daily life, we’d love you to tell us how we can
+                    improve our digital offer for everyone.
                   </p>
                 </Space>
                 <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
@@ -112,7 +124,11 @@ const UserPanelPage = () => {
                 <div className="body-text spaced-text">
                   <h2>How does it work?</h2>
                   <p>
-                    {`You’ll be invited to take part in online and in-person interviews, usability tests, surveys and more. There is no obligation to participate in every activity: we will check with you first via email if you would like to opt in. For some more time-intensive activities you will be remunerated.`}
+                    You’ll be invited to take part in online and in-person
+                    interviews, usability tests, surveys and more. There is no
+                    obligation to participate in every activity: we will check
+                    with you first via email if you would like to opt in. For
+                    some more time-intensive activities you will be remunerated.
                   </p>
                   <p>
                     We will only be using your data to contact you about
@@ -122,7 +138,7 @@ const UserPanelPage = () => {
                     </a>{' '}
                     for more information.
                   </p>
-                  <p>{`You will be able to leave the panel at any time.`}</p>
+                  <p>You will be able to leave the panel at any time.</p>
                 </div>
               </div>
             </div>
