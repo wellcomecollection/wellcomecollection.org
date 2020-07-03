@@ -39,7 +39,7 @@ const ImageEndpointSearchResults = ({ images, apiProps }: Props) => {
           {expandedImageId === result.id && (
             <ExpandedImage
               title=""
-              imageId={result.id}
+              image={result}
               workId={result.source.id}
               setExpandedImageId={setExpandedImageId}
               onWorkLinkClick={() => {

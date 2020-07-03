@@ -7,6 +7,7 @@ import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
+import { type Image as ImageType } from '@weco/common/model/catalogue';
 import { getWork } from '../../services/catalogue/works';
 import { useEffect, useState, useRef, useContext } from 'react';
 import useFocusTrap from '@weco/common/hooks/useFocusTrap';
@@ -20,7 +21,7 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 type Props = {|
   title: string,
   workId: string,
-  imageId?: string,
+  image?: ImageType,
   setExpandedImageId: (id: string) => void,
   onWorkLinkClick: () => void,
   onImageLinkClick: (id: string) => void,
@@ -156,7 +157,7 @@ const CloseButton = styled(Space).attrs({
 const ExpandedImage = ({
   title,
   workId,
-  imageId,
+  image,
   setExpandedImageId,
   onWorkLinkClick,
   onImageLinkClick,
@@ -168,6 +169,7 @@ const ExpandedImage = ({
   const endRef = useRef(null);
 
   const displayTitle = title || (detailedWork && detailedWork.title) || '';
+  const imageId = image && image.id;
 
   useEffect(() => {
     const focusables = modalRef &&
@@ -218,10 +220,13 @@ const ExpandedImage = ({
 
   useFocusTrap(closeButtonRef, endRef);
 
-  const iiifImageLocation =
-    detailedWork && getDigitalLocationOfType(detailedWork, 'iiif-image');
+  const iiifImageLocation = image
+    ? image.locations[0]
+    : detailedWork && getDigitalLocationOfType(detailedWork, 'iiif-image');
   const license =
-    iiifImageLocation && getAugmentedLicenseInfo(iiifImageLocation.license);
+    iiifImageLocation &&
+    iiifImageLocation.license &&
+    getAugmentedLicenseInfo(iiifImageLocation.license);
 
   const maybeItemLink =
     detailedWork &&
