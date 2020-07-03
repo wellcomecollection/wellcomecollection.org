@@ -97,7 +97,7 @@ const UserPanelPage = () => {
                     {`We’re looking for people who visit our exhibitions, read our stories, attend our events and use our Library and collections – anyone who’s interested in helping us improve our services.`}
                   </p>
                   <p>
-                    {`We are committed to inclusion, to improving access for all, and to listening to everyone's voice. If you are D/deaf, disabled, neurodivergent, Black, Asian and/or non-white we would like to understand where you experience barriers to our services. We actively encourage you to take part in our research, to help us provide services that work for all communities.`}
+                    {`We are committed to inclusion, to improving access for all, and to listening to everyone’s voice. If you are D/deaf, disabled, neurodivergent, Black, Asian and/or non-white we would like to understand where you experience barriers to our services. We actively encourage you to take part in our research, to help us provide services that work for all communities.`}
                   </p>
                   <p>
                     {`You can participate from anywhere in the world, using your own devices and equipment. If you use assistive technology in your daily life, we’d love you to tell us how we can improve our digital offer for everyone.`}
