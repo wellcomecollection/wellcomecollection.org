@@ -41,7 +41,7 @@ const ShameWhatWeDoHack = () => (
       url="/user-panel"
       title="Join our user panel"
       labels={{ labels: [] }}
-      description="Are you able to find the information you are looking for? Help improve our website, in-venue technology, and other services by answering questions like these as part of our user panel."
+      description="Get involved in shaping better website and gallery experiences for everyone. We’re looking for people to take part in online and in-person interviews, usability tests, surveys and more."
       urlOverride={null}
       partNumber={null}
       color={null}
