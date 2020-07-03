@@ -19,7 +19,6 @@ const ExhibitionPage = ({ exhibition }: Props) => {
 
 ExhibitionPage.getInitialProps = async (ctx: Context) => {
   const { id, memoizedPrismic } = ctx.query;
-  ctx.query.memoizedPrismic = undefined; // Once we've got memoizedPrismic, we need to remove it before making requests - otherwise we hit circular object issues with JSON.stringify
   const exhibition = await getExhibition(ctx.req, id, memoizedPrismic);
 
   if (exhibition) {
