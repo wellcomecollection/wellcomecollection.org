@@ -132,11 +132,14 @@ const UserPanelPage = () => {
                   </p>
                   <p>
                     We will only be using your data to contact you about
-                    research participation. See our{' '}
+                    research participation. We use a third party provider,{' '}
+                    <a href="https://airtable.com/privacy">airtable</a>, to
+                    manage our user panel. For information about how we handle
+                    your data, see our{' '}
                     <a href="https://wellcome.ac.uk/about-us/governance/privacy-and-terms">
                       privacy policy
                     </a>{' '}
-                    for more information.
+                    .
                   </p>
                   <p>You will be able to leave the panel at any time.</p>
                 </div>
