@@ -11,12 +11,11 @@ import {
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
 import NextLink from 'next/link';
-import type { NextLinkType } from '../../../model/next-link-type';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
 type ButtonOutlinedLinkProps = ButtonOutlinedBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void,
-  link: NextLinkType | string,
+  link: {href: {pathname: string, query: string}, as: {pathname: string, query: string}} | string,
 };
 
 const ButtonOutlinedLink = ({
