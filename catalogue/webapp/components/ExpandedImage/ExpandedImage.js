@@ -308,7 +308,7 @@ const ExpandedImage = ({
             </Space>
             {image ? (
               <VisuallySimilarImagesFromApi
-                originalImage={image}
+                originalId={image.id}
                 onClickImage={setExpandedImage}
               />
             ) : (
