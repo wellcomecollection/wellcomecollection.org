@@ -8,7 +8,7 @@ import { getImage } from '../../services/catalogue/images';
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
-  originalImage: ImageType,
+  originalId: string,
   onClickImage: (image: ImageType) => void,
 |};
 
@@ -27,18 +27,15 @@ const Wrapper = styled.div`
   }
 `;
 
-const VisuallySimilarImagesFromApi = ({
-  originalImage,
-  onClickImage,
-}: Props) => {
+const VisuallySimilarImagesFromApi = ({ originalId, onClickImage }: Props) => {
   const [similarImages, setSimilarImages] = useState<ImageType[]>([]);
   useEffect(() => {
     const fetchVisuallySimilarImages = async () => {
-      const fullImage = await getImage({ id: originalImage.id });
+      const fullImage = await getImage({ id: originalId });
       setSimilarImages(fullImage.visuallySimilar);
     };
     fetchVisuallySimilarImages();
-  }, []);
+  }, [originalId]);
   return similarImages.length === 0 ? null : (
     <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
       <h3 className={font('wb', 5)}>Visually similar images</h3>
