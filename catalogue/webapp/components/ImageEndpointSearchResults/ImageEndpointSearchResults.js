@@ -1,7 +1,7 @@
 // @flow
 
 import { useState } from 'react';
-import ExpandedEndpointImage from '../ExpandedEndpointImage/ExpandedEndpointImage';
+import ExpandedImage from '../ExpandedImage/ExpandedImage';
 import ImageCard from '../ImageCard/ImageCard';
 import { trackSearchResultSelected } from '@weco/common/views/components/Tracker/Tracker';
 import {
@@ -37,20 +37,31 @@ const ImageEndpointSearchResults = ({ images, apiProps }: Props) => {
             }}
           />
           {expandedImageId === result.id && (
-            <ExpandedEndpointImage
-              id={result.id}
-              locations={result.locations}
-              sourceId={result.source.id}
+            <ExpandedImage
+              title=""
+              imageId={result.id}
+              workId={result.source.id}
               setExpandedImageId={setExpandedImageId}
               onWorkLinkClick={() => {
                 trackSearchResultSelected(apiProps, {
-                  id: result.id,
+                  id: result.source.id,
                   position: i,
-                  resultIdentifiers: result.source.id,
+                  resultIdentifiers: undefined,
                   resultLanguage: undefined,
                   resultSubjects: undefined,
                   resultWorkType: '',
                   source: 'image_endpoint_result/work_link',
+                });
+              }}
+              onImageLinkClick={() => {
+                trackSearchResultSelected(apiProps, {
+                  id: result.id,
+                  position: i,
+                  resultWorkType: '',
+                  resultLanguage: undefined,
+                  resultIdentifiers: undefined,
+                  resultSubjects: undefined,
+                  source: 'image_endpoint_result/image_link',
                 });
               }}
             />
