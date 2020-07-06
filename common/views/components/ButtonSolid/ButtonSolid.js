@@ -64,13 +64,16 @@ export const BaseButtonInner = styled.span.attrs({
   height: 1em;
 `;
 
-export const ButtonIconWrapper = styled(Space).attrs({
+export const ButtonIconWrapper = styled(Space).attrs(props => ({
   as: 'span',
-  h: { size: 'xs', properties: ['margin-right'] },
+  h: {
+    size: 'xs',
+    properties: [`${props.iconAfter ? 'margin-left' : 'margin-right'}`],
+  },
   className: classNames({
     'flex-inline': true,
   }),
-})``;
+}))``;
 
 export const SolidButton = styled(BaseButton)`
   border: 2px solid ${props => props.theme.colors.green};

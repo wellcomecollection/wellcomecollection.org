@@ -10,7 +10,7 @@ import {
   ButtonIconWrapper,
 } from '../ButtonSolid/ButtonSolid';
 
-const OutlinedButton = styled(BaseButton).attrs(props => ({
+export const OutlinedButton = styled(BaseButton).attrs(props => ({
   className: '',
 }))`
   border: 2px solid ${props => props.theme.colors.green};
@@ -71,17 +71,17 @@ const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
         ref={ref}>
         <BaseButtonInner>
           <>
-            {icon && (
-              <ButtonIconWrapper>
-                <Icon name={icon} />
-              </ButtonIconWrapper>
-            )}
             <span
               className={classNames({
                 'visually-hidden': !!isTextHidden,
               })}
             >
               {text}
+              {icon && (
+              <ButtonIconWrapper iconAfter={true}>
+                <Icon name={icon} />
+              </ButtonIconWrapper>
+            )}
             </span>
           </>
         </BaseButtonInner>
