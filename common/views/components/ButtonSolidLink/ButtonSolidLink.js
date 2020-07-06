@@ -1,6 +1,6 @@
 // @flow
 import {
-  SolidButtonInner,
+  BaseButtonInner,
   ButtonIconWrapper,
   SolidButton,
   type ButtonSolidBaseProps,
@@ -52,14 +52,14 @@ const ButtonSolidLink = ({
         isBig={isBig}
         href={isNextLink ? undefined : link}
       >
-        <SolidButtonInner>
+        <BaseButtonInner>
           {icon && (
             <ButtonIconWrapper>
               <Icon name={icon} />
             </ButtonIconWrapper>
           )}
           {text}
-        </SolidButtonInner>
+        </BaseButtonInner>
       </SolidButton>
     </ConditionalWrapper>
   );
