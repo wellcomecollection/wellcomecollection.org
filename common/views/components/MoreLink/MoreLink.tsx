@@ -1,17 +1,16 @@
-// @flow
+import {SyntheticEvent} from 'react';
 import { trackEvent } from '../../../utils/ga';
 import type { GaEvent } from '../../../utils/ga';
 import ButtonOutlinedLink from '../ButtonOutlinedLink/ButtonOutlinedLink';
 
-type Props = {|
+type Props = {
   url: string,
   name: string,
-  screenReaderText?: string,
   trackingEvent?: GaEvent,
-|};
+};
 
-const MoreLink = ({ url, name, screenReaderText, trackingEvent }: Props) => {
-  function handleClick(event) {
+const MoreLink = ({ url, name, trackingEvent }: Props) => {
+  function handleClick(event: SyntheticEvent<HTMLAnchorElement>) {
     if (trackingEvent) {
       trackEvent({
         category: 'MoreLink',
@@ -24,7 +23,7 @@ const MoreLink = ({ url, name, screenReaderText, trackingEvent }: Props) => {
   return (
     <ButtonOutlinedLink
       clickHandler={handleClick}
-      text={`${name}`}
+      text={name}
       link={url}
       icon={`arrowSmall`}
     />
