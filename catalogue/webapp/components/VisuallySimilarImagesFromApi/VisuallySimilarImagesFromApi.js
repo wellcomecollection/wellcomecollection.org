@@ -1,14 +1,15 @@
 // @flow
 import { font, classNames } from '@weco/common/utils/classnames';
-import NextLink from 'next/link';
 import Image from '@weco/common/views/components/Image/Image';
+import { type Image as ImageType } from '@weco/common/model/catalogue';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getSimilarImages } from '../../services/image-similarity';
+import { getImage } from '../../services/catalogue/images';
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
-  originalId: string,
+  originalImage: ImageType,
+  onClickImage: (image: ImageType) => void,
 |};
 
 const Wrapper = styled.div`
@@ -26,34 +27,32 @@ const Wrapper = styled.div`
   }
 `;
 
-const VisuallySimilarImages = ({ originalId }: Props) => {
-  const [similarImages, setSimilarImages] = useState([]);
+const VisuallySimilarImagesFromApi = ({
+  originalImage,
+  onClickImage,
+}: Props) => {
+  const [similarImages, setSimilarImages] = useState<ImageType[]>([]);
   useEffect(() => {
-    const fetchRelatedImages = async () =>
-      setSimilarImages(
-        await getSimilarImages({
-          id: originalId,
-          n: 5,
-        })
-      );
-    fetchRelatedImages();
+    const fetchVisuallySimilarImages = async () => {
+      const fullImage = await getImage({ id: originalImage.id });
+      setSimilarImages(fullImage.visuallySimilar);
+    };
+    fetchVisuallySimilarImages();
   }, []);
   return similarImages.length === 0 ? null : (
     <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
       <h3 className={font('wb', 5)}>Visually similar images</h3>
       <Wrapper>
         {similarImages.map(related => (
-          <NextLink href={`/works/${related.workId}`} key={related.id}>
-            <a>
-              <Image
-                contentUrl={related.uri}
-                defaultSize={250}
-                width={250}
-                alt=""
-                tasl={null}
-              />
-            </a>
-          </NextLink>
+          <a href="#" onClick={() => onClickImage(related)} key={related.id}>
+            <Image
+              contentUrl={related.locations[0] && related.locations[0].url}
+              defaultSize={250}
+              width={250}
+              alt=""
+              tasl={null}
+            />
+          </a>
         ))}
       </Wrapper>
       <p
@@ -69,4 +68,4 @@ const VisuallySimilarImages = ({ originalId }: Props) => {
     </Space>
   );
 };
-export default VisuallySimilarImages;
+export default VisuallySimilarImagesFromApi;

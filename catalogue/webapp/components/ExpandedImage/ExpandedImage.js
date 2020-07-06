@@ -17,12 +17,13 @@ import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import VisuallySimilarImagesFromApi from '../VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
 
 type Props = {|
   title: string,
   workId: string,
   image?: ImageType,
-  setExpandedImageId: (id: string) => void,
+  setExpandedImage: (image: ?ImageType) => void,
   onWorkLinkClick: () => void,
   onImageLinkClick: (id: string) => void,
 |};
@@ -158,7 +159,7 @@ const ExpandedImage = ({
   title,
   workId,
   image,
-  setExpandedImageId,
+  setExpandedImage,
   onWorkLinkClick,
   onImageLinkClick,
 }: Props) => {
@@ -169,7 +170,6 @@ const ExpandedImage = ({
   const endRef = useRef(null);
 
   const displayTitle = title || (detailedWork && detailedWork.title) || '';
-  const imageId = image && image.id;
 
   useEffect(() => {
     const focusables = modalRef &&
@@ -189,7 +189,7 @@ const ExpandedImage = ({
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key !== 'Escape') return;
 
-      setExpandedImageId('');
+      setExpandedImage(undefined);
     }
 
     document.addEventListener('keydown', closeOnEscape);
@@ -204,7 +204,7 @@ const ExpandedImage = ({
       }
     };
     fetchDetailedWork();
-  }, []);
+  }, [workId]);
 
   useEffect(() => {
     document &&
@@ -237,12 +237,12 @@ const ExpandedImage = ({
 
   return (
     <>
-      <Overlay onClick={() => setExpandedImageId('')} />
+      <Overlay onClick={() => setExpandedImage(undefined)} />
       <Modal ref={modalRef}>
         <CloseButton
           hideFocus={!isKeyboard}
           ref={closeButtonRef}
-          onClick={() => setExpandedImageId('')}
+          onClick={() => setExpandedImage(undefined)}
         >
           <span className="visually-hidden">Close modal window</span>
           <Icon name="cross" extraClasses={`icon--currentColor`} />
@@ -256,6 +256,7 @@ const ExpandedImage = ({
                   alt={displayTitle}
                   contentUrl={iiifImageLocation.url}
                   tasl={null}
+                  lazyload={false}
                 />
               </ImageWrapper>
             </NextLink>
@@ -305,10 +306,14 @@ const ExpandedImage = ({
                 </a>
               </NextLink>
             </Space>
-            <VisuallySimilarImages
-              originalId={imageId || workId}
-              sourceType={imageId ? 'image' : 'work'}
-            />
+            {image ? (
+              <VisuallySimilarImagesFromApi
+                originalImage={image}
+                onClickImage={setExpandedImage}
+              />
+            ) : (
+              <VisuallySimilarImages originalId={workId} />
+            )}
           </InfoWrapper>
         </ModalInner>
       </Modal>
