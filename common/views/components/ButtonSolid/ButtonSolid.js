@@ -12,6 +12,7 @@ export const BaseButton = styled.button.attrs(props => ({
     'flex-inline flex--v-center': true,
   }),
 }))`
+  display: inline-flex;
   line-height: 1;
   border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
   text-decoration: none;
