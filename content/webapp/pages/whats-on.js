@@ -314,7 +314,6 @@ export class WhatsOnPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const period = ctx.query.period || 'current-and-coming-up';
     const { memoizedPrismic } = ctx.query;
-    ctx.query.memoizedPrismic = undefined; // Once we've got memoizedPrismic, we need to remove it before making requests - otherwise we hit circular object issues with JSON.stringify
     const exhibitionsPromise = getExhibitions(
       ctx.req,
       {
@@ -345,7 +344,7 @@ export class WhatsOnPage extends Component<Props> {
         events,
         dateRange,
         tryTheseTooPromos: [readingRoomPromo],
-        eatShopPromos: [shopPromo, cafePromo, restaurantPromo],
+        eatShopPromos: [cafePromo, shopPromo, restaurantPromo],
         cafePromo,
         shopPromo,
         dailyTourPromo,
@@ -413,11 +412,13 @@ export class WhatsOnPage extends Component<Props> {
                         <Space
                           v={{ size: 'xl', properties: ['margin-bottom'] }}
                         >
-                          <FeaturedCardExhibition
-                            exhibition={firstExhibition}
-                            background={'cream'}
-                            color={'black'}
-                          />
+                          <Layout12>
+                            <FeaturedCardExhibition
+                              exhibition={firstExhibition}
+                              background={'cream'}
+                              color={'black'}
+                            />
+                          </Layout12>
                         </Space>
                         <CardGrid
                           items={exhibitions.slice(1)}
@@ -510,7 +511,7 @@ export class WhatsOnPage extends Component<Props> {
                           [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                         })}
                       >
-                        <div className="css-grid grid--scroll">
+                        <div className="css-grid grid--scroll card-theme card-theme--transparent">
                           {tryTheseTooPromos
                             .concat(eatShopPromos)
                             .map(promo => (

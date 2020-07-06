@@ -5,16 +5,55 @@ import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import Space from '../styled/Space';
+import styled from 'styled-components';
 
 type Props = {|
   item: CardType,
 |};
 
+export const CardOuter = styled.a.attrs(props => ({
+  className:
+    'plain-link promo-link rounded-corners overflow-hidden flex-ie-block flex--column',
+}))`
+  background: ${props => props.theme.colors.cream};
+
+  .card-theme.card-theme--white & {
+    background: ${props => props.theme.colors.white};
+  }
+
+  .card-theme.card-theme--transparent & {
+    background: ${props => props.theme.colors.transparent};
+  }
+
+  .card-theme.bg-charcoal & {
+    color: ${props => props.theme.colors.white};
+  }
+`;
+
+export const CardBody = styled(Space).attrs(props => ({
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  className: 'flex flex--column flex-1',
+}))`
+  justify-content: space-between;
+
+  ${props =>
+    props.theme.makeSpacePropertyValues(
+      'm',
+      ['padding-left', 'padding-right'],
+      false
+    )}
+
+  .card-theme.card-theme--transparent & {
+    padding-left: 0;
+    padding-right: 0;
+    justify-content: unset;
+  }
+`;
+
 const Card = ({ item }: Props) => {
   return (
-    <a
+    <CardOuter
       href={item.link}
-      className="plain-link promo-link bg-cream rounded-corners overflow-hidden flex-ie-block flex--column"
       onClick={() => {
         trackEvent({
           category: 'Card',
@@ -38,16 +77,7 @@ const Card = ({ item }: Props) => {
         )}
       </div>
 
-      <Space
-        v={{
-          size: 'm',
-          properties: ['padding-top', 'padding-bottom'],
-        }}
-        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-        className={classNames({
-          'flex flex--column flex-1 flex--h-space-between': true,
-        })}
-      >
+      <CardBody>
         <div>
           {item.title && (
             <Space
@@ -71,8 +101,8 @@ const Card = ({ item }: Props) => {
             </p>
           )}
         </div>
-      </Space>
-    </a>
+      </CardBody>
+    </CardOuter>
   );
 };
 

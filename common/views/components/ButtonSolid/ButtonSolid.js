@@ -21,9 +21,7 @@ export const BaseButton = styled.button.attrs(props => ({
   white-space: nowrap;
   padding: 15px 20px;
 
-  &:not([disabled]):hover,
-  &:not([disabled]):focus {
-    cursor: pointer;
+  &:not([disabled]):hover
   }
 
   &:focus {
@@ -84,8 +82,7 @@ export const SolidButton = styled(BaseButton)`
     padding: 21px 20px 20px;
   `}
 
-  &:not([disabled]):hover,
-  &:not([disabled]):focus {
+  &:not([disabled]):hover {
     border-color: ${props => props.theme.colors.black};
     background: ${props => props.theme.colors.black};
   }

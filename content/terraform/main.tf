@@ -22,7 +22,7 @@ module "content-prod" {
 // to test differing images.
 //
 // The service should be available at:
-// "content.www-stage.wellcomecollection.org/works"
+// "content.www-stage.wellcomecollection.org"
 //
 //module "content-stage" {
 //  source = "./stack"

@@ -18,7 +18,6 @@ type Props = {|
 export class PlacePage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { id, memoizedPrismic } = ctx.query;
-    ctx.query.memoizedPrismic = undefined; // Once we've got memoizedPrismic, we need to remove it before making requests - otherwise we hit circular object issues with JSON.stringify
     const place = await getPlace(ctx.req, id, memoizedPrismic);
 
     if (place) {

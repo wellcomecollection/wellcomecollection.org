@@ -22,26 +22,44 @@ export const ShameButton = styled.button.attrs(props => ({
 }))`
   overflow: hidden;
 
-  .btn__text {
-    position: absolute;
-    right: 100%;
-    @media (min-width: ${props => props.theme.sizes.large}px) {
-      position: static;
+  ${props =>
+    props.isDark &&
+    `
+    border: none;
+    color: ${props.theme.colors.white};
+    background: transparent;
+    outline: none;
+    transition: all ${props.theme.transitionProperties};
+
+    .btn__text {
+      position: absolute;
+      right: 100%;
+      @media (min-width: ${props.theme.sizes.large}px) {
+        position: static;
+      }
     }
-  }
 
-  border: none;
-  color: ${props => props.theme.colors.white};
-  background: transparent;
-  outline: none;
-  transition: all ${props => props.theme.transitionProperties};
+    &:not([disabled]):hover,
+    &:not([disabled]):focus {
+      border-color: ${props.theme.colors.black};
+      background: ${props.theme.colors.yellow};
+      color: ${props.theme.colors.black};
+    }
+  `}
 
-  &:not([disabled]):hover,
-  &:not([disabled]):focus {
-    border-color: ${props => props.theme.colors.black};
-    background: ${props => props.theme.colors.yellow};
-    color: ${props => props.theme.colors.black};
-  }
+  ${props =>
+    !props.isDark &&
+    `
+    background: ${props.theme.colors.white};
+    color: ${props.theme.colors.green};
+    border: 1px solid ${props.theme.colors.green};
+
+    &:not([disabled]):hover,
+    &:not([disabled]):focus {
+      background: ${props.theme.colors.green};
+      color: ${props.theme.colors.white};
+    }
+  `}
 `;
 
 const TopBar = styled.div`
@@ -184,6 +202,7 @@ const ViewerTopBar = ({
                 document.webkitFullscreenEnabled) && (
                 <Space h={{ size: 'm', properties: ['margin-right'] }}>
                   <ShameButton
+                    isDark
                     onClick={() => {
                       if (viewerRef && viewerRef.current) {
                         if (

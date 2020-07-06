@@ -69,7 +69,6 @@ const pageDescription =
 export class StoriesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { page = 1, memoizedPrismic } = ctx.query;
-    ctx.query.memoizedPrismic = undefined; // Once we've got memoizedPrismic, we need to remove it before making requests - otherwise we hit circular object issues with JSON.stringify
     const articlesPromise = getArticles(ctx.req, { page }, memoizedPrismic);
     const seriesPromise = getArticleSeries(
       ctx.req,
@@ -187,23 +186,21 @@ export class StoriesPage extends Component<Props> {
             })}
           >
             <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-              <FeaturedCardArticle
-                article={firstArticle}
-                background={'charcoal'}
-                color={'white'}
-              />
+              <Layout12>
+                <FeaturedCardArticle
+                  article={firstArticle}
+                  background={'charcoal'}
+                  color={'white'}
+                />
+              </Layout12>
             </Space>
             <div className="row__wobbly-background" />
             <div className="container container--scroll container--scroll-cream touch-scroll">
-              <div className="grid grid--scroll grid--theme-4">
+              <div className="grid grid--scroll grid--theme-4 card-theme card-theme--transparent">
                 {articles.slice(1, 5).map((article, i) => {
                   return (
                     <div className="grid__cell" key={article.id}>
-                      <StoryPromo
-                        item={article}
-                        position={i}
-                        hasTransparentBackground={true}
-                      />
+                      <StoryPromo item={article} position={i} />
                     </div>
                   );
                 })}

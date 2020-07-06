@@ -256,7 +256,7 @@ const Footer = ({
                   href="https://wellcomecollection.org/press"
                   className="footer__hygiene-link"
                 >
-                  Press
+                  Media office
                 </a>
               </li>
               <li className={`footer__hygiene-item ${font('hnm', 6)}`}>
