@@ -96,6 +96,12 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     }
   }
 
+  # Don't cache 404s
+  custom_error_response {
+    error_code            = 404
+    error_caching_min_ttl = 0
+  }
+
   # Works
   ordered_cache_behavior {
     allowed_methods        = ["HEAD", "GET", "OPTIONS"]
