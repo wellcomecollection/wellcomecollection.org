@@ -175,7 +175,9 @@ const ArchiveTree = ({ collection = collectionTree, currentWork }: Props) => {
       .then(resp => resp.json())
       .then(resp =>
         setBelongsToCrickArchive(
-          resp.collection && resp.collection.work.id === 'hz43r7re'
+          resp.collection &&
+            resp.collection.work &&
+            resp.collection.work.id === 'hz43r7re'
         )
       );
   }, []);
