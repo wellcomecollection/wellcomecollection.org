@@ -13,6 +13,7 @@ import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import type { Period } from '@weco/common/model/periods';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { convertJsonToDates } from './event';
+// $FlowFixMe
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
