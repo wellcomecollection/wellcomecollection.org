@@ -76,13 +76,12 @@ const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
                 'visually-hidden': !!isTextHidden,
               })}
             >
-              {text}
+              {text}</span>
               {icon && (
               <ButtonIconWrapper iconAfter={true}>
                 <Icon name={icon} />
               </ButtonIconWrapper>
             )}
-            </span>
           </>
         </BaseButtonInner>
       </OutlinedButton>
