@@ -47,7 +47,7 @@ const WorksGrid = ({ title, works }: WorksGridProps) => {
         <div className="css-grid">
           {works.map(item => (
             <div
-              key={item.work.id}
+              key={item.path.path}
               className={classNames({
                 [cssGrid({
                   s: 12,
@@ -57,28 +57,36 @@ const WorksGrid = ({ title, works }: WorksGridProps) => {
                 })]: true,
               })}
             >
-              <NextLink
-                {...workLink({ id: item.work.id })}
-                scroll={true}
-                passHref
-              >
-                <WorkLink selected={false}>
-                  {item.path.level !== 'Item' && (
-                    <Space
-                      as="span"
-                      h={{ size: 'xs', properties: ['margin-right'] }}
-                    >
-                      <Icon
-                        extraClasses={`icon--match-text icon--currentColor`}
-                        name="folder"
-                      />
-                    </Space>
-                  )}
-                  {item.work.title}
+              {item.work ? (
+                <NextLink
+                  {...workLink({ id: item.work.id })}
+                  scroll={true}
+                  passHref
+                >
+                  <WorkLink selected={false}>
+                    {item.path.level !== 'Item' && (
+                      <Space
+                        as="span"
+                        h={{ size: 'xs', properties: ['margin-right'] }}
+                      >
+                        <Icon
+                          extraClasses={`icon--match-text icon--currentColor`}
+                          name="folder"
+                        />
+                      </Space>
+                    )}
+                    {item.work.title}
+                    <br />
+                    {item.path.path}
+                  </WorkLink>
+                </NextLink>
+              ) : (
+                <WorkLink>
+                  {`Unknown (not available)`}
                   <br />
                   {item.path.path}
                 </WorkLink>
-              </NextLink>
+              )}
             </div>
           ))}
         </div>
@@ -120,13 +128,21 @@ const RelatedArchiveWorks = ({ work }: Props) => {
         currentTree.children &&
         currentTree.children.length > 0 && (
           <WorksGrid
-            title={`${currentTree.work.title} ${currentTree.path.path} contains:`}
+            title={`${
+              currentTree.work
+                ? currentTree.work.title
+                : 'Unknown (not available)'
+            } ${currentTree.path.path} contains:`}
             works={currentTree.children}
           />
         )}
       {parentTree && parentTree.children && parentTree.children.length > 0 && (
         <WorksGrid
-          title={`Siblings of ${currentTree.work.title} ${currentTree.path.path}:`}
+          title={`Siblings of ${
+            currentTree.work
+              ? currentTree.work.title
+              : 'Unknown (not available)'
+          } ${currentTree.path.path}:`}
           works={parentTree.children}
         />
       )}

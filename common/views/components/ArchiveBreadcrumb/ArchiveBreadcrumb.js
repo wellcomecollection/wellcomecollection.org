@@ -128,7 +128,10 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
               name={`archive`}
             />
             <ConditionalWrapper
-              condition={breadcrumb.firstCrumb.work.id !== work.id}
+              condition={
+                breadcrumb.firstCrumb.work &&
+                breadcrumb.firstCrumb.work.id !== work.id
+              }
               wrapper={children => (
                 <NextLink {...workLink({ id: breadcrumb.firstCrumb.work.id })}>
                   <a className="crumb-inner">{children}</a>
@@ -137,10 +140,14 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
             >
               <span
                 className={classNames({
-                  'crumb-inner': breadcrumb.firstCrumb.work.id === work.id,
+                  'crumb-inner':
+                    breadcrumb.firstCrumb.work &&
+                    breadcrumb.firstCrumb.work.id === work.id,
                 })}
               >
-                {breadcrumb.firstCrumb.work.title}
+                {breadcrumb.firstCrumb.work
+                  ? breadcrumb.firstCrumb.work.title
+                  : 'Unknown (not available)'}
               </span>
             </ConditionalWrapper>
           </li>
@@ -212,7 +219,9 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
               }
             />
             <span className="crumb-inner">
-              {breadcrumb.lastCrumb.work.title}{' '}
+              {breadcrumb.lastCrumb.work
+                ? breadcrumb.lastCrumb.work.title
+                : 'Unknown (not available)'}{' '}
               {breadcrumb.lastCrumb.path.label}
             </span>
           </li>
