@@ -22,9 +22,6 @@ export const BaseButton = styled.button.attrs(props => ({
   white-space: nowrap;
   padding: 15px 20px;
 
-  &:not([disabled]):hover
-  }
-
   &:focus {
     outline: 0;
 
@@ -37,7 +34,12 @@ export const BaseButton = styled.button.attrs(props => ({
   &.disabled {
     background: ${props => props.theme.colors.pewter};
     border-color: ${props => props.theme.colors.pewter};
+    color: ${props => props.theme.colors.white};
     cursor: not-allowed;
+
+    &:hover {
+      text-decoration: none;
+    }
   }
 
   &.disabled {
