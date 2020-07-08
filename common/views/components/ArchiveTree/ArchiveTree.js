@@ -59,14 +59,14 @@ const Tree = styled(Space).attrs({
     }
 
     li::before {
-      border-top: 2px solid ${props => props.theme.colors.green};
+      border-top: 2px solid ${props => props.theme.color('green')};
       top: 20px;
       width: 22px;
       height: 0;
     }
 
     li::after {
-      border-left: 2px solid ${props => props.theme.colors.green};
+      border-left: 2px solid ${props => props.theme.color('green')};
       height: 100%;
       width: 0px;
       top: 10px;
@@ -82,9 +82,9 @@ const WorkLink = styled.a`
   display: inline-block;
   background: ${props => (props.selected ? '#ffce3c' : 'transparent')};
   font-weight: ${props => (props.selected ? 'bold' : 'normal')};
-  border: 1px dotted ${props => props.theme.colors.green};
+  border: 1px dotted ${props => props.theme.color('green')};
   border-color: ${props =>
-    props.selected ? props.theme.colors.green : 'transparent'};
+    props.theme.color(props.selected ? 'green' : 'transparent')};
   border-radius: 6px;
   cursor: pointer;
 `;

@@ -37,7 +37,7 @@ const CreamBox = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
-  background: ${props => props.theme.colors.cream};
+  background: ${props => props.theme.color('cream')};
 `;
 
 type Props = {|

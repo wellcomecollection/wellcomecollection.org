@@ -21,8 +21,8 @@ const Form = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
   as: 'form',
 })`
-  border-bottom: 1px solid ${props => `${props.theme.colors.charcoal}`};
-  background: ${props => props.theme.colors.yellow};
+  border-bottom: 1px solid ${props => `${props.theme.color('charcoal')}`};
+  background: ${props => props.theme.color('yellow')};
   align-items: center;
 `;
 
@@ -37,13 +37,13 @@ const Heading = styled(Space).attrs({
     properties: ['padding-right', 'margin-right'],
   },
 })`
-  border-right: 1px solid ${props => `${props.theme.colors.charcoal}`};
+  border-right: 1px solid ${props => `${props.theme.color('charcoal')}`};
 `;
 
 const Section = styled.div`
   padding-right: 5px;
   margin-right: 5px;
-  border-right: 1px solid ${props => `${props.theme.colors.charcoal}`};
+  border-right: 1px solid ${props => `${props.theme.color('charcoal')}`};
 `;
 
 const Input = styled(Space).attrs({

@@ -34,8 +34,8 @@ export const BaseButton = styled.button.attrs(props => ({
 
   &[disabled],
   &.disabled {
-    background: ${props => props.theme.colors.pewter};
-    border-color: ${props => props.theme.colors.pewter};
+    background: ${props => props.theme.color('pewter')};
+    border-color: ${props => props.theme.color('pewter')};
     cursor: not-allowed;
   }
 
@@ -44,12 +44,12 @@ export const BaseButton = styled.button.attrs(props => ({
   }
 
   .icon__shape {
-    transition: fill ${props => props.theme.colors.transitionProperties};
+    transition: fill ${props => props.theme.transitionProperties};
     fill: currentColor;
   }
 
   .icon__stroke {
-    transition: stroke ${props => props.theme.colors.transitionProperties};
+    transition: stroke ${props => props.theme.transitionProperties};
     stroke: currentColor;
   }
 `;
@@ -72,9 +72,8 @@ export const ButtonIconWrapper = styled(Space).attrs({
 })``;
 
 export const SolidButton = styled(BaseButton)`
-  border: 2px solid ${props => props.theme.colors.green};
-  background: ${props => props.theme.colors.green};
-  color: ${props => props.theme.colors.white};
+  background: rgb(${props => props.theme.hexToRgb(props.theme.color('green'))});
+  color: ${props => props.theme.color('white')};
 
   ${props =>
     props.isBig &&
@@ -83,8 +82,7 @@ export const SolidButton = styled(BaseButton)`
   `}
 
   &:not([disabled]):hover {
-    border-color: ${props => props.theme.colors.black};
-    background: ${props => props.theme.colors.black};
+    background: ${props => props.theme.color('greenDarker')};
   }
 `;
 

@@ -24,32 +24,32 @@ const LL = styled.div`
     bottom: 0;
     width: 20px;
     background: ${props =>
-      props.lighten ? props.theme.colors.silver : props.theme.colors.black};
+      props.theme.color(props.lighten ? 'silver' : 'black')};
+
+    &:before {
+      left: 0;
+      animation: animate-ll 1s infinite;
+    }
+
+    &:after {
+      right: 0;
+      animation: animate-ll 1s 0.5s infinite;
+    }
   }
 
-  &:before {
-    left: 0;
-    animation: animate-ll 1s infinite;
-  }
+  @keyframes animate-ll {
+    0% {
+      opacity: 0;
+    }
 
-  &:after {
-    right: 0;
-    animation: animate-ll 1s 0.5s infinite;
-  }
-}
+    50% {
+      opacity: 1;
+    }
 
-@keyframes animate-ll {
-  0% {
-    opacity: 0;
+    100% {
+      opacity: 0;
+    }
   }
-
-  50% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}`;
+`;
 
 export default LL;

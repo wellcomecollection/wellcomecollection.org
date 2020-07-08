@@ -56,10 +56,10 @@ export const topBarHeight = 64;
 
 const IIIFViewerBackground = styled.div`
   position: relative;
-  background: ${props => props.theme.colors.viewerBlack};
+  background: ${props => props.theme.color('viewerBlack')};
   height: ${props =>
     props.isFullscreen ? '100vh' : `calc(100vh - ${`${headerHeight}px`})`};
-  color: ${props => props.theme.colors.white};
+  color: ${props => props.theme.color('white')};
 `;
 
 export const IIIFViewerImageWrapper = styled.div.attrs(props => ({

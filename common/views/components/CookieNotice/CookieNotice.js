@@ -14,15 +14,15 @@ const CookieNoticeStyle = styled.div.attrs({
   }),
 })`
   position: fixed;
-  background: ${props => props.theme.colors.teal};
-  color: ${props => props.theme.colors.white};
+  background: ${props => props.theme.color('teal')};
+  color: ${props => props.theme.color('white')};
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 1000;
 
   .icon__shape {
-    fill: ${props => props.theme.colors.white};
+    fill: ${props => props.theme.color('white')};
   }
 }
 `;

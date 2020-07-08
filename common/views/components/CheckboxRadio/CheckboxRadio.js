@@ -22,7 +22,7 @@ const CheckboxRadioBox = styled.span.attrs({
 })`
   width: 1.3em;
   height: 1.3em;
-  border: 2px solid ${props => props.theme.colors.pumice};
+  border: 2px solid ${props => props.theme.color('pumice')};
   border-radius: ${props => (props.type === 'radio' ? '50%' : '0')};
 
   .icon {
@@ -41,7 +41,7 @@ const CheckboxRadioInput = styled.input.attrs(props => ({
   height: 1em;
 
   &:checked ~ ${CheckboxRadioBox} {
-    border-color: ${props => props.theme.colors.black};
+    border-color: ${props => props.theme.color('black')};
 
     .icon {
       opacity: 1;
@@ -49,14 +49,14 @@ const CheckboxRadioInput = styled.input.attrs(props => ({
   }
 
   &:hover ~ ${CheckboxRadioBox} {
-    border-color: ${props => props.theme.colors.black};
+    border-color: ${props => props.theme.color('black')};
   }
 
   .is-keyboard & {
     &:focus ~ ${CheckboxRadioBox} {
       outline: 0;
       box-shadow: ${props => props.theme.focusBoxShadow};
-      border-color: ${props => props.theme.colors.black};
+      border-color: ${props => props.theme.color('black')};
     }
   }
 `;

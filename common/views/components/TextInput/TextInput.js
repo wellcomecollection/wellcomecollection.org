@@ -27,7 +27,7 @@ const TextInputWrap = styled.div.attrs({
   ${props =>
     props.hasErrorBorder &&
     `
-    box-shadow: 0 0 0 1px ${props.theme.colors.red};
+    box-shadow: 0 0 0 1px ${props.theme.color('red')};
   `}
 `;
 
@@ -55,7 +55,7 @@ const TextInputLabel = styled.label.attrs({
   transition: top 125ms ease-in, font-size 125ms ease-in,
     transform 125ms ease-in;
   pointer-events: none;
-  color: ${props => props.theme.colors.silver};
+  color: ${props => props.theme.color('silver')};
 
   ${props =>
     (!props.isEnhanced || props.hasValue) &&
@@ -75,14 +75,14 @@ const TextInputInput = styled.input.attrs(props => ({
   appearance: none;
   border: 0;
   height: 100%;
-  border: 1px solid ${props => props.theme.colors.pumice};
+  border: 1px solid ${props => props.theme.color('pumice')};
   border-radius: 6px;
   font-size: inherit;
   width: 100%;
 
   &:focus {
     outline: 0;
-    border-color: ${props => props.theme.colors.turquoise};
+    border-color: ${props => props.theme.color('turquoise')};
   }
 
   &:-ms-clear {
@@ -94,7 +94,7 @@ const TextInputInput = styled.input.attrs(props => ({
     `
       &,
       &:focus {
-        border-color: ${props.theme.colors.red};
+        border-color: ${props.theme.color('red')};
       }
     `}
 `;
@@ -120,7 +120,7 @@ const TextInputErrorMessage = styled.span.attrs({
   font-size: 14px;
   margin-top: 10px;
   padding-left: 15px;
-  color: ${props => props.theme.colors.red};
+  color: ${props => props.theme.color('red')};
 `;
 
 type Props = {

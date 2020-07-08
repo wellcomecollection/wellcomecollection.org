@@ -108,8 +108,8 @@ const Child = ({
 };
 
 const ContainerInner = styled.div`
-  background: ${props => props.theme.colors.cream};
-  border-top: 5px solid ${props => props.theme.colors.cyan};
+  background: ${props => props.theme.color('cream')};
+  border-top: 5px solid ${props => props.theme.color('cyan')};
 `;
 type CollectionContainerProps = {| children: Node |};
 const CollectionContainer = ({ children }: CollectionContainerProps) => {

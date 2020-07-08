@@ -21,10 +21,10 @@ export const DownloadOptions = styled.div.attrs(props => ({
   ${props =>
     props.enhancedStyles &&
     `min-width: 300px;
-    border: 1px solid ${props.theme.colors.marble};
+    border: 1px solid ${props.theme.color('marble')};
     border-radius: ${props.theme.borderRadiusUnit}px;
-    background: ${props.theme.colors.white};
-    color: ${props.theme.colors.black};
+    background: ${props.theme.color('white')};
+    color: ${props.theme.color('black')};
     box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
     padding: ${props.theme.spacingUnit * 3}px;
     position: absolute;

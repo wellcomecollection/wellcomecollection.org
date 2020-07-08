@@ -14,10 +14,10 @@ const Container = styled(Space).attrs({
   },
   v: { size: 's', properties: ['padding-bottom'] },
 })`
-  border-top: 1px solid ${props => props.theme.colors.cyan};
-  border-bottom: 1px solid ${props => props.theme.colors.cyan};
-  border-left: 1px solid ${props => props.theme.colors.cream};
-  border-right: 1px solid ${props => props.theme.colors.cream};
+  border-top: 1px solid ${props => props.theme.color('cyan')};
+  border-bottom: 1px solid ${props => props.theme.color('cyan')};
+  border-left: 1px solid ${props => props.theme.color('cream')};
+  border-right: 1px solid ${props => props.theme.color('cream')};
 `;
 
 type Props = {| query: string |};

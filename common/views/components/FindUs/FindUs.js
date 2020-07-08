@@ -30,7 +30,7 @@ const StyledFindUs = styled.div.attrs(props => ({
 
     &:hover,
     &:focus {
-      color: ${props => props.theme.colors.green};
+      color: ${props => props.theme.color('green')};
     }
   }
 `;

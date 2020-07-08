@@ -32,25 +32,25 @@ const theme = {
     xlarge: 30,
   },
   colors: {
-    white: '#ffffff',
-    black: '#010101',
-    viewerBlack: '#121212',
-    purple: '#944aa0',
-    teal: '#006272',
-    cyan: '#298187',
-    turquoise: '#5cb8bf',
-    red: '#e01b2f',
-    orange: '#e87500',
-    yellow: '#ffce3c',
-    brown: '#815e48',
-    cream: '#f0ede3',
-    green: '#007868',
-    charcoal: '#323232',
-    pewter: '#6b6b6b',
-    silver: '#8f8f8f',
-    marble: '#bcbab5',
-    pumice: '#d9d6ce',
-    smoke: '#e8e8e8',
+    white: { base: '#ffffff', dark: '', light: '' },
+    black: { base: '#010101', dark: '', light: '' },
+    viewerBlack: { base: '#121212', dark: '', light: '' },
+    purple: { base: '#944aa0', dark: '', light: '' },
+    teal: { base: '#006272', dark: '', light: '' },
+    cyan: { base: '#298187', dark: '', light: '' },
+    turquoise: { base: '#5cb8bf', dark: '', light: '' },
+    red: { base: '#e01b2f', dark: '', light: '' },
+    orange: { base: '#e87500', dark: '', light: '' },
+    yellow: { base: '#ffce3c', dark: '', light: '' },
+    brown: { base: '#815e48', dark: '', light: '' },
+    cream: { base: '#f0ede3', dark: '', light: '' },
+    green: { base: '#007868', dark: '', light: '' },
+    charcoal: { base: '#323232', dark: '', light: '' },
+    pewter: { base: '#6b6b6b', dark: '', light: '' },
+    silver: { base: '#8f8f8f', dark: '', light: '' },
+    marble: { base: '#bcbab5', dark: '', light: '' },
+    pumice: { base: '#d9d6ce', dark: '', light: '' },
+    smoke: { base: '#e8e8e8', dark: '', light: '' },
     // The following 'black' is only to be used for the item viewer
     coal: '#1f1f1f',
     //
@@ -60,6 +60,7 @@ const theme = {
     inherit: 'inherit',
     currentColor: 'currentColor',
   },
+
   // Keyboard focus uses a hard box shadow of 0.7 opacity 'turquoise'
   focusBoxShadow: '0 0 0 3px rgba(92, 184, 191, 0.7)',
   keyframes: {
@@ -103,6 +104,8 @@ const theme = {
       xl: spacingUnits['10'],
     },
   },
+  hexToRgb,
+  color,
 };
 
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
@@ -119,6 +122,20 @@ type SpaceProperty =
   | 'padding-right'
   | 'left'
   | 'right';
+
+function hexToRgb(hex: string) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result
+    ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(
+        result[3],
+        16
+      )}`
+    : null;
+}
+
+function color(name: string, variant: 'base' | 'light' | 'dark' = 'base') {
+  return this.colors[name][variant];
+}
 
 function makeSpacePropertyValues(
   size: SpaceSize,
