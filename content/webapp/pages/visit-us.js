@@ -236,8 +236,8 @@ const backgroundTexture =
 
 export class Page extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const { id } = ctx.query;
-    const page = await getPage(ctx.req, id);
+    const { id, memoizedPrismic } = ctx.query;
+    const page = await getPage(ctx.req, id, memoizedPrismic);
 
     if (page) {
       return {

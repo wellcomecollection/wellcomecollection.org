@@ -51,6 +51,7 @@ const CardGrid = ({
                   l: gridColumns,
                   xl: gridColumns,
                 })]: true,
+                'card-theme card-theme--transparent': itemsHaveTransparentBackground,
               })}
             >
               {item.id === 'tours' && <DailyTourPromo />}
@@ -81,7 +82,6 @@ const CardGrid = ({
                   item={item}
                   position={i}
                   hidePromoText={hidePromoText}
-                  hasTransparentBackground={itemsHaveTransparentBackground}
                 />
               )}
               {item.type === 'books' && (

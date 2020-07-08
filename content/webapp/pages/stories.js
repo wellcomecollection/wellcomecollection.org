@@ -68,9 +68,13 @@ const pageDescription =
   'Our words and pictures explore the connections between science, medicine, life and art. Dive into a story no matter where in the world you are.';
 export class StoriesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const { page = 1 } = ctx.query;
-    const articlesPromise = getArticles(ctx.req, { page });
-    const seriesPromise = getArticleSeries(ctx.req, { id: 'XnIR1BIAACoAdpbI' });
+    const { page = 1, memoizedPrismic } = ctx.query;
+    const articlesPromise = getArticles(ctx.req, { page }, memoizedPrismic);
+    const seriesPromise = getArticleSeries(
+      ctx.req,
+      { id: 'XnIR1BIAACoAdpbI' },
+      memoizedPrismic
+    );
     const [articles, seriesAndArticles] = await Promise.all([
       articlesPromise,
       seriesPromise,
@@ -182,23 +186,21 @@ export class StoriesPage extends Component<Props> {
             })}
           >
             <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-              <FeaturedCardArticle
-                article={firstArticle}
-                background={'charcoal'}
-                color={'white'}
-              />
+              <Layout12>
+                <FeaturedCardArticle
+                  article={firstArticle}
+                  background={'charcoal'}
+                  color={'white'}
+                />
+              </Layout12>
             </Space>
             <div className="row__wobbly-background" />
             <div className="container container--scroll container--scroll-cream touch-scroll">
-              <div className="grid grid--scroll grid--theme-4">
+              <div className="grid grid--scroll grid--theme-4 card-theme card-theme--transparent">
                 {articles.slice(1, 5).map((article, i) => {
                   return (
                     <div className="grid__cell" key={article.id}>
-                      <StoryPromo
-                        item={article}
-                        position={i}
-                        hasTransparentBackground={true}
-                      />
+                      <StoryPromo item={article} position={i} />
                     </div>
                   );
                 })}

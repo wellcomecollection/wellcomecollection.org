@@ -1,7 +1,7 @@
 // @flow
 
 import { useState } from 'react';
-import ExpandedEndpointImage from '../ExpandedEndpointImage/ExpandedEndpointImage';
+import ExpandedImage from '../ExpandedImage/ExpandedImage';
 import ImageCard from '../ImageCard/ImageCard';
 import { trackSearchResultSelected } from '@weco/common/views/components/Tracker/Tracker';
 import {
@@ -16,7 +16,12 @@ type Props = {|
 |};
 
 const ImageEndpointSearchResults = ({ images, apiProps }: Props) => {
-  const [expandedImageId, setExpandedImageId] = useState('');
+  const [expandedImage, setExpandedImage] = useState();
+  // In the case that the modal changes the expanded image to
+  // be one that isn't on this results page, this index will be -1
+  const expandedImagePosition = images.results.findIndex(
+    img => expandedImage && img.id === expandedImage.id
+  );
 
   return (
     <div className={'flex flex--wrap'}>
@@ -33,30 +38,41 @@ const ImageEndpointSearchResults = ({ images, apiProps }: Props) => {
             }}
             onClick={event => {
               event.preventDefault();
-              setExpandedImageId(result.id);
+              setExpandedImage(result);
             }}
           />
-          {expandedImageId === result.id && (
-            <ExpandedEndpointImage
-              id={result.id}
-              locations={result.locations}
-              sourceId={result.source.id}
-              setExpandedImageId={setExpandedImageId}
-              onWorkLinkClick={() => {
-                trackSearchResultSelected(apiProps, {
-                  id: result.id,
-                  position: i,
-                  resultIdentifiers: result.source.id,
-                  resultLanguage: undefined,
-                  resultSubjects: undefined,
-                  resultWorkType: '',
-                  source: 'image_endpoint_result/work_link',
-                });
-              }}
-            />
-          )}
         </div>
       ))}
+      {expandedImage && (
+        <ExpandedImage
+          title=""
+          image={expandedImage}
+          workId={expandedImage.source.id}
+          setExpandedImage={setExpandedImage}
+          onWorkLinkClick={() => {
+            trackSearchResultSelected(apiProps, {
+              id: expandedImage.source.id,
+              position: expandedImagePosition,
+              resultIdentifiers: undefined,
+              resultLanguage: undefined,
+              resultSubjects: undefined,
+              resultWorkType: '',
+              source: 'image_endpoint_result/work_link',
+            });
+          }}
+          onImageLinkClick={() => {
+            trackSearchResultSelected(apiProps, {
+              id: expandedImage.id,
+              position: expandedImagePosition,
+              resultWorkType: '',
+              resultLanguage: undefined,
+              resultIdentifiers: undefined,
+              resultSubjects: undefined,
+              source: 'image_endpoint_result/image_link',
+            });
+          }}
+        />
+      )}
     </div>
   );
 };

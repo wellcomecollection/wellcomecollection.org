@@ -57,20 +57,30 @@ export function parsePage(document: PrismicDocument): Page {
   };
 }
 
-export async function getPage(req: ?Request, id: string): Promise<?Page> {
-  const page = await getDocument(req, id, {
-    fetchLinks: pagesFields.concat(
-      eventSeriesFields,
-      collectionVenuesFields,
-      exhibitionFields,
-      teamsFields,
-      eventsFields,
-      cardsFields,
-      eventFormatsFields,
-      articleFormatsFields,
-      labelsFields
-    ),
-  });
+export async function getPage(
+  req: ?Request,
+  id: string,
+  memoizedPrismic: ?Object
+): Promise<?Page> {
+  const page = await getDocument(
+    req,
+    id,
+    {
+      fetchLinks: pagesFields.concat(
+        eventSeriesFields,
+        collectionVenuesFields,
+        exhibitionFields,
+        teamsFields,
+        eventsFields,
+        cardsFields,
+        eventFormatsFields,
+        articleFormatsFields,
+        labelsFields
+      ),
+    },
+    memoizedPrismic
+  );
+
   if (page) {
     return parsePage(page);
   }

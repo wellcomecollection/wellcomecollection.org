@@ -22,8 +22,8 @@ const backgroundTexture =
   'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg';
 export class Page extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const { id } = ctx.query;
-    const page = await getPage(ctx.req, id);
+    const { id, memoizedPrismic } = ctx.query;
+    const page = await getPage(ctx.req, id, memoizedPrismic);
 
     if (page) {
       return {

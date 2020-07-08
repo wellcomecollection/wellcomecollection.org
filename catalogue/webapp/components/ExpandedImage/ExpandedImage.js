@@ -4,23 +4,26 @@ import { workLink, itemLink } from '@weco/common/services/catalogue/routes';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
+import { type Image as ImageType } from '@weco/common/model/catalogue';
 import { getWork } from '../../services/catalogue/works';
 import { useEffect, useState, useRef, useContext } from 'react';
 import useFocusTrap from '@weco/common/hooks/useFocusTrap';
 import styled from 'styled-components';
-import RelatedImages from '../RelatedImages/RelatedImages';
+import VisuallySimilarImages from '../VisuallySimilarImages/VisuallySimilarImages';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import VisuallySimilarImagesFromApi from '../VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
 
 type Props = {|
   title: string,
-  id: string,
-  setExpandedImageId: (id: string) => void,
+  workId: string,
+  image?: ImageType,
+  setExpandedImage: (image: ?ImageType) => void,
   onWorkLinkClick: () => void,
   onImageLinkClick: (id: string) => void,
 |};
@@ -154,8 +157,9 @@ const CloseButton = styled(Space).attrs({
 
 const ExpandedImage = ({
   title,
-  id,
-  setExpandedImageId,
+  workId,
+  image,
+  setExpandedImage,
   onWorkLinkClick,
   onImageLinkClick,
 }: Props) => {
@@ -164,6 +168,8 @@ const ExpandedImage = ({
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
   const endRef = useRef(null);
+
+  const displayTitle = title || (detailedWork && detailedWork.title) || '';
 
   useEffect(() => {
     const focusables = modalRef &&
@@ -183,7 +189,7 @@ const ExpandedImage = ({
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key !== 'Escape') return;
 
-      setExpandedImageId('');
+      setExpandedImage(undefined);
     }
 
     document.addEventListener('keydown', closeOnEscape);
@@ -192,13 +198,13 @@ const ExpandedImage = ({
   }, []);
   useEffect(() => {
     const fetchDetailedWork = async () => {
-      const res = await getWork({ id });
+      const res = await getWork({ id: workId });
       if (res.type === 'Work') {
         setDetailedWork(res);
       }
     };
     fetchDetailedWork();
-  }, []);
+  }, [workId]);
 
   useEffect(() => {
     document &&
@@ -214,26 +220,29 @@ const ExpandedImage = ({
 
   useFocusTrap(closeButtonRef, endRef);
 
-  const iiifImageLocation =
-    detailedWork && getDigitalLocationOfType(detailedWork, 'iiif-image');
+  const iiifImageLocation = image
+    ? image.locations[0]
+    : detailedWork && getDigitalLocationOfType(detailedWork, 'iiif-image');
   const license =
-    iiifImageLocation && getAugmentedLicenseInfo(iiifImageLocation.license);
+    iiifImageLocation &&
+    iiifImageLocation.license &&
+    getAugmentedLicenseInfo(iiifImageLocation.license);
 
   const maybeItemLink =
     detailedWork &&
     itemLink({
-      workId: id,
+      workId,
       langCode: detailedWork.language && detailedWork.language.id,
     });
 
   return (
     <>
-      <Overlay onClick={() => setExpandedImageId('')} />
+      <Overlay onClick={() => setExpandedImage(undefined)} />
       <Modal ref={modalRef}>
         <CloseButton
           hideFocus={!isKeyboard}
           ref={closeButtonRef}
-          onClick={() => setExpandedImageId('')}
+          onClick={() => setExpandedImage(undefined)}
         >
           <span className="visually-hidden">Close modal window</span>
           <Icon name="cross" extraClasses={`icon--currentColor`} />
@@ -244,9 +253,10 @@ const ExpandedImage = ({
               <ImageWrapper>
                 <Image
                   defaultSize={400}
-                  alt={title}
+                  alt={displayTitle}
                   contentUrl={iiifImageLocation.url}
                   tasl={null}
+                  lazyload={false}
                 />
               </ImageWrapper>
             </NextLink>
@@ -260,7 +270,7 @@ const ExpandedImage = ({
                 'no-margin': true,
               })}
             >
-              {title}
+              {displayTitle}
             </Space>
             {license && (
               <Space
@@ -272,19 +282,19 @@ const ExpandedImage = ({
             )}
 
             <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-              <Space
-                h={{ size: 'm', properties: ['margin-right'] }}
-                className="inline-block"
-              >
-                <Button
-                  type="primary"
-                  text="View image"
-                  icon="eye"
-                  link={maybeItemLink}
-                  clickHandler={onImageLinkClick}
-                />
-              </Space>
-              <NextLink {...workLink({ id })} passHref>
+              {maybeItemLink && (
+                <Space
+                  h={{ size: 'm', properties: ['margin-right'] }}
+                  className="inline-block"
+                >
+                  <ButtonSolidLink
+                    text="View image"
+                    icon="eye"
+                    link={maybeItemLink}
+                  />
+                </Space>
+              )}
+              <NextLink {...workLink({ id: workId })} passHref>
                 <a
                   className={classNames({
                     'inline-block': true,
@@ -296,7 +306,14 @@ const ExpandedImage = ({
                 </a>
               </NextLink>
             </Space>
-            <RelatedImages originalId={id} />
+            {image ? (
+              <VisuallySimilarImagesFromApi
+                originalId={image.id}
+                onClickImage={setExpandedImage}
+              />
+            ) : (
+              <VisuallySimilarImages originalId={workId} />
+            )}
           </InfoWrapper>
         </ModalInner>
       </Modal>

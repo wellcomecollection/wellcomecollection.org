@@ -1,7 +1,7 @@
-module "catalogue-service" {
-  source = "../../../infrastructure/terraform/modules/service"
+module "catalogue-service-23062020" {
+  source = "../../../infrastructure/terraform/modules/service_23062020"
 
-  namespace    = "catalogue-${var.env_suffix}"
+  namespace    = "catalogue-23062020-${var.env_suffix}"
 
   namespace_id = var.namespace_id
   cluster_arn  = var.cluster_arn
@@ -10,9 +10,6 @@ module "catalogue-service" {
 
   container_image = var.container_image
   container_port  = 3000
-
-  nginx_container_image = var.nginx_image
-  nginx_container_port  = 80
 
   security_group_ids = [
     var.interservice_security_group_id,
@@ -27,12 +24,16 @@ module "catalogue-service" {
   subnets = local.private_subnets
 }
 
+locals {
+  target_group_arn = module.catalogue-service-23062020.target_group_arn
+}
+
 module "path_listener" {
   source = "../../../infrastructure/terraform/modules/alb_listener_rule"
 
   alb_listener_https_arn = var.alb_listener_https_arn
   alb_listener_http_arn  = var.alb_listener_http_arn
-  target_group_arn       = module.catalogue-service.target_group_arn
+  target_group_arn       = local.target_group_arn
 
   field                  = "path-pattern"
   values                 = ["/works*"]
@@ -46,7 +47,7 @@ module "subdomain_listener" {
 
   alb_listener_https_arn = var.alb_listener_https_arn
   alb_listener_http_arn  = var.alb_listener_http_arn
-  target_group_arn       = module.catalogue-service.target_group_arn
+  target_group_arn       = local.target_group_arn
 
   priority               = "201"
   values                 = ["${var.subdomain}.wellcomecollection.org"]
@@ -58,7 +59,7 @@ module "embed_path_rule" {
 
   alb_listener_https_arn = var.alb_listener_https_arn
   alb_listener_http_arn  = var.alb_listener_http_arn
-  target_group_arn       = module.catalogue-service.target_group_arn
+  target_group_arn       = local.target_group_arn
 
   priority               = "202"
   field                  = "path-pattern"
@@ -70,7 +71,7 @@ module "images_search_rule" {
 
   alb_listener_https_arn = var.alb_listener_https_arn
   alb_listener_http_arn  = var.alb_listener_http_arn
-  target_group_arn       = module.catalogue-service.target_group_arn
+  target_group_arn       = local.target_group_arn
 
   priority               = "203"
   field                  = "path-pattern"

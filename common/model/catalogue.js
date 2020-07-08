@@ -15,6 +15,7 @@ export type Image = {
     id: string,
     type: string,
   },
+  visuallySimilar?: Image[],
 };
 
 export type CatalogueApiError = {|

@@ -51,9 +51,13 @@ const pageImage =
   'https://images.prismic.io/wellcomecollection/fc1e68b0528abbab8429d95afb5cfa4c74d40d52_tf_180516_2060224.jpg?auto=compress,format&w=800';
 export class HomePage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const { id } = ctx.query;
-    const articlesPromise = getArticles(ctx.req, { pageSize: 4 }); // TODO make client side?
-    const pagePromise = await getPage(ctx.req, id);
+    const { id, memoizedPrismic } = ctx.query;
+    const articlesPromise = await getArticles(
+      ctx.req,
+      { pageSize: 4 },
+      memoizedPrismic
+    );
+    const pagePromise = await getPage(ctx.req, id, memoizedPrismic);
     const [articles, page] = await Promise.all([articlesPromise, pagePromise]);
     if (articles && page) {
       return {

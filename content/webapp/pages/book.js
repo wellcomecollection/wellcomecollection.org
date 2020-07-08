@@ -7,7 +7,7 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Body from '@weco/common/views/components/Body/Body';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -60,8 +60,8 @@ const BookMetadata = ({ book }: Props) => (
 
 export class ArticleSeriesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const { id } = ctx.query;
-    const book = await getBook(ctx.req, id);
+    const { id, memoizedPrismic } = ctx.query;
+    const book = await getBook(ctx.req, id, memoizedPrismic);
 
     if (book) {
       return {
@@ -208,11 +208,7 @@ export class ArticleSeriesPage extends Component<Props> {
               <BookMetadata book={book} />
             </div>
             {book.orderLink && (
-              <Button
-                type={`primary`}
-                externalLink={book.orderLink}
-                text="Buy the book"
-              />
+              <ButtonSolidLink link={book.orderLink} text="Buy the book" />
             )}
           </Fragment>
         </ContentPage>

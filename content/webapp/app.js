@@ -66,6 +66,7 @@ module.exports = app
 
     route('/places/:id', '/place', router, app);
     route('/pages/:id', '/page', router, app);
+    route('/landing-pages/:id', '/landing-page', router, app);
 
     route('/newsletter', '/newsletter', router, app);
 
@@ -76,6 +77,13 @@ module.exports = app
     pageVanityUrl(router, app, '/access', 'Wvm2uiAAAIYQ4FHP');
     pageVanityUrl(router, app, '/youth', 'Wuw2MSIAACtd3Ste');
     pageVanityUrl(router, app, '/schools', 'Wuw2MSIAACtd3StS');
+    // pageVanityUrl(
+    //   router,
+    //   app,
+    //   '/visit-us',
+    //   'XvxzjhQAAJmq1t__',
+    //   '/landing-page'
+    // );
     pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC', '/visit-us');
 
     router.post('/newsletter-signup', handleNewsletterSignup);

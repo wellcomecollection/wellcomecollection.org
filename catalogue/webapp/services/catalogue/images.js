@@ -14,6 +14,11 @@ type GetImagesProps = {|
   ...Environment,
 |};
 
+type GetImageProps = {|
+  id: string,
+  ...Environment,
+|};
+
 export async function getImages({
   params,
   env = 'prod',
@@ -40,4 +45,18 @@ export async function getImages({
       type: 'Error',
     };
   }
+}
+
+const imageIncludes = ['visuallySimilar'];
+
+export async function getImage({
+  id,
+  env = 'prod',
+}: GetImageProps): Promise<Image | CatalogueApiError> {
+  const url = `${rootUris[env]}/v2/images/${id}?include=${imageIncludes.join(
+    ','
+  )}`;
+  const res = await fetch(url);
+  const json = await res.json();
+  return json;
 }

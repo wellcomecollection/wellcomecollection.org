@@ -161,6 +161,8 @@ export default class WecoApp extends App {
       }
     }
 
+    delete ctx.query.memoizedPrismic; // We need to remove memoizedPrismic value here otherwise we hit circular object issues with JSON.stringify
+
     return {
       pageProps,
       toggles,
@@ -186,10 +188,6 @@ export default class WecoApp extends App {
 
   state: State = {
     togglesContext: toggles,
-  };
-
-  updateToggles = (newToggles: Object) => {
-    this.setState({ togglesContext: { ...toggles, ...newToggles } });
   };
 
   componentWillUnmount() {
@@ -348,7 +346,6 @@ export default class WecoApp extends App {
 
   render() {
     const { togglesContext } = this.state;
-    const updateToggles = this.updateToggles;
     const { Component, pageProps, openingTimes, globalAlert } = this.props;
     const polyfillFeatures = [
       'default',
@@ -427,7 +424,7 @@ export default class WecoApp extends App {
           <JsonLd data={libraryLd(wellcomeLibraryWithHours)} />
         </Head>
         <AppContextProvider>
-          <TogglesContext.Provider value={{ ...togglesContext, updateToggles }}>
+          <TogglesContext.Provider value={{ ...togglesContext }}>
             <OpeningTimesContext.Provider value={parsedOpeningTimes}>
               <GlobalAlertContext.Provider value={globalAlert}>
                 <ThemeProvider theme={theme}>

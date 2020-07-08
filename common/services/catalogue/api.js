@@ -17,6 +17,22 @@ export type CatalogueWorksApiProps = {|
   page: ?number,
   workType: ?(string[]),
   'items.locations.locationType': ?(string[]),
+  'items.locations.accessConditions.status': ?((
+    | 'open'
+    | 'open-with-advisory'
+    | 'restricted'
+    | 'closed'
+    | 'licensed-resources'
+    | 'unavailable'
+    | 'permission-required'
+    | '!open'
+    | '!open-with-advisory'
+    | '!restricted'
+    | '!closed'
+    | '!licensed-resources'
+    | '!unavailable'
+    | '!permission-required'
+  )[]),
   sort: ?string,
   sortOrder: ?string,
   'production.dates.from': ?string,
@@ -55,6 +71,11 @@ export const defaultItemsLocationsLocationType = [
   'iiif-image',
   'iiif-presentation',
 ];
+export const defaultAccessConditions = [
+  '!open-with-advisory',
+  '!restricted',
+  '!closed',
+];
 export function worksRouteToApiUrlWithDefaults(
   worksRouteProps: WorksRouteProps,
   overrides: $Shape<CatalogueWorksApiProps>
@@ -70,6 +91,7 @@ export function worksRouteToApiUrlWithDefaults(
       worksRouteProps.itemsLocationsLocationType.length > 0
         ? worksRouteProps.itemsLocationsLocationType
         : defaultItemsLocationsLocationType,
+    'items.locations.accessConditions.status': defaultAccessConditions,
     sort: worksRouteProps.sort,
     sortOrder: worksRouteProps.sortOrder,
     'production.dates.from': toIsoDateString(

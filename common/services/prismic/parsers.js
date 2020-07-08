@@ -581,6 +581,7 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
             weight: getWeight(slice.slice_label),
             value: {
               title: asText(slice.primary.title),
+              hasFeatured: slice.primary.hasFeatured,
               items: slice.items
                 .filter(
                   // We have to do a check for data here, as if it's a linked piece

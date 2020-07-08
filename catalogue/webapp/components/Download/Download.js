@@ -1,7 +1,7 @@
 // @flow
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { type IIIFRendering } from '@weco/common/model/iiif';
-import type { LicenseData } from '@weco/common/utils/licenses';
+import { type LicenseData } from '@weco/common/utils/licenses';
 import { useState, useEffect, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
@@ -10,7 +10,8 @@ import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { ShameButton } from '@weco/common/views/components/ViewerTopBar/ViewerTopBar';
 
 export const DownloadOptions = styled.div.attrs(props => ({
   className: classNames({
@@ -108,23 +109,18 @@ const Download = ({
           {isEnhanced ? (
             <>
               <h2 className="inline">
-                <Button
-                  extraClasses={classNames({
-                    relative: true,
-                    'btn--tertiary': !useDarkControl,
-                    'btn--primary-black': useDarkControl,
-                  })}
-                  icon={useDarkControl ? 'download' : 'chevron'}
-                  iconPosition="end"
-                  fontFamily={useDarkControl ? 'hnl' : 'hnm'}
-                  text="Downloads"
+                <ShameButton
+                  isDark={useDarkControl}
                   ariaControls={ariaControlsId}
                   ariaExpanded={showDownloads}
-                  clickHandler={() => {
+                  onClick={() => {
                     setShowDownloads(!showDownloads);
                     setAlignmentOfDownloadOptions();
                   }}
-                />
+                >
+                  <span className={`btn__text`}>Downloads</span>
+                  <Icon name={useDarkControl ? 'download' : 'chevron'} />
+                </ShameButton>
               </h2>
             </>
           ) : (
