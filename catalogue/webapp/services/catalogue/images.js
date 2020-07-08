@@ -6,17 +6,17 @@ import type {
 } from '@weco/common/model/catalogue';
 import { type CatalogueImagesApiProps } from '@weco/common/services/catalogue/api';
 import { serialiseUrl } from '@weco/common/services/catalogue/routes';
-import { type Toggles, isomorphicGetApiOptions, rootUris } from './common';
+import { type Toggles, rootUris, globalApiOptions } from './common';
 
 type GetImagesProps = {|
   params: CatalogueImagesApiProps,
   pageSize?: number,
-  toggles?: Toggles,
+  toggles: Toggles,
 |};
 
 type GetImageProps = {|
   id: string,
-  toggles?: Toggles,
+  toggles: Toggles,
 |};
 
 export async function getImages({
@@ -24,7 +24,7 @@ export async function getImages({
   toggles,
   pageSize = 25,
 }: GetImagesProps): Promise<CatalogueResultsList<Image> | CatalogueApiError> {
-  const apiOptions = isomorphicGetApiOptions(toggles);
+  const apiOptions = globalApiOptions(toggles);
   const extendedParams = {
     ...params,
     _index: apiOptions.indexOverrideSuffix
@@ -33,7 +33,7 @@ export async function getImages({
   };
   const filterQueryString = Object.keys(serialiseUrl(extendedParams)).map(
     key => {
-      const val = params[key];
+      const val = extendedParams[key];
       return `${key}=${encodeURIComponent(val)}`;
     }
   );
@@ -62,7 +62,7 @@ export async function getImage({
   id,
   toggles,
 }: GetImageProps): Promise<Image | CatalogueApiError> {
-  const apiOptions = isomorphicGetApiOptions(toggles);
+  const apiOptions = globalApiOptions(toggles);
   let url = `${
     rootUris[apiOptions.env]
   }/v2/images/${id}?include=${imageIncludes.join(',')}`;

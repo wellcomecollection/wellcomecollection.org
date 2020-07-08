@@ -10,7 +10,7 @@ import { type IIIFCanvas } from '@weco/common/model/iiif';
 import Raven from 'raven-js';
 import { serialiseUrl } from '@weco/common/services/catalogue/routes';
 import { type CatalogueWorksApiProps } from '@weco/common/services/catalogue/api';
-import { type Toggles, isomorphicGetApiOptions, rootUris } from './common';
+import { type Toggles, rootUris, globalApiOptions } from './common';
 
 type GetWorkProps = {|
   id: string,
@@ -40,7 +40,7 @@ export async function getWorks({
   toggles,
   pageSize = 25,
 }: GetWorksProps): Promise<CatalogueResultsList<Work> | CatalogueApiError> {
-  const apiOptions = isomorphicGetApiOptions(toggles);
+  const apiOptions = globalApiOptions(toggles);
   const extendedParams = {
     ...params,
     _index: apiOptions.indexOverrideSuffix
@@ -49,7 +49,7 @@ export async function getWorks({
   };
   const filterQueryString = Object.keys(serialiseUrl(extendedParams)).map(
     key => {
-      const val = params[key];
+      const val = extendedParams[key];
       return `${key}=${encodeURIComponent(val)}`;
     }
   );
@@ -77,7 +77,7 @@ export async function getWork({
   id,
   toggles,
 }: GetWorkProps): Promise<Work | CatalogueApiError | CatalogueApiRedirect> {
-  const apiOptions = isomorphicGetApiOptions(toggles);
+  const apiOptions = globalApiOptions(toggles);
   let url = `${
     rootUris[apiOptions.env]
   }/v2/works/${id}?include=${workIncludes.join(',')}`;
