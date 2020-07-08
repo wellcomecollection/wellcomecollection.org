@@ -4,6 +4,7 @@ import { type UiImageProps, UiImage } from '../../components/Images/Images';
 import type { UiExhibition } from '../../../../common/model/exhibitions';
 import type { UiEvent } from '../../../../common/model/events';
 import type { Article } from '../../../../common/model/articles';
+import type { LandingPage } from '../../../../common/model/landing-pages';
 import { type Label } from '../../../../common/model/labels';
 import { type Link } from '../../../../common/model/link';
 import PartNumberIndicator from '../../components/PartNumberIndicator/PartNumberIndicator';
@@ -30,8 +31,8 @@ type Props = {|
   isReversed?: boolean,
 |};
 
-function convertItemToFeaturedCardProps(
-  item: Article | UiEvent | UiExhibition
+export function convertItemToFeaturedCardProps(
+  item: Article | UiEvent | UiExhibition | LandingPage
 ) {
   return {
     id: item.id,
