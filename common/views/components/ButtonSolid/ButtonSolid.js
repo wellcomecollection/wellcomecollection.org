@@ -72,7 +72,7 @@ export const ButtonIconWrapper = styled(Space).attrs({
 })``;
 
 export const SolidButton = styled(BaseButton)`
-  background: rgb(${props => props.theme.hexToRgb(props.theme.color('green'))});
+  background: ${props => props.theme.color('green')};
   color: ${props => props.theme.color('white')};
 
   ${props =>
