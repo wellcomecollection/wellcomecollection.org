@@ -16,7 +16,7 @@ We will keep this page up to date with the latest information as we make more pr
 Based on the data we already have about how search is being used, we've tested a change to the way queries are split and combined. Rather than letting results with _any_ (one or more) of the terms appear in your results (using the OR operator between query tokens), we now require that _all_ of the tokens appear in any result you see (using the AND operator between query tokens). This seems to be returning more relevant results, so we've made this the default algorithm, while kicking off a new test.
 
 ## What's in development now
-- *Search quality*: Based on feedback from library catalogue users, we are now working to improve Title and Author searches. We're continuing to monitor 
+- *Search quality*: Based on feedback from library catalogue users, we are now working to improve Title and Author searches.
 - *Archive collections*: We are bringing archive collections data into our catalogue API in order to allow users to search and browse for this material. 
 
 ## What are the limits?
