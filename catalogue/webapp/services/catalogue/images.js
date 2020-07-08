@@ -25,13 +25,18 @@ export async function getImages({
   pageSize = 25,
 }: GetImagesProps): Promise<CatalogueResultsList<Image> | CatalogueApiError> {
   const apiOptions = isomorphicGetApiOptions(toggles);
-  if (apiOptions.indexOverrideSuffix) {
-    params._index = `&_index=images-${apiOptions.indexOverrideSuffix}`;
-  }
-  const filterQueryString = Object.keys(serialiseUrl(params)).map(key => {
-    const val = params[key];
-    return `${key}=${encodeURIComponent(val)}`;
-  });
+  const extendedParams = {
+    ...params,
+    _index: apiOptions.indexOverrideSuffix
+      ? `images-${apiOptions.indexOverrideSuffix}`
+      : undefined,
+  };
+  const filterQueryString = Object.keys(serialiseUrl(extendedParams)).map(
+    key => {
+      const val = params[key];
+      return `${key}=${encodeURIComponent(val)}`;
+    }
+  );
   const url =
     `${rootUris[apiOptions.env]}/v2/images?pageSize=${pageSize}` +
     (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '');

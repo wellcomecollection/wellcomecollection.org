@@ -41,13 +41,18 @@ export async function getWorks({
   pageSize = 25,
 }: GetWorksProps): Promise<CatalogueResultsList<Work> | CatalogueApiError> {
   const apiOptions = isomorphicGetApiOptions(toggles);
-  if (apiOptions.indexOverrideSuffix) {
-    params._index = `works-${apiOptions.indexOverrideSuffix}`;
-  }
-  const filterQueryString = Object.keys(serialiseUrl(params)).map(key => {
-    const val = params[key];
-    return `${key}=${encodeURIComponent(val)}`;
-  });
+  const extendedParams = {
+    ...params,
+    _index: apiOptions.indexOverrideSuffix
+      ? `works-${apiOptions.indexOverrideSuffix}`
+      : undefined,
+  };
+  const filterQueryString = Object.keys(serialiseUrl(extendedParams)).map(
+    key => {
+      const val = params[key];
+      return `${key}=${encodeURIComponent(val)}`;
+    }
+  );
   const url =
     `${rootUris[apiOptions.env]}/v2/works?include=${worksIncludes.join(',')}` +
     `&pageSize=${pageSize}` +

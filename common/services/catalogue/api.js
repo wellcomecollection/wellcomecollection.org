@@ -39,14 +39,12 @@ export type CatalogueWorksApiProps = {|
   'production.dates.to': ?string,
   _queryType: ?string,
   aggregations: ?(string[]),
-  _index: ?string,
 |};
 
 export type CatalogueImagesApiProps = {|
   query: ?string,
   page: ?number,
   'locations.license': ?(string[]),
-  _index: ?string,
 |};
 
 export function worksRouteToApiUrl(
