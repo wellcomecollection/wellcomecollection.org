@@ -165,6 +165,17 @@ const ImageViewerControls = styled.div`
   }
 }`;
 
+export function getServiceId(currentCanvas: ?any) {
+  if (!currentCanvas) return null;
+  if (Array.isArray(currentCanvas.images[0].resource.service)) {
+    return currentCanvas.images[0].resource.service.find(
+      item => item['@context'] === 'http://iiif.io/api/image/2/context.json'
+    )['@id'];
+  } else if (!Array.isArray(currentCanvas.images[0].resource.service)) {
+    return currentCanvas.images[0].resource.service['@id'];
+  }
+}
+
 type IIIFViewerProps = {|
   title: string,
   mainPaginatorProps: PaginatorPropsWithoutRenderFunction,
@@ -225,13 +236,7 @@ const IIIFViewerComponent = ({
       .map((_, i) => pageSize * pageIndex + i)
       .map(i => canvases[i])
       .filter(Boolean);
-
-  const mainImageService = {
-    '@id':
-      currentCanvas && !Array.isArray(currentCanvas.images[0].resource.service)
-        ? currentCanvas.images[0].resource.service['@id']
-        : '',
-  };
+  const mainImageService = { '@id': getServiceId(currentCanvas) };
   const [imageJson, setImageJson] = useState(null);
   const fetchImageJson = async () => {
     try {
@@ -241,7 +246,6 @@ const IIIFViewerComponent = ({
       setImageJson(imageJson);
     } catch (e) {}
   };
-
   useEffect(() => {
     fetchImageJson();
   }, []);
@@ -312,16 +316,19 @@ const IIIFViewerComponent = ({
 
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
   // Download info from manifest
-  const imageDownloads = getDownloadOptionsFromImageUrl({
-    url: mainImageService['@id'],
-    width: currentCanvas && currentCanvas.width,
-    height: currentCanvas && currentCanvas.height,
-  });
+  const imageDownloads =
+    mainImageService['@id'] &&
+    getDownloadOptionsFromImageUrl({
+      url: mainImageService['@id'],
+      width: currentCanvas && currentCanvas.width,
+      height: currentCanvas && currentCanvas.height,
+    });
   const iiifPresentationDownloadOptions =
-    (manifest && [
-      ...imageDownloads,
-      ...getDownloadOptionsFromManifest(manifest),
-    ]) ||
+    (manifest &&
+      imageDownloads && [
+        ...imageDownloads,
+        ...getDownloadOptionsFromManifest(manifest),
+      ]) ||
     [];
 
   const parentManifestUrl = manifest && manifest.within;
