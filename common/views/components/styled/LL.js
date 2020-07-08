@@ -25,16 +25,16 @@ const LL = styled.div`
     width: 20px;
     background: ${props =>
       props.theme.color(props.lighten ? 'silver' : 'black')};
+  }
 
-    &:before {
-      left: 0;
-      animation: animate-ll 1s infinite;
-    }
+  &:before {
+    left: 0;
+    animation: animate-ll 1s infinite;
+  }
 
-    &:after {
-      right: 0;
-      animation: animate-ll 1s 0.5s infinite;
-    }
+  &:after {
+    right: 0;
+    animation: animate-ll 1s 0.5s infinite;
   }
 
   @keyframes animate-ll {
