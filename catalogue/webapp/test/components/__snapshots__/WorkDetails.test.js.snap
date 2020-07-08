@@ -39,7 +39,7 @@ exports[`Feature: 2. As a library member I want to request an item
               "componentStyle": ComponentStyle {
                 "componentId": "ButtonSolid__SolidButton-xui0q4-3",
                 "isStatic": false,
-                "lastClassName": "dCHInk",
+                "lastClassName": "glBBBj",
                 "rules": Array [
                   "line-height:1;border-radius:",
                   [Function],
@@ -56,17 +56,13 @@ exports[`Feature: 2. As a library member I want to request an item
                   ";fill:currentColor;}.icon__stroke{transition:stroke ",
                   [Function],
                   ";stroke:currentColor;}",
-                  "border:2px solid ",
+                  "background:rgb(",
                   [Function],
-                  ";background:",
-                  [Function],
-                  ";color:",
+                  ");color:",
                   [Function],
                   ";",
                   [Function],
-                  " &:not([disabled]):hover{border-color:",
-                  [Function],
-                  ";background:",
+                  " &:not([disabled]):hover{background:",
                   [Function],
                   ";}",
                 ],
@@ -88,7 +84,7 @@ exports[`Feature: 2. As a library member I want to request an item
           onClick={[Function]}
         >
           <a
-            className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 dCHInk flex-inline flex--v-center"
+            className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 glBBBj flex-inline flex--v-center"
             href="/loginUrl"
             onClick={[Function]}
           >
@@ -168,7 +164,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
             "componentStyle": ComponentStyle {
               "componentId": "ButtonSolid__SolidButton-xui0q4-3",
               "isStatic": false,
-              "lastClassName": "dCHInk",
+              "lastClassName": "glBBBj",
               "rules": Array [
                 "line-height:1;border-radius:",
                 [Function],
@@ -185,17 +181,13 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                 ";fill:currentColor;}.icon__stroke{transition:stroke ",
                 [Function],
                 ";stroke:currentColor;}",
-                "border:2px solid ",
+                "background:rgb(",
                 [Function],
-                ";background:",
-                [Function],
-                ";color:",
+                ");color:",
                 [Function],
                 ";",
                 [Function],
-                " &:not([disabled]):hover{border-color:",
-                [Function],
-                ";background:",
+                " &:not([disabled]):hover{background:",
                 [Function],
                 ";}",
               ],
@@ -216,7 +208,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
         onClick={[Function]}
       >
         <button
-          className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 dCHInk flex-inline flex--v-center"
+          className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 glBBBj flex-inline flex--v-center"
           onClick={[Function]}
         >
           <ButtonSolid__SolidButtonInner>
