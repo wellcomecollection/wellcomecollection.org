@@ -10,17 +10,17 @@ import { type IIIFCanvas } from '@weco/common/model/iiif';
 import Raven from 'raven-js';
 import { serialiseUrl } from '@weco/common/services/catalogue/routes';
 import { type CatalogueWorksApiProps } from '@weco/common/services/catalogue/api';
-import { type Environment, rootUris } from './common';
+import { type Toggles, isomorphicGetApiOptions, rootUris } from './common';
 
 type GetWorkProps = {|
   id: string,
-  ...Environment,
+  toggles?: Toggles,
 |};
 
 type GetWorksProps = {|
   params: CatalogueWorksApiProps,
   pageSize?: number,
-  ...Environment,
+  toggles?: Toggles,
 |};
 
 const worksIncludes = ['identifiers', 'production', 'contributors', 'subjects'];
@@ -37,15 +37,19 @@ const workIncludes = [
 
 export async function getWorks({
   params,
-  env = 'prod',
+  toggles,
   pageSize = 25,
 }: GetWorksProps): Promise<CatalogueResultsList<Work> | CatalogueApiError> {
+  const apiOptions = isomorphicGetApiOptions(toggles);
+  if (apiOptions.indexOverrideSuffix) {
+    params._index = `works-${apiOptions.indexOverrideSuffix}`;
+  }
   const filterQueryString = Object.keys(serialiseUrl(params)).map(key => {
     const val = params[key];
     return `${key}=${encodeURIComponent(val)}`;
   });
   const url =
-    `${rootUris[env]}/v2/works?include=${worksIncludes.join(',')}` +
+    `${rootUris[apiOptions.env]}/v2/works?include=${worksIncludes.join(',')}` +
     `&pageSize=${pageSize}` +
     (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '');
   try {
@@ -66,11 +70,15 @@ export async function getWorks({
 
 export async function getWork({
   id,
-  env = 'prod',
+  toggles,
 }: GetWorkProps): Promise<Work | CatalogueApiError | CatalogueApiRedirect> {
-  const url = `${rootUris[env]}/v2/works/${id}?include=${workIncludes.join(
-    ','
-  )}`;
+  const apiOptions = isomorphicGetApiOptions(toggles);
+  let url = `${
+    rootUris[apiOptions.env]
+  }/v2/works/${id}?include=${workIncludes.join(',')}`;
+  if (apiOptions.indexOverrideSuffix) {
+    url += `&_index=works-${apiOptions.indexOverrideSuffix}`;
+  }
   const res = await fetch(url, { redirect: 'manual' });
 
   // When records from Miro have been merged with Sierra data, we redirect the
