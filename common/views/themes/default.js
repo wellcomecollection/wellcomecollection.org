@@ -44,7 +44,7 @@ const theme = {
     yellow: { base: '#ffce3c', dark: '', light: '' },
     brown: { base: '#815e48', dark: '', light: '' },
     cream: { base: '#f0ede3', dark: '', light: '' },
-    green: { base: '#007868', dark: '', light: '' },
+    green: { base: '#178474', dark: '#146a5c', light: '' },
     charcoal: { base: '#323232', dark: '', light: '' },
     pewter: { base: '#6b6b6b', dark: '', light: '' },
     silver: { base: '#8f8f8f', dark: '', light: '' },
@@ -52,13 +52,21 @@ const theme = {
     pumice: { base: '#d9d6ce', dark: '', light: '' },
     smoke: { base: '#e8e8e8', dark: '', light: '' },
     // The following 'black' is only to be used for the item viewer
-    coal: '#1f1f1f',
+    coal: { base: '#1f1f1f', dark: '', light: '' },
     //
-    transparent: 'transparent',
-    'transparent-black': 'rgba(29, 29, 29, 0.61)',
+    transparent: {
+      base: 'transparent',
+      dark: 'transparent',
+      light: 'transparent',
+    },
+    'transparent-black': {
+      base: 'rgba(29, 29, 29, 0.61)',
+      dark: '',
+      light: '',
+    },
     // Opacity value explanation; We use transparent to provide a background to white text which overlays a variety of images (therefore unknown colour contrast).  This opacity is the lightest we can go, while still providing sufficient contrast to pass WCAG guidlines, when it is displayed above a white background, i.e. worst case scenario.
-    inherit: 'inherit',
-    currentColor: 'currentColor',
+    inherit: { base: 'inherit', dark: '', light: '' },
+    currentColor: { base: 'currentColor', dark: '', light: '' },
   },
 
   // Keyboard focus uses a hard box shadow of 0.7 opacity 'turquoise'

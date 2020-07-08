@@ -82,7 +82,7 @@ export const SolidButton = styled(BaseButton)`
   `}
 
   &:not([disabled]):hover {
-    background: ${props => props.theme.color('greenDarker')};
+    background: ${props => props.theme.color('green', 'dark')};
   }
 `;
 
