@@ -47,7 +47,7 @@ const ShameWhatWeDoHack = () => (
       color={null}
       Image={
         <Image
-          contentUrl={`https://images.prismic.io/wellcomecollection/996aff41-b1cf-44e4-86ce-181438358c21_user_panel_square.jpg?auto=compress,format`}
+          contentUrl={`https://images.prismic.io/wellcomecollection/65334f9d-50d0-433f-a4ac-a780eef352e3_user_research_square.jpg?auto=compress,format`}
           width={3200}
           height={3200}
           alt={''}
