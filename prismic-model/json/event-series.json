@@ -369,7 +369,8 @@
                     "events",
                     "articles",
                     "exhibitions",
-                    "card"
+                    "card",
+                    "landing-pages"
                   ]
                 }
               }

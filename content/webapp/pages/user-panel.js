@@ -10,13 +10,13 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 export const pictureImages = [
   {
     contentUrl:
-      'https://images.prismic.io/wellcomecollection/cd75bce1-6035-4430-85be-bc3b461851c7_user_panel.jpg?auto=compress,format',
+      'https://images.prismic.io/wellcomecollection/11c076fb-f834-4f15-a565-6ac5154b4a4a_user_research.jpg?auto=compress,format',
     width: 3200,
     height: 1800,
     alt: '',
     tasl: {
       title: 'User research',
-      author: 'David McCormick',
+      author: 'Photo: Thomas SG Farnetti',
       sourceName: null,
       sourceLink: null,
       license: 'CC-BY-NC',

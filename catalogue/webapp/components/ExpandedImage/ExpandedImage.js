@@ -7,6 +7,7 @@ import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
+import { type Image as ImageType } from '@weco/common/model/catalogue';
 import { getWork } from '../../services/catalogue/works';
 import { useEffect, useState, useRef, useContext } from 'react';
 import useFocusTrap from '@weco/common/hooks/useFocusTrap';
@@ -16,12 +17,13 @@ import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import VisuallySimilarImagesFromApi from '../VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
 
 type Props = {|
   title: string,
   workId: string,
-  imageId?: string,
-  setExpandedImageId: (id: string) => void,
+  image?: ImageType,
+  setExpandedImage: (image: ?ImageType) => void,
   onWorkLinkClick: () => void,
   onImageLinkClick: (id: string) => void,
 |};
@@ -156,8 +158,8 @@ const CloseButton = styled(Space).attrs({
 const ExpandedImage = ({
   title,
   workId,
-  imageId,
-  setExpandedImageId,
+  image,
+  setExpandedImage,
   onWorkLinkClick,
   onImageLinkClick,
 }: Props) => {
@@ -187,7 +189,7 @@ const ExpandedImage = ({
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key !== 'Escape') return;
 
-      setExpandedImageId('');
+      setExpandedImage(undefined);
     }
 
     document.addEventListener('keydown', closeOnEscape);
@@ -202,7 +204,7 @@ const ExpandedImage = ({
       }
     };
     fetchDetailedWork();
-  }, []);
+  }, [workId]);
 
   useEffect(() => {
     document &&
@@ -218,10 +220,13 @@ const ExpandedImage = ({
 
   useFocusTrap(closeButtonRef, endRef);
 
-  const iiifImageLocation =
-    detailedWork && getDigitalLocationOfType(detailedWork, 'iiif-image');
+  const iiifImageLocation = image
+    ? image.locations[0]
+    : detailedWork && getDigitalLocationOfType(detailedWork, 'iiif-image');
   const license =
-    iiifImageLocation && getAugmentedLicenseInfo(iiifImageLocation.license);
+    iiifImageLocation &&
+    iiifImageLocation.license &&
+    getAugmentedLicenseInfo(iiifImageLocation.license);
 
   const maybeItemLink =
     detailedWork &&
@@ -232,12 +237,12 @@ const ExpandedImage = ({
 
   return (
     <>
-      <Overlay onClick={() => setExpandedImageId('')} />
+      <Overlay onClick={() => setExpandedImage(undefined)} />
       <Modal ref={modalRef}>
         <CloseButton
           hideFocus={!isKeyboard}
           ref={closeButtonRef}
-          onClick={() => setExpandedImageId('')}
+          onClick={() => setExpandedImage(undefined)}
         >
           <span className="visually-hidden">Close modal window</span>
           <Icon name="cross" extraClasses={`icon--currentColor`} />
@@ -251,6 +256,7 @@ const ExpandedImage = ({
                   alt={displayTitle}
                   contentUrl={iiifImageLocation.url}
                   tasl={null}
+                  lazyload={false}
                 />
               </ImageWrapper>
             </NextLink>
@@ -300,10 +306,14 @@ const ExpandedImage = ({
                 </a>
               </NextLink>
             </Space>
-            <VisuallySimilarImages
-              originalId={imageId || workId}
-              sourceType={imageId ? 'image' : 'work'}
-            />
+            {image ? (
+              <VisuallySimilarImagesFromApi
+                originalId={image.id}
+                onClickImage={setExpandedImage}
+              />
+            ) : (
+              <VisuallySimilarImages originalId={workId} />
+            )}
           </InfoWrapper>
         </ModalInner>
       </Modal>
