@@ -22,6 +22,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import Picture from '@weco/common/views/components/Picture/Picture';
+// $FlowFixMe
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import { getTodaysVenueHours } from '@weco/common/services/prismic/opening-times';
 import {

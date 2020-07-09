@@ -6,6 +6,7 @@ import DailyTourPromo from '../DailyTourPromo/DailyTourPromo';
 import BookPromo from '../BookPromo/BookPromo';
 import Layout12 from '../Layout12/Layout12';
 import StoryPromo from '../StoryPromo/StoryPromo';
+// $FlowFixMe
 import MoreLink from '../MoreLink/MoreLink';
 import { type Link } from '../../../model/link';
 import { type UiExhibition } from '../../../model/exhibitions';

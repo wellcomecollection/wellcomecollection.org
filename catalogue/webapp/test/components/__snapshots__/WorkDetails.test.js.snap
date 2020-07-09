@@ -39,19 +39,21 @@ exports[`Feature: 2. As a library member I want to request an item
               "componentStyle": ComponentStyle {
                 "componentId": "ButtonSolid__SolidButton-xui0q4-3",
                 "isStatic": false,
-                "lastClassName": "dCHInk",
+                "lastClassName": "eUPQzS",
                 "rules": Array [
-                  "line-height:1;border-radius:",
+                  "display:inline-flex;line-height:1;border-radius:",
                   [Function],
                   ";text-decoration:none;text-align:center;transition:all ",
                   [Function],
-                  ";border:0;white-space:nowrap;padding:15px 20px;&:not([disabled]):hover}&:focus{outline:0;.is-keyboard &{box-shadow:",
+                  ";border:0;white-space:nowrap;padding:15px 20px;&:focus{outline:0;.is-keyboard &{box-shadow:",
                   [Function],
                   ";}}&[disabled],&.disabled{background:",
                   [Function],
                   ";border-color:",
                   [Function],
-                  ";cursor:not-allowed;}&.disabled{pointer-events:none;}.icon__shape{transition:fill ",
+                  ";color:",
+                  [Function],
+                  ";cursor:not-allowed;&:hover{text-decoration:none;}}&.disabled{pointer-events:none;}.icon__shape{transition:fill ",
                   [Function],
                   ";fill:currentColor;}.icon__stroke{transition:stroke ",
                   [Function],
@@ -88,11 +90,11 @@ exports[`Feature: 2. As a library member I want to request an item
           onClick={[Function]}
         >
           <a
-            className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 dCHInk flex-inline flex--v-center"
+            className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 eUPQzS flex-inline flex--v-center"
             href="/loginUrl"
             onClick={[Function]}
           >
-            <ButtonSolid__SolidButtonInner>
+            <ButtonSolid__BaseButtonInner>
               <StyledComponent
                 forwardedComponent={
                   Object {
@@ -103,17 +105,17 @@ exports[`Feature: 2. As a library member I want to request an item
                       },
                     ],
                     "componentStyle": ComponentStyle {
-                      "componentId": "ButtonSolid__SolidButtonInner-xui0q4-1",
+                      "componentId": "ButtonSolid__BaseButtonInner-xui0q4-1",
                       "isStatic": false,
-                      "lastClassName": "bEUyiw",
+                      "lastClassName": "kxNhiJ",
                       "rules": Array [
                         "height:1em;",
                       ],
                     },
-                    "displayName": "ButtonSolid__SolidButtonInner",
+                    "displayName": "ButtonSolid__BaseButtonInner",
                     "foldedComponentIds": Array [],
                     "render": [Function],
-                    "styledComponentId": "ButtonSolid__SolidButtonInner-xui0q4-1",
+                    "styledComponentId": "ButtonSolid__BaseButtonInner-xui0q4-1",
                     "target": "span",
                     "toString": [Function],
                     "warnTooManyClasses": [Function],
@@ -123,12 +125,12 @@ exports[`Feature: 2. As a library member I want to request an item
                 forwardedRef={null}
               >
                 <span
-                  className="ButtonSolid__SolidButtonInner-xui0q4-1 bEUyiw font-hnm font-size-5  flex flex--v-center"
+                  className="ButtonSolid__BaseButtonInner-xui0q4-1 kxNhiJ font-hnm font-size-5  flex flex--v-center"
                 >
                   Log in to request
                 </span>
               </StyledComponent>
-            </ButtonSolid__SolidButtonInner>
+            </ButtonSolid__BaseButtonInner>
           </a>
         </StyledComponent>
       </ButtonSolid__SolidButton>
@@ -168,19 +170,21 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
             "componentStyle": ComponentStyle {
               "componentId": "ButtonSolid__SolidButton-xui0q4-3",
               "isStatic": false,
-              "lastClassName": "dCHInk",
+              "lastClassName": "eUPQzS",
               "rules": Array [
-                "line-height:1;border-radius:",
+                "display:inline-flex;line-height:1;border-radius:",
                 [Function],
                 ";text-decoration:none;text-align:center;transition:all ",
                 [Function],
-                ";border:0;white-space:nowrap;padding:15px 20px;&:not([disabled]):hover}&:focus{outline:0;.is-keyboard &{box-shadow:",
+                ";border:0;white-space:nowrap;padding:15px 20px;&:focus{outline:0;.is-keyboard &{box-shadow:",
                 [Function],
                 ";}}&[disabled],&.disabled{background:",
                 [Function],
                 ";border-color:",
                 [Function],
-                ";cursor:not-allowed;}&.disabled{pointer-events:none;}.icon__shape{transition:fill ",
+                ";color:",
+                [Function],
+                ";cursor:not-allowed;&:hover{text-decoration:none;}}&.disabled{pointer-events:none;}.icon__shape{transition:fill ",
                 [Function],
                 ";fill:currentColor;}.icon__stroke{transition:stroke ",
                 [Function],
@@ -216,10 +220,10 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
         onClick={[Function]}
       >
         <button
-          className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 dCHInk flex-inline flex--v-center"
+          className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 eUPQzS flex-inline flex--v-center"
           onClick={[Function]}
         >
-          <ButtonSolid__SolidButtonInner>
+          <ButtonSolid__BaseButtonInner>
             <StyledComponent
               forwardedComponent={
                 Object {
@@ -230,17 +234,17 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                     },
                   ],
                   "componentStyle": ComponentStyle {
-                    "componentId": "ButtonSolid__SolidButtonInner-xui0q4-1",
+                    "componentId": "ButtonSolid__BaseButtonInner-xui0q4-1",
                     "isStatic": false,
-                    "lastClassName": "bEUyiw",
+                    "lastClassName": "kxNhiJ",
                     "rules": Array [
                       "height:1em;",
                     ],
                   },
-                  "displayName": "ButtonSolid__SolidButtonInner",
+                  "displayName": "ButtonSolid__BaseButtonInner",
                   "foldedComponentIds": Array [],
                   "render": [Function],
-                  "styledComponentId": "ButtonSolid__SolidButtonInner-xui0q4-1",
+                  "styledComponentId": "ButtonSolid__BaseButtonInner-xui0q4-1",
                   "target": "span",
                   "toString": [Function],
                   "warnTooManyClasses": [Function],
@@ -250,7 +254,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
               forwardedRef={null}
             >
               <span
-                className="ButtonSolid__SolidButtonInner-xui0q4-1 bEUyiw font-hnm font-size-5  flex flex--v-center"
+                className="ButtonSolid__BaseButtonInner-xui0q4-1 kxNhiJ font-hnm font-size-5  flex flex--v-center"
               >
                 <span
                   className=""
@@ -259,7 +263,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                 </span>
               </span>
             </StyledComponent>
-          </ButtonSolid__SolidButtonInner>
+          </ButtonSolid__BaseButtonInner>
         </button>
       </StyledComponent>
     </ButtonSolid__SolidButton>
