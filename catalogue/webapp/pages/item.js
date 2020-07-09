@@ -234,10 +234,9 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   const manifest = manifestUrl ? await (await fetch(manifestUrl)).json() : null;
   const video = manifest && getVideo(manifest);
   const audio = manifest && getAudio(manifest);
-  const { stagingApi } = ctx.query.toggles;
   const work = await getWork({
     id: workId,
-    env: stagingApi ? 'stage' : 'prod',
+    toggles: ctx.query.toggles,
   });
   const canvases =
     manifest && manifest.sequences && manifest.sequences[0].canvases

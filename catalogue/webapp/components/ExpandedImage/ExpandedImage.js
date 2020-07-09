@@ -1,4 +1,5 @@
 // @flow
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import NextLink from 'next/link';
 import { workLink, itemLink } from '@weco/common/services/catalogue/routes';
 import { font, classNames } from '@weco/common/utils/classnames';
@@ -164,6 +165,7 @@ const ExpandedImage = ({
   onImageLinkClick,
 }: Props) => {
   const { isKeyboard } = useContext(AppContext);
+  const toggles = useContext(TogglesContext);
   const [detailedWork, setDetailedWork] = useState(null);
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
@@ -198,7 +200,7 @@ const ExpandedImage = ({
   }, []);
   useEffect(() => {
     const fetchDetailedWork = async () => {
-      const res = await getWork({ id: workId });
+      const res = await getWork({ id: workId, toggles });
       if (res.type === 'Work') {
         setDetailedWork(res);
       }

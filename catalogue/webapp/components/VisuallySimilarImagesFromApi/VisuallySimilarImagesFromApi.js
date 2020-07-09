@@ -2,7 +2,8 @@
 import { font, classNames } from '@weco/common/utils/classnames';
 import Image from '@weco/common/views/components/Image/Image';
 import { type Image as ImageType } from '@weco/common/model/catalogue';
-import { useEffect, useState } from 'react';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getImage } from '../../services/catalogue/images';
 import Space from '@weco/common/views/components/styled/Space';
@@ -29,9 +30,10 @@ const Wrapper = styled.div`
 
 const VisuallySimilarImagesFromApi = ({ originalId, onClickImage }: Props) => {
   const [similarImages, setSimilarImages] = useState<ImageType[]>([]);
+  const toggles = useContext(TogglesContext);
   useEffect(() => {
     const fetchVisuallySimilarImages = async () => {
-      const fullImage = await getImage({ id: originalId });
+      const fullImage = await getImage({ id: originalId, toggles });
       setSimilarImages(fullImage.visuallySimilar);
     };
     fetchVisuallySimilarImages();
