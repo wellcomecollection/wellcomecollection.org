@@ -5,8 +5,12 @@ import type {
   Image,
 } from '@weco/common/model/catalogue';
 import { type CatalogueImagesApiProps } from '@weco/common/services/catalogue/api';
-import { serialiseUrl } from '@weco/common/services/catalogue/routes';
-import { type Toggles, rootUris, globalApiOptions } from './common';
+import {
+  type Toggles,
+  rootUris,
+  globalApiOptions,
+  queryString,
+} from './common';
 
 type GetImagesProps = {|
   params: CatalogueImagesApiProps,
@@ -27,19 +31,13 @@ export async function getImages({
   const apiOptions = globalApiOptions(toggles);
   const extendedParams = {
     ...params,
+    pageSize,
     _index: apiOptions.indexOverrideSuffix
       ? `images-${apiOptions.indexOverrideSuffix}`
-      : undefined,
+      : null,
   };
-  const filterQueryString = Object.keys(serialiseUrl(extendedParams)).map(
-    key => {
-      const val = extendedParams[key];
-      return `${key}=${encodeURIComponent(val)}`;
-    }
-  );
-  const url =
-    `${rootUris[apiOptions.env]}/v2/images?pageSize=${pageSize}` +
-    (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '');
+  const filterQueryString = queryString(extendedParams);
+  const url = `${rootUris[apiOptions.env]}/v2/images${filterQueryString}`;
   try {
     const res = await fetch(url);
     const json = await res.json();
@@ -63,12 +61,14 @@ export async function getImage({
   toggles,
 }: GetImageProps): Promise<Image | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
-  let url = `${
-    rootUris[apiOptions.env]
-  }/v2/images/${id}?include=${imageIncludes.join(',')}`;
-  if (apiOptions.indexOverrideSuffix) {
-    url += `&_index=images-${apiOptions.indexOverrideSuffix}`;
-  }
+  const params = {
+    include: imageIncludes,
+    _index: apiOptions.indexOverrideSuffix
+      ? `images-${apiOptions.indexOverrideSuffix}`
+      : null,
+  };
+  const query = queryString(params);
+  let url = `${rootUris[apiOptions.env]}/v2/images/${id}${query}`;
   const res = await fetch(url);
   const json = await res.json();
   return json;

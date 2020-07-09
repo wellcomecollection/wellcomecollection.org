@@ -8,9 +8,13 @@ import {
 } from '@weco/common/model/catalogue';
 import { type IIIFCanvas } from '@weco/common/model/iiif';
 import Raven from 'raven-js';
-import { serialiseUrl } from '@weco/common/services/catalogue/routes';
 import { type CatalogueWorksApiProps } from '@weco/common/services/catalogue/api';
-import { type Toggles, rootUris, globalApiOptions } from './common';
+import {
+  type Toggles,
+  rootUris,
+  globalApiOptions,
+  queryString,
+} from './common';
 
 type GetWorkProps = {|
   id: string,
@@ -43,20 +47,14 @@ export async function getWorks({
   const apiOptions = globalApiOptions(toggles);
   const extendedParams = {
     ...params,
+    pageSize,
+    include: worksIncludes,
     _index: apiOptions.indexOverrideSuffix
       ? `works-${apiOptions.indexOverrideSuffix}`
       : undefined,
   };
-  const filterQueryString = Object.keys(serialiseUrl(extendedParams)).map(
-    key => {
-      const val = extendedParams[key];
-      return `${key}=${encodeURIComponent(val)}`;
-    }
-  );
-  const url =
-    `${rootUris[apiOptions.env]}/v2/works?include=${worksIncludes.join(',')}` +
-    `&pageSize=${pageSize}` +
-    (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '');
+  const filterQueryString = queryString(extendedParams);
+  const url = `${rootUris[apiOptions.env]}/v2/works${filterQueryString}`;
   try {
     const res = await fetch(url);
     const json = await res.json();
@@ -78,12 +76,14 @@ export async function getWork({
   toggles,
 }: GetWorkProps): Promise<Work | CatalogueApiError | CatalogueApiRedirect> {
   const apiOptions = globalApiOptions(toggles);
-  let url = `${
-    rootUris[apiOptions.env]
-  }/v2/works/${id}?include=${workIncludes.join(',')}`;
-  if (apiOptions.indexOverrideSuffix) {
-    url += `&_index=works-${apiOptions.indexOverrideSuffix}`;
-  }
+  const params = {
+    include: workIncludes,
+    _index: apiOptions.indexOverrideSuffix
+      ? `works-${apiOptions.indexOverrideSuffix}`
+      : null,
+  };
+  const query = queryString(params);
+  let url = `${rootUris[apiOptions.env]}/v2/works/${id}${query}`;
   const res = await fetch(url, { redirect: 'manual' });
 
   // When records from Miro have been merged with Sierra data, we redirect the
