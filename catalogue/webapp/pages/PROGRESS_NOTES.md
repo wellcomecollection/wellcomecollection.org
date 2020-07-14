@@ -41,4 +41,4 @@ As a panellist, you’ll be invited to take part in occasional activities which 
 
 # Read more about our digital developments
 
-You can find out more on [Stacks](https://stacks.wellcomecollection.org/), our in-depth blog covering our digital and data-led developments. 
+You can find out more on [Stacks](https://stacks.wellcomecollection.org/), our in-depth blog covering our digital strategy and data-led developments. 
