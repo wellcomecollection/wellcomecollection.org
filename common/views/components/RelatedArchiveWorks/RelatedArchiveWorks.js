@@ -77,14 +77,14 @@ const WorksGrid = ({ title, works }: WorksGridProps) => {
                     )}
                     {item.work.title}
                     <br />
-                    {item.path.path}
+                    {item.path.label}
                   </WorkLink>
                 </NextLink>
               ) : (
                 <WorkLink>
                   {`Unknown (not available)`}
                   <br />
-                  {item.path.path}
+                  {item.path.label}
                 </WorkLink>
               )}
             </div>
@@ -132,7 +132,7 @@ const RelatedArchiveWorks = ({ work }: Props) => {
               currentTree.work
                 ? currentTree.work.title
                 : 'Unknown (not available)'
-            } ${currentTree.path.path} contains:`}
+            } ${currentTree.path.label} contains:`}
             works={currentTree.children}
           />
         )}
@@ -142,7 +142,7 @@ const RelatedArchiveWorks = ({ work }: Props) => {
             currentTree.work
               ? currentTree.work.title
               : 'Unknown (not available)'
-          } ${currentTree.path.path}:`}
+          } ${currentTree.path.label}:`}
           works={parentTree.children}
         />
       )}
