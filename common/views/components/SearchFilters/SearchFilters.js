@@ -2,7 +2,10 @@
 import { useState, useEffect, useContext } from 'react';
 import { type WorksRouteProps } from '@weco/common/services/catalogue/routes';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
-import { defaultWorkTypes } from '@weco/common/services/catalogue/api';
+import {
+  defaultWorkTypes,
+  testDefaultWorkTypes,
+} from '@weco/common/services/catalogue/api';
 import SearchFiltersDesktop from '@weco/common/views/components/SearchFilters/SearchFiltersDesktop';
 import SearchFiltersMobile from '@weco/common/views/components/SearchFilters/SearchFiltersMobile';
 import theme from '@weco/common/views/themes/default';
@@ -39,12 +42,16 @@ const SearchFilters = ({
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
-  const { unfilteredSearchResults } = useContext(TogglesContext);
+  const { unfilteredSearchResults, collectionSearch } = useContext(
+    TogglesContext
+  );
 
   const workTypeFilters = unfilteredSearchResults
     ? workTypeAggregations
     : workTypeAggregations.filter(agg =>
-        defaultWorkTypes.includes(agg.data.id)
+        collectionSearch
+          ? testDefaultWorkTypes.includes(agg.data.id)
+          : defaultWorkTypes.includes(agg.data.id)
       );
 
   useEffect(() => {

@@ -389,7 +389,11 @@ const IMAGES_LOCATION_TYPE = 'iiif-image';
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = WorksRoute.fromQuery(ctx.query);
-  const { unfilteredSearchResults, imagesEndpoint } = ctx.query.toggles;
+  const {
+    unfilteredSearchResults,
+    imagesEndpoint,
+    collectionSearch,
+  } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
 
@@ -397,19 +401,36 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     ? worksRouteToApiUrl
     : worksRouteToApiUrlWithDefaults;
 
-  const apiProps = apiPropsFn(
-    {
-      ...params,
-      itemsLocationsLocationType:
-        isImageSearch && !imagesEndpoint
-          ? [IMAGES_LOCATION_TYPE]
-          : params.itemsLocationsLocationType,
-    },
-    {
-      _queryType,
-      aggregations: ['workType'],
-    }
-  );
+  const apiProps = collectionSearch
+    ? apiPropsFn(
+        {
+          ...params,
+          itemsLocationsLocationType:
+            isImageSearch && !imagesEndpoint
+              ? [IMAGES_LOCATION_TYPE]
+              : params.itemsLocationsLocationType,
+        },
+        {
+          _queryType,
+          aggregations: ['workType'],
+          'items.locations.locationType': null,
+          'items.locations.accessConditions.status': null,
+        },
+        true
+      )
+    : apiPropsFn(
+        {
+          ...params,
+          itemsLocationsLocationType:
+            isImageSearch && !imagesEndpoint
+              ? [IMAGES_LOCATION_TYPE]
+              : params.itemsLocationsLocationType,
+        },
+        {
+          _queryType,
+          aggregations: ['workType'],
+        }
+      );
 
   const hasQuery = !!(params.query && params.query !== '');
   const isEndpointImageSearch = isImageSearch && imagesEndpoint;
