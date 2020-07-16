@@ -21,6 +21,7 @@ export const BaseButton = styled.button.attrs(props => ({
   border: 0;
   white-space: nowrap;
   padding: 15px 20px;
+  cursor: pointer;
 
   &:focus {
     outline: 0;
