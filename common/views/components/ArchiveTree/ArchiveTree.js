@@ -7,7 +7,6 @@ import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import NextLink from 'next/link';
 import { workLink } from '@weco/common/services/catalogue/routes';
 import Modal from '@weco/common/views/components/Modal/Modal';
-import fetch from 'isomorphic-unfetch';
 import collectionTree from '@weco/catalogue/__mocks__/collection-tree';
 
 const Container = styled.div`
@@ -162,25 +161,11 @@ const ArchiveTree = ({ collection = collectionTree, currentWork }: Props) => {
   const [scale, setScale] = useState(1);
   const selected = useRef(null);
   const container = useRef(null);
-  // For testing we only have full tree data for the Crick Archive
-  const [belongsToCrickArchive, setBelongsToCrickArchive] = useState(false);
   const [
     {
       work: { title: archiveTitle },
     },
   ] = collection;
-  useEffect(() => {
-    const url = `https://api.wellcomecollection.org/catalogue/v2/works/${currentWork}?include=collection&_`;
-    fetch(url)
-      .then(resp => resp.json())
-      .then(resp =>
-        setBelongsToCrickArchive(
-          resp.collection &&
-            resp.collection.work &&
-            resp.collection.work.id === 'hz43r7re'
-        )
-      );
-  }, []);
 
   useEffect(() => {
     const containerTop =
@@ -217,7 +202,7 @@ const ArchiveTree = ({ collection = collectionTree, currentWork }: Props) => {
     }
   });
 
-  return belongsToCrickArchive ? (
+  return (
     <>
       <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
         <ButtonSolid
@@ -271,6 +256,6 @@ const ArchiveTree = ({ collection = collectionTree, currentWork }: Props) => {
         </Container>
       </Modal>
     </>
-  ) : null;
+  );
 };
 export default ArchiveTree;
