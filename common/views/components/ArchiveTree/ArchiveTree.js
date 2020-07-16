@@ -264,7 +264,6 @@ const WorkLink = ({
   async function showPreview(e) {
     e.preventDefault();
     const work = await getWork(id, true);
-    console.log(work.items);
     setWorkToPreview(work);
     setShowPreview(true);
   }
