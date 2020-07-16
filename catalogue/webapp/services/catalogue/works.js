@@ -37,6 +37,7 @@ const workIncludes = [
   'contributors',
   'production',
   'notes',
+  'collection',
 ];
 
 export async function getWorks({
