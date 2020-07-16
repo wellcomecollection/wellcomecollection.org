@@ -63,7 +63,7 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
           >
             <TogglesContext.Consumer>
               {({ archivesPrototype }) =>
-                archivesPrototype && <ArchiveTree currentWork={work.id} />
+                archivesPrototype && <ArchiveTree work={work} />
               }
             </TogglesContext.Consumer>
             {work.title}
