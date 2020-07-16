@@ -204,7 +204,11 @@ const ArchiveTree = ({ collection = collectionTree, currentWork }: Props) => {
 
   return (
     <>
-      <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+      <Space
+        className="inline-block"
+        h={{ size: 'm', properties: ['margin-right'] }}
+        v={{ size: 'm', properties: ['margin-top'] }}
+      >
         <ButtonSolid
           icon="tree"
           text={`${archiveTitle} contents`}
