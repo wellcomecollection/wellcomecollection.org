@@ -12,6 +12,7 @@ type Props = {|
   children: Node,
   isActive: boolean,
   setIsActive: (value: boolean) => void,
+  width?: string,
 |};
 
 const Overlay = styled.div`
@@ -82,12 +83,12 @@ const ModalWindow = styled(Space).attrs({
     transform: translateX(-50%) translateY(-50%);
     height: auto;
     max-height: 90vh;
-    max-width: ${props.theme.sizes.large}px
+    max-width: ${props.width || `${props.theme.sizes.large}px`}
     border-radius: ${props.theme.borderRadiusUnit}px;
   `}
 `;
 
-const Modal = ({ children, isActive, setIsActive }: Props) => {
+const Modal = ({ children, isActive, setIsActive, width = null }: Props) => {
   const closeButtonRef = useRef(null);
   const endRef = useRef(null);
   const modalRef = useRef(null);
@@ -133,7 +134,7 @@ const Modal = ({ children, isActive, setIsActive }: Props) => {
     <>
       {isActive && <Overlay onClick={() => setIsActive(false)} />}
       {isActive && (
-        <ModalWindow ref={modalRef}>
+        <ModalWindow ref={modalRef} width={width}>
           <CloseButton
             ref={closeButtonRef}
             onClick={() => setIsActive(false)}
