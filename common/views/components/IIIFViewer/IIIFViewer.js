@@ -293,6 +293,7 @@ const IIIFViewerComponent = ({
   }, []);
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
+  const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
   const iiifPresentationLocation =
     work && work.type !== 'Error'
       ? getDigitalLocationOfType(work, 'iiif-presentation')
@@ -442,10 +443,10 @@ const IIIFViewerComponent = ({
             isFullscreen={isFullscreen}
           />
         )}
-        {!enhanced && urlTemplate && (
+        {!enhanced && (
           <NoScriptViewer
             thumbnailsRequired={thumbnailsRequired || false}
-            imageUrl={urlTemplate({ size: '800,' })}
+            imageUrl={imageUrl}
             iiifImageLocation={iiifImageLocation}
             currentCanvas={currentCanvas}
             canvasOcr={canvasOcr}
@@ -508,11 +509,11 @@ const IIIFViewerComponent = ({
                 />
               </Space>
             </ImageViewerControls>
-            {urlTemplate && (
+            {urlTemplate && imageUrl && iiifImageLocation && (
               <IIIFViewerImageWrapper>
                 <ImageViewer
                   infoUrl={iiifImageLocation.url}
-                  id={urlTemplate({ size: '800,' })}
+                  id={imageUrl}
                   width={800}
                   alt={(work && work.description) || (work && work.title) || ''}
                   urlTemplate={urlTemplate}
