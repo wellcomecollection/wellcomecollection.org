@@ -139,7 +139,6 @@ type NoScriptViewerProps = {|
   pageIndex: number,
   sierraId: string,
   pageSize: number,
-  iiifImageLocationUrl: ?string,
   imageUrl: ?string,
   thumbnailsRequired: boolean,
   iiifImageLocation: ?{ url: string },
@@ -149,7 +148,6 @@ type NoScriptViewerProps = {|
 
 const NoScriptViewer = ({
   thumbnailsRequired,
-  iiifImageLocationUrl,
   imageUrl,
   iiifImageLocation,
   currentCanvas,
@@ -195,7 +193,7 @@ const NoScriptViewer = ({
         fullWidth={!thumbnailsRequired}
       >
         <IIIFViewerImageWrapper>
-          {iiifImageLocationUrl && imageUrl && (
+          {iiifImageLocation && imageUrl && (
             <IIIFResponsiveImage
               width={800}
               src={imageUrl}
