@@ -18,9 +18,12 @@ type GetImagesProps = {|
   toggles: Toggles,
 |};
 
+type ImageInclude = 'visuallySimilar';
+
 type GetImageProps = {|
   id: string,
   toggles: Toggles,
+  include: ImageInclude[],
 |};
 
 export async function getImages({
@@ -54,15 +57,14 @@ export async function getImages({
   }
 }
 
-const imageIncludes = ['visuallySimilar'];
-
 export async function getImage({
   id,
   toggles,
+  include = [],
 }: GetImageProps): Promise<Image | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
   const params = {
-    include: imageIncludes,
+    include: include,
     _index: apiOptions.indexOverrideSuffix
       ? `images-${apiOptions.indexOverrideSuffix}`
       : null,

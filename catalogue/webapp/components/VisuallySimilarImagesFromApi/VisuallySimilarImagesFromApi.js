@@ -33,7 +33,11 @@ const VisuallySimilarImagesFromApi = ({ originalId, onClickImage }: Props) => {
   const toggles = useContext(TogglesContext);
   useEffect(() => {
     const fetchVisuallySimilarImages = async () => {
-      const fullImage = await getImage({ id: originalId, toggles });
+      const fullImage = await getImage({
+        id: originalId,
+        toggles,
+        include: ['visuallySimilar'],
+      });
       setSimilarImages(fullImage.visuallySimilar);
     };
     fetchVisuallySimilarImages();
