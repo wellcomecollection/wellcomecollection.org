@@ -60,7 +60,6 @@ const ItemLink = styled.a`
 `;
 
 const Preview = styled.div`
-  font-size: 14px;
   position: fixed;
   z-index: 2;
   top: 50%;
@@ -171,6 +170,32 @@ const includes = [
   'production',
   'notes',
 ];
+
+type Work = {|
+  // TODO import this and make it work everywhere
+  id: string,
+  title: string,
+  alternativeTitles: [],
+  type: 'Work',
+|};
+
+type Collection = {|
+  path: {|
+    path: string,
+    level: string,
+    label: string,
+    type: string,
+  |},
+  work: Work,
+  children: ?(Collection[]),
+|};
+
+type NestedListProps = {|
+  collection: Collection[],
+  currentWork: string,
+  selected: { current: HTMLElement | null },
+  setShowArchiveTreeModal: boolean => void,
+|};
 
 async function getWork(id, withIncludes = false) {
   const workUrl = `${apiUrl}/${id}?include=collection,items${
@@ -283,7 +308,7 @@ const WorkLink = ({
   }
 
   const fetchAndUpdateCollection = async id => {
-    // if (level === "Item") return; // TODO just for testing online idea
+    if (level === "Item") return; // TODO remove if testing view online links - could this data be in API?
     // find the current branch
     const currentBranch = getTreeBranches(currentWorkPath, collection)[0];
     // check for children
@@ -331,27 +356,8 @@ const WorkLink = ({
       href={`https://wellcomecollection.org/works/${id}`}
       onClick={showPreview}
     >
-      <span style={{ display: 'inline-flex', alignItems: 'center' }}>
-        <span>{title}</span>
-        <span
-          style={{
-            display: 'inline-block',
-            width: '1em',
-            padding: '0',
-            marginLeft: '2px',
-          }}
-        >
-          <svg viewBox="0 0 24 24">
-            <path
-              className="icon__shape"
-              fillRule="nonzero"
-              d="M18.791 11.506l-5.224-5.294a.667.667 0 0 0-.975 0 .689.689 0 0 0 0 .988l4.04 4.094H5.697c-.418 0-.697.282-.697.706s.279.706.697.706h10.935l-4.04 4.094a.689.689 0 0 0 0 .988c.14.141.348.212.488.212.139 0 .348-.07.487-.212l5.224-5.294a.689.689 0 0 0 0-.988z"
-            ></path>
-          </svg>
-        </span>
-      </span>
-      <br />
-      <span
+      {title}
+      <div
         style={{
           fontSize: '13px',
           color: '#707070',
@@ -360,7 +366,7 @@ const WorkLink = ({
         }}
       >
         {currentWorkPath}
-      </span>
+      </div>
     </a>
   );
 };
@@ -372,7 +378,7 @@ const NestedList = ({
   setCollection,
   setWorkToPreview,
   setShowPreview,
-}) => {
+}: NestedListProps) => {
   return (
     <ul>
       {children.map(item => {
@@ -391,7 +397,7 @@ const NestedList = ({
                   setWorkToPreview={setWorkToPreview}
                   setShowPreview={setShowPreview}
                 />
-                {item.itemUrl && (
+                {/* {item.itemUrl && (
                   <>
                     <br />
                     <ItemLink
@@ -421,7 +427,7 @@ const NestedList = ({
                       View online
                     </ItemLink>
                   </>
-                )}
+                )}*/}
                 {item.children && (
                   <NestedList
                     currentWorkPath={item.path.path}
@@ -442,14 +448,14 @@ const NestedList = ({
   );
 };
 
-const ArchiveTree = ({ work }) => {
+const ArchiveTree = ({ work }: Work) => {
   const [showArchiveTreeModal, setShowArchiveTreeModal] = useState(false);
   const [collectionTree, setCollectionTree] = useState(work.collection || {});
   const [workToPreview, setWorkToPreview] = useState();
   const [showPreview, setShowPreview] = useState();
-  const [scale, setScale] = useState(1);
-  const selected = useRef(null);
-  const container = useRef(null);
+  // const [scale, setScale] = useState(1);
+  // const selected = useRef(null);
+  // const container = useRef(null);
 
   useEffect(() => {
     setCollectionTree(work.collection);
@@ -473,8 +479,9 @@ const ArchiveTree = ({ work }) => {
       <Modal
         isActive={showArchiveTreeModal}
         setIsActive={setShowArchiveTreeModal}
+        width="98vw"
       >
-        <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+        {/* <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <ButtonSolid
               icon={'zoomOut'}
@@ -499,8 +506,8 @@ const ArchiveTree = ({ work }) => {
               }
             }}
           />
-        </Space>
-        <Container ref={container}>
+        </Space> */}
+        <Container /*ref={container}*/>
           <>
             {showPreview && workToPreview && (
               <Preview>
@@ -573,7 +580,7 @@ const ArchiveTree = ({ work }) => {
                 </PreviewTable>
               </Preview>
             )}
-            <Tree scale={scale}>
+            <Tree /*scale={scale}*/>
               <NestedList
                 currentWorkPath={
                   work.collectionPath && work.collectionPath.path
