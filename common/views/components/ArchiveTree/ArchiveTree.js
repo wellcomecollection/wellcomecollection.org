@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { classNames } from '@weco/common/utils/classnames';
 import { getWork } from '@weco/catalogue/services/catalogue/works';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Space from '../styled/Space';
@@ -66,7 +67,7 @@ const Preview = styled.div`
   right: 20px;
   box-sizing: border-box;
   width: 50vw;
-  max-height: calc(100vh - 48px);
+  max-height: calc(90vh - 48px);
   overflow: auto;
   border: 2px solid black;
   border-radius: 6px;
@@ -371,7 +372,11 @@ const NestedList = ({
   setShowPreview,
 }: NestedListProps) => {
   return (
-    <ul>
+    <ul
+      className={classNames({
+        'font-size-5': true,
+      })}
+    >
       {children.map(item => {
         return (
           item &&
@@ -507,7 +512,11 @@ const ArchiveTree = ({ work }: Work) => {
         <Container /* ref={container} */>
           <>
             {showPreview && workToPreview && (
-              <Preview>
+              <Preview
+                className={classNames({
+                  'font-size-6': true,
+                })}
+              >
                 <button onClick={() => setShowPreview(false)}>
                   Close Preview
                 </button>
@@ -520,7 +529,7 @@ const ArchiveTree = ({ work }: Work) => {
                           <a
                             target="_blank"
                             rel="noopener noreferrer"
-                            href={`https://wellcomecollection.org/works/${work.id}`}
+                            href={`https://wellcomecollection.org/works/${workToPreview.id}`}
                           >
                             {workToPreview.title}
                           </a>
@@ -583,12 +592,13 @@ const ArchiveTree = ({ work }: Work) => {
                   work.collectionPath && work.collectionPath.path
                 }
                 currentWorkId={work.id}
-                children={[collectionTree]}
                 collection={collectionTree}
                 setCollection={setCollectionTree}
                 setWorkToPreview={setWorkToPreview}
                 setShowPreview={setShowPreview}
-              />
+              >
+                {[collectionTree]}
+              </NestedList>
             </Tree>
           </>
         </Container>
