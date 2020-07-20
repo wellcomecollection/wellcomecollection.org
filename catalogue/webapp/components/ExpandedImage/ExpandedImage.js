@@ -1,7 +1,11 @@
 // @flow
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import NextLink from 'next/link';
-import { workLink, itemLink } from '@weco/common/services/catalogue/routes';
+import {
+  workLink,
+  itemLink,
+  imageLink,
+} from '@weco/common/services/catalogue/routes';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
@@ -230,12 +234,14 @@ const ExpandedImage = ({
     iiifImageLocation.license &&
     getAugmentedLicenseInfo(iiifImageLocation.license);
 
-  const maybeItemLink =
-    detailedWork &&
-    itemLink({
-      workId,
-      langCode: detailedWork.language && detailedWork.language.id,
-    });
+  // TODO: Link directly to an item canvas for images from digitised works
+  const expandedImageLink = image
+    ? imageLink({ workId, id: image.id })
+    : detailedWork &&
+      itemLink({
+        workId,
+        langCode: detailedWork.language && detailedWork.language.id,
+      });
 
   return (
     <>
@@ -250,8 +256,8 @@ const ExpandedImage = ({
           <Icon name="cross" extraClasses={`icon--currentColor`} />
         </CloseButton>
         <ModalInner>
-          {iiifImageLocation && maybeItemLink && (
-            <NextLink {...maybeItemLink} passHref>
+          {iiifImageLocation && expandedImageLink && (
+            <NextLink {...expandedImageLink} passHref>
               <ImageWrapper>
                 <Image
                   defaultSize={400}
@@ -284,7 +290,7 @@ const ExpandedImage = ({
             )}
 
             <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-              {maybeItemLink && (
+              {expandedImageLink && (
                 <Space
                   h={{ size: 'm', properties: ['margin-right'] }}
                   className="inline-block"
@@ -292,7 +298,7 @@ const ExpandedImage = ({
                   <ButtonSolidLink
                     text="View image"
                     icon="eye"
-                    link={maybeItemLink}
+                    link={expandedImageLink}
                   />
                 </Space>
               )}
