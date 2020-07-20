@@ -427,13 +427,14 @@ const NestedList = ({
                 {item.children && (
                   <NestedList
                     currentWorkPath={item.path.path}
-                    children={item.children}
                     currentWorkId={currentWorkId}
                     collection={collection}
                     setCollection={setCollection}
                     setWorkToPreview={setWorkToPreview}
                     setShowPreview={setShowPreview}
-                  />
+                  >
+                    {item.children}
+                  </NestedList>
                 )}
               </div>
             </li>
