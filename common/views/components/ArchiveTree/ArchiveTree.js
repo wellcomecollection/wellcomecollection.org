@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import fetch from 'isomorphic-unfetch';
 import styled from 'styled-components';
+import { getWork } from '@weco/catalogue/services/catalogue/works';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Space from '../styled/Space';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Modal from '@weco/common/views/components/Modal/Modal';
@@ -33,8 +34,6 @@ function useOnScreen({ ref, root = null, rootMargin = '0px', threshold = 0 }) {
 
   return isIntersecting;
 }
-
-const apiUrl = 'https://api.wellcomecollection.org/catalogue/v2/works';
 
 const ItemLink = styled.a`
   margin-top: 5px;
@@ -197,15 +196,6 @@ type NestedListProps = {|
   setShowArchiveTreeModal: boolean => void,
 |};
 
-async function getWork(id, withIncludes = false) {
-  const workUrl = `${apiUrl}/${id}?include=collection,items${
-    withIncludes ? `,${includes.join(',')}` : ''
-  }`;
-  const response = await fetch(workUrl);
-  const work = await response.json();
-  return work;
-}
-
 function getTreeBranches(path, collection) {
   const pathParts = path.split('/'); // ['PPCRI', 'A', '1', '1']
   const pathsToChildren = pathParts
@@ -279,6 +269,7 @@ const WorkLink = ({
   setCollection,
   setWorkToPreview,
   setShowPreview,
+  toggles,
 }) => {
   const ref = useRef();
   const isOnScreen = useOnScreen({
@@ -288,7 +279,7 @@ const WorkLink = ({
 
   async function showPreview(e) {
     e.preventDefault();
-    const work = await getWork(id, true);
+    const work = await getWork({ id, toggles });
     setWorkToPreview(work);
     setShowPreview(true);
   }
@@ -308,13 +299,13 @@ const WorkLink = ({
   }
 
   const fetchAndUpdateCollection = async id => {
-    if (level === "Item") return; // TODO remove if testing view online links - could this data be in API?
+    if (level === 'Item') return; // TODO remove if testing view online links - could this data be in API?
     // find the current branch
     const currentBranch = getTreeBranches(currentWorkPath, collection)[0];
     // check for children
     if (!currentBranch.children) {
       // if no children then get collection tree for work
-      const currentWork = await getWork(id);
+      const currentWork = await getWork({ id, toggles });
       const newCollection = currentWork.collection;
       const currentBranchWithChildren = getTreeBranches(
         currentWorkPath,
@@ -387,16 +378,21 @@ const NestedList = ({
           item.work && (
             <li key={item.work.id}>
               <div style={{ padding: '10px 10px 30px' }}>
-                <WorkLink
-                  title={item.work.title}
-                  id={item.work.id}
-                  currentWorkPath={item.path.path}
-                  level={item.path.level}
-                  collection={collection}
-                  setCollection={setCollection}
-                  setWorkToPreview={setWorkToPreview}
-                  setShowPreview={setShowPreview}
-                />
+                <TogglesContext.Consumer>
+                  {toggles => (
+                    <WorkLink
+                      title={item.work.title}
+                      id={item.work.id}
+                      currentWorkPath={item.path.path}
+                      level={item.path.level}
+                      collection={collection}
+                      setCollection={setCollection}
+                      setWorkToPreview={setWorkToPreview}
+                      setShowPreview={setShowPreview}
+                      toggles={toggles}
+                    />
+                  )}
+                </TogglesContext.Consumer>
                 {/* {item.itemUrl && (
                   <>
                     <br />
@@ -427,7 +423,7 @@ const NestedList = ({
                       View online
                     </ItemLink>
                   </>
-                )}*/}
+                )} */}
                 {item.children && (
                   <NestedList
                     currentWorkPath={item.path.path}
@@ -507,7 +503,7 @@ const ArchiveTree = ({ work }: Work) => {
             }}
           />
         </Space> */}
-        <Container /*ref={container}*/>
+        <Container /* ref={container} */>
           <>
             {showPreview && workToPreview && (
               <Preview>
@@ -580,7 +576,7 @@ const ArchiveTree = ({ work }: Work) => {
                 </PreviewTable>
               </Preview>
             )}
-            <Tree /*scale={scale}*/>
+            <Tree /* scale={scale} */>
               <NestedList
                 currentWorkPath={
                   work.collectionPath && work.collectionPath.path
