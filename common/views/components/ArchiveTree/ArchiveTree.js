@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
 import { getWork } from '@weco/catalogue/services/catalogue/works';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import { type Toggles } from '@weco/catalogue/services/catalogue/common';
 import Space from '../styled/Space';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Modal from '@weco/common/views/components/Modal/Modal';
@@ -36,28 +37,29 @@ function useOnScreen({ ref, root = null, rootMargin = '0px', threshold = 0 }) {
   return isIntersecting;
 }
 
-const ItemLink = styled.a`
-  margin-top: 5px;
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 10px;
-  font-size: 12px;
-  color: #fff;
-  background: #007868;
-  border-radius: 6px;
-  text-decoration: none;
-  transition: background 300ms ease;
+// Link to digitised item straight from tree
+// const ItemLink = styled.a`
+//   margin-top: 5px;
+//   display: inline-flex;
+//   align-items: center;
+//   padding: 2px 10px;
+//   font-size: 12px;
+//   color: #fff;
+//   background: #007868;
+//   border-radius: 6px;
+//   text-decoration: none;
+//   transition: background 300ms ease;
 
-  &:hover,
-  &:focus {
-    text-decoration: none;
-    background: #333;
-  }
+//   &:hover,
+//   &:focus {
+//     text-decoration: none;
+//     background: #333;
+//   }
 
-  .icon__shape {
-    fill: currentColor;
-  }
-`;
+//   .icon__shape {
+//     fill: currentColor;
+//   }
+// `;
 
 const Preview = styled.div`
   position: fixed;
@@ -162,15 +164,6 @@ const Tree = styled.div`
   }
 `;
 
-const includes = [
-  'identifiers',
-  'subjects',
-  'genres',
-  'contributors',
-  'production',
-  'notes',
-];
-
 type Work = {|
   // TODO import this and make it work everywhere
   id: string,
@@ -190,11 +183,15 @@ type Collection = {|
   children: ?(Collection[]),
 |};
 
+// selected: { current: HTMLElement | null },
 type NestedListProps = {|
+  collectionChildren: Collection[],
+  currentWorkId: string,
   collection: Collection[],
-  currentWork: string,
-  selected: { current: HTMLElement | null },
+  setCollection: (Collection[]) => void,
   setShowArchiveTreeModal: boolean => void,
+  setWorkToPreview: Work => void,
+  setShowPreview: boolean => void,
 |};
 
 function getTreeBranches(path, collection) {
@@ -261,6 +258,18 @@ function updateCollection(
   return collectionCopy;
 }
 
+type WorkLinkType = {|
+  title: string,
+  id: string,
+  level: string,
+  currentWorkPath: string,
+  collection: Collection[],
+  setCollection: Collection => void,
+  setWorkToPreview: Work,
+  setShowPreview: boolean => void,
+  toggles: Toggles,
+|};
+
 const WorkLink = ({
   title,
   id,
@@ -271,7 +280,7 @@ const WorkLink = ({
   setWorkToPreview,
   setShowPreview,
   toggles,
-}) => {
+}: WorkLinkType) => {
   const ref = useRef();
   const isOnScreen = useOnScreen({
     ref: ref,
@@ -364,7 +373,7 @@ const WorkLink = ({
 };
 
 const NestedList = ({
-  children,
+  collectionChildren,
   currentWorkId,
   collection,
   setCollection,
@@ -377,7 +386,7 @@ const NestedList = ({
         'font-size-5': true,
       })}
     >
-      {children.map(item => {
+      {collectionChildren.map(item => {
         return (
           item &&
           item.work && (
@@ -431,15 +440,14 @@ const NestedList = ({
                 )} */}
                 {item.children && (
                   <NestedList
+                    collectionChildren={item.children}
                     currentWorkPath={item.path.path}
                     currentWorkId={currentWorkId}
                     collection={collection}
                     setCollection={setCollection}
                     setWorkToPreview={setWorkToPreview}
                     setShowPreview={setShowPreview}
-                  >
-                    {item.children}
-                  </NestedList>
+                  />
                 )}
               </div>
             </li>
@@ -591,6 +599,7 @@ const ArchiveTree = ({ work }: Work) => {
             )}
             <Tree /* scale={scale} */>
               <NestedList
+                collectionChildren={[collectionTree]}
                 currentWorkPath={
                   work.collectionPath && work.collectionPath.path
                 }
@@ -599,9 +608,7 @@ const ArchiveTree = ({ work }: Work) => {
                 setCollection={setCollectionTree}
                 setWorkToPreview={setWorkToPreview}
                 setShowPreview={setShowPreview}
-              >
-                {[collectionTree]}
-              </NestedList>
+              />
             </Tree>
           </>
         </Container>
