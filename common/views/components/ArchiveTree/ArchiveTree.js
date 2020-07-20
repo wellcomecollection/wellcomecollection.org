@@ -517,9 +517,12 @@ const ArchiveTree = ({ work }: Work) => {
                   'font-size-6': true,
                 })}
               >
-                <button onClick={() => setShowPreview(false)}>
-                  Close Preview
-                </button>
+                <ButtonSolid
+                  icon="cross"
+                  text="Close preview"
+                  isTextHidden={true}
+                  clickHandler={() => setShowPreview(false)}
+                />
                 <PreviewTable>
                   <tbody>
                     {workToPreview.title && (
