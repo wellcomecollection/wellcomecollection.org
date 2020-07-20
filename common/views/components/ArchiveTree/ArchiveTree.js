@@ -8,7 +8,7 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 
 const Container = styled.div`
   overflow: scroll;
-  height: 90vh;
+  height: 70vh;
 `;
 
 function useOnScreen({ ref, root = null, rootMargin = '0px', threshold = 0 }) {
