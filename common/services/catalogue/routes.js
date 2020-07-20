@@ -212,7 +212,41 @@ export const ItemRoute: NextRoute<ItemRouteProps> = {
   },
 };
 
+export type ImageRouteProps = {|
+  id: string,
+  workId: string,
+  langCode: string,
+|};
+
+export const ImageRoute: NextRoute<ImageRouteProps> = {
+  fromQuery(q) {
+    const { workId, langCode = 'eng', id } = q;
+    return {
+      workId: defaultToEmptyString(workId),
+      langCode,
+      id: defaultToEmptyString(id),
+    };
+  },
+  toLink(params) {
+    const { workId, ...as } = params;
+    return {
+      href: {
+        pathname: '/image',
+        query: ImageRoute.toQuery(params),
+      },
+      as: {
+        pathname: `/works/${workId}/images`,
+        query: ImageRoute.toQuery(as),
+      },
+    };
+  },
+  toQuery(params) {
+    return serialiseUrl(params);
+  },
+};
+
 export const worksLink = (params: $Shape<WorksRouteProps>, source: string) =>
   WorksRoute.toLink({ ...params, source });
 export const workLink = WorkRoute.toLink;
 export const itemLink = ItemRoute.toLink;
+export const imageLink = ImageRoute.toLink;
