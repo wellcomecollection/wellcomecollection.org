@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
 import { getWork } from '@weco/catalogue/services/catalogue/works';
+import { getTreeBranches } from '@weco/common/utils/works';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { type Toggles } from '@weco/catalogue/services/catalogue/common';
 import Space from '../styled/Space';
@@ -11,6 +12,17 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 const Container = styled.div`
   overflow: scroll;
   height: 70vh;
+`;
+
+const StyledLink = styled.a`
+  display: inline-block;
+  background: ${props => (props.selected ? '#ffce3c' : 'transparent')};
+  font-weight: ${props => (props.selected ? 'bold' : 'normal')};
+  border-color: ${props =>
+    props.selected ? props.theme.colors.green : 'transparent'};
+  border-radius: 6px;
+  padding: 0 6px;
+  cursor: pointer;
 `;
 
 function useOnScreen({ ref, root = null, rootMargin = '0px', threshold = 0 }) {
@@ -36,30 +48,6 @@ function useOnScreen({ ref, root = null, rootMargin = '0px', threshold = 0 }) {
 
   return isIntersecting;
 }
-
-// Link to digitised item straight from tree
-// const ItemLink = styled.a`
-//   margin-top: 5px;
-//   display: inline-flex;
-//   align-items: center;
-//   padding: 2px 10px;
-//   font-size: 12px;
-//   color: #fff;
-//   background: #007868;
-//   border-radius: 6px;
-//   text-decoration: none;
-//   transition: background 300ms ease;
-
-//   &:hover,
-//   &:focus {
-//     text-decoration: none;
-//     background: #333;
-//   }
-
-//   .icon__shape {
-//     fill: currentColor;
-//   }
-// `;
 
 const Preview = styled.div`
   position: fixed;
@@ -106,9 +94,6 @@ const PreviewTable = styled.table`
 `;
 
 const Tree = styled.div`
-  transform: scale(${props => props.scale});
-  transform-origin: 0 0;
-
   ul {
     list-style: none;
     padding-left: 0;
@@ -183,7 +168,6 @@ type Collection = {|
   children: ?(Collection[]),
 |};
 
-// selected: { current: HTMLElement | null },
 type NestedListProps = {|
   collectionChildren: Collection[],
   currentWorkId: string,
@@ -192,42 +176,8 @@ type NestedListProps = {|
   setShowArchiveTreeModal: boolean => void,
   setWorkToPreview: Work => void,
   setShowPreview: boolean => void,
+  selected: { current: HTMLElement | null },
 |};
-
-function getTreeBranches(path, collection) {
-  const pathParts = path.split('/'); // ['PPCRI', 'A', '1', '1']
-  const pathsToChildren = pathParts
-    .reduce((acc, curr, index) => {
-      if (index === 0) return [pathParts[0]];
-
-      return [...acc, `${acc[index - 1]}/${curr}`];
-    }, [])
-    .slice(1); // ['PPCRI/A', 'PPCRI/A/1', 'PPCRI/A/1/1']
-
-  return pathsToChildren.reduce(
-    (acc, curr) => {
-      const foundItem =
-        (acc[0].children && acc[0].children.find(i => i.path.path === curr)) ||
-        {};
-
-      return [
-        {
-          work: foundItem.work,
-          path: foundItem.path,
-          children: foundItem.children,
-        },
-        ...acc,
-      ];
-    },
-    [
-      {
-        work: collection && collection.work,
-        path: collection && collection.path,
-        children: collection && collection.children,
-      },
-    ]
-  );
-}
 
 function updateCollection(
   collection,
@@ -262,24 +212,28 @@ type WorkLinkType = {|
   title: string,
   id: string,
   level: string,
+  label: string,
   currentWorkPath: string,
   collection: Collection[],
   setCollection: Collection => void,
   setWorkToPreview: Work,
   setShowPreview: boolean => void,
   toggles: Toggles,
+  selected: boolean,
 |};
 
 const WorkLink = ({
   title,
   id,
   level,
+  label,
   currentWorkPath,
   collection,
   setCollection,
   setWorkToPreview,
   setShowPreview,
   toggles,
+  selected,
 }: WorkLinkType) => {
   const ref = useRef();
   const isOnScreen = useOnScreen({
@@ -345,7 +299,7 @@ const WorkLink = ({
   }, [isOnScreen]);
 
   return (
-    <a
+    <StyledLink
       style={{
         whiteSpace: 'nowrap',
         display: 'inline-block',
@@ -356,6 +310,7 @@ const WorkLink = ({
       rel="noopener noreferrer"
       href={`https://wellcomecollection.org/works/${id}`}
       onClick={showPreview}
+      selected={selected}
     >
       {title}
       <div
@@ -366,9 +321,9 @@ const WorkLink = ({
           padding: '0',
         }}
       >
-        {currentWorkPath}
+        {label}
       </div>
-    </a>
+    </StyledLink>
   );
 };
 
@@ -379,6 +334,7 @@ const NestedList = ({
   setCollection,
   setWorkToPreview,
   setShowPreview,
+  selected,
 }: NestedListProps) => {
   return (
     <ul
@@ -398,46 +354,19 @@ const NestedList = ({
                       title={item.work.title}
                       id={item.work.id}
                       currentWorkPath={item.path.path}
+                      label={item.path.label}
                       level={item.path.level}
                       collection={collection}
                       setCollection={setCollection}
                       setWorkToPreview={setWorkToPreview}
                       setShowPreview={setShowPreview}
                       toggles={toggles}
+                      selected={currentWorkId === item.work.id}
+                      ref={currentWorkId === item.work.id ? selected : null}
                     />
                   )}
                 </TogglesContext.Consumer>
-                {/* {item.itemUrl && (
-                  <>
-                    <br />
-                    <ItemLink
-                      href={item.itemUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <span
-                        style={{
-                          display: 'inline-block',
-                          width: '1.5em',
-                          padding: '0',
-                          marginRight: '5px',
-                        }}
-                      >
-                        <svg viewBox="0 0 24 24">
-                          <g
-                            className="icon__shape"
-                            fillRule="nonzero"
-                            transform="translate(2 4)"
-                          >
-                            <path d="M10 0C4.17 0 0 6 0 8s4 8 10 8 10-6 10-8-4.2-8-10-8zm0 14c-4.76 0-8-5-8-6s3.21-6 8-6 8 5.11 8 6c0 .89-3.24 6-8 6z"></path>
-                            <circle cx="9.97" cy="8" r="3"></circle>
-                          </g>
-                        </svg>
-                      </span>
-                      View online
-                    </ItemLink>
-                  </>
-                )} */}
+
                 {item.children && (
                   <NestedList
                     collectionChildren={item.children}
@@ -463,9 +392,8 @@ const ArchiveTree = ({ work }: Work) => {
   const [collectionTree, setCollectionTree] = useState(work.collection || {});
   const [workToPreview, setWorkToPreview] = useState();
   const [showPreview, setShowPreview] = useState();
-  // const [scale, setScale] = useState(1);
-  // const selected = useRef(null);
-  // const container = useRef(null);
+  const selected = useRef(null);
+  const container = useRef(null);
 
   useEffect(() => {
     setCollectionTree(work.collection);
@@ -491,33 +419,7 @@ const ArchiveTree = ({ work }: Work) => {
         setIsActive={setShowArchiveTreeModal}
         width="98vw"
       >
-        {/* <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-            <ButtonSolid
-              icon={'zoomOut'}
-              text={'Zoom out'}
-              clickHandler={() => {
-                if (scale > 1) {
-                  setScale(scale - 1);
-                } else if (scale > 0.25) {
-                  setScale(scale - 0.25);
-                }
-              }}
-            />
-          </Space>
-          <ButtonSolid
-            icon={'zoomIn'}
-            text={'Zoom in'}
-            clickHandler={() => {
-              if (scale < 1) {
-                setScale(scale + 0.25);
-              } else if (scale < 3) {
-                setScale(scale + 1);
-              }
-            }}
-          />
-        </Space> */}
-        <Container /* ref={container} */>
+        <Container ref={container}>
           <>
             {showPreview && workToPreview && (
               <Preview
@@ -597,7 +499,7 @@ const ArchiveTree = ({ work }: Work) => {
                 </PreviewTable>
               </Preview>
             )}
-            <Tree /* scale={scale} */>
+            <Tree>
               <NestedList
                 collectionChildren={[collectionTree]}
                 currentWorkPath={
@@ -608,6 +510,7 @@ const ArchiveTree = ({ work }: Work) => {
                 setCollection={setCollectionTree}
                 setWorkToPreview={setWorkToPreview}
                 setShowPreview={setShowPreview}
+                selected={selected}
               />
             </Tree>
           </>
