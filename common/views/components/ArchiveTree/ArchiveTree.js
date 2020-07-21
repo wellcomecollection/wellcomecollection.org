@@ -79,7 +79,10 @@ const Tree = styled.div`
   li {
     position: relative;
     list-style: none;
-    font-weight: bold;
+
+    a {
+      font-weight: bold;
+    }
   }
 
   a {
@@ -95,7 +98,9 @@ const Tree = styled.div`
     padding-left: 62px;
 
     li {
-      font-weight: normal;
+      a {
+        font-weight: normal;
+      }
     }
 
     li::before,
