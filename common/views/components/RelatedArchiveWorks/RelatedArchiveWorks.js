@@ -3,7 +3,6 @@ import { type Work } from '@weco/common/model/work';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
-import fetch from 'isomorphic-unfetch';
 import { classNames, cssGrid, font } from '../../../utils/classnames';
 import { getTreeBranches, type Collection } from '@weco/common/utils/works';
 import { workLink } from '@weco/common/services/catalogue/routes';
@@ -109,18 +108,9 @@ const RelatedArchiveWorks = ({ work }: Props) => {
   const currentTree = tree[0];
   const parentTree = tree[1];
 
-  const fetchCollection = async workId => {
-    try {
-      const url = `https://api.wellcomecollection.org/catalogue/v2/works/${workId}?include=collection`;
-      const response = await fetch(url);
-      const work = await response.json();
-      setWorkWithCollection(work);
-    } catch (e) {}
-  };
-
   useEffect(() => {
-    fetchCollection(work.id);
-  }, [work.id]);
+    setWorkWithCollection(work);
+  }, [work]);
 
   return workWithCollection ? (
     <>

@@ -5,7 +5,6 @@ import { workLink } from '../../../services/catalogue/routes';
 import { getTreeBranches } from '../../../utils/works';
 import { classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
-import fetch from 'isomorphic-unfetch';
 import styled from 'styled-components';
 import DropdownButton from '../DropdownButton/DropdownButton';
 import Icon from '../Icon/Icon';
@@ -100,16 +99,8 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
   }
 
   useEffect(() => {
-    const url = `https://api.wellcomecollection.org/catalogue/v2/works/${work.id}?include=collection`;
-
-    fetch(url)
-      .then(resp => resp.json())
-      .then(resp => {
-        if (!resp.collectionPath) return;
-
-        const tree = getTreeBranches(resp.collectionPath.path, resp.collection);
-        setBreadcrumb(makeCrumbs(tree));
-      });
+    const tree = getTreeBranches(work.collectionPath.path, work.collection);
+    setBreadcrumb(makeCrumbs(tree));
   }, [work]);
 
   const [breadcrumb, setBreadcrumb] = useState({
