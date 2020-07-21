@@ -263,7 +263,7 @@ const WorkLink = ({
   }
 
   const fetchAndUpdateCollection = async id => {
-    if (level === 'Item') return; // TODO remove if testing view online links - could this data be in API?
+    if (level === 'Item') return;
     // find the current branch
     const currentBranch = getTreeBranches(currentWorkPath, collection)[0];
     // check for children
