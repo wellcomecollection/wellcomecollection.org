@@ -42,14 +42,14 @@ const SearchFilters = ({
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
-  const { unfilteredSearchResults, collectionSearch } = useContext(
+  const { unfilteredSearchResults, archivesPrototype } = useContext(
     TogglesContext
   );
 
   const workTypeFilters = unfilteredSearchResults
     ? workTypeAggregations
     : workTypeAggregations.filter(agg =>
-        collectionSearch
+        archivesPrototype
           ? testDefaultWorkTypes.includes(agg.data.id)
           : defaultWorkTypes.includes(agg.data.id)
       );

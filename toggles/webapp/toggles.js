@@ -2,23 +2,17 @@ module.exports = {
   toggles: [
     {
       id: 'archivesPrototype',
-      title: 'View additions to the work page relating to archives',
+      title:
+        'Include archives in search resutls and view additions to the work page relating to archives',
       defaultValue: false,
       description:
-        'View prototypes of breadcrumbs and onward journey links for archives',
+        'Include archives in search results and view prototypes of breadcrumbs, trees and onward journey links for archives',
     },
     {
       id: 'unfilteredSearchResults',
       title: 'Entire catalogue search',
       defaultValue: false,
       description: 'Search the entire catalogue, including all work types',
-    },
-    {
-      id: 'collectionSearch',
-      title: 'Search and explore archive collections',
-      defaultValue: false,
-      description:
-        'Search for top-level collections and surface them on work pages',
     },
     {
       id: 'imagesEndpoint',

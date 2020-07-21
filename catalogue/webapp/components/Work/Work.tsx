@@ -35,7 +35,7 @@ type Props = {
 };
 
 const Work = ({ work }: Props) => {
-  const { collectionSearch, archivesPrototype } = useContext(TogglesContext);
+  const { archivesPrototype } = useContext(TogglesContext);
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
     page: 1,

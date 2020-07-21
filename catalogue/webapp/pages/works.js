@@ -379,7 +379,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const {
     unfilteredSearchResults,
     imagesEndpoint,
-    collectionSearch,
+    archivesPrototype,
   } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
@@ -388,7 +388,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     ? worksRouteToApiUrl
     : worksRouteToApiUrlWithDefaults;
 
-  const apiProps = collectionSearch
+  const apiProps = archivesPrototype
     ? apiPropsFn(
         {
           ...params,
