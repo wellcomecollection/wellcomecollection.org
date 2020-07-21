@@ -6,7 +6,6 @@ import {
   type CatalogueApiError,
 } from '@weco/common/model/catalogue';
 import fetch from 'isomorphic-unfetch';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
@@ -78,10 +77,6 @@ const ItemPage = ({
   const title = (manifest && manifest.label) || (work && work.title) || '';
   const iiifImageLocation =
     work && getDigitalLocationOfType(work, 'iiif-image');
-  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
-  const iiifImage =
-    iiifImageLocationUrl && iiifImageTemplate(iiifImageLocationUrl);
-  const imageUrl = iiifImage && iiifImage({ size: '800,' });
 
   const mainImageService = { '@id': getServiceId(currentCanvas) };
 
@@ -170,7 +165,7 @@ const ItemPage = ({
         !video &&
         !pdfRendering &&
         !mainImageService &&
-        !iiifImageLocationUrl && (
+        !iiifImageLocation && (
           <Layout12>
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <div style={{ marginTop: '98px' }}>
@@ -191,8 +186,7 @@ const ItemPage = ({
         />
       )}
 
-      {((mainImageService && currentCanvas) ||
-        (imageUrl && iiifImageLocationUrl)) && (
+      {((mainImageService && currentCanvas) || iiifImageLocation) && (
         <IIIFViewer
           title={title}
           mainPaginatorProps={mainPaginatorProps}
@@ -206,8 +200,7 @@ const ItemPage = ({
           sierraId={sierraId}
           pageSize={pageSize}
           canvasIndex={canvasIndex}
-          iiifImageLocationUrl={iiifImageLocationUrl}
-          imageUrl={imageUrl}
+          iiifImageLocation={iiifImageLocation}
           work={work}
           manifest={manifest}
         />
@@ -233,10 +226,9 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   const manifest = manifestUrl ? await (await fetch(manifestUrl)).json() : null;
   const video = manifest && getVideo(manifest);
   const audio = manifest && getAudio(manifest);
-  const { stagingApi } = ctx.query.toggles;
   const work = await getWork({
     id: workId,
-    env: stagingApi ? 'stage' : 'prod',
+    toggles: ctx.query.toggles,
   });
   const canvases =
     manifest && manifest.sequences && manifest.sequences[0].canvases

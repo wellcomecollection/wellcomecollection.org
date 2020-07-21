@@ -150,7 +150,7 @@ DownloadPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     ? `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
     : null;
   const manifest = manifestUrl ? await (await fetch(manifestUrl)).json() : null;
-  const work = await getWork({ id: workId });
+  const work = await getWork({ id: workId, toggles: ctx.query.toggles });
   return {
     workId,
     sierraId,

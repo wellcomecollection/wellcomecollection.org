@@ -28,6 +28,13 @@ module.exports = {
         'Rather than searching for works filtered by iiif-image, use the new (beta) images endpoint for image search',
     },
     {
+      id: 'miroMergingTest',
+      title: 'Use the Miro merging test index',
+      defaultValue: false,
+      description:
+        'The miro merging test merges as many miro works as possible (ie regardless of number or worktype)',
+    },
+    {
       id: 'searchToolbar',
       title: 'Search toolbar',
       defaultValue: false,

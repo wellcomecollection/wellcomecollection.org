@@ -5,6 +5,7 @@ import { useContext, type ComponentType } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 import styled from 'styled-components';
+// $FlowFixMe
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
