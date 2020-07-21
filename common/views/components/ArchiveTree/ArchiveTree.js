@@ -16,38 +16,14 @@ const Container = styled.div`
 
 const StyledLink = styled.a`
   display: inline-block;
-  background: ${props => (props.selected ? '#ffce3c' : 'transparent')};
-  font-weight: ${props => (props.selected ? 'bold' : 'normal')};
+  background: ${props => (props.isCurrent ? '#ffce3c' : 'transparent')};
+  font-weight: ${props => (props.isCurrent ? 'bold' : 'normal')};
   border-color: ${props =>
-    props.selected ? props.theme.colors.green : 'transparent'};
+    props.isCurrent ? props.theme.colors.green : 'transparent'};
   border-radius: 6px;
   padding: 0 6px;
   cursor: pointer;
 `;
-
-function useOnScreen({ ref, root = null, rootMargin = '0px', threshold = 0 }) {
-  const [isIntersecting, setIsIntersecting] = useState(false);
-  useEffect(() => {
-    const observer = new window.IntersectionObserver(
-      ([entry]) => {
-        setIsIntersecting(entry.isIntersecting);
-      },
-      {
-        root,
-        rootMargin,
-        threshold,
-      }
-    );
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  return isIntersecting;
-}
 
 const Preview = styled.div`
   position: fixed;
@@ -214,12 +190,14 @@ type WorkLinkType = {|
   level: string,
   label: string,
   currentWorkPath: string,
+  currentWorkId: string,
   collection: Collection[],
   setCollection: Collection => void,
   setWorkToPreview: Work,
   setShowPreview: boolean => void,
   toggles: Toggles,
-  selected: boolean,
+  isCurrent: boolean,
+  selected: { current: HTMLElement | null },
 |};
 
 const WorkLink = ({
@@ -228,18 +206,16 @@ const WorkLink = ({
   level,
   label,
   currentWorkPath,
+  currentWorkId,
   collection,
   setCollection,
   setWorkToPreview,
   setShowPreview,
   toggles,
+  isCurrent,
   selected,
 }: WorkLinkType) => {
   const ref = useRef();
-  const isOnScreen = useOnScreen({
-    ref: ref,
-    threshold: [0],
-  });
 
   async function showPreview(e) {
     e.preventDefault();
@@ -293,37 +269,37 @@ const WorkLink = ({
     }
   };
   useEffect(() => {
-    if (isOnScreen) {
-      fetchAndUpdateCollection(id);
-    }
-  }, [isOnScreen]);
+    fetchAndUpdateCollection(id);
+  }, []);
 
   return (
-    <StyledLink
-      style={{
-        whiteSpace: 'nowrap',
-        display: 'inline-block',
-        color: 'black',
-      }}
-      ref={ref}
-      target="_blank"
-      rel="noopener noreferrer"
-      href={`https://wellcomecollection.org/works/${id}`}
-      onClick={showPreview}
-      selected={selected}
-    >
-      {title}
-      <div
+    <div ref={currentWorkId === id ? selected : null}>
+      <StyledLink
         style={{
-          fontSize: '13px',
-          color: '#707070',
-          textDecoration: 'none',
-          padding: '0',
+          whiteSpace: 'nowrap',
+          display: 'inline-block',
+          color: 'black',
         }}
+        ref={ref}
+        target="_blank"
+        rel="noopener noreferrer"
+        href={`https://wellcomecollection.org/works/${id}`}
+        onClick={showPreview}
+        isCurrent={isCurrent} // TODO don't need to pass
       >
-        {label}
-      </div>
-    </StyledLink>
+        {title}
+        <div
+          style={{
+            fontSize: '13px',
+            color: '#707070',
+            textDecoration: 'none',
+            padding: '0',
+          }}
+        >
+          {label}
+        </div>
+      </StyledLink>
+    </div>
   );
 };
 
@@ -351,9 +327,11 @@ const NestedList = ({
                 <TogglesContext.Consumer>
                   {toggles => (
                     <WorkLink
+                      item={item}
                       title={item.work.title}
                       id={item.work.id}
                       currentWorkPath={item.path.path}
+                      currentWorkId={currentWorkId}
                       label={item.path.label}
                       level={item.path.level}
                       collection={collection}
@@ -361,12 +339,11 @@ const NestedList = ({
                       setWorkToPreview={setWorkToPreview}
                       setShowPreview={setShowPreview}
                       toggles={toggles}
-                      selected={currentWorkId === item.work.id}
+                      isCurrent={currentWorkId === item.work.id}
                       ref={currentWorkId === item.work.id ? selected : null}
                     />
                   )}
                 </TogglesContext.Consumer>
-
                 {item.children && (
                   <NestedList
                     collectionChildren={item.children}
@@ -394,6 +371,41 @@ const ArchiveTree = ({ work }: Work) => {
   const [showPreview, setShowPreview] = useState();
   const selected = useRef(null);
   const container = useRef(null);
+
+  useEffect(() => {
+    const containerTop =
+      (container &&
+        container.current &&
+        container.current.getBoundingClientRect().top) ||
+      0;
+    const containerLeft =
+      (container &&
+        container.current &&
+        container.current.getBoundingClientRect().left) ||
+      0;
+    const containerHeight =
+      (container && container.current && container.current.offsetHeight) || 0;
+    const selectedTop =
+      (selected &&
+        selected.current &&
+        selected.current.getBoundingClientRect().top) ||
+      0;
+    const selectedLeft =
+      (selected &&
+        selected.current &&
+        selected.current.getBoundingClientRect().left) ||
+      0;
+    const selectedHeight =
+      (selected && selected.current && selected.current.offsetHeight) || 0;
+    if (container && container.current) {
+      container.current.scrollTo(
+        Math.floor(selectedLeft - containerLeft - 100),
+        Math.floor(
+          selectedTop - containerTop - containerHeight / 2 + selectedHeight / 2
+        )
+      );
+    }
+  }, [showArchiveTreeModal]);
 
   useEffect(() => {
     setCollectionTree(work.collection);
