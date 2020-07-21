@@ -284,7 +284,7 @@ const WorkLink = ({
       ref={ref}
       target="_blank"
       rel="noopener noreferrer"
-      href={`https://wellcomecollection.org/works/${id}`}
+      href={`/works/${id}`}
       onClick={showPreview}
       isCurrent={isCurrent} // TODO don't need to pass
     >
@@ -415,7 +415,7 @@ const ArchiveTree = ({ work }: Work) => {
                           <a
                             target="_blank"
                             rel="noopener noreferrer"
-                            href={`https://wellcomecollection.org/works/${workToPreview.id}`}
+                            href={`/works/${workToPreview.id}`}
                           >
                             {workToPreview.title}
                           </a>
