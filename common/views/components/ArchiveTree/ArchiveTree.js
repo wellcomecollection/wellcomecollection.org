@@ -152,7 +152,6 @@ type NestedListProps = {|
   setShowArchiveTreeModal: boolean => void,
   setWorkToPreview: Work => void,
   setShowPreview: boolean => void,
-  selected: { current: HTMLElement | null },
 |};
 
 function updateCollection(
@@ -197,7 +196,6 @@ type WorkLinkType = {|
   setShowPreview: boolean => void,
   toggles: Toggles,
   isCurrent: boolean,
-  selected: { current: HTMLElement | null },
 |};
 
 const WorkLink = ({
@@ -213,7 +211,6 @@ const WorkLink = ({
   setShowPreview,
   toggles,
   isCurrent,
-  selected,
 }: WorkLinkType) => {
   const ref = useRef();
 
@@ -273,33 +270,31 @@ const WorkLink = ({
   }, []);
 
   return (
-    <div ref={currentWorkId === id ? selected : null}>
-      <StyledLink
+    <StyledLink
+      style={{
+        whiteSpace: 'nowrap',
+        display: 'inline-block',
+        color: 'black',
+      }}
+      ref={ref}
+      target="_blank"
+      rel="noopener noreferrer"
+      href={`https://wellcomecollection.org/works/${id}`}
+      onClick={showPreview}
+      isCurrent={isCurrent} // TODO don't need to pass
+    >
+      {title}
+      <div
         style={{
-          whiteSpace: 'nowrap',
-          display: 'inline-block',
-          color: 'black',
+          fontSize: '13px',
+          color: '#707070',
+          textDecoration: 'none',
+          padding: '0',
         }}
-        ref={ref}
-        target="_blank"
-        rel="noopener noreferrer"
-        href={`https://wellcomecollection.org/works/${id}`}
-        onClick={showPreview}
-        isCurrent={isCurrent} // TODO don't need to pass
       >
-        {title}
-        <div
-          style={{
-            fontSize: '13px',
-            color: '#707070',
-            textDecoration: 'none',
-            padding: '0',
-          }}
-        >
-          {label}
-        </div>
-      </StyledLink>
-    </div>
+        {label}
+      </div>
+    </StyledLink>
   );
 };
 
@@ -310,7 +305,6 @@ const NestedList = ({
   setCollection,
   setWorkToPreview,
   setShowPreview,
-  selected,
 }: NestedListProps) => {
   return (
     <ul
@@ -340,7 +334,6 @@ const NestedList = ({
                       setShowPreview={setShowPreview}
                       toggles={toggles}
                       isCurrent={currentWorkId === item.work.id}
-                      ref={currentWorkId === item.work.id ? selected : null}
                     />
                   )}
                 </TogglesContext.Consumer>
@@ -369,43 +362,6 @@ const ArchiveTree = ({ work }: Work) => {
   const [collectionTree, setCollectionTree] = useState(work.collection || {});
   const [workToPreview, setWorkToPreview] = useState();
   const [showPreview, setShowPreview] = useState();
-  const selected = useRef(null);
-  const container = useRef(null);
-
-  useEffect(() => {
-    const containerTop =
-      (container &&
-        container.current &&
-        container.current.getBoundingClientRect().top) ||
-      0;
-    const containerLeft =
-      (container &&
-        container.current &&
-        container.current.getBoundingClientRect().left) ||
-      0;
-    const containerHeight =
-      (container && container.current && container.current.offsetHeight) || 0;
-    const selectedTop =
-      (selected &&
-        selected.current &&
-        selected.current.getBoundingClientRect().top) ||
-      0;
-    const selectedLeft =
-      (selected &&
-        selected.current &&
-        selected.current.getBoundingClientRect().left) ||
-      0;
-    const selectedHeight =
-      (selected && selected.current && selected.current.offsetHeight) || 0;
-    if (container && container.current) {
-      container.current.scrollTo(
-        Math.floor(selectedLeft - containerLeft - 100),
-        Math.floor(
-          selectedTop - containerTop - containerHeight / 2 + selectedHeight / 2
-        )
-      );
-    }
-  }, [showArchiveTreeModal]);
 
   useEffect(() => {
     setCollectionTree(work.collection);
@@ -431,7 +387,7 @@ const ArchiveTree = ({ work }: Work) => {
         setIsActive={setShowArchiveTreeModal}
         width="98vw"
       >
-        <Container ref={container}>
+        <Container>
           <>
             {showPreview && workToPreview && (
               <Preview
@@ -522,7 +478,6 @@ const ArchiveTree = ({ work }: Work) => {
                 setCollection={setCollectionTree}
                 setWorkToPreview={setWorkToPreview}
                 setShowPreview={setShowPreview}
-                selected={selected}
               />
             </Tree>
           </>
