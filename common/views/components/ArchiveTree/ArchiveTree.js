@@ -25,50 +25,6 @@ const StyledLink = styled.a`
   cursor: pointer;
 `;
 
-const Preview = styled.div`
-  position: fixed;
-  z-index: 2;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 20px;
-  box-sizing: border-box;
-  width: 50vw;
-  max-height: calc(90vh - 48px);
-  overflow: auto;
-  border: 2px solid black;
-  border-radius: 6px;
-  background: #f0ede3;
-  padding: 12px;
-
-  p {
-    margin-top: 0;
-  }
-
-  a {
-    color: black;
-    :hover,
-    :focus {
-      text-decoration: underline;
-    }
-  }
-
-  button {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-  }
-`;
-
-const PreviewTable = styled.table`
-  margin-top: 30px;
-  th,
-  td {
-    padding: 6px;
-    vertical-align: top;
-    text-align: left;
-  }
-`;
-
 const Tree = styled.div`
   ul {
     list-style: none;
@@ -219,13 +175,6 @@ const WorkLink = ({
 }: WorkLinkType) => {
   const ref = useRef();
 
-  async function showPreview(e) {
-    e.preventDefault();
-    const work = await getWork({ id, toggles });
-    setWorkToPreview(work);
-    setShowPreview(true);
-  }
-
   function getDigitalLocationOfType(work, locationType) {
     const [item] =
       (work.items &&
@@ -285,8 +234,7 @@ const WorkLink = ({
       target="_blank"
       rel="noopener noreferrer"
       href={`/works/${id}`}
-      onClick={showPreview}
-      isCurrent={isCurrent} // TODO don't need to pass
+      isCurrent={isCurrent}
     >
       {title}
       <div
@@ -308,8 +256,6 @@ const NestedList = ({
   currentWorkId,
   collection,
   setCollection,
-  setWorkToPreview,
-  setShowPreview,
 }: NestedListProps) => {
   return (
     <ul
@@ -335,8 +281,6 @@ const NestedList = ({
                       level={item.path.level}
                       collection={collection}
                       setCollection={setCollection}
-                      setWorkToPreview={setWorkToPreview}
-                      setShowPreview={setShowPreview}
                       toggles={toggles}
                       isCurrent={currentWorkId === item.work.id}
                     />
@@ -349,8 +293,6 @@ const NestedList = ({
                     currentWorkId={currentWorkId}
                     collection={collection}
                     setCollection={setCollection}
-                    setWorkToPreview={setWorkToPreview}
-                    setShowPreview={setShowPreview}
                   />
                 )}
               </div>
@@ -365,8 +307,6 @@ const NestedList = ({
 const ArchiveTree = ({ work }: Work) => {
   const [showArchiveTreeModal, setShowArchiveTreeModal] = useState(false);
   const [collectionTree, setCollectionTree] = useState(work.collection || {});
-  const [workToPreview, setWorkToPreview] = useState();
-  const [showPreview, setShowPreview] = useState();
 
   useEffect(() => {
     setCollectionTree(work.collection);
@@ -393,99 +333,15 @@ const ArchiveTree = ({ work }: Work) => {
         width="98vw"
       >
         <Container>
-          <>
-            {showPreview && workToPreview && (
-              <Preview
-                className={classNames({
-                  'font-size-6': true,
-                })}
-              >
-                <ButtonSolid
-                  icon="cross"
-                  text="Close preview"
-                  isTextHidden={true}
-                  clickHandler={() => setShowPreview(false)}
-                />
-                <PreviewTable>
-                  <tbody>
-                    {workToPreview.title && (
-                      <tr>
-                        <th>Title:</th>
-                        <td>
-                          <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href={`/works/${workToPreview.id}`}
-                          >
-                            {workToPreview.title}
-                          </a>
-                        </td>
-                      </tr>
-                    )}
-                    {workToPreview.collectionPath && (
-                      <tr>
-                        <th>Reference:</th>
-                        <td>{workToPreview.collectionPath.path}</td>
-                      </tr>
-                    )}
-                    {workToPreview.description && (
-                      <tr>
-                        <th>Description:</th>
-                        <td>
-                          <div
-                            dangerouslySetInnerHTML={{
-                              __html: workToPreview.description,
-                            }}
-                          />
-                        </td>
-                      </tr>
-                    )}
-                    {workToPreview.production &&
-                      workToPreview.production.length > 0 && (
-                        <tr>
-                          <th>Publication/Creation</th>
-                          <td>
-                            {workToPreview.production.map(
-                              productionEvent => productionEvent.label
-                            )}
-                          </td>
-                        </tr>
-                      )}
-                    {workToPreview.physicalDescription && (
-                      <tr>
-                        <th>Physical description:</th>
-                        <td>{workToPreview.physicalDescription}</td>
-                      </tr>
-                    )}
-                    {workToPreview.notes &&
-                      workToPreview.notes
-                        .filter(
-                          note => note.noteType.label === 'Copyright note'
-                        )
-                        .map(note => (
-                          <tr key={note.noteType.label}>
-                            <th>{note.noteType.label}</th>
-                            <td>{note.contents}</td>
-                          </tr>
-                        ))}
-                  </tbody>
-                </PreviewTable>
-              </Preview>
-            )}
-            <Tree>
-              <NestedList
-                collectionChildren={[collectionTree]}
-                currentWorkPath={
-                  work.collectionPath && work.collectionPath.path
-                }
-                currentWorkId={work.id}
-                collection={collectionTree}
-                setCollection={setCollectionTree}
-                setWorkToPreview={setWorkToPreview}
-                setShowPreview={setShowPreview}
-              />
-            </Tree>
-          </>
+          <Tree>
+            <NestedList
+              collectionChildren={[collectionTree]}
+              currentWorkPath={work.collectionPath && work.collectionPath.path}
+              currentWorkId={work.id}
+              collection={collectionTree}
+              setCollection={setCollectionTree}
+            />
+          </Tree>
         </Container>
       </Modal>
     </>
