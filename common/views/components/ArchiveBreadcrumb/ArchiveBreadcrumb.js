@@ -99,8 +99,13 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
   }
 
   useEffect(() => {
-    const tree = getTreeBranches(work.collectionPath.path, work.collection);
-    setBreadcrumb(makeCrumbs(tree));
+    const tree =
+      work &&
+      work.collectionPath &&
+      getTreeBranches(work.collectionPath.path, work.collection);
+    if (tree) {
+      setBreadcrumb(makeCrumbs(tree));
+    }
   }, [work]);
 
   const [breadcrumb, setBreadcrumb] = useState({
