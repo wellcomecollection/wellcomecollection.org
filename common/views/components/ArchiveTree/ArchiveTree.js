@@ -118,18 +118,16 @@ type Work = {|
   type: 'Work',
 |};
 type NestedListProps = {|
+  collection: Collection[],
   collectionChildren: Collection[],
   currentWorkId: string,
-  collection: Collection[],
   setCollection: (Collection[]) => void,
-  setShowArchiveTreeModal: boolean => void,
 |};
 
 function updateCollection(
   collection,
   currentWorkPath,
-  currentBranchWithChildren,
-  itemUrl
+  currentBranchWithChildren
 ) {
   const collectionCopy = Object.assign({}, collection);
   for (const property in collectionCopy) {
@@ -138,14 +136,8 @@ function updateCollection(
         if (currentWorkPath.includes(child.path.path)) {
           if (child.path.path === currentWorkPath) {
             child.children = currentBranchWithChildren.children;
-            child.itemUrl = itemUrl;
           } else {
-            updateCollection(
-              child,
-              currentWorkPath,
-              currentBranchWithChildren,
-              itemUrl
-            );
+            updateCollection(child, currentWorkPath, currentBranchWithChildren);
           }
         }
       }
@@ -175,20 +167,6 @@ const WorkLink = ({
     threshold: [0],
   });
 
-  function getDigitalLocationOfType(work, locationType) {
-    const [item] =
-      (work.items &&
-        work.items
-          .map(item =>
-            item.locations.find(
-              location => location.locationType.id === locationType
-            )
-          )
-          .filter(Boolean)) ||
-      [];
-    return item;
-  }
-
   const fetchAndUpdateCollection = async id => {
     if (item.path.level === 'Item') return;
     // find the current branch
@@ -202,19 +180,10 @@ const WorkLink = ({
         item.path.path,
         newCollection
       )[0];
-      const digitalLocation = getDigitalLocationOfType(
-        currentWork,
-        'iiif-presentation'
-      );
-      const sierraId =
-        digitalLocation &&
-        (digitalLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
-      const itemUrl = `localhost:3000/works/${currentWork.id}/items?canvas=1&sierraId=${sierraId}`;
       const updatedCollection = updateCollection(
         collection,
         item.path.path,
-        currentBranchWithChildren,
-        sierraId && itemUrl
+        currentBranchWithChildren
       );
       setCollection(updatedCollection);
     }
@@ -254,9 +223,9 @@ const WorkLink = ({
 };
 
 const NestedList = ({
+  collection,
   collectionChildren,
   currentWorkId,
-  collection,
   setCollection,
 }: NestedListProps) => {
   return (
