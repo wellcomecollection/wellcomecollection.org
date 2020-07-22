@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
 import { getWork } from '@weco/catalogue/services/catalogue/works';
-import { getTreeBranches } from '@weco/common/utils/works';
+import { type Collection, getTreeBranches } from '@weco/common/utils/works';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { type Toggles } from '@weco/catalogue/services/catalogue/common';
 import Space from '../styled/Space';
@@ -93,26 +93,12 @@ type Work = {|
   alternativeTitles: [],
   type: 'Work',
 |};
-
-type Collection = {|
-  path: {|
-    path: string,
-    level: string,
-    label: string,
-    type: string,
-  |},
-  work: Work,
-  children: ?(Collection[]),
-|};
-
 type NestedListProps = {|
   collectionChildren: Collection[],
   currentWorkId: string,
   collection: Collection[],
   setCollection: (Collection[]) => void,
   setShowArchiveTreeModal: boolean => void,
-  setWorkToPreview: Work => void,
-  setShowPreview: boolean => void,
 |};
 
 function updateCollection(
@@ -145,33 +131,19 @@ function updateCollection(
 }
 
 type WorkLinkType = {|
-  title: string,
-  id: string,
-  level: string,
-  label: string,
-  currentWorkPath: string,
+  item: Collection,
   currentWorkId: string,
   collection: Collection[],
   setCollection: Collection => void,
-  setWorkToPreview: Work,
-  setShowPreview: boolean => void,
   toggles: Toggles,
-  isCurrent: boolean,
 |};
 
 const WorkLink = ({
-  title,
-  id,
-  level,
-  label,
-  currentWorkPath,
+  item,
   currentWorkId,
   collection,
   setCollection,
-  setWorkToPreview,
-  setShowPreview,
   toggles,
-  isCurrent,
 }: WorkLinkType) => {
   const ref = useRef();
 
@@ -190,16 +162,16 @@ const WorkLink = ({
   }
 
   const fetchAndUpdateCollection = async id => {
-    if (level === 'Item') return;
+    if (item.path.level === 'Item') return;
     // find the current branch
-    const currentBranch = getTreeBranches(currentWorkPath, collection)[0];
+    const currentBranch = getTreeBranches(item.path.path, collection)[0];
     // check for children
     if (!currentBranch.children) {
       // if no children then get collection tree for work
       const currentWork = await getWork({ id, toggles });
       const newCollection = currentWork.collection;
       const currentBranchWithChildren = getTreeBranches(
-        currentWorkPath,
+        item.path.path,
         newCollection
       )[0];
       const digitalLocation = getDigitalLocationOfType(
@@ -212,7 +184,7 @@ const WorkLink = ({
       const itemUrl = `localhost:3000/works/${currentWork.id}/items?canvas=1&sierraId=${sierraId}`;
       const updatedCollection = updateCollection(
         collection,
-        currentWorkPath,
+        item.path.path,
         currentBranchWithChildren,
         sierraId && itemUrl
       );
@@ -220,7 +192,7 @@ const WorkLink = ({
     }
   };
   useEffect(() => {
-    fetchAndUpdateCollection(id);
+    fetchAndUpdateCollection(item.work.id);
   }, []);
 
   return (
@@ -233,10 +205,10 @@ const WorkLink = ({
       ref={ref}
       target="_blank"
       rel="noopener noreferrer"
-      href={`/works/${id}`}
-      isCurrent={isCurrent}
+      href={`/works/${item.work.id}`}
+      isCurrent={currentWorkId === item.work.id}
     >
-      {title}
+      {item.work.title}
       <div
         style={{
           fontSize: '13px',
@@ -245,7 +217,7 @@ const WorkLink = ({
           padding: '0',
         }}
       >
-        {label}
+        {item.path.label}
       </div>
     </StyledLink>
   );
@@ -273,16 +245,10 @@ const NestedList = ({
                   {toggles => (
                     <WorkLink
                       item={item}
-                      title={item.work.title}
-                      id={item.work.id}
-                      currentWorkPath={item.path.path}
                       currentWorkId={currentWorkId}
-                      label={item.path.label}
-                      level={item.path.level}
                       collection={collection}
                       setCollection={setCollection}
                       toggles={toggles}
-                      isCurrent={currentWorkId === item.work.id}
                     />
                   )}
                 </TogglesContext.Consumer>
