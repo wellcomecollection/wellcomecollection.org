@@ -1,5 +1,11 @@
 // @flow
+import {
+  getCanvases,
+  getFirstChildManifestLocation,
+} from '@weco/common/utils/iiif';
+import { getServiceId } from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import fetch from 'isomorphic-unfetch';
 import NextLink from 'next/link';
 import {
   workLink,
@@ -7,7 +13,10 @@ import {
   imageLink,
 } from '@weco/common/services/catalogue/routes';
 import { font, classNames } from '@weco/common/utils/classnames';
-import { getDigitalLocationOfType } from '@weco/common/utils/works';
+import {
+  getDigitalLocationOfType,
+  sierraIdFromPresentationManifestUrl,
+} from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Image from '@weco/common/views/components/Image/Image';
@@ -171,6 +180,7 @@ const ExpandedImage = ({
   const { isKeyboard } = useContext(AppContext);
   const toggles = useContext(TogglesContext);
   const [detailedWork, setDetailedWork] = useState(null);
+  const [canvasDeeplink, setCanvasDeeplink] = useState(null);
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
   const endRef = useRef(null);
@@ -202,6 +212,7 @@ const ExpandedImage = ({
 
     return () => document.removeEventListener('keydown', closeOnEscape);
   }, []);
+
   useEffect(() => {
     const fetchDetailedWork = async () => {
       const res = await getWork({ id: workId, toggles });
@@ -211,6 +222,48 @@ const ExpandedImage = ({
     };
     fetchDetailedWork();
   }, [workId]);
+
+  useEffect(() => {
+    // This downloads the IIIF manifest and tries to find the image in the canvases.
+    // With upcoming work on IIIF identifiers, we should be able to provide the
+    // deep link information from the API directly, but for now this is a
+    // pragmatic - if ugly - solution.
+    const fetchDeeplinkCanvasIndex = async (
+      manifestLocation: string,
+      imageUrl: string
+    ) => {
+      const res = await fetch(manifestLocation);
+      const manifest = await res.json();
+      const firstChildManifestLocation = getFirstChildManifestLocation(
+        manifest
+      );
+      if (firstChildManifestLocation) {
+        return fetchDeeplinkCanvasIndex(firstChildManifestLocation, imageUrl);
+      }
+      const canvases = getCanvases(manifest);
+      const imageLocationBase = imageUrl.replace('/info.json', '');
+      const canvasIndex = canvases.findIndex(canvas => {
+        const serviceId = getServiceId(canvas);
+        return serviceId && serviceId.indexOf(imageLocationBase) !== -1;
+      });
+      const sierraId = sierraIdFromPresentationManifestUrl(manifestLocation);
+      if (canvasIndex !== -1) {
+        setCanvasDeeplink({
+          canvas: canvasIndex + 1,
+          sierraId,
+        });
+      }
+    };
+    if (detailedWork && image && image.locations[0]) {
+      const manifestLocation = getDigitalLocationOfType(
+        detailedWork,
+        'iiif-presentation'
+      );
+      if (manifestLocation) {
+        fetchDeeplinkCanvasIndex(manifestLocation.url, image.locations[0].url);
+      }
+    }
+  }, [detailedWork]);
 
   useEffect(() => {
     document &&
@@ -234,14 +287,15 @@ const ExpandedImage = ({
     iiifImageLocation.license &&
     getAugmentedLicenseInfo(iiifImageLocation.license);
 
-  // TODO: Link directly to an item canvas for images from digitised works
-  const expandedImageLink = image
-    ? imageLink({ workId, id: image.id })
-    : detailedWork &&
-      itemLink({
-        workId,
-        langCode: detailedWork.language && detailedWork.language.id,
-      });
+  const expandedImageLink =
+    image && !canvasDeeplink
+      ? imageLink({ workId, id: image.id })
+      : detailedWork &&
+        itemLink({
+          workId,
+          langCode: detailedWork.language && detailedWork.language.id,
+          ...(canvasDeeplink || {}),
+        });
 
   return (
     <>
