@@ -9,6 +9,30 @@ import Space from '../styled/Space';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Modal from '@weco/common/views/components/Modal/Modal';
 
+function useOnScreen({ ref, root = null, rootMargin = '0px', threshold = 0 }) {
+  const [isIntersecting, setIsIntersecting] = useState(false);
+  useEffect(() => {
+    const observer = new window.IntersectionObserver(
+      ([entry]) => {
+        setIsIntersecting(entry.isIntersecting);
+      },
+      {
+        root,
+        rootMargin,
+        threshold,
+      }
+    );
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  return isIntersecting;
+}
+
 const Container = styled.div`
   overflow: scroll;
   height: 70vh;
@@ -146,6 +170,10 @@ const WorkLink = ({
   toggles,
 }: WorkLinkType) => {
   const ref = useRef();
+  const isOnScreen = useOnScreen({
+    ref: ref,
+    threshold: [0],
+  });
 
   function getDigitalLocationOfType(work, locationType) {
     const [item] =
@@ -192,8 +220,10 @@ const WorkLink = ({
     }
   };
   useEffect(() => {
-    fetchAndUpdateCollection(item.work.id);
-  }, []);
+    if (isOnScreen) {
+      fetchAndUpdateCollection(item.work.id);
+    }
+  }, [isOnScreen]);
 
   return (
     <StyledLink
