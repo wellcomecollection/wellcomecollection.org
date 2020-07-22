@@ -137,9 +137,11 @@ export function convertImageUri(
 }
 
 export function convertIiifUriToInfoUri(originalUriPath: string) {
-  const match = originalUriPath.match(
-    /^https:\/\/iiif\.wellcomecollection\.org\/image\/(.+?\.[a-z]{3})/
-  );
+  const match =
+    originalUriPath &&
+    originalUriPath.match(
+      /^https:\/\/iiif\.wellcomecollection\.org\/image\/(.+?\.[a-z]{3})/
+    );
   if (match && match[0]) {
     return `${match[0]}/info.json`;
   } else {
