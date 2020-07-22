@@ -276,40 +276,45 @@ const ArchiveTree = ({ work }: Work) => {
   useEffect(() => {
     setCollectionTree(work.collection);
   }, [work]);
-  return (work && (
-    <>
-      <Space
-        className="inline-block"
-        h={{ size: 'm', properties: ['margin-right'] }}
-        v={{ size: 'm', properties: ['margin-top'] }}
-      >
-        <ButtonSolid
-          icon="tree"
-          text={`${work.title} contents`}
-          isTextHidden={true}
-          clickHandler={() => {
-            setShowArchiveTreeModal(!showArchiveTreeModal);
-          }}
-        />
-      </Space>
-      <Modal
-        isActive={showArchiveTreeModal}
-        setIsActive={setShowArchiveTreeModal}
-        width="98vw"
-      >
-        <Container>
-          <Tree>
-            <NestedList
-              collectionChildren={[collectionTree]}
-              currentWorkPath={work.collectionPath && work.collectionPath.path}
-              currentWorkId={work.id}
-              collection={collectionTree}
-              setCollection={setCollectionTree}
-            />
-          </Tree>
-        </Container>
-      </Modal>
-    </>
-  ): null);
+  return (
+    (work && work.collection && (
+      <>
+        <Space
+          className="inline-block"
+          h={{ size: 'm', properties: ['margin-right'] }}
+          v={{ size: 'm', properties: ['margin-top'] }}
+        >
+          <ButtonSolid
+            icon="tree"
+            text={`${work.title} contents`}
+            isTextHidden={true}
+            clickHandler={() => {
+              setShowArchiveTreeModal(!showArchiveTreeModal);
+            }}
+          />
+        </Space>
+        <Modal
+          isActive={showArchiveTreeModal}
+          setIsActive={setShowArchiveTreeModal}
+          width="98vw"
+        >
+          <Container>
+            <Tree>
+              <NestedList
+                collectionChildren={[collectionTree]}
+                currentWorkPath={
+                  work.collectionPath && work.collectionPath.path
+                }
+                currentWorkId={work.id}
+                collection={collectionTree}
+                setCollection={setCollectionTree}
+              />
+            </Tree>
+          </Container>
+        </Modal>
+      </>
+    )) ||
+    null
+  );
 };
 export default ArchiveTree;
