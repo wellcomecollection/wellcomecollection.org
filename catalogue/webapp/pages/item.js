@@ -17,7 +17,9 @@ import {
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+import IIIFViewer, {
+  getServiceId,
+} from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
 import Space, {
@@ -75,12 +77,9 @@ const ItemPage = ({
   const title = (manifest && manifest.label) || (work && work.title) || '';
   const iiifImageLocation =
     work && getDigitalLocationOfType(work, 'iiif-image');
-  const mainImageService =
-    currentCanvas && currentCanvas.images[0].resource.service
-      ? {
-          '@id': currentCanvas.images[0].resource.service['@id'],
-        }
-      : null;
+
+  const mainImageService = { '@id': getServiceId(currentCanvas) };
+
   const downloadOptions = manifest && getDownloadOptionsFromManifest(manifest);
   const pdfRendering =
     (downloadOptions &&
