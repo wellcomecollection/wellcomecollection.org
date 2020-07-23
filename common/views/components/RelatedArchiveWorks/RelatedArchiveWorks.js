@@ -9,6 +9,8 @@ import { workLink } from '@weco/common/services/catalogue/routes';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
 const WorkLink = styled.a`
   display: block;
@@ -114,9 +116,12 @@ const RelatedArchiveWorks = ({ work }: Props) => {
 
   return workWithCollection ? (
     <>
-      {currentTree &&
-        currentTree.children &&
-        currentTree.children.length > 0 && (
+      {currentTree && currentTree.children && currentTree.children.length > 0 && (
+        <>
+          <Layout12>
+            <Divider extraClasses="divider--pumice divider--keyline" />
+            <SpacingComponent />
+          </Layout12>
           <WorksGrid
             title={`${
               currentTree.work
@@ -125,16 +130,23 @@ const RelatedArchiveWorks = ({ work }: Props) => {
             } ${currentTree.path.label} contains:`}
             works={currentTree.children}
           />
-        )}
+        </>
+      )}
       {parentTree && parentTree.children && parentTree.children.length > 0 && (
-        <WorksGrid
-          title={`Siblings of ${
-            currentTree.work
-              ? currentTree.work.title
-              : 'Unknown (not available)'
-          } ${currentTree.path.label}:`}
-          works={parentTree.children}
-        />
+        <>
+          <Layout12>
+            <Divider extraClasses="divider--pumice divider--keyline" />
+            <SpacingComponent />
+          </Layout12>
+          <WorksGrid
+            title={`Siblings of ${
+              currentTree.work
+                ? currentTree.work.title
+                : 'Unknown (not available)'
+            } ${currentTree.path.label}:`}
+            works={parentTree.children}
+          />
+        </>
       )}
     </>
   ) : null;

@@ -3,7 +3,7 @@ module.exports = {
     {
       id: 'archivesPrototype',
       title:
-        'Include archives in search resutls and view additions to the work page relating to archives',
+        'Include archives in search results and view additions to the work page relating to archives',
       defaultValue: false,
       description:
         'Include archives in search results and view prototypes of breadcrumbs, trees and onward journey links for archives',

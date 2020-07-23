@@ -1,7 +1,7 @@
 import { Work as WorkType } from '@weco/common/model/catalogue';
 import { useEffect, useState, useContext } from 'react';
 import fetch from 'isomorphic-unfetch';
-import { grid, classNames } from '@weco/common/utils/classnames';
+import { grid, classNames, font } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
   sierraIdFromPresentationManifestUrl,
@@ -23,6 +23,9 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 import RelatedArchiveWorks from '@weco/common/views/components/RelatedArchiveWorks/RelatedArchiveWorks';
 import SearchForm from '../SearchForm/SearchForm';
 import WorkDetails from '../WorkDetails/WorkDetails';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
+import Icon from '@weco/common/views/components/Icon/Icon';
 
 declare global {
   interface Window {
@@ -190,6 +193,17 @@ const Work = ({ work }: Props) => {
         imageCount={imageTotal}
       />
       {archivesPrototype && <RelatedArchiveWorks work={work} />}
+      <Layout12>
+        <WorkDetailsSection>
+          <div className="flex flex--v-center">
+            <Icon name="underConstruction" extraClasses="margin-right-s2" />
+            <p className={`${font('hnl', 5)} no-margin`}>
+              We’re improving the information on this page.{' '}
+              <a href="/works/progress">Find out more</a>.
+            </p>
+          </div>
+        </WorkDetailsSection>
+      </Layout12>
     </CataloguePageLayout>
   );
 };

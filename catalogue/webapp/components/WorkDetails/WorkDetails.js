@@ -24,7 +24,6 @@ import {
   getIIIFPresentationCredit,
 } from '@weco/common/utils/iiif';
 import NextLink from 'next/link';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -508,15 +507,6 @@ const WorkDetails = ({
           {work.citeAs && (
             <WorkDetailsText title="Reference number" text={[work.citeAs]} />
           )}
-        </WorkDetailsSection>
-        <WorkDetailsSection>
-          <div className="flex flex--v-center">
-            <Icon name="underConstruction" extraClasses="margin-right-s2" />
-            <p className={`${font('hnl', 5)} no-margin`}>
-              We’re improving the information on this page.{' '}
-              <a href="/works/progress">Find out more</a>.
-            </p>
-          </div>
         </WorkDetailsSection>
       </Layout12>
     </Space>
