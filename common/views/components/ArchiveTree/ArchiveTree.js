@@ -1,26 +1,55 @@
-// @flow
-import styled from 'styled-components';
 import { useState, useRef, useEffect } from 'react';
-import { font, classNames } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
+import styled from 'styled-components';
+import { classNames } from '@weco/common/utils/classnames';
+import { getWork } from '@weco/catalogue/services/catalogue/works';
+import { type Collection, getTreeBranches } from '@weco/common/utils/works';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import { type Toggles } from '@weco/catalogue/services/catalogue/common';
+import Space from '../styled/Space';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import NextLink from 'next/link';
-import { workLink } from '@weco/common/services/catalogue/routes';
 import Modal from '@weco/common/views/components/Modal/Modal';
-import fetch from 'isomorphic-unfetch';
-import collectionTree from '@weco/catalogue/__mocks__/collection-tree';
+
+function useOnScreen({ ref, root = null, rootMargin = '0px', threshold = 0 }) {
+  const [isIntersecting, setIsIntersecting] = useState(false);
+  useEffect(() => {
+    const observer = new window.IntersectionObserver(
+      ([entry]) => {
+        setIsIntersecting(entry.isIntersecting);
+      },
+      {
+        root,
+        rootMargin,
+        threshold,
+      }
+    );
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  return isIntersecting;
+}
 
 const Container = styled.div`
   overflow: scroll;
-  height: 90vh;
+  height: 70vh;
 `;
-const Tree = styled(Space).attrs({
-  className: classNames({ [font('lr', 5)]: true }),
-  v: { size: 'm', properties: ['margin-top', 'margin-bottom'] },
-})`
-  transform: scale(${props => props.scale});
-  transform-origin: 0 0;
 
+const StyledLink = styled.a`
+  display: inline-block;
+  background: ${props => (props.isCurrent ? '#ffce3c' : 'transparent')};
+  font-weight: ${props => (props.isCurrent ? 'bold' : 'normal')};
+  border-color: ${props =>
+    props.isCurrent ? props.theme.colors.green : 'transparent'};
+  border-radius: 6px;
+  padding: 0 6px;
+  cursor: pointer;
+`;
+
+const Tree = styled.div`
   ul {
     list-style: none;
     padding-left: 0;
@@ -30,25 +59,28 @@ const Tree = styled(Space).attrs({
   li {
     position: relative;
     list-style: none;
-    font-weight: bold;
+
+    a {
+      font-weight: bold;
+    }
   }
 
   a {
     text-decoration: none;
-    display: inline-block;
-    padding: 10px;
-    white-space: nowrap;
-    :hover,
-    :focus {
-      text-decoration: underline;
-    }
+  }
+
+  a:focus,
+  a:hover {
+    text-decoration: underline;
   }
 
   ul ul {
     padding-left: 62px;
 
     li {
-      font-weight: normal;
+      a {
+        font-weight: normal;
+      }
     }
 
     li::before,
@@ -59,14 +91,14 @@ const Tree = styled(Space).attrs({
     }
 
     li::before {
-      border-top: 2px solid ${props => props.theme.colors.green};
+      border-top: 2px solid #006272;
       top: 20px;
       width: 22px;
       height: 0;
     }
 
     li::after {
-      border-left: 2px solid ${props => props.theme.colors.green};
+      border-left: 2px solid #006272;
       height: 100%;
       width: 0px;
       top: 10px;
@@ -78,199 +110,211 @@ const Tree = styled(Space).attrs({
   }
 `;
 
-const WorkLink = styled.a`
-  display: inline-block;
-  background: ${props => (props.selected ? '#ffce3c' : 'transparent')};
-  font-weight: ${props => (props.selected ? 'bold' : 'normal')};
-  border: 1px dotted ${props => props.theme.colors.green};
-  border-color: ${props =>
-    props.selected ? props.theme.colors.green : 'transparent'};
-  border-radius: 6px;
-  cursor: pointer;
-`;
-
-type Collection = {|
-  path: {|
-    path: string,
-    level: string,
-    label: string,
-    type: string,
-  |},
-  work: {|
-    id: string,
-    title: string,
-    alternativeTitles: [],
-    type: 'Work',
-  |},
-  children: ?(Collection[]),
+type Work = {|
+  // TODO import this and make it work everywhere
+  id: string,
+  title: string,
+  alternativeTitles: [],
+  type: 'Work',
 |};
 type NestedListProps = {|
   collection: Collection[],
-  currentWork: string,
-  selected: { current: HTMLElement | null },
-  setShowArchiveTreeModal: boolean => void,
+  collectionChildren: Collection[],
+  currentWorkId: string,
+  setCollection: (Collection[]) => void,
 |};
+
+function updateCollection(
+  collection,
+  currentWorkPath,
+  currentBranchWithChildren
+) {
+  const collectionCopy = Object.assign({}, collection);
+  for (const property in collectionCopy) {
+    if (property === 'children') {
+      for (const child of collectionCopy[property]) {
+        if (currentWorkPath.includes(child.path.path)) {
+          if (child.path.path === currentWorkPath) {
+            child.children = currentBranchWithChildren.children;
+          } else {
+            updateCollection(child, currentWorkPath, currentBranchWithChildren);
+          }
+        }
+      }
+    }
+  }
+  return collectionCopy;
+}
+
+type WorkLinkType = {|
+  item: Collection,
+  currentWorkId: string,
+  collection: Collection[],
+  setCollection: Collection => void,
+  toggles: Toggles,
+|};
+
+const WorkLink = ({
+  item,
+  currentWorkId,
+  collection,
+  setCollection,
+  toggles,
+}: WorkLinkType) => {
+  const ref = useRef();
+  const isOnScreen = useOnScreen({
+    ref: ref,
+    threshold: [0],
+  });
+
+  const fetchAndUpdateCollection = async id => {
+    if (item.path.level === 'Item') return;
+    // find the current branch
+    const currentBranch = getTreeBranches(item.path.path, collection)[0];
+    // check for children
+    if (!currentBranch.children) {
+      // if no children then get collection tree for work
+      const currentWork = await getWork({ id, toggles });
+      const newCollection = currentWork.collection;
+      const currentBranchWithChildren = getTreeBranches(
+        item.path.path,
+        newCollection
+      )[0];
+      const updatedCollection = updateCollection(
+        collection,
+        item.path.path,
+        currentBranchWithChildren
+      );
+      setCollection(updatedCollection);
+    }
+  };
+  useEffect(() => {
+    if (isOnScreen) {
+      fetchAndUpdateCollection(item.work.id);
+    }
+  }, [isOnScreen]);
+
+  return (
+    <StyledLink
+      style={{
+        whiteSpace: 'nowrap',
+        display: 'inline-block',
+        color: 'black',
+      }}
+      ref={ref}
+      target="_blank"
+      rel="noopener noreferrer"
+      href={`/works/${item.work.id}`}
+      isCurrent={currentWorkId === item.work.id}
+    >
+      {item.work.title}
+      <div
+        style={{
+          fontSize: '13px',
+          color: '#707070',
+          textDecoration: 'none',
+          padding: '0',
+        }}
+      >
+        {item.path.label}
+      </div>
+    </StyledLink>
+  );
+};
 
 const NestedList = ({
   collection,
-  currentWork,
-  selected,
-  setShowArchiveTreeModal,
+  collectionChildren,
+  currentWorkId,
+  setCollection,
 }: NestedListProps) => {
   return (
-    <ul>
-      {collection.map(item => {
+    <ul
+      className={classNames({
+        'font-size-5': true,
+      })}
+    >
+      {collectionChildren.map(item => {
         return (
-          <li key={item.work.id}>
-            <NextLink
-              {...workLink({ id: item.work.id })}
-              scroll={false}
-              passHref
-            >
-              <WorkLink
-                selected={currentWork === item.work.id}
-                ref={currentWork === item.work.id ? selected : null}
-                onClick={() => {
-                  setShowArchiveTreeModal(false);
-                }}
-              >
-                {item.work.title}
-              </WorkLink>
-            </NextLink>
-            {item.children && (
-              <NestedList
-                collection={item.children}
-                currentWork={currentWork}
-                selected={selected}
-                setShowArchiveTreeModal={setShowArchiveTreeModal}
-              />
-            )}
-          </li>
+          item &&
+          item.work && (
+            <li key={item.work.id}>
+              <div style={{ padding: '10px 10px 30px' }}>
+                <TogglesContext.Consumer>
+                  {toggles => (
+                    <WorkLink
+                      item={item}
+                      currentWorkId={currentWorkId}
+                      collection={collection}
+                      setCollection={setCollection}
+                      toggles={toggles}
+                    />
+                  )}
+                </TogglesContext.Consumer>
+                {item.children && (
+                  <NestedList
+                    collectionChildren={item.children}
+                    currentWorkPath={item.path.path}
+                    currentWorkId={currentWorkId}
+                    collection={collection}
+                    setCollection={setCollection}
+                  />
+                )}
+              </div>
+            </li>
+          )
         );
       })}
     </ul>
   );
 };
 
-type Props = {|
-  collection?: Collection[],
-  currentWork: string,
-|};
-
-const ArchiveTree = ({ collection = collectionTree, currentWork }: Props) => {
+const ArchiveTree = ({ work }: Work) => {
   const [showArchiveTreeModal, setShowArchiveTreeModal] = useState(false);
-  const [scale, setScale] = useState(1);
-  const selected = useRef(null);
-  const container = useRef(null);
-  // For testing we only have full tree data for the Crick Archive
-  const [belongsToCrickArchive, setBelongsToCrickArchive] = useState(false);
-  const [
-    {
-      work: { title: archiveTitle },
-    },
-  ] = collection;
-  useEffect(() => {
-    const url = `https://api.wellcomecollection.org/catalogue/v2/works/${currentWork}?include=collection&_`;
-    fetch(url)
-      .then(resp => resp.json())
-      .then(resp =>
-        setBelongsToCrickArchive(
-          resp.collection &&
-            resp.collection.work &&
-            resp.collection.work.id === 'hz43r7re'
-        )
-      );
-  }, []);
+  const [collectionTree, setCollectionTree] = useState(work.collection || {});
 
   useEffect(() => {
-    const containerTop =
-      (container &&
-        container.current &&
-        container.current.getBoundingClientRect().top) ||
-      0;
-    const containerLeft =
-      (container &&
-        container.current &&
-        container.current.getBoundingClientRect().left) ||
-      0;
-    const containerHeight =
-      (container && container.current && container.current.offsetHeight) || 0;
-    const selectedTop =
-      (selected &&
-        selected.current &&
-        selected.current.getBoundingClientRect().top) ||
-      0;
-    const selectedLeft =
-      (selected &&
-        selected.current &&
-        selected.current.getBoundingClientRect().left) ||
-      0;
-    const selectedHeight =
-      (selected && selected.current && selected.current.offsetHeight) || 0;
-    if (container && container.current) {
-      container.current.scrollTo(
-        Math.floor(selectedLeft - containerLeft - 100),
-        Math.floor(
-          selectedTop - containerTop - containerHeight / 2 + selectedHeight / 2
-        )
-      );
-    }
-  });
-
-  return belongsToCrickArchive ? (
-    <>
-      <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-        <ButtonSolid
-          icon="tree"
-          text={`${archiveTitle} contents`}
-          isTextHidden={true}
-          clickHandler={() => {
-            setShowArchiveTreeModal(!showArchiveTreeModal);
-          }}
-        />
-      </Space>
-      <Modal
-        isActive={showArchiveTreeModal}
-        setIsActive={setShowArchiveTreeModal}
-      >
-        <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-            <ButtonSolid
-              icon={'zoomOut'}
-              text={'Zoom out'}
-              clickHandler={() => {
-                if (scale > 1) {
-                  setScale(scale - 1);
-                } else if (scale > 0.25) {
-                  setScale(scale - 0.25);
-                }
-              }}
-            />
-          </Space>
+    setCollectionTree(work.collection);
+  }, [work]);
+  return (
+    (work && work.collection && (
+      <>
+        <Space
+          className="inline-block"
+          h={{ size: 'm', properties: ['margin-right'] }}
+          v={{ size: 'm', properties: ['margin-top'] }}
+        >
           <ButtonSolid
-            icon={'zoomIn'}
-            text={'Zoom in'}
+            icon="tree"
+            text={`${work.title} contents`}
+            isTextHidden={true}
             clickHandler={() => {
-              if (scale < 1) {
-                setScale(scale + 0.25);
-              } else if (scale < 3) {
-                setScale(scale + 1);
-              }
+              setShowArchiveTreeModal(!showArchiveTreeModal);
             }}
           />
         </Space>
-        <Container ref={container}>
-          <Tree scale={scale}>
-            <NestedList
-              collection={collection}
-              currentWork={currentWork}
-              selected={selected}
-              setShowArchiveTreeModal={setShowArchiveTreeModal}
-            />
-          </Tree>
-        </Container>
-      </Modal>
-    </>
-  ) : null;
+        <Modal
+          isActive={showArchiveTreeModal}
+          setIsActive={setShowArchiveTreeModal}
+          width="98vw"
+        >
+          <Container>
+            <Tree>
+              <NestedList
+                collectionChildren={[collectionTree]}
+                currentWorkPath={
+                  work.collectionPath && work.collectionPath.path
+                }
+                currentWorkId={work.id}
+                collection={collectionTree}
+                setCollection={setCollectionTree}
+              />
+            </Tree>
+          </Container>
+        </Modal>
+      </>
+    )) ||
+    null
+  );
 };
 export default ArchiveTree;

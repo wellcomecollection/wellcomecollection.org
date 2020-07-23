@@ -39,13 +39,13 @@ exports[`Feature: 2. As a library member I want to request an item
               "componentStyle": ComponentStyle {
                 "componentId": "ButtonSolid__SolidButton-xui0q4-3",
                 "isStatic": false,
-                "lastClassName": "eUPQzS",
+                "lastClassName": "fAshCZ",
                 "rules": Array [
                   "display:inline-flex;line-height:1;border-radius:",
                   [Function],
                   ";text-decoration:none;text-align:center;transition:all ",
                   [Function],
-                  ";border:0;white-space:nowrap;padding:15px 20px;&:focus{outline:0;.is-keyboard &{box-shadow:",
+                  ";border:0;white-space:nowrap;padding:15px 20px;cursor:pointer;&:focus{outline:0;.is-keyboard &{box-shadow:",
                   [Function],
                   ";}}&[disabled],&.disabled{background:",
                   [Function],
@@ -90,7 +90,7 @@ exports[`Feature: 2. As a library member I want to request an item
           onClick={[Function]}
         >
           <a
-            className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 eUPQzS flex-inline flex--v-center"
+            className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 fAshCZ flex-inline flex--v-center"
             href="/loginUrl"
             onClick={[Function]}
           >
@@ -170,13 +170,13 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
             "componentStyle": ComponentStyle {
               "componentId": "ButtonSolid__SolidButton-xui0q4-3",
               "isStatic": false,
-              "lastClassName": "eUPQzS",
+              "lastClassName": "fAshCZ",
               "rules": Array [
                 "display:inline-flex;line-height:1;border-radius:",
                 [Function],
                 ";text-decoration:none;text-align:center;transition:all ",
                 [Function],
-                ";border:0;white-space:nowrap;padding:15px 20px;&:focus{outline:0;.is-keyboard &{box-shadow:",
+                ";border:0;white-space:nowrap;padding:15px 20px;cursor:pointer;&:focus{outline:0;.is-keyboard &{box-shadow:",
                 [Function],
                 ";}}&[disabled],&.disabled{background:",
                 [Function],
@@ -220,7 +220,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
         onClick={[Function]}
       >
         <button
-          className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 eUPQzS flex-inline flex--v-center"
+          className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 fAshCZ flex-inline flex--v-center"
           onClick={[Function]}
         >
           <ButtonSolid__BaseButtonInner>

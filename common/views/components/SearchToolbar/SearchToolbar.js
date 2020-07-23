@@ -7,7 +7,6 @@ import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { classNames, font } from '../../../utils/classnames';
 import cookies from 'next-cookies';
-import Toggler from '../Toggler/Toggler';
 
 const Form = styled(Space).attrs({
   className: classNames({
@@ -118,9 +117,6 @@ const SearchToolbar = () => {
               ))}
             </div>
           </Section>
-        </div>
-        <div style={{ flexGrow: 1 }}>
-          <Toggler name="collectionSearch" label="Include collection search" />
         </div>
         <a
           href="https://docs.wellcomecollection.org/catalogue/search_relevance/tests"

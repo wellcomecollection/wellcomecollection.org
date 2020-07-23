@@ -17,7 +17,6 @@ import { workLd } from '@weco/common/utils/json-ld';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
-import Collection from '@weco/common/views/components/Collection/Collection';
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
@@ -36,7 +35,7 @@ type Props = {
 };
 
 const Work = ({ work }: Props) => {
-  const { collectionSearch, archivesPrototype } = useContext(TogglesContext);
+  const { archivesPrototype } = useContext(TogglesContext);
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
     page: 1,
@@ -191,7 +190,6 @@ const Work = ({ work }: Props) => {
         imageCount={imageTotal}
       />
       {archivesPrototype && <RelatedArchiveWorks work={work} />}
-      {collectionSearch && !archivesPrototype && <Collection work={work} />}
     </CataloguePageLayout>
   );
 };
