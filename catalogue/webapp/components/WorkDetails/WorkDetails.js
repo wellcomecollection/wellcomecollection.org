@@ -1,4 +1,5 @@
 // @flow
+import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import fetch from 'isomorphic-unfetch';
@@ -384,6 +385,26 @@ const WorkDetails = ({
         {!digitalLocation && (locationOfWork || encoreLink) && (
           <WhereToFindIt />
         )}
+        <TogglesContext.Consumer>
+          {({ imagesEndpoint }) =>
+            imagesEndpoint &&
+            work.images &&
+            work.images.length > 1 && (
+              <WorkDetailsSection headingText="Selected images from this work">
+                <ButtonOutlinedLink
+                  text={`View ${work.images.length} images`}
+                  link={worksLink(
+                    {
+                      search: 'images',
+                      query: work.id,
+                    },
+                    'work_details/images'
+                  )}
+                />
+              </WorkDetailsSection>
+            )
+          }
+        </TogglesContext.Consumer>
         <WorkDetailsSection headingText="About this work">
           {work.alternativeTitles.length > 0 && (
             <WorkDetailsText

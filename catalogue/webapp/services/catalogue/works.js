@@ -39,17 +39,6 @@ const workIncludes = [
   'notes',
 ];
 
-const testWorkIncludes = [
-  'identifiers',
-  'items',
-  'subjects',
-  'genres',
-  'contributors',
-  'production',
-  'notes',
-  'collection',
-];
-
 export async function getWorks({
   params,
   toggles,
@@ -88,8 +77,11 @@ export async function getWork({
 }: GetWorkProps): Promise<Work | CatalogueApiError | CatalogueApiRedirect> {
   const apiOptions = globalApiOptions(toggles);
   const params = {
-    include:
-      toggles && toggles.archivesPrototype ? testWorkIncludes : workIncludes,
+    include: [
+      ...workIncludes,
+      ...(toggles && toggles.archivesPrototype ? ['collection'] : []),
+      ...(toggles && toggles.imagesEndpoint ? ['images'] : []),
+    ],
     _index: apiOptions.indexOverrideSuffix
       ? `works-${apiOptions.indexOverrideSuffix}`
       : null,
