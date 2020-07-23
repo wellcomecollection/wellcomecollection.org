@@ -38,6 +38,8 @@ import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+// $FlowFixMe
+import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
 import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -383,6 +385,26 @@ const WorkDetails = ({
         {!digitalLocation && (locationOfWork || encoreLink) && (
           <WhereToFindIt />
         )}
+        <TogglesContext.Consumer>
+          {({ imagesEndpoint }) =>
+            imagesEndpoint &&
+            work.images &&
+            work.images.length > 1 && (
+              <WorkDetailsSection headingText="Selected images from this work">
+                <ButtonOutlinedLink
+                  text={`View ${work.images.length} images`}
+                  link={worksLink(
+                    {
+                      search: 'images',
+                      query: work.id,
+                    },
+                    'work_details/images'
+                  )}
+                />
+              </WorkDetailsSection>
+            )
+          }
+        </TogglesContext.Consumer>
         <WorkDetailsSection headingText="About this work">
           {work.alternativeTitles.length > 0 && (
             <WorkDetailsText
