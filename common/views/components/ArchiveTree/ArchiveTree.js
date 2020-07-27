@@ -202,8 +202,6 @@ const WorkLink = ({
         color: 'black',
       }}
       ref={ref}
-      target="_blank"
-      rel="noopener noreferrer"
       href={`/works/${item.work.id}`}
       isCurrent={currentWorkId === item.work.id}
     >
