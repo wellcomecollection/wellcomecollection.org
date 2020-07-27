@@ -9,12 +9,18 @@ import {
 
 export function getServiceId(currentCanvas: ?any) {
   if (!currentCanvas) return null;
-  if (Array.isArray(currentCanvas.images[0].resource.service)) {
-    return currentCanvas.images[0].resource.service.find(
-      item => item['@context'] === 'http://iiif.io/api/image/2/context.json'
-    )['@id'];
-  } else if (!Array.isArray(currentCanvas.images[0].resource.service)) {
-    return currentCanvas.images[0].resource.service['@id'];
+  const serviceSrc = currentCanvas.images[0].resource.service;
+  if (serviceSrc) {
+    if (Array.isArray(serviceSrc)) {
+      const service = serviceSrc.find(
+        item => item['@context'] === 'http://iiif.io/api/image/2/context.json'
+      );
+      return service && service['@id'];
+    } else {
+      return serviceSrc['@id'];
+    }
+  } else {
+    return null;
   }
 }
 
