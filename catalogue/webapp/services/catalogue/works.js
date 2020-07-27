@@ -80,7 +80,7 @@ export async function getWork({
     include: [
       ...workIncludes,
       ...(toggles && toggles.archivesPrototype ? ['collection'] : []),
-      ...(toggles && toggles.imagesEndpoint ? ['images'] : []),
+      ...(toggles && toggles.newImageSearch ? ['images'] : []),
     ],
     _index: apiOptions.indexOverrideSuffix
       ? `works-${apiOptions.indexOverrideSuffix}`

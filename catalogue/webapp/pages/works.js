@@ -99,7 +99,7 @@ const Works = ({
   }, []);
 
   const isImageSearch = worksRouteProps.search === 'images';
-  const { imagesEndpoint } = useContext(TogglesContext);
+  const { newImageSearch } = useContext(TogglesContext);
 
   if (results && results.type === 'Error') {
     return (
@@ -266,7 +266,7 @@ const Works = ({
                     works &&
                     works.type !== 'Error' &&
                     isImageSearch &&
-                    !imagesEndpoint
+                    !newImageSearch
                   ) {
                     return (
                       <ImageSearchResults works={works} apiProps={apiProps} />
@@ -276,7 +276,7 @@ const Works = ({
                     images &&
                     images.type !== 'Error' &&
                     isImageSearch &&
-                    imagesEndpoint
+                    newImageSearch
                   ) {
                     return (
                       <ImageEndpointSearchResults
@@ -390,7 +390,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   }
   const {
     unfilteredSearchResults,
-    imagesEndpoint,
+    newImageSearch,
     archivesPrototype,
   } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
@@ -404,7 +404,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
         {
           ...params,
           itemsLocationsLocationType:
-            isImageSearch && !imagesEndpoint
+            isImageSearch && !newImageSearch
               ? [IMAGES_LOCATION_TYPE]
               : params.itemsLocationsLocationType,
         },
@@ -420,7 +420,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
         {
           ...params,
           itemsLocationsLocationType:
-            isImageSearch && !imagesEndpoint
+            isImageSearch && !newImageSearch
               ? [IMAGES_LOCATION_TYPE]
               : params.itemsLocationsLocationType,
         },
@@ -431,7 +431,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
       );
 
   const hasQuery = !!(params.query && params.query !== '');
-  const isEndpointImageSearch = isImageSearch && imagesEndpoint;
+  const isEndpointImageSearch = isImageSearch && newImageSearch;
 
   const shouldGetWorks = hasQuery && !isEndpointImageSearch;
   const shouldGetImages = hasQuery && isEndpointImageSearch;
