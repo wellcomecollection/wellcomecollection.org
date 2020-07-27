@@ -1,12 +1,12 @@
 // @flow
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import swagger from '../../../services/catalogue/swagger';
 import Layout12 from '../Layout12/Layout12';
-import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { classNames, font } from '../../../utils/classnames';
 import cookies from 'next-cookies';
+import TogglesContext from '../TogglesContext/TogglesContext';
 
 const Form = styled(Space).attrs({
   className: classNames({
@@ -54,8 +54,14 @@ const Input = styled(Space).attrs({
 })``;
 
 const SearchToolbar = () => {
+  const { unfilteredSearchResults, stagingApi } = useContext(TogglesContext);
   const [queryTypes, setQueryTypes] = useState<string[]>([]);
   const [selectedQueryType, setSelectedQueryType] = useState<?string>(null);
+  const [
+    unfilteredSearchResultsState,
+    setUnfilteredSearchResultsState,
+  ] = useState<boolean>(unfilteredSearchResults);
+  const [stagingApiState, setStagingApiState] = useState<boolean>(stagingApi);
 
   useEffect(() => {
     const queryTypeCookie = cookies({})._queryType;
@@ -65,7 +71,7 @@ const SearchToolbar = () => {
   }, []);
 
   useEffect(() => {
-    swagger().then(swagger => {
+    swagger(stagingApi).then(swagger => {
       const queryTypesEnum = swagger.paths['/works'].get.parameters.find(
         parameter => parameter.name === '_queryType'
       ).schema.enum;
@@ -106,8 +112,9 @@ const SearchToolbar = () => {
                       checked={queryType === selectedQueryType}
                       onChange={event => {
                         const val = event.currentTarget.value;
+                        console.info(val);
                         setSelectedQueryType(val);
-                        document.cookie = `_queryType=${val}; path=/; max-age=31536000`;
+                        document.cookie = `_queryType=${val}; path=/; max-age=31536000; SameSite=Lax;`;
                         window.location.reload();
                       }}
                     />
@@ -117,26 +124,47 @@ const SearchToolbar = () => {
               ))}
             </div>
           </Section>
-        </div>
-        <a
-          href="https://docs.wellcomecollection.org/catalogue/search_relevance/tests"
-          className={classNames({
-            flex: true,
-          })}
-        >
-          <Space
-            h={{
-              size: 'xs',
-              properties: ['margin-right'],
-            }}
-            v={{
-              size: 'xs',
-              properties: ['padding-top'],
-            }}
+          <Section
+            className={classNames({
+              flex: true,
+            })}
           >
-            <Icon name="info2" title="Docs" />
-          </Space>
-        </a>
+            <label>
+              <Input
+                type="checkbox"
+                checked={unfilteredSearchResultsState}
+                name="unfilteredSearchResults"
+                onChange={event => {
+                  const checked = event.currentTarget.checked;
+                  document.cookie = `toggle_unfilteredSearchResults=${checked}; path=/; max-age=31536000; SameSite=Lax;`;
+                  setUnfilteredSearchResultsState(checked);
+                  window.location.reload();
+                }}
+              />
+              Search entire catalogue
+            </label>
+          </Section>
+          <Section
+            className={classNames({
+              flex: true,
+            })}
+          >
+            <label>
+              <Input
+                type="checkbox"
+                checked={stagingApiState}
+                name="stagingApi"
+                onChange={event => {
+                  const checked = event.currentTarget.checked;
+                  document.cookie = `toggle_stagingApi=${checked}; path=/; max-age=31536000; SameSite=Lax;`;
+                  setStagingApiState(checked);
+                  window.location.reload();
+                }}
+              />
+              Use staging API
+            </label>
+          </Section>
+        </div>
       </Form>
     </Layout12>
   );
