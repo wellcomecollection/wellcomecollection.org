@@ -7,7 +7,7 @@ import {
   type IIIFMediaElement,
 } from '../model/iiif';
 
-export function getServiceId(currentCanvas: ?any) {
+export function getServiceId(currentCanvas: ?IIIFCanvas) {
   if (!currentCanvas) return null;
   const serviceSrc = currentCanvas.images[0].resource.service;
   if (serviceSrc) {
