@@ -205,7 +205,7 @@ const FeaturedCardRight = styled.div.attrs({
   padding-left: ${props => (props.isReversed ? 0 : props.theme.gutter.small)}px;
   padding-right: ${props =>
     props.isReversed ? props.theme.gutter.small : 0}px;
-  transform: translateY(-60px);
+  transform: translateY(-26px);
   width: 100%;
   height: 100%;
   min-height: 200px;
