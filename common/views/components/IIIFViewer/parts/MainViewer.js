@@ -12,7 +12,7 @@ import {
 import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { getCanvasOcr } from '@weco/catalogue/services/catalogue/works';
-import { getServiceId } from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+import { getServiceId } from '@weco/common/utils/iiif';
 
 const ThumbnailWrapper = styled.div`
   opacity: ${props => (props.imageLoaded ? 1 : 0)};

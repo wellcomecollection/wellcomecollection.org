@@ -13,13 +13,12 @@ import {
   getDownloadOptionsFromManifest,
   getVideo,
   getAudio,
+  getServiceId,
 } from '@weco/common/utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import IIIFViewer, {
-  getServiceId,
-} from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
 import Space, {

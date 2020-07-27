@@ -7,6 +7,17 @@ import {
   type IIIFMediaElement,
 } from '../model/iiif';
 
+export function getServiceId(currentCanvas: ?any) {
+  if (!currentCanvas) return null;
+  if (Array.isArray(currentCanvas.images[0].resource.service)) {
+    return currentCanvas.images[0].resource.service.find(
+      item => item['@context'] === 'http://iiif.io/api/image/2/context.json'
+    )['@id'];
+  } else if (!Array.isArray(currentCanvas.images[0].resource.service)) {
+    return currentCanvas.images[0].resource.service['@id'];
+  }
+}
+
 export function getIIIFMetadata(
   iiifManifest: IIIFManifest,
   label: string

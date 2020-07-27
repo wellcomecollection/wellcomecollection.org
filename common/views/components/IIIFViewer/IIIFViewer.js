@@ -11,7 +11,10 @@ import {
   getDownloadOptionsFromImageUrl,
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
-import { getDownloadOptionsFromManifest } from '@weco/common/utils/iiif';
+import {
+  getDownloadOptionsFromManifest,
+  getServiceId,
+} from '@weco/common/utils/iiif';
 import styled from 'styled-components';
 import { useState, useEffect, useRef, type ComponentType } from 'react';
 import { classNames } from '@weco/common/utils/classnames';
@@ -165,17 +168,6 @@ const ImageViewerControls = styled.div`
     white-space: nowrap;
   }
 }`;
-
-export function getServiceId(currentCanvas: ?any) {
-  if (!currentCanvas) return null;
-  if (Array.isArray(currentCanvas.images[0].resource.service)) {
-    return currentCanvas.images[0].resource.service.find(
-      item => item['@context'] === 'http://iiif.io/api/image/2/context.json'
-    )['@id'];
-  } else if (!Array.isArray(currentCanvas.images[0].resource.service)) {
-    return currentCanvas.images[0].resource.service['@id'];
-  }
-}
 
 type IIIFViewerProps = {|
   title: string,
