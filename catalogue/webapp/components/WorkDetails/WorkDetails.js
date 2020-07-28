@@ -386,8 +386,8 @@ const WorkDetails = ({
           <WhereToFindIt />
         )}
         <TogglesContext.Consumer>
-          {({ imagesEndpoint }) =>
-            imagesEndpoint &&
+          {({ newImageSearch }) =>
+            newImageSearch &&
             work.images &&
             work.images.length > 1 && (
               <WorkDetailsSection headingText="Selected images from this work">
