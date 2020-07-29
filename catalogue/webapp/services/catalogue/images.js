@@ -5,32 +5,42 @@ import type {
   Image,
 } from '@weco/common/model/catalogue';
 import { type CatalogueImagesApiProps } from '@weco/common/services/catalogue/api';
-import { serialiseUrl } from '@weco/common/services/catalogue/routes';
-import { type Environment, rootUris } from './common';
+import {
+  type Toggles,
+  rootUris,
+  globalApiOptions,
+  queryString,
+} from './common';
 
 type GetImagesProps = {|
   params: CatalogueImagesApiProps,
   pageSize?: number,
-  ...Environment,
+  toggles: Toggles,
 |};
+
+type ImageInclude = 'visuallySimilar';
 
 type GetImageProps = {|
   id: string,
-  ...Environment,
+  toggles: Toggles,
+  include: ImageInclude[],
 |};
 
 export async function getImages({
   params,
-  env = 'prod',
+  toggles,
   pageSize = 25,
 }: GetImagesProps): Promise<CatalogueResultsList<Image> | CatalogueApiError> {
-  const filterQueryString = Object.keys(serialiseUrl(params)).map(key => {
-    const val = params[key];
-    return `${key}=${encodeURIComponent(val)}`;
-  });
-  const url =
-    `${rootUris[env]}/v2/images?pageSize=${pageSize}` +
-    (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '');
+  const apiOptions = globalApiOptions(toggles);
+  const extendedParams = {
+    ...params,
+    pageSize,
+    _index: apiOptions.indexOverrideSuffix
+      ? `images-${apiOptions.indexOverrideSuffix}`
+      : null,
+  };
+  const filterQueryString = queryString(extendedParams);
+  const url = `${rootUris[apiOptions.env]}/v2/images${filterQueryString}`;
   try {
     const res = await fetch(url);
     const json = await res.json();
@@ -47,15 +57,20 @@ export async function getImages({
   }
 }
 
-const imageIncludes = ['visuallySimilar'];
-
 export async function getImage({
   id,
-  env = 'prod',
+  toggles,
+  include = [],
 }: GetImageProps): Promise<Image | CatalogueApiError> {
-  const url = `${rootUris[env]}/v2/images/${id}?include=${imageIncludes.join(
-    ','
-  )}`;
+  const apiOptions = globalApiOptions(toggles);
+  const params = {
+    include: include,
+    _index: apiOptions.indexOverrideSuffix
+      ? `images-${apiOptions.indexOverrideSuffix}`
+      : null,
+  };
+  const query = queryString(params);
+  let url = `${rootUris[apiOptions.env]}/v2/images/${id}${query}`;
   const res = await fetch(url);
   const json = await res.json();
   return json;

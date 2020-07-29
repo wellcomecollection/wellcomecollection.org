@@ -1,23 +1,24 @@
 // @flow
+import {SyntheticEvent} from 'react';
 import {
   BaseButtonInner,
   ButtonIconWrapper,
-  SolidButton,
-  type ButtonSolidBaseProps,
 } from '../ButtonSolid/ButtonSolid';
+import type { ButtonOutlinedBaseProps } from '../ButtonOutlined/ButtonOutlined';
+import {
+  OutlinedButton,
+} from '../ButtonOutlined/ButtonOutlined';
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
 import NextLink from 'next/link';
-import { type NextLinkType } from '../../../model/next-link-type';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
-type ButtonSolidLinkProps = {|
-  ...ButtonSolidBaseProps,
+type ButtonOutlinedLinkProps = ButtonOutlinedBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void,
-  link: NextLinkType | string,
-|};
+  link: {href: {pathname: string, query: string}, as: {pathname: string, query: string}} | string,
+};
 
-const ButtonSolidLink = ({
+const ButtonOutlinedLink = ({
   text,
   link,
   icon,
@@ -25,8 +26,7 @@ const ButtonSolidLink = ({
   clickHandler,
   ariaControls,
   ariaExpanded,
-  isBig,
-}: ButtonSolidLinkProps) => {
+}: ButtonOutlinedLinkProps) => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
     trackingEvent && trackEvent(trackingEvent);
@@ -45,24 +45,23 @@ const ButtonSolidLink = ({
         )
       }
     >
-      <SolidButton
+      <OutlinedButton
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
         onClick={handleClick}
-        isBig={isBig}
         href={isNextLink ? undefined : link}
       >
         <BaseButtonInner>
+          {text}
           {icon && (
-            <ButtonIconWrapper>
+            <ButtonIconWrapper iconAfter={true}>
               <Icon name={icon} />
             </ButtonIconWrapper>
           )}
-          {text}
         </BaseButtonInner>
-      </SolidButton>
+      </OutlinedButton>
     </ConditionalWrapper>
   );
 };
 
-export default ButtonSolidLink;
+export default ButtonOutlinedLink;

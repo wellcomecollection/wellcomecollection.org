@@ -1,7 +1,7 @@
 import { Work as WorkType } from '@weco/common/model/catalogue';
 import { useEffect, useState, useContext } from 'react';
 import fetch from 'isomorphic-unfetch';
-import { grid, classNames } from '@weco/common/utils/classnames';
+import { grid, classNames, font } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
   sierraIdFromPresentationManifestUrl,
@@ -17,13 +17,15 @@ import { workLd } from '@weco/common/utils/json-ld';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
-import Collection from '@weco/common/views/components/Collection/Collection';
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import RelatedArchiveWorks from '@weco/common/views/components/RelatedArchiveWorks/RelatedArchiveWorks';
 import SearchForm from '../SearchForm/SearchForm';
 import WorkDetails from '../WorkDetails/WorkDetails';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
+import Icon from '@weco/common/views/components/Icon/Icon';
 
 declare global {
   interface Window {
@@ -36,7 +38,7 @@ type Props = {
 };
 
 const Work = ({ work }: Props) => {
-  const { collectionSearch, archivesPrototype } = useContext(TogglesContext);
+  const { archivesPrototype } = useContext(TogglesContext);
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
     page: 1,
@@ -191,7 +193,17 @@ const Work = ({ work }: Props) => {
         imageCount={imageTotal}
       />
       {archivesPrototype && <RelatedArchiveWorks work={work} />}
-      {collectionSearch && !archivesPrototype && <Collection work={work} />}
+      <Layout12>
+        <WorkDetailsSection>
+          <div className="flex flex--v-center">
+            <Icon name="underConstruction" extraClasses="margin-right-s2" />
+            <p className={`${font('hnl', 5)} no-margin`}>
+              We’re improving the information on this page.{' '}
+              <a href="/works/progress">Find out more</a>.
+            </p>
+          </div>
+        </WorkDetailsSection>
+      </Layout12>
     </CataloguePageLayout>
   );
 };

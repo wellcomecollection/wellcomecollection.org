@@ -3,13 +3,14 @@ import { type Work } from '@weco/common/model/work';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
-import fetch from 'isomorphic-unfetch';
 import { classNames, cssGrid, font } from '../../../utils/classnames';
 import { getTreeBranches, type Collection } from '@weco/common/utils/works';
 import { workLink } from '@weco/common/services/catalogue/routes';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
 const WorkLink = styled.a`
   display: block;
@@ -77,14 +78,14 @@ const WorksGrid = ({ title, works }: WorksGridProps) => {
                     )}
                     {item.work.title}
                     <br />
-                    {item.path.path}
+                    {item.path.label}
                   </WorkLink>
                 </NextLink>
               ) : (
                 <WorkLink>
                   {`Unknown (not available)`}
                   <br />
-                  {item.path.path}
+                  {item.path.label}
                 </WorkLink>
               )}
             </div>
@@ -109,42 +110,43 @@ const RelatedArchiveWorks = ({ work }: Props) => {
   const currentTree = tree[0];
   const parentTree = tree[1];
 
-  const fetchCollection = async workId => {
-    try {
-      const url = `https://api.wellcomecollection.org/catalogue/v2/works/${workId}?include=collection`;
-      const response = await fetch(url);
-      const work = await response.json();
-      setWorkWithCollection(work);
-    } catch (e) {}
-  };
-
   useEffect(() => {
-    fetchCollection(work.id);
-  }, [work.id]);
+    setWorkWithCollection(work);
+  }, [work]);
 
   return workWithCollection ? (
     <>
-      {currentTree &&
-        currentTree.children &&
-        currentTree.children.length > 0 && (
+      {currentTree && currentTree.children && currentTree.children.length > 0 && (
+        <>
+          <Layout12>
+            <Divider extraClasses="divider--pumice divider--keyline" />
+            <SpacingComponent />
+          </Layout12>
           <WorksGrid
             title={`${
               currentTree.work
                 ? currentTree.work.title
                 : 'Unknown (not available)'
-            } ${currentTree.path.path} contains:`}
+            } ${currentTree.path.label} contains:`}
             works={currentTree.children}
           />
-        )}
+        </>
+      )}
       {parentTree && parentTree.children && parentTree.children.length > 0 && (
-        <WorksGrid
-          title={`Siblings of ${
-            currentTree.work
-              ? currentTree.work.title
-              : 'Unknown (not available)'
-          } ${currentTree.path.path}:`}
-          works={parentTree.children}
-        />
+        <>
+          <Layout12>
+            <Divider extraClasses="divider--pumice divider--keyline" />
+            <SpacingComponent />
+          </Layout12>
+          <WorksGrid
+            title={`Siblings of ${
+              currentTree.work
+                ? currentTree.work.title
+                : 'Unknown (not available)'
+            } ${currentTree.path.label}:`}
+            works={parentTree.children}
+          />
+        </>
       )}
     </>
   ) : null;

@@ -36,7 +36,6 @@ import cookies from 'next-cookies';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import WorkSearchResults from '../components/WorkSearchResults/WorkSearchResults';
 import ImageSearchResults from '../components/ImageSearchResults/ImageSearchResults';
-import CollectionSearch from '@weco/common/views/components/CollectionSearch/CollectionSearch';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type Props = {|
@@ -46,6 +45,7 @@ type Props = {|
   unfilteredSearchResults: boolean,
   shouldGetWorks: boolean,
   apiProps: CatalogueWorksApiProps,
+  setArchivesPrototypeCookie: boolean,
 |};
 
 const Works = ({
@@ -55,6 +55,7 @@ const Works = ({
   unfilteredSearchResults,
   shouldGetWorks,
   apiProps,
+  setArchivesPrototypeCookie,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
@@ -67,6 +68,12 @@ const Works = ({
     productionDatesFrom,
     productionDatesTo,
   } = worksRouteProps;
+
+  useEffect(() => {
+    if (setArchivesPrototypeCookie) {
+      document.cookie = `toggle_archivesPrototype=true; Max-Age=${31536000}`;
+    }
+  }, []);
 
   useEffect(() => {
     trackSearch(apiProps, {
@@ -92,7 +99,7 @@ const Works = ({
   }, []);
 
   const isImageSearch = worksRouteProps.search === 'images';
-  const { collectionSearch, imagesEndpoint } = useContext(TogglesContext);
+  const { newImageSearch } = useContext(TogglesContext);
 
   if (results && results.type === 'Error') {
     return (
@@ -203,19 +210,7 @@ const Works = ({
         </Space>
 
         {!results && <StaticWorksContent />}
-        {collectionSearch && !isImageSearch && results && (
-          <div className="container">
-            <div className="grid">
-              <div
-                className={classNames({
-                  [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-                })}
-              >
-                <CollectionSearch query={query} />
-              </div>
-            </div>
-          </div>
-        )}
+
         {results && results.results.length > 0 && (
           <Fragment>
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
@@ -271,7 +266,7 @@ const Works = ({
                     works &&
                     works.type !== 'Error' &&
                     isImageSearch &&
-                    !imagesEndpoint
+                    !newImageSearch
                   ) {
                     return (
                       <ImageSearchResults works={works} apiProps={apiProps} />
@@ -281,7 +276,7 @@ const Works = ({
                     images &&
                     images.type !== 'Error' &&
                     isImageSearch &&
-                    imagesEndpoint
+                    newImageSearch
                   ) {
                     return (
                       <ImageEndpointSearchResults
@@ -389,43 +384,62 @@ const IMAGES_LOCATION_TYPE = 'iiif-image';
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = WorksRoute.fromQuery(ctx.query);
+  const shouldSeeArchives = ctx.query.archivesPrototype;
+  if (shouldSeeArchives) {
+    ctx.query.toggles.archivesPrototype = true;
+  }
   const {
     unfilteredSearchResults,
-    imagesEndpoint,
-    stagingApi,
+    newImageSearch,
+    archivesPrototype,
   } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
-
   const apiPropsFn = unfilteredSearchResults
     ? worksRouteToApiUrl
     : worksRouteToApiUrlWithDefaults;
 
-  const apiProps = apiPropsFn(
-    {
-      ...params,
-      itemsLocationsLocationType:
-        isImageSearch && !imagesEndpoint
-          ? [IMAGES_LOCATION_TYPE]
-          : params.itemsLocationsLocationType,
-    },
-    {
-      _queryType,
-      aggregations: ['workType'],
-    }
-  );
+  const apiProps = archivesPrototype
+    ? apiPropsFn(
+        {
+          ...params,
+          itemsLocationsLocationType:
+            isImageSearch && !newImageSearch
+              ? [IMAGES_LOCATION_TYPE]
+              : params.itemsLocationsLocationType,
+        },
+        {
+          _queryType,
+          aggregations: ['workType'],
+          'items.locations.locationType': null,
+          'items.locations.accessConditions.status': null,
+        },
+        true
+      )
+    : apiPropsFn(
+        {
+          ...params,
+          itemsLocationsLocationType:
+            isImageSearch && !newImageSearch
+              ? [IMAGES_LOCATION_TYPE]
+              : params.itemsLocationsLocationType,
+        },
+        {
+          _queryType,
+          aggregations: ['workType'],
+        }
+      );
 
   const hasQuery = !!(params.query && params.query !== '');
-  const isEndpointImageSearch = isImageSearch && imagesEndpoint;
+  const isEndpointImageSearch = isImageSearch && newImageSearch;
 
   const shouldGetWorks = hasQuery && !isEndpointImageSearch;
   const shouldGetImages = hasQuery && isEndpointImageSearch;
-  const apiEnv = stagingApi ? 'stage' : 'prod';
 
   const worksOrError = shouldGetWorks
     ? await getWorks({
         params: apiProps,
-        env: apiEnv,
+        toggles: ctx.query.toggles,
       })
     : null;
 
@@ -433,7 +447,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const imagesOrError = shouldGetImages
     ? await getImages({
         params: worksPropsToImagesProps(apiProps),
-        env: apiEnv,
+        toggles: ctx.query.toggles,
       })
     : null;
 
@@ -444,6 +458,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     unfilteredSearchResults,
     shouldGetWorks,
     apiProps,
+    setArchivesPrototypeCookie: shouldSeeArchives,
   };
 };
 

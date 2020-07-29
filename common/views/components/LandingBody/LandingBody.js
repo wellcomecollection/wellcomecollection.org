@@ -99,7 +99,11 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
               isReversed={false}
             >
               <h2 className="font-wb font-size-2">{firstItem.title}</h2>
-              <p className="font-hnl font-size-5">{firstItem.promo.caption}</p>
+              {firstItem.promo && (
+                <p className="font-hnl font-size-5">
+                  {firstItem.promo.caption}
+                </p>
+              )}
             </FeaturedCard>
           ) : null;
         const cards = cardItems.map((item, i) => {

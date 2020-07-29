@@ -49,7 +49,8 @@ export type CatalogueImagesApiProps = {|
 
 export function worksRouteToApiUrl(
   worksRouteProps: WorksRouteProps,
-  overrides: $Shape<CatalogueWorksApiProps>
+  overrides: $Shape<CatalogueWorksApiProps>,
+  useTestDefaultWorkTypes?: boolean
 ): CatalogueWorksApiProps {
   return {
     query: worksRouteProps.query,
@@ -67,6 +68,17 @@ export function worksRouteToApiUrl(
 }
 
 export const defaultWorkTypes = ['a', 'b', 'g', 'i', 'k', 'l', 'q'];
+export const testDefaultWorkTypes = [
+  'a',
+  'b',
+  'g',
+  'i',
+  'k',
+  'l',
+  'q',
+  'archive-collection',
+];
+
 export const defaultItemsLocationsLocationType = [
   'iiif-image',
   'iiif-presentation',
@@ -78,7 +90,8 @@ export const defaultAccessConditions = [
 ];
 export function worksRouteToApiUrlWithDefaults(
   worksRouteProps: WorksRouteProps,
-  overrides: $Shape<CatalogueWorksApiProps>
+  overrides: $Shape<CatalogueWorksApiProps>,
+  useTestDefaultWorkTypes?: boolean
 ): CatalogueWorksApiProps {
   return {
     query: worksRouteProps.query,
@@ -86,6 +99,8 @@ export function worksRouteToApiUrlWithDefaults(
     workType:
       worksRouteProps.workType.length > 0
         ? worksRouteProps.workType
+        : useTestDefaultWorkTypes
+        ? testDefaultWorkTypes
         : defaultWorkTypes,
     'items.locations.locationType':
       worksRouteProps.itemsLocationsLocationType.length > 0

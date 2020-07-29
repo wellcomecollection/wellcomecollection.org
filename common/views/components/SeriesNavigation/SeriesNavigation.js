@@ -1,6 +1,7 @@
 // @flow
 import { Fragment } from 'react';
 import SearchResults from '../SearchResults/SearchResults';
+// $FlowFixMe
 import MoreLink from '../MoreLink/MoreLink';
 import type { EventSeries } from '../../../model/event-series';
 import type { ArticleSeries } from '../../../model/article-series';

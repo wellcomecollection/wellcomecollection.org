@@ -21,6 +21,7 @@ export type Work = {
   duration?: number;
   collectionPath?: CollectionPath;
   collection?: Collection;
+  images?: ImageInclude[];
 };
 
 type WorkType = {
@@ -147,6 +148,11 @@ type NoteType = {
   id: string;
   label: string;
   type: 'NoteType';
+};
+
+type ImageInclude = {
+  id: string;
+  type: 'Image';
 };
 
 type Collection = {

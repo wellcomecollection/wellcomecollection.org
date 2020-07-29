@@ -24,7 +24,6 @@ import {
   getIIIFPresentationCredit,
 } from '@weco/common/utils/iiif';
 import NextLink from 'next/link';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -39,6 +38,8 @@ import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+// $FlowFixMe
+import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
 import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -384,6 +385,26 @@ const WorkDetails = ({
         {!digitalLocation && (locationOfWork || encoreLink) && (
           <WhereToFindIt />
         )}
+        <TogglesContext.Consumer>
+          {({ newImageSearch }) =>
+            newImageSearch &&
+            work.images &&
+            work.images.length > 1 && (
+              <WorkDetailsSection headingText="Selected images from this work">
+                <ButtonOutlinedLink
+                  text={`View ${work.images.length} images`}
+                  link={worksLink(
+                    {
+                      search: 'images',
+                      query: work.id,
+                    },
+                    'work_details/images'
+                  )}
+                />
+              </WorkDetailsSection>
+            )
+          }
+        </TogglesContext.Consumer>
         <WorkDetailsSection headingText="About this work">
           {work.alternativeTitles.length > 0 && (
             <WorkDetailsText
@@ -508,15 +529,6 @@ const WorkDetails = ({
           {work.citeAs && (
             <WorkDetailsText title="Reference number" text={[work.citeAs]} />
           )}
-        </WorkDetailsSection>
-        <WorkDetailsSection>
-          <div className="flex flex--v-center">
-            <Icon name="underConstruction" extraClasses="margin-right-s2" />
-            <p className={`${font('hnl', 5)} no-margin`}>
-              We’re improving the information on this page.{' '}
-              <a href="/works/progress">Find out more</a>.
-            </p>
-          </div>
         </WorkDetailsSection>
       </Layout12>
     </Space>

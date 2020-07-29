@@ -275,9 +275,9 @@ export function getTreeBranches(
     },
     [
       {
-        work: collection.work,
-        path: collection.path,
-        children: collection.children,
+        work: collection && collection.work,
+        path: collection && collection.path,
+        children: collection && collection.children,
       },
     ]
   );

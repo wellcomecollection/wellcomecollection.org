@@ -2,10 +2,11 @@ module.exports = {
   toggles: [
     {
       id: 'archivesPrototype',
-      title: 'View additions to the work page relating to archives',
+      title:
+        'Include archives in search results and view additions to the work page relating to archives',
       defaultValue: false,
       description:
-        'View prototypes of breadcrumbs and onward journey links for archives',
+        'Include archives in search results and view prototypes of breadcrumbs, trees and onward journey links for archives',
     },
     {
       id: 'unfilteredSearchResults',
@@ -14,18 +15,12 @@ module.exports = {
       description: 'Search the entire catalogue, including all work types',
     },
     {
-      id: 'collectionSearch',
-      title: 'Search and explore archive collections',
+      id: 'newImageSearch',
+      title:
+        'Use the images endpoint + the Miro merging test index for image searches',
       defaultValue: false,
       description:
-        'Search for top-level collections and surface them on work pages',
-    },
-    {
-      id: 'imagesEndpoint',
-      title: 'Use the images endpoint for image searches',
-      defaultValue: false,
-      description:
-        'Rather than searching for works filtered by iiif-image, use the new (beta) images endpoint for image search',
+        'Use the new images endpoint rather than filtering for works with iiif-image in images search, and use an index where many more Miro works have been merged into Sierra',
     },
     {
       id: 'searchToolbar',

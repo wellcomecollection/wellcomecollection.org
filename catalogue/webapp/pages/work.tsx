@@ -30,12 +30,10 @@ export const WorkPage: NextPage<Props> = ({ workResponse }) => {
 
 WorkPage.getInitialProps = async (ctx: NextPageContext) => {
   const { id } = ctx.query;
-  // @ts-ignore
-  const { stagingApi } = ctx.query.toggles;
 
   const workResponse = await getWork({
     id,
-    env: stagingApi ? 'stage' : 'prod',
+    toggles: ctx.query.toggles,
   });
 
   if (workResponse) {

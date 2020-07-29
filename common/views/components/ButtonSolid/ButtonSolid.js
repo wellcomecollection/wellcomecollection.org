@@ -12,6 +12,7 @@ export const BaseButton = styled.button.attrs(props => ({
     'flex-inline flex--v-center': true,
   }),
 }))`
+  display: inline-flex;
   line-height: 1;
   border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
   text-decoration: none;
@@ -20,9 +21,7 @@ export const BaseButton = styled.button.attrs(props => ({
   border: 0;
   white-space: nowrap;
   padding: 15px 20px;
-
-  &:not([disabled]):hover
-  }
+  cursor: pointer;
 
   &:focus {
     outline: 0;
@@ -36,7 +35,12 @@ export const BaseButton = styled.button.attrs(props => ({
   &.disabled {
     background: ${props => props.theme.color('pewter')};
     border-color: ${props => props.theme.color('pewter')};
+    color: ${props => props.theme.color('white')};
     cursor: not-allowed;
+
+    &:hover {
+      text-decoration: none;
+    }
   }
 
   &.disabled {
@@ -54,7 +58,7 @@ export const BaseButton = styled.button.attrs(props => ({
   }
 `;
 
-export const SolidButtonInner = styled.span.attrs({
+export const BaseButtonInner = styled.span.attrs({
   className: classNames({
     [font('hnm', 5)]: true,
     'flex flex--v-center': true,
@@ -63,13 +67,16 @@ export const SolidButtonInner = styled.span.attrs({
   height: 1em;
 `;
 
-export const ButtonIconWrapper = styled(Space).attrs({
+export const ButtonIconWrapper = styled(Space).attrs(props => ({
   as: 'span',
-  h: { size: 'xs', properties: ['margin-right'] },
+  h: {
+    size: 'xs',
+    properties: [`${props.iconAfter ? 'margin-left' : 'margin-right'}`],
+  },
   className: classNames({
     'flex-inline': true,
   }),
-})``;
+}))``;
 
 export const SolidButton = styled(BaseButton)`
   background: ${props => props.theme.color('green')};
@@ -139,7 +146,7 @@ const ButtonSolid = forwardRef(
         isBig={isBig}
         ref={ref}
       >
-        <SolidButtonInner>
+        <BaseButtonInner>
           <>
             {icon && (
               <ButtonIconWrapper>
@@ -154,7 +161,7 @@ const ButtonSolid = forwardRef(
               {text}
             </span>
           </>
-        </SolidButtonInner>
+        </BaseButtonInner>
       </SolidButton>
     );
   }

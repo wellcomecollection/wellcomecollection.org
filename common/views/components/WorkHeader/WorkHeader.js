@@ -53,19 +53,20 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
             <div className="line-height-1">{work.workType.label}</div>
           </div>
 
+          <TogglesContext.Consumer>
+            {({ archivesPrototype }) =>
+              archivesPrototype && <ArchiveTree work={work} />
+            }
+          </TogglesContext.Consumer>
           <h1
             id="work-info"
             className={classNames({
               'no-margin': true,
               [font('hnm', 2)]: true,
+              'inline-block': true,
             })}
             lang={work.language && work.language.id}
           >
-            <TogglesContext.Consumer>
-              {({ archivesPrototype }) =>
-                archivesPrototype && <ArchiveTree currentWork={work.id} />
-              }
-            </TogglesContext.Consumer>
             {work.title}
           </h1>
 
