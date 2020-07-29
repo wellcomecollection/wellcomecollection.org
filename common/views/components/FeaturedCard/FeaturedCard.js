@@ -20,6 +20,7 @@ import {
   getArticleColor,
 } from '../../../../common/model/articles';
 import { trackEvent } from '../../../utils/ga';
+import linkResolver from '../../../../common/services/prismic/link-resolver';
 
 type Props = {|
   id: string,
@@ -63,7 +64,10 @@ export function convertItemToFeaturedCardProps(
       crops: {},
     },
     labels: item.labels,
-    link: { url: `/${item.type}/${item.id}`, text: item.title },
+    link: {
+      url: linkResolver({ id: item.id, type: item.type }),
+      text: item.title,
+    },
   };
 }
 
