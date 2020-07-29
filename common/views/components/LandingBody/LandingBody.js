@@ -13,6 +13,7 @@ import SectionHeader from '../SectionHeader/SectionHeader';
 import Card from '../Card/Card';
 import FeaturedCard, {
   convertItemToFeaturedCardProps,
+  convertCardToFeaturedCardProps,
 } from '../FeaturedCard/FeaturedCard';
 import { convertItemToCardProps } from '@weco/common/model/card';
 import VisitUsStaticContent from './VisitUsStaticContent';
@@ -86,7 +87,12 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
           Boolean(section.value.hasFeatured) ||
           section.value.items.length === 1;
         const firstItem = section.value.items[0];
-        const firstItemProps = convertItemToFeaturedCardProps(firstItem);
+        const isCardType = firstItem.type === 'card';
+
+        const firstItemProps = isCardType
+          ? convertCardToFeaturedCardProps(firstItem)
+          : convertItemToFeaturedCardProps(firstItem);
+
         const cardItems = hasFeatured
           ? section.value.items.slice(1)
           : section.value.items;
@@ -99,6 +105,9 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
               isReversed={false}
             >
               <h2 className="font-wb font-size-2">{firstItem.title}</h2>
+              {isCardType && firstItem.description && (
+                <p className="font-hnl font-size-5">{firstItem.description}</p>
+              )}
               {firstItem.promo && (
                 <p className="font-hnl font-size-5">
                   {firstItem.promo.caption}
@@ -106,6 +115,7 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
               )}
             </FeaturedCard>
           ) : null;
+
         const cards = cardItems.map((item, i) => {
           const cardProps = convertItemToCardProps(item);
           return <Card key={i} item={cardProps} />;

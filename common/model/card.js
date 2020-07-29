@@ -43,6 +43,6 @@ export function convertItemToCardProps(
           },
         },
       },
-    link: item.promo && item.promo.link,
+    link: (item.promo && item.promo.link) || `/pages/${item.id}`,
   };
 }

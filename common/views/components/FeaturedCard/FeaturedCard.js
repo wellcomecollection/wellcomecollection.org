@@ -4,6 +4,7 @@ import { type UiImageProps, UiImage } from '../../components/Images/Images';
 import type { UiExhibition } from '../../../../common/model/exhibitions';
 import type { UiEvent } from '../../../../common/model/events';
 import type { Article } from '../../../../common/model/articles';
+import type { Card } from '../../../../common/model/card';
 import type { LandingPage } from '../../../../common/model/landing-pages';
 import { type Label } from '../../../../common/model/labels';
 import { type Link } from '../../../../common/model/link';
@@ -31,6 +32,15 @@ type Props = {|
   isReversed?: boolean,
 |};
 
+export function convertCardToFeaturedCardProps(item: Card) {
+  return {
+    id: item.title || 'card',
+    image: { ...item.image, extraClasses: '', sizesQueries: '' },
+    labels: [],
+    link: { url: item.link || '', text: item.title || '' },
+  };
+}
+
 export function convertItemToFeaturedCardProps(
   item: Article | UiEvent | UiExhibition | LandingPage
 ) {
@@ -48,7 +58,7 @@ export function convertItemToFeaturedCardProps(
       crops: {},
     },
     labels: item.labels,
-    link: { url: `${item.type}/${item.id}`, text: item.title },
+    link: { url: `/${item.type}/${item.id}`, text: item.title },
   };
 }
 
