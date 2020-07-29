@@ -35,7 +35,12 @@ type Props = {|
 export function convertCardToFeaturedCardProps(item: Card) {
   return {
     id: item.title || 'card',
-    image: { ...item.image, extraClasses: '', sizesQueries: '' },
+    image: {
+      ...item.image,
+      extraClasses: '',
+      sizesQueries: '',
+      showTasl: false,
+    },
     labels: [],
     link: { url: item.link || '', text: item.title || '' },
   };
