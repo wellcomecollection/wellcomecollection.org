@@ -26,6 +26,7 @@ export type IIIFResource = {|
       }
     | {
         '@id': string,
+        '@context': string,
       }[],
 |};
 

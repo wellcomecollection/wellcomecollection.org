@@ -2,8 +2,8 @@
 import {
   getCanvases,
   getFirstChildManifestLocation,
+  getServiceId,
 } from '@weco/common/utils/iiif';
-import { getServiceId } from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import fetch from 'isomorphic-unfetch';
 import NextLink from 'next/link';

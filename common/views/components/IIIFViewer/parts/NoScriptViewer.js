@@ -4,6 +4,7 @@ import NextLink from 'next/link';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
 import { itemLink } from '@weco/common/services/catalogue/routes';
+import { getServiceId } from '@weco/common/utils/iiif';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '../../../../utils/image-sizes';
@@ -162,12 +163,7 @@ const NoScriptViewer = ({
   sierraId,
   pageSize,
 }: NoScriptViewerProps) => {
-  const mainImageService = {
-    '@id':
-      currentCanvas && !Array.isArray(currentCanvas.images[0].resource.service)
-        ? currentCanvas.images[0].resource.service['@id']
-        : '',
-  };
+  const mainImageService = { '@id': getServiceId(currentCanvas) };
 
   const navigationCanvases = [...Array(pageSize)]
     .map((_, i) => pageSize * pageIndex + i)

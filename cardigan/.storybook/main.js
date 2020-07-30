@@ -26,6 +26,7 @@ module.exports = {
           plugins: [
             'babel-plugin-react-require',
             '@babel/plugin-proposal-class-properties',
+            '@babel/plugin-proposal-optional-chaining',
             '@babel/plugin-syntax-dynamic-import',
           ],
         },
@@ -46,6 +47,7 @@ module.exports = {
         plugins: [
           'babel-plugin-react-require',
           '@babel/plugin-proposal-class-properties',
+          '@babel/plugin-proposal-optional-chaining',
           '@babel/plugin-syntax-dynamic-import',
         ],
       },
