@@ -22,18 +22,24 @@ import {
 import { trackEvent } from '../../../utils/ga';
 import linkResolver from '../../../../common/services/prismic/link-resolver';
 
-type Props = {|
+type PartialFeaturedCard = {|
   id: string,
   image: ?UiImageProps,
   labels: Label[],
-  children: Node,
   link: Link,
+|};
+
+type Props = {|
+  ...PartialFeaturedCard,
+  children: Node,
   background: string,
   color: string,
   isReversed?: boolean,
 |};
 
-export function convertCardToFeaturedCardProps(item: Card) {
+export function convertCardToFeaturedCardProps(
+  item: Card
+): PartialFeaturedCard {
   return {
     id: item.title || 'card',
     image: {
