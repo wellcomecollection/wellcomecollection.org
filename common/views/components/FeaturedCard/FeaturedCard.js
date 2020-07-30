@@ -302,7 +302,11 @@ const FeaturedCard = ({
           })}
         >
           <FeaturedCardRight isReversed={isReversed}>
-            {labels && labels.length > 0 && <LabelsList labels={labels} />}
+            {labels && labels.length > 0 ? (
+              <LabelsList labels={labels} />
+            ) : (
+              <div style={{ marginBottom: '26px' }} />
+            )}
             <FeaturedCardCopy
               className={classNames({
                 [`bg-${background} font-${color}`]: true,
