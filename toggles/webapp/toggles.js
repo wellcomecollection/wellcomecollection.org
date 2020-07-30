@@ -15,18 +15,12 @@ module.exports = {
       description: 'Search the entire catalogue, including all work types',
     },
     {
-      id: 'imagesEndpoint',
-      title: 'Use the images endpoint for image searches',
+      id: 'newImageSearch',
+      title:
+        'Use the images endpoint + the Miro merging test index for image searches',
       defaultValue: false,
       description:
-        'Rather than searching for works filtered by iiif-image, use the new (beta) images endpoint for image search',
-    },
-    {
-      id: 'miroMergingTest',
-      title: 'Use the Miro merging test index',
-      defaultValue: false,
-      description:
-        'The miro merging test merges as many miro works as possible (ie regardless of number or worktype)',
+        'Use the new images endpoint rather than filtering for works with iiif-image in images search, and use an index where many more Miro works have been merged into Sierra',
     },
     {
       id: 'searchToolbar',

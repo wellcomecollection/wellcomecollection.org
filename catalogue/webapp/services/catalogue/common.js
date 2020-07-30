@@ -14,7 +14,7 @@ type GlobalApiOptions = {|
 
 export const globalApiOptions = (toggles: Toggles): GlobalApiOptions => ({
   env: toggles.stagingApi ? 'stage' : 'prod',
-  indexOverrideSuffix: toggles.miroMergingTest
+  indexOverrideSuffix: toggles.newImageSearch
     ? 'miro-merging-test' // This is an index alias, not an actual index name
     : null,
 });

@@ -9,7 +9,7 @@ const WorkDetailsText = ({ title, text }: Props) => {
     <WorkDetailsProperty title={title}>
       <div className="spaced-text">
         {text.map((para, i) => {
-          return <p key={i} dangerouslySetInnerHTML={{ __html: para }} />;
+          return <div key={i} dangerouslySetInnerHTML={{ __html: para }} />;
         })}
       </div>
     </WorkDetailsProperty>
