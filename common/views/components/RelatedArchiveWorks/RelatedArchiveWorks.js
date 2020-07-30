@@ -14,7 +14,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 
 const WorkLink = styled.a`
   display: block;
-  border: 1px solid ${props => props.theme.colors.pewter};
+  border: 1px solid ${props => props.theme.color('pewter')};
   border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
   padding: ${props => `${props.theme.spacingUnit * 2}px`};
   cursor: pointer;
@@ -22,8 +22,8 @@ const WorkLink = styled.a`
   text-decoration: none;
   &:hover,
   &:focus {
-    background: ${props => props.theme.colors.charcoal};
-    color: ${props => props.theme.colors.white};
+    background: ${props => props.theme.color('charcoal')};
+    color: ${props => props.theme.color('white')};
   }
 `;
 

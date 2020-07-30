@@ -40,7 +40,7 @@ const Container = styled.div`
 
 const StyledLink = styled.a`
   display: inline-block;
-  background: ${props => (props.isCurrent ? '#ffce3c' : 'transparent')};
+  background: ${props => (props.isCurrent ? 'yellow' : 'transparent')};
   font-weight: ${props => (props.isCurrent ? 'bold' : 'normal')};
   border-color: ${props =>
     props.isCurrent ? props.theme.colors.green : 'transparent'};
@@ -91,14 +91,14 @@ const Tree = styled.div`
     }
 
     li::before {
-      border-top: 2px solid #006272;
+      border-top: 2px solid ${props => props.theme.color('teal')};
       top: 20px;
       width: 22px;
       height: 0;
     }
 
     li::after {
-      border-left: 2px solid #006272;
+      border-left: 2px solid ${props => props.theme.color('teal')};
       height: 100%;
       width: 0px;
       top: 10px;
@@ -110,13 +110,6 @@ const Tree = styled.div`
   }
 `;
 
-type Work = {|
-  // TODO import this and make it work everywhere
-  id: string,
-  title: string,
-  alternativeTitles: [],
-  type: 'Work',
-|};
 type NestedListProps = {|
   collection: Collection[],
   collectionChildren: Collection[],

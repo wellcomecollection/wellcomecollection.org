@@ -17,7 +17,7 @@ const ZoomedImageContainer = styled.div`
   left: 0;
   top: 0;
   z-index: 3;
-  background: ${props => props.theme.colors.black};
+  background: ${props => props.theme.color('black')};
   @media (min-width: ${props => props.theme.sizes.large}px) {
     height: ${props =>
       props.isFullscreen

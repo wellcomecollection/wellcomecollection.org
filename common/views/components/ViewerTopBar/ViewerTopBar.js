@@ -26,7 +26,7 @@ export const ShameButton = styled.button.attrs(props => ({
     props.isDark &&
     `
     border: none;
-    color: ${props.theme.colors.white};
+    color: ${props.theme.color('white')};
     background: transparent;
     outline: none;
     transition: all ${props.theme.transitionProperties};
@@ -41,23 +41,23 @@ export const ShameButton = styled.button.attrs(props => ({
 
     &:not([disabled]):hover,
     &:not([disabled]):focus {
-      border-color: ${props.theme.colors.black};
-      background: ${props.theme.colors.yellow};
-      color: ${props.theme.colors.black};
+      border-color: ${props.theme.color('black')};
+      background: ${props.theme.color('yellow')};
+      color: ${props.theme.color('black')};
     }
   `}
 
   ${props =>
     !props.isDark &&
     `
-    background: ${props.theme.colors.white};
-    color: ${props.theme.colors.green};
-    border: 1px solid ${props.theme.colors.green};
+    background: ${props.theme.color('white')};
+    color: ${props.theme.color('green')};
+    border: 1px solid ${props.theme.color('green')};
 
     &:not([disabled]):hover,
     &:not([disabled]):focus {
-      background: ${props.theme.colors.green};
-      color: ${props.theme.colors.white};
+      background: ${props.theme.color('green')};
+      color: ${props.theme.color('white')};
     }
   `}
 `;
@@ -65,8 +65,8 @@ export const ShameButton = styled.button.attrs(props => ({
 const TopBar = styled.div`
   position: relative;
   z-index: 3;
-  background: ${props => lighten(0.14, props.theme.colors.viewerBlack)};
-  color: ${props => props.theme.colors.white};
+  background: ${props => lighten(0.14, props.theme.color('viewerBlack'))};
+  color: ${props => props.theme.color('white')};
   .title {
     max-width: 30%;
     .icon {
@@ -96,7 +96,7 @@ const ViewAllContainer = styled.div.attrs(props => ({
   height: 64px;
   width: 20%;
   border-right: 1px solid
-    ${props => lighten(0.1, props.theme.colors.viewerBlack)};
+    ${props => lighten(0.1, props.theme.color('viewerBlack'))};
 `;
 
 const TitleContainer = styled.div.attrs(props => ({

@@ -10,7 +10,7 @@ const StyledBetaMessage = styled.div.attrs(props => ({
     'flex flex--v-center': true,
   }),
 }))`
-  border-left: ${props => `4px solid ${props.theme.colors.purple}`};
+  border-left: ${props => `4px solid ${props.theme.color('purple')}`};
   padding-left: ${props => props.theme.spacingUnit}px;
 `;
 

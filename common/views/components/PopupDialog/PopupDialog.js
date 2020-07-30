@@ -37,7 +37,7 @@ const PopupDialogOpen = styled(Space).attrs(props => ({
   bottom: 20px;
   left: 20px;
   z-index: 3;
-  background: ${props => props.theme.colors.white};
+  background: ${props => props.theme.color('white')};
   opacity: ${props => (props.isActive || !props.shouldStartAnimation ? 0 : 1)};
   transition: opacity 500ms ease, filter 500ms ease, transform 500ms ease;
   transition-delay: ${props => (props.isActive ? '0ms' : '500ms')};
@@ -50,7 +50,7 @@ const PopupDialogOpen = styled(Space).attrs(props => ({
     border: 0;
 
     .icon__shape {
-      fill: ${props => props.theme.colors.white};
+      fill: ${props => props.theme.color('white')};
     }
   }
 `;
@@ -121,7 +121,7 @@ const PopupDialogCTA = styled(Space).attrs({
   &:hover,
   &:focus {
     outline: 0;
-    border-color: ${props => props.theme.colors.purple};
+    border-color: ${props => props.theme.color('purple')};
   }
 `;
 

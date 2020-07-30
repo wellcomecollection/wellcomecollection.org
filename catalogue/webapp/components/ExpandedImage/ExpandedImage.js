@@ -145,14 +145,14 @@ const CloseButton = styled(Space).attrs({
   border-radius: 50%;
   appearance: none;
   background: rgba(0, 0, 0, 0.7);
-  color: ${props => props.theme.colors.white};
+  color: ${props => props.theme.color('white')};
   border: 0;
   outline: 0;
   z-index: 1;
 
   &:focus {
     ${props =>
-      !props.hideFocus && `border: 2px solid ${props.theme.colors.black}`}
+      !props.hideFocus && `border: 2px solid ${props.theme.color('black')}`}
   }
 
   .icon {
@@ -164,7 +164,7 @@ const CloseButton = styled(Space).attrs({
 
   ${props => props.theme.media.medium`
     background: none;
-    color: ${props => props.theme.colors.pewter};
+    color: ${props => props.theme.color('pewter')};
     position: absolute;
   `}
 `;

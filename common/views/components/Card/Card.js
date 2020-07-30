@@ -15,18 +15,18 @@ export const CardOuter = styled.a.attrs(props => ({
   className:
     'plain-link promo-link rounded-corners overflow-hidden flex-ie-block flex--column',
 }))`
-  background: ${props => props.theme.colors.cream};
+  background: ${props => props.theme.color('cream')};
 
   .card-theme.card-theme--white & {
-    background: ${props => props.theme.colors.white};
+    background: ${props => props.theme.color('white')};
   }
 
   .card-theme.card-theme--transparent & {
-    background: ${props => props.theme.colors.transparent};
+    background: ${props => props.theme.color('transparent')};
   }
 
   .card-theme.bg-charcoal & {
-    color: ${props => props.theme.colors.white};
+    color: ${props => props.theme.color('white')};
   }
 `;
 
