@@ -4,6 +4,7 @@ import { type UiImageProps, UiImage } from '../../components/Images/Images';
 import type { UiExhibition } from '../../../../common/model/exhibitions';
 import type { UiEvent } from '../../../../common/model/events';
 import type { Article } from '../../../../common/model/articles';
+import type { Card } from '../../../../common/model/card';
 import type { LandingPage } from '../../../../common/model/landing-pages';
 import { type Label } from '../../../../common/model/labels';
 import { type Link } from '../../../../common/model/link';
@@ -19,17 +20,38 @@ import {
   getArticleColor,
 } from '../../../../common/model/articles';
 import { trackEvent } from '../../../utils/ga';
+import linkResolver from '../../../../common/services/prismic/link-resolver';
 
-type Props = {|
+type PartialFeaturedCard = {|
   id: string,
   image: ?UiImageProps,
   labels: Label[],
-  children: Node,
   link: Link,
+|};
+
+type Props = {|
+  ...PartialFeaturedCard,
+  children: Node,
   background: string,
   color: string,
   isReversed?: boolean,
 |};
+
+export function convertCardToFeaturedCardProps(
+  item: Card
+): PartialFeaturedCard {
+  return {
+    id: item.title || 'card',
+    image: {
+      ...item.image,
+      extraClasses: '',
+      sizesQueries: '',
+      showTasl: false,
+    },
+    labels: [],
+    link: { url: item.link || '', text: item.title || '' },
+  };
+}
 
 export function convertItemToFeaturedCardProps(
   item: Article | UiEvent | UiExhibition | LandingPage
@@ -48,7 +70,10 @@ export function convertItemToFeaturedCardProps(
       crops: {},
     },
     labels: item.labels,
-    link: { url: `${item.type}/${item.id}`, text: item.title },
+    link: {
+      url: linkResolver({ id: item.id, type: item.type }),
+      text: item.title,
+    },
   };
 }
 

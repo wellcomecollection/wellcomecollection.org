@@ -4,6 +4,7 @@ import { type Format } from '@weco/common/model/format';
 import type { UiEvent } from '@weco/common/model/events';
 import type { Article } from '@weco/common/model/articles';
 import type { LandingPage } from '@weco/common/model/landing-pages';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 export type Card = {|
   type: 'card',
@@ -43,6 +44,8 @@ export function convertItemToCardProps(
           },
         },
       },
-    link: item.promo && item.promo.link,
+    link:
+      (item.promo && item.promo.link) ||
+      linkResolver({ id: item.id, type: item.type }),
   };
 }
