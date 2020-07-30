@@ -48,7 +48,7 @@ export function convertCardToFeaturedCardProps(
       sizesQueries: '',
       showTasl: false,
     },
-    labels: [],
+    labels: item.format ? [{ url: null, text: item.format.title }] : [],
     link: { url: item.link || '', text: item.title || '' },
   };
 }
