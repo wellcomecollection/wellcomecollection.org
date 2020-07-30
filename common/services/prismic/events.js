@@ -79,6 +79,20 @@ function determineDisplayTime(times: EventTime[]): EventTime {
   return upcomingDates.length > 0 ? upcomingDates[0] : times[0];
 }
 
+export function getLastEndTime(
+  times: {
+    startDateTime: string,
+    endDateTime: string,
+    isFullyBooked: ?boolean,
+  }[]
+) {
+  return times
+    .sort((x, y) => moment(y.endDateTime).unix() - moment(x.endDateTime).unix())
+    .map(time => {
+      return parseTimestamp(time.endDateTime);
+    })[0];
+}
+
 export function parseEventDoc(
   document: PrismicDocument,
   scheduleDocs: ?PrismicApiSearchResponse
@@ -164,17 +178,8 @@ export function parseEventDoc(
     [];
 
   const displayTime = determineDisplayTime(times);
-  const lastEndTime =
-    data.times &&
-    data.times
-      .sort(
-        (x, y) => moment(y.endDateTime).unix() - moment(x.endDateTime).unix()
-      )
-      .map(time => {
-        return parseTimestamp(time.endDateTime);
-      })[0];
+  const lastEndTime = data.times && getLastEndTime(data.times);
   const isRelaxedPerformance = parseBoolean(data.isRelaxedPerformance);
-
   const schedule = eventSchedule.map((event, i) => {
     const scheduleItem = data.schedule[i];
     return {
