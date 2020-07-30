@@ -305,7 +305,7 @@ const FeaturedCard = ({
             {labels && labels.length > 0 ? (
               <LabelsList labels={labels} />
             ) : (
-              <Space v={{ size: 'l', properties: ['margin-bottom'] }} />
+              <div style={{ marginBottom: '26px' }} />
             )}
             <FeaturedCardCopy
               className={classNames({
