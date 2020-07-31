@@ -234,6 +234,14 @@ export function getItemIdentifiersWith(
   }, []);
 }
 
+export type ArchiveNode = {|
+  id: string,
+  title: string,
+  alternativeTitles: string[],
+  referenceNumber: string,
+  type: 'Work',
+|};
+
 export type Collection = {|
   path: {|
     path: string,
