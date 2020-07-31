@@ -1,7 +1,6 @@
 // @flow
 import { type Work } from '@weco/common/model/work';
 import { workLink } from '../../../services/catalogue/routes';
-import { classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import DropdownButton from '../DropdownButton/DropdownButton';
@@ -115,16 +114,7 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
                 </NextLink>
               )}
             >
-              <span
-                className={classNames({
-                  'crumb-inner': true,
-                  // TODO how handle items that don't have works, e.g. need example
-                  // firstCrumb.work &&
-                  // firstCrumb.id === work.id,
-                })}
-              >
-                {firstCrumb.title}
-              </span>
+              {firstCrumb.title}
             </ConditionalWrapper>
           </li>
         )}
