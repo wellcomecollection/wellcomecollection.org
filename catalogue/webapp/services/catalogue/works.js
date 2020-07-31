@@ -79,7 +79,9 @@ export async function getWork({
   const params = {
     include: [
       ...workIncludes,
-      ...(toggles && toggles.archivesPrototype ? ['collection'] : []),
+      ...(toggles && toggles.archivesPrototype
+        ? ['parts', 'partOf', 'precededBy', 'succeededBy']
+        : []),
       ...(toggles && toggles.newImageSearch ? ['images'] : []),
     ],
     _index: apiOptions.indexOverrideSuffix
