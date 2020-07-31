@@ -1,8 +1,6 @@
 // @flow
-import { useState, useEffect } from 'react';
 import { type Work } from '@weco/common/model/work';
 import { workLink } from '../../../services/catalogue/routes';
-import { getTreeBranches } from '../../../utils/works';
 import { classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
 import styled from 'styled-components';
@@ -85,39 +83,20 @@ const ConditionalWrapper = ({ condition, wrapper, children }) =>
   condition ? wrapper(children) : children;
 
 const ArchiveBreadcrumb = ({ work }: Props) => {
-  function makeCrumbs(tree) {
-    const allCrumbs = tree.reverse();
-    const firstCrumb = allCrumbs[0];
-    const lastCrumb = allCrumbs.length > 1 && allCrumbs[allCrumbs.length - 1];
-    const middleCrumbs = allCrumbs.length > 2 ? allCrumbs.slice(1, -1) : [];
+  const firstCrumb = work.partOf[0];
+  const middleCrumbs = work.partOf.length > 1 ? work.partOf.slice(1) : [];
+  const lastCrumb = {
+    id: work.id,
+    title: work.title,
+    alternativeTitles: work.alternativeTitles,
+    referenceNumber: work.referenceNumber,
+  };
 
-    return {
-      firstCrumb,
-      middleCrumbs,
-      lastCrumb,
-    };
-  }
-
-  useEffect(() => {
-    const tree =
-      work &&
-      work.collectionPath &&
-      getTreeBranches(work.collectionPath.path, work.collection);
-    if (tree) {
-      setBreadcrumb(makeCrumbs(tree));
-    }
-  }, [work]);
-
-  const [breadcrumb, setBreadcrumb] = useState({
-    firstCrumb: null,
-    middleCrumbs: [],
-    lastCrumb: null,
-  });
-
+  // TODO how handle items that don't have works, e.g. need example
   return (
     <ArchiveBreadcrumbNav>
       <ul>
-        {breadcrumb.firstCrumb && (
+        {firstCrumb && (
           <li className={'flex'}>
             <Icon
               extraClasses={`icon--match-text icon--currentColor`}
@@ -125,56 +104,53 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
             />
             <ConditionalWrapper
               condition={
-                breadcrumb.firstCrumb.work &&
-                breadcrumb.firstCrumb.work.id !== work.id
+                // TODO how handle items that don't have works, e.g. need example
+                // breadcrumb.firstCrumb.work &&
+                // breadcrumb.firstCrumb.id !== work.id
+                true
               }
               wrapper={children => (
-                <NextLink {...workLink({ id: breadcrumb.firstCrumb.work.id })}>
+                <NextLink {...workLink({ id: firstCrumb.id })}>
                   <a className="crumb-inner">{children}</a>
                 </NextLink>
               )}
             >
               <span
                 className={classNames({
-                  'crumb-inner':
-                    breadcrumb.firstCrumb.work &&
-                    breadcrumb.firstCrumb.work.id === work.id,
+                  'crumb-inner': true,
+                  // TODO how handle items that don't have works, e.g. need example
+                  // firstCrumb.work &&
+                  // firstCrumb.id === work.id,
                 })}
               >
-                {breadcrumb.firstCrumb.work
-                  ? breadcrumb.firstCrumb.work.title
-                  : 'Unknown (not available)'}
+                {firstCrumb.title}
               </span>
             </ConditionalWrapper>
           </li>
         )}
-        {breadcrumb.middleCrumbs.length > 1 && (
+        {middleCrumbs.length > 1 && (
           <li>
             <div style={{ position: 'relative', top: '-5px' }}>
               <DropdownButton label="…">
                 <ul>
-                  {breadcrumb.middleCrumbs.map(crumb => {
+                  {middleCrumbs.map(crumb => {
                     return (
-                      <li key={crumb.path.path} className={`flex`}>
+                      <li key={crumb.id} className={`flex`}>
                         <Icon
                           extraClasses={`icon--match-text icon--currentColor`}
                           name={
-                            crumb.path.level === 'Item'
-                              ? 'digitalImage'
-                              : 'folder'
+                            'folder'
+                            // TODO no longer way of knowing if has children
+                            // crumb.path.level === 'Item'
+                            //   ? 'digitalImage'
+                            //   : 'folder'
                           }
                         />
-                        {crumb.work && crumb.work.id ? (
-                          <NextLink {...workLink({ id: crumb.work.id })}>
-                            <a className="crumb-inner">
-                              {crumb.work.title} {crumb.path.label}
-                            </a>
-                          </NextLink>
-                        ) : (
-                          <span className="crumb-inner">
-                            Unknown (not available) {crumb.path.path}
-                          </span>
-                        )}
+                        <NextLink {...workLink({ id: crumb.id })}>
+                          <a className="crumb-inner">
+                            {crumb.title} {crumb.referenceNumber}
+                          </a>
+                        </NextLink>
                       </li>
                     );
                   })}
@@ -183,20 +159,22 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
             </div>
           </li>
         )}
-        {breadcrumb.middleCrumbs.length === 1 && (
+        {middleCrumbs.length === 1 && (
           <>
-            {breadcrumb.middleCrumbs.map(crumb => {
+            {middleCrumbs.map(crumb => {
               return (
-                <li key={crumb.work.id} className={'flex'}>
+                <li key={crumb.id} className={'flex'}>
                   <Icon
                     extraClasses={`icon--match-text icon--currentColor`}
                     name={
-                      crumb.path.level === 'Item' ? 'digitalImage' : 'folder'
+                      'folder'
+                      // TODO no longer way of knowing if has children
+                      // crumb.path.level === 'Item' ? 'digitalImage' : 'folder'
                     }
                   />
-                  <NextLink {...workLink({ id: crumb.work.id })}>
+                  <NextLink {...workLink({ id: crumb.id })}>
                     <a className="crumb-inner">
-                      {crumb.work.title} {crumb.path.label}
+                      {crumb.title} {crumb.referenceNumber}
                     </a>
                   </NextLink>
                 </li>
@@ -204,21 +182,19 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
             })}
           </>
         )}
-        {breadcrumb.lastCrumb && (
+        {lastCrumb && (
           <li className={'flex'}>
             <Icon
               extraClasses={`icon--match-text icon--currentColor`}
               name={
-                breadcrumb.lastCrumb.path.level === 'Item'
-                  ? 'digitalImage'
-                  : 'folder'
+                'folder'
+                // TODO no longer way of knowing if has children
+                // lastCrumb.path.level === 'Item' ? 'digitalImage' : 'folder'
               }
             />
             <span className="crumb-inner">
-              {breadcrumb.lastCrumb.work
-                ? breadcrumb.lastCrumb.work.title
-                : 'Unknown (not available)'}{' '}
-              {breadcrumb.lastCrumb.path.label}
+              {lastCrumb.title}
+              {lastCrumb.referenceNumber}
             </span>
           </li>
         )}
