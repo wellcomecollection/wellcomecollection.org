@@ -9,7 +9,7 @@ import Picture from '../Picture/Picture';
 import HeaderBackground from '../HeaderBackground/HeaderBackground';
 import FreeSticker from '../FreeSticker/FreeSticker';
 import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
-import Layout10 from '../Layout10/Layout10';
+import Layout12 from '../Layout12/Layout12';
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
 import { breakpoints } from '../../../utils/breakpoints';
 import type { Node, Element, ElementProps } from 'react';
@@ -153,27 +153,34 @@ const PageHeader = ({
       }}
     >
       {Background}
-      <Layout10>
+      <Layout12>
         {isFree && (
           <div className="relative">
             <FreeSticker />
           </div>
         )}
-        <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-            {!asyncBreadcrumbsRoute && <Breadcrumb {...breadcrumbs} />}
-            {asyncBreadcrumbsRoute && (
-              <div
-                data-component="AsyncBreadcrumb"
-                className="async-content breadcrumb-placeholder"
-                data-endpoint={asyncBreadcrumbsRoute}
-                data-prefix-endpoint="false"
-                data-modifiers=""
-              >
-                <Breadcrumb {...breadcrumbs} />
-              </div>
-            )}
-          </Space>
+        <Space
+          v={{
+            size: 'l',
+            properties: ['margin-top', 'margin-bottom', 'padding-bottom'],
+          }}
+        >
+          {breadcrumbs.items.length > 0 && (
+            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+              {!asyncBreadcrumbsRoute && <Breadcrumb {...breadcrumbs} />}
+              {asyncBreadcrumbsRoute && (
+                <div
+                  data-component="AsyncBreadcrumb"
+                  className="async-content breadcrumb-placeholder"
+                  data-endpoint={asyncBreadcrumbsRoute}
+                  data-prefix-endpoint="false"
+                  data-modifiers=""
+                >
+                  <Breadcrumb {...breadcrumbs} />
+                </div>
+              )}
+            </Space>
+          )}
           <Space v={{ size: 'xs', properties: ['margin-bottom'] }}>
             {TitleTopper}
             {Heading}
@@ -196,7 +203,7 @@ const PageHeader = ({
           {labels && labels.labels.length > 0 && <LabelsList {...labels} />}
         </Space>
         <div className="relative">{FeaturedMedia}</div>
-      </Layout10>
+      </Layout12>
 
       {HeroPicture && (
         <div
