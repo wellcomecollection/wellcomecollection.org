@@ -117,7 +117,8 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
           ) : null;
 
         const cards = cardItems.map((item, i) => {
-          const cardProps = convertItemToCardProps(item);
+          const cardProps =
+            item.type === 'card' ? item : convertItemToCardProps(item);
           return <Card key={i} item={cardProps} />;
         });
         return (
