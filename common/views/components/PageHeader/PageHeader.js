@@ -156,7 +156,7 @@ const PageHeader = ({
           backgroundImage: backgroundTexture
             ? `url(${backgroundTexture})`
             : null,
-          backgroundSize: backgroundTexture ? '150%' : null,
+          backgroundSize: backgroundTexture ? 'cover' : null,
         }}
       >
         {Background}
