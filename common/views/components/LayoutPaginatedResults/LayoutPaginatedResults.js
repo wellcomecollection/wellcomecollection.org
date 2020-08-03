@@ -1,7 +1,6 @@
 // @flow
 import CardGrid from '../CardGrid/CardGrid';
 import Layout12 from '../Layout12/Layout12';
-import Layout from '../Layout/Layout';
 import Divider from '../Divider/Divider';
 import Pagination from '../Pagination/Pagination';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
@@ -18,7 +17,7 @@ import type {
 import SpacingSection from '../SpacingSection/SpacingSection';
 import Space from '../styled/Space';
 import PageHeader from '../PageHeader/PageHeader';
-import WobblyEdge from '../WobblyEdge/WobblyEdge';
+import { headerBackgroundLs } from '../../../../common/utils/backgrounds';
 
 type PaginatedResultsTypes =
   | PaginatedResults<UiExhibition>
@@ -49,27 +48,15 @@ const LayoutPaginatedResults = ({
         breadcrumbs={{ items: [] }}
         labels={null}
         title={title}
-        ContentTypeInfo={null}
+        ContentTypeInfo={description && <PrismicHtmlBlock html={description} />}
         Background={null}
-        backgroundTexture={`https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F43a35689-4923-4451-85d9-1ab866b1826d_event_header_background.svg`}
+        backgroundTexture={headerBackgroundLs}
         FeaturedMedia={null}
         HeroPicture={null}
         highlightHeading={true}
+        isListPage={true}
       />
-      <WobblyEdge background={'white'} />
     </SpacingSection>
-
-    {description && (
-      <Layout gridSizes={{ s: 12, m: 10, l: 8, xl: 8 }}>
-        <div
-          className={classNames({
-            [font('hnm', 4)]: true,
-          })}
-        >
-          <PrismicHtmlBlock html={description} />
-        </div>
-      </Layout>
-    )}
 
     {paginatedResults.totalPages > 1 && (
       <Layout12>

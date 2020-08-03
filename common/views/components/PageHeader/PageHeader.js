@@ -9,7 +9,10 @@ import Picture from '../Picture/Picture';
 import HeaderBackground from '../HeaderBackground/HeaderBackground';
 import FreeSticker from '../FreeSticker/FreeSticker';
 import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
+import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
+import Layout from '../Layout/Layout';
+import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
 import { breakpoints } from '../../../utils/breakpoints';
 import type { Node, Element, ElementProps } from 'react';
@@ -115,6 +118,7 @@ type Props = {|
   backgroundTexture?: ?string,
   highlightHeading?: boolean,
   asyncBreadcrumbsRoute?: string,
+  isListPage?: boolean,
 
   // TODO: Don't overload this, it's just for putting things in till
   // we find a pattern
@@ -130,6 +134,7 @@ const PageHeader = ({
   HeroPicture,
   FeaturedMedia,
   isFree = false,
+  isListPage = false,
   // Not a massive fan of this, but it feels overkill to make a new component
   // for it as it's only used on articles and exhibitions
   heroImageBgColor = 'white',
@@ -145,83 +150,114 @@ const PageHeader = ({
   );
 
   return (
-    <div
-      className={`row relative`}
-      style={{
-        backgroundImage: backgroundTexture ? `url(${backgroundTexture})` : null,
-        backgroundSize: backgroundTexture ? '150%' : null,
-      }}
-    >
-      {Background}
-      <Layout12>
-        {isFree && (
-          <div className="relative">
-            <FreeSticker />
+    <>
+      <div
+        className={`row relative`}
+        style={{
+          backgroundImage: backgroundTexture
+            ? `url(${backgroundTexture})`
+            : null,
+          backgroundSize: backgroundTexture ? '150%' : null,
+        }}
+      >
+        {Background}
+        <Layout12>
+          {isFree && (
+            <div className="relative">
+              <FreeSticker />
+            </div>
+          )}
+        </Layout12>
+        <Layout gridSizes={{ s: 12, m: 10, l: 8, xl: 8 }}>
+          <Space
+            v={{
+              size: 'l',
+              properties: isListPage
+                ? ['margin-top', 'margin-bottom', 'padding-bottom']
+                : ['margin-top', 'margin-bottom'],
+            }}
+          >
+            {breadcrumbs.items.length > 0 && (
+              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                {!asyncBreadcrumbsRoute && <Breadcrumb {...breadcrumbs} />}
+                {asyncBreadcrumbsRoute && (
+                  <div
+                    data-component="AsyncBreadcrumb"
+                    className="async-content breadcrumb-placeholder"
+                    data-endpoint={asyncBreadcrumbsRoute}
+                    data-prefix-endpoint="false"
+                    data-modifiers=""
+                  >
+                    <Breadcrumb {...breadcrumbs} />
+                  </div>
+                )}
+              </Space>
+            )}
+            <Space v={{ size: 'xs', properties: ['margin-bottom'] }}>
+              {TitleTopper}
+              {Heading}
+            </Space>
+
+            {!isListPage && (
+              <Space
+                v={{ size: 'm', properties: ['margin-bottom'] }}
+                className={classNames({
+                  [font('hnl', 4)]: true,
+                })}
+              >
+                {ContentTypeInfo}
+              </Space>
+            )}
+
+            {labels && labels.labels.length > 0 && <LabelsList {...labels} />}
+          </Space>
+        </Layout>
+
+        {FeaturedMedia && (
+          <Layout10>
+            <div className="relative">{FeaturedMedia}</div>
+          </Layout10>
+        )}
+
+        {HeroPicture && (
+          <div
+            className={classNames({
+              relative: true,
+            })}
+            style={{ height: '100%' }}
+          >
+            <HeroPictureBackground
+              className={`bg-${heroImageBgColor} absolute`}
+            />
+
+            <HeroPictureContainer>
+              <WobblyBottom color={heroImageBgColor}>
+                {HeroPicture}
+              </WobblyBottom>
+            </HeroPictureContainer>
           </div>
         )}
-        <Space
-          v={{
-            size: 'l',
-            properties: ['margin-top', 'margin-bottom', 'padding-bottom'],
-          }}
-        >
-          {breadcrumbs.items.length > 0 && (
-            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-              {!asyncBreadcrumbsRoute && <Breadcrumb {...breadcrumbs} />}
-              {asyncBreadcrumbsRoute && (
-                <div
-                  data-component="AsyncBreadcrumb"
-                  className="async-content breadcrumb-placeholder"
-                  data-endpoint={asyncBreadcrumbsRoute}
-                  data-prefix-endpoint="false"
-                  data-modifiers=""
-                >
-                  <Breadcrumb {...breadcrumbs} />
-                </div>
-              )}
-            </Space>
-          )}
-          <Space v={{ size: 'xs', properties: ['margin-bottom'] }}>
-            {TitleTopper}
-            {Heading}
-          </Space>
+      </div>
 
-          {ContentTypeInfo && (
+      {isListPage && (
+        <>
+          <WobblyEdge background={'white'} />
+          <Layout gridSizes={{ s: 12, m: 10, l: 8, xl: 8 }}>
             <Space
               v={{
-                size: 'm',
-                properties: ['margin-bottom'],
+                size: 'l',
+                properties: ['margin-top'],
               }}
               className={classNames({
-                [font('hnl', 4)]: true,
+                [font('hnm', 4)]: true,
               })}
             >
               {ContentTypeInfo}
             </Space>
-          )}
-
-          {labels && labels.labels.length > 0 && <LabelsList {...labels} />}
-        </Space>
-        <div className="relative">{FeaturedMedia}</div>
-      </Layout12>
-
-      {HeroPicture && (
-        <div
-          className={classNames({
-            relative: true,
-          })}
-          style={{ height: '100%' }}
-        >
-          <HeroPictureBackground
-            className={`bg-${heroImageBgColor} absolute`}
-          />
-
-          <HeroPictureContainer>
-            <WobblyBottom color={heroImageBgColor}>{HeroPicture}</WobblyBottom>
-          </HeroPictureContainer>
-        </div>
+          </Layout>
+        </>
       )}
-    </div>
+    </>
   );
 };
 
