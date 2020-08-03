@@ -10,7 +10,6 @@ import HeaderBackground from '../HeaderBackground/HeaderBackground';
 import FreeSticker from '../FreeSticker/FreeSticker';
 import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
 import Layout10 from '../Layout10/Layout10';
-import Layout12 from '../Layout12/Layout12';
 import Layout from '../Layout/Layout';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
@@ -161,13 +160,13 @@ const PageHeader = ({
         }}
       >
         {Background}
-        <Layout12>
+        <Layout10>
           {isFree && (
             <div className="relative">
               <FreeSticker />
             </div>
           )}
-        </Layout12>
+        </Layout10>
         <Layout gridSizes={{ s: 12, m: 10, l: 8, xl: 8 }}>
           <Space
             v={{
