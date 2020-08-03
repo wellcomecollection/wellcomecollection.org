@@ -220,6 +220,36 @@ const WorkLink = ({
   );
 };
 
+function createHierarchy(work) {
+  return work.partOf.reverse().reduce((acc, curr, i, src) => {
+    return {
+      work: curr,
+      children:
+        i === 0
+          ? [
+              ...work.precededBy.map(item => ({
+                work: item,
+                children: [],
+              })),
+              {
+                work: {
+                  id: work.id,
+                  title: work.title,
+                  alternativeTitles: work.alternativeTitles,
+                  referenceNumber: work.referenceNumber,
+                },
+                children: work.parts,
+              },
+              ...work.succeededBy.map(item => ({
+                work: item,
+                children: [],
+              })),
+            ]
+          : [acc],
+    };
+  }, {});
+}
+
 const NestedList = ({
   collection,
   collectionChildren,
