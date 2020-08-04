@@ -167,8 +167,7 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
               }
             />
             <span className="crumb-inner">
-              {lastCrumb.title}
-              {lastCrumb.referenceNumber}
+              {lastCrumb.title} {lastCrumb.referenceNumber}
             </span>
           </li>
         )}
