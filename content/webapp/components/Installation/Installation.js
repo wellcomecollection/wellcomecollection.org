@@ -80,7 +80,7 @@ const Installation = ({ installation }: Props) => {
         />
       }
       HeroPicture={null}
-      isArticleExhibitionEvent={true}
+      isContentTypeInfoBeforeMedia={true}
     />
   );
   return (

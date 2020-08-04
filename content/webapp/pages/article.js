@@ -200,7 +200,7 @@ export class ArticlePage extends Component<Props, State> {
         HeroPicture={isImageGallery ? null : maybeHeroPicture}
         heroImageBgColor={isImageGallery ? 'white' : 'cream'}
         TitleTopper={TitleTopper}
-        isArticleExhibitionEvent={true}
+        isContentTypeInfoBeforeMedia={true}
       />
     );
 

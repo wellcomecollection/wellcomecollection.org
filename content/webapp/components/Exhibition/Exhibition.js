@@ -236,7 +236,7 @@ const Exhibition = ({ exhibition }: Props) => {
       FeaturedMedia={maybeFeaturedMedia}
       HeroPicture={maybeHeroPicture}
       isFree={true}
-      isArticleExhibitionEvent={true}
+      isContentTypeInfoBeforeMedia={true}
     />
   );
 

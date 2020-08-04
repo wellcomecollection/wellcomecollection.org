@@ -117,7 +117,7 @@ type Props = {|
   backgroundTexture?: ?string,
   highlightHeading?: boolean,
   asyncBreadcrumbsRoute?: string,
-  isArticleExhibitionEvent?: boolean,
+  isContentTypeInfoBeforeMedia?: boolean,
 
   // TODO: Don't overload this, it's just for putting things in till
   // we find a pattern
@@ -133,7 +133,7 @@ const PageHeader = ({
   HeroPicture,
   FeaturedMedia,
   isFree = false,
-  isArticleExhibitionEvent = false,
+  isContentTypeInfoBeforeMedia = false,
   // Not a massive fan of this, but it feels overkill to make a new component
   // for it as it's only used on articles and exhibitions
   heroImageBgColor = 'white',
@@ -173,9 +173,8 @@ const PageHeader = ({
           <Space
             v={{
               size: 'l',
-              // properties:  ['margin-top', 'margin-bottom', 'padding-bottom'],
               properties:
-                isArticleExhibitionEvent || hasMedia
+                isContentTypeInfoBeforeMedia || hasMedia
                   ? ['margin-bottom']
                   : ['margin-bottom', 'padding-bottom'],
             }}
@@ -217,7 +216,7 @@ const PageHeader = ({
               {Heading}
             </Space>
 
-            {isArticleExhibitionEvent && ContentTypeInfo && (
+            {isContentTypeInfoBeforeMedia && ContentTypeInfo && (
               <Space
                 v={{ size: 'm', properties: ['margin-bottom'] }}
                 className={classNames({
@@ -258,11 +257,11 @@ const PageHeader = ({
         )}
       </div>
 
-      {!hasMedia && !isArticleExhibitionEvent && (
+      {!hasMedia && !isContentTypeInfoBeforeMedia && (
         <WobblyEdge background={'white'} />
       )}
 
-      {!isArticleExhibitionEvent && ContentTypeInfo && (
+      {!isContentTypeInfoBeforeMedia && ContentTypeInfo && (
         <Layout gridSizes={{ s: 12, m: 10, l: 8, xl: 8 }}>
           <Space
             v={{
