@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
-import { type Collection, ArchiveNode } from '@weco/common/utils/works';
+import { ArchiveNode } from '@weco/common/utils/works';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { type Toggles } from '@weco/catalogue/services/catalogue/common';
 import Space from '../styled/Space';
@@ -148,10 +148,8 @@ type NestedListProps = {|
 |};
 
 type WorkLinkType = {|
-  item: Collection,
+  item: ArchiveNode,
   currentWorkId: string,
-  collection: Collection[],
-  setCollection: Collection => void,
   toggles: Toggles,
 |};
 
