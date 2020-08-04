@@ -176,26 +176,42 @@ const PageHeader = ({
               // properties:  ['margin-top', 'margin-bottom', 'padding-bottom'],
               properties:
                 isArticleExhibitionEvent || hasMedia
-                  ? ['margin-top', 'margin-bottom']
-                  : ['margin-top', 'margin-bottom', 'padding-bottom'],
+                  ? ['margin-bottom']
+                  : ['margin-bottom', 'padding-bottom'],
             }}
           >
-            {breadcrumbs.items.length > 0 && (
-              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                {!asyncBreadcrumbsRoute && <Breadcrumb {...breadcrumbs} />}
-                {asyncBreadcrumbsRoute && (
-                  <div
-                    data-component="AsyncBreadcrumb"
-                    className="async-content breadcrumb-placeholder"
-                    data-endpoint={asyncBreadcrumbsRoute}
-                    data-prefix-endpoint="false"
-                    data-modifiers=""
-                  >
-                    <Breadcrumb {...breadcrumbs} />
-                  </div>
-                )}
-              </Space>
-            )}
+            <Space
+              v={{
+                size: 's',
+                properties: ['margin-top', 'margin-bottom'],
+              }}
+            >
+              {breadcrumbs.items.length > 0 ? (
+                <>
+                  {!asyncBreadcrumbsRoute && <Breadcrumb {...breadcrumbs} />}
+                  {asyncBreadcrumbsRoute && (
+                    <div
+                      data-component="AsyncBreadcrumb"
+                      className="async-content breadcrumb-placeholder"
+                      data-endpoint={asyncBreadcrumbsRoute}
+                      data-prefix-endpoint="false"
+                      data-modifiers=""
+                    >
+                      <Breadcrumb {...breadcrumbs} />
+                    </div>
+                  )}
+                </>
+              ) : (
+                <span
+                  className={classNames({
+                    [font('hnl', 5)]: true,
+                    flex: true,
+                  })}
+                >
+                  &nbsp;
+                </span>
+              )}
+            </Space>
             <Space v={{ size: 'xs', properties: ['margin-bottom'] }}>
               {TitleTopper}
               {Heading}
