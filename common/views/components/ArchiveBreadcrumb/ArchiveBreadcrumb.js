@@ -78,9 +78,6 @@ type Props = {|
   work: Work,
 |};
 
-const ConditionalWrapper = ({ condition, wrapper, children }) =>
-  condition ? wrapper(children) : children;
-
 const ArchiveBreadcrumb = ({ work }: Props) => {
   const firstCrumb = work.partOf[0];
   const middleCrumbs = work.partOf.length > 1 ? work.partOf.slice(1) : [];
@@ -91,7 +88,6 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
     referenceNumber: work.referenceNumber,
   };
 
-  // TODO how handle items that don't have works, e.g. need example
   return (
     <ArchiveBreadcrumbNav>
       <ul>
@@ -101,21 +97,9 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
               extraClasses={`icon--match-text icon--currentColor`}
               name={`archive`}
             />
-            <ConditionalWrapper
-              condition={
-                // TODO how handle items that don't have works, e.g. need example
-                // breadcrumb.firstCrumb.work &&
-                // breadcrumb.firstCrumb.id !== work.id
-                true
-              }
-              wrapper={children => (
-                <NextLink {...workLink({ id: firstCrumb.id })}>
-                  <a className="crumb-inner">{children}</a>
-                </NextLink>
-              )}
-            >
-              {firstCrumb.title}
-            </ConditionalWrapper>
+            <NextLink {...workLink({ id: firstCrumb.id })}>
+              <a className="crumb-inner">{firstCrumb.title}</a>
+            </NextLink>
           </li>
         )}
         {middleCrumbs.length > 1 && (
@@ -183,8 +167,7 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
               }
             />
             <span className="crumb-inner">
-              {lastCrumb.title}
-              {lastCrumb.referenceNumber}
+              {lastCrumb.title} {lastCrumb.referenceNumber}
             </span>
           </li>
         )}
