@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
 import { type Collection, ArchiveNode } from '@weco/common/utils/works';
@@ -143,6 +143,7 @@ type Work = {|
   type: 'Work',
 |};
 type NestedListProps = {|
+  currentWorkId: string,
   collectionTree: ArchiveNode[],
 |};
 
@@ -154,42 +155,31 @@ type WorkLinkType = {|
   toggles: Toggles,
 |};
 
-const WorkLink = ({
-  item,
-  currentWorkId,
-  collection,
-  setCollection,
-  toggles,
-}: WorkLinkType) => {
-  const ref = useRef();
-
-  return (
-    <StyledLink
+const WorkLink = ({ item, currentWorkId, toggles }: WorkLinkType) => (
+  <StyledLink
+    style={{
+      whiteSpace: 'nowrap',
+      display: 'inline-block',
+      color: 'black',
+    }}
+    href={`/works/${item.work.id}`}
+    isCurrent={currentWorkId === item.work.id}
+  >
+    {item.work.title}
+    <div
       style={{
-        whiteSpace: 'nowrap',
-        display: 'inline-block',
-        color: 'black',
+        fontSize: '13px',
+        color: '#707070',
+        textDecoration: 'none',
+        padding: '0',
       }}
-      ref={ref}
-      href={`/works/${item.id}`}
-      // isCurrent={currentWorkId === item.work.id}
     >
-      {item.work.title}
-      <div
-        style={{
-          fontSize: '13px',
-          color: '#707070',
-          textDecoration: 'none',
-          padding: '0',
-        }}
-      >
-        {item.referenceNumber}
-      </div>
-    </StyledLink>
-  );
-};
+      {item.work.referenceNumber}
+    </div>
+  </StyledLink>
+);
 
-const NestedList = ({ collectionTree }: NestedListProps) => {
+const NestedList = ({ currentWorkId, collectionTree }: NestedListProps) => {
   return (
     <ul
       className={classNames({
@@ -203,10 +193,19 @@ const NestedList = ({ collectionTree }: NestedListProps) => {
               <li key={item.work.id}>
                 <div style={{ padding: '10px 10px 30px' }}>
                   <TogglesContext.Consumer>
-                    {toggles => <WorkLink item={item} toggles={toggles} />}
+                    {toggles => (
+                      <WorkLink
+                        item={item}
+                        currentWorkId={currentWorkId}
+                        toggles={toggles}
+                      />
+                    )}
                   </TogglesContext.Consumer>
                   {item.children && (
-                    <NestedList collectionTree={item.children} />
+                    <NestedList
+                      currentWorkId={currentWorkId}
+                      collectionTree={item.children}
+                    />
                   )}
                 </div>
               </li>
@@ -250,7 +249,10 @@ const ArchiveTree = ({ work }: { work: Work }) => {
       >
         <Container>
           <Tree>
-            <NestedList collectionTree={collectionTree} />
+            <NestedList
+              currentWorkId={work.id}
+              collectionTree={collectionTree}
+            />
           </Tree>
         </Container>
       </Modal>
