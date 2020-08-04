@@ -86,7 +86,7 @@ export class Page extends Component<Props> {
         HeroPicture={null}
         backgroundTexture={!FeaturedMedia ? backgroundTexture : null}
         highlightHeading={true}
-        isListPage={true}
+        isArticleExhibitionEvent={false}
       />
     );
     return (

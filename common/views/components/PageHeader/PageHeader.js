@@ -117,7 +117,7 @@ type Props = {|
   backgroundTexture?: ?string,
   highlightHeading?: boolean,
   asyncBreadcrumbsRoute?: string,
-  isListPage?: boolean,
+  isArticleExhibitionEvent?: boolean,
 
   // TODO: Don't overload this, it's just for putting things in till
   // we find a pattern
@@ -133,7 +133,7 @@ const PageHeader = ({
   HeroPicture,
   FeaturedMedia,
   isFree = false,
-  isListPage = false,
+  isArticleExhibitionEvent = false,
   // Not a massive fan of this, but it feels overkill to make a new component
   // for it as it's only used on articles and exhibitions
   heroImageBgColor = 'white',
@@ -174,9 +174,10 @@ const PageHeader = ({
             v={{
               size: 'l',
               // properties:  ['margin-top', 'margin-bottom', 'padding-bottom'],
-              properties: hasMedia
-                ? ['margin-top', 'margin-bottom']
-                : ['margin-top', 'margin-bottom', 'padding-bottom'],
+              properties:
+                isArticleExhibitionEvent || hasMedia
+                  ? ['margin-top', 'margin-bottom']
+                  : ['margin-top', 'margin-bottom', 'padding-bottom'],
             }}
           >
             {breadcrumbs.items.length > 0 && (
@@ -200,7 +201,7 @@ const PageHeader = ({
               {Heading}
             </Space>
 
-            {!isListPage && (
+            {isArticleExhibitionEvent && ContentTypeInfo && (
               <Space
                 v={{ size: 'm', properties: ['margin-bottom'] }}
                 className={classNames({
@@ -241,9 +242,11 @@ const PageHeader = ({
         )}
       </div>
 
-      {!hasMedia && <WobblyEdge background={'white'} />}
+      {!hasMedia && !isArticleExhibitionEvent && (
+        <WobblyEdge background={'white'} />
+      )}
 
-      {isListPage && ContentTypeInfo && (
+      {!isArticleExhibitionEvent && ContentTypeInfo && (
         <Layout gridSizes={{ s: 12, m: 10, l: 8, xl: 8 }}>
           <Space
             v={{

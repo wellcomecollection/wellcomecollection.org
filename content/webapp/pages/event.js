@@ -294,6 +294,7 @@ class EventPage extends Component<Props, State> {
         }
         HeroPicture={null}
         isFree={!event.cost}
+        isArticleExhibitionEvent={true}
       />
     );
 

@@ -54,7 +54,7 @@ const LayoutPaginatedResults = ({
         FeaturedMedia={null}
         HeroPicture={null}
         highlightHeading={true}
-        isListPage={true}
+        isArticleExhibitionEvent={false}
       />
     </SpacingSection>
 
