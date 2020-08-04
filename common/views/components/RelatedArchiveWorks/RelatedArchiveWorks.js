@@ -59,7 +59,6 @@ const WorksGrid = ({ title, works }: WorksGridProps) => {
             >
               <NextLink {...workLink({ id: item.id })} scroll={true} passHref>
                 <WorkLink selected={false}>
-                  {/* // TODO no work - get example and check ? */}
                   {/* {item.path.level !== 'Item' && ( // TODO - there is no way of know if it has children now
                       <Space
                         as="span"
