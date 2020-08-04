@@ -148,6 +148,8 @@ const PageHeader = ({
     <h1 className="h1 inline-block no-margin">{title}</h1>
   );
 
+  const hasMedia = FeaturedMedia || HeroPicture;
+
   return (
     <>
       <div
@@ -160,20 +162,21 @@ const PageHeader = ({
         }}
       >
         {Background}
-        <Layout10>
-          {isFree && (
+        {isFree && (
+          <Layout10>
             <div className="relative">
               <FreeSticker />
             </div>
-          )}
-        </Layout10>
+          </Layout10>
+        )}
         <Layout gridSizes={{ s: 12, m: 10, l: 8, xl: 8 }}>
           <Space
             v={{
               size: 'l',
-              properties: isListPage
-                ? ['margin-top', 'margin-bottom', 'padding-bottom']
-                : ['margin-top', 'margin-bottom'],
+              // properties:  ['margin-top', 'margin-bottom', 'padding-bottom'],
+              properties: hasMedia
+                ? ['margin-top', 'margin-bottom']
+                : ['margin-top', 'margin-bottom', 'padding-bottom'],
             }}
           >
             {breadcrumbs.items.length > 0 && (
@@ -238,23 +241,22 @@ const PageHeader = ({
         )}
       </div>
 
-      {isListPage && (
-        <>
-          <WobblyEdge background={'white'} />
-          <Layout gridSizes={{ s: 12, m: 10, l: 8, xl: 8 }}>
-            <Space
-              v={{
-                size: 'l',
-                properties: ['margin-top'],
-              }}
-              className={classNames({
-                [font('hnm', 4)]: true,
-              })}
-            >
-              {ContentTypeInfo}
-            </Space>
-          </Layout>
-        </>
+      {!hasMedia && <WobblyEdge background={'white'} />}
+
+      {isListPage && ContentTypeInfo && (
+        <Layout gridSizes={{ s: 12, m: 10, l: 8, xl: 8 }}>
+          <Space
+            v={{
+              size: 'l',
+              properties: ['margin-top'],
+            }}
+            className={classNames({
+              [font('hnm', 4)]: true,
+            })}
+          >
+            {ContentTypeInfo}
+          </Space>
+        </Layout>
       )}
     </>
   );
