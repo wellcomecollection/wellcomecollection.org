@@ -1,10 +1,15 @@
 import { storiesOf } from '@storybook/react';
+import { select } from '@storybook/addon-knobs/react';
 import { classNames, font } from '../../../common/utils/classnames';
 import PageHeader from '../../../common/views/components/PageHeader/PageHeader';
 import PageHeaderStandfirst from '../../../common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import Picture from '../../../common/views/components/Picture/Picture';
 import Readme from '../../../common/views/components/PageHeader/README.md';
 import Space from '@weco/common/views/components/styled/Space';
+import Dot from '@weco/common/views/components/Dot/Dot';
+import { UiImage } from '@weco/common/views/components/Images/Images';
+import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 
 const breadcrumbItems = [
   {
@@ -98,16 +103,97 @@ const pictureImages = [
   },
 ];
 
+const EventContentTypeInfo = () => (
+  <>
+    <Space
+      v={{
+        size: 's',
+        properties: ['margin-bottom'],
+      }}
+      className={classNames({
+        'flex flex--wrap': true,
+      })}
+    >
+      Saturday 8 February 2020, 13:00—16:00
+    </Space>
+    <div className="flex">
+      <div className={`${font('hnm', 5)} flex flex--v-center`}>
+        <Space
+          as="span"
+          h={{ size: 'xs', properties: ['margin-right'] }}
+          className={`flex flex--v-center`}
+        >
+          <Dot color={'marble'} />
+        </Space>
+        {'Past'}
+      </div>
+    </div>
+  </>
+);
+
+const eventImage = {
+  contentUrl:
+    'https://images.prismic.io/wellcomecollection/3f15b8e9-bad2-4018-97ec-e50121a11d56_BTG191122154226.jpg?auto=compress,format&rect=0,0,4000,2250&w=3200&h=1800',
+  width: 3200,
+  height: 1800,
+  alt: null,
+  tasl: {
+    title: 'Ezra Miles',
+    author: 'Benjamin Gilbert',
+    sourceName: 'Wellcome Collection',
+    sourceLink: null,
+    license: 'CC-BY-NC',
+    copyrightHolder: null,
+    copyrightLink: null,
+  },
+  crops: {},
+};
+
+const EventFeaturedMedia = () => <UiImage {...eventImage} />;
+
 const PageHeaderExample = () => {
-  return (
-    <PageHeader
-      title={'How the magician’s assistant creates the illusion'}
-      breadcrumbs={{ items: breadcrumbItems }}
-      labels={{ labels: [{ url: null, text: 'Essay' }] }}
-      FeaturedMedia={<Picture images={pictureImages} />}
-      ContentTypeInfo={ContentTypeInfo}
-    />
+  const pageType = select(
+    'Page type',
+    ['article', 'event', 'exhibition', 'list', 'content'],
+    'article'
   );
+  switch (pageType) {
+    case 'article':
+      return (
+        <PageHeader
+          title={'How the magician’s assistant creates the illusion'}
+          breadcrumbs={{ items: breadcrumbItems }}
+          labels={{ labels: [{ url: null, text: 'Essay' }] }}
+          HeroPicture={<Picture images={pictureImages} isFull={true} />}
+          ContentTypeInfo={ContentTypeInfo}
+          isContentTypeInfoBeforeMedia={true}
+        />
+      );
+    case 'event':
+      return (
+        <PageHeader
+          title={'DNA, Diversity and Difference'}
+          breadcrumbs={{ items: [{ text: 'Events', url: '#' }] }}
+          FeaturedMedia={<EventFeaturedMedia />}
+          ContentTypeInfo={<EventContentTypeInfo />}
+          isContentTypeInfoBeforeMedia={true}
+          Background={
+            <HeaderBackground
+              hasWobblyEdge={true}
+              backgroundTexture={headerBackgroundLs}
+            />
+          }
+        />
+      );
+    case 'exhibition':
+      return <p>exhibition</p>;
+    case 'list':
+      return <p>list</p>;
+    case 'content':
+      return <p>content</p>;
+    default:
+      return <p>default</p>;
+  }
 };
 
 const stories = storiesOf('Components', module);
