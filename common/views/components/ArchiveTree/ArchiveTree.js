@@ -1,10 +1,11 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
 import { getWork } from '@weco/catalogue/services/catalogue/works';
+import { workLink } from '@weco/common/services/catalogue/routes';
 import { ArchiveNode } from '@weco/common/utils/works';
+import NextLink from 'next/link';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import { type Toggles } from '@weco/catalogue/services/catalogue/common';
 import Space from '../styled/Space';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Modal from '@weco/common/views/components/Modal/Modal';
@@ -16,7 +17,8 @@ const Container = styled.div`
 
 const StyledLink = styled.a`
   display: inline-block;
-  background: ${props => (props.isCurrent ? '#ffce3c' : 'transparent')};
+  background: ${props =>
+    props.isCurrent ? props.theme.colors.yellow : 'transparent'};
   font-weight: ${props => (props.isCurrent ? 'bold' : 'normal')};
   border-color: ${props =>
     props.isCurrent ? props.theme.colors.green : 'transparent'};
@@ -134,10 +136,6 @@ function createCollectionTree(work) {
   ];
 }
 
-// not the one and doesn't have children (DONE - just return it)
-// not the one and does have children (DONE, carry on iterating children)
-// is the one and doesn't have children (DONE - return with new children if there are some, else just return)
-// is the one and does have children ( - do the matching stuff)
 function addWorkPartsToCollectionTree(work, collectionTree) {
   return collectionTree.map(node => {
     if (node.work.id !== work.id && !node.children) return node;
@@ -196,39 +194,16 @@ type Work = {|
 type NestedListProps = {|
   currentWorkId: string,
   collectionTree: ArchiveNode[],
+  selected: { current: HTMLElement | null },
+  setShowArchiveTreeModal: boolean => void,
 |};
 
-type WorkLinkType = {|
-  item: ArchiveNode,
-  currentWorkId: string,
-  toggles: Toggles,
-|};
-
-const WorkLink = ({ item, currentWorkId, toggles }: WorkLinkType) => (
-  <StyledLink
-    style={{
-      whiteSpace: 'nowrap',
-      display: 'inline-block',
-      color: 'black',
-    }}
-    href={`/works/${item.work.id}`}
-    isCurrent={currentWorkId === item.work.id}
-  >
-    {item.work.title}
-    <div
-      style={{
-        fontSize: '13px',
-        color: '#707070',
-        textDecoration: 'none',
-        padding: '0',
-      }}
-    >
-      {item.work.referenceNumber}
-    </div>
-  </StyledLink>
-);
-
-const NestedList = ({ currentWorkId, collectionTree }: NestedListProps) => {
+const NestedList = ({
+  currentWorkId,
+  collectionTree,
+  selected,
+  setShowArchiveTreeModal,
+}: NestedListProps) => {
   return (
     <ul
       className={classNames({
@@ -243,17 +218,39 @@ const NestedList = ({ currentWorkId, collectionTree }: NestedListProps) => {
                 <div style={{ padding: '10px 10px 30px' }}>
                   <TogglesContext.Consumer>
                     {toggles => (
-                      <WorkLink
-                        item={item}
-                        currentWorkId={currentWorkId}
-                        toggles={toggles}
-                      />
+                      <NextLink
+                        {...workLink({ id: item.work.id })}
+                        scroll={false}
+                        passHref
+                      >
+                        <StyledLink
+                          isCurrent={currentWorkId === item.work.id}
+                          ref={currentWorkId === item.work.id ? selected : null}
+                          onClick={() => {
+                            setShowArchiveTreeModal(false);
+                          }}
+                        >
+                          {item.work.title}
+                          <div
+                            style={{
+                              fontSize: '13px',
+                              color: '#707070',
+                              textDecoration: 'none',
+                              padding: '0',
+                            }}
+                          >
+                            {item.work.referenceNumber}
+                          </div>
+                        </StyledLink>
+                      </NextLink>
                     )}
                   </TogglesContext.Consumer>
                   {item.children && (
                     <NestedList
+                      selected={selected}
                       currentWorkId={currentWorkId}
                       collectionTree={item.children}
+                      setShowArchiveTreeModal={setShowArchiveTreeModal}
                     />
                   )}
                 </div>
@@ -264,16 +261,49 @@ const NestedList = ({ currentWorkId, collectionTree }: NestedListProps) => {
     </ul>
   );
 };
-// TODO what happens if go to completely different archive?
+
+function centerTree(selected) {
+  setTimeout(function() {
+    if (selected?.current) {
+      selected.current.scrollIntoView({
+        behaviour: 'smooth',
+        block: 'center',
+        inline: 'center',
+      });
+    } else {
+      centerTree();
+    }
+  }, 10);
+}
+
 const ArchiveTree = ({ work }: { work: Work }) => {
   const toggles = useContext(TogglesContext);
   const [showArchiveTreeModal, setShowArchiveTreeModal] = useState(false);
   const [collectionTree, setCollectionTree] = useState(
     createCollectionTree(work) || []
   );
+  const selected = useRef(null);
 
   useEffect(() => {
-    setCollectionTree(createCollectionTree(work));
+    const basicTree = createCollectionTree(work);
+    const partOfPromises = work.partOf.map(part =>
+      getWork({ id: part.id, toggles })
+    );
+    if (partOfPromises.length > 0) {
+      Promise.all(partOfPromises).then(works => {
+        let updatedTree;
+        works.forEach(work => {
+          const tempTree = addWorkPartsToCollectionTree(
+            work,
+            updatedTree || basicTree
+          );
+          updatedTree = tempTree;
+        });
+        setCollectionTree(updatedTree);
+      });
+    } else {
+      setCollectionTree(createCollectionTree(work));
+    }
   }, [work]);
 
   return (
@@ -289,22 +319,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
           isTextHidden={true}
           clickHandler={() => {
             setShowArchiveTreeModal(!showArchiveTreeModal);
-            const partOfPromises = work.partOf.map(part =>
-              getWork({ id: part.id, toggles })
-            );
-            Promise.all(partOfPromises).then(works => {
-              let updatedTree;
-              works.forEach(work => {
-                const tempTree = addWorkPartsToCollectionTree(
-                  work,
-                  updatedTree || collectionTree
-                );
-                updatedTree = tempTree;
-                // addWorkPartsToCollectionTree not working as expected
-              });
-              setCollectionTree(updatedTree);
-            });
-            // now centre the tree
+            centerTree(selected);
           }}
         />
       </Space>
@@ -316,8 +331,10 @@ const ArchiveTree = ({ work }: { work: Work }) => {
         <Container>
           <Tree>
             <NestedList
+              selected={selected}
               currentWorkId={work.id}
               collectionTree={collectionTree}
+              setShowArchiveTreeModal={setShowArchiveTreeModal}
             />
           </Tree>
         </Container>
