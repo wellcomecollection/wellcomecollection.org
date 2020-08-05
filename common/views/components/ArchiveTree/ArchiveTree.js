@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
+import { getWork } from '@weco/catalogue/services/catalogue/works';
 import { ArchiveNode } from '@weco/common/utils/works';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { type Toggles } from '@weco/catalogue/services/catalogue/common';
@@ -98,7 +99,6 @@ function createSiblingsArray(work) {
   return [
     ...work.precededBy.map(item => ({
       work: item,
-      children: [],
     })),
     {
       work: createWorkNodeFromWork(work),
@@ -109,7 +109,6 @@ function createSiblingsArray(work) {
     },
     ...work.succeededBy.map(item => ({
       work: item,
-      children: [],
     })),
   ];
 }
@@ -135,12 +134,64 @@ function createCollectionTree(work) {
   ];
 }
 
+// not the one and doesn't have children (DONE - just return it)
+// not the one and does have children (DONE, carry on iterating children)
+// is the one and doesn't have children (DONE - return with new children if there are some, else just return)
+// is the one and does have children ( - do the matching stuff)
+function addWorkPartsToCollectionTree(work, collectionTree) {
+  return collectionTree.map(node => {
+    if (node.work.id !== work.id && !node.children) return node;
+    if (node.work.id !== work.id && node.children) {
+      return {
+        ...node,
+        children: addWorkPartsToCollectionTree(work, node.children),
+      };
+    }
+    if (node.work.id === work.id && !node.children) {
+      if (work.parts && work.parts.length > 0) {
+        return {
+          ...node,
+          children: work.parts.map(part => ({
+            work: part,
+          })),
+        };
+      } else {
+        return node;
+      }
+    }
+    if (node.work.id === work.id && node.children) {
+      // don't want to overwrite anything that is already there
+      const mergedChildren = work.parts.map(part => {
+        const matchingItem =
+          node.children &&
+          node.children.find(currentChild => part.id === currentChild.work.id);
+        if (
+          matchingItem &&
+          matchingItem.children &&
+          matchingItem.children.length > 0
+        ) {
+          return matchingItem;
+        } else {
+          return {
+            work: part,
+          };
+        }
+      });
+      return {
+        ...node,
+        children: mergedChildren,
+      };
+    }
+  });
+}
+
 type Work = {|
   // TODO import this and make it work everywhere
   id: string,
   title: string,
   alternativeTitles: [],
   type: 'Work',
+  partOf: ArchiveNode[],
 |};
 type NestedListProps = {|
   currentWorkId: string,
@@ -215,6 +266,7 @@ const NestedList = ({ currentWorkId, collectionTree }: NestedListProps) => {
 };
 // TODO what happens if go to completely different archive?
 const ArchiveTree = ({ work }: { work: Work }) => {
+  const toggles = useContext(TogglesContext);
   const [showArchiveTreeModal, setShowArchiveTreeModal] = useState(false);
   const [collectionTree, setCollectionTree] = useState(
     createCollectionTree(work) || []
@@ -237,6 +289,22 @@ const ArchiveTree = ({ work }: { work: Work }) => {
           isTextHidden={true}
           clickHandler={() => {
             setShowArchiveTreeModal(!showArchiveTreeModal);
+            const partOfPromises = work.partOf.map(part =>
+              getWork({ id: part.id, toggles })
+            );
+            Promise.all(partOfPromises).then(works => {
+              let updatedTree;
+              works.forEach(work => {
+                const tempTree = addWorkPartsToCollectionTree(
+                  work,
+                  updatedTree || collectionTree
+                );
+                updatedTree = tempTree;
+                // addWorkPartsToCollectionTree not working as expected
+              });
+              setCollectionTree(updatedTree);
+            });
+            // now centre the tree
           }}
         />
       </Space>
