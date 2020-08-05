@@ -1,5 +1,4 @@
-// @flow
-import type { Context } from 'next';
+import type { NextPageContext } from 'next';
 import type { Book } from '@weco/common/model/books';
 import { Fragment, Component } from 'react';
 import { getBook } from '@weco/common/services/prismic/books';
@@ -9,43 +8,15 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Body from '@weco/common/views/components/Body/Body';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { defaultContributorImage } from '@weco/common/services/prismic/parsers';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import styled from 'styled-components';
+import BookImage from '@weco/common/views/components/BookImage/BookImage';
 
-type Props = {|
+type Props = {
   book: Book,
-|};
-
-const BookImageContainer = styled(Space).attrs({
-  v: { size: 'xl', properties: ['margin-top'] },
-  className: classNames({
-    'bg-cream relative h-center': true,
-  }),
-})`
-  height: 70vh;
-  max-height: 100vw;
-  max-width: 600px;
-  transform: rotate(-2deg);
-`;
-
-const BookImage = styled(Space).attrs({
-  className: classNames({
-    absolute: true,
-  }),
-})`
-  bottom: 0;
-  width: 66vw;
-  left: 50%;
-  transform: translateX(-50%) rotate(2deg) translateY(-5vw);
-
-  ${props => props.theme.media.large`
-    transform: translateX(-50%) rotate(2deg) translateY(-50px);
-  `}
-`;
+};
 
 // FIXME: This is nonsense
 const BookMetadata = ({ book }: Props) => (
@@ -87,7 +58,7 @@ const BookMetadata = ({ book }: Props) => (
 );
 
 export class ArticleSeriesPage extends Component<Props> {
-  static getInitialProps = async (ctx: Context) => {
+  static getInitialProps = async (ctx: NextPageContext) => {
     const { id, memoizedPrismic } = ctx.query;
     const book = await getBook(ctx.req, id, memoizedPrismic);
 
@@ -110,17 +81,7 @@ export class ArticleSeriesPage extends Component<Props> {
   render() {
     const { book } = this.props;
 
-    const FeaturedMedia = book.cover && (
-      <BookImageContainer>
-        <BookImage>
-          {/* $FlowFixMe */}
-          <UiImage
-            extraClasses="margin-h-auto width-auto max-height-70vh"
-            {...book.cover}
-          />
-        </BookImage>
-      </BookImageContainer>
-    );
+    const FeaturedMedia = book.cover && <Space v={{size: 'xl', properties: ['margin-top', 'padding-top']}}><BookImage image={book.cover} /></Space>;
     const breadcrumbs = {
       items: [
         {

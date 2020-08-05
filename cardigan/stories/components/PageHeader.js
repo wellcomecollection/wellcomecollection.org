@@ -10,6 +10,7 @@ import Dot from '@weco/common/views/components/Dot/Dot';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import BookImage from '@weco/common/views/components/BookImage/BookImage';
 
 const breadcrumbItems = [
   {
@@ -313,10 +314,11 @@ const PageHeaderExample = () => {
           isContentTypeInfoBeforeMedia={true}
           breadcrumbs={{ items: [{ text: 'Books', url: '#' }] }}
           FeaturedMedia={
-            <UiImage
-              extraClasses="margin-h-auto width-auto max-height-70vh"
-              {...bookImage}
-            />
+            <Space
+              v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}
+            >
+              <BookImage image={bookImage} />
+            </Space>
           }
         />
       );

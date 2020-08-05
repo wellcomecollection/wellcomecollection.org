@@ -91,7 +91,6 @@ export function getHeroPicture(
 ): ?Element<typeof Picture> {
   const { squareImage, widescreenImage } = fields;
 
-  console.log(squareImage);
   return (
     squareImage &&
     widescreenImage && (
