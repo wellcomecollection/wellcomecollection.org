@@ -14,10 +14,38 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { defaultContributorImage } from '@weco/common/services/prismic/parsers';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import styled from 'styled-components';
 
 type Props = {|
   book: Book,
 |};
+
+const BookImageContainer = styled(Space).attrs({
+  v: { size: 'xl', properties: ['margin-top'] },
+  className: classNames({
+    'bg-cream relative h-center': true,
+  }),
+})`
+  height: 70vh;
+  max-height: 100vw;
+  max-width: 600px;
+  transform: rotate(-2deg);
+`;
+
+const BookImage = styled(Space).attrs({
+  className: classNames({
+    absolute: true,
+  }),
+})`
+  bottom: 0;
+  width: 66vw;
+  left: 50%;
+  transform: translateX(-50%) rotate(2deg) translateY(-5vw);
+
+  ${props => props.theme.media.large`
+    transform: translateX(-50%) rotate(2deg) translateY(-50px);
+  `}
+`;
 
 // FIXME: This is nonsense
 const BookMetadata = ({ book }: Props) => (
@@ -81,26 +109,17 @@ export class ArticleSeriesPage extends Component<Props> {
 
   render() {
     const { book } = this.props;
-    const image = book.promo && book.promo.image;
-    const tasl = image && {
-      isFull: false,
-      contentUrl: image.contentUrl,
-      title: image.title,
-      author: image.author,
-      sourceName: image.source && image.source.name,
-      sourceLink: image.source && image.source.link,
-      license: image.license,
-      copyrightHolder: image.copyright && image.copyright.holder,
-      copyrightLink: image.copyright && image.copyright.link,
-    };
 
     const FeaturedMedia = book.cover && (
-      // $FlowFixMe
-      <UiImage
-        tasl={tasl}
-        extraClasses="margin-h-auto width-auto max-height-70vh"
-        {...book.cover}
-      />
+      <BookImageContainer>
+        <BookImage>
+          {/* $FlowFixMe */}
+          <UiImage
+            extraClasses="margin-h-auto width-auto max-height-70vh"
+            {...book.cover}
+          />
+        </BookImage>
+      </BookImageContainer>
     );
     const breadcrumbs = {
       items: [
