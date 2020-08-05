@@ -90,6 +90,7 @@ export function getHeroPicture(
   fields: GenericContentFields
 ): ?Element<typeof Picture> {
   const { squareImage, widescreenImage } = fields;
+
   return (
     squareImage &&
     widescreenImage && (
