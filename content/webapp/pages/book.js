@@ -136,6 +136,7 @@ export class ArticleSeriesPage extends Component<Props> {
             {book.authorName && <p className="no-margin">{book.authorName}</p>}
           </Fragment>
         }
+        isContentTypeInfoBeforeMedia={true}
         HeroPicture={null}
         Background={null}
       />
