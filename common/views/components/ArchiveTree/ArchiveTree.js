@@ -12,6 +12,7 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 
 const Container = styled.div`
   overflow: scroll;
+  scroll-behavior: smooth;
   height: 70vh;
 `;
 
