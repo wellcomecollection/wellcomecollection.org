@@ -1,4 +1,4 @@
-import type { Tasl } from './tasl';
+import { Tasl } from './tasl';
 
 export type ImageType = {
   contentUrl: string,

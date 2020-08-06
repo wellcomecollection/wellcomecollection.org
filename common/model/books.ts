@@ -1,6 +1,6 @@
-import type { GenericContentFields } from './generic-content-fields';
-import type { HTMLString } from '../services/prismic/types';
-import type { ImageType } from './image';
+import { GenericContentFields } from './generic-content-fields';
+import { HTMLString } from '../services/prismic/types';
+import { ImageType } from './image';
 
 type Review = {
   text: HTMLString,

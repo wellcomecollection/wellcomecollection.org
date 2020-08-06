@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Space from '../styled/Space';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { classNames } from '@weco/common/utils/classnames';
-import type { UiImageType } from '../../../model/image';
+import { UiImageType } from '../../../model/image';
 
 
 const Outer = styled('div').attrs({
