@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - save_cache:
-          key: {{ .Environment.CACHE_VERSION }}_repo_{{ .Environment.CIRCLE_SHA1 }}
+          key: repo_{{ .Environment.CACHE_VERSION }}-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             -  ~/wellcomecollection.org
   install_modules:
@@ -16,7 +16,7 @@ jobs:
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
-          key: {{ .Environment.CACHE_VERSION }}_repo_{{ .Environment.CIRCLE_SHA1 }}
+          key: repo_{{ .Environment.CACHE_VERSION }}-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: root_modules_circleci_node_10_{{ checksum "package.json" }}
       - run:
@@ -32,7 +32,7 @@ jobs:
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
-          key: {{ .Environment.CACHE_VERSION }}_repo_{{ .Environment.CIRCLE_SHA1 }}
+          key: repo_{{ .Environment.CACHE_VERSION }}-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: root_modules_circleci_node_10_{{ checksum "package.json" }}
       - run:
@@ -44,7 +44,7 @@ jobs:
     working_directory: ~/wellcomecollection.org/common
     steps:
       - restore_cache:
-          key: {{ .Environment.CACHE_VERSION }}_repo_{{ .Environment.CIRCLE_SHA1 }}
+          key: repo_{{ .Environment.CACHE_VERSION }}-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: root_modules_circleci_node_10_{{ checksum "package.json" }}
       - run:
@@ -59,7 +59,7 @@ jobs:
     working_directory: ~/wellcomecollection.org/catalogue/webapp
     steps:
       - restore_cache:
-          key: {{ .Environment.CACHE_VERSION }}_repo_{{ .Environment.CIRCLE_SHA1 }}
+          key: repo_{{ .Environment.CACHE_VERSION }}-{{ .Environment.CIRCLE_SHA1 }}
       - add_ssh_keys
       - setup_remote_docker
       - run:
@@ -97,7 +97,7 @@ jobs:
     working_directory: ~/wellcomecollection.org/content/webapp
     steps:
       - restore_cache:
-          key: {{ .Environment.CACHE_VERSION }}_repo_{{ .Environment.CIRCLE_SHA1 }}
+          key: repo_{{ .Environment.CACHE_VERSION }}-{{ .Environment.CIRCLE_SHA1 }}
       - add_ssh_keys
       - setup_remote_docker
       - run:
@@ -133,7 +133,7 @@ jobs:
     steps:
     - add_ssh_keys
     - restore_cache:
-        key: {{ .Environment.CACHE_VERSION }}_repo_{{ .Environment.CIRCLE_SHA1 }}
+        key: repo_{{ .Environment.CACHE_VERSION }}-{{ .Environment.CIRCLE_SHA1 }}
     - run:
         name: Install awscli
         command: sudo apt-get install awscli
@@ -151,7 +151,7 @@ jobs:
     steps:
     - add_ssh_keys
     - restore_cache:
-        key: {{ .Environment.CACHE_VERSION }}_repo_{{ .Environment.CIRCLE_SHA1 }}
+        key: repo_{{ .Environment.CACHE_VERSION }}-{{ .Environment.CIRCLE_SHA1 }}
     - run:
         name: Install awscli
         command: sudo apt-get install awscli
@@ -184,7 +184,7 @@ jobs:
     steps:
     - add_ssh_keys
     - restore_cache:
-        key: {{ .Environment.CACHE_VERSION }}_repo_{{ .Environment.CIRCLE_SHA1 }}
+        key: repo_{{ .Environment.CACHE_VERSION }}-{{ .Environment.CIRCLE_SHA1 }}
     - run:
         name: Install awscli
         command: sudo apt-get install awscli
@@ -207,7 +207,7 @@ jobs:
     steps:
       - add_ssh_keys
       - restore_cache:
-          key: {{ .Environment.CACHE_VERSION }}_repo_{{ .Environment.CIRCLE_SHA1 }}
+          key: repo_{{ .Environment.CACHE_VERSION }}-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           keys:
             - common_modules_circleci_node_10_{{ checksum "package.json" }}
@@ -242,7 +242,7 @@ jobs:
     steps:
       - add_ssh_keys
       - restore_cache:
-          key: {{ .Environment.CACHE_VERSION }}_repo_{{ .Environment.CIRCLE_SHA1 }}
+          key: repo_{{ .Environment.CACHE_VERSION }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Install deps
           command: yarn
