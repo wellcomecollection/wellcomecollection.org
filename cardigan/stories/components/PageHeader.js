@@ -313,13 +313,7 @@ const PageHeaderExample = () => {
           ContentTypeInfo={<BookContentTypeInfo />}
           isContentTypeInfoBeforeMedia={true}
           breadcrumbs={{ items: [{ text: 'Books', url: '#' }] }}
-          FeaturedMedia={
-            <Space
-              v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}
-            >
-              <BookImage image={bookImage} />
-            </Space>
-          }
+          FeaturedMedia={<BookImage image={bookImage} />}
         />
       );
   }

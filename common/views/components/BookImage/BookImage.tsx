@@ -37,12 +37,14 @@ type Props = {
 
 const BookImage = ({ image }: Props) => {
   return (
-    <Outer>
-      <Inner>
-        <UiImage extraClasses="margin-h-auto width-auto max-height-70vh"
-        {...image} />
-      </Inner>
-    </Outer>
+    <Space v={{size: 'xl', properties: ['margin-top', 'padding-top']}}>
+      <Outer>
+        <Inner>
+          <UiImage extraClasses="margin-h-auto width-auto max-height-70vh"
+          {...image} />
+        </Inner>
+      </Outer>
+    </Space>
   );
 };
 

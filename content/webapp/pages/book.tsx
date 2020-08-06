@@ -81,7 +81,7 @@ export class ArticleSeriesPage extends Component<Props> {
   render() {
     const { book } = this.props;
 
-    const FeaturedMedia = book.cover && <Space v={{size: 'xl', properties: ['margin-top', 'padding-top']}}><BookImage image={book.cover} /></Space>;
+    const FeaturedMedia = book.cover && <BookImage image={book.cover} />;
     const breadcrumbs = {
       items: [
         {
