@@ -1,5 +1,5 @@
-import type { NextPageContext } from 'next';
-import type { Book } from '@weco/common/model/books';
+import { NextPageContext } from 'next';
+import { Book } from '@weco/common/model/books';
 import { Fragment, Component } from 'react';
 import { getBook } from '@weco/common/services/prismic/books';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -80,8 +80,7 @@ export class ArticleSeriesPage extends Component<Props> {
 
   render() {
     const { book } = this.props;
-
-    const FeaturedMedia = book.cover && <BookImage image={book.cover} />;
+    const FeaturedMedia = book.cover && <BookImage image={{...book.cover, sizesQueries: null}} />;
     const breadcrumbs = {
       items: [
         {

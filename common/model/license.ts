@@ -25,8 +25,9 @@ export type LicenseType =
   | 'OPL'
   | 'copyright-not-cleared'
   | 'inc';
+
 export type License = {
-  subject?: string,
-  licenseType: LicenseType,
+  subject?: string;
+  licenseType: LicenseType;
 };
 
