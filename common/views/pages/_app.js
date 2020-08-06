@@ -491,8 +491,8 @@ export default class WecoApp extends App {
                         >
                           We’d like to know how you feel about a range of
                           issues, as well as how you spend your free time. Your
-                          responses to this survey may inform (among other
-                          things) how we adapt our offer in the context of the
+                          responses to this survey may (among other things)
+                          inform how we adapt our offer in the context of the
                           Covid-19 pandemic. The survey takes around 10-15
                           minutes.
                         </p>
