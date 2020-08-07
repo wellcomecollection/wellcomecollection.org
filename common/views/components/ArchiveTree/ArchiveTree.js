@@ -8,6 +8,7 @@ import NextLink from 'next/link';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Space from '../styled/Space';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import Modal from '@weco/common/views/components/Modal/Modal';
 
 const Container = styled.div`
@@ -184,6 +185,11 @@ function addWorkPartsToCollectionTree(work, collectionTree) {
   });
 }
 
+async function expandTree(workId, toggles, setCollectionTree, collectionTree) {
+  const selectedWork = await getWork({ id: workId, toggles });
+  setCollectionTree(addWorkPartsToCollectionTree(selectedWork, collectionTree));
+}
+
 type Work = {|
   // TODO import this and make it work everywhere
   id: string,
@@ -197,13 +203,110 @@ type NestedListProps = {|
   collectionTree: ArchiveNode[],
   selected: { current: HTMLElement | null },
   setShowArchiveTreeModal: boolean => void,
+  fullTree: ArchiveNode[],
+  setCollectionTree: boolean => void,
+  isTopLevel: boolean,
 |};
+
+type ListItemType = {|
+  item: ArchiveNode,
+  setShowArchiveTreeModal: boolean => void,
+  currentWorkId: string,
+  selected: { current: HTMLElement | null },
+  setCollectionTree: boolean => void,
+  fullTree: ArchiveNode[],
+  collectionTree: ArchiveNode[],
+  isRootItem: boolean,
+|};
+
+const ListItem = ({
+  item,
+  setShowArchiveTreeModal,
+  currentWorkId,
+  selected,
+  setCollectionTree,
+  fullTree,
+  collectionTree,
+  isRootItem,
+}: ListItemType) => {
+  const [showNested, setShowNested] = useState(true);
+  return (
+    <li>
+      <div style={{ padding: '10px 10px 30px' }}>
+        <TogglesContext.Consumer>
+          {toggles => (
+            <>
+              <NextLink
+                {...workLink({ id: item.work.id })}
+                scroll={false}
+                passHref
+              >
+                <StyledLink
+                  isCurrent={currentWorkId === item.work.id}
+                  ref={currentWorkId === item.work.id ? selected : null}
+                  onClick={() => {
+                    setShowArchiveTreeModal(false);
+                  }}
+                >
+                  {item.work.title}
+                  <div
+                    style={{
+                      fontSize: '13px',
+                      color: '#707070',
+                      textDecoration: 'none',
+                      padding: '0',
+                    }}
+                  >
+                    {item.work.referenceNumber}
+                  </div>
+                </StyledLink>
+              </NextLink>
+              {!isRootItem && (
+                <ButtonOutlined
+                  icon={showNested && item.children ? 'minus' : 'plus'}
+                  text={showNested && item.children ? 'collapse' : 'expand'}
+                  isTextHidden={false}
+                  clickHandler={() => {
+                    if (!item.children) {
+                      expandTree(
+                        item.work.id,
+                        toggles,
+                        setCollectionTree,
+                        fullTree
+                      );
+                    } else {
+                      setShowNested(!showNested);
+                    }
+                  }}
+                />
+              )}
+            </>
+          )}
+        </TogglesContext.Consumer>
+        {item.children && showNested && (
+          <NestedList
+            selected={selected}
+            currentWorkId={currentWorkId}
+            collectionTree={item.children}
+            setShowArchiveTreeModal={setShowArchiveTreeModal}
+            fullTree={fullTree}
+            setCollectionTree={setCollectionTree}
+            isTopLevel={false}
+          />
+        )}
+      </div>
+    </li>
+  );
+};
 
 const NestedList = ({
   currentWorkId,
   collectionTree,
   selected,
   setShowArchiveTreeModal,
+  fullTree,
+  setCollectionTree,
+  isTopLevel,
 }: NestedListProps) => {
   return (
     <ul
@@ -212,50 +315,19 @@ const NestedList = ({
       })}
     >
       {collectionTree &&
-        collectionTree.map(item => {
+        collectionTree.map((item, i) => {
           return (
             item.work && (
-              <li key={item.work.id}>
-                <div style={{ padding: '10px 10px 30px' }}>
-                  <TogglesContext.Consumer>
-                    {toggles => (
-                      <NextLink
-                        {...workLink({ id: item.work.id })}
-                        scroll={false}
-                        passHref
-                      >
-                        <StyledLink
-                          isCurrent={currentWorkId === item.work.id}
-                          ref={currentWorkId === item.work.id ? selected : null}
-                          onClick={() => {
-                            setShowArchiveTreeModal(false);
-                          }}
-                        >
-                          {item.work.title}
-                          <div
-                            style={{
-                              fontSize: '13px',
-                              color: '#707070',
-                              textDecoration: 'none',
-                              padding: '0',
-                            }}
-                          >
-                            {item.work.referenceNumber}
-                          </div>
-                        </StyledLink>
-                      </NextLink>
-                    )}
-                  </TogglesContext.Consumer>
-                  {item.children && (
-                    <NestedList
-                      selected={selected}
-                      currentWorkId={currentWorkId}
-                      collectionTree={item.children}
-                      setShowArchiveTreeModal={setShowArchiveTreeModal}
-                    />
-                  )}
-                </div>
-              </li>
+              <ListItem
+                key={item.work.id}
+                item={item}
+                currentWorkId={currentWorkId}
+                selected={selected}
+                setShowArchiveTreeModal={setShowArchiveTreeModal}
+                fullTree={fullTree}
+                setCollectionTree={setCollectionTree}
+                rootItem={isTopLevel && i === 0}
+              />
             )
           );
         })}
@@ -334,8 +406,11 @@ const ArchiveTree = ({ work }: { work: Work }) => {
             <NestedList
               selected={selected}
               currentWorkId={work.id}
+              fullTree={collectionTree}
+              setCollectionTree={setCollectionTree}
               collectionTree={collectionTree}
               setShowArchiveTreeModal={setShowArchiveTreeModal}
+              isTopLevel={true}
             />
           </Tree>
         </Container>
