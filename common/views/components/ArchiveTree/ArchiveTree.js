@@ -102,16 +102,20 @@ function createWorkNodeFromWork(work) {
 function createSiblingsArray(work) {
   return [
     ...work.precededBy.map(item => ({
+      openByDefault: false,
       work: item,
     })),
     {
+      openByDefault: false,
       work: createWorkNodeFromWork(work),
       children: work.parts.map(part => ({
+        openByDefault: false,
         work: part,
         children: part.children,
       })),
     },
     ...work.succeededBy.map(item => ({
+      openByDefault: false,
       work: item,
     })),
   ];
@@ -123,13 +127,16 @@ function createCollectionTree(work) {
     partOfReversed.reduce(
       (acc, curr, i) => {
         return {
+          openByDefault: true,
           work: curr,
           children: i === 0 ? createSiblingsArray(work) : [acc],
         };
       },
       {
+        openByDefault: true,
         work: createWorkNodeFromWork(work),
         children: work.parts.map(part => ({
+          openByDefault: false,
           work: part,
           children: part.children,
         })),
@@ -138,11 +145,12 @@ function createCollectionTree(work) {
   ];
 }
 
-function addWorkPartsToCollectionTree(work, collectionTree) {
+function addWorkPartsToCollectionTree(work, collectionTree, openByDefault) {
   return collectionTree.map(node => {
     if (node.work.id !== work.id && !node.children) return node;
     if (node.work.id !== work.id && node.children) {
       return {
+        openByDefault,
         ...node,
         children: addWorkPartsToCollectionTree(work, node.children),
       };
@@ -150,13 +158,17 @@ function addWorkPartsToCollectionTree(work, collectionTree) {
     if (node.work.id === work.id && !node.children) {
       if (work.parts && work.parts.length > 0) {
         return {
+          openByDefault,
           ...node,
           children: work.parts.map(part => ({
             work: part,
           })),
         };
       } else {
-        return node;
+        return {
+          openByDefault,
+          ...node,
+        };
       }
     }
     if (node.work.id === work.id && node.children) {
@@ -187,7 +199,30 @@ function addWorkPartsToCollectionTree(work, collectionTree) {
 
 async function expandTree(workId, toggles, setCollectionTree, collectionTree) {
   const selectedWork = await getWork({ id: workId, toggles });
-  setCollectionTree(addWorkPartsToCollectionTree(selectedWork, collectionTree));
+  const newTree = addWorkPartsToCollectionTree(
+    selectedWork,
+    collectionTree,
+    true
+  );
+  /* Until we can tell if there are children from the API, we need to do the following
+  and not just setCollectionTree(newTree) */
+  const partsPromises = selectedWork.parts.map(part =>
+    getWork({ id: part.id, toggles })
+  );
+  if (partsPromises.length > 0) {
+    Promise.all(partsPromises).then(works => {
+      let updatedTree;
+      works.forEach(work => {
+        const tempTree = addWorkPartsToCollectionTree(
+          work,
+          updatedTree || newTree,
+          false
+        );
+        updatedTree = tempTree;
+      });
+      setCollectionTree(updatedTree);
+    });
+  }
 }
 
 type Work = {|
@@ -229,7 +264,7 @@ const ListItem = ({
   collectionTree,
   isRootItem,
 }: ListItemType) => {
-  const [showNested, setShowNested] = useState(true);
+  const [showNested, setShowNested] = useState(item.openByDefault || false);
   return (
     <li>
       <div style={{ padding: '10px 10px 30px' }}>
@@ -261,10 +296,10 @@ const ListItem = ({
                   </div>
                 </StyledLink>
               </NextLink>
-              {!isRootItem && (
+              {!isRootItem && item.children && (
                 <ButtonOutlined
-                  icon={showNested && item.children ? 'minus' : 'plus'}
-                  text={showNested && item.children ? 'collapse' : 'expand'}
+                  icon={showNested ? 'minus' : 'plus'}
+                  text={`${showNested}`}
                   isTextHidden={false}
                   clickHandler={() => {
                     if (!item.children) {
@@ -326,7 +361,7 @@ const NestedList = ({
                 setShowArchiveTreeModal={setShowArchiveTreeModal}
                 fullTree={fullTree}
                 setCollectionTree={setCollectionTree}
-                rootItem={isTopLevel && i === 0}
+                isRootItem={isTopLevel && i === 0}
               />
             )
           );
@@ -368,19 +403,38 @@ const ArchiveTree = ({ work }: { work: Work }) => {
         works.forEach(work => {
           const tempTree = addWorkPartsToCollectionTree(
             work,
-            updatedTree || basicTree
+            updatedTree || basicTree,
+            false
           );
           updatedTree = tempTree;
         });
         setCollectionTree(updatedTree);
       });
-    } else {
-      setCollectionTree(createCollectionTree(work));
     }
   }, [work]);
 
   return (
     <>
+      <pre
+        style={{
+          maxWidth: '600px',
+          margin: '0 auto 24px',
+          fontSize: '14px',
+        }}
+      >
+        <code
+          style={{
+            display: 'block',
+            padding: '24px',
+            backgroundColor: '#EFE1AA',
+            color: '#000',
+            border: '4px solid #000',
+            borderRadius: '6px',
+          }}
+        >
+          {JSON.stringify(collectionTree, null, 1)}
+        </code>
+      </pre>
       <Space
         className="inline-block"
         h={{ size: 'm', properties: ['margin-right'] }}
