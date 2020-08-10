@@ -199,13 +199,20 @@ function addWorkPartsToCollectionTree(work, collectionTree, openByDefault) {
   });
 }
 
-async function expandTree(workId, toggles, setCollectionTree, collectionTree) {
+async function expandTree(
+  workId,
+  toggles,
+  setCollectionTree,
+  collectionTree,
+  setHasChildren
+) {
   const selectedWork = await getWork({ id: workId, toggles });
   const newTree = addWorkPartsToCollectionTree(
     selectedWork,
     collectionTree,
     true
   );
+  setHasChildren(selectedWork.parts.length > 0);
   setCollectionTree(newTree);
 }
 
@@ -249,6 +256,7 @@ const ListItem = ({
   isRootItem,
 }: ListItemType) => {
   const [showNested, setShowNested] = useState(item.openByDefault || false);
+  const [hasChildren, setHasChildren] = useState(true);
   return (
     <li>
       <div style={{ padding: '10px 10px 30px' }}>
@@ -280,7 +288,8 @@ const ListItem = ({
                   </div>
                 </StyledLink>
               </NextLink>
-              {!isRootItem && ( // TODO know if have children
+              {!isRootItem && hasChildren && (
+                // TODO know if have children
                 <Space
                   className="inline-block"
                   h={{ size: 'm', properties: ['margin-left'] }}
@@ -296,7 +305,8 @@ const ListItem = ({
                           item.work.id,
                           toggles,
                           setCollectionTree,
-                          fullTree
+                          fullTree,
+                          setHasChildren
                         );
                       }
                       setShowNested(!showNested);
