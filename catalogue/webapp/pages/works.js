@@ -34,6 +34,7 @@ import { getWorks } from '../services/catalogue/works';
 import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
 import cookies from 'next-cookies';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
+import useHotjar from '@weco/common/hooks/useHotjar';
 import WorkSearchResults from '../components/WorkSearchResults/WorkSearchResults';
 import ImageSearchResults from '../components/ImageSearchResults/ImageSearchResults';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
@@ -97,6 +98,8 @@ const Works = ({
       Router.events.off('routeChangeComplete', routeChangeComplete);
     };
   }, []);
+
+  useHotjar();
 
   const isImageSearch = worksRouteProps.search === 'images';
   const { newImageSearch } = useContext(TogglesContext);
