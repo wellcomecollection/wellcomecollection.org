@@ -284,6 +284,7 @@ const ListItem = ({
                 <Space
                   className="inline-block"
                   h={{ size: 'm', properties: ['margin-left'] }}
+                  style={{ position: 'absolute', zoom: '0.7' }}
                 >
                   <ButtonOutlined
                     icon={showNested ? 'minus' : 'plus'}
@@ -382,6 +383,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
 
   useEffect(() => {
     // Add siblings to each node, that leads to the current work
+    const basicTree = createCollectionTree(work);
     const partOfPromises = work.partOf.map(part =>
       getWork({ id: part.id, toggles })
     );
@@ -391,7 +393,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
         works.forEach(work => {
           const tempTree = addWorkPartsToCollectionTree(
             work,
-            updatedTree || collectionTree,
+            updatedTree || basicTree,
             false
           );
           updatedTree = tempTree;
