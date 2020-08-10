@@ -43,7 +43,7 @@ const StyledLink = styled.a`
   background: ${props => (props.isCurrent ? 'yellow' : 'transparent')};
   font-weight: ${props => (props.isCurrent ? 'bold' : 'normal')};
   border-color: ${props =>
-    props.isCurrent ? props.theme.colors.green : 'transparent'};
+    props.theme.color(props.isCurrent ? 'green' : 'transparent')};
   border-radius: 6px;
   padding: 0 6px;
   cursor: pointer;

@@ -20,9 +20,9 @@ export const OutlinedButton = styled(BaseButton).attrs<MaybeAnchor>(props => ({
     'link-reset': !!props.href,
   }),
 }))`
-  border: 2px solid ${props => props.theme.colors.green};
-  background: ${props => props.theme.colors.transparent};
-  color: ${props => props.theme.colors.green};
+  border: 2px solid ${props => props.theme.color('green')};
+  background: ${props => props.theme.color('transparent')};
+  color: ${props => props.theme.color('green')};
   padding: 15px 20px;
 
   &:hover {
