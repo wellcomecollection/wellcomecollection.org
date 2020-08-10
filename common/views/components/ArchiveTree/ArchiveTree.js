@@ -400,6 +400,8 @@ const ArchiveTree = ({ work }: { work: Work }) => {
         });
         setCollectionTree(updatedTree);
       });
+    } else {
+      setCollectionTree(basicTree);
     }
   }, [work]);
 
