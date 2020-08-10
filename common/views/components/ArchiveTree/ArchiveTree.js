@@ -90,12 +90,24 @@ const Tree = styled.div`
   }
 `;
 
-function createWorkNodeFromWork(work) {
+function createWorkPropertyFromWork(work) {
   return {
     id: work.id,
     title: work.title,
     alternativeTitles: work.alternativeTitles,
     referenceNumber: work.referenceNumber,
+  };
+}
+
+function createNodeFromWork(work) {
+  return {
+    openByDefault: false,
+    work: createWorkPropertyFromWork(work),
+    children: work.parts.map(part => ({
+      openByDefault: false,
+      work: part,
+      children: part.children,
+    })),
   };
 }
 
@@ -106,13 +118,7 @@ function createSiblingsArray(work) {
       work: item,
     })),
     {
-      openByDefault: false,
-      work: createWorkNodeFromWork(work),
-      children: work.parts.map(part => ({
-        openByDefault: false,
-        work: part,
-        children: part.children,
-      })),
+      ...createNodeFromWork(work),
     },
     ...work.succeededBy.map(item => ({
       openByDefault: false,
@@ -132,14 +138,10 @@ function createCollectionTree(work) {
           children: i === 0 ? createSiblingsArray(work) : [acc],
         };
       },
+      // Need this for a top level work that has an empty partOf array
+      // Otherwise it gets replace by createSiblingsArray above, which also includes the siblings of the current work
       {
-        openByDefault: true,
-        work: createWorkNodeFromWork(work),
-        children: work.parts.map(part => ({
-          openByDefault: false,
-          work: part,
-          children: part.children,
-        })),
+        ...createNodeFromWork(work),
       }
     ),
   ];
@@ -204,25 +206,7 @@ async function expandTree(workId, toggles, setCollectionTree, collectionTree) {
     collectionTree,
     true
   );
-  /* Until we can tell if there are children from the API, we need to do the following
-  and not just setCollectionTree(newTree) */
-  const partsPromises = selectedWork.parts.map(part =>
-    getWork({ id: part.id, toggles })
-  );
-  if (partsPromises.length > 0) {
-    Promise.all(partsPromises).then(works => {
-      let updatedTree;
-      works.forEach(work => {
-        const tempTree = addWorkPartsToCollectionTree(
-          work,
-          updatedTree || newTree,
-          false
-        );
-        updatedTree = tempTree;
-      });
-      setCollectionTree(updatedTree);
-    });
-  }
+  setCollectionTree(newTree);
 }
 
 type Work = {|
@@ -296,7 +280,7 @@ const ListItem = ({
                   </div>
                 </StyledLink>
               </NextLink>
-              {!isRootItem && item.children && (
+              {!isRootItem && ( // TODO know if have children
                 <ButtonOutlined
                   icon={showNested ? 'minus' : 'plus'}
                   text={`${showNested}`}
@@ -309,9 +293,8 @@ const ListItem = ({
                         setCollectionTree,
                         fullTree
                       );
-                    } else {
-                      setShowNested(!showNested);
                     }
+                    setShowNested(!showNested);
                   }}
                 />
               )}
@@ -393,7 +376,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   const selected = useRef(null);
 
   useEffect(() => {
-    const basicTree = createCollectionTree(work);
+    // Add siblings to each node, that leads to the current work
     const partOfPromises = work.partOf.map(part =>
       getWork({ id: part.id, toggles })
     );
@@ -403,7 +386,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
         works.forEach(work => {
           const tempTree = addWorkPartsToCollectionTree(
             work,
-            updatedTree || basicTree,
+            updatedTree || collectionTree,
             false
           );
           updatedTree = tempTree;
@@ -415,26 +398,6 @@ const ArchiveTree = ({ work }: { work: Work }) => {
 
   return (
     <>
-      <pre
-        style={{
-          maxWidth: '600px',
-          margin: '0 auto 24px',
-          fontSize: '14px',
-        }}
-      >
-        <code
-          style={{
-            display: 'block',
-            padding: '24px',
-            backgroundColor: '#EFE1AA',
-            color: '#000',
-            border: '4px solid #000',
-            borderRadius: '6px',
-          }}
-        >
-          {JSON.stringify(collectionTree, null, 1)}
-        </code>
-      </pre>
       <Space
         className="inline-block"
         h={{ size: 'm', properties: ['margin-right'] }}
