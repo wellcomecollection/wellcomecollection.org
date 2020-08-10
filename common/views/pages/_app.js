@@ -21,6 +21,8 @@ import GlobalAlertContext from '../../views/components/GlobalAlertContext/Global
 import JsonLd from '../../views/components/JsonLd/JsonLd';
 import { trackEvent } from '../../utils/ga';
 import { AppContextProvider } from '../components/AppContext/AppContext';
+import PopupDialog from '../../views/components/PopupDialog/PopupDialog';
+import { classNames, font } from '../../utils/classnames';
 
 type State = {|
   togglesContext: {},
@@ -463,6 +465,38 @@ export default class WecoApp extends App {
                         }
                       </TogglesContext.Consumer>
                       <LoadingIndicator />
+                      <PopupDialog
+                        openButtonText={`How do you spend your free time?`}
+                        cta={{
+                          text: 'Click here to start',
+                          url:
+                            'https://interviewer.djsresearch.com/scripts/Dubinterviewer.dll/Frames?Quest=61601&SurveySMP=1',
+                        }}
+                      >
+                        <h2
+                          className={classNames({
+                            [font('wb', 6, {
+                              small: 5,
+                              medium: 5,
+                              large: 5,
+                            })]: true,
+                          })}
+                        >
+                          Help us understand your needs
+                        </h2>
+                        <p
+                          className={classNames({
+                            [font('hnl', 5, { medium: 2, large: 2 })]: true,
+                          })}
+                        >
+                          We’d like to know how you feel about a range of
+                          issues, as well as how you spend your free time. Your
+                          responses to this survey may (among other things)
+                          inform how we adapt our offer in the context of the
+                          Covid-19 pandemic. The survey takes around 10-15
+                          minutes.
+                        </p>
+                      </PopupDialog>
                       {!pageProps.statusCode && <Component {...pageProps} />}
                       {pageProps.statusCode && pageProps.statusCode !== 200 && (
                         <ErrorPage statusCode={pageProps.statusCode} />

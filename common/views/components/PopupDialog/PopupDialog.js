@@ -1,5 +1,5 @@
 // @flow
-import { useState, useRef, useEffect, type Node } from 'react';
+import { useState, useRef, useEffect, useContext, type Node } from 'react';
 import styled from 'styled-components';
 import cookie from 'cookie-cutter';
 import { type Link } from '../../../model/link';
@@ -8,6 +8,7 @@ import Space from '../styled/Space';
 import { classNames, font } from '../../../utils/classnames';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import { trackEvent } from '../../../utils/ga';
+import { AppContext } from '../AppContext/AppContext';
 
 const PopupDialogOpen = styled(Space).attrs(props => ({
   'aria-hidden': props.isActive ? 'true' : 'false',
@@ -95,6 +96,14 @@ const PopupDialogClose = styled.button.attrs({
 })`
   top: 10px;
   right: 10px;
+
+  &:focus {
+    outline: 0;
+
+    .is-keyboard & {
+      box-shadow: ${props => props.theme.focusBoxShadow};
+    }
+  }
 `;
 
 const PopupDialogCTA = styled(Space).attrs({
@@ -140,6 +149,7 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
   const closeDialogRef = useRef(null);
   const ctaRef = useRef(null);
   const dialogWindowRef = useRef(null);
+  const { isKeyboard } = useContext(AppContext);
 
   function hidePopupDialog() {
     cookie.set('WC_PopupDialog', 'true', {
@@ -254,6 +264,7 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
         </PopupDialogOpen>
         <PopupDialogWindow ref={dialogWindowRef} isActive={isActive}>
           <PopupDialogClose
+            isKeyboard={isKeyboard}
             title="close dialog"
             ref={closeDialogRef}
             tabIndex={isActive ? '0' : '-1'}
