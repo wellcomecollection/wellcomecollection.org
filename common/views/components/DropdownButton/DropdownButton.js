@@ -6,6 +6,7 @@ import { classNames } from '../../../utils/classnames';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import Space from '../styled/Space';
 import ButtonInline from '../ButtonInline/ButtonInline';
+import ButtonOulined from '../ButtonOutlined/ButtonOutlined';
 
 const DropdownWrapper = styled.div.attrs({
   className: classNames({
@@ -60,13 +61,21 @@ const Dropdown = styled(Space).attrs(props => ({
 type Props = {|
   label: string,
   children: Element<any>,
+  isInline: ?boolean,
 |};
 
-const DropdownButton = ({ label, children }: Props) => {
+const DropdownButton = ({ label, children, isInline }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const [isEnhanced, setIsEnhanced] = useState(false);
   const dropdownWrapperRef = useRef(null);
   const dropdownRef = useRef(null);
+
+  const buttonProps = {
+    isActive: isActive,
+    clickHandler: () => setIsActive(!isActive),
+    icon: 'chevron',
+    text: label,
+  };
 
   useEffect(() => {
     setIsEnhanced(true);
@@ -111,13 +120,11 @@ const DropdownButton = ({ label, children }: Props) => {
 
   return (
     <DropdownWrapper ref={dropdownWrapperRef}>
-      <ButtonInline
-        isActive={isActive}
-        isEnhanced={isEnhanced}
-        clickHandler={() => setIsActive(!isActive)}
-        icon={'chevron'}
-        text={label}
-      />
+      {isInline ? (
+        <ButtonInline {...buttonProps} />
+      ) : (
+        <ButtonOulined {...buttonProps} />
+      )}
       <CSSTransition in={isActive} classNames="fade" timeout={350}>
         <Dropdown isActive={isActive} isEnhanced={isEnhanced} ref={dropdownRef}>
           {children}

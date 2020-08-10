@@ -1,11 +1,14 @@
 import { storiesOf } from '@storybook/react';
+import { boolean } from '@storybook/addon-knobs/react';
 import DropdownButton from '../../../common/views/components/DropdownButton/DropdownButton';
 import CheckboxRadio from '../../../common/views/components/CheckboxRadio/CheckboxRadio';
 import Readme from '../../../common/views/components/DropdownButton/README.md';
 
 const DropdownButtonExample = () => {
+  const isInline = boolean('Is inline?', false);
+
   return (
-    <DropdownButton label={'Filters'}>
+    <DropdownButton label={'Filters'} isInline={isInline}>
       <div>
         <ul className="plain-list no-margin no-padding">
           <li>
