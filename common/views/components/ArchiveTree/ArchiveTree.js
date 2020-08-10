@@ -13,7 +13,6 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 
 const Container = styled.div`
   overflow: scroll;
-  scroll-behavior: smooth;
   height: 70vh;
 `;
 
@@ -204,7 +203,7 @@ async function expandTree(
   toggles,
   setCollectionTree,
   collectionTree,
-  setHasChildren
+  setShowButton
 ) {
   const selectedWork = await getWork({ id: workId, toggles });
   const newTree = addWorkPartsToCollectionTree(
@@ -212,7 +211,7 @@ async function expandTree(
     collectionTree,
     true
   );
-  setHasChildren(selectedWork.parts.length > 0);
+  setShowButton(selectedWork.parts && selectedWork.parts.length > 0);
   setCollectionTree(newTree);
 }
 
@@ -245,6 +244,26 @@ type ListItemType = {|
   isRootItem: boolean,
 |};
 
+// temp component to show buttons when appropriate until API changes made
+const ButtonContainer = ({
+  item,
+  toggles,
+  setCollectionTree,
+  fullTree,
+  setShowButton,
+  children,
+}) => {
+  useEffect(() => {
+    expandTree(
+      item.work.id,
+      toggles,
+      setCollectionTree,
+      fullTree,
+      setShowButton
+    );
+  }, []);
+  return children;
+};
 const ListItem = ({
   item,
   setShowArchiveTreeModal,
@@ -256,7 +275,7 @@ const ListItem = ({
   isRootItem,
 }: ListItemType) => {
   const [showNested, setShowNested] = useState(item.openByDefault || false);
-  const [hasChildren, setHasChildren] = useState(true);
+  const [showButton, setShowButton] = useState(item.children);
   return (
     <li>
       <div style={{ padding: '10px 10px 30px' }}>
@@ -288,31 +307,43 @@ const ListItem = ({
                   </div>
                 </StyledLink>
               </NextLink>
-              {!isRootItem && hasChildren && (
-                // TODO know if have children
-                <Space
-                  className="inline-block"
-                  h={{ size: 'm', properties: ['margin-left'] }}
-                  style={{ position: 'absolute', zoom: '0.7' }}
+              {!isRootItem && (
+                // TODO know if have children ahead of time from API
+                <ButtonContainer
+                  item={item}
+                  toggles={toggles}
+                  setCollectionTree={setCollectionTree}
+                  fullTree={fullTree}
+                  setShowButton={setShowButton}
                 >
-                  <ButtonOutlined
-                    icon={showNested ? 'minus' : 'plus'}
-                    text={showNested ? 'hide children' : 'show children'}
-                    isTextHidden={true}
-                    clickHandler={() => {
-                      if (!item.children) {
-                        expandTree(
-                          item.work.id,
-                          toggles,
-                          setCollectionTree,
-                          fullTree,
-                          setHasChildren
-                        );
-                      }
-                      setShowNested(!showNested);
+                  <Space
+                    className="inline-block"
+                    h={{ size: 'm', properties: ['margin-left'] }}
+                    style={{
+                      position: 'absolute',
+                      zoom: '0.7',
+                      display: showButton ? 'inline-block' : 'none',
                     }}
-                  />
-                </Space>
+                  >
+                    <ButtonOutlined
+                      icon={showNested ? 'minus' : 'plus'}
+                      text={showNested ? 'hide children' : 'show children'}
+                      isTextHidden={true}
+                      clickHandler={() => {
+                        if (!item.children) {
+                          expandTree(
+                            item.work.id,
+                            toggles,
+                            setCollectionTree,
+                            fullTree,
+                            setShowButton
+                          );
+                        }
+                        setShowNested(!showNested);
+                      }}
+                    />
+                  </Space>
+                </ButtonContainer>
               )}
             </>
           )}
@@ -373,7 +404,6 @@ function centerTree(selected) {
   setTimeout(function() {
     if (selected?.current) {
       selected.current.scrollIntoView({
-        behaviour: 'smooth',
         block: 'center',
         inline: 'center',
       });
