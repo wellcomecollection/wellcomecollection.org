@@ -1,7 +1,6 @@
-// @flow
-import { forwardRef } from 'react';
+import { forwardRef, SyntheticEvent } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { trackEvent, type GaEvent } from '@weco/common/utils/ga';
+import { trackEvent, GaEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -95,23 +94,22 @@ export const SolidButton = styled(BaseButton)`
 
 // TODO move styles here - styled component
 
-export type ButtonSolidBaseProps = {|
-  text: string,
-  icon?: string,
-  type?: 'submit' | 'reset' | 'button',
-  isTextHidden?: boolean,
-  trackingEvent?: GaEvent,
-  isBig?: boolean,
-  ariaControls?: string,
-  ariaExpanded?: boolean,
-  ariaLive?: 'off' | 'polite' | 'assertive',
-|};
+export type ButtonSolidBaseProps = {
+  text: string;
+  icon?: string;
+  type?: 'submit' | 'reset' | 'button';
+  isTextHidden?: boolean;
+  trackingEvent?: GaEvent;
+  isBig?: boolean;
+  ariaControls?: string;
+  ariaExpanded?: boolean;
+  ariaLive?: 'off' | 'polite' | 'assertive';
+};
 
-type ButtonSolidProps = {|
-  ...ButtonSolidBaseProps,
-  disabled?: boolean,
+type ButtonSolidProps = ButtonSolidBaseProps & {
+  disabled?: boolean;
   clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void,
-|};
+};
 
 // $FlowFixMe (forwardRef)
 const ButtonSolid = forwardRef(
