@@ -99,9 +99,9 @@ function createWorkPropertyFromWork(work) {
   };
 }
 
-function createNodeFromWork(work) {
+function createNodeFromWork(work, openByDefault) {
   return {
-    openByDefault: false,
+    openByDefault,
     work: createWorkPropertyFromWork(work),
     children: work.parts.map(part => ({
       openByDefault: false,
@@ -118,7 +118,7 @@ function createSiblingsArray(work) {
       work: item,
     })),
     {
-      ...createNodeFromWork(work),
+      ...createNodeFromWork(work, false),
     },
     ...work.succeededBy.map(item => ({
       openByDefault: false,
@@ -141,7 +141,7 @@ function createCollectionTree(work) {
       // Need this for a top level work that has an empty partOf array
       // Otherwise it gets replace by createSiblingsArray above, which also includes the siblings of the current work
       {
-        ...createNodeFromWork(work),
+        ...createNodeFromWork(work, true),
       }
     ),
   ];
