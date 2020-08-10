@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   checkout_code:
     docker:
-      - image: circleci/node:10.15.1
+      - image: circleci/node:12.18.3
     working_directory: ~/wellcomecollection.org
     steps:
       - checkout
@@ -12,7 +12,7 @@ jobs:
             -  ~/wellcomecollection.org
   install_modules:
     docker:
-      - image: circleci/node:10.15.1
+      - image: circleci/node:12.18.3
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -28,7 +28,7 @@ jobs:
             -  node_modules
   type_check:
     docker:
-      - image: circleci/node:10.15.1
+      - image: circleci/node:12.18.3
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
@@ -40,7 +40,7 @@ jobs:
           command: yarn flow
   common_tests:
     docker:
-      - image: circleci/node:10.15.1
+      - image: circleci/node:12.18.3
     working_directory: ~/wellcomecollection.org/common
     steps:
       - restore_cache:
@@ -55,7 +55,7 @@ jobs:
           command: yarn test
   catalogue:
     docker:
-      - image: circleci/node:10.15.1
+      - image: circleci/node:12.18.3
     working_directory: ~/wellcomecollection.org/catalogue/webapp
     steps:
       - restore_cache:
@@ -93,7 +93,7 @@ jobs:
             popd
   content:
     docker:
-      - image: circleci/node:10.15.1
+      - image: circleci/node:12.18.3
     working_directory: ~/wellcomecollection.org/content/webapp
     steps:
       - restore_cache:
@@ -128,7 +128,7 @@ jobs:
             popd
   deploy_toggles:
     docker:
-      - image: circleci/node:10.15.1
+      - image: circleci/node:12.18.3
     working_directory: ~/wellcomecollection.org/toggles/webapp
     steps:
     - add_ssh_keys
@@ -144,7 +144,7 @@ jobs:
           aws s3 cp ./toggles.json s3://toggles.wellcomecollection.org/toggles.json --only-show-errors
   deploy_pa11y:
     docker:
-      - image: circleci/node:10.15.1
+      - image: circleci/node:12.18.3
     environment:
       NODE_ENV: test
     working_directory: ~/wellcomecollection.org/pa11y/webapp
@@ -177,7 +177,7 @@ jobs:
           aws s3 cp ./.dist/report.json s3://dash.wellcomecollection.org/pa11y/report.json --only-show-errors
   deploy_dash:
     docker:
-      - image: circleci/node:10.15.1
+      - image: circleci/node:12.18.3
     environment:
       NODE_ENV: test
     working_directory: ~/wellcomecollection.org/dash/webapp
@@ -202,7 +202,7 @@ jobs:
           aws s3 sync ./out s3://dash.wellcomecollection.org --only-show-errors
   cardigan:
     docker:
-      - image: circleci/node:10.15.1
+      - image: circleci/node:12.18.3
     working_directory: /home/circleci/wellcomecollection.org/cardigan
     steps:
       - add_ssh_keys
