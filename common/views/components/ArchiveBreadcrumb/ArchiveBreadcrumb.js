@@ -151,7 +151,7 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
         {breadcrumb.middleCrumbs.length > 1 && (
           <li>
             <div style={{ position: 'relative', top: '-5px' }}>
-              <DropdownButton label="…">
+              <DropdownButton label="…" isInline={true}>
                 <ul>
                   {breadcrumb.middleCrumbs.map(crumb => {
                     return (
