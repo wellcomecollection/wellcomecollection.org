@@ -281,22 +281,27 @@ const ListItem = ({
                 </StyledLink>
               </NextLink>
               {!isRootItem && ( // TODO know if have children
-                <ButtonOutlined
-                  icon={showNested ? 'minus' : 'plus'}
-                  text={`${showNested}`}
-                  isTextHidden={false}
-                  clickHandler={() => {
-                    if (!item.children) {
-                      expandTree(
-                        item.work.id,
-                        toggles,
-                        setCollectionTree,
-                        fullTree
-                      );
-                    }
-                    setShowNested(!showNested);
-                  }}
-                />
+                <Space
+                  className="inline-block"
+                  h={{ size: 'm', properties: ['margin-left'] }}
+                >
+                  <ButtonOutlined
+                    icon={showNested ? 'minus' : 'plus'}
+                    text={showNested ? 'hide children' : 'show children'}
+                    isTextHidden={true}
+                    clickHandler={() => {
+                      if (!item.children) {
+                        expandTree(
+                          item.work.id,
+                          toggles,
+                          setCollectionTree,
+                          fullTree
+                        );
+                      }
+                      setShowNested(!showNested);
+                    }}
+                  />
+                </Space>
               )}
             </>
           )}
