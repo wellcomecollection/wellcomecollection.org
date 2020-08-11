@@ -468,9 +468,9 @@ export default class WecoApp extends App {
                       <PopupDialog
                         openButtonText={`How do you spend your free time?`}
                         cta={{
-                          text: 'Click here to start',
+                          text: 'Take the survey',
                           url:
-                            'https://interviewer.djsresearch.com/scripts/Dubinterviewer.dll/Frames?Quest=61601&SurveySMP=1',
+                            'https://interviewer.djsresearch.com/scripts/Dubinterviewer.dll/Frames?Quest=61601&SurveySMP=1&IntroSMP=1',
                         }}
                       >
                         <h2
@@ -493,7 +493,7 @@ export default class WecoApp extends App {
                           issues, as well as how you spend your free time. Your
                           responses to this survey may (among other things)
                           inform how we adapt our offer in the context of the
-                          Covid-19 pandemic. The survey takes around 10-15
+                          Covid-19 pandemic. The survey takes around 20-25
                           minutes.
                         </p>
                       </PopupDialog>
