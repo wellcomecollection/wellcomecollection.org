@@ -1,5 +1,5 @@
 // @flow
-// $FlowFixMe
+// $FlowFixMe (tsx)
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 type Props = {| workId: string, loginUrl: string |};
 const LogInButton = ({ workId, loginUrl }: Props) => {

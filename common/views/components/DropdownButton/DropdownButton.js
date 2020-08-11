@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import Space from '../styled/Space';
-// $FlowFixMe
+// $FlowFixMe (tsx)
 import ButtonInline from '../ButtonInline/ButtonInline';
-// $FlowFixMe
+// $FlowFixMe (tsx)
 import ButtonOulined from '../ButtonOutlined/ButtonOutlined';
 
 const DropdownWrapper = styled.div.attrs({

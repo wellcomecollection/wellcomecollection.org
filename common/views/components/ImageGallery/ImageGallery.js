@@ -4,7 +4,7 @@ import { Fragment, Component, createRef } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import { CaptionedImage } from '../Images/Images';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
-// $FlowFixMe
+// $FlowFixMe (tsx)
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import Control from '../Buttons/Control/Control';
 import Icon from '../Icon/Icon';

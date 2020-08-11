@@ -5,7 +5,7 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import useValidation from '../../../hooks/useValidation';
-// $FlowFixMe
+// $FlowFixMe (tsx)
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 
 type Props = {|

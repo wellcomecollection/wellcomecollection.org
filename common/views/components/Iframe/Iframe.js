@@ -4,7 +4,7 @@ import { classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';
 import Icon from '../Icon/Icon';
-// $FlowFixMe
+// $FlowFixMe (tsx)
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import type { ImageType } from '../../../model/image';
 

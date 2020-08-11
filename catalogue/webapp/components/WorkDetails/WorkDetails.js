@@ -37,9 +37,9 @@ import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
-// $FlowFixMe
+// $FlowFixMe (tsx)
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-// $FlowFixMe
+// $FlowFixMe (tsx)
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
 import type { DigitalLocation } from '@weco/common/utils/works';

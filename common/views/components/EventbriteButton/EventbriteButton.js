@@ -1,8 +1,8 @@
 // @flow
 import type { UiEvent } from '../../../model/events';
-// $FlowFixMe
+// $FlowFixMe (tsx)
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
-// $FlowFixMe
+// $FlowFixMe (tsx)
 import ButtonSolidLink from '../ButtonSolidLink/ButtonSolidLink';
 import { Fragment } from 'react';
 import { font, classNames } from '../../../utils/classnames';
