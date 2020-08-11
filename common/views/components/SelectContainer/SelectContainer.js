@@ -20,7 +20,7 @@ const StyledSelect = styled.div.attrs(props => ({
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 5px solid ${props => props.theme.colors.silver};
+    border-top: 5px solid ${props => props.theme.color('silver')};
     pointer-events: none;
   }
   select {
@@ -28,20 +28,20 @@ const StyledSelect = styled.div.attrs(props => ({
     -webkit-appearance: none;
     appearance: none;
     padding: 10px 26px 10px 12px;
-    border: 1px solid ${props => props.theme.colors.pumice};
+    border: 1px solid ${props => props.theme.color('pumice')};
     border-radius: ${props => props.borderRadiusUnit}px;
-    background-color: ${props => props.theme.colors.white};
+    background-color: ${props => props.theme.color('white')};
 
     &::-ms-expand {
       display: none;
     }
     &:hover {
-      border-color: ${props => props.theme.colors.yellow};
+      border-color: ${props => props.theme.color('yellow')};
     }
     &:focus {
       padding: 9px 25px 9px 11px;
       border-width: 2px;
-      border-color: ${props => props.theme.colors.yellow};
+      border-color: ${props => props.theme.color('yellow')};
       outline: none;
     }
   }

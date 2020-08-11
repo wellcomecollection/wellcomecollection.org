@@ -17,6 +17,7 @@ import FeaturedCard, {
 } from '../FeaturedCard/FeaturedCard';
 import { convertItemToCardProps } from '@weco/common/model/card';
 import VisitUsStaticContent from './VisitUsStaticContent';
+import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
 type BodySlice = {|
   type: string,
@@ -117,14 +118,26 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
           ) : null;
 
         const cards = cardItems.map((item, i) => {
-          const cardProps = convertItemToCardProps(item);
+          const cardProps =
+            item.type === 'card' ? item : convertItemToCardProps(item);
           return <Card key={i} item={cardProps} />;
         });
+        const isLast = index === sections.length - 1;
+
         return (
-          <SpacingSection key={index}>
+          <ConditionalWrapper
+            key={index}
+            condition={!isLast}
+            wrapper={children => <SpacingSection>{children}</SpacingSection>}
+          >
             <WobblyEdge background={sectionTheme.rowBackground} isStatic />
             <Space
-              v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+              v={{
+                size: 'xl',
+                properties: isLast
+                  ? ['padding-top']
+                  : ['padding-top', 'padding-bottom'],
+              }}
               className={classNames({
                 'row card-theme': true,
                 [`bg-${sectionTheme.rowBackground}`]: true,
@@ -137,14 +150,22 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
                 </Space>
               )}
               {featuredItem && (
-                <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <ConditionalWrapper
+                  condition={!isLast}
+                  wrapper={children => (
+                    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                      {children}
+                    </Space>
+                  )}
+                >
                   <Layout12>{featuredItem}</Layout12>
-                </Space>
+                </ConditionalWrapper>
               )}
               {cards.length > 0 && <GridFactory items={cards} />}
             </Space>
-            <WobblyEdge background={'white'} isStatic />
-          </SpacingSection>
+
+            {!isLast && <WobblyEdge background={'white'} isStatic />}
+          </ConditionalWrapper>
         );
       })}
     </div>

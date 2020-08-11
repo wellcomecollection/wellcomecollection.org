@@ -77,14 +77,13 @@ module.exports = app
     pageVanityUrl(router, app, '/access', 'Wvm2uiAAAIYQ4FHP');
     pageVanityUrl(router, app, '/youth', 'Wuw2MSIAACtd3Ste');
     pageVanityUrl(router, app, '/schools', 'Wuw2MSIAACtd3StS');
-    // pageVanityUrl(
-    //   router,
-    //   app,
-    //   '/visit-us',
-    //   'XvxzjhQAAJmq1t__',
-    //   '/landing-page'
-    // );
-    pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC', '/visit-us');
+    pageVanityUrl(
+      router,
+      app,
+      '/visit-us',
+      'XvxzjhQAAJmq1t__',
+      '/landing-page'
+    );
 
     router.post('/newsletter-signup', handleNewsletterSignup);
 

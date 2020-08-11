@@ -13,8 +13,8 @@ const DownloadLinkStyle = styled.a.attrs({
 })`
   display: inline-block;
   white-space: nowrap;
-  background: ${props => props.theme.colors.white};
-  color: ${props => props.theme.colors.green};
+  background: ${props => props.theme.color('white')};
+  color: ${props => props.theme.color('green')};
   text-decoration: none;
   .icon__shape {
     fill: currentColor;

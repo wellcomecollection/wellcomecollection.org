@@ -20,7 +20,7 @@ const HeaderBackground = ({
   const backgroundStyles = texture
     ? {
         backgroundImage: `url(${texture})`,
-        backgroundSize: '150%',
+        backgroundSize: 'cover',
       }
     : {};
 

@@ -26,17 +26,13 @@ const Button = styled(Space).attrs(props => ({
   ${props =>
     props.isEnhanced &&
     `
-  background: ${
-    props.isActive ? props.theme.colors.black : props.theme.colors.cream
-  };
-  color: ${
-    props.isActive ? props.theme.colors.white : props.theme.colors.black
-  };
+  background: ${props.theme.color(props.isActive ? 'black' : 'cream')};
+  color: ${props.theme.color(props.isActive ? 'white' : 'black')};
 
     &:hover,
     &:focus {
-      background: ${props.theme.colors.black};
-      color: ${props.theme.colors.white};
+      background: ${props.theme.color('black')};
+      color: ${props.theme.color('white')};
     }
   `}
 

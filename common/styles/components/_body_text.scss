@@ -36,14 +36,13 @@
     }
   }
 
-  a:link,
-  a:visited {
+  a:link:not(.link-reset),
+  a:visited:not(.link-reset) {
     text-decoration: none;
     border-bottom: 2px solid color('green');
     transition: color $transition-properties, border-bottom $transition-properties;
 
-    &:hover,
-    &:focus {
+    &:hover {
       color: color('green');
       border-bottom-color: color('transparent');
     }

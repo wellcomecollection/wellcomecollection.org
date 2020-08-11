@@ -43,7 +43,7 @@ const Star = styled.span.attrs(props => ({
   padding: 0 0.3em;
   &::before {
     transition: color 400ms;
-    color: ${props => props.theme.colors[props.color]};
+    color: ${props => props.theme.color([props.color])};
     content: '★';
   }
 `;
@@ -51,7 +51,7 @@ const Star = styled.span.attrs(props => ({
 const RatingText = styled.span.attrs(props => ({
   className: font('hnl', 5),
 }))`
-  color: ${props => props.theme.colors.purple};
+  color: ${props => props.theme.color('purple')};
 `;
 
 type Props = {|

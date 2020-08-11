@@ -18,11 +18,14 @@ const Container = styled.div`
 
 const StyledLink = styled.a`
   display: inline-block;
+  white-space: nowrap;
+  display: inline-block;
+  color: ${props => props.theme.color('black')};
   background: ${props =>
-    props.isCurrent ? props.theme.colors.yellow : 'transparent'};
+    props.theme.color(props.isCurrent ? 'yellow' : 'transparent')};
   font-weight: ${props => (props.isCurrent ? 'bold' : 'normal')};
   border-color: ${props =>
-    props.isCurrent ? props.theme.colors.green : 'transparent'};
+    props.theme.color(props.isCurrent ? 'green' : 'transparent')};
   border-radius: 6px;
   padding: 0 6px;
   cursor: pointer;
@@ -70,14 +73,14 @@ const Tree = styled.div`
     }
 
     li::before {
-      border-top: 2px solid #006272;
+      border-top: 2px solid ${props => props.theme.color('teal')};
       top: 20px;
       width: 22px;
       height: 0;
     }
 
     li::after {
-      border-left: 2px solid #006272;
+      border-left: 2px solid ${props => props.theme.color('teal')};
       height: 100%;
       width: 0px;
       top: 10px;

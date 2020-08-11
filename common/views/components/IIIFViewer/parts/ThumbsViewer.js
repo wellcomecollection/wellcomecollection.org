@@ -9,9 +9,9 @@ import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';
 
 const ThumbnailsWrapper = styled.div`
-  background: ${props => props.theme.colors.viewerBlack};
+  background: ${props => props.theme.color('viewerBlack')};
   border-right: 1px solid
-    ${props => lighten(0.1, props.theme.colors.viewerBlack)};
+    ${props => lighten(0.1, props.theme.color('viewerBlack'))};
 `;
 
 const ThumbnailSpacer = styled(Space).attrs({
