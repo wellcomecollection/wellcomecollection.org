@@ -37,9 +37,9 @@ exports[`Feature: 2. As a library member I want to request an item
                 [Function],
               ],
               "componentStyle": ComponentStyle {
-                "componentId": "ButtonSolid__SolidButton-xui0q4-3",
+                "componentId": "ButtonSolid__SolidButton-is2j2c-3",
                 "isStatic": false,
-                "lastClassName": "dhdqcB",
+                "lastClassName": "bmsltU",
                 "rules": Array [
                   "display:inline-flex;line-height:1;border-radius:",
                   [Function],
@@ -71,10 +71,10 @@ exports[`Feature: 2. As a library member I want to request an item
               },
               "displayName": "ButtonSolid__SolidButton",
               "foldedComponentIds": Array [
-                "ButtonSolid__BaseButton-xui0q4-0",
+                "ButtonSolid__BaseButton-is2j2c-0",
               ],
               "render": [Function],
-              "styledComponentId": "ButtonSolid__SolidButton-xui0q4-3",
+              "styledComponentId": "ButtonSolid__SolidButton-is2j2c-3",
               "target": "button",
               "toString": [Function],
               "warnTooManyClasses": [Function],
@@ -86,7 +86,7 @@ exports[`Feature: 2. As a library member I want to request an item
           onClick={[Function]}
         >
           <a
-            className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 dhdqcB flex-inline flex--v-center"
+            className="ButtonSolid__BaseButton-is2j2c-0 ButtonSolid__SolidButton-is2j2c-3 bmsltU flex-inline flex--v-center"
             href="/loginUrl"
             onClick={[Function]}
           >
@@ -101,9 +101,9 @@ exports[`Feature: 2. As a library member I want to request an item
                       },
                     ],
                     "componentStyle": ComponentStyle {
-                      "componentId": "ButtonSolid__BaseButtonInner-xui0q4-1",
+                      "componentId": "ButtonSolid__BaseButtonInner-is2j2c-1",
                       "isStatic": false,
-                      "lastClassName": "kxNhiJ",
+                      "lastClassName": "dxoWEE",
                       "rules": Array [
                         "height:1em;",
                       ],
@@ -111,7 +111,7 @@ exports[`Feature: 2. As a library member I want to request an item
                     "displayName": "ButtonSolid__BaseButtonInner",
                     "foldedComponentIds": Array [],
                     "render": [Function],
-                    "styledComponentId": "ButtonSolid__BaseButtonInner-xui0q4-1",
+                    "styledComponentId": "ButtonSolid__BaseButtonInner-is2j2c-1",
                     "target": "span",
                     "toString": [Function],
                     "warnTooManyClasses": [Function],
@@ -121,7 +121,7 @@ exports[`Feature: 2. As a library member I want to request an item
                 forwardedRef={null}
               >
                 <span
-                  className="ButtonSolid__BaseButtonInner-xui0q4-1 kxNhiJ font-hnm font-size-5  flex flex--v-center"
+                  className="ButtonSolid__BaseButtonInner-is2j2c-1 dxoWEE font-hnm font-size-5  flex flex--v-center"
                 >
                   Log in to request
                 </span>
@@ -164,9 +164,9 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
               [Function],
             ],
             "componentStyle": ComponentStyle {
-              "componentId": "ButtonSolid__SolidButton-xui0q4-3",
+              "componentId": "ButtonSolid__SolidButton-is2j2c-3",
               "isStatic": false,
-              "lastClassName": "dhdqcB",
+              "lastClassName": "bmsltU",
               "rules": Array [
                 "display:inline-flex;line-height:1;border-radius:",
                 [Function],
@@ -198,10 +198,10 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
             },
             "displayName": "ButtonSolid__SolidButton",
             "foldedComponentIds": Array [
-              "ButtonSolid__BaseButton-xui0q4-0",
+              "ButtonSolid__BaseButton-is2j2c-0",
             ],
             "render": [Function],
-            "styledComponentId": "ButtonSolid__SolidButton-xui0q4-3",
+            "styledComponentId": "ButtonSolid__SolidButton-is2j2c-3",
             "target": "button",
             "toString": [Function],
             "warnTooManyClasses": [Function],
@@ -212,7 +212,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
         onClick={[Function]}
       >
         <button
-          className="ButtonSolid__BaseButton-xui0q4-0 ButtonSolid__SolidButton-xui0q4-3 dhdqcB flex-inline flex--v-center"
+          className="ButtonSolid__BaseButton-is2j2c-0 ButtonSolid__SolidButton-is2j2c-3 bmsltU flex-inline flex--v-center"
           onClick={[Function]}
         >
           <ButtonSolid__BaseButtonInner>
@@ -226,9 +226,9 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                     },
                   ],
                   "componentStyle": ComponentStyle {
-                    "componentId": "ButtonSolid__BaseButtonInner-xui0q4-1",
+                    "componentId": "ButtonSolid__BaseButtonInner-is2j2c-1",
                     "isStatic": false,
-                    "lastClassName": "kxNhiJ",
+                    "lastClassName": "dxoWEE",
                     "rules": Array [
                       "height:1em;",
                     ],
@@ -236,7 +236,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                   "displayName": "ButtonSolid__BaseButtonInner",
                   "foldedComponentIds": Array [],
                   "render": [Function],
-                  "styledComponentId": "ButtonSolid__BaseButtonInner-xui0q4-1",
+                  "styledComponentId": "ButtonSolid__BaseButtonInner-is2j2c-1",
                   "target": "span",
                   "toString": [Function],
                   "warnTooManyClasses": [Function],
@@ -246,7 +246,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
               forwardedRef={null}
             >
               <span
-                className="ButtonSolid__BaseButtonInner-xui0q4-1 kxNhiJ font-hnm font-size-5  flex flex--v-center"
+                className="ButtonSolid__BaseButtonInner-is2j2c-1 dxoWEE font-hnm font-size-5  flex flex--v-center"
               >
                 <span
                   className=""
