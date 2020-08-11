@@ -16,7 +16,7 @@ export const BaseButton = styled.button.attrs(props => ({
   border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
   text-decoration: none;
   text-align: center;
-  transition: all ${props => props.theme.transitionProperties};
+  transition: background ${props => props.theme.transitionProperties};
   border: 0;
   white-space: nowrap;
   padding: 15px 20px;
