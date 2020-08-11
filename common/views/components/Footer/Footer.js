@@ -15,7 +15,7 @@ import Space from '../styled/Space';
 
 const TopBorderBox = styled.div`
   @media (min-width: ${props => props.theme.sizes.large}px) {
-    border-top: 1px solid ${props => props.theme.colors.charcoal};
+    border-top: 1px solid ${props => props.theme.color('charcoal')};
     border-bottom: 0;
   }
 `;

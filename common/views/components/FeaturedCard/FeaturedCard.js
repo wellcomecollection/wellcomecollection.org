@@ -48,7 +48,7 @@ export function convertCardToFeaturedCardProps(
       sizesQueries: '',
       showTasl: false,
     },
-    labels: [],
+    labels: item.format ? [{ url: null, text: item.format.title }] : [],
     link: { url: item.link || '', text: item.title || '' },
   };
 }
@@ -302,7 +302,11 @@ const FeaturedCard = ({
           })}
         >
           <FeaturedCardRight isReversed={isReversed}>
-            {labels && labels.length > 0 && <LabelsList labels={labels} />}
+            {labels && labels.length > 0 ? (
+              <LabelsList labels={labels} />
+            ) : (
+              <div style={{ marginBottom: '26px' }} />
+            )}
             <FeaturedCardCopy
               className={classNames({
                 [`bg-${background} font-${color}`]: true,

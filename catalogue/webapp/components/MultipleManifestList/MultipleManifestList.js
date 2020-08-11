@@ -18,10 +18,10 @@ const HiddenContent = styled.div.attrs(props => ({
   max-width: 100%;
   max-height: calc(100vh - 200px);
   overflow-y: scroll;
-  border: ${props => `1px solid ${props.theme.colors.marble}`};
+  border: ${props => `1px solid ${props.theme.color('marble')}`};
   border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
-  background: ${props => `${props.theme.colors.white}`};
-  color: ${props => `${props.theme.colors.black}`};
+  background: ${props => `${props.theme.color('white')}`};
+  color: ${props => `${props.theme.color('black')}`};
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
   padding: ${props => `${props.theme.spacingUnit * 3}px`};
   position: absolute;
@@ -36,7 +36,7 @@ const HiddenContent = styled.div.attrs(props => ({
     margin-top: ${props => `${props.theme.spacingUnit * 2}px`};
   }
   a {
-    color: ${props => props.theme.colors.green};
+    color: ${props => props.theme.color('green')};
     text-decoration: none;
   }
   .icon__canvas {

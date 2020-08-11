@@ -30,7 +30,7 @@ const StaticThumbnailsContainer = styled.div.attrs(props => ({
 }))`
   width: 100%;
   height: 20%;
-  border-top: 1px solid ${props => props.theme.colors.pewter};
+  border-top: 1px solid ${props => props.theme.color('pewter')};
   padding-left: 20%;
   @media (min-width: ${props => props.theme.sizes.medium}px) {
     padding-left: 0;
@@ -38,7 +38,7 @@ const StaticThumbnailsContainer = styled.div.attrs(props => ({
     height: 100%;
     width: 25%;
     border-top: none;
-    border-right: 1px solid ${props => props.theme.colors.pewter};
+    border-right: 1px solid ${props => props.theme.color('pewter')};
   }
 `;
 

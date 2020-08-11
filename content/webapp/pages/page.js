@@ -13,13 +13,13 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { getPage } from '@weco/common/services/prismic/pages';
 import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page as PageType } from '@weco/common/model/pages';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 
 type Props = {|
   page: PageType,
 |};
 
-const backgroundTexture =
-  'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg';
+const backgroundTexture = headerBackgroundLs;
 export class Page extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { id, memoizedPrismic } = ctx.query;
@@ -76,13 +76,17 @@ export class Page extends Component<Props> {
         FeaturedMedia={FeaturedMedia}
         Background={
           FeaturedMedia && (
-            <HeaderBackground backgroundTexture={backgroundTexture} />
+            <HeaderBackground
+              backgroundTexture={backgroundTexture}
+              hasWobblyEdge={true}
+            />
           )
         }
         ContentTypeInfo={DateInfo}
         HeroPicture={null}
         backgroundTexture={!FeaturedMedia ? backgroundTexture : null}
         highlightHeading={true}
+        isContentTypeInfoBeforeMedia={false}
       />
     );
     return (
