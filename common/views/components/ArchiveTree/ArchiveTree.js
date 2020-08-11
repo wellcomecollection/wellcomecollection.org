@@ -15,10 +15,18 @@ const Container = styled.div`
 
 const StyledLink = styled.a`
   display: inline-block;
-  background: ${props => (props.isCurrent ? '#ffce3c' : 'transparent')};
+  white-space: nowrap;
+  display: inline-block;
+  color: ${props => props.theme.colors.black};
+  background: ${props =>
+    props.isCurrent
+      ? props.theme.colors.yellow
+      : props.theme.colors.transparent};
   font-weight: ${props => (props.isCurrent ? 'bold' : 'normal')};
   border-color: ${props =>
-    props.isCurrent ? props.theme.colors.green : 'transparent'};
+    props.isCurrent
+      ? props.theme.colors.green
+      : props.theme.colors.transparent};
   border-radius: 6px;
   padding: 0 6px;
   cursor: pointer;
@@ -155,11 +163,6 @@ type WorkLinkType = {|
 
 const WorkLink = ({ item, currentWorkId, toggles }: WorkLinkType) => (
   <StyledLink
-    style={{
-      whiteSpace: 'nowrap',
-      display: 'inline-block',
-      color: 'black',
-    }}
     href={`/works/${item.work.id}`}
     isCurrent={currentWorkId === item.work.id}
   >
