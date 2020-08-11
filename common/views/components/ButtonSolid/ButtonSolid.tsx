@@ -16,10 +16,10 @@ export const BaseButton = styled.button.attrs(props => ({
   border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
   text-decoration: none;
   text-align: center;
-  transition: background ${props => props.theme.transitionProperties};
+  transition: background ${props => props.theme.transitionProperties}, border-color ${props => props.theme.transitionProperties};
   border: 0;
   white-space: nowrap;
-  padding: 15px 20px;
+  padding: 13px 20px;
   cursor: pointer;
 
   &:focus {
@@ -97,15 +97,17 @@ type ButtonSolidProps = ButtonSolidBaseProps & {
 export const SolidButton = styled(BaseButton)`
   background: ${props => props.theme.color('green')};
   color: ${props => props.theme.color('white')};
+  border: 2px solid ${props => props.theme.color('green')};
 
   ${props =>
     props.isBig &&
     `
-    padding: 21px 20px 20px;
+    padding: 20px;
   `}
 
   &:not([disabled]):hover {
     background: ${props => props.theme.color('green', 'dark')};
+    border-color: ${props => props.theme.color('green', 'dark')};
   }
 `;
 

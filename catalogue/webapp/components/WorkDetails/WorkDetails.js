@@ -239,27 +239,9 @@ const WorkDetails = ({
                 )}
               </Space>
             )}
-            {itemUrl && !audio && !video && (
-              <>
-                <Space
-                  as="span"
-                  h={{
-                    size: 'm',
-                    properties: ['margin-right'],
-                  }}
-                >
-                  <ButtonSolidLink
-                    icon="eye"
-                    text="View"
-                    trackingEvent={{
-                      category: 'WorkDetails',
-                      action: 'follow view link',
-                      label: itemUrl.href.query.workId,
-                    }}
-                    link={{ ...itemUrl }}
-                  />
-                </Space>
-                {(imageCount > 4 || childManifestsCount > 1) && (
+            <div className="flex flex-h-center">
+              {itemUrl && !audio && !video && (
+                <>
                   <Space
                     as="span"
                     h={{
@@ -268,38 +250,58 @@ const WorkDetails = ({
                     }}
                   >
                     <ButtonSolidLink
-                      icon="gridView"
-                      text="Overview"
+                      icon="eye"
+                      text="View"
                       trackingEvent={{
                         category: 'WorkDetails',
-                        action: 'follow overview link',
+                        action: 'follow view link',
                         label: itemUrl.href.query.workId,
                       }}
-                      link={{
-                        ...merge({}, itemUrl, {
-                          href: {
-                            query: {
-                              isOverview: true,
-                            },
-                          },
-                          as: {
-                            query: {
-                              isOverview: true,
-                            },
-                          },
-                        }),
-                      }}
+                      link={{ ...itemUrl }}
                     />
                   </Space>
-                )}
-              </>
-            )}
+                  {(imageCount > 4 || childManifestsCount > 1) && (
+                    <Space
+                      as="span"
+                      h={{
+                        size: 'm',
+                        properties: ['margin-right'],
+                      }}
+                    >
+                      <ButtonSolidLink
+                        icon="gridView"
+                        text="Overview"
+                        trackingEvent={{
+                          category: 'WorkDetails',
+                          action: 'follow overview link',
+                          label: itemUrl.href.query.workId,
+                        }}
+                        link={{
+                          ...merge({}, itemUrl, {
+                            href: {
+                              query: {
+                                isOverview: true,
+                              },
+                            },
+                            as: {
+                              query: {
+                                isOverview: true,
+                              },
+                            },
+                          }),
+                        }}
+                      />
+                    </Space>
+                  )}
+                </>
+              )}
 
-            <Download
-              ariaControlsId="itemDownloads"
-              workId={work.id}
-              downloadOptions={downloadOptions}
-            />
+              <Download
+                ariaControlsId="itemDownloads"
+                workId={work.id}
+                downloadOptions={downloadOptions}
+              />
+            </div>
 
             {!(downloadOptions.length > 0) &&
               sierraIdFromManifestUrl &&
