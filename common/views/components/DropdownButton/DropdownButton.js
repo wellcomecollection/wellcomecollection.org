@@ -77,6 +77,7 @@ const DropdownButton = ({ label, children, isInline }: Props) => {
     clickHandler: () => setIsActive(!isActive),
     icon: 'chevron',
     text: label,
+    type: 'button',
   };
 
   useEffect(() => {
