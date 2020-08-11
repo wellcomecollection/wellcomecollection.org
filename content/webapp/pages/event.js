@@ -9,7 +9,9 @@ import Body from '@weco/common/views/components/Body/Body';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';
 import EventSchedule from '@weco/common/views/components/EventSchedule/EventSchedule';
 import Dot from '@weco/common/views/components/Dot/Dot';
+// $FlowFixMe
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+// $FlowFixMe
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import EventbriteButton from '@weco/common/views/components/EventbriteButton/EventbriteButton';
 import Message from '@weco/common/views/components/Message/Message';

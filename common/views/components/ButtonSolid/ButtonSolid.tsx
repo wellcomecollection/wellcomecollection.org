@@ -77,6 +77,23 @@ export const ButtonIconWrapper = styled(Space).attrs(props => ({
   }),
 }))``;
 
+export type ButtonSolidBaseProps = {
+  text: string;
+  icon?: string;
+  type?: 'submit' | 'reset' | 'button';
+  isTextHidden?: boolean;
+  trackingEvent?: GaEvent;
+  isBig?: boolean;
+  ariaControls?: string;
+  ariaExpanded?: boolean;
+  ariaLive?: 'off' | 'polite' | 'assertive';
+};
+
+type ButtonSolidProps = ButtonSolidBaseProps & {
+  disabled?: boolean;
+  clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void,
+};
+
 export const SolidButton = styled(BaseButton)`
   background: ${props => props.theme.color('green')};
   color: ${props => props.theme.color('white')};
@@ -94,22 +111,7 @@ export const SolidButton = styled(BaseButton)`
 
 // TODO move styles here - styled component
 
-export type ButtonSolidBaseProps = {
-  text: string;
-  icon?: string;
-  type?: 'submit' | 'reset' | 'button';
-  isTextHidden?: boolean;
-  trackingEvent?: GaEvent;
-  isBig?: boolean;
-  ariaControls?: string;
-  ariaExpanded?: boolean;
-  ariaLive?: 'off' | 'polite' | 'assertive';
-};
 
-type ButtonSolidProps = ButtonSolidBaseProps & {
-  disabled?: boolean;
-  clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void,
-};
 
 // $FlowFixMe (forwardRef)
 const ButtonSolid = forwardRef(

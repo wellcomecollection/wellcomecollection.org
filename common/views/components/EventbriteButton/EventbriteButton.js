@@ -1,6 +1,8 @@
 // @flow
 import type { UiEvent } from '../../../model/events';
+// $FlowFixMe
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
+// $FlowFixMe
 import ButtonSolidLink from '../ButtonSolidLink/ButtonSolidLink';
 import { Fragment } from 'react';
 import { font, classNames } from '../../../utils/classnames';
