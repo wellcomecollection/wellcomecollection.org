@@ -13,7 +13,7 @@ import {
 export const InlineButton = styled(BaseButton)`
   border: 2px solid ${props => props.theme.color('pumice')};
   background: ${props => props.theme.color('transparent')};
-  color: ${props => props.theme.color('charcoal')};
+  color: ${props => props.theme.color(props.isOnDark ? 'white' : 'charcoal')};
   padding: 7px 12px 9px;
 
   &:hover {
@@ -31,6 +31,7 @@ export type ButtonInlineBaseProps = {
   text: string,
   icon?: string,
   type?: ButtonTypes,
+  isOnDark?: boolean,
   isTextHidden?: boolean,
   trackingEvent?: GaEvent,
   ariaControls?: string,
@@ -51,6 +52,7 @@ const ButtonInline = forwardRef<HTMLButtonElement, ButtonInlineProps>(
       text,
       type,
       isTextHidden,
+      isOnDark,
       trackingEvent,
       clickHandler,
       ariaControls,
@@ -67,6 +69,7 @@ const ButtonInline = forwardRef<HTMLButtonElement, ButtonInlineProps>(
     return (
       <InlineButton
         type={type}
+        isOnDark={isOnDark}
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
         aria-live={ariaLive}

@@ -9,6 +9,7 @@ import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
+// $FlowFixMe (tsx)
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 
 export const DownloadOptions = styled.div.attrs(props => ({
@@ -16,6 +17,9 @@ export const DownloadOptions = styled.div.attrs(props => ({
     [font('hnm', 4)]: true,
   }),
 }))`
+  white-space: normal;
+  color: ${props => props.theme.color('black')};
+
   li + li {
     margin-top: 12px;
   }
@@ -71,8 +75,11 @@ const Download = ({
     >
       {downloadOptions.length > 0 && (
         <>
-          {/* TODO: useDarkControl */}
-          <DropdownButton label="Downloads" isInline={useDarkControl}>
+          <DropdownButton
+            label="Downloads"
+            isInline={useDarkControl}
+            isOnDark={useDarkControl}
+          >
             <DownloadOptions
               id={ariaControlsId}
               className={classNames({

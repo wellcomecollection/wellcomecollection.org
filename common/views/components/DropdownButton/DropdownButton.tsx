@@ -64,9 +64,10 @@ type Props = {
   label: string;
   children: JSX.Element | JSX.Element[];
   isInline: boolean | null;
+  isOnDark?: boolean
 };
 
-const DropdownButton = ({ label, children, isInline }: Props) => {
+const DropdownButton = ({ label, children, isInline, isOnDark }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const { isEnhanced } = useContext(AppContext);
   const dropdownWrapperRef = useRef(null);
@@ -83,6 +84,7 @@ const DropdownButton = ({ label, children, isInline }: Props) => {
     icon: 'chevron',
     text: label,
     type: ButtonTypes.button,
+    isOnDark: isOnDark,
   };
 
   useEffect(() => {
