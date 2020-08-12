@@ -57,7 +57,7 @@ const Dropdown = styled(Space).attrs(props => ({
 `;
 
 const Popper = styled.div`
-  z-index: 1;
+  z-index: ${props => props.isActive ? 1 : -1};
 `;
 
 type Props = {
@@ -131,7 +131,7 @@ const DropdownButton = ({ label, children, isInline, isOnDark }: Props) => {
       ) : (
         <ButtonOulined {...buttonProps} />
       )}
-      <Popper ref={popperRef} style={isEnhanced ? styles.popper : null} {...(isEnhanced ? attributes.popper : {})}>
+      <Popper ref={popperRef} style={isEnhanced ? styles.popper : null} {...(isEnhanced ? attributes.popper : {})} isActive={isActive}>
         <CSSTransition in={isActive} classNames="fade" timeout={350}>
           <Dropdown
             isActive={isActive}
