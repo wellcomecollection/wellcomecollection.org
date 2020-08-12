@@ -46,6 +46,8 @@ type ButtonOutlinedProps = ButtonOutlinedBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void,
 };
 
+const ConditionalWrapper = ({ condition, wrapper, children }) =>
+  condition ? wrapper(children) : children;
 
 const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
   (
@@ -85,10 +87,14 @@ const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
             >
               {text}</span>
               {icon && (
-              <ButtonIconWrapper iconAfter={true}>
-                <Icon name={icon} />
-              </ButtonIconWrapper>
-            )}
+                <ConditionalWrapper condition={!isTextHidden}
+                  wrapper={children => (
+                    <ButtonIconWrapper iconAfter={true}>{children}</ButtonIconWrapper>
+                  )}
+                >
+                  <Icon name={icon} />
+                </ConditionalWrapper>
+              )}
           </>
         </BaseButtonInner>
       </OutlinedButton>
