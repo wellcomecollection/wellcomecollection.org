@@ -225,6 +225,7 @@ type Work = {|
   alternativeTitles: [],
   type: 'Work',
   partOf: ArchiveNode[],
+  parts: ArchiveNode[],
 |};
 type NestedListProps = {|
   currentWorkId: string,
@@ -423,6 +424,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     createCollectionTree(work) || []
   );
   const selected = useRef(null);
+  const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
 
   useEffect(() => {
     // Add siblings to each node, that leads to the current work
@@ -449,42 +451,44 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   }, [work]);
 
   return (
-    <>
-      <Space
-        className="inline-block"
-        h={{ size: 'm', properties: ['margin-right'] }}
-        v={{ size: 'm', properties: ['margin-top'] }}
-      >
-        <ButtonSolid
-          icon="tree"
-          text={`${work.title} contents`}
-          isTextHidden={true}
-          clickHandler={() => {
-            setShowArchiveTreeModal(!showArchiveTreeModal);
-            centerTree(selected);
-          }}
-        />
-      </Space>
-      <Modal
-        isActive={showArchiveTreeModal}
-        setIsActive={setShowArchiveTreeModal}
-        width="98vw"
-      >
-        <Container>
-          <Tree>
-            <NestedList
-              selected={selected}
-              currentWorkId={work.id}
-              fullTree={collectionTree}
-              setCollectionTree={setCollectionTree}
-              collectionTree={collectionTree}
-              setShowArchiveTreeModal={setShowArchiveTreeModal}
-              isTopLevel={true}
-            />
-          </Tree>
-        </Container>
-      </Modal>
-    </>
+    isInArchive && (
+      <>
+        <Space
+          className="inline-block"
+          h={{ size: 'm', properties: ['margin-right'] }}
+          v={{ size: 'm', properties: ['margin-top'] }}
+        >
+          <ButtonSolid
+            icon="tree"
+            text={`${work.title} contents`}
+            isTextHidden={true}
+            clickHandler={() => {
+              setShowArchiveTreeModal(!showArchiveTreeModal);
+              centerTree(selected);
+            }}
+          />
+        </Space>
+        <Modal
+          isActive={showArchiveTreeModal}
+          setIsActive={setShowArchiveTreeModal}
+          width="98vw"
+        >
+          <Container>
+            <Tree>
+              <NestedList
+                selected={selected}
+                currentWorkId={work.id}
+                fullTree={collectionTree}
+                setCollectionTree={setCollectionTree}
+                collectionTree={collectionTree}
+                setShowArchiveTreeModal={setShowArchiveTreeModal}
+                isTopLevel={true}
+              />
+            </Tree>
+          </Container>
+        </Modal>
+      </>
+    )
   );
 };
 export default ArchiveTree;
