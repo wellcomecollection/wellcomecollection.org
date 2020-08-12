@@ -37,6 +37,10 @@ const workIncludes = [
   'contributors',
   'production',
   'notes',
+  'parts',
+  'partOf',
+  'precededBy',
+  'succeededBy',
 ];
 
 export async function getWorks({
@@ -79,9 +83,6 @@ export async function getWork({
   const params = {
     include: [
       ...workIncludes,
-      ...(toggles && toggles.archivesPrototype
-        ? ['parts', 'partOf', 'precededBy', 'succeededBy']
-        : []),
       ...(toggles && toggles.newImageSearch ? ['images'] : []),
     ],
     _index: apiOptions.indexOverrideSuffix
