@@ -1,5 +1,5 @@
 import { CSSTransition } from 'react-transition-group';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
@@ -7,6 +7,7 @@ import getFocusableElements from '../../../utils/get-focusable-elements';
 import Space from '../styled/Space';
 import ButtonInline, { ButtonTypes } from '../ButtonInline/ButtonInline';
 import ButtonOulined from '../ButtonOutlined/ButtonOutlined';
+import { AppContext } from '../AppContext/AppContext';
 
 const DropdownWrapper = styled.div.attrs({
   className: classNames({
@@ -30,7 +31,7 @@ const Dropdown = styled(Space).attrs(props => ({
   &,
   &.fade-exit-done {
     z-index: -1;
-    pointer-events: none;
+    pointer-events: ${props => props.isEnhanced ? 'none' : 'all'};
   }
 
   &.fade-enter,
@@ -67,13 +68,13 @@ type Props = {
 
 const DropdownButton = ({ label, children, isInline }: Props) => {
   const [isActive, setIsActive] = useState(false);
-  const [isEnhanced, setIsEnhanced] = useState(false);
+  const { isEnhanced } = useContext(AppContext);
   const dropdownWrapperRef = useRef(null);
   const dropdownRef = useRef(null);
   const popperRef = useRef(null);
   const { styles, attributes } = usePopper(
     dropdownWrapperRef.current,
-    popperRef.current
+    popperRef.current,
   );
 
   const buttonProps = {
@@ -83,10 +84,6 @@ const DropdownButton = ({ label, children, isInline }: Props) => {
     text: label,
     type: ButtonTypes.button,
   };
-
-  useEffect(() => {
-    setIsEnhanced(true);
-  }, []);
 
   useEffect(() => {
     function handleClick(event: MouseEvent) {
@@ -132,7 +129,7 @@ const DropdownButton = ({ label, children, isInline }: Props) => {
       ) : (
         <ButtonOulined {...buttonProps} />
       )}
-      <Popper ref={popperRef} style={styles.popper} {...attributes.popper}>
+      <Popper ref={popperRef} style={isEnhanced ? styles.popper : null} {...(isEnhanced ? attributes.popper : {})}>
         <CSSTransition in={isActive} classNames="fade" timeout={350}>
           <Dropdown
             isActive={isActive}
