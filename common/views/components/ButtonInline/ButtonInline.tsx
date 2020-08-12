@@ -21,10 +21,16 @@ export const InlineButton = styled(BaseButton)`
   }
 `;
 
+export enum ButtonTypes {
+  button = 'button',
+  reset = 'reset',
+  submit = 'submit',
+}
+
 export type ButtonInlineBaseProps = {
   text: string,
   icon?: string,
-  type?: 'submit' | 'reset' | 'button',
+  type?: ButtonTypes,
   isTextHidden?: boolean,
   trackingEvent?: GaEvent,
   ariaControls?: string,

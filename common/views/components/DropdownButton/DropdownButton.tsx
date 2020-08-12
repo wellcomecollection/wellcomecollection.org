@@ -1,14 +1,11 @@
-// @flow
 import { CSSTransition } from 'react-transition-group';
-import { useState, useRef, useEffect, type Element } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import Space from '../styled/Space';
-// $FlowFixMe (tsx)
-import ButtonInline from '../ButtonInline/ButtonInline';
-// $FlowFixMe (tsx)
+import ButtonInline, { ButtonTypes } from '../ButtonInline/ButtonInline';
 import ButtonOulined from '../ButtonOutlined/ButtonOutlined';
 
 const DropdownWrapper = styled.div.attrs({
@@ -22,7 +19,6 @@ const Dropdown = styled(Space).attrs(props => ({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   className: classNames({
     'rounded-corners shadow bg-white': true,
-    // absolute: props.isEnhanced,
   }),
 }))`
   margin-top: -2px;
@@ -63,11 +59,11 @@ const Popper = styled.div`
   z-index: 1;
 `;
 
-type Props = {|
-  label: string,
-  children: Element<any>,
-  isInline: ?boolean,
-|};
+type Props = {
+  label: string;
+  children: JSX.Element | JSX.Element[];
+  isInline: boolean | null;
+};
 
 const DropdownButton = ({ label, children, isInline }: Props) => {
   const [isActive, setIsActive] = useState(false);
@@ -85,7 +81,7 @@ const DropdownButton = ({ label, children, isInline }: Props) => {
     clickHandler: () => setIsActive(!isActive),
     icon: 'chevron',
     text: label,
-    type: 'button',
+    type: ButtonTypes.button,
   };
 
   useEffect(() => {
