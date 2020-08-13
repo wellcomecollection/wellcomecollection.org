@@ -6,7 +6,7 @@ import { type IIIFManifest } from '@weco/common/model/iiif';
 import { type Work } from '@weco/common/model/work';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
 import merge from 'lodash.merge';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font, classNames, grid } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { worksLink } from '@weco/common/services/catalogue/routes';
 import {
@@ -25,7 +25,6 @@ import {
 } from '@weco/common/utils/iiif';
 import NextLink from 'next/link';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
@@ -178,6 +177,349 @@ const WorkDetails = ({
     </WorkDetailsSection>
   );
 
+  const Content = () => (
+    <>
+      {digitalLocation && (
+        <WorkDetailsSection headingText="Available online">
+          {video && (
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <VideoPlayer video={video} />
+            </Space>
+          )}
+          {audio && (
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <AudioPlayer audio={audio} />
+            </Space>
+          )}
+          {work.thumbnail && (
+            <Space
+              v={{
+                size: 's',
+                properties: ['margin-bottom'],
+              }}
+            >
+              {itemUrl ? (
+                <NextLink {...itemUrl}>
+                  <a
+                    onClick={trackEvent({
+                      category: 'WorkDetails',
+                      action: 'follow image link',
+                      label: itemUrl.href.query.workId,
+                    })}
+                  >
+                    <img
+                      style={{
+                        width: 'auto',
+                        height: 'auto',
+                      }}
+                      alt={`view ${work.title}`}
+                      src={work.thumbnail.url}
+                    />
+                  </a>
+                </NextLink>
+              ) : (
+                <img
+                  style={{
+                    width: 'auto',
+                    height: 'auto',
+                  }}
+                  alt={`view ${work.title}`}
+                  src={work.thumbnail.url}
+                />
+              )}
+            </Space>
+          )}
+          {itemUrl && !audio && !video && (
+            <>
+              <Space
+                as="span"
+                h={{
+                  size: 'm',
+                  properties: ['margin-right'],
+                }}
+              >
+                <ButtonSolidLink
+                  icon="eye"
+                  text="View"
+                  trackingEvent={{
+                    category: 'WorkDetails',
+                    action: 'follow view link',
+                    label: itemUrl.href.query.workId,
+                  }}
+                  link={{ ...itemUrl }}
+                />
+              </Space>
+              {(imageCount > 4 || childManifestsCount > 1) && (
+                <Space
+                  as="span"
+                  h={{
+                    size: 'm',
+                    properties: ['margin-right'],
+                  }}
+                >
+                  <ButtonSolidLink
+                    icon="gridView"
+                    text="Overview"
+                    trackingEvent={{
+                      category: 'WorkDetails',
+                      action: 'follow overview link',
+                      label: itemUrl.href.query.workId,
+                    }}
+                    link={{
+                      ...merge({}, itemUrl, {
+                        href: {
+                          query: {
+                            isOverview: true,
+                          },
+                        },
+                        as: {
+                          query: {
+                            isOverview: true,
+                          },
+                        },
+                      }),
+                    }}
+                  />
+                </Space>
+              )}
+            </>
+          )}
+
+          <Download
+            ariaControlsId="itemDownloads"
+            workId={work.id}
+            downloadOptions={downloadOptions}
+          />
+
+          {!(downloadOptions.length > 0) &&
+            sierraIdFromManifestUrl &&
+            childManifestsCount === 0 && (
+              <NextLink
+                {...downloadUrl({
+                  workId: work.id,
+                  sierraId: sierraIdFromManifestUrl,
+                })}
+              >
+                <a>Download options</a>
+              </NextLink>
+            )}
+
+          {(childManifestsCount > 0 || imageCount > 0) && (
+            <Space
+              v={{
+                size: 'm',
+                properties: ['margin-top'],
+              }}
+            >
+              <p
+                className={classNames({
+                  'no-margin': true,
+                  [font('lr', 6)]: true,
+                })}
+              >
+                Contains:{' '}
+                {childManifestsCount > 0
+                  ? `${childManifestsCount} volumes`
+                  : imageCount > 0
+                  ? `${imageCount} ${imageCount === 1 ? 'image' : 'images'}`
+                  : ''}
+              </p>
+            </Space>
+          )}
+          {license && (
+            <>
+              <Space
+                v={{
+                  size: 'l',
+                  properties: ['margin-top'],
+                }}
+              >
+                <WorkDetailsText title="License" text={[license.label]} />
+              </Space>
+              <Space
+                v={{
+                  size: 'l',
+                  properties: ['margin-top'],
+                }}
+              >
+                <ExplanatoryText
+                  id="licenseDetail"
+                  controlText="Can I use this?"
+                >
+                  <>
+                    {license.humanReadableText.length > 0 && (
+                      <WorkDetailsText text={license.humanReadableText} />
+                    )}
+
+                    <WorkDetailsText
+                      text={[
+                        `Credit: ${work.title.replace(/\.$/g, '')}.${' '}
+            ${
+              credit
+                ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
+                : ` `
+            }
+          ${
+            license.url
+              ? `<a href="${license.url}">${license.label}</a>`
+              : license.label
+          }`,
+                      ]}
+                    />
+                  </>
+                </ExplanatoryText>
+              </Space>
+            </>
+          )}
+        </WorkDetailsSection>
+      )}
+      {!digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
+      <TogglesContext.Consumer>
+        {({ newImageSearch }) =>
+          newImageSearch &&
+          work.images &&
+          work.images.length > 0 && (
+            <WorkDetailsSection headingText="Selected images from this work">
+              <ButtonOutlinedLink
+                text={`View ${work.images.length} images`}
+                link={worksLink(
+                  {
+                    search: 'images',
+                    query: work.id,
+                  },
+                  'work_details/images'
+                )}
+              />
+            </WorkDetailsSection>
+          )
+        }
+      </TogglesContext.Consumer>
+      <WorkDetailsSection headingText="About this work">
+        {work.alternativeTitles.length > 0 && (
+          <WorkDetailsText
+            title="Also known as"
+            text={work.alternativeTitles}
+          />
+        )}
+
+        {work.description && (
+          <WorkDetailsText title="Description" text={[work.description]} />
+        )}
+
+        {work.contributors.length > 0 && (
+          <WorkDetailsTags
+            title="Contributors"
+            tags={work.contributors.map(contributor => ({
+              textParts: [contributor.agent.label],
+              linkAttributes: worksLink(
+                {
+                  query: `"${contributor.agent.label}"`,
+                },
+                'work_details/contributors'
+              ),
+            }))}
+          />
+        )}
+
+        {work.lettering && (
+          <WorkDetailsText title="Lettering" text={[work.lettering]} />
+        )}
+
+        {work.production.length > 0 && (
+          <WorkDetailsText
+            title="Publication/Creation"
+            text={work.production.map(productionEvent => productionEvent.label)}
+          />
+        )}
+
+        {work.edition && (
+          <WorkDetailsText title="Edition" text={[work.edition]} />
+        )}
+
+        {work.physicalDescription && (
+          <WorkDetailsText
+            title="Physical description"
+            text={[work.physicalDescription]}
+          />
+        )}
+
+        {duration && <WorkDetailsText title="Duration" text={[duration]} />}
+
+        {work.notes
+          .filter(note => note.noteType.id !== 'location-of-original')
+          .map(note => (
+            <WorkDetailsText
+              key={note.noteType.label}
+              title={note.noteType.label}
+              text={note.contents}
+            />
+          ))}
+
+        {work.genres.length > 0 && (
+          <WorkDetailsTags
+            title="Type/Technique"
+            tags={work.genres.map(g => {
+              return {
+                textParts: g.concepts.map(c => c.label),
+                linkAttributes: worksLink(
+                  {
+                    query: `"${g.label}"`,
+                  },
+                  'work_details/genres'
+                ),
+              };
+            })}
+          />
+        )}
+
+        {work.language && (
+          <WorkDetailsLinks
+            title="Language"
+            links={[work.language && work.language.label]}
+          />
+        )}
+      </WorkDetailsSection>
+      {work.subjects.length > 0 && (
+        <WorkDetailsSection headingText="Subjects">
+          <WorkDetailsTags
+            title={null}
+            tags={work.subjects.map(s => {
+              return {
+                textParts: s.concepts.map(c => c.label),
+                linkAttributes: worksLink(
+                  {
+                    query: `"${s.label}"`,
+                  },
+                  'work_details/subjects'
+                ),
+              };
+            })}
+          />
+        </WorkDetailsSection>
+      )}
+      {digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
+      <WorkDetailsSection headingText="Identifiers">
+        {isbnIdentifiers.length > 0 && (
+          <WorkDetailsList
+            title="ISBN"
+            list={isbnIdentifiers.map(id => id.value)}
+          />
+        )}
+        <SpacingComponent>
+          <div className={`${font('hnl', 5)}`}>
+            <CopyUrl
+              id={work.id}
+              url={`https://wellcomecollection.org/works/${work.id}`}
+            />
+          </div>
+        </SpacingComponent>
+        {work.citeAs && (
+          <WorkDetailsText title="Reference number" text={[work.citeAs]} />
+        )}
+      </WorkDetailsSection>
+    </>
+  );
+
   return (
     <Space
       v={{
@@ -188,350 +530,50 @@ const WorkDetails = ({
         row: true,
       })}
     >
-      <Layout12>
-        {digitalLocation && (
-          <WorkDetailsSection headingText="Available online">
-            {video && (
-              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                <VideoPlayer video={video} />
-              </Space>
-            )}
-            {audio && (
-              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                <AudioPlayer audio={audio} />
-              </Space>
-            )}
-            {work.thumbnail && (
-              <Space
-                v={{
-                  size: 's',
-                  properties: ['margin-bottom'],
-                }}
-              >
-                {itemUrl ? (
-                  <NextLink {...itemUrl}>
-                    <a
-                      onClick={trackEvent({
-                        category: 'WorkDetails',
-                        action: 'follow image link',
-                        label: itemUrl.href.query.workId,
-                      })}
-                    >
-                      <img
-                        style={{
-                          width: 'auto',
-                          height: 'auto',
-                        }}
-                        alt={`view ${work.title}`}
-                        src={work.thumbnail.url}
-                      />
-                    </a>
-                  </NextLink>
-                ) : (
-                  <img
-                    style={{
-                      width: 'auto',
-                      height: 'auto',
-                    }}
-                    alt={`view ${work.title}`}
-                    src={work.thumbnail.url}
-                  />
-                )}
-              </Space>
-            )}
-            {itemUrl && !audio && !video && (
-              <>
-                <Space
-                  as="span"
-                  h={{
-                    size: 'm',
-                    properties: ['margin-right'],
-                  }}
-                >
-                  <ButtonSolidLink
-                    icon="eye"
-                    text="View"
-                    trackingEvent={{
-                      category: 'WorkDetails',
-                      action: 'follow view link',
-                      label: itemUrl.href.query.workId,
-                    }}
-                    link={{ ...itemUrl }}
-                  />
-                </Space>
-                {(imageCount > 4 || childManifestsCount > 1) && (
-                  <Space
-                    as="span"
-                    h={{
-                      size: 'm',
-                      properties: ['margin-right'],
-                    }}
+      <div className="container">
+        <div className="grid">
+          <TogglesContext.Consumer>
+            {({ archivesPrototypeSidePanel }) =>
+              archivesPrototypeSidePanel ? (
+                <>
+                  <div
+                    className={classNames({
+                      [grid({
+                        s: 12,
+                        m: 6,
+                        l: 6,
+                        xl: 6,
+                      })]: true,
+                    })}
                   >
-                    <ButtonSolidLink
-                      icon="gridView"
-                      text="Overview"
-                      trackingEvent={{
-                        category: 'WorkDetails',
-                        action: 'follow overview link',
-                        label: itemUrl.href.query.workId,
-                      }}
-                      link={{
-                        ...merge({}, itemUrl, {
-                          href: {
-                            query: {
-                              isOverview: true,
-                            },
-                          },
-                          as: {
-                            query: {
-                              isOverview: true,
-                            },
-                          },
-                        }),
-                      }}
-                    />
-                  </Space>
-                )}
-              </>
-            )}
-
-            <Download
-              ariaControlsId="itemDownloads"
-              workId={work.id}
-              downloadOptions={downloadOptions}
-            />
-
-            {!(downloadOptions.length > 0) &&
-              sierraIdFromManifestUrl &&
-              childManifestsCount === 0 && (
-                <NextLink
-                  {...downloadUrl({
-                    workId: work.id,
-                    sierraId: sierraIdFromManifestUrl,
-                  })}
-                >
-                  <a>Download options</a>
-                </NextLink>
-              )}
-
-            {(childManifestsCount > 0 || imageCount > 0) && (
-              <Space
-                v={{
-                  size: 'm',
-                  properties: ['margin-top'],
-                }}
-              >
-                <p
+                    one
+                  </div>
+                  <div
+                    className={classNames({
+                      [grid({
+                        s: 12,
+                        m: 6,
+                        l: 6,
+                        xl: 6,
+                      })]: true,
+                    })}
+                  >
+                    <Content />
+                  </div>
+                </>
+              ) : (
+                <div
                   className={classNames({
-                    'no-margin': true,
-                    [font('lr', 6)]: true,
+                    [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                   })}
                 >
-                  Contains:{' '}
-                  {childManifestsCount > 0
-                    ? `${childManifestsCount} volumes`
-                    : imageCount > 0
-                    ? `${imageCount} ${imageCount === 1 ? 'image' : 'images'}`
-                    : ''}
-                </p>
-              </Space>
-            )}
-            {license && (
-              <>
-                <Space
-                  v={{
-                    size: 'l',
-                    properties: ['margin-top'],
-                  }}
-                >
-                  <WorkDetailsText title="License" text={[license.label]} />
-                </Space>
-                <Space
-                  v={{
-                    size: 'l',
-                    properties: ['margin-top'],
-                  }}
-                >
-                  <ExplanatoryText
-                    id="licenseDetail"
-                    controlText="Can I use this?"
-                  >
-                    <>
-                      {license.humanReadableText.length > 0 && (
-                        <WorkDetailsText text={license.humanReadableText} />
-                      )}
-
-                      <WorkDetailsText
-                        text={[
-                          `Credit: ${work.title.replace(/\.$/g, '')}.${' '}
-                ${
-                  credit
-                    ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
-                    : ` `
-                }
-              ${
-                license.url
-                  ? `<a href="${license.url}">${license.label}</a>`
-                  : license.label
-              }`,
-                        ]}
-                      />
-                    </>
-                  </ExplanatoryText>
-                </Space>
-              </>
-            )}
-          </WorkDetailsSection>
-        )}
-        {!digitalLocation && (locationOfWork || encoreLink) && (
-          <WhereToFindIt />
-        )}
-        <TogglesContext.Consumer>
-          {({ newImageSearch }) =>
-            newImageSearch &&
-            work.images &&
-            work.images.length > 0 && (
-              <WorkDetailsSection headingText="Selected images from this work">
-                <ButtonOutlinedLink
-                  text={`View ${work.images.length} images`}
-                  link={worksLink(
-                    {
-                      search: 'images',
-                      query: work.id,
-                    },
-                    'work_details/images'
-                  )}
-                />
-              </WorkDetailsSection>
-            )
-          }
-        </TogglesContext.Consumer>
-        <WorkDetailsSection headingText="About this work">
-          {work.alternativeTitles.length > 0 && (
-            <WorkDetailsText
-              title="Also known as"
-              text={work.alternativeTitles}
-            />
-          )}
-
-          {work.description && (
-            <WorkDetailsText title="Description" text={[work.description]} />
-          )}
-
-          {work.contributors.length > 0 && (
-            <WorkDetailsTags
-              title="Contributors"
-              tags={work.contributors.map(contributor => ({
-                textParts: [contributor.agent.label],
-                linkAttributes: worksLink(
-                  {
-                    query: `"${contributor.agent.label}"`,
-                  },
-                  'work_details/contributors'
-                ),
-              }))}
-            />
-          )}
-
-          {work.lettering && (
-            <WorkDetailsText title="Lettering" text={[work.lettering]} />
-          )}
-
-          {work.production.length > 0 && (
-            <WorkDetailsText
-              title="Publication/Creation"
-              text={work.production.map(
-                productionEvent => productionEvent.label
-              )}
-            />
-          )}
-
-          {work.edition && (
-            <WorkDetailsText title="Edition" text={[work.edition]} />
-          )}
-
-          {work.physicalDescription && (
-            <WorkDetailsText
-              title="Physical description"
-              text={[work.physicalDescription]}
-            />
-          )}
-
-          {duration && <WorkDetailsText title="Duration" text={[duration]} />}
-
-          {work.notes
-            .filter(note => note.noteType.id !== 'location-of-original')
-            .map(note => (
-              <WorkDetailsText
-                key={note.noteType.label}
-                title={note.noteType.label}
-                text={note.contents}
-              />
-            ))}
-
-          {work.genres.length > 0 && (
-            <WorkDetailsTags
-              title="Type/Technique"
-              tags={work.genres.map(g => {
-                return {
-                  textParts: g.concepts.map(c => c.label),
-                  linkAttributes: worksLink(
-                    {
-                      query: `"${g.label}"`,
-                    },
-                    'work_details/genres'
-                  ),
-                };
-              })}
-            />
-          )}
-
-          {work.language && (
-            <WorkDetailsLinks
-              title="Language"
-              links={[work.language && work.language.label]}
-            />
-          )}
-        </WorkDetailsSection>
-        {work.subjects.length > 0 && (
-          <WorkDetailsSection headingText="Subjects">
-            <WorkDetailsTags
-              title={null}
-              tags={work.subjects.map(s => {
-                return {
-                  textParts: s.concepts.map(c => c.label),
-                  linkAttributes: worksLink(
-                    {
-                      query: `"${s.label}"`,
-                    },
-                    'work_details/subjects'
-                  ),
-                };
-              })}
-            />
-          </WorkDetailsSection>
-        )}
-        {digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
-        <WorkDetailsSection headingText="Identifiers">
-          {isbnIdentifiers.length > 0 && (
-            <WorkDetailsList
-              title="ISBN"
-              list={isbnIdentifiers.map(id => id.value)}
-            />
-          )}
-          <SpacingComponent>
-            <div className={`${font('hnl', 5)}`}>
-              <CopyUrl
-                id={work.id}
-                url={`https://wellcomecollection.org/works/${work.id}`}
-              />
-            </div>
-          </SpacingComponent>
-          {work.citeAs && (
-            <WorkDetailsText title="Reference number" text={[work.citeAs]} />
-          )}
-        </WorkDetailsSection>
-      </Layout12>
+                  <Content />
+                </div>
+              )
+            }
+          </TogglesContext.Consumer>
+        </div>
+      </div>
     </Space>
   );
 };
