@@ -96,9 +96,7 @@ exports[`Feature: 2. As a library member I want to request an item
                   Object {
                     "$$typeof": Symbol(react.forward_ref),
                     "attrs": Array [
-                      Object {
-                        "className": "font-hnm font-size-5  flex flex--v-center",
-                      },
+                      [Function],
                     ],
                     "componentStyle": ComponentStyle {
                       "componentId": "ButtonSolid__BaseButtonInner-is2j2c-1",
@@ -221,9 +219,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                 Object {
                   "$$typeof": Symbol(react.forward_ref),
                   "attrs": Array [
-                    Object {
-                      "className": "font-hnm font-size-5  flex flex--v-center",
-                    },
+                    [Function],
                   ],
                   "componentStyle": ComponentStyle {
                     "componentId": "ButtonSolid__BaseButtonInner-is2j2c-1",
