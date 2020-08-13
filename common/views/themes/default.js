@@ -44,7 +44,7 @@ const theme = {
     yellow: { base: '#ffce3c', dark: '', light: '' },
     brown: { base: '#815e48', dark: '', light: '' },
     cream: { base: '#f0ede3', dark: '', light: '' },
-    green: { base: '#178474', dark: '#146a5c', light: '' },
+    green: { base: '#00786c', dark: '#146a5c', light: '' },
     charcoal: { base: '#323232', dark: '', light: '' },
     pewter: { base: '#6b6b6b', dark: '', light: '' },
     silver: { base: '#8f8f8f', dark: '', light: '' },
