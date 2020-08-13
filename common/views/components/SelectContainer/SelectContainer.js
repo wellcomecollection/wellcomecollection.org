@@ -61,7 +61,13 @@ const SelectContainer = ({ label, children }: Props) => {
   return (
     <StyledSelect isKeyboard={isKeyboard}>
       <label>
-        <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+        <Space
+          as="span"
+          h={{ size: 'm', properties: ['margin-right'] }}
+          className={classNames({
+            [font('hnm', 5)]: true,
+          })}
+        >
           {label}
         </Space>
         {children}
