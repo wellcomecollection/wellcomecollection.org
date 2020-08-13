@@ -383,7 +383,11 @@ const WorkDetails = ({
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection headingText="Selected images from this work">
           <ButtonOutlinedLink
-            text={`View ${work.images.length} images`}
+            text={
+              work.images.length > 1
+                ? `View ${work.images.length} images`
+                : 'View 1 image'
+            }
             link={worksLink(
               {
                 search: 'images',
