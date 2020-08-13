@@ -57,12 +57,12 @@ export const BaseButton = styled.button.attrs(props => ({
   }
 `;
 
-export const BaseButtonInner = styled.span.attrs({
+export const BaseButtonInner = styled.span.attrs(props => ({
   className: classNames({
-    [font('hnm', 5)]: true,
+    [font(props.isInline ? 'hnl' : 'hnm', 5)]: true,
     'flex flex--v-center': true,
   }),
-})`
+}))`
   height: 1em;
 `;
 
