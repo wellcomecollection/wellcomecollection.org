@@ -1,23 +1,24 @@
 // @flow
+import {SyntheticEvent} from 'react';
 import {
   BaseButtonInner,
   ButtonIconWrapper,
-  SolidButton,
-  type ButtonSolidBaseProps,
 } from '../ButtonSolid/ButtonSolid';
+import type { ButtonInlineBaseProps } from '../ButtonInline/ButtonInline';
+import {
+  InlineButton,
+} from '../ButtonInline/ButtonInline';
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
 import NextLink from 'next/link';
-import { type NextLinkType } from '../../../model/next-link-type';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
-type ButtonSolidLinkProps = {|
-  ...ButtonSolidBaseProps,
+type ButtonInlineLinkProps = ButtonInlineBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void,
-  link: NextLinkType | string,
-|};
+  link: {href: {pathname: string, query: string}, as: {pathname: string, query: string}} | string,
+};
 
-const ButtonSolidLink = ({
+const ButtonInlineLink = ({
   text,
   link,
   icon,
@@ -25,8 +26,7 @@ const ButtonSolidLink = ({
   clickHandler,
   ariaControls,
   ariaExpanded,
-  isBig,
-}: ButtonSolidLinkProps) => {
+}: ButtonInlineLinkProps) => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
     trackingEvent && trackEvent(trackingEvent);
@@ -45,24 +45,23 @@ const ButtonSolidLink = ({
         )
       }
     >
-      <SolidButton
+      <InlineButton
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
         onClick={handleClick}
-        isBig={isBig}
         href={isNextLink ? undefined : link}
       >
-        <BaseButtonInner>
+        <BaseButtonInner isInline={true}>
+          {text}
           {icon && (
-            <ButtonIconWrapper>
+            <ButtonIconWrapper iconAfter={true}>
               <Icon name={icon} />
             </ButtonIconWrapper>
           )}
-          {text}
         </BaseButtonInner>
-      </SolidButton>
+      </InlineButton>
     </ConditionalWrapper>
   );
 };
 
-export default ButtonSolidLink;
+export default ButtonInlineLink;

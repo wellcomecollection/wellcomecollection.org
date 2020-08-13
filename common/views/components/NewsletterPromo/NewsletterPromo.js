@@ -9,6 +9,7 @@ import Raven from 'raven-js';
 import TextInput from '../TextInput/TextInput';
 import { trackEvent } from '../../../utils/ga';
 import useValidation from '../../../hooks/useValidation';
+// $FlowFixMe (tsx)
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 
 const FormElementWrapper = styled.div`

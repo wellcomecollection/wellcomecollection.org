@@ -1,7 +1,6 @@
-// @flow
-import { forwardRef } from 'react';
+import { forwardRef, SyntheticEvent } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { trackEvent, type GaEvent } from '@weco/common/utils/ga';
+import { trackEvent, GaEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -17,7 +16,7 @@ export const BaseButton = styled.button.attrs(props => ({
   border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
   text-decoration: none;
   text-align: center;
-  transition: all ${props => props.theme.transitionProperties};
+  transition: background ${props => props.theme.transitionProperties};
   border: 0;
   white-space: nowrap;
   padding: 15px 20px;
@@ -58,12 +57,12 @@ export const BaseButton = styled.button.attrs(props => ({
   }
 `;
 
-export const BaseButtonInner = styled.span.attrs({
+export const BaseButtonInner = styled.span.attrs(props => ({
   className: classNames({
-    [font('hnm', 5)]: true,
+    [font(props.isInline ? 'hnl' : 'hnm', 5)]: true,
     'flex flex--v-center': true,
   }),
-})`
+}))`
   height: 1em;
 `;
 
@@ -77,6 +76,23 @@ export const ButtonIconWrapper = styled(Space).attrs(props => ({
     'flex-inline': true,
   }),
 }))``;
+
+export type ButtonSolidBaseProps = {
+  text: string;
+  icon?: string;
+  type?: 'submit' | 'reset' | 'button';
+  isTextHidden?: boolean;
+  trackingEvent?: GaEvent;
+  isBig?: boolean;
+  ariaControls?: string;
+  ariaExpanded?: boolean;
+  ariaLive?: 'off' | 'polite' | 'assertive';
+};
+
+type ButtonSolidProps = ButtonSolidBaseProps & {
+  disabled?: boolean;
+  clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void,
+};
 
 export const SolidButton = styled(BaseButton)`
   background: ${props => props.theme.color('green')};
@@ -95,23 +111,7 @@ export const SolidButton = styled(BaseButton)`
 
 // TODO move styles here - styled component
 
-export type ButtonSolidBaseProps = {|
-  text: string,
-  icon?: string,
-  type?: 'submit' | 'reset' | 'button',
-  isTextHidden?: boolean,
-  trackingEvent?: GaEvent,
-  isBig?: boolean,
-  ariaControls?: string,
-  ariaExpanded?: boolean,
-  ariaLive?: 'off' | 'polite' | 'assertive',
-|};
 
-type ButtonSolidProps = {|
-  ...ButtonSolidBaseProps,
-  disabled?: boolean,
-  clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void,
-|};
 
 // $FlowFixMe (forwardRef)
 const ButtonSolid = forwardRef(
