@@ -10,6 +10,8 @@ import Space from '@weco/common/views/components/styled/Space';
 // import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+// $FlowFixMe (tsx)
+import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 
 const WorkLink = styled.a`
   display: block;
@@ -40,7 +42,7 @@ const WorksGrid = ({ title, works }: WorksGridProps) => {
             [font('wb', 4)]: true,
           })}
         >
-          {title}
+          <WorkTitle title={title} />
         </h2>
       </Layout12>
       <div className="css-grid__container">
@@ -70,7 +72,7 @@ const WorksGrid = ({ title, works }: WorksGridProps) => {
                         />
                       </Space>
                     )} */}
-                  {item.title}
+                  <WorkTitle title={item.title} />
                   <br />
                   {item.referenceNumber}
                 </WorkLink>

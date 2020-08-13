@@ -10,6 +10,7 @@ import Space from '../styled/Space';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import Modal from '@weco/common/views/components/Modal/Modal';
+import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 
 const Container = styled.div`
   overflow: scroll;
@@ -298,7 +299,7 @@ const ListItem = ({
                     setShowArchiveTreeModal(false);
                   }}
                 >
-                  {item.work.title}
+                  <WorkTitle title={item.work.title} />
                   <div
                     style={{
                       fontSize: '13px',
