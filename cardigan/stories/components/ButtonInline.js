@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
-import ButtonOutlined from '../../../common/views/components/ButtonOutlined/ButtonOutlined';
-import ButtonOutlinedLink from '../../../common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
-import Readme from '../../../common/views/components/ButtonOutlined/README.md';
+import ButtonInline from '../../../common/views/components/ButtonInline/ButtonInline';
+import ButtonInlineLink from '../../../common/views/components/ButtonInlineLink/ButtonInlineLink';
+import Readme from '../../../common/views/components/ButtonInline/README.md';
 import { boolean, text } from '@storybook/addon-knobs/react';
 
 const ButtonExample = () => {
@@ -10,12 +10,12 @@ const ButtonExample = () => {
   const isDisabled = boolean('Is disabled?', false);
   const isLink = boolean('Is link?', false);
   return isLink ? (
-    <ButtonOutlinedLink
+    <ButtonInlineLink
       icon={hasIcon ? 'arrowSmall' : undefined}
       text={buttonText}
     />
   ) : (
-    <ButtonOutlined
+    <ButtonInline
       disabled={isDisabled}
       icon={hasIcon ? 'eye' : undefined}
       text={buttonText}
@@ -24,4 +24,4 @@ const ButtonExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('ButtonOutlined', ButtonExample, { readme: { sidebar: Readme } });
+stories.add('ButtonInline', ButtonExample, { readme: { sidebar: Readme } });

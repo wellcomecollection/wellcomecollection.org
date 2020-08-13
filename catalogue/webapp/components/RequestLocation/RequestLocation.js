@@ -6,7 +6,7 @@ import ResponsiveTable from '@weco/common/views/components/styled/ResponsiveTabl
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ItemRequestButton from '@weco/catalogue/components/ItemRequestButton/ItemRequestButton';
-// $FlowFixMe
+// $FlowFixMe (tsx)
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Space from '@weco/common/views/components/styled/Space';
 import getStacksWork from '@weco/catalogue/services/stacks/items';

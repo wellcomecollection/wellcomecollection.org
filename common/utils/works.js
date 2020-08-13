@@ -234,51 +234,10 @@ export function getItemIdentifiersWith(
   }, []);
 }
 
-export type Collection = {|
-  path: {|
-    path: string,
-    level: string,
-    label: string,
-    type: string,
-  |},
-  work: Work,
-  children?: Collection[],
+export type ArchiveNode = {|
+  id: string,
+  title: string,
+  alternativeTitles: string[],
+  referenceNumber: string,
+  type: 'Work',
 |};
-
-export function getTreeBranches(
-  path: string,
-  collection: Collection
-): Collection[] {
-  const pathParts = path.split('/'); // ['PPCRI', 'A', '1', '1']
-  const pathsToChildren = pathParts
-    .reduce((acc, curr, index) => {
-      if (index === 0) return [pathParts[0]];
-
-      return [...acc, `${acc[index - 1]}/${curr}`];
-    }, [])
-    .slice(1); // ['PPCRI/A', 'PPCRI/A/1', 'PPCRI/A/1/1']
-
-  return pathsToChildren.reduce(
-    (acc, curr) => {
-      const foundItem =
-        (acc[0].children && acc[0].children.find(i => i.path.path === curr)) ||
-        {};
-
-      return [
-        {
-          work: foundItem.work,
-          path: foundItem.path,
-          children: foundItem.children,
-        },
-        ...acc,
-      ];
-    },
-    [
-      {
-        work: collection && collection.work,
-        path: collection && collection.path,
-        children: collection && collection.children,
-      },
-    ]
-  );
-}

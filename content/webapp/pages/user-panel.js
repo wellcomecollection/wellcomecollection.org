@@ -3,7 +3,7 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-// $FlowFixMe
+// $FlowFixMe (tsx)
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Picture from '@weco/common/views/components/Picture/Picture';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
