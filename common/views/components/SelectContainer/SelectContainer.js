@@ -25,7 +25,7 @@ const StyledSelect = styled.div.attrs(props => ({
     font-family: inherit;
     font-weight: inherit;
     appearance: none;
-    padding: 7px 12px 9px;
+    padding: 7px 36px 9px 12px;
     border: 2px solid ${props => props.theme.color('pumice')};
     border-radius: ${props => props.theme.borderRadiusUnit}px;
     background-color: ${props => props.theme.color('white')};
