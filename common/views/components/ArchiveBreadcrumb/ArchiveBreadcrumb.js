@@ -5,6 +5,8 @@ import NextLink from 'next/link';
 import styled from 'styled-components';
 import DropdownButton from '../DropdownButton/DropdownButton';
 import Icon from '../Icon/Icon';
+// $FlowFixMe (tsx)
+import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 
 const ArchiveBreadcrumbNav = styled.nav`
   * {
@@ -98,7 +100,9 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
               name={`archive`}
             />
             <NextLink {...workLink({ id: firstCrumb.id })}>
-              <a className="crumb-inner">{firstCrumb.title}</a>
+              <a className="crumb-inner">
+                <WorkTitle title={firstCrumb.title} />
+              </a>
             </NextLink>
           </li>
         )}
@@ -122,7 +126,8 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
                         />
                         <NextLink {...workLink({ id: crumb.id })}>
                           <a className="crumb-inner">
-                            {crumb.title} {crumb.referenceNumber}
+                            <WorkTitle title={crumb.title} />{' '}
+                            {crumb.referenceNumber}
                           </a>
                         </NextLink>
                       </li>
@@ -148,7 +153,7 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
                   />
                   <NextLink {...workLink({ id: crumb.id })}>
                     <a className="crumb-inner">
-                      {crumb.title} {crumb.referenceNumber}
+                      <WorkTitle title={crumb.title} /> {crumb.referenceNumber}
                     </a>
                   </NextLink>
                 </li>
@@ -167,7 +172,7 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
               }
             />
             <span className="crumb-inner">
-              {lastCrumb.title} {lastCrumb.referenceNumber}
+              <WorkTitle title={lastCrumb.title} /> {lastCrumb.referenceNumber}
             </span>
           </li>
         )}
