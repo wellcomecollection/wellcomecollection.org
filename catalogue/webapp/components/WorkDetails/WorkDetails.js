@@ -6,7 +6,7 @@ import { type IIIFManifest } from '@weco/common/model/iiif';
 import { type Work } from '@weco/common/model/work';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
 import merge from 'lodash.merge';
-import { font, classNames, grid } from '@weco/common/utils/classnames';
+import { font, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { worksLink } from '@weco/common/services/catalogue/routes';
 import {
@@ -44,7 +44,7 @@ import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/Expla
 import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
-
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 type Props = {|
   work: Work,
   iiifPresentationManifest: ?IIIFManifest,
@@ -535,40 +535,13 @@ const WorkDetails = ({
           <TogglesContext.Consumer>
             {({ archivesPrototypeSidePanel }) =>
               archivesPrototypeSidePanel ? (
-                <>
-                  <div
-                    className={classNames({
-                      [grid({
-                        s: 12,
-                        m: 6,
-                        l: 6,
-                        xl: 6,
-                      })]: true,
-                    })}
-                  >
-                    one
-                  </div>
-                  <div
-                    className={classNames({
-                      [grid({
-                        s: 12,
-                        m: 6,
-                        l: 6,
-                        xl: 6,
-                      })]: true,
-                    })}
-                  >
-                    <Content />
-                  </div>
-                </>
+                // <Layout12>
+                <Content />
               ) : (
-                <div
-                  className={classNames({
-                    [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-                  })}
-                >
+                // </Layout12>
+                <Layout12>
                   <Content />
-                </div>
+                </Layout12>
               )
             }
           </TogglesContext.Consumer>
