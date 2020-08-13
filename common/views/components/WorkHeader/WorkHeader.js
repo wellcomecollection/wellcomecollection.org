@@ -56,8 +56,9 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
           </div>
 
           <TogglesContext.Consumer>
-            {({ archivesPrototype }) =>
-              archivesPrototype && <ArchiveTree work={work} />
+            {({ archivesPrototype, archivesPrototypeSidePanel }) =>
+              archivesPrototype &&
+              !archivesPrototypeSidePanel && <ArchiveTree work={work} />
             }
           </TogglesContext.Consumer>
           <h1
