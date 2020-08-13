@@ -39,7 +39,7 @@ exports[`Feature: 2. As a library member I want to request an item
               "componentStyle": ComponentStyle {
                 "componentId": "ButtonSolid__SolidButton-is2j2c-3",
                 "isStatic": false,
-                "lastClassName": "hwCwKC",
+                "lastClassName": "dvzDuH",
                 "rules": Array [
                   "display:inline-flex;line-height:1;border-radius:",
                   [Function],
@@ -86,7 +86,7 @@ exports[`Feature: 2. As a library member I want to request an item
           onClick={[Function]}
         >
           <a
-            className="ButtonSolid__BaseButton-is2j2c-0 ButtonSolid__SolidButton-is2j2c-3 hwCwKC flex-inline flex--v-center"
+            className="ButtonSolid__BaseButton-is2j2c-0 ButtonSolid__SolidButton-is2j2c-3 dvzDuH flex-inline flex--v-center"
             href="/loginUrl"
             onClick={[Function]}
           >
@@ -96,9 +96,7 @@ exports[`Feature: 2. As a library member I want to request an item
                   Object {
                     "$$typeof": Symbol(react.forward_ref),
                     "attrs": Array [
-                      Object {
-                        "className": "font-hnm font-size-5  flex flex--v-center",
-                      },
+                      [Function],
                     ],
                     "componentStyle": ComponentStyle {
                       "componentId": "ButtonSolid__BaseButtonInner-is2j2c-1",
@@ -166,7 +164,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
             "componentStyle": ComponentStyle {
               "componentId": "ButtonSolid__SolidButton-is2j2c-3",
               "isStatic": false,
-              "lastClassName": "hwCwKC",
+              "lastClassName": "dvzDuH",
               "rules": Array [
                 "display:inline-flex;line-height:1;border-radius:",
                 [Function],
@@ -212,7 +210,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
         onClick={[Function]}
       >
         <button
-          className="ButtonSolid__BaseButton-is2j2c-0 ButtonSolid__SolidButton-is2j2c-3 hwCwKC flex-inline flex--v-center"
+          className="ButtonSolid__BaseButton-is2j2c-0 ButtonSolid__SolidButton-is2j2c-3 dvzDuH flex-inline flex--v-center"
           onClick={[Function]}
         >
           <ButtonSolid__BaseButtonInner>
@@ -221,9 +219,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                 Object {
                   "$$typeof": Symbol(react.forward_ref),
                   "attrs": Array [
-                    Object {
-                      "className": "font-hnm font-size-5  flex flex--v-center",
-                    },
+                    [Function],
                   ],
                   "componentStyle": ComponentStyle {
                     "componentId": "ButtonSolid__BaseButtonInner-is2j2c-1",

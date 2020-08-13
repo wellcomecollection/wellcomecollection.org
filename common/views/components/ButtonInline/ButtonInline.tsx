@@ -1,5 +1,5 @@
 import { forwardRef, SyntheticEvent } from 'react';
-import { classNames } from '../../../utils/classnames';
+import { classNames, font } from '../../../utils/classnames';
 import { GaEvent, trackEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
 import Icon from '../Icon/Icon';
@@ -76,15 +76,16 @@ const ButtonInline = forwardRef<HTMLButtonElement, ButtonInlineProps>(
         onClick={handleClick}
         disabled={disabled}
         ref={ref}>
-        <BaseButtonInner>
+        <BaseButtonInner isInline={true}>
           <>
             <span
               className={classNames({
                 'visually-hidden': !!isTextHidden,
               })}
             >
-              {text}</span>
-              {icon && (
+              {text}
+            </span>
+            {icon && (
               <ButtonIconWrapper iconAfter={true}>
                 <Icon name={icon} />
               </ButtonIconWrapper>

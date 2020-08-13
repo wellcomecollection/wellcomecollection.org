@@ -51,7 +51,7 @@ const ButtonInlineLink = ({
         onClick={handleClick}
         href={isNextLink ? undefined : link}
       >
-        <BaseButtonInner>
+        <BaseButtonInner isInline={true}>
           {text}
           {icon && (
             <ButtonIconWrapper iconAfter={true}>
