@@ -57,7 +57,8 @@ const Dropdown = styled(Space).attrs(props => ({
 `;
 
 const Popper = styled.div`
-  z-index: ${props => props.isActive ? 1 : -1};
+  max-width: calc(100vw - 20px);
+  z-index: ${props => props.isVisible ? 1 : -1};
 `;
 
 type Props = {
@@ -73,9 +74,18 @@ const DropdownButton = ({ label, children, isInline, isOnDark }: Props) => {
   const dropdownWrapperRef = useRef(null);
   const dropdownRef = useRef(null);
   const popperRef = useRef(null);
+  const [isPopperVisible, setIsPopperVisible] = useState(false);
   const { styles, attributes } = usePopper(
     dropdownWrapperRef.current,
     popperRef.current,
+    {
+      modifiers: [{
+        name: 'preventOverflow',
+          options: {
+            padding: 10
+          },
+       }]
+    }
   );
 
   const buttonProps = {
@@ -131,8 +141,17 @@ const DropdownButton = ({ label, children, isInline, isOnDark }: Props) => {
       ) : (
         <ButtonOulined {...buttonProps} />
       )}
-      <Popper ref={popperRef} style={isEnhanced ? styles.popper : null} {...(isEnhanced ? attributes.popper : {})} isActive={isActive}>
-        <CSSTransition in={isActive} classNames="fade" timeout={350}>
+      <Popper
+        ref={popperRef}
+        style={isEnhanced ? styles.popper : null} {...(isEnhanced ? attributes.popper : {})}
+        isVisible={isPopperVisible}
+      >
+        <CSSTransition
+          in={isActive}
+          classNames="fade"
+          timeout={350}
+          onEnter={() => setIsPopperVisible(true)}
+          onExited={() => setIsPopperVisible(false)}>
           <Dropdown
             isActive={isActive}
             isEnhanced={isEnhanced}
