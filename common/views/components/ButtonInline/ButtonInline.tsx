@@ -7,6 +7,7 @@ import {
   BaseButton,
   BaseButtonInner,
   ButtonIconWrapper,
+  ButtonTypes,
 } from '../ButtonSolid/ButtonSolid';
 
 
@@ -21,11 +22,6 @@ export const InlineButton = styled(BaseButton)`
   }
 `;
 
-export enum ButtonTypes {
-  button = 'button',
-  reset = 'reset',
-  submit = 'submit',
-}
 
 export type ButtonInlineBaseProps = {
   text: string,

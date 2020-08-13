@@ -77,10 +77,17 @@ export const ButtonIconWrapper = styled(Space).attrs(props => ({
   }),
 }))``;
 
+export enum ButtonTypes {
+  button = 'button',
+  reset = 'reset',
+  submit = 'submit',
+}
+
+
 export type ButtonSolidBaseProps = {
   text: string;
   icon?: string;
-  type?: 'submit' | 'reset' | 'button';
+  type?: ButtonTypes;
   isTextHidden?: boolean;
   trackingEvent?: GaEvent;
   isBig?: boolean;

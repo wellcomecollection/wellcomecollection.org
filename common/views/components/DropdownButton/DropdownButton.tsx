@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import Space from '../styled/Space';
-import ButtonInline, { ButtonTypes } from '../ButtonInline/ButtonInline';
+import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
+import ButtonInline from '../ButtonInline/ButtonInline';
 import ButtonOulined from '../ButtonOutlined/ButtonOutlined';
 import { AppContext } from '../AppContext/AppContext';
 
