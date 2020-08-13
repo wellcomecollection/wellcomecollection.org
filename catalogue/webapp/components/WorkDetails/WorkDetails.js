@@ -386,26 +386,20 @@ const WorkDetails = ({
         {!digitalLocation && (locationOfWork || encoreLink) && (
           <WhereToFindIt />
         )}
-        <TogglesContext.Consumer>
-          {({ newImageSearch }) =>
-            newImageSearch &&
-            work.images &&
-            work.images.length > 0 && (
-              <WorkDetailsSection headingText="Selected images from this work">
-                <ButtonOutlinedLink
-                  text={`View ${work.images.length} images`}
-                  link={worksLink(
-                    {
-                      search: 'images',
-                      query: work.id,
-                    },
-                    'work_details/images'
-                  )}
-                />
-              </WorkDetailsSection>
-            )
-          }
-        </TogglesContext.Consumer>
+        {work.images && work.images.length > 0 && (
+          <WorkDetailsSection headingText="Selected images from this work">
+            <ButtonOutlinedLink
+              text={`View ${work.images.length} images`}
+              link={worksLink(
+                {
+                  search: 'images',
+                  query: work.id,
+                },
+                'work_details/images'
+              )}
+            />
+          </WorkDetailsSection>
+        )}
         <WorkDetailsSection headingText="About this work">
           {work.alternativeTitles.length > 0 && (
             <WorkDetailsText

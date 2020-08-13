@@ -93,8 +93,7 @@ const ImagePage = ({ image, sourceWork, langCode }: Props) => {
 
 ImagePage.getInitialProps = async (ctx: Context): Promise<Props> => {
   const { id, workId, langCode } = ctx.query;
-  const { newImageSearch } = ctx.query.toggles;
-  if (!id || !newImageSearch) {
+  if (!id) {
     // $FlowFixMe
     return { statusCode: 404 };
   }
