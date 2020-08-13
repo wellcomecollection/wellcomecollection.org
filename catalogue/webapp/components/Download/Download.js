@@ -21,7 +21,7 @@ export const DownloadOptions = styled.div.attrs(props => ({
   color: ${props => props.theme.color('black')};
 
   li + li {
-    margin-top: 12px;
+    margin-top: ${props => `${props.theme.spacingUnit * 2}px`};
   }
 `;
 
