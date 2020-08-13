@@ -8,7 +8,7 @@ import { classNames, font } from '../../../utils/classnames';
 
 const StyledSelect = styled.div.attrs(props => ({
   className: classNames({
-    [font('hnm', 5)]: true,
+    [font('hnl', 5)]: true,
   }),
 }))`
   position: relative;
