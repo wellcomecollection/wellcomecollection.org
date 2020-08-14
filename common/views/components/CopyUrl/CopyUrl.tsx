@@ -2,9 +2,10 @@ import {useState, useContext, useRef} from 'react';
 import { classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
-import HTMLInput from '../HTMLInput/HTMLInput';
+import TextInput from '../TextInput/TextInput';
 import Space from '../styled/Space';
 import { AppContext } from '../AppContext/AppContext';
+import { InlineButton } from '../ButtonInline/ButtonInline';
 
 type Props = {
   id: string;
@@ -16,7 +17,7 @@ const CopyUrl = ({id, url}: Props) => {
   const {isEnhanced} = useContext(AppContext);
   const [isTextCopied, setIsTextCopied] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-  const inputRef = useRef(null);
+  const buttonRef = useRef(null);
 
   function getButtonMarkup() {
     if (!isClicked) {
@@ -48,9 +49,8 @@ const CopyUrl = ({id, url}: Props) => {
 
     setIsClicked(true);
 
+    buttonRef.current && buttonRef.current.focus();
     textarea.remove();
-
-    inputRef.current && inputRef.current.focus();
 
     trackEvent({
       category: 'CopyUrl',
@@ -61,38 +61,38 @@ const CopyUrl = ({id, url}: Props) => {
 
   return (
     <>
-      <HTMLInput
-        inputRef={inputRef}
+      <TextInput
         id="share"
         type="text"
         label="share url"
-        defaultValue={url}
-        isLabelHidden={true}
+        value={url}
+        setValue={() => {}}
       />
 
-      <Space
-        v={{
-          size: 'm',
-          properties: ['margin-top'],
-        }}
-        aria-live="polite"
-        onClick={handleButtonClick}
-        data-copy-text={url}
-        className={classNames({
-          'is-hidden': !isEnhanced,
-        })}
-      >
-        <span>
-          <Icon
-            name="check"
-            extraClasses={classNames({
-              'icon--inherit icon--match-text': true,
-              'is-hidden': !isTextCopied,
-            })}
-          />
-          <span>{getButtonMarkup(isTextCopied, isClicked)}</span>
-        </span>
-      </Space>
+      {isEnhanced &&
+        <Space
+          v={{
+            size: 'm',
+            properties: ['margin-top'],
+          }}
+        >
+
+          <InlineButton
+            aria-live="polite"
+            onClick={handleButtonClick}
+            ref={buttonRef}
+          >
+            <span>{getButtonMarkup()}</span>
+            <Icon
+              name="check"
+              extraClasses={classNames({
+                'icon--inherit icon--match-text': true,
+                'is-hidden': !isTextCopied,
+              })}
+            />
+          </InlineButton>
+        </Space>
+      }
     </>
   );
 };
