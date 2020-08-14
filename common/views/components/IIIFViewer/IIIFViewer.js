@@ -585,6 +585,7 @@ const IIIFViewerComponent = ({
                 ...iiifPresentationDownloadOptions,
               ]}
               useDarkControl={true}
+              isInline={true}
             />
           </Space>
         </Layout12>

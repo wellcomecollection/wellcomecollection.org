@@ -4,6 +4,7 @@ import { font, classNames } from '../../../utils/classnames';
 import { worksLink } from '../../../services/catalogue/routes';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
+// $FlowFixMe (tsx)
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
