@@ -5,7 +5,7 @@ import Icon from '../Icon/Icon';
 import TextInput from '../TextInput/TextInput';
 import Space from '../styled/Space';
 import { AppContext } from '../AppContext/AppContext';
-import { InlineButton } from '../ButtonInline/ButtonInline';
+import ButtonInline from '../ButtonInline/ButtonInline';
 
 type Props = {
   id: string;
@@ -23,11 +23,7 @@ const CopyUrl = ({id, url}: Props) => {
     if (!isClicked) {
       return 'Copy URL';
     } else if (isTextCopied) {
-      return (
-        <>
-          <span className="visually-hidden">link has been</span>Copied
-        </>
-      );
+      return 'Copied';
     } else {
       return 'Copy failed';
     }
@@ -64,7 +60,7 @@ const CopyUrl = ({id, url}: Props) => {
       <TextInput
         id="share"
         type="text"
-        label="share url"
+        label="Page URL"
         value={url}
         setValue={() => {}}
         name={null}
@@ -87,21 +83,13 @@ const CopyUrl = ({id, url}: Props) => {
             properties: ['margin-top'],
           }}
         >
-
-          <InlineButton
+          <ButtonInline
             aria-live="polite"
-            onClick={handleButtonClick}
+            clickHandler={handleButtonClick}
             ref={buttonRef}
-          >
-            <span>{getButtonMarkup()}</span>
-            <Icon
-              name="check"
-              extraClasses={classNames({
-                'icon--inherit icon--match-text': true,
-                'is-hidden': !isTextCopied,
-              })}
-            />
-          </InlineButton>
+            text={getButtonMarkup()}
+            icon={isTextCopied ? 'check' : null}
+          />
         </Space>
       }
     </>
