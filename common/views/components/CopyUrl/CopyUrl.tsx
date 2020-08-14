@@ -1,147 +1,100 @@
-import { font, classNames } from '../../../utils/classnames';
+import {useState, useContext, useRef} from 'react';
+import { classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
-import { Fragment, Component } from 'react';
 import Icon from '../Icon/Icon';
 import HTMLInput from '../HTMLInput/HTMLInput';
 import Space from '../styled/Space';
+import { AppContext } from '../AppContext/AppContext';
 
 type Props = {
   id: string;
   url: string;
 };
 
-// TODO: work out how to handle cutting-the-mustard (?HOC)
-// and remove isEnhanced if/when this becomes a more global concern
-type State = {
-  isEnhanced: boolean;
-  isTextCopied: boolean;
-  isClicked: boolean;
-};
 
-function getButtonMarkup(isTextCopied, isClicked) {
-  if (!isClicked) {
-    return 'Copy URL';
-  } else if (isTextCopied) {
-    return (
-      <Fragment>
-        <span className="visually-hidden">link has been</span>Copied
-      </Fragment>
-    );
-  } else {
-    return 'Copy failed';
-  }
-}
+const CopyUrl = ({id, url}: Props) => {
+  const {isEnhanced} = useContext(AppContext);
+  const [isTextCopied, setIsTextCopied] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  const inputRef = useRef(null);
 
-class CopyUrl extends Component<Props, State> {
-  textInput: HTMLInputElement | null;
-  setTextInputRef: Function;
-  focusTextInput: Function;
-
-  constructor(props: Props) {
-    super(props);
-    this.textInput = null;
-
-    // Using refs to get access to elements for e.g. focusing
-    // https://reactjs.org/docs/refs-and-the-dom.html#callback-refs
-    this.setTextInputRef = el => {
-      this.textInput = el;
-    };
-
-    this.focusTextInput = () => {
-      if (this.textInput) {
-        this.textInput.focus();
-      }
-    };
+  function getButtonMarkup() {
+    if (!isClicked) {
+      return 'Copy URL';
+    } else if (isTextCopied) {
+      return (
+        <>
+          <span className="visually-hidden">link has been</span>Copied
+        </>
+      );
+    } else {
+      return 'Copy failed';
+    }
   }
 
-  state: State = {
-    isEnhanced: false,
-    isTextCopied: false,
-    isClicked: false,
-  };
-
-  componentDidMount() {
-    this.setState({ isEnhanced: true });
-  }
-
-  handleButtonClick = () => {
+  function handleButtonClick() {
     const textarea = document.createElement('textarea');
     textarea.setAttribute('style', 'position: fixed; left: -9999px;');
-    textarea.innerHTML = this.props.url;
+    textarea.innerHTML = url;
     document.body && document.body.appendChild(textarea);
     textarea.select();
 
     try {
       document.execCommand('copy');
-      this.setState({
-        isTextCopied: true,
-      });
+      setIsTextCopied(true);
     } catch (err) {
-      this.setState({
-        isTextCopied: false,
-      });
+      setIsTextCopied(false);
     }
 
-    this.setState({
-      isClicked: true,
-    });
+    setIsClicked(true);
 
     textarea.remove();
-    this.focusTextInput();
+
+    inputRef.current && inputRef.current.focus();
 
     trackEvent({
       category: 'CopyUrl',
       action: 'copy url to clipboard',
-      label: this.props.id,
+      label: id,
     });
   };
 
-  render() {
-    const { url } = this.props;
-    const { isTextCopied, isClicked } = this.state;
+  return (
+    <>
+      <HTMLInput
+        inputRef={inputRef}
+        id="share"
+        type="text"
+        label="share url"
+        defaultValue={url}
+        isLabelHidden={true}
+      />
 
-    return (
-      <div>
-        <HTMLInput
-          inputRef={this.setTextInputRef}
-          id="share"
-          type="text"
-          label="share url"
-          defaultValue={url}
-          isLabelHidden={true}
-        />
-
-        {/* TODO: update this button to be `<Button extraClasses: 'btn--tertiary' />
-        once we're fully reactified */}
-
-        <Space
-          v={{
-            size: 'm',
-            properties: ['margin-top'],
-          }}
-          aria-live="polite"
-          onClick={this.handleButtonClick}
-          data-copy-text={url}
-          className={classNames({
-            [font('hnm', 5)]: true,
-            'btn btn--tertiary flex-inline flex--v-center pointer': true,
-            'is-hidden': !this.state.isEnhanced,
-          })}
-        >
-          <span className="flex-inline flex--v-center">
-            <Icon
-              name="check"
-              extraClasses={classNames({
-                'icon--inherit icon--match-text': true,
-                'is-hidden': !isTextCopied,
-              })}
-            />
-            <span>{getButtonMarkup(isTextCopied, isClicked)}</span>
-          </span>
-        </Space>
-      </div>
-    );
-  }
-}
+      <Space
+        v={{
+          size: 'm',
+          properties: ['margin-top'],
+        }}
+        aria-live="polite"
+        onClick={handleButtonClick}
+        data-copy-text={url}
+        className={classNames({
+          'is-hidden': !isEnhanced,
+        })}
+      >
+        <span>
+          <Icon
+            name="check"
+            extraClasses={classNames({
+              'icon--inherit icon--match-text': true,
+              'is-hidden': !isTextCopied,
+            })}
+          />
+          <span>{getButtonMarkup(isTextCopied, isClicked)}</span>
+        </span>
+      </Space>
+    </>
+  );
+};
 
 export default CopyUrl;
