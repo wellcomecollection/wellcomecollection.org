@@ -1,7 +1,6 @@
 import { forwardRef, SyntheticEvent } from 'react';
-import { classNames } from '../../../utils/classnames';
-import type { GaEvent } from '@weco/common/utils/ga';
-import { trackEvent } from '@weco/common/utils/ga';
+import { classNames, font } from '../../../utils/classnames';
+import { GaEvent, trackEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
 import Icon from '../Icon/Icon';
 import {
@@ -11,26 +10,18 @@ import {
 } from '../ButtonSolid/ButtonSolid';
 
 
-type MaybeAnchor = {
-  href?: string,
-}
-
-export const OutlinedButton = styled(BaseButton).attrs<MaybeAnchor>(props => ({
-  className: classNames({
-    'link-reset': !!props.href,
-  }),
-}))`
-  border: 2px solid ${props => props.theme.color('green')};
+export const InlineButton = styled(BaseButton)`
+  border: 2px solid ${props => props.theme.color('pumice')};
   background: ${props => props.theme.color('transparent')};
-  color: ${props => props.theme.color('green')};
-  padding: 15px 20px;
+  color: ${props => props.theme.color('charcoal')};
+  padding: 7px 12px 9px;
 
   &:hover {
     text-decoration: underline;
   }
 `;
 
-export type ButtonOutlinedBaseProps = {
+export type ButtonInlineBaseProps = {
   text: string,
   icon?: string,
   type?: 'submit' | 'reset' | 'button',
@@ -41,15 +32,13 @@ export type ButtonOutlinedBaseProps = {
   ariaLive?: 'off' | 'polite' | 'assertive',
 };
 
-type ButtonOutlinedProps = ButtonOutlinedBaseProps & {
+type ButtonInlineProps = ButtonInlineBaseProps & {
   disabled?: boolean,
   clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void,
 };
 
-const ConditionalWrapper = ({ condition, wrapper, children }) =>
-  condition ? wrapper(children) : children;
 
-const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
+const ButtonInline = forwardRef<HTMLButtonElement, ButtonInlineProps>(
   (
     {
       icon,
@@ -62,7 +51,7 @@ const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
       ariaExpanded,
       ariaLive,
       disabled,
-    }: ButtonOutlinedProps,
+    }: ButtonInlineProps,
     ref
   ) => {
     function handleClick(event) {
@@ -70,7 +59,7 @@ const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
       trackingEvent && trackEvent(trackingEvent);
     }
     return (
-      <OutlinedButton
+      <InlineButton
         type={type}
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
@@ -78,28 +67,25 @@ const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
         onClick={handleClick}
         disabled={disabled}
         ref={ref}>
-        <BaseButtonInner>
+        <BaseButtonInner isInline={true}>
           <>
             <span
               className={classNames({
                 'visually-hidden': !!isTextHidden,
               })}
             >
-              {text}</span>
-              {icon && (
-                <ConditionalWrapper condition={!isTextHidden}
-                  wrapper={children => (
-                    <ButtonIconWrapper iconAfter={true}>{children}</ButtonIconWrapper>
-                  )}
-                >
-                  <Icon name={icon} />
-                </ConditionalWrapper>
-              )}
+              {text}
+            </span>
+            {icon && (
+              <ButtonIconWrapper iconAfter={true}>
+                <Icon name={icon} />
+              </ButtonIconWrapper>
+            )}
           </>
         </BaseButtonInner>
-      </OutlinedButton>
+      </InlineButton>
     );
   }
 );
 
-export default ButtonOutlined;
+export default ButtonInline;

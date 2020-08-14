@@ -15,6 +15,7 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import { type SearchFiltersSharedProps } from './SearchFilters';
 import ButtonSolid, {
   SolidButton,
+  // $FlowFixMe (tsx)
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
 const ShameButtonWrap = styled(Space).attrs({

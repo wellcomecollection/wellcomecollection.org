@@ -16,11 +16,10 @@ module.exports = {
     },
     {
       id: 'newImageSearch',
-      title:
-        'Use the images endpoint + the Miro merging test index for image searches',
+      title: 'Use the images endpoint',
       defaultValue: false,
       description:
-        'Use the new images endpoint rather than filtering for works with iiif-image in images search, and use an index where many more Miro works have been merged into Sierra',
+        'Use the new images endpoint rather than filtering for works with iiif-image in images search',
     },
     {
       id: 'searchToolbar',

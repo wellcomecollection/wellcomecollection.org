@@ -2,6 +2,7 @@
 
 import type { UiEvent } from '../../../model/events';
 import { Fragment } from 'react';
+// $FlowFixMe (tsx)
 import ButtonSolidLink from '../ButtonSolidLink/ButtonSolidLink';
 import Message from '../Message/Message';
 import { font } from '../../../utils/classnames';

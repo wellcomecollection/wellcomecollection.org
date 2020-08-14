@@ -10,6 +10,8 @@ import Number from '@weco/common/views/components/Number/Number';
 import styled from 'styled-components';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
+// $FlowFixMe (tsx)
+import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 
 const WorkHeaderContainer = styled.div.attrs(props => ({
   className: classNames({
@@ -67,7 +69,7 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
             })}
             lang={work.language && work.language.id}
           >
-            {work.title}
+            <WorkTitle title={work.title} />
           </h1>
 
           {(work.contributors.length > 0 || productionDates.length > 0) && (

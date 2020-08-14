@@ -1,16 +1,17 @@
 // @flow
 import { type Work } from '@weco/common/model/work';
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
 import { classNames, cssGrid, font } from '../../../utils/classnames';
-import { getTreeBranches, type Collection } from '@weco/common/utils/works';
+import { type ArchiveNode } from '@weco/common/utils/works';
 import { workLink } from '@weco/common/services/catalogue/routes';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Space from '@weco/common/views/components/styled/Space';
-import Icon from '@weco/common/views/components/Icon/Icon';
+// import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+// $FlowFixMe (tsx)
+import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 
 const WorkLink = styled.a`
   display: block;
@@ -29,7 +30,7 @@ const WorkLink = styled.a`
 
 type WorksGridProps = {|
   title: string,
-  works: Collection[],
+  works: ArchiveNode[],
 |};
 
 const WorksGrid = ({ title, works }: WorksGridProps) => {
@@ -41,14 +42,14 @@ const WorksGrid = ({ title, works }: WorksGridProps) => {
             [font('wb', 4)]: true,
           })}
         >
-          {title}
+          <WorkTitle title={title} />
         </h2>
       </Layout12>
       <div className="css-grid__container">
         <div className="css-grid">
           {works.map(item => (
             <div
-              key={item.path.path}
+              key={item.id}
               className={classNames({
                 [cssGrid({
                   s: 12,
@@ -58,14 +59,9 @@ const WorksGrid = ({ title, works }: WorksGridProps) => {
                 })]: true,
               })}
             >
-              {item.work ? (
-                <NextLink
-                  {...workLink({ id: item.work.id })}
-                  scroll={true}
-                  passHref
-                >
-                  <WorkLink selected={false}>
-                    {item.path.level !== 'Item' && (
+              <NextLink {...workLink({ id: item.id })} scroll={true} passHref>
+                <WorkLink selected={false}>
+                  {/* {item.path.level !== 'Item' && ( // TODO - there is no way of know if it has children now
                       <Space
                         as="span"
                         h={{ size: 'xs', properties: ['margin-right'] }}
@@ -75,19 +71,12 @@ const WorksGrid = ({ title, works }: WorksGridProps) => {
                           name="folder"
                         />
                       </Space>
-                    )}
-                    {item.work.title}
-                    <br />
-                    {item.path.label}
-                  </WorkLink>
-                </NextLink>
-              ) : (
-                <WorkLink>
-                  {`Unknown (not available)`}
+                    )} */}
+                  <WorkTitle title={item.title} />
                   <br />
-                  {item.path.label}
+                  {item.referenceNumber}
                 </WorkLink>
-              )}
+              </NextLink>
             </div>
           ))}
         </div>
@@ -98,53 +87,42 @@ const WorksGrid = ({ title, works }: WorksGridProps) => {
 
 type Props = {| work: Work |};
 const RelatedArchiveWorks = ({ work }: Props) => {
-  const [workWithCollection, setWorkWithCollection] = useState({});
-  const tree =
-    (workWithCollection &&
-      workWithCollection.collectionPath &&
-      getTreeBranches(
-        workWithCollection.collectionPath.path,
-        workWithCollection.collection
-      )) ||
-    [];
-  const currentTree = tree[0];
-  const parentTree = tree[1];
-
-  useEffect(() => {
-    setWorkWithCollection(work);
-  }, [work]);
-
-  return workWithCollection ? (
+  return work ? (
     <>
-      {currentTree && currentTree.children && currentTree.children.length > 0 && (
+      {work.parts.length > 0 && (
         <>
           <Layout12>
             <Divider extraClasses="divider--pumice divider--keyline" />
             <SpacingComponent />
           </Layout12>
           <WorksGrid
-            title={`${
-              currentTree.work
-                ? currentTree.work.title
-                : 'Unknown (not available)'
-            } ${currentTree.path.label} contains:`}
-            works={currentTree.children}
+            title={`${work.title || 'Unknown (not available)'} ${
+              work.referenceNumber
+            } contains:`}
+            works={work.parts}
           />
         </>
       )}
-      {parentTree && parentTree.children && parentTree.children.length > 0 && (
+      {work.partOf.length > 0 && (
         <>
           <Layout12>
             <Divider extraClasses="divider--pumice divider--keyline" />
             <SpacingComponent />
           </Layout12>
           <WorksGrid
-            title={`Siblings of ${
-              currentTree.work
-                ? currentTree.work.title
-                : 'Unknown (not available)'
-            } ${currentTree.path.label}:`}
-            works={parentTree.children}
+            title={`Siblings of ${work.title || 'Unknown (not available)'} ${
+              work.referenceNumber
+            }:`}
+            works={[
+              ...work.precededBy,
+              {
+                id: work.id,
+                title: work.title,
+                alternativeTitles: work.alternativeTitles,
+                referenceNumber: work.referenceNumber,
+              },
+              ...work.succeededBy,
+            ]}
           />
         </>
       )}

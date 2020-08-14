@@ -2,44 +2,19 @@
 import { CSSTransition } from 'react-transition-group';
 import { useState, useRef, useEffect, type Element } from 'react';
 import styled from 'styled-components';
-import { classNames, font } from '../../../utils/classnames';
+import { classNames } from '../../../utils/classnames';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import Space from '../styled/Space';
-import Icon from '../Icon/Icon';
+// $FlowFixMe (tsx)
+import ButtonInline from '../ButtonInline/ButtonInline';
+// $FlowFixMe (tsx)
+import ButtonOulined from '../ButtonOutlined/ButtonOutlined';
 
 const DropdownWrapper = styled.div.attrs({
   className: classNames({
     relative: true,
   }),
 })``;
-
-const Button = styled(Space).attrs(props => ({
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 's', properties: ['padding-left', 'padding-right'] },
-  as: props.isEnhanced ? 'button' : 'span',
-  type: props.isEnhanced ? 'button' : undefined,
-  className: classNames({
-    'line-height-1': true,
-    btn: props.isEnhanced,
-  }),
-}))`
-  ${props =>
-    props.isEnhanced &&
-    `
-  background: ${props.theme.color(props.isActive ? 'black' : 'cream')};
-  color: ${props.theme.color(props.isActive ? 'white' : 'black')};
-
-    &:hover,
-    &:focus {
-      background: ${props.theme.color('black')};
-      color: ${props.theme.color('white')};
-    }
-  `}
-
-  .icon {
-    transition: transform 350ms ease;
-  }
-`;
 
 const Dropdown = styled(Space).attrs(props => ({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -88,13 +63,22 @@ const Dropdown = styled(Space).attrs(props => ({
 type Props = {|
   label: string,
   children: Element<any>,
+  isInline: ?boolean,
 |};
 
-const DropdownButton = ({ label, children }: Props) => {
+const DropdownButton = ({ label, children, isInline }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const [isEnhanced, setIsEnhanced] = useState(false);
   const dropdownWrapperRef = useRef(null);
   const dropdownRef = useRef(null);
+
+  const buttonProps = {
+    isActive: isActive,
+    clickHandler: () => setIsActive(!isActive),
+    icon: 'chevron',
+    text: label,
+    type: 'button',
+  };
 
   useEffect(() => {
     setIsEnhanced(true);
@@ -139,20 +123,11 @@ const DropdownButton = ({ label, children }: Props) => {
 
   return (
     <DropdownWrapper ref={dropdownWrapperRef}>
-      <Button
-        isActive={isActive}
-        isEnhanced={isEnhanced}
-        onClick={() => setIsActive(!isActive)}
-      >
-        <span className={font('hnm', 5)}>{label}</span>
-        <Icon
-          name="chevron"
-          extraClasses={classNames({
-            'icon--180': isActive,
-            'is-hidden': !isEnhanced,
-          })}
-        />
-      </Button>
+      {isInline ? (
+        <ButtonInline {...buttonProps} />
+      ) : (
+        <ButtonOulined {...buttonProps} />
+      )}
       <CSSTransition in={isActive} classNames="fade" timeout={350}>
         <Dropdown isActive={isActive} isEnhanced={isEnhanced} ref={dropdownRef}>
           {children}

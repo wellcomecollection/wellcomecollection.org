@@ -2,22 +2,20 @@ import {SyntheticEvent} from 'react';
 import {
   BaseButtonInner,
   ButtonIconWrapper,
+  SolidButton,
+  ButtonSolidBaseProps,
 } from '../ButtonSolid/ButtonSolid';
-import type { ButtonOutlinedBaseProps } from '../ButtonOutlined/ButtonOutlined';
-import {
-  OutlinedButton,
-} from '../ButtonOutlined/ButtonOutlined';
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
 import NextLink from 'next/link';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
-type ButtonOutlinedLinkProps = ButtonOutlinedBaseProps & {
-  clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void,
-  link: {href: {pathname: string, query: string}, as: {pathname: string, query: string}} | string,
+type ButtonSolidLinkProps = ButtonSolidBaseProps & {
+  clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
+  link: {href: {pathname: string, query: string}, as: {pathname: string, query: string}} | string;
 };
 
-const ButtonOutlinedLink = ({
+const ButtonSolidLink = ({
   text,
   link,
   icon,
@@ -25,7 +23,8 @@ const ButtonOutlinedLink = ({
   clickHandler,
   ariaControls,
   ariaExpanded,
-}: ButtonOutlinedLinkProps) => {
+  isBig,
+}: ButtonSolidLinkProps) => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
     trackingEvent && trackEvent(trackingEvent);
@@ -44,23 +43,24 @@ const ButtonOutlinedLink = ({
         )
       }
     >
-      <OutlinedButton
+      <SolidButton
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
         onClick={handleClick}
+        isBig={isBig}
         href={isNextLink ? undefined : link}
       >
         <BaseButtonInner>
-          {text}
           {icon && (
-            <ButtonIconWrapper iconAfter={true}>
+            <ButtonIconWrapper>
               <Icon name={icon} />
             </ButtonIconWrapper>
           )}
+          {text}
         </BaseButtonInner>
-      </OutlinedButton>
+      </SolidButton>
     </ConditionalWrapper>
   );
 };
 
-export default ButtonOutlinedLink;
+export default ButtonSolidLink;
