@@ -24,6 +24,7 @@ import {
   getIIIFPresentationCredit,
 } from '@weco/common/utils/iiif';
 import NextLink from 'next/link';
+// $FlowFixMe (tsx)
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
