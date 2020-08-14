@@ -1,7 +1,9 @@
 // @flow
-import { type Element } from 'react';
+import { useContext, type Element } from 'react';
+import { AppContext } from '../AppContext/AppContext';
 import styled from 'styled-components';
 import Space from '../styled/Space';
+import Icon from '../Icon/Icon';
 import { classNames, font } from '../../../utils/classnames';
 
 const StyledSelect = styled.div.attrs(props => ({
@@ -11,38 +13,39 @@ const StyledSelect = styled.div.attrs(props => ({
 }))`
   position: relative;
 
-  &:after {
-    position: absolute;
-    margin-left: -22px;
-    top: 17px;
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid ${props => props.theme.color('silver')};
+  .icon {
     pointer-events: none;
+    top: 6px;
+    right: 36px;
   }
+
   select {
     -moz-appearance: none;
     -webkit-appearance: none;
+    font-family: inherit;
+    font-weight: inherit;
     appearance: none;
-    padding: 10px 26px 10px 12px;
-    border: 1px solid ${props => props.theme.color('pumice')};
-    border-radius: ${props => props.borderRadiusUnit}px;
+    padding: 7px 36px 9px 12px;
+    border: 2px solid ${props => props.theme.color('pumice')};
+    border-radius: ${props => props.theme.borderRadiusUnit}px;
     background-color: ${props => props.theme.color('white')};
 
     &::-ms-expand {
       display: none;
     }
+
     &:hover {
-      border-color: ${props => props.theme.color('yellow')};
+      box-shadow: ${props => props.theme.focusBoxShadow};
     }
+
     &:focus {
-      padding: 9px 25px 9px 11px;
-      border-width: 2px;
-      border-color: ${props => props.theme.color('yellow')};
-      outline: none;
+      outline: 0;
+
+      ${props =>
+        props.isKeyboard &&
+        `
+        box-shadow: ${props.theme.focusBoxShadow};
+      `}
     }
   }
 `;
@@ -53,14 +56,23 @@ type Props = {
 };
 
 const SelectContainer = ({ label, children }: Props) => {
+  const { isKeyboard } = useContext(AppContext);
+
   return (
-    <StyledSelect>
+    <StyledSelect isKeyboard={isKeyboard}>
       <label>
-        <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
+        <Space
+          as="span"
+          h={{ size: 'm', properties: ['margin-right'] }}
+          className={classNames({
+            [font('hnm', 5)]: true,
+          })}
+        >
           {label}
         </Space>
         {children}
       </label>
+      <Icon name="chevron" />
     </StyledSelect>
   );
 };
