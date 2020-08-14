@@ -5,7 +5,6 @@ import fetch from 'isomorphic-unfetch';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { type Work } from '@weco/common/model/work';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
-import merge from 'lodash.merge';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { worksLink } from '@weco/common/services/catalogue/routes';
@@ -241,59 +240,24 @@ const WorkDetails = ({
             )}
             <div className="flex flex-h-center">
               {itemUrl && !audio && !video && (
-                <>
-                  <Space
-                    as="span"
-                    h={{
-                      size: 'm',
-                      properties: ['margin-right'],
+                <Space
+                  as="span"
+                  h={{
+                    size: 'm',
+                    properties: ['margin-right'],
+                  }}
+                >
+                  <ButtonSolidLink
+                    icon="eye"
+                    text="View"
+                    trackingEvent={{
+                      category: 'WorkDetails',
+                      action: 'follow view link',
+                      label: itemUrl.href.query.workId,
                     }}
-                  >
-                    <ButtonSolidLink
-                      icon="eye"
-                      text="View"
-                      trackingEvent={{
-                        category: 'WorkDetails',
-                        action: 'follow view link',
-                        label: itemUrl.href.query.workId,
-                      }}
-                      link={{ ...itemUrl }}
-                    />
-                  </Space>
-                  {(imageCount > 4 || childManifestsCount > 1) && (
-                    <Space
-                      as="span"
-                      h={{
-                        size: 'm',
-                        properties: ['margin-right'],
-                      }}
-                    >
-                      <ButtonSolidLink
-                        icon="gridView"
-                        text="Overview"
-                        trackingEvent={{
-                          category: 'WorkDetails',
-                          action: 'follow overview link',
-                          label: itemUrl.href.query.workId,
-                        }}
-                        link={{
-                          ...merge({}, itemUrl, {
-                            href: {
-                              query: {
-                                isOverview: true,
-                              },
-                            },
-                            as: {
-                              query: {
-                                isOverview: true,
-                              },
-                            },
-                          }),
-                        }}
-                      />
-                    </Space>
-                  )}
-                </>
+                    link={{ ...itemUrl }}
+                  />
+                </Space>
               )}
 
               <Download
