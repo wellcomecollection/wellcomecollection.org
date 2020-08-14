@@ -50,6 +50,7 @@ type Props = {|
   license?: ?LicenseData,
   iiifImageLocationCredit?: ?string,
   useDarkControl?: boolean,
+  isInline?: boolean,
 |};
 
 const Download = ({
@@ -60,6 +61,7 @@ const Download = ({
   license,
   iiifImageLocationCredit,
   useDarkControl = false,
+  isInline = false,
 }: Props) => {
   const downloadsContainer = useRef(null);
   const { isEnhanced } = useContext(AppContext);
@@ -77,7 +79,7 @@ const Download = ({
         <>
           <DropdownButton
             label="Downloads"
-            isInline={useDarkControl}
+            isInline={isInline}
             isOnDark={useDarkControl}
           >
             <DownloadOptions
