@@ -1,4 +1,3 @@
-// @flow
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { Fragment, Component } from 'react';
@@ -6,18 +5,18 @@ import Icon from '../Icon/Icon';
 import HTMLInput from '../HTMLInput/HTMLInput';
 import Space from '../styled/Space';
 
-type Props = {|
-  id: string,
-  url: string,
-|};
+type Props = {
+  id: string;
+  url: string;
+};
 
 // TODO: work out how to handle cutting-the-mustard (?HOC)
 // and remove isEnhanced if/when this becomes a more global concern
-type State = {|
-  isEnhanced: boolean,
-  isTextCopied: boolean,
-  isClicked: boolean,
-|};
+type State = {
+  isEnhanced: boolean;
+  isTextCopied: boolean;
+  isClicked: boolean;
+};
 
 function getButtonMarkup(isTextCopied, isClicked) {
   if (!isClicked) {
@@ -34,7 +33,7 @@ function getButtonMarkup(isTextCopied, isClicked) {
 }
 
 class CopyUrl extends Component<Props, State> {
-  textInput: ?HTMLInputElement;
+  textInput: HTMLInputElement | null;
   setTextInputRef: Function;
   focusTextInput: Function;
 
