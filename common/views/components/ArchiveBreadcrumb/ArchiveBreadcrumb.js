@@ -90,8 +90,8 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
     alternativeTitles: work.alternativeTitles,
     referenceNumber: work.referenceNumber,
   };
-
-  return (
+  const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
+  return isInArchive ? (
     <ArchiveBreadcrumbNav>
       <ul>
         {firstCrumb && (
@@ -179,7 +179,7 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
         )}
       </ul>
     </ArchiveBreadcrumbNav>
-  );
+  ) : null;
 };
 
 export default ArchiveBreadcrumb;
