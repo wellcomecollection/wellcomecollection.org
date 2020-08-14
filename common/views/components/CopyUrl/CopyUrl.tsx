@@ -67,6 +67,17 @@ const CopyUrl = ({id, url}: Props) => {
         label="share url"
         value={url}
         setValue={() => {}}
+        name={null}
+        pattern={null}
+        required={null}
+        placeholder={null}
+        errorMessage={null}
+        isValid={null}
+        setIsValid={null}
+        showValidity={null}
+        setShowValidity={null}
+        autoFocus={null}
+        big={null}
       />
 
       {isEnhanced &&
