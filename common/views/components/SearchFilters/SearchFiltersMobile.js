@@ -105,7 +105,11 @@ const ActiveFilters = styled(Space).attrs({
 
 const FiltersBody = styled(Space).attrs({
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
-})``;
+})`
+  input[type='number'] {
+    min-width: calc(24px + 4ch);
+  }
+`;
 
 const FilterSection = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
