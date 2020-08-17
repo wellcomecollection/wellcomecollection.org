@@ -28,6 +28,8 @@ const CheckboxRadioBox = styled.span.attrs({
   .icon {
     position: absolute;
     opacity: 0;
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -83,10 +85,7 @@ function CheckboxRadio({ id, text, type, ...inputProps }: CheckboxRadioProps) {
         hideFocus={!isKeyboard}
       />
       <CheckboxRadioBox type={type}>
-        <Icon
-          name={type === 'checkbox' ? 'check' : 'indicator'}
-          extraClasses={`icon--match-text`}
-        />
+        <Icon name={type === 'checkbox' ? 'check' : 'indicator'} />
       </CheckboxRadioBox>
       <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>
         {text}
