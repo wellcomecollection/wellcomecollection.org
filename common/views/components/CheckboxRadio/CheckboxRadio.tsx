@@ -1,6 +1,4 @@
-// @flow
-
-import { useContext } from 'react';
+import { useContext, SyntheticEvent } from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
@@ -28,6 +26,8 @@ const CheckboxRadioBox = styled.span.attrs({
   .icon {
     position: absolute;
     opacity: 0;
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -61,15 +61,15 @@ const CheckboxRadioInput = styled.input.attrs(props => ({
   }
 `;
 
-type CheckboxRadioProps = {|
-  type: 'checkbox' | 'radio',
-  id: string,
-  text: string,
-  checked: boolean,
-  name: string,
-  onChange: (SyntheticEvent<HTMLInputElement>) => void,
-  value: string,
-|};
+type CheckboxRadioProps = {
+  type: 'checkbox' | 'radio';
+  id: string;
+  text: string;
+  checked: boolean;
+  name: string;
+  onChange: (event: SyntheticEvent<HTMLInputElement>) => void;
+  value: string;
+};
 
 function CheckboxRadio({ id, text, type, ...inputProps }: CheckboxRadioProps) {
   const { isKeyboard } = useContext(AppContext);
@@ -83,10 +83,7 @@ function CheckboxRadio({ id, text, type, ...inputProps }: CheckboxRadioProps) {
         hideFocus={!isKeyboard}
       />
       <CheckboxRadioBox type={type}>
-        <Icon
-          name={type === 'checkbox' ? 'check' : 'indicator'}
-          extraClasses={`icon--match-text`}
-        />
+        <Icon name={type === 'checkbox' ? 'check' : 'indicator'} />
       </CheckboxRadioBox>
       <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>
         {text}

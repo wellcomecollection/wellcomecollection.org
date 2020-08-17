@@ -7,7 +7,7 @@ import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 // $FlowFixMe (tsx)
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import { classNames } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { inputValue, nodeListValueToArray } from '@weco/common/utils/forms';
 import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
@@ -183,7 +183,12 @@ const SearchForm = ({
 
       {shouldShowFilters && (
         <>
-          <Space v={{ size: 'm', properties: ['margin-top'] }}>
+          <Space
+            v={{ size: 'm', properties: ['margin-top'] }}
+            className={classNames({
+              [font('hnl', 5)]: true,
+            })}
+          >
             <RadioGroup
               name="search"
               selected={worksRouteProps.search ? 'images' : ''}
