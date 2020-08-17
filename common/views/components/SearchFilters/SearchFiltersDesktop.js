@@ -83,7 +83,12 @@ const SearchFiltersDesktop = ({
             Filter by
           </Space>
         </Space>
-        <Space h={{ size: 's', properties: ['margin-right'] }}>
+        <Space
+          h={{ size: 's', properties: ['margin-right'] }}
+          className={classNames({
+            [font('hnl', 5)]: true,
+          })}
+        >
           <DropdownButton label={'Dates'} isInline={true}>
             <>
               <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
@@ -119,6 +124,7 @@ const SearchFiltersDesktop = ({
             <ul
               className={classNames({
                 'no-margin no-padding plain-list': true,
+                [font('hnl', 5)]: true,
               })}
             >
               {workTypeFilters.map(workType => {
