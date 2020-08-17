@@ -177,6 +177,8 @@ const WorkDetails = ({
     </WorkDetailsSection>
   );
 
+  const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
+
   const Content = () => (
     <>
       {digitalLocation && (
@@ -534,11 +536,9 @@ const WorkDetails = ({
         <div className="grid">
           <TogglesContext.Consumer>
             {({ archivesPrototypeSidePanel }) =>
-              archivesPrototypeSidePanel ? (
-                // <Layout12>
+              archivesPrototypeSidePanel && isInArchive ? (
                 <Content />
               ) : (
-                // </Layout12>
                 <Layout12>
                   <Content />
                 </Layout12>

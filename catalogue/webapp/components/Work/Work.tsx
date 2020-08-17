@@ -52,6 +52,8 @@ const Work = ({ work }: Props) => {
     search: null,
   });
 
+  const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
+
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
     'iiif-presentation'
@@ -183,7 +185,7 @@ const Work = ({ work }: Props) => {
           </div>
         )}
 
-{archivesPrototypeSidePanel ? (
+{archivesPrototypeSidePanel && isInArchive ? (
         <div className="container">
           <div className="grid">
             <div
