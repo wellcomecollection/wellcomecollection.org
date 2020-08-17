@@ -15,6 +15,8 @@ import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 const Container = styled.div`
   overflow: scroll;
   height: 70vh;
+  border: 1px solid ${props => props.theme.color('pumice')};
+  border-radius: 6px;
 `;
 
 const StyledLink = styled.a`
@@ -202,20 +204,13 @@ function addWorkPartsToCollectionTree(work, collectionTree, openByDefault) {
   });
 }
 
-async function expandTree(
-  workId,
-  toggles,
-  setCollectionTree,
-  collectionTree,
-  setShowButton
-) {
+async function expandTree(workId, toggles, setCollectionTree, collectionTree) {
   const selectedWork = await getWork({ id: workId, toggles });
   const newTree = addWorkPartsToCollectionTree(
     selectedWork,
     collectionTree,
     true
   );
-  setShowButton(selectedWork.parts && selectedWork.parts.length > 0);
   setCollectionTree(newTree);
 }
 
@@ -250,22 +245,19 @@ type ListItemType = {|
 |};
 
 // temp component to show buttons when appropriate until API changes made
-const ButtonContainer = ({
-  item,
-  toggles,
-  setCollectionTree,
-  fullTree,
-  setShowButton,
-  children,
-}) => {
+const ButtonContainer = ({ item, toggles, setShowButton, children }) => {
   useEffect(() => {
-    expandTree(
-      item.work.id,
-      toggles,
-      setCollectionTree,
-      fullTree,
-      setShowButton
-    );
+    let isCancelled = false;
+    const checkForChildren = async () => {
+      const selectedWork = await getWork({ id: item.work.id, toggles });
+      setShowButton(selectedWork.parts && selectedWork.parts.length > 0);
+    };
+    if (!isCancelled) {
+      checkForChildren();
+    }
+    return () => {
+      isCancelled = true;
+    };
   }, []);
   return children;
 };
@@ -286,7 +278,7 @@ const ListItem = ({
       <div style={{ padding: '10px 10px 30px' }}>
         <TogglesContext.Consumer>
           {toggles => (
-            <>
+            <div style={{ whiteSpace: 'nowrap' }}>
               <NextLink
                 {...workLink({ id: item.work.id })}
                 scroll={false}
@@ -317,8 +309,6 @@ const ListItem = ({
                 <ButtonContainer
                   item={item}
                   toggles={toggles}
-                  setCollectionTree={setCollectionTree}
-                  fullTree={fullTree}
                   setShowButton={setShowButton}
                 >
                   <Space
@@ -335,6 +325,7 @@ const ListItem = ({
                       text={showNested ? 'hide children' : 'show children'}
                       isTextHidden={true}
                       clickHandler={() => {
+                        console.log(showNested);
                         if (!item.children) {
                           expandTree(
                             item.work.id,
@@ -343,14 +334,15 @@ const ListItem = ({
                             fullTree,
                             setShowButton
                           );
+                        } else {
+                          setShowNested(!showNested);
                         }
-                        setShowNested(!showNested);
                       }}
                     />
                   </Space>
                 </ButtonContainer>
               )}
-            </>
+            </div>
           )}
         </TogglesContext.Consumer>
         {item.children && showNested && (
@@ -427,6 +419,22 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   const selected = useRef(null);
   const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
 
+  const TreeView = () => (
+    <Container>
+      <Tree>
+        <NestedList
+          selected={selected}
+          currentWorkId={work.id}
+          fullTree={collectionTree}
+          setCollectionTree={setCollectionTree}
+          collectionTree={collectionTree}
+          setShowArchiveTreeModal={setShowArchiveTreeModal}
+          isTopLevel={true}
+        />
+      </Tree>
+    </Container>
+  );
+
   useEffect(() => {
     // Add siblings to each node, that leads to the current work
     const basicTree = createCollectionTree(work);
@@ -452,7 +460,10 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   }, [work]);
 
   return (
-    isInArchive && (
+    isInArchive &&
+    (toggles.archivesPrototypeSidePanel ? (
+      <TreeView />
+    ) : (
       <>
         <Space
           className="inline-block"
@@ -474,22 +485,10 @@ const ArchiveTree = ({ work }: { work: Work }) => {
           setIsActive={setShowArchiveTreeModal}
           width="98vw"
         >
-          <Container>
-            <Tree>
-              <NestedList
-                selected={selected}
-                currentWorkId={work.id}
-                fullTree={collectionTree}
-                setCollectionTree={setCollectionTree}
-                collectionTree={collectionTree}
-                setShowArchiveTreeModal={setShowArchiveTreeModal}
-                isTopLevel={true}
-              />
-            </Tree>
-          </Container>
+          <TreeView />
         </Modal>
       </>
-    )
+    ))
   );
 };
 export default ArchiveTree;
