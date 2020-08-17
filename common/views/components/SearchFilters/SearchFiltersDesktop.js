@@ -7,6 +7,7 @@ import Icon from '../Icon/Icon';
 // $FlowFixMe (tsx)
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
+// $FlowFixMe (tsx)
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import NextLink from 'next/link';
 import { type SearchFiltersSharedProps } from './SearchFilters';

@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/wellcomecollection/wellcomecollection.org#readme",
   "devDependencies": {
+    "@types/styled-components": "^5.1.2",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.11.1",

@@ -1,6 +1,7 @@
 // @flow
 import { useState, useEffect } from 'react';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
+// $FlowFixMe (tsx)
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';

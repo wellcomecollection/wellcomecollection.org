@@ -1,6 +1,4 @@
-// @flow
-
-import { useContext } from 'react';
+import { useContext, SyntheticEvent } from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
@@ -63,15 +61,15 @@ const CheckboxRadioInput = styled.input.attrs(props => ({
   }
 `;
 
-type CheckboxRadioProps = {|
-  type: 'checkbox' | 'radio',
-  id: string,
-  text: string,
-  checked: boolean,
-  name: string,
-  onChange: (SyntheticEvent<HTMLInputElement>) => void,
-  value: string,
-|};
+type CheckboxRadioProps = {
+  type: 'checkbox' | 'radio';
+  id: string;
+  text: string;
+  checked: boolean;
+  name: string;
+  onChange: (event: SyntheticEvent<HTMLInputElement>) => void;
+  value: string;
+};
 
 function CheckboxRadio({ id, text, type, ...inputProps }: CheckboxRadioProps) {
   const { isKeyboard } = useContext(AppContext);

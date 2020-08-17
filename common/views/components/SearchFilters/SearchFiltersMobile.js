@@ -11,6 +11,7 @@ import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
+// $FlowFixMe (tsx)
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { type SearchFiltersSharedProps } from './SearchFilters';
 import ButtonSolid, {
