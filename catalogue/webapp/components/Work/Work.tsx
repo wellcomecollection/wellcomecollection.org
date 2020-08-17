@@ -193,8 +193,8 @@ const Work = ({ work }: Props) => {
                 [grid({
                   s: 12,
                   m: 6,
-                  l: 4,
-                  xl: 4,
+                  l: 5,
+                  xl: 5,
                 })]: true,
               })}
             >
@@ -205,8 +205,8 @@ const Work = ({ work }: Props) => {
                 [grid({
                   s: 12,
                   m: 6,
-                  l: 8,
-                  xl: 8,
+                  l: 7,
+                  xl: 7,
                 })]: true,
               })}
             >
