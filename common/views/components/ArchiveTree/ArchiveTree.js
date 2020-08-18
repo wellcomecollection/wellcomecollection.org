@@ -100,7 +100,7 @@ function updateDefaultOpenStatus(id, fullTree, defaultValue) {
     if (node.work.id === id) {
       return {
         ...node,
-        openByDefault: defaultValue,
+        openStatus: defaultValue,
       };
     } else if (node.work.id !== id && node.children) {
       return {
@@ -123,12 +123,12 @@ function createWorkPropertyFromWork(work) {
   };
 }
 
-function createNodeFromWork(work, openByDefault) {
+function createNodeFromWork(work, openStatus) {
   return {
-    openByDefault,
+    openStatus,
     work: createWorkPropertyFromWork(work),
     children: work.parts.map(part => ({
-      openByDefault: false,
+      openStatus: false,
       work: part,
       children: part.children,
     })),
@@ -138,14 +138,14 @@ function createNodeFromWork(work, openByDefault) {
 function createSiblingsArray(work) {
   return [
     ...work.precededBy.map(item => ({
-      openByDefault: false,
+      openStatus: false,
       work: item,
     })),
     {
       ...createNodeFromWork(work, false),
     },
     ...work.succeededBy.map(item => ({
-      openByDefault: false,
+      openStatus: false,
       work: item,
     })),
   ];
@@ -157,7 +157,7 @@ function createCollectionTree(work) {
     partOfReversed.reduce(
       (acc, curr, i) => {
         return {
-          openByDefault: true,
+          openStatus: true,
           work: curr,
           children: i === 0 ? createSiblingsArray(work) : [acc],
         };
@@ -174,19 +174,19 @@ function createCollectionTree(work) {
 function addWorkPartsToCollectionTree(
   work,
   collectionTree,
-  openByDefault,
+  openStatus,
   manualTreeExpansion
 ) {
   return collectionTree.map(node => {
     if (node.work.id !== work.id && !node.children) {
       return {
-        openByDefault,
+        openStatus,
         ...node,
       };
     }
     if (node.work.id !== work.id && node.children) {
       return {
-        openByDefault,
+        openStatus,
         ...node,
         children: addWorkPartsToCollectionTree(
           work,
@@ -200,7 +200,7 @@ function addWorkPartsToCollectionTree(
       if (work.parts && work.parts.length > 0) {
         return {
           ...node,
-          openByDefault: manualTreeExpansion || openByDefault,
+          openStatus: manualTreeExpansion || openStatus,
           children: work.parts.map(part => ({
             work: part,
           })),
@@ -342,10 +342,8 @@ const ListItem = ({
                   }}
                 >
                   <ButtonOutlined
-                    icon={item.openByDefault ? 'minus' : 'plus'}
-                    text={
-                      item.openByDefault ? 'hide children' : 'show children'
-                    }
+                    icon={item.openStatus ? 'minus' : 'plus'}
+                    text={item.openStatus ? 'hide children' : 'show children'}
                     isTextHidden={true}
                     clickHandler={() => {
                       if (!item.children) {
@@ -360,7 +358,7 @@ const ListItem = ({
                           updateDefaultOpenStatus(
                             item.work.id,
                             fullTree,
-                            !item.openByDefault
+                            !item.openStatus
                           )
                         );
                       }
@@ -371,7 +369,7 @@ const ListItem = ({
             </div>
           )}
         </TogglesContext.Consumer>
-        {item.children && item.openByDefault && (
+        {item.children && item.openStatus && (
           <NestedList
             selected={selected}
             currentWorkId={currentWorkId}
