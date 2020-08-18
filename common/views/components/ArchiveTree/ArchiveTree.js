@@ -479,7 +479,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     } else {
       setCollectionTree(basicTree);
     }
-  }, []); // TODO need work for modal?
+  }, []);
 
   return (
     isInArchive &&
