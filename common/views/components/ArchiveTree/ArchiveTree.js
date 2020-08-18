@@ -152,28 +152,42 @@ function createCollectionTree(work) {
   ];
 }
 
-function addWorkPartsToCollectionTree(work, collectionTree, openByDefault) {
+function addWorkPartsToCollectionTree(
+  work,
+  collectionTree,
+  openByDefault,
+  manualTreeExpansion
+) {
   return collectionTree.map(node => {
-    if (node.work.id !== work.id && !node.children) return node;
+    if (node.work.id !== work.id && !node.children) {
+      return {
+        openByDefault,
+        ...node,
+      };
+    }
     if (node.work.id !== work.id && node.children) {
       return {
         openByDefault,
         ...node,
-        children: addWorkPartsToCollectionTree(work, node.children),
+        children: addWorkPartsToCollectionTree(
+          work,
+          node.children,
+          false,
+          manualTreeExpansion
+        ),
       };
     }
     if (node.work.id === work.id && !node.children) {
       if (work.parts && work.parts.length > 0) {
         return {
-          openByDefault,
           ...node,
+          openByDefault: manualTreeExpansion || openByDefault,
           children: work.parts.map(part => ({
             work: part,
           })),
         };
       } else {
         return {
-          openByDefault,
           ...node,
         };
       }
@@ -189,6 +203,7 @@ function addWorkPartsToCollectionTree(work, collectionTree, openByDefault) {
           matchingItem.children &&
           matchingItem.children.length > 0
         ) {
+          console.log('matching', matchingItem);
           return matchingItem;
         } else {
           return {
@@ -209,8 +224,10 @@ async function expandTree(workId, toggles, setCollectionTree, collectionTree) {
   const newTree = addWorkPartsToCollectionTree(
     selectedWork,
     collectionTree,
+    true,
     true
   );
+  console.log(newTree);
   setCollectionTree(newTree);
 }
 
@@ -244,23 +261,6 @@ type ListItemType = {|
   isRootItem: boolean,
 |};
 
-// temp component to show buttons when appropriate until API changes made
-const ButtonContainer = ({ item, toggles, setShowButton, children }) => {
-  useEffect(() => {
-    let isCancelled = false;
-    const checkForChildren = async () => {
-      const selectedWork = await getWork({ id: item.work.id, toggles });
-      setShowButton(selectedWork.parts && selectedWork.parts.length > 0);
-    };
-    if (!isCancelled) {
-      checkForChildren();
-    }
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
-  return children;
-};
 const ListItem = ({
   item,
   setShowArchiveTreeModal,
@@ -273,6 +273,18 @@ const ListItem = ({
 }: ListItemType) => {
   const [showNested, setShowNested] = useState(item.openByDefault || false);
   const [showButton, setShowButton] = useState(item.children);
+  const toggles = useContext(TogglesContext);
+  useEffect(() => {
+    let isMounted = true;
+    const checkForChildren = async () => {
+      const selectedWork = await getWork({ id: item.work.id, toggles });
+      if (isMounted) {
+        setShowButton(selectedWork.parts && selectedWork.parts.length > 0);
+      }
+    };
+    checkForChildren();
+    return () => (isMounted = false);
+  }, []);
   return (
     <li>
       <div style={{ padding: '10px 10px 30px' }}>
@@ -305,42 +317,33 @@ const ListItem = ({
                 </StyledLink>
               </NextLink>
               {!isRootItem && (
-                // TODO know if have children ahead of time from API
-                <ButtonContainer
-                  item={item}
-                  toggles={toggles}
-                  setShowButton={setShowButton}
+                <Space
+                  className="inline-block"
+                  h={{ size: 'm', properties: ['margin-left'] }}
+                  style={{
+                    position: 'absolute',
+                    zoom: '0.7',
+                    display: showButton ? 'inline-block' : 'none',
+                  }}
                 >
-                  <Space
-                    className="inline-block"
-                    h={{ size: 'm', properties: ['margin-left'] }}
-                    style={{
-                      position: 'absolute',
-                      zoom: '0.7',
-                      display: showButton ? 'inline-block' : 'none',
+                  <ButtonOutlined
+                    icon={showNested ? 'minus' : 'plus'}
+                    text={showNested ? 'hide children' : 'show children'}
+                    isTextHidden={true}
+                    clickHandler={() => {
+                      if (!item.children) {
+                        expandTree(
+                          item.work.id,
+                          toggles,
+                          setCollectionTree,
+                          fullTree
+                        );
+                      } else {
+                        setShowNested(!showNested);
+                      }
                     }}
-                  >
-                    <ButtonOutlined
-                      icon={showNested ? 'minus' : 'plus'}
-                      text={showNested ? 'hide children' : 'show children'}
-                      isTextHidden={true}
-                      clickHandler={() => {
-                        console.log(showNested);
-                        if (!item.children) {
-                          expandTree(
-                            item.work.id,
-                            toggles,
-                            setCollectionTree,
-                            fullTree,
-                            setShowButton
-                          );
-                        } else {
-                          setShowNested(!showNested);
-                        }
-                      }}
-                    />
-                  </Space>
-                </ButtonContainer>
+                  />
+                </Space>
               )}
             </div>
           )}
