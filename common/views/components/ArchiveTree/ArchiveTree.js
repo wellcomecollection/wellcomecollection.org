@@ -14,7 +14,7 @@ import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 
 const Container = styled.div`
   overflow: scroll;
-  height: 70vh;
+  height: ${props => (props.fixHeight ? '70vh' : 'auto')};
   border: 1px solid ${props => props.theme.color('pumice')};
   border-radius: 6px;
 `;
@@ -423,19 +423,17 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
 
   const TreeView = () => (
-    <Container>
-      <Tree>
-        <NestedList
-          selected={selected}
-          currentWorkId={work.id}
-          fullTree={collectionTree}
-          setCollectionTree={setCollectionTree}
-          collectionTree={collectionTree}
-          setShowArchiveTreeModal={setShowArchiveTreeModal}
-          isTopLevel={true}
-        />
-      </Tree>
-    </Container>
+    <Tree>
+      <NestedList
+        selected={selected}
+        currentWorkId={work.id}
+        fullTree={collectionTree}
+        setCollectionTree={setCollectionTree}
+        collectionTree={collectionTree}
+        setShowArchiveTreeModal={setShowArchiveTreeModal}
+        isTopLevel={true}
+      />
+    </Tree>
   );
 
   useEffect(() => {
@@ -465,7 +463,9 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   return (
     isInArchive &&
     (toggles.archivesPrototypeSidePanel ? (
-      <TreeView />
+      <Container>
+        <TreeView />
+      </Container>
     ) : (
       <>
         <Space
@@ -488,7 +488,10 @@ const ArchiveTree = ({ work }: { work: Work }) => {
           setIsActive={setShowArchiveTreeModal}
           width="98vw"
         >
-          <TreeView />
+          {' '}
+          <Container fixHeight={true}>
+            <TreeView />
+          </Container>
         </Modal>
       </>
     ))
