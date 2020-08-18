@@ -2,6 +2,7 @@
 import { Fragment } from 'react';
 import { font, grid } from '@weco/common/utils/classnames';
 import { createPrismicParagraph } from '@weco/common/utils/prismic';
+// $FlowFixMe (tsx)
 import Tags from '@weco/common/views/components/Tags/Tags';
 import { CaptionedImage } from '@weco/common/views/components/Images/Images';
 import { worksLink } from '@weco/common/services/catalogue/routes';

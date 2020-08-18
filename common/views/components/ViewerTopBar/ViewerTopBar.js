@@ -246,6 +246,7 @@ const ViewerTopBar = ({
                   downloadOptions || iiifPresentationDownloadOptions
                 }
                 useDarkControl={true}
+                isInline={true}
               />
             </Space>
             {parentManifest && parentManifest.manifests && (

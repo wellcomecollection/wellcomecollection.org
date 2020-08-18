@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { type Work } from '@weco/common/model/work';
 import useAuth from '@weco/common/hooks/useAuth';
 import ResponsiveTable from '@weco/common/views/components/styled/ResponsiveTable';
+// $FlowFixMe (tsx)
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ItemRequestButton from '@weco/catalogue/components/ItemRequestButton/ItemRequestButton';

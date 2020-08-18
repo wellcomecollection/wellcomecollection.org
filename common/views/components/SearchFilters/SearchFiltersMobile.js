@@ -11,6 +11,7 @@ import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
+// $FlowFixMe (tsx)
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { type SearchFiltersSharedProps } from './SearchFilters';
 import ButtonSolid, {
@@ -105,7 +106,11 @@ const ActiveFilters = styled(Space).attrs({
 
 const FiltersBody = styled(Space).attrs({
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
-})``;
+})`
+  input[type='number'] {
+    min-width: calc(24px + 4ch);
+  }
+`;
 
 const FilterSection = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },

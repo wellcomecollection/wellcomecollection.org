@@ -31,6 +31,7 @@ const worksIncludes = ['identifiers', 'production', 'contributors', 'subjects'];
 
 const workIncludes = [
   'identifiers',
+  'images',
   'items',
   'subjects',
   'genres',
@@ -81,10 +82,7 @@ export async function getWork({
 }: GetWorkProps): Promise<Work | CatalogueApiError | CatalogueApiRedirect> {
   const apiOptions = globalApiOptions(toggles);
   const params = {
-    include: [
-      ...workIncludes,
-      ...(toggles && toggles.newImageSearch ? ['images'] : []),
-    ],
+    include: workIncludes,
     _index: apiOptions.indexOverrideSuffix
       ? `works-${apiOptions.indexOverrideSuffix}`
       : null,

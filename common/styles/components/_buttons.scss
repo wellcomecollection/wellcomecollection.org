@@ -40,16 +40,3 @@
   }
 }
 
-.btn--tertiary {
-  background: color('white');
-  color: color('green');
-  padding: $spacing-unit+1 (2 * ($spacing-unit+1));
-  border: 1px solid color('green');
-
-  &:not([disabled]):hover,
-  &:not([disabled]):focus {
-    background: color('green');
-    color: color('white');
-  }
-}
-

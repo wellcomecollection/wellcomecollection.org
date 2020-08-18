@@ -1,14 +1,14 @@
-// @flow
 import { CSSTransition } from 'react-transition-group';
-import { useState, useRef, useEffect, type Element } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
+import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import Space from '../styled/Space';
-// $FlowFixMe (tsx)
+import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import ButtonInline from '../ButtonInline/ButtonInline';
-// $FlowFixMe (tsx)
 import ButtonOulined from '../ButtonOutlined/ButtonOutlined';
+import { AppContext } from '../AppContext/AppContext';
 
 const DropdownWrapper = styled.div.attrs({
   className: classNames({
@@ -21,11 +21,8 @@ const Dropdown = styled(Space).attrs(props => ({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   className: classNames({
     'rounded-corners shadow bg-white': true,
-    absolute: props.isEnhanced,
   }),
 }))`
-  top: 100%;
-  left: -2px;
   margin-top: -2px;
   z-index: ${props => (props.isActive ? 2 : 1)};
   overflow: auto;
@@ -35,7 +32,7 @@ const Dropdown = styled(Space).attrs(props => ({
   &,
   &.fade-exit-done {
     z-index: -1;
-    pointer-events: none;
+    pointer-events: ${props => props.isEnhanced ? 'none' : 'all'};
   }
 
   &.fade-enter,
@@ -60,29 +57,46 @@ const Dropdown = styled(Space).attrs(props => ({
   }
 `;
 
-type Props = {|
-  label: string,
-  children: Element<any>,
-  isInline: ?boolean,
-|};
+const Popper = styled.div`
+  max-width: calc(100vw - 20px);
+  z-index: ${props => props.isVisible ? 1 : -1};
+`;
 
-const DropdownButton = ({ label, children, isInline }: Props) => {
+type Props = {
+  label: string;
+  children: JSX.Element | JSX.Element[];
+  isInline: boolean | null;
+  isOnDark?: boolean
+};
+
+const DropdownButton = ({ label, children, isInline, isOnDark }: Props) => {
   const [isActive, setIsActive] = useState(false);
-  const [isEnhanced, setIsEnhanced] = useState(false);
+  const { isEnhanced } = useContext(AppContext);
   const dropdownWrapperRef = useRef(null);
   const dropdownRef = useRef(null);
+  const popperRef = useRef(null);
+  const [isPopperVisible, setIsPopperVisible] = useState(false);
+  const { styles, attributes } = usePopper(
+    dropdownWrapperRef.current,
+    popperRef.current,
+    {
+      modifiers: [{
+        name: 'preventOverflow',
+          options: {
+            padding: 10
+          },
+       }]
+    }
+  );
 
   const buttonProps = {
     isActive: isActive,
     clickHandler: () => setIsActive(!isActive),
     icon: 'chevron',
     text: label,
-    type: 'button',
+    type: ButtonTypes.button,
+    isOnDark: isOnDark,
   };
-
-  useEffect(() => {
-    setIsEnhanced(true);
-  }, []);
 
   useEffect(() => {
     function handleClick(event: MouseEvent) {
@@ -128,11 +142,26 @@ const DropdownButton = ({ label, children, isInline }: Props) => {
       ) : (
         <ButtonOulined {...buttonProps} />
       )}
-      <CSSTransition in={isActive} classNames="fade" timeout={350}>
-        <Dropdown isActive={isActive} isEnhanced={isEnhanced} ref={dropdownRef}>
-          {children}
-        </Dropdown>
-      </CSSTransition>
+      <Popper
+        ref={popperRef}
+        style={isEnhanced ? styles.popper : null} {...(isEnhanced ? attributes.popper : {})}
+        isVisible={isPopperVisible}
+      >
+        <CSSTransition
+          in={isActive}
+          classNames="fade"
+          timeout={350}
+          onEnter={() => setIsPopperVisible(true)}
+          onExited={() => setIsPopperVisible(false)}>
+          <Dropdown
+            isActive={isActive}
+            isEnhanced={isEnhanced}
+            ref={dropdownRef}
+          >
+            {children}
+          </Dropdown>
+        </CSSTransition>
+      </Popper>
     </DropdownWrapper>
   );
 };

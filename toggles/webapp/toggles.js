@@ -22,13 +22,6 @@ module.exports = {
       description: 'Search the entire catalogue, including all work types',
     },
     {
-      id: 'newImageSearch',
-      title: 'Use the images endpoint',
-      defaultValue: false,
-      description:
-        'Use the new images endpoint rather than filtering for works with iiif-image in images search',
-    },
-    {
       id: 'searchToolbar',
       title: 'Search toolbar',
       defaultValue: false,

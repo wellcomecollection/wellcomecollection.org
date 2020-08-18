@@ -5,7 +5,6 @@ import fetch from 'isomorphic-unfetch';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { type Work } from '@weco/common/model/work';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
-import merge from 'lodash.merge';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { worksLink } from '@weco/common/services/catalogue/routes';
@@ -24,6 +23,7 @@ import {
   getIIIFPresentationCredit,
 } from '@weco/common/utils/iiif';
 import NextLink from 'next/link';
+// $FlowFixMe (tsx)
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
@@ -231,8 +231,12 @@ const WorkDetails = ({
               )}
             </Space>
           )}
-          {itemUrl && !audio && !video && (
-            <>
+          <div
+            className={classNames({
+              'flex flex-h-center': true,
+            })}
+          >
+            {itemUrl && !audio && !video && (
               <Space
                 as="span"
                 h={{
@@ -251,47 +255,14 @@ const WorkDetails = ({
                   link={{ ...itemUrl }}
                 />
               </Space>
-              {(imageCount > 4 || childManifestsCount > 1) && (
-                <Space
-                  as="span"
-                  h={{
-                    size: 'm',
-                    properties: ['margin-right'],
-                  }}
-                >
-                  <ButtonSolidLink
-                    icon="gridView"
-                    text="Overview"
-                    trackingEvent={{
-                      category: 'WorkDetails',
-                      action: 'follow overview link',
-                      label: itemUrl.href.query.workId,
-                    }}
-                    link={{
-                      ...merge({}, itemUrl, {
-                        href: {
-                          query: {
-                            isOverview: true,
-                          },
-                        },
-                        as: {
-                          query: {
-                            isOverview: true,
-                          },
-                        },
-                      }),
-                    }}
-                  />
-                </Space>
-              )}
-            </>
-          )}
+            )}
 
-          <Download
-            ariaControlsId="itemDownloads"
-            workId={work.id}
-            downloadOptions={downloadOptions}
-          />
+            <Download
+              ariaControlsId="itemDownloads"
+              workId={work.id}
+              downloadOptions={downloadOptions}
+            />
+          </div>
 
           {!(downloadOptions.length > 0) &&
             sierraIdFromManifestUrl &&

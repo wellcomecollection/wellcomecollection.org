@@ -1,6 +1,6 @@
 // @flow
 import { type Context } from 'next';
-import { Fragment, useEffect, useState, useContext } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
@@ -36,8 +36,6 @@ import cookies from 'next-cookies';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import useHotjar from '@weco/common/hooks/useHotjar';
 import WorkSearchResults from '../components/WorkSearchResults/WorkSearchResults';
-import ImageSearchResults from '../components/ImageSearchResults/ImageSearchResults';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type Props = {|
   works: ?CatalogueResultsList<Work> | CatalogueApiError,
@@ -53,8 +51,6 @@ const Works = ({
   works,
   images,
   worksRouteProps,
-  unfilteredSearchResults,
-  shouldGetWorks,
   apiProps,
   setArchivesPrototypeCookie,
 }: Props) => {
@@ -102,7 +98,6 @@ const Works = ({
   useHotjar();
 
   const isImageSearch = worksRouteProps.search === 'images';
-  const { newImageSearch } = useContext(TogglesContext);
 
   if (results && results.type === 'Error') {
     return (
@@ -265,22 +260,7 @@ const Works = ({
             >
               <div className="container">
                 {(() => {
-                  if (
-                    works &&
-                    works.type !== 'Error' &&
-                    isImageSearch &&
-                    !newImageSearch
-                  ) {
-                    return (
-                      <ImageSearchResults works={works} apiProps={apiProps} />
-                    );
-                  }
-                  if (
-                    images &&
-                    images.type !== 'Error' &&
-                    isImageSearch &&
-                    newImageSearch
-                  ) {
+                  if (images && images.type !== 'Error' && isImageSearch) {
                     return (
                       <ImageEndpointSearchResults
                         images={images}
@@ -383,19 +363,13 @@ const Works = ({
   );
 };
 
-const IMAGES_LOCATION_TYPE = 'iiif-image';
-
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = WorksRoute.fromQuery(ctx.query);
   const shouldSeeArchives = ctx.query.archivesPrototype;
   if (shouldSeeArchives) {
     ctx.query.toggles.archivesPrototype = true;
   }
-  const {
-    unfilteredSearchResults,
-    newImageSearch,
-    archivesPrototype,
-  } = ctx.query.toggles;
+  const { unfilteredSearchResults, archivesPrototype } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
   const apiPropsFn = unfilteredSearchResults
@@ -404,13 +378,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
 
   const apiProps = archivesPrototype
     ? apiPropsFn(
-        {
-          ...params,
-          itemsLocationsLocationType:
-            isImageSearch && !newImageSearch
-              ? [IMAGES_LOCATION_TYPE]
-              : params.itemsLocationsLocationType,
-        },
+        params,
         {
           _queryType,
           aggregations: ['workType'],
@@ -419,25 +387,15 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
         },
         true
       )
-    : apiPropsFn(
-        {
-          ...params,
-          itemsLocationsLocationType:
-            isImageSearch && !newImageSearch
-              ? [IMAGES_LOCATION_TYPE]
-              : params.itemsLocationsLocationType,
-        },
-        {
-          _queryType,
-          aggregations: ['workType'],
-        }
-      );
+    : apiPropsFn(params, {
+        _queryType,
+        aggregations: ['workType'],
+      });
 
   const hasQuery = !!(params.query && params.query !== '');
-  const isEndpointImageSearch = isImageSearch && newImageSearch;
 
-  const shouldGetWorks = hasQuery && !isEndpointImageSearch;
-  const shouldGetImages = hasQuery && isEndpointImageSearch;
+  const shouldGetWorks = hasQuery && !isImageSearch;
+  const shouldGetImages = hasQuery && isImageSearch;
 
   const worksOrError = shouldGetWorks
     ? await getWorks({

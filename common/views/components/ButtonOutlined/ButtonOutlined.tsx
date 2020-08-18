@@ -20,10 +20,9 @@ export const OutlinedButton = styled(BaseButton).attrs<MaybeAnchor>(props => ({
     'link-reset': !!props.href,
   }),
 }))`
-  border: 2px solid ${props => props.theme.color('green')};
+  border: 2px solid ${props => props.theme.color(props.isOnDark ? 'white' : 'green')};
   background: ${props => props.theme.color('transparent')};
-  color: ${props => props.theme.color('green')};
-  padding: 15px 20px;
+  color: ${props => props.theme.color(props.isOnDark ? 'white' : 'green')};
 
   &:hover {
     text-decoration: underline;
@@ -31,14 +30,15 @@ export const OutlinedButton = styled(BaseButton).attrs<MaybeAnchor>(props => ({
 `;
 
 export type ButtonOutlinedBaseProps = {
-  text: string,
-  icon?: string,
-  type?: 'submit' | 'reset' | 'button',
-  isTextHidden?: boolean,
-  trackingEvent?: GaEvent,
-  ariaControls?: string,
-  ariaExpanded?: boolean,
-  ariaLive?: 'off' | 'polite' | 'assertive',
+  text: string;
+  icon?: string;
+  type?: 'submit' | 'reset' | 'button';
+  isTextHidden?: boolean;
+  isOnDark?: boolean;
+  trackingEvent?: GaEvent;
+  ariaControls?: string;
+  ariaExpanded?: boolean;
+  ariaLive?: 'off' | 'polite' | 'assertive';
 };
 
 type ButtonOutlinedProps = ButtonOutlinedBaseProps & {
@@ -57,6 +57,7 @@ const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
       type,
       isTextHidden,
       trackingEvent,
+      isOnDark,
       clickHandler,
       ariaControls,
       ariaExpanded,
@@ -72,6 +73,7 @@ const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
     return (
       <OutlinedButton
         type={type}
+        isOnDark={isOnDark}
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
         aria-live={ariaLive}

@@ -3,6 +3,7 @@ import { type Work } from '@weco/common/model/work';
 import { workLink } from '../../../services/catalogue/routes';
 import NextLink from 'next/link';
 import styled from 'styled-components';
+// $FlowFixMe (tsx)
 import DropdownButton from '../DropdownButton/DropdownButton';
 import Icon from '../Icon/Icon';
 // $FlowFixMe (tsx)
@@ -89,8 +90,8 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
     alternativeTitles: work.alternativeTitles,
     referenceNumber: work.referenceNumber,
   };
-
-  return (
+  const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
+  return isInArchive ? (
     <ArchiveBreadcrumbNav>
       <ul>
         {firstCrumb && (
@@ -118,7 +119,7 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
                           extraClasses={`icon--match-text icon--currentColor`}
                           name={
                             'folder'
-                            // TODO no longer way of knowing if has children
+                            // TODO: no longer way of knowing if has children
                             // crumb.path.level === 'Item'
                             //   ? 'digitalImage'
                             //   : 'folder'
@@ -126,8 +127,9 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
                         />
                         <NextLink {...workLink({ id: crumb.id })}>
                           <a className="crumb-inner">
-                            <WorkTitle title={crumb.title} />{' '}
-                            {crumb.referenceNumber}
+                            <WorkTitle
+                              title={`${crumb.title} ${crumb.referenceNumber}`}
+                            />
                           </a>
                         </NextLink>
                       </li>
@@ -147,13 +149,15 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
                     extraClasses={`icon--match-text icon--currentColor`}
                     name={
                       'folder'
-                      // TODO no longer way of knowing if has children
+                      // TODO: no longer way of knowing if has children
                       // crumb.path.level === 'Item' ? 'digitalImage' : 'folder'
                     }
                   />
                   <NextLink {...workLink({ id: crumb.id })}>
                     <a className="crumb-inner">
-                      <WorkTitle title={crumb.title} /> {crumb.referenceNumber}
+                      <WorkTitle
+                        title={`${crumb.title} ${crumb.referenceNumber}`}
+                      />
                     </a>
                   </NextLink>
                 </li>
@@ -167,18 +171,20 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
               extraClasses={`icon--match-text icon--currentColor`}
               name={
                 'folder'
-                // TODO no longer way of knowing if has children
+                // TODO: no longer way of knowing if has children
                 // lastCrumb.path.level === 'Item' ? 'digitalImage' : 'folder'
               }
             />
             <span className="crumb-inner">
-              <WorkTitle title={lastCrumb.title} /> {lastCrumb.referenceNumber}
+              <WorkTitle
+                title={`${lastCrumb.title} ${lastCrumb.referenceNumber}`}
+              />
             </span>
           </li>
         )}
       </ul>
     </ArchiveBreadcrumbNav>
-  );
+  ) : null;
 };
 
 export default ArchiveBreadcrumb;
