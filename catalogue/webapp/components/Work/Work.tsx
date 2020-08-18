@@ -156,18 +156,7 @@ const Work = ({ work }: Props) => {
           </Space>
         </div>
       </div>
-{/*
-      <Space
-        v={{
-          size: 'xl',
-          properties: ['padding-top'],
-        }}
-        className={classNames({
-          row: true,
-        })}
-      > */}
-
-        {archivesPrototype || archivesPrototypeSidePanel && (
+        {(archivesPrototype || archivesPrototypeSidePanel) && (
           <div className="container">
             <div className="grid">
               <Space
@@ -222,21 +211,22 @@ const Work = ({ work }: Props) => {
           </div>
         </div>
         ) : (
-<>
+      <>
         <div className="container">
           <div className="grid">
             <WorkHeader work={work} childManifestsCount={childManifestsCount} />
           </div>
         </div>
         <WorkDetails
-        work={work}
-        itemUrl={itemUrlObject}
-        iiifPresentationManifest={iiifPresentationManifest}
-        childManifestsCount={childManifestsCount}
-        imageCount={imageTotal}
-      /></>
-        )}
-      {/* </Space> */}
+          work={work}
+          itemUrl={itemUrlObject}
+          iiifPresentationManifest={iiifPresentationManifest}
+          childManifestsCount={childManifestsCount}
+          imageCount={imageTotal}
+        />
+      </>
+      )}
+
       {archivesPrototype && !archivesPrototypeSidePanel && <RelatedArchiveWorks work={work} />}
       <Layout12>
         <WorkDetailsSection>
