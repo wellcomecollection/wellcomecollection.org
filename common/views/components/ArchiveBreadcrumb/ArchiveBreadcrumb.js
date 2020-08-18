@@ -128,7 +128,7 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
                         <NextLink {...workLink({ id: crumb.id })}>
                           <a className="crumb-inner">
                             <WorkTitle
-                              title={crumb.title + ' ' + crumb.referenceNumber}
+                              title={`${crumb.title} ${crumb.referenceNumber}`}
                             />
                           </a>
                         </NextLink>
@@ -156,7 +156,7 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
                   <NextLink {...workLink({ id: crumb.id })}>
                     <a className="crumb-inner">
                       <WorkTitle
-                        title={crumb.title + ' ' + crumb.referenceNumber}
+                        title={`${crumb.title} ${crumb.referenceNumber}`}
                       />
                     </a>
                   </NextLink>
@@ -177,7 +177,7 @@ const ArchiveBreadcrumb = ({ work }: Props) => {
             />
             <span className="crumb-inner">
               <WorkTitle
-                title={lastCrumb.title + ' ' + lastCrumb.referenceNumber}
+                title={`${lastCrumb.title} ${lastCrumb.referenceNumber}`}
               />
             </span>
           </li>
