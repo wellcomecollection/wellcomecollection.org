@@ -95,6 +95,25 @@ const Tree = styled.div`
   }
 `;
 
+function updateDefaultOpenStatus(id, fullTree, defaultValue) {
+  const newTree = fullTree.map(node => {
+    if (node.work.id === id) {
+      return {
+        ...node,
+        openByDefault: defaultValue,
+      };
+    } else if (node.work.id !== id && node.children) {
+      return {
+        ...node,
+        children: updateDefaultOpenStatus(id, node.children, defaultValue),
+      };
+    } else {
+      return node;
+    }
+  });
+  return newTree;
+}
+
 function createWorkPropertyFromWork(work) {
   return {
     id: work.id,
@@ -203,7 +222,6 @@ function addWorkPartsToCollectionTree(
           matchingItem.children &&
           matchingItem.children.length > 0
         ) {
-          console.log('matching', matchingItem);
           return matchingItem;
         } else {
           return {
@@ -227,7 +245,6 @@ async function expandTree(workId, toggles, setCollectionTree, collectionTree) {
     true,
     true
   );
-  console.log(newTree);
   setCollectionTree(newTree);
 }
 
@@ -268,10 +285,8 @@ const ListItem = ({
   selected,
   setCollectionTree,
   fullTree,
-  collectionTree,
   isRootItem,
 }: ListItemType) => {
-  const [showNested, setShowNested] = useState(item.openByDefault || false);
   const [showButton, setShowButton] = useState(item.children);
   const toggles = useContext(TogglesContext);
   useEffect(() => {
@@ -327,8 +342,10 @@ const ListItem = ({
                   }}
                 >
                   <ButtonOutlined
-                    icon={showNested ? 'minus' : 'plus'}
-                    text={showNested ? 'hide children' : 'show children'}
+                    icon={item.openByDefault ? 'minus' : 'plus'}
+                    text={
+                      item.openByDefault ? 'hide children' : 'show children'
+                    }
                     isTextHidden={true}
                     clickHandler={() => {
                       if (!item.children) {
@@ -339,7 +356,13 @@ const ListItem = ({
                           fullTree
                         );
                       } else {
-                        setShowNested(!showNested);
+                        setCollectionTree(
+                          updateDefaultOpenStatus(
+                            item.work.id,
+                            fullTree,
+                            !item.openByDefault
+                          )
+                        );
                       }
                     }}
                   />
@@ -348,7 +371,7 @@ const ListItem = ({
             </div>
           )}
         </TogglesContext.Consumer>
-        {item.children && showNested && (
+        {item.children && item.openByDefault && (
           <NestedList
             selected={selected}
             currentWorkId={currentWorkId}
@@ -458,7 +481,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     } else {
       setCollectionTree(basicTree);
     }
-  }, [work]);
+  }, []); // TODO need work for modal?
 
   return (
     isInArchive &&
