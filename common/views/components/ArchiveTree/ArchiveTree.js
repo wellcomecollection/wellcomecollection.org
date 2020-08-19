@@ -255,6 +255,7 @@ function addWorkPartsToCollectionTree(
           openStatus: manualTreeExpansion || openStatus,
           children: work.parts.map(part => ({
             work: part,
+            openStatus: false,
           })),
         };
       } else {
@@ -282,6 +283,7 @@ function addWorkPartsToCollectionTree(
           } else {
             return {
               work: part,
+              openStatus: false,
             };
           }
         });
@@ -324,7 +326,9 @@ const ListItem = ({
       }
     };
     checkForChildren();
-    return () => (isMounted = false);
+    return () => {
+      isMounted = false;
+    };
   }, []);
   return (
     <li>
@@ -513,9 +517,8 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     }
   }, []);
 
-  return (
-    isInArchive &&
-    (toggles.archivesPrototypeSidePanel ? (
+  return isInArchive ? (
+    toggles.archivesPrototypeSidePanel ? (
       <Container>
         <TreeView />
       </Container>
@@ -547,7 +550,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
           </Container>
         </Modal>
       </>
-    ))
-  );
+    )
+  ) : null;
 };
 export default ArchiveTree;
