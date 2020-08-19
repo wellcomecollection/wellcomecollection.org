@@ -293,6 +293,8 @@ const catalogueWork = {
   },
   notes: [],
   type: 'Work',
+  parts: [],
+  partOf: [],
   '@context': 'https://api.wellcomecollection.org/catalogue/v2/context.json',
 };
 

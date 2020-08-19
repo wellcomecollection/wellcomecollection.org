@@ -9,6 +9,13 @@ module.exports = {
         'Include archives in search results and view prototypes of breadcrumbs, trees and onward journey links for archives',
     },
     {
+      id: 'archivesPrototypeSidePanel',
+      title: 'Shows persistent archive tree on the work page',
+      defaultValue: false,
+      description:
+        'Iteration on the first archives prototype. Keeps the breadcrumbs removes the onward journey links and includes a persistent archive tree on the work page',
+    },
+    {
       id: 'unfilteredSearchResults',
       title: 'Entire catalogue search',
       defaultValue: false,

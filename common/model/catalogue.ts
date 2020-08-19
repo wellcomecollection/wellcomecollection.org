@@ -22,6 +22,8 @@ export type Work = {
   collectionPath?: CollectionPath;
   collection?: Collection;
   images?: ImageInclude[];
+  parts: [];
+  partOf: [];
 };
 
 type WorkType = {

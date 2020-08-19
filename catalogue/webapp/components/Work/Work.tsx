@@ -26,6 +26,7 @@ import WorkDetails from '../WorkDetails/WorkDetails';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
 
 declare global {
   interface Window {
@@ -38,7 +39,7 @@ type Props = {
 };
 
 const Work = ({ work }: Props) => {
-  const { archivesPrototype } = useContext(TogglesContext);
+  const { archivesPrototype, archivesPrototypeSidePanel } = useContext(TogglesContext);
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
     page: 1,
@@ -50,6 +51,8 @@ const Work = ({ work }: Props) => {
     productionDatesTo: null,
     search: null,
   });
+
+  const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
 
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
@@ -153,16 +156,7 @@ const Work = ({ work }: Props) => {
           </Space>
         </div>
       </div>
-      <Space
-        v={{
-          size: 'xl',
-          properties: ['padding-top'],
-        }}
-        className={classNames({
-          row: true,
-        })}
-      >
-        {archivesPrototype && (
+        {(archivesPrototype || archivesPrototypeSidePanel) && (
           <div className="container">
             <div className="grid">
               <Space
@@ -179,20 +173,61 @@ const Work = ({ work }: Props) => {
             </div>
           </div>
         )}
+
+{archivesPrototypeSidePanel && isInArchive ? (
         <div className="container">
           <div className="grid">
-            <WorkHeader work={work} childManifestsCount={childManifestsCount} />
-          </div>
-        </div>
-      </Space>
-      <WorkDetails
+            <div
+              className={classNames({
+                [grid({
+                  s: 12,
+                  m: 6,
+                  l: 5,
+                  xl: 5,
+                })]: true,
+              })}
+            >
+              <ArchiveTree work={work} withModal={false} />
+            </div>
+            <div
+              className={classNames({
+                [grid({
+                  s: 12,
+                  m: 6,
+                  l: 7,
+                  xl: 7,
+                })]: true,
+              })}
+            >
+              <WorkHeader work={work} childManifestsCount={childManifestsCount} />
+              <WorkDetails
         work={work}
         itemUrl={itemUrlObject}
         iiifPresentationManifest={iiifPresentationManifest}
         childManifestsCount={childManifestsCount}
         imageCount={imageTotal}
       />
-      {archivesPrototype && <RelatedArchiveWorks work={work} />}
+            </div>
+          </div>
+        </div>
+        ) : (
+      <>
+        <div className="container">
+          <div className="grid">
+            <WorkHeader work={work} childManifestsCount={childManifestsCount} />
+          </div>
+        </div>
+        <WorkDetails
+          work={work}
+          itemUrl={itemUrlObject}
+          iiifPresentationManifest={iiifPresentationManifest}
+          childManifestsCount={childManifestsCount}
+          imageCount={imageTotal}
+        />
+      </>
+      )}
+
+      {archivesPrototype && !archivesPrototypeSidePanel && <RelatedArchiveWorks work={work} />}
       <Layout12>
         <WorkDetailsSection>
           <div className="flex flex--v-center">
