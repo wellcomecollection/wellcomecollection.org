@@ -154,7 +154,7 @@ const Works = ({
           className={classNames(['row'])}
         >
           <div className="container">
-            {!works && (
+            {!results && (
               <div className="grid">
                 <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                   <Space
@@ -183,7 +183,7 @@ const Works = ({
                 <p
                   className={classNames({
                     [font('hnl', 4)]: true,
-                    'visually-hidden': Boolean(works),
+                    'visually-hidden': Boolean(results),
                   })}
                   id="search-form-description"
                 >
