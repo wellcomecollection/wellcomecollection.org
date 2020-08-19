@@ -224,11 +224,12 @@ function createCollectionTree(work: Work): UiTree[] {
 }
 
 function addWorkPartsToCollectionTree(
-  work: Work,
+  work: any, // FIXME: don't know how to have Work here and not have Flow complain about a Promise
   collectionTree: UiTree[],
   openStatus: boolean,
   manualTreeExpansion: boolean
-): UiTree[] {
+): any[] {
+  // FIXME: I want this to be UiTree[] but Flow's telling me collectionTree is an inexact array type
   return collectionTree.map(node => {
     if (node.work.id !== work.id && !node.children) {
       return {
@@ -292,6 +293,8 @@ function addWorkPartsToCollectionTree(
         children: mergedChildren,
       };
     }
+
+    return collectionTree;
   });
 }
 
