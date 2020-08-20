@@ -513,6 +513,18 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     </Tree>
   );
 
+  const initialLoad = useRef(true);
+
+  useEffect(() => {
+    if (!initialLoad.current) {
+      const workInfo = document.getElementById('work-info');
+
+      workInfo.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    initialLoad.current = false;
+  }, [work.id]);
+
   useEffect(() => {
     // Add siblings to each node, that leads to the current work
     const basicTree = createCollectionTree(work);
