@@ -181,9 +181,9 @@ const Work = ({ work }: Props) => {
               className={classNames({
                 [grid({
                   s: 12,
-                  m: 6,
-                  l: 5,
-                  xl: 5,
+                  m: 5,
+                  l: 4,
+                  xl: 3,
                 })]: true,
               })}
             >
@@ -193,9 +193,9 @@ const Work = ({ work }: Props) => {
               className={classNames({
                 [grid({
                   s: 12,
-                  m: 6,
-                  l: 7,
-                  xl: 7,
+                  m: 7,
+                  l: 8,
+                  xl: 9,
                 })]: true,
               })}
             >

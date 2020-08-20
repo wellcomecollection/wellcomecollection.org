@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useContext, useRef } from 'react';
 import styled from 'styled-components';
-import { classNames } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { getWork } from '@weco/catalogue/services/catalogue/works';
 import { workLink } from '@weco/common/services/catalogue/routes';
 // import { ArchiveNode } from '@weco/common/utils/works';
@@ -16,12 +16,30 @@ import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonO
 import Modal from '@weco/common/views/components/Modal/Modal';
 // $FlowFixMe (tsx)
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
+import Icon from '@weco/common/views/components/Icon/Icon';
 
 const Container = styled.div`
   overflow: scroll;
   height: ${props => (props.fixHeight ? '70vh' : 'auto')};
   border: 1px solid ${props => props.theme.color('pumice')};
   border-radius: 6px;
+`;
+
+const StickyContainer = styled.div`
+  border: 1px solid ${props => props.theme.color('pumice')};
+  border-bottom: 0;
+
+  ${props => props.theme.media.medium`
+    position: sticky;
+    top: 0px;
+  `}
+`;
+
+const StickyContainerInner = styled.div`
+  ${props => props.theme.media.medium`
+    overflow: scroll;
+    max-height: calc(100vh - 48px);
+  `}
 `;
 
 const StyledLink = styled.a`
@@ -65,7 +83,7 @@ const Tree = styled.div`
   }
 
   ul ul {
-    padding-left: 62px;
+    padding-left: 30px;
 
     li {
       a {
@@ -335,7 +353,7 @@ const ListItem = ({
   }, []);
   return (
     <li>
-      <div style={{ padding: '10px 10px 30px' }}>
+      <div style={{ padding: '10px 10px' }}>
         <TogglesContext.Consumer>
           {toggles => (
             <div style={{ whiteSpace: 'nowrap' }}>
@@ -345,6 +363,9 @@ const ListItem = ({
                 passHref
               >
                 <StyledLink
+                  className={classNames({
+                    [font('hnl', 6)]: true,
+                  })}
                   isCurrent={currentWorkId === item.work.id}
                   ref={currentWorkId === item.work.id ? selected : null}
                   onClick={() => {
@@ -522,9 +543,30 @@ const ArchiveTree = ({ work }: { work: Work }) => {
 
   return isInArchive ? (
     toggles.archivesPrototypeSidePanel ? (
-      <Container>
-        <TreeView />
-      </Container>
+      <StickyContainer>
+        <Space
+          v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+          h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
+          className={classNames({
+            'flex flex--v-center bg-pumice': true,
+          })}
+        >
+          <Space
+            as="h2"
+            h={{ size: 'm', properties: ['margin-right'] }}
+            className={classNames({
+              [font('wb', 5)]: true,
+              'no-margin': true,
+            })}
+          >
+            Collection contents
+          </Space>
+          <Icon name="tree" />
+        </Space>
+        <StickyContainerInner>
+          <TreeView />
+        </StickyContainerInner>
+      </StickyContainer>
     ) : (
       <>
         <Space
