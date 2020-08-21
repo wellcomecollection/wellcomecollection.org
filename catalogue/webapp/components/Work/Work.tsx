@@ -206,13 +206,15 @@ const Work = ({ work }: Props) => {
                   })]: true,
                 })}
               >
-                <WorkDetails
-                  work={work}
-                  itemUrl={itemUrlObject}
-                  iiifPresentationManifest={iiifPresentationManifest}
-                  childManifestsCount={childManifestsCount}
-                  imageCount={imageTotal}
-                />
+                <Space v={{size: 'xl', properties: ['margin-top'], negative: true}}>
+                  <WorkDetails
+                    work={work}
+                    itemUrl={itemUrlObject}
+                    iiifPresentationManifest={iiifPresentationManifest}
+                    childManifestsCount={childManifestsCount}
+                    imageCount={imageTotal}
+                  />
+                </Space>
               </div>
             </div>
           </div>
