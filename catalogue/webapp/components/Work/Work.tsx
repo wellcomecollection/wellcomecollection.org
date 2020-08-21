@@ -16,6 +16,7 @@ import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayo
 import { workLd } from '@weco/common/utils/json-ld';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
+import WorkHeaderPrototype from '@weco/common/views/components/WorkHeaderPrototype/WorkHeaderPrototype';
 import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
@@ -175,41 +176,47 @@ const Work = ({ work }: Props) => {
         )}
 
 {archivesPrototypeSidePanel && isInArchive ? (
-        <div className="container">
-          <div className="grid">
-            <div
-              className={classNames({
-                [grid({
-                  s: 12,
-                  m: 5,
-                  l: 4,
-                  xl: 3,
-                })]: true,
-              })}
-            >
-              <ArchiveTree work={work} withModal={false} />
-            </div>
-            <div
-              className={classNames({
-                [grid({
-                  s: 12,
-                  m: 7,
-                  l: 8,
-                  xl: 9,
-                })]: true,
-              })}
-            >
-              <WorkHeader work={work} childManifestsCount={childManifestsCount} />
-              <WorkDetails
-        work={work}
-        itemUrl={itemUrlObject}
-        iiifPresentationManifest={iiifPresentationManifest}
-        childManifestsCount={childManifestsCount}
-        imageCount={imageTotal}
-      />
+        <>
+          <div className="container">
+            <div className="grid">
+              <WorkHeaderPrototype work={work} childManifestsCount={childManifestsCount} />
             </div>
           </div>
-        </div>
+          <div className="container">
+            <div className="grid">
+              <div
+                className={classNames({
+                  [grid({
+                    s: 12,
+                    m: 5,
+                    l: 4,
+                    xl: 3,
+                  })]: true,
+                })}
+              >
+                <ArchiveTree work={work} withModal={false} />
+              </div>
+              <div
+                className={classNames({
+                  [grid({
+                    s: 12,
+                    m: 7,
+                    l: 8,
+                    xl: 9,
+                  })]: true,
+                })}
+              >
+                <WorkDetails
+                  work={work}
+                  itemUrl={itemUrlObject}
+                  iiifPresentationManifest={iiifPresentationManifest}
+                  childManifestsCount={childManifestsCount}
+                  imageCount={imageTotal}
+                />
+              </div>
+            </div>
+          </div>
+        </>
         ) : (
       <>
         <div className="container">

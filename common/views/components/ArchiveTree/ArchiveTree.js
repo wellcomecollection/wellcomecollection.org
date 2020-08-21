@@ -558,9 +558,9 @@ const ArchiveTree = ({ work }: { work: Work }) => {
       <StickyContainer>
         <Space
           v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-          h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           className={classNames({
-            'flex flex--v-center bg-pumice': true,
+            'flex flex--v-center bg-smoke': true,
           })}
         >
           <Space
