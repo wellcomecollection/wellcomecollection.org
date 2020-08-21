@@ -11,8 +11,6 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-// $FlowFixMe (tsx)
-import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import Modal from '@weco/common/views/components/Modal/Modal';
 // $FlowFixMe (tsx)
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
@@ -357,6 +355,53 @@ const ListItem = ({
         <TogglesContext.Consumer>
           {toggles => (
             <div style={{ whiteSpace: 'nowrap' }}>
+              {!isRootItem && (
+                <Space
+                  className="inline-block"
+                  h={{ size: 's', properties: ['margin-right'] }}
+                  style={{
+                    verticalAlign: 'top',
+                    display: showButton ? 'inline-block' : 'none',
+                  }}
+                >
+                  <button
+                    className={classNames({
+                      'plain-button': true,
+                    })}
+                    style={{
+                      fontSize: '10px',
+                      padding: '4px',
+                      background: '#ccc',
+                      position: 'relative',
+                      top: '-2px',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                      if (!item.children) {
+                        expandTree(
+                          item.work.id,
+                          toggles,
+                          setCollectionTree,
+                          fullTree
+                        );
+                      } else {
+                        setCollectionTree(
+                          updateDefaultOpenStatus(
+                            item.work.id,
+                            fullTree,
+                            !item.openStatus
+                          )
+                        );
+                      }
+                    }}
+                  >
+                    <Icon
+                      extraClasses="icon--match-text"
+                      name={item.openStatus ? 'minus' : 'plus'}
+                    />
+                  </button>
+                </Space>
+              )}
               <NextLink
                 {...workLink({ id: item.work.id })}
                 scroll={false}
@@ -385,41 +430,6 @@ const ListItem = ({
                   </div>
                 </StyledLink>
               </NextLink>
-              {!isRootItem && (
-                <Space
-                  className="inline-block"
-                  h={{ size: 'm', properties: ['margin-left'] }}
-                  style={{
-                    position: 'absolute',
-                    zoom: '0.7',
-                    display: showButton ? 'inline-block' : 'none',
-                  }}
-                >
-                  <ButtonOutlined
-                    icon={item.openStatus ? 'minus' : 'plus'}
-                    text={item.openStatus ? 'hide children' : 'show children'}
-                    isTextHidden={true}
-                    clickHandler={() => {
-                      if (!item.children) {
-                        expandTree(
-                          item.work.id,
-                          toggles,
-                          setCollectionTree,
-                          fullTree
-                        );
-                      } else {
-                        setCollectionTree(
-                          updateDefaultOpenStatus(
-                            item.work.id,
-                            fullTree,
-                            !item.openStatus
-                          )
-                        );
-                      }
-                    }}
-                  />
-                </Space>
-              )}
             </div>
           )}
         </TogglesContext.Consumer>
