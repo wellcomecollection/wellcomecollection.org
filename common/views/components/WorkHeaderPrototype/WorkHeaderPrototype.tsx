@@ -41,7 +41,7 @@ const WorkHeaderPrototype = ({ work, childManifestsCount = 0 }: Props) => {
     <WorkHeaderContainer>
       <Space
         v={{
-          size: 'l',
+          size: 'xl',
           properties: ['margin-bottom'],
         }}
         className={classNames([grid({ s: 12, m: 12, l: 10, xl: 10 })])}
@@ -98,7 +98,7 @@ const WorkHeaderPrototype = ({ work, childManifestsCount = 0 }: Props) => {
           {(work.contributors.length > 0 || productionDates.length > 0) && (
             <Space
               v={{
-                size: 'l',
+                size: 's',
                 properties: ['margin-top'],
               }}
               className={classNames({
