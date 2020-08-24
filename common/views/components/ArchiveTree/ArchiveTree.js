@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useContext, useRef } from 'react';
 import styled from 'styled-components';
-import { classNames } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { getWork } from '@weco/catalogue/services/catalogue/works';
 import { workLink } from '@weco/common/services/catalogue/routes';
 // import { ArchiveNode } from '@weco/common/utils/works';
@@ -11,17 +11,33 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-// $FlowFixMe (tsx)
-import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import Modal from '@weco/common/views/components/Modal/Modal';
 // $FlowFixMe (tsx)
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
+import Icon from '@weco/common/views/components/Icon/Icon';
 
 const Container = styled.div`
   overflow: scroll;
   height: ${props => (props.fixHeight ? '70vh' : 'auto')};
   border: 1px solid ${props => props.theme.color('pumice')};
   border-radius: 6px;
+`;
+
+const StickyContainer = styled.div`
+  border: 1px solid ${props => props.theme.color('pumice')};
+  border-bottom: 0;
+
+  ${props => props.theme.media.medium`
+    position: sticky;
+    top: 0px;
+  `}
+`;
+
+const StickyContainerInner = styled.div`
+  ${props => props.theme.media.medium`
+    overflow: scroll;
+    max-height: calc(100vh - 48px);
+  `}
 `;
 
 const StyledLink = styled.a`
@@ -65,7 +81,7 @@ const Tree = styled.div`
   }
 
   ul ul {
-    padding-left: 62px;
+    padding-left: 30px;
 
     li {
       a {
@@ -335,16 +351,69 @@ const ListItem = ({
   }, []);
   return (
     <li>
-      <div style={{ padding: '10px 10px 30px' }}>
+      <div style={{ padding: '10px 10px 10px 0' }}>
         <TogglesContext.Consumer>
           {toggles => (
             <div style={{ whiteSpace: 'nowrap' }}>
+              {!isRootItem && (
+                <Space
+                  className="inline-block"
+                  h={{ size: 's', properties: ['margin-right'] }}
+                  style={{
+                    verticalAlign: 'top',
+                    display: showButton ? 'inline-block' : 'none',
+                  }}
+                >
+                  <button
+                    className={classNames({
+                      'plain-button': true,
+                    })}
+                    style={{
+                      fontSize: '10px',
+                      height: '18px',
+                      width: '18px',
+                      padding: '0',
+                      background: '#ccc',
+                      position: 'relative',
+                      top: '-2px',
+                      textAlign: 'center',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                      if (!item.children) {
+                        expandTree(
+                          item.work.id,
+                          toggles,
+                          setCollectionTree,
+                          fullTree
+                        );
+                      } else {
+                        setCollectionTree(
+                          updateDefaultOpenStatus(
+                            item.work.id,
+                            fullTree,
+                            !item.openStatus
+                          )
+                        );
+                      }
+                    }}
+                  >
+                    <Icon
+                      extraClasses="icon--match-text"
+                      name={item.openStatus ? 'minus' : 'plus'}
+                    />
+                  </button>
+                </Space>
+              )}
               <NextLink
                 {...workLink({ id: item.work.id })}
                 scroll={false}
                 passHref
               >
                 <StyledLink
+                  className={classNames({
+                    [font('hnl', 6)]: true,
+                  })}
                   isCurrent={currentWorkId === item.work.id}
                   ref={currentWorkId === item.work.id ? selected : null}
                   onClick={() => {
@@ -364,41 +433,6 @@ const ListItem = ({
                   </div>
                 </StyledLink>
               </NextLink>
-              {!isRootItem && (
-                <Space
-                  className="inline-block"
-                  h={{ size: 'm', properties: ['margin-left'] }}
-                  style={{
-                    position: 'absolute',
-                    zoom: '0.7',
-                    display: showButton ? 'inline-block' : 'none',
-                  }}
-                >
-                  <ButtonOutlined
-                    icon={item.openStatus ? 'minus' : 'plus'}
-                    text={item.openStatus ? 'hide children' : 'show children'}
-                    isTextHidden={true}
-                    clickHandler={() => {
-                      if (!item.children) {
-                        expandTree(
-                          item.work.id,
-                          toggles,
-                          setCollectionTree,
-                          fullTree
-                        );
-                      } else {
-                        setCollectionTree(
-                          updateDefaultOpenStatus(
-                            item.work.id,
-                            fullTree,
-                            !item.openStatus
-                          )
-                        );
-                      }
-                    }}
-                  />
-                </Space>
-              )}
             </div>
           )}
         </TogglesContext.Consumer>
@@ -492,6 +526,22 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     </Tree>
   );
 
+  const initialLoad = useRef(true);
+
+  useEffect(() => {
+    if (!initialLoad.current) {
+      const workInfo = document.getElementById('work-info');
+
+      if (workInfo) {
+        window.requestAnimationFrame(() => {
+          workInfo.scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+    }
+
+    initialLoad.current = false;
+  }, [work.id]);
+
   useEffect(() => {
     // Add siblings to each node, that leads to the current work
     const basicTree = createCollectionTree(work);
@@ -522,9 +572,30 @@ const ArchiveTree = ({ work }: { work: Work }) => {
 
   return isInArchive ? (
     toggles.archivesPrototypeSidePanel ? (
-      <Container>
-        <TreeView />
-      </Container>
+      <StickyContainer>
+        <Space
+          v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+          className={classNames({
+            'flex flex--v-center bg-smoke': true,
+          })}
+        >
+          <Space
+            as="h2"
+            h={{ size: 'm', properties: ['margin-right'] }}
+            className={classNames({
+              [font('wb', 5)]: true,
+              'no-margin': true,
+            })}
+          >
+            Collection contents
+          </Space>
+          <Icon name="tree" />
+        </Space>
+        <StickyContainerInner>
+          <TreeView />
+        </StickyContainerInner>
+      </StickyContainer>
     ) : (
       <>
         <Space
