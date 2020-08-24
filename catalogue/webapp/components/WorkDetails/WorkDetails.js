@@ -25,7 +25,6 @@ import {
 import NextLink from 'next/link';
 // $FlowFixMe (tsx)
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Download from '../Download/Download';
@@ -471,25 +470,29 @@ const WorkDetails = ({
         </WorkDetailsSection>
       )}
       {digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
-      <WorkDetailsSection headingText="Identifiers">
-        {isbnIdentifiers.length > 0 && (
-          <WorkDetailsList
-            title="ISBN"
-            list={isbnIdentifiers.map(id => id.value)}
+
+      <WorkDetailsSection headingText="Permanent link">
+        <div className={`${font('hnl', 5)}`}>
+          <CopyUrl
+            id={work.id}
+            url={`https://wellcomecollection.org/works/${work.id}`}
           />
-        )}
-        <SpacingComponent>
-          <div className={`${font('hnl', 5)}`}>
-            <CopyUrl
-              id={work.id}
-              url={`https://wellcomecollection.org/works/${work.id}`}
-            />
-          </div>
-        </SpacingComponent>
-        {work.citeAs && (
-          <WorkDetailsText title="Reference number" text={[work.citeAs]} />
-        )}
+        </div>
       </WorkDetailsSection>
+
+      {(isbnIdentifiers.length > 0 || work.citeAs) && (
+        <WorkDetailsSection headingText="Identifiers">
+          {isbnIdentifiers.length > 0 && (
+            <WorkDetailsList
+              title="ISBN"
+              list={isbnIdentifiers.map(id => id.value)}
+            />
+          )}
+          {work.citeAs && (
+            <WorkDetailsText title="Reference number" text={[work.citeAs]} />
+          )}
+        </WorkDetailsSection>
+      )}
     </>
   );
 
@@ -503,21 +506,21 @@ const WorkDetails = ({
         row: true,
       })}
     >
-      <div className="container">
-        <div className="grid">
-          <TogglesContext.Consumer>
-            {({ archivesPrototypeSidePanel }) =>
-              archivesPrototypeSidePanel && isInArchive ? (
+      <TogglesContext.Consumer>
+        {({ archivesPrototypeSidePanel }) =>
+          archivesPrototypeSidePanel && isInArchive ? (
+            <div className="container">
+              <div className="grid">
                 <Content />
-              ) : (
-                <Layout12>
-                  <Content />
-                </Layout12>
-              )
-            }
-          </TogglesContext.Consumer>
-        </div>
-      </div>
+              </div>
+            </div>
+          ) : (
+            <Layout12>
+              <Content />
+            </Layout12>
+          )
+        }
+      </TogglesContext.Consumer>
     </Space>
   );
 };
