@@ -529,7 +529,9 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     if (!initialLoad.current) {
       const workInfo = document.getElementById('work-info');
 
-      workInfo.scrollIntoView({ behavior: 'smooth' });
+      if (workInfo) {
+        workInfo.scrollIntoView({ behavior: 'smooth' });
+      }
     }
 
     initialLoad.current = false;
