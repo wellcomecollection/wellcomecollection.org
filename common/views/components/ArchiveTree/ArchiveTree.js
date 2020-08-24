@@ -351,7 +351,7 @@ const ListItem = ({
   }, []);
   return (
     <li>
-      <div style={{ padding: '10px 10px' }}>
+      <div style={{ padding: '10px 10px 10px 0' }}>
         <TogglesContext.Consumer>
           {toggles => (
             <div style={{ whiteSpace: 'nowrap' }}>
@@ -370,10 +370,13 @@ const ListItem = ({
                     })}
                     style={{
                       fontSize: '10px',
-                      padding: '4px',
+                      height: '18px',
+                      width: '18px',
+                      padding: '0',
                       background: '#ccc',
                       position: 'relative',
                       top: '-2px',
+                      textAlign: 'center',
                       cursor: 'pointer',
                     }}
                     onClick={() => {
@@ -530,7 +533,9 @@ const ArchiveTree = ({ work }: { work: Work }) => {
       const workInfo = document.getElementById('work-info');
 
       if (workInfo) {
-        workInfo.scrollIntoView({ behavior: 'smooth' });
+        window.requestAnimationFrame(() => {
+          workInfo.scrollIntoView({ behavior: 'smooth' });
+        });
       }
     }
 
