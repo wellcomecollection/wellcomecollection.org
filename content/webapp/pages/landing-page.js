@@ -58,20 +58,9 @@ export class Page extends Component<Props> {
       ) : null
     ) : null;
 
-    // TODO: This is not the way to do site sections
-    const breadcrumbs = {
-      items: page.siteSection
-        ? [
-            {
-              text: page.siteSection === 'visit-us' ? 'Visit us' : 'What we do',
-              url: `/${page.siteSection}`,
-            },
-          ]
-        : [],
-    };
     const Header = (
       <PageHeader
-        breadcrumbs={breadcrumbs}
+        breadcrumbs={{ items: [] }}
         labels={null}
         title={page.title}
         FeaturedMedia={FeaturedMedia}
