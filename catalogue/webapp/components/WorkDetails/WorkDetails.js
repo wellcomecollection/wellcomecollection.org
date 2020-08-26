@@ -141,25 +141,25 @@ const WorkDetails = ({
   const locationOfWork = work.notes.find(
     note => note.noteType.id === 'location-of-original'
   );
-  const arrangementNote = work.notes.find(
+  const arrangementNote = work.notes.filter(
     note => note.noteType.id === 'arrangement-note'
   );
-  const biographicalNote = work.notes.find(
+  const biographicalNote = work.notes.filter(
     note => note.noteType.id === 'biographical-note'
   );
-  const relatedMaterial = work.notes.find(
+  const relatedMaterial = work.notes.filter(
     note => note.noteType.id === 'related-material'
   );
-  const acquisitionNote = work.notes.find(
+  const acquisitionNote = work.notes.filter(
     note => note.noteType.id === 'acquisition-note'
   );
 
   const orderedNotes = [
-    arrangementNote,
-    acquisitionNote,
-    biographicalNote,
-    relatedMaterial,
-  ].filter(Boolean);
+    ...arrangementNote,
+    ...acquisitionNote,
+    ...biographicalNote,
+    ...relatedMaterial,
+  ];
 
   const remainingNotes = work.notes.filter(note => {
     return !orderedNotes.some(n => n === note);
