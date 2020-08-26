@@ -140,6 +140,29 @@ const WorkDetails = ({
   const locationOfWork = work.notes.find(
     note => note.noteType.id === 'location-of-original'
   );
+  const arrangementNote = work.notes.filter(
+    note => note.noteType.id === 'arrangement-note'
+  );
+  const biographicalNote = work.notes.filter(
+    note => note.noteType.id === 'biographical-note'
+  );
+  const relatedMaterial = work.notes.filter(
+    note => note.noteType.id === 'related-material'
+  );
+  const acquisitionNote = work.notes.filter(
+    note => note.noteType.id === 'acquisition-note'
+  );
+
+  const orderedNotes = [
+    ...arrangementNote,
+    ...acquisitionNote,
+    ...biographicalNote,
+    ...relatedMaterial,
+  ];
+
+  const remainingNotes = work.notes.filter(note => {
+    return !orderedNotes.some(n => n === note);
+  });
 
   const WhereToFindIt = () => (
     <WorkDetailsSection headingText="Where to find it">
@@ -378,6 +401,14 @@ const WorkDetails = ({
           <WorkDetailsText title="Description" text={[work.description]} />
         )}
 
+        {orderedNotes.map(note => (
+          <WorkDetailsText
+            key={note.noteType.label}
+            title={note.noteType.label}
+            text={note.contents}
+          />
+        ))}
+
         {work.contributors.length > 0 && (
           <WorkDetailsTags
             title="Contributors"
@@ -417,15 +448,13 @@ const WorkDetails = ({
 
         {duration && <WorkDetailsText title="Duration" text={[duration]} />}
 
-        {work.notes
-          .filter(note => note.noteType.id !== 'location-of-original')
-          .map(note => (
-            <WorkDetailsText
-              key={note.noteType.label}
-              title={note.noteType.label}
-              text={note.contents}
-            />
-          ))}
+        {remainingNotes.map(note => (
+          <WorkDetailsText
+            key={note.noteType.label}
+            title={note.noteType.label}
+            text={note.contents}
+          />
+        ))}
 
         {work.genres.length > 0 && (
           <WorkDetailsTags
