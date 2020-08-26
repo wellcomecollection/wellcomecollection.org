@@ -401,13 +401,19 @@ const WorkDetails = ({
           <WorkDetailsText title="Description" text={[work.description]} />
         )}
 
-        {orderedNotes.map(note => (
+        {work.production.length > 0 && (
           <WorkDetailsText
-            key={note.noteType.label}
-            title={note.noteType.label}
-            text={note.contents}
+            title="Publication/Creation"
+            text={work.production.map(productionEvent => productionEvent.label)}
           />
-        ))}
+        )}
+
+        {work.physicalDescription && (
+          <WorkDetailsText
+            title="Physical description"
+            text={[work.physicalDescription]}
+          />
+        )}
 
         {work.contributors.length > 0 && (
           <WorkDetailsTags
@@ -424,26 +430,20 @@ const WorkDetails = ({
           />
         )}
 
+        {orderedNotes.map(note => (
+          <WorkDetailsText
+            key={note.noteType.label}
+            title={note.noteType.label}
+            text={note.contents}
+          />
+        ))}
+
         {work.lettering && (
           <WorkDetailsText title="Lettering" text={[work.lettering]} />
         )}
 
-        {work.production.length > 0 && (
-          <WorkDetailsText
-            title="Publication/Creation"
-            text={work.production.map(productionEvent => productionEvent.label)}
-          />
-        )}
-
         {work.edition && (
           <WorkDetailsText title="Edition" text={[work.edition]} />
-        )}
-
-        {work.physicalDescription && (
-          <WorkDetailsText
-            title="Physical description"
-            text={[work.physicalDescription]}
-          />
         )}
 
         {duration && <WorkDetailsText title="Duration" text={[duration]} />}
