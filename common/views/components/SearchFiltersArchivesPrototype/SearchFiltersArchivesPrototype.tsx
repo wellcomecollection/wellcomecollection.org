@@ -49,7 +49,7 @@ const FiltersInner = styled.div`
   `}
 `;
 
-const SearchFiltersMobile = ({
+const SearchFiltersArchivesPrototype = ({
   searchForm,
   worksRouteProps,
   workTypeAggregations,
@@ -190,4 +190,4 @@ const SearchFiltersMobile = ({
   );
 };
 
-export default SearchFiltersMobile;
+export default SearchFiltersArchivesPrototype;
