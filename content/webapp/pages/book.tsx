@@ -1,6 +1,5 @@
-// @flow
-import type { Context } from 'next';
-import type { Book } from '@weco/common/model/books';
+import { NextPageContext } from 'next';
+import { Book } from '@weco/common/model/books';
 import { Fragment, Component } from 'react';
 import { getBook } from '@weco/common/services/prismic/books';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -10,15 +9,15 @@ import Body from '@weco/common/views/components/Body/Body';
 // $FlowFixMe (tsx)
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { defaultContributorImage } from '@weco/common/services/prismic/parsers';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import BookImage from '@weco/common/views/components/BookImage/BookImage';
 
-type Props = {|
+type Props = {
   book: Book,
-|};
+};
 
 // FIXME: This is nonsense
 const BookMetadata = ({ book }: Props) => (
@@ -60,7 +59,7 @@ const BookMetadata = ({ book }: Props) => (
 );
 
 export class ArticleSeriesPage extends Component<Props> {
-  static getInitialProps = async (ctx: Context) => {
+  static getInitialProps = async (ctx: NextPageContext) => {
     const { id, memoizedPrismic } = ctx.query;
     const book = await getBook(ctx.req, id, memoizedPrismic);
 
@@ -82,27 +81,7 @@ export class ArticleSeriesPage extends Component<Props> {
 
   render() {
     const { book } = this.props;
-    const image = book.promo && book.promo.image;
-    const tasl = image && {
-      isFull: false,
-      contentUrl: image.contentUrl,
-      title: image.title,
-      author: image.author,
-      sourceName: image.source && image.source.name,
-      sourceLink: image.source && image.source.link,
-      license: image.license,
-      copyrightHolder: image.copyright && image.copyright.holder,
-      copyrightLink: image.copyright && image.copyright.link,
-    };
-
-    const FeaturedMedia = book.cover && (
-      // $FlowFixMe
-      <UiImage
-        tasl={tasl}
-        extraClasses="margin-h-auto width-auto max-height-70vh"
-        {...book.cover}
-      />
-    );
+    const FeaturedMedia = book.cover && <BookImage image={{...book.cover, sizesQueries: null}} />;
     const breadcrumbs = {
       items: [
         {
