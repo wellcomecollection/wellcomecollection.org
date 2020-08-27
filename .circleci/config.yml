@@ -237,7 +237,7 @@ jobs:
             fi
   edge_lambdas_build:
     docker:
-      - image: circleci/node:12.16
+      - image: circleci/node:12.18.3
     working_directory: /home/circleci/wellcomecollection.org/cache/edge_lambdas
     steps:
       - add_ssh_keys
@@ -262,7 +262,7 @@ jobs:
             - edge_lambda_origin.zip
   edge_lambdas_deploy:
     docker:
-      - image: circleci/node:12.16
+      - image: circleci/node:12.18.3
     working_directory: /tmp
     steps:
       - attach_workspace:
