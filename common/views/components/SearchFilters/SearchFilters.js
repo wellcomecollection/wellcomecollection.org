@@ -8,6 +8,8 @@ import {
 } from '@weco/common/services/catalogue/api';
 import SearchFiltersDesktop from '@weco/common/views/components/SearchFilters/SearchFiltersDesktop';
 import SearchFiltersMobile from '@weco/common/views/components/SearchFilters/SearchFiltersMobile';
+// $FlowFixMe (tsx)
+import SearchFiltersArchivesPrototype from '@weco/common/views/components/SearchFiltersArchivesPrototype/SearchFiltersArchivesPrototype';
 import theme from '@weco/common/views/themes/default';
 import TogglesContext from '../TogglesContext/TogglesContext';
 
@@ -42,9 +44,11 @@ const SearchFilters = ({
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
-  const { unfilteredSearchResults, archivesPrototype } = useContext(
-    TogglesContext
-  );
+  const {
+    unfilteredSearchResults,
+    archivesPrototype,
+    archivesPrototypeSidePanel,
+  } = useContext(TogglesContext);
 
   const workTypeFilters = unfilteredSearchResults
     ? workTypeAggregations
@@ -111,10 +115,16 @@ const SearchFilters = ({
 
   return (
     <>
-      {isMobile ? (
-        <SearchFiltersMobile {...sharedProps} />
+      {archivesPrototype || archivesPrototypeSidePanel ? (
+        <SearchFiltersArchivesPrototype {...sharedProps} />
       ) : (
-        <SearchFiltersDesktop {...sharedProps} />
+        <>
+          {isMobile ? (
+            <SearchFiltersMobile {...sharedProps} />
+          ) : (
+            <SearchFiltersDesktop {...sharedProps} />
+          )}
+        </>
       )}
     </>
   );
