@@ -57,7 +57,6 @@ const ArchiveBreadcrumbNav = styled.nav`
 
     ul {
       display: block;
-      min-width: max-content;
       white-space: normal;
 
       li {
