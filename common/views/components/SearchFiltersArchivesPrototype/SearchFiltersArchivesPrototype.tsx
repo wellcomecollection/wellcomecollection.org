@@ -30,7 +30,6 @@ const FilterSection = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
   className: classNames({
     [font('hnl', 5)]: true,
-    'border-bottom-width-1 border-color-pumice': true,
   }),
 })``;
 
@@ -40,6 +39,29 @@ const FilterFooter = styled.div.attrs({
   })
 })`
   align-items: flex-end;
+  position: sticky;
+  bottom: 0;
+  background: white;
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    left: -46px;
+    right: -46px;
+  }
+
+  &:before {
+    background: linear-gradient(to top, white, rgba(255,255,255,0));
+    height: 20px;
+    top: -20px;
+  }
+
+  &:after {
+    background: white;
+    bottom: -46px;
+    height: 46px;
+  }
 `;
 
 const FiltersInner = styled.div`
@@ -165,26 +187,26 @@ const SearchFiltersArchivesPrototype = ({
               </ul>
             </FilterSection>
           )}
-          <FilterFooter>
-            <NextLink
-              passHref
-              {...worksLink(
-                {
-                  query: worksRouteProps.query,
-                },
-                'cancel_filter/all'
-              )}
-            >
-              <a>Reset filters</a>
-            </NextLink>
-
-            <ButtonSolid
-              type="button"
-              clickHandler={handleOkFiltersButtonClick}
-              text="OK"
-            />
-          </FilterFooter>
         </FiltersInner>
+        <FilterFooter>
+          <NextLink
+            passHref
+            {...worksLink(
+              {
+                query: worksRouteProps.query,
+              },
+              'cancel_filter/all'
+            )}
+          >
+            <a>Reset filters</a>
+          </NextLink>
+
+          <ButtonSolid
+            type="button"
+            clickHandler={handleOkFiltersButtonClick}
+            text="OK"
+          />
+        </FilterFooter>
       </Modal>
     </Space>
   );
