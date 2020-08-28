@@ -28,6 +28,7 @@ const Dropdown = styled(Space).attrs(props => ({
   overflow: auto;
   white-space: nowrap;
   transition: opacity 350ms ease, transform 350ms ease;
+  min-width: max-content;
 
   &,
   &.fade-exit-done {
