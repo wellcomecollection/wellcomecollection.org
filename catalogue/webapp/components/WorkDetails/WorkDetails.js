@@ -21,6 +21,8 @@ import {
   getVideo,
   getDownloadOptionsFromManifest,
   getIIIFPresentationCredit,
+  getUiExtensions,
+  isUiEnabled,
 } from '@weco/common/utils/iiif';
 import NextLink from 'next/link';
 // $FlowFixMe (tsx)
@@ -164,6 +166,10 @@ const WorkDetails = ({
     return !orderedNotes.some(n => n === note);
   });
 
+  const showDownloadOptions = iiifPresentationManifest
+    ? isUiEnabled(getUiExtensions(iiifPresentationManifest), 'mediaDownload')
+    : true;
+
   const WhereToFindIt = () => (
     <WorkDetailsSection headingText="Where to find it">
       {locationOfWork && (
@@ -207,7 +213,10 @@ const WorkDetails = ({
         <WorkDetailsSection headingText="Available online">
           {video && (
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-              <VideoPlayer video={video} />
+              <VideoPlayer
+                video={video}
+                showDownloadOptions={showDownloadOptions}
+              />
             </Space>
           )}
           {audio && (
@@ -279,11 +288,13 @@ const WorkDetails = ({
               </Space>
             )}
 
-            <Download
-              ariaControlsId="itemDownloads"
-              workId={work.id}
-              downloadOptions={downloadOptions}
-            />
+            {showDownloadOptions && (
+              <Download
+                ariaControlsId="itemDownloads"
+                workId={work.id}
+                downloadOptions={downloadOptions}
+              />
+            )}
           </div>
 
           {!(downloadOptions.length > 0) &&

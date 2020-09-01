@@ -14,6 +14,8 @@ import {
   getVideo,
   getAudio,
   getServiceId,
+  getUiExtensions,
+  isUiEnabled,
 } from '@weco/common/utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
@@ -79,7 +81,13 @@ const ItemPage = ({
 
   const mainImageService = { '@id': getServiceId(currentCanvas) };
 
-  const downloadOptions = manifest && getDownloadOptionsFromManifest(manifest);
+  const showDownloadOptions = manifest
+    ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
+    : true;
+
+  const downloadOptions =
+    showDownloadOptions && manifest && getDownloadOptionsFromManifest(manifest);
+
   const pdfRendering =
     (downloadOptions &&
       downloadOptions.find(option => option.label === 'Download PDF')) ||
@@ -135,6 +143,7 @@ const ItemPage = ({
                 margin: '98px auto 0',
               }}
               src={audio['@id']}
+              controlsList={!showDownloadOptions ? 'nodownload' : null}
             >
               {`Sorry, your browser doesn't support embedded audio.`}
             </audio>
@@ -153,6 +162,7 @@ const ItemPage = ({
                 display: 'block',
                 margin: '98px auto auto',
               }}
+              controlsList={!showDownloadOptions ? 'nodownload' : null}
             >
               <source src={video['@id']} type={video.format} />
               {`Sorry, your browser doesn't support embedded video.`}
