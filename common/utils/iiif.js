@@ -23,6 +23,27 @@ export function getServiceId(currentCanvas: ?IIIFCanvas): ?string {
   }
 }
 
+export function getUiExtensions(iiifManifest: IIIFManifest) {
+  return (
+    (iiifManifest.service &&
+      iiifManifest.service.find(
+        service =>
+          service.profile === 'http://universalviewer.io/ui-extensions-profile'
+      )) ||
+    null
+  );
+}
+
+export function isUiEnabled(uiExtensions: ?{ disableUI: [] }, uiName: string) {
+  var disableUI = uiExtensions && uiExtensions.disableUI;
+  if (disableUI) {
+    return !(
+      disableUI.includes(uiName) || disableUI.includes(uiName.toLowerCase())
+    );
+  }
+  return true;
+}
+
 export function getIIIFMetadata(
   iiifManifest: IIIFManifest,
   label: string
