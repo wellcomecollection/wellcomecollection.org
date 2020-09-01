@@ -8,14 +8,19 @@ const ControlsWrap = styled.div`
   position: relative;
 `;
 
-const ScrollButtonWrap = styled.div`
+type ScrollButtonWrapProps = {
+  isActive?: boolean;
+  isLeft?: boolean;
+}
+
+const ScrollButtonWrap = styled.div<ScrollButtonWrapProps>`
   position: absolute;
   z-index: 2;
   top: 50%;
   cursor: pointer;
   pointer-events: ${props => props.isActive ? 'all' : 'none'};
   opacity: ${props => props.isActive ? 1 : 0.2};
-  transition: opacity 300ms ease;
+  transition: opacity ${props => props.theme.transitionProperties};
 
   ${props => props.isLeft && `
     left: 0;
@@ -28,7 +33,11 @@ const ScrollButtonWrap = styled.div`
   `}
 `
 
-const ScrollButtons = styled.div`
+type ScrollButtonsProps = {
+  isActive?: boolean;
+}
+
+const ScrollButtons = styled.div<ScrollButtonsProps>`
   display: ${props => props.isActive ? 'block' : 'none'};
 `;
 
@@ -70,7 +79,11 @@ const TableTbody = styled.tbody``;
 
 const TableTr = styled.tr`
   ${TableTbody} & {
-    border-bottom: 1px dotted #ccc;
+    border-bottom: 1px dotted ${props => props.theme.color('silver')};
+  }
+
+  ${TableTbody}.has-row-headers & {
+    border-top: 1px dotted ${props => props.theme.color('silver')};
   }
 `;
 
@@ -80,8 +93,13 @@ const TableTh = styled(Space).attrs({
   h: {size: 's', properties: ['padding-left', 'padding-right']},
 })`
   font-weight: bold;
-  background: #ddd;
+  background: ${props => props.theme.color('pumice')};
   white-space: nowrap;
+
+  ${TableTbody}.has-row-headers & {
+    background: ${props => props.theme.color('transparent')};
+    text-align: left;
+  }
 `;
 
 const TableTd = styled(Space).attrs({
@@ -90,7 +108,36 @@ const TableTd = styled(Space).attrs({
   h: {size: 's', properties: ['padding-left', 'padding-right']},
 })``;
 
-const Table = () => {
+type CellData = {
+  items: string[];
+}
+
+type TableRow = CellData & {
+  hasHeader: boolean;
+}
+
+type Props = {
+  rows: CellData[];
+  hasRowHeaders: boolean;
+  caption: string;
+}
+
+const TableRow = ({items, hasHeader}: TableRow) => {
+  return (
+    <TableTr>
+      {items.map((item, index) =>
+        <>
+          {(hasHeader && index === 0) ?
+          (<TableTh scope="row" dangerouslySetInnerHTML={{__html: item}} />) :
+          (<TableTd dangerouslySetInnerHTML={{__html: item}} />)
+          }
+        </>
+      )}
+    </TableTr>
+  )
+}
+
+const Table = ({rows, hasRowHeaders, caption}: Props) => {
   const leftButtonRef = useRef(null);
   const rightButtonRef = useRef(null);
   const tableRef = useRef(null);
@@ -99,6 +146,9 @@ const Table = () => {
   const [isLeftActive, setIsLeftActive] = useState(false);
   const [isRightActive, setIsRightActive] = useState(false);
   const [isOverflown, setIsOverflown] = useState(false);
+
+  const headerRow = hasRowHeaders ? null : rows[0];
+  const bodyRows = hasRowHeaders ? rows : rows.slice(1);
 
   function getUiData() {
     return {
@@ -169,62 +219,30 @@ const Table = () => {
 
   return (
     <>
-      <h2 className="h2" aria-hidden="true">Delivery schedule</h2>
+      <h2 className="h2" aria-hidden="true">{caption}</h2>
       <ControlsWrap ref={controlsRef}>
         <ScrollButtons isActive={isOverflown}>
           <ScrollButtonWrap isLeft isActive={isLeftActive} ref={leftButtonRef}>
-            <Control icon="chevron" extraClasses="icon--90 bg-white font-green border-width-2 border-color-green" />
+            <Control icon="arrow" extraClasses="icon--180 bg-white font-green border-width-2 border-color-green" />
           </ScrollButtonWrap>
           <ScrollButtonWrap isActive={isRightActive} ref={rightButtonRef}>
-            <Control icon="chevron" extraClasses="icon--270 bg-white font-green border-width-2 border-color-green" />
+            <Control icon="arrow" extraClasses="bg-white font-green border-width-2 border-color-green" />
           </ScrollButtonWrap>
         </ScrollButtons>
         <TableWrap ref={tableWrapRef}>
           <TableTable id="table" ref={tableRef}>
-            <TableCaption>Delivery schedule</TableCaption>
-            <colgroup>
-              <col />
-              <col />
-              <col />
-              <col />
-              <col />
-              <col />
-            </colgroup>
-            <TableThead>
-              <TableTr>
-                <TableTh scope="col">Monday</TableTh>
-                <TableTh scope="col">Tuesday</TableTh>
-                <TableTh scope="col">Wednesday</TableTh>
-                <TableTh scope="col">Thursday</TableTh>
-                <TableTh scope="col">Friday</TableTh>
-                <TableTh scope="col">Saturday</TableTh>
-              </TableTr>
-            </TableThead>
-            <TableTbody>
-              <TableTr>
-                <TableTd>11:00</TableTd>
-                <TableTd>11:00</TableTd>
-                <TableTd>11:00</TableTd>
-                <TableTd>11:00</TableTd>
-                <TableTd>11:00</TableTd>
-                <TableTd>11:00</TableTd>
-              </TableTr>
-              <TableTr>
-                <TableTd>12:00</TableTd>
-                <TableTd>12:00</TableTd>
-                <TableTd>12:00</TableTd>
-                <TableTd>12:00</TableTd>
-                <TableTd>12:00</TableTd>
-                <TableTd>12:00</TableTd>
-              </TableTr>
-              <TableTr>
-                <TableTd>13:00</TableTd>
-                <TableTd>13:00</TableTd>
-                <TableTd>13:00</TableTd>
-                <TableTd>13:00</TableTd>
-                <TableTd>13:00</TableTd>
-                <TableTd>13:00</TableTd>
-              </TableTr>
+            <TableCaption>{caption}</TableCaption>
+            {headerRow &&
+              <TableThead>
+                <TableTr>
+                  {headerRow.items.map(item => <TableTh scope="col" dangerouslySetInnerHTML={{__html: item}} />)}
+                </TableTr>
+              </TableThead>
+            }
+            <TableTbody className={classNames({
+              'has-row-headers': hasRowHeaders
+            })}>
+              {bodyRows.map(row => <TableRow items={row.items} hasHeader={hasRowHeaders} />)}
             </TableTbody>
           </TableTable>
         </TableWrap>
