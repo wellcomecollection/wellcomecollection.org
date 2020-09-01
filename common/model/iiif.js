@@ -109,4 +109,5 @@ export type IIIFManifest = {|
   structures?: IIIFStructure[],
   license: string,
   within?: string,
+  service?: [],
 |};

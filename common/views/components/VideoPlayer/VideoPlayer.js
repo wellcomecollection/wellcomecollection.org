@@ -10,9 +10,10 @@ import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
 
 type Props = {|
   video: IIIFMediaElement,
+  showDownloadOptions: boolean,
 |};
 
-const VideoPlayer = ({ video }: Props) => {
+const VideoPlayer = ({ video, showDownloadOptions }: Props) => {
   const [secondsPlayed, setSecondsPlayed] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const annotation = getAnnotationFromMediaElement(video);
@@ -68,6 +69,7 @@ const VideoPlayer = ({ video }: Props) => {
         onPause={() => {
           setIsPlaying(false);
         }}
+        controlsList={!showDownloadOptions ? 'nodownload' : null}
         controls
         preload="none"
         poster={video.thumbnail}

@@ -14,6 +14,8 @@ import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
   getDownloadOptionsFromManifest,
   getServiceId,
+  getUiExtensions,
+  isUiEnabled,
 } from '@weco/common/utils/iiif';
 import styled from 'styled-components';
 import { useState, useEffect, useRef, type ComponentType } from 'react';
@@ -244,13 +246,18 @@ const IIIFViewerComponent = ({
     fetchImageJson();
   }, []);
 
-  const imageDownloadOptions = iiifImageLocation
-    ? getDownloadOptionsFromImageUrl({
-        url: iiifImageLocation.url,
-        width: imageJson && imageJson.width,
-        height: imageJson && imageJson.height,
-      })
-    : [];
+  const showDownloadOptions = manifest
+    ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
+    : true;
+
+  const imageDownloadOptions =
+    showDownloadOptions && iiifImageLocation
+      ? getDownloadOptionsFromImageUrl({
+          url: iiifImageLocation.url,
+          width: imageJson && imageJson.width,
+          height: imageJson && imageJson.height,
+        })
+      : [];
 
   function setFullScreen() {
     if (
@@ -315,7 +322,8 @@ const IIIFViewerComponent = ({
       height: currentCanvas && currentCanvas.height,
     });
   const iiifPresentationDownloadOptions =
-    (manifest &&
+    (showDownloadOptions &&
+      manifest &&
       imageDownloads && [
         ...imageDownloads,
         ...getDownloadOptionsFromManifest(manifest),
@@ -425,10 +433,11 @@ const IIIFViewerComponent = ({
         title={title}
         licenseInfo={licenseInfo}
         iiifImageLocationCredit={iiifImageLocationCredit}
-        downloadOptions={[
-          ...imageDownloadOptions,
-          ...iiifPresentationDownloadOptions,
-        ]}
+        downloadOptions={
+          showDownloadOptions
+            ? [...imageDownloadOptions, ...iiifPresentationDownloadOptions]
+            : []
+        }
         iiifPresentationDownloadOptions={iiifPresentationDownloadOptions}
         parentManifest={parentManifest}
         lang={lang}
