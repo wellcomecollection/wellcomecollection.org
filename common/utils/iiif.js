@@ -35,7 +35,7 @@ export function getUiExtensions(iiifManifest: IIIFManifest) {
 }
 
 export function isUiEnabled(uiExtensions: ?{ disableUI: [] }, uiName: string) {
-  var disableUI = uiExtensions && uiExtensions.disableUI;
+  const disableUI = uiExtensions && uiExtensions.disableUI;
   if (disableUI) {
     return !(
       disableUI.includes(uiName) || disableUI.includes(uiName.toLowerCase())
