@@ -545,8 +545,8 @@ const WorkDetails = ({
       })}
     >
       <TogglesContext.Consumer>
-        {({ archivesPrototypeSidePanel }) =>
-          archivesPrototypeSidePanel && isInArchive ? (
+        {({ archivesPrototype }) =>
+          archivesPrototype && isInArchive ? (
             <div className="container">
               <div className="grid">
                 <Content />

@@ -8,8 +8,6 @@ import LinkLabels from '../LinkLabels/LinkLabels';
 import Space from '../styled/Space';
 import Number from '@weco/common/views/components/Number/Number';
 import styled from 'styled-components';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 
 const ArchiveTitle = styled.span.attrs({
@@ -71,13 +69,6 @@ const WorkHeaderPrototype = ({ work, childManifestsCount = 0 }: Props) => {
               </Space>
             </div>
           </div>
-
-          <TogglesContext.Consumer>
-            {({ archivesPrototype, archivesPrototypeSidePanel }) =>
-              archivesPrototype &&
-              !archivesPrototypeSidePanel && <ArchiveTree work={work} />
-            }
-          </TogglesContext.Consumer>
 
             {work.partOf.length && (work.partOf[0].title !== work.title) ? (
               <ArchiveTitle>{work.partOf.length && work.partOf[0].title}</ArchiveTitle>

@@ -21,7 +21,6 @@ import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/A
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import RelatedArchiveWorks from '@weco/common/views/components/RelatedArchiveWorks/RelatedArchiveWorks';
 import SearchForm from '../SearchForm/SearchForm';
 import WorkDetails from '../WorkDetails/WorkDetails';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -40,7 +39,7 @@ type Props = {
 };
 
 const Work = ({ work }: Props) => {
-  const { archivesPrototype, archivesPrototypeSidePanel } = useContext(TogglesContext);
+  const { archivesPrototype } = useContext(TogglesContext);
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
     page: 1,
@@ -157,7 +156,7 @@ const Work = ({ work }: Props) => {
           </Space>
         </div>
       </div>
-        {(archivesPrototype || archivesPrototypeSidePanel) && (
+        {archivesPrototype && (
           <div className="container">
             <div className="grid">
               <Space
@@ -175,7 +174,7 @@ const Work = ({ work }: Props) => {
           </div>
         )}
 
-{archivesPrototypeSidePanel && isInArchive ? (
+      {archivesPrototype && isInArchive ? (
         <>
           <div className="container">
             <div className="grid">
@@ -236,7 +235,6 @@ const Work = ({ work }: Props) => {
       </>
       )}
 
-      {archivesPrototype && !archivesPrototypeSidePanel && <RelatedArchiveWorks work={work} />}
       <Layout12>
         <WorkDetailsSection>
           <div className="flex flex--v-center">

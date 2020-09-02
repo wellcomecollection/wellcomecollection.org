@@ -44,11 +44,9 @@ const SearchFilters = ({
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
-  const {
-    unfilteredSearchResults,
-    archivesPrototype,
-    archivesPrototypeSidePanel,
-  } = useContext(TogglesContext);
+  const { unfilteredSearchResults, archivesPrototype } = useContext(
+    TogglesContext
+  );
 
   const workTypeFilters = unfilteredSearchResults
     ? workTypeAggregations
@@ -115,7 +113,7 @@ const SearchFilters = ({
 
   return (
     <>
-      {archivesPrototype || archivesPrototypeSidePanel ? (
+      {archivesPrototype ? (
         <SearchFiltersArchivesPrototype {...sharedProps} />
       ) : (
         <>
