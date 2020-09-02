@@ -1,23 +1,23 @@
 // @flow
-import { type Node, useContext } from 'react';
+import { type Node } from 'react';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import { classNames, grid, font } from '@weco/common/utils/classnames';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type Props = {|
   headingText?: string,
   children: Node,
   withDivider?: boolean,
+  isInArchive?: boolean,
 |};
 
 const WorkDetailsSection = ({
   headingText,
   children,
   withDivider = true,
+  isInArchive,
 }: Props) => {
-  const { archivesPrototype } = useContext(TogglesContext);
   return (
     <>
       {withDivider && (
@@ -39,13 +39,13 @@ const WorkDetailsSection = ({
                 m: 12,
                 l: 4,
                 xl: 4,
-              })]: !archivesPrototype,
+              })]: !isInArchive,
               [grid({
                 s: 12,
                 m: 12,
                 l: 12,
                 xl: 12,
-              })]: archivesPrototype,
+              })]: isInArchive,
             })}
           >
             {headingText && (
@@ -67,13 +67,13 @@ const WorkDetailsSection = ({
                 m: 12,
                 l: 8,
                 xl: 7,
-              })]: !archivesPrototype,
+              })]: !isInArchive,
               [grid({
                 s: 12,
                 m: 12,
                 l: 12,
                 xl: 12,
-              })]: archivesPrototype,
+              })]: isInArchive,
             })}
           >
             {children}

@@ -171,7 +171,10 @@ const WorkDetails = ({
     : true;
 
   const WhereToFindIt = () => (
-    <WorkDetailsSection headingText="Where to find it">
+    <WorkDetailsSection
+      headingText="Where to find it"
+      isInArchive={isInArchive}
+    >
       {locationOfWork && (
         <WorkDetailsText
           title={locationOfWork.noteType.label}
@@ -210,7 +213,10 @@ const WorkDetails = ({
   const Content = () => (
     <>
       {digitalLocation && (
-        <WorkDetailsSection headingText="Available online">
+        <WorkDetailsSection
+          headingText="Available online"
+          isInArchive={isInArchive}
+        >
           {video && (
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <VideoPlayer
@@ -381,7 +387,10 @@ const WorkDetails = ({
       )}
       {!digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
       {work.images && work.images.length > 0 && (
-        <WorkDetailsSection headingText="Selected images from this work">
+        <WorkDetailsSection
+          headingText="Selected images from this work"
+          isInArchive={isInArchive}
+        >
           <ButtonOutlinedLink
             text={
               work.images.length > 1
@@ -398,7 +407,10 @@ const WorkDetails = ({
           />
         </WorkDetailsSection>
       )}
-      <WorkDetailsSection headingText="About this work">
+      <WorkDetailsSection
+        headingText="About this work"
+        isInArchive={isInArchive}
+      >
         {work.alternativeTitles.length > 0 && (
           <WorkDetailsText
             title="Also known as"
@@ -490,7 +502,7 @@ const WorkDetails = ({
         )}
       </WorkDetailsSection>
       {work.subjects.length > 0 && (
-        <WorkDetailsSection headingText="Subjects">
+        <WorkDetailsSection headingText="Subjects" isInArchive={isInArchive}>
           <WorkDetailsTags
             title={null}
             tags={work.subjects.map(s => {
@@ -509,7 +521,10 @@ const WorkDetails = ({
       )}
       {digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
 
-      <WorkDetailsSection headingText="Permanent link">
+      <WorkDetailsSection
+        headingText="Permanent link"
+        isInArchive={isInArchive}
+      >
         <div className={`${font('hnl', 5)}`}>
           <CopyUrl
             id={work.id}
@@ -519,7 +534,7 @@ const WorkDetails = ({
       </WorkDetailsSection>
 
       {(isbnIdentifiers.length > 0 || work.citeAs) && (
-        <WorkDetailsSection headingText="Identifiers">
+        <WorkDetailsSection headingText="Identifiers" isInArchive={isInArchive}>
           {isbnIdentifiers.length > 0 && (
             <WorkDetailsList
               title="ISBN"
