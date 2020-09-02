@@ -153,7 +153,7 @@ const RequestLocation = ({ work }: Props) => {
           (item.status && item.status.label) ||
           'Unknown',
       item.requestable ? 'Online request' : 'In library',
-    ];
+    ].filter(Boolean);
   });
 
   return (
