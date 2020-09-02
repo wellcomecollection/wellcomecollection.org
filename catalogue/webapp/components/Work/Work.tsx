@@ -40,7 +40,7 @@ type Props = {
 };
 
 const Work = ({ work }: Props) => {
-  const { archivesPrototype, archivesPrototypeSidePanel } = useContext(TogglesContext);
+  const { archivesPrototype } = useContext(TogglesContext);
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
     page: 1,
@@ -157,7 +157,7 @@ const Work = ({ work }: Props) => {
           </Space>
         </div>
       </div>
-        {(archivesPrototype || archivesPrototypeSidePanel) && (
+        {archivesPrototype && (
           <div className="container">
             <div className="grid">
               <Space
@@ -175,7 +175,7 @@ const Work = ({ work }: Props) => {
           </div>
         )}
 
-{archivesPrototypeSidePanel && isInArchive ? (
+      {archivesPrototype && isInArchive ? (
         <>
           <div className="container">
             <div className="grid">
@@ -236,7 +236,6 @@ const Work = ({ work }: Props) => {
       </>
       )}
 
-      {archivesPrototype && !archivesPrototypeSidePanel && <RelatedArchiveWorks work={work} />}
       <Layout12>
         <WorkDetailsSection>
           <div className="flex flex--v-center">

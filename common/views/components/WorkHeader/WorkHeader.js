@@ -8,8 +8,6 @@ import LinkLabels from '../LinkLabels/LinkLabels';
 import Space from '../styled/Space';
 import Number from '@weco/common/views/components/Number/Number';
 import styled from 'styled-components';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
 // $FlowFixMe (tsx)
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 
@@ -55,12 +53,6 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
             <div className="line-height-1">{work.workType.label}</div>
           </div>
 
-          <TogglesContext.Consumer>
-            {({ archivesPrototype, archivesPrototypeSidePanel }) =>
-              archivesPrototype &&
-              !archivesPrototypeSidePanel && <ArchiveTree work={work} />
-            }
-          </TogglesContext.Consumer>
           <h1
             id="work-info"
             className={classNames({

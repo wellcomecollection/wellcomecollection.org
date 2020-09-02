@@ -17,7 +17,7 @@ const WorkDetailsSection = ({
   children,
   withDivider = true,
 }: Props) => {
-  const { archivesPrototypeSidePanel } = useContext(TogglesContext);
+  const { archivesPrototype } = useContext(TogglesContext);
   return (
     <>
       {withDivider && (
@@ -39,13 +39,13 @@ const WorkDetailsSection = ({
                 m: 12,
                 l: 4,
                 xl: 4,
-              })]: !archivesPrototypeSidePanel,
+              })]: !archivesPrototype,
               [grid({
                 s: 12,
                 m: 12,
                 l: 12,
                 xl: 12,
-              })]: archivesPrototypeSidePanel,
+              })]: archivesPrototype,
             })}
           >
             {headingText && (
@@ -67,13 +67,13 @@ const WorkDetailsSection = ({
                 m: 12,
                 l: 8,
                 xl: 7,
-              })]: !archivesPrototypeSidePanel,
+              })]: !archivesPrototype,
               [grid({
                 s: 12,
                 m: 12,
                 l: 12,
                 xl: 12,
-              })]: archivesPrototypeSidePanel,
+              })]: archivesPrototype,
             })}
           >
             {children}
