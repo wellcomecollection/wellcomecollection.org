@@ -159,7 +159,7 @@ const RequestLocation = ({ work }: Props) => {
   return (
     <>
       <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-        <Table rows={[headerRow, ...bodyRows]} caption={''} />
+        <Table rows={[headerRow, ...bodyRows]} />
       </Space>
 
       {itemsWithPhysicalLocations.find(item => item.requestable) && (

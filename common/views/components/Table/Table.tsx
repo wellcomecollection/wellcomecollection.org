@@ -122,7 +122,7 @@ type TableRow = {
 type Props = {
   rows: (string | JSX.Element | JSX.Element[])[][];
   hasRowHeaders: boolean;
-  caption: string;
+  caption?: string;
 }
 
 const TableRow = ({items, hasHeader}: TableRow) => {
@@ -222,7 +222,7 @@ const Table = ({rows, hasRowHeaders, caption}: Props) => {
 
   return (
     <>
-      <h2 className="h2" aria-hidden="true">{caption}</h2>
+      {caption && <h2 className="h2" aria-hidden="true">{caption}</h2>}
       <ControlsWrap ref={controlsRef}>
         <ScrollButtons isActive={isOverflown}>
           <ScrollButtonWrap isLeft isActive={isLeftActive} ref={leftButtonRef}>
@@ -234,7 +234,7 @@ const Table = ({rows, hasRowHeaders, caption}: Props) => {
         </ScrollButtons>
         <TableWrap ref={tableWrapRef}>
           <TableTable id="table" ref={tableRef}>
-            <TableCaption>{caption}</TableCaption>
+            {caption && <TableCaption>{caption}</TableCaption>}
             {headerRow &&
               <TableThead>
                 <TableTr>
