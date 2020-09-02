@@ -21,7 +21,6 @@ import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/A
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import RelatedArchiveWorks from '@weco/common/views/components/RelatedArchiveWorks/RelatedArchiveWorks';
 import SearchForm from '../SearchForm/SearchForm';
 import WorkDetails from '../WorkDetails/WorkDetails';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
