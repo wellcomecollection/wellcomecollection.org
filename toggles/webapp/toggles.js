@@ -1,6 +1,13 @@
 module.exports = {
   toggles: [
     {
+      id: 'buildingReopening',
+      title: 'Wellcome Collection reopening UI changes',
+      description:
+        'Show additions/amendments made in preparation for the reopening of the Wellcome Collection building',
+      defaultValue: false,
+    },
+    {
       id: 'archivesPrototype',
       title:
         'Include archives in search results and view additions to the work page relating to archives',

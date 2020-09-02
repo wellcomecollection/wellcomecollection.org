@@ -25,6 +25,7 @@ const ButtonOutlinedLink = ({
   clickHandler,
   ariaControls,
   ariaExpanded,
+  isOnDark
 }: ButtonOutlinedLinkProps) => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
@@ -48,6 +49,7 @@ const ButtonOutlinedLink = ({
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
         onClick={handleClick}
+        isOnDark={isOnDark}
         href={isNextLink ? undefined : link}
       >
         <BaseButtonInner>
