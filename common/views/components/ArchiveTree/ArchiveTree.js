@@ -10,18 +10,8 @@ import NextLink from 'next/link';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Space from '../styled/Space';
 // $FlowFixMe (tsx)
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import Modal from '@weco/common/views/components/Modal/Modal';
-// $FlowFixMe (tsx)
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import Icon from '@weco/common/views/components/Icon/Icon';
-
-const Container = styled.div`
-  overflow: scroll;
-  height: ${props => (props.fixHeight ? '70vh' : 'auto')};
-  border: 1px solid ${props => props.theme.color('pumice')};
-  border-radius: 6px;
-`;
 
 const StickyContainer = styled.div`
   border: 1px solid ${props => props.theme.color('pumice')};
@@ -140,7 +130,6 @@ type NestedListProps = {|
   currentWorkId: string,
   collectionTree: UiTree[],
   selected: { current: HTMLElement | null },
-  setShowArchiveTreeModal: boolean => void,
   fullTree: UiTree[],
   setCollectionTree: (UiTree[]) => void,
   isTopLevel: boolean,
@@ -148,7 +137,6 @@ type NestedListProps = {|
 
 type ListItemType = {|
   item: UiTree,
-  setShowArchiveTreeModal: boolean => void,
   currentWorkId: string,
   selected: { current: HTMLElement | null },
   setCollectionTree: (UiTree[]) => void,
@@ -327,7 +315,6 @@ async function expandTree(workId, toggles, setCollectionTree, collectionTree) {
 
 const ListItem = ({
   item,
-  setShowArchiveTreeModal,
   currentWorkId,
   selected,
   setCollectionTree,
@@ -416,9 +403,6 @@ const ListItem = ({
                   })}
                   isCurrent={currentWorkId === item.work.id}
                   ref={currentWorkId === item.work.id ? selected : null}
-                  onClick={() => {
-                    setShowArchiveTreeModal(false);
-                  }}
                 >
                   <WorkTitle title={item.work.title} />
                   <div
@@ -441,7 +425,6 @@ const ListItem = ({
             selected={selected}
             currentWorkId={currentWorkId}
             collectionTree={item.children}
-            setShowArchiveTreeModal={setShowArchiveTreeModal}
             fullTree={fullTree}
             setCollectionTree={setCollectionTree}
             isTopLevel={false}
@@ -456,7 +439,6 @@ const NestedList = ({
   currentWorkId,
   collectionTree,
   selected,
-  setShowArchiveTreeModal,
   fullTree,
   setCollectionTree,
   isTopLevel,
@@ -476,7 +458,6 @@ const NestedList = ({
                 item={item}
                 currentWorkId={currentWorkId}
                 selected={selected}
-                setShowArchiveTreeModal={setShowArchiveTreeModal}
                 fullTree={fullTree}
                 setCollectionTree={setCollectionTree}
                 isRootItem={isTopLevel && i === 0}
@@ -488,22 +469,8 @@ const NestedList = ({
   );
 };
 
-function centerTree(selected) {
-  setTimeout(function() {
-    if (selected && selected.current) {
-      selected.current.scrollIntoView({
-        block: 'center',
-        inline: 'center',
-      });
-    } else {
-      centerTree();
-    }
-  }, 10);
-}
-
 const ArchiveTree = ({ work }: { work: Work }) => {
   const toggles = useContext(TogglesContext);
-  const [showArchiveTreeModal, setShowArchiveTreeModal] = useState(false);
   const [collectionTree, setCollectionTree] = useState(
     createCollectionTree(work) || []
   );
@@ -520,7 +487,6 @@ const ArchiveTree = ({ work }: { work: Work }) => {
         fullTree={collectionTree}
         setCollectionTree={setCollectionTree}
         collectionTree={collectionTree}
-        setShowArchiveTreeModal={setShowArchiveTreeModal}
         isTopLevel={true}
       />
     </Tree>
@@ -571,60 +537,30 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   }, []);
 
   return isInArchive ? (
-    toggles.archivesPrototypeSidePanel ? (
-      <StickyContainer>
+    <StickyContainer>
+      <Space
+        v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+        className={classNames({
+          'flex flex--v-center bg-smoke': true,
+        })}
+      >
         <Space
-          v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+          as="h2"
+          h={{ size: 'm', properties: ['margin-right'] }}
           className={classNames({
-            'flex flex--v-center bg-smoke': true,
+            [font('wb', 5)]: true,
+            'no-margin': true,
           })}
         >
-          <Space
-            as="h2"
-            h={{ size: 'm', properties: ['margin-right'] }}
-            className={classNames({
-              [font('wb', 5)]: true,
-              'no-margin': true,
-            })}
-          >
-            Collection contents
-          </Space>
-          <Icon name="tree" />
+          Collection contents
         </Space>
-        <StickyContainerInner>
-          <TreeView />
-        </StickyContainerInner>
-      </StickyContainer>
-    ) : (
-      <>
-        <Space
-          className="inline-block"
-          h={{ size: 'm', properties: ['margin-right'] }}
-          v={{ size: 'm', properties: ['margin-top'] }}
-        >
-          <ButtonSolid
-            icon="tree"
-            text={`${work.title} contents`}
-            isTextHidden={true}
-            clickHandler={() => {
-              setShowArchiveTreeModal(!showArchiveTreeModal);
-              centerTree(selected);
-            }}
-          />
-        </Space>
-        <Modal
-          isActive={showArchiveTreeModal}
-          setIsActive={setShowArchiveTreeModal}
-          width="98vw"
-        >
-          {' '}
-          <Container fixHeight={true}>
-            <TreeView />
-          </Container>
-        </Modal>
-      </>
-    )
+        <Icon name="tree" />
+      </Space>
+      <StickyContainerInner>
+        <TreeView />
+      </StickyContainerInner>
+    </StickyContainer>
   ) : null;
 };
 export default ArchiveTree;
