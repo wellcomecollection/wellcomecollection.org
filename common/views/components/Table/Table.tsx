@@ -106,18 +106,17 @@ const TableTd = styled(Space).attrs({
   as: 'td',
   v: {size: 's', properties: ['padding-top', 'padding-bottom']},
   h: {size: 's', properties: ['padding-left', 'padding-right']},
-})``;
+})`
+  vertical-align: top;
+`;
 
-type CellData = {
-  items: string[];
-}
-
-type TableRow = CellData & {
+type TableRow = {
+  items: (string | JSX.Element | JSX.Element[])[];
   hasHeader: boolean;
 }
 
 type Props = {
-  rows: CellData[];
+  rows: (string | JSX.Element | JSX.Element[])[][];
   hasRowHeaders: boolean;
   caption: string;
 }
@@ -128,8 +127,8 @@ const TableRow = ({items, hasHeader}: TableRow) => {
       {items.map((item, index) =>
         <>
           {(hasHeader && index === 0) ?
-          (<TableTh scope="row" dangerouslySetInnerHTML={{__html: item}} />) :
-          (<TableTd dangerouslySetInnerHTML={{__html: item}} />)
+          (<TableTh scope="row">{item}</TableTh>) :
+          (<TableTd>{item}</TableTd>)
           }
         </>
       )}
@@ -235,14 +234,14 @@ const Table = ({rows, hasRowHeaders, caption}: Props) => {
             {headerRow &&
               <TableThead>
                 <TableTr>
-                  {headerRow.items.map(item => <TableTh scope="col" dangerouslySetInnerHTML={{__html: item}} />)}
+                  {headerRow.map(item => <TableTh scope="col">{item}</TableTh>)}
                 </TableTr>
               </TableThead>
             }
             <TableTbody className={classNames({
               'has-row-headers': hasRowHeaders
             })}>
-              {bodyRows.map(row => <TableRow items={row.items} hasHeader={hasRowHeaders} />)}
+              {bodyRows.map(row => <TableRow items={row} hasHeader={hasRowHeaders} />)}
             </TableTbody>
           </TableTable>
         </TableWrap>

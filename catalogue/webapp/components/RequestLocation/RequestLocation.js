@@ -2,7 +2,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { type Work } from '@weco/common/model/work';
 import useAuth from '@weco/common/hooks/useAuth';
-import ResponsiveTable from '@weco/common/views/components/styled/ResponsiveTable';
+// $FlowFixMe (tsx)
+import Table from '@weco/common/views/components/Table/Table';
 // $FlowFixMe (tsx)
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import Modal from '@weco/common/views/components/Modal/Modal';
@@ -104,111 +105,63 @@ const RequestLocation = ({ work }: Props) => {
     );
   }, [itemsWithPhysicalLocations]);
 
+  const headerRowDefault = ['Title', 'Location/Shelfmark', 'Status', 'Access'];
+  const headerRowRequestable = ['', ...headerRowDefault];
+  const headerRow = hasRequestableItems
+    ? headerRowRequestable
+    : headerRowDefault;
+  const bodyRows = itemsWithPhysicalLocations.map(item => {
+    return [
+      hasRequestableItems && (
+        <span hidden={singleItem}>
+          {item.requestable && (
+            <>
+              <label className="visually-hidden">Request {item.id}</label>
+              <CheckboxRadio
+                id={item.id}
+                type={`checkbox`}
+                text=""
+                checked={item.checked}
+                name={item.id}
+                value={item.id}
+                onChange={() => {
+                  const newArray = itemsWithPhysicalLocations.map(i => {
+                    if (item.id === i.id) {
+                      return { ...i, checked: !i.checked };
+                    } else {
+                      return i;
+                    }
+                  });
+
+                  setItemsWithPhysicalLocations(newArray);
+                }}
+              />
+            </>
+          )}
+        </span>
+      ),
+      item.title || 'unknown',
+      (function() {
+        const physicalLocation = item.locations.find(
+          location => location.type === 'PhysicalLocation'
+        );
+        return physicalLocation ? physicalLocation.label : null;
+      })(),
+      item.requestSucceeded
+        ? 'You have requested this item'
+        : (item.requested && 'You have requested this item') ||
+          (item.status && item.status.label) ||
+          'Unknown',
+      item.requestable ? 'Online request' : 'In library',
+    ];
+  });
+
   return (
     <>
-      <ResponsiveTable
-        headings={
-          hasRequestableItems
-            ? ['', 'Title', 'Location/Shelfmark', 'Status', 'Access']
-            : ['Title', 'Location/Shelfmark', 'Status', 'Access']
-        }
-      >
-        <thead>
-          <tr className={classNames({ [font('hnm', 5)]: true })}>
-            {hasRequestableItems && !singleItem && <th></th>}
-            <th>Title</th>
-            <th>Location/Shelfmark</th>
-            <th>Status</th>
-            <th>Access</th>
-          </tr>
-        </thead>
-        <tbody>
-          {itemsWithPhysicalLocations.map(item => (
-            <tr
-              key={item.id}
-              className={classNames({ [font('hnm', 5)]: true })}
-            >
-              {hasRequestableItems && (
-                <td
-                  className={classNames({
-                    'is-hidden': singleItem,
-                    'no-padding': true,
-                  })}
-                >
-                  <span hidden={singleItem}>
-                    {item.requestable && (
-                      <>
-                        <label className="visually-hidden">
-                          Request {item.id}
-                        </label>
-                        <CheckboxRadio
-                          id={item.id}
-                          type={`checkbox`}
-                          text=""
-                          checked={item.checked}
-                          name={item.id}
-                          value={item.id}
-                          onChange={() => {
-                            const newArray = itemsWithPhysicalLocations.map(
-                              i => {
-                                if (item.id === i.id) {
-                                  return { ...i, checked: !i.checked };
-                                } else {
-                                  return i;
-                                }
-                              }
-                            );
+      <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <Table rows={[headerRow, ...bodyRows]} caption={''} />
+      </Space>
 
-                            setItemsWithPhysicalLocations(newArray);
-                          }}
-                        />
-                      </>
-                    )}
-                  </span>
-                </td>
-              )}
-              <td>
-                <span className={classNames({ [font('hnl', 5)]: true })}>
-                  {item.title || 'Unknown'}
-                </span>
-              </td>
-              <td>
-                <span className={classNames({ [font('hnl', 5)]: true })}>
-                  {(function() {
-                    const physicalLocation = item.locations.find(
-                      location => location.type === 'PhysicalLocation'
-                    );
-                    return physicalLocation ? physicalLocation.label : null;
-                  })()}
-                </span>
-              </td>
-              <td>
-                <span
-                  className={classNames({
-                    [font('hnl', 5)]: true,
-                  })}
-                >
-                  {item.requestSucceeded ? (
-                    'You have requested this item'
-                  ) : (
-                    <span data-test-id="itemStatus">
-                      {(item.requested && 'You have requested this item') ||
-                        (item.status && item.status.label) ||
-                        'Unknown'}
-                    </span>
-                  )}
-                </span>
-              </td>
-              <td>
-                <span className={classNames({ [font('hnl', 5)]: true })}>
-                  {item.requestable ? 'Online request' : 'In library'}
-                  {/* TODO check logic and wording is correct */}
-                </span>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </ResponsiveTable>
       {itemsWithPhysicalLocations.find(item => item.requestable) && (
         <>
           {authState.type === 'unauthorized' ? (
