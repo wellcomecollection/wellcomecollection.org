@@ -5,13 +5,13 @@ import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getWork } from '@weco/catalogue/services/catalogue/works';
 import { workLink } from '@weco/common/services/catalogue/routes';
-// import { ArchiveNode } from '@weco/common/utils/works';
 import NextLink from 'next/link';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import { getAncestorArray } from '@weco/common/services/catalogue/api';
 
 const StickyContainer = styled.div`
   border: 1px solid ${props => props.theme.color('pumice')};
@@ -208,7 +208,8 @@ function createSiblingsArray(work: Work): UiTree[] {
 }
 
 function createCollectionTree(work: Work): UiTree[] {
-  const partOfReversed = [...(work.partOf || [])].reverse();
+  const ancestorArray = getAncestorArray(work);
+  const partOfReversed = [...(ancestorArray || [])].reverse();
   return [
     partOfReversed.reduce(
       (acc, curr, i) => {
@@ -511,8 +512,10 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   useEffect(() => {
     // Add siblings to each node, that leads to the current work
     const basicTree = createCollectionTree(work);
-    const partOfPromises = work.partOf
-      ? work.partOf.map(part => getWork({ id: part.id, toggles }))
+    const ancestorArray = getAncestorArray(work);
+
+    const partOfPromises = ancestorArray
+      ? ancestorArray.map(part => getWork({ id: part.id, toggles }))
       : [];
     if (partOfPromises.length > 0) {
       Promise.all(partOfPromises).then(works => {

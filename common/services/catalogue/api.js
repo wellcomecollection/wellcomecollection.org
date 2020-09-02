@@ -127,3 +127,25 @@ export function worksPropsToImagesProps(
     'locations.license': undefined,
   };
 }
+
+export function getAncestorArray(work) {
+  // We're only interested in the item with a partOf property, this can be removed once the API is updated to remove all ancestors from the top level array
+  const desiredItem =
+    (work.partOf && work.partOf.find(part => part.partOf)) || {};
+  const ancestorArray = [];
+  function addToAncestorArray(work) {
+    ancestorArray.push({
+      id: work.id,
+      title: work.title,
+      alternativeTitles: work.alternativeTitles,
+      referenceNumber: work.referenceNumber,
+    });
+    if (work.partOf) {
+      // It's possible in the future that items will have multiple parents and we'll need a way to distinguish which one we're interested in, for now they only have one.
+      const [ancestorWork] = work.partOf;
+      addToAncestorArray(ancestorWork || {});
+    }
+  }
+  addToAncestorArray(desiredItem);
+  return ancestorArray.filter(ancestor => ancestor.id !== undefined).reverse();
+}
