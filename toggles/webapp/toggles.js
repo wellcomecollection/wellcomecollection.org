@@ -6,14 +6,7 @@ module.exports = {
         'Include archives in search results and view additions to the work page relating to archives',
       defaultValue: false,
       description:
-        'Include archives in search results and view prototypes of breadcrumbs, trees and onward journey links for archives',
-    },
-    {
-      id: 'archivesPrototypeSidePanel',
-      title: 'Shows persistent archive tree on the work page',
-      defaultValue: false,
-      description:
-        'Iteration on the first archives prototype. Keeps the breadcrumbs removes the onward journey links and includes a persistent archive tree on the work page',
+        'Include archives in search results and view prototypes of breadcrumbs and archive tree on work page.',
     },
     {
       id: 'unfilteredSearchResults',
