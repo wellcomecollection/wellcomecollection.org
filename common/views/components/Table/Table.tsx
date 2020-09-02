@@ -24,12 +24,16 @@ const ScrollButtonWrap = styled.div<ScrollButtonWrapProps>`
 
   ${props => props.isLeft && `
     left: 0;
-    transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%) scale(0.6);
   `}
 
   ${props => !props.isLeft && `
     right: 0;
-    transform: translateX(50%) translateY(-50%);
+    transform: translateX(50%) translateY(-50%) scale(0.6);
+  `}
+
+  ${props => props.theme.media.medium`
+    transform: ${props.isLeft ? 'translateX(-50%) translateY(-50%)' : 'translateX(50%) translateY(-50%)'};
   `}
 `
 
