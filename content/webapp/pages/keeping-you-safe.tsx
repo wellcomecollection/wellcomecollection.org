@@ -66,37 +66,13 @@ const KeepingYouSafePage = () => {
 
                   <h2>What you need to do</h2>
 
-                  <CovidSafetyMeasure title={'Clean your hands regularly'} description={'As well as our usual hand-washing facilities, you’ll find hand sanitiser dispensers throughout the museum and library.'} image={'http://placekitten.com/200/200'} />
+                  <CovidSafetyMeasure title={'Clean your hands regularly'} description={'As well as our usual hand-washing facilities, you’ll find hand sanitiser dispensers throughout the museum and library.'} icon={'washYourHands'} />
 
-                  <CovidSafetyMeasure title={'Wear a face covering'} description={'Keep your nose and mouth covered, unless you’re exempt.'} image={'http://placekitten.com/200/200'} />
+                  <CovidSafetyMeasure title={'Wear a face covering'} description={'Keep your nose and mouth covered, unless you’re exempt.'} icon={'wearAMask'} />
 
-                  <CovidSafetyMeasure title={'Keep your distance'} description={'Please stay two metres away from people not in your household or bubble.'} image={'http://placekitten.com/200/200'} />
+                  <CovidSafetyMeasure title={'Keep your distance'} description={'Please stay two metres away from people not in your household or bubble.'} icon={'keepYourDistance'} />
 
-                  <CovidSafetyMeasure title={'Stay at home if you have Covid-19 symptoms'} description={'If you have a temperature or any other Covid-19 symptoms, please stay at home.'} image={'http://placekitten.com/200/200'} />
-
-
-                  <div className="grid">
-                    <div className={classNames({
-                      [grid({s: 12, m: 6, l: 6, xl: 6})]: true,
-                    })} style={{marginTop: 0, marginBottom: '20px'}}>
-                      <CovidSafetyMeasure isStacked={true} title={'Clean your hands regularly'} description={'As well as our usual hand-washing facilities, you’ll find hand sanitiser dispensers throughout the museum and library.'} image={'http://placekitten.com/200/200'} />
-                    </div>
-                    <div className={classNames({
-                      [grid({s: 12, m: 6, l: 6, xl: 6})]: true,
-                    })} style={{marginTop: 0, marginBottom: '20px'}}>
-                      <CovidSafetyMeasure isStacked={true} title={'Clean your hands regularly'} description={'As well as our usual hand-washing facilities, you’ll find hand sanitiser dispensers throughout the museum and library.'} image={'http://placekitten.com/200/200'} />
-                    </div>
-                    <div className={classNames({
-                      [grid({s: 12, m: 6, l: 6, xl: 6})]: true,
-                    })} style={{marginTop: 0, marginBottom: '20px'}}>
-                      <CovidSafetyMeasure isStacked={true} title={'Clean your hands regularly'} description={'As well as our usual hand-washing facilities, you’ll find hand sanitiser dispensers throughout the museum and library.'} image={'http://placekitten.com/200/200'} />
-                    </div>
-                    <div className={classNames({
-                      [grid({s: 12, m: 6, l: 6, xl: 6})]: true,
-                    })} style={{marginTop: 0, marginBottom: '20px'}}>
-                      <CovidSafetyMeasure isStacked={true} title={'Clean your hands regularly'} description={'As well as our usual hand-washing facilities, you’ll find hand sanitiser dispensers throughout the museum and library.'} image={'http://placekitten.com/200/200'} />
-                    </div>
-                  </div>
+                  <CovidSafetyMeasure title={'Stay at home if you have Covid-19 symptoms'} description={'If you have a temperature or any other Covid-19 symptoms, please stay at home.'} icon={'stayAtHome'} />
 
                   <h2>How we're keeping you safe</h2>
                   <p>
