@@ -16,7 +16,7 @@ type Props = {
   isStacked?: boolean;
 };
 
-const CovidList = ({title, description, icon, isStacked}: Props) => {
+const CovidSafetyMeasure = ({title, description, icon, isStacked}: Props) => {
   return (
     <div className={classNames({
       'flex': true,
@@ -44,4 +44,4 @@ const CovidList = ({title, description, icon, isStacked}: Props) => {
   )
 };
 
-export default CovidList;
+export default CovidSafetyMeasure;
