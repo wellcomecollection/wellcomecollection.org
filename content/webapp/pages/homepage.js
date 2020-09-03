@@ -18,6 +18,9 @@ import Space from '@weco/common/views/components/styled/Space';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import SimpleCardGrid from '@weco/common/views/components/SimpleCardGrid/SimpleCardGrid';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+// $FlowFixMe (tsx)
+import ReopeningBanner from '@weco/common/views/components/ReopeningBanner/ReopeningBanner';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -91,11 +94,28 @@ export class HomePage extends Component<Props> {
             <PageHeading>
               The free museum and library for the incurably curious
             </PageHeading>
-            {standFirst && (
-              <CreamBox>
-                <PageHeaderStandfirst html={standFirst.value} />
-              </CreamBox>
-            )}
+            <TogglesContext.Consumer>
+              {({ buildingReopening }) =>
+                buildingReopening ? (
+                  <Space
+                    v={{
+                      size: 'm',
+                      properties: ['padding-top', 'padding-bottom'],
+                    }}
+                  >
+                    <ReopeningBanner />
+                  </Space>
+                ) : (
+                  <>
+                    {standFirst && (
+                      <CreamBox>
+                        <PageHeaderStandfirst html={standFirst.value} />
+                      </CreamBox>
+                    )}
+                  </>
+                )
+              }
+            </TogglesContext.Consumer>
           </SpacingSection>
         </Layout10>
         {contentList && (
