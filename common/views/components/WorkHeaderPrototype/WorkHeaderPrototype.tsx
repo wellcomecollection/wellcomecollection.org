@@ -9,7 +9,7 @@ import Space from '../styled/Space';
 import Number from '@weco/common/views/components/Number/Number';
 import styled from 'styled-components';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
-import { getAncestorArray } from '@weco/common/services/catalogue/api';
+import { getAncestorArray } from '@weco/common/utils/works';
 
 const ArchiveTitle = styled.span.attrs({
   className: classNames({

@@ -8,7 +8,7 @@ import DropdownButton from '../DropdownButton/DropdownButton';
 import Icon from '../Icon/Icon';
 // $FlowFixMe (tsx)
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
-import { getAncestorArray } from '@weco/common/services/catalogue/api';
+import { getAncestorArray } from '@weco/common/utils/works';
 
 const ArchiveBreadcrumbNav = styled.nav`
   * {

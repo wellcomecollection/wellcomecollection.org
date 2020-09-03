@@ -11,7 +11,7 @@ import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { getAncestorArray } from '@weco/common/services/catalogue/api';
+import { getAncestorArray } from '@weco/common/utils/works';
 
 const StickyContainer = styled.div`
   border: 1px solid ${props => props.theme.color('pumice')};
@@ -111,11 +111,10 @@ type Work = {|
   referenceNumber?: string,
   id: string,
   title: string,
-  alternativeTitles: [],
+  alternativeTitles: string[],
   type: 'Work',
   partOf?: [],
   parts?: [],
-  type?: string,
   precededBy?: [],
   succeededBy?: [],
 |};
@@ -174,6 +173,7 @@ function createWorkPropertyFromWork(work: Work) {
     alternativeTitles: work.alternativeTitles,
     referenceNumber: work.referenceNumber,
     parts: [],
+    type: 'Work',
   };
 }
 
