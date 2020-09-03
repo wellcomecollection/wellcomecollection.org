@@ -94,7 +94,7 @@ const KeepingYouSafePage = () => {
                 shiftXL: 1,
               })}>
               <div className="grid">
-                <div className={classNames({
+                <Space v={{size: 'l', properties: ['margin-bottom']}} className={classNames({
                   [grid({s: 12, m: 6, l: 6, xl: 6})]: true,
                 })}>
                   <CovidInfoCard
@@ -104,8 +104,8 @@ const KeepingYouSafePage = () => {
                     link={'#'}
                     linkText={'Book your ticket'}
                   />
-                </div>
-                <div className={classNames({
+                </Space>
+                <Space v={{size: 'l', properties: ['margin-bottom']}}className={classNames({
                   [grid({s: 12, m: 6, l: 6, xl: 6})]: true,
                 })}>
                   <CovidInfoCard
@@ -115,7 +115,7 @@ const KeepingYouSafePage = () => {
                     link={'#'}
                     linkText={'Keeping you safe'}
                   />
-                </div>
+                </Space>
               </div>
             </Space>
           </div>

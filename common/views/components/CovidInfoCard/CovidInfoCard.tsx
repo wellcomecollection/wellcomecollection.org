@@ -16,14 +16,14 @@ const CovidInfoCard = ({icon, title, description, link, linkText}) => {
     <Space
       v={{size: 'l', properties: ['padding-top', 'padding-bottom']}}
       h={{size: 'l', properties: ['padding-left', 'padding-right']}}
-      className="bg-cream">
+      className="bg-cream flex flex--column" style={{height: '100%'}}>
       <div className="margin-h-auto" style={{width: '100px', minWidth: '100px'}}>
         {icon === CovidIconsEnum.wearAMask && <WearAMask />}
         {icon === CovidIconsEnum.bookATicket && <BookATicket />}
       </div>
 
       <h2 className="h2 text-align-center">{title}</h2>
-      <div>
+      <div className="flex flex--column flex-1 flex--h-space-between">
         <div className={classNames({
           [font('hnl', 5)]: true,
         })}>
