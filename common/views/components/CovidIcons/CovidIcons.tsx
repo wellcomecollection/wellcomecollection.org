@@ -1,3 +1,11 @@
+enum CovidIconsEnum {
+  washYourHands = 'washYourHands',
+  keepYourDistance = 'keepYourDistance',
+  wearAMask = 'wearAMask',
+	stayAtHome = 'stayAtHome',
+	bookATicket = 'bookATicket',
+};
+
 const WashYourHands = () => (
   <svg viewBox="0 0 85.04 85.04">
   <path style={{fill: '#006472'}} d="M74.53,54.12c-0.01,0.49-0.32,0.92-0.78,1.08c-2.12,0.76-6.46,2.55-11.74,6.06
@@ -137,6 +145,19 @@ const StayAtHome = () => (
 	</svg>
 );
 
+const BookATicket = () => (
+	<svg viewBox="0 0 85.04 85.04">
+	<path style={{fill: '#FDB71A'}} d="M48.88,45.97c0,5.34-4.33,9.67-9.67,9.67c-5.34,0-9.66-4.33-9.66-9.67s4.33-9.67,9.66-9.67
+		C44.55,36.31,48.88,40.63,48.88,45.97"/>
+	<path style={{fill: '#006472'}} d="M41.66,23.16l11.03-11.03l3.77,3.78c-2.75,3.77-2.45,9.11,0.95,12.51c3.4,3.4,8.72,3.69,12.49,0.94
+		l3.79,3.79L62.66,44.17L41.66,23.16z M12.77,52.05l26.78-26.78l21.01,21.01L33.78,73.05l-3.79-3.79c2.75-3.77,2.47-9.09-0.93-12.49
+		c-3.4-3.4-8.73-3.71-12.51-0.95L12.77,52.05z M8.57,52.05l1.05,1.05l5.78,5.78l1.05,1.05l1.05-1.05c2.62-2.62,6.83-2.62,9.45,0
+		c2.62,2.62,2.62,6.83,0,9.45l-1.05,1.05l1.05,1.05l5.78,5.78l1.05,1.05l1.05-1.05l42.02-42.02l1.05-1.05l-1.05-1.05l-5.78-5.78
+		l-1.05-1.05l-1.05,1.05c-2.62,2.62-6.83,2.62-9.45,0c-2.62-2.62-2.62-6.83,0-9.45l1.05-1.05l-1.05-1.05l-5.78-5.78l-1.05-1.05
+		l-1.05,1.05L9.62,51L8.57,52.05z"/>
+</svg>
+);
 
 
-export { WashYourHands, KeepYourDistance, WearAMask, StayAtHome }
+
+export { WashYourHands, KeepYourDistance, WearAMask, StayAtHome, BookATicket, CovidIconsEnum }
