@@ -35,6 +35,7 @@ exports[`Feature: 2. As a library member I want to request an item
               "$$typeof": Symbol(react.forward_ref),
               "attrs": Array [
                 [Function],
+                [Function],
               ],
               "componentStyle": ComponentStyle {
                 "componentId": "ButtonSolid__SolidButton-is2j2c-3",
@@ -92,7 +93,7 @@ exports[`Feature: 2. As a library member I want to request an item
           onClick={[Function]}
         >
           <a
-            className="ButtonSolid__BaseButton-is2j2c-0 ButtonSolid__SolidButton-is2j2c-3 bADJUb flex-inline flex--v-center"
+            className="ButtonSolid__BaseButton-is2j2c-0 ButtonSolid__SolidButton-is2j2c-3 bADJUb link-reset"
             href="/loginUrl"
             onClick={[Function]}
           >
@@ -166,6 +167,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
             "$$typeof": Symbol(react.forward_ref),
             "attrs": Array [
               [Function],
+              [Function],
             ],
             "componentStyle": ComponentStyle {
               "componentId": "ButtonSolid__SolidButton-is2j2c-3",
@@ -222,7 +224,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
         onClick={[Function]}
       >
         <button
-          className="ButtonSolid__BaseButton-is2j2c-0 ButtonSolid__SolidButton-is2j2c-3 bADJUb flex-inline flex--v-center"
+          className="ButtonSolid__BaseButton-is2j2c-0 ButtonSolid__SolidButton-is2j2c-3 bADJUb"
           onClick={[Function]}
         >
           <ButtonSolid__BaseButtonInner>

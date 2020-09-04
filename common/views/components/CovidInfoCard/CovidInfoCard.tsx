@@ -5,7 +5,7 @@ import {
   BookATicket,
   CovidIconsEnum,
 } from '@weco/common/views/components/CovidIcons/CovidIcons';
-import { classNames, font } from '@weco/common/utils/classNames';
+import { classNames, font } from '@weco/common/utils/classnames';
 
 type Props = {
   icon: CovidIconsEnum;
