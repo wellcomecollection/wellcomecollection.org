@@ -5,7 +5,11 @@ import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
-export const BaseButton = styled.button.attrs(props => ({
+type BaseButtonProps = {
+  href?: string;
+}
+
+export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
   as: props.href ? 'a' : 'button',
   className: classNames({
     'flex-inline flex--v-center': true,
@@ -57,7 +61,11 @@ export const BaseButton = styled.button.attrs(props => ({
   }
 `;
 
-export const BaseButtonInner = styled.span.attrs(props => ({
+type BaseButtonInnerProps = {
+  isInline?: boolean;
+}
+
+export const BaseButtonInner = styled.span.attrs<BaseButtonInnerProps>(props => ({
   className: classNames({
     [font(props.isInline ? 'hnl' : 'hnm', 5)]: true,
     'flex flex--v-center': true,
@@ -101,7 +109,16 @@ type ButtonSolidProps = ButtonSolidBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void,
 };
 
-export const SolidButton = styled(BaseButton)`
+type SolidButtonProps = {
+  href?: string;
+  isBig?: boolean;
+}
+
+export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(props => ({
+  className: classNames({
+    'link-reset': !!props.href,
+  }),
+}))<SolidButtonProps>`
   background: ${props => props.theme.color('green')};
   color: ${props => props.theme.color('white')};
   border: 2px solid ${props => props.theme.color('green')};

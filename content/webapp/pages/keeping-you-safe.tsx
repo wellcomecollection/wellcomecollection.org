@@ -5,6 +5,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import CovidSafetyMeasure from '@weco/common/views/components/CovidSafetyMeasure/CovidSafetyMeasure';
 import CovidInfoCard from '@weco/common/views/components/CovidInfoCard/CovidInfoCard';
+import CovidInfoBox from '@weco/common/views/components/CovidInfoBox/CovidInfoBox';
 
 const KeepingYouSafePage = () => {
   return (
@@ -57,6 +58,40 @@ const KeepingYouSafePage = () => {
                   </p>
 
                   <h2>What you need to do</h2>
+
+                  <CovidInfoBox
+                    title={'Book your museum visit'}
+                    body={
+                      <>
+                        <p>
+                          <ul>
+                            <li>Choose a time slot</li>
+                            <li>Stay as long as you like</li>
+                            <li>You will be able to visit the Reading Room, Being Human, the shop and café.</li>
+                          </ul>
+                        </p>
+                        <p><a href="#">Find out more about booking your tickets</a></p>
+                      </>}
+                    eventbriteId={''}
+                  />
+
+                  <CovidInfoBox
+                    title={'Book your museum and library visit'}
+                    body={
+                      <>
+                        <p>
+                          <ul>
+                            <li>Choose a time slot</li>
+                            <li>Stay for up to three hours</li>
+                            <li>Only current library members are able to book a ticket</li>
+                            <li>You will be able to visit the library as well as the museum, including the galleries, shop and café</li>
+                            <li>You will need to order any materials 72 hours in advance</li>
+                          </ul>
+                        </p>
+                        <p><a href="#">Find out more about booking museum and library tickets</a></p>
+                      </>}
+                    eventbriteId={''}
+                  />
 
                   <CovidSafetyMeasure title={'Clean your hands regularly'} description={'As well as our usual hand-washing facilities, you’ll find hand sanitiser dispensers throughout the museum and library.'} icon={'washYourHands'} />
 
