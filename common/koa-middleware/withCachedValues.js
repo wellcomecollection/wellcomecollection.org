@@ -33,6 +33,32 @@ async function route(path, page, router, app, extraParams = {}) {
   });
 }
 
+async function routeIfToggleOn(
+  path,
+  page,
+  router,
+  app,
+  extraParams,
+  toggleToCheck
+) {
+  router.get(path, async ctx => {
+    const { toggles, globalAlert, openingTimes, memoizedPrismic } = ctx;
+    const params = ctx.params;
+    const query = ctx.query;
+
+    await app.render(ctx.req, ctx.res, toggles[toggleToCheck] ? page : '404', {
+      toggles,
+      globalAlert,
+      openingTimes,
+      memoizedPrismic,
+      ...params,
+      ...query,
+      ...extraParams,
+    });
+    ctx.respond = false;
+  });
+}
+
 function handleAllRoute(handle) {
   return async function(ctx, extraCtxParams = {}) {
     const parsedUrl = parse(ctx.request.url, true);
@@ -58,4 +84,5 @@ module.exports = {
   middleware: withCachedValues,
   route,
   handleAllRoute,
+  routeIfToggleOn,
 };

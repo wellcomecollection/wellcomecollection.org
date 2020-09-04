@@ -9,6 +9,7 @@ const handleNewsletterSignup = require('./routeHandlers/handleNewsletterSignup')
 const {
   middleware,
   route,
+  routeIfToggleOn,
   handleAllRoute,
 } = require('@weco/common/koa-middleware/withCachedValues');
 
@@ -42,6 +43,33 @@ module.exports = app
 
     server.use(middleware);
     server.use(bodyParser());
+
+    routeIfToggleOn(
+      '/covid-we-are-open',
+      '/covid-we-are-open',
+      router,
+      app,
+      {},
+      'buildingReopening'
+    );
+
+    routeIfToggleOn(
+      '/covid-keeping-you-safe',
+      '/covid-keeping-you-safe',
+      router,
+      app,
+      {},
+      'buildingReopening'
+    );
+
+    routeIfToggleOn(
+      '/covid-book-your-ticket',
+      '/covid-book-your-ticket',
+      router,
+      app,
+      {},
+      'buildingReopening'
+    );
 
     pageVanityUrl(router, app, '/', 'XphUbREAACMAgRNP', '/homepage');
     route('/whats-on', '/whats-on', router, app);
