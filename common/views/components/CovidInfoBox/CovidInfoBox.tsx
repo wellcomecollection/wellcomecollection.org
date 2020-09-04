@@ -18,7 +18,7 @@ const CovidInfoBox = ({title, body, eventbriteId}) => {
       })}
     >
       <h2 className="h2">{title}</h2>
-      <div className="spaced-text">
+      <div className="spaced-text body-text">
         {body}
         <EventbriteButton event={{eventbriteId}} />
       </div>

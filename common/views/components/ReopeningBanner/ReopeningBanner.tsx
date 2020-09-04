@@ -14,7 +14,7 @@ const ReopeningBanner = () => {
       <h2 className="h1">We are open!</h2>
       <p>We can't wait to welcome you back to the Wellcome Collection. Find out everything you need to plan a safe visit.</p>
       <Space v={{size: 'l', properties: ['margin-top']}}>
-        <ButtonOutlinedLink text="Plan your visit" link="#" icon="arrow" isOnDark={true} />
+        <ButtonOutlinedLink text="Plan your visit" link="/covid-we-are-open" icon="arrow" isOnDark={true} />
       </Space>
     </Space>
   )
