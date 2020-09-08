@@ -16,6 +16,18 @@ type DownloadImage = {|
   height: ?number,
 |};
 
+export type ArchiveNode = {|
+  id: string,
+  title: string,
+  alternativeTitles: string[],
+  referenceNumber?: string,
+  partOf?: [],
+  parts?: [],
+  precededBy?: [],
+  succeededBy?: [],
+  type: 'Work',
+|};
+
 export function getDownloadOptionsFromImageUrl(
   downloadImage: DownloadImage
 ): IIIFRendering[] {
@@ -234,10 +246,28 @@ export function getItemIdentifiersWith(
   }, []);
 }
 
-export type ArchiveNode = {|
-  id: string,
-  title: string,
-  alternativeTitles: string[],
-  referenceNumber: string,
-  type: 'Work',
-|};
+export function getAncestorArray(work: Work): ArchiveNode[] {
+  // We're only interested in the item with a partOf property (which is the last item in the array), this can be removed once the API is updated to remove all ancestors from the top level array
+  const desiredItem = work.partOf && work.partOf[work.partOf.length - 1];
+  const ancestorArray = [];
+  function addToAncestorArray(work) {
+    ancestorArray.push({
+      id: work.id,
+      title: work.title,
+      alternativeTitles: work.alternativeTitles,
+      referenceNumber: work.referenceNumber,
+      type: 'Work',
+    });
+    if (work.partOf) {
+      // It's possible in the future that items will have multiple parents and we'll need a way to distinguish which one we're interested in, for now they only have one.
+      const [ancestorWork] = work.partOf;
+      if (ancestorWork) {
+        addToAncestorArray(ancestorWork);
+      }
+    }
+  }
+  if (desiredItem) {
+    addToAncestorArray(desiredItem);
+  }
+  return ancestorArray.reverse();
+}
