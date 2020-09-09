@@ -1,0 +1,7 @@
+- label: test
+  plugins:
+    - docker#v3.5.0:
+        image: "node:12.18.3"
+        mount-ssh-agent: true
+        always-pull: true
+  command: yarn install --production
