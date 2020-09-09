@@ -99,6 +99,11 @@ export type IIIFMetadata = {|
   value: string,
 |};
 
+export type Service = {|
+  profile: string,
+  disableUI?: [],
+|};
+
 export type IIIFManifest = {|
   '@id': string,
   label: string,
@@ -109,5 +114,5 @@ export type IIIFManifest = {|
   structures?: IIIFStructure[],
   license: string,
   within?: string,
-  service?: [],
+  service?: Service | Service[],
 |};
