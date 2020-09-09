@@ -9,4 +9,4 @@
     - yarn flow
     - cd common
     - yarn install
-    - yarn tests
+    - yarn test
