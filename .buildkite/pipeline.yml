@@ -4,4 +4,9 @@
         image: "node:12.18.3"
         mount-ssh-agent: true
         always-pull: true
-  command: yarn install --production
+  command:
+    - yarn install --production
+    - yarn flow
+    - cd common
+    - yarn install
+    - yarn tests
