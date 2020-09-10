@@ -7,7 +7,7 @@ import getFocusableElements from '../../../utils/get-focusable-elements';
 import Space from '../styled/Space';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import ButtonInline from '../ButtonInline/ButtonInline';
-import ButtonOulined from '../ButtonOutlined/ButtonOutlined';
+import ButtonOutlined from '../ButtonOutlined/ButtonOutlined';
 import { AppContext } from '../AppContext/AppContext';
 
 const DropdownWrapper = styled.div.attrs({
@@ -68,10 +68,11 @@ type Props = {
   label: string;
   children: JSX.Element | JSX.Element[];
   isInline: boolean | null;
-  isOnDark?: boolean
+  isOnDark?: boolean,
+  id: string,
 };
 
-const DropdownButton = ({ label, children, isInline, isOnDark }: Props) => {
+const DropdownButton = ({ label, children, isInline, isOnDark, id }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const { isEnhanced } = useContext(AppContext);
   const dropdownWrapperRef = useRef(null);
@@ -98,6 +99,8 @@ const DropdownButton = ({ label, children, isInline, isOnDark }: Props) => {
     text: label,
     type: ButtonTypes.button,
     isOnDark: isOnDark,
+    ariaControls: id,
+    ariaExpanded: isActive,
   };
 
   useEffect(() => {
@@ -142,9 +145,10 @@ const DropdownButton = ({ label, children, isInline, isOnDark }: Props) => {
       {isInline ? (
         <ButtonInline {...buttonProps} />
       ) : (
-        <ButtonOulined {...buttonProps} />
+        <ButtonOutlined {...buttonProps} />
       )}
       <Popper
+        id={id}
         ref={popperRef}
         style={isEnhanced ? styles.popper : null} {...(isEnhanced ? attributes.popper : {})}
         isVisible={isPopperVisible}
