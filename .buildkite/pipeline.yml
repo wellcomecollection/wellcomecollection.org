@@ -1,4 +1,4 @@
-- label: test
+- label: preflight (flow/common)
   plugins:
     - docker#v3.5.0:
         image: "node:12.18.3"
@@ -10,3 +10,18 @@
     - cd common
     - yarn install
     - yarn test
+- wait
+- label: catalogue test
+  plugins:
+    - docker#v3.5.0:
+        image: "node:12.18.3"
+        mount-ssh-agent: true
+        always-pull: true
+  command:
+    - yarn install --production
+    - yarn flow
+    - pushd common
+    - yarn install
+    - popd
+    - pushd catalogue
+    - yarn && yarn test
