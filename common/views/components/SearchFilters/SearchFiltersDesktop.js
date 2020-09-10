@@ -90,7 +90,7 @@ const SearchFiltersDesktop = ({
             [font('hnl', 5)]: true,
           })}
         >
-          <DropdownButton label={'Dates'} isInline={true}>
+          <DropdownButton label={'Dates'} isInline={true} id="dates">
             <>
               <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
                 <NumberInput
@@ -121,7 +121,7 @@ const SearchFiltersDesktop = ({
         </Space>
 
         {showWorkTypeFilters && (
-          <DropdownButton label={'Formats'} isInline={true}>
+          <DropdownButton label={'Formats'} isInline={true} id="formats">
             <ul
               className={classNames({
                 'no-margin no-padding plain-list': true,
