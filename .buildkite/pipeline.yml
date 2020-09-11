@@ -1,4 +1,6 @@
 - label: ":docker: Build"
+  env:
+    - CONTAINER_TAG=$BUILDKITE_COMMIT
   plugins:
     - seek-oss/aws-sm#v2.1.0:
         env:
@@ -7,8 +9,6 @@
         username: wellcometravis
         password-env: DOCKER_HUB_PASSWORD
     - docker-compose#v3.5.0:
-        env:
-          - CONTAINER_TAG=$BUILDKITE_COMMIT
         build:
           - base
         push: base
