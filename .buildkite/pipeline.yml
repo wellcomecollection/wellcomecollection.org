@@ -1,6 +1,4 @@
 - label: ":docker: Build"
-  agents:
-    queue: docker-builder
   plugins:
     - seek-oss/aws-sm#v2.1.0:
         env:
