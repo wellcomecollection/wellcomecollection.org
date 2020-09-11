@@ -1,0 +1,17 @@
+version: "3.3"
+services:
+  base:
+    image: experiencebase
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/workdir
+  catalogue:
+    build:
+      context: .
+      dockerfile: catalogue.Dockerfile
+    depends_on:
+      - base
+    volumes:
+      - .:/workdir

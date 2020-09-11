@@ -7,6 +7,7 @@ ADD ./package.json ./package.json
 ADD ./yarn.lock ./yarn.lock
 ADD ./common ./common
 ADD ./content/webapp ./content/webapp
+
 # This is needed for node-sass
 RUN apk add --no-cache --virtual .gyp \
     python \
