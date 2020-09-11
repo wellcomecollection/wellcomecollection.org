@@ -1,4 +1,5 @@
-FROM experiencebase
+ARG CONTAINER_TAG
+FROM wellcome/common_webapp:${CONTAINER_TAG:-test}
 
 WORKDIR /usr/src/app/webapp
 

@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   base:
-    image: experiencebase
+    image: wellcome/common_webapp:${CONTAINER_TAG:-test}
     build:
       context: .
     command: yarn test
@@ -10,6 +10,8 @@ services:
     image: wellcome/catalogue_webapp:${CONTAINER_TAG:-test}
     build:
       context: ./catalogue
+      args:
+        - CONTAINER_TAG=${CONTAINER_TAG:-test}
     depends_on:
       - base
     ports:
@@ -18,6 +20,8 @@ services:
     image: wellcome/content_webapp:${CONTAINER_TAG:-test}
     build:
       context: ./content
+      args:
+        - CONTAINER_TAG=${CONTAINER_TAG:-test}
     depends_on:
       - base
     ports:
