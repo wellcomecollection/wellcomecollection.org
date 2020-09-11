@@ -2,21 +2,21 @@
   plugins:
     - docker-compose#v3.5.0:
         run: base
-        command: yarn test
+        command: ["yarn", "test"]
         workdir: /usr/src/app/webapp/common
 - label: "test flow"
   plugins:
     - docker-compose#v3.5.0:
         run: catalogue
-        command: yarn flow
+        command: ["yarn", "flow"]
         workdir: /usr/src/app/webapp
 - label: "test catalogue"
   plugins:
     - docker-compose#v3.5.0:
         run: catalogue
-        command: yarn test
+        command: ["yarn", "test"]
 - label: "test content"
   plugins:
     - docker-compose#v3.5.0:
         run: content
-        command: yarn test
+        command: ["yarn", "test"]
