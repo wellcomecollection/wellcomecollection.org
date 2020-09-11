@@ -4,14 +4,19 @@ services:
     image: experiencebase
     build:
       context: .
-      dockerfile: Dockerfile
-    volumes:
-      - .:/workdir
   catalogue:
+    image: wellcome/catalogue_webapp:${CONTAINER_TAG:-test}
     build:
-      context: .
-      dockerfile: catalogue.Dockerfile
+      context: ./catalogue
     depends_on:
       - base
-    volumes:
-      - .:/workdir
+    ports:
+      - "3000:3000"
+  content:
+    image: wellcome/content_webapp:${CONTAINER_TAG:-test}
+    build:
+      context: ./content
+    depends_on:
+      - base
+    ports:
+      - "3000:3000"
