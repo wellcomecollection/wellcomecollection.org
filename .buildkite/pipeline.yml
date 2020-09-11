@@ -1,29 +1,22 @@
-- label: test flow
+- label: "test common"
   plugins:
-    - docker#v3.5.0:
-        image: "node:12.18.3"
-        always-pull: true
-  command:
-    - yarn testFlow
-- label: test common
+    - docker-compose#v3.5.0:
+        run: base
+        command: yarn test
+        workdir: /usr/src/app/webapp/common
+- label: "test flow"
   plugins:
-    - docker#v3.5.0:
-        image: "node:12.18.3"
-        always-pull: true
-  command:
-    - yarn testCommon
-- wait
-- label: test catalogue
+    - docker-compose#v3.5.0:
+        run: catalogue
+        command: yarn flow
+        workdir: /usr/src/app/webapp
+- label: "test catalogue"
   plugins:
-    - docker#v3.5.0:
-        image: "node:12.18.3"
-        always-pull: true
-  command:
-    - yarn testCatalogue
-- label: test content
+    - docker-compose#v3.5.0:
+        run: catalogue
+        command: yarn test
+- label: "test content"
   plugins:
-    - docker#v3.5.0:
-        image: "node:12.18.3"
-        always-pull: true
-  command:
-    - yarn testContent
+    - docker-compose#v3.5.0:
+        run: content
+        command: yarn test
