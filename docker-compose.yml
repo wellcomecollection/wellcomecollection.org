@@ -4,8 +4,6 @@ services:
     image: wellcome/common_webapp:${CONTAINER_TAG:-test}
     build:
       context: .
-    command: yarn test
-    working_dir: /usr/src/app/webapp/common
   catalogue:
     image: wellcome/catalogue_webapp:${CONTAINER_TAG:-test}
     build:

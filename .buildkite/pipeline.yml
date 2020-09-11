@@ -7,11 +7,12 @@
         username: wellcometravis
         password-env: DOCKER_HUB_PASSWORD
     - docker-compose#v3.5.0:
+        env:
+          - CONTAINER_TAG=$BUILDKITE_COMMIT
         build:
           - base
-          - catalogue
-          - content
-        image-repository: index.docker.io/wellcome/buildkite
+        push: base
+
 #- wait
 #- label: "test common"
 #  plugins:
