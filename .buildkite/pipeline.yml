@@ -1,6 +1,4 @@
 - label: ":docker: Build"
-  env:
-    - CONTAINER_TAG=$BUILDKITE_COMMIT
   plugins:
     - seek-oss/aws-sm#v2.1.0:
         env:
@@ -11,6 +9,7 @@
     - docker-compose#v3.5.0:
         build:
           - base
+        image-name: wellcome/common_webapp:${BUILDKITE_COMMIT}
         push: base
 
 #- wait
