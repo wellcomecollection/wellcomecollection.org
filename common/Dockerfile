@@ -8,6 +8,9 @@ ADD ./yarn.lock ./yarn.lock
 ADD ./common ./common
 ADD ./flow-typed ./flow-typed
 
+ADD ./catalogue/webapp ./catalogue/webapp
+ADD ./content/webapp ./content/webapp
+
 RUN yarn setupCommon
 
 CMD ["true"]
