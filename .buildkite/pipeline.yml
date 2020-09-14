@@ -11,8 +11,16 @@
           - common
           - catalogue
           - content
+          - cardigan
         image-repository: index.docker.io/wellcome/buildkite
+
 - wait
+
+- label: "cardigan artifacts"
+  artifact_paths: "cardigan/.dist"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: cardigan
 
 - label: "test common"
   plugins:
@@ -20,17 +28,13 @@
         run: common
         command: ["yarn", "test"]
         workdir: /usr/src/app/webapp/common
-- label: "test flow"
-  plugins:
-    - docker-compose#v3.5.0:
-        run: catalogue
-        command: ["yarn", "flow"]
-        workdir: /usr/src/app/webapp
+
 - label: "test catalogue"
   plugins:
     - docker-compose#v3.5.0:
         run: catalogue
         command: ["yarn", "test"]
+
 - label: "test content"
   plugins:
     - docker-compose#v3.5.0:

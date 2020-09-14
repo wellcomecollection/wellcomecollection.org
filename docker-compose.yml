@@ -1,7 +1,6 @@
 version: "3.3"
 services:
   common:
-    image: wellcome/common_webapp:${CONTAINER_TAG:-test}
     build:
       context: .
       dockerfile: common/Dockerfile
@@ -15,3 +14,9 @@ services:
     build:
       context: .
       dockerfile: content/Dockerfile
+  cardigan:
+    build:
+      context: .
+      dockerfile: cardigan/Dockerfile
+    volumes:
+      - "./cardigan/.dist:/dist"

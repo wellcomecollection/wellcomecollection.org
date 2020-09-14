@@ -13,6 +13,12 @@ ADD ./content/webapp ./content/webapp
 
 RUN yarn setupCommon
 
-WORKDIR /usr/src/app/webapp/common
+ADD ./docs ./docs
+ADD ./cardigan ./cardigan
 
-CMD ["true"]
+WORKDIR /usr/src/app/webapp/cardigan
+
+RUN yarn
+RUN yarn build
+
+CMD ["cp","-rf", "/usr/src/app/webapp/cardigan/.dist", "/dist"]
