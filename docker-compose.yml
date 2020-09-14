@@ -20,3 +20,9 @@ services:
       dockerfile: cardigan/Dockerfile
     volumes:
       - "./cardigan/.dist:/dist"
+  pa11y:
+    build:
+      context: .
+      dockerfile: pa11y/Dockerfile
+    volumes:
+      - "./pa11y/webapp/.dist:/dist"

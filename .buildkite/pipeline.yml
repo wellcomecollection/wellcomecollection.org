@@ -1,23 +1,11 @@
-- label: ":docker: Build"
+- label: "pa11y"
+  artifact_paths: "pa11y/webapp/.dist/*"
   plugins:
-    - seek-oss/aws-sm#v2.1.0:
-        env:
-          DOCKER_HUB_PASSWORD: builds/docker_hub_password
-    - docker-login#v2.0.1:
-        username: wellcometravis
-        password-env: DOCKER_HUB_PASSWORD
     - docker-compose#v3.5.0:
-        build:
-          - common
-          - catalogue
-          - content
-          - cardigan
-        image-repository: index.docker.io/wellcome/buildkite
+        run: pa11y
 
-- wait
-
-- label: "cardigan artifacts"
-  artifact_paths: "cardigan/.dist"
+- label: "cardigan"
+  artifact_paths: "cardigan/.dist/*"
   plugins:
     - docker-compose#v3.5.0:
         run: cardigan
