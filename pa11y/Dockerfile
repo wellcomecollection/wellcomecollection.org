@@ -1,5 +1,7 @@
 FROM node:12.18.3
 
+VOLUME /dist
+
 RUN apt-get update && apt-get install -yq --no-install-recommends \
   libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
   libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 \
@@ -9,11 +11,9 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
 
 WORKDIR /usr/src/app/webapp
 
-ADD ./pa11y/webapp ./pa11y/webapp
-
-WORKDIR /usr/src/app/webapp/pa11y/webapp
+ADD ./webapp /usr/src/app/webapp
 
 RUN yarn
 RUN yarn write-report --no-sandbox
 
-CMD ["cp","-rf", "/usr/src/app/webapp/pa11y/webapp/.dist", "/dist"]
+CMD ["cp","-rf", "/usr/src/app/webapp/.dist", "/dist/.dist"]

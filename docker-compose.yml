@@ -19,10 +19,24 @@ services:
       context: .
       dockerfile: cardigan/Dockerfile
     volumes:
-      - "./cardigan/.dist:/dist"
+      - "./cardigan:/dist"
   pa11y:
     build:
-      context: .
-      dockerfile: pa11y/Dockerfile
+      context: ./pa11y
     volumes:
-      - "./pa11y/webapp/.dist:/dist"
+      - "./pa11y:/dist"
+  dash:
+    build:
+      context: ./dash
+    volumes:
+      - "./dash:/dist"
+  toggles:
+    build:
+      context: ./toggles
+    volumes:
+      - "./toggles/.dist:/dist"
+  edge_lambdas:
+    build:
+      context: ./cache/edge_lambdas
+    volumes:
+      - "./cache/edge_lambdas:/dist"

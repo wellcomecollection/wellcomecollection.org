@@ -1,14 +1,21 @@
-- label: "pa11y"
-  artifact_paths: "pa11y/webapp/.dist/*"
+- label: ":docker: Build"
+  env:
+    - CONTAINER_TAG=$BUILDKITE_COMMIT
   plugins:
+    - seek-oss/aws-sm#v2.1.0:
+        env:
+          DOCKER_HUB_PASSWORD: builds/docker_hub_password
+    - docker-login#v2.0.1:
+        username: wellcometravis
+        password-env: DOCKER_HUB_PASSWORD
     - docker-compose#v3.5.0:
-        run: pa11y
+        build:
+          - common
+          - catalogue
+          - content
+        push: base
 
-- label: "cardigan"
-  artifact_paths: "cardigan/.dist/*"
-  plugins:
-    - docker-compose#v3.5.0:
-        run: cardigan
+- wait
 
 - label: "test common"
   plugins:
@@ -28,3 +35,53 @@
     - docker-compose#v3.5.0:
         run: content
         command: ["yarn", "test"]
+
+- label: "test edge_lambdas"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: edge_lambdas
+        command: ["yarn", "test"]
+
+- wait
+
+# TODO: Containers must be pushed
+#- label: "deploy catalogue"
+#  plugins:
+#    - docker-compose#v3.5.0:
+#        run: catalogue
+#
+#- label: "deploy content"
+#  plugins:
+#    - docker-compose#v3.5.0:
+#        run: content
+
+# TODO: Handle artifact deployment
+- label: "deploy pa11y"
+  artifact_paths: "pa11y/.dist/*"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: pa11y
+
+- label: "deploy cardigan"
+  artifact_paths: "cardigan/.dist/*"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: cardigan
+
+- label: "deploy dash"
+  artifact_paths: "dash/.dist/*"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: dash
+
+- label: "deploy toggles"
+  artifact_paths: "toggles/.dist/*"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: toggles
+
+- label: "deploy edge_lambdas"
+  artifact_paths: "cache/edge_lambdas/.dist/*"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: edge_lambdas
