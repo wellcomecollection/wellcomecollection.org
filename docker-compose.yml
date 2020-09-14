@@ -1,6 +1,6 @@
 version: "3.3"
 services:
-   common:
+  common:
     image: wellcome/common_webapp:${CONTAINER_TAG:-test}
     build:
       context: .
