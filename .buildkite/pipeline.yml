@@ -12,13 +12,16 @@
         image-name: wellcome/common_webapp:${BUILDKITE_COMMIT}
         push: base
 
-#- wait
-#- label: "test common"
-#  plugins:
-#    - docker-compose#v3.5.0:
-#        run: base
-#        command: ["yarn", "test"]
-#        workdir: /usr/src/app/webapp/common
+- wait
+
+- label: "test common"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: base
+        command: ["yarn", "test"]
+        workdir: /usr/src/app/webapp/common
+        env:
+          - CONTAINER_TAG=$BUILDKITE_COMMIT
 #- label: "test flow"
 #  plugins:
 #    - docker-compose#v3.5.0:
