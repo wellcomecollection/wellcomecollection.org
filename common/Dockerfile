@@ -11,4 +11,3 @@ ADD ./flow-typed ./flow-typed
 RUN yarn setupCommon
 
 CMD ["true"]
-

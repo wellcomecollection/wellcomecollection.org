@@ -8,33 +8,31 @@
         password-env: DOCKER_HUB_PASSWORD
     - docker-compose#v3.5.0:
         build:
-          - base
-        image-name: wellcome/common_webapp:${BUILDKITE_COMMIT}
-        push: base
-
+          - common
+          - catalogue
+          - content
+        image-repository: index.docker.io/wellcome/buildkite
 - wait
 
 - label: "test common"
   plugins:
     - docker-compose#v3.5.0:
-        run: base
+        run: common
         command: ["yarn", "test"]
         workdir: /usr/src/app/webapp/common
-        env:
-          - CONTAINER_TAG=$BUILDKITE_COMMIT
-#- label: "test flow"
-#  plugins:
-#    - docker-compose#v3.5.0:
-#        run: catalogue
-#        command: ["yarn", "flow"]
-#        workdir: /usr/src/app/webapp
-#- label: "test catalogue"
-#  plugins:
-#    - docker-compose#v3.5.0:
-#        run: catalogue
-#        command: ["yarn", "test"]
-#- label: "test content"
-#  plugins:
-#    - docker-compose#v3.5.0:
-#        run: content
-#        command: ["yarn", "test"]
+- label: "test flow"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: catalogue
+        command: ["yarn", "flow"]
+        workdir: /usr/src/app/webapp
+- label: "test catalogue"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: catalogue
+        command: ["yarn", "test"]
+- label: "test content"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: content
+        command: ["yarn", "test"]

@@ -1,26 +1,17 @@
 version: "3.3"
 services:
-  base:
+   common:
     image: wellcome/common_webapp:${CONTAINER_TAG:-test}
     build:
       context: .
+      dockerfile: common/Dockerfile
   catalogue:
     image: wellcome/catalogue_webapp:${CONTAINER_TAG:-test}
     build:
-      context: ./catalogue
-      args:
-        - CONTAINER_TAG=${CONTAINER_TAG:-test}
-    depends_on:
-      - base
-    ports:
-      - "3000:3000"
+      context: .
+      dockerfile: catalogue/Dockerfile
   content:
     image: wellcome/content_webapp:${CONTAINER_TAG:-test}
     build:
-      context: ./content
-      args:
-        - CONTAINER_TAG=${CONTAINER_TAG:-test}
-    depends_on:
-      - base
-    ports:
-      - "3000:3000"
+      context: .
+      dockerfile: content/Dockerfile
