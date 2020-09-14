@@ -44,13 +44,19 @@
 
 - label: "deploy catalogue"
   plugins:
+    - ecr#v2.1.1:
+        login: true
     - docker-compose#v3.5.0:
-        push: catalogue
+        push:
+          - catalogue:760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:${BUILDKITE_COMMIT}
 
 - label: "deploy content"
   plugins:
+    - ecr#v2.1.1:
+        login: true
     - docker-compose#v3.5.0:
-        push: content
+        push:
+          - content:760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:${BUILDKITE_COMMIT}
 
 - label: "deploy pa11y"
   artifact_paths: "pa11y/.dist/*"

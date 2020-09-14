@@ -12,4 +12,4 @@ RUN yarn
 
 RUN zip -r edge_lambda_origin.zip toggler.js origin.js redirector.js redirects.js wiRedirector.js
 
-CMD ["cp","-rf", "/usr/src/app/webapp/edge_lambda_origin.zip", "/dist/.dist/edge_lambda_origin.zip"]
+CMD ["cp", "/usr/src/app/webapp/edge_lambda_origin.zip", "/dist/.dist/edge_lambda_origin.zip"]
