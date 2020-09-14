@@ -1,6 +1,4 @@
 - label: ":docker: Build"
-  env:
-    - CONTAINER_TAG=$BUILDKITE_COMMIT
   plugins:
     - seek-oss/aws-sm#v2.1.0:
         env:
@@ -13,7 +11,7 @@
           - common
           - catalogue
           - content
-        push: base
+        image-repository: index.docker.io/wellcome/myrepo
 
 - wait
 
@@ -44,18 +42,16 @@
 
 - wait
 
-# TODO: Containers must be pushed
-#- label: "deploy catalogue"
-#  plugins:
-#    - docker-compose#v3.5.0:
-#        run: catalogue
-#
-#- label: "deploy content"
-#  plugins:
-#    - docker-compose#v3.5.0:
-#        run: content
+- label: "deploy catalogue"
+  plugins:
+    - docker-compose#v3.5.0:
+        push: catalogue
 
-# TODO: Handle artifact deployment
+- label: "deploy content"
+  plugins:
+    - docker-compose#v3.5.0:
+        push: content
+
 - label: "deploy pa11y"
   artifact_paths: "pa11y/.dist/*"
   plugins:
