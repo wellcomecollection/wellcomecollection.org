@@ -16,4 +16,4 @@ ADD ./webapp /usr/src/app/webapp
 RUN yarn
 RUN yarn write-report --no-sandbox
 
-CMD ["cp","-rf", "/usr/src/app/webapp/.dist", "/dist/.dist"]
+CMD ["true"]

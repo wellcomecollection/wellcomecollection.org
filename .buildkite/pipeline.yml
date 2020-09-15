@@ -48,6 +48,18 @@
         run: toggles
         command: [ "yarn", "deploy" ]
 
+- label: "deploy pa11y"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: pa11y
+        command: [ "yarn", "deploy" ]
+
+- label: "deploy edge_lambdas"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: edge_lambdas
+        command: [ "yarn", "deploy" ]
+
 - label: "deploy catalogue"
   plugins:
     - ecr#v2.1.1:
@@ -64,12 +76,6 @@
         push:
           - content:760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:${BUILDKITE_COMMIT}
 
-- label: "deploy pa11y"
-  artifact_paths: "pa11y/.dist/*"
-  plugins:
-    - docker-compose#v3.5.0:
-        run: pa11y
-
 - label: "deploy cardigan"
   artifact_paths: "cardigan/.dist/*"
   plugins:
@@ -81,9 +87,3 @@
   plugins:
     - docker-compose#v3.5.0:
         run: dash
-
-- label: "deploy edge_lambdas"
-  artifact_paths: "cache/edge_lambdas/.dist/*"
-  plugins:
-    - docker-compose#v3.5.0:
-        run: edge_lambdas
