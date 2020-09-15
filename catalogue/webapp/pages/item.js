@@ -79,7 +79,10 @@ const ItemPage = ({
   const iiifImageLocation =
     work && getDigitalLocationOfType(work, 'iiif-image');
 
-  const mainImageService = { '@id': getServiceId(currentCanvas) };
+  const serviceId = getServiceId(currentCanvas);
+  const mainImageService = serviceId && {
+    '@id': serviceId,
+  };
 
   const showDownloadOptions = manifest
     ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
