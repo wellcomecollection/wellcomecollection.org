@@ -30,13 +30,11 @@ services:
       context: ./dash
     volumes:
       - "./dash:/dist"
-  toggles:
-    build:
-      context: ./toggles
-    volumes:
-      - "./toggles/.dist:/dist"
   edge_lambdas:
     build:
       context: ./cache/edge_lambdas
     volumes:
       - "./cache/edge_lambdas:/dist"
+  toggles:
+    build:
+      context: ./toggles

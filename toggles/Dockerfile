@@ -9,4 +9,4 @@ ADD ./webapp /usr/src/app/webapp
 RUN yarn
 RUN yarn build
 
-CMD ["cp", "/usr/src/app/webapp/toggles.json", "/dist/toggles.json"]
+CMD ["true"]

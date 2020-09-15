@@ -42,6 +42,12 @@
 
 - wait
 
+- label: "deploy toggles"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: toggles
+        command: [ "yarn", "deploy" ]
+
 - label: "deploy catalogue"
   plugins:
     - ecr#v2.1.1:
@@ -75,12 +81,6 @@
   plugins:
     - docker-compose#v3.5.0:
         run: dash
-
-- label: "deploy toggles"
-  artifact_paths: "toggles/.dist/*"
-  plugins:
-    - docker-compose#v3.5.0:
-        run: toggles
 
 - label: "deploy edge_lambdas"
   artifact_paths: "cache/edge_lambdas/.dist/*"
