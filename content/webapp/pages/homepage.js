@@ -76,7 +76,9 @@ export class HomePage extends Component<Props> {
     const articles = this.props.articles;
     const page = this.props.page;
     const standFirst = page.body.find(slice => slice.type === 'standfirst');
-    const contentList = page.body.find(slice => slice.type === 'contentList');
+    const lists = page.body.filter(slice => slice.type === 'contentList');
+    const reopeningList = lists.length === 2 ? lists[0] : null;
+    const contentList = lists.length === 2 ? lists[1] : lists[0];
 
     return (
       <PageLayout
@@ -118,6 +120,19 @@ export class HomePage extends Component<Props> {
             </TogglesContext.Consumer>
           </SpacingSection>
         </Layout10>
+        {reopeningList && (
+          <SpacingSection>
+            <SpacingComponent>
+              <SectionHeader title={reopeningList.value.title} />
+            </SpacingComponent>
+            <SpacingComponent>
+              <SimpleCardGrid
+                items={reopeningList.value.items}
+                isFeaturedFirst={true}
+              />
+            </SpacingComponent>
+          </SpacingSection>
+        )}
         {contentList && (
           <SpacingSection>
             <SpacingComponent>
