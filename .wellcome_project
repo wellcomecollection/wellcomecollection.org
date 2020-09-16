@@ -12,5 +12,5 @@ storage:
     - id: catalogue_webapp
       services:
         - id: catalogue_webapp
-  name: Storage service
+  name: Front End (wellcomecollection.org)
   role_arn: arn:aws:iam::760097843905:role/buildkite-agent

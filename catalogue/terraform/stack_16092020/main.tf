@@ -1,7 +1,7 @@
-module "catalogue-service-23062020" {
-  source = "../../../infrastructure/terraform/modules/service_23062020"
+module "catalogue-service" {
+  source = "../../../infrastructure/terraform/modules/service"
 
-  namespace    = "catalogue-23062020-${var.env_suffix}"
+  namespace    = "catalogue-${var.env_suffix}"
 
   namespace_id = var.namespace_id
   cluster_arn  = var.cluster_arn
@@ -16,6 +16,9 @@ module "catalogue-service-23062020" {
     var.service_egress_security_group_id
   ]
 
+  deployment_service_env =  var.deployment_service_env
+  deployment_service_name = var.deployment_service_name
+
   env_vars = {
     PROD_SUBDOMAIN = var.subdomain
   }
@@ -25,7 +28,7 @@ module "catalogue-service-23062020" {
 }
 
 locals {
-  target_group_arn = module.catalogue-service-23062020.target_group_arn
+  target_group_arn = module.catalogue-service.target_group_arn
 }
 
 module "path_listener" {
