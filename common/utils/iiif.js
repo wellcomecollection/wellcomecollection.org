@@ -5,6 +5,7 @@ import {
   type IIIFMetadata,
   type IIIFCanvas,
   type IIIFMediaElement,
+  type Service,
 } from '../model/iiif';
 
 export function getServiceId(currentCanvas: ?IIIFCanvas): ?string {
@@ -23,18 +24,31 @@ export function getServiceId(currentCanvas: ?IIIFCanvas): ?string {
   }
 }
 
-export function getUiExtensions(iiifManifest: IIIFManifest) {
-  return (
-    (iiifManifest.service &&
-      iiifManifest.service.find(
-        service =>
-          service.profile === 'http://universalviewer.io/ui-extensions-profile'
-      )) ||
-    null
-  );
+export function getUiExtensions(iiifManifest: IIIFManifest): ?Service {
+  if (iiifManifest.service) {
+    if (
+      !Array.isArray(iiifManifest.service) &&
+      iiifManifest.service.profile ===
+        'http://universalviewer.io/ui-extensions-profile'
+    ) {
+      return iiifManifest.service;
+    } else if (Array.isArray(iiifManifest.service)) {
+      return (
+        iiifManifest.service.find(
+          service =>
+            service.profile ===
+            'http://universalviewer.io/ui-extensions-profile'
+        ) || null
+      );
+    } else {
+      return null;
+    }
+  } else {
+    return null;
+  }
 }
 
-export function isUiEnabled(uiExtensions: ?{ disableUI: [] }, uiName: string) {
+export function isUiEnabled(uiExtensions: ?Service, uiName: string) {
   const disableUI = uiExtensions && uiExtensions.disableUI;
   if (disableUI) {
     return !(
