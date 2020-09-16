@@ -10,21 +10,15 @@ services:
     build:
       context: .
       dockerfile: catalogue/Dockerfile
-    depends_on:
-      - common
   content:
     image: uk.ac.wellcome/content_webapp:${CONTAINER_TAG:-test}
     build:
       context: .
       dockerfile: content/Dockerfile
-    depends_on:
-      - common
   cardigan:
     build:
       context: .
       dockerfile: cardigan/Dockerfile
-    depends_on:
-      - common
   dash:
     build:
       context: ./dash
