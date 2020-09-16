@@ -2,6 +2,9 @@ FROM node:12.18.3
 
 WORKDIR /usr/src/app/webapp
 
+RUN apt-get update && apt-get install -y python python-pip
+RUN pip install awscli
+
 ADD ./.flowconfig ./.flowconfig
 ADD ./package.json ./package.json
 ADD ./yarn.lock ./yarn.lock
