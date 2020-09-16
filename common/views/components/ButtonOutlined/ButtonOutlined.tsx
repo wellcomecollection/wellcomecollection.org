@@ -1,6 +1,6 @@
 import { forwardRef, SyntheticEvent } from 'react';
 import { classNames } from '../../../utils/classnames';
-import type { GaEvent } from '@weco/common/utils/ga';
+import { GaEvent } from '@weco/common/utils/ga';
 import { trackEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
 import Icon from '../Icon/Icon';
@@ -10,17 +10,17 @@ import {
   ButtonIconWrapper,
 } from '../ButtonSolid/ButtonSolid';
 
-
 type MaybeAnchor = {
-  href?: string,
-}
+  href?: string;
+};
 
 export const OutlinedButton = styled(BaseButton).attrs<MaybeAnchor>(props => ({
   className: classNames({
     'link-reset': !!props.href,
   }),
 }))`
-  border: 2px solid ${props => props.theme.color(props.isOnDark ? 'white' : 'green')};
+  border: 2px solid
+    ${props => props.theme.color(props.isOnDark ? 'white' : 'green')};
   background: ${props => props.theme.color('transparent')};
   color: ${props => props.theme.color(props.isOnDark ? 'white' : 'green')};
 
@@ -42,8 +42,8 @@ export type ButtonOutlinedBaseProps = {
 };
 
 type ButtonOutlinedProps = ButtonOutlinedBaseProps & {
-  disabled?: boolean,
-  clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void,
+  disabled?: boolean;
+  clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
 };
 
 const ConditionalWrapper = ({ condition, wrapper, children }) =>
@@ -79,7 +79,8 @@ const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
         aria-live={ariaLive}
         onClick={handleClick}
         disabled={disabled}
-        ref={ref}>
+        ref={ref}
+      >
         <BaseButtonInner>
           <>
             <span
@@ -87,16 +88,20 @@ const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
                 'visually-hidden': !!isTextHidden,
               })}
             >
-              {text}</span>
-              {icon && (
-                <ConditionalWrapper condition={!isTextHidden}
-                  wrapper={children => (
-                    <ButtonIconWrapper iconAfter={true}>{children}</ButtonIconWrapper>
-                  )}
-                >
-                  <Icon name={icon} />
-                </ConditionalWrapper>
-              )}
+              {text}
+            </span>
+            {icon && (
+              <ConditionalWrapper
+                condition={!isTextHidden}
+                wrapper={children => (
+                  <ButtonIconWrapper iconAfter={true}>
+                    {children}
+                  </ButtonIconWrapper>
+                )}
+              >
+                <Icon name={icon} />
+              </ConditionalWrapper>
+            )}
           </>
         </BaseButtonInner>
       </OutlinedButton>
