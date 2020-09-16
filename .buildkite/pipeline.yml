@@ -43,7 +43,7 @@
 
 - wait
 
-- label: "deploy catalogue"
+- label: "deploy catalogue (ecr image)"
   plugins:
     - ecr#v2.1.1:
         login: true
@@ -52,7 +52,13 @@
           - catalogue:760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:${BUILDKITE_COMMIT}
           - catalogue:760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:latest
 
-- label: "deploy content"
+- label: "deploy catalogue (bundle analysis)"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: catalogue
+        command: [ "yarn", "deploy_bundle_analysis" ]
+
+- label: "deploy content (ecr image)"
   plugins:
     - ecr#v2.1.1:
         login: true
@@ -61,15 +67,25 @@
           - content:760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:${BUILDKITE_COMMIT}
           - content:760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:latest
 
+- label: "deploy content (bundle analysis)"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: content
+        command: [ "yarn", "deploy_bundle_analysis" ]
+
+- label: "deploy dash"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: dash
+        command: [ "yarn", "deploy" ]
+
 - label: "deploy cardigan"
-  artifact_paths: "cardigan/.dist/*"
   plugins:
     - docker-compose#v3.5.0:
         run: cardigan
         command: [ "yarn", "deploy" ]
 
 - label: "deploy dash"
-  artifact_paths: "dash/.dist/*"
   plugins:
     - docker-compose#v3.5.0:
         run: dash

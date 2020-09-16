@@ -2,7 +2,7 @@
   "scripts": {
     "dev": "start-storybook -p 9001 -c .storybook",
     "build": "build-storybook -c .storybook -o .dist",
-    "deploy": "aws s3 sync --only-show-errors .dist/ s3://cardigan.wellcomecollection.org"
+    "deploy": "aws s3 sync .dist/ s3://cardigan.wellcomecollection.org --only-show-errors --acl public-read"
   },
   "devDependencies": {},
   "dependencies": {
