@@ -33,7 +33,7 @@ async function route(path, page, router, app, extraParams = {}) {
   });
 }
 
-async function routeIfToggleOn(
+async function renderIfToggleOn(
   path,
   page,
   router,
@@ -84,5 +84,5 @@ module.exports = {
   middleware: withCachedValues,
   route,
   handleAllRoute,
-  routeIfToggleOn,
+  renderIfToggleOn,
 };
