@@ -1,8 +1,7 @@
 - label: ":docker: Build"
   plugins:
-    - seek-oss/aws-sm#v2.1.0:
-        env:
-          DOCKER_HUB_PASSWORD: builds/docker_hub_password
+    - wellcomecollection/aws-assume-role#v0.2.0:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
@@ -11,7 +10,7 @@
           - catalogue
           - content
           - edge_lambdas
-        image-repository: 760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
+        image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
 - wait
 
@@ -51,20 +50,23 @@
 - wait
 
 - label: "deploy catalogue (ecr image)"
-  if: build.branch == "master"
+  #if: build.branch == "master"
   plugins:
+    - wellcomecollection/aws-assume-role#v0.2.0:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
     - ecr#v2.1.1:
         login: true
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
         push:
-          - catalogue:760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:${BUILDKITE_COMMIT}
-          - catalogue:760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:latest
+          - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:${BUILDKITE_COMMIT}
+          - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:latest
 
 - label: "deploy catalogue (bundle analysis)"
   if: build.branch == "master"
   plugins:
+
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
@@ -72,14 +74,16 @@
         command: [ "yarn", "deploy_bundle_analysis" ]
 
 - label: "deploy content (ecr image)"
-  if: build.branch == "master"
+  #if: build.branch == "master"
   plugins:
+    - wellcomecollection/aws-assume-role#v0.2.0:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
         push:
-          - content:760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:${BUILDKITE_COMMIT}
-          - content:760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:latest
+          - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:${BUILDKITE_COMMIT}
+          - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:latest
 
 - label: "deploy content (bundle analysis)"
   if: build.branch == "master"
