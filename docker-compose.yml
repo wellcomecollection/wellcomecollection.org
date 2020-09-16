@@ -18,13 +18,9 @@ services:
     build:
       context: .
       dockerfile: cardigan/Dockerfile
-    volumes:
-      - "./cardigan:/dist"
   dash:
     build:
       context: ./dash
-    volumes:
-      - "./dash:/dist"
   edge_lambdas:
     build:
       context: ./cache/edge_lambdas

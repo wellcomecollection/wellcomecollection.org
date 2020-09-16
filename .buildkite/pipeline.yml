@@ -43,24 +43,6 @@
 
 - wait
 
-- label: "deploy toggles"
-  plugins:
-    - docker-compose#v3.5.0:
-        run: toggles
-        command: [ "yarn", "deploy" ]
-
-- label: "deploy pa11y"
-  plugins:
-    - docker-compose#v3.5.0:
-        run: pa11y
-        command: [ "yarn", "deploy" ]
-
-- label: "deploy edge_lambdas"
-  plugins:
-    - docker-compose#v3.5.0:
-        run: edge_lambdas
-        command: [ "yarn", "deploy" ]
-
 - label: "deploy catalogue"
   plugins:
     - ecr#v2.1.1:
@@ -84,9 +66,29 @@
   plugins:
     - docker-compose#v3.5.0:
         run: cardigan
+        command: [ "yarn", "deploy" ]
 
 - label: "deploy dash"
   artifact_paths: "dash/.dist/*"
   plugins:
     - docker-compose#v3.5.0:
         run: dash
+        command: [ "yarn", "deploy" ]
+
+- label: "deploy toggles"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: toggles
+        command: [ "yarn", "deploy" ]
+
+- label: "deploy pa11y"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: pa11y
+        command: [ "yarn", "deploy" ]
+
+- label: "deploy edge_lambdas"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: edge_lambdas
+        command: [ "yarn", "deploy" ]
