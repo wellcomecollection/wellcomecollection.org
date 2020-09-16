@@ -1,6 +1,5 @@
 FROM node:12.18.3
 
-VOLUME /dist
 WORKDIR /usr/src/app/webapp
 
 RUN apt-get update && apt-get install -y python python-pip
