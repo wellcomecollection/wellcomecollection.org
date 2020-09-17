@@ -1,10 +1,25 @@
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import { grid } from '@weco/common/utils/classnames';
+import { grid, classNames, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import CovidTOC from '@weco/common/views/components/CovidTOC/CovidTOC';
 import CovidInfoBox from '@weco/common/views/components/CovidInfoBox/CovidInfoBox';
+import Divider from '@weco/common/views/components/Divider/Divider';
 import EventbriteButton from '@weco/common/views/components/EventbriteButton/EventbriteButton';
+import styled from 'styled-components';
+
+const CovidBodyText = styled.div`
+  h4 + p {
+    margin-top: 0.2em;
+  }
+`;
+
+const CovidH4 = styled.h4.attrs({
+  className: classNames({
+    [font('hnm', 5)]: true,
+  }),
+})``;
 
 const CovidWeAreOpenPage = () => {
   return (
@@ -52,78 +67,8 @@ const CovidWeAreOpenPage = () => {
                 </p>
               </div>
             </div>
-
             <Space
-              v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
-              className={grid({
-                s: 12,
-                m: 12,
-                l: 10,
-                shiftL: 1,
-                xl: 10,
-                shiftXL: 1,
-              })}
-            >
-              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                <CovidInfoBox
-                  title={'Book your museum visit'}
-                  body={
-                    <>
-                      <p>
-                        <ul>
-                          <li>Choose a time slot</li>
-                          <li>Stay as long as you like</li>
-                          <li>
-                            You will be able to visit the Reading Room, Being
-                            Human, the shop and café
-                          </li>
-                        </ul>
-                      </p>
-                      <p>
-                        <a href="#more-info-about-ticket">
-                          Find out more about booking your tickets
-                        </a>
-                      </p>
-                      <EventbriteButton event={{ eventbriteId: '' }} />
-                    </>
-                  }
-                />
-              </Space>
-
-              <CovidInfoBox
-                title={'Book your museum and library visit'}
-                body={
-                  <>
-                    <p>
-                      <ul>
-                        <li>Choose a time slot</li>
-                        <li>Stay for up to three hours</li>
-                        <li>
-                          Only current library members are able to book a ticket
-                        </li>
-                        <li>
-                          You will be able to visit the library as well as the
-                          museum, including the galleries, shop and café
-                        </li>
-                        <li>
-                          You will need to order any materials 72 hours in
-                          advance
-                        </li>
-                      </ul>
-                    </p>
-                    <p>
-                      <a href="#more-info-about-museum-library-ticket">
-                        Find out more about booking museum and library tickets
-                      </a>
-                    </p>
-                    <EventbriteButton event={{ eventbriteId: '' }} />
-                  </>
-                }
-              />
-            </Space>
-          </div>
-          <div className="grid">
-            <div
+              v={{ size: 'xl', properties: ['margin-bottom'] }}
               className={grid({
                 s: 12,
                 m: 10,
@@ -134,35 +79,215 @@ const CovidWeAreOpenPage = () => {
                 shiftXL: 2,
               })}
             >
-              <div className="body-text spaced-text">
-                <h2 id="more-info-about-ticket">
-                  More information about your ticket
-                </h2>
+              <Space
+                v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
+              >
+                <CovidTOC
+                  links={[
+                    { text: 'Museum visit', url: '#museum-visit' },
+                    {
+                      text: 'Library and museum visit',
+                      url: '#library-and-museum-visit',
+                      sublinks: [
+                        {
+                          text: 'Need to know for visiting the library',
+                          url: '#need-to-know-for-visiting-the-library',
+                        },
+                      ],
+                    },
+                    {
+                      text: 'Need to know about your ticket',
+                      url: '#need-to-know-about-your-ticket',
+                    },
+                  ]}
+                />
+              </Space>
+              <CovidInfoBox title={'Museum visit'} id="museum-visit">
+                <>
+                  <p>
+                    <ul className="no-margin">
+                      <li>Choose a time slot</li>
+                      <li>Stay as long as you like</li>
+                      <li>
+                        You will be able to visit the Reading Room, Being Human,
+                        the shop and café
+                      </li>
+                    </ul>
+                  </p>
+                  <EventbriteButton event={{ eventbriteId: '' }} />
+                </>
+              </CovidInfoBox>
 
-                <h3>Entering and leaving the building</h3>
+              <Space
+                v={{
+                  size: 'xl',
+                  properties: ['margin-top', 'margin-bottom'],
+                }}
+              >
+                <Divider extraClasses="divider--keyline divider--pumice" />
+              </Space>
+
+              <CovidInfoBox
+                title={'Library and museum visit'}
+                id="library-and-museum-visit"
+              >
+                <CovidBodyText>
+                  <p>
+                    <ul className="no-margin">
+                      <li>
+                        Only current library members are able to book a ticket
+                      </li>
+                      <li>Choose a time slot </li>
+                      <li>Stay for up to three hours</li>
+                      <li>
+                        You will be able to visit the library as well as the
+                        galleries, shop and café{' '}
+                      </li>
+                      <li>
+                        You will need to order any materials 72 hours in advance
+                      </li>
+                    </ul>
+                  </p>
+                  <h3 id="need-to-know-for-visiting-the-library">
+                    Need to know for visiting the library
+                  </h3>
+                  <CovidH4>What to bring</CovidH4>
+                  <p>
+                    <ul className="no-margin">
+                      <li>Your ticket – on your phone is fine</li>
+
+                      <li>Your library card </li>
+
+                      <li>
+                        Your face covering – this will need to be worn for the
+                        duration of your visit.
+                      </li>
+
+                      <li>
+                        You can still bring in your laptops, study materials and
+                        pencils in a clear plastic bag or carried, as normal.
+                        You can leave anything else in lockers on level 0.
+                      </li>
+
+                      <li>
+                        Please note that shared computers, printers and scanners
+                        won’t be available.
+                      </li>
+                    </ul>
+                  </p>
+                  <CovidH4>Time slots</CovidH4>
+                  <p>
+                    You will be able to book library tickets up until 72 hours
+                    before the start of each time slot to make sure we can
+                    accommodate requests for materials.
+                  </p>
+                  <p>
+                    You can use the library for three hours from the start of
+                    your slot – you can spend as much time as you’d like in the
+                    rest of the building.
+                  </p>
+                  <CovidH4>The Rare Materials Room</CovidH4>
+                  <p>
+                    All ordered material will be delivered to the Rare Materials
+                    Room. In order to visit you will need to book the ticket in
+                    Eventbrite that indicates RMR access. These will be
+                    available at 10:30 and 13:30 every day. Please only book if
+                    you need it, as there is limited availability to allow for
+                    social distancing.
+                  </p>
+                  <CovidH4>Ordering material</CovidH4>
+                  <p>
+                    <ul className="no-margin">
+                      <li>
+                        All your online requests will be delivered to the Rare
+                        Materials Room. To start with, we’ll ask visitors to
+                        book just one RMR slot each week.
+                      </li>
+                      <li>
+                        After you’ve booked your ticket, request up to 10 items
+                        from wellcomelibrary.org before your visit
+                      </li>
+                      <li>
+                        Place your requests 72 hours before the day of your
+                        visit.
+                      </li>
+                      <li>
+                        Once you’re finished viewing the materials, we put the
+                        materials in quarantine for 72 hours.
+                      </li>
+                    </ul>
+                  </p>
+
+                  <CovidH4>Open shelves</CovidH4>
+                  <p>
+                    You will be able to access the open shelves, but when you
+                    are finished with your book, please place on a quarantine
+                    trolley.
+                  </p>
+
+                  <CovidH4>Study rooms</CovidH4>
+                  <p>
+                    <ul className="no-margin">
+                      <li>
+                        The accessible study room can be booked - email the
+                        library before you book your ticket to make sure the
+                        room is available for you on the day you want to come.
+                        We’re allowing one booking per day to ensure thorough
+                        cleaning before next user
+                      </li>
+                      <li>
+                        The Group Study Room will be closed, and group working
+                        desks in the Gallery will be reserved for one person
+                        only.
+                      </li>
+                    </ul>
+                  </p>
+                  <EventbriteButton event={{ eventbriteId: '' }} />
+                </CovidBodyText>
+              </CovidInfoBox>
+
+              <Space
+                v={{
+                  size: 'xl',
+                  properties: ['margin-top', 'margin-bottom'],
+                }}
+              >
+                <Divider extraClasses="divider--keyline divider--pumice" />
+              </Space>
+              <CovidBodyText className="body-text">
+                <h3 id="need-to-know-about-your-ticket">
+                  Need to know about your ticket
+                </h3>
+                <CovidH4>Entering and leaving the building</CovidH4>
                 <p>
-                  Please bring your ticket with you on the day – on your phone
-                  is fine. You will have your ticket checked by our staff on
-                  arrival. There may be queues at busy times.
+                  <ul className="no-margin">
+                    <li>
+                      Please bring your ticket with you on the day – on your
+                      phone is fine. You will have your ticket checked by our
+                      staff on arrival. There may be queues at busy times.
+                    </li>
+                    <li>
+                      Once you have left the building you cannot re-enter. This
+                      is so we can manage visitor numbers and allow plenty of
+                      space for social distancing.
+                    </li>
+                  </ul>
                 </p>
-
+                <CovidH4>Time slots</CovidH4>
                 <p>
-                  Once you have left the building you cannot re-enter. This is
-                  so we can manage visitor numbers and allow plenty of space for
-                  social distancing.
+                  You will be able to book museum tickets up until 30 minutes
+                  before the start of each time slot.
                 </p>
-
-                <h3>Time slots</h3>
                 <p>
-                  You can arrive at any point during your 15-minute slot. If you
-                  think you are not going to make your slot, please let us know.
+                  Please arrive within 15 minutes of your booked time slot or we
+                  may have to ask you to book another ticket. If you think you
+                  are not going to make your slot, please let us know.
                 </p>
-
-                <h3>Cancelling your ticket</h3>
+                <CovidH4>Cancelling your ticket</CovidH4>
                 <p>
                   There are three ways to cancel your ticket:
-                  <ul>
-                    <li>Follow the instructions via Eventbrite </li>
+                  <ul className="no-margin">
+                    <li>Follow the instructions via Eventbrite</li>
                     <li>Email info@wellcomecollection.org</li>
                     <li>Call +44 (0)20 7611 2222</li>
                   </ul>
@@ -172,7 +297,7 @@ const CovidWeAreOpenPage = () => {
                   please cancel and rebook. Or give us a call.
                 </p>
 
-                <h3>Track and Trace</h3>
+                <CovidH4>Track and Trace</CovidH4>
                 <p>
                   We are collecting the information necessary for NHS Test and
                   Trace via our booking form. For this reason, please do not
@@ -180,87 +305,14 @@ const CovidWeAreOpenPage = () => {
                   mind about visiting, please cancel your booking.
                 </p>
 
-                <h3>Groups and frequent visitors</h3>
+                <CovidH4>Groups and frequent visitors</CovidH4>
                 <p>
                   You can book for up to six members of a household at a time.
                   Please only visit once per week, space is limited, and we want
                   as many people to be able to visit as possible.
                 </p>
-
-                <h2 id="more-info-about-museum-library-ticket">
-                  More information about your library visit
-                </h2>
-
-                <h3>What to bring</h3>
-                <p>
-                  You can still bring in your laptops, study materials and
-                  pencils in a clear plastic bag or carried, as normal. You can
-                  leave anything else in lockers on level 0.
-                </p>
-                <p>
-                  You will need to wear a face covering for the duration of your
-                  visit.
-                </p>
-                <p>
-                  No need to provide your own hand sanitizer - we’ll have plenty
-                  available.
-                </p>
-
-                <h3>Time slots</h3>
-                <p>
-                  You can use the library for three hours from the start of your
-                  slot – you can spend as much time as you’d like in the rest of
-                  the building.
-                </p>
-
-                <h3>Ordering materials</h3>
-                <p>
-                  <ul>
-                    <li>
-                      Request up to 10 items from wellcomelibrary.org before
-                      your visit
-                    </li>
-                    <li>
-                      Place your requests 72 hours before the day of your visit
-                    </li>
-                    <li>
-                      Once you’re finished viewing the materials, we put the
-                      materials in quarantine for 72 hours. The materials cannot
-                      be retrieved during their quarantine. This is to ensure
-                      the safety of researchers and our staff
-                    </li>
-                    <li>
-                      All your online requests will be delivered to the Rare
-                      Materials Room. To start with, we’ll ask visitors to book
-                      just one RMR slot each week
-                    </li>
-                  </ul>
-                </p>
-
-                <h3>Open shelves</h3>
-                <p>
-                  You will be able to access the open shelves, but when you are
-                  finished with your book, please place on a quarantine trolley.
-                </p>
-
-                <h3>Study rooms</h3>
-                <p>
-                  <ul>
-                    <li>
-                      Accessible study room can be booked - email the library
-                      before you book your ticket to make sure the room is
-                      available for you on the day you want to come. We’re
-                      allowing one booking per day to ensure thorough cleaning
-                      before next user
-                    </li>
-                    <li>
-                      The Group Study Room will be closed, and group working
-                      desks in the Gallery will be reserved for one person only
-                    </li>
-                  </ul>
-                </p>
-              </div>
-            </div>
+              </CovidBodyText>
+            </Space>
           </div>
         </div>
       </Space>

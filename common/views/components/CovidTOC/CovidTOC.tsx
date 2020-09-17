@@ -1,17 +1,23 @@
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
-const TOCLink = styled.a.attrs({
+
+type TOCLinkProps = {
+  isSublink?: boolean;
+};
+
+const TOCLink = styled.a.attrs((props: TOCLinkProps) => ({
   className: classNames({
-    [font('hnm', 5)]: true,
+    [font(props.isSublink ? 'hnl' : 'hnm', 5)]: true,
   }),
-})`
+}))<TOCLinkProps>`
   color: ${props => props.theme.color('green')};
 `;
 
 type Link = {
   text: string;
   url: string;
+  sublinks?: Link[];
 };
 
 type Props = {
@@ -29,9 +35,18 @@ const CovidTOC = ({ links }) => {
     >
       <h2 className="h3">What's on this page</h2>
       <ul className="plain-list no-margin no-padding">
-        {links.map(({ text, url }) => (
+        {links.map(link => (
           <li>
-            <TOCLink href={url}>{text}</TOCLink>
+            <TOCLink href={link.url}>{link.text}</TOCLink>
+            {link.sublinks && (
+              <ul>
+                {link.sublinks.map(sublink => (
+                  <TOCLink isSublink>
+                    <a href={sublink.url}>{sublink.text}</a>
+                  </TOCLink>
+                ))}
+              </ul>
+            )}
           </li>
         ))}
       </ul>

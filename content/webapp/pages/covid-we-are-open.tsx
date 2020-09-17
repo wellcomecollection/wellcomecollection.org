@@ -6,6 +6,7 @@ import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import CovidTOC from '@weco/common/views/components/CovidTOC/CovidTOC';
 import CovidSafetyMeasure from '@weco/common/views/components/CovidSafetyMeasure/CovidSafetyMeasure';
 import CovidInfoBox from '@weco/common/views/components/CovidInfoBox/CovidInfoBox';
+import Divider from '@weco/common/views/components/Divider/Divider';
 import {
   WeAreGoodToGo,
   CovidIconsEnum,
@@ -15,7 +16,7 @@ import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/Butto
 const CovidWeAreOpenPage = () => {
   return (
     <PageLayout
-      title={'We’re open'}
+      title={'Welcome back'}
       description={`Wellcome Collection is open`}
       url={{ pathname: `/covid-we-are-open` }}
       jsonLd={{ '@type': 'WebPage' }}
@@ -27,7 +28,7 @@ const CovidWeAreOpenPage = () => {
       <PageHeader
         breadcrumbs={{ items: [] }}
         labels={null}
-        title={'We’re open'}
+        title={'Welcome back'}
         ContentTypeInfo={null}
         Background={null}
         backgroundTexture={headerBackgroundLs}
@@ -86,46 +87,45 @@ const CovidWeAreOpenPage = () => {
               </Space>
 
               <div className="body-text spaced-text">
-                <h2
-                  id="book-your-ticket"
-                  aria-hidden
-                  className="visually-hidden"
+                <CovidInfoBox title={'Book your ticket'} id="book-your-ticket">
+                  <>
+                    <p>
+                      <ul className="no-margin">
+                        <li>
+                          It’s still free to visit our museum and library.
+                          You’ll just need to choose a time slot and book a
+                          ticket before you arrive.
+                        </li>
+                        <li>
+                          You can explore the museum for as long as you’d like,
+                          but library sessions are now limited to either a
+                          morning or an afternoon. Library tickets include
+                          museum entry, too.
+                        </li>
+                      </ul>
+                    </p>
+                    <ButtonSolidLink
+                      icon="ticket"
+                      text="Book a ticket"
+                      link="/covid-book-your-ticket"
+                    />
+                  </>
+                </CovidInfoBox>
+
+                <Space
+                  v={{
+                    size: 'xl',
+                    properties: ['margin-top', 'margin-bottom'],
+                  }}
                 >
-                  Book your ticket
-                </h2>
-                <CovidInfoBox
-                  title={'Book your ticket'}
-                  body={
-                    <>
-                      <p>
-                        <ul>
-                          <li>
-                            It’s still free to visit our museum and library.
-                            You’ll just need to choose a time slot and book a
-                            ticket before you arrive.
-                          </li>
-                          <li>
-                            You can explore the museum for as long as you’d
-                            like, but library sessions are now limited to either
-                            a morning or an afternoon. Library tickets include
-                            museum entry, too.
-                          </li>
-                        </ul>
-                      </p>
-                      <ButtonSolidLink
-                        icon="ticket"
-                        text="Book a ticket"
-                        link="/covid-book-your-ticket"
-                      />
-                    </>
-                  }
-                />
+                  <Divider extraClasses="divider--keyline divider--pumice" />
+                </Space>
 
                 <h2 id="plan-your-visit">Plan your visit</h2>
 
                 <h3>What’s open?</h3>
                 <p>
-                  <ul>
+                  <ul className="no-margin">
                     <li>
                       Being Human permanent gallery, the Reading Room, café, and
                       library are open from 7 October.
@@ -146,7 +146,7 @@ const CovidWeAreOpenPage = () => {
 
                 <h3>Facilities and access</h3>
                 <p>
-                  <ul>
+                  <ul className="no-margin">
                     <li>All our toilets are open as usual.</li>
                     <li>
                       There are accessible toilets on every floor and a Changing
@@ -176,7 +176,7 @@ const CovidWeAreOpenPage = () => {
 
                 <h3>Storing your belongings</h3>
                 <p>
-                  <ul>
+                  <ul className="no-margin">
                     <li>
                       You will be able to use lockers on level 0 to store
                       belongings.
@@ -260,7 +260,7 @@ const CovidWeAreOpenPage = () => {
 
                 <h3>How we’re keeping you safe</h3>
                 <p>
-                  <ul>
+                  <ul className="no-margin">
                     <li>
                       Limiting the number of visitors each day with a free
                       ticketing system.{' '}

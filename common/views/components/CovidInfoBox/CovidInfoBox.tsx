@@ -2,12 +2,13 @@ import Space from '@weco/common/views/components/styled/Space';
 import { classNames } from '@weco/common/utils/classnames';
 
 type Props = {
-  title: 'string';
-  body: JSX.Element;
+  id: string;
+  title: string;
+  children: JSX.Element;
   eventbriteId: string;
 };
 
-const CovidInfoBox = ({ title, body }) => {
+const CovidInfoBox = ({ title, id, children }) => {
   return (
     <Space
       h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
@@ -16,8 +17,10 @@ const CovidInfoBox = ({ title, body }) => {
       })}
       style={{ 'border-left-width': '10px', 'border-left-style': 'solid' }}
     >
-      <h2 className="h2">{title}</h2>
-      <div className="spaced-text body-text">{body}</div>
+      <h2 className="h2" id={id}>
+        {title}
+      </h2>
+      <div className="spaced-text body-text">{children}</div>
     </Space>
   );
 };
