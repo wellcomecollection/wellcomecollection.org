@@ -24,7 +24,7 @@ module "catalogue-prod" {
 module "catalogue-stage" {
   source = "./stack"
 
-  container_image = "wellcome/catalogue_webapp:${var.container_tag}"
+  container_image = local.stage_app_image
   nginx_image     = local.nginx_image
   env_suffix      = "stage"
 
