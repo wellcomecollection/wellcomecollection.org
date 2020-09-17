@@ -7,141 +7,164 @@
     - docker-compose#v3.5.0:
         build:
           - common
-#          - catalogue
-#          - content
-#          - edge_lambdas
+          - catalogue
+          - content
+          - edge_lambdas
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
-#- wait
-#
-#- label: "test common"
-#  plugins:
-#    - ecr#v2.1.1:
-#        login: true
-#    - docker-compose#v3.5.0:
-#        run: common
-#        command: ["yarn", "test"]
-#        workdir: /usr/src/app/webapp/common
-#
-#- label: "test catalogue"
-#  plugins:
-#    - ecr#v2.1.1:
-#        login: true
-#    - docker-compose#v3.5.0:
-#        run: catalogue
-#        command: ["yarn", "test"]
-#
-#- label: "test content"
-#  plugins:
-#    - ecr#v2.1.1:
-#        login: true
-#    - docker-compose#v3.5.0:
-#        run: content
-#        command: ["yarn", "test"]
-#
-#- label: "test edge_lambdas"
-#  plugins:
-#    - ecr#v2.1.1:
-#        login: true
-#    - docker-compose#v3.5.0:
-#        run: edge_lambdas
-#        command: ["yarn", "test"]
-#
-#- wait
-#
-#- label: "deploy catalogue (ecr image)"
-#  #if: build.branch == "master"
-#  plugins:
-#    - wellcomecollection/aws-assume-role#v0.2.0:
-#        role: "arn:aws:iam::130871440101:role/experience-ci"
-#    - ecr#v2.1.1:
-#        login: true
-#    - docker-compose#v3.5.0:
-#        push:
-#          - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:${BUILDKITE_COMMIT}
-#          - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:latest
-#
-#- label: "deploy catalogue (bundle analysis)"
-#  if: build.branch == "master"
-#  plugins:
-#
-#    - ecr#v2.1.1:
-#        login: true
-#    - docker-compose#v3.5.0:
-#        run: catalogue
-#        command: [ "yarn", "deploy_bundle_analysis" ]
-#
-#- label: "deploy content (ecr image)"
-#  #if: build.branch == "master"
-#  plugins:
-#    - wellcomecollection/aws-assume-role#v0.2.0:
-#        role: "arn:aws:iam::130871440101:role/experience-ci"
-#    - ecr#v2.1.1:
-#        login: true
-#    - docker-compose#v3.5.0:
-#        push:
-#          - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:${BUILDKITE_COMMIT}
-#          - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:latest
-#
-#- label: "deploy content (bundle analysis)"
-#  if: build.branch == "master"
-#  plugins:
-#    - ecr#v2.1.1:
-#        login: true
-#    - docker-compose#v3.5.0:
-#        run: content
-#        command: [ "yarn", "deploy_bundle_analysis" ]
-#
-#- label: "deploy dash"
-#  if: build.branch == "master"
-#  plugins:
-#    - ecr#v2.1.1:
-#        login: true
-#    - docker-compose#v3.5.0:
-#        run: dash
-#        command: [ "yarn", "deploy" ]
-#
-#- label: "deploy cardigan"
-#  if: build.branch == "master"
-#  plugins:
-#    - ecr#v2.1.1:
-#        login: true
-#    - docker-compose#v3.5.0:
-#        run: cardigan
-#        command: [ "yarn", "deploy" ]
-#
-#- label: "deploy dash"
-#  if: build.branch == "master"
-#  plugins:
-#    - ecr#v2.1.1:
-#        login: true
-#    - docker-compose#v3.5.0:
-#        run: dash
-#        command: [ "yarn", "deploy" ]
-#
-#- label: "deploy toggles"
-#  if: build.branch == "master"
-#  plugins:
-#    - ecr#v2.1.1:
-#        login: true
-#    - docker-compose#v3.5.0:
-#        run: toggles
-#        command: [ "yarn", "deploy" ]
-#
-#- label: "deploy pa11y"
-#  if: build.branch == "master"
-#  plugins:
-#    - ecr#v2.1.1:
-#        login: true
-#    - docker-compose#v3.5.0:
-#        run: pa11y
-#        command: [ "yarn", "deploy" ]
-#
-#- label: "deploy edge_lambdas"
-#  if: build.branch == "master"
-#  plugins:
-#    - ecr#v2.1.1:
-#        login: true
-#    - docker-compose#v3.5.0:
-#        run: edge_lambdas
-#        command: [ "yarn", "deploy" ]
+- wait
+
+- label: "test common"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        run: common
+        command: ["yarn", "test"]
+        workdir: /usr/src/app/webapp/common
+
+- label: "test catalogue"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        run: catalogue
+        command: ["yarn", "test"]
+
+- label: "test content"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        run: content
+        command: ["yarn", "test"]
+
+- label: "test edge_lambdas"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        run: edge_lambdas
+        command: ["yarn", "test"]
+
+- wait
+
+- label: "deploy catalogue (ecr image)"
+  #if: build.branch == "master"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.0:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        push:
+          - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:${BUILDKITE_COMMIT}
+          - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:latest
+
+- label: "deploy catalogue (bundle analysis)"
+  #if: build.branch == "master"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        run: catalogue
+        command: [ "yarn", "deploy_bundle_analysis" ]
+
+- label: "deploy content (ecr image)"
+  #if: build.branch == "master"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.0:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        push:
+          - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:${BUILDKITE_COMMIT}
+          - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:latest
+
+- label: "deploy content (bundle analysis)"
+  #if: build.branch == "master"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        run: content
+        command: [ "yarn", "deploy_bundle_analysis" ]
+
+- label: "deploy dash"
+  #if: build.branch == "master"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        run: dash
+        command: [ "yarn", "deploy" ]
+
+- label: "deploy cardigan"
+  #if: build.branch == "master"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        run: cardigan
+        command: [ "yarn", "deploy" ]
+
+- label: "deploy dash"
+  #if: build.branch == "master"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        run: dash
+        command: [ "yarn", "deploy" ]
+
+- label: "deploy toggles"
+  #if: build.branch == "master"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        run: toggles
+        command: [ "yarn", "deploy" ]
+
+- label: "deploy pa11y"
+  #if: build.branch == "master"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        run: pa11y
+        command: [ "yarn", "deploy" ]
+
+- label: "deploy edge_lambdas"
+  #if: build.branch == "master"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        run: edge_lambdas
+        command: [ "yarn", "deploy" ]
