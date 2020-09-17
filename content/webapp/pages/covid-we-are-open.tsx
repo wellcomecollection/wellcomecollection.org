@@ -6,7 +6,10 @@ import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import CovidTOC from '@weco/common/views/components/CovidTOC/CovidTOC';
 import CovidSafetyMeasure from '@weco/common/views/components/CovidSafetyMeasure/CovidSafetyMeasure';
 import CovidInfoBox from '@weco/common/views/components/CovidInfoBox/CovidInfoBox';
-import { CovidIconsEnum } from '@weco/common/views/components/CovidIcons/CovidIcons';
+import {
+  WeAreGoodToGo,
+  CovidIconsEnum,
+} from '@weco/common/views/components/CovidIcons/CovidIcons';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 
 const CovidWeAreOpenPage = () => {
@@ -49,9 +52,10 @@ const CovidWeAreOpenPage = () => {
             >
               <div className="body-text spaced-text">
                 <p className="font-hnm font-size-3">
-                  We can’t wait to welcome you back. To make your visit as safe
-                  and enjoyable as possible, we’ve made a few changes. For
-                  example, you will need a ticket to enter the building.
+                  We can’t wait to welcome you back from 7 October. To make your
+                  visit as safe and enjoyable as possible, we’ve made a few
+                  changes. For example, you will need a ticket to enter the
+                  building.
                 </p>
               </div>
             </div>
@@ -121,45 +125,49 @@ const CovidWeAreOpenPage = () => {
 
                 <h3>What’s open?</h3>
                 <p>
-                  Being Human, Reading Room and library are open, and our café
-                  is serving pre-packaged food. The shop will be smaller to give
-                  space for spread out café seating.
+                  <ul>
+                    <li>
+                      Being Human permanent gallery, the Reading Room, café, and
+                      library are open from 7 October.
+                    </li>
+                    <li>Medicine Man will be opening from 10 November.</li>
+                    <li>
+                      The shop and Wellcome Kitchen are closed to make space for
+                      more café seating.
+                    </li>
+                  </ul>
                 </p>
 
                 <h3>Opening hours</h3>
                 <p>
-                  Being Human, Reading Room and library are open, and our café
-                  is serving pre-packaged food. The shop will be smaller to give
-                  space for spread out café seating.
+                  Wellcome Collection is open Tuesday-Sunday, 10-5pm, and until
+                  7pm on Thursdays.
                 </p>
 
                 <h3>Facilities and access</h3>
                 <p>
-                  You’ll find accessible step-free routes to all of our
-                  exhibits, with priority use of the lifts. To help everyone
-                  keep their distance, you’ll only be able to share the lift
-                  with people from your household or bubble.
-                </p>
-
-                <p>
-                  All our toilets are open as usual. There are accessible
-                  toilets on every floor and a Changing Places toilet on the
-                  ground floor, all of which are regularly cleaned and
-                  disinfected.
-                </p>
-
-                <p>
-                  Shared accessible resources, like magnifiers and large-print
-                  guides, are still available, but our team are collecting and
-                  cleaning them between each use. If you’d like to use them,
-                  just ask.
-                </p>
-
-                <p>
-                  There might be queues from time to time, while we check
-                  tickets and make sure everyone’s got plenty of space. If
-                  queuing is not accessible for you, please speak to a member of
-                  staff and we can make alternative arrangements with you.
+                  <ul>
+                    <li>All our toilets are open as usual.</li>
+                    <li>
+                      There are accessible toilets on every floor and a Changing
+                      Places toilet on the ground floor.
+                    </li>
+                    <li>
+                      You’ll find accessible step-free routes to all of our
+                      exhibits, with priority use of the lifts.
+                    </li>
+                    <li>
+                      Shared accessible resources, like magnifiers and
+                      large-print guides, are still available, but our team are
+                      collecting and cleaning them between each use. If you’d
+                      like to use them, just ask.
+                    </li>
+                    <li>
+                      There might be queues from time to time. If queuing is not
+                      accessible for you, please speak to a member of staff and
+                      we can make alternative arrangements with you.
+                    </li>
+                  </ul>
                 </p>
 
                 <p>
@@ -168,14 +176,25 @@ const CovidWeAreOpenPage = () => {
 
                 <h3>Storing your belongings</h3>
                 <p>
-                  We won’t be operating our cloakroom, but you will be able to
-                  use lockers to store belongings. Please bring as little as
-                  possible. Library users will still be able to bring laptops,
-                  pencils and study materials into the library in clear plastic
-                  bags.
+                  <ul>
+                    <li>
+                      You will be able to use lockers on level 0 to store
+                      belongings.
+                    </li>
+                    <li>
+                      Library users will still be able to bring laptops, pencils
+                      and study materials into the library in clear plastic
+                      bags.
+                    </li>
+                    <li>
+                      Some of the lockers will be large enough for fold-up
+                      bicycles, however we won’t be able to store luggage.
+                    </li>
+                    <li>
+                      There is a buggy drop-off inside the building on arrival.{' '}
+                    </li>
+                  </ul>
                 </p>
-
-                <p>There is a buggy drop-off near the entrance.</p>
 
                 <p>
                   <a href="#">Find out more</a>
@@ -183,22 +202,20 @@ const CovidWeAreOpenPage = () => {
 
                 <h3>Getting here</h3>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam
-                  eaque, accusantium consequatur dolor, est ducimus molestiae
-                  aperiam, repellat maxime quibusdam esse impedit quo sit
-                  ratione perferendis nostrum optio deleniti iure.
+                  <strong>Please plan your journey in advance</strong>,
+                  especially if you’re using public transport. Find out the best
+                  way to get to us by Tube or train with{' '}
+                  <a href="https://tfl.gov.uk/plan-a-journey/">
+                    Transport for London’s Journey Planner.
+                  </a>
                 </p>
 
                 <h3>Tours and events</h3>
                 <p>
-                  Medicine Man is closed and there currently aren’t any Daily
-                  guided tours of exhibitions and galleries including Access or
-                  Perspective Tours.
-                </p>
-
-                <p>
-                  All our events are currently online.{' '}
-                  <a href="#">Find out more about what’s on</a>
+                  There currently aren’t any daily guided tours of exhibitions
+                  and galleries including Access or Perspective Tours. All our
+                  events are currently online.{' '}
+                  <a href="/whats-on">Find out more about what’s on</a>.
                 </p>
 
                 <h2 id="keeping-you-safe">Keeping you safe</h2>
@@ -249,25 +266,33 @@ const CovidWeAreOpenPage = () => {
                       ticketing system.{' '}
                       <a href="/covid-book-your-ticket">Book your ticket</a>
                     </li>
-                    <li>
-                      Taking extra care with cleaning and closing every Monday
-                      for a deep clean
-                    </li>
+                    <li>Taking extra care with increased cleaning</li>
                     <li>Providing hand sanitiser dispensers</li>
                     <li>
                       Providing our staff with personal protective equipment
                       (PPE)
                     </li>
                     <li>
-                      Marking flexible, signposted routes around the building to
-                      help you explore with plenty of space
+                      Marking signposted routes around the building to help you
+                      explore with plenty of space
                     </li>
                     <li>Cleaning our accessible resources regularly</li>
                     <li>
                       Spreading out café seating and serving pre-packed food
                     </li>
+                    <li>Quarantining books in the library and Reading Room</li>
+                    <li>
+                      Removing shared headphones on audio exhibits. Instead you
+                      will be able to use your own earphones which have a
+                      standard jack
+                    </li>
+                    <li>Providing optional mask-exempt badges</li>
                   </ul>
                 </p>
+
+                <div style={{ width: '100px' }}>
+                  <WeAreGoodToGo />
+                </div>
               </div>
             </div>
           </div>
