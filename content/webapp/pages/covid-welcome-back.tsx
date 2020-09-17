@@ -13,12 +13,12 @@ import {
 } from '@weco/common/views/components/CovidIcons/CovidIcons';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 
-const CovidWeAreOpenPage = () => {
+const CovidWelcomeBackPage = () => {
   return (
     <PageLayout
       title={'Welcome back'}
       description={`Wellcome Collection is open`}
-      url={{ pathname: `/covid-we-are-open` }}
+      url={{ pathname: `/covid-welcome-back` }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'website'}
       siteSection={'visit-us'}
@@ -313,4 +313,4 @@ const CovidWeAreOpenPage = () => {
   );
 };
 
-export default CovidWeAreOpenPage;
+export default CovidWelcomeBackPage;

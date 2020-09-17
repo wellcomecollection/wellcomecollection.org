@@ -45,8 +45,8 @@ module.exports = app
     server.use(bodyParser());
 
     renderIfToggleOn(
-      '/covid-we-are-open',
-      '/covid-we-are-open',
+      '/covid-welcome-back',
+      '/covid-welcome-back',
       router,
       app,
       {},
