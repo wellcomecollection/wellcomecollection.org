@@ -60,7 +60,7 @@
 - label: "deploy catalogue (ecr image)"
   #if: build.branch == "master"
   plugins:
-    - wellcomecollection/aws-assume-role#v0.2.0:
+    - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
     - ecr#v2.1.1:
         login: true
@@ -79,11 +79,15 @@
     - docker-compose#v3.5.0:
         run: catalogue
         command: [ "yarn", "deploy_bundle_analysis" ]
+        env:
+          - AWS_ACCESS_KEY_ID
+          - AWS_SECRET_ACCESS_KEY
+          - AWS_SESSION_TOKEN
 
 - label: "deploy content (ecr image)"
   #if: build.branch == "master"
   plugins:
-    - wellcomecollection/aws-assume-role#v0.2.0:
+    - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
     - ecr#v2.1.1:
         login: true
@@ -102,6 +106,10 @@
     - docker-compose#v3.5.0:
         run: content
         command: [ "yarn", "deploy_bundle_analysis" ]
+        env:
+          - AWS_ACCESS_KEY_ID
+          - AWS_SECRET_ACCESS_KEY
+          - AWS_SESSION_TOKEN
 
 - label: "deploy dash"
   #if: build.branch == "master"
@@ -113,6 +121,10 @@
     - docker-compose#v3.5.0:
         run: dash
         command: [ "yarn", "deploy" ]
+        env:
+          - AWS_ACCESS_KEY_ID
+          - AWS_SECRET_ACCESS_KEY
+          - AWS_SESSION_TOKEN
 
 - label: "deploy cardigan"
   #if: build.branch == "master"
@@ -124,6 +136,10 @@
     - docker-compose#v3.5.0:
         run: cardigan
         command: [ "yarn", "deploy" ]
+        env:
+          - AWS_ACCESS_KEY_ID
+          - AWS_SECRET_ACCESS_KEY
+          - AWS_SESSION_TOKEN
 
 - label: "deploy dash"
   #if: build.branch == "master"
@@ -135,6 +151,10 @@
     - docker-compose#v3.5.0:
         run: dash
         command: [ "yarn", "deploy" ]
+        env:
+          - AWS_ACCESS_KEY_ID
+          - AWS_SECRET_ACCESS_KEY
+          - AWS_SESSION_TOKEN
 
 - label: "deploy toggles"
   #if: build.branch == "master"
@@ -146,6 +166,10 @@
     - docker-compose#v3.5.0:
         run: toggles
         command: [ "yarn", "deploy" ]
+        env:
+          - AWS_ACCESS_KEY_ID
+          - AWS_SECRET_ACCESS_KEY
+          - AWS_SESSION_TOKEN
 
 - label: "deploy pa11y"
   #if: build.branch == "master"
@@ -157,6 +181,10 @@
     - docker-compose#v3.5.0:
         run: pa11y
         command: [ "yarn", "deploy" ]
+        env:
+          - AWS_ACCESS_KEY_ID
+          - AWS_SECRET_ACCESS_KEY
+          - AWS_SESSION_TOKEN
 
 - label: "deploy edge_lambdas"
   #if: build.branch == "master"
@@ -168,3 +196,7 @@
     - docker-compose#v3.5.0:
         run: edge_lambdas
         command: [ "yarn", "deploy" ]
+        env:
+          - AWS_ACCESS_KEY_ID
+          - AWS_SECRET_ACCESS_KEY
+          - AWS_SESSION_TOKEN
