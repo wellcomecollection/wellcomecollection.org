@@ -24,6 +24,32 @@ module "catalogue-service-23062020" {
   subnets = local.private_subnets
 }
 
+module "catalogue-service" {
+  source = "../../../infrastructure/terraform/modules/service"
+
+  namespace    = "catalogue-23062020-${var.env_suffix}"
+
+  namespace_id = var.namespace_id
+  cluster_arn  = var.cluster_arn
+
+  healthcheck_path = "/management/healthcheck"
+
+  container_image = var.container_image
+  container_port  = 3000
+
+  security_group_ids = [
+    var.interservice_security_group_id,
+    var.service_egress_security_group_id
+  ]
+
+  env_vars = {
+    PROD_SUBDOMAIN = var.subdomain
+  }
+
+  vpc_id  = local.vpc_id
+  subnets = local.private_subnets
+}
+
 locals {
   target_group_arn = module.catalogue-service-23062020.target_group_arn
 }

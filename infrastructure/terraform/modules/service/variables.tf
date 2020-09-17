@@ -14,11 +14,6 @@ variable "container_port" {
   type = number
 }
 
-variable "nginx_container_image" {}
-variable "nginx_container_port" {
-  type = number
-}
-
 variable "security_group_ids" {
   type = list(string)
 }
@@ -66,3 +61,19 @@ variable "desired_task_count" {
 }
 
 variable "healthcheck_path" {}
+
+variable "use_fargate_spot" {
+  default = false
+}
+
+variable "deployment_service_name" {
+  type        = string
+  description = "Used by weco-deploy to determine which services to deploy, if unset the value used will be var.name"
+  default     = ""
+}
+
+variable "deployment_service_env" {
+  type        = string
+  description = "Used by weco-deploy to determine which services to deploy in conjunction with deployment_service_name"
+  default     = "prod"
+}
