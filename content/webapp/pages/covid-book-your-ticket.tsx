@@ -4,6 +4,7 @@ import { grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import CovidInfoBox from '@weco/common/views/components/CovidInfoBox/CovidInfoBox';
+import EventbriteButton from '@weco/common/views/components/EventbriteButton/EventbriteButton';
 
 const CovidWeAreOpenPage = () => {
   return (
@@ -83,9 +84,9 @@ const CovidWeAreOpenPage = () => {
                           Find out more about booking your tickets
                         </a>
                       </p>
+                      <EventbriteButton event={{ eventbriteId: '' }} />
                     </>
                   }
-                  eventbriteId={''}
                 />
               </Space>
 
@@ -115,9 +116,9 @@ const CovidWeAreOpenPage = () => {
                         Find out more about booking museum and library tickets
                       </a>
                     </p>
+                    <EventbriteButton event={{ eventbriteId: '' }} />
                   </>
                 }
-                eventbriteId={''}
               />
             </Space>
           </div>

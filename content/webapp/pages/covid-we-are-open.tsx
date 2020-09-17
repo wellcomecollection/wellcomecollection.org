@@ -4,6 +4,10 @@ import { grid, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import CovidTOC from '@weco/common/views/components/CovidTOC/CovidTOC';
+import CovidSafetyMeasure from '@weco/common/views/components/CovidSafetyMeasure/CovidSafetyMeasure';
+import CovidInfoBox from '@weco/common/views/components/CovidInfoBox/CovidInfoBox';
+import { CovidIconsEnum } from '@weco/common/views/components/CovidIcons/CovidIcons';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 
 const CovidWeAreOpenPage = () => {
   return (
@@ -70,15 +74,50 @@ const CovidWeAreOpenPage = () => {
               >
                 <CovidTOC
                   links={[
-                    { text: 'Book your ticket', url: '#' },
-                    { text: 'Plan your visit', url: '#' },
-                    { text: 'Keeping you safe', url: '#' },
+                    { text: 'Book your ticket', url: '#book-your-ticket' },
+                    { text: 'Plan your visit', url: '#plan-your-visit' },
+                    { text: 'Keeping you safe', url: '#keeping-you-safe' },
                   ]}
                 />
               </Space>
 
               <div className="body-text spaced-text">
-                <h2>Plan a safe visit</h2>
+                <h2
+                  id="book-your-ticket"
+                  aria-hidden
+                  className="visually-hidden"
+                >
+                  Book your ticket
+                </h2>
+                <CovidInfoBox
+                  title={'Book your ticket'}
+                  body={
+                    <>
+                      <p>
+                        <ul>
+                          <li>
+                            It’s still free to visit our museum and library.
+                            You’ll just need to choose a time slot and book a
+                            ticket before you arrive.
+                          </li>
+                          <li>
+                            You can explore the museum for as long as you’d
+                            like, but library sessions are now limited to either
+                            a morning or an afternoon. Library tickets include
+                            museum entry, too.
+                          </li>
+                        </ul>
+                      </p>
+                      <ButtonSolidLink
+                        icon="ticket"
+                        text="Book a ticket"
+                        link="/covid-book-your-ticket"
+                      />
+                    </>
+                  }
+                />
+
+                <h2 id="plan-your-visit">Plan your visit</h2>
 
                 <h3>What’s open?</h3>
                 <p>
@@ -160,6 +199,74 @@ const CovidWeAreOpenPage = () => {
                 <p>
                   All our events are currently online.{' '}
                   <a href="#">Find out more about what’s on</a>
+                </p>
+
+                <h2 id="keeping-you-safe">Keeping you safe</h2>
+                <p>
+                  We’ve made a few changes to ensure you have a safe and
+                  enjoyable visit.{' '}
+                </p>
+
+                <h3>What you need to do</h3>
+
+                <CovidSafetyMeasure
+                  title={'Clean your hands regularly'}
+                  description={
+                    'As well as our usual hand-washing facilities, you’ll find hand sanitiser dispensers throughout the museum and library.'
+                  }
+                  icon={CovidIconsEnum.washYourHands}
+                />
+
+                <CovidSafetyMeasure
+                  title={'Wear a face covering'}
+                  description={
+                    'Keep your nose and mouth covered, unless you’re exempt.'
+                  }
+                  icon={CovidIconsEnum.wearAMask}
+                />
+
+                <CovidSafetyMeasure
+                  title={'Keep your distance'}
+                  description={
+                    'Please stay two metres away from people not in your household or bubble.'
+                  }
+                  icon={CovidIconsEnum.keepYourDistance}
+                />
+
+                <CovidSafetyMeasure
+                  title={'Stay at home if you have Covid-19 symptoms'}
+                  description={
+                    'If you have a temperature or any other Covid-19 symptoms, please stay at home.'
+                  }
+                  icon={CovidIconsEnum.stayAtHome}
+                />
+
+                <h3>How we’re keeping you safe</h3>
+                <p>
+                  <ul>
+                    <li>
+                      Limiting the number of visitors each day with a free
+                      ticketing system.{' '}
+                      <a href="/covid-book-your-ticket">Book your ticket</a>
+                    </li>
+                    <li>
+                      Taking extra care with cleaning and closing every Monday
+                      for a deep clean
+                    </li>
+                    <li>Providing hand sanitiser dispensers</li>
+                    <li>
+                      Providing our staff with personal protective equipment
+                      (PPE)
+                    </li>
+                    <li>
+                      Marking flexible, signposted routes around the building to
+                      help you explore with plenty of space
+                    </li>
+                    <li>Cleaning our accessible resources regularly</li>
+                    <li>
+                      Spreading out café seating and serving pre-packed food
+                    </li>
+                  </ul>
                 </p>
               </div>
             </div>
