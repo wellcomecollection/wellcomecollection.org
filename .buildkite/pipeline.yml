@@ -1,6 +1,6 @@
 - label: ":docker: Build"
   plugins:
-    - wellcomecollection/aws-assume-role#v0.2.0:
+    - wellcomecollection/aws-assume-role# v0.2.1:
         role: "arn:aws:iam::130871440101:role/experience-ci"
     - ecr#v2.1.1:
         login: true
