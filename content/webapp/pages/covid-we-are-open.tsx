@@ -170,10 +170,6 @@ const CovidWeAreOpenPage = () => {
                   </ul>
                 </p>
 
-                <p>
-                  <a href="#">Find out more</a>
-                </p>
-
                 <h3>Storing your belongings</h3>
                 <p>
                   <ul className="no-margin">
@@ -194,10 +190,6 @@ const CovidWeAreOpenPage = () => {
                       There is a buggy drop-off inside the building on arrival.{' '}
                     </li>
                   </ul>
-                </p>
-
-                <p>
-                  <a href="#">Find out more</a>
                 </p>
 
                 <h3>Getting here</h3>
@@ -229,7 +221,11 @@ const CovidWeAreOpenPage = () => {
                 <CovidSafetyMeasure
                   title={'Clean your hands regularly'}
                   description={
-                    'As well as our usual hand-washing facilities, you’ll find hand sanitiser dispensers throughout the museum and library.'
+                    <span>
+                      As well as our usual hand-washing facilities, you’ll find
+                      hand sanitiser dispensers throughout the museum and
+                      library.
+                    </span>
                   }
                   icon={CovidIconsEnum.washYourHands}
                 />
@@ -237,7 +233,13 @@ const CovidWeAreOpenPage = () => {
                 <CovidSafetyMeasure
                   title={'Wear a face covering'}
                   description={
-                    'Keep your nose and mouth covered, unless you’re exempt.'
+                    <span>
+                      Keep your nose and mouth covered, unless you’re{' '}
+                      <a href="https://www.gov.uk/government/publications/face-coverings-when-to-wear-one-and-how-to-make-your-own#when-you-do-not-need-to-wear-a-face-covering">
+                        exempt
+                      </a>
+                      .
+                    </span>
                   }
                   icon={CovidIconsEnum.wearAMask}
                 />
@@ -245,7 +247,10 @@ const CovidWeAreOpenPage = () => {
                 <CovidSafetyMeasure
                   title={'Keep your distance'}
                   description={
-                    'Please stay two metres away from people not in your household or bubble.'
+                    <span>
+                      Please stay two metres away from people not in your
+                      household or bubble.
+                    </span>
                   }
                   icon={CovidIconsEnum.keepYourDistance}
                 />
@@ -253,7 +258,13 @@ const CovidWeAreOpenPage = () => {
                 <CovidSafetyMeasure
                   title={'Stay at home if you have Covid-19 symptoms'}
                   description={
-                    'If you have a temperature or any other Covid-19 symptoms, please stay at home.'
+                    <span>
+                      If you have a temperature or any other{' '}
+                      <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/symptoms/">
+                        Covid-19 symptoms
+                      </a>
+                      , please stay at home.
+                    </span>
                   }
                   icon={CovidIconsEnum.stayAtHome}
                 />
