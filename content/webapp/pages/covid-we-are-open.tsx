@@ -3,7 +3,7 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import CovidInfoCard from '@weco/common/views/components/CovidInfoCard/CovidInfoCard';
+import CovidTOC from '@weco/common/views/components/CovidTOC/CovidTOC';
 
 const CovidWeAreOpenPage = () => {
   return (
@@ -51,83 +51,6 @@ const CovidWeAreOpenPage = () => {
                 </p>
               </div>
             </div>
-
-            <Space
-              v={{ size: 'xl', properties: ['margin-top'] }}
-              className={grid({
-                s: 12,
-                m: 12,
-                l: 10,
-                shiftL: 1,
-                xl: 10,
-                shiftXL: 1,
-              })}
-            >
-              <div className="grid">
-                <Space
-                  v={{ size: 'l', properties: ['margin-bottom'] }}
-                  className={classNames({
-                    [grid({ s: 12, m: 6, l: 6, xl: 6 })]: true,
-                  })}
-                >
-                  <CovidInfoCard
-                    icon={'bookATicket'}
-                    title={'Book your ticket'}
-                    description={
-                      <>
-                        <p>
-                          It’s still free to visit our museum and library.
-                          You’ll just need to choose a time slot and book a
-                          ticket before you arrive.
-                        </p>
-                        <p>
-                          This is so we can manage visitor numbers and allow
-                          plenty of space for social distancing.
-                        </p>
-                        <p>
-                          You can explore the museum for as long as you’d like,
-                          but library sessions are now limited to either a
-                          morning or an afternoon. Library tickets include
-                          museum entry, too.
-                        </p>
-                      </>
-                    }
-                    link={'/covid-book-your-ticket'}
-                    linkText={'Book your ticket'}
-                  />
-                </Space>
-                <Space
-                  v={{ size: 'l', properties: ['margin-bottom'] }}
-                  className={classNames({
-                    [grid({ s: 12, m: 6, l: 6, xl: 6 })]: true,
-                  })}
-                >
-                  <CovidInfoCard
-                    icon={'wearAMask'}
-                    title={'Keeping you safe'}
-                    description={
-                      <>
-                        <p>
-                          Keep your nose and mouth covered inside the building,
-                          unless you’re unable to. If you have a temperature or
-                          any other Covid-19 symptoms, please stay at home.
-                        </p>
-                        <p>
-                          Inside, please go with the flow and follow marked
-                          routes, using the stairs if you can.
-                        </p>
-                        <p>
-                          We’re taking extra measures to keep you safe, such as
-                          closing on Mondays for a deep clean.
-                        </p>
-                      </>
-                    }
-                    link={'/covid-keeping-you-safe'}
-                    linkText={'Keeping you safe'}
-                  />
-                </Space>
-              </div>
-            </Space>
           </div>
 
           <div className="grid">
@@ -142,6 +65,18 @@ const CovidWeAreOpenPage = () => {
                 shiftXL: 2,
               })}
             >
+              <Space
+                v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
+              >
+                <CovidTOC
+                  links={[
+                    { text: 'Book your ticket', url: '#' },
+                    { text: 'Plan your visit', url: '#' },
+                    { text: 'Keeping you safe', url: '#' },
+                  ]}
+                />
+              </Space>
+
               <div className="body-text spaced-text">
                 <h2>Plan a safe visit</h2>
 
