@@ -207,6 +207,5 @@
   plugins:
     - docker#v3.5.0:
         image: wellcome/weco-deploy:5.0.17
-        propagate-environment: true
         workdir: /repo
-  command: "prepare --from-label latest --description $BUILDKITE_BUILD_URL"
+        command: ["prepare", "--from-label", "latest", "--description", $BUILDKITE_BUILD_URL]
