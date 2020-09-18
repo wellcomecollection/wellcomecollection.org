@@ -30,6 +30,8 @@ export type SearchFiltersSharedProps = {|
   productionDatesFrom: ?string,
   productionDatesTo: ?string,
   workTypeInUrlArray: string[],
+  inputImagesColor: ?string,
+  setInputImagesColor: (value: string) => void,
 |};
 
 const SearchFilters = ({
@@ -39,11 +41,17 @@ const SearchFilters = ({
   changeHandler,
 }: Props) => {
   const workTypeInUrlArray = worksRouteProps.workType || [];
-  const { productionDatesFrom, productionDatesTo } = worksRouteProps;
+  const {
+    productionDatesFrom,
+    productionDatesTo,
+    imagesColor,
+    search: searchType,
+  } = worksRouteProps;
 
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
+  const [inputImagesColor, setInputImagesColor] = useState(imagesColor);
   const { unfilteredSearchResults, archivesPrototype } = useContext(
     TogglesContext
   );
@@ -76,7 +84,11 @@ const SearchFilters = ({
     if (productionDatesTo !== inputDateTo) {
       setInputDateTo(productionDatesTo);
     }
-  }, [productionDatesFrom, productionDatesTo]);
+
+    if (imagesColor !== inputImagesColor) {
+      setInputImagesColor(imagesColor);
+    }
+  }, [productionDatesFrom, productionDatesTo, imagesColor]);
 
   useEffect(() => {
     if (
@@ -96,7 +108,13 @@ const SearchFilters = ({
     }
   }, [inputDateTo]);
 
-  const sharedProps = {
+  useEffect(() => {
+    if (imagesColor !== inputImagesColor && searchType === 'images') {
+      changeHandler();
+    }
+  }, [inputImagesColor]);
+
+  const sharedProps: SearchFiltersSharedProps = {
     searchForm,
     worksRouteProps,
     workTypeAggregations,
@@ -109,6 +127,8 @@ const SearchFilters = ({
     productionDatesFrom,
     productionDatesTo,
     workTypeInUrlArray,
+    inputImagesColor,
+    setInputImagesColor,
   };
 
   return (

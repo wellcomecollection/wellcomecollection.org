@@ -16,6 +16,12 @@ module.exports = {
         'Include archives in search results and view prototypes of breadcrumbs and archive tree on work page.',
     },
     {
+      id: 'enableColorFiltering',
+      title: 'Enable filtering images by color',
+      defaultValue: false,
+      description: 'Enable filtering images by color',
+    },
+    {
       id: 'unfilteredSearchResults',
       title: 'Entire catalogue search',
       defaultValue: false,

@@ -45,6 +45,7 @@ export type CatalogueImagesApiProps = {|
   query: ?string,
   page: ?number,
   'locations.license': ?(string[]),
+  color: ?string,
 |};
 
 export function worksRouteToApiUrl(

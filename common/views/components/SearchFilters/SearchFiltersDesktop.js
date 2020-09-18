@@ -1,5 +1,6 @@
 // @flow
 
+import { useContext } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import { worksLink } from '../../../services/catalogue/routes';
 import Space from '../styled/Space';
@@ -10,7 +11,12 @@ import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 // $FlowFixMe (tsx)
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import NextLink from 'next/link';
+import dynamic from 'next/dynamic';
+import TogglesContext from '../TogglesContext/TogglesContext';
 import { type SearchFiltersSharedProps } from './SearchFilters';
+
+// $FlowFixMe (tsx)
+const ColorPicker = dynamic(() => import('../ColorPicker/ColorPicker'));
 
 const CancelFilter = ({ text }: { text: string }) => {
   return (
@@ -52,9 +58,14 @@ const SearchFiltersDesktop = ({
   productionDatesFrom,
   productionDatesTo,
   workTypeInUrlArray,
+  inputImagesColor,
+  setInputImagesColor,
 }: SearchFiltersSharedProps) => {
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
+  const { enableColorFiltering } = useContext(TogglesContext);
+  const showColorFilter =
+    enableColorFiltering && worksRouteProps.search === 'images';
 
   return (
     <>
@@ -149,6 +160,22 @@ const SearchFiltersDesktop = ({
               })}
             </ul>
           </DropdownButton>
+        )}
+        {showColorFilter && (
+          <Space
+            h={{ size: 's', properties: ['margin-left'] }}
+            className={classNames({
+              [font('hnl', 5)]: true,
+            })}
+          >
+            <DropdownButton label={'Colors'} isInline={true}>
+              <ColorPicker
+                name="images.color"
+                color={inputImagesColor}
+                onChangeColor={setInputImagesColor}
+              />
+            </DropdownButton>
+          </Space>
         )}
       </Space>
 
