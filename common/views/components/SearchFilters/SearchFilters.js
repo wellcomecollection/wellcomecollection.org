@@ -81,7 +81,7 @@ const SearchFilters = ({
     if (productionDatesTo !== inputDateTo) {
       setInputDateTo(productionDatesTo);
     }
-  }, [productionDatesFrom, productionDatesTo, imagesColor]);
+  }, [productionDatesFrom, productionDatesTo]);
 
   useEffect(() => {
     if (
