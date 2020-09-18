@@ -6,59 +6,59 @@
         login: true
     - docker-compose#v3.5.0:
         build:
-          - common
+#          - common
           - catalogue
           - content
-          - edge_lambdas
+#          - edge_lambdas
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
-- wait
-
-- label: "test common"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: common
-        command: ["yarn", "test"]
-        workdir: /usr/src/app/webapp/common
-
-- label: "test catalogue"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: catalogue
-        command: ["yarn", "test"]
-
-- label: "test content"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: content
-        command: ["yarn", "test"]
-
-- label: "test edge_lambdas"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: edge_lambdas
-        command: ["yarn", "test"]
+#- wait
+#
+#- label: "test common"
+#  plugins:
+#    - wellcomecollection/aws-assume-role#v0.2.2:
+#        role: "arn:aws:iam::130871440101:role/experience-ci"
+#    - ecr#v2.1.1:
+#        login: true
+#    - docker-compose#v3.5.0:
+#        run: common
+#        command: ["yarn", "test"]
+#        workdir: /usr/src/app/webapp/common
+#
+#- label: "test catalogue"
+#  plugins:
+#    - wellcomecollection/aws-assume-role#v0.2.2:
+#        role: "arn:aws:iam::130871440101:role/experience-ci"
+#    - ecr#v2.1.1:
+#        login: true
+#    - docker-compose#v3.5.0:
+#        run: catalogue
+#        command: ["yarn", "test"]
+#
+#- label: "test content"
+#  plugins:
+#    - wellcomecollection/aws-assume-role#v0.2.2:
+#        role: "arn:aws:iam::130871440101:role/experience-ci"
+#    - ecr#v2.1.1:
+#        login: true
+#    - docker-compose#v3.5.0:
+#        run: content
+#        command: ["yarn", "test"]
+#
+#- label: "test edge_lambdas"
+#  plugins:
+#    - wellcomecollection/aws-assume-role#v0.2.2:
+#        role: "arn:aws:iam::130871440101:role/experience-ci"
+#    - ecr#v2.1.1:
+#        login: true
+#    - docker-compose#v3.5.0:
+#        run: edge_lambdas
+#        command: ["yarn", "test"]
 
 - wait
 
 - label: "deploy catalogue (ecr image)"
-  if: build.branch == "master"
+#  if: build.branch == "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -85,7 +85,7 @@
           - AWS_SESSION_TOKEN
 
 - label: "deploy content (ecr image)"
-  if: build.branch == "master"
+#  if: build.branch == "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -200,3 +200,13 @@
           - AWS_ACCESS_KEY_ID
           - AWS_SECRET_ACCESS_KEY
           - AWS_SESSION_TOKEN
+- wait
+
+- label: prepare release
+  #if: build.branch == "master"
+  plugins:
+    - docker#v3.5.0:
+        image: wellcome/weco-deploy:5.0.17
+        propagate-environment: true
+        workdir: /repo
+  command: "prepare --from-label latest --description $BUILDKITE_BUILD_URL"
