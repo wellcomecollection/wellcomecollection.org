@@ -202,11 +202,16 @@
           - AWS_SESSION_TOKEN
 - wait
 
+- block: ":rocket: Release!"
+  #if: build.branch == "master"
+
+- wait
+
 - label: prepare release
   #if: build.branch == "master"
   plugins:
     - docker#v3.5.0:
-        image: wellcome/weco-deploy:5.0.17
+        image: wellcome/weco-deploy:5.0.18
         workdir: /repo
         mount-ssh-agent: true
         command: ["prepare", "--from-label", "latest", "--description", $BUILDKITE_BUILD_URL]
