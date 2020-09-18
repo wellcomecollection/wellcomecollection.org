@@ -17,7 +17,7 @@ const CovidBodyText = styled.div`
 
 const CovidH4 = styled.h4.attrs({
   className: classNames({
-    [font('hnm', 5)]: true,
+    [font('hnm', 4)]: true,
   }),
 })``;
 
@@ -114,7 +114,12 @@ const CovidWeAreOpenPage = () => {
                       </li>
                     </ul>
                   </p>
-                  <EventbriteButton event={{ eventbriteId: '' }} />
+                  <EventbriteButton
+                    event={{
+                      eventbriteId:
+                        'museum-visit-wellcome-collection-tickets-116206437583',
+                    }}
+                  />
                 </>
               </CovidInfoBox>
 
@@ -242,7 +247,12 @@ const CovidWeAreOpenPage = () => {
                       </li>
                     </ul>
                   </p>
-                  <EventbriteButton event={{ eventbriteId: '' }} />
+                  <EventbriteButton
+                    event={{
+                      eventbriteId:
+                        'library-and-museum-visit-wellcome-collection-tickets-116213402415',
+                    }}
+                  />
                 </CovidBodyText>
               </CovidInfoBox>
 
