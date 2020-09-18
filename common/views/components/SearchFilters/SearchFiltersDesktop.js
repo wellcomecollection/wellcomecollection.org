@@ -168,7 +168,7 @@ const SearchFiltersDesktop = ({
               [font('hnl', 5)]: true,
             })}
           >
-            <DropdownButton label={'Colors'} isInline={true}>
+            <DropdownButton label={'Colours'} isInline={true}>
               <ColorPicker
                 name="images.color"
                 color={inputImagesColor}

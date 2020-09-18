@@ -1,6 +1,6 @@
 // @flow
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import useFocusTrap from '../../../hooks/useFocusTrap';
 import { CSSTransition } from 'react-transition-group';
 import getFocusableElements from '../../../utils/get-focusable-elements';
@@ -8,11 +8,13 @@ import NextLink from 'next/link';
 import { worksLink } from '../../../services/catalogue/routes';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
+import ColorPicker from '../ColorPicker/ColorPicker';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 // $FlowFixMe (tsx)
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+import TogglesContext from '../TogglesContext/TogglesContext';
 import { type SearchFiltersSharedProps } from './SearchFilters';
 import ButtonSolid, {
   SolidButton,
@@ -156,6 +158,8 @@ const SearchFiltersMobile = ({
   productionDatesFrom,
   productionDatesTo,
   workTypeInUrlArray,
+  inputImagesColor,
+  setInputImagesColor,
 }: SearchFiltersSharedProps) => {
   const openFiltersButtonRef = useRef(null);
   const closeFiltersButtonRef = useRef(null);
@@ -215,13 +219,17 @@ const SearchFiltersMobile = ({
       closeFiltersButtonRef.current.focus();
   }
 
+  const { enableColorFiltering } = useContext(TogglesContext);
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
+  const showColorFilter =
+    enableColorFiltering && worksRouteProps.search === 'images';
 
   const activeFiltersCount =
     workTypeInUrlArray.length +
     (productionDatesFrom ? 1 : 0) +
-    (productionDatesTo ? 1 : 0);
+    (productionDatesTo ? 1 : 0) +
+    (inputImagesColor ? 1 : 0);
 
   return (
     <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
@@ -320,6 +328,21 @@ const SearchFiltersMobile = ({
                       );
                     })}
                   </ul>
+                </FilterSection>
+              )}
+              {showColorFilter && (
+                <FilterSection>
+                  <h3 className="h3">Colour</h3>
+                  <Space
+                    as="span"
+                    h={{ size: 'm', properties: ['margin-right'] }}
+                  >
+                    <ColorPicker
+                      name="images.color"
+                      color={inputImagesColor}
+                      onChangeColor={setInputImagesColor}
+                    />
+                  </Space>
                 </FilterSection>
               )}
             </FiltersBody>
