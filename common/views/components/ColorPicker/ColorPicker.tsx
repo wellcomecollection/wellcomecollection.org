@@ -2,10 +2,10 @@
 
 import { FunctionComponent, useState } from 'react';
 import {
-  Color,
+  ColorState,
   CustomPicker,
   CustomPickerInjectedProps,
-  RGBColor,
+  HEXColor,
 } from 'react-color';
 import { Hue, Saturation } from 'react-color/lib/components/common';
 import styled from 'styled-components';
@@ -87,9 +87,7 @@ const PickerComponent: FunctionComponent<CustomPickerInjectedProps & {
       <Hue {...props} pointer={HueHandleWithFilteredProps} />
     </HueWrapper>
     <TextWrapper>
-      <ColorLabel active={!unset}>
-        {unset ? 'None' : `rgb(${props.rgb.r}, ${props.rgb.g}, ${props.rgb.b})`}
-      </ColorLabel>
+      <ColorLabel active={!unset}>{unset ? 'None' : props.hex}</ColorLabel>
       <ClearButton onClick={handleClear}>Clear</ClearButton>
     </TextWrapper>
   </PickerContainer>
@@ -97,9 +95,14 @@ const PickerComponent: FunctionComponent<CustomPickerInjectedProps & {
 
 const WrappedPicker = CustomPicker(PickerComponent);
 
-const randomColor = (): RGBColor => {
-  const rnd = () => Math.floor(Math.random() * 256);
-  return { r: rnd(), g: rnd(), b: rnd() };
+const randomColor = (): HEXColor => {
+  const rnd = () => {
+    const hex = Math.floor(Math.random() * 256).toString(16);
+    return hex.length === 1 ? '0' + hex : hex;
+  };
+  return {
+    hex: `#${rnd()}${rnd()}${rnd()}`,
+  };
 };
 
 const ColorPicker: FunctionComponent<Props> = ({
@@ -107,15 +110,12 @@ const ColorPicker: FunctionComponent<Props> = ({
   color,
   onChangeColor,
 }) => {
-  // Has an internal state because of this issue
-  // https://github.com/casesandberg/react-color/issues/754
-  // TODO a proper solution
-  const [internalState, setInternalState] = useState<Color | undefined>(
-    color ? { hex: color } : randomColor()
+  const [internalState, setInternalState] = useState<HEXColor | ColorState>(
+    typeof color === 'string' ? { hex: color } : randomColor()
   );
   return (
     <>
-      <input type="hidden" name={name} value={color || ''} />
+      <input type="hidden" name={name} value={internalState.hex} />
       <WrappedPicker
         unset={!color}
         handleClear={() => onChangeColor(undefined)}

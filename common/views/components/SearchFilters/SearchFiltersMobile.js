@@ -158,8 +158,7 @@ const SearchFiltersMobile = ({
   productionDatesFrom,
   productionDatesTo,
   workTypeInUrlArray,
-  inputImagesColor,
-  setInputImagesColor,
+  imagesColor,
 }: SearchFiltersSharedProps) => {
   const openFiltersButtonRef = useRef(null);
   const closeFiltersButtonRef = useRef(null);
@@ -229,7 +228,7 @@ const SearchFiltersMobile = ({
     workTypeInUrlArray.length +
     (productionDatesFrom ? 1 : 0) +
     (productionDatesTo ? 1 : 0) +
-    (inputImagesColor ? 1 : 0);
+    (imagesColor ? 1 : 0);
 
   return (
     <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
@@ -338,9 +337,9 @@ const SearchFiltersMobile = ({
                     h={{ size: 'm', properties: ['margin-right'] }}
                   >
                     <ColorPicker
+                      color={imagesColor}
                       name="images.color"
-                      color={inputImagesColor}
-                      onChangeColor={setInputImagesColor}
+                      onChangeColor={changeHandler}
                     />
                   </Space>
                 </FilterSection>

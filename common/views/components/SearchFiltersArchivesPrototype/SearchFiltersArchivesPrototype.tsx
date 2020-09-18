@@ -85,8 +85,7 @@ const SearchFiltersArchivesPrototype = ({
   productionDatesFrom,
   productionDatesTo,
   workTypeInUrlArray,
-  inputImagesColor,
-  setInputImagesColor,
+  imagesColor,
 }: SearchFiltersSharedProps) => {
   const [isActive, setIsActive] = useState(false);
 
@@ -201,8 +200,8 @@ const SearchFiltersArchivesPrototype = ({
               <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
                 <ColorPicker
                   name="images.color"
-                  color={inputImagesColor}
-                  onChangeColor={setInputImagesColor}
+                  color={imagesColor}
+                  onChangeColor={changeHandler}
                 />
               </Space>
             </FilterSection>
