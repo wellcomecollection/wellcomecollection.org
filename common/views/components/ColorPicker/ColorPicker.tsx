@@ -72,6 +72,7 @@ const TextWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 4px;
+  max-width: 190px;
 `;
 
 const PickerComponent: FunctionComponent<CustomPickerInjectedProps & {
