@@ -126,5 +126,6 @@ export function worksPropsToImagesProps(
     query: worksProps.query,
     page: worksProps.page,
     'locations.license': undefined,
+    color: undefined,
   };
 }

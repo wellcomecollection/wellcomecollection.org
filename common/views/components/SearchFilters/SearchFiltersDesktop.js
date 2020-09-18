@@ -1,6 +1,6 @@
 // @flow
 
-import { useContext, Node } from 'react';
+import { useContext, type Node } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '../../../utils/classnames';
 import { worksLink } from '../../../services/catalogue/routes';
