@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 import NextLink from 'next/link';
+import dynamic from 'next/dynamic';
 import { worksLink } from '../../../services/catalogue/routes';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
@@ -12,7 +13,11 @@ import TogglesContext from '../TogglesContext/TogglesContext';
 import ButtonSolid, {
   SolidButton,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import ColorPicker from '../ColorPicker/ColorPicker';
+
+// $FlowFixMe (tsx)
+const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
+  ssr: false,
+});
 
 const ActiveFilters = styled(Space).attrs({
   h: {

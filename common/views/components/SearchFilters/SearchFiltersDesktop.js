@@ -17,7 +17,9 @@ import TogglesContext from '../TogglesContext/TogglesContext';
 import { type SearchFiltersSharedProps } from './SearchFilters';
 
 // $FlowFixMe (tsx)
-const ColorPicker = dynamic(() => import('../ColorPicker/ColorPicker'));
+const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
+  ssr: false,
+});
 
 const ColorSwatch = styled.span`
   display: inline-block;

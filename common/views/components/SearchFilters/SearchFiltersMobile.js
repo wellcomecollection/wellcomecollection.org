@@ -1,6 +1,7 @@
 // @flow
 
 import { useState, useRef, useEffect, useContext } from 'react';
+import dynamic from 'next/dynamic';
 import useFocusTrap from '../../../hooks/useFocusTrap';
 import { CSSTransition } from 'react-transition-group';
 import getFocusableElements from '../../../utils/get-focusable-elements';
@@ -8,7 +9,6 @@ import NextLink from 'next/link';
 import { worksLink } from '../../../services/catalogue/routes';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
-import ColorPicker from '../ColorPicker/ColorPicker';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
@@ -20,6 +20,11 @@ import ButtonSolid, {
   SolidButton,
   // $FlowFixMe (tsx)
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+
+// $FlowFixMe (tsx)
+const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
+  ssr: false,
+});
 
 const ShameButtonWrap = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
