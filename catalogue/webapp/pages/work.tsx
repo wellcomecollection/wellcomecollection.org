@@ -48,6 +48,9 @@ WorkPage.getInitialProps = async (ctx: NextPageContext) => {
         const link = workLink({ id: workResponse.redirectToId });
         Router.push(link.href, link.as);
       }
+      return {
+        statusCode: workResponse.status,
+      };
     }
 
     if (workResponse.type === 'Work' || workResponse.type === 'Error') {
