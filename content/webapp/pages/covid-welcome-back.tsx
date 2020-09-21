@@ -1,6 +1,6 @@
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import { grid, classNames } from '@weco/common/utils/classnames';
+import { grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import CovidTOC from '@weco/common/views/components/CovidTOC/CovidTOC';
@@ -11,7 +11,7 @@ import {
   WeAreGoodToGo,
   CovidIconsEnum,
 } from '@weco/common/views/components/CovidIcons/CovidIcons';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 
 const CovidWelcomeBackPage = () => {
   return (
@@ -104,8 +104,8 @@ const CovidWelcomeBackPage = () => {
                         </li>
                       </ul>
                     </p>
-                    <ButtonSolidLink
-                      icon="ticket"
+                    <ButtonOutlinedLink
+                      icon="arrow"
                       text="Book a ticket"
                       link="/covid-book-your-ticket"
                     />
