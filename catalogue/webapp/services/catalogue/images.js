@@ -10,6 +10,7 @@ import {
   rootUris,
   globalApiOptions,
   queryString,
+  catalogueApiError,
 } from './common';
 
 type GetImagesProps = {|
@@ -47,13 +48,7 @@ export async function getImages({
 
     return (json: CatalogueResultsList<Image> | CatalogueApiError);
   } catch (error) {
-    return {
-      description: '',
-      errorType: 'http',
-      httpStatus: 500,
-      label: 'Internal Server Error',
-      type: 'Error',
-    };
+    return catalogueApiError();
   }
 }
 
@@ -71,7 +66,12 @@ export async function getImage({
   };
   const query = queryString(params);
   let url = `${rootUris[apiOptions.env]}/v2/images/${id}${query}`;
-  const res = await fetch(url);
-  const json = await res.json();
-  return json;
+
+  try {
+    const res = await fetch(url);
+    const json = await res.json();
+    return json;
+  } catch (e) {
+    return catalogueApiError();
+  }
 }
