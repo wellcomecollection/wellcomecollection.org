@@ -156,29 +156,32 @@ const Work = ({ work }: Props) => {
           </Space>
         </div>
       </div>
-        {archivesPrototype && (
-          <div className="container">
-            <div className="grid">
-              <Space
-                v={{
-                  size: 's',
-                  properties: ['padding-top', 'padding-bottom'],
-                }}
-                className={classNames({
-                  [grid({ s: 12 })]: true,
-                })}
-              >
-                <ArchiveBreadcrumb work={work} />
-              </Space>
-            </div>
+      {archivesPrototype && (
+        <div className="container">
+          <div className="grid">
+            <Space
+              v={{
+                size: 's',
+                properties: ['padding-top', 'padding-bottom'],
+              }}
+              className={classNames({
+                [grid({ s: 12 })]: true,
+              })}
+            >
+              <ArchiveBreadcrumb work={work} />
+            </Space>
           </div>
-        )}
+        </div>
+      )}
 
       {archivesPrototype && isInArchive ? (
         <>
           <div className="container">
             <div className="grid">
-              <WorkHeaderPrototype work={work} childManifestsCount={childManifestsCount} />
+              <WorkHeaderPrototype
+                work={work}
+                childManifestsCount={childManifestsCount}
+              />
             </div>
           </div>
           <div className="container">
@@ -205,7 +208,9 @@ const Work = ({ work }: Props) => {
                   })]: true,
                 })}
               >
-                <Space v={{size: 'xl', properties: ['margin-top'], negative: true}}>
+                <Space
+                  v={{ size: 'xl', properties: ['margin-top'], negative: true }}
+                >
                   <WorkDetails
                     work={work}
                     itemUrl={itemUrlObject}
@@ -218,21 +223,24 @@ const Work = ({ work }: Props) => {
             </div>
           </div>
         </>
-        ) : (
-      <>
-        <div className="container">
-          <div className="grid">
-            <WorkHeader work={work} childManifestsCount={childManifestsCount} />
+      ) : (
+        <>
+          <div className="container">
+            <div className="grid">
+              <WorkHeader
+                work={work}
+                childManifestsCount={childManifestsCount}
+              />
+            </div>
           </div>
-        </div>
-        <WorkDetails
-          work={work}
-          itemUrl={itemUrlObject}
-          iiifPresentationManifest={iiifPresentationManifest}
-          childManifestsCount={childManifestsCount}
-          imageCount={imageTotal}
-        />
-      </>
+          <WorkDetails
+            work={work}
+            itemUrl={itemUrlObject}
+            iiifPresentationManifest={iiifPresentationManifest}
+            childManifestsCount={childManifestsCount}
+            imageCount={imageTotal}
+          />
+        </>
       )}
 
       <Layout12>
