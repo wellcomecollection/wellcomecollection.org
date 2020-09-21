@@ -522,12 +522,10 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   }, [work.id]);
 
   useEffect(() => {
-    // Add siblings to each node, that leads to the current work
-    // const basicTree = createCollectionTree(work);
+    // Add siblings to each of the nodes that leads to the current work
     const partOfPromises = archiveAncestorArray
       ? archiveAncestorArray.map(part => getWork({ id: part.id, toggles }))
       : [];
-    // console.log(ancestorArray);
     if (partOfPromises.length > 0) {
       Promise.all(partOfPromises).then(works => {
         let updatedTree;
@@ -546,10 +544,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
         }
       });
     }
-    // else {
-    //   setCollectionTree(basicTree);
-    // }
-  }, [work]); // []
+  }, [work]);
 
   return isInArchive ? (
     <StickyContainer>
