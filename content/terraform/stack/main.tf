@@ -1,7 +1,7 @@
-module "content-service-23062020" {
-  source = "../../../infrastructure/terraform/modules/service_23062020"
+module "content-service-17092020" {
+  source = "../../../infrastructure/terraform/modules/service"
 
-  namespace    = "content-23062020-${var.env_suffix}"
+  namespace    = "content-17092020-${var.env_suffix}"
 
   namespace_id = var.namespace_id
   cluster_arn  = var.cluster_arn
@@ -27,10 +27,13 @@ module "content-service-23062020" {
 
   vpc_id  = local.vpc_id
   subnets = local.private_subnets
+
+  deployment_service_name = "content_webapp"
+  deployment_service_env = var.env_suffix
 }
 
 locals {
-  target_group_arn = module.content-service-23062020.target_group_arn
+  target_group_arn = module.content-service-17092020.target_group_arn
 }
 
 module "path_listener" {
@@ -45,7 +48,7 @@ module "path_listener" {
   priority               = "49998"
 }
 
-# This is used for the static assets served from _next with multiple next apps
+# This is used for the static assets served from _next with multiple next apps
 # See: https://github.com/zeit/next.js#multi-zones
 module "subdomain_listener" {
   source = "../../../infrastructure/terraform/modules/alb_listener_rule"
