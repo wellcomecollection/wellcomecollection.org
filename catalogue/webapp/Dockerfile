@@ -1,3 +1,4 @@
+# This Dockerfile will soon be DEPRECATED (dependency for CircleCI)
 FROM node:12.18.3-alpine
 
 ENV NODE_ENV=production

@@ -4,10 +4,12 @@
     "dev": "next",
     "build": "next build",
     "export": "next export",
-    "write-report": "node write-report.js"
+    "write-report": "node write-report.js",
+    "deploy": "node deploy.js"
   },
   "dependencies": {
     "mkdirp-promise": "^5.0.1",
-    "pa11y": "^5.1.0"
+    "pa11y": "^5.1.0",
+    "aws-sdk": "^2.751.0"
   }
 }

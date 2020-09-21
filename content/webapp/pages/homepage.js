@@ -19,8 +19,6 @@ import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import SimpleCardGrid from '@weco/common/views/components/SimpleCardGrid/SimpleCardGrid';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-// $FlowFixMe (tsx)
-import ReopeningBanner from '@weco/common/views/components/ReopeningBanner/ReopeningBanner';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -76,7 +74,9 @@ export class HomePage extends Component<Props> {
     const articles = this.props.articles;
     const page = this.props.page;
     const standFirst = page.body.find(slice => slice.type === 'standfirst');
-    const contentList = page.body.find(slice => slice.type === 'contentList');
+    const lists = page.body.filter(slice => slice.type === 'contentList');
+    const reopeningList = lists.length === 2 ? lists[0] : null;
+    const contentList = lists.length === 2 ? lists[1] : lists[0];
 
     return (
       <PageLayout
@@ -96,28 +96,38 @@ export class HomePage extends Component<Props> {
             </PageHeading>
             <TogglesContext.Consumer>
               {({ buildingReopening }) =>
-                buildingReopening ? (
-                  <Space
-                    v={{
-                      size: 'm',
-                      properties: ['padding-top', 'padding-bottom'],
-                    }}
-                  >
-                    <ReopeningBanner />
-                  </Space>
-                ) : (
+                !buildingReopening &&
+                standFirst && (
                   <>
-                    {standFirst && (
-                      <CreamBox>
-                        <PageHeaderStandfirst html={standFirst.value} />
-                      </CreamBox>
-                    )}
+                    <CreamBox>
+                      <PageHeaderStandfirst html={standFirst.value} />
+                    </CreamBox>
                   </>
                 )
               }
             </TogglesContext.Consumer>
           </SpacingSection>
         </Layout10>
+        <TogglesContext.Consumer>
+          {({ buildingReopening }) =>
+            buildingReopening &&
+            reopeningList && (
+              <SpacingSection>
+                {reopeningList.value.title && (
+                  <SpacingComponent>
+                    <SectionHeader title={reopeningList.value.title} />
+                  </SpacingComponent>
+                )}
+                <SpacingComponent>
+                  <SimpleCardGrid
+                    items={reopeningList.value.items}
+                    isFeaturedFirst={true}
+                  />
+                </SpacingComponent>
+              </SpacingSection>
+            )
+          }
+        </TogglesContext.Consumer>
         {contentList && (
           <SpacingSection>
             <SpacingComponent>
