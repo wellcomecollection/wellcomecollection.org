@@ -9,7 +9,7 @@ import Space from '../styled/Space';
 import Number from '@weco/common/views/components/Number/Number';
 import styled from 'styled-components';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
-import { getAncestorArray } from '@weco/common/utils/works';
+import { getArchiveAncestorArray } from '@weco/common/utils/works';
 
 const ArchiveTitle = styled.span.attrs({
   className: classNames({
@@ -36,8 +36,8 @@ type Props = {
 const WorkHeaderPrototype = ({ work, childManifestsCount = 0 }: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
-  const ancestorArray = getAncestorArray(work);
-  const [topLevelArchive] = ancestorArray;
+  const archiveAncestorArray = getArchiveAncestorArray(work);
+  const [topLevelArchive] = archiveAncestorArray;
   return (
     <WorkHeaderContainer>
       <Space

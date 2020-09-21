@@ -11,7 +11,7 @@ import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { getAncestorArray } from '@weco/common/utils/works';
+import { getArchiveAncestorArray } from '@weco/common/utils/works';
 
 const StickyContainer = styled.div`
   border: 1px solid ${props => props.theme.color('pumice')};
@@ -208,8 +208,8 @@ function createSiblingsArray(work: Work): UiTree[] {
 }
 
 function createCollectionTree(work: Work): UiTree[] {
-  const ancestorArray = getAncestorArray(work);
-  const partOfReversed = [...(ancestorArray || [])].reverse();
+  const archiveAncestorArray = getArchiveAncestorArray(work);
+  const partOfReversed = [...(archiveAncestorArray || [])].reverse();
   return [
     partOfReversed.reduce(
       (acc, curr, i) => {
@@ -512,10 +512,10 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   useEffect(() => {
     // Add siblings to each node, that leads to the current work
     const basicTree = createCollectionTree(work);
-    const ancestorArray = getAncestorArray(work);
+    const archiveAncestorArray = getArchiveAncestorArray(work);
 
-    const partOfPromises = ancestorArray
-      ? ancestorArray.map(part => getWork({ id: part.id, toggles }))
+    const partOfPromises = archiveAncestorArray
+      ? archiveAncestorArray.map(part => getWork({ id: part.id, toggles }))
       : [];
     if (partOfPromises.length > 0) {
       Promise.all(partOfPromises).then(works => {

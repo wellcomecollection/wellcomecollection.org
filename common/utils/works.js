@@ -246,28 +246,27 @@ export function getItemIdentifiersWith(
   }, []);
 }
 
-export function getAncestorArray(work: Work): ArchiveNode[] {
-  // We're only interested in the item with a partOf property (which is the last item in the array), this can be removed once the API is updated to remove all ancestors from the top level array
-  const desiredItem = work.partOf && work.partOf[work.partOf.length - 1];
-  const ancestorArray = [];
-  function addToAncestorArray(work) {
-    ancestorArray.push({
-      id: work.id,
-      title: work.title,
-      alternativeTitles: work.alternativeTitles,
-      referenceNumber: work.referenceNumber,
-      type: 'Work',
-    });
-    if (work.partOf) {
-      // It's possible in the future that items will have multiple parents and we'll need a way to distinguish which one we're interested in, for now they only have one.
-      const [ancestorWork] = work.partOf;
-      if (ancestorWork) {
-        addToAncestorArray(ancestorWork);
-      }
-    }
-  }
-  if (desiredItem) {
-    addToAncestorArray(desiredItem);
-  }
-  return ancestorArray.reverse();
+function parsePartOf(partOf) {
+  return {
+    id: partOf.id,
+    title: partOf.title,
+    alternativeTitles: partOf.alternativeTitles,
+    referenceNumber: partOf.referenceNumber,
+    type: partOf.type,
+  };
+}
+
+function makeArchiveAncestorArray(partOfArray, nextPart) {
+  if (!nextPart) return partOfArray;
+  return makeArchiveAncestorArray(
+    [...partOfArray, parsePartOf(nextPart)],
+    nextPart.partOf &&
+      nextPart.partOf.find(part => {
+        return nextPart.referenceNumber.includes(part.referenceNumber);
+      })
+  ).reverse();
+}
+
+export function getArchiveAncestorArray(work: Work): ArchiveNode[] {
+  return makeArchiveAncestorArray([], work.partOf && work.partOf[0]);
 }
