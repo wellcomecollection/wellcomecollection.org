@@ -94,8 +94,8 @@ const CovidWeAreOpenPage = () => {
                       url: '#library-and-museum-visit',
                       sublinks: [
                         {
-                          text: 'Need to know for visiting the library',
-                          url: '#need-to-know-for-visiting-the-library',
+                          text: 'Need to know about your library visit',
+                          url: '#need-to-know-about-your-library-visit',
                         },
                       ],
                     },
@@ -110,11 +110,11 @@ const CovidWeAreOpenPage = () => {
                 <>
                   <p>
                     <ul className="no-margin">
-                      <li>Choose a time slot</li>
-                      <li>Stay as long as you like</li>
+                      <li>Choose a time slot.</li>
+                      <li>Stay as long as you like.</li>
                       <li>
                         You will be able to visit the Reading Room, Being Human,
-                        the shop and café
+                        the shop and café.
                       </li>
                     </ul>
                   </p>
@@ -143,48 +143,86 @@ const CovidWeAreOpenPage = () => {
                 <p>
                   <ul className="no-margin">
                     <li>
-                      Only current library members are able to book a ticket
+                      Only current library members are able to book a ticket.
                     </li>
-                    <li>Choose a time slot </li>
-                    <li>Stay for up to three hours</li>
+                    <li>Choose a time slot.</li>
+                    <li>Stay for up to three hours.</li>
                     <li>
                       You will be able to visit the library as well as the
-                      galleries, shop and café{' '}
+                      galleries, shop and café.
                     </li>
                     <li>
-                      You will need to order any materials 72 hours in advance
+                      You will need to order any materials 72 hours in advance.
                     </li>
                   </ul>
                 </p>
                 <Space v={{ size: 'm', properties: ['padding-top'] }} />
                 <CovidSmallPrint>
-                  <h3 id="need-to-know-for-visiting-the-library">
-                    Need to know for visiting the library
+                  <h3 id="need-to-know-about-your-library-visit">
+                    Need to know about your library visit
                   </h3>
                   <CovidH4>What to bring</CovidH4>
                   <p>
                     <ul className="no-margin">
                       <li>Your ticket – on your phone is fine</li>
 
-                      <li>Your library card </li>
+                      <li>Your library card</li>
 
                       <li>
                         Your face covering – this will need to be worn for the
-                        duration of your visit.
-                      </li>
-
-                      <li>
-                        You can still bring in your laptops, study materials and
-                        pencils in a clear plastic bag or carried, as normal.
-                        You can leave anything else in lockers on level 0.
-                      </li>
-
-                      <li>
-                        Please note that shared computers, printers and scanners
-                        won’t be available.
+                        duration of your visit
                       </li>
                     </ul>
                   </p>
+                  <p>
+                    You can still bring in your laptops, study materials and
+                    pencils in a clear plastic bag or carried, as normal. You
+                    can leave anything else in lockers on level 0.
+                  </p>
+
+                  <p>
+                    Please note that shared computers, printers and scanners
+                    won’t be available.
+                  </p>
+
+                  <CovidH4>Ordering materials</CovidH4>
+                  <p>
+                    All ordered material will be delivered to the Rare Materials
+                    Room. In order to visit you will need to book the ticket in
+                    Eventbrite that indicates RMR access. These will be
+                    available at 10:30 and 13:30 every day. Please only book if
+                    you need it, as there is limited availability to allow for
+                    social distancing.
+                  </p>
+                  <p>
+                    <ul className="no-margin">
+                      <li>
+                        All your online requests will be delivered to the Rare
+                        Materials Room.{' '}
+                        <strong>
+                          To start with, we’ll ask visitors to book just one RMR
+                          slot each week
+                        </strong>
+                        .
+                      </li>
+                      <li>
+                        After you’ve booked your ticket, request up to 10 items
+                        from wellcomelibrary.org before your visit.
+                      </li>
+                      <li>
+                        <strong>
+                          Place your requests 72 hours before the day of your
+                          visit
+                        </strong>
+                        .
+                      </li>
+                      <li>
+                        Once you’re finished viewing the materials, we put the
+                        materials in quarantine for 72 hours.
+                      </li>
+                    </ul>
+                  </p>
+
                   <CovidH4>Time slots</CovidH4>
                   <p>
                     You will be able to book library tickets up until 72 hours
@@ -195,37 +233,6 @@ const CovidWeAreOpenPage = () => {
                     You can use the library for three hours from the start of
                     your slot – you can spend as much time as you’d like in the
                     rest of the building.
-                  </p>
-                  <CovidH4>The Rare Materials Room</CovidH4>
-                  <p>
-                    All ordered material will be delivered to the Rare Materials
-                    Room. In order to visit you will need to book the ticket in
-                    Eventbrite that indicates RMR access. These will be
-                    available at 10:30 and 13:30 every day. Please only book if
-                    you need it, as there is limited availability to allow for
-                    social distancing.
-                  </p>
-                  <CovidH4>Ordering material</CovidH4>
-                  <p>
-                    <ul className="no-margin">
-                      <li>
-                        All your online requests will be delivered to the Rare
-                        Materials Room. To start with, we’ll ask visitors to
-                        book just one RMR slot each week.
-                      </li>
-                      <li>
-                        After you’ve booked your ticket, request up to 10 items
-                        from wellcomelibrary.org before your visit
-                      </li>
-                      <li>
-                        Place your requests 72 hours before the day of your
-                        visit.
-                      </li>
-                      <li>
-                        Once you’re finished viewing the materials, we put the
-                        materials in quarantine for 72 hours.
-                      </li>
-                    </ul>
                   </p>
 
                   <CovidH4>Open shelves</CovidH4>
@@ -243,7 +250,7 @@ const CovidWeAreOpenPage = () => {
                         library before you book your ticket to make sure the
                         room is available for you on the day you want to come.
                         We’re allowing one booking per day to ensure thorough
-                        cleaning before next user
+                        cleaning before next user.
                       </li>
                       <li>
                         The Group Study Room will be closed, and group working
@@ -273,59 +280,42 @@ const CovidWeAreOpenPage = () => {
                 <h2 id="need-to-know-about-your-ticket">
                   Need to know about your ticket
                 </h2>
-                <CovidH4>Entering and leaving the building</CovidH4>
-                <p>
-                  <ul className="no-margin">
-                    <li>
-                      Please bring your ticket with you on the day – on your
-                      phone is fine. You will have your ticket checked by our
-                      staff on arrival. There may be queues at busy times.
-                    </li>
-                    <li>
-                      Once you have left the building you cannot re-enter. This
-                      is so we can manage visitor numbers and allow plenty of
-                      space for social distancing.
-                    </li>
-                  </ul>
-                </p>
-                <CovidH4>Time slots</CovidH4>
-                <p>
-                  You will be able to book museum tickets up until 30 minutes
-                  before the start of each time slot.
-                </p>
-                <p>
-                  Please arrive within 15 minutes of your booked time slot or we
-                  may have to ask you to book another ticket. If you think you
-                  are not going to make your slot, please let us know.
-                </p>
-                <CovidH4>Cancelling your ticket</CovidH4>
-                <p>
-                  There are three ways to cancel your ticket:
-                  <ul className="no-margin">
-                    <li>Follow the instructions via Eventbrite</li>
-                    <li>Email info@wellcomecollection.org</li>
-                    <li>Call +44 (0)20 7611 2222</li>
-                  </ul>
-                </p>
-                <p>
-                  If you change your mind about the type of ticket you need
-                  please cancel and rebook. Or give us a call.
-                </p>
-
-                <CovidH4>Track and Trace</CovidH4>
-                <p>
-                  We are collecting the information necessary for NHS Test and
-                  Trace via our booking form. For this reason, please do not
-                  give your tickets to anyone else. If you have changed your
-                  mind about visiting, please cancel your booking.
-                </p>
-
-                <CovidH4>Groups and frequent visitors</CovidH4>
-                <p>
-                  You can book for up to six members of a household at a time.
-                  Please only visit once per week, space is limited, and we want
-                  as many people to be able to visit as possible.
-                </p>
+                <ul>
+                  <li>
+                    You can book for up to six members of a household at a time.
+                    Please only visit once per week, space is limited, and we
+                    want as many people to be able to visit as possible.
+                  </li>
+                  <li>
+                    <strong>
+                      It’s important that you arrive during your 15-minute slot
+                    </strong>{' '}
+                    or we may have to ask you to book another ticket.
+                  </li>
+                  <li>
+                    If you think you are not going to make your slot or change
+                    your mind about visiting,{' '}
+                    <strong>please cancel and rebook</strong>. Do not give your
+                    ticket to anyone else – we are collecting information for
+                    NHS Track and Trace.
+                  </li>
+                  <li>
+                    Please bring your ticket with you, if you can – on your
+                    phone is fine. You will have your ticket checked by our
+                    staff on arrival.
+                  </li>
+                  <li>
+                    <strong>
+                      Once you have left the building you cannot re-enter
+                    </strong>
+                    . This is so we can manage visitor numbers and allow plenty
+                    of space for social distancing.
+                  </li>
+                  <li>
+                    You will be able to book museum tickets up until 30 minutes
+                    before the start of each time slot.
+                  </li>
+                </ul>
               </CovidSmallPrint>
             </Space>
           </div>
