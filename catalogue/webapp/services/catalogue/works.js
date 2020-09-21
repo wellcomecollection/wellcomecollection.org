@@ -1,19 +1,20 @@
 // @flow
-import fetch from 'isomorphic-unfetch';
 import {
-  type CatalogueResultsList,
   type CatalogueApiError,
-  type Work,
   type CatalogueApiRedirect,
+  type CatalogueResultsList,
+  type Work,
 } from '@weco/common/model/catalogue';
 import { type IIIFCanvas } from '@weco/common/model/iiif';
-import Raven from 'raven-js';
 import { type CatalogueWorksApiProps } from '@weco/common/services/catalogue/api';
+import fetch from 'isomorphic-unfetch';
+import Raven from 'raven-js';
 import {
-  type Toggles,
-  rootUris,
+  catalogueApiError,
   globalApiOptions,
   queryString,
+  rootUris,
+  type Toggles,
 } from './common';
 
 type GetWorkProps = {|
@@ -66,13 +67,7 @@ export async function getWorks({
 
     return (json: CatalogueResultsList<Work> | CatalogueApiError);
   } catch (error) {
-    return {
-      description: '',
-      errorType: 'http',
-      httpStatus: 500,
-      label: 'Internal Server Error',
-      type: 'Error',
-    };
+    return catalogueApiError();
   }
 }
 
@@ -104,9 +99,12 @@ export async function getWork({
     };
   }
 
-  const json = await res.json();
-
-  return json;
+  try {
+    const json = await res.json();
+    return json;
+  } catch (e) {
+    return catalogueApiError();
+  }
 }
 
 export async function getCanvasOcr(canvas: IIIFCanvas) {
