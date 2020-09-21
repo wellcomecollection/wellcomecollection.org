@@ -1,3 +1,4 @@
+# This image should be built with the parent directory as context
 FROM node:12.18.3
 
 WORKDIR /usr/src/app/webapp

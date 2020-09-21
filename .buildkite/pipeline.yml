@@ -5,6 +5,7 @@
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
+        build-parallel: true
         build:
           - common
           - catalogue
