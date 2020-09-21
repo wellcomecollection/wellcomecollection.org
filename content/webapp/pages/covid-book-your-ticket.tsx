@@ -9,7 +9,11 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import EventbriteButton from '@weco/common/views/components/EventbriteButton/EventbriteButton';
 import styled from 'styled-components';
 
-const CovidBodyText = styled.div`
+const CovidSmallPrint = styled.div.attrs({
+  className: classNames({
+    [font('hnl', 5)]: true,
+  }),
+})`
   h4 + p {
     margin-top: 0.2em;
   }
@@ -17,7 +21,7 @@ const CovidBodyText = styled.div`
 
 const CovidH4 = styled.h4.attrs({
   className: classNames({
-    [font('hnm', 4)]: true,
+    [font('hnm', 5)]: true,
   }),
 })``;
 
@@ -136,23 +140,24 @@ const CovidWeAreOpenPage = () => {
                 title={'Library and museum visit'}
                 id="library-and-museum-visit"
               >
-                <CovidBodyText>
-                  <p>
-                    <ul className="no-margin">
-                      <li>
-                        Only current library members are able to book a ticket
-                      </li>
-                      <li>Choose a time slot </li>
-                      <li>Stay for up to three hours</li>
-                      <li>
-                        You will be able to visit the library as well as the
-                        galleries, shop and café{' '}
-                      </li>
-                      <li>
-                        You will need to order any materials 72 hours in advance
-                      </li>
-                    </ul>
-                  </p>
+                <p>
+                  <ul className="no-margin">
+                    <li>
+                      Only current library members are able to book a ticket
+                    </li>
+                    <li>Choose a time slot </li>
+                    <li>Stay for up to three hours</li>
+                    <li>
+                      You will be able to visit the library as well as the
+                      galleries, shop and café{' '}
+                    </li>
+                    <li>
+                      You will need to order any materials 72 hours in advance
+                    </li>
+                  </ul>
+                </p>
+                <Space v={{ size: 'm', properties: ['padding-top'] }} />
+                <CovidSmallPrint>
                   <h3 id="need-to-know-for-visiting-the-library">
                     Need to know for visiting the library
                   </h3>
@@ -253,7 +258,7 @@ const CovidWeAreOpenPage = () => {
                         'library-and-museum-visit-wellcome-collection-tickets-116213402415',
                     }}
                   />
-                </CovidBodyText>
+                </CovidSmallPrint>
               </CovidInfoBox>
 
               <Space
@@ -264,10 +269,10 @@ const CovidWeAreOpenPage = () => {
               >
                 <Divider extraClasses="divider--keyline divider--pumice" />
               </Space>
-              <CovidBodyText className="body-text">
-                <h3 id="need-to-know-about-your-ticket">
+              <CovidSmallPrint className="body-text">
+                <h2 id="need-to-know-about-your-ticket">
                   Need to know about your ticket
-                </h3>
+                </h2>
                 <CovidH4>Entering and leaving the building</CovidH4>
                 <p>
                   <ul className="no-margin">
@@ -321,7 +326,7 @@ const CovidWeAreOpenPage = () => {
                   Please only visit once per week, space is limited, and we want
                   as many people to be able to visit as possible.
                 </p>
-              </CovidBodyText>
+              </CovidSmallPrint>
             </Space>
           </div>
         </div>
