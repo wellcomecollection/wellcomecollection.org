@@ -36,10 +36,10 @@ const EventbriteButton = ({ event }: Props) => {
           <p
             className={classNames({
               'font-charcoal no-margin': true,
-              [font('hnl', 4)]: true,
+              [font('hnl', 5)]: true,
             })}
           >
-            with Eventbrite
+            Tickets via Eventbrite
           </p>
         </Fragment>
       )}
