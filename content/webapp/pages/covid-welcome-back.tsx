@@ -55,8 +55,7 @@ const CovidWelcomeBackPage = () => {
                 <p className="font-hnm font-size-3">
                   We can’t wait to welcome you back from 7 October. To make your
                   visit as safe and enjoyable as possible, we’ve made a few
-                  changes. For example, you will need a ticket to enter the
-                  building.
+                  changes. You will need a ticket to enter the building.
                 </p>
               </div>
             </div>
@@ -169,6 +168,9 @@ const CovidWelcomeBackPage = () => {
                     </li>
                   </ul>
                 </p>
+                <p>
+                  <a href="/access">Find out more about accessibility</a>
+                </p>
 
                 <h3>Storing your belongings</h3>
                 <p>
@@ -191,6 +193,11 @@ const CovidWelcomeBackPage = () => {
                     </li>
                   </ul>
                 </p>
+                <p>
+                  <a href="/pages/Wuw19yIAAK1Z3Sm0">
+                    Find out more about our locker provisions
+                  </a>
+                </p>
 
                 <h3>Getting here</h3>
                 <p>
@@ -205,8 +212,10 @@ const CovidWelcomeBackPage = () => {
                 <h3>Tours and events</h3>
                 <p>
                   There currently aren’t any daily guided tours of exhibitions
-                  and galleries including Access or Perspective Tours. All our
-                  events are currently online.{' '}
+                  and galleries including Access or Perspective Tours.
+                </p>
+                <p>
+                  All our events are currently online.{' '}
                   <a href="/whats-on">Find out more about what’s on</a>.
                 </p>
 
@@ -275,29 +284,39 @@ const CovidWelcomeBackPage = () => {
                     <li>
                       Limiting the number of visitors each day with a free
                       ticketing system.{' '}
-                      <a href="/covid-book-your-ticket">Book your ticket</a>
+                      <a href="/covid-book-your-ticket">Book your ticket</a>.
                     </li>
-                    <li>Taking extra care with increased cleaning</li>
-                    <li>Providing hand sanitiser dispensers</li>
+                    <li>Taking extra care with increased cleaning.</li>
+                    <li>Providing hand sanitiser dispensers.</li>
                     <li>
                       Providing our staff with personal protective equipment
-                      (PPE)
+                      (PPE).
                     </li>
                     <li>
                       Marking signposted routes around the building to help you
-                      explore with plenty of space
+                      explore with plenty of space.
                     </li>
-                    <li>Cleaning our accessible resources regularly</li>
+                    <li>Cleaning our accessible resources regularly.</li>
                     <li>
-                      Spreading out café seating and serving pre-packed food
+                      Spreading out café seating and serving pre-packed food.
                     </li>
-                    <li>Quarantining books in the library and Reading Room</li>
+                    <li>Quarantining books in the library and Reading Room.</li>
                     <li>
                       Removing shared headphones on audio exhibits. Instead you
                       will be able to use your own earphones which have a
-                      standard jack
+                      standard jack.
                     </li>
-                    <li>Providing optional mask-exempt badges</li>
+                    <li>
+                      Providing optional mask-exempt badges from{' '}
+                      <a href="https://www.euansguide.com/news/face-mask-exempt-badges/">
+                        Euan’s Guide
+                      </a>
+                      .
+                    </li>
+                    <li>
+                      Participating in NHS Track and Trace through our online
+                      booking form.
+                    </li>
                   </ul>
                 </p>
 
