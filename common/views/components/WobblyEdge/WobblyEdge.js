@@ -69,10 +69,11 @@ class WobblyEdge extends React.Component<Props, State> {
   debounceUpdatePoints = debounce(this.updatePoints, 500);
 
   componentDidMount() {
+    this.updatePoints();
+
     if (this.props.isStatic) return;
 
     window.addEventListener('scroll', this.debounceUpdatePoints);
-    this.updatePoints();
   }
 
   componentWillUnmount() {

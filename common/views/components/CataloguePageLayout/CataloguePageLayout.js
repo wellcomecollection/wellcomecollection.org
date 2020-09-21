@@ -6,7 +6,7 @@ import PageLayout, {
 import InfoBanner from '../InfoBanner/InfoBanner';
 import Layout12 from '../Layout12/Layout12';
 import BetaBar from '../BetaBar/BetaBar';
-import SearchRelevanceBar from '../SearchRelevanceBar/SearchRelevanceBar';
+import SearchToolbar from '../SearchToolbar/SearchToolbar';
 import TogglesContext from '../TogglesContext/TogglesContext';
 
 type Props = {|
@@ -16,7 +16,8 @@ type Props = {|
 
 const CataloguePageLayout = (props: Props) => {
   const { children, hideInfoBar, ...extraProps } = props;
-  const { unfilteredSearchResults } = useContext(TogglesContext);
+  const { searchToolbar } = useContext(TogglesContext);
+
   return (
     <>
       <PageLayout {...extraProps}>
@@ -33,7 +34,7 @@ const CataloguePageLayout = (props: Props) => {
               cookieName="WC_wellcomeImagesRedirect"
             />
 
-            {unfilteredSearchResults && <SearchRelevanceBar />}
+            {searchToolbar && <SearchToolbar />}
 
             <Layout12>
               <BetaBar />

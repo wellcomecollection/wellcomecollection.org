@@ -22,14 +22,14 @@ const IIIFViewerThumb = styled.button.attrs(props => ({
   border-radius: 8px;
   background: ${props =>
     props.isActive
-      ? lighten(0.14, props.theme.colors.viewerBlack)
-      : props.theme.colors.viewerBlack};
+      ? lighten(0.14, props.theme.color('viewerBlack'))
+      : props.theme.color('viewerBlack')};
   padding: 12px 16px;
   text-align: center;
   margin: auto;
   &:focus {
     outline: ${props =>
-      `1px solid ${lighten(0.14, props.theme.colors.yellow)}`};
+      `1px solid ${lighten(0.14, props.theme.color('yellow'))}`};
   }
 `;
 

@@ -9,34 +9,134 @@ exports[`Feature: 2. As a library member I want to request an item
 <div
   data-test-id="libraryLoginCTA"
 >
-  <Button
+  <ButtonSolidLink
     clickHandler={[Function]}
-    externalLink="/loginUrl"
+    link="/loginUrl"
     text="Log in to request"
-    type="primary"
+    trackingEvent={
+      Object {
+        "action": "follow Cognito login link",
+        "category": "Button",
+        "label": "{workId}",
+      }
+    }
   >
-    <a
-      className="btn btn--primary  font-hnm font-size-5  flex-inline flex--v-center"
-      href="/loginUrl"
-      onClick={[Function]}
-      type={null}
+    <ConditionalWrapper
+      condition={false}
+      wrapper={[Function]}
     >
-      <ButtonInner
-        text="Log in to request"
-        textHidden={false}
+      <ButtonSolid__SolidButton
+        href="/loginUrl"
+        onClick={[Function]}
       >
-        <span
-          className="flex flex--v-center flex--h-center"
+        <StyledComponent
+          forwardedComponent={
+            Object {
+              "$$typeof": Symbol(react.forward_ref),
+              "attrs": Array [
+                [Function],
+                [Function],
+              ],
+              "componentStyle": ComponentStyle {
+                "componentId": "ButtonSolid__SolidButton-is2j2c-3",
+                "isStatic": false,
+                "lastClassName": "bADJUb",
+                "rules": Array [
+                  "display:inline-flex;line-height:1;border-radius:",
+                  [Function],
+                  ";text-decoration:none;text-align:center;transition:background ",
+                  [Function],
+                  ",border-color ",
+                  [Function],
+                  ";border:0;white-space:nowrap;padding:13px 20px;cursor:pointer;&:focus{outline:0;.is-keyboard &{box-shadow:",
+                  [Function],
+                  ";}}&[disabled],&.disabled{background:",
+                  [Function],
+                  ";border-color:",
+                  [Function],
+                  ";color:",
+                  [Function],
+                  ";cursor:not-allowed;&:hover{text-decoration:none;}}&.disabled{pointer-events:none;}.icon__shape{transition:fill ",
+                  [Function],
+                  ";fill:currentColor;}.icon__stroke{transition:stroke ",
+                  [Function],
+                  ";stroke:currentColor;}",
+                  "background:",
+                  [Function],
+                  ";color:",
+                  [Function],
+                  ";border:2px solid ",
+                  [Function],
+                  ";",
+                  [Function],
+                  " &:not([disabled]):hover{background:",
+                  [Function],
+                  ";border-color:",
+                  [Function],
+                  ";}",
+                ],
+              },
+              "displayName": "ButtonSolid__SolidButton",
+              "foldedComponentIds": Array [
+                "ButtonSolid__BaseButton-is2j2c-0",
+              ],
+              "render": [Function],
+              "styledComponentId": "ButtonSolid__SolidButton-is2j2c-3",
+              "target": "button",
+              "toString": [Function],
+              "warnTooManyClasses": [Function],
+              "withComponent": [Function],
+            }
+          }
+          forwardedRef={null}
+          href="/loginUrl"
+          onClick={[Function]}
         >
-          <span
-            className="btn__text"
+          <a
+            className="ButtonSolid__BaseButton-is2j2c-0 ButtonSolid__SolidButton-is2j2c-3 bADJUb link-reset"
+            href="/loginUrl"
+            onClick={[Function]}
           >
-            Log in to request
-          </span>
-        </span>
-      </ButtonInner>
-    </a>
-  </Button>
+            <ButtonSolid__BaseButtonInner>
+              <StyledComponent
+                forwardedComponent={
+                  Object {
+                    "$$typeof": Symbol(react.forward_ref),
+                    "attrs": Array [
+                      [Function],
+                    ],
+                    "componentStyle": ComponentStyle {
+                      "componentId": "ButtonSolid__BaseButtonInner-is2j2c-1",
+                      "isStatic": false,
+                      "lastClassName": "dxoWEE",
+                      "rules": Array [
+                        "height:1em;",
+                      ],
+                    },
+                    "displayName": "ButtonSolid__BaseButtonInner",
+                    "foldedComponentIds": Array [],
+                    "render": [Function],
+                    "styledComponentId": "ButtonSolid__BaseButtonInner-is2j2c-1",
+                    "target": "span",
+                    "toString": [Function],
+                    "warnTooManyClasses": [Function],
+                    "withComponent": [Function],
+                  }
+                }
+                forwardedRef={null}
+              >
+                <span
+                  className="ButtonSolid__BaseButtonInner-is2j2c-1 dxoWEE font-hnm font-size-5  flex flex--v-center"
+                >
+                  Log in to request
+                </span>
+              </StyledComponent>
+            </ButtonSolid__BaseButtonInner>
+          </a>
+        </StyledComponent>
+      </ButtonSolid__SolidButton>
+    </ConditionalWrapper>
+  </ButtonSolidLink>
 </div>
 `;
 
@@ -47,32 +147,129 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
 <div
   data-test-id="requestModalCTA"
 >
-  <Button
+  <ForwardRef
     clickHandler={[Function]}
     text="Request"
-    type="primary"
+    trackingEvent={
+      Object {
+        "action": "open Stacks request modal window",
+        "category": "Button",
+        "label": "{workId}",
+      }
+    }
   >
-    <button
-      className="btn btn--primary  font-hnm font-size-5  flex-inline flex--v-center"
+    <ButtonSolid__SolidButton
       onClick={[Function]}
-      type="button"
     >
-      <ButtonInner
-        text="Request"
-        textHidden={false}
+      <StyledComponent
+        forwardedComponent={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "attrs": Array [
+              [Function],
+              [Function],
+            ],
+            "componentStyle": ComponentStyle {
+              "componentId": "ButtonSolid__SolidButton-is2j2c-3",
+              "isStatic": false,
+              "lastClassName": "bADJUb",
+              "rules": Array [
+                "display:inline-flex;line-height:1;border-radius:",
+                [Function],
+                ";text-decoration:none;text-align:center;transition:background ",
+                [Function],
+                ",border-color ",
+                [Function],
+                ";border:0;white-space:nowrap;padding:13px 20px;cursor:pointer;&:focus{outline:0;.is-keyboard &{box-shadow:",
+                [Function],
+                ";}}&[disabled],&.disabled{background:",
+                [Function],
+                ";border-color:",
+                [Function],
+                ";color:",
+                [Function],
+                ";cursor:not-allowed;&:hover{text-decoration:none;}}&.disabled{pointer-events:none;}.icon__shape{transition:fill ",
+                [Function],
+                ";fill:currentColor;}.icon__stroke{transition:stroke ",
+                [Function],
+                ";stroke:currentColor;}",
+                "background:",
+                [Function],
+                ";color:",
+                [Function],
+                ";border:2px solid ",
+                [Function],
+                ";",
+                [Function],
+                " &:not([disabled]):hover{background:",
+                [Function],
+                ";border-color:",
+                [Function],
+                ";}",
+              ],
+            },
+            "displayName": "ButtonSolid__SolidButton",
+            "foldedComponentIds": Array [
+              "ButtonSolid__BaseButton-is2j2c-0",
+            ],
+            "render": [Function],
+            "styledComponentId": "ButtonSolid__SolidButton-is2j2c-3",
+            "target": "button",
+            "toString": [Function],
+            "warnTooManyClasses": [Function],
+            "withComponent": [Function],
+          }
+        }
+        forwardedRef={null}
+        onClick={[Function]}
       >
-        <span
-          className="flex flex--v-center flex--h-center"
+        <button
+          className="ButtonSolid__BaseButton-is2j2c-0 ButtonSolid__SolidButton-is2j2c-3 bADJUb"
+          onClick={[Function]}
         >
-          <span
-            className="btn__text"
-          >
-            Request
-          </span>
-        </span>
-      </ButtonInner>
-    </button>
-  </Button>
+          <ButtonSolid__BaseButtonInner>
+            <StyledComponent
+              forwardedComponent={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "attrs": Array [
+                    [Function],
+                  ],
+                  "componentStyle": ComponentStyle {
+                    "componentId": "ButtonSolid__BaseButtonInner-is2j2c-1",
+                    "isStatic": false,
+                    "lastClassName": "dxoWEE",
+                    "rules": Array [
+                      "height:1em;",
+                    ],
+                  },
+                  "displayName": "ButtonSolid__BaseButtonInner",
+                  "foldedComponentIds": Array [],
+                  "render": [Function],
+                  "styledComponentId": "ButtonSolid__BaseButtonInner-is2j2c-1",
+                  "target": "span",
+                  "toString": [Function],
+                  "warnTooManyClasses": [Function],
+                  "withComponent": [Function],
+                }
+              }
+              forwardedRef={null}
+            >
+              <span
+                className="ButtonSolid__BaseButtonInner-is2j2c-1 dxoWEE font-hnm font-size-5  flex flex--v-center"
+              >
+                <span
+                  className=""
+                >
+                  Request
+                </span>
+              </span>
+            </StyledComponent>
+          </ButtonSolid__BaseButtonInner>
+        </button>
+      </StyledComponent>
+    </ButtonSolid__SolidButton>
+  </ForwardRef>
   <Modal
     isActive={false}
     setIsActive={[Function]}

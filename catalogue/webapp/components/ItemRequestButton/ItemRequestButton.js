@@ -1,6 +1,7 @@
 // @flow
 import { type PhysicalItemAugmented } from '@weco/common/utils/works';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+// $FlowFixMe (tsx)
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { requestItem } from '../../services/stacks/requests';
 import useAuth from '@weco/common/hooks/useAuth';
 
@@ -63,12 +64,18 @@ const ItemRequestButton = ({
   }
 
   return authState.type === 'authorized' ? (
-    <Button
-      type="primary"
+    <ButtonSolid
       text="Request to view in library"
       clickHandler={event => {
         event.preventDefault();
         makeRequests(itemsWithPhysicalLocations);
+      }}
+      trackingEvent={{
+        category: 'Button',
+        action: 'confirm Stacks request',
+        label: `item id(s): ${itemsWithPhysicalLocations
+          .map(i => i.id)
+          .join()}`,
       }}
     />
   ) : null;

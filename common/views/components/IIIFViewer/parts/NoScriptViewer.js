@@ -4,6 +4,7 @@ import NextLink from 'next/link';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
 import { itemLink } from '@weco/common/services/catalogue/routes';
+import { getServiceId } from '@weco/common/utils/iiif';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '../../../../utils/image-sizes';
@@ -29,7 +30,7 @@ const StaticThumbnailsContainer = styled.div.attrs(props => ({
 }))`
   width: 100%;
   height: 20%;
-  border-top: 1px solid ${props => props.theme.colors.pewter};
+  border-top: 1px solid ${props => props.theme.color('pewter')};
   padding-left: 20%;
   @media (min-width: ${props => props.theme.sizes.medium}px) {
     padding-left: 0;
@@ -37,7 +38,7 @@ const StaticThumbnailsContainer = styled.div.attrs(props => ({
     height: 100%;
     width: 25%;
     border-top: none;
-    border-right: 1px solid ${props => props.theme.colors.pewter};
+    border-right: 1px solid ${props => props.theme.color('pewter')};
   }
 `;
 
@@ -139,7 +140,6 @@ type NoScriptViewerProps = {|
   pageIndex: number,
   sierraId: string,
   pageSize: number,
-  iiifImageLocationUrl: ?string,
   imageUrl: ?string,
   thumbnailsRequired: boolean,
   iiifImageLocation: ?{ url: string },
@@ -149,7 +149,6 @@ type NoScriptViewerProps = {|
 
 const NoScriptViewer = ({
   thumbnailsRequired,
-  iiifImageLocationUrl,
   imageUrl,
   iiifImageLocation,
   currentCanvas,
@@ -164,12 +163,7 @@ const NoScriptViewer = ({
   sierraId,
   pageSize,
 }: NoScriptViewerProps) => {
-  const mainImageService = {
-    '@id':
-      currentCanvas && !Array.isArray(currentCanvas.images[0].resource.service)
-        ? currentCanvas.images[0].resource.service['@id']
-        : '',
-  };
+  const mainImageService = { '@id': getServiceId(currentCanvas) };
 
   const navigationCanvases = [...Array(pageSize)]
     .map((_, i) => pageSize * pageIndex + i)
@@ -195,7 +189,7 @@ const NoScriptViewer = ({
         fullWidth={!thumbnailsRequired}
       >
         <IIIFViewerImageWrapper>
-          {iiifImageLocationUrl && imageUrl && (
+          {iiifImageLocation && imageUrl && (
             <IIIFResponsiveImage
               width={800}
               src={imageUrl}

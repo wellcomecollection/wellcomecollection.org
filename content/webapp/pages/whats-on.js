@@ -33,7 +33,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import FacilityPromo from '@weco/common/views/components/FacilityPromo/FacilityPromo';
-import Divider from '@weco/common/views/components/Divider/Divider';
+// import Divider from '@weco/common/views/components/Divider/Divider';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';
@@ -129,9 +129,10 @@ const DateRange = ({
 }: DateRangeProps) => {
   const fromDate = dateRange[0];
   const toDate = dateRange[1];
-  const collectionOpeningTimes =
-    openingTimes && openingTimes.collectionOpeningTimes;
-  const listHeader = getListHeader(collectionOpeningTimes);
+  // TODO: reinstate after lockdown
+  // const collectionOpeningTimes =
+  // openingTimes && openingTimes.collectionOpeningTimes;
+  // const listHeader = getListHeader(collectionOpeningTimes);
 
   return (
     <Fragment>
@@ -161,7 +162,8 @@ const DateRange = ({
           </Fragment>
         )}
       </Space>
-      {!(listHeader.todayOpeningHours && listHeader.todayOpeningHours.opens) &&
+      {/* TODO: reinstate after lockdown */}
+      {/* {!(listHeader.todayOpeningHours && listHeader.todayOpeningHours.opens) &&
         period === 'today' && (
           <Fragment>
             <Space
@@ -187,7 +189,7 @@ const DateRange = ({
               <Divider extraClasses={'divider--dashed'} />
             </Space>
           </Fragment>
-        )}
+        )} */}
     </Fragment>
   );
 };
@@ -311,14 +313,23 @@ const pageDescription =
 export class WhatsOnPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const period = ctx.query.period || 'current-and-coming-up';
-    const exhibitionsPromise = getExhibitions(ctx.req, {
-      period,
-      order: 'asc',
-    });
-    const eventsPromise = getEvents(ctx.req, {
-      period: 'current-and-coming-up',
-      pageSize: 100,
-    });
+    const { memoizedPrismic } = ctx.query;
+    const exhibitionsPromise = getExhibitions(
+      ctx.req,
+      {
+        period,
+        order: 'asc',
+      },
+      memoizedPrismic
+    );
+    const eventsPromise = getEvents(
+      ctx.req,
+      {
+        period: 'current-and-coming-up',
+        pageSize: 100,
+      },
+      memoizedPrismic
+    );
 
     const [exhibitions, events] = await Promise.all([
       exhibitionsPromise,
@@ -333,7 +344,7 @@ export class WhatsOnPage extends Component<Props> {
         events,
         dateRange,
         tryTheseTooPromos: [readingRoomPromo],
-        eatShopPromos: [shopPromo, cafePromo, restaurantPromo],
+        eatShopPromos: [cafePromo, shopPromo, restaurantPromo],
         cafePromo,
         shopPromo,
         dailyTourPromo,
@@ -401,11 +412,13 @@ export class WhatsOnPage extends Component<Props> {
                         <Space
                           v={{ size: 'xl', properties: ['margin-bottom'] }}
                         >
-                          <FeaturedCardExhibition
-                            exhibition={firstExhibition}
-                            background={'cream'}
-                            color={'black'}
-                          />
+                          <Layout12>
+                            <FeaturedCardExhibition
+                              exhibition={firstExhibition}
+                              background={'cream'}
+                              color={'black'}
+                            />
+                          </Layout12>
                         </Space>
                         <CardGrid
                           items={exhibitions.slice(1)}
@@ -498,7 +511,7 @@ export class WhatsOnPage extends Component<Props> {
                           [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                         })}
                       >
-                        <div className="css-grid grid--scroll">
+                        <div className="css-grid grid--scroll card-theme card-theme--transparent">
                           {tryTheseTooPromos
                             .concat(eatShopPromos)
                             .map(promo => (

@@ -19,7 +19,7 @@ export const dropCapSerializer: HtmlSerializer = (
   children,
   i
 ) => {
-  if (type === Elements.paragraph && i === 0) {
+  if (type === Elements.paragraph && i === 0 && children[0] !== null) {
     const firstChild = children[0];
     const firstCharacters =
       firstChild.props &&

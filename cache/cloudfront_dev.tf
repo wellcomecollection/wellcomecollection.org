@@ -19,6 +19,12 @@ resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
     "devcache.wellcomecollection.org",
   ]
 
+  # Don't cache 404s
+  custom_error_response {
+    error_code            = 404
+    error_caching_min_ttl = 0
+  }
+
   default_cache_behavior {
     allowed_methods        = ["HEAD", "GET", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods         = ["HEAD", "GET", "OPTIONS"]

@@ -1,4 +1,5 @@
 // @flow
+// $FlowFixMe
 import MoreLink from '../../components/MoreLink/MoreLink';
 
 type Props = {|

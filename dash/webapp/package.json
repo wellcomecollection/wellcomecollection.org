@@ -6,16 +6,17 @@
     "dev": "next",
     "build": "next build",
     "export": "next export",
-    "write-report": "node write-report.js"
+    "write-report": "node write-report.js",
+    "deploy": "aws s3 sync ./out s3://dash.wellcomecollection.org --only-show-errors --acl public-read"
   },
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
     "babel-plugin-styled-components": "^1.9.0",
     "isomorphic-unfetch": "^3.0.0",
-    "next": "^7.0.2",
+    "next": "^9.4.4",
     "next-cookies": "^1.0.4",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "styled-components": "^4.1.1"
   }
 }

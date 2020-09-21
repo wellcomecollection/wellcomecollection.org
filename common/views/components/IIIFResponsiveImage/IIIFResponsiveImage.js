@@ -5,8 +5,8 @@ import { classNames } from '../../../utils/classnames';
 type Props = {|
   width: number,
   height?: number,
-  src: string,
-  srcSet: string,
+  src: ?string,
+  srcSet: ?string,
   sizes: ?string,
   alt: string,
   extraClasses?: string,

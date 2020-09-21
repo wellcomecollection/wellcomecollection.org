@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Products and services relating to wellcomecollection.org.",
   "scripts": {
+    "setupCommon": "yarn install --production && yarn flow && cd common && yarn && yarn install",
     "cardigan": "pushd cardigan && yarn dev",
     "catalogue": "pushd catalogue/webapp && yarn dev",
     "content": "pushd content/webapp && yarn dev",
@@ -20,6 +21,7 @@
   },
   "homepage": "https://github.com/wellcomecollection/wellcomecollection.org#readme",
   "devDependencies": {
+    "@types/styled-components": "^5.1.2",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.11.1",
@@ -42,9 +44,7 @@
     "prettier": "^1.16.4"
   },
   "dependencies": {
-    "flow-bin": "^0.108.0",
-    "jest-puppeteer": "^4.4.0",
-    "puppeteer": "^2.1.1"
+    "flow-bin": "^0.108.0"
   },
   "private": true,
   "workspaces": [

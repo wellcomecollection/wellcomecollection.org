@@ -7,7 +7,7 @@ const YellowBox = styled.div`
   display: inline-block;
   width: 60px;
   height: 18px;
-  background: ${props => props.theme.colors.yellow};
+  background: ${props => props.theme.color('yellow')};
 
   ${props => props.theme.media.medium`
     width: 58px;
@@ -19,13 +19,19 @@ const YellowBox = styled.div`
   `}
 `;
 
+const TitleWrapper = styled.span`
+  .bg-charcoal & {
+    color: ${props => props.theme.color('white')};
+  }
+`;
+
 type Props = {|
   title: string,
 |};
 
 const SectionHeader = ({ title }: Props) => {
   return (
-    <div className={`row ${font('wb', 3)}`}>
+    <div className={`row ${font('wb', 2)}`}>
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
@@ -35,7 +41,7 @@ const SectionHeader = ({ title }: Props) => {
               h={{ size: 's', properties: ['margin-left'] }}
               className={`inline no-margin`}
             >
-              {title}
+              <TitleWrapper>{title}</TitleWrapper>
             </Space>
           </div>
         </div>

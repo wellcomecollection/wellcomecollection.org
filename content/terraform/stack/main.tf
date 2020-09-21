@@ -1,7 +1,7 @@
-module "content-service" {
+module "content-service-17092020" {
   source = "../../../infrastructure/terraform/modules/service"
 
-  namespace    = "content-${var.env_suffix}"
+  namespace    = "content-17092020-${var.env_suffix}"
 
   namespace_id = var.namespace_id
   cluster_arn  = var.cluster_arn
@@ -10,9 +10,6 @@ module "content-service" {
 
   container_image = var.container_image
   container_port  = 3000
-
-  nginx_container_image = var.nginx_image
-  nginx_container_port  = 80
 
   security_group_ids = [
     var.interservice_security_group_id,
@@ -30,29 +27,35 @@ module "content-service" {
 
   vpc_id  = local.vpc_id
   subnets = local.private_subnets
+
+  deployment_service_name = "content_webapp"
+  deployment_service_env = var.env_suffix
 }
 
+locals {
+  target_group_arn = module.content-service-17092020.target_group_arn
+}
 
 module "path_listener" {
   source = "../../../infrastructure/terraform/modules/alb_listener_rule"
 
   alb_listener_https_arn = var.alb_listener_https_arn
   alb_listener_http_arn  = var.alb_listener_http_arn
-  target_group_arn       = module.content-service.target_group_arn
+  target_group_arn       = local.target_group_arn
 
   field                  = "path-pattern"
   values                 = ["/*"]
   priority               = "49998"
 }
 
-# This is used for the static assets served from _next with multiple next apps
+# This is used for the static assets served from _next with multiple next apps
 # See: https://github.com/zeit/next.js#multi-zones
 module "subdomain_listener" {
   source = "../../../infrastructure/terraform/modules/alb_listener_rule"
 
   alb_listener_https_arn = var.alb_listener_https_arn
   alb_listener_http_arn  = var.alb_listener_http_arn
-  target_group_arn       = module.content-service.target_group_arn
+  target_group_arn       = local.target_group_arn
 
   field                  = "host-header"
   values                 = ["${var.subdomain}.wellcomecollection.org"]

@@ -13,6 +13,7 @@ import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import type { Period } from '@weco/common/model/periods';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { convertJsonToDates } from './event';
+// $FlowFixMe
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -28,13 +29,17 @@ const pageDescription =
   'Choose from an inspiring range of free talks, tours, discussions and more on at Wellcome Collection in London.';
 export class ArticleSeriesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const { page = 1 } = ctx.query;
+    const { page = 1, memoizedPrismic } = ctx.query;
     const { period = 'current-and-coming-up' } = ctx.query;
-    const events = await getEvents(ctx.req, {
-      page,
-      period,
-      pageSize: 100,
-    });
+    const events = await getEvents(
+      ctx.req,
+      {
+        page,
+        period,
+        pageSize: 100,
+      },
+      memoizedPrismic
+    );
     if (events) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
       return {

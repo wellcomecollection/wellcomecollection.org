@@ -1,5 +1,5 @@
 const fetch = require('isomorphic-unfetch');
-let allowableValues = [];
+let allowableValues = { prod: [], staging: [] };
 
 const parseCookies = function(req) {
   if (!req.headers.cookie) {
@@ -14,16 +14,31 @@ const parseCookies = function(req) {
     return { key, value };
   });
 };
-
-async function getQueryType() {
+function getAllowedValuesEnum(json) {
+  return json.paths['/works'].get.parameters.find(
+    parameter => parameter.name === '_queryType'
+  ).schema.enum;
+}
+async function getQueryType(staging = false) {
   try {
-    const resp = await fetch(
+    const prodPromise = fetch(
       'https://api.wellcomecollection.org/catalogue/v2/swagger.json'
     );
-    const json = await resp.json();
-    allowableValues = json.paths['/works'].get.parameters.find(
-      parameter => parameter.name === '_queryType'
-    ).schema.enum;
+    const stagingPromise = fetch(
+      'https://api-stage.wellcomecollection.org/catalogue/v2/swagger.json'
+    );
+    const [prodResp, stagingResp] = await Promise.all([
+      prodPromise,
+      stagingPromise,
+    ]);
+    const [prodJson, stagingJson] = await Promise.all([
+      prodResp.json(),
+      stagingResp.json(),
+    ]);
+    allowableValues = {
+      prod: getAllowedValuesEnum(prodJson),
+      staging: getAllowedValuesEnum(stagingJson),
+    };
   } catch (e) {
     console.info(e);
   }
@@ -36,8 +51,14 @@ module.exports = function withQueryType(ctx, next) {
   const queryTypeCookie = cookies.find(
     ({ key, value }) => key === '_queryType'
   );
+  const stagingApiCookie = cookies.find(
+    ({ key, value }) => key === 'toggle_stagingApi'
+  );
   const validQueryTypeFromCookie =
-    queryTypeCookie && allowableValues.includes(queryTypeCookie.value)
+    queryTypeCookie &&
+    allowableValues[stagingApiCookie ? 'staging' : 'prod'].includes(
+      queryTypeCookie.value
+    )
       ? queryTypeCookie.value
       : null;
 

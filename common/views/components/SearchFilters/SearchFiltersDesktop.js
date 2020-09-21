@@ -4,12 +4,13 @@ import { font, classNames } from '../../../utils/classnames';
 import { worksLink } from '../../../services/catalogue/routes';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
+// $FlowFixMe (tsx)
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
-import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
+// $FlowFixMe (tsx)
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import NextLink from 'next/link';
 import { type SearchFiltersSharedProps } from './SearchFilters';
-import TogglesContext from '../TogglesContext/TogglesContext';
 
 const CancelFilter = ({ text }: { text: string }) => {
   return (
@@ -83,8 +84,13 @@ const SearchFiltersDesktop = ({
             Filter by
           </Space>
         </Space>
-        <Space h={{ size: 's', properties: ['margin-right'] }}>
-          <DropdownButton label={'Dates'}>
+        <Space
+          h={{ size: 's', properties: ['margin-right'] }}
+          className={classNames({
+            [font('hnl', 5)]: true,
+          })}
+        >
+          <DropdownButton label={'Dates'} isInline={true}>
             <>
               <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
                 <NumberInput
@@ -115,10 +121,11 @@ const SearchFiltersDesktop = ({
         </Space>
 
         {showWorkTypeFilters && (
-          <DropdownButton label={'Formats'}>
+          <DropdownButton label={'Formats'} isInline={true}>
             <ul
               className={classNames({
                 'no-margin no-padding plain-list': true,
+                [font('hnl', 5)]: true,
               })}
             >
               {workTypeFilters.map(workType => {
@@ -127,8 +134,9 @@ const SearchFiltersDesktop = ({
                 return (
                   (workType.count > 0 || isChecked) && (
                     <li key={workType.data.id}>
-                      <Checkbox
+                      <CheckboxRadio
                         id={workType.data.id}
+                        type={`checkbox`}
                         text={`${workType.data.label} (${workType.count})`}
                         value={workType.data.id}
                         name={`workType`}
@@ -142,46 +150,6 @@ const SearchFiltersDesktop = ({
             </ul>
           </DropdownButton>
         )}
-
-        <TogglesContext.Consumer>
-          {({ unfilteredSearchResults }) =>
-            unfilteredSearchResults && (
-              <Space
-                h={{ size: 's', properties: ['margin-left'] }}
-                v={{ size: 'xs', properties: ['margin-top'] }}
-              >
-                <div className="flex">
-                  <Checkbox
-                    id="digitised"
-                    text={`Digitised`}
-                    value={'iiif-image,iiif-presentation'}
-                    name={`items.locations.locationType`}
-                    checked={
-                      (worksRouteProps.itemsLocationsLocationType || []).join(
-                        ','
-                      ) === 'iiif-image,iiif-presentation'
-                    }
-                    onChange={event => {
-                      changeHandler();
-                    }}
-                  />
-                  <Space
-                    h={{ size: 's', properties: ['margin-left'] }}
-                    v={{ size: 's', properties: ['margin-top'] }}
-                  >
-                    <Icon
-                      name="info2"
-                      extraClasses="pointer"
-                      title={
-                        'Currently includes works with a IIIF Image or IIIF presentation manifest'
-                      }
-                    />
-                  </Space>
-                </div>
-              </Space>
-            )
-          }
-        </TogglesContext.Consumer>
       </Space>
 
       <Space v={{ size: 'l', properties: ['margin-top'] }} className="tokens">
@@ -230,7 +198,7 @@ const SearchFiltersDesktop = ({
                     {...worksLink(
                       {
                         ...worksRouteProps,
-                        page: null,
+                        page: 1,
                         productionDatesTo: null,
                       },
                       'cancel_filter/production_dates_to'

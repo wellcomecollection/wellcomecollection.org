@@ -12,6 +12,7 @@ type Props = {|
   children: Node,
   isActive: boolean,
   setIsActive: (value: boolean) => void,
+  width?: string,
 |};
 
 const Overlay = styled.div`
@@ -35,14 +36,14 @@ const CloseButton = styled(Space).attrs({
   border-radius: 50%;
   appearance: none;
   background: rgba(0, 0, 0, 0.7);
-  color: ${props => props.theme.colors.white};
+  color: ${props => props.theme.color('white')};
   border: 0;
   outline: 0;
   z-index: 1;
 
   &:focus {
     ${props =>
-      !props.hideFocus && `border: 2px solid ${props.theme.colors.black}`}
+      !props.hideFocus && `border: 2px solid ${props.theme.color('black')}`}
   }
 
   .icon {
@@ -54,7 +55,7 @@ const CloseButton = styled(Space).attrs({
 
   ${props => props.theme.media.medium`
     background: none;
-    color: ${props => props.theme.colors.pewter};
+    color: ${props => props.theme.color('pewter')};
     position: absolute;
   `}
 `;
@@ -82,12 +83,13 @@ const ModalWindow = styled(Space).attrs({
     transform: translateX(-50%) translateY(-50%);
     height: auto;
     max-height: 90vh;
-    max-width: ${props.theme.sizes.large}px
+    max-width: ${props.width || `${props.theme.sizes.large}px`}
+    width: ${props.width || 'auto'};
     border-radius: ${props.theme.borderRadiusUnit}px;
   `}
 `;
 
-const Modal = ({ children, isActive, setIsActive }: Props) => {
+const Modal = ({ children, isActive, setIsActive, width = null }: Props) => {
   const closeButtonRef = useRef(null);
   const endRef = useRef(null);
   const modalRef = useRef(null);
@@ -133,7 +135,7 @@ const Modal = ({ children, isActive, setIsActive }: Props) => {
     <>
       {isActive && <Overlay onClick={() => setIsActive(false)} />}
       {isActive && (
-        <ModalWindow ref={modalRef}>
+        <ModalWindow ref={modalRef} width={width}>
           <CloseButton
             ref={closeButtonRef}
             onClick={() => setIsActive(false)}

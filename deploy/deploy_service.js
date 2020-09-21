@@ -51,10 +51,20 @@ async function deploy(serviceName, options) {
     process.exit(1);
   }
 
+  function sortTagsByDate(arr) {
+    return arr.sort((a, b) => {
+      const aDate = new Date(a.last_updated);
+      const bDate = new Date(b.last_updated);
+
+      return bDate - aDate;
+    });
+  }
+
   const dockerUrl = `${service.containerUrl}/tags/`;
   const dockerData = await fetch(dockerUrl).then(resp => resp.json());
   const dockerTags = dockerData.results.filter(tag => tag.name !== 'test');
-  const latestTag = dockerTags[0].name;
+  const sortedDockerTags = sortTagsByDate(dockerTags);
+  const latestTag = sortedDockerTags[0].name;
 
   const githubUrl = `https://api.github.com/repos/wellcomecollection/wellcomecollection.org/git/commits/${latestTag}`;
   const githubData = await fetch(githubUrl).then(resp => resp.json());

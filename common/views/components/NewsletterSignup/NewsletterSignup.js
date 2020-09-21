@@ -1,9 +1,13 @@
 // @flow
 import { useState, useEffect } from 'react';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
-import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
+// $FlowFixMe (tsx)
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
+import useValidation from '../../../hooks/useValidation';
+// $FlowFixMe (tsx)
+import ButtonSolid from '../ButtonSolid/ButtonSolid';
 
 type Props = {|
   isSuccess?: boolean,
@@ -37,10 +41,11 @@ const addressBooks = [
 
 const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
   const [checkedInputs, setCheckedInputs] = useState([]);
-  const [isEmailError, setIsEmailError] = useState(true);
   const [isCheckboxError, setIsCheckboxError] = useState(true);
   const [noValidate, setNoValidate] = useState(false);
   const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
+  const [emailValue, setEmailValue] = useState('');
+  const emailValidation = useValidation();
 
   function updateCheckedInputs(event: SyntheticEvent<HTMLInputElement>) {
     const isChecked = event.currentTarget.checked;
@@ -53,14 +58,16 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
     setIsCheckboxError(newInputs.length === 0);
   }
 
-  function handleEmailInput(event: SyntheticEvent<HTMLInputElement>) {
-    setIsEmailError(!event.currentTarget.validity.valid);
-  }
-
   function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
+
     setIsSubmitAttempted(true);
-    if (!isCheckboxError && !isEmailError) {
+
+    emailValidation.setShowValidity(true);
+
+    if (!emailValidation.isValid) return;
+
+    if (!isCheckboxError) {
       event.currentTarget.submit();
     }
   }
@@ -166,14 +173,19 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
               placeholder="Your email address"
               name="Email"
               type="email"
-              onChange={handleEmailInput}
-              required
+              required={true}
+              big={true}
+              value={emailValue}
+              setValue={setEmailValue}
+              errorMessage={`Enter a valid email address.`}
+              {...emailValidation}
             />
           </Space>
 
           <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-            <Checkbox
+            <CheckboxRadio
               id="whats_on"
+              type={`checkbox`}
               text="I'd like to receive regular updates from Wellcome Collection"
               value="addressbook_40131"
               name="addressbook_40131"
@@ -199,8 +211,9 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
                   v={{ size: 'm', properties: ['margin-bottom'] }}
                   key={addressBook.id}
                 >
-                  <Checkbox
+                  <CheckboxRadio
                     id={addressBook.id}
+                    type={`checkbox`}
                     text={addressBook.label}
                     value={addressBook.name}
                     name={addressBook.name}
@@ -213,27 +226,8 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
           </Space>
 
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <button className="btn btn--primary">Subscribe</button>
+            <ButtonSolid text="Subscribe" />
           </Space>
-
-          {isEmailError && isSubmitAttempted && (
-            <Space
-              as="p"
-              v={{
-                size: 's',
-                properties: [
-                  'padding-top',
-                  'padding-bottom',
-                  'margin-top',
-                  'margin-bottom',
-                ],
-              }}
-              h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-              className={`border-width-1 border-color-red font-red`}
-            >
-              Please enter a valid email address.
-            </Space>
-          )}
 
           {isCheckboxError && isSubmitAttempted && (
             <Space

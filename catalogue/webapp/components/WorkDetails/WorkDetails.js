@@ -1,22 +1,19 @@
 // @flow
 import moment from 'moment';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
+import fetch from 'isomorphic-unfetch';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { type Work } from '@weco/common/model/work';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
-import merge from 'lodash.merge';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { worksLink } from '@weco/common/services/catalogue/routes';
-import getStacksWork from '@weco/catalogue/services/stacks/items';
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
   getWorkIdentifiersWith,
   getEncoreLink,
   sierraIdFromPresentationManifestUrl,
-  getItemsWithPhysicalLocation,
-  type PhysicalItemAugmented,
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
@@ -24,13 +21,12 @@ import {
   getVideo,
   getDownloadOptionsFromManifest,
   getIIIFPresentationCredit,
+  getUiExtensions,
+  isUiEnabled,
 } from '@weco/common/utils/iiif';
-import { getUserHolds } from '../../services/stacks/requests';
 import NextLink from 'next/link';
-import Icon from '@weco/common/views/components/Icon/Icon';
+// $FlowFixMe (tsx)
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Download from '../Download/Download';
@@ -39,19 +35,17 @@ import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
-import LogInButton from '../LogInButton/LogInButton';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+// $FlowFixMe (tsx)
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+// $FlowFixMe (tsx)
+import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
 import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
-import ResponsiveTable from '@weco/common/views/components/styled/ResponsiveTable';
-import useAuth from '@weco/common/hooks/useAuth';
-import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
-import Modal from '@weco/common/views/components/Modal/Modal';
-import ItemRequestButton from '@weco/catalogue/components/ItemRequestButton/ItemRequestButton';
-
+import ItemLocation from '../RequestLocation/RequestLocation';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 type Props = {|
   work: Work,
   iiifPresentationManifest: ?IIIFManifest,
@@ -67,55 +61,20 @@ const WorkDetails = ({
   imageCount,
   itemUrl,
 }: Props) => {
-  const [itemsWithPhysicalLocations, setItemsWithPhysicalLocations] = useState<
-    PhysicalItemAugmented[]
-  >(getItemsWithPhysicalLocation(work));
-  const itemsRef = useRef(itemsWithPhysicalLocations);
-  itemsRef.current = itemsWithPhysicalLocations;
-  const [hasRequestableItems, setHasRequestableItems] = useState(false);
-  const singleItem = itemsWithPhysicalLocations.length === 1;
+  const [imageJson, setImageJson] = useState(null);
+  const fetchImageJson = async () => {
+    try {
+      const imageJson =
+        iiifImageLocation &&
+        (await fetch(iiifImageLocation.url).then(resp => resp.json()));
+      setImageJson(imageJson);
+    } catch (e) {}
+  };
   useEffect(() => {
-    const fetchWork = async () => {
-      const stacksWork = await getStacksWork({ workId: work.id });
-      var merged = itemsRef.current.map(physicalItem => {
-        const matchingItem = stacksWork.items.find(
-          item => item.id === physicalItem.id
-        );
-        const physicalItemLocation = physicalItem.locations.find(
-          location => location.type === 'PhysicalLocation'
-        );
-        const physicalItemLocationType =
-          physicalItemLocation && physicalItemLocation.locationType;
-        const physicalItemLocationLabel =
-          physicalItemLocationType && physicalItemLocationType.label;
-        const inClosedStores =
-          physicalItemLocationLabel &&
-          physicalItemLocationLabel.match(/[Cc]losed stores/);
-        const requestable = Boolean(
-          inClosedStores &&
-            matchingItem.status &&
-            matchingItem.status.label === 'Available'
-        );
-        return {
-          ...physicalItem,
-          ...matchingItem,
-          requestable: requestable,
-          checked: !!(requestable && singleItem),
-        };
-      });
-      setItemsWithPhysicalLocations(merged);
-    };
-
-    fetchWork();
+    fetchImageJson();
   }, []);
 
-  useEffect(() => {
-    setHasRequestableItems(
-      Boolean(itemsWithPhysicalLocations.find(item => item.requestable))
-    );
-  }, [itemsWithPhysicalLocations]);
-
-  // Determin digital location
+  // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
@@ -140,7 +99,11 @@ const WorkDetails = ({
 
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImageDownloadOptions = iiifImageLocationUrl
-    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
+    ? getDownloadOptionsFromImageUrl({
+        url: iiifImageLocationUrl,
+        width: imageJson && imageJson.width,
+        height: imageJson && imageJson.height,
+      })
     : [];
   const iiifPresentationDownloadOptions = iiifPresentationManifest
     ? getDownloadOptionsFromManifest(iiifPresentationManifest)
@@ -155,7 +118,7 @@ const WorkDetails = ({
   const duration =
     work.duration && moment.utc(work.duration).format('HH:mm:ss');
 
-  // 'Indentifiers' data
+  // 'Identifiers' data
   const isbnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'isbn';
   });
@@ -179,41 +142,39 @@ const WorkDetails = ({
   const locationOfWork = work.notes.find(
     note => note.noteType.id === 'location-of-original'
   );
+  const arrangementNote = work.notes.filter(
+    note => note.noteType.id === 'arrangement-note'
+  );
+  const biographicalNote = work.notes.filter(
+    note => note.noteType.id === 'biographical-note'
+  );
+  const relatedMaterial = work.notes.filter(
+    note => note.noteType.id === 'related-material'
+  );
+  const acquisitionNote = work.notes.filter(
+    note => note.noteType.id === 'acquisition-note'
+  );
 
-  const authState = useAuth();
-  const [showRequestModal, setShowRequestModal] = useState(false);
-  const [showResultsModal, setShowResultsModal] = useState(false);
+  const orderedNotes = [
+    ...arrangementNote,
+    ...acquisitionNote,
+    ...biographicalNote,
+    ...relatedMaterial,
+  ];
 
-  useEffect(() => {
-    if (authState.type === 'authorized') {
-      getUserHolds({ token: authState.token.id_token })
-        .then(userHolds => {
-          const itemsOnHold = userHolds.results.map(hold => {
-            return hold.item.id;
-          });
-          const newArray = itemsRef.current.map(item => {
-            if (itemsOnHold.includes(item.id)) {
-              return {
-                ...item,
-                requestable: false,
-                requested: true,
-              };
-            } else {
-              return {
-                ...item,
-                requested: false,
-              };
-            }
-          });
+  const remainingNotes = work.notes.filter(note => {
+    return !orderedNotes.some(n => n === note);
+  });
 
-          setItemsWithPhysicalLocations(newArray);
-        })
-        .catch(console.error);
-    }
-  }, [authState]);
+  const showDownloadOptions = iiifPresentationManifest
+    ? isUiEnabled(getUiExtensions(iiifPresentationManifest), 'mediaDownload')
+    : true;
 
   const WhereToFindIt = () => (
-    <WorkDetailsSection headingText="Where to find it">
+    <WorkDetailsSection
+      headingText="Where to find it"
+      isInArchive={isInArchive}
+    >
       {locationOfWork && (
         <WorkDetailsText
           title={locationOfWork.noteType.label}
@@ -241,355 +202,351 @@ const WorkDetails = ({
 
       <TogglesContext.Consumer>
         {({ stacksRequestService }) =>
-          stacksRequestService &&
-          itemsWithPhysicalLocations.length > 0 && (
-            <>
-              <ResponsiveTable
-                headings={
-                  hasRequestableItems
-                    ? ['', 'Title', 'Location/Shelfmark', 'Status', 'Access']
-                    : ['Title', 'Location/Shelfmark', 'Status', 'Access']
-                }
-              >
-                <thead>
-                  <tr className={classNames({ [font('hnm', 5)]: true })}>
-                    {hasRequestableItems && !singleItem && <th></th>}
-                    <th>Title</th>
-                    <th>Location/Shelfmark</th>
-                    <th>Status</th>
-                    <th>Access</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {itemsWithPhysicalLocations.map(item => (
-                    <tr
-                      key={item.id}
-                      className={classNames({ [font('hnm', 5)]: true })}
-                    >
-                      {hasRequestableItems && (
-                        <td
-                          className={classNames({
-                            'is-hidden': singleItem,
-                            'no-padding': true,
-                          })}
-                        >
-                          <span hidden={singleItem}>
-                            {item.requestable && (
-                              <>
-                                <label className="visually-hidden">
-                                  Request {item.id}
-                                </label>
-                                <Checkbox
-                                  id={item.id}
-                                  text=""
-                                  checked={item.checked}
-                                  name={item.id}
-                                  value={item.id}
-                                  onChange={() => {
-                                    const newArray = itemsWithPhysicalLocations.map(
-                                      i => {
-                                        if (item.id === i.id) {
-                                          return { ...i, checked: !i.checked };
-                                        } else {
-                                          return i;
-                                        }
-                                      }
-                                    );
-
-                                    setItemsWithPhysicalLocations(newArray);
-                                  }}
-                                />
-                              </>
-                            )}
-                          </span>
-                        </td>
-                      )}
-                      <td>
-                        <span
-                          className={classNames({ [font('hnl', 5)]: true })}
-                        >
-                          {item.title || 'Unknown'}
-                        </span>
-                      </td>
-                      <td>
-                        <span
-                          className={classNames({ [font('hnl', 5)]: true })}
-                        >
-                          {(function() {
-                            const physicalLocation = item.locations.find(
-                              location => location.type === 'PhysicalLocation'
-                            );
-                            return physicalLocation
-                              ? physicalLocation.label
-                              : null;
-                          })()}
-                        </span>
-                      </td>
-                      <td>
-                        <span
-                          className={classNames({
-                            [font('hnl', 5)]: true,
-                          })}
-                        >
-                          {item.requestSucceeded ? (
-                            'You have requested this item'
-                          ) : (
-                            <span data-test-id="itemStatus">
-                              {(item.requested &&
-                                'You have requested this item') ||
-                                (item.status && item.status.label) ||
-                                'Unknown'}
-                            </span>
-                          )}
-                        </span>
-                      </td>
-                      <td>
-                        <span
-                          className={classNames({ [font('hnl', 5)]: true })}
-                        >
-                          {item.requestable ? 'Online request' : 'In library'}
-                          {/* TODO check logic and wording is correct */}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </ResponsiveTable>
-              {itemsWithPhysicalLocations.find(item => item.requestable) && (
-                <>
-                  {authState.type === 'unauthorized' ? (
-                    <LogInButton
-                      workId={work.id}
-                      loginUrl={authState.loginUrl}
-                    />
-                  ) : (
-                    <>
-                      <div data-test-id="requestModalCTA">
-                        <Button
-                          type="primary"
-                          text="Request"
-                          clickHandler={() => {
-                            if (
-                              itemsWithPhysicalLocations.find(
-                                item => item.checked
-                              )
-                            ) {
-                              setShowRequestModal(!showRequestModal);
-                            } else {
-                              window.alert('please make a selection');
-                            }
-                          }}
-                        />
-
-                        <Modal
-                          isActive={showRequestModal}
-                          setIsActive={setShowRequestModal}
-                        >
-                          <h2
-                            className={classNames({
-                              [font('hnm', 5)]: true,
-                            })}
-                          >
-                            Request items
-                          </h2>
-                          <p
-                            className={classNames({
-                              [font('hnl', 5)]: true,
-                            })}
-                          >
-                            You are about to request the following items:
-                          </p>
-                          <p
-                            className={classNames({
-                              [font('hnm', 6)]: true,
-                            })}
-                          >
-                            {work.title}
-                          </p>
-                          <ul className="plain-list no-padding">
-                            {itemsWithPhysicalLocations.map(
-                              item =>
-                                item.requestable && (
-                                  <li
-                                    key={item.id}
-                                    className={classNames({
-                                      [font('hnm', 5)]: true,
-                                    })}
-                                  >
-                                    <Space
-                                      as="span"
-                                      className={classNames({
-                                        [font('hnl', 5)]: true,
-                                      })}
-                                      h={{
-                                        size: 's',
-                                        properties: ['margin-right'],
-                                      }}
-                                    >
-                                      <label className="visually-hidden">
-                                        Request {item.id}
-                                      </label>
-                                      <Checkbox
-                                        id={item.id}
-                                        text=""
-                                        checked={item.checked}
-                                        name={item.id}
-                                        value={item.id}
-                                        onChange={() => {
-                                          const newArray = itemsWithPhysicalLocations.map(
-                                            i => {
-                                              if (item.id === i.id) {
-                                                return {
-                                                  ...i,
-                                                  checked: !i.checked,
-                                                };
-                                              } else {
-                                                return i;
-                                              }
-                                            }
-                                          );
-
-                                          setItemsWithPhysicalLocations(
-                                            newArray
-                                          );
-                                        }}
-                                      />
-                                    </Space>
-                                    {item.title}
-                                    <Space
-                                      as="span"
-                                      className={classNames({
-                                        [font('hnl', 5)]: true,
-                                      })}
-                                      h={{
-                                        size: 'l',
-                                        properties: ['margin-left'],
-                                      }}
-                                    >
-                                      {(function() {
-                                        const physicalLocation = item.locations.find(
-                                          location =>
-                                            location.type === 'PhysicalLocation'
-                                        );
-                                        return physicalLocation
-                                          ? physicalLocation.label
-                                          : null;
-                                      })()}
-                                    </Space>
-                                  </li>
-                                )
-                            )}
-                          </ul>
-                          <div>
-                            <ItemRequestButton
-                              itemsWithPhysicalLocations={
-                                itemsWithPhysicalLocations
-                              }
-                              setItemsWithPhysicalLocations={
-                                setItemsWithPhysicalLocations
-                              }
-                              setShowRequestModal={setShowRequestModal}
-                              setShowResultsModal={setShowResultsModal}
-                            />
-                            <button
-                              className="plain-button"
-                              onClick={() => {
-                                setShowRequestModal(false);
-                              }}
-                            >
-                              <Space
-                                as="span"
-                                className={classNames({
-                                  [font('hnl', 6)]: true,
-                                })}
-                                h={{ size: 'l', properties: ['margin-left'] }}
-                              >
-                                Cancel
-                              </Space>
-                            </button>
-                          </div>
-                        </Modal>
-                      </div>
-                      {!showRequestModal && (
-                        <div data-test-id="resultsModalCTA">
-                          <Modal
-                            isActive={showResultsModal}
-                            setIsActive={setShowResultsModal}
-                          >
-                            <h2
-                              className={classNames({
-                                [font('hnm', 5)]: true,
-                              })}
-                            >
-                              {itemsWithPhysicalLocations.filter(
-                                item => item.requested
-                              ).length ===
-                              itemsWithPhysicalLocations.filter(
-                                item => item.requestSucceeded
-                              ).length
-                                ? 'Your items have been requested'
-                                : 'We were unable to request all of your items'}
-                            </h2>
-                            <ul className="plain-list no-padding">
-                              {itemsWithPhysicalLocations
-                                .filter(item => item.requested)
-                                .map(item => (
-                                  <li key={item.id}>
-                                    <span
-                                      className={classNames({
-                                        [font('hnm', 5)]: true,
-                                      })}
-                                    >
-                                      {item.title}
-                                    </span>
-
-                                    <Space
-                                      as="span"
-                                      className={classNames({
-                                        [font('hnl', 5)]: true,
-                                      })}
-                                      h={{
-                                        size: 'l',
-                                        properties: ['margin-left'],
-                                      }}
-                                    >
-                                      {(function() {
-                                        const physicalLocation = item.locations.find(
-                                          location =>
-                                            location.type === 'PhysicalLocation'
-                                        );
-                                        return physicalLocation
-                                          ? physicalLocation.label
-                                          : null;
-                                      })()}
-                                      {` : ${
-                                        item.requestSucceeded
-                                          ? 'item has been requested'
-                                          : 'item request failed'
-                                      }`}
-                                    </Space>
-                                  </li>
-                                ))}
-                            </ul>
-                            <Button
-                              type="primary"
-                              text="Continue"
-                              clickHandler={() => {
-                                setShowResultsModal(false);
-                              }}
-                            />
-                          </Modal>
-                        </div>
-                      )}
-                    </>
-                  )}
-                </>
-              )}
-            </>
-          )
+          stacksRequestService && <ItemLocation work={work} />
         }
       </TogglesContext.Consumer>
     </WorkDetailsSection>
+  );
+
+  const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
+
+  const Content = () => (
+    <>
+      {digitalLocation && (
+        <WorkDetailsSection
+          headingText="Available online"
+          isInArchive={isInArchive}
+        >
+          {video && (
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <VideoPlayer
+                video={video}
+                showDownloadOptions={showDownloadOptions}
+              />
+            </Space>
+          )}
+          {audio && (
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <AudioPlayer audio={audio} />
+            </Space>
+          )}
+          {work.thumbnail && (
+            <Space
+              v={{
+                size: 's',
+                properties: ['margin-bottom'],
+              }}
+            >
+              {itemUrl ? (
+                <NextLink {...itemUrl}>
+                  <a
+                    onClick={trackEvent({
+                      category: 'WorkDetails',
+                      action: 'follow image link',
+                      label: itemUrl.href.query.workId,
+                    })}
+                  >
+                    <img
+                      style={{
+                        width: 'auto',
+                        height: 'auto',
+                      }}
+                      alt={`view ${work.title}`}
+                      src={work.thumbnail.url}
+                    />
+                  </a>
+                </NextLink>
+              ) : (
+                <img
+                  style={{
+                    width: 'auto',
+                    height: 'auto',
+                  }}
+                  alt={`view ${work.title}`}
+                  src={work.thumbnail.url}
+                />
+              )}
+            </Space>
+          )}
+          <div
+            className={classNames({
+              'flex flex-h-center': true,
+            })}
+          >
+            {itemUrl && !audio && !video && (
+              <Space
+                as="span"
+                h={{
+                  size: 'm',
+                  properties: ['margin-right'],
+                }}
+              >
+                <ButtonSolidLink
+                  icon="eye"
+                  text="View"
+                  trackingEvent={{
+                    category: 'WorkDetails',
+                    action: 'follow view link',
+                    label: itemUrl.href.query.workId,
+                  }}
+                  link={{ ...itemUrl }}
+                />
+              </Space>
+            )}
+
+            {showDownloadOptions && (
+              <Download
+                ariaControlsId="itemDownloads"
+                workId={work.id}
+                downloadOptions={downloadOptions}
+              />
+            )}
+          </div>
+
+          {!(downloadOptions.length > 0) &&
+            sierraIdFromManifestUrl &&
+            childManifestsCount === 0 && (
+              <NextLink
+                {...downloadUrl({
+                  workId: work.id,
+                  sierraId: sierraIdFromManifestUrl,
+                })}
+              >
+                <a>Download options</a>
+              </NextLink>
+            )}
+
+          {(childManifestsCount > 0 || imageCount > 0) && (
+            <Space
+              v={{
+                size: 'm',
+                properties: ['margin-top'],
+              }}
+            >
+              <p
+                className={classNames({
+                  'no-margin': true,
+                  [font('lr', 6)]: true,
+                })}
+              >
+                Contains:{' '}
+                {childManifestsCount > 0
+                  ? `${childManifestsCount} volumes`
+                  : imageCount > 0
+                  ? `${imageCount} ${imageCount === 1 ? 'image' : 'images'}`
+                  : ''}
+              </p>
+            </Space>
+          )}
+          {license && (
+            <>
+              <Space
+                v={{
+                  size: 'l',
+                  properties: ['margin-top'],
+                }}
+              >
+                <WorkDetailsText title="License" text={[license.label]} />
+              </Space>
+              <Space
+                v={{
+                  size: 'l',
+                  properties: ['margin-top'],
+                }}
+              >
+                <ExplanatoryText
+                  id="licenseDetail"
+                  controlText="Can I use this?"
+                >
+                  <>
+                    {license.humanReadableText.length > 0 && (
+                      <WorkDetailsText text={license.humanReadableText} />
+                    )}
+
+                    <WorkDetailsText
+                      text={[
+                        `Credit: ${work.title.replace(/\.$/g, '')}.${' '}
+            ${
+              credit
+                ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
+                : ` `
+            }
+          ${
+            license.url
+              ? `<a href="${license.url}">${license.label}</a>`
+              : license.label
+          }`,
+                      ]}
+                    />
+                  </>
+                </ExplanatoryText>
+              </Space>
+            </>
+          )}
+        </WorkDetailsSection>
+      )}
+      {!digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
+      {work.images && work.images.length > 0 && (
+        <WorkDetailsSection
+          headingText="Selected images from this work"
+          isInArchive={isInArchive}
+        >
+          <ButtonOutlinedLink
+            text={
+              work.images.length > 1
+                ? `View ${work.images.length} images`
+                : 'View 1 image'
+            }
+            link={worksLink(
+              {
+                search: 'images',
+                query: work.id,
+              },
+              'work_details/images'
+            )}
+          />
+        </WorkDetailsSection>
+      )}
+      <WorkDetailsSection
+        headingText="About this work"
+        isInArchive={isInArchive}
+      >
+        {work.alternativeTitles.length > 0 && (
+          <WorkDetailsText
+            title="Also known as"
+            text={work.alternativeTitles}
+          />
+        )}
+
+        {work.description && (
+          <WorkDetailsText title="Description" text={[work.description]} />
+        )}
+
+        {work.production.length > 0 && (
+          <WorkDetailsText
+            title="Publication/Creation"
+            text={work.production.map(productionEvent => productionEvent.label)}
+          />
+        )}
+
+        {work.physicalDescription && (
+          <WorkDetailsText
+            title="Physical description"
+            text={[work.physicalDescription]}
+          />
+        )}
+
+        {work.contributors.length > 0 && (
+          <WorkDetailsTags
+            title="Contributors"
+            tags={work.contributors.map(contributor => ({
+              textParts: [contributor.agent.label],
+              linkAttributes: worksLink(
+                {
+                  query: `"${contributor.agent.label}"`,
+                },
+                'work_details/contributors'
+              ),
+            }))}
+          />
+        )}
+
+        {orderedNotes.map(note => (
+          <WorkDetailsText
+            key={note.noteType.label}
+            title={note.noteType.label}
+            text={note.contents}
+          />
+        ))}
+
+        {work.lettering && (
+          <WorkDetailsText title="Lettering" text={[work.lettering]} />
+        )}
+
+        {work.edition && (
+          <WorkDetailsText title="Edition" text={[work.edition]} />
+        )}
+
+        {duration && <WorkDetailsText title="Duration" text={[duration]} />}
+
+        {remainingNotes.map(note => (
+          <WorkDetailsText
+            key={note.noteType.label}
+            title={note.noteType.label}
+            text={note.contents}
+          />
+        ))}
+
+        {work.genres.length > 0 && (
+          <WorkDetailsTags
+            title="Type/Technique"
+            tags={work.genres.map(g => {
+              return {
+                textParts: g.concepts.map(c => c.label),
+                linkAttributes: worksLink(
+                  {
+                    query: `"${g.label}"`,
+                  },
+                  'work_details/genres'
+                ),
+              };
+            })}
+          />
+        )}
+
+        {work.language && (
+          <WorkDetailsLinks
+            title="Language"
+            links={[work.language && work.language.label]}
+          />
+        )}
+      </WorkDetailsSection>
+      {work.subjects.length > 0 && (
+        <WorkDetailsSection headingText="Subjects" isInArchive={isInArchive}>
+          <WorkDetailsTags
+            title={null}
+            tags={work.subjects.map(s => {
+              return {
+                textParts: s.concepts.map(c => c.label),
+                linkAttributes: worksLink(
+                  {
+                    query: `"${s.label}"`,
+                  },
+                  'work_details/subjects'
+                ),
+              };
+            })}
+          />
+        </WorkDetailsSection>
+      )}
+      {digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
+
+      <WorkDetailsSection
+        headingText="Permanent link"
+        isInArchive={isInArchive}
+      >
+        <div className={`${font('hnl', 5)}`}>
+          <CopyUrl
+            id={work.id}
+            url={`https://wellcomecollection.org/works/${work.id}`}
+          />
+        </div>
+      </WorkDetailsSection>
+
+      {(isbnIdentifiers.length > 0 || work.citeAs) && (
+        <WorkDetailsSection headingText="Identifiers" isInArchive={isInArchive}>
+          {isbnIdentifiers.length > 0 && (
+            <WorkDetailsList
+              title="ISBN"
+              list={isbnIdentifiers.map(id => id.value)}
+            />
+          )}
+          {work.citeAs && (
+            <WorkDetailsText title="Reference number" text={[work.citeAs]} />
+          )}
+        </WorkDetailsSection>
+      )}
+    </>
   );
 
   return (
@@ -602,341 +559,21 @@ const WorkDetails = ({
         row: true,
       })}
     >
-      <Layout12>
-        {digitalLocation && (
-          <WorkDetailsSection headingText="Available online">
-            {video && (
-              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                <VideoPlayer video={video} />
-              </Space>
-            )}
-            {audio && (
-              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                <AudioPlayer audio={audio} />
-              </Space>
-            )}
-            {work.thumbnail && (
-              <Space
-                v={{
-                  size: 's',
-                  properties: ['margin-bottom'],
-                }}
-              >
-                {itemUrl ? (
-                  <NextLink {...itemUrl}>
-                    <a
-                      onClick={trackEvent({
-                        category: 'WorkDetails',
-                        action: 'follow image link',
-                        label: itemUrl.href.query.workId,
-                      })}
-                    >
-                      <img
-                        style={{
-                          width: 'auto',
-                          height: 'auto',
-                        }}
-                        alt={`view ${work.title}`}
-                        src={work.thumbnail.url}
-                      />
-                    </a>
-                  </NextLink>
-                ) : (
-                  <img
-                    style={{
-                      width: 'auto',
-                      height: 'auto',
-                    }}
-                    alt={`view ${work.title}`}
-                    src={work.thumbnail.url}
-                  />
-                )}
-              </Space>
-            )}
-            {itemUrl && !audio && !video && (
-              <>
-                <Space
-                  as="span"
-                  h={{
-                    size: 'm',
-                    properties: ['margin-right'],
-                  }}
-                >
-                  <Button
-                    type="primary"
-                    icon="eye"
-                    text="View"
-                    trackingEvent={{
-                      category: 'WorkDetails',
-                      action: 'follow view link',
-                      label: itemUrl.href.query.workId,
-                    }}
-                    link={{ ...itemUrl }}
-                  />
-                </Space>
-                {(imageCount > 4 || childManifestsCount > 1) && (
-                  <Space
-                    as="span"
-                    h={{
-                      size: 'm',
-                      properties: ['margin-right'],
-                    }}
-                  >
-                    <Button
-                      type="primary"
-                      icon="gridView"
-                      text="Overview"
-                      trackingEvent={{
-                        category: 'WorkDetails',
-                        action: 'follow overview link',
-                        label: itemUrl.href.query.workId,
-                      }}
-                      link={{
-                        ...merge({}, itemUrl, {
-                          href: {
-                            query: {
-                              isOverview: true,
-                            },
-                          },
-                          as: {
-                            query: {
-                              isOverview: true,
-                            },
-                          },
-                        }),
-                      }}
-                    />
-                  </Space>
-                )}
-              </>
-            )}
-
-            <Download
-              ariaControlsId="itemDownloads"
-              workId={work.id}
-              downloadOptions={downloadOptions}
-            />
-
-            {!(downloadOptions.length > 0) &&
-              sierraIdFromManifestUrl &&
-              childManifestsCount === 0 && (
-                <NextLink
-                  {...downloadUrl({
-                    workId: work.id,
-                    sierraId: sierraIdFromManifestUrl,
-                  })}
-                >
-                  <a>Download options</a>
-                </NextLink>
-              )}
-
-            {(childManifestsCount > 0 || imageCount > 0) && (
-              <Space
-                v={{
-                  size: 'm',
-                  properties: ['margin-top'],
-                }}
-              >
-                <p
-                  className={classNames({
-                    'no-margin': true,
-                    [font('lr', 6)]: true,
-                  })}
-                >
-                  Contains:{' '}
-                  {childManifestsCount > 0
-                    ? `${childManifestsCount} volumes`
-                    : imageCount > 0
-                    ? `${imageCount} ${imageCount === 1 ? 'image' : 'images'}`
-                    : ''}
-                </p>
-              </Space>
-            )}
-            {license && (
-              <>
-                <Space
-                  v={{
-                    size: 'l',
-                    properties: ['margin-top'],
-                  }}
-                >
-                  <WorkDetailsText title="License" text={[license.label]} />
-                </Space>
-                <Space
-                  v={{
-                    size: 'l',
-                    properties: ['margin-top'],
-                  }}
-                >
-                  <ExplanatoryText
-                    id="licenseDetail"
-                    controlText="Can I use this?"
-                  >
-                    <>
-                      {license.humanReadableText.length > 0 && (
-                        <WorkDetailsText text={license.humanReadableText} />
-                      )}
-
-                      <WorkDetailsText
-                        text={[
-                          `Credit: ${work.title.replace(/\.$/g, '')}.${' '}
-                ${
-                  credit
-                    ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
-                    : ` `
-                }
-              ${
-                license.url
-                  ? `<a href="${license.url}">${license.label}</a>`
-                  : license.label
-              }`,
-                        ]}
-                      />
-                    </>
-                  </ExplanatoryText>
-                </Space>
-              </>
-            )}
-          </WorkDetailsSection>
-        )}
-        {!digitalLocation && (locationOfWork || encoreLink) && (
-          <WhereToFindIt />
-        )}
-        <WorkDetailsSection headingText="About this work">
-          {work.alternativeTitles.length > 0 && (
-            <WorkDetailsText
-              title="Also known as"
-              text={work.alternativeTitles}
-            />
-          )}
-
-          {work.description && (
-            <WorkDetailsText title="Description" text={[work.description]} />
-          )}
-
-          {work.contributors.length > 0 && (
-            <WorkDetailsTags
-              title="Contributors"
-              tags={work.contributors.map(contributor => ({
-                textParts: [contributor.agent.label],
-                linkAttributes: worksLink(
-                  {
-                    query: `"${contributor.agent.label}"`,
-                  },
-                  'work_details/contributors'
-                ),
-              }))}
-            />
-          )}
-
-          {work.lettering && (
-            <WorkDetailsText title="Lettering" text={[work.lettering]} />
-          )}
-
-          {work.production.length > 0 && (
-            <WorkDetailsText
-              title="Publication/Creation"
-              text={work.production.map(
-                productionEvent => productionEvent.label
-              )}
-            />
-          )}
-
-          {work.edition && (
-            <WorkDetailsText title="Edition" text={[work.edition]} />
-          )}
-
-          {work.physicalDescription && (
-            <WorkDetailsText
-              title="Physical description"
-              text={[work.physicalDescription]}
-            />
-          )}
-
-          {duration && <WorkDetailsText title="Duration" text={[duration]} />}
-
-          {work.notes
-            .filter(note => note.noteType.id !== 'location-of-original')
-            .map(note => (
-              <WorkDetailsText
-                key={note.noteType.label}
-                title={note.noteType.label}
-                text={note.contents}
-              />
-            ))}
-
-          {work.genres.length > 0 && (
-            <WorkDetailsTags
-              title="Type/Technique"
-              tags={work.genres.map(g => {
-                return {
-                  textParts: g.concepts.map(c => c.label),
-                  linkAttributes: worksLink(
-                    {
-                      query: `"${g.label}"`,
-                    },
-                    'work_details/genres'
-                  ),
-                };
-              })}
-            />
-          )}
-
-          {work.language && (
-            <WorkDetailsLinks
-              title="Language"
-              links={[work.language && work.language.label]}
-            />
-          )}
-        </WorkDetailsSection>
-        {work.subjects.length > 0 && (
-          <WorkDetailsSection headingText="Subjects">
-            <WorkDetailsTags
-              title={null}
-              tags={work.subjects.map(s => {
-                return {
-                  textParts: s.concepts.map(c => c.label),
-                  linkAttributes: worksLink(
-                    {
-                      query: `"${s.label}"`,
-                    },
-                    'work_details/subjects'
-                  ),
-                };
-              })}
-            />
-          </WorkDetailsSection>
-        )}
-        {digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
-        <WorkDetailsSection headingText="Identifiers">
-          {isbnIdentifiers.length > 0 && (
-            <WorkDetailsList
-              title="ISBN"
-              list={isbnIdentifiers.map(id => id.value)}
-            />
-          )}
-          <SpacingComponent>
-            <div className={`${font('hnl', 5)}`}>
-              <CopyUrl
-                id={work.id}
-                url={`https://wellcomecollection.org/works/${work.id}`}
-              />
+      <TogglesContext.Consumer>
+        {({ archivesPrototype }) =>
+          archivesPrototype && isInArchive ? (
+            <div className="container">
+              <div className="grid">
+                <Content />
+              </div>
             </div>
-          </SpacingComponent>
-          {work.citeAs && (
-            <WorkDetailsText title="Reference number" text={[work.citeAs]} />
-          )}
-        </WorkDetailsSection>
-        <WorkDetailsSection>
-          <div className="flex flex--v-center">
-            <Icon name="underConstruction" extraClasses="margin-right-s2" />
-            <p className={`${font('hnl', 5)} no-margin`}>
-              We’re improving the information on this page.{' '}
-              <a href="/works/progress">Find out more</a>.
-            </p>
-          </div>
-        </WorkDetailsSection>
-      </Layout12>
+          ) : (
+            <Layout12>
+              <Content />
+            </Layout12>
+          )
+        }
+      </TogglesContext.Consumer>
     </Space>
   );
 };

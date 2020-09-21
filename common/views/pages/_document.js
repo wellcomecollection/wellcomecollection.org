@@ -1,6 +1,25 @@
 // @flow
 import Document, { Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
+import * as snippet from '@segment/snippet';
+
+const {
+  ANALYTICS_WRITE_KEY = '78Czn5jNSaMSVrBq2J9K4yJjWxh6fyRI',
+  NODE_ENV = 'development',
+} = process.env;
+
+function renderSegmentSnippet() {
+  const opts = {
+    apiKey: ANALYTICS_WRITE_KEY,
+    page: true,
+  };
+
+  if (NODE_ENV === 'development') {
+    return snippet.max(opts);
+  }
+
+  return snippet.min(opts);
+}
 
 export default function WeDoc(css: string) {
   return class WecoDoc extends Document {
@@ -15,7 +34,7 @@ export default function WeDoc(css: string) {
 
     render() {
       return (
-        <html id="top" lang="en">
+        <html id="top" lang="en" className="is-keyboard">
           <Head>
             {/* Google Tag Manager */}
             <script
@@ -29,6 +48,9 @@ export default function WeDoc(css: string) {
             />
             {this.props.styleTags}
             <style dangerouslySetInnerHTML={{ __html: css }} />
+            <script
+              dangerouslySetInnerHTML={{ __html: renderSegmentSnippet() }}
+            />
           </Head>
           <body>
             {/* Google Tag Manager (noscript) */}

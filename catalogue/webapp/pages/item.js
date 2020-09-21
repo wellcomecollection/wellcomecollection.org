@@ -6,7 +6,6 @@ import {
   type CatalogueApiError,
 } from '@weco/common/model/catalogue';
 import fetch from 'isomorphic-unfetch';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
@@ -14,6 +13,9 @@ import {
   getDownloadOptionsFromManifest,
   getVideo,
   getAudio,
+  getServiceId,
+  getUiExtensions,
+  isUiEnabled,
 } from '@weco/common/utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
@@ -76,17 +78,19 @@ const ItemPage = ({
   const title = (manifest && manifest.label) || (work && work.title) || '';
   const iiifImageLocation =
     work && getDigitalLocationOfType(work, 'iiif-image');
-  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
-  const iiifImage =
-    iiifImageLocationUrl && iiifImageTemplate(iiifImageLocationUrl);
-  const imageUrl = iiifImage && iiifImage({ size: '800,' });
-  const mainImageService =
-    currentCanvas && currentCanvas.images[0].resource.service
-      ? {
-          '@id': currentCanvas.images[0].resource.service['@id'],
-        }
-      : null;
-  const downloadOptions = manifest && getDownloadOptionsFromManifest(manifest);
+
+  const serviceId = getServiceId(currentCanvas);
+  const mainImageService = serviceId && {
+    '@id': serviceId,
+  };
+
+  const showDownloadOptions = manifest
+    ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
+    : true;
+
+  const downloadOptions =
+    showDownloadOptions && manifest && getDownloadOptionsFromManifest(manifest);
+
   const pdfRendering =
     (downloadOptions &&
       downloadOptions.find(option => option.label === 'Download PDF')) ||
@@ -142,6 +146,7 @@ const ItemPage = ({
                 margin: '98px auto 0',
               }}
               src={audio['@id']}
+              controlsList={!showDownloadOptions ? 'nodownload' : null}
             >
               {`Sorry, your browser doesn't support embedded audio.`}
             </audio>
@@ -160,6 +165,7 @@ const ItemPage = ({
                 display: 'block',
                 margin: '98px auto auto',
               }}
+              controlsList={!showDownloadOptions ? 'nodownload' : null}
             >
               <source src={video['@id']} type={video.format} />
               {`Sorry, your browser doesn't support embedded video.`}
@@ -171,7 +177,7 @@ const ItemPage = ({
         !video &&
         !pdfRendering &&
         !mainImageService &&
-        !iiifImageLocationUrl && (
+        !iiifImageLocation && (
           <Layout12>
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <div style={{ marginTop: '98px' }}>
@@ -192,8 +198,7 @@ const ItemPage = ({
         />
       )}
 
-      {((mainImageService && currentCanvas) ||
-        (imageUrl && iiifImageLocationUrl)) && (
+      {((mainImageService && currentCanvas) || iiifImageLocation) && (
         <IIIFViewer
           title={title}
           mainPaginatorProps={mainPaginatorProps}
@@ -207,8 +212,7 @@ const ItemPage = ({
           sierraId={sierraId}
           pageSize={pageSize}
           canvasIndex={canvasIndex}
-          iiifImageLocationUrl={iiifImageLocationUrl}
-          imageUrl={imageUrl}
+          iiifImageLocation={iiifImageLocation}
           work={work}
           manifest={manifest}
         />
@@ -234,7 +238,10 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   const manifest = manifestUrl ? await (await fetch(manifestUrl)).json() : null;
   const video = manifest && getVideo(manifest);
   const audio = manifest && getAudio(manifest);
-  const work = await getWork({ id: workId });
+  const work = await getWork({
+    id: workId,
+    toggles: ctx.query.toggles,
+  });
   const canvases =
     manifest && manifest.sequences && manifest.sequences[0].canvases
       ? manifest.sequences[0].canvases

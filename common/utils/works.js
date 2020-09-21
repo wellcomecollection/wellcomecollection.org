@@ -10,21 +10,63 @@ export function getProductionDates(work: Work) {
     .reduce((a, b) => a.concat(b), []);
 }
 
+type DownloadImage = {|
+  url: string,
+  width: ?number,
+  height: ?number,
+|};
+
+export type ArchiveNode = {|
+  id: string,
+  title: string,
+  alternativeTitles: string[],
+  referenceNumber?: string,
+  partOf?: [],
+  parts?: [],
+  precededBy?: [],
+  succeededBy?: [],
+  type: 'Work',
+|};
+
 export function getDownloadOptionsFromImageUrl(
-  imageUrl: string
+  downloadImage: DownloadImage
 ): IIIFRendering[] {
-  return [
-    {
-      '@id': convertImageUri(imageUrl, 'full'),
-      format: 'image/jpeg',
-      label: 'This image (Full size)',
-    },
-    {
-      '@id': convertImageUri(imageUrl, 760),
-      format: 'image/jpeg',
-      label: 'This image (760 pixels)',
-    },
-  ];
+  const smallImageWidth = 760;
+  const imageDimensions = {
+    fullWidth: downloadImage.width || null,
+    fullHeight: downloadImage.height || null,
+    smallWidth: smallImageWidth,
+    smallHeight:
+      downloadImage.width && downloadImage.height
+        ? `${Math.round(
+            downloadImage.height / (downloadImage.width / smallImageWidth)
+          )}`
+        : null,
+  };
+  if (downloadImage.url) {
+    return [
+      {
+        '@id': convertImageUri(downloadImage.url, 'full'),
+        format: 'image/jpeg',
+        label: `This image (${
+          imageDimensions.fullWidth && imageDimensions.fullHeight
+            ? `${imageDimensions.fullWidth}x${imageDimensions.fullHeight} pixels`
+            : 'Full size'
+        })`,
+      },
+      {
+        '@id': convertImageUri(downloadImage.url, 760),
+        format: 'image/jpeg',
+        label: `This image (${
+          imageDimensions.smallHeight
+            ? `${imageDimensions.smallWidth}x${imageDimensions.smallHeight} pixels`
+            : '760px'
+        })`,
+      },
+    ];
+  } else {
+    return [];
+  }
 }
 
 export function getEncoreLink(sierraId: string): string {
@@ -202,4 +244,30 @@ export function getItemIdentifiersWith(
 
     return acc;
   }, []);
+}
+
+export function getAncestorArray(work: Work): ArchiveNode[] {
+  // We're only interested in the item with a partOf property (which is the last item in the array), this can be removed once the API is updated to remove all ancestors from the top level array
+  const desiredItem = work.partOf && work.partOf[work.partOf.length - 1];
+  const ancestorArray = [];
+  function addToAncestorArray(work) {
+    ancestorArray.push({
+      id: work.id,
+      title: work.title,
+      alternativeTitles: work.alternativeTitles,
+      referenceNumber: work.referenceNumber,
+      type: 'Work',
+    });
+    if (work.partOf) {
+      // It's possible in the future that items will have multiple parents and we'll need a way to distinguish which one we're interested in, for now they only have one.
+      const [ancestorWork] = work.partOf;
+      if (ancestorWork) {
+        addToAncestorArray(ancestorWork);
+      }
+    }
+  }
+  if (desiredItem) {
+    addToAncestorArray(desiredItem);
+  }
+  return ancestorArray.reverse();
 }

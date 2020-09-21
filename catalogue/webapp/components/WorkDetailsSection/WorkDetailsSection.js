@@ -9,12 +9,14 @@ type Props = {|
   headingText?: string,
   children: Node,
   withDivider?: boolean,
+  isInArchive?: boolean,
 |};
 
 const WorkDetailsSection = ({
   headingText,
   children,
   withDivider = true,
+  isInArchive,
 }: Props) => {
   return (
     <>
@@ -32,7 +34,18 @@ const WorkDetailsSection = ({
         >
           <div
             className={classNames({
-              [grid({ s: 12, m: 12, l: 4, xl: 4 })]: true,
+              [grid({
+                s: 12,
+                m: 12,
+                l: 4,
+                xl: 4,
+              })]: !isInArchive,
+              [grid({
+                s: 12,
+                m: 12,
+                l: 12,
+                xl: 12,
+              })]: isInArchive,
             })}
           >
             {headingText && (
@@ -49,7 +62,18 @@ const WorkDetailsSection = ({
 
           <div
             className={classNames({
-              [grid({ s: 12, m: 12, l: 8, xl: 7 })]: true,
+              [grid({
+                s: 12,
+                m: 12,
+                l: 8,
+                xl: 7,
+              })]: !isInArchive,
+              [grid({
+                s: 12,
+                m: 12,
+                l: 12,
+                xl: 12,
+              })]: isInArchive,
             })}
           >
             {children}

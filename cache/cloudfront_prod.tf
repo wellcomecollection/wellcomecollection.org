@@ -96,6 +96,12 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     }
   }
 
+  # Don't cache 404s
+  custom_error_response {
+    error_code            = 404
+    error_caching_min_ttl = 0
+  }
+
   # Works
   ordered_cache_behavior {
     allowed_methods        = ["HEAD", "GET", "OPTIONS"]
@@ -151,7 +157,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 86400
+    min_ttl                = 0
     default_ttl            = 86400
     max_ttl                = 31536000
 
@@ -239,6 +245,6 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     }
   }
 
-  retain_on_delete = true
+  retain_on_delete = false
 }
 

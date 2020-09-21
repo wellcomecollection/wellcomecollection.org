@@ -7,6 +7,10 @@ provider "aws" {
   version = "~> 2.47.0"
 }
 
+provider "template" {
+  version = "~> 2.1"
+}
+
 provider "aws" {
   alias = "platform"
 
@@ -17,3 +21,4 @@ provider "aws" {
     role_arn = "arn:aws:iam::760097843905:role/platform-developer"
   }
 }
+

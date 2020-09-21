@@ -8,7 +8,7 @@ type Props = {|
 |};
 
 const RepeatingLsOuter = styled.div`
-  background: ${props => props.theme.colors[props.background]};
+  background: ${props => props.theme.color([props.background])};
   position: absolute;
   top: 0;
   right: 0;
@@ -24,7 +24,7 @@ const ReapeatingLsInner = styled.div`
   bottom: 0;
   left: 0;
   mask-size: ${props => props.size}px;
-  background: ${props => props.theme.colors[props.foreground]};
+  background: ${props => props.theme.color([props.foreground])};
   mask-image: url(${props => props.mask});
   mask-repeat: repeat;
 `;

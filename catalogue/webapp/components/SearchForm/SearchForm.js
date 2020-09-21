@@ -5,6 +5,8 @@ import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
+// $FlowFixMe (tsx)
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { inputValue, nodeListValueToArray } from '@weco/common/utils/forms';
@@ -23,41 +25,31 @@ type Props = {|
   ariaDescribedBy: string,
   shouldShowFilters: boolean,
   worksRouteProps: WorksRouteProps,
-  workTypeAggregations: ?(CatalogueAggregationBucket[]),
+  workTypeAggregations: CatalogueAggregationBucket[],
   placeholder?: string,
 |};
 
 const SearchInputWrapper = styled.div`
-  background: ${props => props.theme.colors.white};
-  margin-right: ${props => 12 * props.theme.spacingUnit}px;
-
-  ${props => props.theme.media.medium`
-    margin-right: ${props => 16 * props.theme.spacingUnit}px;
-  `}
+  font-size: 20px;
+  background: ${props => props.theme.color('white')};
+  margin-right: 80px;
 
   .search-query {
     height: ${props => 10 * props.theme.spacingUnit}px;
   }
 `;
 
-const SearchButtonWrapper = styled.div`
-  height: ${props => 10 * props.theme.spacingUnit}px;
+const SearchButtonWrapper = styled.div.attrs({
+  className: classNames({
+    absolute: true,
+  }),
+})`
   top: 0;
   right: 0;
-  width: ${props => 10 * props.theme.spacingUnit}px;
-  border: ${props => props.theme.borderRadiusUnit}px;
-
-  ${props => props.theme.media.medium`
-    width: ${props => 14 * props.theme.spacingUnit}px;
-  `}
 `;
 
 const ClearSearch = styled.button`
   right: 12px;
-`;
-
-const SearchTypeRadioGroup = styled(RadioGroup)`
-  margin-top: 30px;
 `;
 
 const SearchForm = ({
@@ -158,18 +150,15 @@ const SearchForm = ({
     >
       <SearchInputWrapper className="relative">
         <TextInput
+          id={'works-search-input'}
           label={'Search the catalogue'}
-          placeholder={placeholder || 'Search for books and pictures'}
           name="query"
           value={inputQuery}
+          setValue={setInputQuery}
           autoFocus={inputQuery === ''}
-          onChange={event => setInputQuery(event.currentTarget.value)}
           ref={searchInput}
-          required
-          className={classNames({
-            [font('hnm', 3)]: true,
-            'search-query': true,
-          })}
+          required={true}
+          big={true}
         />
 
         {inputQuery && (
@@ -183,7 +172,6 @@ const SearchForm = ({
               });
 
               setInputQuery('');
-              // $FlowFixMe
               searchInput.current && searchInput.current.focus();
             }}
             type="button"
@@ -195,25 +183,32 @@ const SearchForm = ({
 
       {shouldShowFilters && (
         <>
-          <SearchTypeRadioGroup
-            name="search"
-            selected={worksRouteProps.search ? 'images' : ''}
-            onChange={() => {
-              searchForm.current && updateUrl(searchForm.current);
-            }}
-            options={[
-              {
-                id: 'all-collection',
-                value: '',
-                label: 'All collection',
-              },
-              {
-                id: 'images',
-                value: 'images',
-                label: 'Images only',
-              },
-            ]}
-          />
+          <Space
+            v={{ size: 'm', properties: ['margin-top'] }}
+            className={classNames({
+              [font('hnl', 5)]: true,
+            })}
+          >
+            <RadioGroup
+              name="search"
+              selected={worksRouteProps.search ? 'images' : ''}
+              onChange={() => {
+                searchForm.current && updateUrl(searchForm.current);
+              }}
+              options={[
+                {
+                  id: 'all-collection',
+                  value: '',
+                  label: 'All collection',
+                },
+                {
+                  id: 'images',
+                  value: 'images',
+                  label: 'Images only',
+                },
+              ]}
+            />
+          </Space>
           <SearchFilters
             searchForm={searchForm}
             worksRouteProps={worksRouteProps}
@@ -280,21 +275,13 @@ const SearchForm = ({
           </noscript>
         </>
       )}
-      <SearchButtonWrapper className="absolute bg-green rounded-corners">
-        <button
-          className={classNames({
-            'full-width': true,
-            'full-height': true,
-            'line-height-1': true,
-            'plain-button no-padding': true,
-            [font('hnl', 3)]: true,
-          })}
-        >
-          <span className="visually-hidden">Search</span>
-          <span className="flex flex--v-center flex--h-center">
-            <Icon name="search" title="Search" extraClasses="icon--white" />
-          </span>
-        </button>
+      <SearchButtonWrapper>
+        <ButtonSolid
+          icon="search"
+          text="search"
+          isTextHidden={true}
+          isBig={true}
+        />
       </SearchButtonWrapper>
     </form>
   );

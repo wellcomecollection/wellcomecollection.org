@@ -1,5 +1,6 @@
 // @flow
 import { createContext } from 'react';
-// $FlowFixMe
-const TogglesContext = createContext({});
+/* eslint-disable */
+const TogglesContext = createContext<{ [key: string]: boolean }>({});
+/* eslint-enable */
 export default TogglesContext;

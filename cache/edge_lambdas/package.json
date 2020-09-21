@@ -4,9 +4,11 @@
   "license": "MIT",
   "description": "Edge lambdas for redirecting and A/B toggling",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "deploy": "node deploy"
   },
   "dependencies": {
-    "jest": "^23.6.0"
+    "jest": "^23.6.0",
+    "aws-sdk": "^2.751.0"
   }
 }

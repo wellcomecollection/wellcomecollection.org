@@ -1,5 +1,6 @@
 // @flow
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+// $FlowFixMe (tsx)
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 type Props = {| workId: string, loginUrl: string |};
 const LogInButton = ({ workId, loginUrl }: Props) => {
   function setRedirectCookie(workId: string) {
@@ -12,12 +13,16 @@ const LogInButton = ({ workId, loginUrl }: Props) => {
 
   return (
     <div data-test-id="libraryLoginCTA">
-      <Button
-        type="primary"
+      <ButtonSolidLink
         text="Log in to request"
-        externalLink={loginUrl}
+        link={loginUrl}
         clickHandler={event => {
           setRedirectCookie(workId);
+        }}
+        trackingEvent={{
+          category: 'Button',
+          action: 'follow Cognito login link',
+          label: workId,
         }}
       />
     </div>

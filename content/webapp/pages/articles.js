@@ -61,8 +61,8 @@ const ArticlesPage = ({ articles }: Props) => {
 ArticlesPage.getInitialProps = async (
   ctx: Context
 ): Promise<?Props | PrismicApiError> => {
-  const { page = 1 } = ctx.query;
-  const articles = await getArticles(ctx.req, { page });
+  const { page = 1, memoizedPrismic } = ctx.query;
+  const articles = await getArticles(ctx.req, { page }, memoizedPrismic);
 
   return {
     articles,

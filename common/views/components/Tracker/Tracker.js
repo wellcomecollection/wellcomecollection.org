@@ -1,7 +1,9 @@
 // @flow
-import { useEffect } from 'react';
 import Router from 'next/router';
-import { type CatalogueApiProps } from '../../../services/catalogue/api';
+import {
+  type CatalogueWorksApiProps,
+  type CatalogueImagesApiProps,
+} from '../../../services/catalogue/api';
 
 type RelevanceRatingData = {|
   position: number,
@@ -15,7 +17,7 @@ type RelevanceRatingData = {|
 type ServiceName = 'search_relevance_implicit' | 'search_relevance_explicit';
 
 const trackRelevanceRating = (
-  params: CatalogueApiProps,
+  params: CatalogueWorksApiProps,
   data: RelevanceRatingData
 ) => {
   track(params, 'Relevance rating', 'search_relevance_explicit', data);
@@ -31,14 +33,17 @@ type SearchResultSelectedData = {|
   resultSubjects: ?string,
 |};
 const trackSearchResultSelected = (
-  params: CatalogueApiProps,
+  params: CatalogueWorksApiProps | CatalogueImagesApiProps,
   data: SearchResultSelectedData
 ) => {
   track(params, 'Search result selected', 'search_relevance_implicit', data);
 };
 
-type SearchData = {| source: string, totalResults: ?number |};
-const trackSearch = (params: CatalogueApiProps, data: SearchData) => {
+type SearchData = {| source: string, totalResults: number |};
+const trackSearch = (
+  params: CatalogueWorksApiProps | CatalogueImagesApiProps,
+  data: SearchData
+) => {
   const query = params.query;
   if (query && query !== '') {
     track(params, 'Search', 'search_relevance_implicit', data);
@@ -52,7 +57,7 @@ type SearchImageExpandedData = {|
   id: string,
 |};
 const trackSearchImageExpanded = (
-  params: CatalogueApiProps,
+  params: CatalogueWorksApiProps | CatalogueImagesApiProps,
   data: SearchImageExpandedData
 ) => {
   track(params, 'Search image expanded', 'search_relevance_implicit', data);
@@ -65,7 +70,7 @@ type TrackingEventData =
   | SearchImageExpandedData;
 
 const track = (
-  params: CatalogueApiProps,
+  params: CatalogueWorksApiProps | CatalogueImagesApiProps,
   eventName: string,
   serviceName: ServiceName,
   data: ?TrackingEventData
@@ -105,70 +110,9 @@ const track = (
   window.analytics && window.analytics.track(eventName, event);
 };
 
-const TrackerScript = () => {
-  useEffect(() => {
-    const analytics = (window.analytics = window.analytics || []);
-    if (!analytics.initialize)
-      if (analytics.invoked)
-        window.console &&
-          console.error &&
-          console.error('Segment snippet included twice.');
-      else {
-        analytics.invoked = !0;
-        analytics.methods = [
-          'trackSubmit',
-          'trackClick',
-          'trackLink',
-          'trackForm',
-          'pageview',
-          'identify',
-          'reset',
-          'group',
-          'track',
-          'ready',
-          'alias',
-          'debug',
-          'page',
-          'once',
-          'off',
-          'on',
-        ];
-        analytics.factory = function(t) {
-          return function() {
-            var e = Array.prototype.slice.call(arguments);
-            e.unshift(t);
-            analytics.push(e);
-            return analytics;
-          };
-        };
-        for (var t = 0; t < analytics.methods.length; t++) {
-          var e = analytics.methods[t];
-          analytics[e] = analytics.factory(e);
-        }
-        analytics.load = function(t, e) {
-          var n = document.createElement('script');
-          n.type = 'text/javascript';
-          n.async = !0;
-          n.src =
-            'https://cdn.segment.com/analytics.js/v1/' +
-            t +
-            '/analytics.min.js';
-          var a = document.getElementsByTagName('script')[0];
-          a.parentNode && a.parentNode.insertBefore(n, a);
-          analytics._loadOptions = e;
-        };
-        analytics.SNIPPET_VERSION = '4.1.0';
-        analytics.load('78Czn5jNSaMSVrBq2J9K4yJjWxh6fyRI');
-      }
-  }, []);
-
-  return null;
-};
-
 export {
   trackRelevanceRating,
   trackSearch,
   trackSearchResultSelected,
   trackSearchImageExpanded,
-  TrackerScript,
 };

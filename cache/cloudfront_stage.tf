@@ -66,6 +66,12 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
     }
   }
 
+  # Don't cache 404s
+  custom_error_response {
+    error_code            = 404
+    error_caching_min_ttl = 0
+  }
+
   # Works
   ordered_cache_behavior {
     allowed_methods        = ["HEAD", "GET", "OPTIONS"]
@@ -121,7 +127,7 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 86400
+    min_ttl                = 0
     default_ttl            = 86400
     max_ttl                = 31536000
 
@@ -197,6 +203,11 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
     }
   }
 
+  custom_error_response {
+    error_caching_min_ttl = 0
+    error_code            = 404
+  }
+
   viewer_certificate {
     acm_certificate_arn      = local.wellcome_cdn_cert_arn
     ssl_support_method       = "sni-only"
@@ -209,6 +220,6 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
     }
   }
 
-  retain_on_delete = true
+  retain_on_delete = false
 }
 

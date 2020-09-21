@@ -13,6 +13,8 @@ import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
   getDownloadOptionsFromManifest,
   getIIIFPresentationCredit,
+  getUiExtensions,
+  isUiEnabled,
 } from '@weco/common/utils/iiif';
 import fetch from 'isomorphic-unfetch';
 import { type IIIFManifest } from '@weco/common/model/iiif';
@@ -52,9 +54,12 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
     iiifImageLocation &&
     iiifImageLocation.type === 'DigitalLocation' &&
     iiifImageLocation.url;
-
   const iiifImageDownloadOptions = iiifImageLocationUrl
-    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
+    ? getDownloadOptionsFromImageUrl({
+        url: iiifImageLocationUrl,
+        width: null,
+        height: null,
+      })
     : [];
   const iiifPresentationDownloadOptions = manifest
     ? getDownloadOptionsFromManifest(manifest)
@@ -68,6 +73,10 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
   const credit =
     (iiifImageLocation && iiifImageLocation.credit) ||
     (manifest && getIIIFPresentationCredit(manifest));
+
+  const showDownloadOptions = manifest
+    ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
+    : true;
   return (
     <PageLayout
       title={title}
@@ -99,11 +108,15 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
           </SpacingComponent>
           {work && work.id && (
             <SpacingComponent>
-              <Download
-                ariaControlsId="itemDownloads"
-                workId={work.id}
-                downloadOptions={downloadOptions}
-              />
+              {showDownloadOptions ? (
+                <Download
+                  ariaControlsId="itemDownloads"
+                  workId={work.id}
+                  downloadOptions={downloadOptions}
+                />
+              ) : (
+                <p>There are no downloads available.</p>
+              )}
             </SpacingComponent>
           )}
           {license && (
@@ -146,7 +159,7 @@ DownloadPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     ? `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
     : null;
   const manifest = manifestUrl ? await (await fetch(manifestUrl)).json() : null;
-  const work = await getWork({ id: workId });
+  const work = await getWork({ id: workId, toggles: ctx.query.toggles });
   return {
     workId,
     sierraId,

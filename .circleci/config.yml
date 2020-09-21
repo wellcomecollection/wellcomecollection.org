@@ -2,21 +2,21 @@ version: 2.1
 jobs:
   checkout_code:
     docker:
-      - image: circleci/node:10.15.1
+      - image: circleci/node:12.18.3
     working_directory: ~/wellcomecollection.org
     steps:
       - checkout
       - save_cache:
-          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+          key: repo_{{ .Environment.CACHE_VERSION }}-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             -  ~/wellcomecollection.org
   install_modules:
     docker:
-      - image: circleci/node:10.15.1
+      - image: circleci/node:12.18.3
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
-          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+          key: repo_{{ .Environment.CACHE_VERSION }}-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: root_modules_circleci_node_10_{{ checksum "package.json" }}
       - run:
@@ -28,11 +28,11 @@ jobs:
             -  node_modules
   type_check:
     docker:
-      - image: circleci/node:10.15.1
+      - image: circleci/node:12.18.3
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
-          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+          key: repo_{{ .Environment.CACHE_VERSION }}-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: root_modules_circleci_node_10_{{ checksum "package.json" }}
       - run:
@@ -40,11 +40,11 @@ jobs:
           command: yarn flow
   common_tests:
     docker:
-      - image: circleci/node:10.15.1
+      - image: circleci/node:12.18.3
     working_directory: ~/wellcomecollection.org/common
     steps:
       - restore_cache:
-          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+          key: repo_{{ .Environment.CACHE_VERSION }}-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: root_modules_circleci_node_10_{{ checksum "package.json" }}
       - run:
@@ -55,16 +55,13 @@ jobs:
           command: yarn test
   catalogue:
     docker:
-      - image: circleci/node:10.15.1
+      - image: circleci/node:12.18.3
     working_directory: ~/wellcomecollection.org/catalogue/webapp
     steps:
       - restore_cache:
-          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+          key: repo_{{ .Environment.CACHE_VERSION }}-{{ .Environment.CIRCLE_SHA1 }}
       - add_ssh_keys
       - setup_remote_docker
-      - run:
-          name: Workaround for GoogleChrome/puppeteer#290
-          command: ./setup_puppeteer.sh
       - run:
           name: Yarn test
           command: yarn && yarn test
@@ -96,11 +93,11 @@ jobs:
             popd
   content:
     docker:
-      - image: circleci/node:10.15.1
+      - image: circleci/node:12.18.3
     working_directory: ~/wellcomecollection.org/content/webapp
     steps:
       - restore_cache:
-          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+          key: repo_{{ .Environment.CACHE_VERSION }}-{{ .Environment.CIRCLE_SHA1 }}
       - add_ssh_keys
       - setup_remote_docker
       - run:
@@ -129,153 +126,6 @@ jobs:
               cp server.${CIRCLE_SHA1}.json content.server.latest.json
               aws s3 sync --only-show-errors . s3://dash.wellcomecollection.org/bundles
             popd
-  deploy_toggles:
-    docker:
-      - image: circleci/node:10.15.1
-    working_directory: ~/wellcomecollection.org/toggles/webapp
-    steps:
-    - add_ssh_keys
-    - restore_cache:
-        key: repo_{{ .Environment.CIRCLE_SHA1 }}
-    - run:
-        name: Install awscli
-        command: sudo apt-get install awscli
-    - run:
-        name: Build and deploy toggles
-        command: |
-          yarn build
-          aws s3 cp ./toggles.json s3://toggles.wellcomecollection.org/toggles.json --only-show-errors
-  deploy_pa11y:
-    docker:
-      - image: circleci/node:10.15.1
-    environment:
-      NODE_ENV: test
-    working_directory: ~/wellcomecollection.org/pa11y/webapp
-    steps:
-    - add_ssh_keys
-    - restore_cache:
-        key: repo_{{ .Environment.CIRCLE_SHA1 }}
-    - run:
-        name: Install awscli
-        command: sudo apt-get install awscli
-    - run:
-        name: Yarn install
-        command: yarn
-    - run:
-        name: Install Chrome dependencies
-        command: |
-          sudo apt-get update && \
-          sudo apt-get install -yq --no-install-recommends \
-          libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
-          libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 \
-          libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 \
-          libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 \
-          libnss3
-    - run:
-        name: Write pa11y report
-        command: yarn write-report
-    - run:
-        name: Deploy
-        command: |
-          aws s3 cp ./.dist/report.json s3://dash.wellcomecollection.org/pa11y/report.json --only-show-errors
-  deploy_dash:
-    docker:
-      - image: circleci/node:10.15.1
-    environment:
-      NODE_ENV: test
-    working_directory: ~/wellcomecollection.org/dash/webapp
-    steps:
-    - add_ssh_keys
-    - restore_cache:
-        key: repo_{{ .Environment.CIRCLE_SHA1 }}
-    - run:
-        name: Install awscli
-        command: sudo apt-get install awscli
-    - run:
-        name: Yarn install
-        command: yarn
-    - run:
-        name: Build next app
-        command: |
-            yarn build
-            yarn export
-    - run:
-        name: Deploy
-        command: |
-          aws s3 sync ./out s3://dash.wellcomecollection.org --only-show-errors
-  cardigan:
-    docker:
-      - image: circleci/node:10.15.1
-    working_directory: /home/circleci/wellcomecollection.org/cardigan
-    steps:
-      - add_ssh_keys
-      - restore_cache:
-          key: repo_{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          keys:
-            - common_modules_circleci_node_10_{{ checksum "package.json" }}
-            - common_modules_circleci_node_10_
-      - run:
-          name: Install awscli
-          command: sudo apt-get install awscli
-      - run:
-          name: Install common modules
-          command: |
-            pushd ../common
-              yarn
-            popd
-      - run:
-          name: Build
-          command: |
-            yarn
-            yarn build
-      - run:
-          name: Deploy
-          command: |
-            if [ "$CIRCLE_BRANCH" = "master" ];
-            then
-                pushd .dist
-                    aws s3 sync --only-show-errors . s3://cardigan.wellcomecollection.org
-                popd
-            fi
-  edge_lambdas_build:
-    docker:
-      - image: circleci/node:12.16
-    working_directory: /home/circleci/wellcomecollection.org/cache/edge_lambdas
-    steps:
-      - add_ssh_keys
-      - restore_cache:
-          key: repo_{{ .Environment.CIRCLE_SHA1 }}
-      - run:
-          name: Install deps
-          command: yarn
-      - run:
-          name: Run tests
-          command: yarn test
-      - run:
-          name: Build lambda ZIP
-          command: |
-            zip -r edge_lambda_origin.zip toggler.js origin.js redirector.js redirects.js wiRedirector.js
-            mkdir -p /tmp/artifacts
-            cp edge_lambda_origin.zip /tmp/artifacts
-            ls /tmp/artifacts
-      - persist_to_workspace:
-          root: /tmp/artifacts
-          paths:
-            - edge_lambda_origin.zip
-  edge_lambdas_deploy:
-    docker:
-      - image: circleci/node:12.16
-    working_directory: /tmp
-    steps:
-      - attach_workspace:
-          at: /tmp/artifacts
-      - run:
-          name: Install awscli
-          command: sudo apt-get install awscli
-      - run:
-          name: Deploy lambda to S3
-          command: aws s3 cp ./artifacts/edge_lambda_origin.zip s3://weco-lambdas/edge_lambda_origin.zip
 workflows:
   version: 2
   build_and_deploy:
@@ -298,40 +148,3 @@ workflows:
           requires:
             - common_tests
             - type_check
-      - deploy_pa11y:
-          requires:
-            - checkout_code
-          filters:
-            branches:
-              only:
-                - master
-      - deploy_toggles:
-          requires:
-            - checkout_code
-          filters:
-            branches:
-              only:
-                - master
-      - deploy_dash:
-          requires:
-            - checkout_code
-          filters:
-            branches:
-              only:
-                - master
-      - cardigan:
-          requires:
-            - checkout_code
-  edge_lambdas:
-    jobs:
-      - checkout_code
-      - edge_lambdas_build:
-          requires:
-            - checkout_code
-      - edge_lambdas_deploy:
-          requires:
-            - edge_lambdas_build
-          filters:
-            branches:
-              only:
-                - master

@@ -19,7 +19,7 @@ export type Props = {|
   clickHandler?: () => void,
   zoomable?: boolean,
   extraClasses?: string,
-  crops?: {| [string]: ImageType |},
+  crops?: { [string]: ImageType },
   style?: { [string]: any }, // TODO: find flowtype for this
   srcsetRequired?: boolean,
 |};

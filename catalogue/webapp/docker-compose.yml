@@ -1,3 +1,4 @@
+# This docker-compose.yml will soon be DEPRECATED (dependency for CircleCI)
 version: '3.3'
 services:
   catalogue:
