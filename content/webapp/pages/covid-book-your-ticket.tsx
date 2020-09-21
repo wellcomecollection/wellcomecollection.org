@@ -170,7 +170,7 @@ const CovidWeAreOpenPage = () => {
 
                       <li>
                         Your face covering – this will need to be worn for the
-                        duration of your visit
+                        duration of your visit.
                       </li>
                     </ul>
                   </p>
