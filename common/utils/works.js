@@ -260,13 +260,18 @@ function makeArchiveAncestorArray(partOfArray, nextPart) {
   if (!nextPart) return partOfArray;
   return makeArchiveAncestorArray(
     [...partOfArray, parsePartOf(nextPart)],
-    nextPart.partOf &&
-      nextPart.partOf.find(part => {
-        return nextPart.referenceNumber.includes(part.referenceNumber);
-      })
+    nextPart.partOf && nextPart.partOf[0]
+    // nextPart.partOf.find(part => {
+    //   return nextPart.referenceNumber.includes(part.referenceNumber);
+    // })
   ).reverse();
 }
 
 export function getArchiveAncestorArray(work: Work): ArchiveNode[] {
+  // console.log('first', work.partOf && work.partOf[0]);
+  // console.log(
+  //   'second',
+  //   makeArchiveAncestorArray([], work.partOf && work.partOf[0])
+  // );
   return makeArchiveAncestorArray([], work.partOf && work.partOf[0]);
 }
