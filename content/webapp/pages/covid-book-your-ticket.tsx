@@ -29,7 +29,7 @@ const CovidWeAreOpenPage = () => {
   return (
     <PageLayout
       title={'Book your ticket'}
-      description={`Wellcome Collection is open`}
+      description={`You will need a free ticket to enter our building. Book online in advance, and choose between a museum visit and a library visit.`}
       url={{ pathname: `/covid-book-your-ticket` }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'website'}

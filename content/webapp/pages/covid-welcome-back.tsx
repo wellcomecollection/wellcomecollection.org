@@ -17,7 +17,7 @@ const CovidWelcomeBackPage = () => {
   return (
     <PageLayout
       title={'Welcome back'}
-      description={`Wellcome Collection is open`}
+      description={`We are open again from 7 October. You will need a free ticket to enter our building, and we have made some changes for your protection.`}
       url={{ pathname: `/covid-welcome-back` }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'website'}
