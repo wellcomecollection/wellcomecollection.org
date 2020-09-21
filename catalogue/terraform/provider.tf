@@ -21,3 +21,4 @@ provider "aws" {
     role_arn = "arn:aws:iam::760097843905:role/platform-developer"
   }
 }
+

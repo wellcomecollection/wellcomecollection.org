@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "nodemon --watch app.js --watch server.js --require dotenv/config server.js",
     "build": "next build",
+    "deploy_bundle_analysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles  --only-show-errors --acl public-read",
     "start": "NODE_ENV=production node server.js",
     "test": "NODE_ENV=test jest --no-cache"
   },

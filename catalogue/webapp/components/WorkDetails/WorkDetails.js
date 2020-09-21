@@ -118,7 +118,7 @@ const WorkDetails = ({
   const duration =
     work.duration && moment.utc(work.duration).format('HH:mm:ss');
 
-  // 'Indentifiers' data
+  // 'Identifiers' data
   const isbnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'isbn';
   });

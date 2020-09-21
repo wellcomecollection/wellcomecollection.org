@@ -10,7 +10,7 @@ import {
 
 type Props = {
   title: string;
-  description: string;
+  description: JSX.Element;
   icon: CovidIconsEnum;
   isStacked?: boolean;
 };
