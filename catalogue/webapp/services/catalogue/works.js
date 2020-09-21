@@ -45,6 +45,12 @@ const workIncludes = [
   'succeededBy',
 ];
 
+const redirect = (id: string, status: number = 302): CatalogueApiRedirect => ({
+  type: 'Redirect',
+  redirectToId: id,
+  status,
+});
+
 export async function getWorks({
   params,
   toggles,
@@ -89,14 +95,20 @@ export async function getWork({
   // When records from Miro have been merged with Sierra data, we redirect the
   // latter to the former. This would happen quietly on the API request, but we
   // would then have duplicates emerging, which wouldn't be useful for search
-  // engines so we respect the redirect on the client
+  // engines so we respect the redirect inside the catalogue webapp.
+
+  // redirect: 'manual' returns the status code on the server only
   if (res.status === 301 || res.status === 302) {
-    const id = res.headers.get('location').match(/works\/([^?].*)\?/);
-    return {
-      type: 'Redirect',
-      status: res.status,
-      redirectToId: id[1],
-    };
+    const location = res.headers.get('location');
+    const id = location.match(/works\/([^?].*)\?/)[1];
+    return redirect(id, res.status);
+  }
+
+  // redirect: 'manual' returns an opaque response on the client only
+  if (res.type === 'opaqueredirect') {
+    const redirectedRes = await fetch(url, { redirect: 'follow' });
+    const id = redirectedRes.url.match(/works\/([^?].*)\?/)[1];
+    return redirect(id);
   }
 
   try {
