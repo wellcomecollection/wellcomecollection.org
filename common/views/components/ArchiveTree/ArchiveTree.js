@@ -11,7 +11,10 @@ import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { getArchiveAncestorArray } from '@weco/common/utils/works';
+import {
+  getArchiveAncestorArray,
+  type ArchiveNode,
+} from '@weco/common/utils/works';
 
 const StickyContainer = styled.div`
   border: 1px solid ${props => props.theme.color('pumice')};
@@ -207,8 +210,10 @@ function createSiblingsArray(work: Work): UiTree[] {
   ];
 }
 
-function createCollectionTree(work: Work): UiTree[] {
-  const archiveAncestorArray = getArchiveAncestorArray(work);
+function createCollectionTree(
+  work: Work,
+  archiveAncestorArray: ArchiveNode[]
+): UiTree[] {
   const partOfReversed = [...(archiveAncestorArray || [])].reverse();
   return [
     partOfReversed.reduce(
@@ -228,12 +233,17 @@ function createCollectionTree(work: Work): UiTree[] {
   ];
 }
 
-function addWorkPartsToCollectionTree(
+function addWorkPartsToCollectionTree({
+  work,
+  collectionTree,
+  openStatus,
+  manualTreeExpansion,
+}: {|
   work: any, // FIXME: don't know how to have Work here and not have Flow complain about a Promise
   collectionTree: UiTree[],
   openStatus: boolean,
-  manualTreeExpansion: boolean
-): any[] {
+  manualTreeExpansion: boolean,
+|}): any[] {
   // FIXME: I want this to be UiTree[] but Flow's telling me collectionTree is an inexact array type
   return collectionTree.map(node => {
     if (node.work.id !== work.id && !node.children) {
@@ -246,12 +256,12 @@ function addWorkPartsToCollectionTree(
       return {
         openStatus,
         ...node,
-        children: addWorkPartsToCollectionTree(
-          work,
-          node.children,
-          false,
-          manualTreeExpansion
-        ),
+        children: addWorkPartsToCollectionTree({
+          work, // FIXME: don't know how to have Work here and not have Flow complain about a Promise
+          collectionTree: node.children,
+          openStatus: false,
+          manualTreeExpansion: manualTreeExpansion,
+        }),
       };
     }
     if (node.work.id === work.id && !node.children) {
@@ -305,12 +315,12 @@ function addWorkPartsToCollectionTree(
 
 async function expandTree(workId, toggles, setCollectionTree, collectionTree) {
   const selectedWork = await getWork({ id: workId, toggles });
-  const newTree = addWorkPartsToCollectionTree(
-    selectedWork,
+  const newTree = addWorkPartsToCollectionTree({
+    work: selectedWork,
     collectionTree,
-    true,
-    true
-  );
+    openStatus: true,
+    manualTreeExpansion: true,
+  });
   setCollectionTree(newTree);
 }
 
@@ -325,11 +335,12 @@ const ListItem = ({
   const [showButton, setShowButton] = useState(item.children);
   const toggles = useContext(TogglesContext);
   useEffect(() => {
+    // if already has children don't do anything
     let isMounted = true;
     const checkForChildren = async () => {
       const selectedWork = await getWork({ id: item.work.id, toggles });
       if (isMounted) {
-        setShowButton(selectedWork.parts && selectedWork.parts.length > 0);
+        setShowButton(selectedWork.parts && selectedWork.parts.length > 0); // update collectionTree instead
       }
     };
     checkForChildren();
@@ -472,8 +483,9 @@ const NestedList = ({
 
 const ArchiveTree = ({ work }: { work: Work }) => {
   const toggles = useContext(TogglesContext);
+  const archiveAncestorArray = getArchiveAncestorArray(work);
   const [collectionTree, setCollectionTree] = useState(
-    createCollectionTree(work) || []
+    createCollectionTree(work, archiveAncestorArray) || []
   );
   const selected = useRef(null);
   const isInArchive =
@@ -511,33 +523,33 @@ const ArchiveTree = ({ work }: { work: Work }) => {
 
   useEffect(() => {
     // Add siblings to each node, that leads to the current work
-    const basicTree = createCollectionTree(work);
-    const archiveAncestorArray = getArchiveAncestorArray(work);
-
+    // const basicTree = createCollectionTree(work);
     const partOfPromises = archiveAncestorArray
       ? archiveAncestorArray.map(part => getWork({ id: part.id, toggles }))
       : [];
+    // console.log(ancestorArray);
     if (partOfPromises.length > 0) {
       Promise.all(partOfPromises).then(works => {
         let updatedTree;
 
         works.forEach(work => {
-          const tempTree = addWorkPartsToCollectionTree(
-            work,
-            updatedTree || basicTree,
-            false,
-            false
-          );
+          const tempTree = addWorkPartsToCollectionTree({
+            work: work,
+            collectionTree: updatedTree || collectionTree,
+            openStatus: false,
+            manualTreeExpansion: false,
+          });
           updatedTree = tempTree;
         });
         if (updatedTree) {
           setCollectionTree(updatedTree);
         }
       });
-    } else {
-      setCollectionTree(basicTree);
     }
-  }, []);
+    // else {
+    //   setCollectionTree(basicTree);
+    // }
+  }, [work]); // []
 
   return isInArchive ? (
     <StickyContainer>
