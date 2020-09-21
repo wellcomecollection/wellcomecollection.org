@@ -3,6 +3,10 @@
   "description": "Feature toggles",
   "license": "MIT",
   "scripts": {
-    "build": "node ./build"
+    "build": "node ./build",
+    "deploy": "node deploy.js"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.751.0"
   }
 }

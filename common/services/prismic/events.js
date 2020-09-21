@@ -1,5 +1,5 @@
 // @flow
-import type { UiEvent, EventFormat, EventTime } from '../../model/events';
+import type { UiEvent, EventTime } from '../../model/events';
 import type {
   PrismicDocument,
   PaginatedResults,
@@ -9,6 +9,7 @@ import type {
 import type { Team } from '../../model/team';
 import Prismic from 'prismic-javascript';
 import sortBy from 'lodash.sortby';
+import moment from 'moment';
 import { getDocument, getTypeByIds, getDocuments } from './api';
 import {
   eventAccessOptionsFields,
@@ -26,8 +27,8 @@ import {
 import {
   parseTitle,
   parsePlace,
+  parseFormat,
   asText,
-  asHtml,
   isDocumentLink,
   parseTimestamp,
   parseBoolean,
@@ -42,17 +43,6 @@ import { getNextWeekendDateRange, isPast } from '../../utils/dates';
 
 const startField = 'my.events.times.startDateTime';
 const endField = 'my.events.times.endDateTime';
-
-function parseEventFormat(frag: Object): ?EventFormat {
-  return isDocumentLink(frag)
-    ? {
-        id: frag.id,
-        title: parseTitle(frag.data.title),
-        shortName: asText(frag.data.shortName),
-        description: asHtml(frag.data.description),
-      }
-    : null;
-}
 
 function parseEventBookingType(eventDoc: PrismicDocument): ?string {
   return !isEmptyObj(eventDoc.data.eventbriteEvent)
@@ -87,6 +77,20 @@ function determineDisplayTime(times: EventTime[]): EventTime {
     return london(t.range.startDateTime).isSameOrAfter(london(), 'day');
   });
   return upcomingDates.length > 0 ? upcomingDates[0] : times[0];
+}
+
+export function getLastEndTime(
+  times: {
+    startDateTime: string,
+    endDateTime: string,
+    isFullyBooked: ?boolean,
+  }[]
+) {
+  return times
+    .sort((x, y) => moment(y.endDateTime).unix() - moment(x.endDateTime).unix())
+    .map(time => {
+      return parseTimestamp(time.endDateTime);
+    })[0];
 }
 
 export function parseEventDoc(
@@ -174,11 +178,8 @@ export function parseEventDoc(
     [];
 
   const displayTime = determineDisplayTime(times);
-  const lastEndTime = times
-    .map(time => time.range.endDateTime)
-    .find((date, i) => i === times.length - 1);
+  const lastEndTime = data.times && getLastEndTime(data.times);
   const isRelaxedPerformance = parseBoolean(data.isRelaxedPerformance);
-
   const schedule = eventSchedule.map((event, i) => {
     const scheduleItem = data.schedule[i];
     return {
@@ -203,7 +204,7 @@ export function parseEventDoc(
         : null,
     bookingType: parseEventBookingType(document),
     cost: data.cost,
-    format: data.format && parseEventFormat(data.format),
+    format: data.format && parseFormat(data.format),
     interpretations,
     policies: Array.isArray(data.policies)
       ? parseLabelTypeList(data.policies, 'policy')
@@ -288,11 +289,17 @@ type EventQueryProps = {|
 
 export async function getEvent(
   req: ?Request,
-  { id }: EventQueryProps
+  { id }: EventQueryProps,
+  memoizedPrismic: ?Object
 ): Promise<?UiEvent> {
-  const document = await getDocument(req, id, {
-    fetchLinks: fetchLinks,
-  });
+  const document = await getDocument(
+    req,
+    id,
+    {
+      fetchLinks: fetchLinks,
+    },
+    memoizedPrismic
+  );
 
   if (document && document.type === 'events') {
     const scheduleIds = document.data.schedule
@@ -318,7 +325,8 @@ type EventsQueryProps = {|
 
 export async function getEvents(
   req: ?Request,
-  { predicates = [], period, ...opts }: EventsQueryProps
+  { predicates = [], period, ...opts }: EventsQueryProps,
+  memoizedPrismic: ?Object
 ): Promise<PaginatedResults<UiEvent>> {
   const graphQuery = `{
     events {
@@ -414,7 +422,8 @@ export async function getEvents(
       page: opts.page,
       pageSize: opts.pageSize,
       graphQuery,
-    }
+    },
+    memoizedPrismic
   );
 
   const events = paginatedResults.results.map(doc => {

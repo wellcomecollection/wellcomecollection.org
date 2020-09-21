@@ -9,7 +9,10 @@ import Body from '@weco/common/views/components/Body/Body';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';
 import EventSchedule from '@weco/common/views/components/EventSchedule/EventSchedule';
 import Dot from '@weco/common/views/components/Dot/Dot';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+// $FlowFixMe (tsx)
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+// $FlowFixMe (tsx)
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import EventbriteButton from '@weco/common/views/components/EventbriteButton/EventbriteButton';
 import Message from '@weco/common/views/components/Message/Message';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -142,8 +145,8 @@ class EventPage extends Component<Props, State> {
   };
 
   static getInitialProps = async (ctx: Context) => {
-    const { id } = ctx.query;
-    const event = await getEvent(ctx.req, { id });
+    const { id, memoizedPrismic } = ctx.query;
+    const event = await getEvent(ctx.req, { id }, memoizedPrismic);
 
     if (event) {
       return {
@@ -293,6 +296,7 @@ class EventPage extends Component<Props, State> {
         }
         HeroPicture={null}
         isFree={!event.cost}
+        isContentTypeInfoBeforeMedia={true}
       />
     );
 
@@ -362,17 +366,12 @@ class EventPage extends Component<Props, State> {
                 <Fragment>
                   {event.isCompletelySoldOut ? (
                     <Fragment>
-                      <Button
-                        type="primary"
-                        disabled={true}
-                        text="Fully booked"
-                      />
+                      <ButtonSolid disabled={true} text="Fully booked" />
                     </Fragment>
                   ) : (
                     <Fragment>
-                      <Button
-                        type="primary"
-                        url={event.thirdPartyBooking.url}
+                      <ButtonSolidLink
+                        link={event.thirdPartyBooking.url}
                         trackingEvent={{
                           category: 'component',
                           action: 'booking-tickets:click',
@@ -403,9 +402,8 @@ class EventPage extends Component<Props, State> {
                   {event.isCompletelySoldOut ? (
                     <Message text={`Fully booked`} />
                   ) : (
-                    <Button
-                      type="primary"
-                      url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
+                    <ButtonSolidLink
+                      link={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                       trackingEvent={{
                         category: 'component',
                         action: 'booking-tickets:click',
@@ -484,14 +482,24 @@ class EventPage extends Component<Props, State> {
                   .concat(event.policies.map(policy => ({ ...policy })))
                   .concat(
                     event.interpretations.map(
-                      ({ interpretationType, isPrimary }) => ({
-                        id: null,
-                        icon: camelize(interpretationType.title),
-                        title: interpretationType.title,
-                        description: isPrimary
-                          ? interpretationType.primaryDescription
-                          : interpretationType.description,
-                      })
+                      ({ interpretationType, isPrimary }) => {
+                        const iconName = camelize(interpretationType.title);
+                        return {
+                          id: null,
+                          icon: [
+                            'britishSignLanguage',
+                            'speechToText',
+                            'hearingLoop',
+                            'audioDescribed',
+                          ].includes(iconName)
+                            ? iconName
+                            : null,
+                          title: interpretationType.title,
+                          description: isPrimary
+                            ? interpretationType.primaryDescription
+                            : interpretationType.description,
+                        };
+                      }
                     )
                   )
                   .filter(Boolean)}

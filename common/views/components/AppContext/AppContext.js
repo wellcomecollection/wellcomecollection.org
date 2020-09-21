@@ -33,10 +33,16 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   }, []);
 
   function setIsKeyboardFalse() {
+    document &&
+      document.documentElement &&
+      document.documentElement.classList.remove('is-keyboard');
     setIsKeyboard(false);
   }
 
   function setIsKeyboardTrue() {
+    document &&
+      document.documentElement &&
+      document.documentElement.classList.add('is-keyboard');
     setIsKeyboard(true);
   }
 

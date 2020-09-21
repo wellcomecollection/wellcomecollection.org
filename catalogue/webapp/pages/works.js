@@ -6,6 +6,8 @@ import Head from 'next/head';
 import {
   type CatalogueApiError,
   type CatalogueResultsList,
+  type Work,
+  type Image,
 } from '@weco/common/model/catalogue';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
@@ -18,37 +20,44 @@ import {
   WorksRoute,
 } from '@weco/common/services/catalogue/routes';
 import {
-  type CatalogueApiProps,
+  type CatalogueWorksApiProps,
   worksRouteToApiUrl,
   worksRouteToApiUrlWithDefaults,
+  worksPropsToImagesProps,
 } from '@weco/common/services/catalogue/api';
 import Space from '@weco/common/views/components/styled/Space';
+import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
+import { getImages } from '../services/catalogue/images';
 import { getWorks } from '../services/catalogue/works';
 import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
 import cookies from 'next-cookies';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
+import useHotjar from '@weco/common/hooks/useHotjar';
 import WorkSearchResults from '../components/WorkSearchResults/WorkSearchResults';
-import ImageSearchResults from '../components/ImageSearchResults/ImageSearchResults';
 
 type Props = {|
-  works: ?CatalogueResultsList | CatalogueApiError,
+  works: ?CatalogueResultsList<Work> | CatalogueApiError,
+  images: ?CatalogueResultsList<Image> | CatalogueApiError,
   worksRouteProps: WorksRouteProps,
   unfilteredSearchResults: boolean,
   shouldGetWorks: boolean,
-  apiProps: CatalogueApiProps,
+  apiProps: CatalogueWorksApiProps,
+  setArchivesPrototypeCookie: boolean,
 |};
 
 const Works = ({
   works,
+  images,
   worksRouteProps,
-  unfilteredSearchResults,
-  shouldGetWorks,
   apiProps,
+  setArchivesPrototypeCookie,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
+  const results: ?CatalogueResultsList<Work | Image> | CatalogueApiError =
+    works || images;
 
   const {
     query,
@@ -58,8 +67,15 @@ const Works = ({
   } = worksRouteProps;
 
   useEffect(() => {
+    if (setArchivesPrototypeCookie) {
+      document.cookie = `toggle_archivesPrototype=true; Max-Age=${31536000}`;
+    }
+  }, []);
+
+  useEffect(() => {
     trackSearch(apiProps, {
-      totalResults: works && works.totalResults ? works.totalResults : null,
+      totalResults: results && results.totalResults ? results.totalResults : 0,
+      source: Router.query.source || 'unspecified',
     });
   }, [worksRouteProps]);
 
@@ -79,17 +95,19 @@ const Works = ({
     };
   }, []);
 
+  useHotjar();
+
   const isImageSearch = worksRouteProps.search === 'images';
 
-  if (works && works.type === 'Error') {
+  if (results && results.type === 'Error') {
     return (
       <ErrorPage
         title={
-          works.httpStatus === 500
+          results.httpStatus === 500
             ? `We're experiencing technical difficulties at the moment. We're working to get this fixed.`
             : undefined
         }
-        statusCode={works.httpStatus}
+        statusCode={results.httpStatus}
       />
     );
   }
@@ -97,19 +115,22 @@ const Works = ({
   return (
     <Fragment>
       <Head>
-        {works && works.prevPage && (
+        {results && results.prevPage && (
           <link
             rel="prev"
             href={convertUrlToString(
-              worksLink({ ...worksRouteProps, page: (page || 1) - 1 }).as
+              worksLink(
+                { ...worksRouteProps, page: (page || 1) - 1 },
+                'meta_link'
+              ).as
             )}
           />
         )}
-        {works && works.nextPage && (
+        {results && results.nextPage && (
           <link
             rel="next"
             href={convertUrlToString(
-              worksLink({ ...worksRouteProps, page: page + 1 }).as
+              worksLink({ ...worksRouteProps, page: page + 1 }, 'meta_link').as
             )}
           />
         )}
@@ -118,7 +139,7 @@ const Works = ({
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Catalogue search`}
         description="Search the Wellcome Collection catalogue"
-        url={worksLink({ ...worksRouteProps }).as}
+        url={worksLink({ ...worksRouteProps }, 'canonical_link').as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'works'}
@@ -133,7 +154,7 @@ const Works = ({
           className={classNames(['row'])}
         >
           <div className="container">
-            {!works && (
+            {!results && (
               <div className="grid">
                 <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                   <Space
@@ -162,7 +183,7 @@ const Works = ({
                 <p
                   className={classNames({
                     [font('hnl', 4)]: true,
-                    'visually-hidden': Boolean(works),
+                    'visually-hidden': Boolean(results),
                   })}
                   id="search-form-description"
                 >
@@ -178,7 +199,7 @@ const Works = ({
                   workTypeAggregations={
                     works && works.aggregations
                       ? works.aggregations.workType.buckets
-                      : null
+                      : []
                   }
                 />
               </div>
@@ -186,9 +207,9 @@ const Works = ({
           </div>
         </Space>
 
-        {!works && <StaticWorksContent />}
+        {!results && <StaticWorksContent />}
 
-        {works && works.results.length > 0 && (
+        {results && results.results.length > 0 && (
           <Fragment>
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
@@ -202,18 +223,21 @@ const Works = ({
                       <Fragment>
                         <Paginator
                           currentPage={page || 1}
-                          pageSize={works.pageSize}
-                          totalResults={works.totalResults}
-                          link={worksLink({
-                            ...worksRouteProps,
-                          })}
+                          pageSize={results.pageSize}
+                          totalResults={results.totalResults}
+                          link={worksLink(
+                            {
+                              ...worksRouteProps,
+                            },
+                            'search/paginator'
+                          )}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
                             const state = {
                               ...worksRouteProps,
                               page: newPage,
                             };
-                            const link = worksLink(state);
+                            const link = worksLink(state, 'search/paginator');
                             setSavedSearchState(state);
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
@@ -235,15 +259,25 @@ const Works = ({
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
-                {isImageSearch ? (
-                  <ImageSearchResults works={works} apiProps={apiProps} />
-                ) : (
-                  <WorkSearchResults
-                    works={works}
-                    worksRouteProps={worksRouteProps}
-                    apiProps={apiProps}
-                  />
-                )}
+                {(() => {
+                  if (images && images.type !== 'Error' && isImageSearch) {
+                    return (
+                      <ImageEndpointSearchResults
+                        images={images}
+                        apiProps={worksPropsToImagesProps(apiProps)}
+                      />
+                    );
+                  }
+                  if (works && works.type !== 'Error') {
+                    return (
+                      <WorkSearchResults
+                        works={works}
+                        worksRouteProps={worksRouteProps}
+                        apiProps={apiProps}
+                      />
+                    );
+                  }
+                })()}
               </div>
 
               <Space
@@ -263,18 +297,21 @@ const Works = ({
                         <Fragment>
                           <Paginator
                             currentPage={page || 1}
-                            pageSize={works.pageSize}
-                            totalResults={works.totalResults}
-                            link={worksLink({
-                              ...worksRouteProps,
-                            })}
+                            pageSize={results.pageSize}
+                            totalResults={results.totalResults}
+                            link={worksLink(
+                              {
+                                ...worksRouteProps,
+                              },
+                              'search/paginator'
+                            )}
                             onPageChange={async (event, newPage) => {
                               event.preventDefault();
                               const state = {
                                 ...worksRouteProps,
                                 page: newPage,
                               };
-                              const link = worksLink(state);
+                              const link = worksLink(state, 'search/paginator');
                               setSavedSearchState(state);
                               Router.push(link.href, link.as).then(() =>
                                 window.scrollTo(0, 0)
@@ -291,7 +328,7 @@ const Works = ({
           </Fragment>
         )}
 
-        {works && works.results.length === 0 && (
+        {results && results.results.length === 0 && (
           <Space
             v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
           >
@@ -326,45 +363,63 @@ const Works = ({
   );
 };
 
-const IMAGES_LOCATION_TYPE = 'iiif-image';
-
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = WorksRoute.fromQuery(ctx.query);
-  const { unfilteredSearchResults } = ctx.query.toggles;
+  const shouldSeeArchives = ctx.query.archivesPrototype;
+  if (shouldSeeArchives) {
+    ctx.query.toggles.archivesPrototype = true;
+  }
+  const { unfilteredSearchResults, archivesPrototype } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
-
   const apiPropsFn = unfilteredSearchResults
     ? worksRouteToApiUrl
     : worksRouteToApiUrlWithDefaults;
 
-  const apiProps = apiPropsFn(
-    {
-      ...params,
-      itemsLocationsLocationType: isImageSearch
-        ? [IMAGES_LOCATION_TYPE]
-        : params.itemsLocationsLocationType,
-    },
-    {
-      _queryType,
-      aggregations: ['workType'],
-    }
-  );
+  const apiProps = archivesPrototype
+    ? apiPropsFn(
+        params,
+        {
+          _queryType,
+          aggregations: ['workType'],
+          'items.locations.locationType': null,
+          'items.locations.accessConditions.status': null,
+        },
+        true
+      )
+    : apiPropsFn(params, {
+        _queryType,
+        aggregations: ['workType'],
+      });
 
-  const shouldGetWorks = !!(params.query && params.query !== '');
-  // TODO: increase pageSize to 100 when `isImageSearch` (but only if `isEnhanced`)
+  const hasQuery = !!(params.query && params.query !== '');
+
+  const shouldGetWorks = hasQuery && !isImageSearch;
+  const shouldGetImages = hasQuery && isImageSearch;
+
   const worksOrError = shouldGetWorks
     ? await getWorks({
         params: apiProps,
+        toggles: ctx.query.toggles,
+      })
+    : null;
+
+  // TODO: increase pageSize to 100 when `isImageSearch` (but only if `isEnhanced`)
+  const imagesOrError = shouldGetImages
+    ? await getImages({
+        params: worksPropsToImagesProps(apiProps),
+        toggles: ctx.query.toggles,
       })
     : null;
 
   return {
     works: worksOrError,
+    images: imagesOrError,
     worksRouteProps: params,
     unfilteredSearchResults,
     shouldGetWorks,
     apiProps,
+    setArchivesPrototypeCookie: shouldSeeArchives,
   };
 };
 

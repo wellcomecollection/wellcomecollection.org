@@ -51,19 +51,29 @@ async function deploy(serviceName, options) {
     process.exit(1);
   }
 
+  function sortTagsByDate(arr) {
+    return arr.sort((a, b) => {
+      const aDate = new Date(a.last_updated);
+      const bDate = new Date(b.last_updated);
+
+      return bDate - aDate;
+    });
+  }
+
   const dockerUrl = `${service.containerUrl}/tags/`;
   const dockerData = await fetch(dockerUrl).then(resp => resp.json());
   const dockerTags = dockerData.results.filter(tag => tag.name !== 'test');
-  const latestTag = dockerTags[0].name;
+  const sortedDockerTags = sortTagsByDate(dockerTags);
+  const latestTag = sortedDockerTags[0].name;
 
-  const githubUrl = `https://api.github.com/repos/wellcometrust/wellcomecollection.org/git/commits/${latestTag}`;
+  const githubUrl = `https://api.github.com/repos/wellcomecollection/wellcomecollection.org/git/commits/${latestTag}`;
   const githubData = await fetch(githubUrl).then(resp => resp.json());
   const githubMessage = githubData.message;
-  const githubMergeRegExp = /Merge pull request #(\d+) from wellcometrust\/(\w+)/gi;
+  const githubMergeRegExp = /Merge pull request #(\d+) from wellcomecollection\/(\w+)/gi;
   const pr = githubMergeRegExp.exec(githubMessage);
   const prLink =
     pr &&
-    `https://github.com/wellcometrust/wellcomecollection.org/pulls/${pr[1]}`;
+    `https://github.com/wellcomecollection/wellcomecollection.org/pulls/${pr[1]}`;
 
   console.info('\n');
   const { shouldDeploy } = await prompt({

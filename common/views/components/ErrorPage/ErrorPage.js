@@ -3,8 +3,10 @@ import PageLayout from '../PageLayout/PageLayout';
 import ContentPage from '../ContentPage/ContentPage';
 import PageHeader from '../PageHeader/PageHeader';
 import Body from '../Body/Body';
+// $FlowFixMe
 import MoreLink from '../MoreLink/MoreLink';
 import Space from '../styled/Space';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 
 type Props = {|
   statusCode: number,
@@ -35,9 +37,7 @@ const ErrorPage = ({ statusCode, title }: Props) => {
             }
             ContentTypeInfo={null}
             Background={null}
-            backgroundTexture={
-              'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg'
-            }
+            backgroundTexture={headerBackgroundLs}
             FeaturedMedia={null}
             HeroPicture={null}
             highlightHeading={true}

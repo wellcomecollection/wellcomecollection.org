@@ -4,6 +4,8 @@ import { classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';
 import Icon from '../Icon/Icon';
+// $FlowFixMe (tsx)
+import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import type { ImageType } from '../../../model/image';
 
 type Props = {|
@@ -53,18 +55,15 @@ class Iframe extends Component<Props, State> {
         {image.contentUrl && (
           <Fragment>
             {!this.state.iframeShowing && (
-              <button
+              <span
                 className="iframe-container__trigger plain-button no-padding no-visible-focus absolute"
                 onClick={this.toggleIframeDisplay}
               >
                 <span className="iframe-container__overlay absolute" />
-                <span
-                  aria-live="polite"
-                  className="iframe-container__launch absolute btn btn--primary"
-                >
-                  Launch
+                <span className="iframe-container__launch absolute">
+                  <ButtonSolid text="Launch" ariaLive="polite" />
                 </span>
-              </button>
+              </span>
             )}
             <UiImage {...imageObject} />
             {this.state.iframeShowing && (

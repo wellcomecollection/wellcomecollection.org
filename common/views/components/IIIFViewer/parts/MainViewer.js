@@ -12,6 +12,7 @@ import {
 import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { getCanvasOcr } from '@weco/catalogue/services/catalogue/works';
+import { getServiceId } from '@weco/common/utils/iiif';
 
 const ThumbnailWrapper = styled.div`
   opacity: ${props => (props.imageLoaded ? 1 : 0)};
@@ -48,9 +49,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
   const [mainLoaded, setMainLoaded] = useState(false);
   const [thumbLoaded, setThumbLoaded] = useState(false);
   const currentCanvas = canvases[index];
-  const mainImageService = {
-    '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
-  };
+  const mainImageService = { '@id': getServiceId(currentCanvas) };
   const urlTemplateMain = mainImageService['@id']
     ? iiifImageTemplate(mainImageService['@id'])
     : null;
@@ -59,8 +58,8 @@ const ItemRenderer = memo(({ style, index, data }) => {
   const smallestWidthImageDimensions = thumbnailService.sizes
     .sort((a, b) => a.width - b.width)
     .find(dimensions => dimensions.width > 100);
-
-  const infoUrl = convertIiifUriToInfoUri(mainImageService['@id']);
+  const infoUrl =
+    mainImageService['@id'] && convertIiifUriToInfoUri(mainImageService['@id']);
   const matching = rotatedImages.find(canvas => canvas.canvasIndex === index);
   const rotation = matching ? matching.rotation : 0;
   const imageType = scrollVelocity >= 1 ? 'thumbnail' : 'main';
@@ -96,7 +95,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
               />
             </ThumbnailWrapper>
           )}
-          {(imageType === 'main' || mainLoaded) && urlTemplateMain && (
+          {(imageType === 'main' || mainLoaded) && urlTemplateMain && infoUrl && (
             <ImageViewer
               id="item-page"
               infoUrl={infoUrl}
@@ -128,7 +127,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
 
 type Props = {|
   listHeight: number,
-  mainViewerRef: any,
+  mainViewerRef: { current: FixedSizeList | null },
   setActiveIndex: number => void,
   pageWidth: number,
   canvases: [],
@@ -216,6 +215,7 @@ const MainViewer = ({
         setActiveIndex,
         setIsLoading,
         ocrText,
+        mainViewerRef,
       }}
       itemSize={itemHeight}
       onItemsRendered={debounceHandleOnItemsRendered.current}

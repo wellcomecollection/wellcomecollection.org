@@ -1,21 +1,23 @@
 {
   "scripts": {
     "dev": "start-storybook -p 9001 -c .storybook",
-    "build": "build-storybook -c .storybook -o .dist"
+    "build": "build-storybook -c .storybook -o .dist",
+    "deploy": "aws s3 sync .dist/ s3://cardigan.wellcomecollection.org --only-show-errors --acl public-read"
   },
   "devDependencies": {},
   "dependencies": {
     "@babel/core": "^7.6.2",
     "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.10.4",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
-    "@storybook/addon-a11y": "^5.2.1",
-    "@storybook/addon-knobs": "^5.2.1",
-    "@storybook/addon-options": "^5.2.1",
-    "@storybook/react": "^5.2.1",
+    "@storybook/addon-a11y": "^5.3.18",
+    "@storybook/addon-knobs": "^5.3.18",
+    "@storybook/react": "^5.3.18",
     "babel-loader": "^8.0.5",
     "babel-plugin-react-require": "^3.1.1",
+    "babel-preset-react-app": "^9.1.2",
     "css-loader": "^3.2.0",
     "cssnano": "^4.1.10",
     "faker": "^4.1.0",
@@ -23,10 +25,10 @@
     "node-sass": "^4.11.0",
     "postcss-easy-import": "^3.0.0",
     "postcss-loader": "^3.0.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "sass-loader": "^8.0.0",
-    "storybook-readme": "^5.0.2",
+    "storybook-readme": "^5.0.8",
     "style-loader": "^1.0.0",
     "webpack": "^4.40.2"
   }

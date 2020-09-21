@@ -4,17 +4,19 @@ const withGlobalAlert = require('./withGlobalAlert');
 const withOpeningtimes = require('./withOpeningTimes');
 const withToggles = require('./withToggles');
 const withPrismicPreviewStatus = require('./withPrismicPreviewStatus');
+const withMemoizedPrismic = require('./withMemoizedPrismic');
 
 const withCachedValues = compose([
   withGlobalAlert,
   withOpeningtimes,
   withToggles,
   withPrismicPreviewStatus,
+  withMemoizedPrismic,
 ]);
 
 async function route(path, page, router, app, extraParams = {}) {
   router.get(path, async ctx => {
-    const { toggles, globalAlert, openingTimes, isPreview } = ctx;
+    const { toggles, globalAlert, openingTimes, memoizedPrismic } = ctx;
     const params = ctx.params;
     const query = ctx.query;
 
@@ -22,7 +24,33 @@ async function route(path, page, router, app, extraParams = {}) {
       toggles,
       globalAlert,
       openingTimes,
-      isPreview,
+      memoizedPrismic,
+      ...params,
+      ...query,
+      ...extraParams,
+    });
+    ctx.respond = false;
+  });
+}
+
+async function renderIfToggleOn(
+  path,
+  page,
+  router,
+  app,
+  extraParams,
+  toggleToCheck
+) {
+  router.get(path, async ctx => {
+    const { toggles, globalAlert, openingTimes, memoizedPrismic } = ctx;
+    const params = ctx.params;
+    const query = ctx.query;
+
+    await app.render(ctx.req, ctx.res, toggles[toggleToCheck] ? page : '404', {
+      toggles,
+      globalAlert,
+      openingTimes,
+      memoizedPrismic,
       ...params,
       ...query,
       ...extraParams,
@@ -34,14 +62,14 @@ async function route(path, page, router, app, extraParams = {}) {
 function handleAllRoute(handle) {
   return async function(ctx, extraCtxParams = {}) {
     const parsedUrl = parse(ctx.request.url, true);
-    const { toggles, globalAlert, openingTimes, isPreview } = ctx;
+    const { toggles, globalAlert, openingTimes, memoizedPrismic } = ctx;
     const query = {
       ...parsedUrl.query,
       ...extraCtxParams,
       toggles,
       globalAlert,
       openingTimes,
-      isPreview,
+      memoizedPrismic,
     };
     const url = {
       ...parsedUrl,
@@ -56,4 +84,5 @@ module.exports = {
   middleware: withCachedValues,
   route,
   handleAllRoute,
+  renderIfToggleOn,
 };

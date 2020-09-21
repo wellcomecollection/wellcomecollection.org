@@ -17,8 +17,8 @@ const pageDescription =
   'We publish adventurous and unusual books that explore health, medicine and the complexities of the human condition.';
 export class BooksPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const { page = 1 } = ctx.query;
-    const books = await getBooks(ctx.req, { page });
+    const { page = 1, memoizedPrismic } = ctx.query;
+    const books = await getBooks(ctx.req, { page }, memoizedPrismic);
     if (books) {
       return {
         books,

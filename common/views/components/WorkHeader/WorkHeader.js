@@ -8,6 +8,8 @@ import LinkLabels from '../LinkLabels/LinkLabels';
 import Space from '../styled/Space';
 import Number from '@weco/common/views/components/Number/Number';
 import styled from 'styled-components';
+// $FlowFixMe (tsx)
+import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 
 const WorkHeaderContainer = styled.div.attrs(props => ({
   className: classNames({
@@ -56,10 +58,11 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
             className={classNames({
               'no-margin': true,
               [font('hnm', 2)]: true,
+              'inline-block': true,
             })}
             lang={work.language && work.language.id}
           >
-            {work.title}
+            <WorkTitle title={work.title} />
           </h1>
 
           {(work.contributors.length > 0 || productionDates.length > 0) && (

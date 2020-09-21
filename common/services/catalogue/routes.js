@@ -77,6 +77,7 @@ export type WorksRouteProps = {|
   productionDatesFrom: ?string,
   productionDatesTo: ?string,
   search: ?string,
+  source: ?string,
 |};
 
 export const WorksRoute: NextRoute<WorksRouteProps> = {
@@ -93,11 +94,13 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       productionDatesFrom: maybeString(q['production.dates.from']),
       productionDatesTo: maybeString(q['production.dates.to']),
       search: maybeString(q.search),
+      source: maybeString(q.source),
     };
   },
 
   toLink(params) {
     const pathname = '/works';
+    const { source, ...paramsWithoutSource } = params;
 
     return {
       href: {
@@ -106,7 +109,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       },
       as: {
         pathname,
-        query: WorksRoute.toQuery(params),
+        query: WorksRoute.toQuery(paramsWithoutSource),
       },
     };
   },
@@ -122,6 +125,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       'production.dates.from': params.productionDatesFrom,
       'production.dates.to': params.productionDatesTo,
       search: params.search,
+      source: params.source,
     });
   },
 };
@@ -208,6 +212,41 @@ export const ItemRoute: NextRoute<ItemRouteProps> = {
   },
 };
 
-export const worksLink = WorksRoute.toLink;
+export type ImageRouteProps = {|
+  id: string,
+  workId: string,
+  langCode: string,
+|};
+
+export const ImageRoute: NextRoute<ImageRouteProps> = {
+  fromQuery(q) {
+    const { workId, langCode = 'eng', id } = q;
+    return {
+      workId: defaultToEmptyString(workId),
+      langCode,
+      id: defaultToEmptyString(id),
+    };
+  },
+  toLink(params) {
+    const { workId, ...as } = params;
+    return {
+      href: {
+        pathname: '/image',
+        query: ImageRoute.toQuery(params),
+      },
+      as: {
+        pathname: `/works/${workId}/images`,
+        query: ImageRoute.toQuery(as),
+      },
+    };
+  },
+  toQuery(params) {
+    return serialiseUrl(params);
+  },
+};
+
+export const worksLink = (params: $Shape<WorksRouteProps>, source: string) =>
+  WorksRoute.toLink({ ...params, source });
 export const workLink = WorkRoute.toLink;
 export const itemLink = ItemRoute.toLink;
+export const imageLink = ImageRoute.toLink;

@@ -16,7 +16,7 @@ type SliceProps = {|
   repeat?: { [string]: any },
 |};
 
-function slice(label: string, { nonRepeat, repeat }: SliceProps) {
+export function slice(label: string, { nonRepeat, repeat }: SliceProps) {
   return {
     type: 'Slice',
     fieldset: label,
@@ -135,6 +135,8 @@ export default {
             'events',
             'articles',
             'exhibitions',
+            'card',
+            'landing-pages',
           ]),
         },
       }),

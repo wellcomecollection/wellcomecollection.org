@@ -1,4 +1,5 @@
-FROM node:10.15.1-alpine
+# This Dockerfile will soon be DEPRECATED (dependency for CircleCI)
+FROM node:12.18.3-alpine
 
 ENV NODE_ENV=production
 
@@ -9,14 +10,14 @@ ADD ./common ./common
 ADD ./catalogue/webapp ./catalogue/webapp
 # This is needed for node-sass
 RUN apk add --no-cache --virtual .gyp \
-        python \
-        make \
-        g++ \
+    python \
+    make \
+    g++ \
     && yarn install \
     && apk del .gyp
 
 WORKDIR /usr/src/app/webapp/catalogue/webapp
 RUN yarn build
-RUN yarn test
+
 EXPOSE 3000
 CMD ["yarn", "start"]

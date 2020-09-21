@@ -36,7 +36,7 @@ const NavItemInner: ComponentType<SpaceComponentProps> = styled(Space).attrs(
     height: 0.6rem;
     left: 0;
     width: 0;
-    background: ${props => props.theme.colors.yellow};
+    background: ${props => props.theme.color('yellow')};
     z-index: -1;
     transition: width 200ms ease;
   }

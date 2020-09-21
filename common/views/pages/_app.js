@@ -19,7 +19,6 @@ import OpeningTimesContext from '../../views/components/OpeningTimesContext/Open
 import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
 import JsonLd from '../../views/components/JsonLd/JsonLd';
-import { TrackerScript } from '../../views/components/Tracker/Tracker';
 import { trackEvent } from '../../utils/ga';
 import { AppContextProvider } from '../components/AppContext/AppContext';
 
@@ -33,7 +32,6 @@ const isClient = !isServer;
 let toggles;
 let openingTimes;
 let globalAlert;
-let isPreview;
 let engagement;
 let previouslyAccruedTimeOnSpaPage = 0;
 let accruedHiddenTimeOnPage = 0;
@@ -143,12 +141,10 @@ export default class WecoApp extends App {
     toggles = isServer ? router.query.toggles : toggles;
     openingTimes = isServer ? router.query.openingTimes : openingTimes;
     globalAlert = isServer ? router.query.globalAlert : globalAlert;
-    isPreview = isServer ? router.query.isPreview : isPreview;
 
     let pageProps = {};
     if (Component.getInitialProps) {
       ctx.query.toggles = toggles;
-      ctx.query.isPreview = isPreview;
 
       // If the getInitialProps fails, we should propegate this failure through to the repsonse.
       try {
@@ -165,12 +161,13 @@ export default class WecoApp extends App {
       }
     }
 
+    delete ctx.query.memoizedPrismic; // We need to remove memoizedPrismic value here otherwise we hit circular object issues with JSON.stringify
+
     return {
       pageProps,
       toggles,
       openingTimes,
       globalAlert,
-      isPreview,
     };
   }
 
@@ -185,19 +182,12 @@ export default class WecoApp extends App {
     if (isClient && !globalAlert) {
       globalAlert = props.globalAlert;
     }
-    if (isClient && !isPreview) {
-      isPreview = props.isPreview;
-    }
 
     super(props);
   }
 
   state: State = {
     togglesContext: toggles,
-  };
-
-  updateToggles = (newToggles: Object) => {
-    this.setState({ togglesContext: { ...toggles, ...newToggles } });
   };
 
   componentWillUnmount() {
@@ -277,23 +267,8 @@ export default class WecoApp extends App {
       })
       .catch(console.log);
 
-    // Hotjar
-    (function(h, o, t, j, a, r) {
-      h.hj =
-        h.hj ||
-        function() {
-          (h.hj.q = h.hj.q || []).push(arguments);
-        };
-      h._hjSettings = { hjid: 3858, hjsv: 5 };
-      a = o.getElementsByTagName('head')[0];
-      r = o.createElement('script');
-      r.async = true;
-      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
-      a.appendChild(r);
-    })(window, document, '//static.hotjar.com/c/hotjar-', '.js?sv=');
-
     // Prismic preview and validation warnings
-    if (isPreview || document.cookie.match('isPreview=true')) {
+    if (document.cookie.match('isPreview=true')) {
       window.prismic = {
         endpoint: 'https://wellcomecollection.prismic.io/api/v2',
       };
@@ -371,7 +346,6 @@ export default class WecoApp extends App {
 
   render() {
     const { togglesContext } = this.state;
-    const updateToggles = this.updateToggles;
     const { Component, pageProps, openingTimes, globalAlert } = this.props;
     const polyfillFeatures = [
       'default',
@@ -450,7 +424,7 @@ export default class WecoApp extends App {
           <JsonLd data={libraryLd(wellcomeLibraryWithHours)} />
         </Head>
         <AppContextProvider>
-          <TogglesContext.Provider value={{ ...togglesContext, updateToggles }}>
+          <TogglesContext.Provider value={{ ...togglesContext }}>
             <OpeningTimesContext.Provider value={parsedOpeningTimes}>
               <GlobalAlertContext.Provider value={globalAlert}>
                 <ThemeProvider theme={theme}>
@@ -489,7 +463,6 @@ export default class WecoApp extends App {
                         }
                       </TogglesContext.Consumer>
                       <LoadingIndicator />
-                      <TrackerScript />
                       {!pageProps.statusCode && <Component {...pageProps} />}
                       {pageProps.statusCode && pageProps.statusCode !== 200 && (
                         <ErrorPage statusCode={pageProps.statusCode} />

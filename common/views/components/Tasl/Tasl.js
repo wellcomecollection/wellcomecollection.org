@@ -1,9 +1,9 @@
 // @flow
-
-import { font } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import { getLicenseInfo } from '../../../utils/licenses';
 import { trackEvent } from '../../../utils/ga';
-import { Fragment } from 'react';
+import { Fragment, useContext } from 'react';
+import { AppContext } from '../../components/AppContext/AppContext';
 import { withToggler } from '../../hocs/withToggler';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
@@ -121,6 +121,7 @@ const Tasl = withToggler(
     toggle,
     isActive,
   }: Props) => {
+    const { isEnhanced } = useContext(AppContext);
     function toggleWithAnalytics(event) {
       event.preventDefault();
       trackEvent({
@@ -167,7 +168,10 @@ const Tasl = withToggler(
               properties: ['padding-top', 'padding-bottom'],
             }}
             h={{ size: 's', properties: ['padding-left'] }}
-            className={`drawer__body bg-black font-white`}
+            className={classNames({
+              'bg-black font-white': true,
+              'is-hidden': isEnhanced && !isActive,
+            })}
             style={{ paddingRight: '36px' }}
           >
             {getMarkup(

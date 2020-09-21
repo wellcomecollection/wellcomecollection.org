@@ -2,6 +2,7 @@
 import { Fragment } from 'react';
 import { font, grid } from '@weco/common/utils/classnames';
 import { createPrismicParagraph } from '@weco/common/utils/prismic';
+// $FlowFixMe (tsx)
 import Tags from '@weco/common/views/components/Tags/Tags';
 import { CaptionedImage } from '@weco/common/views/components/Images/Images';
 import { worksLink } from '@weco/common/services/catalogue/routes';
@@ -27,51 +28,75 @@ const StaticWorksContent = () => {
                   tags={[
                     {
                       textParts: ['Quacks'],
-                      linkAttributes: worksLink({
-                        query: 'quacks',
-                      }),
+                      linkAttributes: worksLink(
+                        {
+                          query: 'quacks',
+                        },
+                        `landing_page/discover_tag`
+                      ),
                     },
                     {
                       textParts: ['James Gillray'],
-                      linkAttributes: worksLink({
-                        query: 'james+gillray',
-                      }),
+                      linkAttributes: worksLink(
+                        {
+                          query: 'james+gillray',
+                        },
+                        `landing_page/discover_tag`
+                      ),
                     },
                     {
                       textParts: ['Botany'],
-                      linkAttributes: worksLink({
-                        query: 'botany',
-                      }),
+                      linkAttributes: worksLink(
+                        {
+                          query: 'botany',
+                        },
+                        `landing_page/discover_tag`
+                      ),
                     },
                     {
                       textParts: ['Optics'],
-                      linkAttributes: worksLink({
-                        query: 'optics',
-                      }),
+                      linkAttributes: worksLink(
+                        {
+                          query: 'optics',
+                        },
+                        `landing_page/discover_tag`
+                      ),
                     },
                     {
                       textParts: ['Sun'],
-                      linkAttributes: worksLink({
-                        query: 'sun',
-                      }),
+                      linkAttributes: worksLink(
+                        {
+                          query: 'sun',
+                        },
+                        `landing_page/discover_tag`
+                      ),
                     },
                     {
                       textParts: ['Health'],
-                      linkAttributes: worksLink({
-                        query: 'health',
-                      }),
+                      linkAttributes: worksLink(
+                        {
+                          query: 'health',
+                        },
+                        `landing_page/discover_tag`
+                      ),
                     },
                     {
                       textParts: ['Paintings'],
-                      linkAttributes: worksLink({
-                        query: 'paintings',
-                      }),
+                      linkAttributes: worksLink(
+                        {
+                          query: 'paintings',
+                        },
+                        `landing_page/discover_tag`
+                      ),
                     },
                     {
                       textParts: ['Science'],
-                      linkAttributes: worksLink({
-                        query: 'science',
-                      }),
+                      linkAttributes: worksLink(
+                        {
+                          query: 'science',
+                        },
+                        `landing_page/discover_tag`
+                      ),
                     },
                   ]}
                 />

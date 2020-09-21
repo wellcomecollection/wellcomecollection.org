@@ -5,7 +5,58 @@ import {
   type IIIFMetadata,
   type IIIFCanvas,
   type IIIFMediaElement,
+  type Service,
 } from '../model/iiif';
+
+export function getServiceId(currentCanvas: ?IIIFCanvas): ?string {
+  const serviceSrc = currentCanvas?.images[0]?.resource?.service;
+  if (serviceSrc) {
+    if (Array.isArray(serviceSrc)) {
+      const service = serviceSrc.find(
+        item => item['@context'] === 'http://iiif.io/api/image/2/context.json'
+      );
+      return service && service['@id'];
+    } else {
+      return serviceSrc['@id'];
+    }
+  } else {
+    return null;
+  }
+}
+
+export function getUiExtensions(iiifManifest: IIIFManifest): ?Service {
+  if (iiifManifest.service) {
+    if (
+      !Array.isArray(iiifManifest.service) &&
+      iiifManifest.service.profile ===
+        'http://universalviewer.io/ui-extensions-profile'
+    ) {
+      return iiifManifest.service;
+    } else if (Array.isArray(iiifManifest.service)) {
+      return (
+        iiifManifest.service.find(
+          service =>
+            service.profile ===
+            'http://universalviewer.io/ui-extensions-profile'
+        ) || null
+      );
+    } else {
+      return null;
+    }
+  } else {
+    return null;
+  }
+}
+
+export function isUiEnabled(uiExtensions: ?Service, uiName: string) {
+  const disableUI = uiExtensions && uiExtensions.disableUI;
+  if (disableUI) {
+    return !(
+      disableUI.includes(uiName) || disableUI.includes(uiName.toLowerCase())
+    );
+  }
+  return true;
+}
 
 export function getIIIFMetadata(
   iiifManifest: IIIFManifest,
@@ -58,7 +109,6 @@ export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
     );
   return sequence ? sequence.canvases : [];
 }
-
 
 export function getVideo(iiifManifest: IIIFManifest): ?IIIFMediaElement {
   const videoSequence =

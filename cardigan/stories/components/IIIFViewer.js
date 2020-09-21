@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import IIIFViewer from '../../../common/views/components/IIIFViewer/IIIFViewer';
 import Readme from '../../../common/views/components/IIIFViewer/README.md';
-import { itemUrl } from '../../../common/services/catalogue/urls';
+import { itemLink } from '@weco/common/services/catalogue/routes';
 import manifest from '../../../common/__mocks__/iiif-manifest';
 import Router from 'next/router';
 
@@ -29,7 +29,7 @@ const IIIFViewerExample = () => {
   const currentCanvas = canvases[canvasIndex];
   const sharedPaginatorProps = {
     totalResults: canvases.length,
-    link: itemUrl({
+    link: itemLink({
       workId,
       query: null,
       page: pageIndex + 1,

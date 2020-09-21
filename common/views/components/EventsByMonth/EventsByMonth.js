@@ -7,7 +7,6 @@ import { getEarliestFutureDateRange } from '../../../utils/dates';
 import { classNames, cssGrid } from '../../../utils/classnames';
 import SegmentedControl from '../SegmentedControl/SegmentedControl';
 import CardGrid from '../CardGrid/CardGrid';
-import { data as dailyTourPromo } from '../DailyTourPromo/DailyTourPromo';
 import { type UiEvent } from '../../../model/events';
 import { type Link } from '../../../model/link';
 import Space from '../styled/Space';
@@ -151,7 +150,7 @@ class EventsByMonth extends Component<Props, State> {
               >
                 <SegmentedControl
                   id="monthControls"
-                  activeId={months[0].id}
+                  activeId={months[0] && months[0].id}
                   items={months}
                   extraClasses={'segmented-control__list--inline'}
                   onActiveIdChange={id => {
@@ -191,7 +190,7 @@ class EventsByMonth extends Component<Props, State> {
               </div>
             </div>
             <CardGrid
-              items={eventsInMonths[month.id].concat(dailyTourPromo)}
+              items={eventsInMonths[month.id]}
               itemsPerRow={3}
               links={links}
               fromDate={london(month.id)}

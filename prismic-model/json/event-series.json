@@ -368,7 +368,9 @@
                     "books",
                     "events",
                     "articles",
-                    "exhibitions"
+                    "exhibitions",
+                    "card",
+                    "landing-pages"
                   ]
                 }
               }

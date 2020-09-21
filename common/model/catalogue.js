@@ -4,6 +4,20 @@ export type Work = {
   ...Object,
 };
 
+export type Image = {
+  type: 'Image',
+  id: string,
+  locations: Array<{
+    url: string,
+    ...Object,
+  }>,
+  source: {
+    id: string,
+    type: string,
+  },
+  visuallySimilar?: Image[],
+};
+
 export type CatalogueApiError = {|
   errorType: string,
   httpStatus: number,
@@ -26,10 +40,10 @@ export type CatalogueAggregation = {|
   buckets: CatalogueAggregationBucket[],
 |};
 
-export type CatalogueResultsList = {
+export type CatalogueResultsList<Result = Work> = {
   type: 'ResultList',
   totalResults: number,
-  results: Work[],
+  results: Result[],
   pageSize: number,
   prevPage: ?string,
   nextPage: ?string,

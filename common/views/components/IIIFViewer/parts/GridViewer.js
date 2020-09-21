@@ -1,7 +1,7 @@
 // @flow
 import styled from 'styled-components';
 import { useState, memo, useEffect, useRef } from 'react';
-import { FixedSizeGrid, areEqual } from 'react-window';
+import { FixedSizeGrid, FixedSizeList, areEqual } from 'react-window';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
@@ -75,7 +75,7 @@ const GridViewerEl = styled.div`
   bottom: 0;
   width: 100vw;
   z-index: 1;
-  background: ${props => props.theme.colors.viewerBlack};
+  background: ${props => props.theme.color('viewerBlack')};
   transition: top 500ms ease;
 `;
 
@@ -84,7 +84,7 @@ type Props = {|
   gridWidth: number,
   gridVisible: boolean,
   gridViewerRef: { current: HTMLElement | null },
-  mainViewerRef: { current: HTMLElement | null },
+  mainViewerRef: { current: FixedSizeList | null },
   setGridVisible: boolean => void,
   activeIndex: number,
   setActiveIndex: number => void,

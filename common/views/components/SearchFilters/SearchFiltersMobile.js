@@ -7,26 +7,25 @@ import getFocusableElements from '../../../utils/get-focusable-elements';
 import NextLink from 'next/link';
 import { worksLink } from '../../../services/catalogue/routes';
 import styled from 'styled-components';
-import { classNames, font } from '../../../utils/classnames';
+import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
-import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
+// $FlowFixMe (tsx)
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { type SearchFiltersSharedProps } from './SearchFilters';
+import ButtonSolid, {
+  SolidButton,
+  // $FlowFixMe (tsx)
+} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
-const OpenFiltersButton = styled(Space).attrs({
-  'aria-controls': 'mobile-filters-modal',
-  'aria-label': 'open filters',
+const ShameButtonWrap = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  as: 'button',
-  type: 'button',
-  className: classNames({
-    'btn btn--primary': true,
-    [font('hnm', 5)]: true,
-  }),
 })`
-  width: 100%;
-  display: block;
+  button {
+    width: 100%;
+    justify-content: center;
+  }
 `;
 
 const FiltersHeader = styled(Space).attrs({
@@ -107,7 +106,11 @@ const ActiveFilters = styled(Space).attrs({
 
 const FiltersBody = styled(Space).attrs({
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
-})``;
+})`
+  input[type='number'] {
+    min-width: calc(24px + 4ch);
+  }
+`;
 
 const FilterSection = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
@@ -222,18 +225,22 @@ const SearchFiltersMobile = ({
 
   return (
     <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-      <OpenFiltersButton
-        ref={openFiltersButtonRef}
-        onClick={handleOpenFiltersButtonClick}
-      >
-        <Icon name="filter" />
-        <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
+      <ShameButtonWrap>
+        <SolidButton
+          ref={openFiltersButtonRef}
+          onClick={handleOpenFiltersButtonClick}
+          aria-controls="mobile-filters-modal"
+          aria-label="open filters"
+        >
+          <Space h={{ size: 's', properties: ['margin-right'] }}>
+            <Icon name="filter" />
+          </Space>
           Filters{' '}
-          {activeFiltersCount > 0 && (
+          {activeFiltersCount > 0 && ' ' && (
             <ActiveFilters>{activeFiltersCount}</ActiveFilters>
           )}
-        </Space>
-      </OpenFiltersButton>
+        </SolidButton>
+      </ShameButtonWrap>
       <CSSTransition in={isActive} classNames="fade" timeout={350}>
         <FiltersModal ref={filtersModalRef} isActive={isActive}>
           <FiltersScrollable>
@@ -299,8 +306,9 @@ const SearchFiltersMobile = ({
                             v={{ size: 'l', properties: ['margin-bottom'] }}
                             key={`mobile-${workType.data.id}`}
                           >
-                            <Checkbox
+                            <CheckboxRadio
                               id={`mobile-${workType.data.id}`}
+                              type={`checkbox`}
                               text={`${workType.data.label} (${workType.count})`}
                               value={workType.data.id}
                               name={`workType`}
@@ -320,20 +328,22 @@ const SearchFiltersMobile = ({
           <FiltersFooter>
             <NextLink
               passHref
-              {...worksLink({
-                query: worksRouteProps.query,
-              })}
+              {...worksLink(
+                {
+                  query: worksRouteProps.query,
+                },
+                'cancel_filter/all'
+              )}
             >
               <a>Reset filters</a>
             </NextLink>
-            <button
+
+            <ButtonSolid
               ref={okFiltersButtonRef}
               type="button"
-              className="btn btn--primary"
-              onClick={handleOkFiltersButtonClick}
-            >
-              OK
-            </button>
+              clickHandler={handleOkFiltersButtonClick}
+              text="OK"
+            />
           </FiltersFooter>
         </FiltersModal>
       </CSSTransition>

@@ -18,8 +18,8 @@ const ExhibitionPage = ({ exhibition }: Props) => {
 };
 
 ExhibitionPage.getInitialProps = async (ctx: Context) => {
-  const { id } = ctx.query;
-  const exhibition = await getExhibition(ctx.req, id);
+  const { id, memoizedPrismic } = ctx.query;
+  const exhibition = await getExhibition(ctx.req, id, memoizedPrismic);
 
   if (exhibition) {
     return {

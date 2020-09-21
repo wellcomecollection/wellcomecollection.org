@@ -1,6 +1,4 @@
 terraform {
-  required_version = ">= 0.11"
-
   backend "s3" {
     key            = "build-state/cardigan.tfstate"
     dynamodb_table = "terraform-locktable"
@@ -31,14 +29,9 @@ provider "template" {
   version = "~> 2.1"
 }
 
-data "aws_acm_certificate" "wellcomecollection_ssl_cert" {
-  provider = aws.us-east-1
-  domain   = "wellcomecollection.org"
-}
-
 module "cardigan" {
-  source              = "../../terraform-modules/https_s3_website"
+  source              = "../../infrastructure/terraform/modules/s3_website"
   website_uri         = "cardigan.wellcomecollection.org"
-  acm_certificate_arn = data.aws_acm_certificate.wellcomecollection_ssl_cert.arn
+  acm_certificate_arn = "arn:aws:acm:us-east-1:130871440101:certificate/bb840c52-56bb-4bf8-86f8-59e7deaf9c98"
 }
 

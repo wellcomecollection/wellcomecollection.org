@@ -2,7 +2,8 @@
 
 import type { UiEvent } from '../../../model/events';
 import { Fragment } from 'react';
-import Button from '../Buttons/Button/Button';
+// $FlowFixMe (tsx)
+import ButtonSolidLink from '../ButtonSolidLink/ButtonSolidLink';
 import Message from '../Message/Message';
 import { font } from '../../../utils/classnames';
 import Space from '../styled/Space';
@@ -22,9 +23,8 @@ function getButtonMarkup(event) {
         className="js-eventbrite-ticket-button"
         data-eventbrite-ticket-id={event.eventbriteId}
       >
-        <Button
-          type="primary"
-          url={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
+        <ButtonSolidLink
+          link={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
           icon="ticketAvailable"
           text="Book free tickets"
         />
@@ -40,9 +40,8 @@ function getBookingEnquiryMarkup(event) {
     return <Message text={`Fully booked`} />;
   } else {
     return (
-      <Button
-        type="primary"
-        url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
+      <ButtonSolidLink
+        link={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
         icon="email"
         text="Email to book"
       />

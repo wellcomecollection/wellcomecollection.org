@@ -10,7 +10,7 @@ account.
   used to monitor the client JS.
 * [Sentry (server)](https://sentry.io/wellcome/wellcomecollection-website-server/)
   used to monitor any errors occuring on the server JS.
-* [CloudWatch 500 errors](https://github.com/wellcometrust/wellcomecollection.org/blob/d215a7ccc392d7da8405e799513e247c20131c21/infra/terraform/templates/alb.tf#L76-L91)
+* [CloudWatch 500 errors](https://github.com/wellcomecollection/wellcomecollection.org/blob/d215a7ccc392d7da8405e799513e247c20131c21/infra/terraform/templates/alb.tf#L76-L91)
   500 errors from the `wellcomecollection` ALB
 
 ## Health and performance

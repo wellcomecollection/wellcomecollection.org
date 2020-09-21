@@ -1,25 +1,46 @@
 // @flow
+import {
+  getCanvases,
+  getFirstChildManifestLocation,
+  getServiceId,
+} from '@weco/common/utils/iiif';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import fetch from 'isomorphic-unfetch';
 import NextLink from 'next/link';
-import { workLink, itemLink } from '@weco/common/services/catalogue/routes';
+import {
+  workLink,
+  itemLink,
+  imageLink,
+} from '@weco/common/services/catalogue/routes';
 import { font, classNames } from '@weco/common/utils/classnames';
-import { getDigitalLocationOfType } from '@weco/common/utils/works';
+import {
+  getDigitalLocationOfType,
+  sierraIdFromPresentationManifestUrl,
+} from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+// $FlowFixMe (tsx)
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
+import { type Image as ImageType } from '@weco/common/model/catalogue';
 import { getWork } from '../../services/catalogue/works';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import useFocusTrap from '@weco/common/hooks/useFocusTrap';
 import styled from 'styled-components';
-import RelatedImages from '../RelatedImages/RelatedImages';
+import VisuallySimilarImages from '../VisuallySimilarImages/VisuallySimilarImages';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import VisuallySimilarImagesFromApi from '../VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
 
 type Props = {|
   title: string,
-  id: string,
-  setExpandedImageId: (id: string) => void,
+  workId: string,
+  image?: ImageType,
+  setExpandedImage: (image: ?ImageType) => void,
+  onWorkLinkClick: () => void,
+  onImageLinkClick: (id: string) => void,
 |};
 
 const ImageWrapper = styled(Space).attrs({
@@ -125,9 +146,15 @@ const CloseButton = styled(Space).attrs({
   border-radius: 50%;
   appearance: none;
   background: rgba(0, 0, 0, 0.7);
-  color: ${props => props.theme.colors.white};
+  color: ${props => props.theme.color('white')};
   border: 0;
+  outline: 0;
   z-index: 1;
+
+  &:focus {
+    ${props =>
+      !props.hideFocus && `border: 2px solid ${props.theme.color('black')}`}
+  }
 
   .icon {
     position: absolute;
@@ -138,16 +165,28 @@ const CloseButton = styled(Space).attrs({
 
   ${props => props.theme.media.medium`
     background: none;
-    color: ${props => props.theme.colors.pewter};
+    color: ${props => props.theme.color('pewter')};
     position: absolute;
   `}
 `;
 
-const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
+const ExpandedImage = ({
+  title,
+  workId,
+  image,
+  setExpandedImage,
+  onWorkLinkClick,
+  onImageLinkClick,
+}: Props) => {
+  const { isKeyboard } = useContext(AppContext);
+  const toggles = useContext(TogglesContext);
   const [detailedWork, setDetailedWork] = useState(null);
+  const [canvasDeeplink, setCanvasDeeplink] = useState(null);
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
   const endRef = useRef(null);
+
+  const displayTitle = title || (detailedWork && detailedWork.title) || '';
 
   useEffect(() => {
     const focusables = modalRef &&
@@ -167,22 +206,65 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key !== 'Escape') return;
 
-      setExpandedImageId('');
+      setExpandedImage(undefined);
     }
 
     document.addEventListener('keydown', closeOnEscape);
 
     return () => document.removeEventListener('keydown', closeOnEscape);
   }, []);
+
   useEffect(() => {
     const fetchDetailedWork = async () => {
-      const res = await getWork({ id });
+      const res = await getWork({ id: workId, toggles });
       if (res.type === 'Work') {
         setDetailedWork(res);
       }
     };
     fetchDetailedWork();
-  }, []);
+  }, [workId]);
+
+  useEffect(() => {
+    // This downloads the IIIF manifest and tries to find the image in the canvases.
+    // With upcoming work on IIIF identifiers, we should be able to provide the
+    // deep link information from the API directly, but for now this is a
+    // pragmatic - if ugly - solution.
+    const fetchDeeplinkCanvasIndex = async (
+      manifestLocation: string,
+      imageUrl: string
+    ) => {
+      const res = await fetch(manifestLocation);
+      const manifest = await res.json();
+      const firstChildManifestLocation = getFirstChildManifestLocation(
+        manifest
+      );
+      if (firstChildManifestLocation) {
+        return fetchDeeplinkCanvasIndex(firstChildManifestLocation, imageUrl);
+      }
+      const canvases = getCanvases(manifest);
+      const imageLocationBase = imageUrl.replace('/info.json', '');
+      const canvasIndex = canvases.findIndex(canvas => {
+        const serviceId = getServiceId(canvas);
+        return serviceId && serviceId.indexOf(imageLocationBase) !== -1;
+      });
+      const sierraId = sierraIdFromPresentationManifestUrl(manifestLocation);
+      if (canvasIndex !== -1) {
+        setCanvasDeeplink({
+          canvas: canvasIndex + 1,
+          sierraId,
+        });
+      }
+    };
+    if (detailedWork && image && image.locations[0]) {
+      const manifestLocation = getDigitalLocationOfType(
+        detailedWork,
+        'iiif-presentation'
+      );
+      if (manifestLocation) {
+        fetchDeeplinkCanvasIndex(manifestLocation.url, image.locations[0].url);
+      }
+    }
+  }, [detailedWork]);
 
   useEffect(() => {
     document &&
@@ -198,38 +280,46 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
 
   useFocusTrap(closeButtonRef, endRef);
 
-  const iiifImageLocation =
-    detailedWork && getDigitalLocationOfType(detailedWork, 'iiif-image');
+  const iiifImageLocation = image
+    ? image.locations[0]
+    : detailedWork && getDigitalLocationOfType(detailedWork, 'iiif-image');
   const license =
-    iiifImageLocation && getAugmentedLicenseInfo(iiifImageLocation.license);
+    iiifImageLocation &&
+    iiifImageLocation.license &&
+    getAugmentedLicenseInfo(iiifImageLocation.license);
 
-  const maybeItemLink =
-    detailedWork &&
-    itemLink({
-      workId: id,
-      langCode: detailedWork.language && detailedWork.language.id,
-    });
+  const expandedImageLink =
+    image && !canvasDeeplink
+      ? imageLink({ workId, id: image.id })
+      : detailedWork &&
+        itemLink({
+          workId,
+          langCode: detailedWork.language && detailedWork.language.id,
+          ...(canvasDeeplink || {}),
+        });
 
   return (
     <>
-      <Overlay onClick={() => setExpandedImageId('')} />
+      <Overlay onClick={() => setExpandedImage(undefined)} />
       <Modal ref={modalRef}>
         <CloseButton
+          hideFocus={!isKeyboard}
           ref={closeButtonRef}
-          onClick={() => setExpandedImageId('')}
+          onClick={() => setExpandedImage(undefined)}
         >
           <span className="visually-hidden">Close modal window</span>
           <Icon name="cross" extraClasses={`icon--currentColor`} />
         </CloseButton>
         <ModalInner>
-          {iiifImageLocation && maybeItemLink && (
-            <NextLink {...maybeItemLink} passHref>
+          {iiifImageLocation && expandedImageLink && (
+            <NextLink {...expandedImageLink} passHref>
               <ImageWrapper>
                 <Image
                   defaultSize={400}
-                  alt={title}
+                  alt={displayTitle}
                   contentUrl={iiifImageLocation.url}
                   tasl={null}
+                  lazyload={false}
                 />
               </ImageWrapper>
             </NextLink>
@@ -243,7 +333,7 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
                 'no-margin': true,
               })}
             >
-              {title}
+              {displayTitle}
             </Space>
             {license && (
               <Space
@@ -255,29 +345,38 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
             )}
 
             <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-              <Space
-                h={{ size: 'm', properties: ['margin-right'] }}
-                className="inline-block"
-              >
-                <Button
-                  type="primary"
-                  text="View image"
-                  icon="eye"
-                  link={maybeItemLink}
-                />
-              </Space>
-              <NextLink {...workLink({ id })} passHref>
+              {expandedImageLink && (
+                <Space
+                  h={{ size: 'm', properties: ['margin-right'] }}
+                  className="inline-block"
+                >
+                  <ButtonSolidLink
+                    text="View image"
+                    icon="eye"
+                    link={expandedImageLink}
+                  />
+                </Space>
+              )}
+              <NextLink {...workLink({ id: workId })} passHref>
                 <a
                   className={classNames({
                     'inline-block': true,
                     [font('hnl', 5)]: true,
                   })}
+                  onClick={onWorkLinkClick}
                 >
                   More about this work
                 </a>
               </NextLink>
             </Space>
-            <RelatedImages originalId={id} />
+            {image ? (
+              <VisuallySimilarImagesFromApi
+                originalId={image.id}
+                onClickImage={setExpandedImage}
+              />
+            ) : (
+              <VisuallySimilarImages originalId={workId} />
+            )}
           </InfoWrapper>
         </ModalInner>
       </Modal>

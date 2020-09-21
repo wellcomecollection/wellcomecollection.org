@@ -4,35 +4,69 @@ import { type IIIFRendering } from '../model/iiif';
 import { type LicenseAPIData } from '@weco/common/utils/licenses';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 
-export function getDigitalLocations(work: Work) {
-  return work.items
-    .map(item =>
-      item.locations.filter(location => location.type === 'DigitalLocation')
-    )
-    .reduce((acc, locations) => acc.concat(locations), []);
-}
-
 export function getProductionDates(work: Work) {
   return work.production
     .map(productionEvent => productionEvent.dates.map(date => date.label))
     .reduce((a, b) => a.concat(b), []);
 }
 
+type DownloadImage = {|
+  url: string,
+  width: ?number,
+  height: ?number,
+|};
+
+export type ArchiveNode = {|
+  id: string,
+  title: string,
+  alternativeTitles: string[],
+  referenceNumber?: string,
+  partOf?: [],
+  parts?: [],
+  precededBy?: [],
+  succeededBy?: [],
+  type: 'Work',
+|};
+
 export function getDownloadOptionsFromImageUrl(
-  imageUrl: string
+  downloadImage: DownloadImage
 ): IIIFRendering[] {
-  return [
-    {
-      '@id': convertImageUri(imageUrl, 'full'),
-      format: 'image/jpeg',
-      label: 'Download full size',
-    },
-    {
-      '@id': convertImageUri(imageUrl, 760),
-      format: 'image/jpeg',
-      label: 'Download small (760px)',
-    },
-  ];
+  const smallImageWidth = 760;
+  const imageDimensions = {
+    fullWidth: downloadImage.width || null,
+    fullHeight: downloadImage.height || null,
+    smallWidth: smallImageWidth,
+    smallHeight:
+      downloadImage.width && downloadImage.height
+        ? `${Math.round(
+            downloadImage.height / (downloadImage.width / smallImageWidth)
+          )}`
+        : null,
+  };
+  if (downloadImage.url) {
+    return [
+      {
+        '@id': convertImageUri(downloadImage.url, 'full'),
+        format: 'image/jpeg',
+        label: `This image (${
+          imageDimensions.fullWidth && imageDimensions.fullHeight
+            ? `${imageDimensions.fullWidth}x${imageDimensions.fullHeight} pixels`
+            : 'Full size'
+        })`,
+      },
+      {
+        '@id': convertImageUri(downloadImage.url, 760),
+        format: 'image/jpeg',
+        label: `This image (${
+          imageDimensions.smallHeight
+            ? `${imageDimensions.smallWidth}x${imageDimensions.smallHeight} pixels`
+            : '760px'
+        })`,
+      },
+    ];
+  } else {
+    return [];
+  }
 }
 
 export function getEncoreLink(sierraId: string): string {
@@ -76,7 +110,7 @@ type LocationType = {|
 
 export type DigitalLocation = {|
   credit: string,
-  license: LicenseAPIData,
+  license?: LicenseAPIData,
   locationType: LocationType,
   type: 'DigitalLocation',
   url: string,
@@ -86,6 +120,46 @@ export type PhysicalLocation = {|
   label: string,
   type: 'PhysicalLocation',
 |};
+
+export type WorkCatalogueItem = {|
+  id: string,
+  title?: string,
+  identifiers: [],
+  locations: (DigitalLocation | PhysicalLocation)[],
+  type: string,
+|};
+
+type StacksItemStatus = {| id: string, label: string, type: 'ItemStatus' |};
+
+// We have the items from the catalogue API and add additional data from the stacks API,
+// data from UI interactions and data we work out based on location and status
+export type PhysicalItemAugmented = {|
+  ...WorkCatalogueItem,
+  locations: PhysicalLocation[],
+  dueDate?: string,
+  status?: StacksItemStatus,
+  checked: boolean,
+  requestable: boolean,
+  requested: boolean,
+  requestSucceeded: boolean,
+|};
+
+export function getItemsWithPhysicalLocation(
+  work: Work
+): PhysicalItemAugmented[] {
+  return (
+    work.items &&
+    work.items
+      .map(item => {
+        if (
+          item.locations.find(location => location.type === 'PhysicalLocation')
+        ) {
+          return item;
+        }
+      })
+      .filter(Boolean)
+  );
+}
 
 export function getDigitalLocationOfType(
   work: Work,
@@ -170,4 +244,30 @@ export function getItemIdentifiersWith(
 
     return acc;
   }, []);
+}
+
+export function getAncestorArray(work: Work): ArchiveNode[] {
+  // We're only interested in the item with a partOf property (which is the last item in the array), this can be removed once the API is updated to remove all ancestors from the top level array
+  const desiredItem = work.partOf && work.partOf[work.partOf.length - 1];
+  const ancestorArray = [];
+  function addToAncestorArray(work) {
+    ancestorArray.push({
+      id: work.id,
+      title: work.title,
+      alternativeTitles: work.alternativeTitles,
+      referenceNumber: work.referenceNumber,
+      type: 'Work',
+    });
+    if (work.partOf) {
+      // It's possible in the future that items will have multiple parents and we'll need a way to distinguish which one we're interested in, for now they only have one.
+      const [ancestorWork] = work.partOf;
+      if (ancestorWork) {
+        addToAncestorArray(ancestorWork);
+      }
+    }
+  }
+  if (desiredItem) {
+    addToAncestorArray(desiredItem);
+  }
+  return ancestorArray.reverse();
 }
