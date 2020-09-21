@@ -78,7 +78,7 @@
         login: true
     - docker-compose#v3.5.0:
         run: catalogue
-        command: [ "yarn", "deploy_bundle_analysis" ]
+        command: [ "yarn", "deployBundleAnalysis" ]
         env:
           - AWS_ACCESS_KEY_ID
           - AWS_SECRET_ACCESS_KEY
@@ -105,7 +105,7 @@
         login: true
     - docker-compose#v3.5.0:
         run: content
-        command: [ "yarn", "deploy_bundle_analysis" ]
+        command: [ "yarn", "deployBundleAnalysis" ]
         env:
           - AWS_ACCESS_KEY_ID
           - AWS_SECRET_ACCESS_KEY
