@@ -7,10 +7,8 @@ import { trackEvent } from '@weco/common/utils/ga';
 import Raven from 'raven-js';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Space from '@weco/common/views/components/styled/Space';
-import {
-  headerHeight,
-  topBarHeight,
-} from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+import { topBarHeight } from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+import { navHeight } from '@weco/common/views/components/Header/Header';
 
 const ZoomedImageContainer = styled.div`
   position: fixed;
@@ -19,14 +17,14 @@ const ZoomedImageContainer = styled.div`
   left: 0;
   top: 0;
   z-index: 3;
-  background: ${props => props.theme.colors.black};
+  background: ${props => props.theme.color('black')};
   @media (min-width: ${props => props.theme.sizes.large}px) {
     height: ${props =>
       props.isFullscreen
         ? `calc(100vh - ${topBarHeight}px)`
-        : `calc(100vh - ${headerHeight}px)`};
+        : `calc(100vh - ${navHeight}px)`};
     top: ${props =>
-      props.isFullscreen ? `${topBarHeight}px` : `${headerHeight}px`};
+      props.isFullscreen ? `${topBarHeight}px` : `${navHeight}px`};
   }
 `;
 

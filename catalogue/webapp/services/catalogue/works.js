@@ -6,61 +6,65 @@ import {
   type Work,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
-import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 import { type IIIFCanvas } from '@weco/common/model/iiif';
 import Raven from 'raven-js';
-import { removeEmptyProps } from '@weco/common/utils/json';
-
-const rootUris = {
-  prod: 'https://api.wellcomecollection.org/catalogue',
-  stage: 'https://api-stage.wellcomecollection.org/catalogue',
-};
-
-type Environment = {|
-  env?: $Keys<typeof rootUris>,
-|};
+import { type CatalogueWorksApiProps } from '@weco/common/services/catalogue/api';
+import {
+  type Toggles,
+  rootUris,
+  globalApiOptions,
+  queryString,
+} from './common';
 
 type GetWorkProps = {|
   id: string,
-  ...Environment,
+  toggles?: Toggles,
 |};
 
 type GetWorksProps = {|
-  params: SearchParams,
+  params: CatalogueWorksApiProps,
   pageSize?: number,
-  ...Environment,
+  toggles?: Toggles,
 |};
 
 const worksIncludes = ['identifiers', 'production', 'contributors', 'subjects'];
 
 const workIncludes = [
   'identifiers',
+  'images',
   'items',
   'subjects',
   'genres',
   'contributors',
   'production',
   'notes',
+  'parts',
+  'partOf',
+  'precededBy',
+  'succeededBy',
 ];
 
 export async function getWorks({
   params,
-  env = 'prod',
+  toggles,
   pageSize = 25,
-}: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
-  const filterQueryString = Object.keys(removeEmptyProps(params)).map(key => {
-    const val = params[key];
-    return `${key}=${val}`;
-  });
-  const url =
-    `${rootUris[env]}/v2/works?include=${worksIncludes.join(',')}` +
-    `&pageSize=${pageSize}` +
-    (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '');
+}: GetWorksProps): Promise<CatalogueResultsList<Work> | CatalogueApiError> {
+  const apiOptions = globalApiOptions(toggles);
+  const extendedParams = {
+    ...params,
+    pageSize,
+    include: worksIncludes,
+    _index: apiOptions.indexOverrideSuffix
+      ? `works-${apiOptions.indexOverrideSuffix}`
+      : undefined,
+  };
+  const filterQueryString = queryString(extendedParams);
+  const url = `${rootUris[apiOptions.env]}/v2/works${filterQueryString}`;
   try {
     const res = await fetch(url);
     const json = await res.json();
 
-    return (json: CatalogueResultsList | CatalogueApiError);
+    return (json: CatalogueResultsList<Work> | CatalogueApiError);
   } catch (error) {
     return {
       description: '',
@@ -74,15 +78,21 @@ export async function getWorks({
 
 export async function getWork({
   id,
-  env = 'prod',
+  toggles,
 }: GetWorkProps): Promise<Work | CatalogueApiError | CatalogueApiRedirect> {
-  const url = `${rootUris[env]}/v2/works/${id}?include=${workIncludes.join(
-    ','
-  )}`;
+  const apiOptions = globalApiOptions(toggles);
+  const params = {
+    include: workIncludes,
+    _index: apiOptions.indexOverrideSuffix
+      ? `works-${apiOptions.indexOverrideSuffix}`
+      : null,
+  };
+  const query = queryString(params);
+  let url = `${rootUris[apiOptions.env]}/v2/works/${id}${query}`;
   const res = await fetch(url, { redirect: 'manual' });
 
   // When records from Miro have been merged with Sierra data, we redirect the
-  // latter to the former. This would happen quietly on the API requtes, but we
+  // latter to the former. This would happen quietly on the API request, but we
   // would then have duplicates emerging, which wouldn't be useful for search
   // engines so we respect the redirect on the client
   if (res.status === 301 || res.status === 302) {

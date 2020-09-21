@@ -1,0 +1,283 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Feature: 2. As a library member I want to request an item 
+    Scenario: I'm logged out, viewing a work page
+      Given the work has a requestable item
+      And it’s available to request
+      Then I can see a primary CTA to log in
+     1`] = `
+<div
+  data-test-id="libraryLoginCTA"
+>
+  <ButtonSolidLink
+    clickHandler={[Function]}
+    link="/loginUrl"
+    text="Log in to request"
+    trackingEvent={
+      Object {
+        "action": "follow Cognito login link",
+        "category": "Button",
+        "label": "{workId}",
+      }
+    }
+  >
+    <ConditionalWrapper
+      condition={false}
+      wrapper={[Function]}
+    >
+      <ButtonSolid__SolidButton
+        href="/loginUrl"
+        onClick={[Function]}
+      >
+        <StyledComponent
+          forwardedComponent={
+            Object {
+              "$$typeof": Symbol(react.forward_ref),
+              "attrs": Array [
+                [Function],
+                [Function],
+              ],
+              "componentStyle": ComponentStyle {
+                "componentId": "ButtonSolid__SolidButton-is2j2c-3",
+                "isStatic": false,
+                "lastClassName": "bADJUb",
+                "rules": Array [
+                  "display:inline-flex;line-height:1;border-radius:",
+                  [Function],
+                  ";text-decoration:none;text-align:center;transition:background ",
+                  [Function],
+                  ",border-color ",
+                  [Function],
+                  ";border:0;white-space:nowrap;padding:13px 20px;cursor:pointer;&:focus{outline:0;.is-keyboard &{box-shadow:",
+                  [Function],
+                  ";}}&[disabled],&.disabled{background:",
+                  [Function],
+                  ";border-color:",
+                  [Function],
+                  ";color:",
+                  [Function],
+                  ";cursor:not-allowed;&:hover{text-decoration:none;}}&.disabled{pointer-events:none;}.icon__shape{transition:fill ",
+                  [Function],
+                  ";fill:currentColor;}.icon__stroke{transition:stroke ",
+                  [Function],
+                  ";stroke:currentColor;}",
+                  "background:",
+                  [Function],
+                  ";color:",
+                  [Function],
+                  ";border:2px solid ",
+                  [Function],
+                  ";",
+                  [Function],
+                  " &:not([disabled]):hover{background:",
+                  [Function],
+                  ";border-color:",
+                  [Function],
+                  ";}",
+                ],
+              },
+              "displayName": "ButtonSolid__SolidButton",
+              "foldedComponentIds": Array [
+                "ButtonSolid__BaseButton-is2j2c-0",
+              ],
+              "render": [Function],
+              "styledComponentId": "ButtonSolid__SolidButton-is2j2c-3",
+              "target": "button",
+              "toString": [Function],
+              "warnTooManyClasses": [Function],
+              "withComponent": [Function],
+            }
+          }
+          forwardedRef={null}
+          href="/loginUrl"
+          onClick={[Function]}
+        >
+          <a
+            className="ButtonSolid__BaseButton-is2j2c-0 ButtonSolid__SolidButton-is2j2c-3 bADJUb link-reset"
+            href="/loginUrl"
+            onClick={[Function]}
+          >
+            <ButtonSolid__BaseButtonInner>
+              <StyledComponent
+                forwardedComponent={
+                  Object {
+                    "$$typeof": Symbol(react.forward_ref),
+                    "attrs": Array [
+                      [Function],
+                    ],
+                    "componentStyle": ComponentStyle {
+                      "componentId": "ButtonSolid__BaseButtonInner-is2j2c-1",
+                      "isStatic": false,
+                      "lastClassName": "dxoWEE",
+                      "rules": Array [
+                        "height:1em;",
+                      ],
+                    },
+                    "displayName": "ButtonSolid__BaseButtonInner",
+                    "foldedComponentIds": Array [],
+                    "render": [Function],
+                    "styledComponentId": "ButtonSolid__BaseButtonInner-is2j2c-1",
+                    "target": "span",
+                    "toString": [Function],
+                    "warnTooManyClasses": [Function],
+                    "withComponent": [Function],
+                  }
+                }
+                forwardedRef={null}
+              >
+                <span
+                  className="ButtonSolid__BaseButtonInner-is2j2c-1 dxoWEE font-hnm font-size-5  flex flex--v-center"
+                >
+                  Log in to request
+                </span>
+              </StyledComponent>
+            </ButtonSolid__BaseButtonInner>
+          </a>
+        </StyledComponent>
+      </ButtonSolid__SolidButton>
+    </ConditionalWrapper>
+  </ButtonSolidLink>
+</div>
+`;
+
+exports[`Feature: 2. As a library member I want to request an item Scenario: I'm logged in, viewing a work page
+  Given the work has a requestable item
+  And it’s available to request
+  Then I can see a primary CTA to request it 1`] = `
+<div
+  data-test-id="requestModalCTA"
+>
+  <ForwardRef
+    clickHandler={[Function]}
+    text="Request"
+    trackingEvent={
+      Object {
+        "action": "open Stacks request modal window",
+        "category": "Button",
+        "label": "{workId}",
+      }
+    }
+  >
+    <ButtonSolid__SolidButton
+      onClick={[Function]}
+    >
+      <StyledComponent
+        forwardedComponent={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "attrs": Array [
+              [Function],
+              [Function],
+            ],
+            "componentStyle": ComponentStyle {
+              "componentId": "ButtonSolid__SolidButton-is2j2c-3",
+              "isStatic": false,
+              "lastClassName": "bADJUb",
+              "rules": Array [
+                "display:inline-flex;line-height:1;border-radius:",
+                [Function],
+                ";text-decoration:none;text-align:center;transition:background ",
+                [Function],
+                ",border-color ",
+                [Function],
+                ";border:0;white-space:nowrap;padding:13px 20px;cursor:pointer;&:focus{outline:0;.is-keyboard &{box-shadow:",
+                [Function],
+                ";}}&[disabled],&.disabled{background:",
+                [Function],
+                ";border-color:",
+                [Function],
+                ";color:",
+                [Function],
+                ";cursor:not-allowed;&:hover{text-decoration:none;}}&.disabled{pointer-events:none;}.icon__shape{transition:fill ",
+                [Function],
+                ";fill:currentColor;}.icon__stroke{transition:stroke ",
+                [Function],
+                ";stroke:currentColor;}",
+                "background:",
+                [Function],
+                ";color:",
+                [Function],
+                ";border:2px solid ",
+                [Function],
+                ";",
+                [Function],
+                " &:not([disabled]):hover{background:",
+                [Function],
+                ";border-color:",
+                [Function],
+                ";}",
+              ],
+            },
+            "displayName": "ButtonSolid__SolidButton",
+            "foldedComponentIds": Array [
+              "ButtonSolid__BaseButton-is2j2c-0",
+            ],
+            "render": [Function],
+            "styledComponentId": "ButtonSolid__SolidButton-is2j2c-3",
+            "target": "button",
+            "toString": [Function],
+            "warnTooManyClasses": [Function],
+            "withComponent": [Function],
+          }
+        }
+        forwardedRef={null}
+        onClick={[Function]}
+      >
+        <button
+          className="ButtonSolid__BaseButton-is2j2c-0 ButtonSolid__SolidButton-is2j2c-3 bADJUb"
+          onClick={[Function]}
+        >
+          <ButtonSolid__BaseButtonInner>
+            <StyledComponent
+              forwardedComponent={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "attrs": Array [
+                    [Function],
+                  ],
+                  "componentStyle": ComponentStyle {
+                    "componentId": "ButtonSolid__BaseButtonInner-is2j2c-1",
+                    "isStatic": false,
+                    "lastClassName": "dxoWEE",
+                    "rules": Array [
+                      "height:1em;",
+                    ],
+                  },
+                  "displayName": "ButtonSolid__BaseButtonInner",
+                  "foldedComponentIds": Array [],
+                  "render": [Function],
+                  "styledComponentId": "ButtonSolid__BaseButtonInner-is2j2c-1",
+                  "target": "span",
+                  "toString": [Function],
+                  "warnTooManyClasses": [Function],
+                  "withComponent": [Function],
+                }
+              }
+              forwardedRef={null}
+            >
+              <span
+                className="ButtonSolid__BaseButtonInner-is2j2c-1 dxoWEE font-hnm font-size-5  flex flex--v-center"
+              >
+                <span
+                  className=""
+                >
+                  Request
+                </span>
+              </span>
+            </StyledComponent>
+          </ButtonSolid__BaseButtonInner>
+        </button>
+      </StyledComponent>
+    </ButtonSolid__SolidButton>
+  </ForwardRef>
+  <Modal
+    isActive={false}
+    setIsActive={[Function]}
+  />
+</div>
+`;
+
+exports[`Feature: 2. As a library member I want to request an item Scenario: I'm logged out, viewing a work page
+      Given the work has a requestable item
+      And it’s unavailable to request
+      Then I can't see a primary CTA to log in 1`] = `null`;

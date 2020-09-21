@@ -1,57 +1,38 @@
 // @flow
 import { useState, useContext } from 'react';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import fetch from 'isomorphic-unfetch';
 import Raven from 'raven-js';
 import TextInput from '../TextInput/TextInput';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import { trackEvent } from '../../../utils/ga';
-
-const ErrorMessage = styled(Space).attrs({
-  'aria-live': 'polite',
-  as: 'p',
-  h: { size: 'l', negative: true, properties: ['bottom'] },
-  className: classNames({
-    'absolute font-red': true,
-    [font('hnm', 5)]: true,
-  }),
-})`
-  top: 100%;
-`;
+import useValidation from '../../../hooks/useValidation';
+// $FlowFixMe (tsx)
+import ButtonSolid from '../ButtonSolid/ButtonSolid';
 
 const FormElementWrapper = styled.div`
   width: 100%;
   ${props => props.theme.media.medium`
     display: flex;
     flex: 1;
+    align-items: flex-start;
   `}
 `;
 
-const NewsletterInput = styled(TextInput).attrs({
-  required: true,
-  id: 'newsletter-input',
-  type: 'email',
-  name: 'email',
-  label: 'Your email address',
-  placeholder: 'Your email address',
-})``;
+const ShameButtonWrap = styled.div`
+  button {
+    height: 55px;
+    width: 100%;
+    margin-top: 10px;
+    justify-content: center;
 
-const NewsletterButton = styled.button.attrs({
-  className: classNames({
-    'btn btn--primary': true,
-    [font('hnm', 5)]: true,
-  }),
-})`
-  width: 100%;
-  margin-top: 10px;
-
-  ${props => props.theme.media.medium`
-    width: auto;
-    margin-left: 10px;
-    margin-top: 0;
-  `}
+    ${props => props.theme.media.medium`
+      margin-left: 10px;
+      margin-top: 0;
+    `}
+  }
 `;
 
 const NewsletterForm = styled(Space).attrs({
@@ -83,7 +64,7 @@ const YellowBox = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
   'aria-live': 'polite',
 })`
-  border: 12px solid ${props => props.theme.colors.yellow};
+  border: 12px solid ${props => props.theme.color('yellow')};
 
   p {
     max-width: 600px;
@@ -113,23 +94,30 @@ const CopyWrap = styled(Space).attrs({
 `;
 
 const NewsletterPromo = () => {
-  const { altNewsletterSignupCopy } = useContext(TogglesContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [isSubmitError, setIsSubmitError] = useState(false);
+  const [value, setValue] = useState('');
+  const { isEnhanced } = useContext(AppContext);
+  const emailValidation = useValidation();
 
-  const headingText = altNewsletterSignupCopy
-    ? 'Stay in the know'
-    : `Sign up to our newsletter`;
-
+  const headingText = 'Stay in the know';
   const bodyText =
-    altNewsletterSignupCopy &&
     'Find out what’s on, read our latest stories and get involved.';
 
   async function handleSubmit(event) {
     event.preventDefault();
+
+    emailValidation.setShowValidity(true);
+
+    if (!emailValidation.isValid) {
+      setIsSubmitError(false);
+
+      return;
+    }
+
     setIsSubmitting(true);
-    setIsError(false);
+    setIsSubmitError(false);
 
     const formEls = [...event.currentTarget.elements];
     const data = {
@@ -150,6 +138,7 @@ const NewsletterPromo = () => {
 
     switch (status) {
       case 'ContactChallenged':
+      case 'ContactAdded':
       case 'PendingOptIn':
       case 'Subscribed':
         setIsSuccess(true);
@@ -159,18 +148,26 @@ const NewsletterPromo = () => {
         });
         break;
       default:
-        setIsError(true);
+        setIsSubmitError(true);
+        emailValidation.setIsValid(false);
 
-        try {
-          const errorJson = JSON.stringify(json);
+        if (status) {
+          Raven.captureException(
+            new Error(`Newsletter signup error: ${status}`)
+          );
+        } else {
+          try {
+            const { contact, ...anonymousData } = json;
+            const errorData = JSON.stringify(anonymousData);
 
-          Raven.captureException(
-            new Error(`Newsletter signup error: ${errorJson}`)
-          );
-        } catch (error) {
-          Raven.captureException(
-            new Error(`Newsletter signup error: ${error}`)
-          );
+            Raven.captureException(
+              new Error(`Newsletter signup error: ${errorData}`)
+            );
+          } catch (error) {
+            Raven.captureException(
+              new Error(`Newsletter signup error: ${error}`)
+            );
+          }
         }
     }
 
@@ -193,7 +190,7 @@ const NewsletterPromo = () => {
                   >
                     {isSuccess ? 'Thank you for signing up!' : headingText}
                   </h2>
-                  {bodyText && (
+                  {!isSuccess && (
                     <p
                       className={classNames({
                         [font('hnl', 5)]: true,
@@ -225,12 +222,10 @@ const NewsletterPromo = () => {
                 </CopyWrap>
                 {!isSuccess && (
                   <>
-                    <NewsletterForm onSubmit={handleSubmit}>
-                      {isError && (
-                        <ErrorMessage>
-                          There was a problem. Please try again.
-                        </ErrorMessage>
-                      )}
+                    <NewsletterForm
+                      onSubmit={handleSubmit}
+                      noValidate={isEnhanced}
+                    >
                       <input type="hidden" name="userid" value="225683" />
                       <input
                         type="hidden"
@@ -244,10 +239,27 @@ const NewsletterPromo = () => {
                       />
                       <input type="hidden" name="addressbookid" value="40131" />
                       <FormElementWrapper>
-                        <NewsletterInput />
-                        <NewsletterButton disabled={isSubmitting}>
-                          {isSubmitting ? 'Sending…' : 'Subscribe'}
-                        </NewsletterButton>
+                        <TextInput
+                          required={true}
+                          id={'newsletter-input'}
+                          type={'email'}
+                          name={'email'}
+                          label={'Your email address'}
+                          errorMessage={
+                            isSubmitError
+                              ? 'There was a problem. Please try again.'
+                              : 'Enter a valid email address.'
+                          }
+                          value={value}
+                          setValue={setValue}
+                          {...emailValidation}
+                        />
+                        <ShameButtonWrap>
+                          <ButtonSolid
+                            text={isSubmitting ? 'Sending…' : 'Subscribe'}
+                            disabled={isSubmitting}
+                          />
+                        </ShameButtonWrap>
                       </FormElementWrapper>
                     </NewsletterForm>
                   </>
@@ -259,7 +271,6 @@ const NewsletterPromo = () => {
                     [font('hnl', 6)]: true,
                     'no-margin': true,
                   })}
-                  style={{ marginTop: isError ? '16px' : undefined }}
                 >
                   <a href="/newsletter">All our newsletters</a>
                 </p>

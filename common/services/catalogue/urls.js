@@ -1,106 +1,11 @@
 // @flow
 import { type NextLinkType } from '@weco/common/model/next-link-type';
-import { type SearchParams, searchParamsSerialiser } from './search-params';
 import { removeEmptyProps } from '../../utils/json';
-
-export type WorksUrlProps = SearchParams;
-export type WorkUrlProps = {|
-  ...SearchParams,
-  id: string,
-|};
-
-export type ItemUrlProps = {|
-  workId: string,
-  langCode: string,
-  canvas: number,
-  sierraId: ?string,
-  page: ?number,
-  ...SearchParams,
-|};
 
 export type DownloadUrlProps = {|
   workId: string,
   sierraId: ?string,
 |};
-
-export function workUrl({ id, ...searchParams }: WorkUrlProps): NextLinkType {
-  return {
-    href: {
-      pathname: `/work`,
-      query: removeEmptyProps({
-        id,
-        ...searchParamsSerialiser(searchParams),
-      }),
-    },
-    as: {
-      pathname: `/works/${id}`,
-    },
-  };
-}
-
-export function worksUrl(searchParams: WorksUrlProps): NextLinkType {
-  return {
-    href: {
-      pathname: `/works`,
-      query: removeEmptyProps(searchParamsSerialiser(searchParams)),
-    },
-    as: {
-      pathname: `/works`,
-      query: removeEmptyProps(searchParamsSerialiser(searchParams)),
-    },
-  };
-}
-
-export function imagesUrl(searchParams: WorksUrlProps): NextLinkType {
-  return {
-    href: {
-      pathname: `/images`,
-      query: removeEmptyProps({
-        ...searchParamsSerialiser(searchParams),
-      }),
-    },
-    as: {
-      pathname: `/images`,
-      query: removeEmptyProps({
-        ...searchParamsSerialiser(searchParams),
-      }),
-    },
-  };
-}
-
-export function itemUrl({
-  workId,
-  page,
-  sierraId,
-  langCode,
-  canvas,
-  ...searchParams
-}: ItemUrlProps): NextLinkType {
-  return {
-    href: {
-      pathname: `/item`,
-      query: {
-        workId,
-        ...removeEmptyProps({
-          page: page && page > 1 ? page : undefined,
-          canvas: canvas && canvas > 1 ? canvas : undefined,
-          sierraId: sierraId,
-          langCode: langCode,
-          ...{ ...searchParamsSerialiser(searchParams), page: 1 },
-        }),
-      },
-    },
-    as: {
-      pathname: `/works/${workId}/items`,
-      query: removeEmptyProps({
-        page: page && page > 1 ? page : undefined,
-        canvas: canvas && canvas > 1 ? canvas : undefined,
-        sierraId: sierraId,
-        langCode: langCode,
-      }),
-    },
-  };
-}
 
 export function downloadUrl({
   workId,

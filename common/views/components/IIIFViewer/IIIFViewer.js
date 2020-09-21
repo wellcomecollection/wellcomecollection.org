@@ -1,18 +1,24 @@
 // @flow
 import { type IIIFCanvas, type IIIFManifest } from '@weco/common/model/iiif';
+import type { DigitalLocation } from '@weco/common/utils/works';
 import fetch from 'isomorphic-unfetch';
 import {
   type Work,
   type CatalogueApiError,
 } from '@weco/common/model/catalogue';
 import {
+  getDigitalLocationOfType,
   getDownloadOptionsFromImageUrl,
-  getDownloadOptionsFromManifest,
 } from '@weco/common/utils/works';
+import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
+import {
+  getDownloadOptionsFromManifest,
+  getServiceId,
+  getUiExtensions,
+  isUiEnabled,
+} from '@weco/common/utils/iiif';
 import styled from 'styled-components';
 import { useState, useEffect, useRef, type ComponentType } from 'react';
-import getLicenseInfo from '@weco/common/utils/get-license-info';
-import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 import { classNames } from '@weco/common/utils/classnames';
 import Router from 'next/router';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -26,7 +32,10 @@ import MainViewer from './parts/MainViewer';
 import ThumbsViewer from './parts/ThumbsViewer';
 import GridViewer from './parts/GridViewer';
 import Control from '../Buttons/Control/Control';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Download from '@weco/catalogue/components/Download/Download';
 import dynamic from 'next/dynamic';
+
 const LoadingComponent = () => (
   <div
     style={{
@@ -53,10 +62,10 @@ export const topBarHeight = 64;
 
 const IIIFViewerBackground = styled.div`
   position: relative;
-  background: ${props => props.theme.colors.viewerBlack};
+  background: ${props => props.theme.color('viewerBlack')};
   height: ${props =>
     props.isFullscreen ? '100vh' : `calc(100vh - ${`${headerHeight}px`})`};
-  color: ${props => props.theme.colors.white};
+  color: ${props => props.theme.color('white')};
 `;
 
 export const IIIFViewerImageWrapper = styled.div.attrs(props => ({
@@ -175,8 +184,7 @@ type IIIFViewerProps = {|
   sierraId: string,
   pageSize: number,
   canvasIndex: number,
-  iiifImageLocationUrl: ?string,
-  imageUrl: ?string,
+  iiifImageLocation: ?DigitalLocation,
   work: ?(Work | CatalogueApiError),
   manifest: ?IIIFManifest,
 |};
@@ -194,8 +202,7 @@ const IIIFViewerComponent = ({
   sierraId,
   pageSize,
   canvasIndex,
-  iiifImageLocationUrl,
-  imageUrl,
+  iiifImageLocation,
   work,
   manifest,
 }: IIIFViewerProps) => {
@@ -212,6 +219,7 @@ const IIIFViewerComponent = ({
   const [showControls, setShowControls] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [imageJson, setImageJson] = useState(null);
   const viewToggleRef = useRef(null);
   const gridViewerRef = useRef(null);
   const mainViewerRef = useRef(null);
@@ -223,9 +231,33 @@ const IIIFViewerComponent = ({
       .map(i => canvases[i])
       .filter(Boolean);
 
-  const mainImageService = {
-    '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
-  };
+  const mainImageService = { '@id': getServiceId(currentCanvas) };
+
+  useEffect(() => {
+    const fetchImageJson = async () => {
+      try {
+        if (iiifImageLocation) {
+          const image = await fetch(iiifImageLocation.url);
+          const json = await image.json();
+          setImageJson(json);
+        }
+      } catch (e) {}
+    };
+    fetchImageJson();
+  }, []);
+
+  const showDownloadOptions = manifest
+    ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
+    : true;
+
+  const imageDownloadOptions =
+    showDownloadOptions && iiifImageLocation
+      ? getDownloadOptionsFromImageUrl({
+          url: iiifImageLocation.url,
+          width: imageJson && imageJson.width,
+          height: imageJson && imageJson.height,
+        })
+      : [];
 
   function setFullScreen() {
     if (
@@ -239,6 +271,11 @@ const IIIFViewerComponent = ({
       setIsFullscreen(false);
     }
   }
+
+  useEffect(() => {
+    setGridVisible(Router.query.isOverview);
+  }, []);
+
   useEffect(() => {
     window.document.addEventListener('fullscreenchange', setFullScreen, false);
     window.document.addEventListener(
@@ -259,65 +296,71 @@ const IIIFViewerComponent = ({
       );
     };
   }, []);
-  const [iiifImageLocation] =
-    work && work.type !== 'Error'
-      ? work.items
-          .map(item =>
-            item.locations.find(
-              location => location.locationType.id === 'iiif-image'
-            )
-          )
-          .filter(Boolean)
-      : [];
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
+  const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
+  const iiifPresentationLocation =
+    work && work.type !== 'Error'
+      ? getDigitalLocationOfType(work, 'iiif-presentation')
+      : null;
+  const digitalLocation = iiifImageLocation || iiifPresentationLocation;
+  const licenseInfo =
+    digitalLocation &&
+    digitalLocation.license &&
+    getAugmentedLicenseInfo(digitalLocation.license);
 
   const thumbnailsRequired =
     navigationCanvases && navigationCanvases.length > 1;
 
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
-  const iiifImageLocationLicenseId =
-    iiifImageLocation &&
-    iiifImageLocation.license &&
-    iiifImageLocation.license.id;
-  const licenseInfo =
-    iiifImageLocationLicenseId && getLicenseInfo(iiifImageLocationLicenseId);
-
-  const downloadOptions = iiifImageLocationUrl
-    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
-    : null;
-
   // Download info from manifest
+  const imageDownloads =
+    mainImageService['@id'] &&
+    getDownloadOptionsFromImageUrl({
+      url: mainImageService['@id'],
+      width: currentCanvas && currentCanvas.width,
+      height: currentCanvas && currentCanvas.height,
+    });
   const iiifPresentationDownloadOptions =
-    (manifest && getDownloadOptionsFromManifest(manifest)) || [];
-  const iiifPresentationLicenseInfo =
-    manifest && manifest.license ? getLicenseInfo(manifest.license) : null;
+    (showDownloadOptions &&
+      manifest &&
+      imageDownloads && [
+        ...imageDownloads,
+        ...getDownloadOptionsFromManifest(manifest),
+      ]) ||
+    [];
+
   const parentManifestUrl = manifest && manifest.within;
-  const params = clientSideSearchParams();
 
   const firstRotatedImage = rotatedImages.find(
     image => image.canvasIndex === 0
   );
+
   const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
+
   useEffect(() => {
     if ('IntersectionObserver' in window) {
       setEnhanced(true);
     }
   }, []);
   useEffect(() => {
+    const canvasParams =
+      canvases.length > 0 || currentCanvas
+        ? { canvas: `${activeIndex + 1}` }
+        : {};
     Router.replace(
       {
         ...mainPaginatorProps.link.href,
         query: {
           ...mainPaginatorProps.link.href.query,
-          canvas: `${activeIndex + 1}`,
+          ...canvasParams,
         },
       },
       {
         ...mainPaginatorProps.link.as,
         query: {
           ...mainPaginatorProps.link.as.query,
-          canvas: `${activeIndex + 1}`,
+          ...canvasParams,
         },
       }
     );
@@ -386,14 +429,15 @@ const IIIFViewerComponent = ({
         workId={workId}
         viewToggleRef={viewToggleRef}
         currentManifestLabel={currentManifestLabel}
-        params={params}
         canvasIndex={activeIndex}
         title={title}
         licenseInfo={licenseInfo}
-        iiifPresentationLicenseInfo={iiifPresentationLicenseInfo}
         iiifImageLocationCredit={iiifImageLocationCredit}
-        iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-        downloadOptions={downloadOptions}
+        downloadOptions={
+          showDownloadOptions
+            ? [...imageDownloadOptions, ...iiifPresentationDownloadOptions]
+            : []
+        }
         iiifPresentationDownloadOptions={iiifPresentationDownloadOptions}
         parentManifest={parentManifest}
         lang={lang}
@@ -412,7 +456,6 @@ const IIIFViewerComponent = ({
         {!enhanced && (
           <NoScriptViewer
             thumbnailsRequired={thumbnailsRequired || false}
-            iiifImageLocationUrl={iiifImageLocationUrl}
             imageUrl={imageUrl}
             iiifImageLocation={iiifImageLocation}
             currentCanvas={currentCanvas}
@@ -426,17 +469,11 @@ const IIIFViewerComponent = ({
             pageIndex={pageIndex}
             sierraId={sierraId}
             pageSize={pageSize}
-            params={params}
           />
         )}
         {enhanced && (
           <>
-            <ImageViewerControls
-              showControls={
-                showControls ||
-                (urlTemplate && iiifImageLocationUrl && imageUrl)
-              }
-            >
+            <ImageViewerControls showControls={showControls || urlTemplate}>
               <Space
                 h={{ size: 's', properties: ['margin-left'] }}
                 v={{ size: 'l', properties: ['margin-bottom'] }}
@@ -482,10 +519,10 @@ const IIIFViewerComponent = ({
                 />
               </Space>
             </ImageViewerControls>
-            {urlTemplate && iiifImageLocationUrl && imageUrl && (
+            {urlTemplate && imageUrl && iiifImageLocation && (
               <IIIFViewerImageWrapper>
                 <ImageViewer
-                  infoUrl={iiifImageLocationUrl}
+                  infoUrl={iiifImageLocation.url}
                   id={imageUrl}
                   width={800}
                   alt={(work && work.description) || (work && work.title) || ''}
@@ -493,7 +530,7 @@ const IIIFViewerComponent = ({
                   setShowZoomed={setShowZoomed}
                   rotation={firstRotation}
                   loadHandler={() => {
-                    setZoomInfoUrl(iiifImageLocationUrl);
+                    setZoomInfoUrl(iiifImageLocation.url);
                     setIsLoading(false);
                   }}
                 />
@@ -543,6 +580,25 @@ const IIIFViewerComponent = ({
           </>
         )}
       </IIIFViewerBackground>
+      {!enhanced && (
+        <Layout12>
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Download
+              ariaControlsId="itemDownloads"
+              title={title}
+              workId={workId}
+              license={licenseInfo}
+              iiifImageLocationCredit={iiifImageLocationCredit}
+              downloadOptions={[
+                ...imageDownloadOptions,
+                ...iiifPresentationDownloadOptions,
+              ]}
+              useDarkControl={true}
+              isInline={true}
+            />
+          </Space>
+        </Layout12>
+      )}
     </div>
   );
 };

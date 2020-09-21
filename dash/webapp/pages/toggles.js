@@ -43,16 +43,7 @@ type AbTest = {|
   description: string,
 |};
 
-const abTests: AbTest[] = [
-  {
-    id: 'altNewsletterSignupCopy',
-    title: 'Alternative NewsletterPromo copy',
-    range: [0, 100],
-    defaultValue: false,
-    description:
-      'Uses different (longer/more descriptive) copy in the NewsletterPromo component',
-  },
-];
+const abTests: AbTest[] = [];
 const IndexPage = () => {
   const [toggleStates, setToggleStates] = useState({});
   const [toggles, setToggles] = useState([]);

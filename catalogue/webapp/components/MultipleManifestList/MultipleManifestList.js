@@ -1,13 +1,13 @@
 // @flow
 import { useState, useRef, useEffect } from 'react';
 import NextLink from 'next/link';
-import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 import { type IIIFManifest } from '@weco/common/model/iiif';
-import { itemUrl } from '@weco/common/services/catalogue/urls';
+import { itemLink } from '@weco/common/services/catalogue/routes';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import { ShameButton } from '@weco/common/views/components/ViewerTopBar/ViewerTopBar';
 
 const HiddenContent = styled.div.attrs(props => ({
   className: classNames({
@@ -18,10 +18,10 @@ const HiddenContent = styled.div.attrs(props => ({
   max-width: 100%;
   max-height: calc(100vh - 200px);
   overflow-y: scroll;
-  border: ${props => `1px solid ${props.theme.colors.marble}`};
+  border: ${props => `1px solid ${props.theme.color('marble')}`};
   border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
-  background: ${props => `${props.theme.colors.white}`};
-  color: ${props => `${props.theme.colors.black}`};
+  background: ${props => `${props.theme.color('white')}`};
+  color: ${props => `${props.theme.color('black')}`};
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
   padding: ${props => `${props.theme.spacingUnit * 3}px`};
   position: absolute;
@@ -36,7 +36,7 @@ const HiddenContent = styled.div.attrs(props => ({
     margin-top: ${props => `${props.theme.spacingUnit * 2}px`};
   }
   a {
-    color: ${props => props.theme.colors.green};
+    color: ${props => props.theme.color('green')};
     text-decoration: none;
   }
   .icon__canvas {
@@ -50,7 +50,6 @@ const HiddenContent = styled.div.attrs(props => ({
 type Props = {|
   buttonText: string,
   manifests: IIIFManifest[],
-  params: SearchParams,
   workId: string,
   lang: string,
 |};
@@ -58,7 +57,6 @@ type Props = {|
 const MultipleManifestList = ({
   buttonText,
   manifests,
-  params,
   workId,
   lang,
 }: Props) => {
@@ -96,35 +94,28 @@ const MultipleManifestList = ({
         relative: true,
       })}
     >
-      <Button
-        extraClasses={classNames({
-          relative: true,
-          'btn--primary-black': true,
-        })}
-        icon="chevron"
-        iconPosition="end"
-        fontFamily="hnl"
-        text={buttonText}
-        ariaConftrols="hiddenContent"
-        ariaExpfanded={showHidden}
-        clickHandler={() => {
+      <ShameButton
+        isDark
+        ariaControls="hiddenContent"
+        ariaExpanded={showHidden}
+        onClick={() => {
           setShowHidden(!showHidden);
         }}
-      />
+      >
+        <span className={`btn__text`}>{buttonText}</span>
+        <Icon name="chevron" />
+      </ShameButton>
       <HiddenContent id="hiddenContent" hidden={!showHidden}>
         <SpacingComponent>
           <ul className="no-margin no-padding plain-list">
             {manifests.map((manifest, i) => (
               <li key={manifest['@id']}>
                 <NextLink
-                  {...itemUrl({
-                    ...params,
+                  {...itemLink({
                     workId,
-                    page: 1,
                     sierraId: (manifest['@id'].match(/iiif\/(.*)\/manifest/) ||
                       [])[1],
                     langCode: lang,
-                    canvas: 0,
                   })}
                 >
                   <a>{manifest.label}</a>

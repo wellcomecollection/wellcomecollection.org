@@ -20,9 +20,14 @@ export type IIIFThumbnail = {|
 
 export type IIIFResource = {|
   '@id': string,
-  service: {
-    '@id': string,
-  },
+  service:
+    | {
+        '@id': string,
+      }
+    | {
+        '@id': string,
+        '@context': string,
+      }[],
 |};
 
 export type IIIFImage = {|
@@ -45,14 +50,34 @@ export type IIIFRendering = {|
   label: string,
 |};
 
+export type IIIFMediaElement = {|
+  '@id': string,
+  '@type': 'dctypes:Sound',
+  format: string,
+  label: string,
+  metadata: [],
+  thumbnail: string,
+  rendering: {
+    '@id': string,
+    format: string,
+  },
+  height?: number,
+  width?: number,
+  resources?: [
+    {
+      '@type': 'oa:Annotation',
+      resource: {
+        '@id': string,
+        format: string,
+        label: string,
+      },
+    }
+  ],
+|};
 type IIIFMediaSequence = {|
   '@id': string,
   '@type': string,
-  elements: {
-    '@type': string,
-    '@id': string,
-    format: string,
-  }[],
+  elements: IIIFMediaElement[],
 |};
 
 export type IIIFSequence = {|
@@ -74,6 +99,11 @@ export type IIIFMetadata = {|
   value: string,
 |};
 
+export type Service = {|
+  profile: string,
+  disableUI?: [],
+|};
+
 export type IIIFManifest = {|
   '@id': string,
   label: string,
@@ -84,4 +114,5 @@ export type IIIFManifest = {|
   structures?: IIIFStructure[],
   license: string,
   within?: string,
+  service?: Service | Service[],
 |};

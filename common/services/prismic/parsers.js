@@ -11,12 +11,14 @@ import type { ImageType } from '../../model/image';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/places';
+import type { Format } from '../../model/format';
 import type {
   BackgroundTexture,
   PrismicBackgroundTexture,
 } from '../../model/background-texture';
 import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
+import type { Card } from '../../model/card';
 import type { GenericContentFields } from '../../model/generic-content-fields';
 import type { LabelField } from '../../model/label-field';
 import type { SameAs } from '../../model/same-as';
@@ -454,6 +456,40 @@ export function parseSingleLevelGroup(
   /* eslint-enable */
 }
 
+export function parseFormat(frag: Object): ?Format {
+  return isDocumentLink(frag)
+    ? {
+        id: frag.id,
+        title: parseTitle(frag.data.title),
+        description: asHtml(frag.data.description),
+      }
+    : null;
+}
+
+function parseLink(url): ?string {
+  if (url) {
+    if (url.link_type === 'Web' || url.link_type === 'Media') {
+      return url.url;
+    } else if (url.link_type === 'Document' && isDocumentLink(url)) {
+      return `/${url.type}/${url.id}`;
+    }
+  } else {
+    return null;
+  }
+}
+
+function parseCard(fragment: PrismicFragment): Card {
+  const { title, format, description, image, link } = fragment.data;
+  return {
+    type: 'card',
+    title: asText(title) || null,
+    format: parseFormat(format),
+    description: asText(description) || null,
+    image: image ? checkAndParseImage(image) : null,
+    link: parseLink(link),
+  };
+}
+
 // Prismic return `[ { type: 'paragraph', text: '', spans: [] } ]` when you have
 // inserted text, then removed it, so we need to do this check.
 export function isStructuredText(structuredTextObject: HTMLString): boolean {
@@ -545,6 +581,7 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
             weight: getWeight(slice.slice_label),
             value: {
               title: asText(slice.primary.title),
+              hasFeatured: slice.primary.hasFeatured,
               items: slice.items
                 .filter(
                   // We have to do a check for data here, as if it's a linked piece
@@ -563,6 +600,8 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
                       return parseArticle(item.content);
                     case 'events':
                       return parseEventDoc(item.content);
+                    case 'card':
+                      return parseCard(item.content);
                   }
                 })
                 .filter(Boolean),
@@ -663,11 +702,7 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
                 type: 'soundcloudEmbed',
                 weight: getWeight(slice.slice_label),
                 value: {
-                  embedUrl: `https://w.soundcloud.com/player/?url=${
-                    apiUrl[1]
-                  }%3Fsecret_token%3D${
-                    secretToken[1]
-                  }&color=%23ff5500&inverse=false&auto_play=false&show_user=true`,
+                  embedUrl: `https://w.soundcloud.com/player/?url=${apiUrl[1]}%3Fsecret_token%3D${secretToken[1]}&color=%23ff5500&inverse=false&auto_play=false&show_user=true`,
                   caption: slice.primary.caption,
                 },
               }

@@ -5,28 +5,27 @@ import useFocusTrap from '../../../hooks/useFocusTrap';
 import { CSSTransition } from 'react-transition-group';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import NextLink from 'next/link';
-import { worksUrl } from '../../../services/catalogue/urls';
+import { worksLink } from '../../../services/catalogue/routes';
 import styled from 'styled-components';
-import { classNames, font } from '../../../utils/classnames';
+import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
-import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
+// $FlowFixMe (tsx)
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { type SearchFiltersSharedProps } from './SearchFilters';
+import ButtonSolid, {
+  SolidButton,
+  // $FlowFixMe (tsx)
+} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
-const OpenFiltersButton = styled(Space).attrs({
-  'aria-controls': 'mobile-filters-modal',
-  'aria-label': 'open filters',
+const ShameButtonWrap = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  as: 'button',
-  type: 'button',
-  className: classNames({
-    'btn btn--primary': true,
-    [font('hnm', 5)]: true,
-  }),
 })`
-  width: 100%;
-  display: block;
+  button {
+    width: 100%;
+    justify-content: center;
+  }
 `;
 
 const FiltersHeader = styled(Space).attrs({
@@ -92,9 +91,26 @@ const FiltersModal = styled.div.attrs({
   }
 `;
 
+const ActiveFilters = styled(Space).attrs({
+  h: {
+    size: 'xs',
+    properties: ['margin-left', 'padding-left', 'padding-right'],
+  },
+  v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  className: classNames({
+    'bg-yellow font-black inline-block rounded-corners text-align-center': true,
+  }),
+})`
+  min-width: 24px;
+`;
+
 const FiltersBody = styled(Space).attrs({
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
-})``;
+})`
+  input[type='number'] {
+    min-width: calc(24px + 4ch);
+  }
+`;
 
 const FilterSection = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
@@ -129,7 +145,7 @@ const FiltersFooter = styled(Space).attrs({
 
 const SearchFiltersMobile = ({
   searchForm,
-  searchParams,
+  worksRouteProps,
   workTypeAggregations,
   changeHandler,
   inputDateFrom,
@@ -199,17 +215,32 @@ const SearchFiltersMobile = ({
       closeFiltersButtonRef.current.focus();
   }
 
+  const showWorkTypeFilters =
+    workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
+
+  const activeFiltersCount =
+    workTypeInUrlArray.length +
+    (productionDatesFrom ? 1 : 0) +
+    (productionDatesTo ? 1 : 0);
+
   return (
     <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-      <OpenFiltersButton
-        ref={openFiltersButtonRef}
-        onClick={handleOpenFiltersButtonClick}
-      >
-        <Icon name="filter" />
-        <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
-          Filter
-        </Space>
-      </OpenFiltersButton>
+      <ShameButtonWrap>
+        <SolidButton
+          ref={openFiltersButtonRef}
+          onClick={handleOpenFiltersButtonClick}
+          aria-controls="mobile-filters-modal"
+          aria-label="open filters"
+        >
+          <Space h={{ size: 's', properties: ['margin-right'] }}>
+            <Icon name="filter" />
+          </Space>
+          Filters{' '}
+          {activeFiltersCount > 0 && ' ' && (
+            <ActiveFilters>{activeFiltersCount}</ActiveFilters>
+          )}
+        </SolidButton>
+      </ShameButtonWrap>
       <CSSTransition in={isActive} classNames="fade" timeout={350}>
         <FiltersModal ref={filtersModalRef} isActive={isActive}>
           <FiltersScrollable>
@@ -255,7 +286,7 @@ const SearchFiltersMobile = ({
                   }}
                 />
               </FilterSection>
-              {workTypeFilters.length > 0 && (
+              {showWorkTypeFilters && (
                 <FilterSection>
                   <h3 className="h3">Formats</h3>
                   <ul
@@ -264,26 +295,28 @@ const SearchFiltersMobile = ({
                     })}
                   >
                     {workTypeFilters.map(workType => {
+                      const isChecked = workTypeInUrlArray.includes(
+                        workType.data.id
+                      );
+
                       return (
-                        <Space
-                          as="li"
-                          v={{ size: 'l', properties: ['margin-bottom'] }}
-                          key={`mobile-${workType.data.id}`}
-                        >
-                          <Checkbox
-                            id={`mobile-${workType.data.id}`}
-                            text={`${workType.data.label} (${workType.count})`}
-                            value={workType.data.id}
-                            name={`workType`}
-                            checked={
-                              workTypeInUrlArray &&
-                              workTypeInUrlArray.includes(workType.data.id)
-                            }
-                            onChange={event => {
-                              changeHandler();
-                            }}
-                          />
-                        </Space>
+                        (workType.count > 0 || isChecked) && (
+                          <Space
+                            as="li"
+                            v={{ size: 'l', properties: ['margin-bottom'] }}
+                            key={`mobile-${workType.data.id}`}
+                          >
+                            <CheckboxRadio
+                              id={`mobile-${workType.data.id}`}
+                              type={`checkbox`}
+                              text={`${workType.data.label} (${workType.count})`}
+                              value={workType.data.id}
+                              name={`workType`}
+                              checked={isChecked}
+                              onChange={changeHandler}
+                            />
+                          </Space>
+                        )
                       );
                     })}
                   </ul>
@@ -295,25 +328,22 @@ const SearchFiltersMobile = ({
           <FiltersFooter>
             <NextLink
               passHref
-              {...worksUrl({
-                ...searchParams,
-                workType: null,
-                page: 1,
-                productionDatesFrom: null,
-                productionDatesTo: null,
-                itemsLocationsLocationType: null,
-              })}
+              {...worksLink(
+                {
+                  query: worksRouteProps.query,
+                },
+                'cancel_filter/all'
+              )}
             >
               <a>Reset filters</a>
             </NextLink>
-            <button
+
+            <ButtonSolid
               ref={okFiltersButtonRef}
               type="button"
-              className="btn btn--primary"
-              onClick={handleOkFiltersButtonClick}
-            >
-              OK
-            </button>
+              clickHandler={handleOkFiltersButtonClick}
+              text="OK"
+            />
           </FiltersFooter>
         </FiltersModal>
       </CSSTransition>

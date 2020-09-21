@@ -8,6 +8,7 @@ import convertUrlToString from '../../../utils/convert-url-to-string';
 import JsonLd from '../JsonLd/JsonLd';
 import Header from '../Header/Header';
 import InfoBanner from '../InfoBanner/InfoBanner';
+import CookieNotice from '../CookieNotice/CookieNotice';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer/Footer';
 import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
@@ -54,7 +55,6 @@ const PageLayout = ({
       : 'Wellcome Collection | The free museum and library for the incurably curious';
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
-  const isPreview = false;
   return (
     <Fragment>
       <Head>
@@ -118,14 +118,17 @@ const PageLayout = ({
         )}
       </Head>
 
-      <div className={isPreview ? 'is-preview' : undefined}>
+      <div>
+        <CookieNotice />
         <a className="skip-link" href="#main">
           Skip to main content
         </a>
         <Header siteSection={siteSection} />
         <GlobalAlertContext.Consumer>
           {globalAlert =>
-            globalAlert.isShown === 'show' && (
+            globalAlert.isShown === 'show' &&
+            (!globalAlert.routeRegex ||
+              urlString.match(new RegExp(globalAlert.routeRegex))) && (
               <InfoBanner text={globalAlert.text} cookieName="WC_globalAlert" />
             )
           }

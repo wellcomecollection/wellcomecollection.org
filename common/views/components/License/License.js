@@ -1,27 +1,22 @@
 // @flow
-import { Fragment } from 'react';
-import type { LicenseData } from '../../../utils/get-license-info';
-
+import type { LicenseData } from '../../../utils/licenses';
 type Props = {|
-  subject: string,
-  licenseInfo: LicenseData,
+  license: LicenseData,
 |};
 
-const License = ({ subject, licenseInfo }: Props) => {
+const License = ({ license }: Props) => {
   return (
-    <Fragment>
-      <Fragment>
-        {licenseInfo.description && `${licenseInfo.description} `}
-        <span about={subject}>
-          {licenseInfo.url && (
-            <a rel="license" href={licenseInfo.url}>
-              {licenseInfo.text}
-            </a>
-          )}
-          {!licenseInfo.url && licenseInfo.text}
-        </span>
-      </Fragment>
-    </Fragment>
+    <>
+      {license.description && `${license.description} `}
+      <span>
+        {license.url && (
+          <a rel="license" href={license.url}>
+            {license.label}
+          </a>
+        )}
+        {!license.url && license.label}
+      </span>
+    </>
   );
 };
 

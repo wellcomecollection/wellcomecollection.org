@@ -1,24 +1,14 @@
 // @flow
-import type { NextLinkType } from '@weco/common/model/next-link-type';
 import { Fragment } from 'react';
 import { font, grid } from '@weco/common/utils/classnames';
 import { createPrismicParagraph } from '@weco/common/utils/prismic';
-import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
+// $FlowFixMe (tsx)
 import Tags from '@weco/common/views/components/Tags/Tags';
 import { CaptionedImage } from '@weco/common/views/components/Images/Images';
-import {
-  worksUrl,
-  type WorksUrlProps,
-} from '@weco/common/services/catalogue/urls';
+import { worksLink } from '@weco/common/services/catalogue/routes';
 import Space from '@weco/common/views/components/styled/Space';
 
-type Props = {|
-  showSuggestions?: boolean,
-  itemsUrl?: (searchParams: WorksUrlProps) => NextLinkType,
-|};
-
-const StaticWorksContent = ({ itemsUrl = worksUrl }: Props) => {
-  const params = clientSideSearchParams();
+const StaticWorksContent = () => {
   return (
     <Fragment>
       <Space v={{ size: 'l', properties: ['padding-top'] }} className={`row`}>
@@ -38,67 +28,75 @@ const StaticWorksContent = ({ itemsUrl = worksUrl }: Props) => {
                   tags={[
                     {
                       textParts: ['Quacks'],
-                      linkAttributes: itemsUrl({
-                        ...params,
-                        query: 'quacks',
-                        page: 1,
-                      }),
+                      linkAttributes: worksLink(
+                        {
+                          query: 'quacks',
+                        },
+                        `landing_page/discover_tag`
+                      ),
                     },
                     {
                       textParts: ['James Gillray'],
-                      linkAttributes: itemsUrl({
-                        ...params,
-                        query: 'james+gillray',
-                        page: 1,
-                      }),
+                      linkAttributes: worksLink(
+                        {
+                          query: 'james+gillray',
+                        },
+                        `landing_page/discover_tag`
+                      ),
                     },
                     {
                       textParts: ['Botany'],
-                      linkAttributes: itemsUrl({
-                        ...params,
-                        query: 'botany',
-                        page: 1,
-                      }),
+                      linkAttributes: worksLink(
+                        {
+                          query: 'botany',
+                        },
+                        `landing_page/discover_tag`
+                      ),
                     },
                     {
                       textParts: ['Optics'],
-                      linkAttributes: itemsUrl({
-                        ...params,
-                        query: 'optics',
-                        page: 1,
-                      }),
+                      linkAttributes: worksLink(
+                        {
+                          query: 'optics',
+                        },
+                        `landing_page/discover_tag`
+                      ),
                     },
                     {
                       textParts: ['Sun'],
-                      linkAttributes: itemsUrl({
-                        ...params,
-                        query: 'sun',
-                        page: 1,
-                      }),
+                      linkAttributes: worksLink(
+                        {
+                          query: 'sun',
+                        },
+                        `landing_page/discover_tag`
+                      ),
                     },
                     {
                       textParts: ['Health'],
-                      linkAttributes: itemsUrl({
-                        ...params,
-                        query: 'health',
-                        page: 1,
-                      }),
+                      linkAttributes: worksLink(
+                        {
+                          query: 'health',
+                        },
+                        `landing_page/discover_tag`
+                      ),
                     },
                     {
                       textParts: ['Paintings'],
-                      linkAttributes: itemsUrl({
-                        ...params,
-                        query: 'paintings',
-                        page: 1,
-                      }),
+                      linkAttributes: worksLink(
+                        {
+                          query: 'paintings',
+                        },
+                        `landing_page/discover_tag`
+                      ),
                     },
                     {
                       textParts: ['Science'],
-                      linkAttributes: itemsUrl({
-                        ...params,
-                        query: 'science',
-                        page: 1,
-                      }),
+                      linkAttributes: worksLink(
+                        {
+                          query: 'science',
+                        },
+                        `landing_page/discover_tag`
+                      ),
                     },
                   ]}
                 />

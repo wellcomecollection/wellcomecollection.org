@@ -1,28 +1,8 @@
 // @flow
 import { type Work } from '../model/work';
-import {
-  type IIIFManifest,
-  type IIIFRendering,
-  type IIIFMetadata,
-  type IIIFCanvas,
-} from '../model/iiif';
+import { type IIIFRendering } from '../model/iiif';
+import { type LicenseAPIData } from '@weco/common/utils/licenses';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-
-export function getIIIFMetadata(
-  iiifManifest: IIIFManifest,
-  label: string
-): ?IIIFMetadata {
-  const repository = iiifManifest.metadata.find(data => data.label === label);
-  return repository;
-}
-
-export function getDigitalLocations(work: Work) {
-  return work.items
-    .map(item =>
-      item.locations.filter(location => location.type === 'DigitalLocation')
-    )
-    .reduce((acc, locations) => acc.concat(locations), []);
-}
 
 export function getProductionDates(work: Work) {
   return work.production
@@ -30,159 +10,76 @@ export function getProductionDates(work: Work) {
     .reduce((a, b) => a.concat(b), []);
 }
 
-export function getDownloadOptionsFromManifest(
-  iiifManifest: IIIFManifest
-): IIIFRendering[] {
-  const sequence =
-    iiifManifest.sequences &&
-    iiifManifest.sequences.find(
-      sequence => sequence['@type'] === 'sc:Sequence'
-    );
-  const sequenceRendering = sequence && sequence.rendering;
-  const sequenceRenderingArray = Array.isArray(sequenceRendering)
-    ? sequenceRendering
-    : [sequenceRendering];
-
-  const pdfRenderingArray = iiifManifest.mediaSequences
-    ? iiifManifest.mediaSequences.reduce((acc, sequence) => {
-        return acc.concat(
-          sequence.elements
-            .map(element => {
-              return {
-                '@id': element['@id'],
-                format: element.format,
-                label: `Download ${
-                  element.format === 'application/pdf' ? 'PDF' : 'file'
-                }`,
-              };
-            })
-            .filter(Boolean)
-        );
-      }, [])
-    : [];
-  return [...sequenceRenderingArray, ...pdfRenderingArray].filter(Boolean);
-}
-
-export function getDownloadOptionsFromImageUrl(
-  imageUrl: string
-): IIIFRendering[] {
-  return [
-    {
-      '@id': convertImageUri(imageUrl, 'full'),
-      format: 'image/jpeg',
-      label: 'Download full size',
-    },
-    {
-      '@id': convertImageUri(imageUrl, 760),
-      format: 'image/jpeg',
-      label: 'Download small (760px)',
-    },
-  ];
-}
-
-export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
-  const sequence =
-    iiifManifest.sequences &&
-    iiifManifest.sequences.find(
-      sequence =>
-        sequence['@type'] === 'sc:Sequence' &&
-        sequence.compatibilityHint !== 'displayIfContentUnsupported'
-    );
-  return sequence ? sequence.canvases : [];
-}
-
-function getManifests(iiifManifest: IIIFManifest): IIIFManifest[] {
-  return iiifManifest.manifests || null;
-}
-
-export function getManifestViewType(iiifManifest: IIIFManifest) {
-  const manifests = getManifests(iiifManifest);
-  const video =
-    iiifManifest.mediaSequences &&
-    iiifManifest.mediaSequences.find(sequence =>
-      sequence.elements.find(
-        element => element['@type'] === 'dctypes:MovingImage'
-      )
-    );
-  const audio =
-    iiifManifest.mediaSequences &&
-    iiifManifest.mediaSequences.find(sequence =>
-      sequence.elements.find(element => element['@type'] === 'dctypes:Sound')
-    );
-  const canvases = getCanvases(iiifManifest);
-  const downloadOptions = getDownloadOptionsFromManifest(iiifManifest);
-  const pdfRendering =
-    downloadOptions.find(option => option.label === 'Download PDF') || false;
-  return manifests
-    ? 'multi'
-    : audio
-    ? 'audio'
-    : video
-    ? 'video'
-    : canvases.length > 0
-    ? 'iiif'
-    : pdfRendering
-    ? 'pdf'
-    : 'none';
-}
-
-export function getVideo(iiifManifest: IIIFManifest) {
-  const videoSequence =
-    iiifManifest &&
-    iiifManifest.mediaSequences &&
-    iiifManifest.mediaSequences.find(sequence =>
-      sequence.elements.find(
-        element => element['@type'] === 'dctypes:MovingImage'
-      )
-    );
-  return (
-    videoSequence &&
-    videoSequence.elements.find(
-      element => element['@type'] === 'dctypes:MovingImage'
-    )
-  );
-}
-
-export function getAudio(iiifManifest: IIIFManifest) {
-  const videoSequence =
-    iiifManifest &&
-    iiifManifest.mediaSequences &&
-    iiifManifest.mediaSequences.find(sequence =>
-      sequence.elements.find(element => element['@type'] === 'dctypes:Sound')
-    );
-  return (
-    videoSequence &&
-    videoSequence.elements.find(element => element['@type'] === 'dctypes:Sound')
-  );
-}
-
-export type IIIFPresentationLocation = {|
-  locationType: {
-    id: 'iiif-presentation',
-    label: 'IIIF Presentation API',
-    type: 'LocationType',
-  },
+type DownloadImage = {|
   url: string,
-  type: 'DigitalLocation',
+  width: ?number,
+  height: ?number,
 |};
 
-export function getIIIFPresentationLocation(
-  work: Work
-): IIIFPresentationLocation {
-  return work.items
-    .map(item =>
-      item.locations.find(
-        location => location.locationType.id === 'iiif-presentation'
-      )
-    )
-    .filter(Boolean)[0];
+export type ArchiveNode = {|
+  id: string,
+  title: string,
+  alternativeTitles: string[],
+  referenceNumber?: string,
+  partOf?: [],
+  parts?: [],
+  precededBy?: [],
+  succeededBy?: [],
+  type: 'Work',
+|};
+
+export function getDownloadOptionsFromImageUrl(
+  downloadImage: DownloadImage
+): IIIFRendering[] {
+  const smallImageWidth = 760;
+  const imageDimensions = {
+    fullWidth: downloadImage.width || null,
+    fullHeight: downloadImage.height || null,
+    smallWidth: smallImageWidth,
+    smallHeight:
+      downloadImage.width && downloadImage.height
+        ? `${Math.round(
+            downloadImage.height / (downloadImage.width / smallImageWidth)
+          )}`
+        : null,
+  };
+  if (downloadImage.url) {
+    return [
+      {
+        '@id': convertImageUri(downloadImage.url, 'full'),
+        format: 'image/jpeg',
+        label: `This image (${
+          imageDimensions.fullWidth && imageDimensions.fullHeight
+            ? `${imageDimensions.fullWidth}x${imageDimensions.fullHeight} pixels`
+            : 'Full size'
+        })`,
+      },
+      {
+        '@id': convertImageUri(downloadImage.url, 760),
+        format: 'image/jpeg',
+        label: `This image (${
+          imageDimensions.smallHeight
+            ? `${imageDimensions.smallWidth}x${imageDimensions.smallHeight} pixels`
+            : '760px'
+        })`,
+      },
+    ];
+  } else {
+    return [];
+  }
 }
 
 export function getEncoreLink(sierraId: string): string {
-  return `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
+  return `http://encore.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
     0,
     sierraId.length - 1
   )}`;
+}
+
+export function sierraIdFromPresentationManifestUrl(
+  iiifPresentationLocation: string
+): string {
+  return (iiifPresentationLocation.match(/iiif\/(.*)\/manifest/) || [])[1];
 }
 
 const workTypeIcons = {
@@ -210,14 +107,10 @@ type LocationType = {|
   label: string,
   type: 'LocationType',
 |};
+
 export type DigitalLocation = {|
   credit: string,
-  license: {|
-    id: string,
-    label: string,
-    url: string,
-    type: 'License',
-  |},
+  license?: LicenseAPIData,
   locationType: LocationType,
   type: 'DigitalLocation',
   url: string,
@@ -227,17 +120,64 @@ export type PhysicalLocation = {|
   label: string,
   type: 'PhysicalLocation',
 |};
-type Location = PhysicalLocation | DigitalLocation;
-type Item = Object;
 
-export function getLocationOfType(work: Work, locationType: string): ?Location {
-  const [item] = work.items
-    .map(item =>
-      item.locations.find(location => location.locationType.id === locationType)
-    )
-    .filter(Boolean);
+export type WorkCatalogueItem = {|
+  id: string,
+  title?: string,
+  identifiers: [],
+  locations: (DigitalLocation | PhysicalLocation)[],
+  type: string,
+|};
+
+type StacksItemStatus = {| id: string, label: string, type: 'ItemStatus' |};
+
+// We have the items from the catalogue API and add additional data from the stacks API,
+// data from UI interactions and data we work out based on location and status
+export type PhysicalItemAugmented = {|
+  ...WorkCatalogueItem,
+  locations: PhysicalLocation[],
+  dueDate?: string,
+  status?: StacksItemStatus,
+  checked: boolean,
+  requestable: boolean,
+  requested: boolean,
+  requestSucceeded: boolean,
+|};
+
+export function getItemsWithPhysicalLocation(
+  work: Work
+): PhysicalItemAugmented[] {
+  return (
+    work.items &&
+    work.items
+      .map(item => {
+        if (
+          item.locations.find(location => location.type === 'PhysicalLocation')
+        ) {
+          return item;
+        }
+      })
+      .filter(Boolean)
+  );
+}
+
+export function getDigitalLocationOfType(
+  work: Work,
+  locationType: string
+): ?DigitalLocation {
+  const [item] =
+    work.items &&
+    work.items
+      .map(item =>
+        item.locations.find(
+          location => location.locationType.id === locationType
+        )
+      )
+      .filter(Boolean);
   return item;
 }
+
+type Item = Object;
 
 function itemIdentifierWithId(item: Item, id: string): boolean {
   const matchedIdentifiers = item.identifiers.filter(
@@ -304,4 +244,30 @@ export function getItemIdentifiersWith(
 
     return acc;
   }, []);
+}
+
+export function getAncestorArray(work: Work): ArchiveNode[] {
+  // We're only interested in the item with a partOf property (which is the last item in the array), this can be removed once the API is updated to remove all ancestors from the top level array
+  const desiredItem = work.partOf && work.partOf[work.partOf.length - 1];
+  const ancestorArray = [];
+  function addToAncestorArray(work) {
+    ancestorArray.push({
+      id: work.id,
+      title: work.title,
+      alternativeTitles: work.alternativeTitles,
+      referenceNumber: work.referenceNumber,
+      type: 'Work',
+    });
+    if (work.partOf) {
+      // It's possible in the future that items will have multiple parents and we'll need a way to distinguish which one we're interested in, for now they only have one.
+      const [ancestorWork] = work.partOf;
+      if (ancestorWork) {
+        addToAncestorArray(ancestorWork);
+      }
+    }
+  }
+  if (desiredItem) {
+    addToAncestorArray(desiredItem);
+  }
+  return ancestorArray.reverse();
 }

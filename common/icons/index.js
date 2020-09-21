@@ -18,6 +18,7 @@ import ccBy from './components/CcBy';
 import ccNc from './components/CcNc';
 import ccNd from './components/CcNd';
 import ccPdm from './components/CcPdm';
+import ccSa from './components/CcSa';
 import ccZero from './components/CcZero';
 import chat from './components/Chat';
 import check from './components/Check';
@@ -130,6 +131,7 @@ export {
   ccNd,
   ccPdm,
   ccZero,
+  ccSa,
   chat,
   check,
   chevron,

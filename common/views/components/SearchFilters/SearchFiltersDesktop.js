@@ -1,15 +1,16 @@
 // @flow
 
 import { font, classNames } from '../../../utils/classnames';
-import { worksUrl } from '../../../services/catalogue/urls';
+import { worksLink } from '../../../services/catalogue/routes';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
+// $FlowFixMe (tsx)
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
-import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
+// $FlowFixMe (tsx)
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import NextLink from 'next/link';
 import { type SearchFiltersSharedProps } from './SearchFilters';
-import TogglesContext from '../TogglesContext/TogglesContext';
 
 const CancelFilter = ({ text }: { text: string }) => {
   return (
@@ -40,7 +41,7 @@ const CancelFilter = ({ text }: { text: string }) => {
 
 const SearchFiltersDesktop = ({
   searchForm,
-  searchParams,
+  worksRouteProps,
   workTypeAggregations,
   changeHandler,
   inputDateFrom,
@@ -52,6 +53,9 @@ const SearchFiltersDesktop = ({
   productionDatesTo,
   workTypeInUrlArray,
 }: SearchFiltersSharedProps) => {
+  const showWorkTypeFilters =
+    workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
+
   return (
     <>
       <Space
@@ -80,8 +84,13 @@ const SearchFiltersDesktop = ({
             Filter by
           </Space>
         </Space>
-        <Space h={{ size: 's', properties: ['margin-right'] }}>
-          <DropdownButton label={'Dates'}>
+        <Space
+          h={{ size: 's', properties: ['margin-right'] }}
+          className={classNames({
+            [font('hnl', 5)]: true,
+          })}
+        >
+          <DropdownButton label={'Dates'} isInline={true}>
             <>
               <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
                 <NumberInput
@@ -111,167 +120,147 @@ const SearchFiltersDesktop = ({
           </DropdownButton>
         </Space>
 
-        {workTypeFilters.length > 0 && (
-          <DropdownButton label={'Formats'}>
+        {showWorkTypeFilters && (
+          <DropdownButton label={'Formats'} isInline={true}>
             <ul
               className={classNames({
                 'no-margin no-padding plain-list': true,
+                [font('hnl', 5)]: true,
               })}
             >
               {workTypeFilters.map(workType => {
+                const isChecked = workTypeInUrlArray.includes(workType.data.id);
+
                 return (
-                  <li key={workType.data.id}>
-                    <Checkbox
-                      id={workType.data.id}
-                      text={`${workType.data.label} (${workType.count})`}
-                      value={workType.data.id}
-                      name={`workType`}
-                      checked={
-                        workTypeInUrlArray &&
-                        workTypeInUrlArray.includes(workType.data.id)
-                      }
-                      onChange={event => {
-                        changeHandler();
-                      }}
-                    />
-                  </li>
+                  (workType.count > 0 || isChecked) && (
+                    <li key={workType.data.id}>
+                      <CheckboxRadio
+                        id={workType.data.id}
+                        type={`checkbox`}
+                        text={`${workType.data.label} (${workType.count})`}
+                        value={workType.data.id}
+                        name={`workType`}
+                        checked={isChecked}
+                        onChange={changeHandler}
+                      />
+                    </li>
+                  )
                 );
               })}
             </ul>
           </DropdownButton>
         )}
-
-        <TogglesContext.Consumer>
-          {({ unfilteredSearchResults }) =>
-            unfilteredSearchResults && (
-              <Space
-                h={{ size: 's', properties: ['margin-left'] }}
-                v={{ size: 'xs', properties: ['margin-top'] }}
-              >
-                <div className="flex">
-                  <Checkbox
-                    id="digitised"
-                    text={`Digitised`}
-                    value={'iiif-image,iiif-presentation'}
-                    name={`items.locations.locationType`}
-                    checked={
-                      (searchParams.itemsLocationsLocationType || []).join(
-                        ','
-                      ) === 'iiif-image,iiif-presentation'
-                    }
-                    onChange={event => {
-                      changeHandler();
-                    }}
-                  />
-                  <Space
-                    h={{ size: 's', properties: ['margin-left'] }}
-                    v={{ size: 's', properties: ['margin-top'] }}
-                  >
-                    <Icon
-                      name="info2"
-                      extraClasses="pointer"
-                      title={
-                        'Currently includes works with a IIIF Image or IIIF presentation manifest'
-                      }
-                    />
-                  </Space>
-                </div>
-              </Space>
-            )
-          }
-        </TogglesContext.Consumer>
       </Space>
 
       <Space v={{ size: 'l', properties: ['margin-top'] }} className="tokens">
         {(productionDatesFrom ||
           productionDatesTo ||
-          workTypeInUrlArray.length > 0) && (
-          <div className={classNames({ [font('hnl', 5)]: true })}>
-            <Space
-              v={{
-                size: 'l',
-                properties: ['margin-top', 'margin-bottom'],
-              }}
-            >
-              <h2 className="inline">
-                <Space
-                  as="span"
-                  h={{
-                    size: 'm',
-                    properties: ['margin-right'],
-                  }}
-                >
-                  Active filters:
-                </Space>
-              </h2>
-              {productionDatesFrom && (
-                <NextLink
-                  passHref
-                  {...worksUrl({
-                    ...searchParams,
-                    page: 1,
-                    productionDatesFrom: null,
-                  })}
-                >
-                  <a>
-                    <CancelFilter text={`From ${productionDatesFrom}`} />
-                  </a>
-                </NextLink>
-              )}
-              {productionDatesTo && (
-                <NextLink
-                  passHref
-                  {...worksUrl({
-                    ...searchParams,
-                    page: 1,
-                    productionDatesTo: null,
-                  })}
-                >
-                  <a>
-                    <CancelFilter text={`To ${productionDatesTo}`} />
-                  </a>
-                </NextLink>
-              )}
-
-              {workTypeInUrlArray.map(id => {
-                const workTypeObject = workTypeFilters.find(({ data }) => {
-                  return data.id === id;
-                });
-                return (
+          workTypeInUrlArray.length > 0) &&
+          workTypeFilters.length > 0 && (
+            <div className={classNames({ [font('hnl', 5)]: true })}>
+              <Space
+                v={{
+                  size: 'l',
+                  properties: ['margin-top', 'margin-bottom'],
+                }}
+              >
+                <h2 className="inline">
+                  <Space
+                    as="span"
+                    h={{
+                      size: 'm',
+                      properties: ['margin-right'],
+                    }}
+                  >
+                    Active filters:
+                  </Space>
+                </h2>
+                {productionDatesFrom && (
                   <NextLink
-                    key={id}
-                    {...worksUrl({
-                      ...searchParams,
-                      workType: searchParams.workType.filter(
-                        w => w !== workTypeObject.data.id
-                      ),
-                      page: 1,
-                    })}
+                    passHref
+                    {...worksLink(
+                      {
+                        ...worksRouteProps,
+                        page: 1,
+                        productionDatesFrom: null,
+                      },
+                      'cancel_filter/production_dates_from'
+                    )}
                   >
                     <a>
-                      <CancelFilter text={workTypeObject.data.label} />
+                      <CancelFilter text={`From ${productionDatesFrom}`} />
                     </a>
                   </NextLink>
-                );
-              })}
-              <NextLink
-                passHref
-                {...worksUrl({
-                  ...searchParams,
-                  workType: null,
-                  page: 1,
-                  productionDatesFrom: null,
-                  productionDatesTo: null,
-                  itemsLocationsLocationType: null,
+                )}
+                {productionDatesTo && (
+                  <NextLink
+                    passHref
+                    {...worksLink(
+                      {
+                        ...worksRouteProps,
+                        page: 1,
+                        productionDatesTo: null,
+                      },
+                      'cancel_filter/production_dates_to'
+                    )}
+                  >
+                    <a>
+                      <CancelFilter text={`To ${productionDatesTo}`} />
+                    </a>
+                  </NextLink>
+                )}
+
+                {workTypeInUrlArray.map(id => {
+                  const workTypeObject = workTypeFilters.find(({ data }) => {
+                    return data.id === id;
+                  });
+
+                  return (
+                    workTypeObject && (
+                      <NextLink
+                        key={id}
+                        {...worksLink(
+                          {
+                            ...worksRouteProps,
+                            workType: worksRouteProps.workType.filter(
+                              w => w !== workTypeObject.data.id
+                            ),
+                            page: 1,
+                          },
+                          'cancel_filter/work_types'
+                        )}
+                      >
+                        <a>
+                          <CancelFilter text={workTypeObject.data.label} />
+                        </a>
+                      </NextLink>
+                    )
+                  );
                 })}
-              >
-                <a>
-                  <CancelFilter text={'Clear all'} />
-                </a>
-              </NextLink>
-            </Space>
-          </div>
-        )}
+
+                {workTypeFilters.length > 0 && (
+                  <NextLink
+                    passHref
+                    {...worksLink(
+                      {
+                        ...worksRouteProps,
+                        itemsLocationsLocationType: [],
+                        workType: [],
+                        page: 1,
+                        productionDatesFrom: null,
+                        productionDatesTo: null,
+                      },
+                      'cancel_filter/all'
+                    )}
+                  >
+                    <a>
+                      <CancelFilter text={'Clear all'} />
+                    </a>
+                  </NextLink>
+                )}
+              </Space>
+            </div>
+          )}
       </Space>
     </>
   );

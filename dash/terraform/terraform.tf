@@ -33,13 +33,9 @@ provider "template" {
   version = "~> 2.0"
 }
 
-data "aws_acm_certificate" "wellcomecollection_ssl_cert" {
-  provider = "aws.us-east-1"
-  domain   = "wellcomecollection.org"
+module "dash" {
+  source              = "../../infrastructure/terraform/modules/s3_website"
+  website_uri         = "dash.wellcomecollection.org"
+  acm_certificate_arn = "arn:aws:acm:us-east-1:130871440101:certificate/bb840c52-56bb-4bf8-86f8-59e7deaf9c98"
 }
 
-module "dash" {
-  source              = "../../terraform-modules/https_s3_website"
-  website_uri         = "dash.wellcomecollection.org"
-  acm_certificate_arn = "${data.aws_acm_certificate.wellcomecollection_ssl_cert.arn}"
-}

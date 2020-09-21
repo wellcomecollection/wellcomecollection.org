@@ -5,6 +5,7 @@ import Icon from '../Icon/Icon';
 import { UiImage } from '../Images/Images';
 import type { ImageType } from '../../../model/image';
 import Space from '../styled/Space';
+import { CardOuter, CardBody } from '../Card/Card';
 
 type Props = {|
   id: string,
@@ -33,7 +34,7 @@ const FacilityPromo = ({
     sizesQueries,
   };
   return (
-    <a
+    <CardOuter
       data-component="FacilityPromo"
       onClick={() => {
         trackEvent({
@@ -44,47 +45,45 @@ const FacilityPromo = ({
       }}
       id={id}
       href={url}
-      className="plain-link promo-link"
     >
       <div>
         <div className="rounded-corners overflow-hidden">
           <UiImage {...uiImageProps} />
         </div>
 
-        <Space
-          v={{
-            size: 's',
-            properties: ['margin-top'],
-          }}
-          as="h2"
-          className={classNames({
-            'promo-link__title': true,
-            [font('wb', 4)]: true,
-          })}
-        >
-          {title}
-        </Space>
-        <p className={`${font('hnl', 5)} no-margin no-padding`}>
-          {description}
-        </p>
+        <CardBody>
+          <div>
+            <h2
+              className={classNames({
+                'promo-link__title': true,
+                [font('wb', 4)]: true,
+              })}
+            >
+              {title}
+            </h2>
+            <p className={`${font('hnl', 5)} no-margin no-padding`}>
+              {description}
+            </p>
 
-        {metaText && (
-          <Space v={{ size: 'm', properties: ['margin-top'] }}>
-            <div className={`${font('hnm', 6)} flex flex--v-center`}>
-              {metaIcon && (
-                <Space
-                  as="span"
-                  h={{ size: 's', properties: ['margin-right'] }}
-                >
-                  <Icon name={metaIcon} />
-                </Space>
-              )}
-              <span>{metaText}</span>
-            </div>
-          </Space>
-        )}
+            {metaText && (
+              <Space v={{ size: 'm', properties: ['margin-top'] }}>
+                <div className={`${font('hnm', 6)} flex flex--v-center`}>
+                  {metaIcon && (
+                    <Space
+                      as="span"
+                      h={{ size: 's', properties: ['margin-right'] }}
+                    >
+                      <Icon name={metaIcon} />
+                    </Space>
+                  )}
+                  <span>{metaText}</span>
+                </div>
+              </Space>
+            )}
+          </div>
+        </CardBody>
       </div>
-    </a>
+    </CardOuter>
   );
 };
 export default FacilityPromo;

@@ -10,12 +10,13 @@ const ProtoTag = styled.div.attrs(props => ({
   display: inline-flex;
   padding: ${props => (props.small ? '2px 7px' : '4px 10px')};
   border: 1px solid
-    ${props => (props.isPrimary ? 'transparent' : props.theme.colors.charcoal)};
+    ${props =>
+      props.isPrimary ? 'transparent' : props.theme.color('charcoal')};
   background: ${props =>
     props.isPrimary
       ? 'white'
       : props.isActive
-      ? props.theme.colors.charcoal
+      ? props.theme.color('charcoal')
       : 'transparent'};
   border-radius: 3px;
   transition: all 200ms ease;
@@ -31,7 +32,7 @@ const ProtoTag = styled.div.attrs(props => ({
 
   &:hover {
     color: ${props => !props.isPrimary && 'white'};
-    background: ${props => !props.isPrimary && props.theme.colors.charcoal};
+    background: ${props => !props.isPrimary && props.theme.color('charcoal')};
   }
 `;
 

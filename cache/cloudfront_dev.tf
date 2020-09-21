@@ -1,7 +1,7 @@
 # Create the CloudFront distribution
 resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
   origin {
-    domain_name = "${data.terraform_remote_state.router.alb_dns_name}"
+    domain_name = data.terraform_remote_state.experience.outputs.prod_alb_dns
     origin_id   = "origin"
 
     custom_origin_config {
@@ -19,6 +19,12 @@ resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
     "devcache.wellcomecollection.org",
   ]
 
+  # Don't cache 404s
+  custom_error_response {
+    error_code            = 404
+    error_caching_min_ttl = 0
+  }
+
   default_cache_behavior {
     allowed_methods        = ["HEAD", "GET", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods         = ["HEAD", "GET", "OPTIONS"]
@@ -33,21 +39,18 @@ resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
       query_string = true
 
       query_string_cache_keys = [
-        "page",
         "current",
-        "uri",
-
-        # dotmailer gives us a 'result' (if we run out of params,
-        # consider making new urls for newsletter pages instead)
+        "page",
         "result",
+        "uri",
       ]
 
       cookies {
         forward = "whitelist"
 
         whitelisted_names = [
-          "toggles",          # feature toggles
-          "toggle_*",         # feature toggles
+          "toggles",  # feature toggles
+          "toggle_*", # feature toggles
           "WC_auth_redirect",
         ]
       }
@@ -55,12 +58,12 @@ resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
 
     lambda_function_association {
       event_type = "origin-request"
-      lambda_arn = "${aws_lambda_function.edge_lambda_request.qualified_arn}"
+      lambda_arn = aws_lambda_function.edge_lambda_request.qualified_arn
     }
 
     lambda_function_association {
       event_type = "origin-response"
-      lambda_arn = "${aws_lambda_function.edge_lambda_response.qualified_arn}"
+      lambda_arn = aws_lambda_function.edge_lambda_response.qualified_arn
     }
   }
 
@@ -79,14 +82,14 @@ resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
       query_string = true
 
       query_string_cache_keys = [
-        "page",
-        "current",
-        "query",
-        "workType",
-        "sierraId",
-        "canvas",
-        "items.locations.locationType",
         "_queryType",
+        "canvas",
+        "current",
+        "items.locations.locationType",
+        "page",
+        "query",
+        "sierraId",
+        "workType",
       ]
 
       cookies {
@@ -95,25 +98,26 @@ resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
         whitelisted_names = [
           "toggles",  # feature toggles
           "toggle_*", # feature toggles
+          "_queryType",
         ]
       }
     }
 
     lambda_function_association {
       event_type = "origin-request"
-      lambda_arn = "${aws_lambda_function.edge_lambda_request.qualified_arn}"
+      lambda_arn = aws_lambda_function.edge_lambda_request.qualified_arn
     }
 
     lambda_function_association {
       event_type = "origin-response"
-      lambda_arn = "${aws_lambda_function.edge_lambda_response.qualified_arn}"
+      lambda_arn = aws_lambda_function.edge_lambda_response.qualified_arn
     }
   }
 
   viewer_certificate {
-    acm_certificate_arn      = "${data.aws_acm_certificate.wellcomecollection_ssl_cert.arn}"
+    acm_certificate_arn      = local.wellcome_cdn_cert_arn
     ssl_support_method       = "sni-only"
-    minimum_protocol_version = "TLSv1.2"
+    minimum_protocol_version = "TLSv1.2_2018"
   }
 
   restrictions {
@@ -124,3 +128,4 @@ resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
 
   retain_on_delete = true
 }
+

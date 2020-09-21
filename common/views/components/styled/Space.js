@@ -1,6 +1,6 @@
 // @flow
 import styled from 'styled-components';
-import type { ComponentType } from 'react';
+import { type StatelessFunctionalComponent } from 'react';
 // This component will output horizontal/vertical space from one of five pre-defined sizes: xs, s, m, l, and xl.
 // Each of these sizes has a pixel value for each of the three breakpoints, 'small', 'medium', and 'large'.
 // The component can receive `h` and/or `v` props to determine the horizontal/vertical space respectively.
@@ -56,7 +56,7 @@ export type SpaceComponentProps = {
   h?: HorizontalSpaceProps,
 };
 
-const Space: ComponentType<SpaceComponentProps> = styled.div`
+const Space: StatelessFunctionalComponent<SpaceComponentProps> = styled.div`
   ${props =>
     props.v &&
     props.theme.makeSpacePropertyValues(

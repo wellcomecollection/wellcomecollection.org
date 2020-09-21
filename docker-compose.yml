@@ -1,0 +1,33 @@
+version: "3.3"
+services:
+  common:
+    image: common_webapp
+    build:
+      context: .
+      dockerfile: common/Dockerfile
+  catalogue:
+    image: uk.ac.wellcome/catalogue_webapp:${CONTAINER_TAG:-test}
+    build:
+      context: .
+      dockerfile: catalogue/Dockerfile
+  content:
+    image: uk.ac.wellcome/content_webapp:${CONTAINER_TAG:-test}
+    build:
+      context: .
+      dockerfile: content/Dockerfile
+  cardigan:
+    build:
+      context: .
+      dockerfile: cardigan/Dockerfile
+  dash:
+    build:
+      context: ./dash
+  edge_lambdas:
+    build:
+      context: ./cache/edge_lambdas
+  toggles:
+    build:
+      context: ./toggles
+  pa11y:
+    build:
+      context: ./pa11y

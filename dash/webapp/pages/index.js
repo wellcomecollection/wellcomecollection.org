@@ -25,14 +25,14 @@ const IndexPage = () => {
           </li>
           <li>
             <a
-              href="https://github.com/wellcometrust/wellcomecollection.org"
+              href="https://github.com/wellcomecollection/wellcomecollection.org"
               rel="repo"
             >
               Experience Github repo
             </a>
           </li>
           <li>
-            <a href="https://github.com/wellcometrust/platform" rel="repo">
+            <a href="https://github.com/wellcomecollection/platform" rel="repo">
               Platform GitHub repo
             </a>
           </li>
@@ -101,6 +101,11 @@ const IndexPage = () => {
               rel="progress"
             >
               Catalogue search progress notes
+            </a>
+          </li>
+          <li>
+            <a href="https://docs.google.com/spreadsheets/d/1wArVKfs9UCSy4LAJWsjY51Hjj-6MK5I42biRhM4kHmg/edit?pli=1#gid=0">
+              Digital Engagement Indicators
             </a>
           </li>
         </ul>

@@ -1,7 +1,0 @@
-apps:
-  - script   : './app.js'
-    name     : 'WEBAPP_NAME'
-    exec_mode: 'cluster'
-    instances: 'max'
-    env:
-      NODE_ENV: "production"

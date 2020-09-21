@@ -1,74 +1,31 @@
 // @flow
-import type { LicenseData } from '@weco/common/utils/get-license-info';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { type IIIFRendering } from '@weco/common/model/iiif';
-import { trackEvent } from '@weco/common/utils/ga';
-import { useState, useEffect } from 'react';
+import { type LicenseData } from '@weco/common/utils/licenses';
+import { useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
-import License from '@weco/common/views/components/License/License';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import Space from '@weco/common/views/components/styled/Space';
+import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
+// $FlowFixMe (tsx)
+import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 
-const DownloadButton = styled.button`
-  text-align: center;
-  border: ${props => `1px solid ${props.theme.colors.green}`};
-  border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
-  background: ${props => props.theme.colors.white};
-  color: ${props => props.theme.colors.green};
-  padding: ${props =>
-    `${props.theme.spacingUnit}px ${props.theme.spacingUnit}px ${
-      props.theme.spacingUnit
-    }px ${props.theme.spacingUnit * 2}px`};
-  display: inline-block;
-  margin: ${props =>
-    `0 ${props.theme.spacingUnit * 2}px ${props.theme.spacingUnit}px 0`};
-  cursor: pointer;
-  :focus {
-    outline: none;
-    box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.3);
-  }
-  .icon {
-    transition: transform 700ms;
-    transform: ${props =>
-      props.rotateIcon ? 'rotate(180deg)' : 'rotate(0deg)'};
-  }
-  .icon__shape {
-    fill: currentColor;
-  }
-`;
-const DownloadOptions = styled.div`
-  &.enhanced-styles {
-    border: ${props => `1px solid ${props.theme.colors.marble}`};
-    background: white;
-    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
-    z-index: -1;
-    margin-top: ${props => `-${props.theme.spacingUnit}px`};
-    padding: ${props => `${props.theme.spacingUnit * 3}px`};
-    height: none;
-    opacity: 0;
-    transition: opacity 400ms;
-    position: absolute;
-  }
-  &.show {
-    z-index: 1;
-    opacity: 1;
-  }
+export const DownloadOptions = styled.div.attrs(props => ({
+  className: classNames({
+    [font('hnm', 4)]: true,
+  }),
+}))`
+  white-space: normal;
+  color: ${props => props.theme.color('black')};
+
   li + li {
     margin-top: ${props => `${props.theme.spacingUnit * 2}px`};
   }
-  a {
-    color: ${props => props.theme.colors.green};
-    text-decoration: none;
-  }
-  .icon__canvas {
-    height: 1.3em;
-  }
-  .icon__shape {
-    fill: currentColor;
-  }
 `;
 
-function getFormatString(format) {
+export function getFormatString(format: string) {
   switch (format) {
     case 'application/pdf':
       return 'PDF';
@@ -80,175 +37,126 @@ function getFormatString(format) {
       return 'MP4';
     case 'audio/mp3':
       return 'MP3';
+    default:
+      return null;
   }
 }
 
-type Work = Object;
 type Props = {|
-  work: Work,
-  licenseInfo: ?LicenseData,
-  credit: ?string,
+  ariaControlsId: string,
+  workId: string,
   downloadOptions: IIIFRendering[],
-  licenseInfoLink: boolean,
+  title?: string,
+  license?: ?LicenseData,
+  iiifImageLocationCredit?: ?string,
+  useDarkControl?: boolean,
+  isInline?: boolean,
 |};
 
 const Download = ({
-  work,
-  licenseInfo,
-  credit,
+  ariaControlsId,
+  title = '',
+  workId,
   downloadOptions,
-  licenseInfoLink,
+  license,
+  iiifImageLocationCredit,
+  useDarkControl = false,
+  isInline = false,
 }: Props) => {
-  const [showDownloads, setShowDownloads] = useState(true);
-  const [useJavascriptControl, setUseJavascriptControl] = useState(false);
-  useEffect(() => {
-    setUseJavascriptControl(true);
-    setShowDownloads(false);
-  }, []);
+  const downloadsContainer = useRef(null);
+  const { isEnhanced } = useContext(AppContext);
+
   return (
-    <div>
-      <div
-        className={classNames({
-          [font('hnl', 5)]: true,
-        })}
-      >
-        {useJavascriptControl ? (
-          <h2 className="inline">
-            <DownloadButton
-              className={classNames({
-                [font('hnm', 5)]: true,
-                'flex-inline': true,
-                'flex--v-center': true,
-              })}
-              aria-controls="downloadOptions"
-              aria-expanded={showDownloads}
-              rotateIcon={showDownloads}
-              onClick={() => {
-                setShowDownloads(!showDownloads);
-              }}
-            >
-              <span className="flex-inline flex--v-center">
-                <Space
-                  as="span"
-                  h={{ size: 's', properties: ['margin-right'] }}
-                >
-                  Download
-                </Space>
-                <Icon name="chevron" />
-              </span>
-            </DownloadButton>
-          </h2>
-        ) : (
-          <h2
-            className={classNames({
-              [font('wb', 3)]: true,
-              'work-details-heading': true,
-            })}
+    <div
+      className={classNames({
+        [font('hnl', 5)]: true,
+        'inline-block': isEnhanced,
+        relative: true,
+      })}
+      ref={downloadsContainer}
+    >
+      {downloadOptions.length > 0 && (
+        <>
+          <DropdownButton
+            label="Downloads"
+            isInline={isInline}
+            isOnDark={useDarkControl}
           >
-            Download
-          </h2>
-        )}
-        <DownloadOptions
-          id="downloadOptions"
-          className={classNames({
-            [font('hnm', 5)]: true,
-            'enhanced-styles': useJavascriptControl,
-            show: showDownloads,
-          })}
-        >
-          <ul className="plain-list no-margin no-padding">
-            {downloadOptions
-              .filter(option => option.format !== 'text/plain') // We're taking out raw text for now
-              .map(option => {
-                // Doing this for the action so analytics is constant, speak to Hayley about removing this
-                const action =
-                  option.label === 'Download full size'
-                    ? 'download large work image'
-                    : option.label === 'Download small (760px)'
-                    ? 'download small work image'
-                    : option.label;
-                const format = getFormatString(option.format);
-
-                return (
-                  <li key={option.label}>
-                    <a
-                      tabIndex={showDownloads ? null : -1}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href={option['@id']}
-                      onClick={() => {
-                        trackEvent({
-                          category: 'Button',
-                          action: action,
-                          label: work.id,
-                        });
-                      }}
-                    >
-                      <span className="flex-inline flex--v-center">
-                        <Icon name="download" />
-                        <span className="underline-on-hover">
-                          {option.label}
-                        </span>
-                        {format && (
-                          <Space
-                            as="span"
-                            h={{ size: 'm', properties: ['margin-left'] }}
-                            className={classNames({
-                              [font('hnm', 5)]: true,
-                              'font-pewter': true,
-                            })}
-                          >
-                            {format}
-                          </Space>
-                        )}
-                      </span>
-                    </a>
-                  </li>
-                );
-              })}
-          </ul>
-        </DownloadOptions>
-
-        <div className="flex-inline flex--v-center">
-          {licenseInfo && (
-            <Space
-              as="span"
-              h={{ size: 'm', properties: ['margin-right'] }}
-              className={classNames({
-                'inline-block': true,
-              })}
-            >
-              {licenseInfo && (
-                <License subject={''} licenseInfo={licenseInfo} />
-              )}
-            </Space>
-          )}
-          {credit && (
-            <Space
-              as="span"
-              h={{ size: 'm', properties: ['margin-right'] }}
-              className={classNames({
-                'inline-block': true,
-              })}
-            >
-              Credit: {credit}{' '}
-            </Space>
-          )}
-          {licenseInfo && licenseInfoLink && (
-            <a
-              href="#licenseInformation"
+            <DownloadOptions
+              id={ariaControlsId}
               className={classNames({
                 [font('hnm', 5)]: true,
               })}
             >
-              <span className="flex-inline flex--v-center nowrap">
-                <Icon name="arrowSmall" extraClasses="icon--90" />
-                Can I use this?
-              </span>
-            </a>
-          )}
-        </div>
-      </div>
+              <SpacingComponent>
+                <ul className="plain-list no-margin no-padding">
+                  {downloadOptions
+                    .filter(option => option.format !== 'text/plain') // We're taking out raw text for now
+                    .map(option => {
+                      const action = option['@id'].match(/\/full\/full\//)
+                        ? 'download large work image'
+                        : option['@id'].match(/\/full\/760/)
+                        ? 'download small work image'
+                        : option.label;
+                      const format = getFormatString(option.format);
+
+                      return (
+                        <li key={option['@id']}>
+                          <DownloadLink
+                            href={option['@id']}
+                            linkText={
+                              option.label === 'Download as PDF'
+                                ? 'Whole item'
+                                : option.label
+                            }
+                            format={format}
+                            trackingEvent={{
+                              category: 'Button',
+                              action: action,
+                              label: workId,
+                            }}
+                          />
+                        </li>
+                      );
+                    })}
+                </ul>
+              </SpacingComponent>
+              {license && (
+                <>
+                  <SpacingComponent>
+                    <Divider extraClasses="divider--pumice divider--keyline" />
+                  </SpacingComponent>
+                  <SpacingComponent>
+                    <div>
+                      {license.humanReadableText.length > 0 && (
+                        <WorkDetailsText
+                          title="License information"
+                          text={license.humanReadableText}
+                        />
+                      )}
+                      <WorkDetailsText
+                        title="Credit"
+                        text={[
+                          `${title}. ${
+                            iiifImageLocationCredit
+                              ? `Credit: <a href="https://wellcomecollection.org/works/${workId}">${iiifImageLocationCredit}</a>. `
+                              : ` `
+                          }
+                    ${
+                      license.url
+                        ? `<a href="${license.url}">${license.label}</a>`
+                        : license.label
+                    }`,
+                        ]}
+                      />
+                    </div>
+                  </SpacingComponent>
+                </>
+              )}
+            </DownloadOptions>
+          </DropdownButton>
+        </>
+      )}
     </div>
   );
 };

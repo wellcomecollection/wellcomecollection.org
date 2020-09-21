@@ -14,7 +14,7 @@ const FreeSticker = () => (
       'font-white bg-black rotate-r-8 absolute': true,
       [font('wb', 5)]: true,
     })}
-    style={{ marginTop: '-20px', right: '0' }}
+    style={{ marginTop: '-20px', right: '0', zIndex: '1' }}
   >
     Free
   </Space>

@@ -1,26 +1,72 @@
 // @flow
 import { type IIIFManifest, type IIIFRendering } from '@weco/common/model/iiif';
-import type { SearchParams } from '@weco/common/services/catalogue/search-params';
-import type { LicenseData } from '@weco/common/utils/get-license-info';
-import type { LicenseType } from '@weco/common/model/license';
+import type { LicenseData } from '@weco/common/utils/licenses';
 import { lighten } from 'polished';
 import styled from 'styled-components';
-import { workUrl } from '@weco/common/services/catalogue/urls';
+import { workLink } from '@weco/common/services/catalogue/routes';
 import { classNames, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import { trackEvent } from '@weco/common/utils/ga';
-import Download from '@weco/catalogue/components/Download/ViewerDownload';
+import Download from '@weco/catalogue/components/Download/Download';
 import MultipleManifestList from '@weco/catalogue/components/MultipleManifestList/MultipleManifestList';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
+// TODO: update this with a more considered button from our system
+export const ShameButton = styled.button.attrs(props => ({
+  className: classNames({
+    'btn relative flex flex--v-center': true,
+    [font('hnm', 5)]: true,
+  }),
+}))`
+  overflow: hidden;
+
+  ${props =>
+    props.isDark &&
+    `
+    border: none;
+    color: ${props.theme.color('white')};
+    background: transparent;
+    outline: none;
+    transition: all ${props.theme.transitionProperties};
+
+    .btn__text {
+      position: absolute;
+      right: 100%;
+      @media (min-width: ${props.theme.sizes.large}px) {
+        position: static;
+      }
+    }
+
+    &:not([disabled]):hover,
+    &:not([disabled]):focus {
+      border-color: ${props.theme.color('black')};
+      background: ${props.theme.color('yellow')};
+      color: ${props.theme.color('black')};
+    }
+  `}
+
+  ${props =>
+    !props.isDark &&
+    `
+    background: ${props.theme.color('white')};
+    color: ${props.theme.color('green')};
+    border: 1px solid ${props.theme.color('green')};
+
+    &:not([disabled]):hover,
+    &:not([disabled]):focus {
+      background: ${props.theme.color('green')};
+      color: ${props.theme.color('white')};
+    }
+  `}
+`;
+
 const TopBar = styled.div`
   position: relative;
   z-index: 3;
-  background: ${props => lighten(0.14, props.theme.colors.viewerBlack)};
-  color: ${props => props.theme.colors.white};
+  background: ${props => lighten(0.14, props.theme.color('viewerBlack'))};
+  color: ${props => props.theme.color('white')};
   .title {
     max-width: 30%;
     .icon {
@@ -40,20 +86,6 @@ const TopBar = styled.div`
   .plain-link {
     max-width: 100%;
   }
-  .icon__shape {
-    fill: currentColor;
-  }
-  button {
-    overflow: hidden;
-    display: inline-block;
-    .btn__text {
-      position: absolute;
-      right: 100%;
-      @media (min-width: ${props => props.theme.sizes.large}px) {
-        position: static;
-      }
-    }
-  }
 `;
 
 const ViewAllContainer = styled.div.attrs(props => ({
@@ -64,7 +96,7 @@ const ViewAllContainer = styled.div.attrs(props => ({
   height: 64px;
   width: 20%;
   border-right: 1px solid
-    ${props => lighten(0.1, props.theme.colors.viewerBlack)};
+    ${props => lighten(0.1, props.theme.color('viewerBlack'))};
 `;
 
 const TitleContainer = styled.div.attrs(props => ({
@@ -87,13 +119,10 @@ type Props = {|
   workId: string,
   viewToggleRef: { current: HTMLElement | null },
   currentManifestLabel: ?string,
-  params: SearchParams,
   canvasIndex: number,
   title: string,
   licenseInfo: ?LicenseData,
-  iiifPresentationLicenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
-  iiifImageLocationLicenseId: ?LicenseType,
   downloadOptions: ?(IIIFRendering[]),
   iiifPresentationDownloadOptions: IIIFRendering[],
   parentManifest: ?IIIFManifest,
@@ -109,13 +138,10 @@ const ViewerTopBar = ({
   workId,
   viewToggleRef,
   currentManifestLabel,
-  params,
   canvasIndex,
   title,
   licenseInfo,
-  iiifPresentationLicenseInfo,
   iiifImageLocationCredit,
-  iiifImageLocationLicenseId,
   downloadOptions,
   iiifPresentationDownloadOptions,
   parentManifest,
@@ -126,12 +152,9 @@ const ViewerTopBar = ({
     <TopBar className="flex">
       {enhanced && canvases && canvases.length > 1 && (
         <ViewAllContainer>
-          <Button
-            extraClasses="btn--primary-black"
-            icon={gridVisible ? 'detailView' : 'gridView'}
-            text={gridVisible ? 'Detail view' : 'View all'}
-            fontFamily="hnl"
-            clickHandler={() => {
+          <ShameButton
+            ref={viewToggleRef}
+            onClick={() => {
               setGridVisible(!gridVisible);
               trackEvent({
                 category: 'Control',
@@ -141,14 +164,18 @@ const ViewerTopBar = ({
                 label: `${workId}`,
               });
             }}
-            ref={viewToggleRef}
-          />
+          >
+            <Icon name={gridVisible ? 'detailView' : 'gridView'} />
+            <span className={`btn__text`}>
+              {gridVisible ? 'Detail view' : 'View all'}
+            </span>
+          </ShameButton>
         </ViewAllContainer>
       )}
       <TitleContainer isEnhanced={enhanced && canvases && canvases.length > 1}>
         <div className="title">
           <span className="part">{currentManifestLabel}</span>
-          <NextLink {...workUrl({ ...params, id: workId })}>
+          <NextLink {...workLink({ id: workId })}>
             <a
               className={classNames({
                 [font('hnm', 5)]: true,
@@ -174,12 +201,9 @@ const ViewerTopBar = ({
                 // $FlowFixMe
                 document.webkitFullscreenEnabled) && (
                 <Space h={{ size: 'm', properties: ['margin-right'] }}>
-                  <Button
-                    extraClasses="btn--primary-black"
-                    icon="expand"
-                    text="Full screen"
-                    fontFamily="hnl"
-                    clickHandler={() => {
+                  <ShameButton
+                    isDark
+                    onClick={() => {
                       if (viewerRef && viewerRef.current) {
                         if (
                           !document.fullscreenElement &&
@@ -205,26 +229,30 @@ const ViewerTopBar = ({
                         }
                       }
                     }}
-                  />
+                  >
+                    <Icon name="expand" />
+                    <span className={`btn__text`}>Full screen</span>
+                  </ShameButton>
                 </Space>
               )}
             <Space h={{ size: 'm', properties: ['margin-right'] }}>
               <Download
+                ariaControlsId="itemDownloads"
                 title={title}
                 workId={workId}
-                licenseInfo={licenseInfo || iiifPresentationLicenseInfo}
-                iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+                license={licenseInfo}
                 iiifImageLocationCredit={iiifImageLocationCredit}
                 downloadOptions={
                   downloadOptions || iiifPresentationDownloadOptions
                 }
+                useDarkControl={true}
+                isInline={true}
               />
             </Space>
             {parentManifest && parentManifest.manifests && (
               <MultipleManifestList
                 buttonText={currentManifestLabel || 'Choose'}
                 manifests={parentManifest.manifests}
-                params={params}
                 workId={workId}
                 lang={lang}
               />

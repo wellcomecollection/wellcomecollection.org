@@ -19,8 +19,8 @@ import OpeningTimesContext from '../../views/components/OpeningTimesContext/Open
 import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
 import JsonLd from '../../views/components/JsonLd/JsonLd';
-import { TrackerScript } from '../../views/components/Tracker/Tracker';
 import { trackEvent } from '../../utils/ga';
+import { AppContextProvider } from '../components/AppContext/AppContext';
 
 type State = {|
   togglesContext: {},
@@ -32,7 +32,6 @@ const isClient = !isServer;
 let toggles;
 let openingTimes;
 let globalAlert;
-let isPreview;
 let engagement;
 let previouslyAccruedTimeOnSpaPage = 0;
 let accruedHiddenTimeOnPage = 0;
@@ -142,13 +141,18 @@ export default class WecoApp extends App {
     toggles = isServer ? router.query.toggles : toggles;
     openingTimes = isServer ? router.query.openingTimes : openingTimes;
     globalAlert = isServer ? router.query.globalAlert : globalAlert;
-    isPreview = isServer ? router.query.isPreview : isPreview;
 
     let pageProps = {};
     if (Component.getInitialProps) {
       ctx.query.toggles = toggles;
-      ctx.query.isPreview = isPreview;
-      pageProps = await Component.getInitialProps(ctx);
+
+      // If the getInitialProps fails, we should propegate this failure through to the repsonse.
+      try {
+        pageProps = await Component.getInitialProps(ctx);
+      } catch (error) {
+        pageProps.statusCode = 500;
+        pageProps.error = error;
+      }
 
       // If we override the statusCode from getInitialProps, make sure we
       // set that on the server response too
@@ -157,12 +161,13 @@ export default class WecoApp extends App {
       }
     }
 
+    delete ctx.query.memoizedPrismic; // We need to remove memoizedPrismic value here otherwise we hit circular object issues with JSON.stringify
+
     return {
       pageProps,
       toggles,
       openingTimes,
       globalAlert,
-      isPreview,
     };
   }
 
@@ -177,19 +182,12 @@ export default class WecoApp extends App {
     if (isClient && !globalAlert) {
       globalAlert = props.globalAlert;
     }
-    if (isClient && !isPreview) {
-      isPreview = props.isPreview;
-    }
 
     super(props);
   }
 
   state: State = {
     togglesContext: toggles,
-  };
-
-  updateToggles = (newToggles: Object) => {
-    this.setState({ togglesContext: { ...toggles, ...newToggles } });
   };
 
   componentWillUnmount() {
@@ -207,7 +205,10 @@ export default class WecoApp extends App {
   }
 
   componentDidMount() {
-    this.setState({ togglesContext: toggles });
+    this.setState({
+      togglesContext: toggles,
+    });
+
     makeSurePageIsTallEnough();
 
     if (document.documentElement) {
@@ -266,23 +267,8 @@ export default class WecoApp extends App {
       })
       .catch(console.log);
 
-    // Hotjar
-    (function(h, o, t, j, a, r) {
-      h.hj =
-        h.hj ||
-        function() {
-          (h.hj.q = h.hj.q || []).push(arguments);
-        };
-      h._hjSettings = { hjid: 3858, hjsv: 5 };
-      a = o.getElementsByTagName('head')[0];
-      r = o.createElement('script');
-      r.async = true;
-      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
-      a.appendChild(r);
-    })(window, document, '//static.hotjar.com/c/hotjar-', '.js?sv=');
-
     // Prismic preview and validation warnings
-    if (isPreview || document.cookie.match('isPreview=true')) {
+    if (document.cookie.match('isPreview=true')) {
       window.prismic = {
         endpoint: 'https://wellcomecollection.prismic.io/api/v2',
       };
@@ -360,7 +346,6 @@ export default class WecoApp extends App {
 
   render() {
     const { togglesContext } = this.state;
-    const updateToggles = this.updateToggles;
     const { Component, pageProps, openingTimes, globalAlert } = this.props;
     const polyfillFeatures = [
       'default',
@@ -438,56 +423,57 @@ export default class WecoApp extends App {
           <JsonLd data={museumLd(wellcomeCollectionGalleryWithHours)} />
           <JsonLd data={libraryLd(wellcomeLibraryWithHours)} />
         </Head>
-        <TogglesContext.Provider value={{ ...togglesContext, updateToggles }}>
-          <OpeningTimesContext.Provider value={parsedOpeningTimes}>
-            <GlobalAlertContext.Provider value={globalAlert}>
-              <ThemeProvider theme={theme}>
-                <OutboundLinkTracker>
-                  <Fragment>
-                    <TogglesContext.Consumer>
-                      {({ helveticaRegular }) =>
-                        helveticaRegular && (
-                          <style
-                            type="text/css"
-                            dangerouslySetInnerHTML={{
-                              __html: `
-                                @font-face {
-                                  font-family: 'Helvetica Neue Light Web';
-                                  src: local('Helvetica Neue Regular'),
-                                    local('HelveticaNeue-Regular'),
-                                    url('https://i.wellcomecollection.org/assets/fonts/d460c8dd-ab48-422e-ac1c-d9b6392b605a.woff2') format('woff2'),
-                                    url('https://i.wellcomecollection.org/assets/fonts/955441c8-2039-4256-bf4a-c475c31d1c0d.woff') format('woff');
-                                  font-weight: normal;
-                                  font-style: normal;
-                                }
+        <AppContextProvider>
+          <TogglesContext.Provider value={{ ...togglesContext }}>
+            <OpeningTimesContext.Provider value={parsedOpeningTimes}>
+              <GlobalAlertContext.Provider value={globalAlert}>
+                <ThemeProvider theme={theme}>
+                  <OutboundLinkTracker>
+                    <Fragment>
+                      <TogglesContext.Consumer>
+                        {({ helveticaRegular }) =>
+                          helveticaRegular && (
+                            <style
+                              type="text/css"
+                              dangerouslySetInnerHTML={{
+                                __html: `
+                                  @font-face {
+                                    font-family: 'Helvetica Neue Light Web';
+                                    src: local('Helvetica Neue Regular'),
+                                      local('HelveticaNeue-Regular'),
+                                      url('https://i.wellcomecollection.org/assets/fonts/d460c8dd-ab48-422e-ac1c-d9b6392b605a.woff2') format('woff2'),
+                                      url('https://i.wellcomecollection.org/assets/fonts/955441c8-2039-4256-bf4a-c475c31d1c0d.woff') format('woff');
+                                    font-weight: normal;
+                                    font-style: normal;
+                                  }
 
-                                @font-face {
-                                  font-family: 'Helvetica Neue Medium Web';
-                                  src: local('Helvetica Neue Bold'),
-                                    local('HelveticaNeue-Bold'),
-                                    url('https://i.wellcomecollection.org/assets/fonts/455d1f57-1462-4536-aefa-c13f0a67bbbe.woff2') format('woff2'),
-                                    url('https://i.wellcomecollection.org/assets/fonts/fd5c4818-7809-4a21-a48d-a0dc15aa47b8.woff') format('woff');
-                                  font-weight: normal;
-                                  font-style: normal;
-                                }
-                              `,
-                            }}
-                          />
-                        )
-                      }
-                    </TogglesContext.Consumer>
-                    <LoadingIndicator />
-                    <TrackerScript />
-                    {!pageProps.statusCode && <Component {...pageProps} />}
-                    {pageProps.statusCode && pageProps.statusCode !== 200 && (
-                      <ErrorPage statusCode={pageProps.statusCode} />
-                    )}
-                  </Fragment>
-                </OutboundLinkTracker>
-              </ThemeProvider>
-            </GlobalAlertContext.Provider>
-          </OpeningTimesContext.Provider>
-        </TogglesContext.Provider>
+                                  @font-face {
+                                    font-family: 'Helvetica Neue Medium Web';
+                                    src: local('Helvetica Neue Bold'),
+                                      local('HelveticaNeue-Bold'),
+                                      url('https://i.wellcomecollection.org/assets/fonts/455d1f57-1462-4536-aefa-c13f0a67bbbe.woff2') format('woff2'),
+                                      url('https://i.wellcomecollection.org/assets/fonts/fd5c4818-7809-4a21-a48d-a0dc15aa47b8.woff') format('woff');
+                                    font-weight: normal;
+                                    font-style: normal;
+                                  }
+                                `,
+                              }}
+                            />
+                          )
+                        }
+                      </TogglesContext.Consumer>
+                      <LoadingIndicator />
+                      {!pageProps.statusCode && <Component {...pageProps} />}
+                      {pageProps.statusCode && pageProps.statusCode !== 200 && (
+                        <ErrorPage statusCode={pageProps.statusCode} />
+                      )}
+                    </Fragment>
+                  </OutboundLinkTracker>
+                </ThemeProvider>
+              </GlobalAlertContext.Provider>
+            </OpeningTimesContext.Provider>
+          </TogglesContext.Provider>
+        </AppContextProvider>
       </>
     );
   }

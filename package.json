@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Products and services relating to wellcomecollection.org.",
   "scripts": {
+    "setupCommon": "yarn install --production && yarn flow && cd common && yarn && yarn install",
     "cardigan": "pushd cardigan && yarn dev",
     "catalogue": "pushd catalogue/webapp && yarn dev",
     "content": "pushd content/webapp && yarn dev",
@@ -11,15 +12,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wellcometrust/wellcomecollection.org.git"
+    "url": "git+https://github.com/wellcomecollection/wellcomecollection.org.git"
   },
   "author": "digital@wellcomecollection.org",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/wellcometrust/wellcomecollection.org/issues"
+    "url": "https://github.com/wellcomecollection/wellcomecollection.org/issues"
   },
-  "homepage": "https://github.com/wellcometrust/wellcomecollection.org#readme",
+  "homepage": "https://github.com/wellcomecollection/wellcomecollection.org#readme",
   "devDependencies": {
+    "@types/styled-components": "^5.1.2",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.11.1",

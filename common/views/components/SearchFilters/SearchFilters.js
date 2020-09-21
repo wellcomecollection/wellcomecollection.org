@@ -1,28 +1,32 @@
+// @flow
 import { useState, useEffect, useContext } from 'react';
-import {
-  type SearchParams,
-  defaultWorkTypes,
-} from '@weco/common/services/catalogue/search-params';
+import { type WorksRouteProps } from '@weco/common/services/catalogue/routes';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
+import {
+  defaultWorkTypes,
+  testDefaultWorkTypes,
+} from '@weco/common/services/catalogue/api';
 import SearchFiltersDesktop from '@weco/common/views/components/SearchFilters/SearchFiltersDesktop';
 import SearchFiltersMobile from '@weco/common/views/components/SearchFilters/SearchFiltersMobile';
+// $FlowFixMe (tsx)
+import SearchFiltersArchivesPrototype from '@weco/common/views/components/SearchFiltersArchivesPrototype/SearchFiltersArchivesPrototype';
 import theme from '@weco/common/views/themes/default';
 import TogglesContext from '../TogglesContext/TogglesContext';
 
 type Props = {|
-  searchForm: React.Ref<typeof HTMLFormElement>,
-  searchParams: SearchParams,
+  searchForm: {| current: ?HTMLFormElement |},
+  worksRouteProps: WorksRouteProps,
   workTypeAggregations: CatalogueAggregationBucket[],
   changeHandler: () => void,
 |};
 
 export type SearchFiltersSharedProps = {|
   ...Props,
-  inputDateFrom: string,
-  inputDateTo: string,
-  setInputDateFrom: () => void,
-  setInputDateTo: () => void,
-  workTypeFilters: string[],
+  inputDateFrom: ?string,
+  inputDateTo: ?string,
+  setInputDateFrom: (value: string) => void,
+  setInputDateTo: (value: string) => void,
+  workTypeFilters: CatalogueAggregationBucket[],
   productionDatesFrom: ?string,
   productionDatesTo: ?string,
   workTypeInUrlArray: string[],
@@ -30,22 +34,26 @@ export type SearchFiltersSharedProps = {|
 
 const SearchFilters = ({
   searchForm,
-  searchParams,
+  worksRouteProps,
   workTypeAggregations,
   changeHandler,
 }: Props) => {
-  const workTypeInUrlArray = searchParams.workType || [];
-  const { productionDatesFrom, productionDatesTo } = searchParams;
+  const workTypeInUrlArray = worksRouteProps.workType || [];
+  const { productionDatesFrom, productionDatesTo } = worksRouteProps;
 
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
-  const { unfilteredSearchResults } = useContext(TogglesContext);
+  const { unfilteredSearchResults, archivesPrototype } = useContext(
+    TogglesContext
+  );
 
   const workTypeFilters = unfilteredSearchResults
     ? workTypeAggregations
     : workTypeAggregations.filter(agg =>
-        defaultWorkTypes.includes(agg.data.id)
+        archivesPrototype
+          ? testDefaultWorkTypes.includes(agg.data.id)
+          : defaultWorkTypes.includes(agg.data.id)
       );
 
   useEffect(() => {
@@ -90,7 +98,7 @@ const SearchFilters = ({
 
   const sharedProps = {
     searchForm,
-    searchParams,
+    worksRouteProps,
     workTypeAggregations,
     changeHandler,
     inputDateFrom,
@@ -105,10 +113,16 @@ const SearchFilters = ({
 
   return (
     <>
-      {isMobile ? (
-        <SearchFiltersMobile {...sharedProps} />
+      {archivesPrototype ? (
+        <SearchFiltersArchivesPrototype {...sharedProps} />
       ) : (
-        <SearchFiltersDesktop {...sharedProps} />
+        <>
+          {isMobile ? (
+            <SearchFiltersMobile {...sharedProps} />
+          ) : (
+            <SearchFiltersDesktop {...sharedProps} />
+          )}
+        </>
       )}
     </>
   );

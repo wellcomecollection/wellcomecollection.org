@@ -6,16 +6,17 @@ import {
   type CatalogueApiError,
 } from '@weco/common/model/catalogue';
 import fetch from 'isomorphic-unfetch';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { type IIIFManifest } from '@weco/common/model/iiif';
-import { itemUrl } from '@weco/common/services/catalogue/urls';
-import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
-
+import { itemLink } from '@weco/common/services/catalogue/routes';
+import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import {
   getDownloadOptionsFromManifest,
   getVideo,
   getAudio,
-} from '@weco/common/utils/works';
+  getServiceId,
+  getUiExtensions,
+  isUiEnabled,
+} from '@weco/common/utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -75,39 +76,29 @@ const ItemPage = ({
   audio,
 }: Props) => {
   const title = (manifest && manifest.label) || (work && work.title) || '';
-  const [iiifImageLocation] =
-    work && work.items
-      ? work.items
-          .map(item =>
-            item.locations.find(
-              location => location.locationType.id === 'iiif-image'
-            )
-          )
-          .filter(Boolean)
-      : [null];
+  const iiifImageLocation =
+    work && getDigitalLocationOfType(work, 'iiif-image');
 
-  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
-  const iiifImage =
-    iiifImageLocationUrl && iiifImageTemplate(iiifImageLocationUrl);
-  const imageUrl = iiifImage && iiifImage({ size: '800,' });
-  const mainImageService =
-    currentCanvas && currentCanvas.images[0].resource.service
-      ? {
-          '@id': currentCanvas.images[0].resource.service['@id'],
-        }
-      : null;
-  const downloadOptions = manifest && getDownloadOptionsFromManifest(manifest);
+  const serviceId = getServiceId(currentCanvas);
+  const mainImageService = serviceId && {
+    '@id': serviceId,
+  };
+
+  const showDownloadOptions = manifest
+    ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
+    : true;
+
+  const downloadOptions =
+    showDownloadOptions && manifest && getDownloadOptionsFromManifest(manifest);
+
   const pdfRendering =
     (downloadOptions &&
       downloadOptions.find(option => option.label === 'Download PDF')) ||
     null;
 
-  const searchParams = clientSideSearchParams();
-
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
-    link: itemUrl({
-      ...searchParams,
+    link: itemLink({
       workId,
       page: pageIndex + 1,
       canvas: canvasIndex + 1,
@@ -155,6 +146,7 @@ const ItemPage = ({
                 margin: '98px auto 0',
               }}
               src={audio['@id']}
+              controlsList={!showDownloadOptions ? 'nodownload' : null}
             >
               {`Sorry, your browser doesn't support embedded audio.`}
             </audio>
@@ -173,6 +165,7 @@ const ItemPage = ({
                 display: 'block',
                 margin: '98px auto auto',
               }}
+              controlsList={!showDownloadOptions ? 'nodownload' : null}
             >
               <source src={video['@id']} type={video.format} />
               {`Sorry, your browser doesn't support embedded video.`}
@@ -184,7 +177,7 @@ const ItemPage = ({
         !video &&
         !pdfRendering &&
         !mainImageService &&
-        !iiifImageLocationUrl && (
+        !iiifImageLocation && (
           <Layout12>
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <div style={{ marginTop: '98px' }}>
@@ -205,8 +198,7 @@ const ItemPage = ({
         />
       )}
 
-      {((mainImageService && currentCanvas) ||
-        (imageUrl && iiifImageLocationUrl)) && (
+      {((mainImageService && currentCanvas) || iiifImageLocation) && (
         <IIIFViewer
           title={title}
           mainPaginatorProps={mainPaginatorProps}
@@ -220,8 +212,7 @@ const ItemPage = ({
           sierraId={sierraId}
           pageSize={pageSize}
           canvasIndex={canvasIndex}
-          iiifImageLocationUrl={iiifImageLocationUrl}
-          imageUrl={imageUrl}
+          iiifImageLocation={iiifImageLocation}
           work={work}
           manifest={manifest}
         />
@@ -247,10 +238,10 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   const manifest = manifestUrl ? await (await fetch(manifestUrl)).json() : null;
   const video = manifest && getVideo(manifest);
   const audio = manifest && getAudio(manifest);
-  // The sierraId originates from the iiif presentation manifest url
-  // If we don't have one, we must be trying to display a work with an iiif image location,
-  // so we need to get the work object to get the necessary data to display
-  const work = !sierraId ? await getWork({ id: workId }) : null;
+  const work = await getWork({
+    id: workId,
+    toggles: ctx.query.toggles,
+  });
   const canvases =
     manifest && manifest.sequences && manifest.sequences[0].canvases
       ? manifest.sequences[0].canvases

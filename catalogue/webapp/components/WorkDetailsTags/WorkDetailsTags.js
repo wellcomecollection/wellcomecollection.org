@@ -1,4 +1,5 @@
 // @flow
+// $FlowFixMe (tsx)
 import Tags, { type TagType } from '@weco/common/views/components/Tags/Tags';
 import WorkDetailsProperty from '../WorkDetailsProperty/WorkDetailsProperty';
 

@@ -6,6 +6,7 @@ import DailyTourPromo from '../DailyTourPromo/DailyTourPromo';
 import BookPromo from '../BookPromo/BookPromo';
 import Layout12 from '../Layout12/Layout12';
 import StoryPromo from '../StoryPromo/StoryPromo';
+// $FlowFixMe
 import MoreLink from '../MoreLink/MoreLink';
 import { type Link } from '../../../model/link';
 import { type UiExhibition } from '../../../model/exhibitions';
@@ -51,6 +52,7 @@ const CardGrid = ({
                   l: gridColumns,
                   xl: gridColumns,
                 })]: true,
+                'card-theme card-theme--transparent': itemsHaveTransparentBackground,
               })}
             >
               {item.id === 'tours' && <DailyTourPromo />}
@@ -81,7 +83,6 @@ const CardGrid = ({
                   item={item}
                   position={i}
                   hidePromoText={hidePromoText}
-                  hasTransparentBackground={itemsHaveTransparentBackground}
                 />
               )}
               {item.type === 'books' && (

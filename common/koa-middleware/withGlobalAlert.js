@@ -15,7 +15,7 @@ async function getAndSetGlobalAlert() {
     // TODO: Alert to sentry
   }
 }
-setInterval(getAndSetGlobalAlert, 6000);
+setInterval(getAndSetGlobalAlert, 60000);
 module.exports = function withGlobalAlert(ctx, next) {
   ctx.globalAlert = globalAlert;
   return next();

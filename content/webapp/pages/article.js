@@ -46,8 +46,8 @@ export class ArticlePage extends Component<Props, State> {
   static getInitialProps = async (
     ctx: Context
   ): Promise<?Props | PrismicApiError> => {
-    const { id } = ctx.query;
-    const article = await getArticle(ctx.req, id);
+    const { id, memoizedPrismic } = ctx.query;
+    const article = await getArticle(ctx.req, id, memoizedPrismic);
     if (article) {
       return {
         article,
@@ -73,7 +73,6 @@ export class ArticlePage extends Component<Props, State> {
 
   render() {
     const { article } = this.props;
-
     const breadcrumbs = {
       items: [
         {
@@ -201,6 +200,7 @@ export class ArticlePage extends Component<Props, State> {
         HeroPicture={isImageGallery ? null : maybeHeroPicture}
         heroImageBgColor={isImageGallery ? 'white' : 'cream'}
         TitleTopper={TitleTopper}
+        isContentTypeInfoBeforeMedia={true}
       />
     );
 
