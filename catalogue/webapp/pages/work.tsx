@@ -3,8 +3,8 @@ import Router from 'next/router';
 import {
   Work as WorkType,
   CatalogueApiError,
-  CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
+import { workLink } from '@weco/common/services/catalogue/routes';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import Work from '../components/Work/Work';
 import { getWork } from '../services/catalogue/works';
@@ -45,15 +45,17 @@ WorkPage.getInitialProps = async (ctx: NextPageContext) => {
         });
         res.end();
       } else {
-        Router.push(workResponse.redirectToId);
+        const link = workLink({ id: workResponse.redirectToId });
+        Router.push(link.href, link.as);
       }
     }
 
-    if (workResponse.type === 'Work' || workResponse.type === 'Error') {
-      return {
-        workResponse: workResponse,
-      };
-    }
+    return {
+      workResponse:
+        workResponse.type === 'Work' || workResponse.type === 'Error'
+          ? workResponse
+          : undefined,
+    };
   }
 };
 
