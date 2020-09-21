@@ -23,7 +23,6 @@
     - docker-compose#v3.5.0:
         run: common
         command: ["yarn", "test"]
-        workdir: /usr/src/app/webapp/common
 
 - label: "test catalogue"
   plugins:
