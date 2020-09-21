@@ -264,14 +264,9 @@ function makeArchiveAncestorArray(partOfArray, nextPart) {
     // nextPart.partOf.find(part => {
     //   return nextPart.referenceNumber.includes(part.referenceNumber);
     // })
-  ).reverse();
+  );
 }
 
 export function getArchiveAncestorArray(work: Work): ArchiveNode[] {
-  // console.log('first', work.partOf && work.partOf[0]);
-  // console.log(
-  //   'second',
-  //   makeArchiveAncestorArray([], work.partOf && work.partOf[0])
-  // );
-  return makeArchiveAncestorArray([], work.partOf && work.partOf[0]);
+  return makeArchiveAncestorArray([], work.partOf && work.partOf[0]).reverse();
 }
