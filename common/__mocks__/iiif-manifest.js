@@ -109,12 +109,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/71fa97b2-04b9-4b05-9a14-328b2505edc8/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0001.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/71fa97b2-04b9-4b05-9a14-328b2505edc8',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0001.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -151,12 +150,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/71fa97b2-04b9-4b05-9a14-328b2505edc8',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0001.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/71fa97b2-04b9-4b05-9a14-328b2505edc8/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0001.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -164,7 +163,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/71fa97b2-04b9-4b05-9a14-328b2505edc8',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0001.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -186,12 +185,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/3a234408-2a77-42b3-a27a-25eeebd481c3/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0002.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/3a234408-2a77-42b3-a27a-25eeebd481c3',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0002.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 658,
@@ -228,12 +226,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/3a234408-2a77-42b3-a27a-25eeebd481c3',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0002.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/3a234408-2a77-42b3-a27a-25eeebd481c3/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0002.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -241,7 +239,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/3a234408-2a77-42b3-a27a-25eeebd481c3',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0002.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -263,12 +261,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/0795ab04-7dd6-4f02-81f2-9293d4cf8f63/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0003.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/0795ab04-7dd6-4f02-81f2-9293d4cf8f63',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0003.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 658,
@@ -305,12 +302,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/0795ab04-7dd6-4f02-81f2-9293d4cf8f63',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0003.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/0795ab04-7dd6-4f02-81f2-9293d4cf8f63/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0003.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -318,7 +315,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/0795ab04-7dd6-4f02-81f2-9293d4cf8f63',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0003.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -340,12 +337,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/58a5b293-9707-4860-abad-683eeaa164ae/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0004.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/58a5b293-9707-4860-abad-683eeaa164ae',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0004.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 649,
@@ -382,12 +378,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/58a5b293-9707-4860-abad-683eeaa164ae',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0004.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/58a5b293-9707-4860-abad-683eeaa164ae/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0004.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -395,7 +391,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/58a5b293-9707-4860-abad-683eeaa164ae',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0004.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -417,12 +413,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/e5067dad-1119-4228-8566-3827701e6c65/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0005.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/e5067dad-1119-4228-8566-3827701e6c65',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0005.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 649,
@@ -459,12 +454,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/e5067dad-1119-4228-8566-3827701e6c65',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0005.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/e5067dad-1119-4228-8566-3827701e6c65/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0005.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -472,7 +467,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/e5067dad-1119-4228-8566-3827701e6c65',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0005.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -494,12 +489,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/61b9d696-4fe1-45bc-9276-c06ebef347f8/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0006.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/61b9d696-4fe1-45bc-9276-c06ebef347f8',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0006.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 649,
@@ -536,12 +530,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/61b9d696-4fe1-45bc-9276-c06ebef347f8',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0006.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/61b9d696-4fe1-45bc-9276-c06ebef347f8/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0006.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -549,7 +543,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/61b9d696-4fe1-45bc-9276-c06ebef347f8',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0006.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -571,12 +565,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/c82d4d1f-58e5-4924-8b90-b7e504d0cf72/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0007.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/c82d4d1f-58e5-4924-8b90-b7e504d0cf72',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0007.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 649,
@@ -613,12 +606,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/c82d4d1f-58e5-4924-8b90-b7e504d0cf72',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0007.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/c82d4d1f-58e5-4924-8b90-b7e504d0cf72/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0007.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -626,7 +619,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/c82d4d1f-58e5-4924-8b90-b7e504d0cf72',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0007.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -648,12 +641,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/7e308856-29b6-40d3-a1a8-2c19a0688e4c/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0008.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/7e308856-29b6-40d3-a1a8-2c19a0688e4c',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0008.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 649,
@@ -690,12 +682,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/7e308856-29b6-40d3-a1a8-2c19a0688e4c',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0008.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/7e308856-29b6-40d3-a1a8-2c19a0688e4c/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0008.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -703,7 +695,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/7e308856-29b6-40d3-a1a8-2c19a0688e4c',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0008.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -725,12 +717,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/8e8a6f5e-235c-4764-af06-ecbc384f6840/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0009.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/8e8a6f5e-235c-4764-af06-ecbc384f6840',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0009.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 649,
@@ -767,12 +758,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/8e8a6f5e-235c-4764-af06-ecbc384f6840',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0009.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/8e8a6f5e-235c-4764-af06-ecbc384f6840/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0009.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -780,7 +771,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/8e8a6f5e-235c-4764-af06-ecbc384f6840',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0009.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -802,12 +793,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/d27737d0-6c60-42f5-b401-2950338c21aa/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0010.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/d27737d0-6c60-42f5-b401-2950338c21aa',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0010.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 649,
@@ -844,12 +834,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/d27737d0-6c60-42f5-b401-2950338c21aa',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0010.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/d27737d0-6c60-42f5-b401-2950338c21aa/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0010.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -857,7 +847,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/d27737d0-6c60-42f5-b401-2950338c21aa',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0010.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -879,12 +869,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/e24e8cbe-2bef-4696-8f38-b1dd03bebfc5/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0011.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/e24e8cbe-2bef-4696-8f38-b1dd03bebfc5',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0011.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 649,
@@ -921,12 +910,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/e24e8cbe-2bef-4696-8f38-b1dd03bebfc5',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0011.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/e24e8cbe-2bef-4696-8f38-b1dd03bebfc5/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0011.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -934,7 +923,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/e24e8cbe-2bef-4696-8f38-b1dd03bebfc5',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0011.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -956,12 +945,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/e4d19c66-b348-4b21-b4da-f6f5817ae8e3/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0012.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/e4d19c66-b348-4b21-b4da-f6f5817ae8e3',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0012.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 649,
@@ -998,12 +986,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/e4d19c66-b348-4b21-b4da-f6f5817ae8e3',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0012.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/e4d19c66-b348-4b21-b4da-f6f5817ae8e3/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0012.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1011,7 +999,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/e4d19c66-b348-4b21-b4da-f6f5817ae8e3',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0012.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -1033,12 +1021,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/b72e6cdb-e4c9-469d-a558-c35b51279f3c/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0013.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/b72e6cdb-e4c9-469d-a558-c35b51279f3c',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0013.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 649,
@@ -1075,12 +1062,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b72e6cdb-e4c9-469d-a558-c35b51279f3c',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0013.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/b72e6cdb-e4c9-469d-a558-c35b51279f3c/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0013.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1088,7 +1075,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/b72e6cdb-e4c9-469d-a558-c35b51279f3c',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0013.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -1110,12 +1097,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/bf6644c5-4bae-49e8-b453-fac688876ca5/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0014.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/bf6644c5-4bae-49e8-b453-fac688876ca5',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0014.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 649,
@@ -1152,12 +1138,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/bf6644c5-4bae-49e8-b453-fac688876ca5',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0014.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/bf6644c5-4bae-49e8-b453-fac688876ca5/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0014.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1165,7 +1151,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/bf6644c5-4bae-49e8-b453-fac688876ca5',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0014.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -1187,12 +1173,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/59fc3f17-e4d3-4bfa-bce1-f992ac4043fa/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0015.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/59fc3f17-e4d3-4bfa-bce1-f992ac4043fa',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0015.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 649,
@@ -1229,12 +1214,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/59fc3f17-e4d3-4bfa-bce1-f992ac4043fa',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0015.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/59fc3f17-e4d3-4bfa-bce1-f992ac4043fa/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0015.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1242,7 +1227,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/59fc3f17-e4d3-4bfa-bce1-f992ac4043fa',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0015.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -1264,12 +1249,11 @@ const manifest = {
           label: '12',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/eee3cc1e-7d5b-4338-820c-a6c7d0046eb8/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0016.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/eee3cc1e-7d5b-4338-820c-a6c7d0046eb8',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0016.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 649,
@@ -1306,12 +1290,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/eee3cc1e-7d5b-4338-820c-a6c7d0046eb8',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0016.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/eee3cc1e-7d5b-4338-820c-a6c7d0046eb8/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0016.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1319,7 +1303,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/eee3cc1e-7d5b-4338-820c-a6c7d0046eb8',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0016.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -1341,12 +1325,11 @@ const manifest = {
           label: '13',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/2561bc05-5a8b-46bd-91de-565fbf4360c0/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0017.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/2561bc05-5a8b-46bd-91de-565fbf4360c0',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0017.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 649,
@@ -1383,12 +1366,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/2561bc05-5a8b-46bd-91de-565fbf4360c0',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0017.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/2561bc05-5a8b-46bd-91de-565fbf4360c0/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0017.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1396,7 +1379,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/2561bc05-5a8b-46bd-91de-565fbf4360c0',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0017.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -1418,12 +1401,11 @@ const manifest = {
           label: '14',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/f4431205-b1e1-48e5-882c-f95681519abb/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0018.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/f4431205-b1e1-48e5-882c-f95681519abb',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0018.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 649,
@@ -1460,12 +1442,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/f4431205-b1e1-48e5-882c-f95681519abb',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0018.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/f4431205-b1e1-48e5-882c-f95681519abb/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0018.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1473,7 +1455,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/f4431205-b1e1-48e5-882c-f95681519abb',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0018.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -1495,12 +1477,11 @@ const manifest = {
           label: '15',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/71d2e185-85f7-48d8-a67e-26dccb2cf2e4/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0019.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/71d2e185-85f7-48d8-a67e-26dccb2cf2e4',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0019.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 649,
@@ -1537,12 +1518,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/71d2e185-85f7-48d8-a67e-26dccb2cf2e4',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0019.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/71d2e185-85f7-48d8-a67e-26dccb2cf2e4/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0019.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1550,7 +1531,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/71d2e185-85f7-48d8-a67e-26dccb2cf2e4',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0019.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -1572,12 +1553,11 @@ const manifest = {
           label: '16',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/49ba0ddb-3c99-455e-af8f-3ea859f3e660/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0020.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/49ba0ddb-3c99-455e-af8f-3ea859f3e660',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0020.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 649,
@@ -1614,12 +1594,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/49ba0ddb-3c99-455e-af8f-3ea859f3e660',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0020.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/49ba0ddb-3c99-455e-af8f-3ea859f3e660/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0020.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1627,7 +1607,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/49ba0ddb-3c99-455e-af8f-3ea859f3e660',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0020.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -1649,12 +1629,11 @@ const manifest = {
           label: '17',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/1dd1fa20-19bf-42a9-a103-53ae81988f7a/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0021.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/1dd1fa20-19bf-42a9-a103-53ae81988f7a',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0021.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 649,
@@ -1691,12 +1670,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/1dd1fa20-19bf-42a9-a103-53ae81988f7a',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0021.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/1dd1fa20-19bf-42a9-a103-53ae81988f7a/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0021.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1704,7 +1683,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/1dd1fa20-19bf-42a9-a103-53ae81988f7a',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0021.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -1726,12 +1705,11 @@ const manifest = {
           label: '18',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/ea05be86-0018-47da-8015-b478125cbf70/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0022.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/ea05be86-0018-47da-8015-b478125cbf70',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0022.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -1768,12 +1746,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/ea05be86-0018-47da-8015-b478125cbf70',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0022.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/ea05be86-0018-47da-8015-b478125cbf70/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0022.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1781,7 +1759,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/ea05be86-0018-47da-8015-b478125cbf70',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0022.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -1803,12 +1781,11 @@ const manifest = {
           label: '19',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/43b5bdce-93c2-45ac-82c6-8e0d57625d05/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0023.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/43b5bdce-93c2-45ac-82c6-8e0d57625d05',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0023.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -1845,12 +1822,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/43b5bdce-93c2-45ac-82c6-8e0d57625d05',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0023.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/43b5bdce-93c2-45ac-82c6-8e0d57625d05/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0023.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1858,7 +1835,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/43b5bdce-93c2-45ac-82c6-8e0d57625d05',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0023.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -1880,12 +1857,11 @@ const manifest = {
           label: '20',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/cee483eb-c8dc-4b53-91ee-9548a117864f/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0024.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/cee483eb-c8dc-4b53-91ee-9548a117864f',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0024.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -1922,12 +1898,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/cee483eb-c8dc-4b53-91ee-9548a117864f',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0024.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/cee483eb-c8dc-4b53-91ee-9548a117864f/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0024.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1935,7 +1911,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/cee483eb-c8dc-4b53-91ee-9548a117864f',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0024.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -1957,12 +1933,11 @@ const manifest = {
           label: '21',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/df783b8d-9efa-4f89-9992-98143e6a23e5/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0025.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/df783b8d-9efa-4f89-9992-98143e6a23e5',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0025.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -1999,12 +1974,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/df783b8d-9efa-4f89-9992-98143e6a23e5',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0025.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/df783b8d-9efa-4f89-9992-98143e6a23e5/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0025.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2012,7 +1987,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/df783b8d-9efa-4f89-9992-98143e6a23e5',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0025.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -2034,12 +2009,11 @@ const manifest = {
           label: '22',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/c71e916e-35e5-48a7-be91-79cc3dd83544/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0026.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/c71e916e-35e5-48a7-be91-79cc3dd83544',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0026.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -2076,12 +2050,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/c71e916e-35e5-48a7-be91-79cc3dd83544',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0026.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/c71e916e-35e5-48a7-be91-79cc3dd83544/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0026.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2089,7 +2063,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/c71e916e-35e5-48a7-be91-79cc3dd83544',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0026.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -2111,12 +2085,11 @@ const manifest = {
           label: '23',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/fe43bb63-9125-43b0-9463-cc4fa86d07b6/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0027.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/fe43bb63-9125-43b0-9463-cc4fa86d07b6',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0027.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -2153,12 +2126,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/fe43bb63-9125-43b0-9463-cc4fa86d07b6',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0027.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/fe43bb63-9125-43b0-9463-cc4fa86d07b6/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0027.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2166,7 +2139,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/fe43bb63-9125-43b0-9463-cc4fa86d07b6',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0027.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -2188,12 +2161,11 @@ const manifest = {
           label: '24',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/a4d9bedf-7d0f-45a1-8272-7bb394ae1b51/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0028.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/a4d9bedf-7d0f-45a1-8272-7bb394ae1b51',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0028.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -2230,12 +2202,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/a4d9bedf-7d0f-45a1-8272-7bb394ae1b51',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0028.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/a4d9bedf-7d0f-45a1-8272-7bb394ae1b51/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0028.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2243,7 +2215,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/a4d9bedf-7d0f-45a1-8272-7bb394ae1b51',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0028.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -2265,12 +2237,11 @@ const manifest = {
           label: '25',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/a183a433-f3fe-4ae6-9594-fdc111b78923/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0029.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/a183a433-f3fe-4ae6-9594-fdc111b78923',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0029.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -2307,12 +2278,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/a183a433-f3fe-4ae6-9594-fdc111b78923',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0029.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/a183a433-f3fe-4ae6-9594-fdc111b78923/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0029.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2320,7 +2291,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/a183a433-f3fe-4ae6-9594-fdc111b78923',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0029.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -2342,12 +2313,11 @@ const manifest = {
           label: '26',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/96b8d94f-d4a8-48a4-a980-5674757be6f5/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0030.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/96b8d94f-d4a8-48a4-a980-5674757be6f5',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0030.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -2384,12 +2354,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/96b8d94f-d4a8-48a4-a980-5674757be6f5',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0030.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/96b8d94f-d4a8-48a4-a980-5674757be6f5/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0030.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2397,7 +2367,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/96b8d94f-d4a8-48a4-a980-5674757be6f5',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0030.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -2419,12 +2389,11 @@ const manifest = {
           label: '27',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/2eda183a-20fc-4c15-aecf-bac383bee548/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0031.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/2eda183a-20fc-4c15-aecf-bac383bee548',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0031.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -2461,12 +2430,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/2eda183a-20fc-4c15-aecf-bac383bee548',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0031.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/2eda183a-20fc-4c15-aecf-bac383bee548/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0031.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2474,7 +2443,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/2eda183a-20fc-4c15-aecf-bac383bee548',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0031.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -2496,12 +2465,11 @@ const manifest = {
           label: '28',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/682a5dea-cb08-4a41-8f00-13b82b0fdb55/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0032.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/682a5dea-cb08-4a41-8f00-13b82b0fdb55',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0032.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -2538,12 +2506,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/682a5dea-cb08-4a41-8f00-13b82b0fdb55',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0032.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/682a5dea-cb08-4a41-8f00-13b82b0fdb55/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0032.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2551,7 +2519,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/682a5dea-cb08-4a41-8f00-13b82b0fdb55',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0032.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -2573,12 +2541,11 @@ const manifest = {
           label: '29',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/38519225-7a87-4c29-b2a9-54a14f3f313e/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0033.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/38519225-7a87-4c29-b2a9-54a14f3f313e',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0033.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -2615,12 +2582,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/38519225-7a87-4c29-b2a9-54a14f3f313e',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0033.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/38519225-7a87-4c29-b2a9-54a14f3f313e/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0033.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2628,7 +2595,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/38519225-7a87-4c29-b2a9-54a14f3f313e',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0033.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -2650,12 +2617,11 @@ const manifest = {
           label: '30',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/71e423b8-6d1d-49af-890e-9d11170e3c0d/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0034.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/71e423b8-6d1d-49af-890e-9d11170e3c0d',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0034.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -2692,12 +2658,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/71e423b8-6d1d-49af-890e-9d11170e3c0d',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0034.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/71e423b8-6d1d-49af-890e-9d11170e3c0d/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0034.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2705,7 +2671,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/71e423b8-6d1d-49af-890e-9d11170e3c0d',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0034.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -2727,12 +2693,11 @@ const manifest = {
           label: '31',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/65064d88-3fc1-4571-bd7d-ec2eac8f2372/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0035.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/65064d88-3fc1-4571-bd7d-ec2eac8f2372',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0035.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -2769,12 +2734,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/65064d88-3fc1-4571-bd7d-ec2eac8f2372',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0035.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/65064d88-3fc1-4571-bd7d-ec2eac8f2372/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0035.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2782,7 +2747,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/65064d88-3fc1-4571-bd7d-ec2eac8f2372',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0035.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -2804,12 +2769,11 @@ const manifest = {
           label: '32',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/ff7eedf4-620b-49cf-9f45-5129cba79c21/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0036.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/ff7eedf4-620b-49cf-9f45-5129cba79c21',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0036.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -2846,12 +2810,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/ff7eedf4-620b-49cf-9f45-5129cba79c21',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0036.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/ff7eedf4-620b-49cf-9f45-5129cba79c21/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0036.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2859,7 +2823,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/ff7eedf4-620b-49cf-9f45-5129cba79c21',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0036.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -2881,12 +2845,11 @@ const manifest = {
           label: '33',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/b7d51cf2-87b5-4459-b686-6a08ad83ba52/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0037.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/b7d51cf2-87b5-4459-b686-6a08ad83ba52',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0037.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -2923,12 +2886,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b7d51cf2-87b5-4459-b686-6a08ad83ba52',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0037.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/b7d51cf2-87b5-4459-b686-6a08ad83ba52/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0037.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2936,7 +2899,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/b7d51cf2-87b5-4459-b686-6a08ad83ba52',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0037.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -2958,12 +2921,11 @@ const manifest = {
           label: '34',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/c569de3f-5ee1-40fd-abb9-b3c063bb7ba5/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0038.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/c569de3f-5ee1-40fd-abb9-b3c063bb7ba5',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0038.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -3000,12 +2962,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/c569de3f-5ee1-40fd-abb9-b3c063bb7ba5',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0038.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/c569de3f-5ee1-40fd-abb9-b3c063bb7ba5/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0038.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3013,7 +2975,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/c569de3f-5ee1-40fd-abb9-b3c063bb7ba5',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0038.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -3035,12 +2997,11 @@ const manifest = {
           label: '35',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/f6263c78-7ea4-4264-bdac-0a5b664e18e4/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0039.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/f6263c78-7ea4-4264-bdac-0a5b664e18e4',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0039.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -3077,12 +3038,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/f6263c78-7ea4-4264-bdac-0a5b664e18e4',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0039.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/f6263c78-7ea4-4264-bdac-0a5b664e18e4/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0039.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3090,7 +3051,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/f6263c78-7ea4-4264-bdac-0a5b664e18e4',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0039.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -3112,12 +3073,11 @@ const manifest = {
           label: '36',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/1c98f6de-185e-4205-b99f-ea45a0be0e83/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0040.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/1c98f6de-185e-4205-b99f-ea45a0be0e83',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0040.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -3154,12 +3114,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/1c98f6de-185e-4205-b99f-ea45a0be0e83',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0040.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/1c98f6de-185e-4205-b99f-ea45a0be0e83/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0040.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3167,7 +3127,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/1c98f6de-185e-4205-b99f-ea45a0be0e83',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0040.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -3189,12 +3149,11 @@ const manifest = {
           label: '37',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/1bbfcdf3-d4e2-4e1a-bbdd-939f93002d86/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0041.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/1bbfcdf3-d4e2-4e1a-bbdd-939f93002d86',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0041.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -3231,12 +3190,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/1bbfcdf3-d4e2-4e1a-bbdd-939f93002d86',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0041.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/1bbfcdf3-d4e2-4e1a-bbdd-939f93002d86/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0041.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3244,7 +3203,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/1bbfcdf3-d4e2-4e1a-bbdd-939f93002d86',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0041.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -3266,12 +3225,11 @@ const manifest = {
           label: '38',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/8a4feaf2-0503-430d-bcdf-74311c309dfe/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0042.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/8a4feaf2-0503-430d-bcdf-74311c309dfe',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0042.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -3308,12 +3266,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/8a4feaf2-0503-430d-bcdf-74311c309dfe',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0042.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/8a4feaf2-0503-430d-bcdf-74311c309dfe/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0042.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3321,7 +3279,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/8a4feaf2-0503-430d-bcdf-74311c309dfe',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0042.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -3343,12 +3301,11 @@ const manifest = {
           label: '39',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/b3f80c97-8681-4a6e-9d9b-2235dbf6a22e/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0043.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/b3f80c97-8681-4a6e-9d9b-2235dbf6a22e',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0043.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -3385,12 +3342,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b3f80c97-8681-4a6e-9d9b-2235dbf6a22e',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0043.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/b3f80c97-8681-4a6e-9d9b-2235dbf6a22e/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0043.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3398,7 +3355,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/b3f80c97-8681-4a6e-9d9b-2235dbf6a22e',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0043.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -3420,12 +3377,11 @@ const manifest = {
           label: '40',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/8f5cbf6b-a5a8-4230-87c0-ce33f7790a09/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0044.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/8f5cbf6b-a5a8-4230-87c0-ce33f7790a09',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0044.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -3462,12 +3418,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/8f5cbf6b-a5a8-4230-87c0-ce33f7790a09',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0044.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/8f5cbf6b-a5a8-4230-87c0-ce33f7790a09/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0044.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3475,7 +3431,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/8f5cbf6b-a5a8-4230-87c0-ce33f7790a09',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0044.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -3497,12 +3453,11 @@ const manifest = {
           label: '41',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/ee867732-a810-4ecc-a359-31f161a83a44/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0045.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/ee867732-a810-4ecc-a359-31f161a83a44',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0045.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -3539,12 +3494,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/ee867732-a810-4ecc-a359-31f161a83a44',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0045.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/ee867732-a810-4ecc-a359-31f161a83a44/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0045.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3552,7 +3507,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/ee867732-a810-4ecc-a359-31f161a83a44',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0045.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -3574,12 +3529,11 @@ const manifest = {
           label: '42',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/be9eeaff-55fd-4b47-ad44-9c5dd12bf536/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0046.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/be9eeaff-55fd-4b47-ad44-9c5dd12bf536',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0046.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -3616,12 +3570,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/be9eeaff-55fd-4b47-ad44-9c5dd12bf536',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0046.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/be9eeaff-55fd-4b47-ad44-9c5dd12bf536/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0046.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3629,7 +3583,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/be9eeaff-55fd-4b47-ad44-9c5dd12bf536',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0046.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -3651,12 +3605,11 @@ const manifest = {
           label: '43',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/2b03d96e-3b4f-4783-8db6-1c3926cef619/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0047.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/2b03d96e-3b4f-4783-8db6-1c3926cef619',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0047.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -3693,12 +3646,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/2b03d96e-3b4f-4783-8db6-1c3926cef619',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0047.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/2b03d96e-3b4f-4783-8db6-1c3926cef619/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0047.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3706,7 +3659,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/2b03d96e-3b4f-4783-8db6-1c3926cef619',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0047.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -3728,12 +3681,11 @@ const manifest = {
           label: '44',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/47709d62-978f-4daf-98b8-bdacc96582ee/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0048.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/47709d62-978f-4daf-98b8-bdacc96582ee',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0048.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -3770,12 +3722,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/47709d62-978f-4daf-98b8-bdacc96582ee',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0048.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/47709d62-978f-4daf-98b8-bdacc96582ee/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0048.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3783,7 +3735,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/47709d62-978f-4daf-98b8-bdacc96582ee',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0048.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -3805,12 +3757,11 @@ const manifest = {
           label: '45',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/797311e9-5f30-449e-8102-8cf9cc361dbd/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0049.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/797311e9-5f30-449e-8102-8cf9cc361dbd',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0049.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -3847,12 +3798,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/797311e9-5f30-449e-8102-8cf9cc361dbd',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0049.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/797311e9-5f30-449e-8102-8cf9cc361dbd/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0049.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3860,7 +3811,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/797311e9-5f30-449e-8102-8cf9cc361dbd',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0049.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -3882,12 +3833,11 @@ const manifest = {
           label: '46',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/d8d63f46-59f7-49c8-bab2-0fc58c668b66/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0050.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/d8d63f46-59f7-49c8-bab2-0fc58c668b66',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0050.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -3924,12 +3874,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/d8d63f46-59f7-49c8-bab2-0fc58c668b66',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0050.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/d8d63f46-59f7-49c8-bab2-0fc58c668b66/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0050.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3937,7 +3887,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/d8d63f46-59f7-49c8-bab2-0fc58c668b66',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0050.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -3959,12 +3909,11 @@ const manifest = {
           label: '47',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/b9660baf-4b2e-45be-af9f-fdb58fcce85f/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0051.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/b9660baf-4b2e-45be-af9f-fdb58fcce85f',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0051.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -4001,12 +3950,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b9660baf-4b2e-45be-af9f-fdb58fcce85f',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0051.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/b9660baf-4b2e-45be-af9f-fdb58fcce85f/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0051.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4014,7 +3963,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/b9660baf-4b2e-45be-af9f-fdb58fcce85f',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0051.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -4036,12 +3985,11 @@ const manifest = {
           label: '48',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/37e77f1b-3c00-4dcd-97bf-bceffaddea26/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0052.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/37e77f1b-3c00-4dcd-97bf-bceffaddea26',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0052.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -4078,12 +4026,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/37e77f1b-3c00-4dcd-97bf-bceffaddea26',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0052.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/37e77f1b-3c00-4dcd-97bf-bceffaddea26/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0052.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4091,7 +4039,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/37e77f1b-3c00-4dcd-97bf-bceffaddea26',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0052.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -4113,12 +4061,11 @@ const manifest = {
           label: '49',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/513c473d-5d30-4674-9515-7e64e02dd5f4/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0053.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/513c473d-5d30-4674-9515-7e64e02dd5f4',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0053.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -4155,12 +4102,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/513c473d-5d30-4674-9515-7e64e02dd5f4',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0053.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/513c473d-5d30-4674-9515-7e64e02dd5f4/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0053.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4168,7 +4115,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/513c473d-5d30-4674-9515-7e64e02dd5f4',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0053.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -4190,12 +4137,11 @@ const manifest = {
           label: '50',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/30c3f81c-26e9-4c1b-8692-706e7703889a/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0054.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/30c3f81c-26e9-4c1b-8692-706e7703889a',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0054.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -4232,12 +4178,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/30c3f81c-26e9-4c1b-8692-706e7703889a',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0054.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/30c3f81c-26e9-4c1b-8692-706e7703889a/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0054.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4245,7 +4191,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/30c3f81c-26e9-4c1b-8692-706e7703889a',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0054.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -4267,12 +4213,11 @@ const manifest = {
           label: '51',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/258d8594-ee2a-41e6-984e-f8225310dc86/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0055.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/258d8594-ee2a-41e6-984e-f8225310dc86',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0055.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -4309,12 +4254,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/258d8594-ee2a-41e6-984e-f8225310dc86',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0055.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/258d8594-ee2a-41e6-984e-f8225310dc86/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0055.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4322,7 +4267,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/258d8594-ee2a-41e6-984e-f8225310dc86',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0055.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -4344,12 +4289,11 @@ const manifest = {
           label: '52',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/582bfa2f-d6f7-483e-84ec-8a3346185e79/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0056.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/582bfa2f-d6f7-483e-84ec-8a3346185e79',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0056.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -4386,12 +4330,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/582bfa2f-d6f7-483e-84ec-8a3346185e79',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0056.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/582bfa2f-d6f7-483e-84ec-8a3346185e79/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0056.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4399,7 +4343,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/582bfa2f-d6f7-483e-84ec-8a3346185e79',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0056.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -4421,12 +4365,11 @@ const manifest = {
           label: '53',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/85667776-2260-44a1-8c62-7278dcf1b797/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0057.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/85667776-2260-44a1-8c62-7278dcf1b797',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0057.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -4463,12 +4406,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/85667776-2260-44a1-8c62-7278dcf1b797',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0057.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/85667776-2260-44a1-8c62-7278dcf1b797/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0057.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4476,7 +4419,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/85667776-2260-44a1-8c62-7278dcf1b797',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0057.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -4498,12 +4441,11 @@ const manifest = {
           label: '54',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/6419efc7-9730-40f1-873e-4ef9db077260/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0058.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/6419efc7-9730-40f1-873e-4ef9db077260',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0058.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -4540,12 +4482,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/6419efc7-9730-40f1-873e-4ef9db077260',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0058.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/6419efc7-9730-40f1-873e-4ef9db077260/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0058.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4553,7 +4495,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/6419efc7-9730-40f1-873e-4ef9db077260',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0058.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -4575,12 +4517,11 @@ const manifest = {
           label: '55',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/0baf231d-01ed-4792-be9e-838e37452d3d/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0059.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/0baf231d-01ed-4792-be9e-838e37452d3d',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0059.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -4617,12 +4558,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/0baf231d-01ed-4792-be9e-838e37452d3d',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0059.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/0baf231d-01ed-4792-be9e-838e37452d3d/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0059.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4630,7 +4571,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/0baf231d-01ed-4792-be9e-838e37452d3d',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0059.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -4652,12 +4593,11 @@ const manifest = {
           label: '56',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/39094237-64a4-4c8e-acf9-d1677ca9eabd/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0060.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/39094237-64a4-4c8e-acf9-d1677ca9eabd',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0060.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -4694,12 +4634,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/39094237-64a4-4c8e-acf9-d1677ca9eabd',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0060.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/39094237-64a4-4c8e-acf9-d1677ca9eabd/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0060.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4707,7 +4647,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/39094237-64a4-4c8e-acf9-d1677ca9eabd',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0060.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -4729,12 +4669,11 @@ const manifest = {
           label: '57',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/889bfc7e-f9d9-49b3-9146-ef44ea227153/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0061.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/889bfc7e-f9d9-49b3-9146-ef44ea227153',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0061.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -4771,12 +4710,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/889bfc7e-f9d9-49b3-9146-ef44ea227153',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0061.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/889bfc7e-f9d9-49b3-9146-ef44ea227153/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0061.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4784,7 +4723,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/889bfc7e-f9d9-49b3-9146-ef44ea227153',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0061.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -4806,12 +4745,11 @@ const manifest = {
           label: '58',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/27d2f74f-5972-4edc-a352-43dff1c9d6ff/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0062.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/27d2f74f-5972-4edc-a352-43dff1c9d6ff',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0062.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -4848,12 +4786,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/27d2f74f-5972-4edc-a352-43dff1c9d6ff',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0062.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/27d2f74f-5972-4edc-a352-43dff1c9d6ff/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0062.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4861,7 +4799,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/27d2f74f-5972-4edc-a352-43dff1c9d6ff',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0062.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -4883,12 +4821,11 @@ const manifest = {
           label: '59',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/5a94cd4b-5b47-413b-8e4f-5e83c29915dc/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0063.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/5a94cd4b-5b47-413b-8e4f-5e83c29915dc',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0063.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -4925,12 +4862,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/5a94cd4b-5b47-413b-8e4f-5e83c29915dc',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0063.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/5a94cd4b-5b47-413b-8e4f-5e83c29915dc/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0063.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4938,7 +4875,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/5a94cd4b-5b47-413b-8e4f-5e83c29915dc',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0063.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -4960,12 +4897,11 @@ const manifest = {
           label: '60',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/72984c51-877a-4901-be62-348a25f16272/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0064.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/72984c51-877a-4901-be62-348a25f16272',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0064.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -5002,12 +4938,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/72984c51-877a-4901-be62-348a25f16272',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0064.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/72984c51-877a-4901-be62-348a25f16272/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0064.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5015,7 +4951,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/72984c51-877a-4901-be62-348a25f16272',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0064.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -5037,12 +4973,11 @@ const manifest = {
           label: '61',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/a2213f32-0f1e-4241-b87d-69cb7bdb19b2/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0065.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/a2213f32-0f1e-4241-b87d-69cb7bdb19b2',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0065.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -5079,12 +5014,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/a2213f32-0f1e-4241-b87d-69cb7bdb19b2',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0065.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/a2213f32-0f1e-4241-b87d-69cb7bdb19b2/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0065.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5092,7 +5027,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/a2213f32-0f1e-4241-b87d-69cb7bdb19b2',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0065.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -5114,12 +5049,11 @@ const manifest = {
           label: '62',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/98a1943a-575b-465b-93a4-246a6c54f1c9/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0066.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/98a1943a-575b-465b-93a4-246a6c54f1c9',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0066.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -5156,12 +5090,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/98a1943a-575b-465b-93a4-246a6c54f1c9',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0066.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/98a1943a-575b-465b-93a4-246a6c54f1c9/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0066.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5169,7 +5103,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/98a1943a-575b-465b-93a4-246a6c54f1c9',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0066.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -5191,12 +5125,11 @@ const manifest = {
           label: '63',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/b68290d8-64f1-4c32-a71d-a4cd228916b9/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0067.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/b68290d8-64f1-4c32-a71d-a4cd228916b9',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0067.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -5233,12 +5166,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b68290d8-64f1-4c32-a71d-a4cd228916b9',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0067.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/b68290d8-64f1-4c32-a71d-a4cd228916b9/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0067.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5246,7 +5179,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/b68290d8-64f1-4c32-a71d-a4cd228916b9',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0067.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -5268,12 +5201,11 @@ const manifest = {
           label: '64',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/a4168ab1-4ba9-416e-860d-7f5a13051897/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0068.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/a4168ab1-4ba9-416e-860d-7f5a13051897',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0068.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -5310,12 +5242,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/a4168ab1-4ba9-416e-860d-7f5a13051897',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0068.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/a4168ab1-4ba9-416e-860d-7f5a13051897/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0068.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5323,7 +5255,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/a4168ab1-4ba9-416e-860d-7f5a13051897',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0068.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -5345,12 +5277,11 @@ const manifest = {
           label: '65',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/c9e79f1f-5be5-479b-b9a6-c2ee0443a639/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0069.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/c9e79f1f-5be5-479b-b9a6-c2ee0443a639',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0069.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -5387,12 +5318,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/c9e79f1f-5be5-479b-b9a6-c2ee0443a639',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0069.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/c9e79f1f-5be5-479b-b9a6-c2ee0443a639/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0069.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5400,7 +5331,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/c9e79f1f-5be5-479b-b9a6-c2ee0443a639',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0069.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -5422,12 +5353,11 @@ const manifest = {
           label: '66',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/ef01a70b-7443-4828-bdd0-f5c492c9ec13/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0070.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/ef01a70b-7443-4828-bdd0-f5c492c9ec13',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0070.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -5464,12 +5394,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/ef01a70b-7443-4828-bdd0-f5c492c9ec13',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0070.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/ef01a70b-7443-4828-bdd0-f5c492c9ec13/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0070.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5477,7 +5407,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/ef01a70b-7443-4828-bdd0-f5c492c9ec13',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0070.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -5499,12 +5429,11 @@ const manifest = {
           label: '67',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/6d55014a-7475-44ad-92ee-cbb3589d9f11/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0071.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/6d55014a-7475-44ad-92ee-cbb3589d9f11',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0071.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -5541,12 +5470,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/6d55014a-7475-44ad-92ee-cbb3589d9f11',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0071.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/6d55014a-7475-44ad-92ee-cbb3589d9f11/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0071.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5554,7 +5483,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/6d55014a-7475-44ad-92ee-cbb3589d9f11',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0071.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -5576,12 +5505,11 @@ const manifest = {
           label: '68',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/7b39b75f-f493-4dde-9c25-38a81fb0ff16/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0072.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/7b39b75f-f493-4dde-9c25-38a81fb0ff16',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0072.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -5618,12 +5546,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/7b39b75f-f493-4dde-9c25-38a81fb0ff16',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0072.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/7b39b75f-f493-4dde-9c25-38a81fb0ff16/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0072.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5631,7 +5559,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/7b39b75f-f493-4dde-9c25-38a81fb0ff16',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0072.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -5653,12 +5581,11 @@ const manifest = {
           label: '69',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/4781d5e2-8432-4e47-87b3-7b8175c394e0/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0073.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/4781d5e2-8432-4e47-87b3-7b8175c394e0',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0073.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -5695,12 +5622,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/4781d5e2-8432-4e47-87b3-7b8175c394e0',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0073.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/4781d5e2-8432-4e47-87b3-7b8175c394e0/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0073.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5708,7 +5635,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/4781d5e2-8432-4e47-87b3-7b8175c394e0',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0073.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -5730,12 +5657,11 @@ const manifest = {
           label: '70',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/62188860-3ef5-4797-ad8d-18a4de46a9b2/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0074.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/62188860-3ef5-4797-ad8d-18a4de46a9b2',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0074.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -5772,12 +5698,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/62188860-3ef5-4797-ad8d-18a4de46a9b2',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0074.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/62188860-3ef5-4797-ad8d-18a4de46a9b2/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0074.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5785,7 +5711,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/62188860-3ef5-4797-ad8d-18a4de46a9b2',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0074.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -5807,12 +5733,11 @@ const manifest = {
           label: '71',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/22406dc3-f973-47b6-bcdc-b5dd06edcf74/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0075.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/22406dc3-f973-47b6-bcdc-b5dd06edcf74',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0075.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -5849,12 +5774,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/22406dc3-f973-47b6-bcdc-b5dd06edcf74',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0075.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/22406dc3-f973-47b6-bcdc-b5dd06edcf74/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0075.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5862,7 +5787,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/22406dc3-f973-47b6-bcdc-b5dd06edcf74',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0075.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -5884,12 +5809,11 @@ const manifest = {
           label: '72',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/073e8b71-020f-4312-9a49-4c26f99ad461/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0076.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/073e8b71-020f-4312-9a49-4c26f99ad461',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0076.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -5926,12 +5850,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/073e8b71-020f-4312-9a49-4c26f99ad461',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0076.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/073e8b71-020f-4312-9a49-4c26f99ad461/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0076.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5939,7 +5863,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/073e8b71-020f-4312-9a49-4c26f99ad461',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0076.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -5961,12 +5885,11 @@ const manifest = {
           label: '73',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/08a99b46-a91b-4cb3-a814-61920c7acce1/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0077.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/08a99b46-a91b-4cb3-a814-61920c7acce1',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0077.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -6003,12 +5926,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/08a99b46-a91b-4cb3-a814-61920c7acce1',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0077.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/08a99b46-a91b-4cb3-a814-61920c7acce1/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0077.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6016,7 +5939,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/08a99b46-a91b-4cb3-a814-61920c7acce1',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0077.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -6038,12 +5961,11 @@ const manifest = {
           label: '74',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/b9e7d491-7bef-4108-bf19-31a897363552/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0078.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/b9e7d491-7bef-4108-bf19-31a897363552',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0078.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -6080,12 +6002,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b9e7d491-7bef-4108-bf19-31a897363552',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0078.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/b9e7d491-7bef-4108-bf19-31a897363552/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0078.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6093,7 +6015,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/b9e7d491-7bef-4108-bf19-31a897363552',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0078.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -6115,12 +6037,11 @@ const manifest = {
           label: '75',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/3672c58b-75c5-4d0f-a2ed-becebcb361c1/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0079.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/3672c58b-75c5-4d0f-a2ed-becebcb361c1',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0079.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -6157,12 +6078,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/3672c58b-75c5-4d0f-a2ed-becebcb361c1',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0079.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/3672c58b-75c5-4d0f-a2ed-becebcb361c1/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0079.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6170,7 +6091,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/3672c58b-75c5-4d0f-a2ed-becebcb361c1',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0079.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -6192,12 +6113,11 @@ const manifest = {
           label: '76',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/7a8d1adc-dc09-4e8f-a514-649838e442b7/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0080.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/7a8d1adc-dc09-4e8f-a514-649838e442b7',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0080.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -6234,12 +6154,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/7a8d1adc-dc09-4e8f-a514-649838e442b7',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0080.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/7a8d1adc-dc09-4e8f-a514-649838e442b7/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0080.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6247,7 +6167,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/7a8d1adc-dc09-4e8f-a514-649838e442b7',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0080.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -6269,12 +6189,11 @@ const manifest = {
           label: '77',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/8007537f-55e3-437b-a403-d0980818f211/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0081.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/8007537f-55e3-437b-a403-d0980818f211',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0081.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -6311,12 +6230,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/8007537f-55e3-437b-a403-d0980818f211',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0081.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/8007537f-55e3-437b-a403-d0980818f211/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0081.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6324,7 +6243,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/8007537f-55e3-437b-a403-d0980818f211',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0081.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -6346,12 +6265,11 @@ const manifest = {
           label: '78',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/d9ad8bd5-30ec-4fe2-b8d7-fa3b4ed5f76d/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0082.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/d9ad8bd5-30ec-4fe2-b8d7-fa3b4ed5f76d',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0082.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -6388,12 +6306,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/d9ad8bd5-30ec-4fe2-b8d7-fa3b4ed5f76d',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0082.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/d9ad8bd5-30ec-4fe2-b8d7-fa3b4ed5f76d/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0082.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6401,7 +6319,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/d9ad8bd5-30ec-4fe2-b8d7-fa3b4ed5f76d',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0082.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -6423,12 +6341,11 @@ const manifest = {
           label: '79',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/cbe7f36d-057f-486c-9aac-6cd9b88924f5/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0083.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/cbe7f36d-057f-486c-9aac-6cd9b88924f5',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0083.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -6465,12 +6382,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/cbe7f36d-057f-486c-9aac-6cd9b88924f5',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0083.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/cbe7f36d-057f-486c-9aac-6cd9b88924f5/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0083.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6478,7 +6395,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/cbe7f36d-057f-486c-9aac-6cd9b88924f5',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0083.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -6500,12 +6417,11 @@ const manifest = {
           label: '80',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/1dc23bb0-254b-460e-8db8-4257b445fe61/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0084.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/1dc23bb0-254b-460e-8db8-4257b445fe61',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0084.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -6542,12 +6458,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/1dc23bb0-254b-460e-8db8-4257b445fe61',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0084.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/1dc23bb0-254b-460e-8db8-4257b445fe61/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0084.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6555,7 +6471,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/1dc23bb0-254b-460e-8db8-4257b445fe61',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0084.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -6577,12 +6493,11 @@ const manifest = {
           label: '81',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/21851eda-3dc8-4d44-8ef6-250cf7759606/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0085.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/21851eda-3dc8-4d44-8ef6-250cf7759606',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0085.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -6619,12 +6534,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/21851eda-3dc8-4d44-8ef6-250cf7759606',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0085.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/21851eda-3dc8-4d44-8ef6-250cf7759606/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0085.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6632,7 +6547,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/21851eda-3dc8-4d44-8ef6-250cf7759606',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0085.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -6654,12 +6569,11 @@ const manifest = {
           label: '82',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/4ab04f14-0f4f-4c86-aa5f-0996d67bea11/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0086.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/4ab04f14-0f4f-4c86-aa5f-0996d67bea11',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0086.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -6696,12 +6610,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/4ab04f14-0f4f-4c86-aa5f-0996d67bea11',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0086.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/4ab04f14-0f4f-4c86-aa5f-0996d67bea11/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0086.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6709,7 +6623,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/4ab04f14-0f4f-4c86-aa5f-0996d67bea11',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0086.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -6731,12 +6645,11 @@ const manifest = {
           label: '83',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/63e408a6-b352-4f4f-8ffa-0ec51fe4b520/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0087.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/63e408a6-b352-4f4f-8ffa-0ec51fe4b520',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0087.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -6773,12 +6686,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/63e408a6-b352-4f4f-8ffa-0ec51fe4b520',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0087.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/63e408a6-b352-4f4f-8ffa-0ec51fe4b520/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0087.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6786,7 +6699,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/63e408a6-b352-4f4f-8ffa-0ec51fe4b520',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0087.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -6808,12 +6721,11 @@ const manifest = {
           label: '84',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/f0ce5974-9928-4e14-8912-0eea84682e19/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0088.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/f0ce5974-9928-4e14-8912-0eea84682e19',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0088.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -6850,12 +6762,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/f0ce5974-9928-4e14-8912-0eea84682e19',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0088.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/f0ce5974-9928-4e14-8912-0eea84682e19/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0088.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6863,7 +6775,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/f0ce5974-9928-4e14-8912-0eea84682e19',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0088.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -6885,12 +6797,11 @@ const manifest = {
           label: '85',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/43b3366c-294e-4fe3-a31c-ac07af5c2f90/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0089.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/43b3366c-294e-4fe3-a31c-ac07af5c2f90',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0089.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -6927,12 +6838,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/43b3366c-294e-4fe3-a31c-ac07af5c2f90',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0089.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/43b3366c-294e-4fe3-a31c-ac07af5c2f90/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0089.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6940,7 +6851,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/43b3366c-294e-4fe3-a31c-ac07af5c2f90',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0089.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -6962,12 +6873,11 @@ const manifest = {
           label: '86',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/2e3ad6e9-1be7-4bee-92e1-9e25dd344d19/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0090.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/2e3ad6e9-1be7-4bee-92e1-9e25dd344d19',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0090.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -7004,12 +6914,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/2e3ad6e9-1be7-4bee-92e1-9e25dd344d19',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0090.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/2e3ad6e9-1be7-4bee-92e1-9e25dd344d19/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0090.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -7017,7 +6927,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/2e3ad6e9-1be7-4bee-92e1-9e25dd344d19',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0090.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -7039,12 +6949,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/72222ea7-b186-45ac-b83b-19b31ca871ba/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0091.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/72222ea7-b186-45ac-b83b-19b31ca871ba',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0091.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -7081,12 +6990,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/72222ea7-b186-45ac-b83b-19b31ca871ba',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0091.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/72222ea7-b186-45ac-b83b-19b31ca871ba/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0091.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -7094,7 +7003,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/72222ea7-b186-45ac-b83b-19b31ca871ba',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0091.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -7116,12 +7025,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/4d07f353-00d8-4f37-a2e8-3a8990c45b1f/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0092.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/4d07f353-00d8-4f37-a2e8-3a8990c45b1f',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0092.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -7158,12 +7066,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/4d07f353-00d8-4f37-a2e8-3a8990c45b1f',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0092.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/4d07f353-00d8-4f37-a2e8-3a8990c45b1f/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0092.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -7171,7 +7079,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/4d07f353-00d8-4f37-a2e8-3a8990c45b1f',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0092.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -7193,12 +7101,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/98e1a83f-5ba2-47a8-a6f8-d22db8541ed0/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0093.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/98e1a83f-5ba2-47a8-a6f8-d22db8541ed0',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0093.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -7235,12 +7142,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/98e1a83f-5ba2-47a8-a6f8-d22db8541ed0',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0093.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/98e1a83f-5ba2-47a8-a6f8-d22db8541ed0/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0093.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -7248,7 +7155,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/98e1a83f-5ba2-47a8-a6f8-d22db8541ed0',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0093.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -7270,12 +7177,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/2bb7b032-0a0c-4678-9ec0-25b21bbc3965/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0094.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/2bb7b032-0a0c-4678-9ec0-25b21bbc3965',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0094.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -7312,12 +7218,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/2bb7b032-0a0c-4678-9ec0-25b21bbc3965',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0094.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/2bb7b032-0a0c-4678-9ec0-25b21bbc3965/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0094.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -7325,7 +7231,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/2bb7b032-0a0c-4678-9ec0-25b21bbc3965',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0094.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -7347,12 +7253,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/7d698c24-6e76-4865-ba26-f8ba1d51ca4a/full/64,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0095.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/7d698c24-6e76-4865-ba26-f8ba1d51ca4a',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0095.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 655,
@@ -7389,12 +7294,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/7d698c24-6e76-4865-ba26-f8ba1d51ca4a',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0095.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/7d698c24-6e76-4865-ba26-f8ba1d51ca4a/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0095.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -7402,7 +7307,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/7d698c24-6e76-4865-ba26-f8ba1d51ca4a',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0095.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -7424,12 +7329,11 @@ const manifest = {
           label: ' - ',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/1/feff4e30-15e7-4cec-b74f-c86c79642535/full/63,100/0/default.jpg',
+              'https://dlcs.io/thumbs/wellcome/5/b21538906_0096.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id':
-                'https://dlcs.io/thumbs/wellcome/1/feff4e30-15e7-4cec-b74f-c86c79642535',
+              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0096.jp2',
               protocol: 'http://iiif.io/api/image',
               height: 1024,
               width: 646,
@@ -7466,12 +7370,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/feff4e30-15e7-4cec-b74f-c86c79642535',
+                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0096.jp2',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/1/feff4e30-15e7-4cec-b74f-c86c79642535/full/!1024,1024/0/default.jpg',
+                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0096.jp2/full/!1024,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -7479,7 +7383,7 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/1/feff4e30-15e7-4cec-b74f-c86c79642535',
+                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0096.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
                 },
               },
@@ -7531,5 +7435,4 @@ const manifest = {
     },
   ],
 };
-
 export default manifest;

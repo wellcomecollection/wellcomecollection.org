@@ -15,6 +15,7 @@ const IIIFViewerExample = () => {
     push: rejectedPromise,
     replace: rejectedPromise,
     prefetch: () => {},
+    query: {},
   };
 
   Router.router = mockedRouter;
@@ -75,6 +76,7 @@ const IIIFViewerExample = () => {
       sierraId={sierraId}
       pageSize={pageSize}
       canvasIndex={canvasIndex}
+      canvases={canvases}
     />
   );
 };
