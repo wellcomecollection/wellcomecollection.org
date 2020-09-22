@@ -1,0 +1,9 @@
+version: '3.3'
+services:
+  content:
+    image: wellcome/content_webapp:${CONTAINER_TAG:-test}
+    build:
+      context: ../..
+      dockerfile: ./content/webapp/Dockerfile
+    ports:
+      - "3000:3000"
