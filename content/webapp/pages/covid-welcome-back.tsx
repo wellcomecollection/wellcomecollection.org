@@ -219,6 +219,15 @@ const CovidWelcomeBackPage = () => {
                   <a href="/whats-on">Find out more about what’s on</a>.
                 </p>
 
+                <Space
+                  v={{
+                    size: 'xl',
+                    properties: ['margin-top', 'margin-bottom'],
+                  }}
+                >
+                  <Divider extraClasses="divider--keyline divider--pumice" />
+                </Space>
+
                 <h2 id="keeping-you-safe">Keeping you safe</h2>
                 <p>
                   We’ve made a few changes to ensure you have a safe and
