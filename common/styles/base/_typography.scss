@@ -239,11 +239,13 @@ hr {
   }
 
   // …and paragraphs after headings have a specific margin-top too
-  h2 + p {
+  h2 + p,
+  h2 + ul {
     margin-top: 1.2em;
   }
 
-  h3 + p {
+  h3 + p,
+  h3 + ul {
     margin-top: 0.3em;
   }
 }

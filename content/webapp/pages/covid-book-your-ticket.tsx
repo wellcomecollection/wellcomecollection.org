@@ -14,7 +14,8 @@ const CovidSmallPrint = styled.div.attrs({
     [font('hnl', 5)]: true,
   }),
 })`
-  h4 + p {
+  h4 + p,
+  h4 + ul {
     margin-top: 0.2em;
   }
 `;
@@ -156,7 +157,7 @@ const CovidWeAreOpenPage = () => {
                     Need to know about your library visit
                   </h3>
                   <CovidH4>What to bring</CovidH4>
-                  <ul className="no-margin">
+                  <ul>
                     <li>Your ticket – on your phone is fine</li>
 
                     <li>Your library card</li>
@@ -186,7 +187,7 @@ const CovidWeAreOpenPage = () => {
                     you need it, as there is limited availability to allow for
                     social distancing.
                   </p>
-                  <ul className="no-margin">
+                  <ul>
                     <li>
                       All your online requests will be delivered to the Rare
                       Materials Room.{' '}
@@ -233,7 +234,7 @@ const CovidWeAreOpenPage = () => {
                   </p>
 
                   <CovidH4>Study rooms</CovidH4>
-                  <ul className="no-margin">
+                  <ul>
                     <li>
                       The accessible study room can be booked - email the
                       library before you book your ticket to make sure the room
