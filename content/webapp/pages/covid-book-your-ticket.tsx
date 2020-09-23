@@ -107,24 +107,20 @@ const CovidWeAreOpenPage = () => {
                 />
               </Space>
               <CovidInfoBox title={'Museum visit'} id="museum-visit">
-                <>
-                  <p>
-                    <ul className="no-margin">
-                      <li>Choose a time slot.</li>
-                      <li>Stay as long as you like.</li>
-                      <li>
-                        You will be able to visit the Reading Room, Being Human
-                        and the café.
-                      </li>
-                    </ul>
-                  </p>
-                  <EventbriteButton
-                    event={{
-                      eventbriteId:
-                        'museum-visit-wellcome-collection-tickets-116206437583',
-                    }}
-                  />
-                </>
+                <ul className="no-margin">
+                  <li>Choose a time slot.</li>
+                  <li>Stay as long as you like.</li>
+                  <li>
+                    You will be able to visit the Reading Room, Being Human and
+                    the café.
+                  </li>
+                </ul>
+                <EventbriteButton
+                  event={{
+                    eventbriteId:
+                      'museum-visit-wellcome-collection-tickets-116206437583',
+                  }}
+                />
               </CovidInfoBox>
 
               <Space
@@ -140,40 +136,36 @@ const CovidWeAreOpenPage = () => {
                 title={'Library and museum visit'}
                 id="library-and-museum-visit"
               >
-                <p>
-                  <ul className="no-margin">
-                    <li>
-                      Only current library members are able to book a ticket.
-                    </li>
-                    <li>Choose a time slot.</li>
-                    <li>Stay for up to three hours.</li>
-                    <li>
-                      You will be able to visit the library as well as the
-                      galleries and café.
-                    </li>
-                    <li>
-                      You will need to order any materials 72 hours in advance.
-                    </li>
-                  </ul>
-                </p>
+                <ul className="no-margin">
+                  <li>
+                    Only current library members are able to book a ticket.
+                  </li>
+                  <li>Choose a time slot.</li>
+                  <li>Stay for up to three hours.</li>
+                  <li>
+                    You will be able to visit the library as well as the
+                    galleries and café.
+                  </li>
+                  <li>
+                    You will need to order any materials 72 hours in advance.
+                  </li>
+                </ul>
                 <Space v={{ size: 'm', properties: ['padding-top'] }} />
                 <CovidSmallPrint>
                   <h3 id="need-to-know-about-your-library-visit">
                     Need to know about your library visit
                   </h3>
                   <CovidH4>What to bring</CovidH4>
-                  <p>
-                    <ul className="no-margin">
-                      <li>Your ticket – on your phone is fine</li>
+                  <ul className="no-margin">
+                    <li>Your ticket – on your phone is fine</li>
 
-                      <li>Your library card</li>
+                    <li>Your library card</li>
 
-                      <li>
-                        Your face covering – this will need to be worn for the
-                        duration of your visit.
-                      </li>
-                    </ul>
-                  </p>
+                    <li>
+                      Your face covering – this will need to be worn for the
+                      duration of your visit.
+                    </li>
+                  </ul>
                   <p>
                     You can still bring in your laptops, study materials and
                     pencils in a clear plastic bag or carried, as normal. You
@@ -194,34 +186,32 @@ const CovidWeAreOpenPage = () => {
                     you need it, as there is limited availability to allow for
                     social distancing.
                   </p>
-                  <p>
-                    <ul className="no-margin">
-                      <li>
-                        All your online requests will be delivered to the Rare
-                        Materials Room.{' '}
-                        <strong>
-                          To start with, we’ll ask visitors to book just one RMR
-                          slot each week
-                        </strong>
-                        .
-                      </li>
-                      <li>
-                        After you’ve booked your ticket, request up to 10 items
-                        from wellcomelibrary.org before your visit.
-                      </li>
-                      <li>
-                        <strong>
-                          Place your requests 72 hours before the day of your
-                          visit
-                        </strong>
-                        .
-                      </li>
-                      <li>
-                        Once you’re finished viewing the materials, we put the
-                        materials in quarantine for 72 hours.
-                      </li>
-                    </ul>
-                  </p>
+                  <ul className="no-margin">
+                    <li>
+                      All your online requests will be delivered to the Rare
+                      Materials Room.{' '}
+                      <strong>
+                        To start with, we’ll ask visitors to book just one RMR
+                        slot each week
+                      </strong>
+                      .
+                    </li>
+                    <li>
+                      After you’ve booked your ticket, request up to 10 items
+                      from wellcomelibrary.org before your visit.
+                    </li>
+                    <li>
+                      <strong>
+                        Place your requests 72 hours before the day of your
+                        visit
+                      </strong>
+                      .
+                    </li>
+                    <li>
+                      Once you’re finished viewing the materials, we put the
+                      materials in quarantine for 72 hours.
+                    </li>
+                  </ul>
 
                   <CovidH4>Time slots</CovidH4>
                   <p>
@@ -243,22 +233,19 @@ const CovidWeAreOpenPage = () => {
                   </p>
 
                   <CovidH4>Study rooms</CovidH4>
-                  <p>
-                    <ul className="no-margin">
-                      <li>
-                        The accessible study room can be booked - email the
-                        library before you book your ticket to make sure the
-                        room is available for you on the day you want to come.
-                        We’re allowing one booking per day to ensure thorough
-                        cleaning before next user.
-                      </li>
-                      <li>
-                        The Group Study Room will be closed, and group working
-                        desks in the Gallery will be reserved for one person
-                        only.
-                      </li>
-                    </ul>
-                  </p>
+                  <ul className="no-margin">
+                    <li>
+                      The accessible study room can be booked - email the
+                      library before you book your ticket to make sure the room
+                      is available for you on the day you want to come. We’re
+                      allowing one booking per day to ensure thorough cleaning
+                      before next user.
+                    </li>
+                    <li>
+                      The Group Study Room will be closed, and group working
+                      desks in the Gallery will be reserved for one person only.
+                    </li>
+                  </ul>
                   <EventbriteButton
                     event={{
                       eventbriteId:
