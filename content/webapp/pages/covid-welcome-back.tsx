@@ -87,28 +87,23 @@ const CovidWelcomeBackPage = () => {
 
               <div className="body-text spaced-text">
                 <CovidInfoBox title={'Book your ticket'} id="book-your-ticket">
-                  <>
-                    <p>
-                      <ul className="no-margin">
-                        <li>
-                          It’s still free to visit our museum and library.
-                          You’ll just need to choose a time slot and book a
-                          ticket before you arrive.
-                        </li>
-                        <li>
-                          You can explore the museum for as long as you’d like,
-                          but library sessions are now limited to either a
-                          morning or an afternoon. Library tickets include
-                          museum entry too.
-                        </li>
-                      </ul>
-                    </p>
-                    <ButtonOutlinedLink
-                      icon="arrow"
-                      text="Book your ticket"
-                      link="/covid-book-your-ticket"
-                    />
-                  </>
+                  <ul className="no-margin">
+                    <li>
+                      It’s still free to visit our museum and library. You’ll
+                      just need to choose a time slot and book a ticket before
+                      you arrive.
+                    </li>
+                    <li>
+                      You can explore the museum for as long as you’d like, but
+                      library sessions are now limited to either a morning or an
+                      afternoon. Library tickets include museum entry too.
+                    </li>
+                  </ul>
+                  <ButtonOutlinedLink
+                    icon="arrow"
+                    text="Book your ticket"
+                    link="/covid-book-your-ticket"
+                  />
                 </CovidInfoBox>
 
                 <Space
@@ -123,19 +118,17 @@ const CovidWelcomeBackPage = () => {
                 <h2 id="plan-your-visit">Plan your visit</h2>
 
                 <h3>What’s open?</h3>
-                <p>
-                  <ul className="no-margin">
-                    <li>
-                      ‘Being Human’ permanent gallery, the Reading Room, café,
-                      and library are open from 7 October.
-                    </li>
-                    <li>‘Medicine Man’ will be opening from 10 November.</li>
-                    <li>
-                      The shop and Wellcome Kitchen are closed to make space for
-                      more café seating.
-                    </li>
-                  </ul>
-                </p>
+                <ul className="no-margin">
+                  <li>
+                    ‘Being Human’ permanent gallery, the Reading Room, café, and
+                    library are open from 7 October.
+                  </li>
+                  <li>‘Medicine Man’ will be opening from 10 November.</li>
+                  <li>
+                    The shop and Wellcome Kitchen are closed to make space for
+                    more café seating.
+                  </li>
+                </ul>
 
                 <h3>Opening hours</h3>
                 <p>
@@ -144,57 +137,54 @@ const CovidWelcomeBackPage = () => {
                 </p>
 
                 <h3>Facilities and access</h3>
+                <ul className="no-margin">
+                  <li>All our toilets are open as usual.</li>
+                  <li>
+                    There are accessible toilets on every floor and a Changing
+                    Places toilet on the ground floor.
+                  </li>
+                  <li>
+                    You’ll find accessible step-free routes to all of our
+                    exhibits, with priority use of the lifts.
+                  </li>
+                  <li>
+                    Shared accessible resources, like magnifiers and large-print
+                    guides, are still available, but our team are collecting and
+                    cleaning them between each use. If you’d like to use them,
+                    just ask.
+                  </li>
+                  <li>
+                    There might be queues from time to time. If queuing is not
+                    accessible for you, please speak to a member of staff and we
+                    can make alternative arrangements with you.
+                  </li>
+                </ul>
                 <p>
-                  <ul className="no-margin">
-                    <li>All our toilets are open as usual.</li>
-                    <li>
-                      There are accessible toilets on every floor and a Changing
-                      Places toilet on the ground floor.
-                    </li>
-                    <li>
-                      You’ll find accessible step-free routes to all of our
-                      exhibits, with priority use of the lifts.
-                    </li>
-                    <li>
-                      Shared accessible resources, like magnifiers and
-                      large-print guides, are still available, but our team are
-                      collecting and cleaning them between each use. If you’d
-                      like to use them, just ask.
-                    </li>
-                    <li>
-                      There might be queues from time to time. If queuing is not
-                      accessible for you, please speak to a member of staff and
-                      we can make alternative arrangements with you.
-                    </li>
-                  </ul>
-                </p>
-                <p>
-                  <a href="/access">Find out more about accessibility</a>
+                  <a href="https://wellcomecollection.org/access">
+                    Find out more about accessibility
+                  </a>
                 </p>
 
                 <h3>Storing your belongings</h3>
+                <ul className="no-margin">
+                  <li>
+                    You will be able to use the lockers on level 0 to store
+                    belongings.
+                  </li>
+                  <li>
+                    Library users will still be able to bring laptops, pencils
+                    and study materials into the library in clear plastic bags.
+                  </li>
+                  <li>
+                    Some of the lockers are large enough for fold-up bicycles;
+                    however, we won’t be able to store luggage.
+                  </li>
+                  <li>
+                    There is a buggy drop-off inside the building on arrival.{' '}
+                  </li>
+                </ul>
                 <p>
-                  <ul className="no-margin">
-                    <li>
-                      You will be able to use the lockers on level 0 to store
-                      belongings.
-                    </li>
-                    <li>
-                      Library users will still be able to bring laptops, pencils
-                      and study materials into the library in clear plastic
-                      bags.
-                    </li>
-                    <li>
-                      Some of the lockers are large enough for fold-up bicycles;
-                      however, we won’t be able to store luggage.
-                    </li>
-                    <li>
-                      There is a buggy drop-off inside the building on arrival.{' '}
-                    </li>
-                  </ul>
-                </p>
-                <p>
-                  <a href="/pages/Wuw19yIAAK1Z3Sm0">
+                  <a href="https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sm0">
                     Find out more about our locker provisions
                   </a>
                 </p>
@@ -216,7 +206,10 @@ const CovidWelcomeBackPage = () => {
                 </p>
                 <p>
                   All our events are currently online.{' '}
-                  <a href="/whats-on">Find out more about what’s on</a>.
+                  <a href="https://wellcomecollection.org/whats-on">
+                    Find out more about what’s on
+                  </a>
+                  .
                 </p>
 
                 <Space
@@ -288,46 +281,47 @@ const CovidWelcomeBackPage = () => {
                 />
 
                 <h3>How we’re keeping you safe</h3>
-                <p>
-                  <ul className="no-margin">
-                    <li>
-                      Limiting the number of visitors each day with a free
-                      ticketing system.{' '}
-                      <a href="/covid-book-your-ticket">Book your ticket</a>.
-                    </li>
-                    <li>Taking extra care with increased cleaning.</li>
-                    <li>Providing hand-sanitiser dispensers.</li>
-                    <li>
-                      Providing our staff with personal protective equipment
-                      (PPE).
-                    </li>
-                    <li>
-                      Marking signposted routes around the building to help you
-                      explore with plenty of space.
-                    </li>
-                    <li>Cleaning our accessible resources regularly.</li>
-                    <li>
-                      Spreading out café seating and serving pre-packed food.
-                    </li>
-                    <li>Quarantining books in the library and Reading Room.</li>
-                    <li>
-                      Removing shared headphones on audio exhibits. Instead you
-                      will be able to use your own earphones, which have a
-                      standard jack.
-                    </li>
-                    <li>
-                      Providing optional mask-exempt badges from{' '}
-                      <a href="https://www.euansguide.com/news/face-mask-exempt-badges/">
-                        Euan’s Guide
-                      </a>
-                      .
-                    </li>
-                    <li>
-                      Participating in NHS Track and Trace through our online
-                      booking form.
-                    </li>
-                  </ul>
-                </p>
+                <ul className="no-margin">
+                  <li>
+                    Limiting the number of visitors each day with a free
+                    ticketing system.{' '}
+                    <a href="https://wellcomecollection.org/covid-book-your-ticket">
+                      Book your ticket
+                    </a>
+                    .
+                  </li>
+                  <li>Taking extra care with increased cleaning.</li>
+                  <li>Providing hand-sanitiser dispensers.</li>
+                  <li>
+                    Providing our staff with personal protective equipment
+                    (PPE).
+                  </li>
+                  <li>
+                    Marking signposted routes around the building to help you
+                    explore with plenty of space.
+                  </li>
+                  <li>Cleaning our accessible resources regularly.</li>
+                  <li>
+                    Spreading out café seating and serving pre-packed food.
+                  </li>
+                  <li>Quarantining books in the library and Reading Room.</li>
+                  <li>
+                    Removing shared headphones on audio exhibits. Instead you
+                    will be able to use your own earphones, which have a
+                    standard jack.
+                  </li>
+                  <li>
+                    Providing optional mask-exempt badges from{' '}
+                    <a href="https://www.euansguide.com/news/face-mask-exempt-badges/">
+                      Euan’s Guide
+                    </a>
+                    .
+                  </li>
+                  <li>
+                    Participating in NHS Track and Trace through our online
+                    booking form.
+                  </li>
+                </ul>
 
                 <div style={{ width: '100px' }}>
                   <WeAreGoodToGo />
