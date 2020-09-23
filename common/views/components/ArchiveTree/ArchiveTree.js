@@ -1,6 +1,6 @@
 // @flow
 
-import { useState, /* useEffect, */ useContext, useRef } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getWork } from '@weco/catalogue/services/catalogue/works';
@@ -213,7 +213,7 @@ const anAsyncFunction = async (item, toggles) => {
     : Promise.resolve(item);
 };
 
-function createSiblingsArray(work: Work, toggles): ?(UiTree[]) {
+async function createSiblingsArray(work: Work, toggles): ?(UiTree[]) {
   // An array of the current work and all it's siblings
   const siblingsArray = [
     ...(work.precededBy || []).map(item => ({
@@ -230,50 +230,45 @@ function createSiblingsArray(work: Work, toggles): ?(UiTree[]) {
   ];
 
   // Adding the children of each of the works in the siblingsArray
-  const siblingsArrayWithChildren = Promise.all(
+  const siblingsArrayWithChildren = await Promise.all(
     siblingsArray.map(item => anAsyncFunction(item, toggles))
   );
 
-  siblingsArrayWithChildren.then(data => {
-    console.log('children', data);
-  });
+  return siblingsArrayWithChildren;
 }
 
 type Temp = {|
   work: Work,
   archiveAncestorArray: ArchiveNode[],
   toggles: any, // TODO
-  initialLoad: { current: boolean },
 |};
 
-function createArchiveTree({
+async function createArchiveTree({
   work,
   archiveAncestorArray,
   toggles,
-  initialLoad,
-}: Temp): ?(UiTree[]) {
-  if (initialLoad.current) {
-    const partOfReversed = [...(archiveAncestorArray || [])].reverse();
-    return [
-      partOfReversed.reduce(
-        (acc, curr, i) => {
-          // TODO need to createSiblings array for each of these [acc]
-          return {
-            openStatus: true,
-            work: curr,
-            children: i === 0 ? createSiblingsArray(work, toggles) : [acc], // If it's the immediate parent we create an array of the current work and it's siblings to be the children.
-          };
-        },
-        // We only need the following for a top level work that has an empty partOf array,
-        // in which case this is all that gets returned.
-        // Otherwise it gets replace as part of the createSiblingsArray above,
-        // which also includes the siblings of the current work.
-        {
-          ...createNodeFromWork({ work, openStatus: true }),
-        }
-      ),
-    ];
-  }
+}: Temp): ?any {
+  // UiTree[]
+  const partOfReversed = [...(archiveAncestorArray || [])].reverse();
+  return [
+    await partOfReversed.reduce(
+      async (acc, curr, i) => {
+        const test = await createSiblingsArray(work, toggles);
+        console.log(test);
+        // TODO need to createSiblings array for each of these [acc]
+        return {
+          openStatus: true,
+          work: curr,
+          children: ['test'], // If it's the immediate parent we create an array of the current work and it's siblings to be the children.
+        };
+      },
+      // We only need the following for a top level work that has an empty partOf array,
+      // in which case this is all that gets returned.
+      // Otherwise it gets replace as part of the createSiblingsArray above,
+      // which also includes the siblings of the current work.
+      createNodeFromWork({ work, openStatus: true })
+    ),
+  ];
 }
 
 function addWorkPartsToCollectionTree({
@@ -514,15 +509,8 @@ const NestedList = ({
 const ArchiveTree = ({ work }: { work: Work }) => {
   const toggles = useContext(TogglesContext);
   const archiveAncestorArray = getArchiveAncestorArray(work);
-  const initialLoad = useRef(true);
-  const [collectionTree, setCollectionTree] = useState(
-    createArchiveTree({
-      work,
-      archiveAncestorArray,
-      toggles,
-      initialLoad,
-    }) || []
-  );
+  // const initialLoad = useRef(true);
+  const [collectionTree, setCollectionTree] = useState([]);
   const selected = useRef(null);
   const isInArchive =
     (work.parts && work.parts.length > 0) ||
@@ -540,6 +528,23 @@ const ArchiveTree = ({ work }: { work: Work }) => {
       />
     </Tree>
   );
+
+  useEffect(() => {
+    // if (!initialLoad.current) {
+    // DO THIS IN useEffect...
+    async function setupTree() {
+      const tree = await createArchiveTree({
+        work,
+        archiveAncestorArray,
+        toggles,
+      });
+      console.log();
+      setCollectionTree(tree || []);
+    }
+    setupTree();
+    // }
+    // initialLoad.current = false;
+  }, []);
 
   // useEffect(() => {
   //   if (!initialLoad.current) {
