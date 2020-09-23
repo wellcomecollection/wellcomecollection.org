@@ -111,8 +111,8 @@ const CovidWeAreOpenPage = () => {
                   <li>Choose a time slot.</li>
                   <li>Stay as long as you like.</li>
                   <li>
-                    You will be able to visit the Reading Room, Being Human and
-                    the café.
+                    You will be able to visit the Reading Room, ‘Being Human’
+                    and the café. ‘Medicine Man’ will be open from 10 November.
                   </li>
                 </ul>
                 <EventbriteButton
@@ -167,9 +167,9 @@ const CovidWeAreOpenPage = () => {
                     </li>
                   </ul>
                   <p>
-                    You can still bring in your laptops, study materials and
+                    You can still bring in your laptop, study materials and
                     pencils in a clear plastic bag or carried, as normal. You
-                    can leave anything else in lockers on level 0.
+                    can leave anything else in the lockers on level 0.
                   </p>
 
                   <p>
@@ -180,9 +180,9 @@ const CovidWeAreOpenPage = () => {
                   <CovidH4>Ordering materials</CovidH4>
                   <p>
                     All ordered material will be delivered to the Rare Materials
-                    Room. In order to visit you will need to book the ticket in
+                    Room. In order to visit, you will need to book the ticket in
                     Eventbrite that indicates RMR access. These will be
-                    available at 10:30 and 13:30 every day. Please only book if
+                    available at 10.30 and 13.30 every day. Please only book if
                     you need it, as there is limited availability to allow for
                     social distancing.
                   </p>
@@ -197,19 +197,18 @@ const CovidWeAreOpenPage = () => {
                       .
                     </li>
                     <li>
-                      After you’ve booked your ticket, request up to 10 items
+                      After you’ve booked your ticket, request up to ten items
                       from wellcomelibrary.org before your visit.
                     </li>
                     <li>
                       <strong>
-                        Place your requests 72 hours before the day of your
-                        visit
+                        Place your request 72 hours before the day of your visit
                       </strong>
                       .
                     </li>
                     <li>
-                      Once you’re finished viewing the materials, we put the
-                      materials in quarantine for 72 hours.
+                      Once you’ve finished viewing the materials, we’ll put them
+                      into quarantine for 72 hours.
                     </li>
                   </ul>
 
@@ -221,25 +220,25 @@ const CovidWeAreOpenPage = () => {
                   </p>
                   <p>
                     You can use the library for three hours from the start of
-                    your slot – you can spend as much time as you’d like in the
+                    your slot – you can spend as much time as you like in the
                     rest of the building.
                   </p>
 
                   <CovidH4>Open shelves</CovidH4>
                   <p>
                     You will be able to access the open shelves, but when you
-                    are finished with your book, please place on a quarantine
+                    have finished with your book, please place on a quarantine
                     trolley.
                   </p>
 
                   <CovidH4>Study rooms</CovidH4>
                   <ul className="no-margin">
                     <li>
-                      The accessible study room can be booked - email the
+                      The accessible study room can be booked – email the
                       library before you book your ticket to make sure the room
                       is available for you on the day you want to come. We’re
                       allowing one booking per day to ensure thorough cleaning
-                      before next user.
+                      before the next user.
                     </li>
                     <li>
                       The Group Study Room will be closed, and group working
@@ -270,7 +269,7 @@ const CovidWeAreOpenPage = () => {
                 <ul>
                   <li>
                     You can book for up to six members of a household at a time.
-                    Please only visit once per week, space is limited, and we
+                    Please only visit once per week, as space is limited, and we
                     want as many people to be able to visit as possible.
                   </li>
                   <li>
