@@ -99,7 +99,7 @@ const CovidWelcomeBackPage = () => {
                           You can explore the museum for as long as you’d like,
                           but library sessions are now limited to either a
                           morning or an afternoon. Library tickets include
-                          museum entry, too.
+                          museum entry too.
                         </li>
                       </ul>
                     </p>
@@ -126,10 +126,10 @@ const CovidWelcomeBackPage = () => {
                 <p>
                   <ul className="no-margin">
                     <li>
-                      Being Human permanent gallery, the Reading Room, café, and
-                      library are open from 7 October.
+                      ‘Being Human’ permanent gallery, the Reading Room, café,
+                      and library are open from 7 October.
                     </li>
-                    <li>Medicine Man will be opening from 10 November.</li>
+                    <li>‘Medicine Man’ will be opening from 10 November.</li>
                     <li>
                       The shop and Wellcome Kitchen are closed to make space for
                       more café seating.
@@ -139,8 +139,8 @@ const CovidWelcomeBackPage = () => {
 
                 <h3>Opening hours</h3>
                 <p>
-                  Wellcome Collection is open Tuesday-Sunday, 10-5pm, and until
-                  7pm on Thursdays.
+                  Wellcome Collection is open Tuesday–Sunday, 10.00–17.00, and
+                  until 19.00 on Thursdays.
                 </p>
 
                 <h3>Facilities and access</h3>
@@ -176,7 +176,7 @@ const CovidWelcomeBackPage = () => {
                 <p>
                   <ul className="no-margin">
                     <li>
-                      You will be able to use lockers on level 0 to store
+                      You will be able to use the lockers on level 0 to store
                       belongings.
                     </li>
                     <li>
@@ -185,8 +185,8 @@ const CovidWelcomeBackPage = () => {
                       bags.
                     </li>
                     <li>
-                      Some of the lockers will be large enough for fold-up
-                      bicycles, however we won’t be able to store luggage.
+                      Some of the lockers are large enough for fold-up bicycles;
+                      however, we won’t be able to store luggage.
                     </li>
                     <li>
                       There is a buggy drop-off inside the building on arrival.{' '}
@@ -287,7 +287,7 @@ const CovidWelcomeBackPage = () => {
                       <a href="/covid-book-your-ticket">Book your ticket</a>.
                     </li>
                     <li>Taking extra care with increased cleaning.</li>
-                    <li>Providing hand sanitiser dispensers.</li>
+                    <li>Providing hand-sanitiser dispensers.</li>
                     <li>
                       Providing our staff with personal protective equipment
                       (PPE).
@@ -303,7 +303,7 @@ const CovidWelcomeBackPage = () => {
                     <li>Quarantining books in the library and Reading Room.</li>
                     <li>
                       Removing shared headphones on audio exhibits. Instead you
-                      will be able to use your own earphones which have a
+                      will be able to use your own earphones, which have a
                       standard jack.
                     </li>
                     <li>
