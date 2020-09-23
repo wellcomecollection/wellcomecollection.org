@@ -33,7 +33,7 @@ const CovidTOC = ({ links }) => {
         background: 'rgba(0, 120, 108, 0.1)',
       }}
     >
-      <h2 className="h3">What's on this page</h2>
+      <h2 className="h3">What’s on this page</h2>
       <ul className="plain-list no-margin no-padding">
         {links.map(link => (
           <li>
