@@ -113,8 +113,8 @@ const CovidWeAreOpenPage = () => {
                       <li>Choose a time slot.</li>
                       <li>Stay as long as you like.</li>
                       <li>
-                        You will be able to visit the Reading Room, Being Human,
-                        the shop and café.
+                        You will be able to visit the Reading Room, Being Human
+                        and the café.
                       </li>
                     </ul>
                   </p>
@@ -149,7 +149,7 @@ const CovidWeAreOpenPage = () => {
                     <li>Stay for up to three hours.</li>
                     <li>
                       You will be able to visit the library as well as the
-                      galleries, shop and café.
+                      galleries and café.
                     </li>
                     <li>
                       You will need to order any materials 72 hours in advance.
