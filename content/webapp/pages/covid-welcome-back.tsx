@@ -105,7 +105,7 @@ const CovidWelcomeBackPage = () => {
                     </p>
                     <ButtonOutlinedLink
                       icon="arrow"
-                      text="Book a ticket"
+                      text="Book your ticket"
                       link="/covid-book-your-ticket"
                     />
                   </>
