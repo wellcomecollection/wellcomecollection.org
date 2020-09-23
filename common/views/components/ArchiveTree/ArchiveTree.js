@@ -1,6 +1,6 @@
 // @flow
 
-import { useState, useEffect, useContext, useRef } from 'react';
+import { useState, /* useEffect, */ useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getWork } from '@weco/catalogue/services/catalogue/works';
@@ -124,7 +124,7 @@ type Work = {|
 
 type UiTree = {|
   openStatus: boolean,
-  work: Work,
+  work: ArchiveNode,
   children?: UiTree[],
 |};
 
@@ -175,12 +175,17 @@ function createWorkPropertyFromWork(work: Work) {
     title: work.title,
     alternativeTitles: work.alternativeTitles,
     referenceNumber: work.referenceNumber,
-    parts: [],
-    type: 'Work',
+    type: work.type,
   };
 }
 
-function createNodeFromWork(work: Work, openStatus: boolean): UiTree {
+function createNodeFromWork({
+  work,
+  openStatus,
+}: {
+  work: Work,
+  openStatus: boolean,
+}): UiTree {
   return {
     openStatus,
     work: createWorkPropertyFromWork(work),
@@ -194,43 +199,81 @@ function createNodeFromWork(work: Work, openStatus: boolean): UiTree {
   };
 }
 
-function createSiblingsArray(work: Work): UiTree[] {
-  return [
+const anAsyncFunction = async (item, toggles) => {
+  const work = await getWork({ id: item.work.id, toggles });
+  return !item.children
+    ? {
+        openStatus: false,
+        work: item,
+        children: work.parts.map(part => ({
+          work: part,
+          openStatus: false,
+        })),
+      }
+    : Promise.resolve(item);
+};
+
+function createSiblingsArray(work: Work, toggles): ?(UiTree[]) {
+  // An array of the current work and all it's siblings
+  const siblingsArray = [
     ...(work.precededBy || []).map(item => ({
       openStatus: false,
       work: item,
     })),
     {
-      ...createNodeFromWork(work, false),
+      ...createNodeFromWork({ work, openStatus: false }),
     },
     ...(work.succeededBy || []).map(item => ({
       openStatus: false,
       work: item,
     })),
   ];
+
+  // Adding the children of each of the works in the siblingsArray
+  const siblingsArrayWithChildren = Promise.all(
+    siblingsArray.map(item => anAsyncFunction(item, toggles))
+  );
+
+  siblingsArrayWithChildren.then(data => {
+    console.log('children', data);
+  });
 }
 
-function createCollectionTree(
+type Temp = {|
   work: Work,
-  archiveAncestorArray: ArchiveNode[]
-): UiTree[] {
-  const partOfReversed = [...(archiveAncestorArray || [])].reverse();
-  return [
-    partOfReversed.reduce(
-      (acc, curr, i) => {
-        return {
-          openStatus: true,
-          work: curr,
-          children: i === 0 ? createSiblingsArray(work) : [acc],
-        };
-      },
-      // Need this for a top level work that has an empty partOf array
-      // Otherwise it gets replace by createSiblingsArray above, which also includes the siblings of the current work
-      {
-        ...createNodeFromWork(work, true),
-      }
-    ),
-  ];
+  archiveAncestorArray: ArchiveNode[],
+  toggles: any, // TODO
+  initialLoad: { current: boolean },
+|};
+
+function createArchiveTree({
+  work,
+  archiveAncestorArray,
+  toggles,
+  initialLoad,
+}: Temp): ?(UiTree[]) {
+  if (initialLoad.current) {
+    const partOfReversed = [...(archiveAncestorArray || [])].reverse();
+    return [
+      partOfReversed.reduce(
+        (acc, curr, i) => {
+          // TODO need to createSiblings array for each of these [acc]
+          return {
+            openStatus: true,
+            work: curr,
+            children: i === 0 ? createSiblingsArray(work, toggles) : [acc], // If it's the immediate parent we create an array of the current work and it's siblings to be the children.
+          };
+        },
+        // We only need the following for a top level work that has an empty partOf array,
+        // in which case this is all that gets returned.
+        // Otherwise it gets replace as part of the createSiblingsArray above,
+        // which also includes the siblings of the current work.
+        {
+          ...createNodeFromWork({ work, openStatus: true }),
+        }
+      ),
+    ];
+  }
 }
 
 function addWorkPartsToCollectionTree({
@@ -332,22 +375,6 @@ const ListItem = ({
   fullTree,
   isRootItem,
 }: ListItemType) => {
-  const [showButton, setShowButton] = useState(item.children);
-  const toggles = useContext(TogglesContext);
-  useEffect(() => {
-    // if already has children don't do anything
-    let isMounted = true;
-    const checkForChildren = async () => {
-      const selectedWork = await getWork({ id: item.work.id, toggles });
-      if (isMounted) {
-        setShowButton(selectedWork.parts && selectedWork.parts.length > 0); // update collectionTree instead
-      }
-    };
-    checkForChildren();
-    return () => {
-      isMounted = false;
-    };
-  }, []);
   return (
     <li>
       <div style={{ padding: '10px 10px 10px 0' }}>
@@ -360,7 +387,10 @@ const ListItem = ({
                   h={{ size: 's', properties: ['margin-right'] }}
                   style={{
                     verticalAlign: 'top',
-                    display: showButton ? 'inline-block' : 'none',
+                    display:
+                      item.children && item.children.length > 0
+                        ? 'inline-block'
+                        : 'none',
                   }}
                 >
                   <button
@@ -484,8 +514,14 @@ const NestedList = ({
 const ArchiveTree = ({ work }: { work: Work }) => {
   const toggles = useContext(TogglesContext);
   const archiveAncestorArray = getArchiveAncestorArray(work);
+  const initialLoad = useRef(true);
   const [collectionTree, setCollectionTree] = useState(
-    createCollectionTree(work, archiveAncestorArray) || []
+    createArchiveTree({
+      work,
+      archiveAncestorArray,
+      toggles,
+      initialLoad,
+    }) || []
   );
   const selected = useRef(null);
   const isInArchive =
@@ -505,72 +541,93 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     </Tree>
   );
 
-  const initialLoad = useRef(true);
+  // useEffect(() => {
+  //   if (!initialLoad.current) {
+  //     const workInfo = document.getElementById('work-info');
 
-  useEffect(() => {
-    if (!initialLoad.current) {
-      const workInfo = document.getElementById('work-info');
+  //     if (workInfo) {
+  //       window.requestAnimationFrame(() => {
+  //         workInfo.scrollIntoView({ behavior: 'smooth' });
+  //       });
+  //     }
+  //   }
 
-      if (workInfo) {
-        window.requestAnimationFrame(() => {
-          workInfo.scrollIntoView({ behavior: 'smooth' });
-        });
-      }
-    }
+  //   initialLoad.current = false;
+  // }, [work.id]);
 
-    initialLoad.current = false;
-  }, [work.id]);
+  // useEffect(() => {
+  //   // TODO add children here too
+  //   // Add siblings to each of the nodes that leads to the current work
+  //   const partOfPromises = archiveAncestorArray
+  //     ? archiveAncestorArray.map(part => getWork({ id: part.id, toggles }))
+  //     : [];
+  //   if (partOfPromises.length > 0) {
+  //     Promise.all(partOfPromises).then(works => {
+  //       let updatedTree;
 
-  useEffect(() => {
-    // Add siblings to each of the nodes that leads to the current work
-    const partOfPromises = archiveAncestorArray
-      ? archiveAncestorArray.map(part => getWork({ id: part.id, toggles }))
-      : [];
-    if (partOfPromises.length > 0) {
-      Promise.all(partOfPromises).then(works => {
-        let updatedTree;
-
-        works.forEach(work => {
-          const tempTree = addWorkPartsToCollectionTree({
-            work: work,
-            collectionTree: updatedTree || collectionTree,
-            openStatus: false,
-            manualTreeExpansion: false,
-          });
-          updatedTree = tempTree;
-        });
-        if (updatedTree) {
-          setCollectionTree(updatedTree);
-        }
-      });
-    }
-  }, [work]);
+  //       works.forEach(work => {
+  //         const tempTree = addWorkPartsToCollectionTree({
+  //           work: work,
+  //           collectionTree: updatedTree || collectionTree,
+  //           openStatus: false,
+  //           manualTreeExpansion: false,
+  //         });
+  //         updatedTree = tempTree;
+  //       });
+  //       if (updatedTree) {
+  //         setCollectionTree(updatedTree);
+  //       }
+  //     });
+  //   }
+  // }, [work]);
 
   return isInArchive ? (
-    <StickyContainer>
-      <Space
-        v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-        className={classNames({
-          'flex flex--v-center bg-smoke': true,
-        })}
+    <>
+      <pre
+        style={{
+          maxWidth: '600px',
+          margin: '0 auto 24px',
+          fontSize: '14px',
+        }}
       >
+        <code
+          style={{
+            display: 'block',
+            padding: '24px',
+            backgroundColor: '#EFE1AA',
+            color: '#000',
+            border: '4px solid #000',
+            borderRadius: '6px',
+          }}
+        >
+          {JSON.stringify(collectionTree, null, 1)}
+        </code>
+      </pre>
+      <StickyContainer>
         <Space
-          as="h2"
-          h={{ size: 'm', properties: ['margin-right'] }}
+          v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           className={classNames({
-            [font('wb', 5)]: true,
-            'no-margin': true,
+            'flex flex--v-center bg-smoke': true,
           })}
         >
-          Collection contents
+          <Space
+            as="h2"
+            h={{ size: 'm', properties: ['margin-right'] }}
+            className={classNames({
+              [font('wb', 5)]: true,
+              'no-margin': true,
+            })}
+          >
+            Collection contents
+          </Space>
+          <Icon name="tree" />
         </Space>
-        <Icon name="tree" />
-      </Space>
-      <StickyContainerInner>
-        <TreeView />
-      </StickyContainerInner>
-    </StickyContainer>
+        <StickyContainerInner>
+          <TreeView />
+        </StickyContainerInner>
+      </StickyContainer>
+    </>
   ) : null;
 };
 export default ArchiveTree;

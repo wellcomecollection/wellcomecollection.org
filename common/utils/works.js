@@ -21,11 +21,11 @@ export type ArchiveNode = {|
   title: string,
   alternativeTitles: string[],
   referenceNumber?: string,
-  partOf?: [],
+  // partOf?: [],
   parts?: [],
-  precededBy?: [],
-  succeededBy?: [],
-  type: 'Work',
+  // precededBy?: [],
+  // succeededBy?: [],
+  type: string,
 |};
 
 export function getDownloadOptionsFromImageUrl(
@@ -260,10 +260,10 @@ function makeArchiveAncestorArray(partOfArray, nextPart) {
   if (!nextPart) return partOfArray;
   return makeArchiveAncestorArray(
     [...partOfArray, parsePartOf(nextPart)],
-    nextPart.partOf && nextPart.partOf[0]
-    // nextPart.partOf.find(part => {
-    //   return nextPart.referenceNumber.includes(part.referenceNumber);
-    // })
+    nextPart.partOf &&
+      nextPart.partOf.find(part => {
+        return nextPart.referenceNumber.includes(part.referenceNumber);
+      })
   );
 }
 
