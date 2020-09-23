@@ -276,7 +276,7 @@ const CovidWeAreOpenPage = () => {
               >
                 <Divider extraClasses="divider--keyline divider--pumice" />
               </Space>
-              <CovidSmallPrint className="body-text">
+              <div className="body-text">
                 <h2 id="need-to-know-about-your-ticket">
                   Need to know about your ticket
                 </h2>
@@ -316,7 +316,7 @@ const CovidWeAreOpenPage = () => {
                     before the start of each time slot.
                   </li>
                 </ul>
-              </CovidSmallPrint>
+              </div>
             </Space>
           </div>
         </div>
