@@ -118,7 +118,7 @@ const CovidWelcomeBackPage = () => {
                 <h2 id="plan-your-visit">Plan your visit</h2>
 
                 <h3>What’s open?</h3>
-                <ul className="no-margin">
+                <ul>
                   <li>
                     ‘Being Human’ permanent gallery, the Reading Room, café, and
                     library are open from 7 October.
@@ -137,7 +137,7 @@ const CovidWelcomeBackPage = () => {
                 </p>
 
                 <h3>Facilities and access</h3>
-                <ul className="no-margin">
+                <ul>
                   <li>All our toilets are open as usual.</li>
                   <li>
                     There are accessible toilets on every floor and a Changing
@@ -166,7 +166,7 @@ const CovidWelcomeBackPage = () => {
                 </p>
 
                 <h3>Storing your belongings</h3>
-                <ul className="no-margin">
+                <ul>
                   <li>
                     You will be able to use the lockers on level 0 to store
                     belongings.
@@ -281,7 +281,7 @@ const CovidWelcomeBackPage = () => {
                 />
 
                 <h3>How we’re keeping you safe</h3>
-                <ul className="no-margin">
+                <ul>
                   <li>
                     Limiting the number of visitors each day with a free
                     ticketing system.{' '}
