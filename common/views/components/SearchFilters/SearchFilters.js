@@ -30,6 +30,7 @@ export type SearchFiltersSharedProps = {|
   productionDatesFrom: ?string,
   productionDatesTo: ?string,
   workTypeInUrlArray: string[],
+  imagesColor: ?string,
 |};
 
 const SearchFilters = ({
@@ -39,7 +40,11 @@ const SearchFilters = ({
   changeHandler,
 }: Props) => {
   const workTypeInUrlArray = worksRouteProps.workType || [];
-  const { productionDatesFrom, productionDatesTo } = worksRouteProps;
+  const {
+    productionDatesFrom,
+    productionDatesTo,
+    imagesColor,
+  } = worksRouteProps;
 
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
@@ -96,7 +101,7 @@ const SearchFilters = ({
     }
   }, [inputDateTo]);
 
-  const sharedProps = {
+  const sharedProps: SearchFiltersSharedProps = {
     searchForm,
     worksRouteProps,
     workTypeAggregations,
@@ -109,6 +114,7 @@ const SearchFilters = ({
     productionDatesFrom,
     productionDatesTo,
     workTypeInUrlArray,
+    imagesColor,
   };
 
   return (

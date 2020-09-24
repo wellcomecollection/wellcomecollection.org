@@ -103,6 +103,11 @@ const SearchForm = ({
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
     const search = inputValue(form['search']);
+    const imagesColorValue = inputValue(form['images.color']);
+    const imagesColor =
+      typeof imagesColorValue === 'string'
+        ? imagesColorValue.replace('#', '')
+        : imagesColorValue;
 
     const itemsLocationsLocationType =
       form['items.locations.locationType'] instanceof window.HTMLInputElement
@@ -117,6 +122,7 @@ const SearchForm = ({
       page: 1,
       productionDatesFrom: inputValue(form['production.dates.from']),
       productionDatesTo: inputValue(form['production.dates.to']),
+      imagesColor,
       sortOrder,
       sort,
       search,

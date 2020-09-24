@@ -56,6 +56,11 @@ module.exports = function(webpack, assetPrefix) {
         use: 'raw-loader',
       });
 
+      config.module.rules.push({
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      });
+
       return config;
     },
   });

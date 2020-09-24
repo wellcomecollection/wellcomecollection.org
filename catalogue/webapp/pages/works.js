@@ -369,7 +369,11 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   if (shouldSeeArchives) {
     ctx.query.toggles.archivesPrototype = true;
   }
-  const { unfilteredSearchResults, archivesPrototype } = ctx.query.toggles;
+  const {
+    unfilteredSearchResults,
+    archivesPrototype,
+    enableColorFiltering,
+  } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
   const apiPropsFn = unfilteredSearchResults
@@ -407,7 +411,10 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   // TODO: increase pageSize to 100 when `isImageSearch` (but only if `isEnhanced`)
   const imagesOrError = shouldGetImages
     ? await getImages({
-        params: worksPropsToImagesProps(apiProps),
+        params: {
+          ...worksPropsToImagesProps(apiProps),
+          color: enableColorFiltering ? params.imagesColor : undefined,
+        },
         toggles: ctx.query.toggles,
       })
     : null;
