@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, Fragment } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Control from '../Buttons/Control/Control';
@@ -146,13 +146,13 @@ const TableRow = ({ items, hasHeader }: TableRow) => {
   return (
     <TableTr>
       {items.map((item, index) => (
-        <>
+        <Fragment key={index}>
           {hasHeader && index === 0 ? (
-            <TableTh scope="row">{item}</TableTh>
+            <TableTh scope="row" dangerouslySetInnerHTML={{ __html: item }} />
           ) : (
-            <TableTd>{item}</TableTd>
+            <TableTd dangerouslySetInnerHTML={{ __html: item }} />
           )}
-        </>
+        </Fragment>
       ))}
     </TableTr>
   );
@@ -276,8 +276,12 @@ const Table = ({ rows, hasRowHeaders, caption }: Props) => {
             {headerRow && (
               <TableThead>
                 <TableTr>
-                  {headerRow.map(item => (
-                    <TableTh scope="col">{item}</TableTh>
+                  {headerRow.map((item, index) => (
+                    <TableTh
+                      key={index}
+                      scope="col"
+                      dangerouslySetInnerHTML={{ __html: item }}
+                    />
                   ))}
                 </TableTr>
               </TableThead>
@@ -287,8 +291,8 @@ const Table = ({ rows, hasRowHeaders, caption }: Props) => {
                 'has-row-headers': hasRowHeaders,
               })}
             >
-              {bodyRows.map(row => (
-                <TableRow items={row} hasHeader={hasRowHeaders} />
+              {bodyRows.map((row, index) => (
+                <TableRow key={index} items={row} hasHeader={hasRowHeaders} />
               ))}
             </TableTbody>
           </TableTable>

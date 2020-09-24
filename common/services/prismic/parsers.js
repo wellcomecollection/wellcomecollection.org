@@ -724,6 +724,19 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
           }
           break;
 
+        case 'table':
+          return {
+            type: 'table',
+            value: {
+              rows: slice.primary.tableData
+                .trim()
+                .split(/[\r\n]+/)
+                .map(row => row.split('|')),
+              caption: slice.primary.caption,
+              hasRowHeaders: slice.primary.hasRowHeaders,
+            },
+          };
+
         // Deprecated
         case 'imageList':
           return {

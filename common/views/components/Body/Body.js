@@ -21,6 +21,7 @@ import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
 import VenueHours from '../VenueHours/VenueHours';
 import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
+import Table from '../Table/Table';
 import {
   defaultSerializer,
   dropCapSerializer,
@@ -223,6 +224,11 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
                   </>
                 )}
               </>
+            )}
+            {slice.type === 'table' && (
+              <Layout10>
+                <Table {...slice.value} />
+              </Layout10>
             )}
             {/* deprecated */}
             {slice.type === 'deprecatedImageList' && (
