@@ -193,7 +193,7 @@ function createNodeFromWork({
       work.parts &&
       work.parts.map(part => ({
         openStatus: false,
-        work: part,
+        work: createWorkPropertyFromWork(part),
         children: part.children,
       })),
   };
@@ -204,7 +204,7 @@ const anAsyncFunction = async (item, toggles) => {
   return !item.children
     ? {
         openStatus: false,
-        work: item,
+        work: item.work,
         children: work.parts.map(part => ({
           work: part,
           openStatus: false,
@@ -218,14 +218,14 @@ async function createSiblingsArray(work: Work, toggles): ?(UiTree[]) {
   const siblingsArray = [
     ...(work.precededBy || []).map(item => ({
       openStatus: false,
-      work: item,
+      work: createWorkPropertyFromWork(item),
     })),
     {
       ...createNodeFromWork({ work, openStatus: false }),
     },
     ...(work.succeededBy || []).map(item => ({
       openStatus: false,
-      work: item,
+      work: createWorkPropertyFromWork(item),
     })),
   ];
 
@@ -252,14 +252,13 @@ async function createArchiveTree({
   const partOfReversed = [...(archiveAncestorArray || [])].reverse();
   return [
     await partOfReversed.reduce(
-      async (acc, curr, i) => {
-        const test = await createSiblingsArray(work, toggles);
-        console.log(test);
+      async (accP, curr, i) => {
         // TODO need to createSiblings array for each of these [acc]
+        const acc = await accP;
         return {
           openStatus: true,
           work: curr,
-          children: ['test'], // If it's the immediate parent we create an array of the current work and it's siblings to be the children.
+          children: i === 0 ? await createSiblingsArray(work, toggles) : [acc], // If it's the immediate parent we create an array of the current work and it's siblings to be the children.
         };
       },
       // We only need the following for a top level work that has an empty partOf array,
@@ -354,7 +353,7 @@ function addWorkPartsToCollectionTree({
 async function expandTree(workId, toggles, setCollectionTree, collectionTree) {
   const selectedWork = await getWork({ id: workId, toggles });
   const newTree = addWorkPartsToCollectionTree({
-    work: selectedWork,
+    work: createWorkPropertyFromWork(selectedWork),
     collectionTree,
     openStatus: true,
     manualTreeExpansion: true,
@@ -481,28 +480,30 @@ const NestedList = ({
   isTopLevel,
 }: NestedListProps) => {
   return (
-    <ul
-      className={classNames({
-        'font-size-5': true,
-      })}
-    >
-      {collectionTree &&
-        collectionTree.map((item, i) => {
-          return (
-            item.work && (
-              <ListItem
-                key={item.work.id}
-                item={item}
-                currentWorkId={currentWorkId}
-                selected={selected}
-                fullTree={fullTree}
-                setCollectionTree={setCollectionTree}
-                isRootItem={isTopLevel && i === 0}
-              />
-            )
-          );
+    <>
+      <ul
+        className={classNames({
+          'font-size-5': true,
         })}
-    </ul>
+      >
+        {collectionTree &&
+          collectionTree.map((item, i) => {
+            return (
+              item.work && (
+                <ListItem
+                  key={item.work.id}
+                  item={item}
+                  currentWorkId={currentWorkId}
+                  selected={selected}
+                  fullTree={fullTree}
+                  setCollectionTree={setCollectionTree}
+                  isRootItem={isTopLevel && i === 0}
+                />
+              )
+            );
+          })}
+      </ul>
+    </>
   );
 };
 
@@ -530,6 +531,9 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   );
 
   useEffect(() => {
+    console.log('tree changed');
+  }, [collectionTree]);
+  useEffect(() => {
     // if (!initialLoad.current) {
     // DO THIS IN useEffect...
     async function setupTree() {
@@ -538,7 +542,6 @@ const ArchiveTree = ({ work }: { work: Work }) => {
         archiveAncestorArray,
         toggles,
       });
-      console.log();
       setCollectionTree(tree || []);
     }
     setupTree();
