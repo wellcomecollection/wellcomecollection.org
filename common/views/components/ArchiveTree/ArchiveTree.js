@@ -199,7 +199,7 @@ function createNodeFromWork({
   };
 }
 
-const anAsyncFunction = async (item, toggles) => {
+const addChildren = async (item, toggles) => {
   const work = await getWork({ id: item.work.id, toggles });
   return !item.children
     ? {
@@ -231,7 +231,7 @@ async function createSiblingsArray(work: Work, toggles): ?(UiTree[]) {
 
   // Adding the children of each of the works in the siblingsArray
   const siblingsArrayWithChildren = await Promise.all(
-    siblingsArray.map(item => anAsyncFunction(item, toggles))
+    siblingsArray.map(item => addChildren(item, toggles))
   );
 
   return siblingsArrayWithChildren;
@@ -243,51 +243,114 @@ type Temp = {|
   toggles: any, // TODO
 |};
 
+// const updateChildren = (value, obj) =>
+//   obj.constructor ===
+//   Object.keys(obj).forEach(key => {
+//     if (key === 'children') {
+//       obj[key] = value;
+//     } else {
+//       updateChildren(value, obj[key]);
+//     }
+//   });
+
+function updateChildren({ array, id, value }) {
+  const test = array.map(item => {
+    if (item.work.id === id) {
+      return {
+        ...item,
+        children: value,
+      };
+    } else {
+      return item;
+    }
+    //   if (item.children) {
+    //       children: updateChildren({
+    //         array: item.children,
+    //         id,
+    //         value,
+    //       }),
+    //     };
+    //   } else {
+    //     return item;
+    //   }
+    // }
+  });
+  console.log('a', array);
+  console.log('test', test);
+}
+
 async function createArchiveTree({
   work,
   archiveAncestorArray,
   toggles,
 }: Temp): ?any {
   // UiTree[]
-  const partOfReversed = [...(archiveAncestorArray || [])].reverse();
-  // TODO don't reverse?
-  // top level item just return,
-  // next create a siblings array
-  // and make it child of one above
-  const treeStructure = await partOfReversed.reduce(
-    async (accP, curr, i) => {
-      // TODO need to createSiblings array for each of these acc
-      const acc = await accP;
+  const treeStructure = await archiveAncestorArray.reduce(
+    async (accP, curr, i, ancestorArray) => {
+      const acc = (await accP) || [];
+      const siblings = (await getSiblings({ id: curr.id, toggles })) || [];
+      // console.log(i, curr.title, curr.id, ancestorArray, siblings);
       if (i === 0) {
-        return [
-          // will this work for top level?
-          {
-            openStatus: true,
-            work: curr,
-            children: await createSiblingsArray(work, toggles), // If it's the immediate parent, i.e. the first item in the array, we create an array of the current work and it's siblings to be its children.
-          },
-        ];
+        return siblings;
       } else {
-        // TODO return sibling array, but want to return acc as children of nodes that are on the ancestorArray
-        const siblings = await createSiblingsArray(curr, toggles);
-        console.log(siblings);
-        return [
-          {
-            openStatus: true,
-            work: curr,
-            children: acc, // If it's the immediate parent we create an array of the current work and it's siblings to be the children.
-          },
-        ];
+        const idOfObjectToUpdate = ancestorArray[i - 1].id;
+        console.log(idOfObjectToUpdate);
+        return updateChildren({
+          array: acc,
+          id: idOfObjectToUpdate,
+          value: siblings,
+        });
       }
+      // if (i === 0) {
+      //   const first = {
+      //     openStatus: true,
+      //     work: curr,
+      //   };
+      //   console.log(first);
+      //   return first;
+      //   // return
+      //   //   {
+      //   //     openStatus: true,
+      //   //     work: curr,
+      //   //     // children: await createSiblingsArray(work, toggles),
+      //   //   }
+      // } else {
+      // TODO return sibling array, but want to return acc as children of nodes that are on the ancestorArray
+      // need to get the whole work of the curr, so have preceededBy and succeededBy
+
+      // acc.[] need to find the correct objecy on the array and add a children property with siblings as its value
+      // console.log(curr.title, siblings);
+      // return [
+      //   {
+      //     openStatus: true, // if in ancestor array
+      //     work: curr,
+      //     children: acc, // If it's the immediate parent we create an array of the current work and it's siblings to be the children.
+      //   },
+      // ];
+      // }
     },
+    Promise.resolve([])
     // We only need the following for a top level work that has an empty partOf array,
     // in which case this is all that gets returned.
     // Otherwise it gets replace as part of the createSiblingsArray above,
     // which also includes the siblings of the current work.
-    createNodeFromWork({ work, openStatus: true })
+    // createNodeFromWork({ work, openStatus: true })
   );
   return treeStructure;
 }
+
+async function getSiblings({ id, toggles }) {
+  const currWork = await getWork({ id, toggles });
+  const siblings = await createSiblingsArray(currWork, toggles);
+  return siblings;
+}
+
+// async function mapSiblingArrays({ work, archiveAncestorArray, toggles }) {
+//   const promises = archiveAncestorArray.map(curr =>
+//     getSiblings({ id: curr.id, toggles })
+//   );
+//   Promise.all(promises).then(data => console.log(data));
+// }
 
 function addWorkPartsToCollectionTree({
   work,
@@ -558,6 +621,11 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   useEffect(() => {
     // if (!initialLoad.current) {
     async function setupTree() {
+      // mapSiblingArrays({
+      //   work,
+      //   archiveAncestorArray,
+      //   toggles,
+      // });
       const tree = await createArchiveTree({
         work,
         archiveAncestorArray,
