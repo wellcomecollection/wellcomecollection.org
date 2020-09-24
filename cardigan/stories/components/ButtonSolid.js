@@ -28,5 +28,4 @@ const ButtonExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('ButtonSolid', ButtonExample);
 stories.add('ButtonSolid', ButtonExample, { readme: { sidebar: Readme } });

@@ -1,6 +1,6 @@
 resource "aws_lb_target_group" "http" {
   name                 = var.namespace
-  port                 = var.nginx_container_port
+  port                 = module.nginx_container.container_port
   protocol             = "HTTP"
   vpc_id               = var.vpc_id
   deregistration_delay = 10
@@ -9,7 +9,7 @@ resource "aws_lb_target_group" "http" {
   health_check {
     interval            = 10
     path                = var.healthcheck_path
-    port                = var.nginx_container_port
+    port                = module.nginx_container.container_port
     protocol            = "HTTP"
     timeout             = 5
     healthy_threshold   = 3
@@ -22,52 +22,81 @@ resource "aws_lb_target_group" "http" {
   }
 }
 
-module "service" {
-  source = "github.com/wellcomecollection/terraform-aws-ecs-service.git//service?ref=v1.1.1"
-
-  service_name = var.namespace
-  cluster_arn  = var.cluster_arn
-
-  desired_task_count = var.desired_task_count
-
-  task_definition_arn = module.task.arn
-
-  subnets = var.subnets
-
-  namespace_id = var.namespace_id
-
-  security_group_ids = var.security_group_ids
-
-  target_group_arn = aws_lb_target_group.http.arn
-  container_name   = "nginx"
-  container_port   = var.nginx_container_port
+module "log_router_container" {
+  source    = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/firelens?ref=v3.2.0"
+  namespace = var.namespace
 }
 
-module "task" {
-  source = "github.com/wellcomecollection/terraform-aws-ecs-service.git//task_definition/container_with_sidecar?ref=v1.1.1"
+module "log_router_container_secrets_permissions" {
+  source    = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/secrets?ref=v3.2.0"
+  secrets   = module.log_router_container.shared_secrets_logging
+  role_name = module.task_definition.task_execution_role_name
+}
 
-  task_name = var.namespace
+module "nginx_container" {
+  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/nginx/frontend?ref=v3.2.0"
+
+  forward_port      = var.container_port
+  log_configuration = module.log_router_container.container_log_configuration
+}
+
+module "app_container" {
+  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/container_definition?ref=v3.2.0"
+  name   = "app"
+
+  image = var.container_image
+
+  environment = var.env_vars
+  secrets     = var.secret_env_vars
+
+  log_configuration = module.log_router_container.container_log_configuration
+}
+
+module "app_container_secrets_permissions" {
+  source    = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/secrets?ref=v3.2.0"
+  secrets   = var.secret_env_vars
+  role_name = module.task_definition.task_execution_role_name
+}
+
+module "task_definition" {
+  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/task_definition?ref=v3.2.0"
 
   cpu    = var.app_cpu + var.nginx_cpu
   memory = var.app_memory + var.nginx_memory
 
-  app_container_image = var.container_image
-  app_container_port  = var.container_port
-  app_cpu             = var.app_cpu
-  app_memory          = var.app_memory
+  container_definitions = [
+    module.log_router_container.container_definition,
+    module.nginx_container.container_definition,
+    module.app_container.container_definition
+  ]
 
-  app_env_vars        = var.env_vars
-  secret_app_env_vars = var.secret_env_vars
+  task_name = var.namespace
+}
 
-  sidecar_container_image = var.nginx_container_image
-  sidecar_container_port  = var.nginx_container_port
-  sidecar_cpu             = var.nginx_cpu
-  sidecar_memory          = var.nginx_memory
+module "service" {
+  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/service?ref=v3.2.0"
 
-  sidecar_env_vars = {
-    APP_HOST = "localhost"
-    APP_PORT = "3000"
-  }
+  cluster_arn  = var.cluster_arn
+  service_name = var.namespace
 
-  aws_region = var.aws_region
+  service_discovery_namespace_id = var.namespace_id
+
+  task_definition_arn = module.task_definition.arn
+
+  subnets            = var.subnets
+  security_group_ids = var.security_group_ids
+
+  desired_task_count = var.desired_task_count
+  use_fargate_spot   = var.use_fargate_spot
+
+  target_group_arn = aws_lb_target_group.http.arn
+
+  container_name = "nginx"
+  container_port = module.nginx_container.container_port
+
+  propagate_tags = "SERVICE"
+
+  deployment_service = var.deployment_service_name
+  deployment_env     = var.deployment_service_env
+  deployment_label   = "initial"
 }

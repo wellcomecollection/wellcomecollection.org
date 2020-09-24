@@ -1,7 +1,7 @@
-module "catalogue-service-23062020" {
-  source = "../../../infrastructure/terraform/modules/service_23062020"
+module "catalogue-service-17092020" {
+  source = "../../../infrastructure/terraform/modules/service"
 
-  namespace    = "catalogue-23062020-${var.env_suffix}"
+  namespace    = "catalogue-17092020-${var.env_suffix}"
 
   namespace_id = var.namespace_id
   cluster_arn  = var.cluster_arn
@@ -22,10 +22,13 @@ module "catalogue-service-23062020" {
 
   vpc_id  = local.vpc_id
   subnets = local.private_subnets
+
+  deployment_service_name = "catalogue_webapp"
+  deployment_service_env = var.env_suffix
 }
 
 locals {
-  target_group_arn = module.catalogue-service-23062020.target_group_arn
+  target_group_arn = module.catalogue-service-17092020.target_group_arn
 }
 
 module "path_listener" {

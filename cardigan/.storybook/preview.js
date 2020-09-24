@@ -12,18 +12,18 @@ addParameters({
   options: {
     name: 'Cardigan',
     url: 'https://cardigan.wellcomecollection.org',
-    theme: {}
+    theme: {},
   },
 });
 addDecorator(addReadme);
 addDecorator(withKnobs);
 addDecorator(checkA11y);
 
-const CenterDecorator = storyFn => {
+const CenterDecorator = (storyFn, { parameters }) => {
   const story = storyFn();
 
   const styles = {
-    padding: '0px 30px',
+    padding: parameters.isFullScreen ? 0 : '30px',
   };
 
   return (

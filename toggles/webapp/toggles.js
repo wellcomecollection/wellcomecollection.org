@@ -5,7 +5,7 @@ module.exports = {
       title: 'Wellcome Collection reopening UI changes',
       description:
         'Show additions/amendments made in preparation for the reopening of the Wellcome Collection building',
-      defaultValue: false,
+      defaultValue: true,
     },
     {
       id: 'archivesPrototype',
@@ -57,7 +57,7 @@ module.exports = {
     {
       id: 'isHotjarActive',
       title: 'Hotjar',
-      defaultValue: true,
+      defaultValue: false,
       description: 'Embeds the Hotjar script for user research',
     },
   ],

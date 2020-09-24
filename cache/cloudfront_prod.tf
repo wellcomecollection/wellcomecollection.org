@@ -245,6 +245,6 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     }
   }
 
-  retain_on_delete = true
+  retain_on_delete = false
 }
 

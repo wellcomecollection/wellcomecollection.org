@@ -1,3 +1,4 @@
+import type { CatalogueApiError } from '@weco/common/model/catalogue';
 import { serialiseUrl } from '@weco/common/services/catalogue/routes';
 
 export const rootUris = {
@@ -24,3 +25,11 @@ export const queryString = (params: { [key: string]: any }): string => {
   });
   return strings.length > 0 ? `?${strings.join('&')}` : '';
 };
+
+export const catalogueApiError = (): CatalogueApiError => ({
+  description: '',
+  errorType: 'http',
+  httpStatus: 500,
+  label: 'Internal Server Error',
+  type: 'Error',
+});
