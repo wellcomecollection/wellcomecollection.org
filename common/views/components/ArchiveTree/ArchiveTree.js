@@ -221,7 +221,7 @@ async function createSiblingsArray(work: Work, toggles): ?(UiTree[]) {
       work: createWorkPropertyFromWork(item),
     })),
     {
-      ...createNodeFromWork({ work, openStatus: false }),
+      ...createNodeFromWork({ work, openStatus: true }),
     },
     ...(work.succeededBy || []).map(item => ({
       openStatus: false,
@@ -243,40 +243,27 @@ type Temp = {|
   toggles: any, // TODO
 |};
 
-// const updateChildren = (value, obj) =>
-//   obj.constructor ===
-//   Object.keys(obj).forEach(key => {
-//     if (key === 'children') {
-//       obj[key] = value;
-//     } else {
-//       updateChildren(value, obj[key]);
-//     }
-//   });
-
 function updateChildren({ array, id, value }) {
-  const test = array.map(item => {
-    if (item.work.id === id) {
-      return {
-        ...item,
-        children: value,
-      };
-    } else {
-      return item;
-    }
-    //   if (item.children) {
-    //       children: updateChildren({
-    //         array: item.children,
-    //         id,
-    //         value,
-    //       }),
-    //     };
-    //   } else {
-    //     return item;
-    //   }
-    // }
-  });
-  console.log('a', array);
-  console.log('test', test);
+  return (
+    array &&
+    array.map(item => {
+      if (item.work.id === id) {
+        return {
+          ...item,
+          children: value,
+        };
+      } else {
+        return {
+          ...item,
+          children: updateChildren({
+            array: item.children,
+            id,
+            value,
+          }),
+        };
+      }
+    })
+  );
 }
 
 async function createArchiveTree({
@@ -285,16 +272,16 @@ async function createArchiveTree({
   toggles,
 }: Temp): ?any {
   // UiTree[]
+  console.log(archiveAncestorArray);
   const treeStructure = await archiveAncestorArray.reduce(
     async (accP, curr, i, ancestorArray) => {
       const acc = (await accP) || [];
       const siblings = (await getSiblings({ id: curr.id, toggles })) || [];
-      // console.log(i, curr.title, curr.id, ancestorArray, siblings);
       if (i === 0) {
         return siblings;
       } else {
         const idOfObjectToUpdate = ancestorArray[i - 1].id;
-        console.log(idOfObjectToUpdate);
+        // TODO comment
         return updateChildren({
           array: acc,
           id: idOfObjectToUpdate,
@@ -344,13 +331,6 @@ async function getSiblings({ id, toggles }) {
   const siblings = await createSiblingsArray(currWork, toggles);
   return siblings;
 }
-
-// async function mapSiblingArrays({ work, archiveAncestorArray, toggles }) {
-//   const promises = archiveAncestorArray.map(curr =>
-//     getSiblings({ id: curr.id, toggles })
-//   );
-//   Promise.all(promises).then(data => console.log(data));
-// }
 
 function addWorkPartsToCollectionTree({
   work,
@@ -709,7 +689,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
             borderRadius: '6px',
           }}
         >
-          {JSON.stringify(collectionTree, null, 1)}
+          {/* {JSON.stringify(collectionTree, null, 1)} */}
         </code>
       </pre>
       <StickyContainer>
