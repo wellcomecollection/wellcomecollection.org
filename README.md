@@ -60,15 +60,7 @@ This is useful if you want to run both the catalogue and content apps simultaneo
 
 ## Deployment
 
-To deploy either the `content` or `catalogue` services, once a pull request is merged and `master` has successfully built in CI then run:
-```
-yarn deployCatalogue
-```
-or, respectively,
-```
-yarn deployContent
-```
-in the root directory of this repo. These will confirm what will be deployed and then attempt to `terraform apply` with the latest images: *you may need to run `terraform init` in the `<service>/terraform` directories before this will work*. You will also need to have valid AWS creds active in your current shell session.
+This project uses the [weco-deploy](https://github.com/wellcomecollection/weco-deploy) tool.
 
 ## Other pieces of the Wellcome Collection puzzle
 
