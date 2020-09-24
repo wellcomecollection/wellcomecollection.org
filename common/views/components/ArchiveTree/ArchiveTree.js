@@ -250,24 +250,43 @@ async function createArchiveTree({
 }: Temp): ?any {
   // UiTree[]
   const partOfReversed = [...(archiveAncestorArray || [])].reverse();
-  return [
-    await partOfReversed.reduce(
-      async (accP, curr, i) => {
-        // TODO need to createSiblings array for each of these [acc]
-        const acc = await accP;
-        return {
-          openStatus: true,
-          work: curr,
-          children: i === 0 ? await createSiblingsArray(work, toggles) : [acc], // If it's the immediate parent we create an array of the current work and it's siblings to be the children.
-        };
-      },
-      // We only need the following for a top level work that has an empty partOf array,
-      // in which case this is all that gets returned.
-      // Otherwise it gets replace as part of the createSiblingsArray above,
-      // which also includes the siblings of the current work.
-      createNodeFromWork({ work, openStatus: true })
-    ),
-  ];
+  // TODO don't reverse?
+  // top level item just return,
+  // next create a siblings array
+  // and make it child of one above
+  const treeStructure = await partOfReversed.reduce(
+    async (accP, curr, i) => {
+      // TODO need to createSiblings array for each of these acc
+      const acc = await accP;
+      if (i === 0) {
+        return [
+          // will this work for top level?
+          {
+            openStatus: true,
+            work: curr,
+            children: await createSiblingsArray(work, toggles), // If it's the immediate parent, i.e. the first item in the array, we create an array of the current work and it's siblings to be its children.
+          },
+        ];
+      } else {
+        // TODO return sibling array, but want to return acc as children of nodes that are on the ancestorArray
+        const siblings = await createSiblingsArray(curr, toggles);
+        console.log(siblings);
+        return [
+          {
+            openStatus: true,
+            work: curr,
+            children: acc, // If it's the immediate parent we create an array of the current work and it's siblings to be the children.
+          },
+        ];
+      }
+    },
+    // We only need the following for a top level work that has an empty partOf array,
+    // in which case this is all that gets returned.
+    // Otherwise it gets replace as part of the createSiblingsArray above,
+    // which also includes the siblings of the current work.
+    createNodeFromWork({ work, openStatus: true })
+  );
+  return treeStructure;
 }
 
 function addWorkPartsToCollectionTree({
