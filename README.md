@@ -4,7 +4,7 @@ Wellcome Collection web applications.
 
 [![Join the chat at https://gitter.im/wellcomecollection/wellcomecollection.org](https://badges.gitter.im/wellcomecollection/wellcomecollection.org.svg)](https://gitter.im/wellcomecollection/wellcomecollection.org?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
 
-[![Build status](https://badge.buildkite.com/b8986815014884f68d6d831ceaf5b8712e0e581df767a7f6bf.svg)](https://buildkite.com/wellcomecollection/front-end-wellcomecollection-dot-org)
+[![Build status](https://badge.buildkite.com/b8986815014884f68d6d831ceaf5b8712e0e581df767a7f6bf.svg?branch=master)](https://buildkite.com/wellcomecollection/front-end-wellcomecollection-dot-org)
 
 We all work in the **open** and **open source** where we can and where it makes sense
 
