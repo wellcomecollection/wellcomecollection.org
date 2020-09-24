@@ -369,6 +369,23 @@ const ListItem = ({
   fullTree,
   isRootItem,
 }: ListItemType) => {
+  // const [showButton, setShowButton] = useState(
+  //   item.children && item.children.length > 0
+  // );
+  // const toggles = useContext(TogglesContext);
+  // useEffect(() => { // if already has children don't do anything
+  //   let isMounted = true;
+  //   const checkForChildren = async () => {
+  //     const selectedWork = await getWork({ id: item.work.id, toggles });
+  //     if (isMounted) {
+  //       setShowButton(selectedWork.parts && selectedWork.parts.length > 0); // update collectionTree instead
+  //     }
+  //   };
+  //   checkForChildren();
+  //   return () => {
+  //     isMounted = false;
+  //   };
+  // }, []);
   return (
     <li>
       <div style={{ padding: '10px 10px 10px 0' }}>
@@ -480,30 +497,28 @@ const NestedList = ({
   isTopLevel,
 }: NestedListProps) => {
   return (
-    <>
-      <ul
-        className={classNames({
-          'font-size-5': true,
+    <ul
+      className={classNames({
+        'font-size-5': true,
+      })}
+    >
+      {collectionTree &&
+        collectionTree.map((item, i) => {
+          return (
+            item.work && (
+              <ListItem
+                key={item.work.id}
+                item={item}
+                currentWorkId={currentWorkId}
+                selected={selected}
+                fullTree={fullTree}
+                setCollectionTree={setCollectionTree}
+                isRootItem={isTopLevel && i === 0}
+              />
+            )
+          );
         })}
-      >
-        {collectionTree &&
-          collectionTree.map((item, i) => {
-            return (
-              item.work && (
-                <ListItem
-                  key={item.work.id}
-                  item={item}
-                  currentWorkId={currentWorkId}
-                  selected={selected}
-                  fullTree={fullTree}
-                  setCollectionTree={setCollectionTree}
-                  isRootItem={isTopLevel && i === 0}
-                />
-              )
-            );
-          })}
-      </ul>
-    </>
+    </ul>
   );
 };
 
@@ -517,25 +532,12 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     (work.parts && work.parts.length > 0) ||
     (work.partOf && work.partOf.length > 0);
 
-  const TreeView = () => (
-    <Tree>
-      <NestedList
-        selected={selected}
-        currentWorkId={work.id}
-        fullTree={collectionTree}
-        setCollectionTree={setCollectionTree}
-        collectionTree={collectionTree}
-        isTopLevel={true}
-      />
-    </Tree>
-  );
+  // useEffect(() => {
+  //   console.log('tree changed');
+  // }, [collectionTree]);
 
   useEffect(() => {
-    console.log('tree changed');
-  }, [collectionTree]);
-  useEffect(() => {
     // if (!initialLoad.current) {
-    // DO THIS IN useEffect...
     async function setupTree() {
       const tree = await createArchiveTree({
         work,
@@ -549,9 +551,8 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     // initialLoad.current = false;
   }, []);
 
-  // useEffect(() => {
-  //   if (!initialLoad.current) {
-  //     const workInfo = document.getElementById('work-info');
+  //   initialLoad.current = false;
+  // }, [work]);
 
   //     if (workInfo) {
   //       window.requestAnimationFrame(() => {
@@ -588,6 +589,19 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   //     });
   //   }
   // }, [work]);
+
+  const TreeView = () => (
+    <Tree>
+      <NestedList
+        selected={selected}
+        currentWorkId={work.id}
+        fullTree={collectionTree}
+        setCollectionTree={setCollectionTree}
+        collectionTree={collectionTree}
+        isTopLevel={true}
+      />
+    </Tree>
+  );
 
   return isInArchive ? (
     <>
@@ -638,4 +652,5 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     </>
   ) : null;
 };
+
 export default ArchiveTree;
