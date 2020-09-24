@@ -213,7 +213,7 @@ const addChildren = async (item, toggles) => {
     : Promise.resolve(item);
 };
 
-async function createSiblingsArray(work: Work, toggles): ?(UiTree[]) {
+async function createSiblingsArray(work: Work, toggles, workId): ?(UiTree[]) {
   // An array of the current work and all it's siblings
   const siblingsArray = [
     ...(work.precededBy || []).map(item => ({
@@ -221,7 +221,10 @@ async function createSiblingsArray(work: Work, toggles): ?(UiTree[]) {
       work: createWorkPropertyFromWork(item),
     })),
     {
-      ...createNodeFromWork({ work, openStatus: true }),
+      ...createNodeFromWork({
+        work,
+        openStatus: !(workId === work.id),
+      }),
     },
     ...(work.succeededBy || []).map(item => ({
       openStatus: false,
@@ -272,11 +275,14 @@ async function createArchiveTree({
   toggles,
 }: Temp): ?any {
   // UiTree[]
-  console.log(archiveAncestorArray);
-  const treeStructure = await archiveAncestorArray.reduce(
+  const treeStructure = await [
+    ...archiveAncestorArray,
+    createWorkPropertyFromWork(work),
+  ].reduce(
     async (accP, curr, i, ancestorArray) => {
       const acc = (await accP) || [];
-      const siblings = (await getSiblings({ id: curr.id, toggles })) || [];
+      const siblings =
+        (await getSiblings({ id: curr.id, toggles, workId: work.id })) || [];
       if (i === 0) {
         return siblings;
       } else {
@@ -326,9 +332,9 @@ async function createArchiveTree({
   return treeStructure;
 }
 
-async function getSiblings({ id, toggles }) {
+async function getSiblings({ id, toggles, workId }) {
   const currWork = await getWork({ id, toggles });
-  const siblings = await createSiblingsArray(currWork, toggles);
+  const siblings = await createSiblingsArray(currWork, toggles, workId);
   return siblings;
 }
 
@@ -343,7 +349,7 @@ function addWorkPartsToCollectionTree({
   openStatus: boolean,
   manualTreeExpansion: boolean,
 |}): any[] {
-  // FIXME: I want this to be UiTree[] but Flow's telling me collectionTree is an inexact array type
+  // FIXME: I want this to be [] but Flow's telling me collectionTree is an inexact array type
   return collectionTree.map(node => {
     if (node.work.id !== work.id && !node.children) {
       return {
