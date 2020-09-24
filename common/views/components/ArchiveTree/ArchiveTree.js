@@ -338,95 +338,107 @@ async function getSiblings({ id, toggles, workId }) {
   return siblings;
 }
 
-function addWorkPartsToCollectionTree({
-  work,
-  collectionTree,
-  openStatus,
-  manualTreeExpansion,
-}: {|
-  work: any, // FIXME: don't know how to have Work here and not have Flow complain about a Promise
-  collectionTree: UiTree[],
-  openStatus: boolean,
-  manualTreeExpansion: boolean,
-|}): any[] {
-  // FIXME: I want this to be [] but Flow's telling me collectionTree is an inexact array type
-  return collectionTree.map(node => {
-    if (node.work.id !== work.id && !node.children) {
-      return {
-        openStatus,
-        ...node,
-      };
-    }
-    if (node.work.id !== work.id && node.children) {
-      return {
-        openStatus,
-        ...node,
-        children: addWorkPartsToCollectionTree({
-          work, // FIXME: don't know how to have Work here and not have Flow complain about a Promise
-          collectionTree: node.children,
-          openStatus: false,
-          manualTreeExpansion: manualTreeExpansion,
-        }),
-      };
-    }
-    if (node.work.id === work.id && !node.children) {
-      if (work.parts && work.parts.length > 0) {
-        return {
-          ...node,
-          openStatus: manualTreeExpansion || openStatus,
-          children: work.parts.map(part => ({
-            work: part,
-            openStatus: false,
-          })),
-        };
-      } else {
-        return {
-          ...node,
-        };
-      }
-    }
-    if (node.work.id === work.id && node.children) {
-      // don't want to overwrite anything that is already there
-      const mergedChildren =
-        work.parts &&
-        work.parts.map(part => {
-          const matchingItem =
-            node.children &&
-            node.children.find(
-              currentChild => part.id === currentChild.work.id
-            );
-          if (
-            matchingItem &&
-            matchingItem.children &&
-            matchingItem.children.length > 0
-          ) {
-            return matchingItem;
-          } else {
-            return {
-              work: part,
-              openStatus: false,
-            };
-          }
-        });
-      return {
-        ...node,
-        children: mergedChildren,
-      };
-    }
+// function addWorkPartsToCollectionTree({
+//   work,
+//   collectionTree, // TODO rename collection and archive
+//   openStatus,
+//   manualTreeExpansion,
+// }: {|
+//   work: any, // FIXME: don't know how to have Work here and not have Flow complain about a Promise
+//   collectionTree: UiTree[],
+//   openStatus: boolean,
+//   manualTreeExpansion: boolean,
+// |}): any[] {
+//   // FIXME: I want this to be [] but Flow's telling me collectionTree is an inexact array type
+//   return collectionTree.map(node => {
+//     if (node.work.id !== work.id && !node.children) {
+//       return {
+//         openStatus,
+//         ...node,
+//       };
+//     }
+//     if (node.work.id !== work.id && node.children) {
+//       return {
+//         openStatus,
+//         ...node,
+//         children: addWorkPartsToCollectionTree({
+//           work, // FIXME: don't know how to have Work here and not have Flow complain about a Promise
+//           collectionTree: node.children,
+//           openStatus: false,
+//           manualTreeExpansion: manualTreeExpansion,
+//         }),
+//       };
+//     }
+//     if (node.work.id === work.id && !node.children) {
+//       if (work.parts && work.parts.length > 0) {
+//         return {
+//           ...node,
+//           openStatus: manualTreeExpansion || openStatus,
+//           children: work.parts.map(part => ({
+//             work: part,
+//             openStatus: false,
+//           })),
+//         };
+//       } else {
+//         return {
+//           ...node,
+//         };
+//       }
+//     }
+//     if (node.work.id === work.id && node.children) {
+//       // don't want to overwrite anything that is already there
+//       const mergedChildren =
+//         work.parts &&
+//         work.parts.map(part => {
+//           const matchingItem =
+//             node.children &&
+//             node.children.find(
+//               currentChild => part.id === currentChild.work.id
+//             );
+//           if (
+//             matchingItem &&
+//             matchingItem.children &&
+//             matchingItem.children.length > 0
+//           ) {
+//             return matchingItem;
+//           } else {
+//             return {
+//               work: part,
+//               openStatus: false,
+//             };
+//           }
+//         });
+//       return {
+//         ...node,
+//         children: mergedChildren,
+//       };
+//     }
 
-    return collectionTree;
-  });
-}
+//     return collectionTree;
+//   });
+// }
 
-async function expandTree(workId, toggles, setCollectionTree, collectionTree) {
-  const selectedWork = await getWork({ id: workId, toggles });
-  const newTree = addWorkPartsToCollectionTree({
-    work: createWorkPropertyFromWork(selectedWork),
-    collectionTree,
-    openStatus: true,
-    manualTreeExpansion: true,
-  });
-  setCollectionTree(newTree);
+async function expandTree(item, toggles, setCollectionTree, collectionTree) {
+  // TODO  child get siblings of work child
+  const firstChild = item.children && item.children[0];
+  const siblings = firstChild
+    ? await getSiblings({ id: firstChild.work.id, toggles, workId: null })
+    : [];
+  setCollectionTree(
+    updateChildren({
+      array: collectionTree,
+      id: item.work.id,
+      value: siblings,
+    })
+  );
+  // const selectedWork = await getWork({ id: workId, toggles });
+  // const newTree = addWorkPartsToCollectionTree({
+  //   work: createWorkPropertyFromWork(selectedWork),
+  //   collectionTree,
+  //   openStatus: true,
+  //   manualTreeExpansion: true,
+  // });
+  // setCollectionTree(newTree);
 }
 
 const ListItem = ({
@@ -488,13 +500,19 @@ const ListItem = ({
                       cursor: 'pointer',
                     }}
                     onClick={() => {
-                      if (!item.children) {
-                        expandTree(
-                          item.work.id,
-                          toggles,
-                          setCollectionTree,
-                          fullTree
-                        );
+                      if (
+                        !item.children
+                        // &&
+                        // item.children.find(item => item.children === undefined) // then we haven't tried to add its children yet
+                      ) {
+                        expandTree(item, toggles, setCollectionTree, fullTree);
+                        // setCollectionTree(
+                        //   updateDefaultOpenStatus(
+                        //     item.work.id,
+                        //     fullTree,
+                        //     !item.openStatus
+                        //   )
+                        // );
                       } else {
                         setCollectionTree(
                           updateDefaultOpenStatus(
@@ -593,25 +611,15 @@ const NestedList = ({
 const ArchiveTree = ({ work }: { work: Work }) => {
   const toggles = useContext(TogglesContext);
   const archiveAncestorArray = getArchiveAncestorArray(work);
-  // const initialLoad = useRef(true);
+  const initialLoad = useRef(true);
   const [collectionTree, setCollectionTree] = useState([]);
   const selected = useRef(null);
   const isInArchive =
     (work.parts && work.parts.length > 0) ||
     (work.partOf && work.partOf.length > 0);
 
-  // useEffect(() => {
-  //   console.log('tree changed');
-  // }, [collectionTree]);
-
   useEffect(() => {
-    // if (!initialLoad.current) {
     async function setupTree() {
-      // mapSiblingArrays({
-      //   work,
-      //   archiveAncestorArray,
-      //   toggles,
-      // });
       const tree = await createArchiveTree({
         work,
         archiveAncestorArray,
@@ -620,48 +628,20 @@ const ArchiveTree = ({ work }: { work: Work }) => {
       setCollectionTree(tree || []);
     }
     setupTree();
-    // }
-    // initialLoad.current = false;
   }, []);
 
-  //   initialLoad.current = false;
-  // }, [work]);
+  useEffect(() => {
+    if (!initialLoad.current) {
+      const workInfo = document.getElementById('work-info');
 
-  //     if (workInfo) {
-  //       window.requestAnimationFrame(() => {
-  //         workInfo.scrollIntoView({ behavior: 'smooth' });
-  //       });
-  //     }
-  //   }
-
-  //   initialLoad.current = false;
-  // }, [work.id]);
-
-  // useEffect(() => {
-  //   // TODO add children here too
-  //   // Add siblings to each of the nodes that leads to the current work
-  //   const partOfPromises = archiveAncestorArray
-  //     ? archiveAncestorArray.map(part => getWork({ id: part.id, toggles }))
-  //     : [];
-  //   if (partOfPromises.length > 0) {
-  //     Promise.all(partOfPromises).then(works => {
-  //       let updatedTree;
-
-  //       works.forEach(work => {
-  //         const tempTree = addWorkPartsToCollectionTree({
-  //           work: work,
-  //           collectionTree: updatedTree || collectionTree,
-  //           openStatus: false,
-  //           manualTreeExpansion: false,
-  //         });
-  //         updatedTree = tempTree;
-  //       });
-  //       if (updatedTree) {
-  //         setCollectionTree(updatedTree);
-  //       }
-  //     });
-  //   }
-  // }, [work]);
+      if (workInfo) {
+        window.requestAnimationFrame(() => {
+          workInfo.scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+    }
+    initialLoad.current = false;
+  }, [work.id]);
 
   const TreeView = () => (
     <Tree>
@@ -677,52 +657,30 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   );
 
   return isInArchive ? (
-    <>
-      <pre
-        style={{
-          maxWidth: '600px',
-          margin: '0 auto 24px',
-          fontSize: '14px',
-        }}
+    <StickyContainer>
+      <Space
+        v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+        className={classNames({
+          'flex flex--v-center bg-smoke': true,
+        })}
       >
-        <code
-          style={{
-            display: 'block',
-            padding: '24px',
-            backgroundColor: '#EFE1AA',
-            color: '#000',
-            border: '4px solid #000',
-            borderRadius: '6px',
-          }}
-        >
-          {/* {JSON.stringify(collectionTree, null, 1)} */}
-        </code>
-      </pre>
-      <StickyContainer>
         <Space
-          v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+          as="h2"
+          h={{ size: 'm', properties: ['margin-right'] }}
           className={classNames({
-            'flex flex--v-center bg-smoke': true,
+            [font('wb', 5)]: true,
+            'no-margin': true,
           })}
         >
-          <Space
-            as="h2"
-            h={{ size: 'm', properties: ['margin-right'] }}
-            className={classNames({
-              [font('wb', 5)]: true,
-              'no-margin': true,
-            })}
-          >
-            Collection contents
-          </Space>
-          <Icon name="tree" />
+          Collection contents
         </Space>
-        <StickyContainerInner>
-          <TreeView />
-        </StickyContainerInner>
-      </StickyContainer>
-    </>
+        <Icon name="tree" />
+      </Space>
+      <StickyContainerInner>
+        <TreeView />
+      </StickyContainerInner>
+    </StickyContainer>
   ) : null;
 };
 
