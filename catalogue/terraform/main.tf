@@ -3,7 +3,7 @@
 module "catalogue-prod" {
   source = "./stack"
 
-  container_image = "wellcome/catalogue_webapp:${var.container_tag}"
+  container_image = local.prod_app_image
   nginx_image     = local.nginx_image
   env_suffix      = "prod"
 
