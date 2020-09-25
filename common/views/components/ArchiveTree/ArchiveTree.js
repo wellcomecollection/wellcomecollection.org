@@ -207,7 +207,7 @@ const addChildren = async (item, toggles) => {
         work: item.work,
         children: work.parts
           ? work.parts.map(part => ({
-              work: part,
+              work: createWorkPropertyFromWork(part),
               openStatus: false,
             }))
           : [],
