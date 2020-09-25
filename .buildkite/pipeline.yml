@@ -207,7 +207,7 @@
   if: build.branch == "master"
   plugins:
     - docker#v3.5.0:
-        image: wellcome/weco-deploy:5.0.18
+        image: wellcome/weco-deploy:5.1.1
         workdir: /repo
         mount-ssh-agent: true
         command: ["--confirm", "release-deploy", "--from-label", "ref.$BUILDKITE_COMMIT", "--environment-id", "stage", "--description", $BUILDKITE_BUILD_URL]
