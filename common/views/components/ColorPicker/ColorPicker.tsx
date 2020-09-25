@@ -62,7 +62,7 @@ const ColorPicker: FunctionComponent<Props> = ({
 
   return (
     <>
-      <input type="hidden" name={name} value={internalState} />
+      <input type="hidden" name={name} value={internalState || ''} />
       <HexColorPicker
         color={internalState || fallbackRandomColor}
         onChange={handleChange}
