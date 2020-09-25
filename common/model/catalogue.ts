@@ -1,5 +1,5 @@
 export type Work = {
-  type: 'Work';
+  type: 'Work' | 'Collection' | 'Section' | 'Series';
   id: string;
   title: string;
   alternativeTitle: string[];
