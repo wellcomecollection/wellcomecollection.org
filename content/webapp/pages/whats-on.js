@@ -20,7 +20,6 @@ import {
   shopPromo,
   cafePromo,
   readingRoomPromo,
-  restaurantPromo,
   dailyTourPromo,
 } from '@weco/common/data/facility-promos';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -344,7 +343,7 @@ export class WhatsOnPage extends Component<Props> {
         events,
         dateRange,
         tryTheseTooPromos: [readingRoomPromo],
-        eatShopPromos: [cafePromo, shopPromo, restaurantPromo],
+        eatShopPromos: [cafePromo, shopPromo],
         cafePromo,
         shopPromo,
         dailyTourPromo,
@@ -520,8 +519,8 @@ export class WhatsOnPage extends Component<Props> {
                                 className={cssGrid({
                                   s: 12,
                                   m: 6,
-                                  l: 3,
-                                  xl: 3,
+                                  l: 4,
+                                  xl: 4,
                                 })}
                               >
                                 <FacilityPromo

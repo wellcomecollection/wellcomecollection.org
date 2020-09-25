@@ -45,6 +45,7 @@ export type CatalogueImagesApiProps = {|
   query: ?string,
   page: ?number,
   'locations.license': ?(string[]),
+  color: ?string,
 |};
 
 export function worksRouteToApiUrl(
@@ -125,5 +126,6 @@ export function worksPropsToImagesProps(
     query: worksProps.query,
     page: worksProps.page,
     'locations.license': undefined,
+    color: undefined,
   };
 }
