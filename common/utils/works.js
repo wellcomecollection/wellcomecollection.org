@@ -246,7 +246,8 @@ export function getItemIdentifiersWith(
   }, []);
 }
 
-function parsePartOf(partOf) {
+export function parsePartOf(partOf) {
+  // TODO
   return {
     id: partOf.id,
     title: partOf.title,

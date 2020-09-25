@@ -13,6 +13,7 @@ import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import {
   getArchiveAncestorArray,
+  parsePartOf,
   type ArchiveNode,
 } from '@weco/common/utils/works';
 
@@ -169,16 +170,6 @@ function updateOpenStatus(
   return newTree;
 }
 
-function createWorkPropertyFromWork(work: Work) {
-  return {
-    id: work.id,
-    title: work.title,
-    alternativeTitles: work.alternativeTitles,
-    referenceNumber: work.referenceNumber,
-    type: work.type,
-  };
-}
-
 function createNodeFromWork({
   work,
   openStatus,
@@ -188,12 +179,12 @@ function createNodeFromWork({
 }): UiTree {
   return {
     openStatus,
-    work: createWorkPropertyFromWork(work),
+    work: parsePartOf(work),
     children:
       work.parts &&
       work.parts.map(part => ({
         openStatus: false,
-        work: createWorkPropertyFromWork(part),
+        work: parsePartOf(part),
         children: part.children,
       })),
   };
@@ -207,7 +198,7 @@ const addChildren = async (item, toggles) => {
         work: item.work,
         children: work.parts
           ? work.parts.map(part => ({
-              work: createWorkPropertyFromWork(part),
+              work: parsePartOf(part),
               openStatus: false,
             }))
           : [],
@@ -225,7 +216,7 @@ async function createSiblingsArray(
   const siblingsArray = [
     ...(work.precededBy || []).map(item => ({
       openStatus: false,
-      work: createWorkPropertyFromWork(item),
+      work: parsePartOf(item),
     })),
     {
       ...createNodeFromWork({
@@ -235,7 +226,7 @@ async function createSiblingsArray(
     },
     ...(work.succeededBy || []).map(item => ({
       openStatus: false,
-      work: createWorkPropertyFromWork(item),
+      work: parsePartOf(item),
     })),
   ];
 
@@ -297,7 +288,7 @@ async function createArchiveTree({
   // UiTree[]
   const treeStructure = await [
     ...archiveAncestorArray,
-    createWorkPropertyFromWork(work),
+    parsePartOf(work),
   ].reduce(async (accP, curr, i, ancestorArray) => {
     const acc = (await accP) || [];
     const siblings =
