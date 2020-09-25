@@ -261,18 +261,16 @@
             "type": "Slice",
             "fieldset": "Table",
             "non-repeat": {
-              "tableData": {
-                "type": "Text",
-                "config": {
-                  "label": "Table data",
-                  "placeholder": "Pipe-delimeted csv"
-                }
-              },
               "caption": {
                 "type": "Text",
                 "config": {
-                  "label": "Caption",
-                  "placeholder": "Table caption (heading)"
+                  "label": "Table caption (heading)"
+                }
+              },
+              "tableData": {
+                "type": "Text",
+                "config": {
+                  "label": "Pipe-delimeted csv"
                 }
               },
               "hasRowHeaders": {

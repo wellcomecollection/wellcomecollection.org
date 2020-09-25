@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import NextLink from 'next/link';
+import dynamic from 'next/dynamic';
 import { worksLink } from '../../../services/catalogue/routes';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
@@ -8,10 +9,15 @@ import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import Modal from '@weco/common/views/components/Modal/Modal';
+import TogglesContext from '../TogglesContext/TogglesContext';
 import ButtonSolid, {
   SolidButton,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
+// $FlowFixMe (tsx)
+const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
+  ssr: false,
+});
 
 const ActiveFilters = styled(Space).attrs({
   h: {
@@ -36,7 +42,7 @@ const FilterSection = styled(Space).attrs({
 const FilterFooter = styled.div.attrs({
   className: classNames({
     'flex flex--h-space-between': true,
-  })
+  }),
 })`
   align-items: flex-end;
   position: sticky;
@@ -52,7 +58,7 @@ const FilterFooter = styled.div.attrs({
   }
 
   &:before {
-    background: linear-gradient(to top, white, rgba(255,255,255,0));
+    background: linear-gradient(to top, white, rgba(255, 255, 255, 0));
     height: 20px;
     top: -20px;
   }
@@ -84,6 +90,7 @@ const SearchFiltersArchivesPrototype = ({
   productionDatesFrom,
   productionDatesTo,
   workTypeInUrlArray,
+  imagesColor,
 }: SearchFiltersSharedProps) => {
   const [isActive, setIsActive] = useState(false);
 
@@ -97,6 +104,10 @@ const SearchFiltersArchivesPrototype = ({
 
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
+
+  const { enableColorFiltering } = useContext(TogglesContext);
+  const showColorFilter =
+    enableColorFiltering && worksRouteProps.search === 'images';
 
   const activeFiltersCount =
     workTypeInUrlArray.length +
@@ -119,14 +130,15 @@ const SearchFiltersArchivesPrototype = ({
           <ActiveFilters>{activeFiltersCount}</ActiveFilters>
         )}
       </SolidButton>
-      <Modal isActive={isActive} setIsActive={setIsActive} id="archives-prototype-filters">
+      <Modal
+        isActive={isActive}
+        setIsActive={setIsActive}
+        id="archives-prototype-filters"
+      >
         <FiltersInner>
           <FilterSection>
             <h3 className="h3">Dates</h3>
-            <Space
-              as="span"
-              h={{ size: 'm', properties: ['margin-right'] }}
-            >
+            <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
               <NumberInput
                 label="From"
                 min="0"
@@ -185,6 +197,18 @@ const SearchFiltersArchivesPrototype = ({
                   );
                 })}
               </ul>
+            </FilterSection>
+          )}
+          {showColorFilter && (
+            <FilterSection>
+              <h3 className="h3">Colour</h3>
+              <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+                <ColorPicker
+                  name="images.color"
+                  color={imagesColor}
+                  onChangeColor={changeHandler}
+                />
+              </Space>
             </FilterSection>
           )}
         </FiltersInner>

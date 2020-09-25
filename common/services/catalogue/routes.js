@@ -76,6 +76,7 @@ export type WorksRouteProps = {|
   sortOrder: ?string,
   productionDatesFrom: ?string,
   productionDatesTo: ?string,
+  imagesColor: ?string,
   search: ?string,
   source: ?string,
 |};
@@ -93,6 +94,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       sortOrder: maybeString(q.sortOrder),
       productionDatesFrom: maybeString(q['production.dates.from']),
       productionDatesTo: maybeString(q['production.dates.to']),
+      imagesColor: maybeString(q['images.color']),
       search: maybeString(q.search),
       source: maybeString(q.source),
     };
@@ -124,6 +126,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       sortOrder: params.sortOrder,
       'production.dates.from': params.productionDatesFrom,
       'production.dates.to': params.productionDatesTo,
+      'images.color': params.imagesColor,
       search: params.search,
       source: params.source,
     });

@@ -5,8 +5,8 @@ export default function() {
     type: 'Slice',
     fieldset: 'Table',
     'non-repeat': {
-      tableData: text('Table data', 'Pipe-delimeted csv'),
-      caption: text('Caption', 'Table caption (heading)'),
+      caption: text('Table caption (heading)'),
+      tableData: text('Pipe-delimeted csv'),
       hasRowHeaders: {
         type: 'Boolean',
         config: {
