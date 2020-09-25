@@ -728,10 +728,7 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
           return {
             type: 'table',
             value: {
-              rows: slice.primary.tableData
-                .trim()
-                .split(/[\r\n]+/)
-                .map(row => row.split('|')),
+              rows: parseTableCsv(slice.primary.tableData),
               caption: slice.primary.caption,
               hasRowHeaders: slice.primary.hasRowHeaders,
             },
@@ -806,4 +803,11 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
     // TODO: find a way to enforce this.
     labels: [],
   };
+}
+
+function parseTableCsv(tableData: string): string[][] {
+  return tableData
+    .trim()
+    .split(/[\r\n]+/)
+    .map(row => row.split('|').map(cell => cell.trim()));
 }
