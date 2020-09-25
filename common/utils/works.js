@@ -16,7 +16,7 @@ type DownloadImage = {|
   height: ?number,
 |};
 
-export type ArchiveNode = {|
+export type NodeWork = {|
   id: string,
   title: string,
   alternativeTitles: string[],
@@ -246,7 +246,7 @@ export function getItemIdentifiersWith(
   }, []);
 }
 
-export function parsePartOf(partOf: Work): ArchiveNode {
+export function parsePartOf(partOf: Work): NodeWork {
   return {
     id: partOf.id,
     title: partOf.title,
@@ -267,6 +267,6 @@ function makeArchiveAncestorArray(partOfArray, nextPart) {
   );
 }
 
-export function getArchiveAncestorArray(work: Work): ArchiveNode[] {
+export function getArchiveAncestorArray(work: Work): NodeWork[] {
   return makeArchiveAncestorArray([], work.partOf && work.partOf[0]).reverse();
 }
