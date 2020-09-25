@@ -1,6 +1,6 @@
 /* eslint react/prop-types: 0 */
 
-import { FunctionComponent, useCallback, useState } from 'react';
+import { FunctionComponent, useCallback, useMemo, useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import styled from 'styled-components';
 import debounce from 'lodash.debounce';
@@ -51,9 +51,8 @@ const ColorPicker: FunctionComponent<Props> = ({
   onChangeColor,
 }) => {
   const unset = !color;
-  const [internalState, setInternalState] = useState<string>(
-    typeof color === 'string' ? color : randomColor()
-  );
+  const [internalState, setInternalState] = useState(color);
+  const fallbackRandomColor = useMemo(randomColor, []);
 
   const debouncedHandleChange = useCallback(debounce(onChangeColor, 250), []);
   const handleChange = color => {
@@ -64,7 +63,10 @@ const ColorPicker: FunctionComponent<Props> = ({
   return (
     <>
       <input type="hidden" name={name} value={internalState} />
-      <HexColorPicker color={internalState} onChange={handleChange} />
+      <HexColorPicker
+        color={internalState || fallbackRandomColor}
+        onChange={handleChange}
+      />
       <TextWrapper>
         <ColorLabel active={!unset}>
           {unset ? 'None' : internalState}
