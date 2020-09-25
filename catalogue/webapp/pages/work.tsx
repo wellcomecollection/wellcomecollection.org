@@ -14,7 +14,7 @@ type Props = {
 };
 
 export const WorkPage: NextPage<Props> = ({ workResponse }) => {
-  if (workResponse.type === 'Work') {
+  if (workResponse.type === 'Work' || workResponse.type === 'Collection' || workResponse.type === 'Section' || workResponse.type === 'Series' ) {
     return <Work work={workResponse} />;
   }
 
@@ -52,7 +52,7 @@ WorkPage.getInitialProps = async (ctx: NextPageContext) => {
 
     return {
       workResponse:
-        workResponse.type === 'Work' || workResponse.type === 'Error'
+        workResponse.type === 'Work' || workResponse.type === 'Error' || workResponse.type === 'Collection' || workResponse.type === 'Section' || workResponse.type === 'Series'
           ? workResponse
           : undefined,
     };
