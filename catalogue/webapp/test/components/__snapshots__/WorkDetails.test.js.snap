@@ -40,9 +40,9 @@ exports[`Feature: 2. As a library member I want to request an item
               "componentStyle": ComponentStyle {
                 "componentId": "ButtonSolid__SolidButton-is2j2c-3",
                 "isStatic": false,
-                "lastClassName": "bADJUb",
+                "lastClassName": "kcAXZg",
                 "rules": Array [
-                  "display:inline-flex;line-height:1;border-radius:",
+                  "align-items:center;display:inline-flex;line-height:1;border-radius:",
                   [Function],
                   ";text-decoration:none;text-align:center;transition:background ",
                   [Function],
@@ -93,7 +93,7 @@ exports[`Feature: 2. As a library member I want to request an item
           onClick={[Function]}
         >
           <a
-            className="ButtonSolid__BaseButton-is2j2c-0 ButtonSolid__SolidButton-is2j2c-3 bADJUb link-reset"
+            className="ButtonSolid__BaseButton-is2j2c-0 ButtonSolid__SolidButton-is2j2c-3 kcAXZg link-reset"
             href="/loginUrl"
             onClick={[Function]}
           >
@@ -172,9 +172,9 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
             "componentStyle": ComponentStyle {
               "componentId": "ButtonSolid__SolidButton-is2j2c-3",
               "isStatic": false,
-              "lastClassName": "bADJUb",
+              "lastClassName": "kcAXZg",
               "rules": Array [
-                "display:inline-flex;line-height:1;border-radius:",
+                "align-items:center;display:inline-flex;line-height:1;border-radius:",
                 [Function],
                 ";text-decoration:none;text-align:center;transition:background ",
                 [Function],
@@ -224,7 +224,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
         onClick={[Function]}
       >
         <button
-          className="ButtonSolid__BaseButton-is2j2c-0 ButtonSolid__SolidButton-is2j2c-3 bADJUb"
+          className="ButtonSolid__BaseButton-is2j2c-0 ButtonSolid__SolidButton-is2j2c-3 kcAXZg"
           onClick={[Function]}
         >
           <ButtonSolid__BaseButtonInner>
