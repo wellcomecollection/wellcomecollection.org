@@ -211,7 +211,7 @@ async function createSiblingsArray(
   toggles,
   workId,
   openOverride
-): ?(UiTree[]) {
+): Promise<UiTree[]> {
   // An array of the current work and all it's siblings
   const siblingsArray = [
     ...(work.precededBy || []).map(item => ({
@@ -231,6 +231,7 @@ async function createSiblingsArray(
   ];
 
   // Adding the children of each of the works in the siblingsArray
+  // We won't need to do this when we have totalParts in the API
   const siblingsArrayWithChildren = await Promise.all(
     siblingsArray.map(item => addChildren(item, toggles))
   );

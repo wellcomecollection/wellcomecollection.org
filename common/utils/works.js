@@ -246,8 +246,7 @@ export function getItemIdentifiersWith(
   }, []);
 }
 
-export function parsePartOf(partOf) {
-  // TODO
+export function parsePartOf(partOf: Work): ArchiveNode {
   return {
     id: partOf.id,
     title: partOf.title,
