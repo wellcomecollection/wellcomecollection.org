@@ -201,6 +201,9 @@ const Works = ({
                       ? works.aggregations.workType.buckets
                       : []
                   }
+                  aggregations={
+                    works && works.aggregations ? works.aggregations : undefined
+                  }
                 />
               </div>
             </div>
@@ -379,13 +382,13 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const apiPropsFn = unfilteredSearchResults
     ? worksRouteToApiUrl
     : worksRouteToApiUrlWithDefaults;
-
+  const aggregations = ['workType', 'locationType'];
   const apiProps = archivesPrototype
     ? apiPropsFn(
         params,
         {
           _queryType,
-          aggregations: ['workType'],
+          aggregations,
           'items.locations.locationType': null,
           'items.locations.accessConditions.status': null,
         },
@@ -393,7 +396,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
       )
     : apiPropsFn(params, {
         _queryType,
-        aggregations: ['workType'],
+        aggregations,
       });
 
   const hasQuery = !!(params.query && params.query !== '');

@@ -1,7 +1,10 @@
 // @flow
 import { useState, useEffect, useContext } from 'react';
 import { type WorksRouteProps } from '@weco/common/services/catalogue/routes';
-import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
+import {
+  type CatalogueAggregationBucket,
+  type CatalogueAggregations,
+} from '@weco/common/model/catalogue';
 import {
   defaultWorkTypes,
   testDefaultWorkTypes,
@@ -17,6 +20,7 @@ type Props = {|
   searchForm: {| current: ?HTMLFormElement |},
   worksRouteProps: WorksRouteProps,
   workTypeAggregations: CatalogueAggregationBucket[],
+  aggregations: ?CatalogueAggregations,
   changeHandler: () => void,
 |};
 
@@ -31,6 +35,7 @@ export type SearchFiltersSharedProps = {|
   productionDatesTo: ?string,
   workTypeInUrlArray: string[],
   imagesColor: ?string,
+  aggregations: ?CatalogueAggregations,
 |};
 
 const SearchFilters = ({
@@ -38,6 +43,7 @@ const SearchFilters = ({
   worksRouteProps,
   workTypeAggregations,
   changeHandler,
+  aggregations,
 }: Props) => {
   const workTypeInUrlArray = worksRouteProps.workType || [];
   const {
@@ -115,6 +121,7 @@ const SearchFilters = ({
     productionDatesTo,
     workTypeInUrlArray,
     imagesColor,
+    aggregations,
   };
 
   return (
