@@ -55,7 +55,7 @@ const ColorPicker: FunctionComponent<Props> = ({
     typeof color === 'string' ? color : randomColor()
   );
 
-  const debouncedHandleChange = useCallback(debounce(onChangeColor, 100), []);
+  const debouncedHandleChange = useCallback(debounce(onChangeColor, 250), []);
   const handleChange = color => {
     setInternalState(color);
     debouncedHandleChange(color);
