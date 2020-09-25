@@ -4,6 +4,18 @@ export type Work = {
   ...Object,
 };
 
+// type Work = {|
+//   referenceNumber?: string,
+//   id: string,
+//   title: string,
+//   alternativeTitles: string[],
+//   type: 'Work',
+//   partOf?: [],
+//   parts?: [],
+//   precededBy?: [],
+//   succeededBy?: [],
+// |};
+
 export type Image = {
   type: 'Image',
   id: string,

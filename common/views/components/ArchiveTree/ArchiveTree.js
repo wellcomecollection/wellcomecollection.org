@@ -16,6 +16,7 @@ import {
   parsePartOf,
   type NodeWork,
 } from '@weco/common/utils/works';
+import { type Work } from '@weco/common/model/catalogue';
 
 const StickyContainer = styled.div`
   border: 1px solid ${props => props.theme.color('pumice')};
@@ -109,19 +110,6 @@ const Tree = styled.div`
     }
   }
 `;
-
-type Work = {|
-  // TODO import this and make it work everywhere
-  referenceNumber?: string,
-  id: string,
-  title: string,
-  alternativeTitles: string[],
-  type: 'Work',
-  partOf?: [],
-  parts?: [],
-  precededBy?: [],
-  succeededBy?: [],
-|};
 
 /* eslint-disable no-use-before-define */
 type UiTreeNode = {|
@@ -217,19 +205,18 @@ async function createSiblingsArray({
     ...(work.precededBy || []).map(item => ({
       openStatus: false,
       work: parsePartOf(item),
-      // children: undefined,
+      children: undefined,
     })),
     {
       ...createNodeFromWork({
         work,
         openStatus: openStatusOverride ? false : !(workId === work.id),
       }),
-      // children: undefined,
     },
     ...(work.succeededBy || []).map(item => ({
       openStatus: false,
       work: parsePartOf(item),
-      // children: undefined,
+      children: undefined,
     })),
   ];
 
