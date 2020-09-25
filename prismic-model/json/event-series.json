@@ -250,6 +250,33 @@
               }
             }
           },
+          "table": {
+            "type": "Slice",
+            "fieldset": "Table",
+            "non-repeat": {
+              "tableData": {
+                "type": "Text",
+                "config": {
+                  "label": "Table data",
+                  "placeholder": "Pipe-delimeted csv"
+                }
+              },
+              "caption": {
+                "type": "Text",
+                "config": {
+                  "label": "Caption",
+                  "placeholder": "Table caption (heading)"
+                }
+              },
+              "hasRowHeaders": {
+                "type": "Boolean",
+                "config": {
+                  "default_value": false,
+                  "label": "Make first column bold (instead of first row)"
+                }
+              }
+            }
+          },
           "embed": {
             "type": "Slice",
             "fieldset": "Embed",
