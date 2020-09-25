@@ -48,6 +48,7 @@ test('/works: with no values', () => {
     productionDatesTo: null,
     search: null,
     source: null,
+    imagesColor: null,
   });
 });
 
@@ -73,6 +74,7 @@ test('/works: with values', () => {
     productionDatesTo: '1900',
     search: null,
     source: null,
+    imagesColor: null,
   });
 });
 

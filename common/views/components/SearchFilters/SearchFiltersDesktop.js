@@ -1,5 +1,7 @@
 // @flow
 
+import { useContext, type Node } from 'react';
+import styled from 'styled-components';
 import { font, classNames } from '../../../utils/classnames';
 import { worksLink } from '../../../services/catalogue/routes';
 import Space from '../styled/Space';
@@ -10,9 +12,31 @@ import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 // $FlowFixMe (tsx)
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import NextLink from 'next/link';
+import dynamic from 'next/dynamic';
+import TogglesContext from '../TogglesContext/TogglesContext';
 import { type SearchFiltersSharedProps } from './SearchFilters';
 
-const CancelFilter = ({ text }: { text: string }) => {
+// $FlowFixMe (tsx)
+const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
+  ssr: false,
+});
+
+const ColorSwatch = styled.span`
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background-color: ${({ color }) => color};
+  margin-left: 6px;
+  padding-top: 2px;
+`;
+
+const CancelFilter = ({
+  text,
+  children,
+}: {
+  text?: string,
+  children?: Node,
+}) => {
   return (
     <Space
       as="span"
@@ -34,7 +58,7 @@ const CancelFilter = ({ text }: { text: string }) => {
         />
       </Space>
       <span className="visually-hidden">remove </span>
-      {text}
+      {text || children}
     </Space>
   );
 };
@@ -52,9 +76,13 @@ const SearchFiltersDesktop = ({
   productionDatesFrom,
   productionDatesTo,
   workTypeInUrlArray,
+  imagesColor,
 }: SearchFiltersSharedProps) => {
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
+  const { enableColorFiltering } = useContext(TogglesContext);
+  const showColorFilter =
+    enableColorFiltering && worksRouteProps.search === 'images';
 
   return (
     <>
@@ -150,13 +178,31 @@ const SearchFiltersDesktop = ({
             </ul>
           </DropdownButton>
         )}
+        {showColorFilter && (
+          <Space
+            h={{ size: 's', properties: ['margin-left'] }}
+            className={classNames({
+              [font('hnl', 5)]: true,
+            })}
+          >
+            <DropdownButton label={'Colours'} isInline={true}>
+              <ColorPicker
+                name="images.color"
+                color={imagesColor}
+                onChangeColor={changeHandler}
+              />
+            </DropdownButton>
+          </Space>
+        )}
       </Space>
 
       <Space v={{ size: 'l', properties: ['margin-top'] }} className="tokens">
         {(productionDatesFrom ||
           productionDatesTo ||
+          imagesColor ||
           workTypeInUrlArray.length > 0) &&
-          workTypeFilters.length > 0 && (
+          (workTypeFilters.length > 0 ||
+            worksRouteProps.search === 'images') && (
             <div className={classNames({ [font('hnl', 5)]: true })}>
               <Space
                 v={{
@@ -206,6 +252,22 @@ const SearchFiltersDesktop = ({
                   >
                     <a>
                       <CancelFilter text={`To ${productionDatesTo}`} />
+                    </a>
+                  </NextLink>
+                )}
+                {imagesColor && (
+                  <NextLink
+                    passHref
+                    {...worksLink(
+                      { ...worksRouteProps, page: 1, imagesColor: null },
+                      'cancel_filter/images_color'
+                    )}
+                  >
+                    <a>
+                      <CancelFilter>
+                        Colour
+                        <ColorSwatch color={`#${imagesColor}`} />
+                      </CancelFilter>
                     </a>
                   </NextLink>
                 )}

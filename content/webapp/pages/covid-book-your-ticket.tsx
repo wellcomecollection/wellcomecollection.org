@@ -199,7 +199,12 @@ const CovidWeAreOpenPage = () => {
                     </li>
                     <li>
                       After you’ve booked your ticket, request up to ten items
-                      from wellcomelibrary.org before your visit.
+                      from{' '}
+                      <a href="https://wellcomelibrary.org">
+                        wellcomelibrary.org
+                      </a>{' '}
+                      before your visit. You will be able to order materials
+                      from 28 September.
                     </li>
                     <li>
                       <strong>

@@ -1,0 +1,14 @@
+.react-colorful__saturation-pointer {
+  width: 10px;
+  height: 10px;
+  border: 1px solid white;
+}
+.react-colorful__hue-pointer {
+  border-radius: 2px;
+  height: inherit;
+  width: 8px;
+  border: 1px solid white;
+}
+.react-colorful__saturation {
+  border-bottom: none;
+}
