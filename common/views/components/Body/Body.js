@@ -226,9 +226,9 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
               </>
             )}
             {slice.type === 'table' && (
-              <Layout10>
+              <Layout8>
                 <Table {...slice.value} />
-              </Layout10>
+              </Layout8>
             )}
             {/* deprecated */}
             {slice.type === 'deprecatedImageList' && (

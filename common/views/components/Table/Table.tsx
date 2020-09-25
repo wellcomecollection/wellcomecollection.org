@@ -129,6 +129,7 @@ const TableTd = styled(Space).attrs({
   h: { size: 's', properties: ['padding-left', 'padding-right'] },
 })`
   vertical-align: top;
+  white-space: nowrap;
 `;
 
 type TableRow = {
