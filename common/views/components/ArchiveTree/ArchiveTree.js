@@ -146,7 +146,7 @@ type ListItemType = {|
   isRootItem: boolean,
 |};
 
-function updateDefaultOpenStatus(
+function updateOpenStatus(
   id: string,
   fullTree: UiTree[],
   defaultValue: boolean
@@ -160,7 +160,7 @@ function updateDefaultOpenStatus(
     } else if (node.work.id !== id && node.children) {
       return {
         ...node,
-        children: updateDefaultOpenStatus(id, node.children, defaultValue),
+        children: updateOpenStatus(id, node.children, defaultValue),
       };
     } else {
       return node;
@@ -205,15 +205,22 @@ const addChildren = async (item, toggles) => {
     ? {
         openStatus: false,
         work: item.work,
-        children: work.parts.map(part => ({
-          work: part,
-          openStatus: false,
-        })),
+        children: work.parts
+          ? work.parts.map(part => ({
+              work: part,
+              openStatus: false,
+            }))
+          : [],
       }
     : Promise.resolve(item);
 };
 
-async function createSiblingsArray(work: Work, toggles, workId): ?(UiTree[]) {
+async function createSiblingsArray(
+  work: Work,
+  toggles,
+  workId,
+  openOverride
+): ?(UiTree[]) {
   // An array of the current work and all it's siblings
   const siblingsArray = [
     ...(work.precededBy || []).map(item => ({
@@ -223,7 +230,7 @@ async function createSiblingsArray(work: Work, toggles, workId): ?(UiTree[]) {
     {
       ...createNodeFromWork({
         work,
-        openStatus: !(workId === work.id),
+        openStatus: openOverride ? false : !(workId === work.id),
       }),
     },
     ...(work.succeededBy || []).map(item => ({
@@ -246,13 +253,25 @@ type Temp = {|
   toggles: any, // TODO
 |};
 
-function updateChildren({ array, id, value }) {
+// TODO type
+function updateChildren({
+  array,
+  id,
+  value,
+  manualUpdate = false,
+}: {|
+  array: [], // TODO
+  id: string,
+  value: [], // TODO
+  manualUpdate?: boolean,
+|}) {
   return (
     array &&
     array.map(item => {
       if (item.work.id === id) {
         return {
           ...item,
+          openStatus: manualUpdate || item.openStatus,
           children: value,
         };
       } else {
@@ -262,6 +281,7 @@ function updateChildren({ array, id, value }) {
             array: item.children,
             id,
             value,
+            manualUpdate,
           }),
         };
       }
@@ -278,167 +298,60 @@ async function createArchiveTree({
   const treeStructure = await [
     ...archiveAncestorArray,
     createWorkPropertyFromWork(work),
-  ].reduce(
-    async (accP, curr, i, ancestorArray) => {
-      const acc = (await accP) || [];
-      const siblings =
-        (await getSiblings({ id: curr.id, toggles, workId: work.id })) || [];
-      if (i === 0) {
-        return siblings;
-      } else {
-        const idOfObjectToUpdate = ancestorArray[i - 1].id;
-        // TODO comment
-        return updateChildren({
-          array: acc,
-          id: idOfObjectToUpdate,
-          value: siblings,
-        });
-      }
-      // if (i === 0) {
-      //   const first = {
-      //     openStatus: true,
-      //     work: curr,
-      //   };
-      //   console.log(first);
-      //   return first;
-      //   // return
-      //   //   {
-      //   //     openStatus: true,
-      //   //     work: curr,
-      //   //     // children: await createSiblingsArray(work, toggles),
-      //   //   }
-      // } else {
-      // TODO return sibling array, but want to return acc as children of nodes that are on the ancestorArray
-      // need to get the whole work of the curr, so have preceededBy and succeededBy
-
-      // acc.[] need to find the correct objecy on the array and add a children property with siblings as its value
-      // console.log(curr.title, siblings);
-      // return [
-      //   {
-      //     openStatus: true, // if in ancestor array
-      //     work: curr,
-      //     children: acc, // If it's the immediate parent we create an array of the current work and it's siblings to be the children.
-      //   },
-      // ];
-      // }
-    },
-    Promise.resolve([])
-    // We only need the following for a top level work that has an empty partOf array,
-    // in which case this is all that gets returned.
-    // Otherwise it gets replace as part of the createSiblingsArray above,
-    // which also includes the siblings of the current work.
-    // createNodeFromWork({ work, openStatus: true })
-  );
+  ].reduce(async (accP, curr, i, ancestorArray) => {
+    const acc = (await accP) || [];
+    const siblings =
+      (await getSiblings({ id: curr.id, toggles, workId: work.id })) || [];
+    if (i === 0) {
+      return siblings;
+    } else {
+      const idOfObjectToUpdate = ancestorArray[i - 1].id;
+      // TODO comment
+      return updateChildren({
+        array: acc,
+        id: idOfObjectToUpdate,
+        value: siblings,
+      });
+    }
+  }, Promise.resolve([]));
   return treeStructure;
 }
 
-async function getSiblings({ id, toggles, workId }) {
+async function getSiblings({ id, toggles, workId, openOverride }) {
   const currWork = await getWork({ id, toggles });
-  const siblings = await createSiblingsArray(currWork, toggles, workId);
+  const siblings = await createSiblingsArray(
+    currWork,
+    toggles,
+    workId,
+    openOverride
+  );
   return siblings;
 }
 
-// function addWorkPartsToCollectionTree({
-//   work,
-//   collectionTree, // TODO rename collection and archive
-//   openStatus,
-//   manualTreeExpansion,
-// }: {|
-//   work: any, // FIXME: don't know how to have Work here and not have Flow complain about a Promise
-//   collectionTree: UiTree[],
-//   openStatus: boolean,
-//   manualTreeExpansion: boolean,
-// |}): any[] {
-//   // FIXME: I want this to be [] but Flow's telling me collectionTree is an inexact array type
-//   return collectionTree.map(node => {
-//     if (node.work.id !== work.id && !node.children) {
-//       return {
-//         openStatus,
-//         ...node,
-//       };
-//     }
-//     if (node.work.id !== work.id && node.children) {
-//       return {
-//         openStatus,
-//         ...node,
-//         children: addWorkPartsToCollectionTree({
-//           work, // FIXME: don't know how to have Work here and not have Flow complain about a Promise
-//           collectionTree: node.children,
-//           openStatus: false,
-//           manualTreeExpansion: manualTreeExpansion,
-//         }),
-//       };
-//     }
-//     if (node.work.id === work.id && !node.children) {
-//       if (work.parts && work.parts.length > 0) {
-//         return {
-//           ...node,
-//           openStatus: manualTreeExpansion || openStatus,
-//           children: work.parts.map(part => ({
-//             work: part,
-//             openStatus: false,
-//           })),
-//         };
-//       } else {
-//         return {
-//           ...node,
-//         };
-//       }
-//     }
-//     if (node.work.id === work.id && node.children) {
-//       // don't want to overwrite anything that is already there
-//       const mergedChildren =
-//         work.parts &&
-//         work.parts.map(part => {
-//           const matchingItem =
-//             node.children &&
-//             node.children.find(
-//               currentChild => part.id === currentChild.work.id
-//             );
-//           if (
-//             matchingItem &&
-//             matchingItem.children &&
-//             matchingItem.children.length > 0
-//           ) {
-//             return matchingItem;
-//           } else {
-//             return {
-//               work: part,
-//               openStatus: false,
-//             };
-//           }
-//         });
-//       return {
-//         ...node,
-//         children: mergedChildren,
-//       };
-//     }
-
-//     return collectionTree;
-//   });
-// }
-
-async function expandTree(item, toggles, setCollectionTree, collectionTree) {
+async function expandTree({
+  item,
+  toggles,
+  setCollectionTree,
+  collectionTree,
+}) {
   // TODO  child get siblings of work child
   const firstChild = item.children && item.children[0];
   const siblings = firstChild
-    ? await getSiblings({ id: firstChild.work.id, toggles, workId: null })
+    ? await getSiblings({
+        id: firstChild.work.id,
+        toggles,
+        workId: null,
+        openOverride: true,
+      })
     : [];
   setCollectionTree(
     updateChildren({
       array: collectionTree,
       id: item.work.id,
       value: siblings,
+      manualUpdate: true,
     })
   );
-  // const selectedWork = await getWork({ id: workId, toggles });
-  // const newTree = addWorkPartsToCollectionTree({
-  //   work: createWorkPropertyFromWork(selectedWork),
-  //   collectionTree,
-  //   openStatus: true,
-  //   manualTreeExpansion: true,
-  // });
-  // setCollectionTree(newTree);
 }
 
 const ListItem = ({
@@ -449,23 +362,6 @@ const ListItem = ({
   fullTree,
   isRootItem,
 }: ListItemType) => {
-  // const [showButton, setShowButton] = useState(
-  //   item.children && item.children.length > 0
-  // );
-  // const toggles = useContext(TogglesContext);
-  // useEffect(() => { // if already has children don't do anything
-  //   let isMounted = true;
-  //   const checkForChildren = async () => {
-  //     const selectedWork = await getWork({ id: item.work.id, toggles });
-  //     if (isMounted) {
-  //       setShowButton(selectedWork.parts && selectedWork.parts.length > 0); // update collectionTree instead
-  //     }
-  //   };
-  //   checkForChildren();
-  //   return () => {
-  //     isMounted = false;
-  //   };
-  // }, []);
   return (
     <li>
       <div style={{ padding: '10px 10px 10px 0' }}>
@@ -501,21 +397,18 @@ const ListItem = ({
                     }}
                     onClick={() => {
                       if (
-                        !item.children
-                        // &&
-                        // item.children.find(item => item.children === undefined) // then we haven't tried to add its children yet
+                        item.children &&
+                        item.children.find(item => item.children === undefined) // then we haven't tried to add its children yet
                       ) {
-                        expandTree(item, toggles, setCollectionTree, fullTree);
-                        // setCollectionTree(
-                        //   updateDefaultOpenStatus(
-                        //     item.work.id,
-                        //     fullTree,
-                        //     !item.openStatus
-                        //   )
-                        // );
+                        expandTree({
+                          item,
+                          toggles,
+                          setCollectionTree,
+                          collectionTree: fullTree,
+                        });
                       } else {
                         setCollectionTree(
-                          updateDefaultOpenStatus(
+                          updateOpenStatus(
                             item.work.id,
                             fullTree,
                             !item.openStatus
