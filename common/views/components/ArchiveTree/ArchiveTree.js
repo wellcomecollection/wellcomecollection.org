@@ -193,27 +193,28 @@ async function createSiblingsArray({
   work,
   toggles,
   workId, // current work being viewed
+  openStatusOverride = false,
 }: {
   work: Work,
   toggles: Toggles,
   workId: string,
+  openStatusOverride?: boolean,
 }): Promise<UiTree> {
   // An array of the current work and all it's siblings
   const siblingsArray = [
     ...(work.precededBy || []).map(item => ({
       openStatus: false,
-      work: parsePartOf;(item),
+      work: parsePartOf(item),
       children: undefined,
     })),
-    {;
+    {
       ...createNodeFromWork({
         work,
-        openStatus: true,
+        openStatus: !openStatusOverride,
       }),
     },
     ...(work.succeededBy || []).map(item => ({
-      openStatus: f
-         alse,
+      openStatus: false,
       work: parsePartOf(item),
       children: undefined,
     })),
@@ -272,47 +273,84 @@ async function createArchiveTree({
 }: {|
   work: Work,
   archiveAncestorArray: NodeWork[],
-  toggles: Toggles,;
+  toggles: Toggles,
 |}): Promise<UiTree> {
-  const treeStructure = await [
-    ...archiveAncestorArray,
-    parsePartOf(work),
-  ].reduce(async (accP, curr, i, ancestorArray) => {
-    const acc = await accP;
-    const siblings =
-      (await getSiblings({ id: curr.id, toggles, workId: work.id })) || [];
-    if (i === 0) {
-      return siblings;
-    } else {
-      const idOfObjectToUpdate = ancestorArray[i - 1].id;
-      // TODO comment
-      return updateChildren({
-        array: acc,
-        id: idOfObjectToUpdate,
-        value: siblings,
-      });
-    }
-  }, Promise.resolve([]));
+  const allTreeNodes = [...archiveAncestorArray, parsePartOf(work)];
+  const treeStructure = await allTreeNodes.reduce(
+    async (acc, curr, i, ancestorArray) => {
+      const siblings =
+        i === allTreeNodes.length - 1
+          ? await getSiblingsWithDescendents({
+              id: curr.id,
+              toggles,
+              workId: work.id,
+              depth: 2,
+            })
+          : await getSiblingsWithDescendents({
+              id: curr.id,
+              toggles,
+              workId: work.id,
+            });
+
+      if (i === 0) {
+        return siblings || [];
+      } else {
+        const idOfObjectToUpdate = ancestorArray[i - 1].id;
+        return updateChildren({
+          array: await acc,
+          id: idOfObjectToUpdate,
+          value: siblings || [],
+        });
+      }
+    },
+    Promise.resolve([])
+  );
   return treeStructure;
 }
 
-async function getSiblings({
+async function getSiblingsWithDescendents({
   // TODO rename workId? viewedWorkId
   id, // id of work to get
   toggles,
   workId, // current Work being viewed
+  depth = 1,
+  openStatusOverride = false,
 }: {|
   id: string,
   toggles: Toggles,
   workId: string,
+  depth?: 1 | 2,
+  openStatusOverride?: boolean,
 |}): Promise<UiTreeNode[]> {
   const currWork = await getWork({ id, toggles });
   const siblings = await createSiblingsArray({
     work: currWork,
     toggles,
     workId,
+    openStatusOverride,
   });
-  return siblings;
+  if (depth === 2) {
+    // get siblings array of firstChild and replace
+    const siblingsArrayWithChildren = await Promise.all(
+      siblings.map(async item => {
+        const firstChild = item.children && item.children[0];
+        return firstChild
+          ? {
+              ...item,
+              children: await getSiblingsWithDescendents({
+                id: firstChild.work.id,
+                toggles,
+                workId,
+                openStatusOverride: true,
+              }),
+            }
+          : item;
+      })
+    );
+    return siblingsArrayWithChildren;
+  } else {
+    return siblings;
+  }
 }
 
 async function expandTree({
@@ -328,13 +366,13 @@ async function expandTree({
   archiveTree: UiTree,
   workId: string,
 |}) {
-  // TODO  child get siblings of work child
   const firstChild = item.children && item.children[0];
   const siblings = firstChild
-    ? await getSiblings({
+    ? await getSiblingsWithDescendents({
         id: firstChild.work.id,
         toggles,
         workId,
+        openStatusOverride: true,
       })
     : [];
   setArchiveTree(
@@ -558,30 +596,52 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   );
 
   return isInArchive ? (
-    <StickyContainer>
-      <Space
-        v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-        className={classNames({
-          'flex flex--v-center bg-smoke': true,
-        })}
+    <>
+      <pre
+        style={{
+          maxWidth: '600px',
+          margin: '0 auto 24px',
+          fontSize: '14px',
+        }}
       >
+        <code
+          style={{
+            display: 'block',
+            padding: '24px',
+            backgroundColor: '#EFE1AA',
+            color: '#000',
+            border: '4px solid #000',
+            borderRadius: '6px',
+          }}
+        >
+          {/* {JSON.stringify(archiveTree, null, 1)} */}
+        </code>
+      </pre>
+      <StickyContainer>
         <Space
-          as="h2"
-          h={{ size: 'm', properties: ['margin-right'] }}
+          v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           className={classNames({
-            [font('wb', 5)]: true,
-            'no-margin': true,
+            'flex flex--v-center bg-smoke': true,
           })}
         >
-          Collection contents
+          <Space
+            as="h2"
+            h={{ size: 'm', properties: ['margin-right'] }}
+            className={classNames({
+              [font('wb', 5)]: true,
+              'no-margin': true,
+            })}
+          >
+            Collection contents
+          </Space>
+          <Icon name="tree" />
         </Space>
-        <Icon name="tree" />
-      </Space>
-      <StickyContainerInner>
-        <TreeView />
-      </StickyContainerInner>
-    </StickyContainer>
+        <StickyContainerInner>
+          <TreeView />
+        </StickyContainerInner>
+      </StickyContainer>
+    </>
   ) : null;
 };
 
