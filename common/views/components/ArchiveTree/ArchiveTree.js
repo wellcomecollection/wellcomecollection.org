@@ -193,28 +193,27 @@ async function createSiblingsArray({
   work,
   toggles,
   workId, // current work being viewed
-  openStatusOverride = false,
 }: {
   work: Work,
   toggles: Toggles,
   workId: string,
-  openStatusOverride: boolean,
 }): Promise<UiTree> {
   // An array of the current work and all it's siblings
   const siblingsArray = [
     ...(work.precededBy || []).map(item => ({
       openStatus: false,
-      work: parsePartOf(item),
+      work: parsePartOf;(item),
       children: undefined,
     })),
-    {
+    {;
       ...createNodeFromWork({
         work,
-        openStatus: openStatusOverride ? false : !(workId === work.id),
+        openStatus: true,
       }),
     },
     ...(work.succeededBy || []).map(item => ({
-      openStatus: false,
+      openStatus: f
+         alse,
       work: parsePartOf(item),
       children: undefined,
     })),
@@ -273,7 +272,7 @@ async function createArchiveTree({
 }: {|
   work: Work,
   archiveAncestorArray: NodeWork[],
-  toggles: Toggles,
+  toggles: Toggles,;
 |}): Promise<UiTree> {
   const treeStructure = await [
     ...archiveAncestorArray,
@@ -302,19 +301,16 @@ async function getSiblings({
   id, // id of work to get
   toggles,
   workId, // current Work being viewed
-  openStatusOverride = false,
 }: {|
   id: string,
   toggles: Toggles,
   workId: string,
-  openStatusOverride?: boolean,
 |}): Promise<UiTreeNode[]> {
   const currWork = await getWork({ id, toggles });
   const siblings = await createSiblingsArray({
     work: currWork,
     toggles,
     workId,
-    openStatusOverride,
   });
   return siblings;
 }
@@ -339,7 +335,6 @@ async function expandTree({
         id: firstChild.work.id,
         toggles,
         workId,
-        openStatusOverride: true,
       })
     : [];
   setArchiveTree(
