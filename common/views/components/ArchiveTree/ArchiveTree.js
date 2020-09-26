@@ -596,52 +596,30 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   );
 
   return isInArchive ? (
-    <>
-      <pre
-        style={{
-          maxWidth: '600px',
-          margin: '0 auto 24px',
-          fontSize: '14px',
-        }}
+    <StickyContainer>
+      <Space
+        v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+        className={classNames({
+          'flex flex--v-center bg-smoke': true,
+        })}
       >
-        <code
-          style={{
-            display: 'block',
-            padding: '24px',
-            backgroundColor: '#EFE1AA',
-            color: '#000',
-            border: '4px solid #000',
-            borderRadius: '6px',
-          }}
-        >
-          {/* {JSON.stringify(archiveTree, null, 1)} */}
-        </code>
-      </pre>
-      <StickyContainer>
         <Space
-          v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+          as="h2"
+          h={{ size: 'm', properties: ['margin-right'] }}
           className={classNames({
-            'flex flex--v-center bg-smoke': true,
+            [font('wb', 5)]: true,
+            'no-margin': true,
           })}
         >
-          <Space
-            as="h2"
-            h={{ size: 'm', properties: ['margin-right'] }}
-            className={classNames({
-              [font('wb', 5)]: true,
-              'no-margin': true,
-            })}
-          >
-            Collection contents
-          </Space>
-          <Icon name="tree" />
+          Collection contents
         </Space>
-        <StickyContainerInner>
-          <TreeView />
-        </StickyContainerInner>
-      </StickyContainer>
-    </>
+        <Icon name="tree" />
+      </Space>
+      <StickyContainerInner>
+        <TreeView />
+      </StickyContainerInner>
+    </StickyContainer>
   ) : null;
 };
 
