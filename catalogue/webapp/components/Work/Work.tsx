@@ -121,7 +121,7 @@ const Work = ({ work }: Props) => {
       url={{ pathname: `/works/${work.id}` }}
       openGraphType={'website'}
       jsonLd={workLd(work)}
-      siteSection={'works'}
+      siteSection={'collections'}
       oEmbedUrl={`https://wellcomecollection.org/oembed/works/${work.id}`}
       imageUrl={imageUrl}
       imageAltText={work.title}

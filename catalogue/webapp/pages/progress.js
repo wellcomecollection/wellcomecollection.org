@@ -34,7 +34,7 @@ const ProgressPage = () => (
     url={{ pathname: '/works/progress' }}
     openGraphType={'website'}
     jsonLd={webpageLd({ url: '/works/progress' })}
-    siteSection={'works'}
+    siteSection={'collections'}
     imageUrl={null}
     imageAltText={null}
   >

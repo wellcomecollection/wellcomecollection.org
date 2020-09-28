@@ -83,7 +83,9 @@ export class Page extends Component<Props> {
         jsonLd={contentLd(page)}
         openGraphType={'website'}
         siteSection={
-          page.siteSection === 'what-we-do' || page.siteSection === 'visit-us'
+          page.siteSection === 'what-we-do' ||
+          page.siteSection === 'visit-us' ||
+          page.siteSection === 'collections'
             ? page.siteSection
             : null
         }

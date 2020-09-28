@@ -22,9 +22,9 @@ const links = [
     siteSection: 'stories',
   },
   {
-    href: '/works',
+    href: '/collections',
     title: 'Collections',
-    siteSection: 'works',
+    siteSection: 'collections',
   },
   {
     href: '/what-we-do',

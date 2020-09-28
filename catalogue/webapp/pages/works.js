@@ -142,7 +142,7 @@ const Works = ({
         url={worksLink({ ...worksRouteProps }, 'canonical_link').as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
-        siteSection={'works'}
+        siteSection={'collections'}
         imageUrl={null}
         imageAltText={null}
       >
