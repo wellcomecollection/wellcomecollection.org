@@ -422,16 +422,12 @@ const ListItem = ({
         <TogglesContext.Consumer>
           {toggles => (
             <div style={{ whiteSpace: 'nowrap' }}>
-              {level > 1 && (
+              {level > 1 && item.children && item.children.length > 0 && (
                 <Space
                   className="inline-block"
                   h={{ size: 's', properties: ['margin-right'] }}
                   style={{
                     verticalAlign: 'top',
-                    display:
-                      item.children && item.children.length > 0
-                        ? 'inline-block'
-                        : 'none',
                   }}
                 >
                   <button
