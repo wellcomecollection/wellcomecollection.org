@@ -108,6 +108,13 @@ module.exports = app
     pageVanityUrl(
       router,
       app,
+      '/collections',
+      'X2jSjBMAACIA8Wq_',
+      '/landing-page'
+    );
+    pageVanityUrl(
+      router,
+      app,
       '/visit-us',
       'XvxzjhQAAJmq1t__',
       '/landing-page'
