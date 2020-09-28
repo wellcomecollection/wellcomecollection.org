@@ -40,6 +40,11 @@ export type CatalogueAggregation = {|
   buckets: CatalogueAggregationBucket[],
 |};
 
+export type CatalogueAggregations = {|
+  workType: CatalogueAggregation,
+  locationType: CatalogueAggregation,
+|};
+
 export type CatalogueResultsList<Result = Work> = {
   type: 'ResultList',
   totalResults: number,
@@ -47,9 +52,7 @@ export type CatalogueResultsList<Result = Work> = {
   pageSize: number,
   prevPage: ?string,
   nextPage: ?string,
-  aggregations: ?{|
-    workType: CatalogueAggregation,
-  |},
+  aggregations: ?CatalogueAggregations,
 };
 
 export type CatalogueApiRedirect = {

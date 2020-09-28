@@ -33,6 +33,7 @@ export type CatalogueWorksApiProps = {|
     | '!unavailable'
     | '!permission-required'
   )[]),
+  'items.locations.type': ?(string[]),
   sort: ?string,
   sortOrder: ?string,
   'production.dates.from': ?string,
@@ -58,6 +59,7 @@ export function worksRouteToApiUrl(
     page: worksRouteProps.page,
     workType: worksRouteProps.workType,
     'items.locations.locationType': worksRouteProps.itemsLocationsLocationType,
+    'items.locations.type': worksRouteProps.itemsLocationsType,
     sort: worksRouteProps.sort,
     sortOrder: worksRouteProps.sortOrder,
     'production.dates.from': toIsoDateString(
@@ -108,6 +110,7 @@ export function worksRouteToApiUrlWithDefaults(
         ? worksRouteProps.itemsLocationsLocationType
         : defaultItemsLocationsLocationType,
     'items.locations.accessConditions.status': defaultAccessConditions,
+    'items.locations.type': worksRouteProps.itemsLocationsType,
     sort: worksRouteProps.sort,
     sortOrder: worksRouteProps.sortOrder,
     'production.dates.from': toIsoDateString(

@@ -7,20 +7,19 @@ import Space from '@weco/common/views/components/styled/Space';
 
 type BaseButtonProps = {
   href?: string;
-}
+};
 
 export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
   as: props.href ? 'a' : 'button',
-  className: classNames({
-    'flex-inline flex--v-center': true,
-  }),
 }))`
+  align-items: center;
   display: inline-flex;
   line-height: 1;
   border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
   text-decoration: none;
   text-align: center;
-  transition: background ${props => props.theme.transitionProperties}, border-color ${props => props.theme.transitionProperties};
+  transition: background ${props => props.theme.transitionProperties},
+    border-color ${props => props.theme.transitionProperties};
   border: 0;
   white-space: nowrap;
   padding: 13px 20px;
@@ -63,14 +62,16 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
 
 type BaseButtonInnerProps = {
   isInline?: boolean;
-}
+};
 
-export const BaseButtonInner = styled.span.attrs<BaseButtonInnerProps>(props => ({
-  className: classNames({
-    [font(props.isInline ? 'hnl' : 'hnm', 5)]: true,
-    'flex flex--v-center': true,
-  }),
-}))`
+export const BaseButtonInner = styled.span.attrs<BaseButtonInnerProps>(
+  props => ({
+    className: classNames({
+      [font(props.isInline ? 'hnl' : 'hnm', 5)]: true,
+      'flex flex--v-center': true,
+    }),
+  })
+)`
   height: 1em;
 `;
 
@@ -91,7 +92,6 @@ export enum ButtonTypes {
   submit = 'submit',
 }
 
-
 export type ButtonSolidBaseProps = {
   text: string;
   icon?: string;
@@ -106,19 +106,21 @@ export type ButtonSolidBaseProps = {
 
 type ButtonSolidProps = ButtonSolidBaseProps & {
   disabled?: boolean;
-  clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void,
+  clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
 };
 
 type SolidButtonProps = {
   href?: string;
   isBig?: boolean;
-}
+};
 
-export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(props => ({
-  className: classNames({
-    'link-reset': !!props.href,
-  }),
-}))<SolidButtonProps>`
+export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
+  props => ({
+    className: classNames({
+      'link-reset': !!props.href,
+    }),
+  })
+)<SolidButtonProps>`
   background: ${props => props.theme.color('green')};
   color: ${props => props.theme.color('white')};
   border: 2px solid ${props => props.theme.color('green')};
@@ -136,8 +138,6 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(props => (
 `;
 
 // TODO move styles here - styled component
-
-
 
 // $FlowFixMe (forwardRef)
 const ButtonSolid = forwardRef(

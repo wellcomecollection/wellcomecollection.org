@@ -246,6 +246,31 @@
               }
             }
           },
+          "table": {
+            "type": "Slice",
+            "fieldset": "Table",
+            "non-repeat": {
+              "caption": {
+                "type": "Text",
+                "config": {
+                  "label": "Table caption (heading)"
+                }
+              },
+              "tableData": {
+                "type": "Text",
+                "config": {
+                  "label": "Pipe-delimeted csv"
+                }
+              },
+              "hasRowHeaders": {
+                "type": "Boolean",
+                "config": {
+                  "default_value": false,
+                  "label": "Make first column bold (instead of first row)"
+                }
+              }
+            }
+          },
           "embed": {
             "type": "Slice",
             "fieldset": "Embed",

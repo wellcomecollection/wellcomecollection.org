@@ -77,10 +77,11 @@ const SearchFiltersDesktop = ({
   productionDatesTo,
   workTypeInUrlArray,
   imagesColor,
+  aggregations,
 }: SearchFiltersSharedProps) => {
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
-  const { enableColorFiltering } = useContext(TogglesContext);
+  const { enableColorFiltering, locationsFilter } = useContext(TogglesContext);
   const showColorFilter =
     enableColorFiltering && worksRouteProps.search === 'images';
 
@@ -178,6 +179,42 @@ const SearchFiltersDesktop = ({
             </ul>
           </DropdownButton>
         )}
+
+        {locationsFilter && aggregations && aggregations.locationType && (
+          <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
+            <DropdownButton label={'Locations'} isInline={true}>
+              <ul
+                className={classNames({
+                  'no-margin no-padding plain-list': true,
+                  [font('hnl', 5)]: true,
+                })}
+              >
+                {aggregations.locationType.buckets.map(locationType => {
+                  const isChecked = worksRouteProps.itemsLocationsType.includes(
+                    locationType.data.type
+                  );
+
+                  return (
+                    (locationType.count > 0 || isChecked) && (
+                      <li key={locationType.data.type}>
+                        <CheckboxRadio
+                          id={locationType.data.type}
+                          type={`checkbox`}
+                          text={`${locationType.data.label} (${locationType.count})`}
+                          value={locationType.data.type}
+                          name={`items.locations.type`}
+                          checked={isChecked}
+                          onChange={changeHandler}
+                        />
+                      </li>
+                    )
+                  );
+                })}
+              </ul>
+            </DropdownButton>
+          </Space>
+        )}
+
         {showColorFilter && (
           <Space
             h={{ size: 's', properties: ['margin-left'] }}
@@ -199,7 +236,7 @@ const SearchFiltersDesktop = ({
       <Space v={{ size: 'l', properties: ['margin-top'] }} className="tokens">
         {(productionDatesFrom ||
           productionDatesTo ||
-          imagesColor ||
+          (imagesColor && showColorFilter) ||
           workTypeInUrlArray.length > 0) &&
           (workTypeFilters.length > 0 ||
             worksRouteProps.search === 'images') && (
@@ -255,7 +292,7 @@ const SearchFiltersDesktop = ({
                     </a>
                   </NextLink>
                 )}
-                {imagesColor && (
+                {imagesColor && showColorFilter && (
                   <NextLink
                     passHref
                     {...worksLink(

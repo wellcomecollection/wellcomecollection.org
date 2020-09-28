@@ -4,6 +4,7 @@ import captionedImageSlice from './captioned-image-slice';
 import captionedImageGallerySlice from './captioned-image-gallery-slice';
 import gifVideoSlice from './gif-video-slice';
 import iframeSlice from './iframe-slice';
+import table from './table';
 import title from './title';
 import link from './link';
 import text from './text';
@@ -84,6 +85,7 @@ export default {
           text: structuredText('Standfirst', 'single'),
         },
       }),
+      table: table(),
       embed: slice('Embed', {
         nonRepeat: {
           embed: embed('Embed (Youtube, Vimeo etc)'),
