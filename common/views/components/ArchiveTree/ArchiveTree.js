@@ -35,7 +35,9 @@ const StickyContainerInner = styled.div`
   `}
 `;
 
-const StyledLink = styled.a`
+const StyledLink = styled.a.attrs(props => ({
+  tabIndex: -1,
+}))`
   display: inline-block;
   white-space: nowrap;
   display: inline-block;
@@ -50,7 +52,12 @@ const StyledLink = styled.a`
   cursor: pointer;
 `;
 
-const Tree = styled.div`
+const Tree = styled.div.attrs(props => ({
+  tabIndex: 0,
+}))`
+  &:focus {
+    outline: 1px dashed red;
+  }
   ul {
     list-style: none;
     padding-left: 0;
@@ -419,6 +426,7 @@ const ListItem = ({
                   }}
                 >
                   <button
+                    tabIndex="-1"
                     className={classNames({
                       'plain-button': true,
                     })}
@@ -583,7 +591,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   }, [work.id]);
 
   const TreeView = () => (
-    <Tree>
+    <Tree tabindex="0">
       <NestedList
         selected={selected}
         currentWorkId={work.id}
