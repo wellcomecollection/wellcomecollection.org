@@ -412,25 +412,55 @@ const ListItem = ({
   posInSet: number,
 |}) => {
   return (
-    <li
-      role="treeitem"
-      aria-level={level}
-      aria-setsize={setSize}
-      aria-posinset={posInSet}
-      aria-expanded={
-        item.children && item.children.length > 0 ? item.openStatus : null
-      }
-      aria-label={`${item.work.title}${
-        item.work.referenceNumber
-          ? `, reference number ${item.work.referenceNumber}`
-          : ''
-      }`}
-    >
-      <div style={{ padding: '10px 10px 10px 0' }}>
-        <TogglesContext.Consumer>
-          {toggles => (
+    // TODO move around NestedList
+    <TogglesContext.Consumer>
+      {toggles => (
+        <li
+          role="treeitem"
+          aria-level={level}
+          aria-setsize={setSize}
+          aria-posinset={posInSet}
+          aria-expanded={
+            item.children && item.children.length > 0 ? item.openStatus : null
+          }
+          aria-label={`${item.work.title}${
+            item.work.referenceNumber
+              ? `, reference number ${item.work.referenceNumber}`
+              : ''
+          }`}
+          aria-selected={currentWorkId === item.work.id} // TODO this will only be the case when first load, will need to change depending on users interaction
+          tabIndex={currentWorkId === item.work.id ? 0 : -1}
+          onClick={event => {
+            console.log('clicked list item');
+            event.stopPropagation();
+            if (
+              item.children &&
+              item.children.find(item => item.children === undefined) // then we haven't tried to add its children yet
+            ) {
+              expandTree({
+                item,
+                toggles,
+                setArchiveTree,
+                archiveTree: fullTree,
+                workId: currentWorkId,
+              });
+            } else {
+              setArchiveTree(
+                updateOpenStatus({
+                  id: item.work.id,
+                  tree: fullTree,
+                  value: !item.openStatus,
+                })
+              );
+            }
+          }}
+        >
+          <div style={{ padding: '10px 10px 10px 0' }}>
             <div style={{ whiteSpace: 'nowrap' }}>
               {level > 1 && item.children && item.children.length > 0 && (
+                <span>{item.openStatus ? '-' : '+'}</span>
+              )}
+              {/* {level > 1 && item.children && item.children.length > 0 && (
                 <Space
                   className="inline-block"
                   h={{ size: 's', properties: ['margin-right'] }}
@@ -483,7 +513,7 @@ const ListItem = ({
                     />
                   </button>
                 </Space>
-              )}
+              )} */}
               <NextLink
                 {...workLink({ id: item.work.id })}
                 scroll={false}
@@ -495,6 +525,10 @@ const ListItem = ({
                   })}
                   isCurrent={currentWorkId === item.work.id}
                   ref={currentWorkId === item.work.id ? selected : null}
+                  onClick={event => {
+                    console.log('clicked anchor');
+                    event.stopPropagation();
+                  }}
                 >
                   <WorkTitle title={item.work.title} />
                   <div
@@ -510,20 +544,20 @@ const ListItem = ({
                 </StyledLink>
               </NextLink>
             </div>
-          )}
-        </TogglesContext.Consumer>
-        {item.children && item.openStatus && (
-          <NestedList
-            selected={selected}
-            currentWorkId={currentWorkId}
-            archiveTree={item.children}
-            fullTree={fullTree}
-            setArchiveTree={setArchiveTree}
-            level={level + 1}
-          />
-        )}
-      </div>
-    </li>
+            {item.children && item.openStatus && (
+              <NestedList
+                selected={selected}
+                currentWorkId={currentWorkId}
+                archiveTree={item.children}
+                fullTree={fullTree}
+                setArchiveTree={setArchiveTree}
+                level={level + 1}
+              />
+            )}
+          </div>
+        </li>
+      )}
+    </TogglesContext.Consumer>
   );
 };
 
