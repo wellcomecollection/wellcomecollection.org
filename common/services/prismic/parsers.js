@@ -724,6 +724,16 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
           }
           break;
 
+        case 'table':
+          return {
+            type: 'table',
+            value: {
+              rows: parseTableCsv(slice.primary.tableData),
+              caption: slice.primary.caption,
+              hasRowHeaders: slice.primary.hasRowHeaders,
+            },
+          };
+
         // Deprecated
         case 'imageList':
           return {
@@ -793,4 +803,11 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
     // TODO: find a way to enforce this.
     labels: [],
   };
+}
+
+function parseTableCsv(tableData: string): string[][] {
+  return tableData
+    .trim()
+    .split(/[\r\n]+/)
+    .map(row => row.split('|').map(cell => cell.trim()));
 }
