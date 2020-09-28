@@ -28,7 +28,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
-import SearchForm from '../components/SearchForm/SearchForm';
+import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { getImages } from '../services/catalogue/images';
 import { getWorks } from '../services/catalogue/works';
 import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
