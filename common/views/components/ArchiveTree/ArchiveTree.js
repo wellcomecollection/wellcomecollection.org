@@ -417,6 +417,14 @@ const ListItem = ({
       aria-level={level}
       aria-setsize={setSize}
       aria-posinset={posInSet}
+      aria-expanded={
+        item.children && item.children.length > 0 ? item.openStatus : null
+      }
+      aria-label={`${item.work.title}${
+        item.work.referenceNumber
+          ? `, reference number ${item.work.referenceNumber}`
+          : ''
+      }`}
     >
       <div style={{ padding: '10px 10px 10px 0' }}>
         <TogglesContext.Consumer>
