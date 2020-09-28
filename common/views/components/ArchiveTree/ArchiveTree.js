@@ -398,22 +398,31 @@ const ListItem = ({
   selected,
   setArchiveTree,
   fullTree,
-  isTopLevel,
+  level,
+  setSize,
+  posInSet,
 }: {|
   item: UiTreeNode,
   currentWorkId: string,
   selected: { current: HTMLElement | null },
   setArchiveTree: UiTree => void,
   fullTree: UiTree,
-  isTopLevel: boolean,
+  level: number,
+  setSize: number,
+  posInSet: number,
 |}) => {
   return (
-    <li>
+    <li
+      role="treeitem"
+      aria-level={level}
+      aria-setsize={setSize}
+      aria-posinset={posInSet}
+    >
       <div style={{ padding: '10px 10px 10px 0' }}>
         <TogglesContext.Consumer>
           {toggles => (
             <div style={{ whiteSpace: 'nowrap' }}>
-              {!isTopLevel && (
+              {level > 1 && (
                 <Space
                   className="inline-block"
                   h={{ size: 's', properties: ['margin-right'] }}
@@ -506,7 +515,7 @@ const ListItem = ({
             archiveTree={item.children}
             fullTree={fullTree}
             setArchiveTree={setArchiveTree}
-            isTopLevel={false}
+            level={level + 1}
           />
         )}
       </div>
@@ -520,17 +529,18 @@ const NestedList = ({
   selected,
   fullTree,
   setArchiveTree,
-  isTopLevel,
+  level,
 }: {|
   currentWorkId: string,
   archiveTree: UiTree,
   selected: { current: HTMLElement | null },
   fullTree: UiTree,
   setArchiveTree: UiTree => void,
-  isTopLevel: boolean,
+  level: number,
 |}) => {
   return (
     <ul
+      role={level === 1 ? 'tree' : 'group'}
       className={classNames({
         'font-size-5': true,
       })}
@@ -546,7 +556,9 @@ const NestedList = ({
                 selected={selected}
                 fullTree={fullTree}
                 setArchiveTree={setArchiveTree}
-                isTopLevel={isTopLevel}
+                level={level}
+                setSize={archiveTree.length}
+                posInSet={i + 1}
               />
             )
           );
@@ -598,7 +610,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
         fullTree={archiveTree}
         setArchiveTree={setArchiveTree}
         archiveTree={archiveTree}
-        isTopLevel={true}
+        level={1}
       />
     </Tree>
   );
