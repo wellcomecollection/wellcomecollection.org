@@ -13,7 +13,10 @@ import { inputValue, nodeListValueToArray } from '@weco/common/utils/forms';
 import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
 import Select from '@weco/common/views/components/Select/Select';
 import Space from '@weco/common/views/components/styled/Space';
-import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
+import {
+  type CatalogueAggregationBucket,
+  type CatalogueAggregations,
+} from '@weco/common/model/catalogue';
 import SelectUncontrolled from '@weco/common/views/components/SelectUncontrolled/SelectUncontrolled';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import {
@@ -27,6 +30,7 @@ type Props = {|
   worksRouteProps: WorksRouteProps,
   workTypeAggregations: CatalogueAggregationBucket[],
   placeholder?: string,
+  aggregations?: CatalogueAggregations,
 |};
 
 const SearchInputWrapper = styled.div`
@@ -58,6 +62,7 @@ const SearchForm = ({
   worksRouteProps,
   workTypeAggregations,
   placeholder,
+  aggregations,
 }: Props) => {
   const [, setSearchParamsState] = useSavedSearchState(worksRouteProps);
   const { query } = worksRouteProps;
@@ -115,6 +120,14 @@ const SearchForm = ({
           ? form['items.locations.locationType'].value.split(',')
           : []
         : [];
+
+    // Location type
+    const itemsLocationsType = (
+      nodeListValueToArray(form['items.locations.type']) || []
+    )
+      .filter(checkbox => checkbox.checked)
+      .map(checkbox => checkbox.value);
+
     const source = `search_form/${search || 'works'}`;
     const state = {
       query: inputQuery,
@@ -127,6 +140,7 @@ const SearchForm = ({
       sort,
       search,
       itemsLocationsLocationType,
+      itemsLocationsType,
       source,
     };
     const link = worksLink(state, source);
@@ -220,6 +234,7 @@ const SearchForm = ({
             worksRouteProps={worksRouteProps}
             workTypeAggregations={workTypeAggregations}
             changeHandler={submit}
+            aggregations={aggregations}
           />
           {enhanced && (
             <Select

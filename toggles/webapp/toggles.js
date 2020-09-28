@@ -66,5 +66,11 @@ module.exports = {
       defaultValue: false,
       description: 'Embeds the Hotjar script for user research',
     },
+    {
+      id: 'locationsFilter',
+      title: 'Online/In the library filter',
+      defaultValue: false,
+      description: 'Show the filter for "Online" and "In the library"',
+    },
   ],
 };
