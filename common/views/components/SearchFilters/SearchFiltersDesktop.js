@@ -199,7 +199,7 @@ const SearchFiltersDesktop = ({
       <Space v={{ size: 'l', properties: ['margin-top'] }} className="tokens">
         {(productionDatesFrom ||
           productionDatesTo ||
-          imagesColor ||
+          (imagesColor && showColorFilter) ||
           workTypeInUrlArray.length > 0) &&
           (workTypeFilters.length > 0 ||
             worksRouteProps.search === 'images') && (
@@ -255,7 +255,7 @@ const SearchFiltersDesktop = ({
                     </a>
                   </NextLink>
                 )}
-                {imagesColor && (
+                {imagesColor && showColorFilter && (
                   <NextLink
                     passHref
                     {...worksLink(
