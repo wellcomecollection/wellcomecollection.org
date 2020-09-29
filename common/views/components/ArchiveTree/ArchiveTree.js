@@ -35,9 +35,7 @@ const StickyContainerInner = styled.div`
   `}
 `;
 
-const StyledLink = styled.a.attrs(props => ({
-  tabIndex: -1,
-}))`
+const StyledLink = styled.a`
   display: inline-block;
   white-space: nowrap;
   display: inline-block;
@@ -628,6 +626,14 @@ const ListItem = ({
                 passHref
               >
                 <StyledLink
+                  tabIndex={
+                    // TODO make this a function and use on li too
+                    tabbableId && tabbableId === item.work.id
+                      ? 0
+                      : !tabbableId && currentWorkId === item.work.id
+                      ? 0
+                      : -1
+                  }
                   className={classNames({
                     [font('hnl', 6)]: true,
                   })}
