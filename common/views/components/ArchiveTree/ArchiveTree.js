@@ -401,6 +401,8 @@ const ListItem = ({
   level,
   setSize,
   posInSet,
+  tabbableId,
+  setTabbableId,
 }: {|
   item: UiTreeNode,
   currentWorkId: string,
@@ -410,6 +412,8 @@ const ListItem = ({
   level: number,
   setSize: number,
   posInSet: number,
+  tabbableId: ?string,
+  setTabbableId: string => void,
 |}) => {
   const isEndNode = item.children && item.children.length === 0;
   return (
@@ -417,6 +421,7 @@ const ListItem = ({
     <TogglesContext.Consumer>
       {toggles => (
         <li
+          id={item.work.id}
           role="treeitem"
           aria-level={level}
           aria-setsize={setSize}
@@ -429,8 +434,14 @@ const ListItem = ({
               ? `, reference number ${item.work.referenceNumber}`
               : ''
           }`}
-          aria-selected={/* hasFocus */ currentWorkId === item.work.id} // TODO this will only be the case when first load, will need to change depending on users interaction, with updateTreeFocus don't set selected based on id, if something else has focus
-          tabIndex={currentWorkId === item.work.id ? 0 : -1}
+          aria-selected={/* hasFocus */ currentWorkId === item.work.id} // TODO this will only be the case when first load, will need to change depending on users interaction, with updateTreeFocus don't set selected based on id, if something else has focus // TODO read up on this property
+          tabIndex={
+            tabbableId && tabbableId === item.work.id
+              ? 0
+              : !tabbableId && currentWorkId === item.work.id
+              ? 0
+              : -1
+          }
           onKeyDown={event => {
             // TODO move into shared function
             event.stopPropagation();
@@ -469,6 +480,7 @@ const ListItem = ({
                         })
                       );
                     }
+                    setTabbableId(item.work.id); // use posInSet etc, work out how to get correct id here // getNext getPrevious functions
                   }
                   break;
                 }
@@ -534,60 +546,6 @@ const ListItem = ({
                   {item.openStatus ? '-' : '+'}
                 </span>
               )}
-              {/* {level > 1 && item.children && item.children.length > 0 && (
-                <Space
-                  className="inline-block"
-                  h={{ size: 's', properties: ['margin-right'] }}
-                  style={{
-                    verticalAlign: 'top',
-                  }}
-                >
-                  <button
-                    tabIndex="-1"
-                    className={classNames({
-                      'plain-button': true,
-                    })}
-                    style={{
-                      fontSize: '10px',
-                      height: '18px',
-                      width: '18px',
-                      padding: '0',
-                      background: '#ccc',
-                      position: 'relative',
-                      top: '-2px',
-                      textAlign: 'center',
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => {
-                      if (
-                        item.children &&
-                        item.children.find(item => item.children === undefined) // then we haven't tried to add its children yet
-                      ) {
-                        expandTree({
-                          item,
-                          toggles,
-                          setArchiveTree,
-                          archiveTree: fullTree,
-                          workId: currentWorkId,
-                        });
-                      } else {
-                        setArchiveTree(
-                          updateOpenStatus({
-                            id: item.work.id,
-                            tree: fullTree,
-                            value: !item.openStatus,
-                          })
-                        );
-                      }
-                    }}
-                  >
-                    <Icon
-                      extraClasses="icon--match-text"
-                      name={item.openStatus ? 'minus' : 'plus'}
-                    />
-                  </button>
-                </Space>
-              )} */}
               <NextLink
                 {...workLink({ id: item.work.id })}
                 scroll={false}
@@ -626,6 +584,8 @@ const ListItem = ({
                 fullTree={fullTree}
                 setArchiveTree={setArchiveTree}
                 level={level + 1}
+                tabbableId={tabbableId}
+                setTabbableId={setTabbableId}
               />
             )}
           </div>
@@ -642,6 +602,8 @@ const NestedList = ({
   fullTree,
   setArchiveTree,
   level,
+  tabbableId,
+  setTabbableId,
 }: {|
   currentWorkId: string,
   archiveTree: UiTree,
@@ -649,6 +611,8 @@ const NestedList = ({
   fullTree: UiTree,
   setArchiveTree: UiTree => void,
   level: number,
+  tabbableId: ?string,
+  setTabbableId: string => void,
 |}) => {
   return (
     <ul
@@ -671,6 +635,8 @@ const NestedList = ({
                 level={level}
                 setSize={archiveTree.length}
                 posInSet={i + 1}
+                tabbableId={tabbableId}
+                setTabbableId={setTabbableId}
               />
             )
           );
@@ -679,11 +645,22 @@ const NestedList = ({
   );
 };
 
+// TODO function getNextId, function getPreviousId // needs to take into account open closed statuses
+// with tests
 const ArchiveTree = ({ work }: { work: Work }) => {
   const toggles = useContext(TogglesContext);
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const initialLoad = useRef(true);
   const [archiveTree, setArchiveTree] = useState([]);
+  const [tabbableId, setTabbableId] = useState(null);
+
+  useEffect(() => {
+    const elementToFocus = tabbableId && document.getElementById(tabbableId);
+    if (elementToFocus) {
+      elementToFocus.focus();
+    }
+  }, [archiveTree]);
+
   const selected = useRef(null);
   const isInArchive =
     (work.parts && work.parts.length > 0) ||
@@ -723,6 +700,8 @@ const ArchiveTree = ({ work }: { work: Work }) => {
         setArchiveTree={setArchiveTree}
         archiveTree={archiveTree}
         level={1}
+        tabbableId={tabbableId}
+        setTabbableId={setTabbableId}
       />
     </Tree>
   );
