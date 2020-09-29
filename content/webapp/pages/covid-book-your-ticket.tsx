@@ -203,8 +203,7 @@ const CovidWeAreOpenPage = () => {
                       <a href="https://wellcomelibrary.org">
                         wellcomelibrary.org
                       </a>{' '}
-                      before your visit. You will be able to order materials
-                      from 28 September.
+                      before your visit.
                     </li>
                     <li>
                       <strong>
