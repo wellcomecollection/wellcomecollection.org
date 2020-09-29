@@ -1,16 +1,9 @@
-import Layout from '@weco/common/views/components/Layout/Layout';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 
 const CollectionsStaticContent = () => {
   return (
-    <Layout
-      gridSizes={{
-        s: 12,
-        m: 10,
-        l: 9,
-        xl: 8,
-      }}
-    >
+    <Layout12>
       <h2 className="h2">Search our collections</h2>
       <p>
         Find thousands of freely licensed digital books, artworks, photos and
@@ -32,7 +25,7 @@ const CollectionsStaticContent = () => {
         }}
         workTypeAggregations={[]}
       />
-    </Layout>
+    </Layout12>
   );
 };
 
