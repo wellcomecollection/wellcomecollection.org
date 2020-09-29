@@ -31,7 +31,7 @@ const StickyContainer = styled.div`
 const StickyContainerInner = styled.div`
   ${props => props.theme.media.medium`
     overflow: scroll;
-    max-height: calc(100vh - 48px);
+    // max-height: calc(100vh - 48px);
   `}
 `;
 
@@ -126,6 +126,18 @@ type UiTreeNode = {|
 |};
 
 type UiTree = UiTreeNode[];
+
+// Add some tests
+function getTabbableIds(tree: UiTree): string[] {
+  const tabbableIds = tree.reduce((acc, curr, i) => {
+    acc.push(curr.work.id);
+    if (curr.openStatus && curr.children) {
+      acc.push(getTabbableIds(curr.children));
+    }
+    return acc;
+  }, []);
+  return tabbableIds.flat();
+}
 
 function updateOpenStatus({
   id,
@@ -360,6 +372,30 @@ async function getSiblingsWithDescendents({
   }
 }
 
+function getNextTabbableId({
+  currentId,
+  tree,
+}: {|
+  currentId: string,
+  tree: UiTree,
+|}): ?string {
+  const tabbableIds = getTabbableIds(tree);
+  const currIndex = tabbableIds.indexOf(currentId);
+  return tabbableIds[currIndex + 1];
+}
+
+function getPreviousTabbableId({
+  currentId,
+  tree,
+}: {|
+  currentId: string,
+  tree: UiTree,
+|}): ?string {
+  const tabbableIds = getTabbableIds(tree);
+  const currIndex = tabbableIds.indexOf(currentId);
+  return tabbableIds[currIndex - 1];
+}
+
 async function expandTree({
   item,
   toggles,
@@ -445,10 +481,23 @@ const ListItem = ({
           onKeyDown={event => {
             // TODO move into shared function
             event.stopPropagation();
-            if (level > 1 && item.children) {
+            if (item.children) {
               switch (event.key) {
                 case 'ArrowRight': {
                   // When focus is on a open node, moves focus to the first child node.
+                  console.log(item);
+                  if (item.openStatus) {
+                    const nextId = getNextTabbableId({
+                      // TODO if they all end up needing this then just do it at the top
+                      // TODO change to previous
+                      currentId: item.work.id,
+                      tree: fullTree,
+                    });
+                    console.log(nextId);
+                    if (nextId) {
+                      setTabbableId(nextId);
+                    }
+                  }
                   // updateTreeFocus(level, posInSet) // how will this work? - needs to change aria-selected
 
                   // When focus is on an end node, does nothing.
@@ -458,7 +507,6 @@ const ListItem = ({
                   }
 
                   // When focus is on a closed node, opens the node; focus does not move.
-                  // TODO reestablish focus, how?
                   if (!item.openStatus) {
                     if (
                       item.children &&
@@ -480,6 +528,10 @@ const ListItem = ({
                         })
                       );
                     }
+                    getNextTabbableId({
+                      currentId: item.work.id,
+                      tree: fullTree,
+                    });
                     setTabbableId(item.work.id); // use posInSet etc, work out how to get correct id here // getNext getPrevious functions
                   }
                   break;
@@ -494,26 +546,50 @@ const ListItem = ({
                         value: !item.openStatus,
                       })
                     );
+                    getPreviousTabbableId({
+                      // TODO change to previous
+                      currentId: item.work.id,
+                      tree: fullTree,
+                    });
+                    setTabbableId(item.work.id); // TODO correct id
                   }
                   // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
                   // When focus is on a root node that is also either an end node or a closed node, does nothing.
                   if (isEndNode || !item.openStatus) {
                     // TODO updateTreeFocus
+                    setTabbableId(item.work.id); // TODO correct id
                   }
                   break;
                 }
                 case 'ArrowDown': {
                   // Moves focus to the next node that is focusable without opening or closing a node.
+                  const nextId = getNextTabbableId({
+                    // TODO change to previous
+                    currentId: item.work.id,
+                    tree: fullTree,
+                  });
+                  if (nextId) {
+                    setTabbableId(nextId);
+                  }
                   break;
                 }
                 case 'ArrowUp': {
                   // Moves focus to the previous node that is focusable without opening or closing a node.
+                  const previousId = getPreviousTabbableId({
+                    // TODO change to previous
+                    currentId: item.work.id,
+                    tree: fullTree,
+                  });
+                  if (previousId) {
+                    setTabbableId(previousId);
+                  }
                   break;
                 }
               }
             }
           }}
           onClick={event => {
+            // TODO update tabbableIndex here too
             event.stopPropagation();
             if (level > 0 && item.children) {
               if (
@@ -645,8 +721,6 @@ const NestedList = ({
   );
 };
 
-// TODO function getNextId, function getPreviousId // needs to take into account open closed statuses
-// with tests
 const ArchiveTree = ({ work }: { work: Work }) => {
   const toggles = useContext(TogglesContext);
   const archiveAncestorArray = getArchiveAncestorArray(work);
@@ -659,7 +733,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     if (elementToFocus) {
       elementToFocus.focus();
     }
-  }, [archiveTree]);
+  }, [archiveTree, tabbableId]);
 
   const selected = useRef(null);
   const isInArchive =
