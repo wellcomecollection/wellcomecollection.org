@@ -13,13 +13,17 @@ terraform {
   }
 }
 
-data "terraform_remote_state" "infra_shared" {
+data "terraform_remote_state" "accounts_experience" {
   backend = "s3"
 
   config = {
     role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
     bucket   = "wellcomecollection-platform-infra"
-    key      = "terraform/platform-infrastructure/shared.tfstate"
+    key      = "terraform/platform-infrastructure/accounts/experience.tfstate"
     region   = "eu-west-1"
   }
+}
+
+locals {
+  experience_vpcs = data.terraform_remote_state.accounts_experience.outputs
 }
