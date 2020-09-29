@@ -5,12 +5,13 @@ import { trackEvent } from '@weco/common/utils/ga';
 import type { Props as ImageProps } from '@weco/common/views/components/Image/Image';
 import Image from '@weco/common/views/components/Image/Image';
 import Space from '@weco/common/views/components/styled/Space';
-import { workLink } from '@weco/common/services/catalogue/routes';
+import { imageLink } from '@weco/common/services/catalogue/routes';
 import styled from 'styled-components';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 type Props = {|
   id: string,
+  workId: string,
   image: ImageProps,
   onClick: (event: SyntheticEvent<HTMLAnchorElement>) => void,
 |};
@@ -40,11 +41,11 @@ const ImageWrap = styled(Space).attrs({
   }
 `;
 
-const ImageCard = ({ id, image, onClick }: Props) => {
+const ImageCard = ({ id, image, onClick, workId }: Props) => {
   const { isEnhanced } = useContext(AppContext);
 
   return (
-    <NextLink {...workLink({ id })}>
+    <NextLink {...imageLink({ id, workId })}>
       <a
         onClick={event => {
           trackEvent({

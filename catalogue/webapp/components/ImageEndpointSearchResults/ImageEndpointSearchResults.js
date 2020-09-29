@@ -29,6 +29,7 @@ const ImageEndpointSearchResults = ({ images, apiProps }: Props) => {
         <div key={result.id}>
           <ImageCard
             id={result.id}
+            workId={result.source.id}
             image={{
               contentUrl: result.locations[0].url,
               width: 300,
