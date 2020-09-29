@@ -237,7 +237,8 @@ const SearchFiltersDesktop = ({
         {(productionDatesFrom ||
           productionDatesTo ||
           (imagesColor && showColorFilter) ||
-          workTypeInUrlArray.length > 0) &&
+          workTypeInUrlArray.length > 0 ||
+          worksRouteProps.itemsLocationsType.length > 0) &&
           (workTypeFilters.length > 0 ||
             worksRouteProps.search === 'images') && (
             <div className={classNames({ [font('hnl', 5)]: true })}>
@@ -337,13 +338,42 @@ const SearchFiltersDesktop = ({
                   );
                 })}
 
-                {workTypeFilters.length > 0 && (
+                {aggregations &&
+                  aggregations.locationType.buckets
+                    .filter(locationType =>
+                      worksRouteProps.itemsLocationsType.includes(
+                        locationType.data.type
+                      )
+                    )
+                    .map(locationType => (
+                      <NextLink
+                        key={locationType.type}
+                        passHref
+                        {...worksLink(
+                          {
+                            ...worksRouteProps,
+                            itemsLocationsType: worksRouteProps.itemsLocationsType.filter(
+                              type => type !== locationType.data.type
+                            ),
+                            page: 1,
+                          },
+                          'cancel_filter/items_locations_type'
+                        )}
+                      >
+                        <a>
+                          <CancelFilter text={locationType.data.label} />
+                        </a>
+                      </NextLink>
+                    ))}
+
+                {worksRouteProps.itemsLocationsType.length > 0 && (
                   <NextLink
                     passHref
                     {...worksLink(
                       {
                         ...worksRouteProps,
                         itemsLocationsLocationType: [],
+                        itemsLocationsType: [],
                         workType: [],
                         page: 1,
                         productionDatesFrom: null,
