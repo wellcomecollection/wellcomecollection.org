@@ -411,6 +411,7 @@ const ListItem = ({
   setSize: number,
   posInSet: number,
 |}) => {
+  const isEndNode = item.children && item.children.length === 0;
   return (
     // TODO move around NestedList
     <TogglesContext.Consumer>
@@ -428,31 +429,102 @@ const ListItem = ({
               ? `, reference number ${item.work.referenceNumber}`
               : ''
           }`}
-          aria-selected={currentWorkId === item.work.id} // TODO this will only be the case when first load, will need to change depending on users interaction
+          aria-selected={/* hasFocus */ currentWorkId === item.work.id} // TODO this will only be the case when first load, will need to change depending on users interaction, with updateTreeFocus don't set selected based on id, if something else has focus
           tabIndex={currentWorkId === item.work.id ? 0 : -1}
-          onClick={event => {
-            console.log('clicked list item');
+          onKeyDown={event => {
+            // TODO move into shared function
             event.stopPropagation();
-            if (
-              item.children &&
-              item.children.find(item => item.children === undefined) // then we haven't tried to add its children yet
-            ) {
-              expandTree({
-                item,
-                toggles,
-                setArchiveTree,
-                archiveTree: fullTree,
-                workId: currentWorkId,
-              });
-            } else {
-              setArchiveTree(
-                updateOpenStatus({
-                  id: item.work.id,
-                  tree: fullTree,
-                  value: !item.openStatus,
-                })
-              );
+            if (level > 1 && item.children) {
+              switch (event.key) {
+                case 'ArrowRight': {
+                  // When focus is on a open node, moves focus to the first child node.
+                  // updateTreeFocus(level, posInSet) // how will this work? - needs to change aria-selected
+
+                  // When focus is on an end node, does nothing.
+                  if (item.children && item.children.length === 0) {
+                    // TODO DONE
+                    return;
+                  }
+
+                  // When focus is on a closed node, opens the node; focus does not move.
+                  // TODO reestablish focus, how?
+                  if (!item.openStatus) {
+                    if (
+                      item.children &&
+                      item.children.find(item => item.children === undefined) // then we haven't tried to add its children yet
+                    ) {
+                      expandTree({
+                        item,
+                        toggles,
+                        setArchiveTree,
+                        archiveTree: fullTree,
+                        workId: currentWorkId,
+                      });
+                    } else {
+                      setArchiveTree(
+                        updateOpenStatus({
+                          id: item.work.id,
+                          tree: fullTree,
+                          value: !item.openStatus,
+                        })
+                      );
+                    }
+                  }
+                  break;
+                }
+                case 'ArrowLeft': {
+                  // When focus is on an open node, closes the node.
+                  if (item.openStatus) {
+                    setArchiveTree(
+                      updateOpenStatus({
+                        id: item.work.id,
+                        tree: fullTree,
+                        value: !item.openStatus,
+                      })
+                    );
+                  }
+                  // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
+                  // When focus is on a root node that is also either an end node or a closed node, does nothing.
+                  if (isEndNode || !item.openStatus) {
+                    // TODO updateTreeFocus
+                  }
+                  break;
+                }
+                case 'ArrowDown': {
+                  // Moves focus to the next node that is focusable without opening or closing a node.
+                  break;
+                }
+                case 'ArrowUp': {
+                  // Moves focus to the previous node that is focusable without opening or closing a node.
+                  break;
+                }
+              }
             }
+          }}
+          onClick={event => {
+            event.stopPropagation();
+            if (level > 0 && item.children) {
+              if (
+                item.children.find(item => item.children === undefined) // then we haven't tried to add its children yet
+              ) {
+                expandTree({
+                  item,
+                  toggles,
+                  setArchiveTree,
+                  archiveTree: fullTree,
+                  workId: currentWorkId,
+                });
+              } else {
+                setArchiveTree(
+                  updateOpenStatus({
+                    id: item.work.id,
+                    tree: fullTree,
+                    value: !item.openStatus,
+                  })
+                );
+              }
+            }
+            // TODO move into function, can be used above too
           }}
         >
           <div style={{ padding: '10px 10px 10px 0' }}>
