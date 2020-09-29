@@ -458,7 +458,9 @@ const ListItem = ({
           <div style={{ padding: '10px 10px 10px 0' }}>
             <div style={{ whiteSpace: 'nowrap' }}>
               {level > 1 && item.children && item.children.length > 0 && (
-                <span>{item.openStatus ? '-' : '+'}</span>
+                <span style={{ cursor: 'pointer' }}>
+                  {item.openStatus ? '-' : '+'}
+                </span>
               )}
               {/* {level > 1 && item.children && item.children.length > 0 && (
                 <Space
