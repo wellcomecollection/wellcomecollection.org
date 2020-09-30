@@ -331,7 +331,6 @@ async function createArchiveTree({
 }
 
 async function getSiblingsWithDescendents({
-  // TODO rename workId? viewedWorkId
   id, // id of work to get
   toggles,
   workId, // current Work being viewed
@@ -455,6 +454,9 @@ const ListItem = ({
   setTabbableId: string => void,
 |}) => {
   const isEndNode = item.children && item.children.length === 0;
+  const isSelected =
+    (tabbableId && tabbableId === item.work.id) ||
+    (!tabbableId && currentWorkId === item.work.id);
   const toggles = useContext(TogglesContext);
   function openBranch() {
     if (
@@ -493,18 +495,8 @@ const ListItem = ({
           ? `, reference number ${item.work.referenceNumber}`
           : ''
       }`}
-      aria-selected={
-        tabbableId && tabbableId === item.work.id
-          ? true
-          : !!(!tabbableId && currentWorkId === item.work.id)
-      }
-      tabIndex={
-        tabbableId && tabbableId === item.work.id
-          ? 0
-          : !tabbableId && currentWorkId === item.work.id
-          ? 0
-          : -1
-      }
+      aria-selected={isSelected}
+      tabIndex={isSelected ? 0 : -1}
       onKeyDown={event => {
         event.stopPropagation();
         const nextId = getNextTabbableId({
@@ -592,14 +584,7 @@ const ListItem = ({
           )}
           <NextLink {...workLink({ id: item.work.id })} scroll={false} passHref>
             <StyledLink
-              tabIndex={
-                // TODO make this a function and use on li too
-                tabbableId && tabbableId === item.work.id
-                  ? 0
-                  : !tabbableId && currentWorkId === item.work.id
-                  ? 0
-                  : -1
-              }
+              tabIndex={isSelected ? 0 : -1}
               className={classNames({
                 [font('hnl', 6)]: true,
               })}
