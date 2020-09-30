@@ -7,6 +7,7 @@ import { getWork } from '@weco/catalogue/services/catalogue/works';
 import { workLink } from '@weco/common/services/catalogue/routes';
 import NextLink from 'next/link';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import type Toggles from '@weco/catalogue/services/catalogue/common';
 import Space from '../styled/Space';
 // $FlowFixMe (tsx)
@@ -36,8 +37,6 @@ const StickyContainerInner = styled.div`
 `;
 
 const StyledLink = styled.a`
-  display: inline-block;
-  white-space: nowrap;
   display: inline-block;
   color: ${props => props.theme.color('black')};
   background: ${props =>
@@ -132,6 +131,13 @@ const Tree = styled.div.attrs(props => ({
     li:last-child::after {
       height: 10px;
     }
+  }
+`;
+
+const TreeItem = styled.li`
+  &:focus {
+    outline: ${props =>
+      !props.hideFocus ? `2px solid ${props.theme.color('black')}` : 'none'};
   }
 `;
 
@@ -472,6 +478,7 @@ const ListItem = ({
   tabbableId: ?string,
   setTabbableId: string => void,
 |}) => {
+  const { isKeyboard } = useContext(AppContext);
   const isEndNode = item.children && item.children.length === 0;
   const isSelected =
     (tabbableId && tabbableId === item.work.id) ||
@@ -500,7 +507,8 @@ const ListItem = ({
     }
   }
   return (
-    <li
+    <TreeItem
+      hideFocus={!isKeyboard}
       id={item.work.id}
       role="treeitem"
       aria-level={level}
@@ -595,7 +603,7 @@ const ListItem = ({
       }}
     >
       <div style={{ padding: '10px 10px 10px 0' }}>
-        <div style={{ whiteSpace: 'nowrap' }} className="flex-inline">
+        <div className="flex-inline">
           {level > 1 && item.children && item.children.length > 0 && (
             <span
               style={{
@@ -658,7 +666,7 @@ const ListItem = ({
           />
         )}
       </div>
-    </li>
+    </TreeItem>
   );
 };
 
