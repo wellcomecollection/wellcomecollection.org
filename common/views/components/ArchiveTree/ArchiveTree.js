@@ -468,7 +468,11 @@ const ListItem = ({
               ? `, reference number ${item.work.referenceNumber}`
               : ''
           }`}
-          aria-selected={/* hasFocus */ currentWorkId === item.work.id} // TODO this will only be the case when first load, will need to change depending on users interaction, with updateTreeFocus don't set selected based on id, if something else has focus // TODO read up on this property
+          aria-selected={
+            tabbableId && tabbableId === item.work.id
+              ? true
+              : !!(!tabbableId && currentWorkId === item.work.id)
+          } // TODO read up on this property
           tabIndex={
             tabbableId && tabbableId === item.work.id
               ? 0
@@ -483,7 +487,6 @@ const ListItem = ({
               switch (event.key) {
                 case 'ArrowRight': {
                   // When focus is on a open node, moves focus to the first child node.
-                  console.log(item);
                   if (item.openStatus) {
                     const nextId = getNextTabbableId({
                       // TODO if they all end up needing this then just do it at the top
@@ -491,12 +494,11 @@ const ListItem = ({
                       currentId: item.work.id,
                       tree: fullTree,
                     });
-                    console.log(nextId);
                     if (nextId) {
                       setTabbableId(nextId);
                     }
                   }
-                  // updateTreeFocus(level, posInSet) // how will this work? - needs to change aria-selected
+                  // TODO needs to change aria-selected
 
                   // When focus is on an end node, does nothing.
                   if (item.children && item.children.length === 0) {
@@ -640,8 +642,8 @@ const ListItem = ({
                   isCurrent={currentWorkId === item.work.id}
                   ref={currentWorkId === item.work.id ? selected : null}
                   onClick={event => {
-                    console.log('clicked anchor');
                     event.stopPropagation();
+                    setTabbableId(item.work.id);
                   }}
                 >
                   <WorkTitle title={item.work.title} />
