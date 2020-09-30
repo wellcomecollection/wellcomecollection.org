@@ -2,6 +2,7 @@
 import PrismicDOM from 'prismic-dom';
 import linkResolver from './link-resolver';
 import { Fragment, type Element } from 'react';
+import { dasherize } from '@weco/common/utils/grammar';
 const { Elements } = PrismicDOM.RichText;
 
 export type HtmlSerializer = (
@@ -55,7 +56,17 @@ export const defaultSerializer: HtmlSerializer = (
     case Elements.heading1:
       return <h1 key={i}>{children}</h1>;
     case Elements.heading2:
-      return <h2 key={i}>{children}</h2>;
+      const firstChild = children[0];
+      const firstCharacters =
+        firstChild.props &&
+        firstChild.props.children &&
+        firstChild.props.children[0];
+      const id = firstCharacters && dasherize(firstCharacters);
+      return (
+        <h2 key={i} id={id}>
+          {children}
+        </h2>
+      );
     case Elements.heading3:
       return <h3 key={i}>{children}</h3>;
     case Elements.heading4:

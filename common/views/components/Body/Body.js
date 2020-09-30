@@ -20,6 +20,8 @@ import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
 import VenueHours from '../VenueHours/VenueHours';
+// $FlowFixMe (tsx)
+import CovidTOC from '../CovidTOC/CovidTOC';
 import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
 // $FlowFixMe (tsx)
 import Table from '../Table/Table';
@@ -41,11 +43,12 @@ export type BodyType = BodySlice[];
 
 type Props = {|
   body: BodyType,
+  onThisPage?: any[],
   isDropCapped?: boolean,
   pageId: string,
 |};
 
-const Body = ({ body, isDropCapped, pageId }: Props) => {
+const Body = ({ body, onThisPage, isDropCapped, pageId }: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
     // The standfirst is now put into the header
@@ -63,6 +66,13 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
         'basic-body': true,
       })}
     >
+      {onThisPage && onThisPage.length > 0 && (
+        <SpacingComponent>
+          <Layout8>
+            <CovidTOC links={onThisPage} />
+          </Layout8>
+        </SpacingComponent>
+      )}
       {filteredBody.map((slice, i) => (
         <SpacingComponent key={`slice${i}`}>
           <div

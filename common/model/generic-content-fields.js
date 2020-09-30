@@ -25,4 +25,5 @@ export type GenericContentFields = {|
   widescreenImage: ?ImageType,
   metadataDescription: ?string,
   labels: Label[],
+  onThisPage: any[],
 |};

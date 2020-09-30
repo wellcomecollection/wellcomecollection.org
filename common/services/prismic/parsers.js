@@ -30,6 +30,7 @@ import { parseExhibitionDoc } from './exhibitions';
 import { parseCollectionVenue } from '../../services/prismic/opening-times';
 import isEmptyObj from '../../utils/is-empty-object';
 import isEmptyDocLink from '../../utils/is-empty-doc-link';
+import { dasherize } from '../../utils/grammar';
 import linkResolver from './link-resolver';
 import { parseArticle } from './articles';
 import { parseEventDoc } from './events';
@@ -528,229 +529,250 @@ function getWeight(weight: ?string): ?Weight {
   }
 }
 
-export function parseBody(fragment: PrismicFragment[]): any[] {
+function getOnThisPage(fragment: PrismicFragment[]): any[] {
   return fragment
-    .map(slice => {
-      switch (slice.slice_type) {
-        case 'standfirst':
-          return {
-            type: 'standfirst',
-            weight: getWeight(slice.slice_label),
-            value: slice.primary.text,
-          };
+    .map(slice => slice.primary.text || [])
+    .flat()
+    .filter(text => text.type === 'heading2')
+    .map(item => {
+      return {
+        text: item.text,
+        url: `#${dasherize(item.text)}`,
+      };
+    });
+}
 
-        case 'text':
-          return {
-            type: 'text',
-            weight: getWeight(slice.slice_label),
-            value: slice.primary.text,
-          };
+export function parseBody(
+  fragment: PrismicFragment[]
+): { onThisPage: any[], slices: any[] } {
+  const onThisPage = getOnThisPage(fragment);
 
-        case 'map':
-          return {
-            type: 'map',
-            value: {
-              title: asText(slice.primary.title),
-              latitude: slice.primary.geolocation.latitude,
-              longitude: slice.primary.geolocation.longitude,
-            },
-          };
-
-        case 'editorialImage':
-          return {
-            weight: getWeight(slice.slice_label),
-            type: 'picture',
-            value: parseCaptionedImage(slice.primary),
-          };
-
-        case 'editorialImageGallery':
-          return {
-            type: 'imageGallery',
-            weight: getWeight(slice.slice_label),
-            value: {
-              title: asText(slice.primary.title),
-              items: (slice.items.map(item =>
-                parseCaptionedImage(item)
-              ): CaptionedImage[]),
-            },
-          };
-
-        case 'contentList':
-          return {
-            type: 'contentList',
-            weight: getWeight(slice.slice_label),
-            value: {
-              title: asText(slice.primary.title),
-              hasFeatured: slice.primary.hasFeatured,
-              items: slice.items
-                .filter(
-                  // We have to do a check for data here, as if it's a linked piece
-                  // of content, we won't have this.
-                  item => item.content.isBroken === false && item.content.data
-                )
-                .map(item => {
-                  switch (item.content.type) {
-                    case 'pages':
-                      return parsePage(item.content);
-                    case 'event-series':
-                      return parseEventSeries(item.content);
-                    case 'exhibitions':
-                      return parseExhibitionDoc(item.content);
-                    case 'articles':
-                      return parseArticle(item.content);
-                    case 'events':
-                      return parseEventDoc(item.content);
-                    case 'card':
-                      return parseCard(item.content);
-                  }
-                })
-                .filter(Boolean),
-            },
-          };
-
-        case 'collectionVenue':
-          return {
-            type: 'collectionVenue',
-            weight: getWeight(slice.slice_label),
-            value: {
-              content: parseCollectionVenue(slice.primary.content),
-              showClosingTimes: slice.primary.showClosingTimes,
-            },
-          };
-
-        case 'inPageAnchor':
-          return {
-            type: 'inPageAnchor',
-            value: slice.primary.id,
-          };
-
-        case 'searchResults':
-          return {
-            type: 'searchResults',
-            weight: getWeight(slice.slice_label),
-            value: {
-              title: asText(slice.primary.title),
-              query: slice.primary.query,
-              pageSize: slice.primary.pageSize || 4,
-            },
-          };
-
-        case 'quote':
-        case 'quoteV2':
-          return {
-            type: 'quote',
-            weight: getWeight(slice.slice_label),
-            value: {
-              text: slice.primary.text,
-              citation: slice.primary.citation,
-              isPullOrReview:
-                slice.slice_label === 'pull' || slice.slice_label === 'review',
-            },
-          };
-
-        case 'iframe':
-          return {
-            type: 'iframe',
-            weight: slice.slice_label,
-            value: {
-              src: slice.primary.iframeSrc,
-              image: parseImage(slice.primary.previewImage),
-            },
-          };
-
-        case 'gifVideo':
-          return {
-            type: 'gifVideo',
-            weight: slice.slice_label,
-            value: {
-              caption: parseRichText(slice.primary.caption),
-              videoUrl: slice.primary.video && slice.primary.video.url,
-              playbackRate: slice.primary.playbackRate || 1,
-              tasl: parseTaslFromString(slice.primary.tasl),
-            },
-          };
-
-        case 'contact':
-          return {
-            type: 'contact',
-            value: parseTeamToContact(slice.primary.content),
-          };
-
-        case 'embed':
-          const embed = slice.primary.embed;
-
-          if (embed.provider_name === 'Vimeo') {
-            const embedUrl = slice.primary.embed.html.match(
-              /src="([-a-zA-Z0-9://.?=_]+)?/
-            )[1];
+  return {
+    onThisPage,
+    slices: fragment
+      .map(slice => {
+        switch (slice.slice_type) {
+          case 'standfirst':
             return {
-              type: 'videoEmbed',
+              type: 'standfirst',
               weight: getWeight(slice.slice_label),
+              value: slice.primary.text,
+            };
+
+          case 'text':
+            return {
+              type: 'text',
+              weight: getWeight(slice.slice_label),
+              value: slice.primary.text,
+            };
+
+          case 'map':
+            return {
+              type: 'map',
               value: {
-                embedUrl: `${embedUrl}?rel=0`,
-                caption: slice.primary.caption,
+                title: asText(slice.primary.title),
+                latitude: slice.primary.geolocation.latitude,
+                longitude: slice.primary.geolocation.longitude,
               },
             };
-          }
 
-          if (embed.provider_name === 'SoundCloud') {
-            const apiUrl = embed.html.match(/url=([^&]*)&/);
-            const secretToken = embed.html.match(/secret_token=([^"]*)"/);
+          case 'editorialImage':
+            return {
+              weight: getWeight(slice.slice_label),
+              type: 'picture',
+              value: parseCaptionedImage(slice.primary),
+            };
 
-            return (
-              secretToken && {
-                type: 'soundcloudEmbed',
+          case 'editorialImageGallery':
+            return {
+              type: 'imageGallery',
+              weight: getWeight(slice.slice_label),
+              value: {
+                title: asText(slice.primary.title),
+                items: (slice.items.map(item =>
+                  parseCaptionedImage(item)
+                ): CaptionedImage[]),
+              },
+            };
+
+          case 'contentList':
+            return {
+              type: 'contentList',
+              weight: getWeight(slice.slice_label),
+              value: {
+                title: asText(slice.primary.title),
+                hasFeatured: slice.primary.hasFeatured,
+                items: slice.items
+                  .filter(
+                    // We have to do a check for data here, as if it's a linked piece
+                    // of content, we won't have this.
+                    item => item.content.isBroken === false && item.content.data
+                  )
+                  .map(item => {
+                    switch (item.content.type) {
+                      case 'pages':
+                        return parsePage(item.content);
+                      case 'event-series':
+                        return parseEventSeries(item.content);
+                      case 'exhibitions':
+                        return parseExhibitionDoc(item.content);
+                      case 'articles':
+                        return parseArticle(item.content);
+                      case 'events':
+                        return parseEventDoc(item.content);
+                      case 'card':
+                        return parseCard(item.content);
+                    }
+                  })
+                  .filter(Boolean),
+              },
+            };
+
+          case 'collectionVenue':
+            return {
+              type: 'collectionVenue',
+              weight: getWeight(slice.slice_label),
+              value: {
+                content: parseCollectionVenue(slice.primary.content),
+                showClosingTimes: slice.primary.showClosingTimes,
+              },
+            };
+
+          case 'inPageAnchor':
+            return {
+              type: 'inPageAnchor',
+              value: slice.primary.id,
+            };
+
+          case 'searchResults':
+            return {
+              type: 'searchResults',
+              weight: getWeight(slice.slice_label),
+              value: {
+                title: asText(slice.primary.title),
+                query: slice.primary.query,
+                pageSize: slice.primary.pageSize || 4,
+              },
+            };
+
+          case 'quote':
+          case 'quoteV2':
+            return {
+              type: 'quote',
+              weight: getWeight(slice.slice_label),
+              value: {
+                text: slice.primary.text,
+                citation: slice.primary.citation,
+                isPullOrReview:
+                  slice.slice_label === 'pull' ||
+                  slice.slice_label === 'review',
+              },
+            };
+
+          case 'iframe':
+            return {
+              type: 'iframe',
+              weight: slice.slice_label,
+              value: {
+                src: slice.primary.iframeSrc,
+                image: parseImage(slice.primary.previewImage),
+              },
+            };
+
+          case 'gifVideo':
+            return {
+              type: 'gifVideo',
+              weight: slice.slice_label,
+              value: {
+                caption: parseRichText(slice.primary.caption),
+                videoUrl: slice.primary.video && slice.primary.video.url,
+                playbackRate: slice.primary.playbackRate || 1,
+                tasl: parseTaslFromString(slice.primary.tasl),
+              },
+            };
+
+          case 'contact':
+            return {
+              type: 'contact',
+              value: parseTeamToContact(slice.primary.content),
+            };
+
+          case 'embed':
+            const embed = slice.primary.embed;
+
+            if (embed.provider_name === 'Vimeo') {
+              const embedUrl = slice.primary.embed.html.match(
+                /src="([-a-zA-Z0-9://.?=_]+)?/
+              )[1];
+              return {
+                type: 'videoEmbed',
                 weight: getWeight(slice.slice_label),
                 value: {
-                  embedUrl: `https://w.soundcloud.com/player/?url=${apiUrl[1]}%3Fsecret_token%3D${secretToken[1]}&color=%23ff5500&inverse=false&auto_play=false&show_user=true`,
+                  embedUrl: `${embedUrl}?rel=0`,
                   caption: slice.primary.caption,
                 },
-              }
-            );
-          }
+              };
+            }
 
-          if (embed.provider_name === 'YouTube') {
-            const embedUrl = slice.primary.embed.html.match(
-              /src="([-a-zA-Z0-9://.?=_]+)?/
-            )[1];
+            if (embed.provider_name === 'SoundCloud') {
+              const apiUrl = embed.html.match(/url=([^&]*)&/);
+              const secretToken = embed.html.match(/secret_token=([^"]*)"/);
+
+              return (
+                secretToken && {
+                  type: 'soundcloudEmbed',
+                  weight: getWeight(slice.slice_label),
+                  value: {
+                    embedUrl: `https://w.soundcloud.com/player/?url=${apiUrl[1]}%3Fsecret_token%3D${secretToken[1]}&color=%23ff5500&inverse=false&auto_play=false&show_user=true`,
+                    caption: slice.primary.caption,
+                  },
+                }
+              );
+            }
+
+            if (embed.provider_name === 'YouTube') {
+              const embedUrl = slice.primary.embed.html.match(
+                /src="([-a-zA-Z0-9://.?=_]+)?/
+              )[1];
+              return {
+                type: 'videoEmbed',
+                weight: getWeight(slice.slice_label),
+                value: {
+                  embedUrl: `${embedUrl}?rel=0`,
+                  caption: slice.primary.caption,
+                },
+              };
+            }
+            break;
+
+          case 'table':
             return {
-              type: 'videoEmbed',
-              weight: getWeight(slice.slice_label),
+              type: 'table',
               value: {
-                embedUrl: `${embedUrl}?rel=0`,
+                rows: parseTableCsv(slice.primary.tableData),
                 caption: slice.primary.caption,
+                hasRowHeaders: slice.primary.hasRowHeaders,
               },
             };
-          }
-          break;
 
-        case 'table':
-          return {
-            type: 'table',
-            value: {
-              rows: parseTableCsv(slice.primary.tableData),
-              caption: slice.primary.caption,
-              hasRowHeaders: slice.primary.hasRowHeaders,
-            },
-          };
-
-        // Deprecated
-        case 'imageList':
-          return {
-            type: 'deprecatedImageList',
-            weight: getWeight(slice.slice_label),
-            value: {
-              items: slice.items.map(item => ({
-                title: parseTitle(item.title),
-                subtitle: parseTitle(item.subtitle),
-                image: parseCaptionedImage(item),
-                description: parseStructuredText(item.description),
-              })),
-            },
-          };
-      }
-    })
-    .filter(Boolean);
+          // Deprecated
+          case 'imageList':
+            return {
+              type: 'deprecatedImageList',
+              weight: getWeight(slice.slice_label),
+              value: {
+                items: slice.items.map(item => ({
+                  title: parseTitle(item.title),
+                  subtitle: parseTitle(item.subtitle),
+                  image: parseCaptionedImage(item),
+                  description: parseStructuredText(item.description),
+                })),
+              },
+            };
+        }
+      })
+      .filter(Boolean),
+  };
 }
 
 export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
@@ -781,8 +803,10 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
       : {}; // just get the first one;
 
   const { image, squareImage, widescreenImage } = promoImages;
-  const body = data.body ? parseBody(data.body) : [];
-  const standfirst = body.find(slice => slice.type === 'standfirst');
+  const body = data.body
+    ? parseBody(data.body)
+    : { slices: [], onThisPage: [] };
+  const standfirst = body.slices.find(slice => slice.type === 'standfirst');
   const metadataDescription = asText(data.metadataDescription);
 
   return {
@@ -790,7 +814,8 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
     title: parseTitle(data.title),
     contributorsTitle: asText(data.contributorsTitle),
     contributors: contributors ? parseContributors(contributors) : [],
-    body: body,
+    onThisPage: body.onThisPage,
+    body: body.slices,
     standfirst: standfirst && standfirst.value,
     promo: promo,
     promoText: promo && promo.caption,
