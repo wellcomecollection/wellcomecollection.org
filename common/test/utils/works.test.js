@@ -7,7 +7,9 @@ import {
   getWorkIdentifiersWith,
   getArchiveAncestorArray,
 } from '../../utils/works';
+import { getTabbableIds } from '../../views/components/ArchiveTree/ArchiveTree';
 import { WorkFixture, workWithPartOf } from '../fixtures/catalogueApi/work';
+import { uiTree, idArray } from '../fixtures/uiTree/uiTree';
 
 describe('getProductionDates', () => {
   it('should extract date labels from a work', () => {
@@ -89,5 +91,12 @@ describe('getArchiveAncestorArray', () => {
         type: 'Work',
       },
     ]);
+  });
+});
+
+describe('getTabbableIds', () => {
+  it('gets the ids from only the open branches of a uiTree and returns them as a flat array', () => {
+    const tabbableIds = getTabbableIds(uiTree);
+    expect(idArray).toEqual(tabbableIds);
   });
 });

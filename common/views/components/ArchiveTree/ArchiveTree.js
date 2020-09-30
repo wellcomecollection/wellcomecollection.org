@@ -1,5 +1,6 @@
 // @flow
 import { useState, useEffect, useContext, useRef } from 'react';
+import flattenDeep from 'lodash.flattendeep';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getWork } from '@weco/catalogue/services/catalogue/works';
@@ -126,8 +127,8 @@ type UiTreeNode = {|
 
 type UiTree = UiTreeNode[];
 
-// Add some tests
-function getTabbableIds(tree: UiTree): string[] {
+// TODO Add some tests
+export function getTabbableIds(tree: UiTree): string[] {
   const tabbableIds = tree.reduce((acc, curr, i) => {
     acc.push(curr.work.id);
     if (curr.openStatus && curr.children) {
@@ -135,7 +136,7 @@ function getTabbableIds(tree: UiTree): string[] {
     }
     return acc;
   }, []);
-  return tabbableIds.flat();
+  return flattenDeep(tabbableIds);
 }
 
 function updateOpenStatus({
@@ -212,7 +213,7 @@ async function addChildren({
 async function createSiblingsArray({
   work,
   toggles,
-  workId, // current work being viewed
+  workId, // id of current work being viewed
   openStatusOverride = false,
 }: {
   work: Work,
@@ -333,7 +334,7 @@ async function createArchiveTree({
 async function getSiblingsWithDescendents({
   id, // id of work to get
   toggles,
-  workId, // current Work being viewed
+  workId, // id of current Work being viewed
   depth = 1,
   openStatusOverride = false,
 }: {|
