@@ -31,7 +31,7 @@ const StickyContainer = styled.div`
 const StickyContainerInner = styled.div`
   ${props => props.theme.media.medium`
     overflow: scroll;
-    // max-height: calc(100vh - 48px);
+    max-height: calc(100vh - 48px);
   `}
 `;
 
@@ -120,6 +120,7 @@ const Tree = styled.div.attrs(props => ({
 type UiTreeNode = {|
   openStatus: boolean,
   work: NodeWork,
+  parentId: string,
   children: ?UiTree,
 |};
 
@@ -174,6 +175,7 @@ function createNodeFromWork({
   return {
     openStatus,
     work: parsePart(work),
+    parentId: work.partOf[0] && work.partOf[0].id,
     children:
       work.parts &&
       work.parts.map(part => ({
@@ -196,6 +198,7 @@ async function addChildren({
     ? {
         openStatus: false,
         work: item.work,
+        parentId: item.parentId,
         children: work.parts
           ? work.parts.map(part => ({
               work: parsePart(part),
@@ -222,6 +225,7 @@ async function createSiblingsArray({
     ...(work.precededBy || []).map(item => ({
       openStatus: false,
       work: parsePart(item),
+      parentId: work.partOf[0] && work.partOf[0].id,
       children: undefined,
     })),
     {
@@ -233,6 +237,7 @@ async function createSiblingsArray({
     ...(work.succeededBy || []).map(item => ({
       openStatus: false,
       work: parsePart(item),
+      parentId: work.partOf[0] && work.partOf[0].id,
       children: undefined,
     })),
   ];
@@ -492,7 +497,7 @@ const ListItem = ({
         tabbableId && tabbableId === item.work.id
           ? true
           : !!(!tabbableId && currentWorkId === item.work.id)
-      } // TODO read up on this property
+      }
       tabIndex={
         tabbableId && tabbableId === item.work.id
           ? 0
@@ -506,14 +511,13 @@ const ListItem = ({
           currentId: item.work.id,
           tree: fullTree,
         });
-        // const previousId = getPreviousTabbableId({
-        //   currentId: item.work.id,
-        //   tree: fullTree,
-        // });
+        const previousId = getPreviousTabbableId({
+          currentId: item.work.id,
+          tree: fullTree,
+        });
         if (item.children) {
           switch (event.key) {
             case 'ArrowRight': {
-              // TODO DONE
               // When focus is on an open node, moves focus to the first child node.
               if (item.openStatus) {
                 if (nextId) {
@@ -527,14 +531,9 @@ const ListItem = ({
               }
 
               // When focus is on a closed node, opens the node; focus does not move.
-              // TODO move into shared function
               if (!item.openStatus) {
                 openBranch();
-                getNextTabbableId({
-                  currentId: item.work.id,
-                  tree: fullTree,
-                });
-                setTabbableId(item.work.id); // use posInSet etc, work out how to get correct id here // getNext getPrevious functions
+                setTabbableId(item.work.id);
               }
               break;
             }
@@ -548,28 +547,19 @@ const ListItem = ({
                     value: !item.openStatus,
                   })
                 );
-                getPreviousTabbableId({
-                  // TODO change to previous
-                  currentId: item.work.id,
-                  tree: fullTree,
-                });
-                setTabbableId(item.work.id); // TODO correct id
               }
+
               // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
               // When focus is on a root node that is also either an end node or a closed node, does nothing.
               if (isEndNode || !item.openStatus) {
-                // TODO updateTreeFocus
-                setTabbableId(item.work.id); // TODO correct id
+                if (item.parentId) {
+                  setTabbableId(item.parentId);
+                }
               }
               break;
             }
             case 'ArrowDown': {
               // Moves focus to the next node that is focusable without opening or closing a node.
-              const nextId = getNextTabbableId({
-                // TODO change to previous
-                currentId: item.work.id,
-                tree: fullTree,
-              });
               if (nextId) {
                 setTabbableId(nextId);
               }
@@ -577,11 +567,6 @@ const ListItem = ({
             }
             case 'ArrowUp': {
               // Moves focus to the previous node that is focusable without opening or closing a node.
-              const previousId = getPreviousTabbableId({
-                // TODO change to previous
-                currentId: item.work.id,
-                tree: fullTree,
-              });
               if (previousId) {
                 setTabbableId(previousId);
               }
@@ -591,11 +576,10 @@ const ListItem = ({
         }
       }}
       onClick={event => {
-        // TODO update tabbableIndex here too
         event.stopPropagation();
         if (level > 0 && item.children) {
           openBranch();
-          // TODO move into function, can be used above too
+          setTabbableId(item.work.id);
         }
       }}
     >
