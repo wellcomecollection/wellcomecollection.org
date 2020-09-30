@@ -450,159 +450,97 @@ const ListItem = ({
   setTabbableId: string => void,
 |}) => {
   const isEndNode = item.children && item.children.length === 0;
+  const toggles = useContext(TogglesContext);
+  function openBranch() {
+    if (
+      item.children &&
+      item.children.find(item => item.children === undefined) // then we haven't tried to add its children yet
+    ) {
+      expandTree({
+        item,
+        toggles,
+        setArchiveTree,
+        archiveTree: fullTree,
+        workId: currentWorkId,
+      });
+    } else {
+      setArchiveTree(
+        updateOpenStatus({
+          id: item.work.id,
+          tree: fullTree,
+          value: !item.openStatus,
+        })
+      );
+    }
+  }
   return (
-    // TODO move around NestedList
-    <TogglesContext.Consumer>
-      {toggles => (
-        <li
-          id={item.work.id}
-          role="treeitem"
-          aria-level={level}
-          aria-setsize={setSize}
-          aria-posinset={posInSet}
-          aria-expanded={
-            item.children && item.children.length > 0 ? item.openStatus : null
-          }
-          aria-label={`${item.work.title}${
-            item.work.referenceNumber
-              ? `, reference number ${item.work.referenceNumber}`
-              : ''
-          }`}
-          aria-selected={
-            tabbableId && tabbableId === item.work.id
-              ? true
-              : !!(!tabbableId && currentWorkId === item.work.id)
-          } // TODO read up on this property
-          tabIndex={
-            tabbableId && tabbableId === item.work.id
-              ? 0
-              : !tabbableId && currentWorkId === item.work.id
-              ? 0
-              : -1
-          }
-          onKeyDown={event => {
-            // TODO move into shared function
-            event.stopPropagation();
-            if (item.children) {
-              switch (event.key) {
-                case 'ArrowRight': {
-                  // When focus is on a open node, moves focus to the first child node.
-                  if (item.openStatus) {
-                    const nextId = getNextTabbableId({
-                      // TODO if they all end up needing this then just do it at the top
-                      // TODO change to previous
-                      currentId: item.work.id,
-                      tree: fullTree,
-                    });
-                    if (nextId) {
-                      setTabbableId(nextId);
-                    }
-                  }
-                  // TODO needs to change aria-selected
-
-                  // When focus is on an end node, does nothing.
-                  if (item.children && item.children.length === 0) {
-                    // TODO DONE
-                    return;
-                  }
-
-                  // When focus is on a closed node, opens the node; focus does not move.
-                  if (!item.openStatus) {
-                    if (
-                      item.children &&
-                      item.children.find(item => item.children === undefined) // then we haven't tried to add its children yet
-                    ) {
-                      expandTree({
-                        item,
-                        toggles,
-                        setArchiveTree,
-                        archiveTree: fullTree,
-                        workId: currentWorkId,
-                      });
-                    } else {
-                      setArchiveTree(
-                        updateOpenStatus({
-                          id: item.work.id,
-                          tree: fullTree,
-                          value: !item.openStatus,
-                        })
-                      );
-                    }
-                    getNextTabbableId({
-                      currentId: item.work.id,
-                      tree: fullTree,
-                    });
-                    setTabbableId(item.work.id); // use posInSet etc, work out how to get correct id here // getNext getPrevious functions
-                  }
-                  break;
-                }
-                case 'ArrowLeft': {
-                  // When focus is on an open node, closes the node.
-                  if (item.openStatus) {
-                    setArchiveTree(
-                      updateOpenStatus({
-                        id: item.work.id,
-                        tree: fullTree,
-                        value: !item.openStatus,
-                      })
-                    );
-                    getPreviousTabbableId({
-                      // TODO change to previous
-                      currentId: item.work.id,
-                      tree: fullTree,
-                    });
-                    setTabbableId(item.work.id); // TODO correct id
-                  }
-                  // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
-                  // When focus is on a root node that is also either an end node or a closed node, does nothing.
-                  if (isEndNode || !item.openStatus) {
-                    // TODO updateTreeFocus
-                    setTabbableId(item.work.id); // TODO correct id
-                  }
-                  break;
-                }
-                case 'ArrowDown': {
-                  // Moves focus to the next node that is focusable without opening or closing a node.
-                  const nextId = getNextTabbableId({
-                    // TODO change to previous
-                    currentId: item.work.id,
-                    tree: fullTree,
-                  });
-                  if (nextId) {
-                    setTabbableId(nextId);
-                  }
-                  break;
-                }
-                case 'ArrowUp': {
-                  // Moves focus to the previous node that is focusable without opening or closing a node.
-                  const previousId = getPreviousTabbableId({
-                    // TODO change to previous
-                    currentId: item.work.id,
-                    tree: fullTree,
-                  });
-                  if (previousId) {
-                    setTabbableId(previousId);
-                  }
-                  break;
+    <li
+      id={item.work.id}
+      role="treeitem"
+      aria-level={level}
+      aria-setsize={setSize}
+      aria-posinset={posInSet}
+      aria-expanded={
+        item.children && item.children.length > 0 ? item.openStatus : null
+      }
+      aria-label={`${item.work.title}${
+        item.work.referenceNumber
+          ? `, reference number ${item.work.referenceNumber}`
+          : ''
+      }`}
+      aria-selected={
+        tabbableId && tabbableId === item.work.id
+          ? true
+          : !!(!tabbableId && currentWorkId === item.work.id)
+      } // TODO read up on this property
+      tabIndex={
+        tabbableId && tabbableId === item.work.id
+          ? 0
+          : !tabbableId && currentWorkId === item.work.id
+          ? 0
+          : -1
+      }
+      onKeyDown={event => {
+        event.stopPropagation();
+        const nextId = getNextTabbableId({
+          currentId: item.work.id,
+          tree: fullTree,
+        });
+        // const previousId = getPreviousTabbableId({
+        //   currentId: item.work.id,
+        //   tree: fullTree,
+        // });
+        if (item.children) {
+          switch (event.key) {
+            case 'ArrowRight': {
+              // TODO DONE
+              // When focus is on an open node, moves focus to the first child node.
+              if (item.openStatus) {
+                if (nextId) {
+                  setTabbableId(nextId);
                 }
               }
-            }
-          }}
-          onClick={event => {
-            // TODO update tabbableIndex here too
-            event.stopPropagation();
-            if (level > 0 && item.children) {
-              if (
-                item.children.find(item => item.children === undefined) // then we haven't tried to add its children yet
-              ) {
-                expandTree({
-                  item,
-                  toggles,
-                  setArchiveTree,
-                  archiveTree: fullTree,
-                  workId: currentWorkId,
+
+              // When focus is on an end node, does nothing.
+              if (item.children && item.children.length === 0) {
+                return;
+              }
+
+              // When focus is on a closed node, opens the node; focus does not move.
+              // TODO move into shared function
+              if (!item.openStatus) {
+                openBranch();
+                getNextTabbableId({
+                  currentId: item.work.id,
+                  tree: fullTree,
                 });
-              } else {
+                setTabbableId(item.work.id); // use posInSet etc, work out how to get correct id here // getNext getPrevious functions
+              }
+              break;
+            }
+            case 'ArrowLeft': {
+              // When focus is on an open node, closes the node.
+              if (item.openStatus) {
                 setArchiveTree(
                   updateOpenStatus({
                     id: item.work.id,
@@ -610,72 +548,112 @@ const ListItem = ({
                     value: !item.openStatus,
                   })
                 );
+                getPreviousTabbableId({
+                  // TODO change to previous
+                  currentId: item.work.id,
+                  tree: fullTree,
+                });
+                setTabbableId(item.work.id); // TODO correct id
               }
+              // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
+              // When focus is on a root node that is also either an end node or a closed node, does nothing.
+              if (isEndNode || !item.openStatus) {
+                // TODO updateTreeFocus
+                setTabbableId(item.work.id); // TODO correct id
+              }
+              break;
             }
-            // TODO move into function, can be used above too
-          }}
-        >
-          <div style={{ padding: '10px 10px 10px 0' }}>
-            <div style={{ whiteSpace: 'nowrap' }}>
-              {level > 1 && item.children && item.children.length > 0 && (
-                <span style={{ cursor: 'pointer' }}>
-                  {item.openStatus ? '-' : '+'}
-                </span>
-              )}
-              <NextLink
-                {...workLink({ id: item.work.id })}
-                scroll={false}
-                passHref
+            case 'ArrowDown': {
+              // Moves focus to the next node that is focusable without opening or closing a node.
+              const nextId = getNextTabbableId({
+                // TODO change to previous
+                currentId: item.work.id,
+                tree: fullTree,
+              });
+              if (nextId) {
+                setTabbableId(nextId);
+              }
+              break;
+            }
+            case 'ArrowUp': {
+              // Moves focus to the previous node that is focusable without opening or closing a node.
+              const previousId = getPreviousTabbableId({
+                // TODO change to previous
+                currentId: item.work.id,
+                tree: fullTree,
+              });
+              if (previousId) {
+                setTabbableId(previousId);
+              }
+              break;
+            }
+          }
+        }
+      }}
+      onClick={event => {
+        // TODO update tabbableIndex here too
+        event.stopPropagation();
+        if (level > 0 && item.children) {
+          openBranch();
+          // TODO move into function, can be used above too
+        }
+      }}
+    >
+      <div style={{ padding: '10px 10px 10px 0' }}>
+        <div style={{ whiteSpace: 'nowrap' }}>
+          {level > 1 && item.children && item.children.length > 0 && (
+            <span style={{ cursor: 'pointer' }}>
+              {item.openStatus ? '-' : '+'}
+            </span>
+          )}
+          <NextLink {...workLink({ id: item.work.id })} scroll={false} passHref>
+            <StyledLink
+              tabIndex={
+                // TODO make this a function and use on li too
+                tabbableId && tabbableId === item.work.id
+                  ? 0
+                  : !tabbableId && currentWorkId === item.work.id
+                  ? 0
+                  : -1
+              }
+              className={classNames({
+                [font('hnl', 6)]: true,
+              })}
+              isCurrent={currentWorkId === item.work.id}
+              ref={currentWorkId === item.work.id ? selected : null}
+              onClick={event => {
+                event.stopPropagation();
+                setTabbableId(item.work.id);
+              }}
+            >
+              <WorkTitle title={item.work.title} />
+              <div
+                style={{
+                  fontSize: '13px',
+                  color: '#707070',
+                  textDecoration: 'none',
+                  padding: '0',
+                }}
               >
-                <StyledLink
-                  tabIndex={
-                    // TODO make this a function and use on li too
-                    tabbableId && tabbableId === item.work.id
-                      ? 0
-                      : !tabbableId && currentWorkId === item.work.id
-                      ? 0
-                      : -1
-                  }
-                  className={classNames({
-                    [font('hnl', 6)]: true,
-                  })}
-                  isCurrent={currentWorkId === item.work.id}
-                  ref={currentWorkId === item.work.id ? selected : null}
-                  onClick={event => {
-                    event.stopPropagation();
-                    setTabbableId(item.work.id);
-                  }}
-                >
-                  <WorkTitle title={item.work.title} />
-                  <div
-                    style={{
-                      fontSize: '13px',
-                      color: '#707070',
-                      textDecoration: 'none',
-                      padding: '0',
-                    }}
-                  >
-                    {item.work.referenceNumber}
-                  </div>
-                </StyledLink>
-              </NextLink>
-            </div>
-            {item.children && item.openStatus && (
-              <NestedList
-                selected={selected}
-                currentWorkId={currentWorkId}
-                archiveTree={item.children}
-                fullTree={fullTree}
-                setArchiveTree={setArchiveTree}
-                level={level + 1}
-                tabbableId={tabbableId}
-                setTabbableId={setTabbableId}
-              />
-            )}
-          </div>
-        </li>
-      )}
-    </TogglesContext.Consumer>
+                {item.work.referenceNumber}
+              </div>
+            </StyledLink>
+          </NextLink>
+        </div>
+        {item.children && item.openStatus && (
+          <NestedList
+            selected={selected}
+            currentWorkId={currentWorkId}
+            archiveTree={item.children}
+            fullTree={fullTree}
+            setArchiveTree={setArchiveTree}
+            level={level + 1}
+            tabbableId={tabbableId}
+            setTabbableId={setTabbableId}
+          />
+        )}
+      </div>
+    </li>
   );
 };
 
