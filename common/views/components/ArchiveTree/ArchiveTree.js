@@ -194,7 +194,7 @@ function createNodeFromWork({
   return {
     openStatus,
     work: parsePart(work),
-    parentId: work.partOf[0] && work.partOf[0].id,
+    parentId: work.partOf && work.partOf[0] && work.partOf[0].id,
     children:
       work.parts &&
       work.parts.map(part => ({
