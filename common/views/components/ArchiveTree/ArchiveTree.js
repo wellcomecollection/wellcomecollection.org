@@ -32,7 +32,6 @@ const StickyContainer = styled.div`
 const StickyContainerInner = styled.div`
   ${props => props.theme.media.medium`
     overflow: scroll;
-    max-height: calc(100vh - 48px);
   `}
 `;
 
@@ -596,10 +595,27 @@ const ListItem = ({
       }}
     >
       <div style={{ padding: '10px 10px 10px 0' }}>
-        <div style={{ whiteSpace: 'nowrap' }}>
+        <div style={{ whiteSpace: 'nowrap' }} className="flex-inline">
           {level > 1 && item.children && item.children.length > 0 && (
-            <span style={{ cursor: 'pointer' }}>
-              {item.openStatus ? '-' : '+'}
+            <span
+              style={{
+                display: 'inline-block',
+                cursor: 'pointer',
+                lineHeight: '18px',
+                height: '18px',
+                width: '18px',
+                padding: '0px',
+                marginTop: '2px',
+                marginRight: '8px',
+                fontSize: '10px',
+                background: 'rgb(204, 204, 204)',
+                textAlign: 'center',
+              }}
+            >
+              <Icon
+                extraClasses="icon--match-text"
+                name={item.openStatus ? 'minus' : 'plus'}
+              />
             </span>
           )}
           <NextLink {...workLink({ id: item.work.id })} scroll={false} passHref>
@@ -612,7 +628,7 @@ const ListItem = ({
               ref={currentWorkId === item.work.id ? selected : null}
               onClick={event => {
                 event.stopPropagation();
-                setTabbableId(item.work.id);
+                // setTabbableId(item.work.id);
               }}
             >
               <WorkTitle title={item.work.title} />
