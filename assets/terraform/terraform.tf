@@ -29,15 +29,14 @@ provider "template" {
   version = "~> 2.1"
 }
 
-data "aws_acm_certificate" "wellcomecollection_ssl_cert" {
-  provider = aws.us-east-1
-  domain   = "wellcomecollection.org"
+locals {
+  wellcome_cdn_cert_arn = "arn:aws:acm:us-east-1:130871440101:certificate/bb840c52-56bb-4bf8-86f8-59e7deaf9c98"
 }
 
 module "static" {
   source              = "../../infrastructure/terraform/modules/s3_website"
   website_uri         = "i.wellcomecollection.org"
-  acm_certificate_arn = data.aws_acm_certificate.wellcomecollection_ssl_cert.arn
+  acm_certificate_arn = local.wellcome_cdn_cert_arn
   min_ttl             = 86400
   default_ttl         = 86400
   max_ttl             = 86400
