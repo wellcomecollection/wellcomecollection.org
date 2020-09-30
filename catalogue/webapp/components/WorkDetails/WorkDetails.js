@@ -192,8 +192,10 @@ const WorkDetails = ({
                 properties: ['margin-bottom'],
               }}
             >
-              <WorkDetailsText
-                text={[`<a href="${encoreLink}">Wellcome library</a>`]}
+              <ButtonOutlinedLink
+                link={encoreLink}
+                text={`Wellcome Library`}
+                icon={`arrow`}
               />
             </Space>
           )
