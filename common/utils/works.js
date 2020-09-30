@@ -246,20 +246,20 @@ export function getItemIdentifiersWith(
   }, []);
 }
 
-export function parsePartOf(partOf: Work): NodeWork {
+export function parsePart(part: Work): NodeWork {
   return {
-    id: partOf.id,
-    title: partOf.title,
-    alternativeTitles: partOf.alternativeTitles,
-    referenceNumber: partOf.referenceNumber,
-    type: partOf.type,
+    id: part.id,
+    title: part.title,
+    alternativeTitles: part.alternativeTitles,
+    referenceNumber: part.referenceNumber,
+    type: part.type,
   };
 }
 
 function makeArchiveAncestorArray(partOfArray, nextPart) {
   if (!nextPart) return partOfArray;
   return makeArchiveAncestorArray(
-    [...partOfArray, parsePartOf(nextPart)],
+    [...partOfArray, parsePart(nextPart)],
     nextPart.partOf &&
       nextPart.partOf.find(part => {
         return nextPart.referenceNumber.includes(part.referenceNumber);

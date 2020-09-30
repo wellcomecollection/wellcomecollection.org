@@ -13,7 +13,7 @@ import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import {
   getArchiveAncestorArray,
-  parsePartOf,
+  parsePart,
   type NodeWork,
 } from '@weco/common/utils/works';
 import { type Work } from '@weco/common/model/catalogue';
@@ -173,12 +173,12 @@ function createNodeFromWork({
 |}): UiTreeNode {
   return {
     openStatus,
-    work: parsePartOf(work),
+    work: parsePart(work),
     children:
       work.parts &&
       work.parts.map(part => ({
         openStatus: false,
-        work: parsePartOf(part),
+        work: parsePart(part),
         children: part.children,
       })),
   };
@@ -198,7 +198,7 @@ async function addChildren({
         work: item.work,
         children: work.parts
           ? work.parts.map(part => ({
-              work: parsePartOf(part),
+              work: parsePart(part),
               openStatus: false,
             }))
           : [],
@@ -221,7 +221,7 @@ async function createSiblingsArray({
   const siblingsArray = [
     ...(work.precededBy || []).map(item => ({
       openStatus: false,
-      work: parsePartOf(item),
+      work: parsePart(item),
       children: undefined,
     })),
     {
@@ -232,7 +232,7 @@ async function createSiblingsArray({
     },
     ...(work.succeededBy || []).map(item => ({
       openStatus: false,
-      work: parsePartOf(item),
+      work: parsePart(item),
       children: undefined,
     })),
   ];
@@ -292,7 +292,7 @@ async function createArchiveTree({
   archiveAncestorArray: NodeWork[],
   toggles: Toggles,
 |}): Promise<UiTree> {
-  const allTreeNodes = [...archiveAncestorArray, parsePartOf(work)];
+  const allTreeNodes = [...archiveAncestorArray, parsePart(work)];
   const treeStructure = await allTreeNodes.reduce(
     async (acc, curr, i, ancestorArray) => {
       const siblings =
