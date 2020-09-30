@@ -760,7 +760,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     <Tree tabindex="0">
       <TreeInstructions>
         Use up and down arrows to move through menu items and use right and left
-        arrows to toggle submenus open and closed. When focused on an item you
+        arrows to toggle sub menus open and closed. When focused on an item you
         can tab to the link it contains.
       </TreeInstructions>
       <NestedList
