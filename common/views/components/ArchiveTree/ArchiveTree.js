@@ -51,11 +51,30 @@ const StyledLink = styled.a`
   cursor: pointer;
 `;
 
+const TreeInstructions = styled.p.attrs(props => ({
+  className: 'tree-instructions',
+  'aria-hidden': 'true',
+  id: 'tree-instructions',
+}))`
+  position: fixed;
+  z-index: 2;
+  top: ${props => `${props.theme.spacingUnit * 2}px`};
+  background: ${props => props.theme.color('yellow')};
+  padding: ${props => `${props.theme.spacingUnit * 2}px`};
+  margin: ${props => `${props.theme.spacingUnit}px`};
+  border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
+  max-width: 600px;
+`;
+
 const Tree = styled.div.attrs(props => ({
   tabIndex: 0,
+  'aria-labelledby': 'tree-instructions',
 }))`
-  &:focus {
-    outline: 1px dashed red;
+  .tree-instructions {
+    display: none;
+  }
+  &:focus .tree-instructions {
+    display: block;
   }
   ul {
     list-style: none;
@@ -723,6 +742,11 @@ const ArchiveTree = ({ work }: { work: Work }) => {
 
   const TreeView = () => (
     <Tree tabindex="0">
+      <TreeInstructions>
+        Use up and down arrows to move through menu items and use right and left
+        arrows to toggle submenus open and closed. When focused on an item you
+        can tab to the link it contains.
+      </TreeInstructions>
       <NestedList
         selected={selected}
         currentWorkId={work.id}
