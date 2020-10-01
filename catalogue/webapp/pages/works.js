@@ -51,6 +51,7 @@ const Works = ({
   works,
   images,
   worksRouteProps,
+  unfilteredSearchResults,
   apiProps,
   setArchivesPrototypeCookie,
 }: Props) => {
@@ -210,7 +211,7 @@ const Works = ({
           </div>
         </Space>
 
-        {!results && <StaticWorksContent />}
+        {!results && !unfilteredSearchResults && <StaticWorksContent />}
 
         {results && results.results.length > 0 && (
           <Fragment>
