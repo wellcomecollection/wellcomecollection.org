@@ -30,9 +30,7 @@ const PageHeading = styled(Space).attrs({
     'no-margin': true,
     [font('wb', 1)]: true,
   }),
-})`
-  max-width: 780px;
-`;
+})``;
 
 const CreamBox = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
