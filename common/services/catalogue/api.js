@@ -71,16 +71,7 @@ export function worksRouteToApiUrl(
 }
 
 export const defaultWorkTypes = ['a', 'b', 'g', 'i', 'k', 'l', 'q'];
-export const testDefaultWorkTypes = [
-  'a',
-  'b',
-  'g',
-  'i',
-  'k',
-  'l',
-  'q',
-  'archive-collection',
-];
+export const testDefaultWorkTypes = ['a', 'b', 'g', 'h', 'i', 'k', 'l', 'q'];
 
 export const defaultItemsLocationsLocationType = [
   'iiif-image',
