@@ -172,7 +172,7 @@ const Works = ({
                       v={{ size: 'm', properties: ['margin-bottom'] }}
                       className="h1"
                     >
-                      Explore our collections
+                      Search the collections
                     </Space>
                   </Space>
                 </div>
@@ -188,9 +188,11 @@ const Works = ({
                   })}
                   id="search-form-description"
                 >
-                  Find thousands of freely licensed digital books, artworks,
-                  photos and images of historical library materials and museum
-                  objects.
+                  {unfilteredSearchResults
+                    ? `Find thousands of books, images, artworks, unpublished
+                  archives and manuscripts in our collections, many of them with
+                  free online access.`
+                    : `Find thousands of freely licensed digital books, artworks, photos and images of historical library materials and museum objects.`}
                 </p>
 
                 <SearchForm

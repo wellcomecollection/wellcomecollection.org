@@ -4,10 +4,10 @@ import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 const CollectionsStaticContent = () => {
   return (
     <Layout12>
-      <h2 className="h2">Search our collections</h2>
+      <h2 className="h2">Search the collections</h2>
       <p>
-        Find thousands of freely licensed digital books, artworks, photos and
-        images of historical library materials and museum objects.
+        Find thousands of books, images, artworks, unpublished archives and
+        manuscripts in our collections, many of them with free online access.
       </p>
       <SearchForm
         ariaDescribedBy="search-form-description"
