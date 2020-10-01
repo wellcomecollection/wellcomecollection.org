@@ -52,7 +52,7 @@ const PageLayout = ({
   const fullTitle =
     title !== ''
       ? `${title} | Wellcome Collection`
-      : 'Wellcome Collection | The free museum and library for the incurably curious';
+      : 'Wellcome Collection | A free museum and library exploring health and human experience';
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
   return (
