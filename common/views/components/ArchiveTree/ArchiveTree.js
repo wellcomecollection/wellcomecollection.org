@@ -20,6 +20,9 @@ import {
 } from '@weco/common/utils/works';
 import { type Work } from '@weco/common/model/catalogue';
 
+const instructions =
+  'Archive Tree: Tab into the tree, then use up and down arrows to move through tree items. Use right and left arrows to toggle sub menus open and closed. When focused on an item you can tab to the link it contains.';
+
 const StickyContainer = styled.div`
   border: 1px solid ${props => props.theme.color('pumice')};
   border-bottom: 0;
@@ -50,31 +53,33 @@ const StyledLink = styled.a`
 `;
 
 const TreeInstructions = styled.p.attrs(props => ({
-  className: 'tree-instructions',
   'aria-hidden': 'true',
   id: 'tree-instructions',
 }))`
-  position: fixed;
-  z-index: 2;
-  top: ${props => `${props.theme.spacingUnit * 2}px`};
-  background: ${props => props.theme.color('yellow')};
-  padding: ${props => `${props.theme.spacingUnit * 2}px`};
-  margin: ${props => `${props.theme.spacingUnit}px`};
-  border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
-  max-width: 600px;
+  display: none;
 `;
 
-const Tree = styled.div.attrs(props => ({
-  tabIndex: 0,
-  'aria-labelledby': 'tree-instructions',
-}))`
-  .tree-instructions {
-    display: none;
-  }
-  &:focus .tree-instructions {
-    display: block;
-  }
+const Tree = styled.div`
   ul {
+    position: relative;
+    &::before {
+      display: none;
+      position: absolute;
+      content: '${instructions}';
+      z-index: 2;
+      top: 0;
+      background: ${props => props.theme.color('yellow')};
+      padding: ${props => `${props.theme.spacingUnit * 2}px`};
+      margin: ${props => `${props.theme.spacingUnit}px`};
+      border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
+      max-width: 600px;
+    }
+    &:focus::before {
+      display: block;
+    }
+    ul {
+      content: '';
+    }
     list-style: none;
     padding-left: 0;
     margin-left: 0;
@@ -135,6 +140,7 @@ const Tree = styled.div.attrs(props => ({
 `;
 
 const TreeItem = styled.li`
+  padding: 10px 10px 10px 0;
   &:focus {
     outline: ${props =>
       !props.hideFocus ? `2px solid ${props.theme.color('black')}` : 'none'};
@@ -602,70 +608,68 @@ const ListItem = ({
         }
       }}
     >
-      <div style={{ padding: '10px 10px 10px 0' }}>
-        <div className="flex-inline">
-          {level > 1 && item.children && item.children.length > 0 && (
-            <span
-              style={{
-                display: 'inline-block',
-                cursor: 'pointer',
-                lineHeight: '18px',
-                height: '18px',
-                width: '18px',
-                padding: '0px',
-                marginTop: '2px',
-                marginRight: '8px',
-                fontSize: '10px',
-                background: 'rgb(204, 204, 204)',
-                textAlign: 'center',
-              }}
-            >
-              <Icon
-                extraClasses="icon--match-text"
-                name={item.openStatus ? 'minus' : 'plus'}
-              />
-            </span>
-          )}
-          <NextLink {...workLink({ id: item.work.id })} scroll={false} passHref>
-            <StyledLink
-              tabIndex={isSelected ? 0 : -1}
-              className={classNames({
-                [font('hnl', 6)]: true,
-              })}
-              isCurrent={currentWorkId === item.work.id}
-              ref={currentWorkId === item.work.id ? selected : null}
-              onClick={event => {
-                event.stopPropagation();
-                // setTabbableId(item.work.id);
-              }}
-            >
-              <WorkTitle title={item.work.title} />
-              <div
-                style={{
-                  fontSize: '13px',
-                  color: '#707070',
-                  textDecoration: 'none',
-                  padding: '0',
-                }}
-              >
-                {item.work.referenceNumber}
-              </div>
-            </StyledLink>
-          </NextLink>
-        </div>
-        {item.children && item.openStatus && (
-          <NestedList
-            selected={selected}
-            currentWorkId={currentWorkId}
-            archiveTree={item.children}
-            fullTree={fullTree}
-            setArchiveTree={setArchiveTree}
-            level={level + 1}
-            tabbableId={tabbableId}
-            setTabbableId={setTabbableId}
-          />
+      <div className="flex-inline">
+        {level > 1 && item.children && item.children.length > 0 && (
+          <span
+            style={{
+              display: 'inline-block',
+              cursor: 'pointer',
+              lineHeight: '18px',
+              height: '18px',
+              width: '18px',
+              padding: '0px',
+              marginTop: '2px',
+              marginRight: '8px',
+              fontSize: '10px',
+              background: 'rgb(204, 204, 204)',
+              textAlign: 'center',
+            }}
+          >
+            <Icon
+              extraClasses="icon--match-text"
+              name={item.openStatus ? 'minus' : 'plus'}
+            />
+          </span>
         )}
+        <NextLink {...workLink({ id: item.work.id })} scroll={false} passHref>
+          <StyledLink
+            tabIndex={isSelected ? 0 : -1}
+            className={classNames({
+              [font('hnl', 6)]: true,
+            })}
+            isCurrent={currentWorkId === item.work.id}
+            ref={currentWorkId === item.work.id ? selected : null}
+            onClick={event => {
+              event.stopPropagation();
+              // setTabbableId(item.work.id);
+            }}
+          >
+            <WorkTitle title={item.work.title} />
+            <div
+              style={{
+                fontSize: '13px',
+                color: '#707070',
+                textDecoration: 'none',
+                padding: '0',
+              }}
+            >
+              {item.work.referenceNumber}
+            </div>
+          </StyledLink>
+        </NextLink>
       </div>
+      {item.children && item.openStatus && (
+        <NestedList
+          selected={selected}
+          currentWorkId={currentWorkId}
+          archiveTree={item.children}
+          fullTree={fullTree}
+          setArchiveTree={setArchiveTree}
+          level={level + 1}
+          tabbableId={tabbableId}
+          setTabbableId={setTabbableId}
+        />
+      )}
     </TreeItem>
   );
 };
@@ -691,6 +695,8 @@ const NestedList = ({
 |}) => {
   return (
     <ul
+      aria-labelledby={level === 1 ? 'tree-instructions' : null}
+      tabIndex={level === 1 ? 0 : null}
       role={level === 1 ? 'tree' : 'group'}
       className={classNames({
         'font-size-5': true,
@@ -765,12 +771,8 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   }, [work.id]);
 
   const TreeView = () => (
-    <Tree tabindex="0">
-      <TreeInstructions>
-        Use up and down arrows to move through menu items and use right and left
-        arrows to toggle sub menus open and closed. When focused on an item you
-        can tab to the link it contains.
-      </TreeInstructions>
+    <Tree>
+      <TreeInstructions>{instructions}</TreeInstructions>
       <NestedList
         selected={selected}
         currentWorkId={work.id}
