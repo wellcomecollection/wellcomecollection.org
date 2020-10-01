@@ -1,13 +1,6 @@
 module.exports = {
   toggles: [
     {
-      id: 'buildingReopening',
-      title: 'Wellcome Collection reopening UI changes',
-      description:
-        'Show additions/amendments made in preparation for the reopening of the Wellcome Collection building',
-      defaultValue: true,
-    },
-    {
       id: 'archivesPrototype',
       title:
         'Include archives in search results and view additions to the work page relating to archives',
@@ -16,16 +9,29 @@ module.exports = {
         'Include archives in search results and view prototypes of breadcrumbs and archive tree on work page.',
     },
     {
-      id: 'enableColorFiltering',
-      title: 'Enable filtering images by color',
-      defaultValue: false,
-      description: 'Enable filtering images by color',
-    },
-    {
       id: 'unfilteredSearchResults',
       title: 'Entire catalogue search',
       defaultValue: false,
       description: 'Search the entire catalogue, including all work types',
+    },
+    {
+      id: 'locationsFilter',
+      title: 'Online/In the library filter',
+      defaultValue: false,
+      description: 'Show the filter for "Online" and "In the library"',
+    },
+    {
+      id: 'buildingReopening',
+      title: 'Wellcome Collection reopening UI changes',
+      description:
+        'Show additions/amendments made in preparation for the reopening of the Wellcome Collection building',
+      defaultValue: true,
+    },
+    {
+      id: 'enableColorFiltering',
+      title: 'Enable filtering images by color',
+      defaultValue: false,
+      description: 'Enable filtering images by color',
     },
     {
       id: 'searchToolbar',
@@ -65,12 +71,6 @@ module.exports = {
       title: 'Hotjar',
       defaultValue: false,
       description: 'Embeds the Hotjar script for user research',
-    },
-    {
-      id: 'locationsFilter',
-      title: 'Online/In the library filter',
-      defaultValue: false,
-      description: 'Show the filter for "Online" and "In the library"',
     },
   ],
 };
