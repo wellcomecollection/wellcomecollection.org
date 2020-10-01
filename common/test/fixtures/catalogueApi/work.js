@@ -1,6 +1,6 @@
 // @flow
 
-export const WorkFixture = {
+export const workFixture = {
   id: 'cnkv77md',
   title:
     'The sun rising with a yellow condom instead of the sun; representing protection against AIDS. Colour lithograph after M. Kolvenbach and G. Meyer, 199-.',

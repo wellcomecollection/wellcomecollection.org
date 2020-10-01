@@ -7,11 +7,11 @@ import {
   getWorkIdentifiersWith,
   getArchiveAncestorArray,
 } from '../../utils/works';
-import { WorkFixture, workWithPartOf } from '../fixtures/catalogueApi/work';
+import { workFixture, workWithPartOf } from '../fixtures/catalogueApi/work';
 
 describe('getProductionDates', () => {
   it('should extract date labels from a work', () => {
-    const dateLabel = getProductionDates(WorkFixture);
+    const dateLabel = getProductionDates(workFixture);
 
     expect(dateLabel).toStrictEqual(['[between 1990 and 1999?]']);
   });
@@ -19,7 +19,7 @@ describe('getProductionDates', () => {
 
 describe('getItemsWith', () => {
   it('gets the items with indicated by the parameters', () => {
-    const items = getItemsWith(WorkFixture, {
+    const items = getItemsWith(workFixture, {
       identifierId: 'sierra-system-number',
       locationType: 'PhysicalLocation',
     });
@@ -31,7 +31,7 @@ describe('getItemsWith', () => {
 
 describe('getWorkIdentifiersWith', () => {
   it('should get the work identifiers indicated by the parameters', () => {
-    const identifiers = getWorkIdentifiersWith(WorkFixture, {
+    const identifiers = getWorkIdentifiersWith(workFixture, {
       identifierId: 'sierra-system-number',
     });
 
@@ -43,7 +43,7 @@ describe('getWorkIdentifiersWith', () => {
 describe('getItemIdentifiersWith', () => {
   it('gets the item identifiers indicated by the parameters', () => {
     const identifiers = getItemIdentifiersWith(
-      WorkFixture,
+      workFixture,
       {
         identifierId: 'sierra-system-number',
         locationType: 'PhysicalLocation',
