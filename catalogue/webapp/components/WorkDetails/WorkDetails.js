@@ -193,7 +193,9 @@ const WorkDetails = ({
               }}
             >
               <WorkDetailsText
-                text={[`<a href="${encoreLink}">Wellcome library</a>`]}
+                text={[
+                  `<a href="${encoreLink}">Access this item on the Wellcome Library website</a>`,
+                ]}
               />
             </Space>
           )
