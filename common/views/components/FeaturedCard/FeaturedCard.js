@@ -267,6 +267,7 @@ const FeaturedCardShim = styled.div.attrs(props => ({
   }),
 }))`
   height: 21px;
+  /* Prevent a white line appearing above the shim because of browser rounding errors */
   top: -1px;
   margin-left: ${props =>
     props.isReversed ? props.theme.gutter.large + 'px' : null};
