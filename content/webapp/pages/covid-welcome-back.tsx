@@ -168,24 +168,27 @@ const CovidWelcomeBackPage = () => {
                 <h3>Storing your belongings</h3>
                 <ul>
                   <li>
-                    You will be able to use the lockers on level 0 to store
-                    belongings.
+                    Items larger than standard airline carry-on luggage cannot
+                    be brought into the galleries.
                   </li>
                   <li>
-                    Library users will still be able to bring laptops, pencils
-                    and study materials into the library in clear plastic bags.
+                    You can use the lockers on level 0 to store belongings.
                   </li>
                   <li>
                     Some of the lockers are large enough for fold-up bicycles;
                     however, we won’t be able to store luggage.
                   </li>
                   <li>
-                    There is a buggy drop-off inside the building on arrival.{' '}
+                    Library users will still be able to bring laptops, pencils
+                    and study materials into the library in clear plastic bags.
+                  </li>
+                  <li>
+                    There is a buggy drop-off inside the building on arrival.
                   </li>
                 </ul>
                 <p>
                   <a href="https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sm0">
-                    Find out more about our locker provisions
+                    Find out more about our bringing and storing items
                   </a>
                 </p>
 
