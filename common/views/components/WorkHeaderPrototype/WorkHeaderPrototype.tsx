@@ -78,6 +78,7 @@ const WorkHeaderPrototype = ({ work, childManifestsCount = 0 }: Props) => {
             ): null}
 
           <h1
+            aria-live="polite"
             id="work-info"
             className={classNames({
               'no-margin': true,
