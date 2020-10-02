@@ -2,11 +2,10 @@ module.exports = {
   toggles: [
     {
       id: 'archivesPrototype',
-      title:
-        'Include archives in search results and view additions to the work page relating to archives',
+      title: 'Show additions to the work page relating to archives',
       defaultValue: false,
       description:
-        'Include archives in search results and view prototypes of breadcrumbs and archive tree on work page.',
+        'Shows archive specific header, breadcrumbs and archive tree on the work page.',
     },
     {
       id: 'unfilteredSearchResults',
