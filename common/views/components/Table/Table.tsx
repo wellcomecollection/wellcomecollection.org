@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useRef, useEffect, useState, Fragment } from 'react';
+import { useRef, useEffect, useState, Fragment, isValidElement } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Control from '../Buttons/Control/Control';
@@ -149,7 +149,13 @@ const TableRow = ({ items, hasHeader }: TableRow) => {
       {items.map((item, index) => (
         <Fragment key={index}>
           {hasHeader && index === 0 ? (
-            <TableTh scope="row" dangerouslySetInnerHTML={{ __html: item }} />
+            isValidElement(item) ? (
+              <TableTh scope="row">{item}</TableTh>
+            ) : (
+              <TableTh scope="row" dangerouslySetInnerHTML={{ __html: item }} />
+            )
+          ) : isValidElement(item) ? (
+            <TableTd>{item}</TableTd>
           ) : (
             <TableTd dangerouslySetInnerHTML={{ __html: item }} />
           )}
@@ -277,13 +283,19 @@ const Table = ({ rows, hasRowHeaders, caption }: Props) => {
             {headerRow && (
               <TableThead>
                 <TableTr>
-                  {headerRow.map((item, index) => (
-                    <TableTh
-                      key={index}
-                      scope="col"
-                      dangerouslySetInnerHTML={{ __html: item }}
-                    />
-                  ))}
+                  {headerRow.map((item, index) =>
+                    isValidElement ? (
+                      <TableTh key={index} scope="col">
+                        {item}
+                      </TableTh>
+                    ) : (
+                      <TableTh
+                        key={index}
+                        scope="col"
+                        dangerouslySetInnerHTML={{ __html: item }}
+                      />
+                    )
+                  )}
                 </TableTr>
               </TableThead>
             )}
