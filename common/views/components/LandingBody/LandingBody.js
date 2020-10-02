@@ -17,6 +17,8 @@ import FeaturedCard, {
 } from '../FeaturedCard/FeaturedCard';
 import { convertItemToCardProps } from '@weco/common/model/card';
 import VisitUsStaticContent from './VisitUsStaticContent';
+// $FlowFixMe (tsx)
+import CollectionsStaticContent from './CollectionsStaticContent';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
 type BodySlice = {|
@@ -82,6 +84,8 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
         </Layout8>
       )}
       {pageId === 'XvxzjhQAAJmq1t__' && <VisitUsStaticContent />}
+      {pageId === 'X2jSjBMAACIA8Wq_' && <CollectionsStaticContent />}
+
       {sections.map((section, index) => {
         const sectionTheme = sectionThemes[index % sectionThemes.length];
         const hasFeatured =
@@ -122,6 +126,7 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
             item.type === 'card' ? item : convertItemToCardProps(item);
           return <Card key={i} item={cardProps} />;
         });
+        const isFirst = index === 0;
         const isLast = index === sections.length - 1;
 
         return (
@@ -130,7 +135,9 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
             condition={!isLast}
             wrapper={children => <SpacingSection>{children}</SpacingSection>}
           >
-            <WobblyEdge background={sectionTheme.rowBackground} isStatic />
+            {!isFirst && (
+              <WobblyEdge background={sectionTheme.rowBackground} isStatic />
+            )}
             <Space
               v={{
                 size: 'xl',

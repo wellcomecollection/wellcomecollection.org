@@ -15,7 +15,12 @@ import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
 import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 import Space from '../styled/Space';
 
-type SiteSection = 'works' | 'what-we-do' | 'visit-us' | 'stories' | 'whats-on';
+type SiteSection =
+  | 'collections'
+  | 'what-we-do'
+  | 'visit-us'
+  | 'stories'
+  | 'whats-on';
 
 export type Props = {|
   title: string,

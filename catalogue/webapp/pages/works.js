@@ -28,7 +28,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
-import SearchForm from '../components/SearchForm/SearchForm';
+import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { getImages } from '../services/catalogue/images';
 import { getWorks } from '../services/catalogue/works';
 import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
@@ -51,6 +51,7 @@ const Works = ({
   works,
   images,
   worksRouteProps,
+  unfilteredSearchResults,
   apiProps,
   setArchivesPrototypeCookie,
 }: Props) => {
@@ -142,7 +143,7 @@ const Works = ({
         url={worksLink({ ...worksRouteProps }, 'canonical_link').as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
-        siteSection={'works'}
+        siteSection={'collections'}
         imageUrl={null}
         imageAltText={null}
       >
@@ -171,7 +172,7 @@ const Works = ({
                       v={{ size: 'm', properties: ['margin-bottom'] }}
                       className="h1"
                     >
-                      Explore our collections
+                      Search the collections
                     </Space>
                   </Space>
                 </div>
@@ -187,9 +188,11 @@ const Works = ({
                   })}
                   id="search-form-description"
                 >
-                  Find thousands of freely licensed digital books, artworks,
-                  photos and images of historical library materials and museum
-                  objects.
+                  {unfilteredSearchResults
+                    ? `Find thousands of books, images, artworks, unpublished
+                  archives and manuscripts in our collections, many of them with
+                  free online access.`
+                    : `Find thousands of freely licensed digital books, artworks, photos and images of historical library materials and museum objects.`}
                 </p>
 
                 <SearchForm
@@ -210,7 +213,7 @@ const Works = ({
           </div>
         </Space>
 
-        {!results && <StaticWorksContent />}
+        {!results && !unfilteredSearchResults && <StaticWorksContent />}
 
         {results && results.results.length > 0 && (
           <Fragment>

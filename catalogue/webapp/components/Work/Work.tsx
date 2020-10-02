@@ -21,7 +21,7 @@ import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/A
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import SearchForm from '../SearchForm/SearchForm';
+import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import WorkDetails from '../WorkDetails/WorkDetails';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
@@ -121,7 +121,7 @@ const Work = ({ work }: Props) => {
       url={{ pathname: `/works/${work.id}` }}
       openGraphType={'website'}
       jsonLd={workLd(work)}
-      siteSection={'works'}
+      siteSection={'collections'}
       oEmbedUrl={`https://wellcomecollection.org/oembed/works/${work.id}`}
       imageUrl={imageUrl}
       imageAltText={work.title}
