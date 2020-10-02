@@ -8,8 +8,14 @@ type Props = {| title: ?string, children: Node |};
 const WorkDetailsProperty = ({ title, children }: Props) => {
   return (
     <SpacingComponent>
-      <div className={`${font('hnl', 5)}`}>
-        {title && <h3 className={`${font('hnm', 5)} no-margin`}>{title}</h3>}
+      <div className={`${font('hnl', 5, { small: 3, medium: 3 })}`}>
+        {title && (
+          <h3
+            className={`${font('hnm', 5, { small: 3, medium: 3 })} no-margin`}
+          >
+            {title}
+          </h3>
+        )}
         {children}
       </div>
     </SpacingComponent>
