@@ -375,32 +375,17 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   if (shouldSeeArchives) {
     ctx.query.toggles.archivesPrototype = true;
   }
-  const {
-    unfilteredSearchResults,
-    archivesPrototype,
-    enableColorFiltering,
-  } = ctx.query.toggles;
+  const { unfilteredSearchResults, enableColorFiltering } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
   const apiPropsFn = unfilteredSearchResults
     ? worksRouteToApiUrl
     : worksRouteToApiUrlWithDefaults;
   const aggregations = ['workType', 'locationType'];
-  const apiProps = archivesPrototype
-    ? apiPropsFn(
-        params,
-        {
-          _queryType,
-          aggregations,
-          'items.locations.locationType': null,
-          'items.locations.accessConditions.status': null,
-        },
-        true
-      )
-    : apiPropsFn(params, {
-        _queryType,
-        aggregations,
-      });
+  const apiProps = apiPropsFn(params, {
+    _queryType,
+    aggregations,
+  });
 
   const hasQuery = !!(params.query && params.query !== '');
 

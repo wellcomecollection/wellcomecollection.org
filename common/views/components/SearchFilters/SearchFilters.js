@@ -5,10 +5,7 @@ import {
   type CatalogueAggregationBucket,
   type CatalogueAggregations,
 } from '@weco/common/model/catalogue';
-import {
-  defaultWorkTypes,
-  testDefaultWorkTypes,
-} from '@weco/common/services/catalogue/api';
+import { defaultWorkTypes } from '@weco/common/services/catalogue/api';
 import SearchFiltersDesktop from '@weco/common/views/components/SearchFilters/SearchFiltersDesktop';
 import SearchFiltersMobile from '@weco/common/views/components/SearchFilters/SearchFiltersMobile';
 // $FlowFixMe (tsx)
@@ -62,9 +59,7 @@ const SearchFilters = ({
   const workTypeFilters = unfilteredSearchResults
     ? workTypeAggregations
     : workTypeAggregations.filter(agg =>
-        archivesPrototype
-          ? testDefaultWorkTypes.includes(agg.data.id)
-          : defaultWorkTypes.includes(agg.data.id)
+        defaultWorkTypes.includes(agg.data.id)
       );
 
   useEffect(() => {
