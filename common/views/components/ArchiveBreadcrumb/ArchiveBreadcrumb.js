@@ -8,7 +8,7 @@ import DropdownButton from '../DropdownButton/DropdownButton';
 import Icon from '../Icon/Icon';
 // $FlowFixMe (tsx)
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
-import { getAncestorArray } from '@weco/common/utils/works';
+import { getArchiveAncestorArray } from '@weco/common/utils/works';
 
 const ArchiveBreadcrumbNav = styled.nav`
   * {
@@ -82,9 +82,10 @@ type Props = {|
 |};
 
 const ArchiveBreadcrumb = ({ work }: Props) => {
-  const ancestorArray = getAncestorArray(work);
-  const firstCrumb = ancestorArray[0];
-  const middleCrumbs = ancestorArray.length > 1 ? ancestorArray.slice(1) : [];
+  const archiveAncestorArray = getArchiveAncestorArray(work);
+  const firstCrumb = archiveAncestorArray[0];
+  const middleCrumbs =
+    archiveAncestorArray.length > 1 ? archiveAncestorArray.slice(1) : [];
   const lastCrumb = {
     id: work.id,
     title: work.title,
