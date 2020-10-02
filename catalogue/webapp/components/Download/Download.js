@@ -81,9 +81,9 @@ const Download = ({
             label="Downloads"
             isInline={isInline}
             isOnDark={useDarkControl}
+            id={ariaControlsId}
           >
             <DownloadOptions
-              id={ariaControlsId}
               className={classNames({
                 [font('hnm', 5)]: true,
               })}
