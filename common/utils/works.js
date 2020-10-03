@@ -114,6 +114,7 @@ export type DigitalLocation = {|
   locationType: LocationType,
   type: 'DigitalLocation',
   url: string,
+  accessConditions: [],
 |};
 export type PhysicalLocation = {|
   locationType: LocationType,
@@ -175,6 +176,20 @@ export function getDigitalLocationOfType(
       )
       .filter(Boolean);
   return item;
+}
+
+export function getAccessConditionForDigialLocation(
+  digitalLocation: ?DigitalLocation
+): ?string {
+  if (digitalLocation) {
+    const accessConditions = digitalLocation?.accessConditions || [];
+    const accessCondition = accessConditions.find(
+      condition => condition.status
+    );
+    return accessCondition ? accessCondition.status?.id : null;
+  } else {
+    return null;
+  }
 }
 
 type Item = Object;

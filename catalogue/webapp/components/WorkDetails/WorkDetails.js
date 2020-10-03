@@ -11,6 +11,7 @@ import { worksLink } from '@weco/common/services/catalogue/routes';
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
+  getAccessConditionForDigialLocation,
   getWorkIdentifiersWith,
   getEncoreLink,
   sierraIdFromPresentationManifestUrl,
@@ -82,6 +83,12 @@ const WorkDetails = ({
   );
   const digitalLocation: ?DigitalLocation =
     iiifPresentationLocation || iiifImageLocation;
+
+  const accessCondition = getAccessConditionForDigialLocation(digitalLocation);
+  const showOnLibrarySite =
+    accessCondition === 'open-with-advisory' ||
+    accessCondition === 'restricted' ||
+    accessCondition === 'permission-required';
 
   // 'Available online' data
   const video = iiifPresentationManifest && getVideo(iiifPresentationManifest);
@@ -219,35 +226,68 @@ const WorkDetails = ({
           headingText="Available online"
           isInArchive={isInArchive}
         >
-          {video && (
-            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-              <VideoPlayer
-                video={video}
-                showDownloadOptions={showDownloadOptions}
-              />
-            </Space>
-          )}
-          {audio && (
-            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-              <AudioPlayer audio={audio} />
-            </Space>
-          )}
-          {work.thumbnail && (
+          {showOnLibrarySite && sierraIdFromManifestUrl ? (
+            // At the moment we aren't set up to cope with access conditions 'open-with-advisory, 'restricted','permission-required', so we pass them off to the UV on the library site
             <Space
-              v={{
-                size: 's',
-                properties: ['margin-bottom'],
+              as="span"
+              h={{
+                size: 'm',
+                properties: ['margin-right'],
               }}
             >
-              {itemUrl ? (
-                <NextLink {...itemUrl}>
-                  <a
-                    onClick={trackEvent({
-                      category: 'WorkDetails',
-                      action: 'follow image link',
-                      label: itemUrl.href.query.workId,
-                    })}
-                  >
+              <ButtonSolidLink
+                icon="eye"
+                text="View"
+                trackingEvent={{
+                  category: 'WorkDetails',
+                  action: 'follow view link',
+                  label: work.id,
+                }}
+                link={`https://wellcomelibrary.org/item/${sierraIdFromManifestUrl}`}
+              />
+            </Space>
+          ) : (
+            <>
+              {video && (
+                <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                  <VideoPlayer
+                    video={video}
+                    showDownloadOptions={showDownloadOptions}
+                  />
+                </Space>
+              )}
+              {audio && (
+                <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                  <AudioPlayer audio={audio} />
+                </Space>
+              )}
+              {work.thumbnail && (
+                <Space
+                  v={{
+                    size: 's',
+                    properties: ['margin-bottom'],
+                  }}
+                >
+                  {itemUrl ? (
+                    <NextLink {...itemUrl}>
+                      <a
+                        onClick={trackEvent({
+                          category: 'WorkDetails',
+                          action: 'follow image link',
+                          label: itemUrl.href.query.workId,
+                        })}
+                      >
+                        <img
+                          style={{
+                            width: 'auto',
+                            height: 'auto',
+                          }}
+                          alt={`view ${work.title}`}
+                          src={work.thumbnail.url}
+                        />
+                      </a>
+                    </NextLink>
+                  ) : (
                     <img
                       style={{
                         width: 'auto',
@@ -256,89 +296,78 @@ const WorkDetails = ({
                       alt={`view ${work.title}`}
                       src={work.thumbnail.url}
                     />
-                  </a>
-                </NextLink>
-              ) : (
-                <img
-                  style={{
-                    width: 'auto',
-                    height: 'auto',
-                  }}
-                  alt={`view ${work.title}`}
-                  src={work.thumbnail.url}
-                />
+                  )}
+                </Space>
               )}
-            </Space>
-          )}
-          <div
-            className={classNames({
-              'flex flex-h-center': true,
-            })}
-          >
-            {itemUrl && !audio && !video && (
-              <Space
-                as="span"
-                h={{
-                  size: 'm',
-                  properties: ['margin-right'],
-                }}
-              >
-                <ButtonSolidLink
-                  icon="eye"
-                  text="View"
-                  trackingEvent={{
-                    category: 'WorkDetails',
-                    action: 'follow view link',
-                    label: itemUrl.href.query.workId,
-                  }}
-                  link={{ ...itemUrl }}
-                />
-              </Space>
-            )}
-
-            {showDownloadOptions && (
-              <Download
-                ariaControlsId="itemDownloads"
-                workId={work.id}
-                downloadOptions={downloadOptions}
-              />
-            )}
-          </div>
-
-          {!(downloadOptions.length > 0) &&
-            sierraIdFromManifestUrl &&
-            childManifestsCount === 0 && (
-              <NextLink
-                {...downloadUrl({
-                  workId: work.id,
-                  sierraId: sierraIdFromManifestUrl,
-                })}
-              >
-                <a>Download options</a>
-              </NextLink>
-            )}
-
-          {(childManifestsCount > 0 || imageCount > 0) && (
-            <Space
-              v={{
-                size: 'm',
-                properties: ['margin-top'],
-              }}
-            >
-              <p
+              <div
                 className={classNames({
-                  'no-margin': true,
-                  [font('lr', 6)]: true,
+                  'flex flex-h-center': true,
                 })}
               >
-                Contains:{' '}
-                {childManifestsCount > 0
-                  ? `${childManifestsCount} volumes`
-                  : imageCount > 0
-                  ? `${imageCount} ${imageCount === 1 ? 'image' : 'images'}`
-                  : ''}
-              </p>
-            </Space>
+                {itemUrl && !audio && !video && (
+                  <Space
+                    as="span"
+                    h={{
+                      size: 'm',
+                      properties: ['margin-right'],
+                    }}
+                  >
+                    <ButtonSolidLink
+                      icon="eye"
+                      text="View"
+                      trackingEvent={{
+                        category: 'WorkDetails',
+                        action: 'follow view link',
+                        label: itemUrl.href.query.workId,
+                      }}
+                      link={{ ...itemUrl }}
+                    />
+                  </Space>
+                )}
+
+                {showDownloadOptions && (
+                  <Download
+                    ariaControlsId="itemDownloads"
+                    workId={work.id}
+                    downloadOptions={downloadOptions}
+                  />
+                )}
+              </div>
+              {!(downloadOptions.length > 0) &&
+                sierraIdFromManifestUrl &&
+                childManifestsCount === 0 && (
+                  <NextLink
+                    {...downloadUrl({
+                      workId: work.id,
+                      sierraId: sierraIdFromManifestUrl,
+                    })}
+                  >
+                    <a>Download options</a>
+                  </NextLink>
+                )}
+              {(childManifestsCount > 0 || imageCount > 0) && (
+                <Space
+                  v={{
+                    size: 'm',
+                    properties: ['margin-top'],
+                  }}
+                >
+                  <p
+                    className={classNames({
+                      'no-margin': true,
+                      [font('lr', 6)]: true,
+                    })}
+                  >
+                    Contains:{' '}
+                    {childManifestsCount > 0
+                      ? `${childManifestsCount} volumes`
+                      : imageCount > 0
+                      ? `${imageCount} ${imageCount === 1 ? 'image' : 'images'}`
+                      : ''}
+                  </p>
+                </Space>
+              )}
+            </>
           )}
           {license && (
             <>
