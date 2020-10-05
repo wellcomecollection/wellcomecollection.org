@@ -186,10 +186,9 @@ export function getAccessConditionForDigitalLocation(
     const accessCondition = accessConditions.find(
       condition => condition.status
     );
-    return accessCondition ? accessCondition.status?.id : null;
-  } else {
-    return null;
+    return accessCondition?.status?.id || null;
   }
+  return null;
 }
 
 type Item = Object;
