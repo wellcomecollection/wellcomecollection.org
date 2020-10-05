@@ -31,7 +31,7 @@ export type SearchFiltersSharedProps = {|
   productionDatesFrom: ?string,
   productionDatesTo: ?string,
   workTypeInUrlArray: string[],
-  locationTypeInUrlArray: string[],
+  locationsTypeInUrlArray: string[],
   imagesColor: ?string,
   aggregations: ?CatalogueAggregations,
 |};
