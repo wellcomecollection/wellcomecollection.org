@@ -339,7 +339,7 @@ const SearchFiltersMobile = ({
               )}
 
               {locationsFilter && aggregations && aggregations.locationType && (
-                <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
+                <FilterSection>
                   <h3 className="h3">Locations</h3>
                   <ul
                     className={classNames({
@@ -372,7 +372,7 @@ const SearchFiltersMobile = ({
                       );
                     })}
                   </ul>
-                </Space>
+                </FilterSection>
               )}
 
               {showColorFilter && (
