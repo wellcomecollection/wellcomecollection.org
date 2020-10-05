@@ -31,6 +31,7 @@ export type SearchFiltersSharedProps = {|
   productionDatesFrom: ?string,
   productionDatesTo: ?string,
   workTypeInUrlArray: string[],
+  locationTypeInUrlArray: string[],
   imagesColor: ?string,
   aggregations: ?CatalogueAggregations,
 |};
@@ -43,6 +44,7 @@ const SearchFilters = ({
   aggregations,
 }: Props) => {
   const workTypeInUrlArray = worksRouteProps.workType || [];
+  const locationsTypeInUrlArray = worksRouteProps.itemsLocationsType || [];
   const {
     productionDatesFrom,
     productionDatesTo,
@@ -115,6 +117,7 @@ const SearchFilters = ({
     productionDatesFrom,
     productionDatesTo,
     workTypeInUrlArray,
+    locationsTypeInUrlArray,
     imagesColor,
     aggregations,
   };
