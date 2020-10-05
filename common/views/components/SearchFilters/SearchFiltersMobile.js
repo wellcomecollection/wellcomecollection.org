@@ -163,6 +163,7 @@ const SearchFiltersMobile = ({
   productionDatesFrom,
   productionDatesTo,
   workTypeInUrlArray,
+  locationsTypeInUrlArray,
   imagesColor,
   aggregations,
 }: SearchFiltersSharedProps) => {
@@ -229,8 +230,8 @@ const SearchFiltersMobile = ({
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
   const showColorFilter =
     enableColorFiltering && worksRouteProps.search === 'images';
-
   const activeFiltersCount =
+    locationsTypeInUrlArray.length +
     workTypeInUrlArray.length +
     (productionDatesFrom ? 1 : 0) +
     (productionDatesTo ? 1 : 0) +
@@ -350,7 +351,11 @@ const SearchFiltersMobile = ({
 
                       return (
                         (locationType.count > 0 || isChecked) && (
-                          <li key={locationType.data.type}>
+                          <Space
+                            as="li"
+                            v={{ size: 'l', properties: ['margin-bottom'] }}
+                            key={`mobile-${locationType.data.type}`}
+                          >
                             <CheckboxRadio
                               id={locationType.data.type}
                               type={`checkbox`}
@@ -360,7 +365,7 @@ const SearchFiltersMobile = ({
                               checked={isChecked}
                               onChange={changeHandler}
                             />
-                          </li>
+                          </Space>
                         )
                       );
                     })}
