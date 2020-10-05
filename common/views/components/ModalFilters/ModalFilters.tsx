@@ -77,7 +77,7 @@ const FiltersInner = styled.div`
   `}
 `;
 
-const SearchFiltersArchivesPrototype = ({
+const ModalFilters = ({
   searchForm,
   worksRouteProps,
   workTypeAggregations,
@@ -91,6 +91,7 @@ const SearchFiltersArchivesPrototype = ({
   productionDatesTo,
   workTypeInUrlArray,
   imagesColor,
+  aggregations,
 }: SearchFiltersSharedProps) => {
   const [isActive, setIsActive] = useState(false);
 
@@ -105,7 +106,7 @@ const SearchFiltersArchivesPrototype = ({
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
 
-  const { enableColorFiltering } = useContext(TogglesContext);
+  const { enableColorFiltering, locationsFilter } = useContext(TogglesContext);
   const showColorFilter =
     enableColorFiltering && worksRouteProps.search === 'images';
 
@@ -199,6 +200,38 @@ const SearchFiltersArchivesPrototype = ({
               </ul>
             </FilterSection>
           )}
+          {locationsFilter && aggregations && aggregations.locationType && (
+            <FilterSection>
+              <h3 className="h3">Locations</h3>
+              <ul
+                className={classNames({
+                  'no-margin no-padding plain-list': true,
+                })}
+              >
+                {aggregations.locationType.buckets.map(locationType => {
+                  const isChecked = worksRouteProps.itemsLocationsType.includes(
+                    locationType.data.type
+                  );
+
+                  return (
+                    (locationType.count > 0 || isChecked) && (
+                      <li key={locationType.data.type}>
+                        <CheckboxRadio
+                          id={locationType.data.type}
+                          type={`checkbox`}
+                          text={`${locationType.data.label} (${locationType.count})`}
+                          value={locationType.data.type}
+                          name={`items.locations.type`}
+                          checked={isChecked}
+                          onChange={changeHandler}
+                        />
+                      </li>
+                    )
+                  );
+                })}
+              </ul>
+            </FilterSection>
+          )}
           {showColorFilter && (
             <FilterSection>
               <h3 className="h3">Colour</h3>
@@ -236,4 +269,4 @@ const SearchFiltersArchivesPrototype = ({
   );
 };
 
-export default SearchFiltersArchivesPrototype;
+export default ModalFilters;
