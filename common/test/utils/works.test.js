@@ -6,6 +6,8 @@ import {
   getItemIdentifiersWith,
   getWorkIdentifiersWith,
   getArchiveAncestorArray,
+  getDigitalLocationOfType,
+  getAccessConditionForDigitalLocation,
 } from '../../utils/works';
 import { getTabbableIds } from '../../views/components/ArchiveTree/ArchiveTree';
 import { workFixture, workWithPartOf } from '../fixtures/catalogueApi/work';
@@ -98,5 +100,50 @@ describe('getTabbableIds', () => {
   it('gets the ids from only the open branches of a uiTree and returns them as a flat array', () => {
     const tabbableIds = getTabbableIds(uiTree);
     expect(idArray).toEqual(tabbableIds);
+  });
+});
+
+describe('getDigitalLocationOfType', () => {
+  it('returns the digital location with the specified id', () => {
+    const manifestLocation = getDigitalLocationOfType(
+      workWithPartOf,
+      'iiif-presentation'
+    );
+    expect(manifestLocation).toStrictEqual({
+      locationType: {
+        id: 'iiif-presentation',
+        label: 'IIIF Presentation API',
+        type: 'LocationType',
+      },
+      url: 'https://wellcomelibrary.org/iiif/b16129143/manifest',
+      license: {
+        id: 'cc-by-nc',
+        label: 'Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)',
+        url: 'https://creativecommons.org/licenses/by-nc/4.0/',
+        type: 'License',
+      },
+      accessConditions: [
+        {
+          status: {
+            id: 'open',
+            label: 'Open',
+            type: 'AccessStatus',
+          },
+          type: 'AccessCondition',
+        },
+      ],
+      type: 'DigitalLocation',
+    });
+  });
+});
+
+describe('getAccessConditionForDigitalLocation', () => {
+  it('returns the status.id of the first object in an accessConditions array with a status property ', () => {
+    const manifestLocation = getDigitalLocationOfType(
+      workWithPartOf,
+      'iiif-presentation'
+    );
+    const statusId = getAccessConditionForDigitalLocation(manifestLocation);
+    expect(statusId).toEqual('open');
   });
 });
