@@ -15,6 +15,7 @@ import { type Book } from '../../../model/books';
 import { type Article } from '../../../model/articles';
 import Space from '../styled/Space';
 import type Moment from 'moment';
+import React from 'react';
 
 // TODO: This should be MultiContent
 type ContentTypes = UiEvent | UiExhibition | Book | Article;
@@ -37,7 +38,7 @@ const CardGrid = ({
   fromDate,
 }: Props) => {
   const gridColumns = itemsPerRow === 4 ? 3 : 4;
-
+  const spaceVLinks = { size: 'm', properties: ['margin-top'] };
   return (
     <div>
       <div className="css-grid__container">
@@ -100,11 +101,13 @@ const CardGrid = ({
       </div>
       {links && links.length > 0 && (
         <Layout12>
-          <Space v={{ size: 'm', properties: ['margin-top'] }}>
+          <Space v={spaceVLinks}>
             {links.map(link => (
-              <div key={link.url}>
-                <MoreLink url={link.url} name={link.text} />
-              </div>
+              <React.Fragment key={link.url}>
+                <Space v={spaceVLinks}>
+                  <MoreLink url={link.url} name={link.text} />
+                </Space>
+              </React.Fragment>
             ))}
           </Space>
         </Layout12>
