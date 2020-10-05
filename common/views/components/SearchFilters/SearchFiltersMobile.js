@@ -164,6 +164,7 @@ const SearchFiltersMobile = ({
   productionDatesTo,
   workTypeInUrlArray,
   imagesColor,
+  aggregations,
 }: SearchFiltersSharedProps) => {
   const openFiltersButtonRef = useRef(null);
   const closeFiltersButtonRef = useRef(null);
@@ -223,7 +224,7 @@ const SearchFiltersMobile = ({
       closeFiltersButtonRef.current.focus();
   }
 
-  const { enableColorFiltering } = useContext(TogglesContext);
+  const { enableColorFiltering, locationsFilter } = useContext(TogglesContext);
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
   const showColorFilter =
@@ -328,6 +329,38 @@ const SearchFiltersMobile = ({
                               onChange={changeHandler}
                             />
                           </Space>
+                        )
+                      );
+                    })}
+                  </ul>
+                </FilterSection>
+              )}
+              {locationsFilter && aggregations && aggregations.locationType && (
+                <FilterSection>
+                  <h3 className="h3">Locations</h3>
+                  <ul
+                    className={classNames({
+                      'no-margin no-padding plain-list': true,
+                    })}
+                  >
+                    {aggregations.locationType.buckets.map(locationType => {
+                      const isChecked = worksRouteProps.itemsLocationsType.includes(
+                        locationType.data.type
+                      );
+
+                      return (
+                        (locationType.count > 0 || isChecked) && (
+                          <li key={locationType.data.type}>
+                            <CheckboxRadio
+                              id={locationType.data.type}
+                              type={`checkbox`}
+                              text={`${locationType.data.label} (${locationType.count})`}
+                              value={locationType.data.type}
+                              name={`items.locations.type`}
+                              checked={isChecked}
+                              onChange={changeHandler}
+                            />
+                          </li>
                         )
                       );
                     })}
