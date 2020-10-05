@@ -178,7 +178,7 @@ export function getDigitalLocationOfType(
   return item;
 }
 
-export function getAccessConditionForDigialLocation(
+export function getAccessConditionForDigitalLocation(
   digitalLocation: ?DigitalLocation
 ): ?string {
   if (digitalLocation) {

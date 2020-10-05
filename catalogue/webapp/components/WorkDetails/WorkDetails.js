@@ -11,7 +11,7 @@ import { worksLink } from '@weco/common/services/catalogue/routes';
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
-  getAccessConditionForDigialLocation,
+  getAccessConditionForDigitalLocation,
   getWorkIdentifiersWith,
   getEncoreLink,
   sierraIdFromPresentationManifestUrl,
@@ -84,7 +84,7 @@ const WorkDetails = ({
   const digitalLocation: ?DigitalLocation =
     iiifPresentationLocation || iiifImageLocation;
 
-  const accessCondition = getAccessConditionForDigialLocation(digitalLocation);
+  const accessCondition = getAccessConditionForDigitalLocation(digitalLocation);
   const showOnLibrarySite =
     accessCondition === 'open-with-advisory' ||
     accessCondition === 'restricted' ||
