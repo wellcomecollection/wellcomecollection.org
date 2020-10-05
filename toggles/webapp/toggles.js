@@ -27,6 +27,12 @@ module.exports = {
       defaultValue: true,
     },
     {
+      id: 'modalFiltersPrototype',
+      title: 'Use the modal filter prototype',
+      defaultValue: false,
+      description: 'Search filters will appear in a modal',
+    },
+    {
       id: 'enableColorFiltering',
       title: 'Enable filtering images by color',
       defaultValue: false,

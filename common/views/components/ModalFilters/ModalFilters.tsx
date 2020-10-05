@@ -77,7 +77,7 @@ const FiltersInner = styled.div`
   `}
 `;
 
-const SearchFiltersArchivesPrototype = ({
+const ModalFilters = ({
   searchForm,
   worksRouteProps,
   workTypeAggregations,
@@ -269,4 +269,4 @@ const SearchFiltersArchivesPrototype = ({
   );
 };
 
-export default SearchFiltersArchivesPrototype;
+export default ModalFilters;
