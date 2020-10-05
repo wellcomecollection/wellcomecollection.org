@@ -52,7 +52,7 @@ const SearchFilters = ({
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
-  const { unfilteredSearchResults, archivesPrototype } = useContext(
+  const { unfilteredSearchResults, filterPrototype } = useContext(
     TogglesContext
   );
 
@@ -121,7 +121,7 @@ const SearchFilters = ({
 
   return (
     <>
-      {archivesPrototype ? (
+      {filterPrototype ? (
         <SearchFiltersArchivesPrototype {...sharedProps} />
       ) : (
         <>
