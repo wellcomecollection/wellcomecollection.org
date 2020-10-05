@@ -44,7 +44,6 @@ type Props = {|
   unfilteredSearchResults: boolean,
   shouldGetWorks: boolean,
   apiProps: CatalogueWorksApiProps,
-  setArchivesPrototypeCookie: boolean,
 |};
 
 const Works = ({
@@ -53,7 +52,6 @@ const Works = ({
   worksRouteProps,
   unfilteredSearchResults,
   apiProps,
-  setArchivesPrototypeCookie,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
@@ -66,12 +64,6 @@ const Works = ({
     productionDatesFrom,
     productionDatesTo,
   } = worksRouteProps;
-
-  useEffect(() => {
-    if (setArchivesPrototypeCookie) {
-      document.cookie = `toggle_archivesPrototype=true; Max-Age=${31536000}`;
-    }
-  }, []);
 
   useEffect(() => {
     trackSearch(apiProps, {
@@ -371,10 +363,6 @@ const Works = ({
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = WorksRoute.fromQuery(ctx.query);
-  const shouldSeeArchives = ctx.query.archivesPrototype;
-  if (shouldSeeArchives) {
-    ctx.query.toggles.archivesPrototype = true;
-  }
   const { unfilteredSearchResults, enableColorFiltering } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
@@ -417,7 +405,6 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     unfilteredSearchResults,
     shouldGetWorks,
     apiProps,
-    setArchivesPrototypeCookie: shouldSeeArchives,
   };
 };
 
