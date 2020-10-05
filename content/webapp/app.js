@@ -71,11 +71,6 @@ module.exports = app
       'buildingReopening'
     );
 
-    router.get('/landing-pages/X2jSjBMAACIA8Wq_', async ctx => {
-      ctx.status = 301;
-      ctx.redirect('/collections');
-    });
-
     renderIfToggleOn(
       '/collections',
       '/landing-page',
