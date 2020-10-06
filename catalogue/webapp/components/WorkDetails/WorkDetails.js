@@ -56,6 +56,28 @@ type Props = {|
   itemUrl: ?NextLinkType,
 |};
 
+// At the moment we aren't set up to cope with access conditions 'open-with-advisory, 'restricted',
+// 'permission-required', so we pass them off to the UV on the library site
+// If we have audio or video, then we show it in situ and don't link to the Item page
+function getItemLinkState({
+  accessCondition,
+  sierraIdFromManifestUrl,
+  itemUrl,
+  audio,
+  video,
+}): ?'useItemLink' | 'useLibraryLink' {
+  if (
+    (accessCondition === 'open-with-advisory' ||
+      accessCondition === 'restricted' ||
+      accessCondition === 'permission-required') &&
+    sierraIdFromManifestUrl
+  )
+    return 'useLibraryLink';
+  if (itemUrl && !audio && !video) {
+    return 'useItemLink';
+  }
+}
+
 const WorkDetails = ({
   work,
   iiifPresentationManifest,
@@ -85,11 +107,8 @@ const WorkDetails = ({
   const digitalLocation: ?DigitalLocation =
     iiifPresentationLocation || iiifImageLocation;
 
+  // Determine access conditions of digital location
   const accessCondition = getAccessConditionForDigitalLocation(digitalLocation);
-  const showOnLibrarySite =
-    accessCondition === 'open-with-advisory' ||
-    accessCondition === 'restricted' ||
-    accessCondition === 'permission-required';
 
   // 'Available online' data
   const video = iiifPresentationManifest && getVideo(iiifPresentationManifest);
@@ -178,6 +197,14 @@ const WorkDetails = ({
     ? isUiEnabled(getUiExtensions(iiifPresentationManifest), 'mediaDownload')
     : true;
 
+  const itemLinkState = getItemLinkState({
+    accessCondition,
+    sierraIdFromManifestUrl,
+    itemUrl,
+    audio,
+    video,
+  });
+
   const WhereToFindIt = () => (
     <WorkDetailsSection
       headingText="Where to find it"
@@ -235,15 +262,12 @@ const WorkDetails = ({
               />
             </Space>
           )}
-
           {audio && (
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <AudioPlayer audio={audio} />
             </Space>
           )}
-
-          {showOnLibrarySite && sierraIdFromManifestUrl ? (
-            // At the moment we aren't set up to cope with access conditions 'open-with-advisory, 'restricted','permission-required', so we pass them off to the UV on the library site
+          {itemLinkState === 'useLibraryLink' && (
             <Space
               as="span"
               h={{
@@ -259,10 +283,12 @@ const WorkDetails = ({
                   action: 'follow view link',
                   label: work.id,
                 }}
-                link={`https://wellcomelibrary.org/item/${sierraIdFromManifestUrl}`}
+                link={`https://wellcomelibrary.org/item/${sierraIdFromManifestUrl ||
+                  ''}`}
               />
             </Space>
-          ) : (
+          )}
+          {itemLinkState === 'useItemLink' && (
             <>
               {work.thumbnail && (
                 <Space
@@ -298,31 +324,30 @@ const WorkDetails = ({
                   </ConditionalWrapper>
                 </Space>
               )}
+
               <div
                 className={classNames({
                   'flex flex-h-center': true,
                 })}
               >
-                {itemUrl && !audio && !video && (
-                  <Space
-                    as="span"
-                    h={{
-                      size: 'm',
-                      properties: ['margin-right'],
+                <Space
+                  as="span"
+                  h={{
+                    size: 'm',
+                    properties: ['margin-right'],
+                  }}
+                >
+                  <ButtonSolidLink
+                    icon="eye"
+                    text="View"
+                    trackingEvent={{
+                      category: 'WorkDetails',
+                      action: 'follow view link',
+                      label: itemUrl?.href?.query?.workId,
                     }}
-                  >
-                    <ButtonSolidLink
-                      icon="eye"
-                      text="View"
-                      trackingEvent={{
-                        category: 'WorkDetails',
-                        action: 'follow view link',
-                        label: itemUrl.href.query.workId,
-                      }}
-                      link={{ ...itemUrl }}
-                    />
-                  </Space>
-                )}
+                    link={{ ...itemUrl }}
+                  />
+                </Space>
 
                 {showDownloadOptions && (
                   <Download
@@ -415,7 +440,9 @@ const WorkDetails = ({
           )}
         </WorkDetailsSection>
       )}
+
       {!digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
+
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection
           headingText="Selected images from this work"
@@ -437,6 +464,7 @@ const WorkDetails = ({
           />
         </WorkDetailsSection>
       )}
+
       <WorkDetailsSection
         headingText="About this work"
         isInArchive={isInArchive}
@@ -549,6 +577,7 @@ const WorkDetails = ({
           />
         </WorkDetailsSection>
       )}
+
       {digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
 
       <WorkDetailsSection
