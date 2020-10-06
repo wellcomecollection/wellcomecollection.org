@@ -29,6 +29,7 @@ import NextLink from 'next/link';
 // $FlowFixMe (tsx)
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Download from '../Download/Download';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
@@ -268,26 +269,22 @@ const WorkDetails = ({
                     properties: ['margin-bottom'],
                   }}
                 >
-                  {itemUrl ? (
-                    <NextLink {...itemUrl}>
-                      <a
-                        onClick={trackEvent({
-                          category: 'WorkDetails',
-                          action: 'follow image link',
-                          label: itemUrl.href.query.workId,
-                        })}
-                      >
-                        <img
-                          style={{
-                            width: 'auto',
-                            height: 'auto',
-                          }}
-                          alt={`view ${work.title}`}
-                          src={work.thumbnail.url}
-                        />
-                      </a>
-                    </NextLink>
-                  ) : (
+                  <ConditionalWrapper
+                    condition={itemUrl}
+                    wrapper={children => (
+                      <NextLink {...itemUrl}>
+                        <a
+                          onClick={trackEvent({
+                            category: 'WorkDetails',
+                            action: 'follow image link',
+                            label: itemUrl?.href?.query?.workId,
+                          })}
+                        >
+                          {children}
+                        </a>
+                      </NextLink>
+                    )}
+                  >
                     <img
                       style={{
                         width: 'auto',
@@ -296,7 +293,7 @@ const WorkDetails = ({
                       alt={`view ${work.title}`}
                       src={work.thumbnail.url}
                     />
-                  )}
+                  </ConditionalWrapper>
                 </Space>
               )}
               <div
