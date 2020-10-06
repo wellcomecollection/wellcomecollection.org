@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import theme from '@weco/common/views/themes/default';
 
-export default function useScreenSize() {
+export default function useWindowSize() {
   const [size, setSize] = useState('large');
 
   function updateSize() {

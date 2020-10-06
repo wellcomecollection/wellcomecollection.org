@@ -11,7 +11,7 @@ import SearchFiltersMobile from '@weco/common/views/components/SearchFilters/Sea
 // $FlowFixMe (tsx)
 import ModalFilters from '@weco/common/views/components/ModalFilters/ModalFilters';
 import TogglesContext from '../TogglesContext/TogglesContext';
-import useScreenSize from '@weco/common/hooks/useScreenSize';
+import useWindowSize from '@weco/common/hooks/useWindowSize';
 type Props = {|
   searchForm: {| current: ?HTMLFormElement |},
   worksRouteProps: WorksRouteProps,
@@ -50,7 +50,7 @@ const SearchFilters = ({
     imagesColor,
   } = worksRouteProps;
 
-  const screenSize = useScreenSize();
+  const windowSize = useWindowSize();
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
   const { unfilteredSearchResults, modalFiltersPrototype } = useContext(
@@ -115,7 +115,7 @@ const SearchFilters = ({
         <ModalFilters {...sharedProps} />
       ) : (
         <>
-          {screenSize === 'small' ? (
+          {windowSize === 'small' ? (
             <SearchFiltersMobile {...sharedProps} />
           ) : (
             <SearchFiltersDesktop {...sharedProps} />
