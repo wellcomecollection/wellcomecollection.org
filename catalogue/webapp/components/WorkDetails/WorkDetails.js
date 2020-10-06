@@ -227,6 +227,21 @@ const WorkDetails = ({
           headingText="Available online"
           isInArchive={isInArchive}
         >
+          {video && (
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <VideoPlayer
+                video={video}
+                showDownloadOptions={showDownloadOptions}
+              />
+            </Space>
+          )}
+
+          {audio && (
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <AudioPlayer audio={audio} />
+            </Space>
+          )}
+
           {showOnLibrarySite && sierraIdFromManifestUrl ? (
             // At the moment we aren't set up to cope with access conditions 'open-with-advisory, 'restricted','permission-required', so we pass them off to the UV on the library site
             <Space
@@ -249,19 +264,6 @@ const WorkDetails = ({
             </Space>
           ) : (
             <>
-              {video && (
-                <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                  <VideoPlayer
-                    video={video}
-                    showDownloadOptions={showDownloadOptions}
-                  />
-                </Space>
-              )}
-              {audio && (
-                <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                  <AudioPlayer audio={audio} />
-                </Space>
-              )}
               {work.thumbnail && (
                 <Space
                   v={{
