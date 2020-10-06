@@ -162,9 +162,8 @@ const WorkDetails = ({
 
   // We do not wish to display a link to the old library site if the new site
   // provides a digital representation of that work
-  const shouldDisplayEncoreLink = !(sierraIdFromManifestUrl === sierraWorkId);
   const encoreLink =
-    shouldDisplayEncoreLink && sierraWorkId && getEncoreLink(sierraWorkId);
+    !digitalLocation && sierraWorkId && getEncoreLink(sierraWorkId);
 
   const locationOfWork = work.notes.find(
     note => note.noteType.id === 'location-of-original'
