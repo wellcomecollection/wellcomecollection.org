@@ -138,7 +138,7 @@ describe('getDigitalLocationOfType', () => {
 });
 
 describe('getAccessConditionForDigitalLocation', () => {
-  it('returns the status.id of the first object in an accessConditions array with a status property ', () => {
+  it('returns the status.id of the first object in an accessConditions array with a status property', () => {
     const manifestLocation = getDigitalLocationOfType(
       workWithPartOf,
       'iiif-presentation'
