@@ -10,9 +10,8 @@ import SearchFiltersDesktop from '@weco/common/views/components/SearchFilters/Se
 import SearchFiltersMobile from '@weco/common/views/components/SearchFilters/SearchFiltersMobile';
 // $FlowFixMe (tsx)
 import ModalFilters from '@weco/common/views/components/ModalFilters/ModalFilters';
-import theme from '@weco/common/views/themes/default';
 import TogglesContext from '../TogglesContext/TogglesContext';
-
+import useScreenSize from '@weco/common/hooks/useScreenSize';
 type Props = {|
   searchForm: {| current: ?HTMLFormElement |},
   worksRouteProps: WorksRouteProps,
@@ -51,7 +50,7 @@ const SearchFilters = ({
     imagesColor,
   } = worksRouteProps;
 
-  const [isMobile, setIsMobile] = useState(false);
+  const screenSize = useScreenSize();
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
   const { unfilteredSearchResults, modalFiltersPrototype } = useContext(
@@ -63,18 +62,6 @@ const SearchFilters = ({
     : workTypeAggregations.filter(agg =>
         defaultWorkTypes.includes(agg.data.id)
       );
-
-  useEffect(() => {
-    function updateIsMobile() {
-      setIsMobile(window.innerWidth < theme.sizes.medium);
-    }
-
-    window.addEventListener('resize', updateIsMobile);
-
-    updateIsMobile();
-
-    return () => window.removeEventListener('resize', updateIsMobile);
-  }, []);
 
   useEffect(() => {
     if (productionDatesFrom !== inputDateFrom) {
@@ -128,7 +115,7 @@ const SearchFilters = ({
         <ModalFilters {...sharedProps} />
       ) : (
         <>
-          {isMobile ? (
+          {screenSize === 'small' ? (
             <SearchFiltersMobile {...sharedProps} />
           ) : (
             <SearchFiltersDesktop {...sharedProps} />
