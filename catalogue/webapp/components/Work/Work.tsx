@@ -156,6 +156,7 @@ const Work = ({ work }: Props) => {
           </Space>
         </div>
       </div>
+
       {archivesPrototype && (
         <div className="container">
           <div className="grid">
@@ -208,9 +209,6 @@ const Work = ({ work }: Props) => {
                   })]: true,
                 })}
               >
-                <Space
-                  v={{ size: 'xl', properties: ['margin-top'], negative: true }}
-                >
                   <WorkDetails
                     work={work}
                     itemUrl={itemUrlObject}
@@ -218,7 +216,6 @@ const Work = ({ work }: Props) => {
                     childManifestsCount={childManifestsCount}
                     imageCount={imageTotal}
                   />
-                </Space>
               </div>
             </div>
           </div>

@@ -608,31 +608,31 @@ const WorkDetails = ({
   );
 
   return (
-    <Space
-      v={{
-        size: 'xl',
-        properties: ['padding-top', 'padding-bottom'],
-      }}
-      className={classNames({
-        row: true,
-      })}
-    >
-      <TogglesContext.Consumer>
-        {({ archivesPrototype }) =>
-          archivesPrototype && isInArchive ? (
-            <div className="container">
-              <div className="grid">
-                <Content />
-              </div>
+    <TogglesContext.Consumer>
+      {({ archivesPrototype }) =>
+        archivesPrototype && isInArchive ? (
+          <div className="container">
+            <div className="grid">
+              <Content />
             </div>
-          ) : (
+          </div>
+        ) : (
+          <Space
+            v={{
+              size: 'xl',
+              properties: ['padding-top', 'padding-bottom'],
+            }}
+            className={classNames({
+              row: true,
+            })}
+          >
             <Layout12>
               <Content />
             </Layout12>
-          )
-        }
-      </TogglesContext.Consumer>
-    </Space>
+          </Space>
+        )
+      }
+    </TogglesContext.Consumer>
   );
 };
 
