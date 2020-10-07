@@ -21,6 +21,7 @@ import {
 import { type Work } from '@weco/common/model/catalogue';
 import useWindowSize from '@weco/common/hooks/useWindowSize';
 import Modal from '@weco/common/views/components/Modal/Modal';
+// $FlowFixMe (tsx)
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
 const instructions =
