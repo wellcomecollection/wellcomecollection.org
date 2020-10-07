@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "test": "jest",
-    "test:watch": "npm run test -- --watchAll",
-    "test:updateSnapshots": "npm run test -- --updateSnapshot"
+    "test:watch": "yarn run test -- --watchAll",
+    "test:updateSnapshots": "yarn run test -- --updateSnapshot"
   },
   "license": "MIT",
   "dependencies": {
