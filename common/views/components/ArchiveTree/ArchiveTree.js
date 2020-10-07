@@ -19,6 +19,9 @@ import {
   type NodeWork,
 } from '@weco/common/utils/works';
 import { type Work } from '@weco/common/model/catalogue';
+import useWindowSize from '@weco/common/hooks/useWindowSize';
+import Modal from '@weco/common/views/components/Modal/Modal';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
 const instructions =
   'Archive Tree: Tab into the tree, then use up and down arrows to move through tree items. Use right and left arrows to toggle sub menus open and closed. When focused on an item you can tab to the link it contains.';
@@ -727,9 +730,11 @@ const NestedList = ({
 };
 
 const ArchiveTree = ({ work }: { work: Work }) => {
+  const windowSize = useWindowSize();
   const toggles = useContext(TogglesContext);
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const initialLoad = useRef(true);
+  const [showArchiveTree, setShowArchiveTree] = useState(false);
   const [archiveTree, setArchiveTree] = useState([]);
   const [tabbableId, setTabbableId] = useState(null);
 
@@ -787,30 +792,45 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   );
 
   return isInArchive ? (
-    <StickyContainer>
-      <Space
-        v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-        className={classNames({
-          'flex flex--v-center bg-smoke': true,
-        })}
-      >
-        <Space
-          as="h2"
-          h={{ size: 'm', properties: ['margin-right'] }}
-          className={classNames({
-            [font('wb', 5)]: true,
-            'no-margin': true,
-          })}
-        >
-          Collection contents
-        </Space>
-        <Icon name="tree" />
-      </Space>
-      <StickyContainerInner>
-        <TreeView />
-      </StickyContainerInner>
-    </StickyContainer>
+    <>
+      {windowSize === 'small' ? (
+        <>
+          <ButtonSolid
+            text={'Collection contents'}
+            clickHandler={() => setShowArchiveTree(true)}
+          />
+
+          <Modal isActive={showArchiveTree} setIsActive={setShowArchiveTree}>
+            <TreeView />
+          </Modal>
+        </>
+      ) : (
+        <StickyContainer>
+          <Space
+            v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+            h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+            className={classNames({
+              'flex flex--v-center bg-smoke': true,
+            })}
+          >
+            <Space
+              as="h2"
+              h={{ size: 'm', properties: ['margin-right'] }}
+              className={classNames({
+                [font('wb', 5)]: true,
+                'no-margin': true,
+              })}
+            >
+              Collection contents
+            </Space>
+            <Icon name="tree" />
+          </Space>
+          <StickyContainerInner>
+            <TreeView />
+          </StickyContainerInner>
+        </StickyContainer>
+      )}
+    </>
   ) : null;
 };
 
