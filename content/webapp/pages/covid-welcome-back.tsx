@@ -7,7 +7,7 @@ import CovidTOC from '@weco/common/views/components/CovidTOC/CovidTOC';
 import CovidSafetyMeasure from '@weco/common/views/components/CovidSafetyMeasure/CovidSafetyMeasure';
 import CovidInfoBox from '@weco/common/views/components/CovidInfoBox/CovidInfoBox';
 import Divider from '@weco/common/views/components/Divider/Divider';
-import { UiImage } from '@weco/common/views/components/Images/images';
+import { UiImage } from '@weco/common/views/components/Images/Images';
 import {
   WeAreGoodToGo,
   CovidIconsEnum,
