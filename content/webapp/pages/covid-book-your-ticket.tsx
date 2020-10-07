@@ -189,15 +189,6 @@ const CovidWeAreOpenPage = () => {
                   </p>
                   <ul>
                     <li>
-                      All your online requests will be delivered to the Rare
-                      Materials Room.{' '}
-                      <strong>
-                        To start with, we’ll ask visitors to book just one RMR
-                        slot each week
-                      </strong>
-                      .
-                    </li>
-                    <li>
                       After you’ve booked your ticket, request up to ten items
                       from{' '}
                       <a href="https://wellcomelibrary.org">
@@ -227,6 +218,13 @@ const CovidWeAreOpenPage = () => {
                     You can use the library for three hours from the start of
                     your slot – you can spend as much time as you like in the
                     rest of the building.
+                  </p>
+                  <p>
+                    <strong>
+                      To start with, we’ll ask visitors to book just one Library
+                      visit each week, including with Rare Materials Room
+                      access.
+                    </strong>
                   </p>
 
                   <CovidH4>Open shelves</CovidH4>
