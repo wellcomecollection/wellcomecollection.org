@@ -149,13 +149,21 @@ const CovidWelcomeBackPage = () => {
                 <h3>What’s open?</h3>
                 <ul>
                   <li>
-                    ‘Being Human’ permanent gallery, the Reading Room, café, and
-                    library are open from 7 October.
+                    ‘<a href="/exhibitions/XNFfsxAAANwqbNWD">Being Human</a>’
+                    permanent gallery, the Reading Room, café, and library are
+                    open from 7 October.
                   </li>
-                  <li>‘Medicine Man’ will be opening from 10 November.</li>
                   <li>
-                    Installations ‘Standardised Patient’ and ‘The Den’ will be
-                    open from 10 November.
+                    ‘<a href="/exhibitions/Weoe4SQAAKJwjcDC">Medicine Man</a>’
+                    will be open from 10 November.
+                  </li>
+                  <li>
+                    Installations ‘
+                    <a href="/exhibitions/X2R1VRMAAExK3dBJ">
+                      Standardized Patient
+                    </a>
+                    ’ and ‘<a href="/exhibitions/X2s3IBMAAHbq_CtG">The Den</a>’
+                    will be open from 10 November.
                   </li>
                 </ul>
 
