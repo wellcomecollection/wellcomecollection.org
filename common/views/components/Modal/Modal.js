@@ -13,6 +13,7 @@ type Props = {|
   isActive: boolean,
   setIsActive: (value: boolean) => void,
   width?: string,
+  id: string,
 |};
 
 const Overlay = styled.div`
@@ -89,7 +90,13 @@ const ModalWindow = styled(Space).attrs({
   `}
 `;
 
-const Modal = ({ children, isActive, setIsActive, width = null }: Props) => {
+const Modal = ({
+  children,
+  isActive,
+  setIsActive,
+  width = null,
+  id,
+}: Props) => {
   const closeButtonRef = useRef(null);
   const endRef = useRef(null);
   const modalRef = useRef(null);
@@ -135,7 +142,7 @@ const Modal = ({ children, isActive, setIsActive, width = null }: Props) => {
     <>
       {isActive && <Overlay onClick={() => setIsActive(false)} />}
       {isActive && (
-        <ModalWindow ref={modalRef} width={width}>
+        <ModalWindow ref={modalRef} width={width} id={id}>
           <CloseButton
             ref={closeButtonRef}
             onClick={() => setIsActive(false)}
