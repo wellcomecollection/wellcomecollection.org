@@ -475,6 +475,7 @@ const ListItem = ({
   posInSet,
   tabbableId,
   setTabbableId,
+  setShowArchiveTree,
 }: {|
   item: UiTreeNode,
   currentWorkId: string,
@@ -486,6 +487,7 @@ const ListItem = ({
   posInSet: number,
   tabbableId: ?string,
   setTabbableId: string => void,
+  setShowArchiveTree: boolean => void,
 |}) => {
   const { isKeyboard } = useContext(AppContext);
   const isEndNode = item.children && item.children.length === 0;
@@ -644,7 +646,7 @@ const ListItem = ({
             ref={currentWorkId === item.work.id ? selected : null}
             onClick={event => {
               event.stopPropagation();
-              // setTabbableId(item.work.id);
+              setShowArchiveTree(false);
             }}
           >
             <WorkTitle title={item.work.title} />
@@ -671,6 +673,7 @@ const ListItem = ({
           level={level + 1}
           tabbableId={tabbableId}
           setTabbableId={setTabbableId}
+          setShowArchiveTree={setShowArchiveTree}
         />
       )}
     </TreeItem>
@@ -686,6 +689,7 @@ const NestedList = ({
   level,
   tabbableId,
   setTabbableId,
+  setShowArchiveTree,
 }: {|
   currentWorkId: string,
   archiveTree: UiTree,
@@ -695,6 +699,7 @@ const NestedList = ({
   level: number,
   tabbableId: ?string,
   setTabbableId: string => void,
+  setShowArchiveTree: boolean => void,
 |}) => {
   return (
     <ul
@@ -721,6 +726,7 @@ const NestedList = ({
                 posInSet={i + 1}
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
+                setShowArchiveTree={setShowArchiveTree}
               />
             )
           );
@@ -729,6 +735,14 @@ const NestedList = ({
   );
 };
 
+const ShameButtonWrap = styled(Space).attrs({
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+})`
+  button {
+    width: 100%;
+    justify-content: center;
+  }
+`;
 const ArchiveTree = ({ work }: { work: Work }) => {
   const windowSize = useWindowSize();
   const toggles = useContext(TogglesContext);
@@ -787,6 +801,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
         level={1}
         tabbableId={tabbableId}
         setTabbableId={setTabbableId}
+        setShowArchiveTree={setShowArchiveTree}
       />
     </Tree>
   );
@@ -795,12 +810,20 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     <>
       {windowSize === 'small' ? (
         <>
-          <ButtonSolid
-            text={'Collection contents'}
-            clickHandler={() => setShowArchiveTree(true)}
-          />
-
-          <Modal isActive={showArchiveTree} setIsActive={setShowArchiveTree}>
+          <ShameButtonWrap>
+            <ButtonSolid
+              text={'Collection contents'}
+              clickHandler={() => setShowArchiveTree(true)}
+              aria-controls="collection-contents-modal"
+              aria-label="show collection contents"
+              icon="tree"
+            />
+          </ShameButtonWrap>
+          <Modal
+            isActive={showArchiveTree}
+            setIsActive={setShowArchiveTree}
+            id={'collection-contents-modal'}
+          >
             <TreeView />
           </Modal>
         </>
