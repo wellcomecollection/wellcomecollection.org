@@ -62,6 +62,69 @@ This is useful if you want to run both the catalogue and content apps simultaneo
 
 This project uses the [weco-deploy](https://github.com/wellcomecollection/weco-deploy) tool.
 
+
+### Running CI steps locally
+
+In order to reproduce a build step locally you can run the same `docker-compose` command that [Buildkite](https://buildkite.com/wellcomecollection/front-end-wellcomecollection-dot-org) runs.
+
+See an example for `edge_lambdas` below. This example presumes you have an AWS credentials file set up to allow you to assume the CI role.
+
+Your AWS configuration in `$HOME/.aws/credentials` might include the following (with the default profile containing your primary credentials).
+
+```
+[ci-agent]
+region=eu-west-1
+role_arn=arn:aws:iam::760097843905:role/ci-agent
+source_profile=default
+
+[experience-ci]
+region=eu-west-1
+role_arn=arn:aws:iam::130871440101:role/experience-ci
+source_profile=ci-agent
+```
+
+If in [`pipeline.yml`](.buildkite/pipeline.yml) you have:
+
+```yaml
+- label: "deploy edge_lambdas"
+  if: build.branch == "master"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        run: edge_lambdas
+        command: [ "yarn", "deploy" ]
+        env:
+          - AWS_ACCESS_KEY_ID
+          - AWS_SECRET_ACCESS_KEY
+          - AWS_SESSION_TOKEN
+```
+
+You should update [`docker-compose.yml`](docker-compose.yml) to look as follows.
+
+```yaml
+services:
+  edge_lambdas:
+    build:
+      context: ./cache/edge_lambdas
+    command: [ "yarn", "deploy" ]
+    volumes:
+      - /my/home/folder/.aws:/root/.aws:ro
+    environment:
+      - AWS_PROFILE=experience-ci
+```
+
+You will need to add a `command`, `volumes` and `environment` block to specify the required command and mount your AWS credentials in the running container.
+
+You can then run `docker-compose` commands as would occur in the CI environment.
+
+```shell script
+docker-compose edge_lambdas build
+docker-compose edge_lambdas run
+```
+
 ## Other pieces of the Wellcome Collection puzzle
 
 [Wellcome Collection Digital Platform](https://github.com/wellcomecollection/platform).
