@@ -24,11 +24,6 @@ export class Page extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { id, memoizedPrismic } = ctx.query;
     const page = await getPage(ctx.req, id, memoizedPrismic);
-
-    // console.log('GET PAGE *************************');
-    // console.log(page);
-    // console.log('GET PAGE *************************');
-
     if (page) {
       return {
         page,
