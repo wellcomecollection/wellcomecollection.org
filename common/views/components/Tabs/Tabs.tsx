@@ -1,4 +1,5 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext, KeyboardEvent } from 'react';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import styled from 'styled-components';
 
 const TabList = styled.div.attrs({
@@ -13,6 +14,9 @@ type TabProps = {
 const Tab = styled.button.attrs((props: TabProps) => ({
   className: 'plain-button',
   role: 'tab',
+  // Pressing tab from a tab should take you to the tabpanel instead of the next tab
+  // Moving between tabs is handled by arrow keys
+  tabIndex: props.isActive ? 0 : -1,
   'aria-selected': props.isActive,
   'aria-controls': props.tabPanelId,
 }))<TabProps>``;
@@ -20,11 +24,12 @@ const Tab = styled.button.attrs((props: TabProps) => ({
 type TabPanelProps = {
   id: string;
   isActive: boolean;
+  isEnhanced: boolean;
 };
 const TabPanel = styled.div.attrs((props: TabPanelProps) => ({
   id: props.id,
   role: 'tabpanel',
-  hidden: !props.isActive,
+  hidden: props.isEnhanced && !props.isActive,
   'aria-expanded': props.isActive,
 }))<TabPanelProps>``;
 
@@ -38,48 +43,79 @@ type Props = {
   tabs: Tab[];
 };
 
-const Tabs = ({ tabs }) => {
-  // TODO: store all tabs with ids and trigger up/down through ids instead of triggerTab?
-
+const Tabs = ({ tabs }: Props) => {
   const [activeId, setActiveId] = useState(tabs[0].id);
+  const { isEnhanced } = useContext(AppContext);
   const tabListRef = useRef(null);
 
-  // A11y expectation is that arrow keys should move between tabs
-  function triggerTab(event) {
-    const LEFT = 37;
-    const UP = 38;
-    const RIGHT = 39;
-    const DOWN = 40;
+  function focusTabAtIndex(index: number): void {
+    tabListRef?.current?.querySelector(`#${tabs[index].id}`).focus();
+  }
+  // A11y expectation for Keyboard interaction: https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-19
+  function handleKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
+    const LEFT = [37, 'ArrowLeft'];
+    const RIGHT = [39, 'ArrowRight'];
+    const HOME = [36, 'Home'];
+    const END = [35, 'End'];
+    const key = event.key || event.keyCode;
+    const isKeyOfInterest = [...LEFT, ...RIGHT, ...HOME, ...END].includes(key);
 
-    const isArrowKey = [LEFT, UP, RIGHT, DOWN].includes(event.keyCode);
-    const current = tabs.find(t => t.id === activeId);
-    const currentIndex = tabs.indexOf(current);
-    const nextIndex = tabs[currentIndex + 1] || tabs[0];
-    const prevIndex = tabs[currentIndex - 1] || tabs[tabs.length - 1];
+    if (!isKeyOfInterest) return;
 
-    if ([LEFT, UP].includes(event.keyCode)) {
-      // left
+    const currentTab = tabs.find(t => t.id === activeId);
+    const currentIndex = tabs.indexOf(currentTab);
+    const nextIndex = tabs[currentIndex + 1] ? currentIndex + 1 : 0;
+    const prevIndex = tabs[currentIndex - 1]
+      ? currentIndex - 1
+      : tabs.length - 1;
+
+    if (LEFT.includes(key)) {
+      setActiveId(tabs[prevIndex].id);
+      focusTabAtIndex(prevIndex);
     }
-    if ([RIGHT, DOWN].includes(event.keyCode)) { // right }
+
+    if (RIGHT.includes(key)) {
+      setActiveId(tabs[nextIndex].id);
+      focusTabAtIndex(nextIndex);
+    }
+
+    if (HOME.includes(key)) {
+      setActiveId(tabs[0].id);
+      focusTabAtIndex(0);
+    }
+
+    if (END.includes(key)) {
+      setActiveId(tabs[tabs.length - 1].id);
+      focusTabAtIndex(tabs.length - 1);
+    }
   }
 
   return (
     <>
-      <TabList ref={tabListRef}>
-        {tabs.map(({ id, tab }) => (
-          <Tab
-            key={id}
-            tabPanelId={id}
-            isActive={id === activeId}
-            onClick={() => setActiveId(id)}
-            onKeyDown={event => triggerTab(event)}
-          >
-            {tab}
-          </Tab>
-        ))}
-      </TabList>
-      {tabs.map(({ id, tabPanel }) => (
-        <TabPanel key={id} id={id} isActive={id === activeId}>
+      {isEnhanced && (
+        <TabList ref={tabListRef}>
+          {tabs.map(({ id, tab }) => (
+            <Tab
+              key={id}
+              id={id}
+              tabPanelId={id}
+              isActive={id === activeId}
+              onClick={() => setActiveId(id)}
+              onKeyDown={handleKeyDown}
+            >
+              {tab}
+            </Tab>
+          ))}
+        </TabList>
+      )}
+      {tabs.map(({ id, tab, tabPanel }) => (
+        <TabPanel
+          key={id}
+          id={id}
+          isActive={id === activeId}
+          isEnhanced={isEnhanced}
+        >
+          {!isEnhanced && <>{tab}</>}
           {tabPanel}
         </TabPanel>
       ))}

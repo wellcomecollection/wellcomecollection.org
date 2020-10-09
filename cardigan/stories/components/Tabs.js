@@ -5,12 +5,12 @@ import Readme from '../../../common/views/components/Tabs/README.md';
 const TabsExample = () => {
   const tabs = [
     {
-      id: 1,
+      id: 'one',
       tab: <span>Library catalogue</span>,
       tabPanel: <span>one</span>,
     },
     {
-      id: 2,
+      id: 'two',
       tab: <span>Images</span>,
       tabPanel: <span>two</span>,
     },
