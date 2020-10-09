@@ -69,7 +69,7 @@ const Tree = styled.div`
     &::before {
       display: none;
       position: absolute;
-      content: '${instructions}';
+      content: ${props => (props.enhanced ? `'${instructions}'` : null)};
       z-index: 2;
       top: 0;
       background: ${props => props.theme.color('yellow')};
@@ -249,11 +249,13 @@ async function createSiblingsArray({
   toggles,
   workId, // id of current work being viewed
   openStatusOverride = false,
+  withChildren = true,
 }: {
   work: Work,
   toggles: Toggles,
   workId: string,
   openStatusOverride?: boolean,
+  withChildren?: boolean,
 }): Promise<UiTree> {
   // An array of the current work and all it's siblings
   const siblingsArray = [
@@ -279,11 +281,14 @@ async function createSiblingsArray({
 
   // Adding the children of each of the works in the siblingsArray
   // We won't need to do this when we have totalParts in the API
+  // if (withChildren) {
   const siblingsArrayWithChildren = await Promise.all(
     siblingsArray.map(item => addChildren({ item, toggles }))
   );
-
   return siblingsArrayWithChildren;
+  // } else {
+  //   return siblingsArray;
+  // }
 }
 
 function updateChildren({
@@ -477,6 +482,7 @@ const ListItem = ({
   tabbableId,
   setTabbableId,
   setShowArchiveTree,
+  enhanced,
 }: {|
   item: UiTreeNode,
   currentWorkId: string,
@@ -489,6 +495,7 @@ const ListItem = ({
   tabbableId: ?string,
   setTabbableId: string => void,
   setShowArchiveTree: boolean => void,
+  enhanced: boolean,
 |}) => {
   const { isKeyboard } = useContext(AppContext);
   const isEndNode = item.children && item.children.length === 0;
@@ -522,20 +529,28 @@ const ListItem = ({
     <TreeItem
       hideFocus={!isKeyboard}
       id={item.work.id}
-      role="treeitem"
-      aria-level={level}
-      aria-setsize={setSize}
-      aria-posinset={posInSet}
+      role={enhanced ? 'treeitem' : null}
+      aria-level={enhanced ? level : null}
+      aria-setsize={enhanced ? setSize : null}
+      aria-posinset={enhanced ? posInSet : null}
       aria-expanded={
-        item.children && item.children.length > 0 ? item.openStatus : null
+        enhanced
+          ? item.children && item.children.length > 0
+            ? item.openStatus
+            : null
+          : null
       }
-      aria-label={`${item.work.title}${
-        item.work.referenceNumber
-          ? `, reference number ${item.work.referenceNumber}`
-          : ''
-      }`}
-      aria-selected={isSelected}
-      tabIndex={isSelected ? 0 : -1}
+      aria-label={
+        enhanced
+          ? `${item.work.title}${
+              item.work.referenceNumber
+                ? `, reference number ${item.work.referenceNumber}`
+                : ''
+            }`
+          : null
+      }
+      aria-selected={enhanced ? isSelected : null}
+      tabIndex={enhanced ? (isSelected ? 0 : -1) : null}
       onKeyDown={event => {
         event.stopPropagation();
         const nextId = getNextTabbableId({
@@ -639,7 +654,7 @@ const ListItem = ({
         )}
         <NextLink {...workLink({ id: item.work.id })} scroll={false} passHref>
           <StyledLink
-            tabIndex={isSelected ? 0 : -1}
+            tabIndex={enhanced ? (isSelected ? 0 : -1) : 0}
             className={classNames({
               [font('hnl', 6)]: true,
             })}
@@ -675,6 +690,7 @@ const ListItem = ({
           tabbableId={tabbableId}
           setTabbableId={setTabbableId}
           setShowArchiveTree={setShowArchiveTree}
+          enhanced={enhanced}
         />
       )}
     </TreeItem>
@@ -691,6 +707,7 @@ const NestedList = ({
   tabbableId,
   setTabbableId,
   setShowArchiveTree,
+  enhanced,
 }: {|
   currentWorkId: string,
   archiveTree: UiTree,
@@ -701,12 +718,13 @@ const NestedList = ({
   tabbableId: ?string,
   setTabbableId: string => void,
   setShowArchiveTree: boolean => void,
+  enhanced: boolean,
 |}) => {
   return (
     <ul
-      aria-labelledby={level === 1 ? 'tree-instructions' : null}
-      tabIndex={level === 1 ? 0 : null}
-      role={level === 1 ? 'tree' : 'group'}
+      aria-labelledby={level === 1 && enhanced ? 'tree-instructions' : null}
+      tabIndex={level === 1 && enhanced ? 0 : null}
+      role={enhanced ? (level === 1 ? 'tree' : 'group') : null}
       className={classNames({
         'font-size-5': true,
       })}
@@ -728,6 +746,7 @@ const NestedList = ({
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
                 setShowArchiveTree={setShowArchiveTree}
+                enhanced={enhanced}
               />
             )
           );
@@ -744,14 +763,55 @@ const ShameButtonWrap = styled(Space).attrs({
     justify-content: center;
   }
 `;
+
+function createBasicTree({ work, toggles, workId }) {
+  const ancestorArray = getArchiveAncestorArray(work);
+  const partOfReversed = [...ancestorArray, parsePart(work)].reverse();
+  return [
+    partOfReversed.reduce(
+      (acc, curr, i, array) => {
+        return {
+          openStatus: true,
+          work: curr,
+          parentId: array[i + 1] && array[i + 1].id,
+          children:
+            i === 0
+              ? work.parts.map(part => ({
+                  work: parsePart(part),
+                  openStatus: false,
+                  parentId: work.partOf[0] && work.partOf[0].id,
+                }))
+              : [acc],
+        };
+      },
+      {
+        openStatus: true,
+        work: parsePart(work),
+        parentId: work.partOf[0] && work.partOf[0].id,
+        children: work.parts.map(part => ({
+          work: part,
+          children: part.children,
+          parentId: work.id,
+        })),
+      }
+    ),
+  ];
+}
+
 const ArchiveTree = ({ work }: { work: Work }) => {
   const windowSize = useWindowSize();
   const toggles = useContext(TogglesContext);
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const initialLoad = useRef(true);
   const [showArchiveTree, setShowArchiveTree] = useState(false);
-  const [archiveTree, setArchiveTree] = useState([]);
+  const [archiveTree, setArchiveTree] = useState(
+    createBasicTree({ work, toggles, workId: work.id })
+  );
   const [tabbableId, setTabbableId] = useState(null);
+  const [
+    shouldEnhanceTreeAccessibility,
+    setShouldEnhanceTreeAccessibility,
+  ] = useState(false); // only want to do this if javascript is running, otherwise it doesn't make sense for the basic tree
 
   useEffect(() => {
     const elementToFocus = tabbableId && document.getElementById(tabbableId);
@@ -775,6 +835,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
       setArchiveTree(tree || []);
     }
     setupTree();
+    setShouldEnhanceTreeAccessibility(true);
   }, []);
 
   useEffect(() => {
@@ -790,9 +851,9 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     initialLoad.current = false;
   }, [work.id]);
 
-  const TreeView = () => (
-    <Tree>
-      <TreeInstructions>{instructions}</TreeInstructions>
+  const TreeView = ({ enhanced }: {| enhanced: boolean |}) => (
+    <Tree enhanced={enhanced}>
+      {enhanced && <TreeInstructions>{instructions}</TreeInstructions>}
       <NestedList
         selected={selected}
         currentWorkId={work.id}
@@ -803,6 +864,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
         tabbableId={tabbableId}
         setTabbableId={setTabbableId}
         setShowArchiveTree={setShowArchiveTree}
+        enhanced={enhanced}
       />
     </Tree>
   );
@@ -825,7 +887,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
             setIsActive={setShowArchiveTree}
             id={'collection-contents-modal'}
           >
-            <TreeView />
+            <TreeView enhanced={shouldEnhanceTreeAccessibility} />
           </Modal>
         </>
       ) : (
@@ -850,7 +912,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
             <Icon name="tree" />
           </Space>
           <StickyContainerInner>
-            <TreeView />
+            <TreeView enhanced={shouldEnhanceTreeAccessibility} />
           </StickyContainerInner>
         </StickyContainer>
       )}

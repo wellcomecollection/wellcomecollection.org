@@ -7,11 +7,13 @@ import CovidTOC from '@weco/common/views/components/CovidTOC/CovidTOC';
 import CovidSafetyMeasure from '@weco/common/views/components/CovidSafetyMeasure/CovidSafetyMeasure';
 import CovidInfoBox from '@weco/common/views/components/CovidInfoBox/CovidInfoBox';
 import Divider from '@weco/common/views/components/Divider/Divider';
+import { UiImage } from '@weco/common/views/components/Images/Images';
 import {
   WeAreGoodToGo,
   CovidIconsEnum,
 } from '@weco/common/views/components/CovidIcons/CovidIcons';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
+import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 
 const CovidWelcomeBackPage = () => {
   return (
@@ -22,7 +24,9 @@ const CovidWelcomeBackPage = () => {
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'website'}
       siteSection={'visit-us'}
-      imageUrl={null}
+      imageUrl={
+        'https://images.prismic.io/wellcomecollection/c6602161-a15d-4af1-b502-bc11ac23a752_SDP_20201005_0278-177.jpg?auto=compress,format'
+      }
       imageAltText={null}
     >
       <PageHeader
@@ -30,9 +34,34 @@ const CovidWelcomeBackPage = () => {
         labels={null}
         title={'Welcome back'}
         ContentTypeInfo={null}
-        Background={null}
-        backgroundTexture={headerBackgroundLs}
-        FeaturedMedia={null}
+        Background={
+          <HeaderBackground
+            hasWobblyEdge={true}
+            backgroundTexture={headerBackgroundLs}
+          />
+        }
+        backgroundTexture={null}
+        FeaturedMedia={
+          <UiImage
+            {...{
+              contentUrl:
+                'https://images.prismic.io/wellcomecollection/c6602161-a15d-4af1-b502-bc11ac23a752_SDP_20201005_0278-177.jpg?auto=compress,format',
+              width: 3200,
+              height: 1800,
+              alt: null,
+              tasl: {
+                title: 'Being Human gallery',
+                author: 'Steven Pocock',
+                sourceName: 'Wellcome Collection',
+                sourceLink: null,
+                license: 'CC-BY-NC',
+                copyrightHolder: null,
+                copyrightLink: null,
+              },
+              crops: {},
+            }}
+          />
+        }
         HeroPicture={null}
         highlightHeading={true}
       />
@@ -120,13 +149,21 @@ const CovidWelcomeBackPage = () => {
                 <h3>What’s open?</h3>
                 <ul>
                   <li>
-                    ‘Being Human’ permanent gallery, the Reading Room, café, and
-                    library are open from 7 October.
+                    ‘<a href="/exhibitions/XNFfsxAAANwqbNWD">Being Human</a>’
+                    permanent gallery, the Reading Room, café, and library are
+                    open from 7 October.
                   </li>
-                  <li>‘Medicine Man’ will be opening from 10 November.</li>
                   <li>
-                    The shop and Wellcome Kitchen are closed to make space for
-                    more café seating.
+                    ‘<a href="/exhibitions/Weoe4SQAAKJwjcDC">Medicine Man</a>’
+                    will be open from 10 November.
+                  </li>
+                  <li>
+                    Installations ‘
+                    <a href="/exhibitions/X2R1VRMAAExK3dBJ">
+                      Standardized Patient
+                    </a>
+                    ’ and ‘<a href="/exhibitions/X2s3IBMAAHbq_CtG">The Den</a>’
+                    will be open from 10 November.
                   </li>
                 </ul>
 
