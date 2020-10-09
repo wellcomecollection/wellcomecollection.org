@@ -102,7 +102,7 @@ const VenueHours = ({ venue, weight }: Props) => {
                 width={1600}
                 height={900}
                 crops={{}}
-                alt={venue.image?.alt ?? ''}
+                alt={venue.image?.alt}
                 tasl={{
                   title: null,
                   author: null,
