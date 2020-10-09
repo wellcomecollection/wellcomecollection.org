@@ -12,10 +12,8 @@ type TabProps = {
 };
 
 const Tab = styled.button.attrs((props: TabProps) => ({
-  className: 'plain-button',
+  className: 'plain-button no-padding',
   role: 'tab',
-  // Pressing tab from a tab should take you to the tabpanel instead of the next tab
-  // Moving between tabs is handled by arrow keys
   tabIndex: props.isActive ? 0 : -1,
   'aria-selected': props.isActive,
   'aria-controls': props.tabPanelId,
@@ -52,6 +50,7 @@ const Tabs = ({ label, tabs }: Props) => {
   function focusTabAtIndex(index: number): void {
     tabListRef?.current?.querySelector(`#${tabs[index].id}`).focus();
   }
+
   // A11y expectation for Keyboard interaction: https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-19
   function handleKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
     const LEFT = [37, 'ArrowLeft'];
