@@ -1,6 +1,7 @@
 import { useState, useRef, useContext, KeyboardEvent } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import styled from 'styled-components';
+import { classNames } from '@weco/common/utils/classnames';
 
 const TabList = styled.div.attrs({
   role: 'tablist',
@@ -12,11 +13,19 @@ type TabProps = {
 };
 
 const Tab = styled.button.attrs((props: TabProps) => ({
+  className: classNames({
+    'plain-button no-padding': true,
+    'is-active': props.isActive,
+  }),
   role: 'tab',
   tabIndex: props.isActive ? 0 : -1,
   'aria-selected': props.isActive,
   'aria-controls': props.tabPanelId,
-}))<TabProps>``;
+}))<TabProps>`
+  &:focus {
+    outline: 0;
+  }
+`;
 
 type TabPanelProps = {
   id: string;
@@ -36,7 +45,7 @@ type Tab = {
   tabPanel: JSX.Element | string;
 };
 
-type Props = {
+export type Props = {
   label: string;
   tabs: Tab[];
 };

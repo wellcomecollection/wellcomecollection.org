@@ -1,26 +1,14 @@
 import { storiesOf } from '@storybook/react';
-import Tabs from '../../../common/views/components/BaseTabs/BaseTabs';
-import Readme from '../../../common/views/components/BaseTabs/README.md';
+import SearchTabs from '../../../common/views/components/SearchTabs/SearchTabs';
+import Readme from '../../../common/views/components/SearchTabs/README.md';
 
-const TabsExample = () => {
-  const tabs = [
-    {
-      id: 'one',
-      tab: <span>Library catalogue</span>,
-      tabPanel: <span>one</span>,
-    },
-    {
-      id: 'two',
-      tab: <span>Images</span>,
-      tabPanel: <span>two</span>,
-    },
-  ];
-
-  return <Tabs tabs={tabs} label={'tabs example'} />;
+const SearchTabsExample = () => {
+  return <SearchTabs />;
 };
 
 const stories = storiesOf('Components', module);
 
-stories.add('Tabs', TabsExample, {
+stories.add('SearchTabs', SearchTabsExample, {
+  isFullScreen: true,
   readme: { sidebar: Readme },
 });
