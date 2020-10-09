@@ -245,11 +245,13 @@ async function createSiblingsArray({
   toggles,
   workId, // id of current work being viewed
   openStatusOverride = false,
+  withChildren = true,
 }: {
   work: Work,
   toggles: Toggles,
   workId: string,
   openStatusOverride?: boolean,
+  withChildren?: boolean,
 }): Promise<UiTree> {
   // An array of the current work and all it's siblings
   const siblingsArray = [
@@ -275,11 +277,14 @@ async function createSiblingsArray({
 
   // Adding the children of each of the works in the siblingsArray
   // We won't need to do this when we have totalParts in the API
+  // if (withChildren) {
   const siblingsArrayWithChildren = await Promise.all(
     siblingsArray.map(item => addChildren({ item, toggles }))
   );
-
   return siblingsArrayWithChildren;
+  // } else {
+  //   return siblingsArray;
+  // }
 }
 
 function updateChildren({
@@ -726,11 +731,43 @@ const NestedList = ({
   );
 };
 
+function createBasicTree({ work, toggles, workId }) {
+  const ancestorArray = getArchiveAncestorArray(work);
+  const partOfReversed = [...ancestorArray, parsePart(work)].reverse();
+  return [
+    partOfReversed.reduce(
+      (acc, curr, i) => {
+        return {
+          openStatus: true,
+          work: curr,
+          children:
+            i === 0
+              ? work.parts.map(part => ({
+                  work: parsePart(part),
+                  openStatus: false,
+                }))
+              : [acc],
+        };
+      },
+      {
+        openStatus: true,
+        work: parsePart(work),
+        children: work.parts.map(part => ({
+          work: part,
+          children: part.children,
+        })),
+      }
+    ),
+  ];
+}
+
 const ArchiveTree = ({ work }: { work: Work }) => {
   const toggles = useContext(TogglesContext);
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const initialLoad = useRef(true);
-  const [archiveTree, setArchiveTree] = useState([]);
+  const [archiveTree, setArchiveTree] = useState(
+    createBasicTree({ work, toggles, workId: work.id })
+  );
   const [tabbableId, setTabbableId] = useState(null);
 
   useEffect(() => {
