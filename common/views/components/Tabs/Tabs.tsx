@@ -40,10 +40,11 @@ type Tab = {
 };
 
 type Props = {
+  label: string;
   tabs: Tab[];
 };
 
-const Tabs = ({ tabs }: Props) => {
+const Tabs = ({ label, tabs }: Props) => {
   const [activeId, setActiveId] = useState(tabs[0].id);
   const { isEnhanced } = useContext(AppContext);
   const tabListRef = useRef(null);
@@ -93,7 +94,7 @@ const Tabs = ({ tabs }: Props) => {
   return (
     <>
       {isEnhanced && (
-        <TabList ref={tabListRef}>
+        <TabList ref={tabListRef} aria-label={label}>
           {tabs.map(({ id, tab }) => (
             <Tab
               key={id}

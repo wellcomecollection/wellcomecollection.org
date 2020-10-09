@@ -16,7 +16,7 @@ const TabsExample = () => {
     },
   ];
 
-  return <Tabs tabs={tabs} />;
+  return <Tabs tabs={tabs} label={'tabs example'} />;
 };
 
 const stories = storiesOf('Components', module);
