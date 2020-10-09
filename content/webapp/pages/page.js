@@ -25,6 +25,10 @@ export class Page extends Component<Props> {
     const { id, memoizedPrismic } = ctx.query;
     const page = await getPage(ctx.req, id, memoizedPrismic);
 
+    // console.log('GET PAGE *************************');
+    // console.log(page);
+    // console.log('GET PAGE *************************');
+
     if (page) {
       return {
         page,

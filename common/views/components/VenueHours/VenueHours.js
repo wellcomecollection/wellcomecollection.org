@@ -82,6 +82,10 @@ const VenueHours = ({ venue, weight }: Props) => {
     backfilledExceptionalPeriods &&
     getUpcomingExceptionalPeriods(backfilledExceptionalPeriods);
 
+  // console.log('Venue hours ******');
+  // console.log(venue);
+  // console.log('Venue hours ******');
+
   const venueAdditionalInfo = {
     galleries: {
       image:

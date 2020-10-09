@@ -1,7 +1,9 @@
-import description from './parts/description';
 import timestamp from './parts/timestamp';
 import number from './parts/number';
 import select from './parts/select';
+import image from './parts/image';
+import link from './parts/link';
+import text from './parts/text';
 
 const CollectionVenue = {
   Main: {
@@ -11,8 +13,10 @@ const CollectionVenue = {
         label: 'Title',
       },
     },
-    description,
     order: number('Order'),
+    image: image('Image'),
+    link: link('Link', 'web', [], 'Enter url'),
+    linkText: text('Linktext', 'Enter link text'),
   },
   'Regular opening times': {
     monday: {

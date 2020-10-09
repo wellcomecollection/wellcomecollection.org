@@ -44,7 +44,8 @@ export function exceptionalOpeningDates(collectionOpeningTimes: {
       } else if (
         firstDate &&
         firstDate.toDate() instanceof Date &&
-        (prevDate && prevDate.toDate() instanceof Date)
+        prevDate &&
+        prevDate.toDate() instanceof Date
       ) {
         return (
           london(firstDate.toDate()).format('YYYY-MM-DD') !==
@@ -330,10 +331,14 @@ export function parseCollectionVenue(venue: PrismicFragment): Venue {
       };
     });
 
+  // console.log('parsecollectionVenue **********');
+  // console.log(data);
+  // console.log('parsecollectionVenue  **********');
+
   return {
     id: venue.id,
-    order: data && data.order,
-    name: data && data.title,
+    order: data?.order,
+    name: data?.title,
     openingHours: {
       regular: [
         createRegularDay('Monday', venue),
@@ -346,10 +351,12 @@ export function parseCollectionVenue(venue: PrismicFragment): Venue {
       ],
       exceptional: exceptionalOpeningHours,
     },
+    image: data?.image,
   };
 }
 
 export function parseCollectionVenues(doc: PrismicFragment) {
+  console.log('**** BEING CALLED NOW ******');
   const placesOpeningHours = doc.results.map(venue => {
     return parseCollectionVenue(venue);
   });

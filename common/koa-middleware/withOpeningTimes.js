@@ -14,6 +14,10 @@ async function getAndSetOpeningTimes() {
 
 setInterval(getAndSetOpeningTimes, 60000);
 module.exports = function withGlobalAlert(ctx, next) {
+  console.log('**** WITH OPENNING TIMES *******');
+  console.log(openingTimes);
+  console.log('**** WITH OPENNING TIMES *******');
+
   ctx.openingTimes = openingTimes;
   return next();
 };
