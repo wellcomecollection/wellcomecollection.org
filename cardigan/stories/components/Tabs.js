@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/react';
-import Tabs from '../../../common/views/components/Tabs/Tabs';
-import Readme from '../../../common/views/components/Tabs/README.md';
+import Tabs from '../../../common/views/components/BaseTabs/BaseTabs';
+import Readme from '../../../common/views/components/BaseTabs/README.md';
 
 const TabsExample = () => {
   const tabs = [
