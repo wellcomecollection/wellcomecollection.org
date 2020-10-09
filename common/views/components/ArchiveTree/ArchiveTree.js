@@ -736,15 +736,17 @@ function createBasicTree({ work, toggles, workId }) {
   const partOfReversed = [...ancestorArray, parsePart(work)].reverse();
   return [
     partOfReversed.reduce(
-      (acc, curr, i) => {
+      (acc, curr, i, array) => {
         return {
           openStatus: true,
           work: curr,
+          parentId: array[i + 1] && array[i + 1].id,
           children:
             i === 0
               ? work.parts.map(part => ({
                   work: parsePart(part),
                   openStatus: false,
+                  parentId: work.partOf[0] && work.partOf[0].id,
                 }))
               : [acc],
         };
@@ -752,9 +754,11 @@ function createBasicTree({ work, toggles, workId }) {
       {
         openStatus: true,
         work: parsePart(work),
+        parentId: work.partOf[0] && work.partOf[0].id,
         children: work.parts.map(part => ({
           work: part,
           children: part.children,
+          parentId: work.id,
         })),
       }
     ),
