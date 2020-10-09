@@ -11,6 +11,7 @@ import type {
 } from '../../model/opening-hours';
 import { type PrismicFragment } from '../../services/prismic/types';
 import type Moment from 'moment';
+import { asText } from '../../services/prismic/parsers';
 
 // TODO add comprehensive comments and probably rename some functions
 
@@ -331,14 +332,11 @@ export function parseCollectionVenue(venue: PrismicFragment): Venue {
       };
     });
 
-  // console.log('parsecollectionVenue **********');
-  // console.log(data);
-  // console.log('parsecollectionVenue  **********');
-
   return {
     id: venue.id,
     order: data?.order,
     name: data?.title,
+    displayTitle: asText(data.displayTitle),
     openingHours: {
       regular: [
         createRegularDay('Monday', venue),
@@ -352,11 +350,12 @@ export function parseCollectionVenue(venue: PrismicFragment): Venue {
       exceptional: exceptionalOpeningHours,
     },
     image: data?.image,
+    url: data?.link?.url,
+    linkText: asText(data.linkText),
   };
 }
 
 export function parseCollectionVenues(doc: PrismicFragment) {
-  console.log('**** BEING CALLED NOW ******');
   const placesOpeningHours = doc.results.map(venue => {
     return parseCollectionVenue(venue);
   });

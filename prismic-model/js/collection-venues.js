@@ -3,7 +3,7 @@ import number from './parts/number';
 import select from './parts/select';
 import image from './parts/image';
 import link from './parts/link';
-import text from './parts/text';
+import structuredText from './parts/structured-text';
 
 const CollectionVenue = {
   Main: {
@@ -13,10 +13,11 @@ const CollectionVenue = {
         label: 'Title',
       },
     },
+    displayTitle: structuredText('displayTitle', 'single'),
     order: number('Order'),
     image: image('Image'),
     link: link('Link', 'web', [], 'Enter url'),
-    linkText: text('Linktext', 'Enter link text'),
+    linkText: structuredText('Linktext', 'single'),
   },
   'Regular opening times': {
     monday: {

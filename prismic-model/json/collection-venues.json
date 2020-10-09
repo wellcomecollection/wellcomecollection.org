@@ -6,6 +6,13 @@
         "label": "Title"
       }
     },
+    "displayTitle": {
+      "type": "StructuredText",
+      "config": {
+        "single": "paragraph,hyperlink,strong,em",
+        "label": "displayTitle"
+      }
+    },
     "order": {
       "type": "Number",
       "config": {
@@ -45,10 +52,10 @@
       }
     },
     "linkText": {
-      "type": "Text",
+      "type": "StructuredText",
       "config": {
-        "label": "Linktext",
-        "placeholder": "Enter link text"
+        "single": "paragraph,hyperlink,strong,em",
+        "label": "Linktext"
       }
     }
   },
