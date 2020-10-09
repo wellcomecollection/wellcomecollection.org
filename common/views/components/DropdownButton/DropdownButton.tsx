@@ -12,7 +12,7 @@ import { AppContext } from '../AppContext/AppContext';
 
 const DropdownWrapper = styled.div.attrs({
   className: classNames({
-    relative: true,
+    'flex-inline relative': true,
   }),
 })``;
 
@@ -32,7 +32,7 @@ const Dropdown = styled(Space).attrs(props => ({
   &,
   &.fade-exit-done {
     z-index: -1;
-    pointer-events: ${props => props.isEnhanced ? 'none' : 'all'};
+    pointer-events: ${props => (props.isEnhanced ? 'none' : 'all')};
   }
 
   &.fade-enter,
@@ -57,19 +57,19 @@ const Dropdown = styled(Space).attrs(props => ({
   }
 `;
 
-const Popper = styled('div')<{isVisible: boolean}>`
+const Popper = styled('div')<{ isVisible: boolean }>`
   width: max-content;
-  height: ${props => props.isVisible ? 'auto' : 0};
+  height: ${props => (props.isVisible ? 'auto' : 0)};
   max-width: calc(100vw - 20px);
-  z-index: ${props => props.isVisible ? 1 : -1};
+  z-index: ${props => (props.isVisible ? 1 : -1)};
 `;
 
 type Props = {
   label: string;
   children: JSX.Element | JSX.Element[];
   isInline: boolean | null;
-  isOnDark?: boolean,
-  id: string,
+  isOnDark?: boolean;
+  id: string;
 };
 
 const DropdownButton = ({ label, children, isInline, isOnDark, id }: Props) => {
@@ -83,12 +83,14 @@ const DropdownButton = ({ label, children, isInline, isOnDark, id }: Props) => {
     dropdownWrapperRef.current,
     popperRef.current,
     {
-      modifiers: [{
-        name: 'preventOverflow',
+      modifiers: [
+        {
+          name: 'preventOverflow',
           options: {
-            padding: 10
+            padding: 10,
           },
-       }]
+        },
+      ],
     }
   );
 
@@ -150,7 +152,8 @@ const DropdownButton = ({ label, children, isInline, isOnDark, id }: Props) => {
       <Popper
         id={id}
         ref={popperRef}
-        style={isEnhanced ? styles.popper : null} {...(isEnhanced ? attributes.popper : {})}
+        style={isEnhanced ? styles.popper : null}
+        {...(isEnhanced ? attributes.popper : {})}
         isVisible={isPopperVisible}
       >
         <CSSTransition
@@ -158,7 +161,8 @@ const DropdownButton = ({ label, children, isInline, isOnDark, id }: Props) => {
           classNames="fade"
           timeout={350}
           onEnter={() => setIsPopperVisible(true)}
-          onExited={() => setIsPopperVisible(false)}>
+          onExited={() => setIsPopperVisible(false)}
+        >
           <Dropdown
             isActive={isActive}
             isEnhanced={isEnhanced}
