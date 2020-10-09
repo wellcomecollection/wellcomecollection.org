@@ -141,6 +141,7 @@ const CovidWeAreOpenPage = () => {
                   <li>
                     Only current library members are able to book a ticket.
                   </li>
+                  <li>Please book just one Library visit each week.</li>
                   <li>Choose a time slot.</li>
                   <li>Stay for up to three hours.</li>
                   <li>
