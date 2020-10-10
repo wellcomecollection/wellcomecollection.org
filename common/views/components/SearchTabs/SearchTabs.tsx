@@ -1,4 +1,5 @@
 import BaseTabs from '../BaseTabs/BaseTabs';
+import { TabType } from '../BaseTabs/BaseTabs';
 import styled from 'styled-components';
 import Space from '../styled/Space';
 import { useContext } from 'react';
@@ -21,16 +22,19 @@ const Tab = styled(Space).attrs({
     border-right: 1px solid ${props.theme.color('pumice')};
   `}
 
-  .is-active & {
-    background: ${props => props.theme.color('white')};
-  }
+  ${props =>
+    props.isActive &&
+    `
+    background: ${props.theme.color('white')};
+  `}
 
-  .is-active:focus & {
-    box-shadow: ${props =>
-      props.isKeyboard ? props.theme.focusBoxShadow : null};
+  ${props =>
+    props.isFocused &&
+    `
+    box-shadow: ${props.isKeyboard ? props.theme.focusBoxShadow : null};
     position: relative;
     z-index: 1;
-  }
+  `}
 `;
 
 const TabPanel = styled(Space).attrs({
@@ -44,16 +48,25 @@ const TabPanel = styled(Space).attrs({
 const SearchTabs = () => {
   const { isKeyboard } = useContext(AppContext);
 
-  const tabs = [
+  const tabs: TabType[] = [
     {
       id: 'tab-library-catalogue',
-      tab: <Tab isKeyboard={isKeyboard}>Library catalogue</Tab>,
+      tab: (isActive, isFocused) => (
+        <Tab isActive={isActive} isFocused={isFocused} isKeyboard={isKeyboard}>
+          Library catalogue
+        </Tab>
+      ),
       tabPanel: <TabPanel>one</TabPanel>,
     },
     {
       id: 'tab-images',
-      tab: (
-        <Tab isKeyboard={isKeyboard} isLast={true}>
+      tab: (isActive, isFocused) => (
+        <Tab
+          isActive={isActive}
+          isFocused={isFocused}
+          isKeyboard={isKeyboard}
+          isLast={true}
+        >
           Images
         </Tab>
       ),

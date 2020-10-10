@@ -15,7 +15,6 @@ type TabProps = {
 const Tab = styled.button.attrs((props: TabProps) => ({
   className: classNames({
     'plain-button no-padding': true,
-    'is-active': props.isActive,
   }),
   role: 'tab',
   tabIndex: props.isActive ? 0 : -1,
@@ -39,19 +38,20 @@ const TabPanel = styled.div.attrs((props: TabPanelProps) => ({
   'aria-expanded': props.isActive,
 }))<TabPanelProps>``;
 
-type Tab = {
+export type TabType = {
   id: string;
-  tab: JSX.Element | string;
+  tab: (isActive: boolean, isFocused: boolean) => JSX.Element;
   tabPanel: JSX.Element | string;
 };
 
 export type Props = {
   label: string;
-  tabs: Tab[];
+  tabs: TabType[];
 };
 
 const Tabs = ({ label, tabs }: Props) => {
   const [activeId, setActiveId] = useState(tabs[0].id);
+  const [focusedId, setFocusedId] = useState(null);
   const { isEnhanced } = useContext(AppContext);
   const tabListRef = useRef(null);
 
@@ -79,21 +79,25 @@ const Tabs = ({ label, tabs }: Props) => {
 
     if (LEFT.includes(key)) {
       setActiveId(tabs[prevIndex].id);
+      setFocusedId(tabs[prevIndex].id);
       focusTabAtIndex(prevIndex);
     }
 
     if (RIGHT.includes(key)) {
       setActiveId(tabs[nextIndex].id);
+      setFocusedId(tabs[nextIndex].id);
       focusTabAtIndex(nextIndex);
     }
 
     if (HOME.includes(key)) {
       setActiveId(tabs[0].id);
+      setFocusedId(tabs[0].id);
       focusTabAtIndex(0);
     }
 
     if (END.includes(key)) {
       setActiveId(tabs[tabs.length - 1].id);
+      setFocusedId(tabs[tabs.length - 1].id);
       focusTabAtIndex(tabs.length - 1);
     }
   }
@@ -109,21 +113,22 @@ const Tabs = ({ label, tabs }: Props) => {
               tabPanelId={id}
               isActive={id === activeId}
               onClick={() => setActiveId(id)}
+              onBlur={() => setFocusedId(null)}
+              onFocus={() => setFocusedId(id)}
               onKeyDown={handleKeyDown}
             >
-              {tab}
+              {tab(id === activeId, id === focusedId)}
             </Tab>
           ))}
         </TabList>
       )}
-      {tabs.map(({ id, tab, tabPanel }) => (
+      {tabs.map(({ id, tabPanel }) => (
         <TabPanel
           key={id}
           id={id}
           isActive={id === activeId}
           isEnhanced={isEnhanced}
         >
-          {!isEnhanced && <>{tab}</>}
           {tabPanel}
         </TabPanel>
       ))}
