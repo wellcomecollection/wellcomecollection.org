@@ -56,7 +56,7 @@ const SearchTabs = () => {
           Library catalogue
         </Tab>
       ),
-      tabPanel: <TabPanel>one</TabPanel>,
+      tabPanel: <TabPanel>Library catalogue SearchForm goes here</TabPanel>,
     },
     {
       id: 'tab-images',
@@ -70,7 +70,7 @@ const SearchTabs = () => {
           Images
         </Tab>
       ),
-      tabPanel: <TabPanel>two</TabPanel>,
+      tabPanel: <TabPanel>Image SearchForm goes here</TabPanel>,
     },
   ];
 

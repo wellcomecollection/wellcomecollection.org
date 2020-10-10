@@ -129,6 +129,7 @@ const Tabs = ({ label, tabs }: Props) => {
           isActive={id === activeId}
           isEnhanced={isEnhanced}
         >
+          {/* TODO: re-add tab content (as heading) when not enhanced */}
           {tabPanel}
         </TabPanel>
       ))}
