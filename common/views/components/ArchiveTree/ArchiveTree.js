@@ -277,14 +277,10 @@ async function createSiblingsArray({
 
   // Adding the children of each of the works in the siblingsArray
   // We won't need to do this when we have totalParts in the API
-  // if (withChildren) {
   const siblingsArrayWithChildren = await Promise.all(
     siblingsArray.map(item => addChildren({ item, toggles }))
   );
   return siblingsArrayWithChildren;
-  // } else {
-  //   return siblingsArray;
-  // }
 }
 
 function updateChildren({
