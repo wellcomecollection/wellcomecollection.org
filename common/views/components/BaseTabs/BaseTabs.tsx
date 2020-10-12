@@ -122,14 +122,14 @@ const Tabs = ({ label, tabs }: Props) => {
           ))}
         </TabList>
       )}
-      {tabs.map(({ id, tabPanel }) => (
+      {tabs.map(({ id, tabPanel, tab }) => (
         <TabPanel
           key={id}
           id={id}
           isActive={id === activeId}
           isEnhanced={isEnhanced}
         >
-          {/* TODO: re-add tab content (as heading) when not enhanced */}
+          {!isEnhanced && tab(id === activeId, id === focusedId)}
           {tabPanel}
         </TabPanel>
       ))}
