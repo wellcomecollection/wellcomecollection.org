@@ -336,7 +336,7 @@ export function parseCollectionVenue(venue: PrismicFragment): Venue {
     id: venue.id,
     order: data?.order,
     name: data?.title,
-    displayTitle: asText(data.displayTitle),
+    heading: asText(data.heading),
     openingHours: {
       regular: [
         createRegularDay('Monday', venue),

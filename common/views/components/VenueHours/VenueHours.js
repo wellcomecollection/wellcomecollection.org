@@ -128,8 +128,8 @@ const VenueHours = ({ venue, weight }: Props) => {
             h2: true,
           })}
         >
-          {weight === 'featured' && venue.displayTitle
-            ? venue.displayTitle
+          {weight === 'featured' && venue.heading
+            ? venue.heading
             : 'Opening hours'}
         </Space>
         <ul

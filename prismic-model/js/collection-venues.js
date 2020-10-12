@@ -13,7 +13,7 @@ const CollectionVenue = {
         label: 'Title',
       },
     },
-    displayTitle: structuredText('displayTitle', 'single'),
+    heading: structuredText('Heading', 'single'),
     order: number('Order'),
     image: image('Image'),
     link: link('Link', 'web', [], 'Enter url'),

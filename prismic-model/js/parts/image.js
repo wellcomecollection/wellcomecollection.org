@@ -1,6 +1,6 @@
 // @flow
 
-type thumbnailsObject = Array<{
+type Thumbnails = Array<{
   name: string,
   width: number,
   height: number,
@@ -26,7 +26,7 @@ const defaultImagethumbnailSizes = [
 
 export default function(
   label: string,
-  thumbnails: ?thumbnailsObject = defaultImagethumbnailSizes
+  thumbnails: ?Thumbnails = defaultImagethumbnailSizes
 ) {
   return {
     type: 'Image',
