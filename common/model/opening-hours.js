@@ -1,7 +1,7 @@
 // @flow
 import type Moment from 'moment';
-import { ImageType } from './image';
-import { Link as LinkType } from './link';
+import type { ImageType } from './image';
+import type { Link as LinkType } from './link';
 
 export type Day = string; // 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
@@ -46,8 +46,8 @@ export type Venue = {|
   order: number,
   openingHours: OpeningHours,
   url?: LinkType,
-  linkText?: string,
-  displayTitle?: string,
+  linkText?: ?string,
+  displayTitle?: ?string,
   image?: ImageType,
 |};
 
