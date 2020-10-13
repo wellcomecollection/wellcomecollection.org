@@ -174,7 +174,7 @@ const PrototypeSearchForm = ({
       <SearchInputWrapper className="relative">
         <TextInput
           id={'works-search-input'}
-          label={'Search the catalogue'}
+          label={isImageSearch ? 'Search for images' : 'Search the catalogue'}
           name="query"
           value={inputQuery}
           setValue={setInputQuery}
