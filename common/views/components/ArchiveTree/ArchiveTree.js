@@ -721,7 +721,17 @@ const NestedList = ({
   );
 };
 
-function createBasicTree({ work, toggles, workId }) {
+function createBasicTree({
+  // Returns a UiTree with the current work (with it's children) and it's ancestors
+  // This is
+  work,
+  toggles,
+  workId,
+}: {|
+  work: Work,
+  toggles: Toggles,
+  workId: string,
+|}): UiTree {
   const ancestorArray = getArchiveAncestorArray(work);
   const partOfReversed = [...ancestorArray, parsePart(work)].reverse();
   return [
