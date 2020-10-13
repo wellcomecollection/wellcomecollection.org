@@ -70,6 +70,8 @@ const Tabs = ({ label, tabs }: Props) => {
 
     if (!isKeyOfInterest) return;
 
+    event.preventDefault();
+
     const currentTab = tabs.find(t => t.id === activeId);
     const currentIndex = tabs.indexOf(currentTab);
     const nextIndex = tabs[currentIndex + 1] ? currentIndex + 1 : 0;
