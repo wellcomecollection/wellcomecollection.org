@@ -239,7 +239,6 @@ function createSiblingsArray({
   work,
   workId, // id of current work being viewed
   openStatusOverride = false,
-  withChildren = true,
 }: {
   work: Work,
   workId: string,
@@ -444,7 +443,6 @@ const ListItem = ({
   posInSet,
   tabbableId,
   setTabbableId,
-  isEnhanced,
 }: {|
   item: UiTreeNode,
   currentWorkId: string,
@@ -456,9 +454,8 @@ const ListItem = ({
   posInSet: number,
   tabbableId: ?string,
   setTabbableId: string => void,
-  isEnhanced: boolean,
 |}) => {
-  const { isKeyboard } = useContext(AppContext);
+  const { isKeyboard, isEnhanced } = useContext(AppContext);
   const isEndNode = item.children && item.children.length === 0;
   const isSelected =
     (tabbableId && tabbableId === item.work.id) ||
@@ -659,7 +656,6 @@ const ListItem = ({
           level={level + 1}
           tabbableId={tabbableId}
           setTabbableId={setTabbableId}
-          isEnhanced={isEnhanced}
         />
       )}
     </TreeItem>
@@ -675,7 +671,6 @@ const NestedList = ({
   level,
   tabbableId,
   setTabbableId,
-  isEnhanced,
 }: {|
   currentWorkId: string,
   archiveTree: UiTree,
@@ -685,8 +680,8 @@ const NestedList = ({
   level: number,
   tabbableId: ?string,
   setTabbableId: string => void,
-  isEnhanced: boolean,
 |}) => {
+  const { isEnhanced } = useContext(AppContext);
   return (
     <ul
       aria-labelledby={level === 1 && isEnhanced ? 'tree-instructions' : null}
@@ -712,7 +707,6 @@ const NestedList = ({
                 posInSet={i + 1}
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
-                isEnhanced={isEnhanced}
               />
             )
           );
@@ -812,7 +806,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     initialLoad.current = false;
   }, [work.id]);
 
-  const TreeView = ({ isEnhanced }: {| isEnhanced: boolean |}) => (
+  const TreeView = () => (
     <Tree isEnhanced={isEnhanced}>
       {isEnhanced && <TreeInstructions>{instructions}</TreeInstructions>}
       <NestedList
@@ -824,7 +818,6 @@ const ArchiveTree = ({ work }: { work: Work }) => {
         level={1}
         tabbableId={tabbableId}
         setTabbableId={setTabbableId}
-        isEnhanced={isEnhanced}
       />
     </Tree>
   );
@@ -851,7 +844,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
         <Icon name="tree" />
       </Space>
       <StickyContainerInner>
-        <TreeView isEnhanced={isEnhanced} />
+        <TreeView />
       </StickyContainerInner>
     </StickyContainer>
   ) : null;
