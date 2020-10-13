@@ -47,7 +47,6 @@ export type Venue = {|
   openingHours: OpeningHours,
   url?: LinkType,
   linkText?: ?string,
-  heading?: ?string,
   image?: ImageType,
 |};
 

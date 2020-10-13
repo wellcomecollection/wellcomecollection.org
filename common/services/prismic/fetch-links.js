@@ -24,7 +24,6 @@ export const collectionVenuesFields = [
   'collection-venue.title',
   'collection-venue.image',
   'collection-venue.link',
-  'collection-venue.heading',
   'collection-venue.linkText',
   'collection-venue.order',
   'collection-venue.monday',

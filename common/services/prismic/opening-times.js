@@ -336,7 +336,6 @@ export function parseCollectionVenue(venue: PrismicFragment): Venue {
     id: venue.id,
     order: data?.order,
     name: data?.title,
-    heading: asText(data.heading),
     openingHours: {
       regular: [
         createRegularDay('Monday', venue),
@@ -353,6 +352,20 @@ export function parseCollectionVenue(venue: PrismicFragment): Venue {
     url: data?.link?.url,
     linkText: asText(data.linkText),
   };
+}
+
+export function getParseCollectionVenueById(
+  collectionVenues: {
+    collectionOpeningTimes: {
+      placesOpeningHours: Venue[],
+    },
+  },
+  id: string
+): any {
+  const venue = collectionVenues.collectionOpeningTimes.placesOpeningHours.find(
+    venue => venue.id === id
+  );
+  return venue;
 }
 
 export function parseCollectionVenues(doc: PrismicFragment) {

@@ -82,9 +82,10 @@ const VenueHours = ({ venue, weight }: Props) => {
     backfilledExceptionalPeriods &&
     getUpcomingExceptionalPeriods(backfilledExceptionalPeriods);
 
+  const isFeatured = weight === 'featured';
   return (
     <>
-      {weight === 'featured' && (
+      {isFeatured && (
         <>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <Divider
@@ -128,9 +129,7 @@ const VenueHours = ({ venue, weight }: Props) => {
             h2: true,
           })}
         >
-          {weight === 'featured' && venue.heading
-            ? venue.heading
-            : 'Opening hours'}
+          {isFeatured && venue.name ? venue.name : 'Opening hours'}
         </Space>
         <ul
           className={classNames({
@@ -211,7 +210,7 @@ const VenueHours = ({ venue, weight }: Props) => {
         }}
         style={{ clear: 'both' }}
       >
-        {weight === 'featured' && venue.linkText && venue.url && (
+        {isFeatured && venue.linkText && venue.url && (
           <MoreLink url={venue.url} name={venue.linkText} />
         )}
       </Space>
