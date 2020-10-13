@@ -243,7 +243,7 @@ function createSiblingsArray({
   workId: string,
   openStatusOverride?: boolean,
 }): UiTree {
-  // An array of the current work and all it's siblings
+  // An array of the current work and all its siblings
   const siblingsArray = [
     ...(work.precededBy || []).map(item => ({
       openStatus: false,
@@ -311,11 +311,11 @@ async function createArchiveTree({
   archiveAncestorArray: NodeWork[],
   toggles: Toggles,
 |}): Promise<UiTree> {
-  const allTreeNodes = [...archiveAncestorArray, parsePart(work)]; // An array of a work and all it's ancestors (ancestors first)
+  const allTreeNodes = [...archiveAncestorArray, parsePart(work)]; // An array of a work and all its ancestors (ancestors first)
   const treeStructure = await allTreeNodes.reduce(
     async (acc, curr, i, ancestorArray) => {
       const parentId = ancestorArray[i - 1] && ancestorArray[i - 1].id;
-      // We add each ancestor and it's siblings to the tree
+      // We add each ancestor and its siblings to the tree
       if (!parentId) {
         const siblings = await getSiblings({
           id: curr.id,
