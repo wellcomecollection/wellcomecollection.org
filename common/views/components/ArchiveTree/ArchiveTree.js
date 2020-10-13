@@ -70,7 +70,7 @@ const Tree = styled.div`
     &::before {
       display: none;
       position: absolute;
-      content: ${props => (props.shouldEnhance ? `'${instructions}'` : null)};
+      content: ${props => (props.isEnhanced ? `'${instructions}'` : null)};
       z-index: 2;
       top: 0;
       background: ${props => props.theme.color('yellow')};
@@ -243,7 +243,6 @@ function createSiblingsArray({
   work,
   workId, // id of current work being viewed
   openStatusOverride = false,
-  withChildren = true,
 }: {
   work: Work,
   workId: string,
@@ -449,7 +448,7 @@ const ListItem = ({
   tabbableId,
   setTabbableId,
   setShowArchiveTree,
-  shouldEnhance,
+  isEnhanced,
 }: {|
   item: UiTreeNode,
   currentWorkId: string,
@@ -462,7 +461,7 @@ const ListItem = ({
   tabbableId: ?string,
   setTabbableId: string => void,
   setShowArchiveTree: boolean => void,
-  shouldEnhance: boolean,
+  isEnhanced: boolean,
 |}) => {
   const { isKeyboard } = useContext(AppContext);
   const isEndNode = item.children && item.children.length === 0;
@@ -493,19 +492,19 @@ const ListItem = ({
     <TreeItem
       hideFocus={!isKeyboard}
       id={item.work.id}
-      role={shouldEnhance ? 'treeitem' : null}
-      aria-level={shouldEnhance ? level : null}
-      aria-setsize={shouldEnhance ? setSize : null}
-      aria-posinset={shouldEnhance ? posInSet : null}
+      role={isEnhanced ? 'treeitem' : null}
+      aria-level={isEnhanced ? level : null}
+      aria-setsize={isEnhanced ? setSize : null}
+      aria-posinset={isEnhanced ? posInSet : null}
       aria-expanded={
-        shouldEnhance
+        isEnhanced
           ? item.children && item.children.length > 0
             ? item.openStatus
             : null
           : null
       }
       aria-label={
-        shouldEnhance
+        isEnhanced
           ? `${item.work.title}${
               item.work.referenceNumber
                 ? `, reference number ${item.work.referenceNumber}`
@@ -513,8 +512,8 @@ const ListItem = ({
             }`
           : null
       }
-      aria-selected={shouldEnhance ? isSelected : null}
-      tabIndex={shouldEnhance ? (isSelected ? 0 : -1) : null}
+      aria-selected={isEnhanced ? isSelected : null}
+      tabIndex={isEnhanced ? (isSelected ? 0 : -1) : null}
       onKeyDown={event => {
         event.stopPropagation();
         const key = event.key || event.keyCode;
@@ -605,7 +604,8 @@ const ListItem = ({
       }}
     >
       <div className="flex-inline">
-        {level > 1 &&
+        {isEnhanced &&
+        level > 1 &&
         ((item.children && item.children.length > 0) || !item.children) && ( // TODO use new API totalParts data when available
             <span
               style={{
@@ -630,7 +630,7 @@ const ListItem = ({
           )}
         <NextLink {...workLink({ id: item.work.id })} scroll={false} passHref>
           <StyledLink
-            tabIndex={shouldEnhance ? (isSelected ? 0 : -1) : 0}
+            tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
             className={classNames({
               [font('hnl', 6)]: true,
             })}
@@ -666,7 +666,7 @@ const ListItem = ({
           tabbableId={tabbableId}
           setTabbableId={setTabbableId}
           setShowArchiveTree={setShowArchiveTree}
-          shouldEnhance={shouldEnhance}
+          isEnhanced={isEnhanced}
         />
       )}
     </TreeItem>
@@ -683,7 +683,7 @@ const NestedList = ({
   tabbableId,
   setTabbableId,
   setShowArchiveTree,
-  shouldEnhance,
+  isEnhanced,
 }: {|
   currentWorkId: string,
   archiveTree: UiTree,
@@ -694,15 +694,13 @@ const NestedList = ({
   tabbableId: ?string,
   setTabbableId: string => void,
   setShowArchiveTree: boolean => void,
-  shouldEnhance: boolean,
+  isEnhanced: boolean,
 |}) => {
   return (
     <ul
-      aria-labelledby={
-        level === 1 && shouldEnhance ? 'tree-instructions' : null
-      }
-      tabIndex={level === 1 && shouldEnhance ? 0 : null}
-      role={shouldEnhance ? (level === 1 ? 'tree' : 'group') : null}
+      aria-labelledby={level === 1 && isEnhanced ? 'tree-instructions' : null}
+      tabIndex={level === 1 && isEnhanced ? 0 : null}
+      role={isEnhanced ? (level === 1 ? 'tree' : 'group') : null}
       className={classNames({
         'font-size-5': true,
       })}
@@ -724,7 +722,7 @@ const NestedList = ({
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
                 setShowArchiveTree={setShowArchiveTree}
-                shouldEnhance={shouldEnhance}
+                isEnhanced={isEnhanced}
               />
             )
           );
@@ -742,7 +740,17 @@ const ShameButtonWrap = styled(Space).attrs({
   }
 `;
 
-function createBasicTree({ work, toggles, workId }) {
+function createBasicTree({
+  // Returns a UiTree with the current work (with it's children) and it's ancestors
+  // This is
+  work,
+  toggles,
+  workId,
+}: {|
+  work: Work,
+  toggles: Toggles,
+  workId: string,
+|}): UiTree {
   const ancestorArray = getArchiveAncestorArray(work);
   const partOfReversed = [...ancestorArray, parsePart(work)].reverse();
   return [
@@ -779,6 +787,7 @@ function createBasicTree({ work, toggles, workId }) {
 const ArchiveTree = ({ work }: { work: Work }) => {
   const windowSize = useWindowSize();
   const toggles = useContext(TogglesContext);
+  const { isEnhanced } = useContext(AppContext);
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const initialLoad = useRef(true);
   const [showArchiveTree, setShowArchiveTree] = useState(false);
@@ -786,10 +795,6 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     createBasicTree({ work, toggles, workId: work.id })
   );
   const [tabbableId, setTabbableId] = useState(null);
-  const [
-    shouldEnhanceTreeAccessibility,
-    setShouldEnhanceTreeAccessibility,
-  ] = useState(false); // only want to do this if javascript is running, otherwise it doesn't make sense for the basic tree
 
   useEffect(() => {
     const elementToFocus = tabbableId && document.getElementById(tabbableId);
@@ -813,7 +818,6 @@ const ArchiveTree = ({ work }: { work: Work }) => {
       setArchiveTree(tree || []);
     }
     setupTree();
-    setShouldEnhanceTreeAccessibility(true);
   }, []);
 
   useEffect(() => {
@@ -829,9 +833,9 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     initialLoad.current = false;
   }, [work.id]);
 
-  const TreeView = ({ shouldEnhance }: {| shouldEnhance: boolean |}) => (
-    <Tree shouldEnhance={shouldEnhance}>
-      {shouldEnhance && <TreeInstructions>{instructions}</TreeInstructions>}
+  const TreeView = ({ isEnhanced }: {| isEnhanced: boolean |}) => (
+    <Tree isEnhanced={isEnhanced}>
+      {isEnhanced && <TreeInstructions>{instructions}</TreeInstructions>}
       <NestedList
         selected={selected}
         currentWorkId={work.id}
@@ -842,7 +846,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
         tabbableId={tabbableId}
         setTabbableId={setTabbableId}
         setShowArchiveTree={setShowArchiveTree}
-        shouldEnhance={shouldEnhance}
+        isEnhanced={isEnhanced}
       />
     </Tree>
   );
@@ -865,7 +869,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
             setIsActive={setShowArchiveTree}
             id={'collection-contents-modal'}
           >
-            <TreeView shouldEnhance={shouldEnhanceTreeAccessibility} />
+            <TreeView isEnhanced={isEnhanced} />
           </Modal>
         </>
       ) : (
@@ -890,7 +894,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
             <Icon name="tree" />
           </Space>
           <StickyContainerInner>
-            <TreeView shouldEnhance={shouldEnhanceTreeAccessibility} />
+            <TreeView isEnhanced={isEnhanced} />
           </StickyContainerInner>
         </StickyContainer>
       )}
