@@ -36,6 +36,7 @@ const StickyContainer = styled.div`
 const StickyContainerInner = styled.div`
   ${props => props.theme.media.medium`
     overflow: scroll;
+    max-height: calc(100vh - 48px);
   `}
 `;
 
