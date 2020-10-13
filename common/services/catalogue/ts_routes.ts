@@ -78,12 +78,13 @@ type SharedWorksAndImagesProps = {
   source: string | null;
 }
 
-type ImagesRouteProps = SharedWorksAndImagesProps & {
+// route: /images
+export type ImagesRouteProps = SharedWorksAndImagesProps & {
   locationsLicense: string | null,
   color: string | null,
 }
 
-// // route: /works
+// route: /works
 export type WorksRouteProps = SharedWorksAndImagesProps & {
   workType: string[];
   itemsLocationsLocationType: string[];
@@ -96,59 +97,59 @@ export type WorksRouteProps = SharedWorksAndImagesProps & {
   search: string | null;
 };
 
-// export const WorksRoute: NextRoute<WorksRouteProps> = {
-//   fromQuery(q) {
-//     return {
-//       query: defaultToEmptyString(q.query),
-//       page: defaultTo1(q.page),
-//       workType: stringToCsv(q.workType),
-//       itemsLocationsLocationType: stringToCsv(
-//         q['items.locations.locationType']
-//       ),
-//       itemsLocationsType: stringToCsv(q['items.locations.type']),
-//       sort: maybeString(q.sort),
-//       sortOrder: maybeString(q.sortOrder),
-//       productionDatesFrom: maybeString(q['production.dates.from']),
-//       productionDatesTo: maybeString(q['production.dates.to']),
-//       imagesColor: maybeString(q['images.color']),
-//       search: maybeString(q.search),
-//       source: maybeString(q.source),
-//     };
-//   },
+export const WorksRoute: NextRoute<WorksRouteProps> = {
+  fromQuery(q) {
+    return {
+      query: defaultToEmptyString(q.query),
+      page: defaultTo1(q.page),
+      workType: stringToCsv(q.workType),
+      itemsLocationsLocationType: stringToCsv(
+        q['items.locations.locationType']
+      ),
+      itemsLocationsType: stringToCsv(q['items.locations.type']),
+      sort: maybeString(q.sort),
+      sortOrder: maybeString(q.sortOrder),
+      productionDatesFrom: maybeString(q['production.dates.from']),
+      productionDatesTo: maybeString(q['production.dates.to']),
+      imagesColor: maybeString(q['images.color']),
+      search: maybeString(q.search),
+      source: maybeString(q.source),
+    };
+  },
 
-//   toLink(params) {
-//     const pathname = '/works';
-//     const { source, ...paramsWithoutSource } = params;
+  toLink(params) {
+    const pathname = '/works';
+    const { source, ...paramsWithoutSource } = params;
 
-//     return {
-//       href: {
-//         pathname,
-//         query: WorksRoute.toQuery(params),
-//       },
-//       as: {
-//         pathname,
-//         query: WorksRoute.toQuery(paramsWithoutSource),
-//       },
-//     };
-//   },
+    return {
+      href: {
+        pathname,
+        query: WorksRoute.toQuery(params),
+      },
+      as: {
+        pathname,
+        query: WorksRoute.toQuery(paramsWithoutSource),
+      },
+    };
+  },
 
-//   toQuery(params) {
-//     return serialiseUrl({
-//       query: params.query,
-//       page: params.page,
-//       workType: params.workType,
-//       'items.locations.locationType': params.itemsLocationsLocationType,
-//       'items.locations.type': params.itemsLocationsType,
-//       sort: params.sort,
-//       sortOrder: params.sortOrder,
-//       'production.dates.from': params.productionDatesFrom,
-//       'production.dates.to': params.productionDatesTo,
-//       'images.color': params.imagesColor,
-//       search: params.search,
-//       source: params.source,
-//     });
-//   },
-// };
+  toQuery(params) {
+    return serialiseUrl({
+      query: params.query,
+      page: params.page,
+      workType: params.workType,
+      'items.locations.locationType': params.itemsLocationsLocationType,
+      'items.locations.type': params.itemsLocationsType,
+      sort: params.sort,
+      sortOrder: params.sortOrder,
+      'production.dates.from': params.productionDatesFrom,
+      'production.dates.to': params.productionDatesTo,
+      'images.color': params.imagesColor,
+      search: params.search,
+      source: params.source,
+    });
+  },
+};
 
 export const ImagesRoute: NextRoute<ImagesRouteProps> = {
   fromQuery(q) {
@@ -303,8 +304,8 @@ export const ImagesRoute: NextRoute<ImagesRouteProps> = {
 
 export const imagesLink = (params: ImagesRouteProps, source: string) =>
   ImagesRoute.toLink({ ...params, source });
-// export const worksLink = (params: WorksRouteProps, source: string) =>
-//   WorksRoute.toLink({ ...params, source });
+export const worksLink = (params: WorksRouteProps, source: string) =>
+  WorksRoute.toLink({ ...params, source });
 // export const workLink = WorkRoute.toLink;
 // export const itemLink = ItemRoute.toLink;
 // export const imageLink = ImageRoute.toLink;

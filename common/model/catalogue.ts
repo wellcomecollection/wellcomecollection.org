@@ -221,6 +221,11 @@ export type CatalogueAggregation = {
   buckets: CatalogueAggregationBucket[];
 };
 
+export type CatalogueAggregations = {
+  workType: CatalogueAggregation;
+  locationType: CatalogueAggregation;
+};
+
 export type CatalogueResultsList<Result = Work> = {
   type: 'ResultList';
   totalResults: number;
