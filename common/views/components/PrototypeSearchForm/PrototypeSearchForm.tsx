@@ -34,7 +34,6 @@ type Props = {
 
 const SearchInputWrapper = styled.div`
   font-size: 20px;
-  background: ${props => props.theme.color('white')};
   margin-right: 80px;
 
   .search-query {
