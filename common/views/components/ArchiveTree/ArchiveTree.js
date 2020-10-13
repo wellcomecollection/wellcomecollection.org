@@ -547,6 +547,7 @@ const ListItem = ({
                   value: !item.openStatus,
                 })
               );
+              setTabbableId(item.work.id);
             }
             // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
             // When focus is on a root node that is also either an end node or a closed node, does nothing.
@@ -555,7 +556,6 @@ const ListItem = ({
               !item.openStatus ||
               (item.children && item.children.length === 0) // TODO remove when API updated
             ) {
-              // TODO need parentId
               if (item.parentId) {
                 setTabbableId(item.parentId);
               }
