@@ -186,6 +186,7 @@ const RequestLocation = ({ work }: Props) => {
                 />
 
                 <Modal
+                  id="requestModal"
                   isActive={showRequestModal}
                   setIsActive={setShowRequestModal}
                 >
@@ -314,6 +315,7 @@ const RequestLocation = ({ work }: Props) => {
               {!showRequestModal && (
                 <div data-test-id="resultsModalCTA">
                   <Modal
+                    id="resultsModal"
                     isActive={showResultsModal}
                     setIsActive={setShowResultsModal}
                   >
