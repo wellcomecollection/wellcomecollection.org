@@ -186,18 +186,18 @@ export type CatalogueApiRedirect = {
   type: 'Redirect';
 };
 
-// export type Image = {
-//   type: 'Image',
-//   id: string,
-//   locations: Array<{
-//     url: string,
-//     ...Object,
-//   }>,
-//   source: {
-//     id: string,
-//     type: string,
-//   },
-// };
+export type Image = {
+  type: 'Image';
+  id: string;
+  locations: Array<{
+    url: string;
+    Object;
+  }>;
+  source: {
+    id: string;
+    type: string;
+  };
+};
 
 // export type CatalogueApiError = {|
 //   errorType: string,
@@ -207,31 +207,31 @@ export type CatalogueApiRedirect = {
 //   type: 'Error',
 // |};
 
-// export type CatalogueAggregationBucket = {|
-//   count: number,
-//   data: {|
-//     id: string,
-//     label: string,
-//     type: string,
-//   |},
-//   type: 'AggregationBucket',
-// |};
+export type CatalogueAggregationBucket = {
+  count: number;
+  data: {
+    id: string;
+    label: string;
+    type: string;
+  };
+  type: 'AggregationBucket';
+};
 
-// export type CatalogueAggregation = {|
-//   buckets: CatalogueAggregationBucket[],
-// |};
+export type CatalogueAggregation = {
+  buckets: CatalogueAggregationBucket[];
+};
 
-// export type CatalogueResultsList<Result = Work> = {
-//   type: 'ResultList',
-//   totalResults: number,
-//   results: Result[],
-//   pageSize: number,
-//   prevPage: ?string,
-//   nextPage: ?string,
-//   aggregations: ?{|
-//     workType: CatalogueAggregation,
-//   |},
-// };
+export type CatalogueResultsList<Result = Work> = {
+  type: 'ResultList';
+  totalResults: number;
+  results: Result[];
+  pageSize: number;
+  prevPage: string | null;
+  nextPage: string | null;
+  aggregations: {
+    workType: CatalogueAggregation;
+  } | null;
+};
 
 // export type CatalogueApiRedirect = {
 //   type: 'Redirect',
