@@ -338,7 +338,7 @@ async function createArchiveTree({
         });
       } else {
         const siblings = await getSiblings({
-          // For everything else we need more data and create before creating and array of curr and its siblings
+          // For everything else we need more data before creating an array of curr and its siblings
           // This becomes the value of the previous node's children property
           id: curr.id,
           toggles,
