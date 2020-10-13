@@ -426,6 +426,11 @@ async function expandTree({
   );
 }
 
+const LEFT = [37, 'ArrowLeft'];
+const RIGHT = [39, 'ArrowRight'];
+const DOWN = [40, 'ArrowDown'];
+const UP = [38, 'ArrowUp'];
+
 const ListItem = ({
   item,
   currentWorkId,
@@ -494,6 +499,13 @@ const ListItem = ({
       tabIndex={isSelected ? 0 : -1}
       onKeyDown={event => {
         event.stopPropagation();
+        const key = event.key || event.keyCode;
+        const isKeyOfInterest = [...LEFT, ...RIGHT, ...DOWN, ...UP].includes(
+          key
+        );
+
+        if (!isKeyOfInterest) return;
+
         const nextId = getNextTabbableId({
           currentId: item.work.id,
           tree: fullTree,
@@ -502,9 +514,9 @@ const ListItem = ({
           currentId: item.work.id,
           tree: fullTree,
         });
-        // if (item.children) {
-        switch (event.key) {
-          case 'ArrowRight': {
+
+        switch (true) {
+          case RIGHT.includes(key): {
             // When focus is on an open node, moves focus to the first child node.
             if (item.openStatus) {
               if (nextId) {
@@ -524,7 +536,7 @@ const ListItem = ({
             }
             break;
           }
-          case 'ArrowLeft': {
+          case LEFT.includes(key): {
             // When focus is on an open node, closes the node.
             if (item.openStatus && item.children && item.children.length > 0) {
               // TODO remove when API updated with totalDescendentParts
@@ -550,14 +562,14 @@ const ListItem = ({
             }
             break;
           }
-          case 'ArrowDown': {
+          case DOWN.includes(key): {
             // Moves focus to the next node that is focusable without opening or closing a node.
             if (nextId) {
               setTabbableId(nextId);
             }
             break;
           }
-          case 'ArrowUp': {
+          case UP.includes(key): {
             // Moves focus to the previous node that is focusable without opening or closing a node.
             if (previousId) {
               setTabbableId(previousId);
@@ -565,7 +577,6 @@ const ListItem = ({
             break;
           }
         }
-        // }
       }}
       onClick={event => {
         event.stopPropagation();
