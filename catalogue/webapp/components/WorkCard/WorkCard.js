@@ -14,6 +14,7 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space, {
   type SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
+// $FlowFixMe (tsx)
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 
 type Props = {|
