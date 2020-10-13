@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from 'react';
-import useValidation from '@weco/common/hooks/useValidation';
 import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
@@ -186,7 +185,10 @@ const PrototypeSearchForm = ({
           pattern={null}
           errorMessage={null}
           placeholder={''}
-          {...useValidation()}
+          isValid={null}
+          setIsValid={null}
+          showValidity={null}
+          setShowValidity={null}
         />
 
         {inputQuery && (
