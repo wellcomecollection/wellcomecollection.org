@@ -717,13 +717,11 @@ const NestedList = ({
 
 function createBasicTree({
   // Returns a UiTree with the current work (with it's children) and it's ancestors
-  // This is
+  // This is all the data we have without making further API calls
   work,
-  toggles,
   workId,
 }: {|
   work: Work,
-  toggles: Toggles,
   workId: string,
 |}): UiTree {
   const ancestorArray = getArchiveAncestorArray(work);
@@ -765,7 +763,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const initialLoad = useRef(true);
   const [archiveTree, setArchiveTree] = useState(
-    createBasicTree({ work, toggles, workId: work.id })
+    createBasicTree({ work, workId: work.id })
   );
   const [tabbableId, setTabbableId] = useState(null);
 
