@@ -71,10 +71,20 @@ type NextRoute<T> = {
   toQuery: (t: T) => UrlParams;
 };
 
-// // route: /works
-export type WorksRouteProps = {
+
+type SharedWorksAndImagesProps = {
   query: string;
   page: number;
+  source: string | null;
+}
+
+type ImagesRouteProps = SharedWorksAndImagesProps & {
+  locationsLicense: string | null,
+  color: string | null,
+}
+
+// // route: /works
+export type WorksRouteProps = SharedWorksAndImagesProps & {
   workType: string[];
   itemsLocationsLocationType: string[];
   itemsLocationsType: string[];
@@ -84,7 +94,6 @@ export type WorksRouteProps = {
   productionDatesTo: string | null;
   imagesColor: string | null;
   search: string | null;
-  source: string | null;
 };
 
 // export const WorksRoute: NextRoute<WorksRouteProps> = {
@@ -141,29 +150,19 @@ export type WorksRouteProps = {
 //   },
 // };
 
-export const ImagesRoute: NextRoute<WorksRouteProps> = {
+export const ImagesRoute: NextRoute<ImagesRouteProps> = {
   fromQuery(q) {
     return {
       query: defaultToEmptyString(q.query),
       page: defaultTo1(q.page),
-      workType: stringToCsv(q.workType),
-      itemsLocationsLocationType: stringToCsv(
-        q['items.locations.locationType']
-      ),
-      itemsLocationsType: stringToCsv(q['items.locations.type']),
-      sort: maybeString(q.sort),
-      sortOrder: maybeString(q.sortOrder),
-      productionDatesFrom: maybeString(q['production.dates.from']),
-      productionDatesTo: maybeString(q['production.dates.to']),
-      imagesColor: maybeString(q['images.color']),
-      search: maybeString(q.search),
-      source: maybeString(q.source),
+      locationsLicense: defaultToEmptyString(q.locationsLicense),
+      color: defaultToEmptyString(q.color),
+      source: defaultToEmptyString(q.source),
     };
   },
 
   toLink(params) {
     const pathname = '/images';
-    const { source, ...paramsWithoutSource } = params;
 
     return {
       href: {
@@ -172,7 +171,7 @@ export const ImagesRoute: NextRoute<WorksRouteProps> = {
       },
       as: {
         pathname,
-        query: ImagesRoute.toQuery(paramsWithoutSource),
+        query: ImagesRoute.toQuery(params),
       },
     };
   },
@@ -181,16 +180,8 @@ export const ImagesRoute: NextRoute<WorksRouteProps> = {
     return serialiseUrl({
       query: params.query,
       page: params.page,
-      workType: params.workType,
-      'items.locations.locationType': params.itemsLocationsLocationType,
-      'items.locations.type': params.itemsLocationsType,
-      sort: params.sort,
-      sortOrder: params.sortOrder,
-      'production.dates.from': params.productionDatesFrom,
-      'production.dates.to': params.productionDatesTo,
-      'images.color': params.imagesColor,
-      search: params.search,
-      source: params.source,
+      'locations.license': params.locationsLicense,
+      color: params.color,
     });
   },
 };
@@ -310,7 +301,7 @@ export const ImagesRoute: NextRoute<WorksRouteProps> = {
 //   },
 // };
 
-export const imagesLink = (params: WorksRouteProps, source: string) =>
+export const imagesLink = (params: ImagesRouteProps, source: string) =>
   ImagesRoute.toLink({ ...params, source });
 // export const worksLink = (params: WorksRouteProps, source: string) =>
 //   WorksRoute.toLink({ ...params, source });

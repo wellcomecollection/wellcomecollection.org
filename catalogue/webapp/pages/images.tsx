@@ -15,8 +15,8 @@ import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import {
   WorksRouteProps,
   imagesLink,
-  WorksRoute,
-} from '@weco/common/services/catalogue/routes';
+  ImagesRoute,
+} from '@weco/common/services/catalogue/ts_routes';
 import {
   CatalogueWorksApiProps,
   worksRouteToApiUrl,
@@ -240,7 +240,7 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
 };
 
 Images.getInitialProps = async (ctx: NextPageContext): Promise<Props> => {
-  const params = WorksRoute.fromQuery(ctx.query);
+  const params = ImagesRoute.fromQuery(ctx.query);
   const { enableColorFiltering } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const aggregations = ['workType', 'locationType'];
