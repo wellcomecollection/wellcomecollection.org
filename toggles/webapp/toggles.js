@@ -3,20 +3,20 @@ module.exports = {
     {
       id: 'archivesPrototype',
       title: 'Show additions to the work page relating to archives',
-      defaultValue: false,
+      defaultValue: true,
       description:
         'Shows archive specific header, breadcrumbs and archive tree on the work page.',
     },
     {
       id: 'unfilteredSearchResults',
       title: 'Entire catalogue search',
-      defaultValue: false,
+      defaultValue: true,
       description: 'Search the entire catalogue, including all work types',
     },
     {
       id: 'locationsFilter',
       title: 'Online/In the library filter',
-      defaultValue: false,
+      defaultValue: true,
       description: 'Show the filter for "Online" and "In the library"',
     },
     {
