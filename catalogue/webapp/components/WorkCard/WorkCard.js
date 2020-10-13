@@ -14,6 +14,7 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space, {
   type SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
+import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 
 type Props = {|
   work: Work,
@@ -118,7 +119,7 @@ const WorkCard = ({ work }: Props) => {
                   'card-link__title': true,
                 })}
               >
-                {work.title}
+                <WorkTitle title={work.title} />
               </h2>
               <div
                 className={classNames({
