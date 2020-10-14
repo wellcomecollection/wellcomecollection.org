@@ -804,22 +804,6 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     initialLoad.current = false;
   }, [work.id]);
 
-  const TreeView = () => (
-    <Tree isEnhanced={isEnhanced}>
-      {isEnhanced && <TreeInstructions>{instructions}</TreeInstructions>}
-      <NestedList
-        selected={selected}
-        currentWorkId={work.id}
-        fullTree={archiveTree}
-        setArchiveTree={setArchiveTree}
-        archiveTree={archiveTree}
-        level={1}
-        tabbableId={tabbableId}
-        setTabbableId={setTabbableId}
-      />
-    </Tree>
-  );
-
   return isInArchive ? (
     <StickyContainer>
       <Space
@@ -842,7 +826,19 @@ const ArchiveTree = ({ work }: { work: Work }) => {
         <Icon name="tree" />
       </Space>
       <StickyContainerInner>
-        <TreeView />
+        <Tree isEnhanced={isEnhanced}>
+          {isEnhanced && <TreeInstructions>{instructions}</TreeInstructions>}
+          <NestedList
+            selected={selected}
+            currentWorkId={work.id}
+            fullTree={archiveTree}
+            setArchiveTree={setArchiveTree}
+            archiveTree={archiveTree}
+            level={1}
+            tabbableId={tabbableId}
+            setTabbableId={setTabbableId}
+          />
+        </Tree>
       </StickyContainerInner>
     </StickyContainer>
   ) : null;
