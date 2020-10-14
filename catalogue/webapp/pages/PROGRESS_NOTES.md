@@ -8,26 +8,32 @@ For a more comprehensive search of all of our collections, [wellcomelibrary.org]
 
 We will keep this page up to date with the latest information as we make more progress.
 
-## What’s new? (updated 8 July 2020)
+## What’s new? (updated 14 October 2020)
 
-### Improvements to search relevance
-
-#### Fine tuning relevance
-Based on the data we already have about how search is being used, we've tested a change to the way queries are split and combined. Rather than letting results with _any_ (one or more) of the terms appear in your results (using the OR operator between query tokens), we now require that _all_ of the tokens appear in any result you see (using the AND operator between query tokens). This seems to be returning more relevant results, so we've made this the default algorithm, while kicking off a new test.
+### Improvements to search
+- Up to now we have only exposed a subset of digital and digitised materials in search results, you will now also be able to find archives and physical works from our collections.
+- We've added a filter to allow you to choose between online and in library works.
+- We've made additions to the works page, when viewing a work that is part of an archive collection:
+  - an indication that the work is part of an archive
+  - an indication of what the parent archive is and where in its hiearchy the work being viewed sits
+  - an archive tree, which gives the ability to browse the entire archive to which the work belongs
 
 ## What's in development now
-- *Search quality*: Based on feedback from library catalogue users, we are now working to improve Title and Author searches.
-- *Archive collections*: We are bringing archive collections data into our catalogue API in order to allow users to search and browse for this material. 
+- Improvements to the archive tree to give a better experience on small screens
+- Design improvements to the archive tree
+- Improving the interface of our search form:
+  - making a clearer distinction between a catalogue and image search and explaining what they are.
+  - improving the design to allow for more filters
+  - grouping filters and other controls in more logical ways
+- Adding the ability to view items with particular access conditions on wellcomecollection.org
+- Adding the ability to request physical items on wellcomecollection.org
 
 ## What are the limits?
-- We currently only expose digitised materials, so if you're looking for a physical item from our collections, you can still use the library catalogue on [wellcomelibrary.org](https://wellcomelibrary.org).
+- *Search quality*: Based on feedback from library catalogue users, we are now working to improve Title and Author searches.
 - Some library catalogue data is not available yet, so there may be very little information associated with some images or not be enough information to identify the item you’re looking at.
 - Some images lack references to the item from which they were taken.
-- Our digitised archives and journals are not available yet.
 
-If you want a more comprehensive search, please try searching the catalogue on [wellcomelibrary.org](https://wellcomelibrary.org) in the meantime.
-
-For now, if you need any additional help in identifying items from library collections, please email collections@wellcome.ac.uk.
+For now, if you need any additional help in identifying items from library collections, please email [collections@wellcome.ac.uk](mailto:collections@wellcome.ac.uk).
 
 # Get involved
 
@@ -41,4 +47,4 @@ As a panellist, you’ll be invited to take part in occasional activities which 
 
 # Read more about our digital developments
 
-You can find out more on [Stacks](https://stacks.wellcomecollection.org/), our in-depth blog covering our digital strategy and data-led developments. 
+You can find out more on [Stacks](https://stacks.wellcomecollection.org/), our in-depth blog covering our digital strategy and data-led developments.
