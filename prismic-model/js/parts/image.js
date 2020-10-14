@@ -1,6 +1,6 @@
 // @flow
 
-import { Thumbnails } from '../model/thumbnails';
+import { type Thumbnails } from '../model/thumbnails';
 
 const defaultImagethumbnailSizes = [
   {
