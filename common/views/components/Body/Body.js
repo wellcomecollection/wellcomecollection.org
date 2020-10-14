@@ -21,7 +21,7 @@ import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
 import VenueHours from '../VenueHours/VenueHours';
 // $FlowFixMe (tsx)
-import CovidTOC from '../CovidTOC/CovidTOC';
+import OnThisPageAnchors from '../OnThisPageAnchors/OnThisPageAnchors';
 import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
 // $FlowFixMe (tsx)
 import Table from '../Table/Table';
@@ -66,10 +66,10 @@ const Body = ({ body, onThisPage, isDropCapped, pageId }: Props) => {
         'basic-body': true,
       })}
     >
-      {onThisPage && onThisPage.length > 0 && (
+      {onThisPage && onThisPage.length > 2 && (
         <SpacingComponent>
           <Layout8>
-            <CovidTOC links={onThisPage} />
+            <OnThisPageAnchors links={onThisPage} />
           </Layout8>
         </SpacingComponent>
       )}

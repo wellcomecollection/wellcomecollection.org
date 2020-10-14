@@ -15,7 +15,7 @@ const CovidInfoBox = ({ title, id, children }) => {
       className={classNames({
         'border-color-yellow': true,
       })}
-      style={{ 'border-left-width': '10px', 'border-left-style': 'solid' }}
+      style={{ borderLeftWidth: '10px', borderLeftStyle: 'solid' }}
     >
       <h2 className="h2" id={id}>
         {title}

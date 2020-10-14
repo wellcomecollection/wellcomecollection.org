@@ -2,15 +2,11 @@ import Space from '../styled/Space';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
 
-type TOCLinkProps = {
-  isSublink?: boolean;
-};
-
-const TOCLink = styled.a.attrs((props: TOCLinkProps) => ({
+const Anchor = styled.a.attrs(() => ({
   className: classNames({
-    [font(props.isSublink ? 'hnl' : 'hnm', 5)]: true,
+    [font('hnm', 5)]: true,
   }),
-}))<TOCLinkProps>`
+}))`
   color: ${props => props.theme.color('green')};
 `;
 
@@ -24,7 +20,7 @@ type Props = {
   links: Link[];
 };
 
-const CovidTOC = ({ links }) => {
+const OnThisPageAnchors = ({ links }) => {
   return (
     <Space
       h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
@@ -37,16 +33,7 @@ const CovidTOC = ({ links }) => {
       <ul className="plain-list no-margin no-padding">
         {links.map(link => (
           <li>
-            <TOCLink href={link.url}>{link.text}</TOCLink>
-            {link.sublinks && (
-              <ul>
-                {link.sublinks.map(sublink => (
-                  <TOCLink isSublink>
-                    <a href={sublink.url}>{sublink.text}</a>
-                  </TOCLink>
-                ))}
-              </ul>
-            )}
+            <Anchor href={link.url}>{link.text}</Anchor>
           </li>
         ))}
       </ul>
@@ -54,4 +41,4 @@ const CovidTOC = ({ links }) => {
   );
 };
 
-export default CovidTOC;
+export default OnThisPageAnchors;
