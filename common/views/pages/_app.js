@@ -14,7 +14,7 @@ import {
   parseCollectionVenues,
   getParseCollectionVenueById,
 } from '../../services/prismic/opening-times';
-import { collectionVenueId } from '../../services/prismic/hardcoded-Id';
+import { collectionVenueId } from '../../services/prismic/hardcoded-id';
 
 import { type OpeningHours } from '../../model/opening-hours';
 import ErrorPage from '../../views/components/ErrorPage/ErrorPage';

@@ -1,10 +1,6 @@
 // @flow
 
-type Thumbnails = Array<{
-  name: string,
-  width: number,
-  height: number,
-}>;
+import { Thumbnails } from '../model/thumbnails';
 
 const defaultImagethumbnailSizes = [
   {

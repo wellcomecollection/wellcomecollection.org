@@ -6,13 +6,6 @@
         "label": "Title"
       }
     },
-    "heading": {
-      "type": "StructuredText",
-      "config": {
-        "single": "paragraph,hyperlink,strong,em",
-        "label": "Heading"
-      }
-    },
     "order": {
       "type": "Number",
       "config": {
