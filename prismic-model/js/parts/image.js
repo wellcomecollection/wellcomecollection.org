@@ -1,6 +1,10 @@
 // @flow
 
-import { type Thumbnails } from '../model/thumbnails';
+export type Thumbnail = {
+  name: string,
+  width: number,
+  height: number,
+};
 
 const defaultImagethumbnailSizes = [
   {
@@ -22,7 +26,7 @@ const defaultImagethumbnailSizes = [
 
 export default function(
   label: string,
-  thumbnails: ?Thumbnails = defaultImagethumbnailSizes
+  thumbnails: ?Array<Thumbnail> = defaultImagethumbnailSizes
 ) {
   return {
     type: 'Image',
