@@ -7,6 +7,7 @@ import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import { AppContext } from '../AppContext/AppContext';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
+import { CSSTransition } from 'react-transition-group';
 
 type Props = {|
   children: Node,
@@ -23,7 +24,10 @@ const Overlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: transparent;
+  ${props => props.theme.media.medium`
+    background: rgba(0, 0, 0, 0.7);
+  `}
 `;
 
 const CloseButton = styled(Space).attrs({
@@ -64,6 +68,7 @@ const CloseButton = styled(Space).attrs({
 const ModalWindow = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
+  hidden: props => !props.hidden,
   className: classNames({
     'shadow bg-white': true,
   }),
@@ -75,18 +80,54 @@ const ModalWindow = styled(Space).attrs({
   right: 0;
   position: fixed;
   overflow: auto;
+  transition: opacity 350ms ease, transform 350ms ease;
+
+  &,
+  &.fade-exit-done {
+    z-index: -1;
+    pointer-events: none;
+  }
+  &.fade-enter,
+  &.fade-exit,
+  &.fade-enter-done {
+    z-index: 1001;
+    pointer-events: all;
+  }
+  &,
+  &.fade-enter,
+  &.fade-exit-active,
+  &.fade-exit-done {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  &.fade-enter-active,
+  &.fade-enter-done {
+    opacity: 1;
+    transform: scale(1);
+  }
 
   ${props => props.theme.media.medium`
     top: 50%;
     left: 50%;
     right: auto;
     bottom: auto;
-    transform: translateX(-50%) translateY(-50%);
     height: auto;
     max-height: 90vh;
     max-width: ${props.width || `${props.theme.sizes.large}px`}
     width: ${props.width || 'auto'};
     border-radius: ${props.theme.borderRadiusUnit}px;
+
+    &,
+    &.fade-enter,
+    &.fade-exit-active,
+    &.fade-exit-done {
+      transform: scale(0.9) translateX(-50%) translateY(-50%);
+    }
+    &.fade-enter-active,
+    &.fade-enter-done {
+      opacity: 1;
+      transform: scale(1) translateX(-50%) translateY(-50%);
+    }
   `}
 `;
 
@@ -141,8 +182,8 @@ const Modal = ({
   return (
     <>
       {isActive && <Overlay onClick={() => setIsActive(false)} />}
-      {isActive && (
-        <ModalWindow ref={modalRef} width={width} id={id}>
+      <CSSTransition in={isActive} classNames="fade" timeout={350}>
+        <ModalWindow ref={modalRef} width={width} id={id} hidden={isActive}>
           <CloseButton
             ref={closeButtonRef}
             onClick={() => setIsActive(false)}
@@ -153,7 +194,7 @@ const Modal = ({
           </CloseButton>
           {children}
         </ModalWindow>
-      )}
+      </CSSTransition>
     </>
   );
 };
