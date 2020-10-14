@@ -130,11 +130,7 @@ const SearchTabs = ({
     },
   ];
 
-  return (
-    <Space v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
-      <BaseTabs tabs={tabs} label={'Tabs for search'} />
-    </Space>
-  );
+  return <BaseTabs tabs={tabs} label={'Tabs for search'} />;
 };
 
 export default SearchTabs;
