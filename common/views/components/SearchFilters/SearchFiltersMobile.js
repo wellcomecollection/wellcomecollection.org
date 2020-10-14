@@ -110,6 +110,7 @@ const SearchFiltersMobile = ({
   aggregations,
 }: SearchFiltersSharedProps) => {
   const okFiltersButtonRef = useRef(null);
+  const openButtonRef = useRef(null);
   const [showFiltersModal, setShowFiltersModal] = useState(false);
 
   const { enableColorFiltering, locationsFilter } = useContext(TogglesContext);
@@ -133,6 +134,7 @@ const SearchFiltersMobile = ({
           }}
           aria-controls="filters-modal"
           aria-label="open filters"
+          ref={openButtonRef}
         >
           <Space h={{ size: 's', properties: ['margin-right'] }}>
             <Icon name="filter" />
@@ -148,6 +150,7 @@ const SearchFiltersMobile = ({
         isActive={showFiltersModal}
         setIsActive={setShowFiltersModal}
         id={'filters-modal'}
+        openButtonRef={openButtonRef}
       >
         <FiltersScrollable>
           <FiltersHeader>

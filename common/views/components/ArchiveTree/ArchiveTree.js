@@ -795,6 +795,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     createBasicTree({ work, toggles, workId: work.id })
   );
   const [tabbableId, setTabbableId] = useState(null);
+  const openButtonRef = useRef(null);
 
   useEffect(() => {
     const elementToFocus = tabbableId && document.getElementById(tabbableId);
@@ -844,12 +845,14 @@ const ArchiveTree = ({ work }: { work: Work }) => {
               aria-controls="collection-contents-modal"
               aria-label="show collection contents"
               icon="tree"
+              ref={openButtonRef}
             />
           </ShameButtonWrap>
           <Modal
             isActive={showArchiveTree}
             setIsActive={setShowArchiveTree}
             id={'collection-contents-modal'}
+            openButtonRef={openButtonRef}
           >
             <Tree isEnhanced={isEnhanced}>
               {isEnhanced && (

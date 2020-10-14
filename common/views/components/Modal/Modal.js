@@ -15,6 +15,7 @@ type Props = {|
   setIsActive: (value: boolean) => void,
   width?: string,
   id: string,
+  openButtonRef: { current: HTMLElement | null },
 |};
 
 const Overlay = styled.div`
@@ -68,7 +69,7 @@ const CloseButton = styled(Space).attrs({
 const ModalWindow = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
-  hidden: props => !props.hidden,
+  hidden: props => !props.isActive,
   className: classNames({
     'shadow bg-white': true,
   }),
@@ -137,6 +138,7 @@ const Modal = ({
   setIsActive,
   width = null,
   id,
+  openButtonRef,
 }: Props) => {
   const closeButtonRef = useRef(null);
   const endRef = useRef(null);
@@ -152,6 +154,9 @@ const Modal = ({
   useEffect(() => {
     if (isActive && closeButtonRef && closeButtonRef.current) {
       closeButtonRef.current.focus();
+    }
+    if (!isActive && openButtonRef && openButtonRef.current) {
+      openButtonRef.current.focus();
     }
   }, [isActive]);
 
@@ -183,7 +188,7 @@ const Modal = ({
     <>
       {isActive && <Overlay onClick={() => setIsActive(false)} />}
       <CSSTransition in={isActive} classNames="fade" timeout={350}>
-        <ModalWindow ref={modalRef} width={width} id={id} hidden={isActive}>
+        <ModalWindow ref={modalRef} width={width} id={id} isActive={isActive}>
           <CloseButton
             ref={closeButtonRef}
             onClick={() => setIsActive(false)}
