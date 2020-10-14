@@ -1,4 +1,5 @@
 import BaseTabs from '../BaseTabs/BaseTabs';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { TabType } from '../BaseTabs/BaseTabs';
 import styled from 'styled-components';
 import Space from '../styled/Space';
@@ -14,23 +15,25 @@ const Tab = styled(Space).attrs({
   as: 'span',
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  className: 'flex-inline',
+  className: classNames({
+    'flex-inline': true,
+    [font('hnm', 5)]: true,
+  }),
 })`
   background: ${props => props.theme.color('white')};
-  border-left: 1px solid ${props => props.theme.color('silver')};
-  border-top: 1px solid ${props => props.theme.color('silver')};
+  border-left: 1px solid ${props => props.theme.color('smoke')};
+  border-top: 1px solid ${props => props.theme.color('smoke')};
 
   ${props =>
     props.isLast &&
     `
-    border-right: 1px solid ${props.theme.color('silver')};
+    border-right: 1px solid ${props.theme.color('smoke')};
   `}
 
   ${props =>
     props.isActive &&
     `
-    background: ${props.theme.color('silver')};
-    color: ${props.theme.color('white')};
+    background: ${props.theme.color('smoke')};
   `}
 
   ${props =>
@@ -46,8 +49,8 @@ const TabPanel = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
-  background: ${props => props.theme.color('silver')};
-  border: 1px solid ${props => props.theme.color('silver')};
+  background: ${props => props.theme.color('smoke')};
+  border: 1px solid ${props => props.theme.color('smoke')};
 `;
 type Props = {
   worksRouteProps: WorksRouteProps;
@@ -75,7 +78,7 @@ const SearchTabs = ({
       tabPanel: (
         <TabPanel>
           <p
-            className="visually-hidden"
+            className={shouldShowFilters ? 'visually-hidden' : null}
             id="library-catalogue-form-description"
           >
             Find thousands of books, images, artworks, unpublished archives and
@@ -106,10 +109,14 @@ const SearchTabs = ({
       ),
       tabPanel: (
         <TabPanel>
-          <p className="visually-hidden" id="images-form-description">
-            Find thousands of books, images, artworks, unpublished archives and
-            manuscripts in our collections, many of them with free online
-            access.
+          <p
+            className={shouldShowFilters ? 'visually-hidden' : null}
+            id="images-form-description"
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae
+            sint nisi quos facilis nemo hic iusto, quasi temporibus autem ipsa,
+            sed ipsam praesentium similique odit qui sequi voluptas dolorum
+            harum.
           </p>
           <PrototypeSearchForm
             ariaDescribedBy="images-form-description"
