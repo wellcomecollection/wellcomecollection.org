@@ -10,7 +10,12 @@ import { ThemeProvider } from 'styled-components';
 import theme from '../../views/themes/default';
 import { museumLd, libraryLd, objToJsonLd } from '../../utils/json-ld';
 import { wellcomeCollectionGallery } from '../../model/organization';
-import { parseCollectionVenues } from '../../services/prismic/opening-times';
+import {
+  parseCollectionVenues,
+  getParseCollectionVenueById,
+} from '../../services/prismic/opening-times';
+import { collectionVenueId } from '../../services/prismic/hardcoded-id';
+
 import { type OpeningHours } from '../../model/opening-hours';
 import ErrorPage from '../../views/components/ErrorPage/ErrorPage';
 import TogglesContext from '../../views/components/TogglesContext/TogglesContext';
@@ -357,11 +362,15 @@ export default class WecoApp extends App {
       'URL',
     ];
     const parsedOpeningTimes = parseCollectionVenues(openingTimes);
-    const galleries = parsedOpeningTimes.collectionOpeningTimes.placesOpeningHours.find(
-      venue => venue.name.toLowerCase() === 'galleries'
+
+    // Interim solution : Getting openingHours by hardcoded id rather than name just in case contracts may break when editors make changes
+    const galleries = getParseCollectionVenueById(
+      parsedOpeningTimes,
+      collectionVenueId.galleries
     );
-    const library = parsedOpeningTimes.collectionOpeningTimes.placesOpeningHours.find(
-      venue => venue.name.toLowerCase() === 'library'
+    const library = getParseCollectionVenueById(
+      parsedOpeningTimes,
+      collectionVenueId.libraries
     );
     const galleriesOpeningHours = galleries && galleries.openingHours;
     const libraryOpeningHours = library && library.openingHours;
