@@ -833,24 +833,6 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     initialLoad.current = false;
   }, [work.id]);
 
-  const TreeView = ({ isEnhanced }: {| isEnhanced: boolean |}) => (
-    <Tree isEnhanced={isEnhanced}>
-      {isEnhanced && <TreeInstructions>{instructions}</TreeInstructions>}
-      <NestedList
-        selected={selected}
-        currentWorkId={work.id}
-        fullTree={archiveTree}
-        setArchiveTree={setArchiveTree}
-        archiveTree={archiveTree}
-        level={1}
-        tabbableId={tabbableId}
-        setTabbableId={setTabbableId}
-        setShowArchiveTree={setShowArchiveTree}
-        isEnhanced={isEnhanced}
-      />
-    </Tree>
-  );
-
   return isInArchive ? (
     <>
       {windowSize === 'small' ? (
@@ -869,7 +851,23 @@ const ArchiveTree = ({ work }: { work: Work }) => {
             setIsActive={setShowArchiveTree}
             id={'collection-contents-modal'}
           >
-            <TreeView isEnhanced={isEnhanced} />
+            <Tree isEnhanced={isEnhanced}>
+              {isEnhanced && (
+                <TreeInstructions>{instructions}</TreeInstructions>
+              )}
+              <NestedList
+                selected={selected}
+                currentWorkId={work.id}
+                fullTree={archiveTree}
+                setArchiveTree={setArchiveTree}
+                archiveTree={archiveTree}
+                level={1}
+                tabbableId={tabbableId}
+                setTabbableId={setTabbableId}
+                setShowArchiveTree={setShowArchiveTree}
+                isEnhanced={isEnhanced}
+              />
+            </Tree>
           </Modal>
         </>
       ) : (
@@ -894,7 +892,23 @@ const ArchiveTree = ({ work }: { work: Work }) => {
             <Icon name="tree" />
           </Space>
           <StickyContainerInner>
-            <TreeView isEnhanced={isEnhanced} />
+            <Tree isEnhanced={isEnhanced}>
+              {isEnhanced && (
+                <TreeInstructions>{instructions}</TreeInstructions>
+              )}
+              <NestedList
+                selected={selected}
+                currentWorkId={work.id}
+                fullTree={archiveTree}
+                setArchiveTree={setArchiveTree}
+                archiveTree={archiveTree}
+                level={1}
+                tabbableId={tabbableId}
+                setTabbableId={setTabbableId}
+                setShowArchiveTree={setShowArchiveTree}
+                isEnhanced={isEnhanced}
+              />
+            </Tree>
           </StickyContainerInner>
         </StickyContainer>
       )}
