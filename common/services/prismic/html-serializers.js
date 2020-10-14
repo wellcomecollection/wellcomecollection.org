@@ -56,14 +56,8 @@ export const defaultSerializer: HtmlSerializer = (
     case Elements.heading1:
       return <h1 key={i}>{children}</h1>;
     case Elements.heading2:
-      const firstChild = children[0];
-      const firstCharacters =
-        firstChild.props &&
-        firstChild.props.children &&
-        firstChild.props.children[0];
-      const id = firstCharacters && dasherize(firstCharacters);
       return (
-        <h2 key={i} id={id}>
+        <h2 key={i} id={dasherize(element.text)}>
           {children}
         </h2>
       );
