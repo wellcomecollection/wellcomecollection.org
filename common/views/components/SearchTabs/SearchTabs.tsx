@@ -113,10 +113,8 @@ const SearchTabs = ({
             className={shouldShowFilters ? 'visually-hidden' : null}
             id="images-form-description"
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae
-            sint nisi quos facilis nemo hic iusto, quasi temporibus autem ipsa,
-            sed ipsam praesentium similique odit qui sequi voluptas dolorum
-            harum.
+            Search for free, downloadable images taken from our library and
+            museum collections, including objects at the Science Museum.
           </p>
           <PrototypeSearchForm
             ariaDescribedBy="images-form-description"
