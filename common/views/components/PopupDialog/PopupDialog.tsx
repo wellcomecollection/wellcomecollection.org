@@ -1,5 +1,4 @@
-// @flow
-import { useState, useRef, useEffect, useContext } from 'react';
+import { useState, useRef, useEffect, useContext, KeyboardEvent } from 'react';
 import styled from 'styled-components';
 import cookie from 'cookie-cutter';
 import Icon from '../Icon/Icon';
@@ -95,17 +94,18 @@ const PopupDialogClose = styled.button.attrs({
   className: classNames({
     'absolute plain-button no-margin no-padding flex flex--v-center flex--h-center': true,
   }),
-})`
+})<{isKeyboard: boolean}>`
   top: 10px;
   right: 10px;
 
   &:focus {
     outline: 0;
 
-    .is-keyboard & {
-      box-shadow: ${props => props.theme.focusBoxShadow};
-    }
+    ${props => props.isKeyboard && `
+      box-shadow: ${props.theme.focusBoxShadow};
+    `}
   }
+
 `;
 
 const PopupDialogCTA = styled(Space).attrs({
@@ -136,16 +136,16 @@ const PopupDialogCTA = styled(Space).attrs({
   }
 `;
 
-type Props = {|
-  openButtonText: string,
-  dialogHeading: string,
-  dialogCopy: HTMLString,
-  ctaText: string,
+type Props = {
+  openButtonText: string;
+  dialogHeading: string;
+  dialogCopy: HTMLString;
+  ctaText: string;
   ctaLink: {
-    link_type: string,
-    url: string,
+    link_type: string;
+    url: string;
   },
-|};
+};
 
 const PopupDialog = ({
   dialogHeading,
@@ -193,7 +193,7 @@ const PopupDialog = ({
     };
   }, [isActive]);
 
-  function handleBodyClick(event) {
+  function handleBodyClick(event: MouseEvent) {
     const dialog = dialogWindowRef && dialogWindowRef.current;
 
     if (dialog && isActiveRef.current && !dialog.contains(event.target)) {
@@ -217,14 +217,14 @@ const PopupDialog = ({
     }
   }
 
-  function handleTrapStartKeyDown(event) {
+  function handleTrapStartKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
     if (event.shiftKey && event.keyCode === 9) {
       event.preventDefault();
       ctaRef && ctaRef.current && ctaRef.current.focus();
     }
   }
 
-  function handleTrapEndKeyDown(event) {
+  function handleTrapEndKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
     if (!event.shiftKey && event.keyCode === 9) {
       event.preventDefault();
       closeDialogRef &&
@@ -233,7 +233,7 @@ const PopupDialog = ({
     }
   }
 
-  function setFocusable(value) {
+  function setFocusable(value: boolean) {
     const dialog = dialogWindowRef && dialogWindowRef.current;
     const focusables = dialog && getFocusableElements(dialog);
 
@@ -280,7 +280,7 @@ const PopupDialog = ({
             isKeyboard={isKeyboard}
             title="close dialog"
             ref={closeDialogRef}
-            tabIndex={isActive ? '0' : '-1'}
+            tabIndex={isActive ? 0 : -1}
             onKeyDown={handleTrapStartKeyDown}
             onClick={() => {
               setIsActive(false);
