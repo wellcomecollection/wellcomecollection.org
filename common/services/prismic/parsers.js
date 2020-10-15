@@ -1,6 +1,7 @@
 // @flow
 import { RichText, Date as PrismicDate } from 'prismic-dom';
-import type { HTMLString, PrismicFragment } from './types';
+// $FlowFixMe (tsx)
+import { PrismicLink, HTMLString, PrismicFragment } from './types';
 import type {
   Contributor,
   PersonContributor,
@@ -466,7 +467,7 @@ export function parseFormat(frag: Object): ?Format {
     : null;
 }
 
-export function parseLink(link): ?string {
+export function parseLink(link?: PrismicLink): ?string {
   if (link) {
     if (link.link_type === 'Web' || link.link_type === 'Media') {
       return link.url;

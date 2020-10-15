@@ -14,6 +14,7 @@ import Footer from '../Footer/Footer';
 import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
 // $FlowFixMe (tsx)
 import PopupDialogContext from '../PopupDialogContext/PopupDialogContext';
+// $FlowFixMe (tsx)
 import PopupDialog from '../PopupDialog/PopupDialog';
 import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 import Space from '../styled/Space';
