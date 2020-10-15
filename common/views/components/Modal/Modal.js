@@ -69,7 +69,6 @@ const CloseButton = styled(Space).attrs({
 const ModalWindow = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
-  hidden: props => !props.isActive,
   className: classNames({
     'shadow bg-white': true,
   }),
@@ -188,7 +187,7 @@ const Modal = ({
     <>
       {isActive && <Overlay onClick={() => setIsActive(false)} />}
       <CSSTransition in={isActive} classNames="fade" timeout={350}>
-        <ModalWindow ref={modalRef} width={width} id={id} isActive={isActive}>
+        <ModalWindow ref={modalRef} width={width} id={id} hidden={!isActive}>
           <CloseButton
             ref={closeButtonRef}
             onClick={() => setIsActive(false)}
