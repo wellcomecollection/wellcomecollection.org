@@ -366,11 +366,11 @@ export default class WecoApp extends App {
     // Interim solution : Getting openingHours by hardcoded id rather than name just in case contracts may break when editors make changes
     const galleries = getParseCollectionVenueById(
       parsedOpeningTimes,
-      collectionVenueId.galleries
+      collectionVenueId.galleries.id
     );
     const library = getParseCollectionVenueById(
       parsedOpeningTimes,
-      collectionVenueId.libraries
+      collectionVenueId.libraries.id
     );
     const galleriesOpeningHours = galleries && galleries.openingHours;
     const libraryOpeningHours = library && library.openingHours;

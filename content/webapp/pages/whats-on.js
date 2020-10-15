@@ -54,12 +54,12 @@ type Props = {|
 function getListHeader(openingTimes: any) {
   const galleriesOpeningTimes = getParseCollectionVenueById(
     openingTimes,
-    collectionVenueId.galleries
+    collectionVenueId.galleries.id
   );
 
   return {
     todayOpeningHours: getTodaysGalleriesHours(
-      galleriesOpeningTimes.openingHours
+      galleriesOpeningTimes.openingHours.id
     ),
     name: "What's on",
     items: [
