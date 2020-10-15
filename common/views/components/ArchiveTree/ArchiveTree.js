@@ -448,7 +448,6 @@ const ListItem = ({
   tabbableId,
   setTabbableId,
   setShowArchiveTree,
-  isEnhanced,
 }: {|
   item: UiTreeNode,
   currentWorkId: string,
@@ -461,9 +460,8 @@ const ListItem = ({
   tabbableId: ?string,
   setTabbableId: string => void,
   setShowArchiveTree: boolean => void,
-  isEnhanced: boolean,
 |}) => {
-  const { isKeyboard } = useContext(AppContext);
+  const { isKeyboard, isEnhanced } = useContext(AppContext);
   const isEndNode = item.children && item.children.length === 0;
   const isSelected =
     (tabbableId && tabbableId === item.work.id) ||
@@ -674,7 +672,6 @@ const ListItem = ({
           tabbableId={tabbableId}
           setTabbableId={setTabbableId}
           setShowArchiveTree={setShowArchiveTree}
-          isEnhanced={isEnhanced}
         />
       )}
     </TreeItem>
@@ -691,7 +688,6 @@ const NestedList = ({
   tabbableId,
   setTabbableId,
   setShowArchiveTree,
-  isEnhanced,
 }: {|
   currentWorkId: string,
   archiveTree: UiTree,
@@ -702,8 +698,8 @@ const NestedList = ({
   tabbableId: ?string,
   setTabbableId: string => void,
   setShowArchiveTree: boolean => void,
-  isEnhanced: boolean,
 |}) => {
+  const { isEnhanced } = useContext(AppContext);
   return (
     <ul
       aria-labelledby={level === 1 && isEnhanced ? 'tree-instructions' : null}
@@ -730,7 +726,6 @@ const NestedList = ({
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
                 setShowArchiveTree={setShowArchiveTree}
-                isEnhanced={isEnhanced}
               />
             )
           );
@@ -750,13 +745,11 @@ const ShameButtonWrap = styled(Space).attrs({
 
 function createBasicTree({
   // Returns a UiTree with the current work (with it's children) and it's ancestors
-  // This is
+  // This is all the data we have without making further API calls
   work,
-  toggles,
   workId,
 }: {|
   work: Work,
-  toggles: Toggles,
   workId: string,
 |}): UiTree {
   const ancestorArray = getArchiveAncestorArray(work);
@@ -800,7 +793,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
   const initialLoad = useRef(true);
   const [showArchiveTree, setShowArchiveTree] = useState(false);
   const [archiveTree, setArchiveTree] = useState(
-    createBasicTree({ work, toggles, workId: work.id })
+    createBasicTree({ work, workId: work.id })
   );
   const [tabbableId, setTabbableId] = useState(null);
   const openButtonRef = useRef(null);
@@ -876,7 +869,6 @@ const ArchiveTree = ({ work }: { work: Work }) => {
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
                 setShowArchiveTree={setShowArchiveTree}
-                isEnhanced={isEnhanced}
               />
             </Tree>
           </Modal>
@@ -917,7 +909,6 @@ const ArchiveTree = ({ work }: { work: Work }) => {
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
                 setShowArchiveTree={setShowArchiveTree}
-                isEnhanced={isEnhanced}
               />
             </Tree>
           </StickyContainerInner>
