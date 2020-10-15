@@ -330,7 +330,7 @@ const PopupDialog = ({
           <PopupDialogCTA
             href={parseLink(ctaLink)}
             ref={ctaRef}
-            tabIndex={isActive ? '0' : '-1'}
+            tabIndex={isActive ? 0 : -1}
             onKeyDown={handleTrapEndKeyDown}
             onClick={hidePopupDialog}
           >
