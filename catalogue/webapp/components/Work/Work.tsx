@@ -197,7 +197,7 @@ const Work = ({ work }: Props) => {
                   })]: true,
                 })}
               >
-                <ArchiveTree work={work} withModal={false} />
+                <ArchiveTree work={work} />
               </div>
               <div
                 className={classNames({
