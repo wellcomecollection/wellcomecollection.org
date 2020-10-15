@@ -466,12 +466,12 @@ export function parseFormat(frag: Object): ?Format {
     : null;
 }
 
-function parseLink(url): ?string {
-  if (url) {
-    if (url.link_type === 'Web' || url.link_type === 'Media') {
-      return url.url;
-    } else if (url.link_type === 'Document' && isDocumentLink(url)) {
-      return `/${url.type}/${url.id}`;
+export function parseLink(link): ?string {
+  if (link) {
+    if (link.link_type === 'Web' || link.link_type === 'Media') {
+      return link.url;
+    } else if (link.link_type === 'Document' && isDocumentLink(link)) {
+      return `/${link.type}/${link.id}`;
     }
   } else {
     return null;

@@ -1,14 +1,16 @@
 // @flow
-import { useState, useRef, useEffect, useContext, type Node } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import cookie from 'cookie-cutter';
-import { type Link } from '../../../model/link';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { classNames, font } from '../../../utils/classnames';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import { trackEvent } from '../../../utils/ga';
 import { AppContext } from '../AppContext/AppContext';
+import type { HTMLString } from '../../../services/prismic/types';
+import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
+import { parseLink } from '@weco/common/services/prismic/parsers';
 
 const PopupDialogOpen = styled(Space).attrs(props => ({
   'aria-hidden': props.isActive ? 'true' : 'false',
@@ -136,11 +138,22 @@ const PopupDialogCTA = styled(Space).attrs({
 
 type Props = {|
   openButtonText: string,
-  children: Node,
-  cta: Link,
+  dialogHeading: string,
+  dialogCopy: HTMLString,
+  ctaText: string,
+  ctaLink: {
+    link_type: string,
+    url: string,
+  },
 |};
 
-const PopupDialog = ({ children, openButtonText, cta }: Props) => {
+const PopupDialog = ({
+  dialogHeading,
+  dialogCopy,
+  openButtonText,
+  ctaText,
+  ctaLink,
+}: Props) => {
   const [shouldRender, setShouldRender] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const isActiveRef = useRef(isActive);
@@ -295,16 +308,33 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
               overrides: { small: 4, medium: 4, large: 4 },
             }}
           >
-            {children}
+            <h2
+              className={classNames({
+                [font('wb', 6, {
+                  small: 5,
+                  medium: 5,
+                  large: 5,
+                })]: true,
+              })}
+            >
+              {dialogHeading}
+            </h2>
+            <div
+              className={classNames({
+                [font('hnl', 5, { medium: 2, large: 2 })]: true,
+              })}
+            >
+              <PrismicHtmlBlock html={dialogCopy} />
+            </div>
           </Space>
           <PopupDialogCTA
-            href={cta.url}
+            href={parseLink(ctaLink)}
             ref={ctaRef}
             tabIndex={isActive ? '0' : '-1'}
             onKeyDown={handleTrapEndKeyDown}
             onClick={hidePopupDialog}
           >
-            {cta.text}
+            {ctaText}
           </PopupDialogCTA>
         </PopupDialogWindow>
       </>

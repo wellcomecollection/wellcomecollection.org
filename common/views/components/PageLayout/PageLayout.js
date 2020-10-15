@@ -12,6 +12,9 @@ import CookieNotice from '../CookieNotice/CookieNotice';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer/Footer';
 import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
+// $FlowFixMe (tsx)
+import PopupDialogContext from '../PopupDialogContext/PopupDialogContext';
+import PopupDialog from '../PopupDialog/PopupDialog';
 import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 import Space from '../styled/Space';
 
@@ -138,6 +141,9 @@ const PageLayout = ({
             )
           }
         </GlobalAlertContext.Consumer>
+        <PopupDialogContext.Consumer>
+          {({ isShown, ...props }) => isShown && <PopupDialog {...props} />}
+        </PopupDialogContext.Consumer>
         <div id="main" className="main" role="main">
           {children}
         </div>

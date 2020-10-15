@@ -1,6 +1,7 @@
 const { parse } = require('url');
 const compose = require('koa-compose');
 const withGlobalAlert = require('./withGlobalAlert');
+const withPopupDialog = require('./withPopupDialog');
 const withOpeningtimes = require('./withOpeningTimes');
 const withToggles = require('./withToggles');
 const withPrismicPreviewStatus = require('./withPrismicPreviewStatus');
@@ -8,6 +9,7 @@ const withMemoizedPrismic = require('./withMemoizedPrismic');
 
 const withCachedValues = compose([
   withGlobalAlert,
+  withPopupDialog,
   withOpeningtimes,
   withToggles,
   withPrismicPreviewStatus,
@@ -16,13 +18,20 @@ const withCachedValues = compose([
 
 async function route(path, page, router, app, extraParams = {}) {
   router.get(path, async ctx => {
-    const { toggles, globalAlert, openingTimes, memoizedPrismic } = ctx;
+    const {
+      toggles,
+      globalAlert,
+      popupDialog,
+      openingTimes,
+      memoizedPrismic,
+    } = ctx;
     const params = ctx.params;
     const query = ctx.query;
 
     await app.render(ctx.req, ctx.res, page, {
       toggles,
       globalAlert,
+      popupDialog,
       openingTimes,
       memoizedPrismic,
       ...params,
@@ -42,13 +51,20 @@ async function renderIfToggleOn(
   toggleToCheck
 ) {
   router.get(path, async ctx => {
-    const { toggles, globalAlert, openingTimes, memoizedPrismic } = ctx;
+    const {
+      toggles,
+      globalAlert,
+      popupDialog,
+      openingTimes,
+      memoizedPrismic,
+    } = ctx;
     const params = ctx.params;
     const query = ctx.query;
 
     await app.render(ctx.req, ctx.res, toggles[toggleToCheck] ? page : '404', {
       toggles,
       globalAlert,
+      popupDialog,
       openingTimes,
       memoizedPrismic,
       ...params,
@@ -62,12 +78,19 @@ async function renderIfToggleOn(
 function handleAllRoute(handle) {
   return async function(ctx, extraCtxParams = {}) {
     const parsedUrl = parse(ctx.request.url, true);
-    const { toggles, globalAlert, openingTimes, memoizedPrismic } = ctx;
+    const {
+      toggles,
+      globalAlert,
+      popupDialog,
+      openingTimes,
+      memoizedPrismic,
+    } = ctx;
     const query = {
       ...parsedUrl.query,
       ...extraCtxParams,
       toggles,
       globalAlert,
+      popupDialog,
       openingTimes,
       memoizedPrismic,
     };
