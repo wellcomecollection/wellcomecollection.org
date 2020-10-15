@@ -8,7 +8,9 @@ import Icon from '../Icon/Icon';
 import { AppContext } from '../AppContext/AppContext';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { CSSTransition } from 'react-transition-group';
-export const ModalContext = createContext(null);
+export const ModalContext = createContext<{|
+  updateEndRef: ?(HTMLElement) => void,
+|}>({ updateEndRef: null });
 
 type Props = {|
   children: Node,
@@ -201,7 +203,7 @@ const Modal = ({
             <span className="visually-hidden">Close modal window</span>
             <Icon name="cross" extraClasses={`icon--currentColor`} />
           </CloseButton>
-          <ModalContext.Provider value={updateEndRef}>
+          <ModalContext.Provider value={{ updateEndRef }}>
             {children}
           </ModalContext.Provider>
         </ModalWindow>

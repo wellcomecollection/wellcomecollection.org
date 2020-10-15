@@ -469,12 +469,13 @@ const ListItem = ({
     (tabbableId && tabbableId === item.work.id) ||
     (!tabbableId && currentWorkId === item.work.id);
   const toggles = useContext(TogglesContext);
-  const updateEndRef = useContext(ModalContext);
+  const { updateEndRef } = useContext(ModalContext);
   function updateTabbing(id) {
     setTabbableId(id);
     const listItem = document.getElementById(id);
-    updateEndRef &&
-      updateEndRef(listItem && listItem.getElementsByTagName('a')[0]);
+    if (listItem && updateEndRef) {
+      updateEndRef(listItem.getElementsByTagName('a')[0]);
+    }
   }
   function toggleBranch() {
     // TODO use new API totalParts data when available
