@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useContext, KeyboardEvent } from 'react';
+import { useState, useRef, useEffect, useContext, KeyboardEvent as ReactKeyboardEvent } from 'react';
 import styled from 'styled-components';
 import cookie from 'cookie-cutter';
 import Icon from '../Icon/Icon';
@@ -206,7 +206,7 @@ const PopupDialog = ({
     }
   }
 
-  function handleEscapeKeyDown(event) {
+  function handleEscapeKeyDown(event: KeyboardEvent) {
     if (event.keyCode === 27 && isActiveRef.current) {
       setIsActive(false);
       openDialogRef && openDialogRef.current && openDialogRef.current.focus();
@@ -217,14 +217,14 @@ const PopupDialog = ({
     }
   }
 
-  function handleTrapStartKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
+  function handleTrapStartKeyDown(event: ReactKeyboardEvent<HTMLButtonElement>) {
     if (event.shiftKey && event.keyCode === 9) {
       event.preventDefault();
       ctaRef && ctaRef.current && ctaRef.current.focus();
     }
   }
 
-  function handleTrapEndKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
+  function handleTrapEndKeyDown(event: ReactKeyboardEvent<HTMLButtonElement>) {
     if (!event.shiftKey && event.keyCode === 9) {
       event.preventDefault();
       closeDialogRef &&
