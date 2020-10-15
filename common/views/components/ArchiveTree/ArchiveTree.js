@@ -20,7 +20,7 @@ import {
 } from '@weco/common/utils/works';
 import { type Work } from '@weco/common/model/catalogue';
 import useWindowSize from '@weco/common/hooks/useWindowSize';
-import Modal from '@weco/common/views/components/Modal/Modal';
+import Modal, { ModalContext } from '@weco/common/views/components/Modal/Modal';
 // $FlowFixMe (tsx)
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
@@ -469,6 +469,13 @@ const ListItem = ({
     (tabbableId && tabbableId === item.work.id) ||
     (!tabbableId && currentWorkId === item.work.id);
   const toggles = useContext(TogglesContext);
+  const updateEndRef = useContext(ModalContext);
+  function updateTabbing(id) {
+    setTabbableId(id);
+    const listItem = document.getElementById(id);
+    updateEndRef &&
+      updateEndRef(listItem && listItem.getElementsByTagName('a')[0]);
+  }
   function toggleBranch() {
     // TODO use new API totalParts data when available
     if (item.children === undefined) {
@@ -537,7 +544,7 @@ const ListItem = ({
             // When focus is on an open node, moves focus to the first child node.
             if (item.openStatus) {
               if (nextId) {
-                setTabbableId(nextId);
+                updateTabbing(nextId);
               }
             }
 
@@ -549,7 +556,7 @@ const ListItem = ({
             // When focus is on a closed node, opens the node; focus does not move.
             if (!item.openStatus) {
               toggleBranch();
-              setTabbableId(item.work.id);
+              updateTabbing(item.work.id);
             }
             break;
           }
@@ -564,7 +571,7 @@ const ListItem = ({
                   value: !item.openStatus,
                 })
               );
-              setTabbableId(item.work.id);
+              updateTabbing(item.work.id);
             }
             // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
             // When focus is on a root node that is also either an end node or a closed node, does nothing.
@@ -574,7 +581,7 @@ const ListItem = ({
               (item.children && item.children.length === 0) // TODO remove when API updated
             ) {
               if (item.parentId) {
-                setTabbableId(item.parentId);
+                updateTabbing(item.parentId);
               }
             }
             break;
@@ -582,14 +589,14 @@ const ListItem = ({
           case DOWN.includes(key): {
             // Moves focus to the next node that is focusable without opening or closing a node.
             if (nextId) {
-              setTabbableId(nextId);
+              updateTabbing(nextId);
             }
             break;
           }
           case UP.includes(key): {
             // Moves focus to the previous node that is focusable without opening or closing a node.
             if (previousId) {
-              setTabbableId(previousId);
+              updateTabbing(previousId);
             }
             break;
           }
@@ -599,7 +606,7 @@ const ListItem = ({
         event.stopPropagation();
         if (level > 0) {
           toggleBranch();
-          setTabbableId(item.work.id);
+          updateTabbing(item.work.id);
         }
       }}
     >

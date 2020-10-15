@@ -1,5 +1,5 @@
 // @flow
-import { type Node, useEffect, useRef, useContext } from 'react';
+import { type Node, useEffect, useRef, useContext, createContext } from 'react';
 import useFocusTrap from '../../../hooks/useFocusTrap';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
@@ -8,6 +8,7 @@ import Icon from '../Icon/Icon';
 import { AppContext } from '../AppContext/AppContext';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { CSSTransition } from 'react-transition-group';
+export const ModalContext = createContext(null);
 
 type Props = {|
   children: Node,
@@ -144,6 +145,10 @@ const Modal = ({
   const modalRef = useRef(null);
   const { isKeyboard } = useContext(AppContext);
 
+  function updateEndRef(newRef) {
+    endRef.current = newRef;
+  }
+
   useEffect(() => {
     const focusables = modalRef &&
       modalRef.current && [...getFocusableElements(modalRef.current)];
@@ -196,7 +201,9 @@ const Modal = ({
             <span className="visually-hidden">Close modal window</span>
             <Icon name="cross" extraClasses={`icon--currentColor`} />
           </CloseButton>
-          {children}
+          <ModalContext.Provider value={updateEndRef}>
+            {children}
+          </ModalContext.Provider>
         </ModalWindow>
       </CSSTransition>
     </>
