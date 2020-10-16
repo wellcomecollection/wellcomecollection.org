@@ -739,7 +739,7 @@ const NestedList = ({
   );
 };
 
-const ShameButtonWrap = styled(Space).attrs({
+const ButtonWrap = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })`
   button {
@@ -844,7 +844,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     <>
       {windowSize === 'small' ? (
         <>
-          <ShameButtonWrap>
+          <ButtonWrap>
             <ButtonSolid
               text={'Collection contents'}
               clickHandler={() => setShowArchiveTree(true)}
@@ -853,7 +853,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
               icon="tree"
               ref={openButtonRef}
             />
-          </ShameButtonWrap>
+          </ButtonWrap>
           <Modal
             isActive={showArchiveTree}
             setIsActive={setShowArchiveTree}
