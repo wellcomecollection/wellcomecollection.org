@@ -20,6 +20,7 @@ import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
 import VenueHours from '../VenueHours/VenueHours';
+import type { Link } from '../../../model/link';
 // $FlowFixMe (tsx)
 import OnThisPageAnchors from '../OnThisPageAnchors/OnThisPageAnchors';
 import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
@@ -43,7 +44,7 @@ export type BodyType = BodySlice[];
 
 type Props = {|
   body: BodyType,
-  onThisPage?: any[],
+  onThisPage?: Link[],
   showOnThisPage?: boolean,
   isDropCapped?: boolean,
   pageId: string,
