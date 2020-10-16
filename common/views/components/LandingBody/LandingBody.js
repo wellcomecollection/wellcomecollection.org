@@ -20,6 +20,7 @@ import VisitUsStaticContent from './VisitUsStaticContent';
 // $FlowFixMe (tsx)
 import CollectionsStaticContent from './CollectionsStaticContent';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
+import type { Link } from '@weco/common/model/link';
 
 type BodySlice = {|
   type: string,
@@ -33,9 +34,17 @@ type Props = {|
   body: BodyType,
   isDropCapped?: boolean,
   pageId: string,
+  onThisPage?: Link[],
+  showOnThisPage?: boolean,
 |};
 
-const Body = ({ body, isDropCapped, pageId }: Props) => {
+const Body = ({
+  body,
+  isDropCapped,
+  pageId,
+  onThisPage,
+  showOnThisPage,
+}: Props) => {
   const featuredText = body.find(slice => slice.type === 'standfirst');
   const sections = body.filter(slice => slice.type === 'contentList');
   const sectionThemes = [
