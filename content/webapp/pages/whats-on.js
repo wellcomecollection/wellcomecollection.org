@@ -39,6 +39,8 @@ import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
 import { FeaturedCardExhibition } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
+import { getParseCollectionVenueById } from '@weco/common/services/prismic/opening-times';
+import { collectionVenueId } from '@weco/common/services/prismic/hardcoded-id';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -49,14 +51,16 @@ type Props = {|
   eatShopPromos: any[],
 |};
 
-function getListHeader(collectionOpeningTimes: any = {}) {
-  const galleriesOpeningTimes =
-    collectionOpeningTimes.placesOpeningHours.length > 1 &&
-    collectionOpeningTimes.placesOpeningHours.find(
-      venue => venue.name === 'Galleries'
-    ).openingHours;
+function getListHeader(openingTimes: any) {
+  const galleriesOpeningTimes = getParseCollectionVenueById(
+    openingTimes,
+    collectionVenueId.galleries.id
+  );
+
   return {
-    todayOpeningHours: getTodaysGalleriesHours(galleriesOpeningTimes),
+    todayOpeningHours: getTodaysGalleriesHours(
+      galleriesOpeningTimes.openingHours.id
+    ),
     name: "What's on",
     items: [
       {
@@ -198,9 +202,7 @@ type HeaderProps = {|
   openingTimes: any, // TODO
 |};
 const Header = ({ activeId, openingTimes }: HeaderProps) => {
-  const collectionOpeningTimes =
-    openingTimes && openingTimes.collectionOpeningTimes;
-  const listHeader = getListHeader(collectionOpeningTimes);
+  const listHeader = getListHeader(openingTimes);
   const todayOpeningHours = listHeader.todayOpeningHours;
 
   return (
