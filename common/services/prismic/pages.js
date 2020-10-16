@@ -45,7 +45,6 @@ export function parsePage(document: PrismicDocument): Page {
       }
     : null;
 
-  console.log(data);
   return {
     type: 'pages',
     ...genericFields,
