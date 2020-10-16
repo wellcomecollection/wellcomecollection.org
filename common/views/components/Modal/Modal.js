@@ -9,8 +9,8 @@ import { AppContext } from '../AppContext/AppContext';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { CSSTransition } from 'react-transition-group';
 export const ModalContext = createContext<{|
-  updateEndRef: ?(HTMLElement) => void,
-|}>({ updateEndRef: null });
+  updateLastFocusableRef: ?(HTMLElement) => void,
+|}>({ updateLastFocusableRef: null });
 
 type Props = {|
   children: Node,
@@ -146,18 +146,18 @@ const Modal = ({
   openButtonRef,
 }: Props) => {
   const closeButtonRef = useRef(null);
-  const endRef = useRef(null);
+  const lastFocusableRef = useRef(null);
   const modalRef = useRef(null);
   const { isKeyboard } = useContext(AppContext);
 
-  function updateEndRef(newRef) {
-    endRef.current = newRef;
+  function updateLastFocusableRef(newRef) {
+    lastFocusableRef.current = newRef;
   }
 
   useEffect(() => {
     const focusables = modalRef &&
       modalRef.current && [...getFocusableElements(modalRef.current)];
-    endRef.current = focusables && focusables[focusables.length - 1];
+    lastFocusableRef.current = focusables && focusables[focusables.length - 1];
   }, [modalRef.current]);
 
   useEffect(() => {
@@ -191,7 +191,7 @@ const Modal = ({
     }
   }, [isActive]);
 
-  useFocusTrap(closeButtonRef, endRef);
+  useFocusTrap(closeButtonRef, lastFocusableRef);
 
   return (
     <>
@@ -206,7 +206,7 @@ const Modal = ({
             <span className="visually-hidden">Close modal window</span>
             <Icon name="cross" extraClasses={`icon--currentColor`} />
           </CloseButton>
-          <ModalContext.Provider value={{ updateEndRef }}>
+          <ModalContext.Provider value={{ updateLastFocusableRef }}>
             {children}
           </ModalContext.Provider>
         </ModalWindow>
