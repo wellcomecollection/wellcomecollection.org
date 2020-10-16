@@ -132,6 +132,9 @@ const ModalWindow = styled(Space).attrs({
       transform: scale(1) translateX(-50%) translateY(-50%);
     }
   `}
+  @media screen and (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 `;
 
 const Modal = ({
