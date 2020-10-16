@@ -7,35 +7,36 @@ const stories = storiesOf('Components', module);
 
 const PopupDialogExample = () => {
   const openButtonText = text('Open button text', 'Got five minutes?');
-  const ctaText = text(
+  const linkText = text(
     'CTA inside the open dialog button text',
     'Take the survey'
   );
-  const ctaLink = text(
+  const link = text(
     'CTA inside the open dialog button link',
     'https://wellcomecollection.org/user-panel'
   );
-  const dialogHeading = text(
+  const heading = text(
     'Heading inside the open dialog',
     'Help us improve our website'
   );
-  const dialogCopy = text(
+  const dialogText = text(
     'Text inside the open dialog',
     'We’d like to know more about how you use Wellcome Collection’s website.'
   );
+
   return (
     <PopupDialog
       openButtonText={openButtonText}
-      ctaText={ctaText}
-      ctaLink={{
-        url: ctaLink,
+      linkText={linkText}
+      link={{
+        url: link,
         link_type: 'Web',
       }}
-      dialogHeading={dialogHeading}
-      dialogCopy={[
+      heading={heading}
+      text={[
         {
           type: 'paragraph',
-          text: dialogCopy,
+          text: dialogText,
           spans: [],
         },
       ]}

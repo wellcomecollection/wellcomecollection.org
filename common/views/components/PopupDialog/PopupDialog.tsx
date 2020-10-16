@@ -1,4 +1,10 @@
-import { useState, useRef, useEffect, useContext, KeyboardEvent as ReactKeyboardEvent } from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  KeyboardEvent as ReactKeyboardEvent,
+} from 'react';
 import styled from 'styled-components';
 import cookie from 'cookie-cutter';
 import Icon from '../Icon/Icon';
@@ -7,7 +13,7 @@ import { classNames, font } from '../../../utils/classnames';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import { trackEvent } from '../../../utils/ga';
 import { AppContext } from '../AppContext/AppContext';
-import type { HTMLString } from '../../../services/prismic/types';
+import { HTMLString, PrismicLink } from '../../../services/prismic/types';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import { parseLink } from '@weco/common/services/prismic/parsers';
 
@@ -94,18 +100,19 @@ const PopupDialogClose = styled.button.attrs({
   className: classNames({
     'absolute plain-button no-margin no-padding flex flex--v-center flex--h-center': true,
   }),
-})<{isKeyboard: boolean}>`
+})<{ isKeyboard: boolean }>`
   top: 10px;
   right: 10px;
 
   &:focus {
     outline: 0;
 
-    ${props => props.isKeyboard && `
+    ${props =>
+      props.isKeyboard &&
+      `
       box-shadow: ${props.theme.focusBoxShadow};
     `}
   }
-
 `;
 
 const PopupDialogCTA = styled(Space).attrs({
@@ -138,21 +145,18 @@ const PopupDialogCTA = styled(Space).attrs({
 
 type Props = {
   openButtonText: string;
-  dialogHeading: string;
-  dialogCopy: HTMLString;
-  ctaText: string;
-  ctaLink: {
-    link_type: string;
-    url: string;
-  },
+  heading: string;
+  text: HTMLString;
+  linkText: string;
+  link: PrismicLink;
 };
 
 const PopupDialog = ({
-  dialogHeading,
-  dialogCopy,
   openButtonText,
-  ctaText,
-  ctaLink,
+  heading,
+  text,
+  linkText,
+  link,
 }: Props) => {
   const [shouldRender, setShouldRender] = useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -217,7 +221,9 @@ const PopupDialog = ({
     }
   }
 
-  function handleTrapStartKeyDown(event: ReactKeyboardEvent<HTMLButtonElement>) {
+  function handleTrapStartKeyDown(
+    event: ReactKeyboardEvent<HTMLButtonElement>
+  ) {
     if (event.shiftKey && event.keyCode === 9) {
       event.preventDefault();
       ctaRef && ctaRef.current && ctaRef.current.focus();
@@ -317,24 +323,24 @@ const PopupDialog = ({
                 })]: true,
               })}
             >
-              {dialogHeading}
+              {heading}
             </h2>
             <div
               className={classNames({
                 [font('hnl', 5, { medium: 2, large: 2 })]: true,
               })}
             >
-              <PrismicHtmlBlock html={dialogCopy} />
+              <PrismicHtmlBlock html={text} />
             </div>
           </Space>
           <PopupDialogCTA
-            href={parseLink(ctaLink)}
+            href={parseLink(link)}
             ref={ctaRef}
             tabIndex={isActive ? 0 : -1}
             onKeyDown={handleTrapEndKeyDown}
             onClick={hidePopupDialog}
           >
-            {ctaText}
+            {linkText}
           </PopupDialogCTA>
         </PopupDialogWindow>
       </>
