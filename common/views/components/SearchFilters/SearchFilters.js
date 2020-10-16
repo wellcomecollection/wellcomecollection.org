@@ -5,14 +5,11 @@ import {
   type CatalogueAggregationBucket,
   type CatalogueAggregations,
 } from '@weco/common/model/catalogue';
-import {
-  defaultWorkTypes,
-  testDefaultWorkTypes,
-} from '@weco/common/services/catalogue/api';
+import { defaultWorkTypes } from '@weco/common/services/catalogue/api';
 import SearchFiltersDesktop from '@weco/common/views/components/SearchFilters/SearchFiltersDesktop';
 import SearchFiltersMobile from '@weco/common/views/components/SearchFilters/SearchFiltersMobile';
 // $FlowFixMe (tsx)
-import SearchFiltersArchivesPrototype from '@weco/common/views/components/SearchFiltersArchivesPrototype/SearchFiltersArchivesPrototype';
+import ModalFilters from '@weco/common/views/components/ModalFilters/ModalFilters';
 import theme from '@weco/common/views/themes/default';
 import TogglesContext from '../TogglesContext/TogglesContext';
 
@@ -34,6 +31,7 @@ export type SearchFiltersSharedProps = {|
   productionDatesFrom: ?string,
   productionDatesTo: ?string,
   workTypeInUrlArray: string[],
+  locationsTypeInUrlArray: string[],
   imagesColor: ?string,
   aggregations: ?CatalogueAggregations,
 |};
@@ -46,6 +44,7 @@ const SearchFilters = ({
   aggregations,
 }: Props) => {
   const workTypeInUrlArray = worksRouteProps.workType || [];
+  const locationsTypeInUrlArray = worksRouteProps.itemsLocationsType || [];
   const {
     productionDatesFrom,
     productionDatesTo,
@@ -55,16 +54,14 @@ const SearchFilters = ({
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
-  const { unfilteredSearchResults, archivesPrototype } = useContext(
+  const { unfilteredSearchResults, modalFiltersPrototype } = useContext(
     TogglesContext
   );
 
   const workTypeFilters = unfilteredSearchResults
     ? workTypeAggregations
     : workTypeAggregations.filter(agg =>
-        archivesPrototype
-          ? testDefaultWorkTypes.includes(agg.data.id)
-          : defaultWorkTypes.includes(agg.data.id)
+        defaultWorkTypes.includes(agg.data.id)
       );
 
   useEffect(() => {
@@ -120,14 +117,15 @@ const SearchFilters = ({
     productionDatesFrom,
     productionDatesTo,
     workTypeInUrlArray,
+    locationsTypeInUrlArray,
     imagesColor,
     aggregations,
   };
 
   return (
     <>
-      {archivesPrototype ? (
-        <SearchFiltersArchivesPrototype {...sharedProps} />
+      {modalFiltersPrototype ? (
+        <ModalFilters {...sharedProps} />
       ) : (
         <>
           {isMobile ? (

@@ -10,6 +10,6 @@ ADD . /usr/src/app/webapp
 
 RUN yarn
 
-RUN zip -r edge_lambda_origin.zip toggler.js origin.js redirector.js redirects.js wiRedirector.js
+RUN zip -r edge_lambda_origin.zip toggler.js origin.js redirector.js redirects.js
 
-CMD ["cp", "/usr/src/app/webapp/edge_lambda_origin.zip", "/dist/.dist/edge_lambda_origin.zip"]
+CMD ["true"]

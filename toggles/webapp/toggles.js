@@ -1,6 +1,25 @@
 module.exports = {
   toggles: [
     {
+      id: 'archivesPrototype',
+      title: 'Show additions to the work page relating to archives',
+      defaultValue: true,
+      description:
+        'Shows archive specific header, breadcrumbs and archive tree on the work page.',
+    },
+    {
+      id: 'unfilteredSearchResults',
+      title: 'Entire catalogue search',
+      defaultValue: true,
+      description: 'Search the entire catalogue, including all work types',
+    },
+    {
+      id: 'locationsFilter',
+      title: 'Online/In the library filter',
+      defaultValue: true,
+      description: 'Show the filter for "Online" and "In the library"',
+    },
+    {
       id: 'buildingReopening',
       title: 'Wellcome Collection reopening UI changes',
       description:
@@ -8,24 +27,16 @@ module.exports = {
       defaultValue: true,
     },
     {
-      id: 'archivesPrototype',
-      title:
-        'Include archives in search results and view additions to the work page relating to archives',
+      id: 'modalFiltersPrototype',
+      title: 'Use the modal filter prototype',
       defaultValue: false,
-      description:
-        'Include archives in search results and view prototypes of breadcrumbs and archive tree on work page.',
+      description: 'Search filters will appear in a modal',
     },
     {
       id: 'enableColorFiltering',
       title: 'Enable filtering images by color',
       defaultValue: false,
       description: 'Enable filtering images by color',
-    },
-    {
-      id: 'unfilteredSearchResults',
-      title: 'Entire catalogue search',
-      defaultValue: false,
-      description: 'Search the entire catalogue, including all work types',
     },
     {
       id: 'searchToolbar',
@@ -65,12 +76,6 @@ module.exports = {
       title: 'Hotjar',
       defaultValue: false,
       description: 'Embeds the Hotjar script for user research',
-    },
-    {
-      id: 'locationsFilter',
-      title: 'Online/In the library filter',
-      defaultValue: false,
-      description: 'Show the filter for "Online" and "In the library"',
     },
   ],
 };

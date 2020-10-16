@@ -64,9 +64,24 @@ const VenueHoursExample = () => {
     },
   };
 
+  const venueWithImages = {
+    ...venue,
+    image: {
+      url:
+        'https://images.prismic.io/wellcomecollection%2Fafc7db83-af2e-4108-a050-27f391b8c7f2_c0108492.jpg?auto=compress,format',
+      alt: 'Photograph of the Reading Room at Wellcome Collection.',
+    },
+    linkText: `See what's on`,
+    url: 'https://wellcomecollection.org/whats-on',
+  };
+
   return (
     <OpeningTimesContext.Provider value={dummyOpeningTimes}>
-      <VenueHours venue={venue} isInList={boolean('Is in list?', false)} />
+      <VenueHours
+        venue={venueWithImages}
+        weight="featured"
+        isInList={boolean('Is in list?', false)}
+      />
     </OpeningTimesContext.Provider>
   );
 };

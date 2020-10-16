@@ -11,6 +11,7 @@ import type {
 } from '../../model/opening-hours';
 import { type PrismicFragment } from '../../services/prismic/types';
 import type Moment from 'moment';
+import { asText } from '../../services/prismic/parsers';
 
 // TODO add comprehensive comments and probably rename some functions
 
@@ -44,7 +45,8 @@ export function exceptionalOpeningDates(collectionOpeningTimes: {
       } else if (
         firstDate &&
         firstDate.toDate() instanceof Date &&
-        (prevDate && prevDate.toDate() instanceof Date)
+        prevDate &&
+        prevDate.toDate() instanceof Date
       ) {
         return (
           london(firstDate.toDate()).format('YYYY-MM-DD') !==
@@ -332,8 +334,8 @@ export function parseCollectionVenue(venue: PrismicFragment): Venue {
 
   return {
     id: venue.id,
-    order: data && data.order,
-    name: data && data.title,
+    order: data?.order,
+    name: data?.title,
     openingHours: {
       regular: [
         createRegularDay('Monday', venue),
@@ -346,7 +348,24 @@ export function parseCollectionVenue(venue: PrismicFragment): Venue {
       ],
       exceptional: exceptionalOpeningHours,
     },
+    image: data?.image,
+    url: data?.link?.url,
+    linkText: asText(data.linkText),
   };
+}
+
+export function getParseCollectionVenueById(
+  collectionVenues: {
+    collectionOpeningTimes: {
+      placesOpeningHours: Venue[],
+    },
+  },
+  id: string
+): any {
+  const venue = collectionVenues.collectionOpeningTimes.placesOpeningHours.find(
+    venue => venue.id === id
+  );
+  return venue;
 }
 
 export function parseCollectionVenues(doc: PrismicFragment) {

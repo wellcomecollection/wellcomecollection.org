@@ -53,7 +53,7 @@ const ImagePage = ({ image, sourceWork, langCode }: Props) => {
       }}
       openGraphType={'website'}
       jsonLd={{ '@type': 'WebPage' }}
-      siteSection={'works'}
+      siteSection={'collections'}
       imageUrl={'imageContentUrl'}
       imageAltText={''}
       hideNewsletterPromo={true}

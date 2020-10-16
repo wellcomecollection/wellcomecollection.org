@@ -71,6 +71,7 @@ const SearchForm = ({
   // This is the query used by the input, that is then eventually passed to the
   // Router
   const [inputQuery, setInputQuery] = useState(query);
+  const [isImageSearch, setIsImageSearch] = useState(false);
   const [enhanced, setEnhanced] = useState(false);
   const searchInput = useRef();
   const submit = () => {
@@ -92,6 +93,10 @@ const SearchForm = ({
 
   useEffect(() => {
     setEnhanced(true);
+  }, []);
+
+  useEffect(() => {
+    setIsImageSearch(worksRouteProps.search);
   }, []);
 
   function updateUrl(form: HTMLFormElement) {
@@ -201,34 +206,39 @@ const SearchForm = ({
         )}
       </SearchInputWrapper>
 
+      <Space
+        v={{ size: 'm', properties: ['margin-top'] }}
+        className={classNames({
+          [font('hnl', 5)]: true,
+        })}
+      >
+        <RadioGroup
+          name="search"
+          selected={isImageSearch ? 'images' : ''}
+          onChange={value => {
+            setIsImageSearch(value);
+            inputQuery &&
+              searchForm &&
+              searchForm.current &&
+              updateUrl(searchForm.current);
+          }}
+          options={[
+            {
+              id: 'all-collection',
+              value: '',
+              label: 'Library catalogue',
+            },
+            {
+              id: 'images',
+              value: 'images',
+              label: 'Images',
+            },
+          ]}
+        />
+      </Space>
+
       {shouldShowFilters && (
         <>
-          <Space
-            v={{ size: 'm', properties: ['margin-top'] }}
-            className={classNames({
-              [font('hnl', 5)]: true,
-            })}
-          >
-            <RadioGroup
-              name="search"
-              selected={worksRouteProps.search ? 'images' : ''}
-              onChange={() => {
-                searchForm.current && updateUrl(searchForm.current);
-              }}
-              options={[
-                {
-                  id: 'all-collection',
-                  value: '',
-                  label: 'All collection',
-                },
-                {
-                  id: 'images',
-                  value: 'images',
-                  label: 'Images only',
-                },
-              ]}
-            />
-          </Space>
           <SearchFilters
             searchForm={searchForm}
             worksRouteProps={worksRouteProps}

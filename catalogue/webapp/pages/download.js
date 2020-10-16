@@ -84,7 +84,7 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
       url={{ pathname: `/works/${workId}/download`, query: { sierraId } }}
       openGraphType={'website'}
       jsonLd={{ '@type': 'WebPage' }}
-      siteSection={'works'}
+      siteSection={'collections'}
       imageUrl={null}
       imageAltText={''}
       hideNewsletterPromo={true}

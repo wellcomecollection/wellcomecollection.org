@@ -16,16 +16,16 @@ type DownloadImage = {|
   height: ?number,
 |};
 
-export type ArchiveNode = {|
+export type NodeWork = {|
   id: string,
   title: string,
   alternativeTitles: string[],
   referenceNumber?: string,
-  partOf?: [],
+  // partOf?: [],
   parts?: [],
-  precededBy?: [],
-  succeededBy?: [],
-  type: 'Work',
+  // precededBy?: [],
+  // succeededBy?: [],
+  type: string,
 |};
 
 export function getDownloadOptionsFromImageUrl(
@@ -114,6 +114,7 @@ export type DigitalLocation = {|
   locationType: LocationType,
   type: 'DigitalLocation',
   url: string,
+  accessConditions: [],
 |};
 export type PhysicalLocation = {|
   locationType: LocationType,
@@ -175,6 +176,19 @@ export function getDigitalLocationOfType(
       )
       .filter(Boolean);
   return item;
+}
+
+export function getAccessConditionForDigitalLocation(
+  digitalLocation: ?DigitalLocation
+): ?string {
+  if (digitalLocation) {
+    const accessConditions = digitalLocation?.accessConditions || [];
+    const accessCondition = accessConditions.find(
+      condition => condition.status
+    );
+    return accessCondition?.status?.id || null;
+  }
+  return null;
 }
 
 type Item = Object;
@@ -246,28 +260,27 @@ export function getItemIdentifiersWith(
   }, []);
 }
 
-export function getAncestorArray(work: Work): ArchiveNode[] {
-  // We're only interested in the item with a partOf property (which is the last item in the array), this can be removed once the API is updated to remove all ancestors from the top level array
-  const desiredItem = work.partOf && work.partOf[work.partOf.length - 1];
-  const ancestorArray = [];
-  function addToAncestorArray(work) {
-    ancestorArray.push({
-      id: work.id,
-      title: work.title,
-      alternativeTitles: work.alternativeTitles,
-      referenceNumber: work.referenceNumber,
-      type: 'Work',
-    });
-    if (work.partOf) {
-      // It's possible in the future that items will have multiple parents and we'll need a way to distinguish which one we're interested in, for now they only have one.
-      const [ancestorWork] = work.partOf;
-      if (ancestorWork) {
-        addToAncestorArray(ancestorWork);
-      }
-    }
-  }
-  if (desiredItem) {
-    addToAncestorArray(desiredItem);
-  }
-  return ancestorArray.reverse();
+export function parsePart(part: Work): NodeWork {
+  return {
+    id: part.id,
+    title: part.title,
+    alternativeTitles: part.alternativeTitles,
+    referenceNumber: part.referenceNumber,
+    type: part.type,
+  };
+}
+
+function makeArchiveAncestorArray(partOfArray, nextPart) {
+  if (!nextPart) return partOfArray;
+  return makeArchiveAncestorArray(
+    [...partOfArray, parsePart(nextPart)],
+    nextPart.partOf &&
+      nextPart.partOf.find(part => {
+        return nextPart.referenceNumber.includes(part.referenceNumber);
+      })
+  );
+}
+
+export function getArchiveAncestorArray(work: Work): NodeWork[] {
+  return makeArchiveAncestorArray([], work.partOf && work.partOf[0]).reverse();
 }

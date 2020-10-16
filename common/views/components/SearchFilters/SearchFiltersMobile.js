@@ -163,7 +163,9 @@ const SearchFiltersMobile = ({
   productionDatesFrom,
   productionDatesTo,
   workTypeInUrlArray,
+  locationsTypeInUrlArray,
   imagesColor,
+  aggregations,
 }: SearchFiltersSharedProps) => {
   const openFiltersButtonRef = useRef(null);
   const closeFiltersButtonRef = useRef(null);
@@ -223,13 +225,13 @@ const SearchFiltersMobile = ({
       closeFiltersButtonRef.current.focus();
   }
 
-  const { enableColorFiltering } = useContext(TogglesContext);
+  const { enableColorFiltering, locationsFilter } = useContext(TogglesContext);
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
   const showColorFilter =
     enableColorFiltering && worksRouteProps.search === 'images';
-
   const activeFiltersCount =
+    locationsTypeInUrlArray.length +
     workTypeInUrlArray.length +
     (productionDatesFrom ? 1 : 0) +
     (productionDatesTo ? 1 : 0) +
@@ -324,6 +326,42 @@ const SearchFiltersMobile = ({
                               text={`${workType.data.label} (${workType.count})`}
                               value={workType.data.id}
                               name={`workType`}
+                              checked={isChecked}
+                              onChange={changeHandler}
+                            />
+                          </Space>
+                        )
+                      );
+                    })}
+                  </ul>
+                </FilterSection>
+              )}
+              {locationsFilter && aggregations && aggregations.locationType && (
+                <FilterSection>
+                  <h3 className="h3">Locations</h3>
+                  <ul
+                    className={classNames({
+                      'no-margin no-padding plain-list': true,
+                    })}
+                  >
+                    {aggregations.locationType.buckets.map(locationType => {
+                      const isChecked = worksRouteProps.itemsLocationsType.includes(
+                        locationType.data.type
+                      );
+
+                      return (
+                        (locationType.count > 0 || isChecked) && (
+                          <Space
+                            as="li"
+                            v={{ size: 'l', properties: ['margin-bottom'] }}
+                            key={`mobile-${locationType.data.type}`}
+                          >
+                            <CheckboxRadio
+                              id={locationType.data.type}
+                              type={`checkbox`}
+                              text={`${locationType.data.label} (${locationType.count})`}
+                              value={locationType.data.type}
+                              name={`items.locations.type`}
                               checked={isChecked}
                               onChange={changeHandler}
                             />

@@ -30,9 +30,7 @@ const PageHeading = styled(Space).attrs({
     'no-margin': true,
     [font('wb', 1)]: true,
   }),
-})`
-  max-width: 780px;
-`;
+})``;
 
 const CreamBox = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
@@ -92,7 +90,7 @@ export class HomePage extends Component<Props> {
         <Layout10>
           <SpacingSection>
             <PageHeading>
-              The free museum and library for the incurably curious
+              A free museum and library exploring health and human experience
             </PageHeading>
             <TogglesContext.Consumer>
               {({ buildingReopening }) =>

@@ -14,7 +14,7 @@ export const readingRoomPromo: Promo = {
   image: {
     type: 'picture',
     contentUrl:
-      'https://s3-eu-west-1.amazonaws.com/static.wellcomecollection.org/daily-promo-images/reading-room.png',
+      'https://images.prismic.io/wellcomecollection/1f71dfb0-c65e-4e35-affd-19a78545f0f1_SDP_20201005_0649-41-Edit.jpg?auto=compress,format',
     width: 408,
     height: 229,
     alt: '',
@@ -32,7 +32,7 @@ export const cafePromo: Promo = {
   image: {
     type: 'picture',
     contentUrl:
-      'https://images.prismic.io/wellcomecollection%2F767a5fc5-7095-4772-a22b-275b38e4bd4d_cafe.png?auto=compress,format',
+      'https://images.prismic.io/wellcomecollection/3062e92b-693f-4dd0-9435-f63d6bc370e7_SDP_20201005_0365-176-Edit.jpg?auto=compress,format',
     width: 408,
     height: 229,
     alt: '',

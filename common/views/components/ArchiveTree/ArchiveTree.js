@@ -1,17 +1,27 @@
 // @flow
-
 import { useState, useEffect, useContext, useRef } from 'react';
+import flattenDeep from 'lodash.flattendeep';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getWork } from '@weco/catalogue/services/catalogue/works';
 import { workLink } from '@weco/common/services/catalogue/routes';
 import NextLink from 'next/link';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import type Toggles from '@weco/catalogue/services/catalogue/common';
 import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { getAncestorArray } from '@weco/common/utils/works';
+import {
+  getArchiveAncestorArray,
+  parsePart,
+  type NodeWork,
+} from '@weco/common/utils/works';
+import { type Work } from '@weco/common/model/catalogue';
+
+const instructions =
+  'Archive Tree: Tab into the tree, then use up and down arrows to move through tree items. Use right and left arrows to toggle sub menus open and closed. When focused on an item you can tab to the link it contains.';
 
 const StickyContainer = styled.div`
   border: 1px solid ${props => props.theme.color('pumice')};
@@ -32,8 +42,6 @@ const StickyContainerInner = styled.div`
 
 const StyledLink = styled.a`
   display: inline-block;
-  white-space: nowrap;
-  display: inline-block;
   color: ${props => props.theme.color('black')};
   background: ${props =>
     props.theme.color(props.isCurrent ? 'yellow' : 'transparent')};
@@ -45,8 +53,34 @@ const StyledLink = styled.a`
   cursor: pointer;
 `;
 
+const TreeInstructions = styled.p.attrs(props => ({
+  'aria-hidden': 'true',
+  id: 'tree-instructions',
+}))`
+  display: none;
+`;
+
 const Tree = styled.div`
   ul {
+    position: relative;
+    &::before {
+      display: none;
+      position: absolute;
+      content: '${instructions}';
+      z-index: 2;
+      top: 0;
+      background: ${props => props.theme.color('yellow')};
+      padding: ${props => `${props.theme.spacingUnit * 2}px`};
+      margin: ${props => `${props.theme.spacingUnit}px`};
+      border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
+      max-width: 600px;
+    }
+    &:focus::before {
+      display: block;
+    }
+    ul {
+      content: '';
+    }
     list-style: none;
     padding-left: 0;
     margin-left: 0;
@@ -106,58 +140,54 @@ const Tree = styled.div`
   }
 `;
 
-type Work = {|
-  // TODO import this and make it work everywhere
-  referenceNumber?: string,
-  id: string,
-  title: string,
-  alternativeTitles: string[],
-  type: 'Work',
-  partOf?: [],
-  parts?: [],
-  precededBy?: [],
-  succeededBy?: [],
-|};
+const TreeItem = styled.li`
+  padding: 10px 10px 10px 0;
+  &:focus {
+    outline: ${props =>
+      !props.hideFocus ? `2px solid ${props.theme.color('black')}` : 'none'};
+  }
+`;
 
-type UiTree = {|
+/* eslint-disable no-use-before-define */
+type UiTreeNode = {|
   openStatus: boolean,
-  work: Work,
-  children?: UiTree[],
+  work: NodeWork,
+  parentId: string,
+  children: ?UiTree,
 |};
 
-type NestedListProps = {|
-  currentWorkId: string,
-  collectionTree: UiTree[],
-  selected: { current: HTMLElement | null },
-  fullTree: UiTree[],
-  setCollectionTree: (UiTree[]) => void,
-  isTopLevel: boolean,
-|};
+type UiTree = UiTreeNode[];
 
-type ListItemType = {|
-  item: UiTree,
-  currentWorkId: string,
-  selected: { current: HTMLElement | null },
-  setCollectionTree: (UiTree[]) => void,
-  fullTree: UiTree[],
-  isRootItem: boolean,
-|};
+export function getTabbableIds(tree: UiTree): string[] {
+  const tabbableIds = tree.reduce((acc, curr, i) => {
+    acc.push(curr.work.id);
+    if (curr.openStatus && curr.children) {
+      acc.push(getTabbableIds(curr.children));
+    }
+    return acc;
+  }, []);
+  return flattenDeep(tabbableIds);
+}
 
-function updateDefaultOpenStatus(
+function updateOpenStatus({
+  id,
+  tree,
+  value,
+}: {|
   id: string,
-  fullTree: UiTree[],
-  defaultValue: boolean
-): UiTree[] {
-  const newTree = fullTree.map(node => {
+  tree: UiTree,
+  value: boolean,
+|}): UiTree {
+  const newTree = tree.map(node => {
     if (node.work.id === id) {
       return {
         ...node,
-        openStatus: defaultValue,
+        openStatus: value,
       };
     } else if (node.work.id !== id && node.children) {
       return {
         ...node,
-        children: updateDefaultOpenStatus(id, node.children, defaultValue),
+        children: updateOpenStatus({ id, tree: node.children, value }),
       };
     } else {
       return node;
@@ -166,292 +196,493 @@ function updateDefaultOpenStatus(
   return newTree;
 }
 
-function createWorkPropertyFromWork(work: Work) {
-  return {
-    id: work.id,
-    title: work.title,
-    alternativeTitles: work.alternativeTitles,
-    referenceNumber: work.referenceNumber,
-    parts: [],
-    type: 'Work',
-  };
-}
-
-function createNodeFromWork(work: Work, openStatus: boolean): UiTree {
+function createNodeFromWork({
+  work,
+  openStatus,
+}: {|
+  work: Work,
+  openStatus: boolean,
+|}): UiTreeNode {
   return {
     openStatus,
-    work: createWorkPropertyFromWork(work),
+    work: parsePart(work),
+    parentId: work.partOf && work.partOf[0] && work.partOf[0].id,
     children:
       work.parts &&
       work.parts.map(part => ({
         openStatus: false,
-        work: part,
+        work: parsePart(part),
+        parentId: work.id,
         children: part.children,
       })),
   };
 }
 
-function createSiblingsArray(work: Work): UiTree[] {
-  return [
+async function getChildren({
+  item,
+  toggles,
+}: {|
+  item: UiTreeNode,
+  toggles: Toggles,
+|}): Promise<UiTree> {
+  const work = await getWork({ id: item.work.id, toggles });
+  return work.parts
+    ? work.parts.map(part => ({
+        work: parsePart(part),
+        openStatus: false,
+        parentId: item.work.id,
+      }))
+    : [];
+}
+
+function createSiblingsArray({
+  work,
+  workId, // id of current work being viewed
+  openStatusOverride = false,
+}: {
+  work: Work,
+  workId: string,
+  openStatusOverride?: boolean,
+}): UiTree {
+  // An array of the current work and all its siblings
+  const siblingsArray = [
     ...(work.precededBy || []).map(item => ({
       openStatus: false,
-      work: item,
+      work: parsePart(item),
+      parentId: work.partOf[0] && work.partOf[0].id,
+      children: undefined,
     })),
-    {
-      ...createNodeFromWork(work, false),
-    },
+    createNodeFromWork({
+      work,
+      openStatus: !openStatusOverride,
+    }),
     ...(work.succeededBy || []).map(item => ({
       openStatus: false,
-      work: item,
+      work: parsePart(item),
+      parentId: work.partOf[0] && work.partOf[0].id,
+      children: undefined,
     })),
   ];
+  return siblingsArray;
 }
 
-function createCollectionTree(work: Work): UiTree[] {
-  const ancestorArray = getAncestorArray(work);
-  const partOfReversed = [...(ancestorArray || [])].reverse();
-  return [
-    partOfReversed.reduce(
-      (acc, curr, i) => {
+function updateChildren({
+  tree,
+  id,
+  value,
+  manualUpdate = false,
+}: {|
+  tree: UiTree,
+  id: string,
+  value: UiTreeNode[],
+  manualUpdate?: boolean,
+|}): UiTree {
+  return (
+    tree &&
+    tree.map(item => {
+      if (item.work.id === id) {
         return {
-          openStatus: true,
-          work: curr,
-          children: i === 0 ? createSiblingsArray(work) : [acc],
-        };
-      },
-      // Need this for a top level work that has an empty partOf array
-      // Otherwise it gets replace by createSiblingsArray above, which also includes the siblings of the current work
-      {
-        ...createNodeFromWork(work, true),
-      }
-    ),
-  ];
-}
-
-function addWorkPartsToCollectionTree(
-  work: any, // FIXME: don't know how to have Work here and not have Flow complain about a Promise
-  collectionTree: UiTree[],
-  openStatus: boolean,
-  manualTreeExpansion: boolean
-): any[] {
-  // FIXME: I want this to be UiTree[] but Flow's telling me collectionTree is an inexact array type
-  return collectionTree.map(node => {
-    if (node.work.id !== work.id && !node.children) {
-      return {
-        openStatus,
-        ...node,
-      };
-    }
-    if (node.work.id !== work.id && node.children) {
-      return {
-        openStatus,
-        ...node,
-        children: addWorkPartsToCollectionTree(
-          work,
-          node.children,
-          false,
-          manualTreeExpansion
-        ),
-      };
-    }
-    if (node.work.id === work.id && !node.children) {
-      if (work.parts && work.parts.length > 0) {
-        return {
-          ...node,
-          openStatus: manualTreeExpansion || openStatus,
-          children: work.parts.map(part => ({
-            work: part,
-            openStatus: false,
-          })),
+          ...item,
+          openStatus: manualUpdate || item.openStatus,
+          children: value,
         };
       } else {
         return {
-          ...node,
+          ...item,
+          children: item.children
+            ? updateChildren({
+                tree: item.children,
+                id,
+                value,
+                manualUpdate,
+              })
+            : undefined,
         };
       }
-    }
-    if (node.work.id === work.id && node.children) {
-      // don't want to overwrite anything that is already there
-      const mergedChildren =
-        work.parts &&
-        work.parts.map(part => {
-          const matchingItem =
-            node.children &&
-            node.children.find(
-              currentChild => part.id === currentChild.work.id
-            );
-          if (
-            matchingItem &&
-            matchingItem.children &&
-            matchingItem.children.length > 0
-          ) {
-            return matchingItem;
-          } else {
-            return {
-              work: part,
-              openStatus: false,
-            };
-          }
-        });
-      return {
-        ...node,
-        children: mergedChildren,
-      };
-    }
-
-    return collectionTree;
-  });
-}
-
-async function expandTree(workId, toggles, setCollectionTree, collectionTree) {
-  const selectedWork = await getWork({ id: workId, toggles });
-  const newTree = addWorkPartsToCollectionTree(
-    selectedWork,
-    collectionTree,
-    true,
-    true
+    })
   );
-  setCollectionTree(newTree);
 }
+
+async function createArchiveTree({
+  work,
+  archiveAncestorArray,
+  toggles,
+}: {|
+  work: Work,
+  archiveAncestorArray: NodeWork[],
+  toggles: Toggles,
+|}): Promise<UiTree> {
+  const allTreeNodes = [...archiveAncestorArray, parsePart(work)]; // An array of a work and all its ancestors (ancestors first)
+  const treeStructure = await allTreeNodes.reduce(
+    async (acc, curr, i, ancestorArray) => {
+      const parentId = ancestorArray[i - 1] && ancestorArray[i - 1].id;
+      // We add each ancestor and its siblings to the tree
+      if (!parentId) {
+        const siblings = await getSiblings({
+          id: curr.id,
+          toggles,
+          workId: work.id,
+        });
+        return siblings;
+      }
+      if (work.id === curr.id) {
+        // If it's the curr work we have all the information we need to create an array of it and its siblings
+        // This becomes the value of its parent node's children property
+        const siblings = createSiblingsArray({
+          work: work,
+          workId: work.id,
+        });
+        return updateChildren({
+          tree: await acc,
+          id: parentId,
+          value: siblings || [],
+        });
+      } else {
+        const siblings = await getSiblings({
+          // For everything else we need more data before creating an array of curr and its siblings
+          // This becomes the value of the previous node's children property
+          id: curr.id,
+          toggles,
+          workId: work.id,
+        });
+        return updateChildren({
+          tree: await acc,
+          id: parentId,
+          value: siblings || [],
+        });
+      }
+    },
+    Promise.resolve([])
+  );
+  return treeStructure;
+}
+
+async function getSiblings({
+  id, // id of work to get
+  toggles,
+  workId, // id of current Work being viewed
+  openStatusOverride = false,
+}: {|
+  id: string,
+  toggles: Toggles,
+  workId: string,
+  openStatusOverride?: boolean,
+|}): Promise<UiTreeNode[]> {
+  const currWork = await getWork({ id, toggles });
+  const siblings = createSiblingsArray({
+    work: currWork,
+    workId,
+    openStatusOverride,
+  });
+
+  return siblings;
+}
+
+function getNextTabbableId({
+  currentId,
+  tree,
+}: {|
+  currentId: string,
+  tree: UiTree,
+|}): ?string {
+  const tabbableIds = getTabbableIds(tree);
+  const currIndex = tabbableIds.indexOf(currentId);
+  return tabbableIds[currIndex + 1];
+}
+
+function getPreviousTabbableId({
+  currentId,
+  tree,
+}: {|
+  currentId: string,
+  tree: UiTree,
+|}): ?string {
+  const tabbableIds = getTabbableIds(tree);
+  const currIndex = tabbableIds.indexOf(currentId);
+  return tabbableIds[currIndex - 1];
+}
+
+async function expandTree({
+  item,
+  toggles,
+  setArchiveTree,
+  archiveTree,
+}: {|
+  item: UiTreeNode,
+  toggles: Toggles,
+  setArchiveTree: (tree: UiTree) => void,
+  archiveTree: UiTree,
+|}) {
+  const children = await getChildren({
+    item: item,
+    toggles,
+  });
+  setArchiveTree(
+    updateChildren({
+      tree: archiveTree,
+      id: item.work.id,
+      value: children,
+      manualUpdate: true,
+    })
+  );
+}
+
+const LEFT = [37, 'ArrowLeft'];
+const RIGHT = [39, 'ArrowRight'];
+const DOWN = [40, 'ArrowDown'];
+const UP = [38, 'ArrowUp'];
 
 const ListItem = ({
   item,
   currentWorkId,
   selected,
-  setCollectionTree,
+  setArchiveTree,
   fullTree,
-  isRootItem,
-}: ListItemType) => {
-  const [showButton, setShowButton] = useState(item.children);
+  level,
+  setSize,
+  posInSet,
+  tabbableId,
+  setTabbableId,
+}: {|
+  item: UiTreeNode,
+  currentWorkId: string,
+  selected: { current: HTMLElement | null },
+  setArchiveTree: UiTree => void,
+  fullTree: UiTree,
+  level: number,
+  setSize: number,
+  posInSet: number,
+  tabbableId: ?string,
+  setTabbableId: string => void,
+|}) => {
+  const { isKeyboard } = useContext(AppContext);
+  const isEndNode = item.children && item.children.length === 0;
+  const isSelected =
+    (tabbableId && tabbableId === item.work.id) ||
+    (!tabbableId && currentWorkId === item.work.id);
   const toggles = useContext(TogglesContext);
-  useEffect(() => {
-    let isMounted = true;
-    const checkForChildren = async () => {
-      const selectedWork = await getWork({ id: item.work.id, toggles });
-      if (isMounted) {
-        setShowButton(selectedWork.parts && selectedWork.parts.length > 0);
-      }
-    };
-    checkForChildren();
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  function toggleBranch() {
+    // TODO use new API totalParts data when available
+    if (item.children === undefined) {
+      expandTree({
+        item,
+        toggles,
+        setArchiveTree,
+        archiveTree: fullTree,
+      });
+    } else {
+      setArchiveTree(
+        updateOpenStatus({
+          id: item.work.id,
+          tree: fullTree,
+          value: !item.openStatus,
+        })
+      );
+    }
+  }
   return (
-    <li>
-      <div style={{ padding: '10px 10px 10px 0' }}>
-        <TogglesContext.Consumer>
-          {toggles => (
-            <div style={{ whiteSpace: 'nowrap' }}>
-              {!isRootItem && (
-                <Space
-                  className="inline-block"
-                  h={{ size: 's', properties: ['margin-right'] }}
-                  style={{
-                    verticalAlign: 'top',
-                    display: showButton ? 'inline-block' : 'none',
-                  }}
-                >
-                  <button
-                    className={classNames({
-                      'plain-button': true,
-                    })}
-                    style={{
-                      fontSize: '10px',
-                      height: '18px',
-                      width: '18px',
-                      padding: '0',
-                      background: '#ccc',
-                      position: 'relative',
-                      top: '-2px',
-                      textAlign: 'center',
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => {
-                      if (!item.children) {
-                        expandTree(
-                          item.work.id,
-                          toggles,
-                          setCollectionTree,
-                          fullTree
-                        );
-                      } else {
-                        setCollectionTree(
-                          updateDefaultOpenStatus(
-                            item.work.id,
-                            fullTree,
-                            !item.openStatus
-                          )
-                        );
-                      }
-                    }}
-                  >
-                    <Icon
-                      extraClasses="icon--match-text"
-                      name={item.openStatus ? 'minus' : 'plus'}
-                    />
-                  </button>
-                </Space>
-              )}
-              <NextLink
-                {...workLink({ id: item.work.id })}
-                scroll={false}
-                passHref
-              >
-                <StyledLink
-                  className={classNames({
-                    [font('hnl', 6)]: true,
-                  })}
-                  isCurrent={currentWorkId === item.work.id}
-                  ref={currentWorkId === item.work.id ? selected : null}
-                >
-                  <WorkTitle title={item.work.title} />
-                  <div
-                    style={{
-                      fontSize: '13px',
-                      color: '#707070',
-                      textDecoration: 'none',
-                      padding: '0',
-                    }}
-                  >
-                    {item.work.referenceNumber}
-                  </div>
-                </StyledLink>
-              </NextLink>
-            </div>
+    <TreeItem
+      hideFocus={!isKeyboard}
+      id={item.work.id}
+      role="treeitem"
+      aria-level={level}
+      aria-setsize={setSize}
+      aria-posinset={posInSet}
+      aria-expanded={
+        item.children && item.children.length > 0 ? item.openStatus : null
+      }
+      aria-label={`${item.work.title}${
+        item.work.referenceNumber
+          ? `, reference number ${item.work.referenceNumber}`
+          : ''
+      }`}
+      aria-selected={isSelected}
+      tabIndex={isSelected ? 0 : -1}
+      onKeyDown={event => {
+        event.stopPropagation();
+        const key = event.key || event.keyCode;
+        const isKeyOfInterest = [...LEFT, ...RIGHT, ...DOWN, ...UP].includes(
+          key
+        );
+
+        if (!isKeyOfInterest) return;
+
+        const nextId = getNextTabbableId({
+          currentId: item.work.id,
+          tree: fullTree,
+        });
+        const previousId = getPreviousTabbableId({
+          currentId: item.work.id,
+          tree: fullTree,
+        });
+
+        switch (true) {
+          case RIGHT.includes(key): {
+            // When focus is on an open node, moves focus to the first child node.
+            if (item.openStatus) {
+              if (nextId) {
+                setTabbableId(nextId);
+              }
+            }
+
+            // When focus is on an end node, does nothing.
+            if (item.children && item.children.length === 0) {
+              return;
+            }
+
+            // When focus is on a closed node, opens the node; focus does not move.
+            if (!item.openStatus) {
+              toggleBranch();
+              setTabbableId(item.work.id);
+            }
+            break;
+          }
+          case LEFT.includes(key): {
+            // When focus is on an open node, closes the node.
+            if (item.openStatus && item.children && item.children.length > 0) {
+              // TODO remove when API updated with totalDescendentParts
+              setArchiveTree(
+                updateOpenStatus({
+                  id: item.work.id,
+                  tree: fullTree,
+                  value: !item.openStatus,
+                })
+              );
+              setTabbableId(item.work.id);
+            }
+            // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
+            // When focus is on a root node that is also either an end node or a closed node, does nothing.
+            if (
+              isEndNode ||
+              !item.openStatus ||
+              (item.children && item.children.length === 0) // TODO remove when API updated
+            ) {
+              if (item.parentId) {
+                setTabbableId(item.parentId);
+              }
+            }
+            break;
+          }
+          case DOWN.includes(key): {
+            // Moves focus to the next node that is focusable without opening or closing a node.
+            if (nextId) {
+              setTabbableId(nextId);
+            }
+            break;
+          }
+          case UP.includes(key): {
+            // Moves focus to the previous node that is focusable without opening or closing a node.
+            if (previousId) {
+              setTabbableId(previousId);
+            }
+            break;
+          }
+        }
+      }}
+      onClick={event => {
+        event.stopPropagation();
+        if (level > 0) {
+          toggleBranch();
+          setTabbableId(item.work.id);
+        }
+      }}
+    >
+      <div className="flex-inline">
+        {level > 1 &&
+        ((item.children && item.children.length > 0) || !item.children) && ( // TODO use new API totalParts data when available
+            <span
+              style={{
+                display: 'inline-block',
+                cursor: 'pointer',
+                lineHeight: '18px',
+                height: '18px',
+                width: '18px',
+                padding: '0px',
+                marginTop: '2px',
+                marginRight: '8px',
+                fontSize: '10px',
+                background: 'rgb(204, 204, 204)',
+                textAlign: 'center',
+              }}
+            >
+              <Icon
+                extraClasses="icon--match-text"
+                name={item.openStatus ? 'minus' : 'plus'}
+              />
+            </span>
           )}
-        </TogglesContext.Consumer>
-        {item.children && item.openStatus && (
-          <NestedList
-            selected={selected}
-            currentWorkId={currentWorkId}
-            collectionTree={item.children}
-            fullTree={fullTree}
-            setCollectionTree={setCollectionTree}
-            isTopLevel={false}
-          />
-        )}
+        <NextLink {...workLink({ id: item.work.id })} scroll={false} passHref>
+          <StyledLink
+            tabIndex={isSelected ? 0 : -1}
+            className={classNames({
+              [font('hnl', 6)]: true,
+            })}
+            isCurrent={currentWorkId === item.work.id}
+            ref={currentWorkId === item.work.id ? selected : null}
+            onClick={event => {
+              event.stopPropagation();
+            }}
+          >
+            <WorkTitle title={item.work.title} />
+            <div
+              style={{
+                fontSize: '13px',
+                color: '#707070',
+                textDecoration: 'none',
+                padding: '0',
+              }}
+            >
+              {item.work.referenceNumber}
+            </div>
+          </StyledLink>
+        </NextLink>
       </div>
-    </li>
+      {item.children && item.openStatus && (
+        <NestedList
+          selected={selected}
+          currentWorkId={currentWorkId}
+          archiveTree={item.children}
+          fullTree={fullTree}
+          setArchiveTree={setArchiveTree}
+          level={level + 1}
+          tabbableId={tabbableId}
+          setTabbableId={setTabbableId}
+        />
+      )}
+    </TreeItem>
   );
 };
 
 const NestedList = ({
   currentWorkId,
-  collectionTree,
+  archiveTree,
   selected,
   fullTree,
-  setCollectionTree,
-  isTopLevel,
-}: NestedListProps) => {
+  setArchiveTree,
+  level,
+  tabbableId,
+  setTabbableId,
+}: {|
+  currentWorkId: string,
+  archiveTree: UiTree,
+  selected: { current: HTMLElement | null },
+  fullTree: UiTree,
+  setArchiveTree: UiTree => void,
+  level: number,
+  tabbableId: ?string,
+  setTabbableId: string => void,
+|}) => {
   return (
     <ul
+      aria-labelledby={level === 1 ? 'tree-instructions' : null}
+      tabIndex={level === 1 ? 0 : null}
+      role={level === 1 ? 'tree' : 'group'}
       className={classNames({
         'font-size-5': true,
       })}
     >
-      {collectionTree &&
-        collectionTree.map((item, i) => {
+      {archiveTree &&
+        archiveTree.map((item, i) => {
           return (
             item.work && (
               <ListItem
@@ -460,8 +691,12 @@ const NestedList = ({
                 currentWorkId={currentWorkId}
                 selected={selected}
                 fullTree={fullTree}
-                setCollectionTree={setCollectionTree}
-                isRootItem={isTopLevel && i === 0}
+                setArchiveTree={setArchiveTree}
+                level={level}
+                setSize={archiveTree.length}
+                posInSet={i + 1}
+                tabbableId={tabbableId}
+                setTabbableId={setTabbableId}
               />
             )
           );
@@ -472,28 +707,34 @@ const NestedList = ({
 
 const ArchiveTree = ({ work }: { work: Work }) => {
   const toggles = useContext(TogglesContext);
-  const [collectionTree, setCollectionTree] = useState(
-    createCollectionTree(work) || []
-  );
+  const archiveAncestorArray = getArchiveAncestorArray(work);
+  const initialLoad = useRef(true);
+  const [archiveTree, setArchiveTree] = useState([]);
+  const [tabbableId, setTabbableId] = useState(null);
+
+  useEffect(() => {
+    const elementToFocus = tabbableId && document.getElementById(tabbableId);
+    if (elementToFocus) {
+      elementToFocus.focus();
+    }
+  }, [archiveTree, tabbableId]);
+
   const selected = useRef(null);
   const isInArchive =
     (work.parts && work.parts.length > 0) ||
     (work.partOf && work.partOf.length > 0);
 
-  const TreeView = () => (
-    <Tree>
-      <NestedList
-        selected={selected}
-        currentWorkId={work.id}
-        fullTree={collectionTree}
-        setCollectionTree={setCollectionTree}
-        collectionTree={collectionTree}
-        isTopLevel={true}
-      />
-    </Tree>
-  );
-
-  const initialLoad = useRef(true);
+  useEffect(() => {
+    async function setupTree() {
+      const tree = await createArchiveTree({
+        work,
+        archiveAncestorArray,
+        toggles,
+      });
+      setArchiveTree(tree || []);
+    }
+    setupTree();
+  }, []);
 
   useEffect(() => {
     if (!initialLoad.current) {
@@ -505,39 +746,24 @@ const ArchiveTree = ({ work }: { work: Work }) => {
         });
       }
     }
-
     initialLoad.current = false;
   }, [work.id]);
 
-  useEffect(() => {
-    // Add siblings to each node, that leads to the current work
-    const basicTree = createCollectionTree(work);
-    const ancestorArray = getAncestorArray(work);
-
-    const partOfPromises = ancestorArray
-      ? ancestorArray.map(part => getWork({ id: part.id, toggles }))
-      : [];
-    if (partOfPromises.length > 0) {
-      Promise.all(partOfPromises).then(works => {
-        let updatedTree;
-
-        works.forEach(work => {
-          const tempTree = addWorkPartsToCollectionTree(
-            work,
-            updatedTree || basicTree,
-            false,
-            false
-          );
-          updatedTree = tempTree;
-        });
-        if (updatedTree) {
-          setCollectionTree(updatedTree);
-        }
-      });
-    } else {
-      setCollectionTree(basicTree);
-    }
-  }, []);
+  const TreeView = () => (
+    <Tree>
+      <TreeInstructions>{instructions}</TreeInstructions>
+      <NestedList
+        selected={selected}
+        currentWorkId={work.id}
+        fullTree={archiveTree}
+        setArchiveTree={setArchiveTree}
+        archiveTree={archiveTree}
+        level={1}
+        tabbableId={tabbableId}
+        setTabbableId={setTabbableId}
+      />
+    </Tree>
+  );
 
   return isInArchive ? (
     <StickyContainer>
@@ -566,4 +792,5 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     </StickyContainer>
   ) : null;
 };
+
 export default ArchiveTree;

@@ -262,11 +262,13 @@ const FeaturedCardCopy = styled(Space).attrs(props => ({
 const FeaturedCardShim = styled.div.attrs(props => ({
   className: classNames({
     [`bg-${props.background}`]: true,
-    'is-hidden-s is-hidden-m': true,
+    'is-hidden-s is-hidden-m relative': true,
     [grid({ s: 12, m: 11, l: 5, xl: 5 })]: true,
   }),
 }))`
-  height: 20px;
+  height: 21px;
+  /* Prevent a white line appearing above the shim because of browser rounding errors */
+  top: -1px;
   margin-left: ${props =>
     props.isReversed ? props.theme.gutter.large + 'px' : null};
 `;

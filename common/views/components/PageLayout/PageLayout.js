@@ -15,7 +15,12 @@ import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
 import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 import Space from '../styled/Space';
 
-type SiteSection = 'works' | 'what-we-do' | 'visit-us' | 'stories' | 'whats-on';
+type SiteSection =
+  | 'collections'
+  | 'what-we-do'
+  | 'visit-us'
+  | 'stories'
+  | 'whats-on';
 
 export type Props = {|
   title: string,
@@ -52,7 +57,7 @@ const PageLayout = ({
   const fullTitle =
     title !== ''
       ? `${title} | Wellcome Collection`
-      : 'Wellcome Collection | The free museum and library for the incurably curious';
+      : 'Wellcome Collection | A free museum and library exploring health and human experience';
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
   return (

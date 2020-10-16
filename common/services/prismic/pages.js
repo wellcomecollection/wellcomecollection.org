@@ -23,9 +23,9 @@ export function parsePage(document: PrismicDocument): Page {
 
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
   // strategy for this later
-  const siteSection = document.tags.filter(
-    tag => ['visit-us', 'what-we-do'].indexOf(tag) !== -1
-  )[0];
+  const siteSection = document.tags.find(tag =>
+    ['visit-us', 'what-we-do', 'collections'].includes(tag)
+  );
 
   // TODO: (drupal migration) Just deal with normal promo once we deprecate the
   // drupal stuff

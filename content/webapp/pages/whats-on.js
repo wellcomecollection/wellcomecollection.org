@@ -308,7 +308,7 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
 };
 
 const pageDescription =
-  'Discover all of the exhibitions, events and more on offer at Wellcome Collection, the free museum and library for the incurably curious.';
+  'Discover all of the exhibitions, events and more on offer at Wellcome Collection, a free museum and library exploring health and human experience.';
 export class WhatsOnPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const period = ctx.query.period || 'current-and-coming-up';

@@ -8,7 +8,7 @@ const DropdownButtonExample = () => {
   const isInline = boolean('Is inline?', false);
 
   return (
-    <DropdownButton label={'Filters'} isInline={isInline}>
+    <DropdownButton label={'Filters'} isInline={isInline} id="example">
       <div>
         <ul className="plain-list no-margin no-padding">
           <li>

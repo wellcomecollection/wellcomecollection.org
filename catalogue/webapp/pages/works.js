@@ -28,7 +28,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
-import SearchForm from '../components/SearchForm/SearchForm';
+import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { getImages } from '../services/catalogue/images';
 import { getWorks } from '../services/catalogue/works';
 import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
@@ -44,15 +44,14 @@ type Props = {|
   unfilteredSearchResults: boolean,
   shouldGetWorks: boolean,
   apiProps: CatalogueWorksApiProps,
-  setArchivesPrototypeCookie: boolean,
 |};
 
 const Works = ({
   works,
   images,
   worksRouteProps,
+  unfilteredSearchResults,
   apiProps,
-  setArchivesPrototypeCookie,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
@@ -65,12 +64,6 @@ const Works = ({
     productionDatesFrom,
     productionDatesTo,
   } = worksRouteProps;
-
-  useEffect(() => {
-    if (setArchivesPrototypeCookie) {
-      document.cookie = `toggle_archivesPrototype=true; Max-Age=${31536000}`;
-    }
-  }, []);
 
   useEffect(() => {
     trackSearch(apiProps, {
@@ -142,7 +135,7 @@ const Works = ({
         url={worksLink({ ...worksRouteProps }, 'canonical_link').as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
-        siteSection={'works'}
+        siteSection={'collections'}
         imageUrl={null}
         imageAltText={null}
       >
@@ -171,7 +164,7 @@ const Works = ({
                       v={{ size: 'm', properties: ['margin-bottom'] }}
                       className="h1"
                     >
-                      Explore our collections
+                      Search the collections
                     </Space>
                   </Space>
                 </div>
@@ -187,9 +180,11 @@ const Works = ({
                   })}
                   id="search-form-description"
                 >
-                  Find thousands of freely licensed digital books, artworks,
-                  photos and images of historical library materials and museum
-                  objects.
+                  {unfilteredSearchResults
+                    ? `Find thousands of books, images, artworks, unpublished
+                  archives and manuscripts in our collections, many of them with
+                  free online access.`
+                    : `Find thousands of freely licensed digital books, artworks, photos and images of historical library materials and museum objects.`}
                 </p>
 
                 <SearchForm
@@ -210,7 +205,7 @@ const Works = ({
           </div>
         </Space>
 
-        {!results && <StaticWorksContent />}
+        {!results && !unfilteredSearchResults && <StaticWorksContent />}
 
         {results && results.results.length > 0 && (
           <Fragment>
@@ -368,36 +363,17 @@ const Works = ({
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = WorksRoute.fromQuery(ctx.query);
-  const shouldSeeArchives = ctx.query.archivesPrototype;
-  if (shouldSeeArchives) {
-    ctx.query.toggles.archivesPrototype = true;
-  }
-  const {
-    unfilteredSearchResults,
-    archivesPrototype,
-    enableColorFiltering,
-  } = ctx.query.toggles;
+  const { unfilteredSearchResults, enableColorFiltering } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
   const apiPropsFn = unfilteredSearchResults
     ? worksRouteToApiUrl
     : worksRouteToApiUrlWithDefaults;
   const aggregations = ['workType', 'locationType'];
-  const apiProps = archivesPrototype
-    ? apiPropsFn(
-        params,
-        {
-          _queryType,
-          aggregations,
-          'items.locations.locationType': null,
-          'items.locations.accessConditions.status': null,
-        },
-        true
-      )
-    : apiPropsFn(params, {
-        _queryType,
-        aggregations,
-      });
+  const apiProps = apiPropsFn(params, {
+    _queryType,
+    aggregations,
+  });
 
   const hasQuery = !!(params.query && params.query !== '');
 
@@ -429,7 +405,6 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     unfilteredSearchResults,
     shouldGetWorks,
     apiProps,
-    setArchivesPrototypeCookie: shouldSeeArchives,
   };
 };
 

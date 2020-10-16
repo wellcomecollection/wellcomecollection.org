@@ -4,7 +4,7 @@ const s3 = new AWS.S3({apiVersion: '2006-03-01'});
 const fs = require('fs');
 
 try {
-  const data = fs.readFileSync('edge_lambda_origin.zip', 'utf8');
+  const data = fs.readFileSync('edge_lambda_origin.zip');
 
   const params = {
     Body: data,
