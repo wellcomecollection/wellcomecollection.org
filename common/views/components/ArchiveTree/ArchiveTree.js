@@ -468,7 +468,12 @@ const ListItem = ({
     (!tabbableId && currentWorkId === item.work.id);
   const toggles = useContext(TogglesContext);
   const { updateEndRef } = useContext(ModalContext);
+
   function updateTabbing(id) {
+    // We only want one tabbable item in the tree at a time,
+    // so that keyboard users can get past the tree, without having to tab through all the elements
+    // When the tree is inside a Modal we also need to update the endRef, from Modal, which is used for the focus trap
+    // and prevents users from being able to tab items outside of the Modal when it is open.
     setTabbableId(id);
     const listItem = document.getElementById(id);
     if (listItem && updateEndRef) {
