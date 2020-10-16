@@ -6,26 +6,26 @@
         "label": "Open button text"
       }
     },
-    "dialogHeading": {
+    "heading": {
       "type": "Text",
       "config": {
         "label": "Heading inside the open dialog"
       }
     },
-    "dialogCopy": {
+    "text": {
       "type": "StructuredText",
       "config": {
         "single": "paragraph,hyperlink,strong,em",
         "label": "Text inside the open dialog"
       }
     },
-    "ctaText": {
+    "linkText": {
       "type": "Text",
       "config": {
         "label": "CTA inside the open dialog button text"
       }
     },
-    "ctaLink": {
+    "link": {
       "type": "Link",
       "config": {
         "label": "CTA inside the open dialog button link",
