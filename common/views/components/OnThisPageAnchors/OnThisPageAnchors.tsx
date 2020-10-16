@@ -1,5 +1,6 @@
 import Space from '../styled/Space';
 import styled from 'styled-components';
+import { Link } from '../../../model/link';
 import { classNames, font } from '../../../utils/classnames';
 
 const Anchor = styled.a.attrs(() => ({
@@ -9,12 +10,6 @@ const Anchor = styled.a.attrs(() => ({
 }))`
   color: ${props => props.theme.color('green')};
 `;
-
-type Link = {
-  text: string;
-  url: string;
-  sublinks?: Link[];
-};
 
 type Props = {
   links: Link[];
@@ -31,8 +26,8 @@ const OnThisPageAnchors = ({ links }) => {
     >
       <h2 className="h3">What’s on this page</h2>
       <ul className="plain-list no-margin no-padding">
-        {links.map(link => (
-          <li>
+        {links.map((link: Link) => (
+          <li key={link.url}>
             <Anchor href={link.url}>{link.text}</Anchor>
           </li>
         ))}

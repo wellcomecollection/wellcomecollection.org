@@ -1,10 +1,11 @@
 // @flow
 import type { GenericContentFields } from './generic-content-fields';
+import type { Link } from './link';
 
 export type Page = {|
   type: 'pages',
   ...GenericContentFields,
-  onThisPage: any[],
+  onThisPage: Link[],
   datePublished: ?Date,
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
   // strategy for this later

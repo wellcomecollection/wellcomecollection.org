@@ -13,6 +13,7 @@ import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/places';
 import type { Format } from '../../model/format';
+import type { Link } from '../../model/link';
 import type {
   BackgroundTexture,
   PrismicBackgroundTexture,
@@ -543,7 +544,7 @@ function getOnThisPage(fragment: PrismicFragment[]): any[] {
 
 export function parseBody(
   fragment: PrismicFragment[]
-): { onThisPage: any[], slices: any[] } {
+): { onThisPage: Link[], slices: any[] } {
   const onThisPage = getOnThisPage(fragment);
 
   return {
