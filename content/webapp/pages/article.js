@@ -122,6 +122,7 @@ export class ArticlePage extends Component<Props, State> {
       widescreenImage: article.widescreenImage,
       labels: article.labels,
       metadataDescription: article.metadataDescription,
+      onThisPage: [],
     };
 
     const ContentTypeInfo = (

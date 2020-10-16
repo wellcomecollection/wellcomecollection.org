@@ -107,7 +107,12 @@ export class Page extends Component<Props> {
           id={page.id}
           Header={Header}
           Body={
-            <Body body={body} pageId={page.id} onThisPage={page.onThisPage} />
+            <Body
+              body={body}
+              pageId={page.id}
+              onThisPage={page.onThisPage}
+              showOnThisPage={page.showOnThisPage}
+            />
           }
         />
       </PageLayout>

@@ -46,6 +46,7 @@ const Installation = ({ installation }: Props) => {
     widescreenImage: installation.widescreenImage,
     labels: installation.labels,
     metadataDescription: installation.metadataDescription,
+    onThisPage: [],
   });
 
   const breadcrumbs = {

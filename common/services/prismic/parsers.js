@@ -1,6 +1,7 @@
 // @flow
 import { RichText, Date as PrismicDate } from 'prismic-dom';
 import type { HTMLString, PrismicFragment } from './types';
+import flattenDeep from 'lodash.flattendeep';
 import type {
   Contributor,
   PersonContributor,
@@ -530,9 +531,7 @@ function getWeight(weight: ?string): ?Weight {
 }
 
 function getOnThisPage(fragment: PrismicFragment[]): any[] {
-  return fragment
-    .map(slice => slice.primary.text || [])
-    .flat()
+  return flattenDeep(fragment.map(slice => slice.primary.text || []))
     .filter(text => text.type === 'heading2')
     .map(item => {
       return {

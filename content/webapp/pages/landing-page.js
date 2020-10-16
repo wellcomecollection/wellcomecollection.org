@@ -95,6 +95,7 @@ export class Page extends Component<Props> {
         <ContentPage
           id={page.id}
           Header={Header}
+          // $FlowFixMe
           Body={<LandingBody body={body} pageId={page.id} />}
         />
       </PageLayout>

@@ -44,11 +44,18 @@ export type BodyType = BodySlice[];
 type Props = {|
   body: BodyType,
   onThisPage?: any[],
+  showOnThisPage?: boolean,
   isDropCapped?: boolean,
   pageId: string,
 |};
 
-const Body = ({ body, onThisPage, isDropCapped, pageId }: Props) => {
+const Body = ({
+  body,
+  onThisPage,
+  showOnThisPage,
+  isDropCapped,
+  pageId,
+}: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
     // The standfirst is now put into the header
@@ -66,7 +73,7 @@ const Body = ({ body, onThisPage, isDropCapped, pageId }: Props) => {
         'basic-body': true,
       })}
     >
-      {onThisPage && onThisPage.length > 2 && (
+      {onThisPage && onThisPage.length > 2 && showOnThisPage && (
         <SpacingComponent>
           <Layout8>
             <OnThisPageAnchors links={onThisPage} />
