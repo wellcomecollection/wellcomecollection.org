@@ -10,10 +10,20 @@ We will keep this page up to date with the latest information as we make more pr
 
 ## What’s new? (updated 14 October 2020)
 
-### Improvements to search
-- Up to now we have only exposed a subset of digital and digitised materials in search results, you will now also be able to find archives and physical works from our collections.
-- We've added a filter to allow you to choose between online and in library works.
-- We've made additions to the works page, when viewing a work that is part of an archive collection:
+### Full catalogue search
+We were previously only exposing a subset of our catalogue in search results, limited to digital and digitised materials.
+We now return results from our whole catalogue, including archives, physical works from our collections, and more.
+
+This means you will see many more results for a given query, as we will be searching among approximately 1.2 million works, up from Approximately 350,000.
+
+To help you narrow the results our current filters should help and we have added a new search filter.
+
+### Online / In library search filter
+We've added a filter to the search form, which will allow you to choose between online and in library works.
+As there are potentially many more results being returned, this will allow you to narrow those results in another useful way.
+
+### Archive exploration
+Now that you are able to find and view archive collections, we've made some additions to the work page to help to identify and explore archives.
   - an indication that the work is part of an archive
   - an indication of what the parent archive is and where in its hiearchy the work being viewed sits
   - an archive tree, which gives the ability to browse the entire archive to which the work belongs
