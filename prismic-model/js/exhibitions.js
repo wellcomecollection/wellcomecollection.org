@@ -10,7 +10,7 @@ import text from './parts/text';
 import structuredText from './parts/structured-text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import body from './parts/body';
-import boolean from './parts/boolean';
+import booleanDeprecated from './parts/boolean-deprecated';
 import singleLineText from './parts/single-line-text';
 
 const Exhibitions = {
@@ -21,7 +21,7 @@ const Exhibitions = {
     body,
     start: timestamp('Start date'),
     end: timestamp('End date'),
-    isPermanent: boolean('Is permanent?'),
+    isPermanent: booleanDeprecated('Is permanent?'),
     statusOverride: structuredText('Status override', 'single'),
     place,
   },

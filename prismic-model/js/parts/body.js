@@ -9,7 +9,7 @@ import title from './title';
 import link from './link';
 import text from './text';
 import embed from './embed';
-import boolean from '../parts/boolean';
+import booleanDeprecated from '../parts/boolean-deprecated';
 
 // I've left slice here as we shouldn't really use it.
 type SliceProps = {|
@@ -106,7 +106,7 @@ export default {
       collectionVenue: slice('Collection venue', {
         nonRepeat: {
           content: link('Content item', 'document', ['collection-venue']),
-          showClosingTimes: boolean('Show closing times'),
+          showClosingTimes: booleanDeprecated('Show closing times'),
         },
       }),
       contact: slice('Contact', {
