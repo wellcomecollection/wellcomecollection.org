@@ -17,6 +17,7 @@ async function getAndSetPopupDialog() {
     const document = await api.getSingle('popup-dialog');
 
     popupDialog = document.data;
+    console.log(popupDialog.link);
   } catch (e) {
     // TODO: Sentry?
   }

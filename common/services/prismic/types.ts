@@ -17,7 +17,7 @@ export type PrismicDocument = {
 };
 
 export type PrismicLink = {
-  link_type: 'web' | 'document' | 'media';
+  link_type: 'Web' | 'Document' | 'Media';
   url?: string;
   id?: string;
 }
