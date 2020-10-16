@@ -13,11 +13,11 @@ export type OverrideType =
 
 export type OverrideDate = {
   overrideDate: Moment,
-  overrideType: OverrideType,
+  overrideType: OverrideType | null,
 };
 
 export type ExceptionalPeriod = {
-  type: OverrideType,
+  type: OverrideType | null,
   dates: OverrideDate[],
 };
 
@@ -29,7 +29,7 @@ export type OpeningHoursDay = {
 
 export type ExceptionalOpeningHoursDay = {
   overrideDate: Moment,
-  overrideType: OverrideType,
+  overrideType: OverrideType | null,
   opens?: string,
   closes?: string,
 };
@@ -53,7 +53,7 @@ export type PlacesOpeningHours = Venue[];
 
 export type CollectionOpeningTimes = {
   placesOpeningHours: PlacesOpeningHours,
-  upcomingExceptionalOpeningPeriods?: { dates: Moment[]; type: OverrideType; }[],
+  upcomingExceptionalOpeningPeriods?: { dates: Moment[]; type: OverrideType | null; }[],
 };
 
 // http://schema.org/specialOpeningHoursSpecification
