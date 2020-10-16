@@ -474,8 +474,6 @@ export function parseLink(link?: PrismicLink): ?string {
     } else if (link.link_type === 'Document' && isDocumentLink(link)) {
       return `/${link.type}/${link.id}`;
     }
-  } else {
-    return null;
   }
 }
 
