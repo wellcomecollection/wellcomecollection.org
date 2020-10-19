@@ -18,7 +18,7 @@ const InfoBlock = ({ heading, text, linkText, link }) => {
       className={classNames({
         'border-color-yellow': true,
       })}
-      style={{ borderLeftWidth: '10px', borderLeftStyle: 'solid' }}
+      style={{ borderLeftWidth: '16px', borderLeftStyle: 'solid' }}
     >
       <h2 className="h2">{heading}</h2>
       <div className="spaced-text body-text">
