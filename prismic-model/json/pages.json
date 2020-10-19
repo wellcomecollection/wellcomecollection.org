@@ -417,7 +417,7 @@
               }
             }
           },
-          "MediaObjectList": {
+          "mediaObjectList": {
             "type": "Slice",
             "fieldset": "Media Object List",
             "repeat": {
