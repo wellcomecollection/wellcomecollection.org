@@ -148,6 +148,11 @@ export default {
           query: text('Query'),
         },
       }),
+      MediaObjectList: slice('Media Object List', {
+        repeat: {
+          content: link('Content item', 'document', ['media-object-list']),
+        },
+      }),
     },
   },
 };

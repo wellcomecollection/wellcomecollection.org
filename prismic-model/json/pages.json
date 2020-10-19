@@ -416,6 +416,22 @@
                 }
               }
             }
+          },
+          "MediaObjectList": {
+            "type": "Slice",
+            "fieldset": "Media Object List",
+            "repeat": {
+              "content": {
+                "type": "Link",
+                "config": {
+                  "label": "Content item",
+                  "select": "document",
+                  "customtypes": [
+                    "media-object-list"
+                  ]
+                }
+              }
+            }
           }
         }
       }
