@@ -1,6 +1,6 @@
 // @flow
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import fetch from 'isomorphic-unfetch';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { type Work } from '@weco/common/model/work';
@@ -85,6 +85,9 @@ const WorkDetails = ({
   imageCount,
   itemUrl,
 }: Props) => {
+  const { archivesPrototype, stacksRequestService } = useContext(
+    TogglesContext
+  );
   const [imageJson, setImageJson] = useState(null);
   const fetchImageJson = async () => {
     try {
@@ -213,31 +216,22 @@ const WorkDetails = ({
         />
       )}
 
-      <TogglesContext.Consumer>
-        {({ stacksRequestService }) =>
-          !stacksRequestService &&
-          encoreLink && (
-            <Space
-              v={{
-                size: 'l',
-                properties: ['margin-bottom'],
-              }}
-            >
-              <WorkDetailsText
-                text={[
-                  `<a href="${encoreLink}">Access this item on the Wellcome Library website</a>`,
-                ]}
-              />
-            </Space>
-          )
-        }
-      </TogglesContext.Consumer>
+      {!stacksRequestService && encoreLink && (
+        <Space
+          v={{
+            size: 'l',
+            properties: ['margin-bottom'],
+          }}
+        >
+          <WorkDetailsText
+            text={[
+              `<a href="${encoreLink}">Access this item on the Wellcome Library website</a>`,
+            ]}
+          />
+        </Space>
+      )}
 
-      <TogglesContext.Consumer>
-        {({ stacksRequestService }) =>
-          stacksRequestService && <ItemLocation work={work} />
-        }
-      </TogglesContext.Consumer>
+      {stacksRequestService && <ItemLocation work={work} />}
     </WorkDetailsSection>
   );
 
@@ -604,7 +598,13 @@ const WorkDetails = ({
     </>
   );
 
-  return (
+  return archivesPrototype && isInArchive ? (
+    <div className="container">
+      <div className="grid">
+        <Content />
+      </div>
+    </div>
+  ) : (
     <Space
       v={{
         size: 'xl',
@@ -614,21 +614,9 @@ const WorkDetails = ({
         row: true,
       })}
     >
-      <TogglesContext.Consumer>
-        {({ archivesPrototype }) =>
-          archivesPrototype && isInArchive ? (
-            <div className="container">
-              <div className="grid">
-                <Content />
-              </div>
-            </div>
-          ) : (
-            <Layout12>
-              <Content />
-            </Layout12>
-          )
-        }
-      </TogglesContext.Consumer>
+      <Layout12>
+        <Content />
+      </Layout12>
     </Space>
   );
 };
