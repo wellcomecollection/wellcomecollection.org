@@ -27,6 +27,13 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
+import styled from 'styled-components';
+
+const ArchiveDetailsContainer = styled.div`
+  ${props => props.theme.media.medium`
+    display: flex;
+  `}
+`;
 
 declare global {
   interface Window {
@@ -186,38 +193,16 @@ const Work = ({ work }: Props) => {
             </div>
           </div>
           <div className="container">
-            <div className="grid">
-              <div
-                className={classNames({
-                  [grid({
-                    s: 12,
-                    m: 5,
-                    l: 4,
-                    xl: 3,
-                  })]: true,
-                })}
-              >
-                <ArchiveTree work={work} />
-              </div>
-              <div
-                className={classNames({
-                  [grid({
-                    s: 12,
-                    m: 7,
-                    l: 8,
-                    xl: 9,
-                  })]: true,
-                })}
-              >
-                  <WorkDetails
-                    work={work}
-                    itemUrl={itemUrlObject}
-                    iiifPresentationManifest={iiifPresentationManifest}
-                    childManifestsCount={childManifestsCount}
-                    imageCount={imageTotal}
-                  />
-              </div>
-            </div>
+            <ArchiveDetailsContainer>
+              <ArchiveTree work={work} />
+              <WorkDetails
+                work={work}
+                itemUrl={itemUrlObject}
+                iiifPresentationManifest={iiifPresentationManifest}
+                childManifestsCount={childManifestsCount}
+                imageCount={imageTotal}
+              />
+            </ArchiveDetailsContainer>
           </div>
         </>
       ) : (
