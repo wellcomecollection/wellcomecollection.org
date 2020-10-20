@@ -6,10 +6,10 @@
         "label": "Open button text"
       }
     },
-    "heading": {
+    "title": {
       "type": "Text",
       "config": {
-        "label": "Heading inside the open dialog"
+        "label": "Title inside the open dialog"
       }
     },
     "text": {

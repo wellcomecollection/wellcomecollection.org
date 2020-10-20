@@ -8,7 +8,7 @@ import link from './parts/link';
 const PopupDialog = {
   PopupDialog: {
     openButtonText: text('Open button text'),
-    heading: text('Heading inside the open dialog'),
+    title: text('Title inside the open dialog'),
     text: structuredText('Text inside the open dialog', 'single'),
     linkText: text('CTA inside the open dialog button text'),
     link: link('CTA inside the open dialog button link', 'web'),

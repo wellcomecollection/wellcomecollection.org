@@ -145,7 +145,7 @@ const PopupDialogCTA = styled(Space).attrs({
 
 type Props = {
   openButtonText: string;
-  heading: string;
+  title: string;
   text: HTMLString;
   linkText: string;
   link: PrismicLink;
@@ -153,7 +153,7 @@ type Props = {
 
 const PopupDialog = ({
   openButtonText,
-  heading,
+  title,
   text,
   linkText,
   link,
@@ -323,7 +323,7 @@ const PopupDialog = ({
                 })]: true,
               })}
             >
-              {heading}
+              {title}
             </h2>
             <div
               className={classNames({

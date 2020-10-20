@@ -15,8 +15,8 @@ const PopupDialogExample = () => {
     'CTA inside the open dialog button link',
     'https://wellcomecollection.org/user-panel'
   );
-  const heading = text(
-    'Heading inside the open dialog',
+  const title = text(
+    'Title inside the open dialog',
     'Help us improve our website'
   );
   const dialogText = text(
@@ -32,7 +32,7 @@ const PopupDialogExample = () => {
         url: link,
         link_type: 'Web',
       }}
-      heading={heading}
+      title={title}
       text={[
         {
           type: 'paragraph',

@@ -2,7 +2,7 @@ const Prismic = require('prismic-javascript');
 
 let popupDialog = {
   openButtonText: null,
-  heading: null,
+  title: null,
   text: [{ type: 'paragraph', text: null, spans: null }],
   linkText: null,
   link: { url: null },
