@@ -127,10 +127,10 @@ export default {
       }),
       infoBlock: slice('Info block', {
         nonRepeat: {
-          heading: {
+          title: {
             type: 'Text',
             config: {
-              label: 'heading',
+              label: 'title',
             },
           },
           text: structuredText('Text', 'multi', ['heading3', 'list-item']),
