@@ -91,7 +91,7 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
         const hasFeatured =
           Boolean(section.value.hasFeatured) ||
           section.value.items.length === 1;
-        const firstItem = section.value?.items[0];
+        const firstItem = section.value.items?.[0];
         const isCardType = firstItem?.type === 'card';
 
         const firstItemProps =
