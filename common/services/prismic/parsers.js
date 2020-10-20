@@ -734,6 +734,17 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
             },
           };
 
+        case 'infoBlock':
+          return {
+            type: 'infoBlock',
+            value: {
+              title: slice.primary.title,
+              text: slice.primary.text,
+              linkText: slice.primary.linkText,
+              link: slice.primary.link,
+            },
+          };
+
         // Deprecated
         case 'imageList':
           return {

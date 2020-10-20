@@ -125,6 +125,19 @@ export default {
           },
         },
       }),
+      infoBlock: slice('Info block', {
+        nonRepeat: {
+          title: {
+            type: 'Text',
+            config: {
+              label: 'title',
+            },
+          },
+          text: structuredText('Text', 'multi', ['heading3', 'list-item']),
+          link: link('Button link', 'web'),
+          linkText: text('Button text'),
+        },
+      }),
       contentList: slice('(β) Content list', {
         nonRepeat: {
           title,
