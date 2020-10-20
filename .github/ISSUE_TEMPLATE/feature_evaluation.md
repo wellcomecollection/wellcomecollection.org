@@ -1,6 +1,6 @@
 ---
 name: Feature evaluation
-about: ''
+about: Analysis required on data from a feature
 title: ''
 labels: "data analysis"
 assignees: ''
