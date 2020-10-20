@@ -11,26 +11,24 @@ type Props = {
   link: any | null; // TODO: use PrismicLink type from #5636 and parseUrl
 };
 
-const InfoBlock = ({ title, text, linkText, link }) => {
-  return (
-    <Space
-      h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
-      className={classNames({
-        'border-color-yellow': true,
-      })}
-      style={{ borderLeftWidth: '16px', borderLeftStyle: 'solid' }}
-    >
-      <h2 className="h2">{title}</h2>
-      <div className="spaced-text body-text">
-        <PrismicHtmlBlock html={text} />
-      </div>
-      {link && (
-        <Space v={{ size: 'l', properties: ['margin-top'] }}>
-          <ButtonOutlinedLink link={link.url} text={linkText} />
-        </Space>
-      )}
-    </Space>
-  );
-};
+const InfoBlock = ({ title, text, linkText, link }) => (
+  <Space
+    h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
+    className={classNames({
+      'border-color-yellow': true,
+    })}
+    style={{ borderLeftWidth: '16px', borderLeftStyle: 'solid' }}
+  >
+    <h2 className="h2">{title}</h2>
+    <div className="spaced-text body-text">
+      <PrismicHtmlBlock html={text} />
+    </div>
+    {link && (
+      <Space v={{ size: 'l', properties: ['margin-top'] }}>
+        <ButtonOutlinedLink link={link.url} text={linkText} />
+      </Space>
+    )}
+  </Space>
+);
 
 export default InfoBlock;
