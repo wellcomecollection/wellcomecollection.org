@@ -270,6 +270,16 @@ const CovidWelcomeBackPage = () => {
                 <h3>What you need to do</h3>
 
                 <CovidSafetyMeasure
+                  title={'Only book for your household or bubble'}
+                  description={
+                    <span>
+                      Please only book to attend or enter the building with people from your household or support bubble.
+                    </span>
+                  }
+                  icon={CovidIconsEnum.houseHold}
+                />
+
+                <CovidSafetyMeasure
                   title={'Clean your hands regularly'}
                   description={
                     <span>
