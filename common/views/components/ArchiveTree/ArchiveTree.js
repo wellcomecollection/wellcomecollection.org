@@ -67,6 +67,9 @@ const TreeInstructions = styled.p.attrs(props => ({
 const Tree = styled.div`
   ul {
     position: relative;
+    @media (min-width: ${props => props.theme.sizes.medium}px) {
+      width: 375px;
+    }
     &::before {
       display: none;
       position: absolute;
@@ -84,6 +87,7 @@ const Tree = styled.div`
     }
     ul {
       content: '';
+      width: auto;
     }
     list-style: none;
     padding-left: 0;
