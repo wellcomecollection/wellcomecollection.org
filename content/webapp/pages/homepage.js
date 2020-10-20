@@ -28,6 +28,7 @@ import {
 } from '@weco/common/services/prismic/events';
 import { type UiExhibition } from '@weco/common/model/exhibitions';
 import { type UiEvent } from '@weco/common/model/events';
+import { convertJsonToDates } from './event';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -103,10 +104,16 @@ export class HomePage extends Component<Props> {
   };
 
   render() {
+    const events = this.props.events.results.map(convertJsonToDates);
+    const exhibitions = this.props.exhibitions.results.map(exhibition => {
+      return {
+        start: exhibition.start && new Date(exhibition.start),
+        end: exhibition.end && new Date(exhibition.end),
+        ...exhibition,
+      };
+    });
     const articles = this.props.articles;
     const page = this.props.page;
-    const events = this.props.events;
-    const exhibitions = this.props.exhibitions;
     const standFirst = page.body.find(slice => slice.type === 'standfirst');
     const lists = page.body.filter(slice => slice.type === 'contentList');
     const reopeningList = lists.length === 2 ? lists[0] : null;
@@ -162,16 +169,6 @@ export class HomePage extends Component<Props> {
             )
           }
         </TogglesContext.Consumer>
-        {contentList && (
-          <SpacingSection>
-            <SpacingComponent>
-              <SectionHeader title={contentList.value.title} />
-            </SpacingComponent>
-            <SpacingComponent>
-              <SimpleCardGrid items={contentList.value.items} />
-            </SpacingComponent>
-          </SpacingSection>
-        )}
 
         <SpacingSection>
           <SpacingComponent>
@@ -187,6 +184,17 @@ export class HomePage extends Component<Props> {
             />
           </SpacingComponent>
         </SpacingSection>
+
+        {contentList && (
+          <SpacingSection>
+            <SpacingComponent>
+              <SectionHeader title={contentList.value.title} />
+            </SpacingComponent>
+            <SpacingComponent>
+              <SimpleCardGrid items={contentList.value.items} />
+            </SpacingComponent>
+          </SpacingSection>
+        )}
 
         <SpacingSection>
           <SpacingComponent>
