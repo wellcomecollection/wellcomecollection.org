@@ -116,7 +116,7 @@ const CovidWelcomeBackPage = () => {
 
               <div className="body-text spaced-text">
                 <InfoBlock
-                  heading={'Book your ticket'}
+                  title={'Book your ticket'}
                   text={[
                     {
                       type: 'list-item',
