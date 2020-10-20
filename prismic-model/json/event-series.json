@@ -372,10 +372,10 @@
             "type": "Slice",
             "fieldset": "Info block",
             "non-repeat": {
-              "heading": {
+              "title": {
                 "type": "Text",
                 "config": {
-                  "label": "heading"
+                  "label": "title"
                 }
               },
               "text": {
