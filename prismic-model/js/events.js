@@ -7,7 +7,7 @@ import link from './parts/link';
 import list from './parts/list';
 import structuredText from './parts/structured-text';
 import embed from './parts/embed';
-import boolean from './parts/boolean';
+import booleanDeprecated from './parts/boolean-deprecated';
 import text from './parts/text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import body from './parts/body';
@@ -23,17 +23,17 @@ const Events = {
     times: list('Times', {
       startDateTime: timestamp('Start'),
       endDateTime: timestamp('End'),
-      isFullyBooked: boolean('Fully booked'),
+      isFullyBooked: booleanDeprecated('Fully booked'),
     }),
     body,
   },
   Access: {
-    isRelaxedPerformance: boolean('Relaxed'),
+    isRelaxedPerformance: booleanDeprecated('Relaxed'),
     interpretations: list('Interpretations', {
       interpretationType: link('Interpretation', 'document', [
         'interpretation-types',
       ]),
-      isPrimary: boolean('Primary interprtation'),
+      isPrimary: booleanDeprecated('Primary interprtation'),
     }),
     audiences: list('Audiences', {
       audience: link('Audience', 'document', ['audiences']),
@@ -51,13 +51,13 @@ const Events = {
     policies: list('Policies', {
       policy: link('Policy', 'document', ['event-policies']),
     }),
-    hasEarlyRegistration: boolean('Early registration'),
+    hasEarlyRegistration: booleanDeprecated('Early registration'),
     cost: text('Cost'),
   },
   Schedule: {
     schedule: list('Events', {
       event: link('Event', 'document', ['events']),
-      isNotLinked: boolean('Suppress link to event'),
+      isNotLinked: booleanDeprecated('Suppress link to event'),
     }),
     backgroundTexture: link('Background texture', 'document', [
       'background-textures',
