@@ -528,6 +528,18 @@ function getWeight(weight: ?string): ?Weight {
   }
 }
 
+function parseMediaObjectLinks(fragment: PrismicFragment[]): any {
+  return fragment.map(mediaObjectList => {
+    const { title, text, image } = mediaObjectList.content.data;
+    return {
+      id: mediaObjectList.content.id,
+      title: parseTitle(title),
+      text: parseStructuredText(text),
+      image: parseImage(image),
+    };
+  });
+}
+
 export function parseBody(fragment: PrismicFragment[]): any[] {
   return fragment
     .map(slice => {
@@ -746,6 +758,14 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
                 image: parseCaptionedImage(item),
                 description: parseStructuredText(item.description),
               })),
+            },
+          };
+        case 'mediaObjectList':
+          console.log(slice.items);
+          return {
+            type: 'mediaObjectList',
+            value: {
+              content: parseMediaObjectLinks(slice.items),
             },
           };
       }

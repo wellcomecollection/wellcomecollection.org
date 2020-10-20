@@ -35,6 +35,13 @@ export const collectionVenuesFields = [
   'collection-venue.sunday',
   'collection-venue.modifiedDayOpeningTimes',
 ];
+
+export const mediaObjectListFields = [
+  'media-object-list.title',
+  'media-object-list.text',
+  'media-object-list.image',
+];
+
 export const eventSeriesFields = [
   'event-series.title',
   'event-series.description',
