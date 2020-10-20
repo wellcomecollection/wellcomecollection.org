@@ -448,6 +448,7 @@ const ListItem = ({
   tabbableId,
   setTabbableId,
   setShowArchiveTree,
+  archiveAncestorArray,
 }: {|
   item: UiTreeNode,
   currentWorkId: string,
@@ -460,6 +461,7 @@ const ListItem = ({
   tabbableId: ?string,
   setTabbableId: string => void,
   setShowArchiveTree: boolean => void,
+  archiveAncestorArray: NodeWork[],
 |}) => {
   const { isKeyboard, isEnhanced } = useContext(AppContext);
   const isEndNode = item.children && item.children.length === 0;
@@ -468,6 +470,14 @@ const ListItem = ({
     (!tabbableId && currentWorkId === item.work.id);
   const toggles = useContext(TogglesContext);
   const { updateLastFocusableRef } = useContext(ModalContext);
+  // const descendentIsSelected = archiveAncestorArray.some(
+  //   ancestor => ancestor.id === item.work.id
+  // );
+  // const highlightCondition = item.openStatus
+  //   ? 'primary'
+  //   : descendentIsSelected
+  //   ? 'secondary'
+  //   : '';
 
   function updateTabbing(id) {
     // We only want one tabbable item in the tree at a time,
@@ -677,6 +687,7 @@ const ListItem = ({
           tabbableId={tabbableId}
           setTabbableId={setTabbableId}
           setShowArchiveTree={setShowArchiveTree}
+          archiveAncestorArray={archiveAncestorArray}
         />
       )}
     </TreeItem>
@@ -693,6 +704,7 @@ const NestedList = ({
   tabbableId,
   setTabbableId,
   setShowArchiveTree,
+  archiveAncestorArray,
 }: {|
   currentWorkId: string,
   archiveTree: UiTree,
@@ -703,6 +715,7 @@ const NestedList = ({
   tabbableId: ?string,
   setTabbableId: string => void,
   setShowArchiveTree: boolean => void,
+  archiveAncestorArray: NodeWork[],
 |}) => {
   const { isEnhanced } = useContext(AppContext);
   return (
@@ -731,6 +744,7 @@ const NestedList = ({
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
                 setShowArchiveTree={setShowArchiveTree}
+                archiveAncestorArray={archiveAncestorArray}
               />
             )
           );
@@ -874,6 +888,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
                 setShowArchiveTree={setShowArchiveTree}
+                archiveAncestorArray={archiveAncestorArray}
               />
             </Tree>
           </Modal>
