@@ -37,7 +37,7 @@ const CardGrid = ({
   fromDate,
 }: Props) => {
   const gridColumns = itemsPerRow === 4 ? 3 : 4;
-
+  const spaceVLinks = { size: 'm', properties: ['margin-top'] };
   return (
     <div>
       <div className="css-grid__container">
@@ -100,11 +100,11 @@ const CardGrid = ({
       </div>
       {links && links.length > 0 && (
         <Layout12>
-          <Space v={{ size: 'm', properties: ['margin-top'] }}>
+          <Space v={spaceVLinks}>
             {links.map(link => (
-              <div key={link.url}>
+              <Space v={spaceVLinks} key={link.url}>
                 <MoreLink url={link.url} name={link.text} />
-              </div>
+              </Space>
             ))}
           </Space>
         </Layout12>

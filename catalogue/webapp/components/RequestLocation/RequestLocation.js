@@ -25,6 +25,7 @@ const RequestLocation = ({ work }: Props) => {
   const [hasRequestableItems, setHasRequestableItems] = useState(false);
   const [showRequestModal, setShowRequestModal] = useState(false);
   const [showResultsModal, setShowResultsModal] = useState(false);
+  const openRequestButtonRef = useRef(null);
 
   const authState = useAuth();
 
@@ -183,11 +184,14 @@ const RequestLocation = ({ work }: Props) => {
                     action: 'open Stacks request modal window',
                     label: work.id,
                   }}
+                  ref={openRequestButtonRef}
                 />
 
                 <Modal
+                  id="requestModal"
                   isActive={showRequestModal}
                   setIsActive={setShowRequestModal}
+                  openButtonRef={openRequestButtonRef}
                 >
                   <h2
                     className={classNames({
@@ -314,8 +318,10 @@ const RequestLocation = ({ work }: Props) => {
               {!showRequestModal && (
                 <div data-test-id="resultsModalCTA">
                   <Modal
+                    id="resultsModal"
                     isActive={showResultsModal}
                     setIsActive={setShowResultsModal}
+                    openButtonRef={{ current: null }}
                   >
                     <h2
                       className={classNames({
