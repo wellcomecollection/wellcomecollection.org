@@ -148,6 +148,41 @@ const Tree = styled.div`
   }
 `;
 
+const TreeControl = styled.span`
+  display: inline-block;
+  cursor: pointer;
+  height: 44px;
+  width: 44px;
+  min-width: 44px;
+  position: relative;
+  z-index: 1;
+  &::before {
+    content: '';
+    position: absolute;
+    height: 28px;
+    width: 28px;
+    top: 8px;
+    left: 8px;
+    background: ${props =>
+      props.highlightCondition === 'primary'
+        ? props.theme.color('yellow')
+        : props.highlightCondition === 'secondary'
+        ? props.theme.color('yellow', 'light')
+        : props.theme.color('smoke')};
+    border: ${props =>
+      props.highlightCondition === 'secondary'
+        ? `1px solid ${props.theme.color('yellow')}`
+        : `2px solid ${props.theme.color('white')}`};
+    border-radius: 50%;
+  }
+  .icon {
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    left: 10px;
+  }
+`;
+
 const TreeItem = styled.li`
   padding: 10px 10px 10px 0;
   &:focus {
@@ -474,14 +509,14 @@ const ListItem = ({
     (!tabbableId && currentWorkId === item.work.id);
   const toggles = useContext(TogglesContext);
   const { updateLastFocusableRef } = useContext(ModalContext);
-  // const descendentIsSelected = archiveAncestorArray.some(
-  //   ancestor => ancestor.id === item.work.id
-  // );
-  // const highlightCondition = item.openStatus
-  //   ? 'primary'
-  //   : descendentIsSelected
-  //   ? 'secondary'
-  //   : '';
+  const descendentIsSelected =
+    archiveAncestorArray &&
+    archiveAncestorArray.some(ancestor => ancestor.id === item.work.id);
+  const highlightCondition = item.openStatus
+    ? 'primary'
+    : descendentIsSelected
+    ? 'secondary'
+    : '';
 
   function updateTabbing(id) {
     // We only want one tabbable item in the tree at a time,
@@ -632,26 +667,12 @@ const ListItem = ({
         {isEnhanced &&
         level > 1 &&
         ((item.children && item.children.length > 0) || !item.children) && ( // TODO use new API totalParts data when available
-            <span
-              style={{
-                display: 'inline-block',
-                cursor: 'pointer',
-                lineHeight: '18px',
-                height: '18px',
-                width: '18px',
-                padding: '0px',
-                marginTop: '2px',
-                marginRight: '8px',
-                fontSize: '10px',
-                background: 'rgb(204, 204, 204)',
-                textAlign: 'center',
-              }}
-            >
+            <TreeControl highlightCondition={highlightCondition}>
               <Icon
-                extraClasses="icon--match-text"
-                name={item.openStatus ? 'minus' : 'plus'}
+                extraClasses={item.openStatus ? '' : 'icon--270'}
+                name="chevron"
               />
-            </span>
+            </TreeControl>
           )}
         <NextLink {...workLink({ id: item.work.id })} scroll={false} passHref>
           <StyledLink
