@@ -19,6 +19,10 @@ import {
   type NodeWork,
 } from '@weco/common/utils/works';
 import { type Work } from '@weco/common/model/catalogue';
+import useWindowSize from '@weco/common/hooks/useWindowSize';
+import Modal, { ModalContext } from '@weco/common/views/components/Modal/Modal';
+// $FlowFixMe (tsx)
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
 const instructions =
   'Archive Tree: Tab into the tree, then use up and down arrows to move through tree items. Use right and left arrows to toggle sub menus open and closed. When focused on an item you can tab to the link it contains.';
@@ -66,7 +70,7 @@ const Tree = styled.div`
     &::before {
       display: none;
       position: absolute;
-      content: '${instructions}';
+      content: ${props => (props.isEnhanced ? `'${instructions}'` : null)};
       z-index: 2;
       top: 0;
       background: ${props => props.theme.color('yellow')};
@@ -443,6 +447,7 @@ const ListItem = ({
   posInSet,
   tabbableId,
   setTabbableId,
+  setShowArchiveTree,
 }: {|
   item: UiTreeNode,
   currentWorkId: string,
@@ -454,13 +459,27 @@ const ListItem = ({
   posInSet: number,
   tabbableId: ?string,
   setTabbableId: string => void,
+  setShowArchiveTree: boolean => void,
 |}) => {
-  const { isKeyboard } = useContext(AppContext);
+  const { isKeyboard, isEnhanced } = useContext(AppContext);
   const isEndNode = item.children && item.children.length === 0;
   const isSelected =
     (tabbableId && tabbableId === item.work.id) ||
     (!tabbableId && currentWorkId === item.work.id);
   const toggles = useContext(TogglesContext);
+  const { updateLastFocusableRef } = useContext(ModalContext);
+
+  function updateTabbing(id) {
+    // We only want one tabbable item in the tree at a time,
+    // so that keyboard users can get past the tree, without having to tab through all the elements
+    // When the tree is inside a Modal we also need to update the lastFocusableRef, from Modal, which is used for the focus trap
+    // and prevents users from being able to tab items outside of the Modal when it is open.
+    setTabbableId(id);
+    const listItem = document.getElementById(id);
+    if (listItem && updateLastFocusableRef) {
+      updateLastFocusableRef(listItem.getElementsByTagName('a')[0]);
+    }
+  }
   function toggleBranch() {
     // TODO use new API totalParts data when available
     if (item.children === undefined) {
@@ -484,20 +503,28 @@ const ListItem = ({
     <TreeItem
       hideFocus={!isKeyboard}
       id={item.work.id}
-      role="treeitem"
-      aria-level={level}
-      aria-setsize={setSize}
-      aria-posinset={posInSet}
+      role={isEnhanced ? 'treeitem' : null}
+      aria-level={isEnhanced ? level : null}
+      aria-setsize={isEnhanced ? setSize : null}
+      aria-posinset={isEnhanced ? posInSet : null}
       aria-expanded={
-        item.children && item.children.length > 0 ? item.openStatus : null
+        isEnhanced
+          ? item.children && item.children.length > 0
+            ? item.openStatus
+            : null
+          : null
       }
-      aria-label={`${item.work.title}${
-        item.work.referenceNumber
-          ? `, reference number ${item.work.referenceNumber}`
-          : ''
-      }`}
-      aria-selected={isSelected}
-      tabIndex={isSelected ? 0 : -1}
+      aria-label={
+        isEnhanced
+          ? `${item.work.title}${
+              item.work.referenceNumber
+                ? `, reference number ${item.work.referenceNumber}`
+                : ''
+            }`
+          : null
+      }
+      aria-selected={isEnhanced ? isSelected : null}
+      tabIndex={isEnhanced ? (isSelected ? 0 : -1) : null}
       onKeyDown={event => {
         event.stopPropagation();
         const key = event.key || event.keyCode;
@@ -521,7 +548,7 @@ const ListItem = ({
             // When focus is on an open node, moves focus to the first child node.
             if (item.openStatus) {
               if (nextId) {
-                setTabbableId(nextId);
+                updateTabbing(nextId);
               }
             }
 
@@ -533,7 +560,7 @@ const ListItem = ({
             // When focus is on a closed node, opens the node; focus does not move.
             if (!item.openStatus) {
               toggleBranch();
-              setTabbableId(item.work.id);
+              updateTabbing(item.work.id);
             }
             break;
           }
@@ -548,7 +575,7 @@ const ListItem = ({
                   value: !item.openStatus,
                 })
               );
-              setTabbableId(item.work.id);
+              updateTabbing(item.work.id);
             }
             // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
             // When focus is on a root node that is also either an end node or a closed node, does nothing.
@@ -558,7 +585,7 @@ const ListItem = ({
               (item.children && item.children.length === 0) // TODO remove when API updated
             ) {
               if (item.parentId) {
-                setTabbableId(item.parentId);
+                updateTabbing(item.parentId);
               }
             }
             break;
@@ -566,14 +593,14 @@ const ListItem = ({
           case DOWN.includes(key): {
             // Moves focus to the next node that is focusable without opening or closing a node.
             if (nextId) {
-              setTabbableId(nextId);
+              updateTabbing(nextId);
             }
             break;
           }
           case UP.includes(key): {
             // Moves focus to the previous node that is focusable without opening or closing a node.
             if (previousId) {
-              setTabbableId(previousId);
+              updateTabbing(previousId);
             }
             break;
           }
@@ -583,12 +610,13 @@ const ListItem = ({
         event.stopPropagation();
         if (level > 0) {
           toggleBranch();
-          setTabbableId(item.work.id);
+          updateTabbing(item.work.id);
         }
       }}
     >
       <div className="flex-inline">
-        {level > 1 &&
+        {isEnhanced &&
+        level > 1 &&
         ((item.children && item.children.length > 0) || !item.children) && ( // TODO use new API totalParts data when available
             <span
               style={{
@@ -613,7 +641,7 @@ const ListItem = ({
           )}
         <NextLink {...workLink({ id: item.work.id })} scroll={false} passHref>
           <StyledLink
-            tabIndex={isSelected ? 0 : -1}
+            tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
             className={classNames({
               [font('hnl', 6)]: true,
             })}
@@ -621,6 +649,7 @@ const ListItem = ({
             ref={currentWorkId === item.work.id ? selected : null}
             onClick={event => {
               event.stopPropagation();
+              setShowArchiveTree(false);
             }}
           >
             <WorkTitle title={item.work.title} />
@@ -647,6 +676,7 @@ const ListItem = ({
           level={level + 1}
           tabbableId={tabbableId}
           setTabbableId={setTabbableId}
+          setShowArchiveTree={setShowArchiveTree}
         />
       )}
     </TreeItem>
@@ -662,6 +692,7 @@ const NestedList = ({
   level,
   tabbableId,
   setTabbableId,
+  setShowArchiveTree,
 }: {|
   currentWorkId: string,
   archiveTree: UiTree,
@@ -671,12 +702,14 @@ const NestedList = ({
   level: number,
   tabbableId: ?string,
   setTabbableId: string => void,
+  setShowArchiveTree: boolean => void,
 |}) => {
+  const { isEnhanced } = useContext(AppContext);
   return (
     <ul
-      aria-labelledby={level === 1 ? 'tree-instructions' : null}
-      tabIndex={level === 1 ? 0 : null}
-      role={level === 1 ? 'tree' : 'group'}
+      aria-labelledby={level === 1 && isEnhanced ? 'tree-instructions' : null}
+      tabIndex={level === 1 && isEnhanced ? 0 : null}
+      role={isEnhanced ? (level === 1 ? 'tree' : 'group') : null}
       className={classNames({
         'font-size-5': true,
       })}
@@ -697,6 +730,7 @@ const NestedList = ({
                 posInSet={i + 1}
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
+                setShowArchiveTree={setShowArchiveTree}
               />
             )
           );
@@ -705,12 +739,69 @@ const NestedList = ({
   );
 };
 
+const ButtonWrap = styled(Space).attrs({
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+})`
+  button {
+    width: 100%;
+    justify-content: center;
+  }
+`;
+
+function createBasicTree({
+  // Returns a UiTree with the current work (with it's children) and it's ancestors
+  // This is all the data we have without making further API calls
+  work,
+  workId,
+}: {|
+  work: Work,
+  workId: string,
+|}): UiTree {
+  const ancestorArray = getArchiveAncestorArray(work);
+  const partOfReversed = [...ancestorArray, parsePart(work)].reverse();
+  return [
+    partOfReversed.reduce(
+      (acc, curr, i, array) => {
+        return {
+          openStatus: true,
+          work: curr,
+          parentId: array[i + 1] && array[i + 1].id,
+          children:
+            i === 0
+              ? work.parts.map(part => ({
+                  work: parsePart(part),
+                  openStatus: false,
+                  parentId: work.partOf[0] && work.partOf[0].id,
+                }))
+              : [acc],
+        };
+      },
+      {
+        openStatus: true,
+        work: parsePart(work),
+        parentId: work.partOf[0] && work.partOf[0].id,
+        children: work.parts.map(part => ({
+          work: part,
+          children: part.children,
+          parentId: work.id,
+        })),
+      }
+    ),
+  ];
+}
+
 const ArchiveTree = ({ work }: { work: Work }) => {
+  const windowSize = useWindowSize();
   const toggles = useContext(TogglesContext);
+  const { isEnhanced } = useContext(AppContext);
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const initialLoad = useRef(true);
-  const [archiveTree, setArchiveTree] = useState([]);
+  const [showArchiveTree, setShowArchiveTree] = useState(false);
+  const [archiveTree, setArchiveTree] = useState(
+    createBasicTree({ work, workId: work.id })
+  );
   const [tabbableId, setTabbableId] = useState(null);
+  const openButtonRef = useRef(null);
 
   useEffect(() => {
     const elementToFocus = tabbableId && document.getElementById(tabbableId);
@@ -749,47 +840,86 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     initialLoad.current = false;
   }, [work.id]);
 
-  const TreeView = () => (
-    <Tree>
-      <TreeInstructions>{instructions}</TreeInstructions>
-      <NestedList
-        selected={selected}
-        currentWorkId={work.id}
-        fullTree={archiveTree}
-        setArchiveTree={setArchiveTree}
-        archiveTree={archiveTree}
-        level={1}
-        tabbableId={tabbableId}
-        setTabbableId={setTabbableId}
-      />
-    </Tree>
-  );
-
   return isInArchive ? (
-    <StickyContainer>
-      <Space
-        v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-        className={classNames({
-          'flex flex--v-center bg-smoke': true,
-        })}
-      >
-        <Space
-          as="h2"
-          h={{ size: 'm', properties: ['margin-right'] }}
-          className={classNames({
-            [font('wb', 5)]: true,
-            'no-margin': true,
-          })}
-        >
-          Collection contents
-        </Space>
-        <Icon name="tree" />
-      </Space>
-      <StickyContainerInner>
-        <TreeView />
-      </StickyContainerInner>
-    </StickyContainer>
+    <>
+      {windowSize === 'small' ? (
+        <>
+          <ButtonWrap>
+            <ButtonSolid
+              text={'Collection contents'}
+              clickHandler={() => setShowArchiveTree(true)}
+              aria-controls="collection-contents-modal"
+              aria-label="show collection contents"
+              icon="tree"
+              ref={openButtonRef}
+            />
+          </ButtonWrap>
+          <Modal
+            isActive={showArchiveTree}
+            setIsActive={setShowArchiveTree}
+            id={'collection-contents-modal'}
+            openButtonRef={openButtonRef}
+          >
+            <Tree isEnhanced={isEnhanced}>
+              {isEnhanced && (
+                <TreeInstructions>{instructions}</TreeInstructions>
+              )}
+              <NestedList
+                selected={selected}
+                currentWorkId={work.id}
+                fullTree={archiveTree}
+                setArchiveTree={setArchiveTree}
+                archiveTree={archiveTree}
+                level={1}
+                tabbableId={tabbableId}
+                setTabbableId={setTabbableId}
+                setShowArchiveTree={setShowArchiveTree}
+              />
+            </Tree>
+          </Modal>
+        </>
+      ) : (
+        <StickyContainer>
+          <Space
+            v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+            h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+            className={classNames({
+              'flex flex--v-center bg-smoke': true,
+            })}
+          >
+            <Space
+              as="h2"
+              h={{ size: 'm', properties: ['margin-right'] }}
+              className={classNames({
+                [font('wb', 5)]: true,
+                'no-margin': true,
+              })}
+            >
+              Collection contents
+            </Space>
+            <Icon name="tree" />
+          </Space>
+          <StickyContainerInner>
+            <Tree isEnhanced={isEnhanced}>
+              {isEnhanced && (
+                <TreeInstructions>{instructions}</TreeInstructions>
+              )}
+              <NestedList
+                selected={selected}
+                currentWorkId={work.id}
+                fullTree={archiveTree}
+                setArchiveTree={setArchiveTree}
+                archiveTree={archiveTree}
+                level={1}
+                tabbableId={tabbableId}
+                setTabbableId={setTabbableId}
+                setShowArchiveTree={setShowArchiveTree}
+              />
+            </Tree>
+          </StickyContainerInner>
+        </StickyContainer>
+      )}
+    </>
   ) : null;
 };
 

@@ -1,10 +1,6 @@
 // @flow
-
-import { useState, useRef, useEffect, useContext } from 'react';
+import { useState, useRef, useContext } from 'react';
 import dynamic from 'next/dynamic';
-import useFocusTrap from '../../../hooks/useFocusTrap';
-import { CSSTransition } from 'react-transition-group';
-import getFocusableElements from '../../../utils/get-focusable-elements';
 import NextLink from 'next/link';
 import { worksLink } from '../../../services/catalogue/routes';
 import styled from 'styled-components';
@@ -20,6 +16,7 @@ import ButtonSolid, {
   SolidButton,
   // $FlowFixMe (tsx)
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Modal from '@weco/common/views/components/Modal/Modal';
 
 // $FlowFixMe (tsx)
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
@@ -42,61 +39,6 @@ const FiltersHeader = styled(Space).attrs({
     'border-color-pumice border-bottom-width-1 relative': true,
   }),
 })``;
-
-const CloseFiltersButton = styled(Space).attrs({
-  h: { size: 'm', properties: ['left'] },
-  as: 'button',
-  type: 'button',
-  className: classNames({
-    'plain-button': true,
-  }),
-})`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-`;
-
-const FiltersModal = styled.div.attrs({
-  'aria-modal': true,
-  id: 'mobile-filters-modal',
-  className: classNames({
-    'bg-white': true,
-  }),
-})`
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  transition: opacity 350ms ease, transform 350ms ease;
-
-  &,
-  &.fade-exit-done {
-    z-index: -1;
-    pointer-events: none;
-  }
-
-  &.fade-enter,
-  &.fade-exit,
-  &.fade-enter-done {
-    z-index: 10;
-    pointer-events: all;
-  }
-
-  &,
-  &.fade-enter,
-  &.fade-exit-active,
-  &.fade-exit-done {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-
-  &.fade-enter-active,
-  &.fade-enter-done {
-    opacity: 1;
-    transform: scale(1);
-  }
-`;
 
 const ActiveFilters = styled(Space).attrs({
   h: {
@@ -167,63 +109,9 @@ const SearchFiltersMobile = ({
   imagesColor,
   aggregations,
 }: SearchFiltersSharedProps) => {
-  const openFiltersButtonRef = useRef(null);
-  const closeFiltersButtonRef = useRef(null);
   const okFiltersButtonRef = useRef(null);
-  const filtersModalRef = useRef(null);
-  const [isActive, setIsActive] = useState(false);
-
-  useFocusTrap(closeFiltersButtonRef, okFiltersButtonRef);
-
-  useEffect(() => {
-    function setPageScrollLock(value) {
-      if (document.documentElement) {
-        if (value) {
-          document.documentElement.classList.add('is-scroll-locked--to-medium');
-        } else {
-          document.documentElement.classList.remove(
-            'is-scroll-locked--to-medium'
-          );
-        }
-      }
-    }
-
-    const focusables =
-      filtersModalRef &&
-      filtersModalRef.current &&
-      getFocusableElements(filtersModalRef.current);
-
-    if (isActive) {
-      setPageScrollLock(true);
-      focusables &&
-        focusables.forEach(focusable => focusable.removeAttribute('tabIndex'));
-      const firstFocusable = focusables && focusables[0];
-
-      firstFocusable && firstFocusable.focus();
-    } else {
-      setPageScrollLock(false);
-      focusables &&
-        focusables.forEach(focusable =>
-          focusable.setAttribute('tabIndex', '-1')
-        );
-
-      openFiltersButtonRef &&
-        openFiltersButtonRef.current &&
-        openFiltersButtonRef.current.focus();
-    }
-  }, [isActive]);
-
-  function handleOkFiltersButtonClick() {
-    setIsActive(false);
-  }
-
-  function handleOpenFiltersButtonClick() {
-    setIsActive(true);
-
-    closeFiltersButtonRef &&
-      closeFiltersButtonRef.current &&
-      closeFiltersButtonRef.current.focus();
-  }
+  const openButtonRef = useRef(null);
+  const [showFiltersModal, setShowFiltersModal] = useState(false);
 
   const { enableColorFiltering, locationsFilter } = useContext(TogglesContext);
   const showWorkTypeFilters =
@@ -241,10 +129,12 @@ const SearchFiltersMobile = ({
     <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
       <ShameButtonWrap>
         <SolidButton
-          ref={openFiltersButtonRef}
-          onClick={handleOpenFiltersButtonClick}
-          aria-controls="mobile-filters-modal"
+          onClick={() => {
+            setShowFiltersModal(true);
+          }}
+          aria-controls="filters-modal"
           aria-label="open filters"
+          ref={openButtonRef}
         >
           <Space h={{ size: 's', properties: ['margin-right'] }}>
             <Icon name="filter" />
@@ -255,163 +145,159 @@ const SearchFiltersMobile = ({
           )}
         </SolidButton>
       </ShameButtonWrap>
-      <CSSTransition in={isActive} classNames="fade" timeout={350}>
-        <FiltersModal ref={filtersModalRef} isActive={isActive}>
-          <FiltersScrollable>
-            <FiltersHeader>
-              <CloseFiltersButton
-                ref={closeFiltersButtonRef}
-                onClick={() => setIsActive(false)}
-              >
-                <Icon name="cross" />
-                <span className="visually-hidden">close filters</span>
-              </CloseFiltersButton>
-              <h2 className="h3 text-align-center block">Filters</h2>
-            </FiltersHeader>
 
-            <FiltersBody>
+      <Modal
+        isActive={showFiltersModal}
+        setIsActive={setShowFiltersModal}
+        id={'filters-modal'}
+        openButtonRef={openButtonRef}
+      >
+        <FiltersScrollable>
+          <FiltersHeader>
+            <h2 className="h3 text-align-center block">Filters</h2>
+          </FiltersHeader>
+
+          <FiltersBody>
+            <FilterSection>
+              <h3 className="h3">Dates</h3>
+              <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+                <NumberInput
+                  label="From"
+                  min="0"
+                  max="9999"
+                  placeholder={'Year'}
+                  name="production.dates.from"
+                  value={inputDateFrom || ''}
+                  onChange={event => {
+                    setInputDateFrom(`${event.currentTarget.value}`);
+                  }}
+                />
+              </Space>
+              <NumberInput
+                label="to"
+                min="0"
+                max="9999"
+                placeholder={'Year'}
+                name="production.dates.to"
+                value={inputDateTo || ''}
+                onChange={event => {
+                  setInputDateTo(`${event.currentTarget.value}`);
+                }}
+              />
+            </FilterSection>
+            {showWorkTypeFilters && (
               <FilterSection>
-                <h3 className="h3">Dates</h3>
+                <h3 className="h3">Formats</h3>
+                <ul
+                  className={classNames({
+                    'no-margin no-padding plain-list': true,
+                  })}
+                >
+                  {workTypeFilters.map(workType => {
+                    const isChecked = workTypeInUrlArray.includes(
+                      workType.data.id
+                    );
+
+                    return (
+                      (workType.count > 0 || isChecked) && (
+                        <Space
+                          as="li"
+                          v={{ size: 'l', properties: ['margin-bottom'] }}
+                          key={`mobile-${workType.data.id}`}
+                        >
+                          <CheckboxRadio
+                            id={`mobile-${workType.data.id}`}
+                            type={`checkbox`}
+                            text={`${workType.data.label} (${workType.count})`}
+                            value={workType.data.id}
+                            name={`workType`}
+                            checked={isChecked}
+                            onChange={changeHandler}
+                          />
+                        </Space>
+                      )
+                    );
+                  })}
+                </ul>
+              </FilterSection>
+            )}
+            {locationsFilter && aggregations && aggregations.locationType && (
+              <FilterSection>
+                <h3 className="h3">Locations</h3>
+                <ul
+                  className={classNames({
+                    'no-margin no-padding plain-list': true,
+                  })}
+                >
+                  {aggregations.locationType.buckets.map(locationType => {
+                    const isChecked = worksRouteProps.itemsLocationsType.includes(
+                      locationType.data.type
+                    );
+
+                    return (
+                      (locationType.count > 0 || isChecked) && (
+                        <Space
+                          as="li"
+                          v={{ size: 'l', properties: ['margin-bottom'] }}
+                          key={`mobile-${locationType.data.type}`}
+                        >
+                          <CheckboxRadio
+                            id={locationType.data.type}
+                            type={`checkbox`}
+                            text={`${locationType.data.label} (${locationType.count})`}
+                            value={locationType.data.type}
+                            name={`items.locations.type`}
+                            checked={isChecked}
+                            onChange={changeHandler}
+                          />
+                        </Space>
+                      )
+                    );
+                  })}
+                </ul>
+              </FilterSection>
+            )}
+            {showColorFilter && (
+              <FilterSection>
+                <h3 className="h3">Colour</h3>
                 <Space
                   as="span"
                   h={{ size: 'm', properties: ['margin-right'] }}
                 >
-                  <NumberInput
-                    label="From"
-                    min="0"
-                    max="9999"
-                    placeholder={'Year'}
-                    name="production.dates.from"
-                    value={inputDateFrom || ''}
-                    onChange={event => {
-                      setInputDateFrom(`${event.currentTarget.value}`);
-                    }}
+                  <ColorPicker
+                    color={imagesColor}
+                    name="images.color"
+                    onChangeColor={changeHandler}
                   />
                 </Space>
-                <NumberInput
-                  label="to"
-                  min="0"
-                  max="9999"
-                  placeholder={'Year'}
-                  name="production.dates.to"
-                  value={inputDateTo || ''}
-                  onChange={event => {
-                    setInputDateTo(`${event.currentTarget.value}`);
-                  }}
-                />
               </FilterSection>
-              {showWorkTypeFilters && (
-                <FilterSection>
-                  <h3 className="h3">Formats</h3>
-                  <ul
-                    className={classNames({
-                      'no-margin no-padding plain-list': true,
-                    })}
-                  >
-                    {workTypeFilters.map(workType => {
-                      const isChecked = workTypeInUrlArray.includes(
-                        workType.data.id
-                      );
+            )}
+          </FiltersBody>
+        </FiltersScrollable>
 
-                      return (
-                        (workType.count > 0 || isChecked) && (
-                          <Space
-                            as="li"
-                            v={{ size: 'l', properties: ['margin-bottom'] }}
-                            key={`mobile-${workType.data.id}`}
-                          >
-                            <CheckboxRadio
-                              id={`mobile-${workType.data.id}`}
-                              type={`checkbox`}
-                              text={`${workType.data.label} (${workType.count})`}
-                              value={workType.data.id}
-                              name={`workType`}
-                              checked={isChecked}
-                              onChange={changeHandler}
-                            />
-                          </Space>
-                        )
-                      );
-                    })}
-                  </ul>
-                </FilterSection>
-              )}
-              {locationsFilter && aggregations && aggregations.locationType && (
-                <FilterSection>
-                  <h3 className="h3">Locations</h3>
-                  <ul
-                    className={classNames({
-                      'no-margin no-padding plain-list': true,
-                    })}
-                  >
-                    {aggregations.locationType.buckets.map(locationType => {
-                      const isChecked = worksRouteProps.itemsLocationsType.includes(
-                        locationType.data.type
-                      );
+        <FiltersFooter>
+          <NextLink
+            passHref
+            {...worksLink(
+              {
+                query: worksRouteProps.query,
+              },
+              'cancel_filter/all'
+            )}
+          >
+            <a>Reset filters</a>
+          </NextLink>
 
-                      return (
-                        (locationType.count > 0 || isChecked) && (
-                          <Space
-                            as="li"
-                            v={{ size: 'l', properties: ['margin-bottom'] }}
-                            key={`mobile-${locationType.data.type}`}
-                          >
-                            <CheckboxRadio
-                              id={locationType.data.type}
-                              type={`checkbox`}
-                              text={`${locationType.data.label} (${locationType.count})`}
-                              value={locationType.data.type}
-                              name={`items.locations.type`}
-                              checked={isChecked}
-                              onChange={changeHandler}
-                            />
-                          </Space>
-                        )
-                      );
-                    })}
-                  </ul>
-                </FilterSection>
-              )}
-              {showColorFilter && (
-                <FilterSection>
-                  <h3 className="h3">Colour</h3>
-                  <Space
-                    as="span"
-                    h={{ size: 'm', properties: ['margin-right'] }}
-                  >
-                    <ColorPicker
-                      color={imagesColor}
-                      name="images.color"
-                      onChangeColor={changeHandler}
-                    />
-                  </Space>
-                </FilterSection>
-              )}
-            </FiltersBody>
-          </FiltersScrollable>
-
-          <FiltersFooter>
-            <NextLink
-              passHref
-              {...worksLink(
-                {
-                  query: worksRouteProps.query,
-                },
-                'cancel_filter/all'
-              )}
-            >
-              <a>Reset filters</a>
-            </NextLink>
-
-            <ButtonSolid
-              ref={okFiltersButtonRef}
-              type="button"
-              clickHandler={handleOkFiltersButtonClick}
-              text="OK"
-            />
-          </FiltersFooter>
-        </FiltersModal>
-      </CSSTransition>
+          <ButtonSolid
+            ref={okFiltersButtonRef}
+            type="button"
+            clickHandler={() => {
+              setShowFiltersModal(false);
+            }}
+            text="OK"
+          />
+        </FiltersFooter>
+      </Modal>
     </Space>
   );
 };
