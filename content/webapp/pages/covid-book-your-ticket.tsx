@@ -108,7 +108,7 @@ const CovidWeAreOpenPage = () => {
                 />
               </Space>
               <InfoBlock
-                heading={'Museum visit'}
+                title={'Museum visit'}
                 link={{
                   link_type: 'Web',
                   url:
@@ -145,7 +145,7 @@ const CovidWeAreOpenPage = () => {
               </Space>
 
               <InfoBlock
-                heading={'Library and museum visit'}
+                title={'Library and museum visit'}
                 text={[
                   {
                     type: 'list-item',

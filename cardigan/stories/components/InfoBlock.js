@@ -5,7 +5,7 @@ import Readme from '../../../common/views/components/InfoBlock/README.md';
 const InfoBlockExample = () => {
   return (
     <InfoBlock
-      heading={'Book your ticket'}
+      title={'Book your ticket'}
       text={[
         {
           type: 'list-item',

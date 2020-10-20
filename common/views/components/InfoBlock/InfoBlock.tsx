@@ -11,7 +11,7 @@ type Props = {
   link: any | null; // TODO: use PrismicLink type from #5636 and parseUrl
 };
 
-const InfoBlock = ({ heading, text, linkText, link }) => {
+const InfoBlock = ({ title, text, linkText, link }) => {
   return (
     <Space
       h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
@@ -20,7 +20,7 @@ const InfoBlock = ({ heading, text, linkText, link }) => {
       })}
       style={{ borderLeftWidth: '16px', borderLeftStyle: 'solid' }}
     >
-      <h2 className="h2">{heading}</h2>
+      <h2 className="h2">{title}</h2>
       <div className="spaced-text body-text">
         <PrismicHtmlBlock html={text} />
       </div>

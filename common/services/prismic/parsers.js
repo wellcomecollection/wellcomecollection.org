@@ -738,7 +738,7 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
           return {
             type: 'infoBlock',
             value: {
-              heading: slice.primary.heading,
+              title: slice.primary.title,
               text: slice.primary.text,
               linkText: slice.primary.linkText,
               link: slice.primary.link,
