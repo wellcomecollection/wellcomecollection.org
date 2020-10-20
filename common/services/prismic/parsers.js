@@ -472,7 +472,7 @@ export function parseLink(link?: PrismicLink): ?string {
     if (link.link_type === 'Web' || link.link_type === 'Media') {
       return link.url;
     } else if (link.link_type === 'Document' && isDocumentLink(link)) {
-      return `/${link.type}/${link.id}`;
+      return linkResolver(link);
     }
   }
 }
