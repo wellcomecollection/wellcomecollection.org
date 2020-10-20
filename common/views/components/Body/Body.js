@@ -28,6 +28,7 @@ import {
   dropCapSerializer,
 } from '../../../services/prismic/html-serializers';
 import { type Weight } from '../../../services/prismic/parsers';
+import MediaObjectList from '../MediaObjectList/MediaObjectList';
 
 const Map = dynamic(import('../Map/Map'), { ssr: false });
 
@@ -235,6 +236,11 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
             {slice.type === 'deprecatedImageList' && (
               <Layout8>
                 <DeprecatedImageList {...slice.value} />
+              </Layout8>
+            )}
+            {slice.type === 'mediaObjectList' && (
+              <Layout8>
+                <MediaObjectList {...slice.value} />
               </Layout8>
             )}
           </div>

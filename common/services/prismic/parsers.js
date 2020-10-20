@@ -34,6 +34,9 @@ import linkResolver from './link-resolver';
 import { parseArticle } from './articles';
 import { parseEventDoc } from './events';
 
+// $FlowFixMe (ts)
+import type { MediaObjectType } from '../../model/media-object-list';
+
 const placeHolderImage = ({
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
   width: 160,
@@ -528,7 +531,9 @@ function getWeight(weight: ?string): ?Weight {
   }
 }
 
-function parseMediaObjectLinks(fragment: PrismicFragment[]): any {
+function parseMediaObjectLinks(
+  fragment: PrismicFragment[]
+): Array<MediaObjectType> {
   return fragment.map(mediaObjectList => {
     const { title, text, image } = mediaObjectList.content.data;
     return {
@@ -761,11 +766,10 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
             },
           };
         case 'mediaObjectList':
-          console.log(slice.items);
           return {
             type: 'mediaObjectList',
             value: {
-              content: parseMediaObjectLinks(slice.items),
+              items: parseMediaObjectLinks(slice.items),
             },
           };
       }
