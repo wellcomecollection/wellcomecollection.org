@@ -4,21 +4,35 @@ import {
   mountWithTheme,
 } from '../../../test/fixtures/enzyme-helpers';
 import { openingTimes } from '../../../test/fixtures/components/opening-times';
+import * as serviceOpeningTimes from '@weco/common/services/prismic/opening-times';
 
 describe('FooterOpeningTimes', () => {
-  const component = shallowWithTheme(
-    <FooterOpeningTimes
-      collectionOpeningTimes={openingTimes.collectionOpeningTimes}
-    />
-  );
-
-  const componentHtml = component.html();
   it('Should match snapshot of FooterOpeningTimes', () => {
-    expect(componentHtml).toMatchSnapshot();
-  });
+    const spyOnGetTodaysVenueHours = jest.spyOn(
+      serviceOpeningTimes,
+      'getTodaysVenueHours'
+    );
+    // set date as wednesday
+    spyOnGetTodaysVenueHours.mockImplementationOnce(() => {
+      return { dayOfWeek: 'Wednesday', opens: '10:00', closes: '18:00' };
+    });
 
+    const component = shallowWithTheme(
+      <FooterOpeningTimes
+        collectionOpeningTimes={openingTimes.collectionOpeningTimes}
+      />
+    );
+    expect(component.html()).toMatchSnapshot();
+    expect(spyOnGetTodaysVenueHours).toHaveBeenCalled();
+  });
   it('Should display opening times name restaurant as Kitchen', () => {
-    expect(componentHtml.match('Kitchen '));
+    const component = shallowWithTheme(
+      <FooterOpeningTimes
+        collectionOpeningTimes={openingTimes.collectionOpeningTimes}
+      />
+    );
+
+    expect(component.html().match('Kitchen '));
   });
 
   it('Should not display render any opening times if opening times are empty', () => {
