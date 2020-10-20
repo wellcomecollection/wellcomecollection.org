@@ -1,5 +1,4 @@
 import { classNames, font, grid } from '@weco/common/utils/classnames';
-import { getTodaysVenueHours } from '@weco/common/services/prismic/opening-times';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import FindUs from '@weco/common/views/components/FindUs/FindUs';
@@ -7,6 +6,7 @@ import SpacingSection from '../SpacingSection/SpacingSection';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout8 from '../Layout8/Layout8';
+import FooterOpeningTimes from '@weco/common/views/components/FooterOpeningTimes/FooterOpeningTimes';
 
 type ContainerProps = {|
   children: any,
@@ -61,38 +61,11 @@ const VisitUsStaticContent = () => (
                     'no-margin': true,
                   })}
                 >{`Today's opening times`}</h2>
-                <ul className="plain-list no-padding no-margin">
-                  {openingTimes.collectionOpeningTimes.placesOpeningHours.map(
-                    venue => {
-                      const todaysHours = getTodaysVenueHours(venue);
-                      return (
-                        todaysHours && (
-                          <Space
-                            v={{
-                              size: 's',
-                              properties: ['margin-top'],
-                            }}
-                            as="li"
-                            key={venue.name}
-                          >
-                            {venue.name.toLowerCase() === 'restaurant'
-                              ? 'Kitchen '
-                              : `${venue.name} `}
-                            {todaysHours.opens ? (
-                              <>
-                                <time>{todaysHours.opens}</time>
-                                {'—'}
-                                <time>{todaysHours.closes}</time>
-                              </>
-                            ) : (
-                              'closed'
-                            )}
-                          </Space>
-                        )
-                      );
-                    }
-                  )}
-                </ul>
+                {openingTimes && openingTimes?.collectionOpeningTimes && (
+                  <FooterOpeningTimes
+                    collectionOpeningTimes={openingTimes.collectionOpeningTimes}
+                  />
+                )}
                 <Space
                   v={{
                     size: 's',

@@ -1,8 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import Footer from '../../../common/views/components/Footer/Footer';
 import Readme from '../../../common/views/components/Footer/README.md';
-import { openingTimes } from '../content';
-
+import { openingTimes } from '../../../common/test/fixtures/components/opening-times';
 const FooterExample = () => {
   return <Footer openingTimes={openingTimes} />;
 };

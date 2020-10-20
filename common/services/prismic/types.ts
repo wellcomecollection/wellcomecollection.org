@@ -16,6 +16,12 @@ export type PrismicDocument = {
   url?: string;
 };
 
+export type PrismicLink = {
+  link_type: 'Web' | 'Document' | 'Media';
+  url?: string;
+  id?: string;
+}
+
 export type PrismicApiSearchResponse = {
   page: number;
   results_per_page: number;

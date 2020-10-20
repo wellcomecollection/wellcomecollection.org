@@ -1,5 +1,5 @@
 ## Purpose
 
-A way to present an optional dialog box to a user.
+A way to present a dialog box with a title, description and linked CTA.
 
-The contents of the dialog are passed in as `children`.
+[Edit this on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/master/common/views/components/PopupDialog/README.md)

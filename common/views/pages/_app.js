@@ -23,6 +23,8 @@ import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/Outb
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
 import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
+// $FlowFixMe (tsx)
+import PopupDialogContext from '../../views/components/PopupDialogContext/PopupDialogContext';
 import JsonLd from '../../views/components/JsonLd/JsonLd';
 import { trackEvent } from '../../utils/ga';
 import { AppContextProvider } from '../components/AppContext/AppContext';
@@ -37,6 +39,7 @@ const isClient = !isServer;
 let toggles;
 let openingTimes;
 let globalAlert;
+let popupDialog;
 let engagement;
 let previouslyAccruedTimeOnSpaPage = 0;
 let accruedHiddenTimeOnPage = 0;
@@ -146,6 +149,7 @@ export default class WecoApp extends App {
     toggles = isServer ? router.query.toggles : toggles;
     openingTimes = isServer ? router.query.openingTimes : openingTimes;
     globalAlert = isServer ? router.query.globalAlert : globalAlert;
+    popupDialog = isServer ? router.query.popupDialog : popupDialog;
 
     let pageProps = {};
     if (Component.getInitialProps) {
@@ -173,6 +177,7 @@ export default class WecoApp extends App {
       toggles,
       openingTimes,
       globalAlert,
+      popupDialog,
     };
   }
 
@@ -186,6 +191,9 @@ export default class WecoApp extends App {
     }
     if (isClient && !globalAlert) {
       globalAlert = props.globalAlert;
+    }
+    if (isClient && !popupDialog) {
+      popupDialog = props.popupDialog;
     }
 
     super(props);
@@ -351,7 +359,13 @@ export default class WecoApp extends App {
 
   render() {
     const { togglesContext } = this.state;
-    const { Component, pageProps, openingTimes, globalAlert } = this.props;
+    const {
+      Component,
+      pageProps,
+      openingTimes,
+      globalAlert,
+      popupDialog,
+    } = this.props;
     const polyfillFeatures = [
       'default',
       'Array.prototype.find',
@@ -366,11 +380,11 @@ export default class WecoApp extends App {
     // Interim solution : Getting openingHours by hardcoded id rather than name just in case contracts may break when editors make changes
     const galleries = getParseCollectionVenueById(
       parsedOpeningTimes,
-      collectionVenueId.galleries
+      collectionVenueId.galleries.id
     );
     const library = getParseCollectionVenueById(
       parsedOpeningTimes,
-      collectionVenueId.libraries
+      collectionVenueId.libraries.id
     );
     const galleriesOpeningHours = galleries && galleries.openingHours;
     const libraryOpeningHours = library && library.openingHours;
@@ -436,49 +450,52 @@ export default class WecoApp extends App {
           <TogglesContext.Provider value={{ ...togglesContext }}>
             <OpeningTimesContext.Provider value={parsedOpeningTimes}>
               <GlobalAlertContext.Provider value={globalAlert}>
-                <ThemeProvider theme={theme}>
-                  <OutboundLinkTracker>
-                    <Fragment>
-                      <TogglesContext.Consumer>
-                        {({ helveticaRegular }) =>
-                          helveticaRegular && (
-                            <style
-                              type="text/css"
-                              dangerouslySetInnerHTML={{
-                                __html: `
-                                  @font-face {
-                                    font-family: 'Helvetica Neue Light Web';
-                                    src: local('Helvetica Neue Regular'),
-                                      local('HelveticaNeue-Regular'),
-                                      url('https://i.wellcomecollection.org/assets/fonts/d460c8dd-ab48-422e-ac1c-d9b6392b605a.woff2') format('woff2'),
-                                      url('https://i.wellcomecollection.org/assets/fonts/955441c8-2039-4256-bf4a-c475c31d1c0d.woff') format('woff');
-                                    font-weight: normal;
-                                    font-style: normal;
-                                  }
+                <PopupDialogContext.Provider value={popupDialog}>
+                  <ThemeProvider theme={theme}>
+                    <OutboundLinkTracker>
+                      <Fragment>
+                        <TogglesContext.Consumer>
+                          {({ helveticaRegular }) =>
+                            helveticaRegular && (
+                              <style
+                                type="text/css"
+                                dangerouslySetInnerHTML={{
+                                  __html: `
+                                    @font-face {
+                                      font-family: 'Helvetica Neue Light Web';
+                                      src: local('Helvetica Neue Regular'),
+                                        local('HelveticaNeue-Regular'),
+                                        url('https://i.wellcomecollection.org/assets/fonts/d460c8dd-ab48-422e-ac1c-d9b6392b605a.woff2') format('woff2'),
+                                        url('https://i.wellcomecollection.org/assets/fonts/955441c8-2039-4256-bf4a-c475c31d1c0d.woff') format('woff');
+                                      font-weight: normal;
+                                      font-style: normal;
+                                    }
 
-                                  @font-face {
-                                    font-family: 'Helvetica Neue Medium Web';
-                                    src: local('Helvetica Neue Bold'),
-                                      local('HelveticaNeue-Bold'),
-                                      url('https://i.wellcomecollection.org/assets/fonts/455d1f57-1462-4536-aefa-c13f0a67bbbe.woff2') format('woff2'),
-                                      url('https://i.wellcomecollection.org/assets/fonts/fd5c4818-7809-4a21-a48d-a0dc15aa47b8.woff') format('woff');
-                                    font-weight: normal;
-                                    font-style: normal;
-                                  }
-                                `,
-                              }}
-                            />
-                          )
-                        }
-                      </TogglesContext.Consumer>
-                      <LoadingIndicator />
-                      {!pageProps.statusCode && <Component {...pageProps} />}
-                      {pageProps.statusCode && pageProps.statusCode !== 200 && (
-                        <ErrorPage statusCode={pageProps.statusCode} />
-                      )}
-                    </Fragment>
-                  </OutboundLinkTracker>
-                </ThemeProvider>
+                                    @font-face {
+                                      font-family: 'Helvetica Neue Medium Web';
+                                      src: local('Helvetica Neue Bold'),
+                                        local('HelveticaNeue-Bold'),
+                                        url('https://i.wellcomecollection.org/assets/fonts/455d1f57-1462-4536-aefa-c13f0a67bbbe.woff2') format('woff2'),
+                                        url('https://i.wellcomecollection.org/assets/fonts/fd5c4818-7809-4a21-a48d-a0dc15aa47b8.woff') format('woff');
+                                      font-weight: normal;
+                                      font-style: normal;
+                                    }
+                                  `,
+                                }}
+                              />
+                            )
+                          }
+                        </TogglesContext.Consumer>
+                        <LoadingIndicator />
+                        {!pageProps.statusCode && <Component {...pageProps} />}
+                        {pageProps.statusCode &&
+                          pageProps.statusCode !== 200 && (
+                            <ErrorPage statusCode={pageProps.statusCode} />
+                          )}
+                      </Fragment>
+                    </OutboundLinkTracker>
+                  </ThemeProvider>
+                </PopupDialogContext.Provider>
               </GlobalAlertContext.Provider>
             </OpeningTimesContext.Provider>
           </TogglesContext.Provider>

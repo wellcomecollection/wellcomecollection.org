@@ -31,6 +31,8 @@ import {
   dropCapSerializer,
 } from '../../../services/prismic/html-serializers';
 import { type Weight } from '../../../services/prismic/parsers';
+// $FlowFixMe (tsx)
+import InfoBlock from '../InfoBlock/InfoBlock';
 
 const Map = dynamic(import('../Map/Map'), { ssr: false });
 
@@ -247,6 +249,11 @@ const Body = ({
             {slice.type === 'table' && (
               <Layout8>
                 <Table {...slice.value} />
+              </Layout8>
+            )}
+            {slice.type === 'infoBlock' && (
+              <Layout8>
+                <InfoBlock {...slice.value} />
               </Layout8>
             )}
             {/* deprecated */}
