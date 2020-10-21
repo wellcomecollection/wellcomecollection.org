@@ -192,7 +192,11 @@ const StyledLink = styled.a`
   }
 `;
 
-const RefNumber = styled.span`
+const RefNumber = styled.span.attrs({
+  className: classNames({
+    [font('hnl', 6)]: true,
+  }),
+})`
   display: block;
   color: ${props => props.theme.color('pewter')};
   text-decoration: none;
@@ -683,16 +687,14 @@ const ListItem = ({
             />
           </TreeControl>
         )}
-        {/* if (currentWorkId === item.work.id) {
-                TODO no need for link
-              } */}
         <NextLink {...workLink({ id: item.work.id })} scroll={false} passHref>
           <StyledLink
+            className={classNames({
+              [font('hnm', 6)]: level === 1,
+              [font('hnl', 6)]: level > 1,
+            })}
             hideFocus={!isKeyboard}
             tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
-            className={classNames({
-              [font('hnl', 6)]: true,
-            })}
             isCurrent={currentWorkId === item.work.id}
             ref={currentWorkId === item.work.id ? selected : null}
             onClick={event => {
