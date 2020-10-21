@@ -43,7 +43,13 @@ import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
 const instructions =
   'Archive Tree: Tab into the tree, then use up and down arrows to move through tree items. Use right and left arrows to toggle sub menus open and closed. When focused on an item you can tab to the link it contains.';
-
+const controlWidth = 44;
+const controlHeight = 44;
+const circleWidth = 30;
+const circleHeight = 30;
+const circleBorder = 2;
+const verticalGuidePosition =
+  controlHeight / 2 + circleHeight / 2 - circleBorder;
 const TreeInstructions = styled.p.attrs(props => ({
   'aria-hidden': 'true',
   id: 'tree-instructions',
@@ -55,6 +61,7 @@ const Tree = styled.div`
   ul {
     position: relative;
     padding-left: 0;
+    margin: 0;
     @media (min-width: ${props => props.theme.sizes.medium}px) {
       width: 375px;
     }
@@ -80,48 +87,48 @@ const Tree = styled.div`
   }
 
   ul ul ul {
-    padding-left: 30px;
+    padding-left: ${`${controlWidth}px`};
   }
 `;
 
-const TreeItem = styled.li`
+const TreeItem = styled.li.attrs({
+  className: props => (props.showGuideline ? 'guideline' : null),
+})`
   position: relative;
   list-style: none;
   padding: 0;
-
-  li::before,
-  li::after {
-    content: '';
-    position: absolute;
+  &:focus {
+    outline: ${props =>
+      !props.hideFocus ? `2px solid ${props.theme.color('black')}` : 'none'};
   }
 
-  li::before {
-    /* left: -22px; */
+  &.guideline::before,
+  &.guideline::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+  }
+
+  &.guideline::before {
     border-left: 1px solid ${props => props.theme.color('yellow')};
     height: 100%;
     width: 0;
-    //top: -20px;
+    top: ${`${verticalGuidePosition}px`};
+    left: ${`${controlWidth / 2}px`};
+    height: calc(100% - ${`${verticalGuidePosition + controlHeight / 2}px`});
   }
 
-  li::after {
+  &.guideline::after {
     display: block;
     width: 6px;
     height: 6px;
     border-radius: 50%;
     background: ${props => props.theme.color('yellow')};
-    left: 20px;
-    bottom: 24px;
-  }
-  &:focus {
-    outline: ${props =>
-      !props.hideFocus ? `2px solid ${props.theme.color('black')}` : 'none'};
+    left: ${`${controlWidth / 2 - 3}px`};
+    bottom: ${`${controlHeight / 2}px`};
   }
 `;
 
-const controlWidth = 44;
-const controlHeight = 44;
-const circleWidth = 28;
-const circleHeight = 28;
 const TreeControl = styled.span`
   display: inline-block;
   cursor: pointer;
@@ -550,6 +557,7 @@ const ListItem = ({
   return (
     <TreeItem
       hideFocus={!isKeyboard}
+      showGuideline={hasControl && item.openStatus && level > 1}
       id={item.work.id}
       role={isEnhanced ? 'treeitem' : null}
       aria-level={isEnhanced ? level : null}
