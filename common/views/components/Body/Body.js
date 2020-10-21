@@ -239,7 +239,7 @@ const Body = ({
                     >
                       <VenueHours
                         venue={slice.value.content}
-                        weight={slice.weight}
+                        weight={slice.weight || 'default'}
                       />
                     </Layout>
                   </>

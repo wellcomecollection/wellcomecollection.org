@@ -1,5 +1,4 @@
 // @flow
-import { type Weight } from '../../../services/prismic/parsers';
 import { defaultSerializer } from '../../../services/prismic/html-serializers';
 import { classNames } from '@weco/common/utils/classnames';
 import FeaturedText from '../FeaturedText/FeaturedText';
@@ -21,14 +20,7 @@ import VisitUsStaticContent from './VisitUsStaticContent';
 import CollectionsStaticContent from './CollectionsStaticContent';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import type { Link } from '@weco/common/model/link';
-
-type BodySlice = {|
-  type: string,
-  weight: Weight,
-  value: any,
-|};
-
-export type BodyType = BodySlice[];
+import { type BodyType } from '../Body/Body';
 
 type Props = {|
   body: BodyType,
