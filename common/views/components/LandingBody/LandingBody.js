@@ -19,7 +19,7 @@ import VisitUsStaticContent from './VisitUsStaticContent';
 // $FlowFixMe (tsx)
 import CollectionsStaticContent from './CollectionsStaticContent';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
-import type { Link } from '@weco/common/model/link';
+import { type Link } from '@weco/common/model/link';
 import { type BodyType } from '../Body/Body';
 
 type Props = {|
