@@ -2,7 +2,7 @@ import structuredText from './parts/structured-text';
 import title from './parts/title';
 import image from './parts/image';
 
-const mediaObjectList = {
+const mediaObject = {
   Main: {
     title,
     text: structuredText('Text', 'multi'),
@@ -10,4 +10,4 @@ const mediaObjectList = {
   },
 };
 
-export default mediaObjectList;
+export default mediaObject;

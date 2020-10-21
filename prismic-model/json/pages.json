@@ -427,7 +427,7 @@
                   "label": "Content item",
                   "select": "document",
                   "customtypes": [
-                    "media-object-list"
+                    "media_object"
                   ]
                 }
               }

@@ -13,7 +13,7 @@ type Props = {
   image: ImageType,
 };
 
-export const MediaObject = ({ id, title, text, image }: Props) => {
+export const MediaObject = ({ title, text, image }: Props) => {
   // size of image first iteration this is max set width to 80px
   const imageComponentStyles = {};
   const ImageComponent = image &&
@@ -34,7 +34,6 @@ export const MediaObject = ({ id, title, text, image }: Props) => {
       labels={{ labels: [] }}
       xOfY={{ x: null, y: null }}
       type={'mediaObject'}
-      imageStyle={{ 'width': 80 }} 
     />
   );
 };
@@ -45,4 +44,5 @@ const MediaObjectList = ({ items } : {items: Array<MediaObjectType>}) => {
     return <MediaObject {...mediaObject}/> })}
     </div>
 };
+
 export default MediaObjectList;

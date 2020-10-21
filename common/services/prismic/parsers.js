@@ -534,10 +534,10 @@ function getWeight(weight: ?string): ?Weight {
 function parseMediaObjectLinks(
   fragment: PrismicFragment[]
 ): Array<MediaObjectType> {
-  return fragment.map(mediaObjectList => {
-    const { title, text, image } = mediaObjectList.content.data;
+  return fragment.map(mediaObject => {
+    const { title, text, image } = mediaObject.content.data;
     return {
-      id: mediaObjectList.content.id,
+      id: mediaObject.content.id,
       title: parseTitle(title),
       text: parseStructuredText(text),
       image: parseImage(image),

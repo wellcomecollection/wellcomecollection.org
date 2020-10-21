@@ -15,7 +15,7 @@ import {
   eventFormatsFields,
   articleFormatsFields,
   labelsFields,
-  mediaObjectListFields,
+  mediaObjectFields,
 } from './fetch-links';
 
 export function parsePage(document: PrismicDocument): Page {
@@ -77,7 +77,7 @@ export async function getPage(
         eventFormatsFields,
         articleFormatsFields,
         labelsFields,
-        mediaObjectListFields
+        mediaObjectFields
       ),
     },
     memoizedPrismic

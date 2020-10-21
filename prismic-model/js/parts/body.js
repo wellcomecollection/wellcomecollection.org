@@ -150,7 +150,7 @@ export default {
       }),
       mediaObjectList: slice('Media Object List', {
         repeat: {
-          content: link('Content item', 'document', ['media-object-list']),
+          content: link('Content item', 'document', ['media_object']),
         },
       }),
     },

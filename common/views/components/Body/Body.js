@@ -29,7 +29,7 @@ import {
 } from '../../../services/prismic/html-serializers';
 import { type Weight } from '../../../services/prismic/parsers';
 // $FlowFixMe (tsx)
-import MediaObjectList from '../MediaObjectList/MediaObjectList';
+import MediaObjectList from '../MediaObject/MediaObject';
 
 const Map = dynamic(import('../Map/Map'), { ssr: false });
 
