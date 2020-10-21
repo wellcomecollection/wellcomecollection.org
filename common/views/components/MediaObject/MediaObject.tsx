@@ -1,4 +1,3 @@
-
 import Image from '../Image/Image';
 import CompactCard from '../CompactCard/CompactCard';
 import { ImageType } from '../../../model/image';
@@ -14,12 +13,10 @@ type Props = {
 };
 
 export const MediaObject = ({ title, text, image }: Props) => {
-  // size of image first iteration this is max set width to 80px
-  const imageComponentStyles = {};
-  const ImageComponent = image &&
-    image.crops &&
-    image.crops.square && <Image {...image.crops.square}  style={imageComponentStyles} />;
-  const description = text && <PrismicHtmlBlock html={text} />
+  const ImageComponent = image && image.crops && image.crops.square && (
+    <Image {...image.crops.square} />
+  );
+  const description = text && <PrismicHtmlBlock html={text} />;
   return (
     <CompactCard
       url={null}
@@ -38,11 +35,14 @@ export const MediaObject = ({ title, text, image }: Props) => {
   );
 };
 
-const MediaObjectList = ({ items } : {items: Array<MediaObjectType>}) => {
-  return <div className="body-text" >
-    {items.map((mediaObject) => {
-    return <MediaObject {...mediaObject}/> })}
+const MediaObjectList = ({ items }: { items: Array<MediaObjectType> }) => {
+  return (
+    <div className="body-text">
+      {items.map(mediaObject => {
+        return <MediaObject {...mediaObject} />;
+      })}
     </div>
+  );
 };
 
 export default MediaObjectList;
