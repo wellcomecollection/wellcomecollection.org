@@ -95,7 +95,7 @@ const TreeItem = styled.li.attrs({
   className: props => (props.showGuideline ? 'guideline' : null),
 })`
   position: relative;
-  list-style: none;
+  list-style: ${props => (props.isEnhanced ? 'none' : 'disc')};
   padding: 0;
   &:focus {
     outline: ${props =>
@@ -557,7 +557,8 @@ const ListItem = ({
   return (
     <TreeItem
       hideFocus={!isKeyboard}
-      showGuideline={hasControl && item.openStatus && level > 1}
+      isEnhanced={isEnhanced}
+      showGuideline={isEnhanced && hasControl && item.openStatus && level > 1}
       id={item.work.id}
       role={isEnhanced ? 'treeitem' : null}
       aria-level={isEnhanced ? level : null}
