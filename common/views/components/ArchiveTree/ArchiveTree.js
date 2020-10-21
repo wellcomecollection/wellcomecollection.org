@@ -881,7 +881,7 @@ const ArchiveTree = ({ work }: { work: Work }) => {
 
   return isInArchive ? (
     <>
-      {windowSize === 'small' ? (
+      {windowSize === 'small' && isEnhanced ? (
         <>
           <ButtonWrap>
             <ButtonSolid

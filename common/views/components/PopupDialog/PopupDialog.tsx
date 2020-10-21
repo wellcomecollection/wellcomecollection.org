@@ -1,14 +1,21 @@
-// @flow
-import { useState, useRef, useEffect, useContext, type Node } from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  KeyboardEvent as ReactKeyboardEvent,
+} from 'react';
 import styled from 'styled-components';
 import cookie from 'cookie-cutter';
-import { type Link } from '../../../model/link';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { classNames, font } from '../../../utils/classnames';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import { trackEvent } from '../../../utils/ga';
 import { AppContext } from '../AppContext/AppContext';
+import { HTMLString, PrismicLink } from '../../../services/prismic/types';
+import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
+import { parseLink } from '@weco/common/services/prismic/parsers';
 
 const PopupDialogOpen = styled(Space).attrs(props => ({
   'aria-hidden': props.isActive ? 'true' : 'false',
@@ -93,16 +100,18 @@ const PopupDialogClose = styled.button.attrs({
   className: classNames({
     'absolute plain-button no-margin no-padding flex flex--v-center flex--h-center': true,
   }),
-})`
+})<{ isKeyboard: boolean }>`
   top: 10px;
   right: 10px;
 
   &:focus {
     outline: 0;
 
-    .is-keyboard & {
-      box-shadow: ${props => props.theme.focusBoxShadow};
-    }
+    ${props =>
+      props.isKeyboard &&
+      `
+      box-shadow: ${props.theme.focusBoxShadow};
+    `}
   }
 `;
 
@@ -134,13 +143,21 @@ const PopupDialogCTA = styled(Space).attrs({
   }
 `;
 
-type Props = {|
-  openButtonText: string,
-  children: Node,
-  cta: Link,
-|};
+type Props = {
+  openButtonText: string;
+  title: string;
+  text: HTMLString;
+  linkText: string;
+  link: PrismicLink;
+};
 
-const PopupDialog = ({ children, openButtonText, cta }: Props) => {
+const PopupDialog = ({
+  openButtonText,
+  title,
+  text,
+  linkText,
+  link,
+}: Props) => {
   const [shouldRender, setShouldRender] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const isActiveRef = useRef(isActive);
@@ -180,7 +197,7 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
     };
   }, [isActive]);
 
-  function handleBodyClick(event) {
+  function handleBodyClick(event: MouseEvent) {
     const dialog = dialogWindowRef && dialogWindowRef.current;
 
     if (dialog && isActiveRef.current && !dialog.contains(event.target)) {
@@ -193,7 +210,7 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
     }
   }
 
-  function handleEscapeKeyDown(event) {
+  function handleEscapeKeyDown(event: KeyboardEvent) {
     if (event.keyCode === 27 && isActiveRef.current) {
       setIsActive(false);
       openDialogRef && openDialogRef.current && openDialogRef.current.focus();
@@ -204,14 +221,16 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
     }
   }
 
-  function handleTrapStartKeyDown(event) {
+  function handleTrapStartKeyDown(
+    event: ReactKeyboardEvent<HTMLButtonElement>
+  ) {
     if (event.shiftKey && event.keyCode === 9) {
       event.preventDefault();
       ctaRef && ctaRef.current && ctaRef.current.focus();
     }
   }
 
-  function handleTrapEndKeyDown(event) {
+  function handleTrapEndKeyDown(event: ReactKeyboardEvent<HTMLButtonElement>) {
     if (!event.shiftKey && event.keyCode === 9) {
       event.preventDefault();
       closeDialogRef &&
@@ -220,7 +239,7 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
     }
   }
 
-  function setFocusable(value) {
+  function setFocusable(value: boolean) {
     const dialog = dialogWindowRef && dialogWindowRef.current;
     const focusables = dialog && getFocusableElements(dialog);
 
@@ -267,7 +286,7 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
             isKeyboard={isKeyboard}
             title="close dialog"
             ref={closeDialogRef}
-            tabIndex={isActive ? '0' : '-1'}
+            tabIndex={isActive ? 0 : -1}
             onKeyDown={handleTrapStartKeyDown}
             onClick={() => {
               setIsActive(false);
@@ -295,16 +314,33 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
               overrides: { small: 4, medium: 4, large: 4 },
             }}
           >
-            {children}
+            <h2
+              className={classNames({
+                [font('wb', 6, {
+                  small: 5,
+                  medium: 5,
+                  large: 5,
+                })]: true,
+              })}
+            >
+              {title}
+            </h2>
+            <div
+              className={classNames({
+                [font('hnl', 5, { medium: 2, large: 2 })]: true,
+              })}
+            >
+              <PrismicHtmlBlock html={text} />
+            </div>
           </Space>
           <PopupDialogCTA
-            href={cta.url}
+            href={parseLink(link)}
             ref={ctaRef}
-            tabIndex={isActive ? '0' : '-1'}
+            tabIndex={isActive ? 0 : -1}
             onKeyDown={handleTrapEndKeyDown}
             onClick={hidePopupDialog}
           >
-            {cta.text}
+            {linkText}
           </PopupDialogCTA>
         </PopupDialogWindow>
       </>

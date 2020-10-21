@@ -1,6 +1,7 @@
 // @flow
 import { RichText, Date as PrismicDate } from 'prismic-dom';
-import type { HTMLString, PrismicFragment } from './types';
+// $FlowFixMe (tsx)
+import { PrismicLink, HTMLString, PrismicFragment } from './types';
 import type {
   Contributor,
   PersonContributor,
@@ -466,15 +467,13 @@ export function parseFormat(frag: Object): ?Format {
     : null;
 }
 
-function parseLink(url): ?string {
-  if (url) {
-    if (url.link_type === 'Web' || url.link_type === 'Media') {
-      return url.url;
-    } else if (url.link_type === 'Document' && isDocumentLink(url)) {
-      return `/${url.type}/${url.id}`;
+export function parseLink(link?: PrismicLink): ?string {
+  if (link) {
+    if (link.link_type === 'Web' || link.link_type === 'Media') {
+      return link.url;
+    } else if (link.link_type === 'Document' && isDocumentLink(link)) {
+      return linkResolver(link);
     }
-  } else {
-    return null;
   }
 }
 
@@ -731,6 +730,17 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
               rows: parseTableCsv(slice.primary.tableData),
               caption: slice.primary.caption,
               hasRowHeaders: slice.primary.hasRowHeaders,
+            },
+          };
+
+        case 'infoBlock':
+          return {
+            type: 'infoBlock',
+            value: {
+              title: slice.primary.title,
+              text: slice.primary.text,
+              linkText: slice.primary.linkText,
+              link: slice.primary.link,
             },
           };
 
