@@ -28,6 +28,7 @@ import {
   dropCapSerializer,
 } from '../../../services/prismic/html-serializers';
 import { type Weight } from '../../../services/prismic/parsers';
+// $FlowFixMe (tsx)
 import MediaObjectList from '../MediaObjectList/MediaObjectList';
 
 const Map = dynamic(import('../Map/Map'), { ssr: false });

@@ -31,6 +31,7 @@ type Props = {|
   StatusIndicator: ?Element<typeof StatusIndicator>,
   ExtraInfo?: ?Node,
   xOfY: {| x: number, y: number |},
+  type?: ?string,
 |};
 
 const CompactCard = ({
@@ -47,12 +48,14 @@ const CompactCard = ({
   StatusIndicator,
   ExtraInfo,
   xOfY,
+  type = 'default',
 }: Props) => {
   const { x, y } = xOfY;
   const textGridSizes = Image
     ? { s: 9, m: 9, l: 9, xl: 9 }
     : { s: 12, m: 12, l: 12, xl: 12 };
 
+  const isTypeMediaObject = type === 'mediaObject';
   return (
     <Space
       v={{
@@ -95,7 +98,7 @@ const CompactCard = ({
         <div
           className={classNames({
             'card-link__title': true,
-            [font('wb', 3)]: true,
+            [isTypeMediaObject ? font('wb', 4) : font('wb', 5)]: true,
           })}
         >
           {title}
@@ -103,7 +106,9 @@ const CompactCard = ({
         {DateInfo}
         {StatusIndicator}
         {ExtraInfo}
-        {description && (
+        {description && isTypeMediaObject ? (
+          <div className={`spaced-text ${font('hnl', 5)}`}>{description}</div>
+        ) : (
           <div className="spaced-text">
             <p className={font('hnl', 5)}>{description}</p>
           </div>
