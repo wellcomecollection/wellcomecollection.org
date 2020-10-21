@@ -38,7 +38,7 @@ const Map = dynamic(import('../Map/Map'), { ssr: false });
 
 type BodySlice = {|
   type: string,
-  weight: Weight,
+  weight?: Weight,
   value: any,
 |};
 

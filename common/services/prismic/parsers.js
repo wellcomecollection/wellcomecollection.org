@@ -26,6 +26,7 @@ import type { GenericContentFields } from '../../model/generic-content-fields';
 import type { LabelField } from '../../model/label-field';
 import type { SameAs } from '../../model/same-as';
 import type { HtmlSerializer } from './html-serializers';
+import { type BodyType } from '../../views/components/Body/Body';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
@@ -517,7 +518,7 @@ export function isWebLink(fragment: ?PrismicFragment): boolean {
 }
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
-function getWeight(weight: ?string): ?Weight {
+function getWeight(weight: ?string): Weight {
   switch (weight) {
     case 'featured':
       return weight;
@@ -530,7 +531,7 @@ function getWeight(weight: ?string): ?Weight {
   }
 }
 
-function getOnThisPage(fragment: PrismicFragment[]): any[] {
+function getOnThisPage(fragment: PrismicFragment[]): Link[] {
   return flattenDeep(
     fragment.map(slice => slice.primary.title || slice.primary.text || [])
   )
@@ -545,7 +546,7 @@ function getOnThisPage(fragment: PrismicFragment[]): any[] {
 
 export function parseBody(
   fragment: PrismicFragment[]
-): { onThisPage: Link[], slices: any[] } {
+): { onThisPage: Link[], slices: BodyType } {
   const onThisPage = getOnThisPage(fragment);
 
   return {
