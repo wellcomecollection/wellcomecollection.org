@@ -87,7 +87,6 @@ const Tree = styled.div`
 const TreeItem = styled.li`
   position: relative;
   list-style: none;
-  border: 1px solid red;
   padding: 0;
 
   li::before,
@@ -167,8 +166,14 @@ const StyledLink = styled.a`
   background: ${props =>
     props.theme.color(props.isCurrent ? 'yellow' : 'transparent')};
   cursor: pointer;
-  margin-left: ${`-${controlWidth / 2}px`};
-  padding-left: ${props => `${circleWidth / 2 + props.theme.spacingUnit}px`};
+  margin-left: ${props =>
+    props.hasControl ? `-${controlWidth / 2}px` : `${controlWidth / 2}px`};
+  padding-left: ${props =>
+    props.hasControl
+      ? `${circleWidth / 2 + props.theme.spacingUnit}px`
+      : props.isCurrent
+      ? `${props.theme.spacingUnit}px`
+      : 0};
   padding-right: ${props => `${props.theme.spacingUnit * 2}px`};
   text-decoration: none;
   &:focus,
@@ -509,6 +514,8 @@ const ListItem = ({
     : descendentIsSelected
     ? 'secondary'
     : '';
+  const hasControl =
+    (item.children && item.children.length > 0) || !item.children; // TODO use new API totalParts data when available
 
   function updateTabbing(id) {
     // We only want one tabbable item in the tree at a time,
@@ -656,16 +663,14 @@ const ListItem = ({
       }}
     >
       <div className="flex-inline">
-        {isEnhanced &&
-        level > 1 &&
-        ((item.children && item.children.length > 0) || !item.children) && ( // TODO use new API totalParts data when available
-            <TreeControl highlightCondition={highlightCondition}>
-              <Icon
-                extraClasses={item.openStatus ? '' : 'icon--270'}
-                name="chevron"
-              />
-            </TreeControl>
-          )}
+        {isEnhanced && level > 1 && hasControl && (
+          <TreeControl highlightCondition={highlightCondition}>
+            <Icon
+              extraClasses={item.openStatus ? '' : 'icon--270'}
+              name="chevron"
+            />
+          </TreeControl>
+        )}
         {/* if (currentWorkId === item.work.id) {
                 TODO no need for link
               } */}
@@ -681,6 +686,7 @@ const ListItem = ({
               event.stopPropagation();
               setShowArchiveTree(false);
             }}
+            hasControl={hasControl}
           >
             <WorkTitle title={item.work.title} />
             <RefNumber>{item.work.referenceNumber}</RefNumber>
