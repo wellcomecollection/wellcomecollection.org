@@ -5,6 +5,7 @@ import {
   KeepYourDistance,
   WearAMask,
   StayAtHome,
+  HouseHold,
   CovidIconsEnum,
 } from '@weco/common/views/components/CovidIcons/CovidIcons';
 
@@ -36,6 +37,7 @@ const CovidSafetyMeasure = ({ title, description, icon, isStacked }: Props) => {
         {icon === CovidIconsEnum.keepYourDistance && <KeepYourDistance />}
         {icon === CovidIconsEnum.wearAMask && <WearAMask />}
         {icon === CovidIconsEnum.stayAtHome && <StayAtHome />}
+        {icon === CovidIconsEnum.houseHold && <HouseHold />}
       </Space>
       <div
         className={classNames({

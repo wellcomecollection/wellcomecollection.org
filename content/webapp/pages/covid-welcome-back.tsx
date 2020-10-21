@@ -5,7 +5,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import CovidTOC from '@weco/common/views/components/CovidTOC/CovidTOC';
 import CovidSafetyMeasure from '@weco/common/views/components/CovidSafetyMeasure/CovidSafetyMeasure';
-import CovidInfoBox from '@weco/common/views/components/CovidInfoBox/CovidInfoBox';
+import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import {
@@ -115,25 +115,25 @@ const CovidWelcomeBackPage = () => {
               </Space>
 
               <div className="body-text spaced-text">
-                <CovidInfoBox title={'Book your ticket'} id="book-your-ticket">
-                  <ul className="no-margin">
-                    <li>
-                      It’s still free to visit our museum and library. You’ll
-                      just need to choose a time slot and book a ticket before
-                      you arrive.
-                    </li>
-                    <li>
-                      You can explore the museum for as long as you’d like, but
-                      library sessions are now limited to either a morning or an
-                      afternoon. Library tickets include museum entry too.
-                    </li>
-                  </ul>
-                  <ButtonOutlinedLink
-                    icon="arrow"
-                    text="Book your ticket"
-                    link="/covid-book-your-ticket"
-                  />
-                </CovidInfoBox>
+                <InfoBlock
+                  title={'Book your ticket'}
+                  text={[
+                    {
+                      type: 'list-item',
+                      text:
+                        'It’s still free to visit our museum and library. You’ll just need to choose a time slot and book a ticket before you arrive.',
+                      spans: [],
+                    },
+                    {
+                      type: 'list-item',
+                      text:
+                        'You can explore the museum for as long as you’d like, but  library sessions are now limited to either a morning or an afternoon. Library tickets include museum entry too.',
+                      spans: [],
+                    },
+                  ]}
+                  linkText={`Book your ticket`}
+                  link={{ link_type: 'Web', url: `/covid-book-your-ticket` }}
+                />
 
                 <Space
                   v={{
@@ -268,6 +268,16 @@ const CovidWelcomeBackPage = () => {
                 </p>
 
                 <h3>What you need to do</h3>
+
+                <CovidSafetyMeasure
+                  title={'Only book for your household or bubble'}
+                  description={
+                    <span>
+                      Please only book to attend or enter the building with people from your household or support bubble.
+                    </span>
+                  }
+                  icon={CovidIconsEnum.houseHold}
+                />
 
                 <CovidSafetyMeasure
                   title={'Clean your hands regularly'}

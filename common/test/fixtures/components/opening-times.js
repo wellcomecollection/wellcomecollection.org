@@ -24,7 +24,7 @@ export const openingTimes = {
         name: 'Library',
         openingHours: {
           regular: [
-            { dayOfWeek: 'Monday', opens: '10:00', closes: '18:00' },
+            { dayOfWeek: 'Monday', opens: null, closes: null },
             { dayOfWeek: 'Tuesday', opens: '10:00', closes: '18:00' },
             { dayOfWeek: 'Wednesday', opens: '10:00', closes: '18:00' },
             { dayOfWeek: 'Thursday', opens: '10:00', closes: '20:00' },
@@ -58,7 +58,7 @@ export const openingTimes = {
         name: 'Café',
         openingHours: {
           regular: [
-            { dayOfWeek: 'Monday', opens: '08:30', closes: '18:00' },
+            { dayOfWeek: 'Monday', opens: null, closes: null },
             { dayOfWeek: 'Tuesday', opens: '08:30', closes: '18:00' },
             { dayOfWeek: 'Wednesday', opens: '08:30', closes: '18:00' },
             { dayOfWeek: 'Thursday', opens: '08:30', closes: '21:00' },
@@ -75,7 +75,7 @@ export const openingTimes = {
         name: 'Shop',
         openingHours: {
           regular: [
-            { dayOfWeek: 'Monday', opens: '09:00', closes: '18:00' },
+            { dayOfWeek: 'Monday', opens: null, closes: null },
             { dayOfWeek: 'Tuesday', opens: '09:00', closes: '18:00' },
             { dayOfWeek: 'Wednesday', opens: '09:00', closes: '18:00' },
             { dayOfWeek: 'Thursday', opens: '09:00', closes: '21:00' },

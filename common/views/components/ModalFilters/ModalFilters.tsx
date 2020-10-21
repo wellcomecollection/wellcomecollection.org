@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef } from 'react';
 import NextLink from 'next/link';
 import dynamic from 'next/dynamic';
 import { worksLink } from '../../../services/catalogue/routes';
@@ -94,6 +94,7 @@ const ModalFilters = ({
   aggregations,
 }: SearchFiltersSharedProps) => {
   const [isActive, setIsActive] = useState(false);
+  const openButtonRef = useRef(null);
 
   function handleOkFiltersButtonClick() {
     setIsActive(false);
@@ -122,6 +123,7 @@ const ModalFilters = ({
         aria-controls="archives-prototype-filters"
         aria-label="open filters"
         type="button"
+        ref={openButtonRef}
       >
         <Space h={{ size: 's', properties: ['margin-right'] }}>
           <Icon name="filter" />
@@ -135,6 +137,7 @@ const ModalFilters = ({
         isActive={isActive}
         setIsActive={setIsActive}
         id="archives-prototype-filters"
+        openButtonRef={openButtonRef}
       >
         <FiltersInner>
           <FilterSection>

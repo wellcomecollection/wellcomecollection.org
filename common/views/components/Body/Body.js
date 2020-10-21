@@ -30,6 +30,8 @@ import {
 import { type Weight } from '../../../services/prismic/parsers';
 // $FlowFixMe (tsx)
 import MediaObjectList from '../MediaObject/MediaObject';
+// $FlowFixMe (tsx)
+import InfoBlock from '../InfoBlock/InfoBlock';
 
 const Map = dynamic(import('../Map/Map'), { ssr: false });
 
@@ -231,6 +233,11 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
             {slice.type === 'table' && (
               <Layout8>
                 <Table {...slice.value} />
+              </Layout8>
+            )}
+            {slice.type === 'infoBlock' && (
+              <Layout8>
+                <InfoBlock {...slice.value} />
               </Layout8>
             )}
             {/* deprecated */}
