@@ -91,9 +91,9 @@ const Tree = styled.div`
   }
 `;
 
-const TreeItem = styled.li.attrs({
-  className: props => (props.showGuideline ? 'guideline' : null),
-})`
+const TreeItem = styled.li.attrs(props => ({
+  className: props.showGuideline ? 'guideline' : null,
+}))`
   position: relative;
   list-style: ${props => (props.isEnhanced ? 'none' : 'disc')};
   padding: 0;

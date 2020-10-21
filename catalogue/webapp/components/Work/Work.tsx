@@ -30,6 +30,7 @@ import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
 import styled from 'styled-components';
 
 const ArchiveDetailsContainer = styled.div`
+  display: block;
   ${props => props.theme.media.medium`
     display: flex;
   `}
