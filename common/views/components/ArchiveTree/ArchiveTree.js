@@ -24,38 +24,25 @@ import Modal, { ModalContext } from '@weco/common/views/components/Modal/Modal';
 // $FlowFixMe (tsx)
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
+// const StickyContainer = styled.div`
+//   border: 1px solid ${props => props.theme.color('pumice')};
+//   border-bottom: 0;
+
+//   ${props => props.theme.media.medium`
+//     position: sticky;
+//     top: 0px;
+//   `}
+// `;
+
+// const StickyContainerInner = styled.div`
+//   ${props => props.theme.media.medium`
+//     overflow: scroll;
+//     max-height: calc(100vh - 48px);
+//   `}
+// `;
+
 const instructions =
   'Archive Tree: Tab into the tree, then use up and down arrows to move through tree items. Use right and left arrows to toggle sub menus open and closed. When focused on an item you can tab to the link it contains.';
-
-const StickyContainer = styled.div`
-  border: 1px solid ${props => props.theme.color('pumice')};
-  border-bottom: 0;
-
-  ${props => props.theme.media.medium`
-    position: sticky;
-    top: 0px;
-  `}
-`;
-
-const StickyContainerInner = styled.div`
-  ${props => props.theme.media.medium`
-    overflow: scroll;
-    max-height: calc(100vh - 48px);
-  `}
-`;
-
-const StyledLink = styled.a`
-  display: inline-block;
-  color: ${props => props.theme.color('black')};
-  background: ${props =>
-    props.theme.color(props.isCurrent ? 'yellow' : 'transparent')};
-  font-weight: ${props => (props.isCurrent ? 'bold' : 'normal')};
-  border-color: ${props =>
-    props.theme.color(props.isCurrent ? 'green' : 'transparent')};
-  border-radius: 6px;
-  padding: 0 6px;
-  cursor: pointer;
-`;
 
 const TreeInstructions = styled.p.attrs(props => ({
   'aria-hidden': 'true',
@@ -67,6 +54,7 @@ const TreeInstructions = styled.p.attrs(props => ({
 const Tree = styled.div`
   ul {
     position: relative;
+    padding-left: 0;
     @media (min-width: ${props => props.theme.sizes.medium}px) {
       width: 375px;
     }
@@ -89,80 +77,68 @@ const Tree = styled.div`
       content: '';
       width: auto;
     }
-    list-style: none;
-    padding-left: 0;
-    margin-left: 0;
   }
 
-  li {
-    position: relative;
-    list-style: none;
-
-    a {
-      font-weight: bold;
-    }
-  }
-
-  a {
-    text-decoration: none;
-  }
-
-  a:focus,
-  a:hover {
-    text-decoration: underline;
-  }
-
-  ul ul {
+  ul ul ul {
     padding-left: 30px;
-
-    li {
-      a {
-        font-weight: normal;
-      }
-    }
-
-    li::before,
-    li::after {
-      content: '';
-      position: absolute;
-      left: -22px;
-    }
-
-    li::before {
-      border-top: 2px solid ${props => props.theme.color('teal')};
-      top: 20px;
-      width: 22px;
-      height: 0;
-    }
-
-    li::after {
-      border-left: 2px solid ${props => props.theme.color('teal')};
-      height: 100%;
-      width: 0px;
-      top: 10px;
-    }
-
-    li:last-child::after {
-      height: 10px;
-    }
   }
 `;
 
+const TreeItem = styled.li`
+  position: relative;
+  list-style: none;
+  border: 1px solid red;
+  padding: 0;
+
+  li::before,
+  li::after {
+    content: '';
+    position: absolute;
+  }
+
+  li::before {
+    /* left: -22px; */
+    border-left: 1px solid ${props => props.theme.color('yellow')};
+    height: 100%;
+    width: 0;
+    //top: -20px;
+  }
+
+  li::after {
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: ${props => props.theme.color('yellow')};
+    left: 20px;
+    bottom: 24px;
+  }
+  &:focus {
+    outline: ${props =>
+      !props.hideFocus ? `2px solid ${props.theme.color('black')}` : 'none'};
+  }
+`;
+
+const controlWidth = 44;
+const controlHeight = 44;
+const circleWidth = 28;
+const circleHeight = 28;
 const TreeControl = styled.span`
   display: inline-block;
   cursor: pointer;
-  height: 44px;
-  width: 44px;
-  min-width: 44px;
+  height: ${`${controlHeight}px`};
+  width: ${`${controlWidth}px`};
+  min-width: ${`${controlWidth}px`};
   position: relative;
   z-index: 1;
   &::before {
     content: '';
     position: absolute;
-    height: 28px;
-    width: 28px;
-    top: 8px;
-    left: 8px;
+    height: ${`${circleHeight}px`};
+    width: ${`${circleWidth}px`};
+    // centre the circle in the control
+    top: ${`${(controlHeight - circleHeight) / 2}px`};
+    left: ${`${(controlWidth - circleWidth) / 2}px`};
     background: ${props =>
       props.highlightCondition === 'primary'
         ? props.theme.color('yellow')
@@ -178,17 +154,33 @@ const TreeControl = styled.span`
   .icon {
     position: absolute;
     z-index: 1;
-    top: 10px;
-    left: 10px;
+    // centre the icon in the control
+    top: ${`${(controlHeight - 24) / 2}px`}; // icons have a height of 24px
+    left: ${`${(controlWidth - 24) / 2}px`}; // icons have a width of 24px
   }
 `;
 
-const TreeItem = styled.li`
-  padding: 10px 10px 10px 0;
-  &:focus {
-    outline: ${props =>
-      !props.hideFocus ? `2px solid ${props.theme.color('black')}` : 'none'};
+const StyledLink = styled.a`
+  display: inline-block;
+  min-height: ${`${controlHeight}px`};
+  color: ${props => props.theme.color('viewerBlack')};
+  background: ${props =>
+    props.theme.color(props.isCurrent ? 'yellow' : 'transparent')};
+  cursor: pointer;
+  margin-left: ${`-${controlWidth / 2}px`};
+  padding-left: ${props => `${circleWidth / 2 + props.theme.spacingUnit}px`};
+  padding-right: ${props => `${props.theme.spacingUnit * 2}px`};
+  text-decoration: none;
+  &:focus,
+  &:hover {
+    text-decoration: underline;
   }
+`;
+
+const RefNumber = styled.span`
+  display: block;
+  color: ${props => props.theme.color('pewter')};
+  text-decoration: none;
 `;
 
 /* eslint-disable no-use-before-define */
@@ -674,6 +666,9 @@ const ListItem = ({
               />
             </TreeControl>
           )}
+        {/* if (currentWorkId === item.work.id) {
+                TODO no need for link
+              } */}
         <NextLink {...workLink({ id: item.work.id })} scroll={false} passHref>
           <StyledLink
             tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
@@ -688,16 +683,7 @@ const ListItem = ({
             }}
           >
             <WorkTitle title={item.work.title} />
-            <div
-              style={{
-                fontSize: '13px',
-                color: '#707070',
-                textDecoration: 'none',
-                padding: '0',
-              }}
-            >
-              {item.work.referenceNumber}
-            </div>
+            <RefNumber>{item.work.referenceNumber}</RefNumber>
           </StyledLink>
         </NextLink>
       </div>
@@ -919,45 +905,44 @@ const ArchiveTree = ({ work }: { work: Work }) => {
           </Modal>
         </>
       ) : (
-        <StickyContainer>
-          <Space
-            v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-            h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-            className={classNames({
-              'flex flex--v-center bg-smoke': true,
-            })}
-          >
-            <Space
-              as="h2"
-              h={{ size: 'm', properties: ['margin-right'] }}
-              className={classNames({
-                [font('wb', 5)]: true,
-                'no-margin': true,
-              })}
-            >
-              Collection contents
-            </Space>
-            <Icon name="tree" />
-          </Space>
-          <StickyContainerInner>
-            <Tree isEnhanced={isEnhanced}>
-              {isEnhanced && (
-                <TreeInstructions>{instructions}</TreeInstructions>
-              )}
-              <NestedList
-                selected={selected}
-                currentWorkId={work.id}
-                fullTree={archiveTree}
-                setArchiveTree={setArchiveTree}
-                archiveTree={archiveTree}
-                level={1}
-                tabbableId={tabbableId}
-                setTabbableId={setTabbableId}
-                setShowArchiveTree={setShowArchiveTree}
-              />
-            </Tree>
-          </StickyContainerInner>
-        </StickyContainer>
+        // <StickyContainer>
+        //   <Space
+        //     v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+        //     h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+        //     className={classNames({
+        //       'flex flex--v-center bg-smoke': true,
+        //     })}
+        //   >
+        //     <Space
+        //       as="h2"
+        //       h={{ size: 'm', properties: ['margin-right'] }}
+        //       className={classNames({
+        //         [font('wb', 5)]: true,
+        //         'no-margin': true,
+        //       })}
+        //     >
+        //       Collection contents
+        //     </Space>
+        //     <Icon name="tree" />
+        //   </Space>
+        //   <StickyContainerInner>
+        <Tree isEnhanced={isEnhanced}>
+          {isEnhanced && <TreeInstructions>{instructions}</TreeInstructions>}
+          <NestedList
+            selected={selected}
+            currentWorkId={work.id}
+            fullTree={archiveTree}
+            setArchiveTree={setArchiveTree}
+            archiveTree={archiveTree}
+            level={1}
+            tabbableId={tabbableId}
+            setTabbableId={setTabbableId}
+            setShowArchiveTree={setShowArchiveTree}
+            archiveAncestorArray={archiveAncestorArray}
+          />
+        </Tree>
+        //   </StickyContainerInner>
+        // </StickyContainer>
       )}
     </>
   ) : null;
