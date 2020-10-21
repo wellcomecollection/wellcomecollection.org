@@ -183,6 +183,9 @@ const StyledLink = styled.a`
       : 0};
   padding-right: ${props => `${props.theme.spacingUnit * 2}px`};
   text-decoration: none;
+  &:focus {
+    outline: ${props => (!props.hideFocus ? 'auto' : 'none')};
+  }
   &:focus,
   &:hover {
     text-decoration: underline;
@@ -685,6 +688,7 @@ const ListItem = ({
               } */}
         <NextLink {...workLink({ id: item.work.id })} scroll={false} passHref>
           <StyledLink
+            hideFocus={!isKeyboard}
             tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
             className={classNames({
               [font('hnl', 6)]: true,
