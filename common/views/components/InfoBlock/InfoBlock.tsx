@@ -4,7 +4,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import { HTMLString, PrismicLink } from '../../../services/prismic/types';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import { parseLink } from '@weco/common/services/prismic/parsers';
-
+import { dasherize } from '@weco/common/utils/grammar';
 type Props = {
   heading: string;
   text: HTMLString;
@@ -20,7 +20,9 @@ const InfoBlock = ({ title, text, linkText, link }) => (
     })}
     style={{ borderLeftWidth: '16px', borderLeftStyle: 'solid' }}
   >
-    <h2 className="h2">{title}</h2>
+    <h2 id={dasherize(title)} className="h2">
+      {title}
+    </h2>
     <div className="spaced-text body-text">
       <PrismicHtmlBlock html={text} />
     </div>

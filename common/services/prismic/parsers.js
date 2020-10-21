@@ -531,7 +531,9 @@ function getWeight(weight: ?string): ?Weight {
 }
 
 function getOnThisPage(fragment: PrismicFragment[]): any[] {
-  return flattenDeep(fragment.map(slice => slice.primary.text || []))
+  return flattenDeep(
+    fragment.map(slice => slice.primary.title || slice.primary.text || [])
+  )
     .filter(text => text.type === 'heading2')
     .map(item => {
       return {
@@ -758,7 +760,7 @@ export function parseBody(
             return {
               type: 'infoBlock',
               value: {
-                title: slice.primary.title,
+                title: parseTitle(slice.primary.title),
                 text: slice.primary.text,
                 linkText: slice.primary.linkText,
                 link: slice.primary.link,
