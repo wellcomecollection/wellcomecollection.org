@@ -48,14 +48,25 @@ const CompactCard = ({
   StatusIndicator,
   ExtraInfo,
   xOfY,
-  type = 'default',
+  type,
 }: Props) => {
   const { x, y } = xOfY;
-  const textGridSizes = Image
-    ? { s: 9, m: 9, l: 9, xl: 9 }
-    : { s: 12, m: 12, l: 12, xl: 12 };
-
   const isTypeMediaObject = type === 'mediaObject';
+
+  const textGridSizes = () => {
+    if (Image && isTypeMediaObject) {
+      return { s: 10, m: 10, l: 10, xl: 10 };
+    } else if (Image) {
+      return { s: 9, m: 9, l: 9, xl: 9 };
+    }
+    return { s: 12, m: 12, l: 12, xl: 12 };
+  };
+
+  const imageGridSizes =
+    Image && isTypeMediaObject
+      ? grid({ s: 2, m: 2, l: 2, xl: 2 })
+      : grid({ s: 3, m: 3, l: 3, xl: 3 });
+
   return (
     <Space
       v={{
@@ -80,10 +91,8 @@ const CompactCard = ({
         });
       }}
     >
-      {Image && (
-        <div className={grid({ s: 3, m: 3, l: 3, xl: 3 })}>{Image}</div>
-      )}
-      <div className={grid(textGridSizes)}>
+      {Image && <div className={imageGridSizes}>{Image}</div>}
+      <div className={grid(textGridSizes())}>
         {labels.labels.length > 0 && (
           <Space
             v={{ size: 's', properties: ['margin-bottom'] }}

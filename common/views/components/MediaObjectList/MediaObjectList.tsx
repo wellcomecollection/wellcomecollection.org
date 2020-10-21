@@ -15,7 +15,7 @@ type Props = {
 
 export const MediaObject = ({ id, title, text, image }: Props) => {
   // size of image first iteration this is max set width to 80px
-  const imageComponentStyles = { 'max-width': 80 };
+  const imageComponentStyles = {};
   const ImageComponent = image &&
     image.crops &&
     image.crops.square && <Image {...image.crops.square}  style={imageComponentStyles} />;
@@ -32,8 +32,9 @@ export const MediaObject = ({ id, title, text, image }: Props) => {
       DateInfo={null}
       ExtraInfo={null}
       labels={{ labels: [] }}
-      xOfY={{ x: undefined, y: undefined }}
+      xOfY={{ x: null, y: null }}
       type={'mediaObject'}
+      imageStyle={{ 'width': 80 }} 
     />
   );
 };
