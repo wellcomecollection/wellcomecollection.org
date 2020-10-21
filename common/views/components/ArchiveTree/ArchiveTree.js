@@ -197,6 +197,7 @@ const RefNumber = styled.span.attrs({
     [font('hnl', 6)]: true,
   }),
 })`
+  line-height: 1;
   display: block;
   color: ${props => props.theme.color('pewter')};
   text-decoration: none;
