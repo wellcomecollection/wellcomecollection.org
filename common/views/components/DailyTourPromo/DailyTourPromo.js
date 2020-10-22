@@ -44,7 +44,6 @@ export const data = {
     description: null,
   },
   body: [],
-  onThisPage: [],
   contributors: [],
   contributorsTitle: null,
   dateRange: {

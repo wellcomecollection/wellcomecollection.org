@@ -5,7 +5,6 @@ import type { Picture } from './picture';
 import type { ImageType } from './image';
 import type { Label } from './labels';
 import type { HTMLString } from '../services/prismic/types';
-import type { Link } from './link';
 
 export type Body = any[];
 
@@ -26,5 +25,4 @@ export type GenericContentFields = {|
   widescreenImage: ?ImageType,
   metadataDescription: ?string,
   labels: Label[],
-  onThisPage: Link[],
 |};

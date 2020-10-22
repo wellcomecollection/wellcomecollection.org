@@ -81,7 +81,6 @@ export class ArticleSeriesPage extends Component<Props> {
       widescreenImage: series.widescreenImage,
       labels: series.labels,
       metadataDescription: series.metadataDescription,
-      onThisPage: [],
     };
 
     const ContentTypeInfo = series.standfirst && (

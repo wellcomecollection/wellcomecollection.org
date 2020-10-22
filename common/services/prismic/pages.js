@@ -1,7 +1,7 @@
 // @flow
 import Prismic from 'prismic-javascript';
 import { getDocument, getDocuments } from './api';
-import { parseTimestamp, parseGenericFields } from './parsers';
+import { parseTimestamp, parseGenericFields, parseOnThisPage } from './parsers';
 import type { Page } from '../../model/pages';
 import type { PrismicDocument } from './types';
 import {
@@ -48,6 +48,7 @@ export function parsePage(document: PrismicDocument): Page {
   return {
     type: 'pages',
     ...genericFields,
+    onThisPage: parseOnThisPage(data.body),
     showOnThisPage: data.showOnThisPage || false,
     promo: promo && promo.image ? promo : drupalisedPromo,
     datePublished: data.datePublished && parseTimestamp(data.datePublished),

@@ -197,7 +197,6 @@ const Exhibition = ({ exhibition }: Props) => {
     widescreenImage: exhibition.widescreenImage,
     labels: exhibition.labels,
     metadataDescription: exhibition.metadataDescription,
-    onThisPage: [],
   };
   const DateInfo = exhibition.end ? (
     <DateRange
