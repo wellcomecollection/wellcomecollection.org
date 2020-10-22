@@ -4,7 +4,7 @@ Our collections search is currently in beta, which means we’re developing the 
 
 As part of this work, we will bring together library collections, physical and digital alike, into a single place. Here you will be able to search, browse, read and do research across the whole Wellcome library catalogue.
 
-For a more comprehensive search of all of our collections, [wellcomelibrary.org](https://wellcomelibrary.org) is still available. There you can search the library and archive catalogues for complete coverage of the collections and their data.
+For the most comprehensive search of all of our collections, and to request access to physical items from the library, [wellcomelibrary.org](https://wellcomelibrary.org) is still available. There you can search the library and archive catalogues for complete coverage of the collections and their data.
 
 We will keep this page up to date with the latest information as we make more progress.
 
@@ -20,9 +20,9 @@ To help you narrow the results our current filters should help and we have added
 
 ### Online / In library search filter
 We've added a filter to the search form, which will allow you to choose between online and in library works.
-As there are potentially many more results being returned, this will allow you to narrow those results in another useful way.
+As there are potentially many more results being returned, this will allow you to narrow narrow to those results that you can view without having to visit the library.
 
-### Archive exploration
+### Discover and navigate archives
 Now that you are able to find and view archive collections, we've made some additions to the work page to help to identify and explore archives.
   - an indication that the work is part of an archive
   - an indication of what the parent archive is and where in its hiearchy the work being viewed sits
@@ -31,19 +31,18 @@ Now that you are able to find and view archive collections, we've made some addi
 ## What's in development now
 - Improvements to the archive tree to give a better experience on small screens
 - Design improvements to the archive tree
-- Improving the interface of our search form:
+- Improving the interface for search:
   - making a clearer distinction between a catalogue and image search and explaining what they are.
-  - improving the design to allow for more filters
+  - improving the design to enable us to add more filters
   - grouping filters and other controls in more logical ways
 - Adding the ability to view items with particular access conditions on wellcomecollection.org
 - Adding the ability to request physical items on wellcomecollection.org
 
 ## What are the limits?
-- *Search quality*: Based on feedback from library catalogue users, we are now working to improve Title and Author searches.
 - Some library catalogue data is not available yet, so there may be very little information associated with some images or not be enough information to identify the item you’re looking at.
 - Some images lack references to the item from which they were taken.
 
-For now, if you need any additional help in identifying items from library collections, please email [collections@wellcome.ac.uk](mailto:collections@wellcome.ac.uk).
+For now, if you need any additional help in identifying items from library collections, please email [collections@wellcome.org](mailto:collections@wellcome.org).
 
 # Get involved
 
