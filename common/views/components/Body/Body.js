@@ -20,6 +20,9 @@ import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
 import VenueHours from '../VenueHours/VenueHours';
+import type { Link } from '../../../model/link';
+// $FlowFixMe (tsx)
+import OnThisPageAnchors from '../OnThisPageAnchors/OnThisPageAnchors';
 import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
 // $FlowFixMe (tsx)
 import Table from '../Table/Table';
@@ -35,7 +38,7 @@ const Map = dynamic(import('../Map/Map'), { ssr: false });
 
 type BodySlice = {|
   type: string,
-  weight: Weight,
+  weight?: Weight,
   value: any,
 |};
 
@@ -43,11 +46,19 @@ export type BodyType = BodySlice[];
 
 type Props = {|
   body: BodyType,
+  onThisPage?: Link[],
+  showOnThisPage?: boolean,
   isDropCapped?: boolean,
   pageId: string,
 |};
 
-const Body = ({ body, isDropCapped, pageId }: Props) => {
+const Body = ({
+  body,
+  onThisPage,
+  showOnThisPage,
+  isDropCapped,
+  pageId,
+}: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
     // The standfirst is now put into the header
@@ -65,6 +76,13 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
         'basic-body': true,
       })}
     >
+      {onThisPage && onThisPage.length > 2 && showOnThisPage && (
+        <SpacingComponent>
+          <Layout8>
+            <OnThisPageAnchors links={onThisPage} />
+          </Layout8>
+        </SpacingComponent>
+      )}
       {filteredBody.map((slice, i) => (
         <SpacingComponent key={`slice${i}`}>
           <div
@@ -221,7 +239,7 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
                     >
                       <VenueHours
                         venue={slice.value.content}
-                        weight={slice.weight}
+                        weight={slice.weight || 'default'}
                       />
                     </Layout>
                   </>

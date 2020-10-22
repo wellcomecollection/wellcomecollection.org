@@ -9,7 +9,6 @@ type Props = {|
   htmlSerializer?: HtmlSerializer,
 |};
 
-// TODO: use a 'z' for our spelling of htmlSerializer, for sanity?
 const PrismicHtmlBlock = ({ html, htmlSerializer }: Props) => (
   <RichText render={html} htmlSerializer={htmlSerializer} />
 );

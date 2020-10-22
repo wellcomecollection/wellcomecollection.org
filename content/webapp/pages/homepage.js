@@ -19,6 +19,16 @@ import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import SimpleCardGrid from '@weco/common/views/components/SimpleCardGrid/SimpleCardGrid';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
+import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
+import {
+  getEvents,
+  orderEventsByNextAvailableDate,
+  filterEventsForNext7Days,
+} from '@weco/common/services/prismic/events';
+import { type UiExhibition } from '@weco/common/model/exhibitions';
+import { type UiEvent } from '@weco/common/model/events';
+import { convertJsonToDates } from './event';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -40,6 +50,8 @@ const CreamBox = styled(Space).attrs({
 `;
 
 type Props = {|
+  exhibitions: PaginatedResults<UiExhibition>,
+  events: PaginatedResults<UiEvent>,
   articles: PaginatedResults<Article>,
   page: PageType,
 |};
@@ -56,12 +68,35 @@ export class HomePage extends Component<Props> {
       { pageSize: 4 },
       memoizedPrismic
     );
+    const exhibitionsPromise = getExhibitions(
+      ctx.req,
+      {
+        period: 'next-seven-days',
+        order: 'asc',
+      },
+      memoizedPrismic
+    );
+    const eventsPromise = getEvents(
+      ctx.req,
+      {
+        period: 'current-and-coming-up',
+      },
+      memoizedPrismic
+    );
     const pagePromise = await getPage(ctx.req, id, memoizedPrismic);
-    const [articles, page] = await Promise.all([articlesPromise, pagePromise]);
-    if (articles && page) {
+    const [exhibitions, events, articles, page] = await Promise.all([
+      exhibitionsPromise,
+      eventsPromise,
+      articlesPromise,
+      pagePromise,
+    ]);
+
+    if (events && exhibitions && articles && page) {
       return {
         articles,
         page,
+        exhibitions,
+        events,
       };
     } else {
       return { statusCode: 404 };
@@ -69,6 +104,17 @@ export class HomePage extends Component<Props> {
   };
 
   render() {
+    const events = this.props.events.results.map(convertJsonToDates);
+    const nextSevenDaysEvents = orderEventsByNextAvailableDate(
+      filterEventsForNext7Days(events)
+    );
+    const exhibitions = this.props.exhibitions.results.map(exhibition => {
+      return {
+        start: exhibition.start && new Date(exhibition.start),
+        end: exhibition.end && new Date(exhibition.end),
+        ...exhibition,
+      };
+    });
     const articles = this.props.articles;
     const page = this.props.page;
     const standFirst = page.body.find(slice => slice.type === 'standfirst');
@@ -126,6 +172,24 @@ export class HomePage extends Component<Props> {
             )
           }
         </TogglesContext.Consumer>
+
+        {nextSevenDaysEvents.concat(exhibitions).length > 2 && (
+          <SpacingSection>
+            <SpacingComponent>
+              <SectionHeader title="This week" />
+            </SpacingComponent>
+            <SpacingComponent>
+              <ExhibitionsAndEvents
+                exhibitions={exhibitions}
+                events={nextSevenDaysEvents}
+                links={[
+                  { text: 'All exhibitions and events', url: '/whats-on' },
+                ]}
+              />
+            </SpacingComponent>
+          </SpacingSection>
+        )}
+
         {contentList && (
           <SpacingSection>
             <SpacingComponent>
@@ -136,6 +200,7 @@ export class HomePage extends Component<Props> {
             </SpacingComponent>
           </SpacingSection>
         )}
+
         <SpacingSection>
           <SpacingComponent>
             <SectionHeader title="Latest stories" />
