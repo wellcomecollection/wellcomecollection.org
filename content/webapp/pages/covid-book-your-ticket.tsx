@@ -3,10 +3,9 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { grid, classNames, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import CovidTOC from '@weco/common/views/components/CovidTOC/CovidTOC';
+import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors/OnThisPageAnchors';
 import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
 import Divider from '@weco/common/views/components/Divider/Divider';
-import EventbriteButton from '@weco/common/views/components/EventbriteButton/EventbriteButton';
 import styled from 'styled-components';
 
 const CovidSmallPrint = styled.div.attrs({
@@ -87,18 +86,12 @@ const CovidWeAreOpenPage = () => {
               <Space
                 v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
               >
-                <CovidTOC
+                <OnThisPageAnchors
                   links={[
                     { text: 'Museum visit', url: '#museum-visit' },
                     {
                       text: 'Library and museum visit',
                       url: '#library-and-museum-visit',
-                      sublinks: [
-                        {
-                          text: 'Need to know about your library visit',
-                          url: '#need-to-know-about-your-library-visit',
-                        },
-                      ],
                     },
                     {
                       text: 'Need to know about your ticket',

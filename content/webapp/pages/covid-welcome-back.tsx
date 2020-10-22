@@ -3,7 +3,7 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import CovidTOC from '@weco/common/views/components/CovidTOC/CovidTOC';
+import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors/OnThisPageAnchors';
 import CovidSafetyMeasure from '@weco/common/views/components/CovidSafetyMeasure/CovidSafetyMeasure';
 import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
 import Divider from '@weco/common/views/components/Divider/Divider';
@@ -105,7 +105,7 @@ const CovidWelcomeBackPage = () => {
               <Space
                 v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
               >
-                <CovidTOC
+                <OnThisPageAnchors
                   links={[
                     { text: 'Book your ticket', url: '#book-your-ticket' },
                     { text: 'Plan your visit', url: '#plan-your-visit' },

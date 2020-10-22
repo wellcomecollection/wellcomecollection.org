@@ -1,14 +1,15 @@
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { HTMLString } from '../../../services/prismic/types';
+import { HTMLString, PrismicLink } from '../../../services/prismic/types';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
-
+import { parseLink } from '@weco/common/services/prismic/parsers';
+import { dasherize } from '@weco/common/utils/grammar';
 type Props = {
   heading: string;
   text: HTMLString;
   linkText: string | null;
-  link: any | null; // TODO: use PrismicLink type from #5636 and parseUrl
+  link: PrismicLink | null;
 };
 
 const InfoBlock = ({ title, text, linkText, link }) => (
@@ -19,13 +20,15 @@ const InfoBlock = ({ title, text, linkText, link }) => (
     })}
     style={{ borderLeftWidth: '16px', borderLeftStyle: 'solid' }}
   >
-    <h2 className="h2">{title}</h2>
+    <h2 id={dasherize(title)} className="h2">
+      {title}
+    </h2>
     <div className="spaced-text body-text">
       <PrismicHtmlBlock html={text} />
     </div>
     {link && (
       <Space v={{ size: 'l', properties: ['margin-top'] }}>
-        <ButtonOutlinedLink link={link.url} text={linkText} />
+        <ButtonOutlinedLink link={parseLink(link)} text={linkText} />
       </Space>
     )}
   </Space>
