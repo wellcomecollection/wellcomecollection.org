@@ -31,7 +31,7 @@ type Props = {|
   StatusIndicator: ?Element<typeof StatusIndicator>,
   ExtraInfo?: ?Node,
   xOfY: {| x: number, y: number |},
-  type: ?string,
+  type?: string,
 |};
 
 const CompactCard = ({
