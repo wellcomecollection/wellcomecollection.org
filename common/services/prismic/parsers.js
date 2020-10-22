@@ -36,7 +36,7 @@ import { parseArticle } from './articles';
 import { parseEventDoc } from './events';
 
 // $FlowFixMe (ts)
-import type { MediaObjectType } from '../../model/media-object-list';
+import { MediaObjectType } from '../../model/media-object-list';
 
 const placeHolderImage = ({
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
