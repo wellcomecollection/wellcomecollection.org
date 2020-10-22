@@ -27,6 +27,7 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
+import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
 
 const ArchiveDetailsContainer = styled.div`
@@ -194,15 +195,18 @@ const Work = ({ work }: Props) => {
             </div>
           </div>
           <div className="container">
+          <Divider extraClasses="divider--pumice divider--keyline" />
             <ArchiveDetailsContainer>
-              <ArchiveTree work={work} />
-              <WorkDetails
-                work={work}
-                itemUrl={itemUrlObject}
-                iiifPresentationManifest={iiifPresentationManifest}
-                childManifestsCount={childManifestsCount}
-                imageCount={imageTotal}
-              />
+                <ArchiveTree work={work} />
+              <Space v={{ size: 'l', properties: ['padding-top'] }}>
+                <WorkDetails
+                  work={work}
+                  itemUrl={itemUrlObject}
+                  iiifPresentationManifest={iiifPresentationManifest}
+                  childManifestsCount={childManifestsCount}
+                  imageCount={imageTotal}
+                />
+              </Space>
             </ArchiveDetailsContainer>
           </div>
         </>

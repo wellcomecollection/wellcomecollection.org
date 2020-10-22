@@ -9,7 +9,7 @@ import NextLink from 'next/link';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import type Toggles from '@weco/catalogue/services/catalogue/common';
-import Space from '../styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 // $FlowFixMe (tsx)
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -24,22 +24,9 @@ import Modal, { ModalContext } from '@weco/common/views/components/Modal/Modal';
 // $FlowFixMe (tsx)
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
-// const StickyContainer = styled.div`
-//   border: 1px solid ${props => props.theme.color('pumice')};
-//   border-bottom: 0;
-
-//   ${props => props.theme.media.medium`
-//     position: sticky;
-//     top: 0px;
-//   `}
-// `;
-
-// const StickyContainerInner = styled.div`
-//   ${props => props.theme.media.medium`
-//     overflow: scroll;
-//     max-height: calc(100vh - 48px);
-//   `}
-// `;
+const TreeContainer = styled.div`
+  border-right: 1px solid ${props => props.theme.color('pumice')};
+`;
 
 const instructions =
   'Archive Tree: Tab into the tree, then use up and down arrows to move through tree items. Use right and left arrows to toggle sub menus open and closed. When focused on an item you can tab to the link it contains.';
@@ -169,6 +156,7 @@ const TreeControl = styled.span`
 const StyledLink = styled.a`
   display: inline-block;
   min-height: ${`${controlHeight}px`};
+  line-height: 1;
   color: ${props => props.theme.color('viewerBlack')};
   background: ${props =>
     props.theme.color(props.isCurrent ? 'yellow' : 'transparent')};
@@ -927,44 +915,34 @@ const ArchiveTree = ({ work }: { work: Work }) => {
           </Modal>
         </>
       ) : (
-        // <StickyContainer>
-        //   <Space
-        //     v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-        //     h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-        //     className={classNames({
-        //       'flex flex--v-center bg-smoke': true,
-        //     })}
-        //   >
-        //     <Space
-        //       as="h2"
-        //       h={{ size: 'm', properties: ['margin-right'] }}
-        //       className={classNames({
-        //         [font('wb', 5)]: true,
-        //         'no-margin': true,
-        //       })}
-        //     >
-        //       Collection contents
-        //     </Space>
-        //     <Icon name="tree" />
-        //   </Space>
-        //   <StickyContainerInner>
-        <Tree isEnhanced={isEnhanced}>
-          {isEnhanced && <TreeInstructions>{instructions}</TreeInstructions>}
-          <NestedList
-            selected={selected}
-            currentWorkId={work.id}
-            fullTree={archiveTree}
-            setArchiveTree={setArchiveTree}
-            archiveTree={archiveTree}
-            level={1}
-            tabbableId={tabbableId}
-            setTabbableId={setTabbableId}
-            setShowArchiveTree={setShowArchiveTree}
-            archiveAncestorArray={archiveAncestorArray}
-          />
-        </Tree>
-        //   </StickyContainerInner>
-        // </StickyContainer>
+        <TreeContainer>
+          <Space v={{ size: 'l', properties: ['padding-top'] }}>
+            <h2
+              className={classNames({
+                [font('wb', 4)]: true,
+              })}
+            >
+              Collection contents
+            </h2>
+            <Tree isEnhanced={isEnhanced}>
+              {isEnhanced && (
+                <TreeInstructions>{instructions}</TreeInstructions>
+              )}
+              <NestedList
+                selected={selected}
+                currentWorkId={work.id}
+                fullTree={archiveTree}
+                setArchiveTree={setArchiveTree}
+                archiveTree={archiveTree}
+                level={1}
+                tabbableId={tabbableId}
+                setTabbableId={setTabbableId}
+                setShowArchiveTree={setShowArchiveTree}
+                archiveAncestorArray={archiveAncestorArray}
+              />
+            </Tree>
+          </Space>
+        </TreeContainer>
       )}
     </>
   ) : null;
