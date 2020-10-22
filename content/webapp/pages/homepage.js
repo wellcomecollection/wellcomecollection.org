@@ -105,6 +105,9 @@ export class HomePage extends Component<Props> {
 
   render() {
     const events = this.props.events.results.map(convertJsonToDates);
+    const nextSevenDaysEvents = orderEventsByNextAvailableDate(
+      filterEventsForNext7Days(events)
+    );
     const exhibitions = this.props.exhibitions.results.map(exhibition => {
       return {
         start: exhibition.start && new Date(exhibition.start),
@@ -170,20 +173,22 @@ export class HomePage extends Component<Props> {
           }
         </TogglesContext.Consumer>
 
-        <SpacingSection>
-          <SpacingComponent>
-            <SectionHeader title="This week" />
-          </SpacingComponent>
-          <SpacingComponent>
-            <ExhibitionsAndEvents
-              exhibitions={exhibitions}
-              events={orderEventsByNextAvailableDate(
-                filterEventsForNext7Days(events)
-              )}
-              links={[{ text: 'All exhibitions and events', url: '/whats-on' }]}
-            />
-          </SpacingComponent>
-        </SpacingSection>
+        {nextSevenDaysEvents.concat(exhibitions).length > 2 && (
+          <SpacingSection>
+            <SpacingComponent>
+              <SectionHeader title="This week" />
+            </SpacingComponent>
+            <SpacingComponent>
+              <ExhibitionsAndEvents
+                exhibitions={exhibitions}
+                events={nextSevenDaysEvents}
+                links={[
+                  { text: 'All exhibitions and events', url: '/whats-on' },
+                ]}
+              />
+            </SpacingComponent>
+          </SpacingSection>
+        )}
 
         {contentList && (
           <SpacingSection>
