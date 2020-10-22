@@ -51,7 +51,7 @@ const CompactCard = ({
   type,
 }: Props) => {
   const { x, y } = xOfY;
-  const isTypeMediaObject = type === 'mediaObject';
+  const isTypeMediaObject = type === 'media_object';
 
   const textGridSizes = () => {
     if (Image && isTypeMediaObject) {

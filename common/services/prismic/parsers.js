@@ -533,7 +533,13 @@ function getWeight(weight: ?string): ?Weight {
 function parseMediaObjectLinks(
   fragment: PrismicFragment[]
 ): Array<MediaObjectType> {
-  return fragment.map(mediaObject => {
+  // make sure linked type is media_object
+  const filteredMediaObject = fragment.filter(mediaObject => {
+    if (mediaObject.content?.type === 'media_object') {
+      return mediaObject;
+    }
+  });
+  return filteredMediaObject.map(mediaObject => {
     const { title, text, image } = mediaObject.content.data;
     return {
       id: mediaObject.content.id,

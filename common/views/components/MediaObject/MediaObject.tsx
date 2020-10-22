@@ -12,7 +12,7 @@ type Props = {
   image: ImageType,
 };
 
-export const MediaObject = ({ title, text, image }: Props) => {
+export const MediaObject = ({ title, text, image }: Props) => {  
   const ImageComponent = image && image.crops && image.crops.square && (
     <Image {...image.crops.square} />
   );
@@ -30,7 +30,7 @@ export const MediaObject = ({ title, text, image }: Props) => {
       ExtraInfo={null}
       labels={{ labels: [] }}
       xOfY={{ x: null, y: null }}
-      type={'mediaObject'}
+      type={'media_object'}
     />
   );
 };
@@ -38,8 +38,8 @@ export const MediaObject = ({ title, text, image }: Props) => {
 const MediaObjectList = ({ items }: { items: Array<MediaObjectType> }) => {
   return (
     <div className="body-text">
-      {items.map(mediaObject => {
-        return <MediaObject {...mediaObject} />;
+      {items.map((mediaObject, index) => {
+        return <MediaObject {...mediaObject} key={index}/>;
       })}
     </div>
   );
