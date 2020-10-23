@@ -185,6 +185,10 @@ const CovidWelcomeBackPage = () => {
                     exhibits, with priority use of the lifts.
                   </li>
                   <li>
+                    Please bring your own headphones with a standard jack to
+                    listen to audio exhibits.
+                  </li>
+                  <li>
                     Shared accessible resources, like magnifiers and large-print
                     guides, are still available, but our team are collecting and
                     cleaning them between each use. If you’d like to use them,
@@ -212,8 +216,9 @@ const CovidWelcomeBackPage = () => {
                     You can use the lockers on level 0 to store belongings.
                   </li>
                   <li>
-                    Some of the lockers are large enough for fold-up bicycles;
-                    however, we won’t be able to store luggage.
+                    Some of the lockers are large enough for fold-up bicycles or
+                    fold-up scooters; however, we won’t be able to store
+                    luggage.
                   </li>
                   <li>
                     Library users will still be able to bring laptops, pencils
@@ -273,7 +278,8 @@ const CovidWelcomeBackPage = () => {
                   title={'Only book for your household or bubble'}
                   description={
                     <span>
-                      Please only book to attend or enter the building with people from your household or support bubble.
+                      Please only book to attend or enter the building with
+                      people from your household or support bubble.
                     </span>
                   }
                   icon={CovidIconsEnum.houseHold}
