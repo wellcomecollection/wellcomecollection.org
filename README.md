@@ -62,6 +62,10 @@ This is useful if you want to run both the catalogue and content apps simultaneo
 
 This project uses the [weco-deploy](https://github.com/wellcomecollection/weco-deploy) tool.
 
+### Rolling back
+
+Get a list of previous release ids
+`weco-deploy show-deployments --limit 30`
 
 ### Running CI steps locally
 
