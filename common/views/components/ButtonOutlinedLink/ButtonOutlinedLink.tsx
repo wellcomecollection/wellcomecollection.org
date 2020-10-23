@@ -37,7 +37,7 @@ const ButtonOutlinedLink = ({
   return (
     <ConditionalWrapper
       condition={isNextLink}
-      wrapper={children =>
+      wrapper={(children: JSX.Element) =>
         typeof link === 'object' && (
           <NextLink {...link} passHref>
             {children}
@@ -50,7 +50,7 @@ const ButtonOutlinedLink = ({
         aria-expanded={ariaExpanded}
         onClick={handleClick}
         isOnDark={isOnDark}
-        href={isNextLink ? undefined : link}
+        href={isNextLink ? undefined : link.toString()}
       >
         <BaseButtonInner>
           {text}

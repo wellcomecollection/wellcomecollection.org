@@ -1,4 +1,4 @@
-import {SyntheticEvent} from 'react';
+import { SyntheticEvent } from 'react';
 import {
   BaseButtonInner,
   ButtonIconWrapper,
@@ -12,7 +12,12 @@ import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
 type ButtonSolidLinkProps = ButtonSolidBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
-  link: {href: {pathname: string, query: string}, as: {pathname: string, query: string}} | string;
+  link:
+    | {
+        href: { pathname: string; query: string };
+        as: { pathname: string; query: string };
+      }
+    | string;
 };
 
 const ButtonSolidLink = ({
@@ -48,7 +53,7 @@ const ButtonSolidLink = ({
         aria-expanded={ariaExpanded}
         onClick={handleClick}
         isBig={isBig}
-        href={isNextLink ? undefined : link}
+        href={isNextLink ? undefined : link.toString()}
       >
         <BaseButtonInner>
           {icon && (
