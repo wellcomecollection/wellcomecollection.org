@@ -369,9 +369,10 @@
             "fieldset": "Info block",
             "non-repeat": {
               "title": {
-                "type": "Text",
+                "type": "StructuredText",
                 "config": {
-                  "label": "title"
+                  "label": "Title",
+                  "single": "heading2"
                 }
               },
               "text": {

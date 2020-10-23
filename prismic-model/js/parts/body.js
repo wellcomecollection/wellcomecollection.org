@@ -9,6 +9,7 @@ import title from './title';
 import link from './link';
 import text from './text';
 import embed from './embed';
+import heading from './heading';
 import booleanDeprecated from '../parts/boolean-deprecated';
 
 // I've left slice here as we shouldn't really use it.
@@ -127,12 +128,7 @@ export default {
       }),
       infoBlock: slice('Info block', {
         nonRepeat: {
-          title: {
-            type: 'Text',
-            config: {
-              label: 'title',
-            },
-          },
+          title: heading('Title', 2),
           text: structuredText('Text', 'multi', ['heading3', 'list-item']),
           link: link('Button link', 'web'),
           linkText: text('Button text'),
