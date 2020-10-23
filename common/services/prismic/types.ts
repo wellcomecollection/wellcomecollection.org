@@ -55,7 +55,7 @@ export type HTMLSpan = {
   type: HTMLSpanTypes;
   start: number;
   end: number;
-  data: Object;
+  data?: Object;
 };
 
 export type HTMLStringBlock = {
