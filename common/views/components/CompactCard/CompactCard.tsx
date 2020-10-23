@@ -21,7 +21,7 @@ type Props = {
   url: string | null,
   title: string,
   labels: ComponentProps<typeof LabelsList>,
-  description: string | ReactElement |null,
+  description: string | ReactElement | null,
   urlOverride: string | null,
   extraClasses?: string,
   partNumber: number | null,
@@ -31,16 +31,39 @@ type Props = {
   StatusIndicator: ReactElement<typeof StatusIndicator> | null,
   ExtraInfo?: ReactNode | null,
   xOfY: { x: number, y: number },
-  type?: string
+  OverrideImageWrapper?: ReactNode,
+  OverrideTextWrapper?: ReactNode,
+  OverrideTitleWrapper?: ReactNode,
 };
 
-export const imageWrapper = styled.div.attrs({
-  className: classNames(grid({ s: 3, m: 3, l: 3, xl: 3 })),
-})``;
+const BaseImageWrapper = styled.div.attrs(props => ({
+  className: grid({ s: 3, m: 3, l: 3, xl: 3 }),
+}))``;
 
-export const textWrapper = styled.div.attrs({
-  className: classNames(grid({ s: 9, m: 9, l: 9, xl: 9 })),
-})``;
+const BaseTitleWrapper = styled.div.attrs(props => ({
+  className: classNames({
+    'card-link__title': true,
+    [font('wb', 5)]: true,
+  })
+}))``;
+
+export type TextWrapperProp = {
+  hasImage: boolean
+};
+
+// Ability to add custom prop types in TS and styled components
+const BaseTextWrapper = styled.div.attrs<TextWrapperProp>(props => {
+  if (props.hasImage) {
+    return {
+      className: grid({ s: 9, m: 9, l: 9, xl: 9 }),
+    };
+  }
+  return {
+    className: grid({ s: 12, m: 12, l: 12, xl: 12 }),
+  };
+  
+})<TextWrapperProp>``;
+
 const CompactCard = ({
   url,
   title,
@@ -55,24 +78,18 @@ const CompactCard = ({
   StatusIndicator,
   ExtraInfo,
   xOfY,
-  type,
+  OverrideImageWrapper,
+  OverrideTextWrapper,
+  OverrideTitleWrapper,
 }: Props) => {
   const { x, y } = xOfY;
-  const isTypeMediaObject = type === 'media_object';
 
-  const textGridSizes = () => {
-    if (Image && isTypeMediaObject) {
-      return { s: 10, m: 10, l: 10, xl: 10 };
-    } else if (Image) {
-      return { s: 9, m: 9, l: 9, xl: 9 };
-    }
-    return { s: 12, m: 12, l: 12, xl: 12 };
-  };
+  const ImageWrapper:any = OverrideImageWrapper ? OverrideImageWrapper : BaseImageWrapper;
+  const TextWrapper:any = OverrideTextWrapper ? OverrideTextWrapper : BaseTextWrapper;
+  const TitleWrapper:any = OverrideTitleWrapper ? OverrideTitleWrapper : BaseTitleWrapper;
 
-  const imageGridSizes =
-    Image && isTypeMediaObject
-      ? grid({ s: 2, m: 2, l: 2, xl: 2 })
-      : grid({ s: 3, m: 3, l: 3, xl: 3 });
+  const descriptionIsString = typeof description === 'string';
+
   return (
     <Space
       v={{
@@ -97,10 +114,11 @@ const CompactCard = ({
         });
       }}
     >
-      {Image && <div className={imageGridSizes}>{Image}</div>}
-      <div className={grid(textGridSizes())}>
-
-        {labels.labels.length > 0 && (
+      <ImageWrapper hasImage={Boolean(Image)}> 
+        {Image}
+      </ImageWrapper>
+      <TextWrapper hasImage={Boolean(Image)} >
+      {labels.labels.length > 0 && (
           <Space
             v={{ size: 's', properties: ['margin-bottom'] }}
             className="flex"
@@ -111,25 +129,20 @@ const CompactCard = ({
         {partNumber && (
           <PartNumberIndicator number={partNumber} color={color} />
         )}
-        <div
-          className={classNames({
-            'card-link__title': true,
-            [isTypeMediaObject ? font('wb', 4) : font('wb', 5)]: true,
-          })}
-        >
+        <TitleWrapper>
           {title}
-        </div>
+        </TitleWrapper>
         {DateInfo}
         {StatusIndicator}
         {ExtraInfo}
-        {description && isTypeMediaObject ? (
-          <div className={`spaced-text ${font('hnl', 5)}`}>{description}</div>
-        ) : (
-          <div className="spaced-text">
-            <p className={font('hnl', 5)}>{description}</p>
+        {description && 
+          <div className={`spaced-text ${!descriptionIsString && font('hnl', 5)}`}>
+            {
+              descriptionIsString ? <p className={font('hnl', 5)}>{description}</p> : description
+            }
           </div>
-        )}
-      </div>
+        }
+      </TextWrapper>
     </Space>
   );
 };
