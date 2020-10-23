@@ -1,7 +1,7 @@
 import Image from '../Image/Image';
 import CompactCard from '../CompactCard/CompactCard';
 import { ImageType } from '../../../model/image';
-import { MediaObjectType } from '../../../model/media-object-list';
+import { MediaObjectType } from '../../../model/media-object';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import { HTMLString } from '@weco/common/services/prismic/types';
 
@@ -24,6 +24,7 @@ export const MediaObject = ({ title, text, image }: Props) => {
       Image={ImageComponent}
       partNumber={null}
       color={null}
+      StatusIndicator={null}
       description={description}
       urlOverride={null}
       DateInfo={null}

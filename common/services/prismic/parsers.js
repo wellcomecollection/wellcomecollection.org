@@ -36,7 +36,7 @@ import { parseArticle } from './articles';
 import { parseEventDoc } from './events';
 
 // $FlowFixMe (ts)
-import { MediaObjectType } from '../../model/media-object-list';
+import { MediaObjectType } from '../../model/media-object';
 
 const placeHolderImage = ({
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
@@ -536,7 +536,7 @@ function parseMediaObjectLinks(
   // make sure linked type is media_object
   const filteredMediaObject = fragment.filter(mediaObject => {
     if (mediaObject.content?.type === 'media_object') {
-      return mediaObject;
+      return true;
     }
   });
   return filteredMediaObject.map(mediaObject => {
