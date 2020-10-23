@@ -43,6 +43,7 @@ export type PrismicQueryOpts = {
 
 export type HTMLSpanTypes =
   | 'heading2'
+  | 'heading3'
   | 'paragraph'
   | 'strong'
   | 'em'
