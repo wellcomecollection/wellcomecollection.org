@@ -170,7 +170,24 @@ const CovidWeAreOpenPage = () => {
                   {
                     type: 'list-item',
                     text:
-                      'You will need to order any materials 72 hours in advance.',
+                      'You will need to order any materials at least 72 hours in advance of any visit.',
+                    spans: [],
+                  },
+                  {
+                    type: 'list-item',
+                    text:
+                      'You will need to book your ticket at least 72 hours in advance of any visit.',
+                    spans: [],
+                  },
+                  {
+                    type: 'list-item',
+                    text: 'You will need a new ticket for each day you visit.',
+                    spans: [],
+                  },
+                  {
+                    type: 'list-item',
+                    text:
+                      'Visits to the Rare Materials Room are limited to one a week.',
                     spans: [],
                   },
                   {
@@ -231,17 +248,17 @@ const CovidWeAreOpenPage = () => {
                   {
                     type: 'paragraph',
                     text:
-                      'All ordered material will be delivered to the Rare Materials Room. In order to visit, you will need to book the ticket in Eventbrite that indicates RMR access. These will be available at 10.30 and 13.30 every day. Please only book if you need it, as there is limited availability to allow for social distancing.',
+                      'All ordered material will be delivered to the Rare Materials Room (RMR). You can visit the RMR once a week, and you will need to book the ticket in Eventbrite that indicates ‘material access’ in the Rare Materials Room. Please only book if you need it, as there is limited availability to allow for social distancing.',
                     spans: [],
                   },
                   {
                     type: 'list-item',
                     text:
-                      'After you’ve booked your ticket, request up to ten items from wellcomelibrary.org before your visit.',
+                      'Once you’ve booked your ticket, you can request up to 10 items from the library catalogue at wellcomelibrary.org.',
                     spans: [
                       {
-                        start: 62,
-                        end: 81,
+                        start: 93,
+                        end: 112,
                         type: 'hyperlink',
                         data: {
                           link_type: 'Web',
@@ -261,6 +278,12 @@ const CovidWeAreOpenPage = () => {
                         type: 'strong',
                       },
                     ],
+                  },
+                  {
+                    type: 'list-item',
+                    text:
+                      'The materials that you order will be available to collect at the time of your booked visit.',
+                    spans: [],
                   },
                   {
                     type: 'list-item',
@@ -288,7 +311,7 @@ const CovidWeAreOpenPage = () => {
                   {
                     type: 'paragraph',
                     text:
-                      'You can use the library for three hours from the start of your slot – you can spend as much time as you like in the rest of the building.',
+                      'You are assured three hours in the library from the start of your slot – you can spend as much time as you like in the rest of the building.',
                     spans: [],
                   },
                   {
@@ -317,7 +340,7 @@ const CovidWeAreOpenPage = () => {
                   {
                     type: 'paragraph',
                     text:
-                      'You will be able to access the open shelves, but when you have finished with your book, please place on a quarantine trolley.',
+                      'You will be able to access the open shelves, but when you have finished with your book, please place on a quarantine trolley. Please be aware that you will have to wait 72 hours before you can use that item again because it will be in quarantine.',
                     spans: [],
                   },
                   {
@@ -334,7 +357,7 @@ const CovidWeAreOpenPage = () => {
                   {
                     type: 'list-item',
                     text:
-                      'The accessible study room can be booked – email the library before you book your ticket to make sure the room is available for you on the day you want to come. We’re allowing one booking per day to ensure thorough cleaning before the next user.',
+                      'The accessible study room is available on request - please email the library before you book your ticket to make sure the room is available on the days you want to visit. We’re allowing one booking per day to ensure thorough cleaning before the next user.',
                     spans: [],
                   },
                   {
