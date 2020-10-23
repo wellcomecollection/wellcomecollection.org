@@ -48,7 +48,7 @@ export function parsePage(document: PrismicDocument): Page {
   return {
     type: 'pages',
     ...genericFields,
-    onThisPage: parseOnThisPage(data.body),
+    onThisPage: data.body ? parseOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,
     promo: promo && promo.image ? promo : drupalisedPromo,
     datePublished: data.datePublished && parseTimestamp(data.datePublished),
