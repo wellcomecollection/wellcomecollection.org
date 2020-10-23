@@ -15,6 +15,7 @@ import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import ImageType from '../Image/Image';
 import { ColorSelection } from '../../../model/color-selections';
 import Space from '../styled/Space';
+import styled from 'styled-components';
 
 type Props = {
   url: string | null,
@@ -33,6 +34,13 @@ type Props = {
   type?: string
 };
 
+export const imageWrapper = styled.div.attrs({
+  className: classNames(grid({ s: 3, m: 3, l: 3, xl: 3 })),
+})``;
+
+export const textWrapper = styled.div.attrs({
+  className: classNames(grid({ s: 9, m: 9, l: 9, xl: 9 })),
+})``;
 const CompactCard = ({
   url,
   title,
@@ -65,7 +73,6 @@ const CompactCard = ({
     Image && isTypeMediaObject
       ? grid({ s: 2, m: 2, l: 2, xl: 2 })
       : grid({ s: 3, m: 3, l: 3, xl: 3 });
-
   return (
     <Space
       v={{
