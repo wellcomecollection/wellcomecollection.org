@@ -14,13 +14,13 @@ We will keep this page up to date with the latest information as we make more pr
 We were previously only exposing a subset of our catalogue in search results, limited to digital and digitised materials.
 We now return results from our whole catalogue, including archives, physical works from our collections, and more.
 
-This means you will see many more results for a given query, as we will be searching among approximately 1.2 million works, up from Approximately 350,000.
+This means you will see many more results for a given query, as we will be searching among approximately 1.2 million works, up from about 350,000.
 
 To help you narrow the results our current filters should help and we have added a new search filter.
 
 ### Online / In library search filter
 We've added a filter to the search form, which will allow you to choose between online and in library works.
-As there are potentially many more results being returned, this will allow you to narrow narrow to those results that you can view without having to visit the library.
+As there are potentially many more results being returned, this will allow you to narrow to those results that you can view without having to visit the library.
 
 ### Discover and navigate archives
 Now that you are able to find and view archive collections, we've made some additions to the work page to help to identify and explore archives.
