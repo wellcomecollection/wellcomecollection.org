@@ -20,8 +20,9 @@ type ButtonSolidLinkProps = ButtonSolidBaseProps & {
     | string;
 };
 
-export function getHref(link: Object): undefined;
-export function getHref(link: string) {
+export function getHref(link: string | object) {
+  if (typeof link === 'object') return undefined;
+
   return link;
 }
 
