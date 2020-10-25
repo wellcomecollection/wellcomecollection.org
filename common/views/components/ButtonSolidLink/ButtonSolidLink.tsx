@@ -20,6 +20,11 @@ type ButtonSolidLinkProps = ButtonSolidBaseProps & {
     | string;
 };
 
+export function getHref(link: Object): undefined;
+export function getHref(link: string) {
+  return link;
+}
+
 const ButtonSolidLink = ({
   text,
   link,
@@ -53,7 +58,7 @@ const ButtonSolidLink = ({
         aria-expanded={ariaExpanded}
         onClick={handleClick}
         isBig={isBig}
-        href={isNextLink ? undefined : link.toString()}
+        href={getHref(link)}
       >
         <BaseButtonInner>
           {icon && (
