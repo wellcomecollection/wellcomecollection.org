@@ -57,6 +57,7 @@ type Props = {
   imagesRouteProps: ImagesRouteProps;
   workTypeAggregations: CatalogueAggregationBucket[];
   shouldShowFilters: boolean;
+  activeTabIndex?: number;
 };
 
 const SearchTabs = ({
@@ -64,6 +65,7 @@ const SearchTabs = ({
   imagesRouteProps,
   workTypeAggregations,
   shouldShowFilters,
+  activeTabIndex,
 }: Props) => {
   const { isKeyboard } = useContext(AppContext);
 
@@ -128,7 +130,13 @@ const SearchTabs = ({
     },
   ];
 
-  return <BaseTabs tabs={tabs} label={'Tabs for search'} />;
+  return (
+    <BaseTabs
+      tabs={tabs}
+      label={'Tabs for search'}
+      activeTabIndex={activeTabIndex}
+    />
+  );
 };
 
 export default SearchTabs;

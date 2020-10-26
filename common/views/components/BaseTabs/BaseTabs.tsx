@@ -47,10 +47,11 @@ export type TabType = {
 export type Props = {
   label: string;
   tabs: TabType[];
+  activeTabIndex?: number;
 };
 
-const Tabs = ({ label, tabs }: Props) => {
-  const [activeId, setActiveId] = useState(tabs[0].id);
+const Tabs = ({ label, tabs, activeTabIndex }: Props) => {
+  const [activeId, setActiveId] = useState(tabs[activeTabIndex || 0].id);
   const [focusedId, setFocusedId] = useState(null);
   const { isEnhanced } = useContext(AppContext);
   const tabListRef = useRef(null);

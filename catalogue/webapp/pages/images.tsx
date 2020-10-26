@@ -1,5 +1,5 @@
 import { NextPageContext } from 'next';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
@@ -30,6 +30,8 @@ import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
 import cookies from 'next-cookies';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import useHotjar from '@weco/common/hooks/useHotjar';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 
 type Props = {
   images: CatalogueResultsList<Image> | CatalogueApiError;
@@ -70,6 +72,7 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
   const results: CatalogueResultsList<Image> | CatalogueApiError = images;
+  const { searchPrototype } = useContext(TogglesContext);
 
   const { query, page } = worksRouteProps;
 
@@ -155,13 +158,29 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
           <div className="container">
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                <SearchForm
-                  ariaDescribedBy="search-form-description"
-                  shouldShowFilters={query !== ''}
-                  worksRouteProps={worksRouteProps}
-                  workTypeAggregations={[]}
-                  aggregations={undefined}
-                />
+                {searchPrototype ? (
+                  <>
+                    <SearchTabs
+                      worksRouteProps={worksRouteProps}
+                      imagesRouteProps={{
+                        ...worksRouteProps,
+                        locationsLicense: null,
+                        color: null,
+                      }}
+                      workTypeAggregations={[]}
+                      shouldShowFilters={query !== ''}
+                      activeTabIndex={1}
+                    />
+                  </>
+                ) : (
+                  <SearchForm
+                    ariaDescribedBy="search-form-description"
+                    shouldShowFilters={query !== ''}
+                    worksRouteProps={worksRouteProps}
+                    workTypeAggregations={[]}
+                    aggregations={undefined}
+                  />
+                )}
               </div>
             </div>
           </div>
