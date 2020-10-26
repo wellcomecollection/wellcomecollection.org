@@ -1,9 +1,8 @@
 import MediaObjecList, { MediaObject } from './MediaObject';
 import { shallowWithTheme } from '../../../test/fixtures/enzyme-helpers';
-import {
-  mockData,
-  mockImage,
-} from '../../../test/fixtures/components/media-object';
+import { mockData } from '../../../test/fixtures/components/media-object';
+import { mockImage } from '../../../test/fixtures/components/compact-card';
+import { getGridClass } from '../../../test/helpers';
 
 describe('MediaObject', () => {
   describe('MediaObject', () => {
@@ -19,16 +18,8 @@ describe('MediaObject', () => {
       expect(componentHtml).toMatchSnapshot();
     });
     it('Should render grid system of 2 for image and 10 for text', () => {
-      expect(
-        componentHtml.match(
-          'grid__cell grid__cell--s2 grid__cell--m2 grid__cell--l2 grid__cell--xl2'
-        )
-      ).toBeTruthy();
-      expect(
-        componentHtml.match(
-          'grid__cell grid__cell--s10 grid__cell--m10 grid__cell--l10 grid__cell--xl10'
-        )
-      ).toBeTruthy();
+      expect(componentHtml.match(getGridClass(2))).toBeTruthy();
+      expect(componentHtml.match(getGridClass(10))).toBeTruthy();
     });
 
     it('Should render without an image', () => {

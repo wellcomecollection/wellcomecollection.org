@@ -1,5 +1,8 @@
 // @flow
-import { parseSameAs } from '../../../services/prismic/parsers';
+import {
+  parseSameAs,
+  parseMediaObjectLinks,
+} from '../../../services/prismic/parsers';
 
 export const sameAs = [
   { link: 'https://twitter.com/mbannisy', title: [] },
@@ -9,16 +12,45 @@ export const sameAs = [
     title: [{ type: 'heading1', text: 'This is it!', spans: [] }],
   },
 ];
-it('should parse same as correctly', () => {
-  const [twitter, url, urlWithTitleOverride] = parseSameAs(sameAs);
 
-  expect(twitter).toEqual({
-    link: 'https://twitter.com/mbannisy',
-    title: '@mbannisy',
+describe('parsers', () => {
+  describe('parseSameAs', () => {
+    it('should parse same as correctly', () => {
+      const [twitter, url, urlWithTitleOverride] = parseSameAs(sameAs);
+      expect(twitter).toEqual({
+        link: 'https://twitter.com/mbannisy',
+        title: '@mbannisy',
+      });
+      expect(url).toEqual({ link: 'http://things.com', title: 'things.com' });
+      expect(urlWithTitleOverride).toEqual({
+        link: 'https://google.com',
+        title: 'This is it!',
+      });
+    });
   });
-  expect(url).toEqual({ link: 'http://things.com', title: 'things.com' });
-  expect(urlWithTitleOverride).toEqual({
-    link: 'https://google.com',
-    title: 'This is it!',
+
+  describe('parseMediaObjectLinks', () => {
+    const mockData = [
+      {
+        content: {
+          id: 'X5BeNxIAACEAj7Ze',
+          type: 'media_object',
+          tags: [],
+          slug: 'wear-a-face-covering-hi',
+          lang: 'en-gb',
+          link_type: 'Document',
+          isBroken: false,
+          // data: [] -> this is missing from data structure
+          data: {
+            broken: 'data',
+          },
+        },
+      },
+    ];
+
+    it('Should return empty array if data is missing from content in data structure', () => {
+      const content = parseMediaObjectLinks(mockData);
+      expect(content).toEqual([]);
+    });
   });
 });
