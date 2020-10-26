@@ -5,7 +5,6 @@ import {
   type CatalogueAggregationBucket,
   type CatalogueAggregations,
 } from '@weco/common/model/catalogue';
-import { defaultWorkTypes } from '@weco/common/services/catalogue/api';
 import SearchFiltersDesktop from '@weco/common/views/components/SearchFilters/SearchFiltersDesktop';
 import SearchFiltersMobile from '@weco/common/views/components/SearchFilters/SearchFiltersMobile';
 // $FlowFixMe (tsx)
@@ -53,15 +52,8 @@ const SearchFilters = ({
   const windowSize = useWindowSize();
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
-  const { unfilteredSearchResults, modalFiltersPrototype } = useContext(
-    TogglesContext
-  );
-
-  const workTypeFilters = unfilteredSearchResults
-    ? workTypeAggregations
-    : workTypeAggregations.filter(agg =>
-        defaultWorkTypes.includes(agg.data.id)
-      );
+  const { modalFiltersPrototype } = useContext(TogglesContext);
+  const workTypeFilters = workTypeAggregations;
 
   useEffect(() => {
     if (productionDatesFrom !== inputDateFrom) {
