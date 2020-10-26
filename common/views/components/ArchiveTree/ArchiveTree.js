@@ -9,7 +9,7 @@ import NextLink from 'next/link';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import type Toggles from '@weco/catalogue/services/catalogue/common';
-import Space from '../styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 // $FlowFixMe (tsx)
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -24,39 +24,19 @@ import Modal, { ModalContext } from '@weco/common/views/components/Modal/Modal';
 // $FlowFixMe (tsx)
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
+const TreeContainer = styled.div`
+  border-right: 1px solid ${props => props.theme.color('pumice')};
+`;
+
 const instructions =
   'Archive Tree: Tab into the tree, then use up and down arrows to move through tree items. Use right and left arrows to toggle sub menus open and closed. When focused on an item you can tab to the link it contains.';
-
-const StickyContainer = styled.div`
-  border: 1px solid ${props => props.theme.color('pumice')};
-  border-bottom: 0;
-
-  ${props => props.theme.media.medium`
-    position: sticky;
-    top: 0px;
-  `}
-`;
-
-const StickyContainerInner = styled.div`
-  ${props => props.theme.media.medium`
-    overflow: scroll;
-    max-height: calc(100vh - 48px);
-  `}
-`;
-
-const StyledLink = styled.a`
-  display: inline-block;
-  color: ${props => props.theme.color('black')};
-  background: ${props =>
-    props.theme.color(props.isCurrent ? 'yellow' : 'transparent')};
-  font-weight: ${props => (props.isCurrent ? 'bold' : 'normal')};
-  border-color: ${props =>
-    props.theme.color(props.isCurrent ? 'green' : 'transparent')};
-  border-radius: 6px;
-  padding: 0 6px;
-  cursor: pointer;
-`;
-
+const controlWidth = 44;
+const controlHeight = 44;
+const circleWidth = 30;
+const circleHeight = 30;
+const circleBorder = 2;
+const verticalGuidePosition =
+  controlHeight / 2 + circleHeight / 2 - circleBorder;
 const TreeInstructions = styled.p.attrs(props => ({
   'aria-hidden': 'true',
   id: 'tree-instructions',
@@ -67,6 +47,11 @@ const TreeInstructions = styled.p.attrs(props => ({
 const Tree = styled.div`
   ul {
     position: relative;
+    padding-left: 0;
+    margin: 0;
+    @media (min-width: ${props => props.theme.sizes.medium}px) {
+      width: 375px;
+    }
     &::before {
       display: none;
       position: absolute;
@@ -84,72 +69,127 @@ const Tree = styled.div`
     }
     ul {
       content: '';
-    }
-    list-style: none;
-    padding-left: 0;
-    margin-left: 0;
-  }
-
-  li {
-    position: relative;
-    list-style: none;
-
-    a {
-      font-weight: bold;
+      width: auto;
     }
   }
 
-  a {
-    text-decoration: none;
-  }
-
-  a:focus,
-  a:hover {
-    text-decoration: underline;
-  }
-
-  ul ul {
-    padding-left: 30px;
-
-    li {
-      a {
-        font-weight: normal;
-      }
-    }
-
-    li::before,
-    li::after {
-      content: '';
-      position: absolute;
-      left: -22px;
-    }
-
-    li::before {
-      border-top: 2px solid ${props => props.theme.color('teal')};
-      top: 20px;
-      width: 22px;
-      height: 0;
-    }
-
-    li::after {
-      border-left: 2px solid ${props => props.theme.color('teal')};
-      height: 100%;
-      width: 0px;
-      top: 10px;
-    }
-
-    li:last-child::after {
-      height: 10px;
-    }
+  ul ul ul {
+    padding-left: ${`${controlWidth}px`};
   }
 `;
 
-const TreeItem = styled.li`
-  padding: 10px 10px 10px 0;
+const TreeItem = styled.li.attrs(props => ({
+  className: props.showGuideline ? 'guideline' : null,
+}))`
+  position: relative;
+  list-style: ${props => (props.isEnhanced ? 'none' : 'disc')};
+  padding: 0;
   &:focus {
     outline: ${props =>
       !props.hideFocus ? `2px solid ${props.theme.color('black')}` : 'none'};
   }
+
+  &.guideline::before,
+  &.guideline::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+  }
+
+  &.guideline::before {
+    border-left: 1px solid ${props => props.theme.color('yellow')};
+    height: 100%;
+    width: 0;
+    top: ${`${verticalGuidePosition}px`};
+    left: ${`${controlWidth / 2}px`};
+    height: calc(100% - ${`${verticalGuidePosition + controlHeight / 2}px`});
+  }
+
+  &.guideline::after {
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: ${props => props.theme.color('yellow')};
+    left: ${`${controlWidth / 2 - 3}px`};
+    bottom: ${`${controlHeight / 2}px`};
+  }
+`;
+
+const TreeControl = styled.span`
+  display: inline-block;
+  cursor: pointer;
+  height: ${`${controlHeight}px`};
+  width: ${`${controlWidth}px`};
+  min-width: ${`${controlWidth}px`};
+  position: relative;
+  z-index: 1;
+  &::before {
+    content: '';
+    position: absolute;
+    height: ${`${circleHeight}px`};
+    width: ${`${circleWidth}px`};
+    // centre the circle in the control
+    top: ${`${(controlHeight - circleHeight) / 2}px`};
+    left: ${`${(controlWidth - circleWidth) / 2}px`};
+    background: ${props =>
+      props.highlightCondition === 'primary'
+        ? props.theme.color('yellow')
+        : props.highlightCondition === 'secondary'
+        ? props.theme.color('yellow', 'light')
+        : props.theme.color('smoke')};
+    border: ${props =>
+      props.highlightCondition === 'secondary'
+        ? `1px solid ${props.theme.color('yellow')}`
+        : `2px solid ${props.theme.color('white')}`};
+    border-radius: 50%;
+  }
+  .icon {
+    position: absolute;
+    z-index: 1;
+    // centre the icon in the control
+    top: ${`${(controlHeight - 24) / 2}px`}; // icons have a height of 24px
+    left: ${`${(controlWidth - 24) / 2}px`}; // icons have a width of 24px
+  }
+`;
+
+const StyledLink = styled.a`
+  display: inline-block;
+  min-height: ${`${controlHeight}px`};
+  line-height: 1;
+  color: ${props => props.theme.color('viewerBlack')};
+  background: ${props =>
+    props.theme.color(props.isCurrent ? 'yellow' : 'transparent')};
+  cursor: pointer;
+  margin-left: ${props =>
+    props.hasControl ? `-${controlWidth / 2}px` : `${controlWidth / 2}px`};
+  padding-top: ${props => `${props.theme.spacingUnit}px`};
+  padding-left: ${props =>
+    props.hasControl
+      ? `${circleWidth / 2 + props.theme.spacingUnit}px`
+      : props.isCurrent
+      ? `${props.theme.spacingUnit}px`
+      : 0};
+  padding-right: ${props => `${props.theme.spacingUnit * 2}px`};
+  text-decoration: none;
+  &:focus {
+    outline: ${props => (!props.hideFocus ? 'auto' : 'none')};
+  }
+  &:focus,
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const RefNumber = styled.span.attrs({
+  className: classNames({
+    [font('hnl', 6)]: true,
+  }),
+})`
+  line-height: 1;
+  display: block;
+  color: ${props => props.theme.color('pewter')};
+  text-decoration: none;
 `;
 
 /* eslint-disable no-use-before-define */
@@ -448,6 +488,7 @@ const ListItem = ({
   tabbableId,
   setTabbableId,
   setShowArchiveTree,
+  archiveAncestorArray,
 }: {|
   item: UiTreeNode,
   currentWorkId: string,
@@ -460,6 +501,7 @@ const ListItem = ({
   tabbableId: ?string,
   setTabbableId: string => void,
   setShowArchiveTree: boolean => void,
+  archiveAncestorArray: NodeWork[],
 |}) => {
   const { isKeyboard, isEnhanced } = useContext(AppContext);
   const isEndNode = item.children && item.children.length === 0;
@@ -468,6 +510,16 @@ const ListItem = ({
     (!tabbableId && currentWorkId === item.work.id);
   const toggles = useContext(TogglesContext);
   const { updateLastFocusableRef } = useContext(ModalContext);
+  const descendentIsSelected =
+    archiveAncestorArray &&
+    archiveAncestorArray.some(ancestor => ancestor.id === item.work.id);
+  const highlightCondition = item.openStatus
+    ? 'primary'
+    : descendentIsSelected
+    ? 'secondary'
+    : '';
+  const hasControl =
+    (item.children && item.children.length > 0) || !item.children; // TODO use new API totalParts data when available
 
   function updateTabbing(id) {
     // We only want one tabbable item in the tree at a time,
@@ -502,6 +554,8 @@ const ListItem = ({
   return (
     <TreeItem
       hideFocus={!isKeyboard}
+      isEnhanced={isEnhanced}
+      showGuideline={isEnhanced && hasControl && item.openStatus && level > 1}
       id={item.work.id}
       role={isEnhanced ? 'treeitem' : null}
       aria-level={isEnhanced ? level : null}
@@ -615,54 +669,32 @@ const ListItem = ({
       }}
     >
       <div className="flex-inline">
-        {isEnhanced &&
-        level > 1 &&
-        ((item.children && item.children.length > 0) || !item.children) && ( // TODO use new API totalParts data when available
-            <span
-              style={{
-                display: 'inline-block',
-                cursor: 'pointer',
-                lineHeight: '18px',
-                height: '18px',
-                width: '18px',
-                padding: '0px',
-                marginTop: '2px',
-                marginRight: '8px',
-                fontSize: '10px',
-                background: 'rgb(204, 204, 204)',
-                textAlign: 'center',
-              }}
-            >
-              <Icon
-                extraClasses="icon--match-text"
-                name={item.openStatus ? 'minus' : 'plus'}
-              />
-            </span>
-          )}
+        {isEnhanced && level > 1 && hasControl && (
+          <TreeControl highlightCondition={highlightCondition}>
+            <Icon
+              extraClasses={item.openStatus ? '' : 'icon--270'}
+              name="chevron"
+            />
+          </TreeControl>
+        )}
         <NextLink {...workLink({ id: item.work.id })} scroll={false} passHref>
           <StyledLink
-            tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
             className={classNames({
-              [font('hnl', 6)]: true,
+              [font('hnm', 6)]: level === 1,
+              [font('hnl', 6)]: level > 1,
             })}
+            hideFocus={!isKeyboard}
+            tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
             isCurrent={currentWorkId === item.work.id}
             ref={currentWorkId === item.work.id ? selected : null}
             onClick={event => {
               event.stopPropagation();
               setShowArchiveTree(false);
             }}
+            hasControl={hasControl}
           >
             <WorkTitle title={item.work.title} />
-            <div
-              style={{
-                fontSize: '13px',
-                color: '#707070',
-                textDecoration: 'none',
-                padding: '0',
-              }}
-            >
-              {item.work.referenceNumber}
-            </div>
+            <RefNumber>{item.work.referenceNumber}</RefNumber>
           </StyledLink>
         </NextLink>
       </div>
@@ -677,6 +709,7 @@ const ListItem = ({
           tabbableId={tabbableId}
           setTabbableId={setTabbableId}
           setShowArchiveTree={setShowArchiveTree}
+          archiveAncestorArray={archiveAncestorArray}
         />
       )}
     </TreeItem>
@@ -693,6 +726,7 @@ const NestedList = ({
   tabbableId,
   setTabbableId,
   setShowArchiveTree,
+  archiveAncestorArray,
 }: {|
   currentWorkId: string,
   archiveTree: UiTree,
@@ -703,6 +737,7 @@ const NestedList = ({
   tabbableId: ?string,
   setTabbableId: string => void,
   setShowArchiveTree: boolean => void,
+  archiveAncestorArray: NodeWork[],
 |}) => {
   const { isEnhanced } = useContext(AppContext);
   return (
@@ -731,6 +766,7 @@ const NestedList = ({
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
                 setShowArchiveTree={setShowArchiveTree}
+                archiveAncestorArray={archiveAncestorArray}
               />
             )
           );
@@ -874,32 +910,21 @@ const ArchiveTree = ({ work }: { work: Work }) => {
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
                 setShowArchiveTree={setShowArchiveTree}
+                archiveAncestorArray={archiveAncestorArray}
               />
             </Tree>
           </Modal>
         </>
       ) : (
-        <StickyContainer>
-          <Space
-            v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-            h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-            className={classNames({
-              'flex flex--v-center bg-smoke': true,
-            })}
-          >
-            <Space
-              as="h2"
-              h={{ size: 'm', properties: ['margin-right'] }}
+        <TreeContainer>
+          <Space v={{ size: 'l', properties: ['padding-top'] }}>
+            <h2
               className={classNames({
-                [font('wb', 5)]: true,
-                'no-margin': true,
+                [font('wb', 4)]: true,
               })}
             >
               Collection contents
-            </Space>
-            <Icon name="tree" />
-          </Space>
-          <StickyContainerInner>
+            </h2>
             <Tree isEnhanced={isEnhanced}>
               {isEnhanced && (
                 <TreeInstructions>{instructions}</TreeInstructions>
@@ -914,10 +939,11 @@ const ArchiveTree = ({ work }: { work: Work }) => {
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
                 setShowArchiveTree={setShowArchiveTree}
+                archiveAncestorArray={archiveAncestorArray}
               />
             </Tree>
-          </StickyContainerInner>
-        </StickyContainer>
+          </Space>
+        </TreeContainer>
       )}
     </>
   ) : null;
