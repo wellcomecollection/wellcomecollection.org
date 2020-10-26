@@ -214,7 +214,7 @@ const PrototypeSearchForm = ({
         <>
           <SearchFilters
             searchForm={searchForm}
-            routeProps={routeProps}
+            worksRouteProps={routeProps}
             workTypeAggregations={workTypeAggregations}
             changeHandler={submit}
             aggregations={aggregations}

@@ -43,11 +43,13 @@ const SearchFilters = ({
   changeHandler,
   aggregations,
 }: Props) => {
-  const workTypeInUrlArray = worksRouteProps?.workType || [];
-  const locationsTypeInUrlArray = worksRouteProps?.itemsLocationsType || [];
-  const productionDatesFrom = worksRouteProps?.productionDatesFrom || '';
-  const productionDatesTo = worksRouteProps?.productionDatesTo || '';
-  const imagesColor = worksRouteProps?.imagesColor;
+  const workTypeInUrlArray = worksRouteProps.workType || [];
+  const locationsTypeInUrlArray = worksRouteProps.itemsLocationsType || [];
+  const {
+    productionDatesFrom,
+    productionDatesTo,
+    imagesColor,
+  } = worksRouteProps;
 
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
