@@ -41,7 +41,7 @@ const theme = {
     turquoise: { base: '#5cb8bf', dark: '', light: '' },
     red: { base: '#e01b2f', dark: '', light: '' },
     orange: { base: '#e87500', dark: '', light: '' },
-    yellow: { base: '#ffce3c', dark: '', light: '' },
+    yellow: { base: '#ffce3c', dark: '', light: '#fff5d8' },
     brown: { base: '#815e48', dark: '', light: '' },
     cream: { base: '#f0ede3', dark: '', light: '' },
     green: { base: '#00786c', dark: '#146a5c', light: '' },
