@@ -71,15 +71,6 @@ module.exports = app
       'buildingReopening'
     );
 
-    renderIfToggleOn(
-      '/collections',
-      '/landing-page',
-      router,
-      app,
-      { id: 'X2jSjBMAACIA8Wq_' },
-      'unfilteredSearchResults'
-    );
-
     pageVanityUrl(router, app, '/', 'XphUbREAACMAgRNP', '/homepage');
     route('/whats-on', '/whats-on', router, app);
     route(`/whats-on/:period(${periodPaths})`, '/whats-on', router, app);
