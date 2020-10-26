@@ -13,6 +13,7 @@ const FooterOpeningTimes = ({ collectionOpeningTimes } : Props) => {
         {collectionOpeningTimes.placesOpeningHours.map(
           venue => {
             const todaysHours = getTodaysVenueHours(venue);
+            //console.log(todaysHours);
             return (
               todaysHours && (
                 <Space

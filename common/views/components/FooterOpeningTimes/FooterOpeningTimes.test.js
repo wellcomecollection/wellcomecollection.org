@@ -7,16 +7,15 @@ import { openingTimes } from '../../../test/fixtures/components/opening-times';
 import * as serviceOpeningTimes from '@weco/common/services/prismic/opening-times';
 
 describe('FooterOpeningTimes', () => {
+  const spyOnGetTodaysVenueHours = jest.spyOn(
+    serviceOpeningTimes,
+    'getTodaysVenueHours'
+  );
+  // set date as wednesday
+  spyOnGetTodaysVenueHours.mockImplementation(() => {
+    return { dayOfWeek: 'Wednesday', opens: '10:00', closes: '18:00' };
+  });
   it('Should match snapshot of FooterOpeningTimes', () => {
-    const spyOnGetTodaysVenueHours = jest.spyOn(
-      serviceOpeningTimes,
-      'getTodaysVenueHours'
-    );
-    // set date as wednesday
-    spyOnGetTodaysVenueHours.mockImplementationOnce(() => {
-      return { dayOfWeek: 'Wednesday', opens: '10:00', closes: '18:00' };
-    });
-
     const component = shallowWithTheme(
       <FooterOpeningTimes
         collectionOpeningTimes={openingTimes.collectionOpeningTimes}
@@ -51,6 +50,9 @@ describe('FooterOpeningTimes', () => {
         ],
       },
     };
+    spyOnGetTodaysVenueHours.mockImplementation(() => {
+      return null;
+    });
 
     const component = mountWithTheme(
       <FooterOpeningTimes
@@ -88,12 +90,14 @@ describe('FooterOpeningTimes', () => {
       },
     };
 
+    spyOnGetTodaysVenueHours.mockImplementation(() => {
+      return { dayOfWeek: 'Wednesday', opens: null, closes: null };
+    });
     const component = shallowWithTheme(
       <FooterOpeningTimes
         collectionOpeningTimes={mockOpeningTimes.collectionOpeningTimes}
       />
     );
-
     expect(component.html().match('Shop closed')).toBeTruthy();
   });
 });
