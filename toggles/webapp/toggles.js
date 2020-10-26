@@ -1,6 +1,13 @@
 module.exports = {
   toggles: [
     {
+      id: 'searchPrototype',
+      title: 'New search interface',
+      defaultValue: false,
+      description:
+        'Shows a tabbed interface for library catalogue/images search',
+    },
+    {
       id: 'archivesPrototype',
       title: 'Show additions to the work page relating to archives',
       defaultValue: true,
