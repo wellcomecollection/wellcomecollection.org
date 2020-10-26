@@ -68,7 +68,6 @@ const SearchTabs = ({
   activeTabIndex,
 }: Props) => {
   const { isKeyboard } = useContext(AppContext);
-
   const tabs: TabType[] = [
     {
       id: 'tab-library-catalogue',
