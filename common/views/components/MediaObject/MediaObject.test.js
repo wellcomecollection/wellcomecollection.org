@@ -4,7 +4,7 @@ import { mockData } from '../../../test/fixtures/components/media-object';
 import { mockImage } from '../../../test/fixtures/components/compact-card';
 import { grid } from '../../../utils/classnames';
 
-describe('MediaObject', () => {
+describe('MediaObject Component', () => {
   describe('MediaObject', () => {
     const component = shallowWithTheme(
       <MediaObject
@@ -14,10 +14,10 @@ describe('MediaObject', () => {
       />
     );
     const componentHtml = component.html();
-    it('Should render snapshot', () => {
+    it('should render snapshot', () => {
       expect(componentHtml).toMatchSnapshot();
     });
-    it.only('Should render grid system of 2 for image and 10 for text', () => {
+    it.only('should render grid system of 2 for image and 10 for text', () => {
       expect(
         componentHtml.match(grid({ s: 2, m: 2, l: 2, xl: 2 }))
       ).toBeTruthy();
@@ -26,7 +26,7 @@ describe('MediaObject', () => {
       ).toBeTruthy();
     });
 
-    it('Should render without an image', () => {
+    it('should render without an image', () => {
       const component = shallowWithTheme(
         <MediaObject title={mockData.title} text={mockData.text} image={null} />
       );
