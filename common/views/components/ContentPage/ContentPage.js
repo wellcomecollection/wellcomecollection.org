@@ -13,6 +13,7 @@ import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import Space from '../styled/Space';
+import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
 
 /*eslint-disable */
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
@@ -143,6 +144,14 @@ const ContentPage = ({
                 <Outro {...outroProps} />
               </Layout8>
             </SpacingSection>
+          )}
+
+          {id === 'X5amzBIAAB0Aq6Gm' && (
+            <Layout8>
+              <div style={{ width: '100px' }}>
+                <WeAreGoodToGo />
+              </div>
+            </Layout8>
           )}
         </div>
       </article>

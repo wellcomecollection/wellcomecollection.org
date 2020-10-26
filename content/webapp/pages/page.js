@@ -56,13 +56,22 @@ export class Page extends Component<Props> {
       ) : null
     ) : null;
 
+    const hiddenBreadcrumbPages = ['X5amzBIAAB0Aq6Gm', 'X5aomxIAAB8Aq6n5'];
+
+    function getBreadcrumbText(siteSection: string, pageId: string): string {
+      return hiddenBreadcrumbPages.includes(page.id)
+        ? '\u200b'
+        : siteSection === 'visit-us'
+        ? 'Visit us'
+        : 'What we do';
+    }
     // TODO: This is not the way to do site sections
     const breadcrumbs = {
       items: page.siteSection
         ? [
             {
-              text: page.siteSection === 'visit-us' ? 'Visit us' : 'What we do',
-              url: `/${page.siteSection}`,
+              text: getBreadcrumbText(page.siteSection, page.id),
+              url: page.siteSection ? `/${page.siteSection}` : '',
             },
           ]
         : [],
