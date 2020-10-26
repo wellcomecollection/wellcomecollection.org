@@ -75,7 +75,7 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
 
   useEffect(() => {
     trackSearch(apiProps, {
-      totalResults: results?.totalResults || 0,
+      totalResults: results.type === 'ResultList' ? results?.totalResults : 0,
       source: Router.query.source || 'unspecified',
     });
   }, [worksRouteProps]);
@@ -114,7 +114,7 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
   return (
     <>
       <Head>
-        {results && results.prevPage && (
+        {results.type === 'ResultList' && results.prevPage && (
           <link
             rel="prev"
             href={convertUrlToString(
@@ -125,7 +125,7 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
             )}
           />
         )}
-        {results && results.nextPage && (
+        {results.type === 'ResultList' && results.nextPage && (
           <link
             rel="next"
             href={convertUrlToString(
@@ -167,7 +167,7 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
           </div>
         </Space>
 
-        {results && results.results.length > 0 && (
+        {results.type === 'ResultList' && results.results.length > 0 && (
           <>
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">

@@ -1,4 +1,4 @@
-import { NextLinkType } from '@weco/common/model/next-link-type';
+import { LinkProps } from 'next/link';
 
 type Params = {
   [key: string]: any;
@@ -67,7 +67,7 @@ function defaultToEmptyString(s: string | null): string {
 
 type NextRoute<T> = {
   fromQuery: (q: UrlParams) => T;
-  toLink: (t: T) => NextLinkType;
+  toLink: (t: T) => LinkProps;
   toQuery: (t: T) => UrlParams;
 };
 
