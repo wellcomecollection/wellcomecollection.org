@@ -1,7 +1,7 @@
 // @flow
 import {
   parseSameAs,
-  parseMediaObjectLinks,
+  parseMediaObjectList,
 } from '../../../services/prismic/parsers';
 
 export const sameAs = [
@@ -29,7 +29,7 @@ describe('parsers', () => {
     });
   });
 
-  describe('parseMediaObjectLinks', () => {
+  describe('parseMediaObjectList', () => {
     const mockData = [
       {
         content: {
@@ -49,7 +49,7 @@ describe('parsers', () => {
     ];
 
     it('Should return empty array if data is missing from content in data structure', () => {
-      const content = parseMediaObjectLinks(mockData);
+      const content = parseMediaObjectList(mockData);
       expect(content).toEqual([]);
     });
   });

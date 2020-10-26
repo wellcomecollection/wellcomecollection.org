@@ -547,7 +547,7 @@ export function parseOnThisPage(fragment: PrismicFragment[]): Link[] {
     });
 }
 
-export function parseMediaObjectLinks(
+export function parseMediaObjectList(
   fragment: PrismicFragment[]
 ): Array<MediaObjectType> {
   const cannotParse = 'could_not_parse';
@@ -815,7 +815,7 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
           return {
             type: 'mediaObjectList',
             value: {
-              items: parseMediaObjectLinks(slice.items),
+              items: parseMediaObjectList(slice.items),
             },
           };
       }
