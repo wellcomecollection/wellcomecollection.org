@@ -11,31 +11,36 @@ import Image from '../Image/Image';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import styled from 'styled-components';
 import { grid, classNames, font } from '../../../utils/classnames';
-import { getGridClass } from '../../../test/helpers';
 
 const getBaseTitleClass = number => {
   return `card-link__title font-wb font-size-${number}`;
 };
 
+const grid2 = grid({ s: 2, m: 2, l: 2, xl: 2 });
+const grid3 = grid({ s: 3, m: 3, l: 3, xl: 3 });
+const grid9 = grid({ s: 9, m: 9, l: 9, xl: 9 });
+const grid10 = grid({ s: 10, m: 10, l: 10, xl: 10 });
+const grid12 = grid({ s: 12, m: 12, l: 12, xl: 12 });
+
 const ImageWrapper = styled.div.attrs(props => {
   if (props.hasImage) {
     return {
-      className: grid({ s: 2, m: 2, l: 2, xl: 2 }),
+      className: grid2,
     };
   }
   return {
-    className: grid({ s: 12, m: 12, l: 12, xl: 12 }),
+    className: grid12,
   };
 })``;
 
 const TextWrapper = styled.div.attrs(props => {
   if (props.hasImage) {
     return {
-      className: grid({ s: 10, m: 10, l: 10, xl: 10 }),
+      className: grid10,
     };
   }
   return {
-    className: grid({ s: 12, m: 12, l: 12, xl: 12 }),
+    className: grid12,
   };
 })``;
 
@@ -129,15 +134,15 @@ describe('CompactCard', () => {
     describe('Existing Grid styles', () => {
       it('should render the default grid styles image (3) and title (12) no Image', () => {
         const componentHtml = componentWithoutImage.html();
-        expect(componentHtml.match(getGridClass(3))).toBeTruthy();
-        expect(componentHtml.match(getGridClass(12))).toBeTruthy();
+        expect(componentHtml.match(grid3)).toBeTruthy();
+        expect(componentHtml.match(grid12)).toBeTruthy();
         expect(componentHtml.match(getBaseTitleClass(5))).toBeTruthy();
       });
 
       it('should render the default grid styles image (3) and title (9) if image Prop included', () => {
         const componentHtml = componentWithImage.html();
-        expect(componentHtml.match(getGridClass(3))).toBeTruthy();
-        expect(componentHtml.match(getGridClass(9))).toBeTruthy();
+        expect(componentHtml.match(grid3)).toBeTruthy();
+        expect(componentHtml.match(grid9)).toBeTruthy();
       });
     });
 
@@ -163,8 +168,8 @@ describe('CompactCard', () => {
           />
         );
         const componentHtml = component.html();
-        expect(componentHtml.match(getGridClass(2))).toBeTruthy();
-        expect(componentHtml.match(getGridClass(10))).toBeTruthy();
+        expect(componentHtml.match(grid2)).toBeTruthy();
+        expect(componentHtml.match(grid10)).toBeTruthy();
         expect(componentHtml.match(getBaseTitleClass(4))).toBeTruthy();
       });
     });

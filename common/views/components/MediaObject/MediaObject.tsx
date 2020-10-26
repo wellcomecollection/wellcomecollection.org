@@ -19,6 +19,8 @@ type ImageWrapperProp = {
   hasImage : boolean
 }
 
+const grid12 = grid({ s: 12, m: 12, l: 12, xl: 12 });
+
 const ImageWrapper = styled.div.attrs<ImageWrapperProp>(props => {
   if (props.hasImage) {
     return {
@@ -26,7 +28,7 @@ const ImageWrapper = styled.div.attrs<ImageWrapperProp>(props => {
     };
   }
   return {
-    className: grid({ s: 12, m: 12, l: 12, xl: 12 }),
+    className: grid12,
   };
 })<ImageWrapperProp>``;
 
@@ -37,7 +39,7 @@ const TextWrapper = styled.div.attrs<TextWrapperProp>(props => {
     };
   }
   return {
-    className: grid({ s: 12, m: 12, l: 12, xl: 12 }),
+    className: grid12,
   };
 })<TextWrapperProp>``;
 
