@@ -47,9 +47,10 @@ export type TabType = {
 export type Props = {
   label: string;
   tabs: TabType[];
+  onTabClick?: (tabId: string) => void;
 };
 
-const Tabs = ({ label, tabs }: Props) => {
+const Tabs = ({ label, tabs, onTabClick }: Props) => {
   const [activeId, setActiveId] = useState(tabs[0].id);
   const [focusedId, setFocusedId] = useState(null);
   const { isEnhanced } = useContext(AppContext);
@@ -57,6 +58,11 @@ const Tabs = ({ label, tabs }: Props) => {
 
   function focusTabAtIndex(index: number): void {
     tabListRef?.current?.querySelector(`#${tabs[index].id}`).focus();
+  }
+
+  function handleTabClick(tabId: string) {
+    onTabClick && onTabClick(tabId);
+    setActiveId(tabId);
   }
 
   // A11y expectation for Keyboard interaction: https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-19
@@ -112,7 +118,7 @@ const Tabs = ({ label, tabs }: Props) => {
               id={id}
               tabPanelId={id}
               isActive={id === activeId}
-              onClick={() => setActiveId(id)}
+              onClick={() => handleTabClick(id)}
               onBlur={() => setFocusedId(null)}
               onFocus={() => setFocusedId(id)}
               onKeyDown={handleKeyDown}

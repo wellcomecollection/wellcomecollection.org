@@ -5,6 +5,7 @@ import Space from '../styled/Space';
 import { useContext } from 'react';
 import { AppContext } from '../AppContext/AppContext';
 import Layout12 from '../Layout12/Layout12';
+import { trackEvent } from '@weco/common/utils/ga';
 
 const Tab = styled(Space).attrs({
   as: 'span',
@@ -74,6 +75,14 @@ const SearchTabs = () => {
     },
   ];
 
+  function onTabClick(id: string) {
+    trackEvent({
+      category: 'SearchTabs',
+      action: 'click tab',
+      label: `${id}`,
+    });
+  }
+
   return (
     <Layout12>
       <Space
@@ -81,7 +90,11 @@ const SearchTabs = () => {
         h={{ size: 'xl', properties: ['padding-left', 'padding-right'] }}
         className="bg-cream"
       >
-        <BaseTabs tabs={tabs} label={'Tabs for search'} />
+        <BaseTabs
+          tabs={tabs}
+          label={'Tabs for search'}
+          onTabClick={onTabClick}
+        />
       </Space>
     </Layout12>
   );
