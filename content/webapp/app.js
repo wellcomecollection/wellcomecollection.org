@@ -98,6 +98,10 @@ module.exports = app
 
     route('/newsletter', '/newsletter', router, app);
 
+    route('/collections', '/landing-page', router, app, {
+      id: 'X2jSjBMAACIA8Wq_',
+    });
+
     pageVanityUrl(router, app, '/opening-times', 'WwQHTSAAANBfDYXU');
     pageVanityUrl(router, app, '/what-we-do', 'WwLGFCAAAPMiB_Ps');
     pageVanityUrl(router, app, '/press', 'WuxrKCIAAP9h3hmw');
