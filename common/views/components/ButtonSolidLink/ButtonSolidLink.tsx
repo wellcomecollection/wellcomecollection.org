@@ -1,4 +1,5 @@
 import { SyntheticEvent } from 'react';
+import { LinkProps } from 'next/link';
 import {
   BaseButtonInner,
   ButtonIconWrapper,
@@ -12,15 +13,10 @@ import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
 type ButtonSolidLinkProps = ButtonSolidBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
-  link:
-    | {
-        href: { pathname: string; query: string };
-        as: { pathname: string; query: string };
-      }
-    | string;
+  link: LinkProps | string;
 };
 
-export function getHref(link: string | object): string | undefined {
+export function getHref(link: LinkProps | string): undefined | string {
   return typeof link === 'object' ? undefined : link;
 }
 
