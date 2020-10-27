@@ -160,14 +160,6 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 {searchPrototype ? (
                   <>
-                    <pre
-                      style={{
-                        fontSize: '10px',
-                        fontFamily: 'source code pro',
-                      }}
-                    >
-                      <code>{JSON.stringify(worksRouteProps, null, 2)}</code>
-                    </pre>
                     <SearchTabs
                       worksRouteProps={worksRouteProps}
                       imagesRouteProps={worksRouteProps}
@@ -266,20 +258,20 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
 
 Images.getInitialProps = async (ctx: NextPageContext): Promise<Props> => {
   const params = ImagesRoute.fromQuery(ctx.query);
-  const { enableColorFiltering } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const aggregations = ['workType', 'locationType'];
   const apiProps = worksRouteToApiUrl(params, {
     _queryType,
     aggregations,
   });
+  console.log(apiProps);
 
   const hasQuery = !!(params.query && params.query !== '');
   const imagesOrError = hasQuery
     ? await getImages({
         params: {
           ...worksPropsToImagesProps(apiProps),
-          color: enableColorFiltering ? params.imagesColor : undefined,
+          color: params.color,
         },
         toggles: ctx.query.toggles,
       })

@@ -44,11 +44,7 @@ const SearchFilters = ({
 }: Props) => {
   const workTypeInUrlArray = worksRouteProps.workType || [];
   const locationsTypeInUrlArray = worksRouteProps.itemsLocationsType || [];
-  const {
-    productionDatesFrom,
-    productionDatesTo,
-    imagesColor,
-  } = worksRouteProps;
+  const { productionDatesFrom, productionDatesTo, color } = worksRouteProps;
 
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
@@ -118,7 +114,7 @@ const SearchFilters = ({
     productionDatesTo,
     workTypeInUrlArray,
     locationsTypeInUrlArray,
-    imagesColor,
+    imagesColor: color,
     aggregations,
   };
 
@@ -132,7 +128,9 @@ const SearchFilters = ({
             <p>TODO: mobile</p>
           ) : (
             // <SearchFiltersMobile {...sharedProps} />
-            <SearchFiltersDesktop {...sharedProps} />
+            <>
+              <SearchFiltersDesktop {...sharedProps} />
+            </>
           )}
         </>
       )}

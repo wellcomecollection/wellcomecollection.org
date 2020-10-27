@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '../../../utils/classnames';
-import { worksLink } from '../../../services/catalogue/routes';
+import { worksLink, imagesLink } from '../../../services/catalogue/ts_routes';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
@@ -78,6 +78,17 @@ const SearchFiltersDesktop = ({
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
   const { enableColorFiltering, locationsFilter } = useContext(TogglesContext);
+
+  function showActiveFilters() {
+    return (
+      imagesColor ||
+      ((productionDatesFrom ||
+        productionDatesTo ||
+        workTypeInUrlArray.length > 0 ||
+        worksRouteProps?.itemsLocationsType?.length > 0) &&
+        workTypeFilters.length > 0)
+    );
+  }
 
   return (
     <>
@@ -267,162 +278,157 @@ const SearchFiltersDesktop = ({
         </Space>
       </Space>
 
-      {(productionDatesFrom ||
-        productionDatesTo ||
-        (imagesColor && enableColorFiltering) ||
-        workTypeInUrlArray.length > 0 ||
-        worksRouteProps?.itemsLocationsType?.length > 0) &&
-        (workTypeFilters.length > 0 || worksRouteProps.search === 'images') && (
-          <Space
-            v={{ size: 's', properties: ['padding-top'] }}
-            h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-            className="tokens bg-white"
-          >
-            <div className={classNames({ [font('hnm', 5)]: true })}>
-              <div>
-                <h2 className="inline">
-                  <Space
-                    as="span"
-                    h={{
-                      size: 'm',
-                      properties: ['margin-right'],
-                    }}
-                  >
-                    Active filters:
-                  </Space>
-                </h2>
-                {productionDatesFrom && (
-                  <NextLink
-                    passHref
-                    {...worksLink(
-                      {
-                        ...worksRouteProps,
-                        page: 1,
-                        productionDatesFrom: null,
-                      },
-                      'cancel_filter/production_dates_from'
-                    )}
-                  >
-                    <a>
-                      <CancelFilter text={`From ${productionDatesFrom}`} />
-                    </a>
-                  </NextLink>
-                )}
-                {productionDatesTo && (
-                  <NextLink
-                    passHref
-                    {...worksLink(
-                      {
-                        ...worksRouteProps,
-                        page: 1,
-                        productionDatesTo: null,
-                      },
-                      'cancel_filter/production_dates_to'
-                    )}
-                  >
-                    <a>
-                      <CancelFilter text={`To ${productionDatesTo}`} />
-                    </a>
-                  </NextLink>
-                )}
-                {imagesColor && enableColorFiltering && (
-                  <NextLink
-                    passHref
-                    {...worksLink(
-                      { ...worksRouteProps, page: 1, imagesColor: null },
-                      'cancel_filter/images_color'
-                    )}
-                  >
-                    <a>
-                      <CancelFilter>
-                        Colour
-                        <ColorSwatch color={`#${imagesColor}`} />
-                      </CancelFilter>
-                    </a>
-                  </NextLink>
-                )}
+      {showActiveFilters() && (
+        <Space
+          v={{ size: 's', properties: ['padding-top'] }}
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+          className="tokens bg-white"
+        >
+          <div className={classNames({ [font('hnm', 5)]: true })}>
+            <div>
+              <h2 className="inline">
+                <Space
+                  as="span"
+                  h={{
+                    size: 'm',
+                    properties: ['margin-right'],
+                  }}
+                >
+                  Active filters:
+                </Space>
+              </h2>
+              {productionDatesFrom && (
+                <NextLink
+                  passHref
+                  {...worksLink(
+                    {
+                      ...worksRouteProps,
+                      page: 1,
+                      productionDatesFrom: null,
+                    },
+                    'cancel_filter/production_dates_from'
+                  )}
+                >
+                  <a>
+                    <CancelFilter text={`From ${productionDatesFrom}`} />
+                  </a>
+                </NextLink>
+              )}
+              {productionDatesTo && (
+                <NextLink
+                  passHref
+                  {...worksLink(
+                    {
+                      ...worksRouteProps,
+                      page: 1,
+                      productionDatesTo: null,
+                    },
+                    'cancel_filter/production_dates_to'
+                  )}
+                >
+                  <a>
+                    <CancelFilter text={`To ${productionDatesTo}`} />
+                  </a>
+                </NextLink>
+              )}
+              {imagesColor && (
+                <NextLink
+                  passHref
+                  {...imagesLink(
+                    { ...worksRouteProps, page: 1, color: null },
+                    'cancel_filter/images_color'
+                  )}
+                >
+                  <a>
+                    <CancelFilter>
+                      Colour
+                      <ColorSwatch color={`#${imagesColor}`} />
+                    </CancelFilter>
+                  </a>
+                </NextLink>
+              )}
 
-                {workTypeInUrlArray.map(id => {
-                  const workTypeObject = workTypeFilters.find(({ data }) => {
-                    return data.id === id;
-                  });
+              {workTypeInUrlArray.map(id => {
+                const workTypeObject = workTypeFilters.find(({ data }) => {
+                  return data.id === id;
+                });
 
-                  return (
-                    workTypeObject && (
-                      <NextLink
-                        key={id}
-                        {...worksLink(
-                          {
-                            ...worksRouteProps,
-                            workType: worksRouteProps.workType.filter(
-                              w => w !== workTypeObject.data.id
-                            ),
-                            page: 1,
-                          },
-                          'cancel_filter/work_types'
-                        )}
-                      >
-                        <a>
-                          <CancelFilter text={workTypeObject.data.label} />
-                        </a>
-                      </NextLink>
+                return (
+                  workTypeObject && (
+                    <NextLink
+                      key={id}
+                      {...worksLink(
+                        {
+                          ...worksRouteProps,
+                          workType: worksRouteProps.workType.filter(
+                            w => w !== workTypeObject.data.id
+                          ),
+                          page: 1,
+                        },
+                        'cancel_filter/work_types'
+                      )}
+                    >
+                      <a>
+                        <CancelFilter text={workTypeObject.data.label} />
+                      </a>
+                    </NextLink>
+                  )
+                );
+              })}
+
+              {aggregations &&
+                aggregations.locationType.buckets
+                  .filter(locationType =>
+                    worksRouteProps.itemsLocationsType.includes(
+                      locationType.data.type
                     )
-                  );
-                })}
+                  )
+                  .map(locationType => (
+                    <NextLink
+                      key={locationType.type}
+                      passHref
+                      {...worksLink(
+                        {
+                          ...worksRouteProps,
+                          itemsLocationsType: worksRouteProps.itemsLocationsType.filter(
+                            type => type !== locationType.data.type
+                          ),
+                          page: 1,
+                        },
+                        'cancel_filter/items_locations_type'
+                      )}
+                    >
+                      <a>
+                        <CancelFilter text={locationType.data.label} />
+                      </a>
+                    </NextLink>
+                  ))}
 
-                {aggregations &&
-                  aggregations.locationType.buckets
-                    .filter(locationType =>
-                      worksRouteProps.itemsLocationsType.includes(
-                        locationType.data.type
-                      )
-                    )
-                    .map(locationType => (
-                      <NextLink
-                        key={locationType.type}
-                        passHref
-                        {...worksLink(
-                          {
-                            ...worksRouteProps,
-                            itemsLocationsType: worksRouteProps.itemsLocationsType.filter(
-                              type => type !== locationType.data.type
-                            ),
-                            page: 1,
-                          },
-                          'cancel_filter/items_locations_type'
-                        )}
-                      >
-                        <a>
-                          <CancelFilter text={locationType.data.label} />
-                        </a>
-                      </NextLink>
-                    ))}
-
-                {worksRouteProps.itemsLocationsType.length > 0 && (
-                  <NextLink
-                    passHref
-                    {...worksLink(
-                      {
-                        ...worksRouteProps,
-                        itemsLocationsLocationType: [],
-                        itemsLocationsType: [],
-                        workType: [],
-                        page: 1,
-                        productionDatesFrom: null,
-                        productionDatesTo: null,
-                      },
-                      'cancel_filter/all'
-                    )}
-                  >
-                    <a>
-                      <CancelFilter text={'Reset filters'} />
-                    </a>
-                  </NextLink>
-                )}
-              </div>
+              {worksRouteProps.itemsLocationsType?.length > 0 && (
+                <NextLink
+                  passHref
+                  {...worksLink(
+                    {
+                      ...worksRouteProps,
+                      itemsLocationsLocationType: [],
+                      itemsLocationsType: [],
+                      workType: [],
+                      page: 1,
+                      productionDatesFrom: null,
+                      productionDatesTo: null,
+                    },
+                    'cancel_filter/all'
+                  )}
+                >
+                  <a>
+                    <CancelFilter text={'Reset filters'} />
+                  </a>
+                </NextLink>
+              )}
             </div>
-          </Space>
-        )}
+          </div>
+        </Space>
+      )}
     </>
   );
 };

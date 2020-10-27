@@ -178,7 +178,7 @@ export const ImagesRoute: NextRoute<ImagesRouteProps> = {
   },
 
   toQuery(params) {
-    return serialiseUrl({
+    return  serialiseUrl({
       query: params.query,
       page: params.page,
       'locations.license': params.locationsLicense,
