@@ -7,7 +7,7 @@ import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { inputValue, nodeListValueToArray } from '@weco/common/utils/forms';
-import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
+import SearchFilters from '@weco/common/views/components/PrototypeSearchFilters/PrototypeSearchFilters';
 import Select from '@weco/common/views/components/Select/Select';
 import Space from '@weco/common/views/components/styled/Space';
 import {
@@ -47,7 +47,7 @@ const SearchButtonWrapper = styled.div.attrs({
   }),
 })`
   top: 0;
-  right: 0;
+  right: 16px;
 `;
 
 const ClearSearch = styled.button`
@@ -169,46 +169,48 @@ const PrototypeSearchForm = ({
         return false;
       }}
     >
-      <SearchInputWrapper className="relative">
-        <TextInput
-          id={`${isImageSearch ? 'images' : 'works'}-search-input`}
-          label={isImageSearch ? 'Search for images' : 'Search the catalogue'}
-          name="query"
-          value={inputQuery}
-          setValue={setInputQuery}
-          autoFocus={inputQuery === ''}
-          ref={searchInput}
-          required={true}
-          big={true}
-          type={null}
-          pattern={null}
-          errorMessage={null}
-          placeholder={''}
-          isValid={null}
-          setIsValid={null}
-          showValidity={null}
-          setShowValidity={null}
-        />
+      <Space h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}>
+        <SearchInputWrapper className="relative">
+          <TextInput
+            id={`${isImageSearch ? 'images' : 'works'}-search-input`}
+            label={isImageSearch ? 'Search for images' : 'Search the catalogue'}
+            name="query"
+            value={inputQuery}
+            setValue={setInputQuery}
+            autoFocus={inputQuery === ''}
+            ref={searchInput}
+            required={true}
+            big={true}
+            type={null}
+            pattern={null}
+            errorMessage={null}
+            placeholder={''}
+            isValid={null}
+            setIsValid={null}
+            showValidity={null}
+            setShowValidity={null}
+          />
 
-        {inputQuery && (
-          <ClearSearch
-            className="absolute line-height-1 plain-button v-center no-padding"
-            onClick={() => {
-              trackEvent({
-                category: 'SearchForm',
-                action: 'clear search',
-                label: 'works-search',
-              });
+          {inputQuery && (
+            <ClearSearch
+              className="absolute line-height-1 plain-button v-center no-padding"
+              onClick={() => {
+                trackEvent({
+                  category: 'SearchForm',
+                  action: 'clear search',
+                  label: 'works-search',
+                });
 
-              setInputQuery('');
-              searchInput?.current.focus();
-            }}
-            type="button"
-          >
-            <Icon name="clear" title="Clear" />
-          </ClearSearch>
-        )}
-      </SearchInputWrapper>
+                setInputQuery('');
+                searchInput?.current.focus();
+              }}
+              type="button"
+            >
+              <Icon name="clear" title="Clear" />
+            </ClearSearch>
+          )}
+        </SearchInputWrapper>
+      </Space>
 
       {shouldShowFilters && (
         <>
@@ -219,7 +221,7 @@ const PrototypeSearchForm = ({
             changeHandler={submit}
             aggregations={aggregations}
           />
-          {enhanced && (
+          {/* {enhanced && !isImageSearch && (
             <Select
               name="sortOrder"
               label="Sort by"
@@ -240,7 +242,7 @@ const PrototypeSearchForm = ({
               ]}
               onChange={submit}
             />
-          )}
+          )} */}
           <noscript>
             <Space v={{ size: 's', properties: ['margin-bottom'] }}>
               <SelectUncontrolled

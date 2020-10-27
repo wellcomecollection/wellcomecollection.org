@@ -21,19 +21,19 @@ const Tab = styled(Space).attrs({
   }),
 })`
   background: ${props => props.theme.color('white')};
-  border-left: 1px solid ${props => props.theme.color('smoke')};
-  border-top: 1px solid ${props => props.theme.color('smoke')};
+  border-left: 1px solid ${props => props.theme.color('silver')};
+  border-top: 1px solid ${props => props.theme.color('silver')};
 
   ${props =>
     props.isLast &&
     `
-    border-right: 1px solid ${props.theme.color('smoke')};
+    border-right: 1px solid ${props.theme.color('silver')};
   `}
 
   ${props =>
     props.isActive &&
     `
-    background: ${props.theme.color('smoke')};
+    background: ${props.theme.color('silver')};
   `}
 
   ${props =>
@@ -46,11 +46,9 @@ const Tab = styled(Space).attrs({
 `;
 
 const TabPanel = styled(Space).attrs({
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  v: { size: 'm', properties: ['padding-top'] },
 })`
-  background: ${props => props.theme.color('smoke')};
-  border: 1px solid ${props => props.theme.color('smoke')};
+  background: ${props => props.theme.color('silver')};
 `;
 type Props = {
   worksRouteProps: WorksRouteProps;

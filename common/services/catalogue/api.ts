@@ -68,6 +68,8 @@ export function worksRouteToApiUrl(
   };
 }
 
+export const defaultWorkTypes = ['a', 'b', 'g', 'i', 'k', 'l', 'q'];
+
 export function worksPropsToImagesProps(
   worksProps: CatalogueWorksApiProps
 ): CatalogueImagesApiProps {
