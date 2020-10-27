@@ -1,5 +1,5 @@
 // @flow
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import getCookies from 'next-cookies';
 import fetch from 'isomorphic-unfetch';
@@ -17,6 +17,14 @@ const Button = styled.button`
   margin-right: 18px;
 `;
 
+const ResetButton = styled(Button)`
+  color: #5f0000;
+  background-color: #fcdddd;
+  padding: 8px 12px;
+  margin: 10px 0;
+  font-size: 1.03rem;
+`;
+
 const Status = styled.div`
   width: 10px;
   height: 10px;
@@ -26,14 +34,30 @@ const Status = styled.div`
   background: ${props => (props.active ? 'green' : 'lightgrey')};
 `;
 
+const TextBox = styled.p`
+  border: 1px solid rgba(92, 184, 191, 1);
+  background: rgba(92, 184, 191, 0.25);
+  padding: 6px 12px;
+  margin: 0;
+`;
+
 const aYear = 31536000;
 function setCookie(name, value) {
   const expiration = value
     ? ` Max-Age=${aYear}`
-    : `Expires=${new Date('1970-01-01').toString()}`;
+    : `Expires=${new Date(0).toString()}`;
   document.cookie = `toggle_${name}=${value ||
     ''}; Path=/; Domain=wellcomecollection.org; ${expiration}`;
 }
+
+type Toggle = {|
+  id: string,
+  title: string,
+  defaultValue: boolean,
+  description: string,
+|};
+
+type ToggleStates = { [id: string]: boolean };
 
 type AbTest = {|
   id: string,
@@ -45,8 +69,8 @@ type AbTest = {|
 
 const abTests: AbTest[] = [];
 const IndexPage = () => {
-  const [toggleStates, setToggleStates] = useState({});
-  const [toggles, setToggles] = useState([]);
+  const [toggleStates, setToggleStates] = useState<ToggleStates>({});
+  const [toggles, setToggles] = useState<Toggle[]>([]);
 
   // We use this over getInitialProps as it's ineffectual when an app is
   // exported.
@@ -64,6 +88,18 @@ const IndexPage = () => {
     }, {});
     setToggleStates(initialToggles);
   }, []);
+
+  const reset = useCallback(
+    () =>
+      setToggleStates(
+        toggles.reduce((state, { id, defaultValue }) => {
+          setCookie(id, null);
+          state[id] = defaultValue;
+          return state;
+        }, {})
+      ),
+    [toggles]
+  );
 
   return (
     <div
@@ -91,17 +127,13 @@ const IndexPage = () => {
             }}
           />
         </div>
-        <p
-          style={{
-            border: '1px solid rgba(92,184,191,1)',
-            background: 'rgba(92,184,191,0.25)',
-            padding: '6px 12px',
-            margin: 0,
-          }}
-        >
+        <TextBox>
           You can turn on a toggle on (👍) or off (👎). Toggles also have a
           public status which is set for 100% of users.
-        </p>
+        </TextBox>
+        <ResetButton onClick={reset}>
+          🗑&nbsp;&nbsp;Reset all toggles to default&nbsp;&nbsp;🔄
+        </ResetButton>
         {toggles.length > 0 && (
           <ul
             style={{
@@ -174,18 +206,11 @@ const IndexPage = () => {
         <hr />
 
         <h2>A/B tests</h2>
-        <p
-          style={{
-            border: '1px solid rgba(92,184,191,1)',
-            background: 'rgba(92,184,191,0.25)',
-            padding: '6px 12px',
-            margin: 0,
-          }}
-        >
+        <TextBox>
           You can opt-in to a test (👍), explicitly opt-out (👎), or have us
           forget your choice. If you choose for use to forget, you will be put
           in to either group randomly according to our A/B decision rules.
-        </p>
+        </TextBox>
         {abTests.length > 0 && (
           <ul
             style={{
