@@ -217,3 +217,9 @@
             "--environment-id", "stage",
             "--description", $BUILDKITE_BUILD_URL,
             "--confirmation-wait-for", 3600]
+
+- wait
+
+- label: "Integration pipeline"
+  trigger: "integration"
+  async: true
