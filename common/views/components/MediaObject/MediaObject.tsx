@@ -1,12 +1,12 @@
 import Image from '../Image/Image';
-import CompactCard from '../CompactCard/CompactCard';
+import MediaObjectBase from '../MediaObjectBase/MediaObjectBase';
 import { ImageType } from '../../../model/image';
 import { MediaObjectType } from '../../../model/media-object';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import styled from 'styled-components';
 import { grid, classNames, font } from '../../../utils/classnames';
-import { TextWrapperProp } from '../CompactCard/CompactCard';
+import { TextWrapperProp } from '../MediaObjectBase/MediaObjectBase';
 
 type Props = {
   id: string,
@@ -54,9 +54,13 @@ export const MediaObject = ({ title, text, image }: Props) => {
   const ImageComponent = image && image.crops && image.crops.square && (
     <Image {...image.crops.square} />
   );
+
+  console.log(title, 'title');
+  console.log(text, 'text');
+  console.log(image, 'image !');
   const description = text && <PrismicHtmlBlock html={text} />;
   return (
-    <CompactCard
+    <MediaObjectBase
       url={null}
       title={title}
       Image={ImageComponent}

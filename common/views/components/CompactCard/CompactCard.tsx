@@ -1,10 +1,4 @@
 import { ComponentProps, ReactElement, ReactNode } from 'react';
-import {
-  grid,
-  font,
-  conditionalClassNames,
-  classNames,
-} from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import DateRange from '../DateRange/DateRange';
 import EventDateRange from '../EventDateRange/EventDateRange';
@@ -12,11 +6,9 @@ import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import LabelsList from '../LabelsList/LabelsList';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 // $FlowFixMe(tsx)
-import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import ImageType from '../Image/Image';
 import { ColorSelection } from '../../../model/color-selections';
-import Space from '../styled/Space';
-import styled from 'styled-components';
+import MediaObjectBase from '../MediaObjectBase/MediaObjectBase';
 
 type Props = {
   url: string | null,
@@ -37,34 +29,6 @@ type Props = {
   OverrideTitleWrapper?: ReactNode,
 };
 
-const BaseImageWrapper = styled.div.attrs(props => ({
-  className: grid({ s: 3, m: 3, l: 3, xl: 3 }),
-}))``;
-
-const BaseTitleWrapper = styled.div.attrs(props => ({
-  className: classNames({
-    'card-link__title': true,
-    [font('wb', 5)]: true,
-  })
-}))``;
-
-export type TextWrapperProp = {
-  hasImage: boolean
-};
-
-// Ability to add custom prop types in TS and styled components
-const BaseTextWrapper = styled.div.attrs<TextWrapperProp>(props => {
-  if (props.hasImage) {
-    return {
-      className: grid({ s: 9, m: 9, l: 9, xl: 9 }),
-    };
-  }
-  return {
-    className: grid({ s: 12, m: 12, l: 12, xl: 12 }),
-  };
-  
-})<TextWrapperProp>``;
-
 const CompactCard = ({
   url,
   title,
@@ -83,68 +47,33 @@ const CompactCard = ({
   OverrideTextWrapper,
   OverrideTitleWrapper,
 }: Props) => {
-  const { x, y } = xOfY;
-
-  const ImageWrapper:any = OverrideImageWrapper ? OverrideImageWrapper : BaseImageWrapper;
-  const TextWrapper:any = OverrideTextWrapper ? OverrideTextWrapper : BaseTextWrapper;
-  const TitleWrapper:any = OverrideTitleWrapper ? OverrideTitleWrapper : BaseTitleWrapper;
-
-  const descriptionIsString = typeof description === 'string';
 
   return (
-    <Space
-      v={{
-        size: 'l',
-        properties: [
-          'padding-top',
-          x === y ? undefined : 'padding-bottom',
-        ].filter(Boolean),
-      }}
-      as={url ? 'a' : 'div'}
-      href={urlOverride || url}
-      className={conditionalClassNames({
-        grid: true,
-        'card-link': Boolean(url),
-        [extraClasses || '']: Boolean(extraClasses),
-      })}
-      onClick={() => {
-        trackEvent({
-          category: 'CompactCard',
-          action: 'follow link',
-          label: title,
-        });
-      }}
-    >
-      <ImageWrapper hasImage={Boolean(Image)}> 
-        {Image}
-      </ImageWrapper>
-      <TextWrapper hasImage={Boolean(Image)} >
-      {labels.labels.length > 0 && (
-          <Space
-            v={{ size: 's', properties: ['margin-bottom'] }}
-            className="flex"
-          >
-            <LabelsList {...labels} />
-          </Space>
-        )}
-        {partNumber && (
-          <PartNumberIndicator number={partNumber} color={color} />
-        )}
-        <TitleWrapper>
-          {title}
-        </TitleWrapper>
-        {DateInfo}
-        {StatusIndicator}
-        {ExtraInfo}
-        {description && 
-          <div className={`spaced-text ${!descriptionIsString && font('hnl', 5)}`}>
-            {
-              descriptionIsString ? <p className={font('hnl', 5)}>{description}</p> : description
-            }
-          </div>
-        }
-      </TextWrapper>
-    </Space>
+    <MediaObjectBase
+    url={url}
+    title={title}
+    Image={Image}
+    partNumber={partNumber}
+    color={color}
+    StatusIndicator={StatusIndicator}
+    description={description}
+    urlOverride={urlOverride}
+    extraClasses={extraClasses}
+    DateInfo={DateInfo}
+    ExtraInfo={ExtraInfo}
+    labels={labels}
+    xOfY={xOfY}
+    OverrideImageWrapper={OverrideImageWrapper}
+    OverrideTextWrapper={OverrideTextWrapper}
+    OverrideTitleWrapper={OverrideTitleWrapper}
+    onClick={():void => {
+      trackEvent({
+        category: 'CompactCard',
+        action: 'follow link',
+        label: title,
+      });
+    }}
+  />
   );
 };
 

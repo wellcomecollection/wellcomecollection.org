@@ -1,11 +1,12 @@
 import { mockImage } from './compact-card';
 
 export const mockData = {
-  title: 'mock title',
+  title: 'Title',
   text: [
     {
       type: 'paragraph',
-      text: 'Keep your nose and mouth covered, unless you’re exempt.',
+      text:
+        'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
       spans: [
         {
           start: 48,
