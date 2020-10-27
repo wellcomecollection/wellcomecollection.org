@@ -1,6 +1,4 @@
 // @flow
-import { useContext } from 'react';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import { withToggler } from '../../hocs/withToggler';
 import { font, classNames } from '../../../utils/classnames';
 import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
@@ -14,7 +12,6 @@ type Props = {|
 |};
 
 const Header = withToggler(({ siteSection, toggle, isActive }: Props) => {
-  const { unfilteredSearchResults } = useContext(TogglesContext);
   const links = [
     {
       href: '/visit-us',
@@ -32,7 +29,7 @@ const Header = withToggler(({ siteSection, toggle, isActive }: Props) => {
       siteSection: 'stories',
     },
     {
-      href: unfilteredSearchResults ? '/collections' : '/works',
+      href: '/collections',
       title: 'Collections',
       siteSection: 'collections',
     },

@@ -8,12 +8,6 @@ module.exports = {
         'Shows archive specific header, breadcrumbs and archive tree on the work page.',
     },
     {
-      id: 'unfilteredSearchResults',
-      title: 'Entire catalogue search',
-      defaultValue: true,
-      description: 'Search the entire catalogue, including all work types',
-    },
-    {
       id: 'locationsFilter',
       title: 'Online/In the library filter',
       defaultValue: true,
