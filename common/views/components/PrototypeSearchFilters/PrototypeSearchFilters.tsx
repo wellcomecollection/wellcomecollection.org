@@ -17,6 +17,7 @@ type Props = {
   workTypeAggregations: CatalogueAggregationBucket[];
   aggregations: CatalogueAggregations | null;
   changeHandler: () => void;
+  showDateFilters: boolean;
 };
 
 export type SearchFiltersSharedProps = Props & {
@@ -39,6 +40,7 @@ const SearchFilters = ({
   workTypeAggregations,
   changeHandler,
   aggregations,
+  showDateFilters,
 }: Props) => {
   const workTypeInUrlArray = worksRouteProps.workType || [];
   const locationsTypeInUrlArray = worksRouteProps.itemsLocationsType || [];
@@ -103,6 +105,7 @@ const SearchFilters = ({
 
   const sharedProps: SearchFiltersSharedProps = {
     searchForm,
+    showDateFilters,
     worksRouteProps,
     workTypeAggregations,
     changeHandler,

@@ -46,7 +46,7 @@ const SearchButtonWrapper = styled.div.attrs({
     absolute: true,
   }),
 })`
-  top: 0;
+  top: 16px;
   right: 16px;
 `;
 
@@ -169,7 +169,10 @@ const PrototypeSearchForm = ({
         return false;
       }}
     >
-      <Space h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}>
+      <Space
+        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+        v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+      >
         <SearchInputWrapper className="relative">
           <TextInput
             id={`${isImageSearch ? 'images' : 'works'}-search-input`}
@@ -220,6 +223,7 @@ const PrototypeSearchForm = ({
             workTypeAggregations={workTypeAggregations}
             changeHandler={submit}
             aggregations={aggregations}
+            showDateFilters={!isImageSearch}
           />
           {/* {enhanced && !isImageSearch && (
             <Select

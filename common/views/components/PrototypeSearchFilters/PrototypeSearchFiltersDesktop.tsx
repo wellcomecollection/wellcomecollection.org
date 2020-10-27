@@ -60,6 +60,7 @@ const CancelFilter = ({
 
 const SearchFiltersDesktop = ({
   searchForm,
+  showDateFilters,
   worksRouteProps,
   workTypeAggregations,
   changeHandler,
@@ -112,41 +113,46 @@ const SearchFiltersDesktop = ({
             Filter by
           </Space>
         </Space>
-        <Space
-          h={{ size: 's', properties: ['margin-right'] }}
-          className={classNames({
-            [font('hnl', 5)]: true,
-          })}
-        >
-          <DropdownButton label={'Dates'} isInline={true} id="dates">
-            <>
-              <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+        {showDateFilters && (
+          <Space
+            h={{ size: 's', properties: ['margin-right'] }}
+            className={classNames({
+              [font('hnl', 5)]: true,
+            })}
+          >
+            <DropdownButton label={'Dates'} isInline={true} id="dates">
+              <>
+                <Space
+                  as="span"
+                  h={{ size: 'm', properties: ['margin-right'] }}
+                >
+                  <NumberInput
+                    name="production.dates.from"
+                    label="From"
+                    min="0"
+                    max="9999"
+                    placeholder={'Year'}
+                    value={inputDateFrom || ''}
+                    onChange={event => {
+                      setInputDateFrom(`${event.currentTarget.value}`);
+                    }}
+                  />
+                </Space>
                 <NumberInput
-                  name="production.dates.from"
-                  label="From"
+                  name="production.dates.to"
+                  label="to"
                   min="0"
                   max="9999"
                   placeholder={'Year'}
-                  value={inputDateFrom || ''}
+                  value={inputDateTo || ''}
                   onChange={event => {
-                    setInputDateFrom(`${event.currentTarget.value}`);
+                    setInputDateTo(`${event.currentTarget.value}`);
                   }}
                 />
-              </Space>
-              <NumberInput
-                name="production.dates.to"
-                label="to"
-                min="0"
-                max="9999"
-                placeholder={'Year'}
-                value={inputDateTo || ''}
-                onChange={event => {
-                  setInputDateTo(`${event.currentTarget.value}`);
-                }}
-              />
-            </>
-          </DropdownButton>
-        </Space>
+              </>
+            </DropdownButton>
+          </Space>
+        )}
 
         {showWorkTypeFilters && (
           <DropdownButton label={'Formats'} isInline={true} id="formats">

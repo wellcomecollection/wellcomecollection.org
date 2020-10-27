@@ -76,14 +76,15 @@ const SearchTabs = ({
       ),
       tabPanel: (
         <TabPanel>
-          <p
+          <Space
+            h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
             className={shouldShowFilters ? 'visually-hidden' : null}
             id="library-catalogue-form-description"
           >
             Find thousands of books, images, artworks, unpublished archives and
             manuscripts in our collections, many of them with free online
             access.
-          </p>
+          </Space>
           <PrototypeSearchForm
             ariaDescribedBy={'library-catalogue-form-description'}
             routeProps={worksRouteProps}
@@ -108,13 +109,14 @@ const SearchTabs = ({
       ),
       tabPanel: (
         <TabPanel>
-          <p
+          <Space
+            h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
             className={shouldShowFilters ? 'visually-hidden' : null}
             id="images-form-description"
           >
             Search for free, downloadable images taken from our library and
             museum collections, including objects at the Science Museum.
-          </p>
+          </Space>
           <PrototypeSearchForm
             ariaDescribedBy="images-form-description"
             routeProps={imagesRouteProps}
