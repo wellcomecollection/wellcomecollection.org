@@ -55,9 +55,6 @@ export const MediaObject = ({ title, text, image }: Props) => {
     <Image {...image.crops.square} />
   );
 
-  console.log(title, 'title');
-  console.log(text, 'text');
-  console.log(image, 'image !');
   const description = text && <PrismicHtmlBlock html={text} />;
   return (
     <MediaObjectBase
