@@ -550,34 +550,28 @@ export function parseOnThisPage(fragment: PrismicFragment[]): Link[] {
 export function parseMediaObjectList(
   fragment: PrismicFragment[]
 ): Array<MediaObjectType> {
-  const cannotParse = 'could_not_parse';
   // filter media-object
   const filteredMediaObject = fragment.filter(mediaObject => {
     if (mediaObject.content?.type === 'media-object') {
       return true;
     }
   });
-  // attempt to parse data
-  const parseMediaObjects = filteredMediaObject.map(mediaObject => {
-    try {
-      const { title, text, image } = mediaObject.content.data;
+
+  return filteredMediaObject.map(mediaObject => {
+    if (mediaObject.content?.data) {
+      // make sure we have the content we require
+      const title = mediaObject.content.data?.title;
+      const text = mediaObject.content.data?.text;
+      const image = mediaObject.content.data?.image;
+
       return {
-        id: mediaObject.content.id,
-        title: parseTitle(title),
-        text: parseStructuredText(text),
-        image: parseImage(image),
+        id: mediaObject.content?.id,
+        title: title ? parseTitle(title) : null,
+        text: text ? parseStructuredText(text) : null,
+        image: image ? parseImage(image) : null,
       };
-    } catch (e) {
-      return cannotParse;
     }
   });
-
-  // filter any broken parsers and return this back
-  const filterBadMediaObjects = parseMediaObjects.filter(mediaObject => {
-    return mediaObject !== cannotParse;
-  });
-
-  return filterBadMediaObjects;
 }
 
 export function parseBody(fragment: PrismicFragment[]): BodyType {

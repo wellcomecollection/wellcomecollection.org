@@ -30,7 +30,7 @@ describe('parsers', () => {
   });
 
   describe('parseMediaObjectList', () => {
-    const mockData = [
+    const mockDataMissingImageText = [
       {
         content: {
           id: 'X5BeNxIAACEAj7Ze',
@@ -40,17 +40,32 @@ describe('parsers', () => {
           lang: 'en-gb',
           link_type: 'Document',
           isBroken: false,
-          // data: [] -> this is missing from data structure
+          // data: [] -> this is missing image
           data: {
-            broken: 'data',
+            title: [
+              {
+                type: 'heading1',
+                text: 'Only book for your household or bubble',
+                spans: [],
+              },
+            ],
           },
         },
       },
     ];
 
-    it('Should return empty array if data is missing from content in data structure', () => {
-      const content = parseMediaObjectList(mockData);
-      expect(content).toEqual([]);
+    it('Should return data structure if missing image and title content', () => {
+      const parseMissingImageText = parseMediaObjectList(
+        mockDataMissingImageText
+      );
+      expect(parseMissingImageText).toEqual([
+        {
+          id: 'X5BeNxIAACEAj7Ze',
+          title: 'Only book for your household or bubble',
+          text: null,
+          image: null,
+        },
+      ]);
     });
   });
 });
