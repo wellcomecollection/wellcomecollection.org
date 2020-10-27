@@ -130,9 +130,44 @@ const SearchFiltersDesktop = ({
                 Filter by
               </Space>
             </Space>
+
+            {showWorkTypeFilters && filtersToShow.includes('formats') && (
+              <Space h={{ size: 's', properties: ['margin-right'] }}>
+                <DropdownButton label={'Formats'} isInline={true} id="formats">
+                  <ul
+                    className={classNames({
+                      'no-margin no-padding plain-list': true,
+                      [font('hnl', 5)]: true,
+                    })}
+                  >
+                    {workTypeFilters.map(workType => {
+                      const isChecked = workTypeInUrlArray.includes(
+                        workType.data.id
+                      );
+
+                      return (
+                        (workType.count > 0 || isChecked) && (
+                          <li key={workType.data.id}>
+                            <CheckboxRadio
+                              id={workType.data.id}
+                              type={`checkbox`}
+                              text={`${workType.data.label} (${workType.count})`}
+                              value={workType.data.id}
+                              name={`workType`}
+                              checked={isChecked}
+                              onChange={changeHandler}
+                            />
+                          </li>
+                        )
+                      );
+                    })}
+                  </ul>
+                </DropdownButton>
+              </Space>
+            )}
+
             {filtersToShow.includes('dates') && (
               <Space
-                h={{ size: 's', properties: ['margin-right'] }}
                 className={classNames({
                   [font('hnl', 5)]: true,
                 })}
@@ -169,39 +204,6 @@ const SearchFiltersDesktop = ({
                   </>
                 </DropdownButton>
               </Space>
-            )}
-
-            {showWorkTypeFilters && filtersToShow.includes('formats') && (
-              <DropdownButton label={'Formats'} isInline={true} id="formats">
-                <ul
-                  className={classNames({
-                    'no-margin no-padding plain-list': true,
-                    [font('hnl', 5)]: true,
-                  })}
-                >
-                  {workTypeFilters.map(workType => {
-                    const isChecked = workTypeInUrlArray.includes(
-                      workType.data.id
-                    );
-
-                    return (
-                      (workType.count > 0 || isChecked) && (
-                        <li key={workType.data.id}>
-                          <CheckboxRadio
-                            id={workType.data.id}
-                            type={`checkbox`}
-                            text={`${workType.data.label} (${workType.count})`}
-                            value={workType.data.id}
-                            name={`workType`}
-                            checked={isChecked}
-                            onChange={changeHandler}
-                          />
-                        </li>
-                      )
-                    );
-                  })}
-                </ul>
-              </DropdownButton>
             )}
 
             {filtersToShow.includes('colors') && (
