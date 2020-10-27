@@ -206,7 +206,14 @@ const Works = ({
                         ? works.aggregations.workType.buckets
                         : []
                     }
-                    shouldShowFilters={query !== ''}
+                    shouldShowImagesFilters={false}
+                    shouldShowWorksFilters={query !== ''}
+                    shouldShowDescription={query === ''}
+                    aggregations={
+                      works && works.aggregations
+                        ? works.aggregations
+                        : undefined
+                    }
                   />
                 ) : (
                   <SearchForm

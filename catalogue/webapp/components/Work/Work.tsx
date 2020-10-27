@@ -27,7 +27,7 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
-
+import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 declare global {
   interface Window {
     dataLayer: any[];
@@ -39,7 +39,7 @@ type Props = {
 };
 
 const Work = ({ work }: Props) => {
-  const { archivesPrototype } = useContext(TogglesContext);
+  const { archivesPrototype, searchPrototype } = useContext(TogglesContext);
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
     page: 1,
@@ -131,15 +131,33 @@ const Work = ({ work }: Props) => {
         <div className="grid">
           <div
             className={classNames({
-              [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+              [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
             })}
           >
-            <SearchForm
-              ariaDescribedBy="search-form-description"
-              shouldShowFilters={false}
-              worksRouteProps={savedSearchFormState}
-              workTypeAggregations={[]}
-            />
+            {searchPrototype ? (
+              <>
+                <SearchTabs
+                  worksRouteProps={savedSearchFormState}
+                  imagesRouteProps={{
+                    ...savedSearchFormState,
+                    locationsLicense: null,
+                    color: null,
+                  }}
+                  workTypeAggregations={[]}
+                  shouldShowImagesFilters={false}
+                  shouldShowWorksFilters={false}
+                  shouldShowDescription={false}
+                  activeTabIndex={0}
+                />
+              </>
+            ) : (
+              <SearchForm
+                ariaDescribedBy="search-form-description"
+                shouldShowFilters={false}
+                worksRouteProps={savedSearchFormState}
+                workTypeAggregations={[]}
+              />
+            )}
           </div>
         </div>
         <div className="grid">

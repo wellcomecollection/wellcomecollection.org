@@ -38,7 +38,9 @@ const CollectionsStaticContent = () => {
               color: null,
             }}
             workTypeAggregations={[]}
-            shouldShowFilters={false}
+            shouldShowImagesFilters={false}
+            shouldShowWorksFilters={false}
+            shouldShowDescription={true}
           />
         </Space>
       </Layout12>

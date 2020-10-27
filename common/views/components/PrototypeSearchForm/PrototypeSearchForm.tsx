@@ -143,7 +143,10 @@ const PrototypeSearchForm = ({
       source,
     };
     const link = isImageSearch
-      ? imagesLink({ ...state, locationsLicense: null, color: null }, source)
+      ? imagesLink(
+          { ...state, color: imagesColor, locationsLicense: null },
+          source
+        )
       : worksLink(state, source);
     setSearchParamsState(state);
 
@@ -223,7 +226,9 @@ const PrototypeSearchForm = ({
             workTypeAggregations={workTypeAggregations}
             changeHandler={submit}
             aggregations={aggregations}
-            showDateFilters={!isImageSearch}
+            filtersToShow={
+              isImageSearch ? ['colors'] : ['dates', 'formats', 'locations']
+            }
           />
           {/* {enhanced && !isImageSearch && (
             <Select

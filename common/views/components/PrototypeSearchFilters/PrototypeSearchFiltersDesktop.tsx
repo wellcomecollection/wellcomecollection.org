@@ -60,7 +60,7 @@ const CancelFilter = ({
 
 const SearchFiltersDesktop = ({
   searchForm,
-  showDateFilters,
+  filtersToShow,
   worksRouteProps,
   workTypeAggregations,
   changeHandler,
@@ -78,15 +78,13 @@ const SearchFiltersDesktop = ({
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
   const { enableColorFiltering, locationsFilter } = useContext(TogglesContext);
-  const showColorFilter =
-    enableColorFiltering && worksRouteProps.search === 'images';
 
   return (
     <>
       <Space
         v={{
           size: 'm',
-          properties: ['padding-top', 'padding-bottom', 'margin-top'],
+          properties: ['padding-top', 'padding-bottom'],
         }}
         className={classNames({
           flex: true,
@@ -95,152 +93,183 @@ const SearchFiltersDesktop = ({
       >
         <Space
           h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-        ></Space>
-        <Space
-          as="span"
-          h={{ size: 'm', properties: ['margin-right'] }}
           className={classNames({
-            'flex flex--v-center': true,
+            'flex flex--h-space-between flex--v-center full-width': true,
           })}
         >
-          <Icon name="filter" />
-          <Space
-            h={{ size: 's', properties: ['margin-left'] }}
+          <div
             className={classNames({
-              [font('hnm', 5)]: true,
+              'flex flex--v-center': true,
             })}
           >
-            Filter by
-          </Space>
-        </Space>
-        {showDateFilters && (
-          <Space
-            h={{ size: 's', properties: ['margin-right'] }}
-            className={classNames({
-              [font('hnl', 5)]: true,
-            })}
-          >
-            <DropdownButton label={'Dates'} isInline={true} id="dates">
-              <>
-                <Space
-                  as="span"
-                  h={{ size: 'm', properties: ['margin-right'] }}
-                >
-                  <NumberInput
-                    name="production.dates.from"
-                    label="From"
-                    min="0"
-                    max="9999"
-                    placeholder={'Year'}
-                    value={inputDateFrom || ''}
-                    onChange={event => {
-                      setInputDateFrom(`${event.currentTarget.value}`);
-                    }}
-                  />
-                </Space>
-                <NumberInput
-                  name="production.dates.to"
-                  label="to"
-                  min="0"
-                  max="9999"
-                  placeholder={'Year'}
-                  value={inputDateTo || ''}
-                  onChange={event => {
-                    setInputDateTo(`${event.currentTarget.value}`);
-                  }}
-                />
-              </>
-            </DropdownButton>
-          </Space>
-        )}
-
-        {showWorkTypeFilters && (
-          <DropdownButton label={'Formats'} isInline={true} id="formats">
-            <ul
+            <Space
+              as="span"
+              h={{ size: 'm', properties: ['margin-right'] }}
               className={classNames({
-                'no-margin no-padding plain-list': true,
-                [font('hnl', 5)]: true,
+                'flex flex--v-center': true,
               })}
             >
-              {workTypeFilters.map(workType => {
-                const isChecked = workTypeInUrlArray.includes(workType.data.id);
-
-                return (
-                  (workType.count > 0 || isChecked) && (
-                    <li key={workType.data.id}>
-                      <CheckboxRadio
-                        id={workType.data.id}
-                        type={`checkbox`}
-                        text={`${workType.data.label} (${workType.count})`}
-                        value={workType.data.id}
-                        name={`workType`}
-                        checked={isChecked}
-                        onChange={changeHandler}
-                      />
-                    </li>
-                  )
-                );
-              })}
-            </ul>
-          </DropdownButton>
-        )}
-
-        {locationsFilter && aggregations && aggregations.locationType && (
-          <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
-            <DropdownButton label={'Locations'} isInline={true}>
-              <ul
+              <Icon name="filter" />
+              <Space
+                h={{ size: 's', properties: ['margin-left'] }}
                 className={classNames({
-                  'no-margin no-padding plain-list': true,
+                  [font('hnm', 5)]: true,
+                })}
+              >
+                Filter by
+              </Space>
+            </Space>
+            {filtersToShow.includes('dates') && (
+              <Space
+                h={{ size: 's', properties: ['margin-right'] }}
+                className={classNames({
                   [font('hnl', 5)]: true,
                 })}
               >
-                {aggregations.locationType.buckets.map(locationType => {
-                  const isChecked = worksRouteProps.itemsLocationsType.includes(
-                    locationType.data.type
-                  );
+                <DropdownButton label={'Dates'} isInline={true} id="dates">
+                  <>
+                    <Space
+                      as="span"
+                      h={{ size: 'm', properties: ['margin-right'] }}
+                    >
+                      <NumberInput
+                        name="production.dates.from"
+                        label="From"
+                        min="0"
+                        max="9999"
+                        placeholder={'Year'}
+                        value={inputDateFrom || ''}
+                        onChange={event => {
+                          setInputDateFrom(`${event.currentTarget.value}`);
+                        }}
+                      />
+                    </Space>
+                    <NumberInput
+                      name="production.dates.to"
+                      label="to"
+                      min="0"
+                      max="9999"
+                      placeholder={'Year'}
+                      value={inputDateTo || ''}
+                      onChange={event => {
+                        setInputDateTo(`${event.currentTarget.value}`);
+                      }}
+                    />
+                  </>
+                </DropdownButton>
+              </Space>
+            )}
 
-                  return (
-                    (locationType.count > 0 || isChecked) && (
-                      <li key={locationType.data.type}>
-                        <CheckboxRadio
-                          id={locationType.data.type}
-                          type={`checkbox`}
-                          text={`${locationType.data.label} (${locationType.count})`}
-                          value={locationType.data.type}
-                          name={`items.locations.type`}
-                          checked={isChecked}
-                          onChange={changeHandler}
-                        />
-                      </li>
-                    )
-                  );
+            {showWorkTypeFilters && filtersToShow.includes('formats') && (
+              <DropdownButton label={'Formats'} isInline={true} id="formats">
+                <ul
+                  className={classNames({
+                    'no-margin no-padding plain-list': true,
+                    [font('hnl', 5)]: true,
+                  })}
+                >
+                  {workTypeFilters.map(workType => {
+                    const isChecked = workTypeInUrlArray.includes(
+                      workType.data.id
+                    );
+
+                    return (
+                      (workType.count > 0 || isChecked) && (
+                        <li key={workType.data.id}>
+                          <CheckboxRadio
+                            id={workType.data.id}
+                            type={`checkbox`}
+                            text={`${workType.data.label} (${workType.count})`}
+                            value={workType.data.id}
+                            name={`workType`}
+                            checked={isChecked}
+                            onChange={changeHandler}
+                          />
+                        </li>
+                      )
+                    );
+                  })}
+                </ul>
+              </DropdownButton>
+            )}
+
+            {filtersToShow.includes('colors') && (
+              <Space
+                className={classNames({
+                  [font('hnl', 5)]: true,
                 })}
-              </ul>
-            </DropdownButton>
-          </Space>
-        )}
+              >
+                <DropdownButton label={'Colours'} isInline={true}>
+                  <ColorPicker
+                    name="images.color"
+                    color={imagesColor}
+                    onChangeColor={changeHandler}
+                  />
+                </DropdownButton>
+              </Space>
+            )}
+          </div>
 
-        {showColorFilter && (
-          <Space
-            h={{ size: 's', properties: ['margin-left'] }}
-            className={classNames({
-              [font('hnl', 5)]: true,
-            })}
-          >
-            <DropdownButton label={'Colours'} isInline={true}>
-              <ColorPicker
-                name="images.color"
-                color={imagesColor}
-                onChangeColor={changeHandler}
-              />
-            </DropdownButton>
-          </Space>
-        )}
+          {filtersToShow.includes('locations') &&
+            aggregations &&
+            aggregations.locationType && (
+              <div
+                className={classNames({
+                  'flex flex--v-center': true,
+                })}
+              >
+                <Icon name="eye" />
+                <Space
+                  h={{ size: 's', properties: ['margin-left'] }}
+                  className={classNames({
+                    [font('hnm', 5)]: true,
+                  })}
+                >
+                  Show items available
+                </Space>
+                <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
+                  <ul
+                    className={classNames({
+                      'no-margin no-padding plain-list flex': true,
+                      [font('hnl', 5)]: true,
+                    })}
+                  >
+                    {aggregations.locationType.buckets.map(locationType => {
+                      const isChecked = worksRouteProps.itemsLocationsType.includes(
+                        locationType.data.type
+                      );
+
+                      return (
+                        <Space
+                          as="li"
+                          h={{ size: 's', properties: ['margin-left'] }}
+                          key={locationType.data.type}
+                          className={classNames({
+                            flex: true,
+                          })}
+                        >
+                          <CheckboxRadio
+                            id={locationType.data.type}
+                            type={`checkbox`}
+                            text={`${locationType.data.label} (${locationType.count})`}
+                            value={locationType.data.type}
+                            name={`items.locations.type`}
+                            checked={isChecked}
+                            onChange={changeHandler}
+                          />
+                        </Space>
+                      );
+                    })}
+                  </ul>
+                </Space>
+              </div>
+            )}
+        </Space>
       </Space>
 
       {(productionDatesFrom ||
         productionDatesTo ||
-        (imagesColor && showColorFilter) ||
+        (imagesColor && enableColorFiltering) ||
         workTypeInUrlArray.length > 0 ||
         worksRouteProps?.itemsLocationsType?.length > 0) &&
         (workTypeFilters.length > 0 || worksRouteProps.search === 'images') && (
@@ -249,7 +278,7 @@ const SearchFiltersDesktop = ({
             h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
             className="tokens bg-white"
           >
-            <div className={classNames({ [font('hnl', 5)]: true })}>
+            <div className={classNames({ [font('hnm', 5)]: true })}>
               <div>
                 <h2 className="inline">
                   <Space
@@ -296,7 +325,7 @@ const SearchFiltersDesktop = ({
                     </a>
                   </NextLink>
                 )}
-                {imagesColor && showColorFilter && (
+                {imagesColor && enableColorFiltering && (
                   <NextLink
                     passHref
                     {...worksLink(
@@ -386,7 +415,7 @@ const SearchFiltersDesktop = ({
                     )}
                   >
                     <a>
-                      <CancelFilter text={'Clear all'} />
+                      <CancelFilter text={'Reset filters'} />
                     </a>
                   </NextLink>
                 )}

@@ -160,15 +160,21 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 {searchPrototype ? (
                   <>
+                    <pre
+                      style={{
+                        fontSize: '10px',
+                        fontFamily: 'source code pro',
+                      }}
+                    >
+                      <code>{JSON.stringify(worksRouteProps, null, 2)}</code>
+                    </pre>
                     <SearchTabs
                       worksRouteProps={worksRouteProps}
-                      imagesRouteProps={{
-                        ...worksRouteProps,
-                        locationsLicense: null,
-                        color: null,
-                      }}
+                      imagesRouteProps={worksRouteProps}
                       workTypeAggregations={[]}
-                      shouldShowFilters={query !== ''}
+                      shouldShowImagesFilters={query !== ''}
+                      shouldShowWorksFilters={false}
+                      shouldShowDescription={query === ''}
                       activeTabIndex={1}
                     />
                   </>

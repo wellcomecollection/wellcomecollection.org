@@ -10,7 +10,10 @@ import {
   WorksRouteProps,
   ImagesRouteProps,
 } from '@weco/common/services/catalogue/ts_routes';
-import { CatalogueAggregationBucket } from '@weco/common/model/catalogue';
+import {
+  CatalogueAggregationBucket,
+  CatalogueAggregations,
+} from '@weco/common/model/catalogue';
 const Tab = styled(Space).attrs({
   as: 'span',
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -21,19 +24,19 @@ const Tab = styled(Space).attrs({
   }),
 })`
   background: ${props => props.theme.color('white')};
-  border-left: 1px solid ${props => props.theme.color('silver')};
-  border-top: 1px solid ${props => props.theme.color('silver')};
+  border-left: 1px solid ${props => props.theme.color('marble')};
+  border-top: 1px solid ${props => props.theme.color('marble')};
 
   ${props =>
     props.isLast &&
     `
-    border-right: 1px solid ${props.theme.color('silver')};
+    border-right: 1px solid ${props.theme.color('marble')};
   `}
 
   ${props =>
     props.isActive &&
     `
-    background: ${props.theme.color('silver')};
+    background: ${props.theme.color('marble')};
   `}
 
   ${props =>
@@ -45,24 +48,28 @@ const Tab = styled(Space).attrs({
   `}
 `;
 
-const TabPanel = styled(Space).attrs({
-  v: { size: 'm', properties: ['padding-top'] },
-})`
-  background: ${props => props.theme.color('silver')};
+const TabPanel = styled(Space)`
+  background: ${props => props.theme.color('marble')};
 `;
 type Props = {
   worksRouteProps: WorksRouteProps;
   imagesRouteProps: ImagesRouteProps;
   workTypeAggregations: CatalogueAggregationBucket[];
-  shouldShowFilters: boolean;
+  shouldShowImagesFilters: boolean;
+  shouldShowWorksFilters: boolean;
+  shouldShowDescription: boolean;
   activeTabIndex?: number;
+  aggregations?: CatalogueAggregations;
 };
 
 const SearchTabs = ({
   worksRouteProps,
   imagesRouteProps,
   workTypeAggregations,
-  shouldShowFilters,
+  aggregations,
+  shouldShowImagesFilters,
+  shouldShowWorksFilters,
+  shouldShowDescription,
   activeTabIndex,
 }: Props) => {
   const { isKeyboard } = useContext(AppContext);
@@ -77,9 +84,14 @@ const SearchTabs = ({
       tabPanel: (
         <TabPanel>
           <Space
+            v={{ size: 'm', properties: ['padding-top'] }}
             h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-            className={shouldShowFilters ? 'visually-hidden' : null}
+            className={classNames({
+              'visually-hidden': !shouldShowDescription,
+              [font('hnl', 5)]: true,
+            })}
             id="library-catalogue-form-description"
+            style={{ maxWidth: '70ch' }}
           >
             Find thousands of books, images, artworks, unpublished archives and
             manuscripts in our collections, many of them with free online
@@ -90,7 +102,8 @@ const SearchTabs = ({
             routeProps={worksRouteProps}
             workTypeAggregations={workTypeAggregations}
             isImageSearch={false}
-            shouldShowFilters={shouldShowFilters}
+            shouldShowFilters={shouldShowWorksFilters}
+            aggregations={aggregations}
           />
         </TabPanel>
       ),
@@ -110,9 +123,14 @@ const SearchTabs = ({
       tabPanel: (
         <TabPanel>
           <Space
+            v={{ size: 'm', properties: ['padding-top'] }}
             h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-            className={shouldShowFilters ? 'visually-hidden' : null}
+            className={classNames({
+              'visually-hidden': !shouldShowDescription,
+              [font('hnl', 5)]: true,
+            })}
             id="images-form-description"
+            style={{ maxWidth: '70ch' }}
           >
             Search for free, downloadable images taken from our library and
             museum collections, including objects at the Science Museum.
@@ -122,7 +140,8 @@ const SearchTabs = ({
             routeProps={imagesRouteProps}
             workTypeAggregations={workTypeAggregations}
             isImageSearch={true}
-            shouldShowFilters={shouldShowFilters}
+            shouldShowFilters={shouldShowImagesFilters}
+            aggregations={aggregations}
           />
         </TabPanel>
       ),
