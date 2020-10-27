@@ -17,7 +17,7 @@ describe('MediaObject Component', () => {
     it('should render snapshot', () => {
       expect(componentHtml).toMatchSnapshot();
     });
-    it.only('should render grid system of 2 for image and 10 for text', () => {
+    it('should render grid system of 2 for image and 10 for text', () => {
       expect(
         componentHtml.match(grid({ s: 2, m: 2, l: 2, xl: 2 }))
       ).toBeTruthy();
