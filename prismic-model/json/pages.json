@@ -461,7 +461,7 @@
                   "label": "Content item",
                   "select": "document",
                   "customtypes": [
-                    "media_object"
+                    "media-object"
                   ]
                 }
               }

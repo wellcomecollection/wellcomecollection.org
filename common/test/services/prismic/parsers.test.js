@@ -34,7 +34,7 @@ describe('parsers', () => {
       {
         content: {
           id: 'X5BeNxIAACEAj7Ze',
-          type: 'media_object',
+          type: 'media-object',
           tags: [],
           slug: 'wear-a-face-covering-hi',
           lang: 'en-gb',

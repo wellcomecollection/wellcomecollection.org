@@ -551,9 +551,9 @@ export function parseMediaObjectList(
   fragment: PrismicFragment[]
 ): Array<MediaObjectType> {
   const cannotParse = 'could_not_parse';
-  // filter media_object
+  // filter media-object
   const filteredMediaObject = fragment.filter(mediaObject => {
-    if (mediaObject.content?.type === 'media_object') {
+    if (mediaObject.content?.type === 'media-object') {
       return true;
     }
   });

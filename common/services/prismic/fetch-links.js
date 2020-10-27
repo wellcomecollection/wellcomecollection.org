@@ -37,9 +37,9 @@ export const collectionVenuesFields = [
 ];
 
 export const mediaObjectFields = [
-  'media_object.title',
-  'media_object.text',
-  'media_object.image',
+  'media-object.title',
+  'media-object.text',
+  'media-object.image',
 ];
 
 export const eventSeriesFields = [
