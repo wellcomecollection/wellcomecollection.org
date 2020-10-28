@@ -9,7 +9,6 @@ const handleNewsletterSignup = require('./routeHandlers/handleNewsletterSignup')
 const {
   middleware,
   route,
-  renderIfToggleOn,
   handleAllRoute,
 } = require('@weco/common/koa-middleware/withCachedValues');
 
@@ -43,15 +42,6 @@ module.exports = app
 
     server.use(middleware);
     server.use(bodyParser());
-
-    renderIfToggleOn(
-      '/collections',
-      '/landing-page',
-      router,
-      app,
-      { id: 'X2jSjBMAACIA8Wq_' },
-      'unfilteredSearchResults'
-    );
 
     pageVanityUrl(router, app, '/', 'XphUbREAACMAgRNP', '/homepage');
     route('/whats-on', '/whats-on', router, app);
