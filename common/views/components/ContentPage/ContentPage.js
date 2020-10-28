@@ -13,6 +13,7 @@ import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import Space from '../styled/Space';
+// $FlowFixMe (tsx)
 import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
 
 /*eslint-disable */
