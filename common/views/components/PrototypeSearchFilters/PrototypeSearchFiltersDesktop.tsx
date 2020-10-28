@@ -79,6 +79,23 @@ const SearchFiltersDesktop = ({
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
   const { enableColorFiltering, locationsFilter } = useContext(TogglesContext);
 
+  const resetFiltersRoute = {
+    ...worksRouteProps,
+    itemsLocationsLocationType: [],
+    itemsLocationsType: [],
+    workType: [],
+    page: 1,
+    productionDatesFrom: null,
+    productionDatesTo: null,
+  };
+
+  const resetFilters = imagesColor
+    ? imagesLink(
+        { ...resetFiltersRoute, locationsLicense: null, color: null },
+        'cancel_filter/all'
+      )
+    : worksLink(resetFiltersRoute, 'cancel_filter/all');
+
   function showActiveFilters() {
     return (
       imagesColor ||
@@ -406,21 +423,7 @@ const SearchFiltersDesktop = ({
                     </NextLink>
                   ))}
 
-              <NextLink
-                passHref
-                {...worksLink(
-                  {
-                    ...worksRouteProps,
-                    itemsLocationsLocationType: [],
-                    itemsLocationsType: [],
-                    workType: [],
-                    page: 1,
-                    productionDatesFrom: null,
-                    productionDatesTo: null,
-                  },
-                  'cancel_filter/all'
-                )}
-              >
+              <NextLink passHref {...resetFilters}>
                 <a>
                   <CancelFilter text={'Reset filters'} />
                 </a>
