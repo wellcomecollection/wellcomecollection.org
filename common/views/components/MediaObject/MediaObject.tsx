@@ -51,7 +51,7 @@ const TitleWrapper = styled.div.attrs(props => ({
 }))``;
 
 export const MediaObject = ({ title, text, image }: Props) => {  
-  const ImageComponent = image && image.crops && image.crops.square && (
+  const ImageComponent = image?.crops?.square && (
     <Image {...image.crops.square} />
   );
 

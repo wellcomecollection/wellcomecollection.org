@@ -86,13 +86,10 @@ const MediaObjectBase = ({
   onClick,
 } : Props) => {
   const { x, y } = xOfY;
-
   const ImageWrapper:any = OverrideImageWrapper ? OverrideImageWrapper : BaseImageWrapper;
   const TextWrapper:any = OverrideTextWrapper ? OverrideTextWrapper : BaseTextWrapper;
   const TitleWrapper:any = OverrideTitleWrapper ? OverrideTitleWrapper : BaseTitleWrapper;
-
   const descriptionIsString = typeof description === 'string';
-
   return (
     <Space
       v={{
@@ -136,8 +133,12 @@ const MediaObjectBase = ({
         {DateInfo}
         {StatusIndicator}
         {ExtraInfo}
+
         {description && 
-          <div className={`spaced-text ${!descriptionIsString && font('hnl', 5)}`}>
+          <div className={classNames({
+            'spaced-text': true,
+            [font('hnl', 5)]: !descriptionIsString,
+          })}>
             {
               descriptionIsString ? <p className={font('hnl', 5)}>{description}</p> : description
             }

@@ -552,9 +552,7 @@ export function parseMediaObjectList(
 ): Array<MediaObjectType> {
   // filter media-object
   const filteredMediaObject = fragment.filter(mediaObject => {
-    if (mediaObject.content?.type === 'media-object') {
-      return true;
-    }
+    return mediaObject.content?.type === 'media-object';
   });
 
   return filteredMediaObject.map(mediaObject => {
