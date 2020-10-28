@@ -406,27 +406,25 @@ const SearchFiltersDesktop = ({
                     </NextLink>
                   ))}
 
-              {worksRouteProps.itemsLocationsType?.length > 0 && (
-                <NextLink
-                  passHref
-                  {...worksLink(
-                    {
-                      ...worksRouteProps,
-                      itemsLocationsLocationType: [],
-                      itemsLocationsType: [],
-                      workType: [],
-                      page: 1,
-                      productionDatesFrom: null,
-                      productionDatesTo: null,
-                    },
-                    'cancel_filter/all'
-                  )}
-                >
-                  <a>
-                    <CancelFilter text={'Reset filters'} />
-                  </a>
-                </NextLink>
-              )}
+              <NextLink
+                passHref
+                {...worksLink(
+                  {
+                    ...worksRouteProps,
+                    itemsLocationsLocationType: [],
+                    itemsLocationsType: [],
+                    workType: [],
+                    page: 1,
+                    productionDatesFrom: null,
+                    productionDatesTo: null,
+                  },
+                  'cancel_filter/all'
+                )}
+              >
+                <a>
+                  <CancelFilter text={'Reset filters'} />
+                </a>
+              </NextLink>
             </div>
           </div>
         </Space>
