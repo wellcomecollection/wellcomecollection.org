@@ -69,44 +69,6 @@ export function worksRouteToApiUrl(
   };
 }
 
-export const defaultWorkTypes = ['a', 'b', 'g', 'i', 'k', 'l', 'q'];
-
-export const defaultItemsLocationsLocationType = [
-  'iiif-image',
-  'iiif-presentation',
-];
-export const defaultAccessConditions = [
-  '!open-with-advisory',
-  '!restricted',
-  '!closed',
-];
-export function worksRouteToApiUrlWithDefaults(
-  worksRouteProps: WorksRouteProps,
-  overrides: $Shape<CatalogueWorksApiProps>
-): CatalogueWorksApiProps {
-  return {
-    query: worksRouteProps.query,
-    page: worksRouteProps.page,
-    workType:
-      worksRouteProps.workType.length > 0
-        ? worksRouteProps.workType
-        : defaultWorkTypes,
-    'items.locations.locationType':
-      worksRouteProps.itemsLocationsLocationType.length > 0
-        ? worksRouteProps.itemsLocationsLocationType
-        : defaultItemsLocationsLocationType,
-    'items.locations.accessConditions.status': defaultAccessConditions,
-    'items.locations.type': worksRouteProps.itemsLocationsType,
-    sort: worksRouteProps.sort,
-    sortOrder: worksRouteProps.sortOrder,
-    'production.dates.from': toIsoDateString(
-      worksRouteProps.productionDatesFrom
-    ),
-    'production.dates.to': toIsoDateString(worksRouteProps.productionDatesTo),
-    ...overrides,
-  };
-}
-
 // TODO: construct images endpoint params independently rather than extracting from works
 export function worksPropsToImagesProps(
   worksProps: CatalogueWorksApiProps

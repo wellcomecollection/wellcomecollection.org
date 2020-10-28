@@ -22,12 +22,10 @@ import {
 import {
   type CatalogueWorksApiProps,
   worksRouteToApiUrl,
-  worksRouteToApiUrlWithDefaults,
   worksPropsToImagesProps,
 } from '@weco/common/services/catalogue/api';
 import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
-import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { getImages } from '../services/catalogue/images';
 import { getWorks } from '../services/catalogue/works';
@@ -41,18 +39,11 @@ type Props = {|
   works: ?CatalogueResultsList<Work> | CatalogueApiError,
   images: ?CatalogueResultsList<Image> | CatalogueApiError,
   worksRouteProps: WorksRouteProps,
-  unfilteredSearchResults: boolean,
   shouldGetWorks: boolean,
   apiProps: CatalogueWorksApiProps,
 |};
 
-const Works = ({
-  works,
-  images,
-  worksRouteProps,
-  unfilteredSearchResults,
-  apiProps,
-}: Props) => {
+const Works = ({ works, images, worksRouteProps, apiProps }: Props) => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
   const results: ?CatalogueResultsList<Work | Image> | CatalogueApiError =
@@ -180,11 +171,9 @@ const Works = ({
                   })}
                   id="search-form-description"
                 >
-                  {unfilteredSearchResults
-                    ? `Find thousands of books, images, artworks, unpublished
+                  Find thousands of books, images, artworks, unpublished
                   archives and manuscripts in our collections, many of them with
-                  free online access.`
-                    : `Find thousands of freely licensed digital books, artworks, photos and images of historical library materials and museum objects.`}
+                  free online access.
                 </p>
 
                 <SearchForm
@@ -204,8 +193,6 @@ const Works = ({
             </div>
           </div>
         </Space>
-
-        {!results && !unfilteredSearchResults && <StaticWorksContent />}
 
         {results && results.results.length > 0 && (
           <Fragment>
@@ -363,14 +350,11 @@ const Works = ({
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = WorksRoute.fromQuery(ctx.query);
-  const { unfilteredSearchResults, enableColorFiltering } = ctx.query.toggles;
+  const { enableColorFiltering } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
-  const apiPropsFn = unfilteredSearchResults
-    ? worksRouteToApiUrl
-    : worksRouteToApiUrlWithDefaults;
   const aggregations = ['workType', 'locationType'];
-  const apiProps = apiPropsFn(params, {
+  const apiProps = worksRouteToApiUrl(params, {
     _queryType,
     aggregations,
   });
@@ -402,7 +386,6 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     works: worksOrError,
     images: imagesOrError,
     worksRouteProps: params,
-    unfilteredSearchResults,
     shouldGetWorks,
     apiProps,
   };
