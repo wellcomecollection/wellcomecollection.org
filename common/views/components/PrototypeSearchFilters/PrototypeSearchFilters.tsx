@@ -6,7 +6,7 @@ import {
 } from '@weco/common/model/catalogue';
 import { defaultWorkTypes } from '@weco/common/services/catalogue/api';
 import SearchFiltersDesktop from '@weco/common/views/components/PrototypeSearchFilters/PrototypeSearchFiltersDesktop';
-// import SearchFiltersMobile from '@weco/common/views/components/SearchFilters/SearchFiltersMobile';
+import SearchFiltersMobile from '@weco/common/views/components/PrototypeSearchFilters/PrototypeSearchFiltersMobile';
 import ModalFilters from '@weco/common/views/components/ModalFilters/ModalFilters';
 import theme from '@weco/common/views/themes/default';
 import TogglesContext from '../TogglesContext/TogglesContext';
@@ -125,9 +125,8 @@ const SearchFilters = ({
       ) : (
         <>
           {isMobile ? (
-            <p>TODO: mobile</p>
+            <SearchFiltersMobile {...sharedProps} />
           ) : (
-            // <SearchFiltersMobile {...sharedProps} />
             <>
               <SearchFiltersDesktop {...sharedProps} />
             </>
