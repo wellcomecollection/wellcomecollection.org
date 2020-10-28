@@ -1,142 +1,40 @@
-import {UpdownIO} from 'updown.io';
+import { UpdownIO } from 'updown.io';
 import AWS from 'aws-sdk';
+import expectedChecks from './expected-checks.js';
+import { removeDuplicates } from './utils.js';
 
 // set region if not set (as not set by the SDK by default)
 if (!AWS.config.region) {
   AWS.config.update({
-    region: 'eu-west-1'
+    region: 'eu-west-1',
   });
 }
 
 const secretsManager = new AWS.SecretsManager();
-const getSecretParams = { SecretId: 'builds/updown_api_key'}
-const expectedChecks = [
-  {
-    url: 'https://api.wellcomecollection.org/catalogue/v2/images/sws5gyfw',
-    alias: 'Images API Single Image',
-    period: 60
-  },
-  {
-    url: 'https://api.wellcomecollection.org/catalogue/v2/images?query=medicine',
-    alias: 'Images API Search',
-    period: 60
-  },
-  {
-    url: 'https://api.wellcomecollection.org/catalogue/v2/works/sgmzn6pu',
-    alias: 'Works API Single Work',
-    period: 60
-  },
-  {
-    url: 'https://api.wellcomecollection.org/catalogue/v2/works?query=botany',
-    alias: 'Works API Search',
-    period: 60
-  },
-  {
-    url: 'https://dlcs.io/health.aspx',
-    alias: 'IIIF API (Origin/DLCS)',
-    period: 60
-  },
-  {
-    url: 'https://iiif-origin.wellcomecollection.org/image/L0059534.jpg/full/800,/0/default.jpg',
-    alias: 'IIIF API (Origin/Loris)',
-    period: 60
-  },
-  {
-    url: 'https://preview.wellcomecollection.org/',
-    alias: 'Front End Homepage (Origin)',
-    period: 60
-  },
-  {
-    url: 'https://preview.wellcomecollection.org/articles/Wcj2kSgAAB-3C4Uj',
-    alias: 'Front End Article (Origin)',
-    period: 60
-  },
-  {
-    url: 'https://preview.wellcomecollection.org/events/W4VKXR4AAB4AeXU7',
-    alias: 'Front End Event (Origin)',
-    period: 60
-  },
-  {
-    url: 'https://preview.wellcomecollection.org/exhibitions/WZwh4ioAAJ3usf86',
-    alias: 'Front End Exhibition (Origin)',
-    period: 60
-  },
-  {
-    url: 'https://preview.wellcomecollection.org/stories',
-    alias: 'Front End Stories (Origin)',
-    period: 60
-  },
-  {
-    url: 'https://preview.wellcomecollection.org/visit-us',
-    alias: 'Front End Visit-us (Origin)',
-    period: 60
-  },
-  {
-    url: 'https://preview.wellcomecollection.org/whats-on',
-    alias: "Front End What's on? (Origin)",
-    period: 60
-  },
-  {
-    url: 'https://preview.wellcomecollection.org/works/sgmzn6pu',
-    alias: 'Front End Single Work Page (Origin)',
-    period: 60
-  },
-  {
-    url: 'https://preview.wellcomecollection.org/works?query=botany',
-    alias: 'Front End Works Search (Origin)',
-    period: 60
-  },
-  {
-    url: 'https://wellcomecollection.org/visit-us',
-    alias: 'Front End Visit-us (Cached)',
-    period: 60
-  },
-  {
-    url: 'https://wellcomecollection.org/',
-    alias: 'Front End Homepage (Cached)',
-    period: 120
-  },
-  {
-    url: 'https://wellcomecollection.org/works/sgmzn6pu',
-    alias: 'Front End Single Work Page (Cached)',
-    period: 120
-  },
-  {
-    url: 'https://wellcomecollection.org/works?query=botany',
-    alias: 'Front End Works Search (Cached)',
-    period: 120
-  }
-]
-
-secretsManager.getSecretValue(getSecretParams).promise()
+const getSecretParams = { SecretId: 'builds/updown_api_key' };
+let updownIO;
+secretsManager
+  .getSecretValue(getSecretParams)
+  .promise()
   .then(secretData => {
-    const updownIO = new UpdownIO(secretData['SecretString']);
+    updownIO = new UpdownIO(secretData['SecretString']);
     return updownIO.api.checks.getChecks();
   })
   .then(checkData => {
-
-    const remoteChecks = checkData.map(check => {
-      return {
-          url: check['url'],
-          alias: check['alias'],
-          period: check['period']
-        }
-      }
-    )
-
-    const updates = remoteChecks.filter(remoteCheck => {
-      return !expectedChecks.some(check => {
-        const urlCheck = remoteCheck['url'] === check.url
-        const aliasCheck = remoteCheck['alias'] === check.alias
-        const periodCheck = remoteCheck['period'] === check.period
-
-        const allCheck = urlCheck && aliasCheck && periodCheck
-
-        return allCheck
-      })
-    })
-
-   console.log(updates)
-
-
-  })
+    const remoteChecks = checkData.map(check => ({
+      url: check.url,
+      alias: check.alias,
+      period: check.period,
+    }));
+    const deletions = removeDuplicates(remoteChecks, expectedChecks);
+    const additions = removeDuplicates(expectedChecks, remoteChecks);
+    deletions.map(check => {
+      updownIO.api.checks.deleteCheck(check.url);
+    });
+    additions.map(check => {
+      updownIO.api.checks.addCheck(check.url, {
+        alias: check.alias,
+        period: check.period,
+      });
+    });
+  });
