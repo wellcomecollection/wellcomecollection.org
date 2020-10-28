@@ -252,6 +252,7 @@ const Works = ({
                     <div className="flex flex--h-space-between flex--v-center">
                       <Fragment>
                         <Paginator
+                          query={query}
                           currentPage={page || 1}
                           pageSize={results.pageSize}
                           totalResults={results.totalResults}
@@ -326,6 +327,7 @@ const Works = ({
                       <div className="flex flex--h-space-between flex--v-center">
                         <Fragment>
                           <Paginator
+                            query={query}
                             currentPage={page || 1}
                             pageSize={results.pageSize}
                             totalResults={results.totalResults}

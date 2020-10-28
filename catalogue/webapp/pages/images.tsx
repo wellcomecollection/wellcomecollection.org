@@ -40,12 +40,14 @@ type Props = {
 };
 
 const ImagesPagination = ({
+  query,
   page,
   results,
   worksRouteProps,
   setSavedSearchState,
 }) => (
   <Paginator
+    query={query}
     currentPage={page || 1}
     pageSize={results.pageSize}
     totalResults={results.totalResults}
@@ -78,7 +80,7 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
 
   useEffect(() => {
     trackSearch(apiProps, {
-      totalResults: results.type === 'ResultList' ? results?.totalResults : 0,
+      totalResults: results?.type === 'ResultList' ? results?.totalResults : 0,
       source: Router.query.source || 'unspecified',
     });
   }, [worksRouteProps]);
@@ -117,7 +119,7 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
   return (
     <>
       <Head>
-        {results.type === 'ResultList' && results.prevPage && (
+        {results?.type === 'ResultList' && results.prevPage && (
           <link
             rel="prev"
             href={convertUrlToString(
@@ -128,7 +130,7 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
             )}
           />
         )}
-        {results.type === 'ResultList' && results.nextPage && (
+        {results?.type === 'ResultList' && results.nextPage && (
           <link
             rel="next"
             href={convertUrlToString(
@@ -184,7 +186,7 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
           </div>
         </Space>
 
-        {results.type === 'ResultList' && results.results.length > 0 && (
+        {results?.type === 'ResultList' && results.results.length > 0 && (
           <>
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
@@ -196,6 +198,7 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
                   >
                     <div className="flex flex--h-space-between flex--v-center">
                       <ImagesPagination
+                        query={query}
                         page={page}
                         results={results}
                         worksRouteProps={worksRouteProps}
@@ -238,6 +241,7 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
                     >
                       <div className="flex flex--h-space-between flex--v-center">
                         <ImagesPagination
+                          query={query}
                           page={page}
                           results={results}
                           worksRouteProps={worksRouteProps}
@@ -264,7 +268,6 @@ Images.getInitialProps = async (ctx: NextPageContext): Promise<Props> => {
     _queryType,
     aggregations,
   });
-  console.log(apiProps);
 
   const hasQuery = !!(params.query && params.query !== '');
   const imagesOrError = hasQuery
