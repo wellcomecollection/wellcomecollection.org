@@ -14,6 +14,7 @@ import { getPage } from '@weco/common/services/prismic/pages';
 import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page as PageType } from '@weco/common/model/pages';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 
 type Props = {|
   page: PageType,
@@ -56,7 +57,10 @@ export class Page extends Component<Props> {
       ) : null
     ) : null;
 
-    const hiddenBreadcrumbPages = ['X5amzBIAAB0Aq6Gm', 'X5aomxIAAB8Aq6n5'];
+    const hiddenBreadcrumbPages = [
+      prismicPageIds.covidWelcomeBack,
+      prismicPageIds.covidBookYourTicket,
+    ];
 
     function getBreadcrumbText(siteSection: string, pageId: string): string {
       return hiddenBreadcrumbPages.includes(page.id)

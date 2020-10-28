@@ -15,7 +15,7 @@ import Image from '../Image/Image';
 import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
-
+import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 /*eslint-disable */
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 /* eslint-enable */
@@ -98,7 +98,7 @@ const ContentPage = ({
             <SpacingSection>
               <div className="basic-page">
                 <Fragment>{Body}</Fragment>
-                {id === 'WwLGFCAAAPMiB_Ps' && <ShameWhatWeDoHack />}
+                {id === prismicPageIds.whatWeDo && <ShameWhatWeDoHack />}
               </div>
             </SpacingSection>
           )}
@@ -147,7 +147,7 @@ const ContentPage = ({
             </SpacingSection>
           )}
 
-          {id === 'X5amzBIAAB0Aq6Gm' && (
+          {id === prismicPageIds.covidWelcomeBack && (
             <Layout8>
               <div style={{ width: '100px' }}>
                 <WeAreGoodToGo />
