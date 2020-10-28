@@ -1,4 +1,10 @@
-import { useState, useRef, useContext, KeyboardEvent } from 'react';
+import {
+  useState,
+  useRef,
+  useContext,
+  useCallback,
+  KeyboardEvent,
+} from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
@@ -55,14 +61,16 @@ const Tabs = ({ label, tabs, onTabClick }: Props) => {
   const [focusedId, setFocusedId] = useState(null);
   const { isEnhanced } = useContext(AppContext);
   const tabListRef = useRef(null);
+  const handleTabClick = useCallback(
+    (tabId: string) => {
+      onTabClick && onTabClick(tabId);
+      setActiveId(tabId);
+    },
+    [activeId]
+  );
 
   function focusTabAtIndex(index: number): void {
     tabListRef?.current?.querySelector(`#${tabs[index].id}`).focus();
-  }
-
-  function handleTabClick(tabId: string) {
-    onTabClick && onTabClick(tabId);
-    setActiveId(tabId);
   }
 
   // A11y expectation for Keyboard interaction: https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-19
