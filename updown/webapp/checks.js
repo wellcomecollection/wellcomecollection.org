@@ -37,4 +37,7 @@ secretsManager
         period: check.period,
       });
     });
+  })
+  .catch(error => {
+    console.error(error);
   });
