@@ -30,6 +30,7 @@ type Props = {
   workTypeAggregations: CatalogueAggregationBucket[];
   aggregations?: CatalogueAggregations;
   isImageSearch: boolean;
+  isActive: boolean;
 };
 
 const SearchInputWrapper = styled.div`
@@ -61,6 +62,7 @@ const PrototypeSearchForm = ({
   workTypeAggregations,
   aggregations,
   isImageSearch,
+  isActive,
 }: Props) => {
   const [, setSearchParamsState] = useSavedSearchState(routeProps);
   const { query } = routeProps;
@@ -88,6 +90,10 @@ const PrototypeSearchForm = ({
       setInputQuery(query);
     }
   }, [query]);
+
+  useEffect(() => {
+    isActive && submit();
+  }, [isActive]);
 
   useEffect(() => {
     setEnhanced(true);

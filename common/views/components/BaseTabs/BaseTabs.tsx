@@ -4,6 +4,7 @@ import {
   useContext,
   useCallback,
   KeyboardEvent,
+  useEffect,
 } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import styled from 'styled-components';
@@ -55,9 +56,16 @@ export type Props = {
   tabs: TabType[];
   activeTabIndex?: number;
   onTabClick?: (tabId: string) => void;
+  onTabChanged?: (tabId: string) => void;
 };
 
-const Tabs = ({ label, tabs, activeTabIndex, onTabClick }: Props) => {
+const Tabs = ({
+  label,
+  tabs,
+  activeTabIndex,
+  onTabClick,
+  onTabChanged,
+}: Props) => {
   const [activeId, setActiveId] = useState(tabs[activeTabIndex || 0].id);
   const [focusedId, setFocusedId] = useState(null);
   const { isEnhanced } = useContext(AppContext);
@@ -69,6 +77,14 @@ const Tabs = ({ label, tabs, activeTabIndex, onTabClick }: Props) => {
     },
     [activeId]
   );
+
+  function handleTabChanged(id: string) {
+    onTabChanged && onTabChanged(id);
+  }
+
+  useEffect(() => {
+    handleTabChanged(activeId);
+  }, [activeId]);
 
   function focusTabAtIndex(index: number): void {
     tabListRef?.current?.querySelector(`#${tabs[index].id}`).focus();

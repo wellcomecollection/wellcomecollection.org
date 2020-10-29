@@ -3,7 +3,7 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import { TabType } from '../BaseTabs/BaseTabs';
 import styled from 'styled-components';
 import Space from '../styled/Space';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AppContext } from '../AppContext/AppContext';
 import PrototypeSearchForm from '@weco/common/views/components/PrototypeSearchForm/PrototypeSearchForm';
 import {
@@ -75,6 +75,9 @@ const SearchTabs = ({
   activeTabIndex,
 }: Props) => {
   const { isKeyboard } = useContext(AppContext);
+  const [activeTab, setActiveTab] = useState(
+    activeTabIndex === 0 ? 'tab-library-catalogue' : 'tab-images'
+  );
   const tabs: TabType[] = [
     {
       id: 'tab-library-catalogue',
@@ -100,6 +103,7 @@ const SearchTabs = ({
             access.
           </Space>
           <PrototypeSearchForm
+            isActive={activeTab === 'tab-library-catalogue'}
             ariaDescribedBy={'library-catalogue-form-description'}
             routeProps={worksRouteProps}
             workTypeAggregations={workTypeAggregations}
@@ -138,6 +142,7 @@ const SearchTabs = ({
             museum collections, including objects at the Science Museum.
           </Space>
           <PrototypeSearchForm
+            isActive={activeTab === 'tab-images'}
             ariaDescribedBy="images-form-description"
             routeProps={imagesRouteProps}
             workTypeAggregations={workTypeAggregations}
@@ -158,12 +163,17 @@ const SearchTabs = ({
     });
   }
 
+  function onTabChanged(id: string) {
+    setActiveTab(id);
+  }
+
   return (
     <BaseTabs
       tabs={tabs}
       label={'Tabs for search'}
       activeTabIndex={activeTabIndex}
       onTabClick={onTabClick}
+      onTabChanged={onTabChanged}
     />
   );
 };
