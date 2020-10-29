@@ -550,18 +550,12 @@ export function parseOnThisPage(fragment: PrismicFragment[]): Link[] {
 export function parseMediaObjectList(
   fragment: PrismicFragment[]
 ): Array<MediaObjectType> {
-  // filter media-object
-  const filteredMediaObject = fragment.filter(mediaObject => {
-    return mediaObject.content?.type === 'media-object';
-  });
-
-  return filteredMediaObject.map(mediaObject => {
+  return fragment.map(mediaObject => {
     if (mediaObject.content?.data) {
       // make sure we have the content we require
       const title = mediaObject.content.data?.title;
       const text = mediaObject.content.data?.text;
       const image = mediaObject.content.data?.image;
-
       return {
         id: mediaObject.content?.id,
         title: title ? parseTitle(title) : null,
