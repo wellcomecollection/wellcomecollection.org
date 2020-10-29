@@ -1,5 +1,5 @@
 import { LinkProps } from 'next/link';
-
+import { NextPageContext } from 'next';
 type Params = {
   [key: string]: any;
 };
@@ -66,7 +66,7 @@ function defaultToEmptyString(s: string | null): string {
 }
 
 type NextRoute<T> = {
-  fromQuery: (q: UrlParams) => T;
+  fromQuery: (q: NextPageContext['query']) => T;
   toLink: (t: T) => LinkProps;
   toQuery: (t: T) => UrlParams;
 };
