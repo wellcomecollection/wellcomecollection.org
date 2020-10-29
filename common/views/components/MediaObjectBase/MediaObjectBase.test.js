@@ -145,7 +145,7 @@ describe('MediaObjectBase', () => {
         const componentHtml = componentWithoutImage.html();
         expect(componentHtml.match(grid3)).toBeTruthy();
         expect(componentHtml.match(grid12)).toBeTruthy();
-        expect(componentHtml.match(getBaseTitleClass(5))).toBeTruthy();
+        expect(componentHtml.match(getBaseTitleClass(3))).toBeTruthy();
       });
 
       it('should render the default grid styles image (3) and title (9) if image Prop included', () => {
