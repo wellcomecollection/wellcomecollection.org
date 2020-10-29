@@ -9,6 +9,7 @@ import title from './title';
 import link from './link';
 import text from './text';
 import embed from './embed';
+import mediaObject from './media-object';
 import heading from './heading';
 import booleanDeprecated from '../parts/boolean-deprecated';
 
@@ -159,7 +160,7 @@ export default {
       }),
       mediaObjectList: slice('Media Object List', {
         repeat: {
-          content: link('Content item', 'document', ['media-object']),
+          ...mediaObject,
         },
       }),
     },

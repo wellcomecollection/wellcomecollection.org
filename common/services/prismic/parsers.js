@@ -551,13 +551,14 @@ export function parseMediaObjectList(
   fragment: PrismicFragment[]
 ): Array<MediaObjectType> {
   return fragment.map(mediaObject => {
-    if (mediaObject.content?.data) {
+    if (mediaObject) {
       // make sure we have the content we require
-      const title = mediaObject.content.data?.title;
-      const text = mediaObject.content.data?.text;
-      const image = mediaObject.content.data?.image;
+      const title = mediaObject.title.length ? mediaObject?.title : null;
+      const text = mediaObject.text.length ? mediaObject?.text : null;
+      const image = mediaObject.image?.square?.dimensions
+        ? mediaObject.image
+        : null;
       return {
-        id: mediaObject.content?.id,
         title: title ? parseTitle(title) : null,
         text: text ? parseStructuredText(text) : null,
         image: image ? parseImage(image) : null,

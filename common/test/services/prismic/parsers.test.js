@@ -32,25 +32,15 @@ describe('parsers', () => {
   describe('parseMediaObjectList', () => {
     const mockDataMissingImageText = [
       {
-        content: {
-          id: 'X5BeNxIAACEAj7Ze',
-          type: 'media-object',
-          tags: [],
-          slug: 'wear-a-face-covering-hi',
-          lang: 'en-gb',
-          link_type: 'Document',
-          isBroken: false,
-          // data: [] -> this is missing image
-          data: {
-            title: [
-              {
-                type: 'heading1',
-                text: 'Only book for your household or bubble',
-                spans: [],
-              },
-            ],
+        title: [
+          {
+            type: 'heading1',
+            text: 'Only book for your household or bubble',
+            spans: [],
           },
-        },
+        ],
+        text: [],
+        image: { '32:15': {}, '16:9': {}, square: {} },
       },
     ];
 
@@ -60,7 +50,6 @@ describe('parsers', () => {
       );
       expect(parseMissingImageText).toEqual([
         {
-          id: 'X5BeNxIAACEAj7Ze',
           title: 'Only book for your household or bubble',
           text: null,
           image: null,
