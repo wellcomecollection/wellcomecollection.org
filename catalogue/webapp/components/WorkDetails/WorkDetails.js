@@ -85,7 +85,7 @@ const WorkDetails = ({
   imageCount,
   itemUrl,
 }: Props) => {
-  const { stacksRequestService } = useContext(TogglesContext);
+  const { stacksRequestService, openWithAdvisory } = useContext(TogglesContext);
   const [imageJson, setImageJson] = useState(null);
   const fetchImageJson = async () => {
     try {
@@ -255,28 +255,30 @@ const WorkDetails = ({
               <AudioPlayer audio={audio} />
             </Space>
           )}
-          {itemLinkState === 'useLibraryLink' && (
-            <Space
-              as="span"
-              h={{
-                size: 'm',
-                properties: ['margin-right'],
-              }}
-            >
-              <ButtonSolidLink
-                icon="eye"
-                text="View"
-                trackingEvent={{
-                  category: 'WorkDetails',
-                  action: 'follow view link',
-                  label: work.id,
+          {itemLinkState === 'useLibraryLink' &&
+            !(openWithAdvisory && accessCondition === 'open-with-advisory') && (
+              <Space
+                as="span"
+                h={{
+                  size: 'm',
+                  properties: ['margin-right'],
                 }}
-                link={`https://wellcomelibrary.org/item/${sierraIdFromManifestUrl ||
-                  ''}`}
-              />
-            </Space>
-          )}
-          {itemLinkState === 'useItemLink' && (
+              >
+                <ButtonSolidLink
+                  icon="eye"
+                  text="View"
+                  trackingEvent={{
+                    category: 'WorkDetails',
+                    action: 'follow view link',
+                    label: work.id,
+                  }}
+                  link={`https://wellcomelibrary.org/item/${sierraIdFromManifestUrl ||
+                    ''}`}
+                />
+              </Space>
+            )}
+          {(itemLinkState === 'useItemLink' ||
+            (openWithAdvisory && accessCondition === 'open-with-advisory')) && (
             <>
               {work.thumbnail && (
                 <Space
