@@ -107,7 +107,7 @@ const ModalFilters = ({
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
 
-  const { enableColorFiltering, locationsFilter } = useContext(TogglesContext);
+  const { enableColorFiltering } = useContext(TogglesContext);
   const showColorFilter =
     enableColorFiltering && worksRouteProps.search === 'images';
 
@@ -203,7 +203,7 @@ const ModalFilters = ({
               </ul>
             </FilterSection>
           )}
-          {locationsFilter && aggregations && aggregations.locationType && (
+          {aggregations && aggregations.locationType && (
             <FilterSection>
               <h3 className="h3">Locations</h3>
               <ul
