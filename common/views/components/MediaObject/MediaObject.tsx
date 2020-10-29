@@ -1,7 +1,6 @@
 import Image from '../Image/Image';
 import MediaObjectBase from '../MediaObjectBase/MediaObjectBase';
 import { ImageType } from '../../../model/image';
-import { MediaObjectType } from '../../../model/media-object';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import styled from 'styled-components';
@@ -77,14 +76,4 @@ export const MediaObject = ({ title, text, image }: Props) => {
   );
 };
 
-const MediaObjectList = ({ items }: { items: Array<MediaObjectType> }) => {
-  return (
-    <div className="body-text">
-      {items.map((mediaObject, index) => {
-        return <MediaObject {...mediaObject} key={index}/>;
-      })}
-    </div>
-  );
-};
-
-export default MediaObjectList;
+export default MediaObject;

@@ -32,7 +32,7 @@ import {
 } from '../../../services/prismic/html-serializers';
 import { type Weight } from '../../../services/prismic/parsers';
 // $FlowFixMe (tsx)
-import MediaObjectList from '../MediaObject/MediaObject';
+import MediaObjectList from '../MediaObjectList/MediaObjectList';
 // $FlowFixMe (tsx)
 import InfoBlock from '../InfoBlock/InfoBlock';
 
