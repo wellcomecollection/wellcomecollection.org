@@ -3,7 +3,6 @@ import { Fragment } from 'react';
 import { classNames, font } from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
 import Space from '../styled/Space';
-import Select from '../Select/Select';
 
 type Link = {|
   +pathname: string,
@@ -92,30 +91,7 @@ const Paginator = ({
           [font('hnl', 5)]: true,
         })}
       >
-        <Select
-          name="sortOrder"
-          label="Sort by"
-          // value={routeProps.sortOrder || ''}
-          value={''}
-          options={[
-            {
-              value: '',
-              text: 'Relevance',
-            },
-            {
-              value: 'asc',
-              text: 'Oldest to newest',
-            },
-            {
-              value: 'desc',
-              text: 'Newest to oldest',
-            },
-          ]}
-          onChange={event => {
-            console.log(event.currentTarget.value);
-          }}
-          // onChange={submit}
-        />
+        <div id="sort-select-portal"></div>
         {prevLink && prev && (
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <Control

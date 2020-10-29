@@ -22,6 +22,7 @@ import {
   worksLink,
   imagesLink,
 } from '@weco/common/services/catalogue/ts_routes';
+import PrototypePortal from '../PrototypePortal/PrototypePortal';
 
 type Props = {
   ariaDescribedBy: string;
@@ -73,6 +74,7 @@ const PrototypeSearchForm = ({
   const [inputQuery, setInputQuery] = useState(query);
   const [enhanced, setEnhanced] = useState(false);
   const searchInput = useRef(null);
+  const [portalSortOrder, setPortalSortOrder] = useState(routeProps.sortOrder);
 
   function submit() {
     searchForm.current &&
@@ -99,6 +101,12 @@ const PrototypeSearchForm = ({
     setEnhanced(true);
   }, []);
 
+  useEffect(() => {
+    if (portalSortOrder !== routeProps.sortOrder) {
+      submit();
+    }
+  }, [portalSortOrder]);
+
   function updateUrl(form: HTMLFormElement) {
     const workTypeCheckboxes = nodeListValueToArray(form['workType']) || [];
     const selectedWorkTypesArray = [...workTypeCheckboxes].filter(
@@ -109,7 +117,7 @@ const PrototypeSearchForm = ({
         ? selectedWorkTypesArray.map(workType => workType.value)
         : [];
 
-    const sortOrder = inputValue(form['sortOrder']);
+    const sortOrder = portalSortOrder;
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
     const search = inputValue(form['search']);
@@ -236,6 +244,32 @@ const PrototypeSearchForm = ({
               isImageSearch ? ['colors'] : ['dates', 'formats', 'locations']
             }
           />
+          {enhanced && !isImageSearch && (
+            <PrototypePortal id="sort-select-portal">
+              <Select
+                name="sortOrder"
+                label="Sort by"
+                value={portalSortOrder}
+                options={[
+                  {
+                    value: '',
+                    text: 'Relevance',
+                  },
+                  {
+                    value: 'asc',
+                    text: 'Oldest to newest',
+                  },
+                  {
+                    value: 'desc',
+                    text: 'Newest to oldest',
+                  },
+                ]}
+                onChange={event => {
+                  setPortalSortOrder(event.currentTarget.value);
+                }}
+              />
+            </PrototypePortal>
+          )}
           <noscript>
             <Space v={{ size: 's', properties: ['margin-bottom'] }}>
               <SelectUncontrolled
