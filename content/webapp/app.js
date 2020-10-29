@@ -9,7 +9,6 @@ const handleNewsletterSignup = require('./routeHandlers/handleNewsletterSignup')
 const {
   middleware,
   route,
-  renderIfToggleOn,
   handleAllRoute,
 } = require('@weco/common/koa-middleware/withCachedValues');
 
@@ -43,33 +42,6 @@ module.exports = app
 
     server.use(middleware);
     server.use(bodyParser());
-
-    renderIfToggleOn(
-      '/covid-welcome-back',
-      '/covid-welcome-back',
-      router,
-      app,
-      {},
-      'buildingReopening'
-    );
-
-    renderIfToggleOn(
-      '/covid-keeping-you-safe',
-      '/covid-keeping-you-safe',
-      router,
-      app,
-      {},
-      'buildingReopening'
-    );
-
-    renderIfToggleOn(
-      '/covid-book-your-ticket',
-      '/covid-book-your-ticket',
-      router,
-      app,
-      {},
-      'buildingReopening'
-    );
 
     pageVanityUrl(router, app, '/', 'XphUbREAACMAgRNP', '/homepage');
     route('/whats-on', '/whats-on', router, app);
@@ -109,6 +81,8 @@ module.exports = app
     pageVanityUrl(router, app, '/access', 'Wvm2uiAAAIYQ4FHP');
     pageVanityUrl(router, app, '/youth', 'Wuw2MSIAACtd3Ste');
     pageVanityUrl(router, app, '/schools', 'Wuw2MSIAACtd3StS');
+    pageVanityUrl(router, app, '/covid-welcome-back', 'X5amzBIAAB0Aq6Gm');
+    pageVanityUrl(router, app, '/covid-book-your-ticket', 'X5aomxIAAB8Aq6n5');
     pageVanityUrl(
       router,
       app,
