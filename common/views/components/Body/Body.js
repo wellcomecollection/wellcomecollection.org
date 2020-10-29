@@ -32,6 +32,8 @@ import {
 } from '../../../services/prismic/html-serializers';
 import { type Weight } from '../../../services/prismic/parsers';
 // $FlowFixMe (tsx)
+import MediaObjectList from '../MediaObjectList/MediaObjectList';
+// $FlowFixMe (tsx)
 import InfoBlock from '../InfoBlock/InfoBlock';
 
 const Map = dynamic(import('../Map/Map'), { ssr: false });
@@ -260,6 +262,11 @@ const Body = ({
             {slice.type === 'deprecatedImageList' && (
               <Layout8>
                 <DeprecatedImageList {...slice.value} />
+              </Layout8>
+            )}
+            {slice.type === 'mediaObjectList' && (
+              <Layout8>
+                <MediaObjectList {...slice.value} />
               </Layout8>
             )}
           </div>

@@ -1,5 +1,6 @@
 // @flow
 import { type UiEvent } from '../../../model/events';
+// $FlowFixMe(tsx)
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
