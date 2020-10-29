@@ -14,6 +14,8 @@ import {
   CatalogueAggregationBucket,
   CatalogueAggregations,
 } from '@weco/common/model/catalogue';
+import { trackEvent } from '@weco/common/utils/ga';
+
 const Tab = styled(Space).attrs({
   as: 'span',
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -148,11 +150,20 @@ const SearchTabs = ({
     },
   ];
 
+  function onTabClick(id: string) {
+    trackEvent({
+      category: 'SearchTabs',
+      action: 'click tab',
+      label: `${id}`,
+    });
+  }
+
   return (
     <BaseTabs
       tabs={tabs}
       label={'Tabs for search'}
       activeTabIndex={activeTabIndex}
+      onTabClick={onTabClick}
     />
   );
 };

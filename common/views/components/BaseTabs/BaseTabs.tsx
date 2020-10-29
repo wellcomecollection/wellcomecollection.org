@@ -1,4 +1,10 @@
-import { useState, useRef, useContext, KeyboardEvent } from 'react';
+import {
+  useState,
+  useRef,
+  useContext,
+  useCallback,
+  KeyboardEvent,
+} from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
@@ -48,13 +54,21 @@ export type Props = {
   label: string;
   tabs: TabType[];
   activeTabIndex?: number;
+  onTabClick?: (tabId: string) => void;
 };
 
-const Tabs = ({ label, tabs, activeTabIndex }: Props) => {
+const Tabs = ({ label, tabs, activeTabIndex, onTabClick }: Props) => {
   const [activeId, setActiveId] = useState(tabs[activeTabIndex || 0].id);
   const [focusedId, setFocusedId] = useState(null);
   const { isEnhanced } = useContext(AppContext);
   const tabListRef = useRef(null);
+  const handleTabClick = useCallback(
+    (tabId: string) => {
+      onTabClick && onTabClick(tabId);
+      setActiveId(tabId);
+    },
+    [activeId]
+  );
 
   function focusTabAtIndex(index: number): void {
     tabListRef?.current?.querySelector(`#${tabs[index].id}`).focus();
@@ -115,7 +129,7 @@ const Tabs = ({ label, tabs, activeTabIndex }: Props) => {
               id={id}
               tabPanelId={id}
               isActive={id === activeId}
-              onClick={() => setActiveId(id)}
+              onClick={() => handleTabClick(id)}
               onBlur={() => setFocusedId(null)}
               onFocus={() => setFocusedId(id)}
               onKeyDown={handleKeyDown}
