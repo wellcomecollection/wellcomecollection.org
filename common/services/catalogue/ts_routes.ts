@@ -97,6 +97,23 @@ export type WorksRouteProps = SharedWorksAndImagesProps & {
   search: string | null;
 };
 
+export function imagesRoutePropsToWorksRouteProps(imagesRouteProps: ImagesRouteProps): WorksRouteProps {
+  return {
+    query: imagesRouteProps.query,
+    page: imagesRouteProps.page,
+    source: null,
+    workType: [],
+    itemsLocationsLocationType: [],
+    itemsLocationsType: [],
+    sort:  null,
+    sortOrder:  null,
+    productionDatesFrom:  null,
+    productionDatesTo:  null,
+    imagesColor:  null,
+    search:  null,
+  }
+}
+
 export const WorksRoute: NextRoute<WorksRouteProps> = {
   fromQuery(q) {
     return {
