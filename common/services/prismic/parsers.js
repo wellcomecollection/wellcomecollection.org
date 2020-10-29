@@ -1,6 +1,8 @@
 // @flow
 import { RichText, Date as PrismicDate } from 'prismic-dom';
-import type { HTMLString, PrismicFragment } from './types';
+// $FlowFixMe (tsx)
+import { PrismicLink, HTMLString, PrismicFragment } from './types';
+import flattenDeep from 'lodash.flattendeep';
 import type {
   Contributor,
   PersonContributor,
@@ -12,6 +14,7 @@ import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/places';
 import type { Format } from '../../model/format';
+import type { Link } from '../../model/link';
 import type {
   BackgroundTexture,
   PrismicBackgroundTexture,
@@ -23,6 +26,7 @@ import type { GenericContentFields } from '../../model/generic-content-fields';
 import type { LabelField } from '../../model/label-field';
 import type { SameAs } from '../../model/same-as';
 import type { HtmlSerializer } from './html-serializers';
+import { type BodyType } from '../../views/components/Body/Body';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
@@ -30,6 +34,7 @@ import { parseExhibitionDoc } from './exhibitions';
 import { parseCollectionVenue } from '../../services/prismic/opening-times';
 import isEmptyObj from '../../utils/is-empty-object';
 import isEmptyDocLink from '../../utils/is-empty-doc-link';
+import { dasherize } from '../../utils/grammar';
 import linkResolver from './link-resolver';
 import { parseArticle } from './articles';
 import { parseEventDoc } from './events';
@@ -466,15 +471,13 @@ export function parseFormat(frag: Object): ?Format {
     : null;
 }
 
-function parseLink(url): ?string {
-  if (url) {
-    if (url.link_type === 'Web' || url.link_type === 'Media') {
-      return url.url;
-    } else if (url.link_type === 'Document' && isDocumentLink(url)) {
-      return `/${url.type}/${url.id}`;
+export function parseLink(link?: PrismicLink): ?string {
+  if (link) {
+    if (link.link_type === 'Web' || link.link_type === 'Media') {
+      return link.url;
+    } else if (link.link_type === 'Document' && isDocumentLink(link)) {
+      return linkResolver(link);
     }
-  } else {
-    return null;
   }
 }
 
@@ -515,7 +518,7 @@ export function isWebLink(fragment: ?PrismicFragment): boolean {
 }
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
-function getWeight(weight: ?string): ?Weight {
+function getWeight(weight: ?string): Weight {
   switch (weight) {
     case 'featured':
       return weight;
@@ -528,7 +531,20 @@ function getWeight(weight: ?string): ?Weight {
   }
 }
 
-export function parseBody(fragment: PrismicFragment[]): any[] {
+export function parseOnThisPage(fragment: PrismicFragment[]): Link[] {
+  return flattenDeep(
+    fragment.map(slice => slice.primary.title || slice.primary.text || [])
+  )
+    .filter(text => text.type === 'heading2')
+    .map(item => {
+      return {
+        text: item.text,
+        url: `#${dasherize(item.text)}`,
+      };
+    });
+}
+
+export function parseBody(fragment: PrismicFragment[]): BodyType {
   return fragment
     .map(slice => {
       switch (slice.slice_type) {
@@ -731,6 +747,17 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
               rows: parseTableCsv(slice.primary.tableData),
               caption: slice.primary.caption,
               hasRowHeaders: slice.primary.hasRowHeaders,
+            },
+          };
+
+        case 'infoBlock':
+          return {
+            type: 'infoBlock',
+            value: {
+              title: parseTitle(slice.primary.title),
+              text: slice.primary.text,
+              linkText: slice.primary.linkText,
+              link: slice.primary.link,
             },
           };
 

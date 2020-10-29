@@ -95,7 +95,14 @@ export class Page extends Component<Props> {
         <ContentPage
           id={page.id}
           Header={Header}
-          Body={<LandingBody body={body} pageId={page.id} />}
+          Body={
+            <LandingBody
+              body={body}
+              pageId={page.id}
+              onThisPage={[]}
+              showOnThisPage={false}
+            />
+          }
         />
       </PageLayout>
     );

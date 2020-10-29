@@ -54,13 +54,9 @@ const Input = styled(Space).attrs({
 })``;
 
 const SearchToolbar = () => {
-  const { unfilteredSearchResults, stagingApi } = useContext(TogglesContext);
+  const { stagingApi } = useContext(TogglesContext);
   const [queryTypes, setQueryTypes] = useState<string[]>([]);
   const [selectedQueryType, setSelectedQueryType] = useState<?string>(null);
-  const [
-    unfilteredSearchResultsState,
-    setUnfilteredSearchResultsState,
-  ] = useState<boolean>(unfilteredSearchResults);
   const [stagingApiState, setStagingApiState] = useState<boolean>(stagingApi);
 
   useEffect(() => {
@@ -128,22 +124,7 @@ const SearchToolbar = () => {
             className={classNames({
               flex: true,
             })}
-          >
-            <label>
-              <Input
-                type="checkbox"
-                checked={unfilteredSearchResultsState}
-                name="unfilteredSearchResults"
-                onChange={event => {
-                  const checked = event.currentTarget.checked;
-                  document.cookie = `toggle_unfilteredSearchResults=${checked}; path=/; max-age=31536000; SameSite=Lax;`;
-                  setUnfilteredSearchResultsState(checked);
-                  window.location.reload();
-                }}
-              />
-              Search entire catalogue
-            </label>
-          </Section>
+          ></Section>
           <Section
             className={classNames({
               flex: true,

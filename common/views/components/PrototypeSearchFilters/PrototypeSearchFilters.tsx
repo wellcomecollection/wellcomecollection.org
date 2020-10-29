@@ -4,7 +4,6 @@ import {
   CatalogueAggregationBucket,
   CatalogueAggregations,
 } from '@weco/common/model/catalogue';
-import { defaultWorkTypes } from '@weco/common/services/catalogue/api';
 import SearchFiltersDesktop from '@weco/common/views/components/PrototypeSearchFilters/PrototypeSearchFiltersDesktop';
 // import SearchFiltersMobile from '@weco/common/views/components/SearchFilters/SearchFiltersMobile';
 import ModalFilters from '@weco/common/views/components/ModalFilters/ModalFilters';
@@ -49,15 +48,9 @@ const SearchFilters = ({
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
-  const { unfilteredSearchResults, modalFiltersPrototype } = useContext(
-    TogglesContext
-  );
+  const { modalFiltersPrototype } = useContext(TogglesContext);
 
-  const workTypeFilters = unfilteredSearchResults
-    ? workTypeAggregations
-    : workTypeAggregations.filter(agg =>
-        defaultWorkTypes.includes(agg.data.id)
-      );
+  const workTypeFilters = workTypeAggregations;
 
   useEffect(() => {
     function updateIsMobile() {

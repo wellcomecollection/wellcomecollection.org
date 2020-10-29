@@ -3,10 +3,9 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { grid, classNames, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import CovidTOC from '@weco/common/views/components/CovidTOC/CovidTOC';
-import CovidInfoBox from '@weco/common/views/components/CovidInfoBox/CovidInfoBox';
+import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors/OnThisPageAnchors';
+import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
 import Divider from '@weco/common/views/components/Divider/Divider';
-import EventbriteButton from '@weco/common/views/components/EventbriteButton/EventbriteButton';
 import styled from 'styled-components';
 
 const CovidSmallPrint = styled.div.attrs({
@@ -87,18 +86,12 @@ const CovidWeAreOpenPage = () => {
               <Space
                 v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
               >
-                <CovidTOC
+                <OnThisPageAnchors
                   links={[
                     { text: 'Museum visit', url: '#museum-visit' },
                     {
                       text: 'Library and museum visit',
                       url: '#library-and-museum-visit',
-                      sublinks: [
-                        {
-                          text: 'Need to know about your library visit',
-                          url: '#need-to-know-about-your-library-visit',
-                        },
-                      ],
                     },
                     {
                       text: 'Need to know about your ticket',
@@ -107,22 +100,33 @@ const CovidWeAreOpenPage = () => {
                   ]}
                 />
               </Space>
-              <CovidInfoBox title={'Museum visit'} id="museum-visit">
-                <ul className="no-margin">
-                  <li>Choose a time slot.</li>
-                  <li>Stay as long as you like.</li>
-                  <li>
-                    You will be able to visit the Reading Room, ‘Being Human’
-                    and the café. ‘Medicine Man’ will be open from 10 November.
-                  </li>
-                </ul>
-                <EventbriteButton
-                  event={{
-                    eventbriteId:
-                      'museum-visit-wellcome-collection-tickets-116206437583',
-                  }}
-                />
-              </CovidInfoBox>
+              <InfoBlock
+                title={'Museum visit'}
+                link={{
+                  link_type: 'Web',
+                  url:
+                    'https://www.eventbrite.co.uk/e/museum-visit-wellcome-collection-tickets-116206437583',
+                }}
+                linkText={'Check for tickets'}
+                text={[
+                  {
+                    type: 'list-item',
+                    text: 'Choose a time slot.',
+                    spans: [],
+                  },
+                  {
+                    type: 'list-item',
+                    text: 'Stay as long as you like.',
+                    spans: [],
+                  },
+                  {
+                    type: 'list-item',
+                    text:
+                      'You will be able to visit the Reading Room, ‘Being Human’ and the café. ‘Medicine Man’ will be open from 10 November.',
+                    spans: [],
+                  },
+                ]}
+              />
 
               <Space
                 v={{
@@ -133,130 +137,243 @@ const CovidWeAreOpenPage = () => {
                 <Divider extraClasses="divider--keyline divider--pumice" />
               </Space>
 
-              <CovidInfoBox
+              <InfoBlock
                 title={'Library and museum visit'}
-                id="library-and-museum-visit"
-              >
-                <ul className="no-margin">
-                  <li>
-                    Only current library members are able to book a ticket.
-                  </li>
-                  <li>Please book just one Library visit each week.</li>
-                  <li>Choose a time slot.</li>
-                  <li>Stay for up to three hours.</li>
-                  <li>
-                    You will be able to visit the library as well as the
-                    galleries and café.
-                  </li>
-                  <li>
-                    You will need to order any materials 72 hours in advance.
-                  </li>
-                </ul>
-                <Space v={{ size: 'm', properties: ['padding-top'] }} />
-                <CovidSmallPrint>
-                  <h3 id="need-to-know-about-your-library-visit">
-                    Need to know about your library visit
-                  </h3>
-                  <CovidH4>What to bring</CovidH4>
-                  <ul>
-                    <li>Your ticket – on your phone is fine</li>
-
-                    <li>Your library card</li>
-
-                    <li>
-                      Your face covering – this will need to be worn for the
-                      duration of your visit.
-                    </li>
-                  </ul>
-                  <p>
-                    You can still bring in your laptop, study materials and
-                    pencils in a clear plastic bag or carried, as normal. You
-                    can leave anything else in the lockers on level 0.
-                  </p>
-
-                  <p>
-                    Please note that shared computers, printers and scanners
-                    won’t be available.
-                  </p>
-
-                  <CovidH4>Ordering materials</CovidH4>
-                  <p>
-                    All ordered material will be delivered to the Rare Materials
-                    Room. In order to visit, you will need to book the ticket in
-                    Eventbrite that indicates RMR access. These will be
-                    available at 10.30 and 13.30 every day. Please only book if
-                    you need it, as there is limited availability to allow for
-                    social distancing.
-                  </p>
-                  <ul>
-                    <li>
-                      After you’ve booked your ticket, request up to ten items
-                      from{' '}
-                      <a href="https://wellcomelibrary.org">
-                        wellcomelibrary.org
-                      </a>{' '}
-                      before your visit.
-                    </li>
-                    <li>
-                      <strong>
-                        Place your request 72 hours before the day of your visit
-                      </strong>
-                      .
-                    </li>
-                    <li>
-                      Once you’ve finished viewing the materials, we’ll put them
-                      into quarantine for 72 hours.
-                    </li>
-                  </ul>
-
-                  <CovidH4>Time slots</CovidH4>
-                  <p>
-                    You will be able to book library tickets up until 72 hours
-                    before the start of each time slot to make sure we can
-                    accommodate requests for materials.
-                  </p>
-                  <p>
-                    You can use the library for three hours from the start of
-                    your slot – you can spend as much time as you like in the
-                    rest of the building.
-                  </p>
-                  <p>
-                    <strong>
-                      To start with, we’ll ask visitors to book just one Library
-                      visit each week, including with Rare Materials Room
-                      access.
-                    </strong>
-                  </p>
-
-                  <CovidH4>Open shelves</CovidH4>
-                  <p>
-                    You will be able to access the open shelves, but when you
-                    have finished with your book, please place on a quarantine
-                    trolley.
-                  </p>
-
-                  <CovidH4>Study rooms</CovidH4>
-                  <ul>
-                    <li>
-                      The accessible study room can be booked – email the
-                      library before you book your ticket to make sure the room
-                      is available for you on the day you want to come. We’re
-                      allowing one booking per day to ensure thorough cleaning
-                      before the next user.
-                    </li>
-                    <li>
-                      The Group Study Room will be closed, and group working
-                      desks in the Gallery will be reserved for one person only.
-                    </li>
-                  </ul>
-                  <EventbriteButton
-                    event={{
-                      eventbriteId:
-                        'library-and-museum-visit-wellcome-collection-tickets-116213402415',
-                    }}
-                  />
-                </CovidSmallPrint>
-              </CovidInfoBox>
+                text={[
+                  {
+                    type: 'list-item',
+                    text:
+                      'Only current library members are able to book a ticket.',
+                    spans: [],
+                  },
+                  {
+                    type: 'list-item',
+                    text: 'Please book just one Library visit each week.',
+                    spans: [],
+                  },
+                  {
+                    type: 'list-item',
+                    text: 'Choose a time slot.',
+                    spans: [],
+                  },
+                  {
+                    type: 'list-item',
+                    text: 'Stay for up to three hours.',
+                    spans: [],
+                  },
+                  {
+                    type: 'list-item',
+                    text:
+                      'You will be able to visit the library as well as the galleries and café.',
+                    spans: [],
+                  },
+                  {
+                    type: 'list-item',
+                    text:
+                      'You will need to order any materials at least 72 hours in advance of any visit.',
+                    spans: [],
+                  },
+                  {
+                    type: 'list-item',
+                    text:
+                      'You will need to book your ticket at least 72 hours in advance of any visit.',
+                    spans: [],
+                  },
+                  {
+                    type: 'list-item',
+                    text: 'You will need a new ticket for each day you visit.',
+                    spans: [],
+                  },
+                  {
+                    type: 'list-item',
+                    text:
+                      'Visits to the Rare Materials Room are limited to one a week.',
+                    spans: [],
+                  },
+                  {
+                    type: 'heading3',
+                    text: 'Need to know about your library visit',
+                    spans: [],
+                  },
+                  {
+                    type: 'paragraph',
+                    text: 'What to bring',
+                    spans: [
+                      {
+                        start: 0,
+                        end: 13,
+                        type: 'strong',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'list-item',
+                    text: 'Your ticket – on your phone is fine',
+                    spans: [],
+                  },
+                  {
+                    type: 'list-item',
+                    text: 'Your library card',
+                    spans: [],
+                  },
+                  {
+                    type: 'list-item',
+                    text:
+                      'Your face covering – this will need to be worn for the duration of your visit.',
+                    spans: [],
+                  },
+                  {
+                    type: 'paragraph',
+                    text:
+                      'You can still bring in your laptop, study materials and pencils in a clear plastic bag or carried, as normal. You can leave anything else in the lockers on level 0.',
+                    spans: [],
+                  },
+                  {
+                    type: 'paragraph',
+                    text:
+                      'Please note that shared computers, printers and scanners won’t be available.',
+                    spans: [],
+                  },
+                  {
+                    type: 'paragraph',
+                    text: 'Ordering materials',
+                    spans: [
+                      {
+                        start: 0,
+                        end: 18,
+                        type: 'strong',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'paragraph',
+                    text:
+                      'All ordered material will be delivered to the Rare Materials Room (RMR). You can visit the RMR once a week, and you will need to book the ticket in Eventbrite that indicates ‘material access’ in the Rare Materials Room. Please only book if you need it, as there is limited availability to allow for social distancing.',
+                    spans: [],
+                  },
+                  {
+                    type: 'list-item',
+                    text:
+                      'Once you’ve booked your ticket, you can request up to 10 items from the library catalogue at wellcomelibrary.org.',
+                    spans: [
+                      {
+                        start: 93,
+                        end: 112,
+                        type: 'hyperlink',
+                        data: {
+                          link_type: 'Web',
+                          url: 'https://wellcomelibrary.org/',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    type: 'list-item',
+                    text:
+                      'Place your request 72 hours before the day of your visit.',
+                    spans: [
+                      {
+                        start: 0,
+                        end: 56,
+                        type: 'strong',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'list-item',
+                    text:
+                      'The materials that you order will be available to collect at the time of your booked visit.',
+                    spans: [],
+                  },
+                  {
+                    type: 'list-item',
+                    text:
+                      'Once you’ve finished viewing the materials, we’ll put them into quarantine for 72 hours.',
+                    spans: [],
+                  },
+                  {
+                    type: 'paragraph',
+                    text: 'Time slots',
+                    spans: [
+                      {
+                        start: 0,
+                        end: 10,
+                        type: 'strong',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'paragraph',
+                    text:
+                      'You will be able to book library tickets up until 72 hours before the start of each time slot to make sure we can accommodate requests for materials.',
+                    spans: [],
+                  },
+                  {
+                    type: 'paragraph',
+                    text:
+                      'You are assured three hours in the library from the start of your slot – you can spend as much time as you like in the rest of the building.',
+                    spans: [],
+                  },
+                  {
+                    type: 'paragraph',
+                    text:
+                      'To start with, we’ll ask visitors to book just one Library visit each week, including with Rare Materials Room access.',
+                    spans: [
+                      {
+                        start: 0,
+                        end: 118,
+                        type: 'strong',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'paragraph',
+                    text: 'Open shelves',
+                    spans: [
+                      {
+                        start: 0,
+                        end: 12,
+                        type: 'strong',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'paragraph',
+                    text:
+                      'You will be able to access the open shelves, but when you have finished with your book, please place on a quarantine trolley. Please be aware that you will have to wait 72 hours before you can use that item again because it will be in quarantine.',
+                    spans: [],
+                  },
+                  {
+                    type: 'paragraph',
+                    text: 'Study rooms',
+                    spans: [
+                      {
+                        start: 0,
+                        end: 11,
+                        type: 'strong',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'list-item',
+                    text:
+                      'The accessible study room is available on request - please email the library before you book your ticket to make sure the room is available on the days you want to visit. We’re allowing one booking per day to ensure thorough cleaning before the next user.',
+                    spans: [],
+                  },
+                  {
+                    type: 'list-item',
+                    text:
+                      'The Group Study Room will be closed, and group working desks in the Gallery will be reserved for one person only',
+                    spans: [],
+                  },
+                ]}
+                link={{
+                  link_type: 'Web',
+                  url:
+                    'https://www.eventbrite.co.uk/e/library-and-museum-visit-wellcome-collection-tickets-116213402415',
+                }}
+                linkText={'Check for tickets'}
+              />
 
               <Space
                 v={{

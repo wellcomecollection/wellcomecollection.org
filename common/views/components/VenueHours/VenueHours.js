@@ -82,47 +82,10 @@ const VenueHours = ({ venue, weight }: Props) => {
     backfilledExceptionalPeriods &&
     getUpcomingExceptionalPeriods(backfilledExceptionalPeriods);
 
-  const venueAdditionalInfo = {
-    galleries: {
-      image:
-        'https://images.prismic.io/wellcomecollection/05eae23ee0eada0bf4d025d999dfd100c05feeb1_c0108491.jpg?auto=compress,format',
-      displayTitle: 'Galleries and Reading Room',
-      linkText: `See what's on`,
-      url: '/whats-on',
-    },
-    library: {
-      image:
-        'https://images.prismic.io/wellcomecollection/36a2f85c1f1b6fb180c87ea8fadc67035bcc7eeb_c0112117.jpg?auto=compress,format',
-      displayTitle: 'Library',
-      linkText: 'Read about the library',
-      url: '/pages/Wuw19yIAAK1Z3Smm',
-    },
-    shop: {
-      image:
-        'https://images.prismic.io/wellcomecollection/bcdceabe08cf8b0a3a9facdfc5964d3cf968e38c_c0144444.jpg?auto=compress,format',
-      displayTitle: 'Wellcome Shop',
-      linkText: 'Books and gifts',
-      url: '/pages/WwgaIh8AAB8AGhC_',
-    },
-    café: {
-      image:
-        'https://images.prismic.io/wellcomecollection/59cf3a27d3e6e0dc210b68d0d29c03cc34b9ee8d_c0144277.jpg?auto=compress,format',
-      displayTitle: 'Wellcome Café',
-      linkText: 'Take a break in our café',
-      url: '/pages/Wvl1wiAAADMJ3zNe',
-    },
-    restaurant: {
-      image:
-        'https://images.prismic.io/wellcomecollection/97017f7ca01717f1ca469a08b510f9a5af6a1d43_c0146591_large.jpg?auto=compress,format',
-      displayTitle: 'Wellcome Kitchen',
-      linkText: 'Explore the menus',
-      url: '/pages/Wuw19yIAAK1Z3Snk',
-    },
-  };
-
+  const isFeatured = weight === 'featured';
   return (
     <>
-      {weight === 'featured' && (
+      {isFeatured && (
         <>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <Divider
@@ -134,25 +97,27 @@ const VenueHours = ({ venue, weight }: Props) => {
             />
           </Space>
           <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }} s>
-            <UiImage
-              contentUrl={venueAdditionalInfo[venue.name.toLowerCase()].image}
-              width={1600}
-              height={900}
-              crops={{}}
-              alt=""
-              tasl={{
-                title: null,
-                author: null,
-                sourceName: null,
-                sourceLink: null,
-                license: null,
-                copyrightHolder: null,
-                copyrightLink: null,
-              }}
-              sizesQueries="(min-width: 1340px) 303px, (min-width: 960px) calc(30.28vw - 68px), (min-width: 600px) calc(50vw - 42px), calc(100vw - 36px)"
-              extraClasses=""
-              showTasl={false}
-            />
+            {venue.image && venue.image?.url && (
+              <UiImage
+                contentUrl={venue.image.url}
+                width={1600}
+                height={900}
+                crops={{}}
+                alt={venue.image?.alt}
+                tasl={{
+                  title: null,
+                  author: null,
+                  sourceName: null,
+                  sourceLink: null,
+                  license: null,
+                  copyrightHolder: null,
+                  copyrightLink: null,
+                }}
+                sizesQueries="(min-width: 1340px) 303px, (min-width: 960px) calc(30.28vw - 68px), (min-width: 600px) calc(50vw - 42px), calc(100vw - 36px)"
+                extraClasses=""
+                showTasl={false}
+              />
+            )}
           </VenueHoursImage>
         </>
       )}
@@ -164,9 +129,7 @@ const VenueHours = ({ venue, weight }: Props) => {
             h2: true,
           })}
         >
-          {weight === 'featured'
-            ? `${venueAdditionalInfo[venue.name.toLowerCase()].displayTitle}`
-            : 'Opening hours'}
+          {isFeatured && venue.name ? venue.name : 'Opening hours'}
         </Space>
         <ul
           className={classNames({
@@ -247,13 +210,8 @@ const VenueHours = ({ venue, weight }: Props) => {
         }}
         style={{ clear: 'both' }}
       >
-        {weight === 'featured' ? (
-          <MoreLink
-            url={venueAdditionalInfo[venue.name.toLowerCase()].url}
-            name={venueAdditionalInfo[venue.name.toLowerCase()].linkText}
-          />
-        ) : (
-          <MoreLink url={'/opening-times'} name="See all opening times" />
+        {isFeatured && venue.linkText && venue.url && (
+          <MoreLink url={venue.url} name={venue.linkText} />
         )}
       </Space>
     </>

@@ -1,17 +1,17 @@
 // @flow
 import { useRef, useEffect } from 'react';
 import { font, grid, classNames } from '../../../utils/classnames';
-import { getTodaysVenueHours } from '@weco/common/services/prismic/opening-times';
 import FooterWellcomeLogo from '../FooterWellcomeLogo/FooterWellcomeLogo';
 import FooterNav from '../FooterNav/FooterNav';
 import FindUs from '../FindUs/FindUs';
-// TODO import OpeningHours from '../OpeningHours/OpeningHours';
 import FooterSocial from '../FooterSocial/FooterSocial';
 import Icon from '../Icon/Icon';
 import type { OverrideType } from '../../../model/opening-hours';
 import type Moment from 'moment';
 import styled from 'styled-components';
 import Space from '../styled/Space';
+// $FlowFixMe (tsx)
+import FooterOpeningTimes from '@weco/common/views/components/FooterOpeningTimes/FooterOpeningTimes';
 
 const TopBorderBox = styled.div`
   @media (min-width: ${props => props.theme.sizes.large}px) {
@@ -136,38 +136,13 @@ const Footer = ({
                       'no-margin': true,
                     })}
                   >{`Today's opening times`}</h4>
-                  <ul className="plain-list no-padding no-margin">
-                    {openingTimes.collectionOpeningTimes.placesOpeningHours.map(
-                      venue => {
-                        const todaysHours = getTodaysVenueHours(venue);
-                        return (
-                          todaysHours && (
-                            <Space
-                              v={{
-                                size: 's',
-                                properties: ['margin-top'],
-                              }}
-                              as="li"
-                              key={venue.name}
-                            >
-                              {venue.name.toLowerCase() === 'restaurant'
-                                ? 'Kitchen '
-                                : `${venue.name} `}
-                              {todaysHours.opens ? (
-                                <>
-                                  <time>{todaysHours.opens}</time>
-                                  {'—'}
-                                  <time>{todaysHours.closes}</time>
-                                </>
-                              ) : (
-                                'closed'
-                              )}
-                            </Space>
-                          )
-                        );
+                  {openingTimes && openingTimes?.collectionOpeningTimes && (
+                    <FooterOpeningTimes
+                      collectionOpeningTimes={
+                        openingTimes.collectionOpeningTimes
                       }
-                    )}
-                  </ul>
+                    />
+                  )}
                   <Space v={{ size: 's', properties: ['margin-top'] }} as="p">
                     <a href="/opening-times">Opening times</a>
                   </Space>

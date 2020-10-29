@@ -1,32 +1,46 @@
 import { storiesOf } from '@storybook/react';
-import { classNames, font } from '../../../common/utils/classnames';
 import PopupDialog from '../../../common/views/components/PopupDialog/PopupDialog';
 import Readme from '../../../common/views/components/PopupDialog/README.md';
+import { text } from '@storybook/addon-knobs';
 
 const stories = storiesOf('Components', module);
 
 const PopupDialogExample = () => {
+  const openButtonText = text('Open button text', 'Got five minutes?');
+  const linkText = text(
+    'CTA inside the open dialog button text',
+    'Take the survey'
+  );
+  const link = text(
+    'CTA inside the open dialog button link',
+    'https://wellcomecollection.org/user-panel'
+  );
+  const title = text(
+    'Title inside the open dialog',
+    'Help us improve our website'
+  );
+  const dialogText = text(
+    'Text inside the open dialog',
+    'We’d like to know more about how you use Wellcome Collection’s website.'
+  );
+
   return (
     <PopupDialog
-      openButtonText="Got 5 minutes?"
-      cta={{ url: '#', text: 'Take the survey' }}
-    >
-      <h2
-        className={classNames({
-          [font('wb', 6, { small: 5, medium: 5, large: 5 })]: true,
-        })}
-      >
-        Help us improve our website
-      </h2>
-      <p
-        className={classNames({
-          [font('hnl', 5, { medium: 2, large: 2 })]: true,
-        })}
-      >
-        We&apos;d like to know more about how you use Wellcome Collection&apos;s
-        website.
-      </p>
-    </PopupDialog>
+      openButtonText={openButtonText}
+      linkText={linkText}
+      link={{
+        url: link,
+        link_type: 'Web',
+      }}
+      title={title}
+      text={[
+        {
+          type: 'paragraph',
+          text: dialogText,
+          spans: [],
+        },
+      ]}
+    />
   );
 };
 

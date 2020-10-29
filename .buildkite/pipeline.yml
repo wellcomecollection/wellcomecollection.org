@@ -207,7 +207,19 @@
   if: build.branch == "master"
   plugins:
     - docker#v3.5.0:
-        image: wellcome/weco-deploy:5.1.1
+        image: wellcome/weco-deploy:5.5.3
         workdir: /repo
         mount-ssh-agent: true
-        command: ["--confirm", "release-deploy", "--from-label", "ref.$BUILDKITE_COMMIT", "--environment-id", "stage", "--description", $BUILDKITE_BUILD_URL]
+        command: [
+            "--confirm",
+            "release-deploy",
+            "--from-label", "ref.$BUILDKITE_COMMIT",
+            "--environment-id", "stage",
+            "--description", $BUILDKITE_BUILD_URL,
+            "--confirmation-wait-for", 3600]
+
+- wait
+
+- label: "Integration pipeline"
+  trigger: "integration"
+  async: true

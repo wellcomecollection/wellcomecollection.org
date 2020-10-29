@@ -6,13 +6,16 @@ labels: ''
 assignees: ''
 
 ---
+**We want users to be able to**
 
-**We think that**
-<!-- the hypothesis -->
 
-**Therefore we hypothesise that**
+**but we hypothesise this is happening**
 
-**As measured by**
 
-**We are right if**
-<!-- acceptance criteria -->
+**We are right if we measure**
+
+
+**and get this result**
+
+
+**The deadline for results is**

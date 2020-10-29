@@ -26,7 +26,7 @@ type Props = {|
 |};
 
 const pageDescription =
-  'Choose from an inspiring range of free talks, tours, discussions and more on at Wellcome Collection in London.';
+  'Our events are now taking place online. Choose from an inspiring range of free talks, discussions and more.';
 export class ArticleSeriesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { page = 1, memoizedPrismic } = ctx.query;

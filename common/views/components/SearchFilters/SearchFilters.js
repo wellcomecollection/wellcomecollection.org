@@ -5,14 +5,12 @@ import {
   type CatalogueAggregationBucket,
   type CatalogueAggregations,
 } from '@weco/common/model/catalogue';
-import { defaultWorkTypes } from '@weco/common/services/catalogue/api';
 import SearchFiltersDesktop from '@weco/common/views/components/SearchFilters/SearchFiltersDesktop';
 import SearchFiltersMobile from '@weco/common/views/components/SearchFilters/SearchFiltersMobile';
 // $FlowFixMe (tsx)
 import ModalFilters from '@weco/common/views/components/ModalFilters/ModalFilters';
-import theme from '@weco/common/views/themes/default';
 import TogglesContext from '../TogglesContext/TogglesContext';
-
+import useWindowSize from '@weco/common/hooks/useWindowSize';
 type Props = {|
   searchForm: {| current: ?HTMLFormElement |},
   worksRouteProps: WorksRouteProps,
@@ -51,30 +49,11 @@ const SearchFilters = ({
     imagesColor,
   } = worksRouteProps;
 
-  const [isMobile, setIsMobile] = useState(false);
+  const windowSize = useWindowSize();
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
-  const { unfilteredSearchResults, modalFiltersPrototype } = useContext(
-    TogglesContext
-  );
-
-  const workTypeFilters = unfilteredSearchResults
-    ? workTypeAggregations
-    : workTypeAggregations.filter(agg =>
-        defaultWorkTypes.includes(agg.data.id)
-      );
-
-  useEffect(() => {
-    function updateIsMobile() {
-      setIsMobile(window.innerWidth < theme.sizes.medium);
-    }
-
-    window.addEventListener('resize', updateIsMobile);
-
-    updateIsMobile();
-
-    return () => window.removeEventListener('resize', updateIsMobile);
-  }, []);
+  const { modalFiltersPrototype } = useContext(TogglesContext);
+  const workTypeFilters = workTypeAggregations;
 
   useEffect(() => {
     if (productionDatesFrom !== inputDateFrom) {
@@ -128,7 +107,7 @@ const SearchFilters = ({
         <ModalFilters {...sharedProps} />
       ) : (
         <>
-          {isMobile ? (
+          {windowSize === 'small' ? (
             <SearchFiltersMobile {...sharedProps} />
           ) : (
             <SearchFiltersDesktop {...sharedProps} />

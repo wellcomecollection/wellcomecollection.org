@@ -1,6 +1,6 @@
 // @flow
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import fetch from 'isomorphic-unfetch';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { type Work } from '@weco/common/model/work';
@@ -85,6 +85,9 @@ const WorkDetails = ({
   imageCount,
   itemUrl,
 }: Props) => {
+  const { archivesPrototype, stacksRequestService } = useContext(
+    TogglesContext
+  );
   const [imageJson, setImageJson] = useState(null);
   const fetchImageJson = async () => {
     try {
@@ -160,10 +163,7 @@ const WorkDetails = ({
 
   const sierraWorkId = sierraWorkIds.length >= 1 ? sierraWorkIds[0] : null;
 
-  // We do not wish to display a link to the old library site if the new site
-  // provides a digital representation of that work
-  const encoreLink =
-    !digitalLocation && sierraWorkId && getEncoreLink(sierraWorkId);
+  const encoreLink = sierraWorkId && getEncoreLink(sierraWorkId);
 
   const locationOfWork = work.notes.find(
     note => note.noteType.id === 'location-of-original'
@@ -216,31 +216,22 @@ const WorkDetails = ({
         />
       )}
 
-      <TogglesContext.Consumer>
-        {({ stacksRequestService }) =>
-          !stacksRequestService &&
-          encoreLink && (
-            <Space
-              v={{
-                size: 'l',
-                properties: ['margin-bottom'],
-              }}
-            >
-              <WorkDetailsText
-                text={[
-                  `<a href="${encoreLink}">Access this item on the Wellcome Library website</a>`,
-                ]}
-              />
-            </Space>
-          )
-        }
-      </TogglesContext.Consumer>
+      {!stacksRequestService && encoreLink && (
+        <Space
+          v={{
+            size: 'l',
+            properties: ['margin-bottom'],
+          }}
+        >
+          <WorkDetailsText
+            text={[
+              `<a href="${encoreLink}">Access this item on the Wellcome Library website</a>`,
+            ]}
+          />
+        </Space>
+      )}
 
-      <TogglesContext.Consumer>
-        {({ stacksRequestService }) =>
-          stacksRequestService && <ItemLocation work={work} />
-        }
-      </TogglesContext.Consumer>
+      {stacksRequestService && <ItemLocation work={work} />}
     </WorkDetailsSection>
   );
 
@@ -607,7 +598,13 @@ const WorkDetails = ({
     </>
   );
 
-  return (
+  return archivesPrototype && isInArchive ? (
+    <div className="container">
+      <div className="grid">
+        <Content />
+      </div>
+    </div>
+  ) : (
     <Space
       v={{
         size: 'xl',
@@ -617,21 +614,9 @@ const WorkDetails = ({
         row: true,
       })}
     >
-      <TogglesContext.Consumer>
-        {({ archivesPrototype }) =>
-          archivesPrototype && isInArchive ? (
-            <div className="container">
-              <div className="grid">
-                <Content />
-              </div>
-            </div>
-          ) : (
-            <Layout12>
-              <Content />
-            </Layout12>
-          )
-        }
-      </TogglesContext.Consumer>
+      <Layout12>
+        <Content />
+      </Layout12>
     </Space>
   );
 };
