@@ -236,28 +236,6 @@ const PrototypeSearchForm = ({
               isImageSearch ? ['colors'] : ['dates', 'formats', 'locations']
             }
           />
-          {/* {enhanced && !isImageSearch && (
-            <Select
-              name="sortOrder"
-              label="Sort by"
-              value={routeProps.sortOrder || ''}
-              options={[
-                {
-                  value: '',
-                  text: 'Relevance',
-                },
-                {
-                  value: 'asc',
-                  text: 'Oldest to newest',
-                },
-                {
-                  value: 'desc',
-                  text: 'Newest to oldest',
-                },
-              ]}
-              onChange={submit}
-            />
-          )} */}
           <noscript>
             <Space v={{ size: 's', properties: ['margin-bottom'] }}>
               <SelectUncontrolled
