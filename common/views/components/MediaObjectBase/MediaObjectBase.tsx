@@ -45,7 +45,7 @@ const BaseImageWrapper = styled.div.attrs(props => ({
 const BaseTitleWrapper = styled.div.attrs(props => ({
   className: classNames({
     'card-link__title': true,
-    [font('wb', 5)]: true,
+    [font('wb', 3)]: true,
   })
 }))``;
 
