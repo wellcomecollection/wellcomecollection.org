@@ -1,4 +1,4 @@
-import { forwardRef, SyntheticEvent } from 'react';
+import { forwardRef, SyntheticEvent, RefObject } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent, GaEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
@@ -155,7 +155,7 @@ const ButtonSolid = forwardRef(
       disabled,
       isBig,
     }: ButtonSolidProps,
-    ref
+    ref: RefObject<HTMLButtonElement>
   ) => {
     function handleClick(event) {
       clickHandler && clickHandler(event);

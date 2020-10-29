@@ -10,15 +10,18 @@ import {
   ButtonIconWrapper,
 } from '../ButtonSolid/ButtonSolid';
 
-type MaybeAnchor = {
+type OutlinedButtonProps = {
   href?: string;
+  isOnDark?: boolean;
 };
 
-export const OutlinedButton = styled(BaseButton).attrs<MaybeAnchor>(props => ({
-  className: classNames({
-    'link-reset': !!props.href,
-  }),
-}))`
+export const OutlinedButton = styled(BaseButton).attrs<OutlinedButtonProps>(
+  props => ({
+    className: classNames({
+      'link-reset': !!props.href,
+    }),
+  })
+)<OutlinedButtonProps>`
   border: 2px solid
     ${props => props.theme.color(props.isOnDark ? 'white' : 'green')};
   background: ${props => props.theme.color('transparent')};
