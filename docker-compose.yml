@@ -31,3 +31,6 @@ services:
   pa11y:
     build:
       context: ./pa11y
+  updown:
+    build:
+      context: ./updown
