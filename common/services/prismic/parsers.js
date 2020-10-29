@@ -553,11 +553,11 @@ export function parseMediaObjectList(
   return fragment.map(mediaObject => {
     if (mediaObject) {
       // make sure we have the content we require
-      const title = mediaObject.title.length ? mediaObject?.title : null;
-      const text = mediaObject.text.length ? mediaObject?.text : null;
+      const title = mediaObject.title.length ? mediaObject?.title : undefined;
+      const text = mediaObject.text.length ? mediaObject?.text : undefined;
       const image = mediaObject.image?.square?.dimensions
         ? mediaObject.image
-        : null;
+        : undefined;
       return {
         title: title ? parseTitle(title) : null,
         text: text ? parseStructuredText(text) : null,
