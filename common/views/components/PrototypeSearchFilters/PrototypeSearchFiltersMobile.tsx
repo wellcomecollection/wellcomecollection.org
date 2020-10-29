@@ -409,7 +409,7 @@ const SearchFiltersMobile = ({
               ref={okFiltersButtonRef}
               type="button"
               clickHandler={handleOkFiltersButtonClick}
-              text="OK"
+              text="Show results"
             />
           </FiltersFooter>
         </FiltersModal>
