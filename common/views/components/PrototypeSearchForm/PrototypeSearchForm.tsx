@@ -244,10 +244,10 @@ const PrototypeSearchForm = ({
               isImageSearch ? ['colors'] : ['dates', 'formats', 'locations']
             }
           />
-          {enhanced && !isImageSearch && (
+          {!isImageSearch && (
             <PrototypePortal id="sort-select-portal">
               <Select
-                name="sortOrder"
+                name="portalSortOrder"
                 label="Sort by"
                 value={portalSortOrder}
                 options={[
