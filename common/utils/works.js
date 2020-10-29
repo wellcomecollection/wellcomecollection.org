@@ -274,13 +274,10 @@ function makeArchiveAncestorArray(partOfArray, nextPart) {
   if (!nextPart) return partOfArray;
   return makeArchiveAncestorArray(
     [...partOfArray, parsePart(nextPart)],
-    nextPart.partOf &&
-      nextPart.partOf.find(part => {
-        return nextPart.referenceNumber.includes(part.referenceNumber);
-      })
+    nextPart?.partOf?.[0]
   );
 }
 
 export function getArchiveAncestorArray(work: Work): NodeWork[] {
-  return makeArchiveAncestorArray([], work.partOf && work.partOf[0]).reverse();
+  return makeArchiveAncestorArray([], work?.partOf?.[0]).reverse();
 }
