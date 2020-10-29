@@ -10,6 +10,7 @@ import type { Node, Element, ElementProps } from 'react';
 import Body from '../Body/Body';
 import SpacingSection from '../SpacingSection/SpacingSection';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
+// $FlowFixMe(tsx)
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import Space from '../styled/Space';

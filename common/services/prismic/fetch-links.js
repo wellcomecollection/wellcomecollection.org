@@ -35,6 +35,7 @@ export const collectionVenuesFields = [
   'collection-venue.sunday',
   'collection-venue.modifiedDayOpeningTimes',
 ];
+
 export const eventSeriesFields = [
   'event-series.title',
   'event-series.description',

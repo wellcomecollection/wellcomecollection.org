@@ -113,7 +113,7 @@ const SearchFiltersMobile = ({
   const openButtonRef = useRef(null);
   const [showFiltersModal, setShowFiltersModal] = useState(false);
 
-  const { enableColorFiltering, locationsFilter } = useContext(TogglesContext);
+  const { enableColorFiltering } = useContext(TogglesContext);
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
   const showColorFilter =
@@ -221,7 +221,7 @@ const SearchFiltersMobile = ({
                 </ul>
               </FilterSection>
             )}
-            {locationsFilter && aggregations && aggregations.locationType && (
+            {aggregations && aggregations.locationType && (
               <FilterSection>
                 <h3 className="h3">Locations</h3>
                 <ul

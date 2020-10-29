@@ -1,12 +1,11 @@
-// @flow
-import type { ColorSelection } from '../../../model/color-selections';
+import { ColorSelection } from '../../../model/color-selections';
 import { classNames, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 
-type Props = {|
-  number: number,
-  color: ?ColorSelection,
-|};
+type Props = {
+  number: number;
+  color: ColorSelection | null;
+};
 
 const Number = ({ number, color }: Props) => (
   <Space
