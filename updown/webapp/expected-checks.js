@@ -36,12 +36,11 @@ const expectedChecks = [
     alias: 'Front End Homepage (Origin)',
     period: 60,
   },
-  // unccomment to test it gets added
-  // {
-  //   url: 'https://preview.wellcomecollection.org/works/progress',
-  //   alias: 'Progress notes (Origin)',
-  //   period: 60,
-  // },
+  {
+    url: 'https://preview.wellcomecollection.org/works/progress',
+    alias: 'Progress notes (Origin)',
+    period: 60,
+  },
   {
     url: 'https://preview.wellcomecollection.org/articles/Wcj2kSgAAB-3C4Uj',
     alias: 'Front End Article (Origin)',

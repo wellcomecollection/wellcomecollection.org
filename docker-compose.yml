@@ -34,8 +34,3 @@ services:
   updown:
     build:
       context: ./updown
-    command: [ "yarn", "checks" ]
-    volumes:
-      - /Users/robertkenny/.aws:/root/.aws:ro
-    environment:
-      - AWS_PROFILE=experience-ci
