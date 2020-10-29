@@ -85,9 +85,7 @@ const WorkDetails = ({
   imageCount,
   itemUrl,
 }: Props) => {
-  const { archivesPrototype, stacksRequestService } = useContext(
-    TogglesContext
-  );
+  const { stacksRequestService } = useContext(TogglesContext);
   const [imageJson, setImageJson] = useState(null);
   const fetchImageJson = async () => {
     try {
@@ -598,7 +596,7 @@ const WorkDetails = ({
     </>
   );
 
-  return archivesPrototype && isInArchive ? (
+  return isInArchive ? (
     <div className="container">
       <div className="grid">
         <Content />
