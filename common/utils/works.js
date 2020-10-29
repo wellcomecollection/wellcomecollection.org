@@ -274,10 +274,7 @@ function makeArchiveAncestorArray(partOfArray, nextPart) {
   if (!nextPart) return partOfArray;
   return makeArchiveAncestorArray(
     [...partOfArray, parsePart(nextPart)],
-    nextPart.partOf &&
-      nextPart.partOf.find(part => {
-        return nextPart.referenceNumber.includes(part.referenceNumber);
-      })
+    nextPart.partOf && nextPart.partOf[0]
   );
 }
 
