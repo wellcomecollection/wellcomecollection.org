@@ -7,7 +7,7 @@ import {
 } from '@weco/common/model/catalogue';
 import fetch from 'isomorphic-unfetch';
 import { type IIIFManifest } from '@weco/common/model/iiif';
-import { itemLink } from '@weco/common/services/catalogue/routes';
+import { itemLink, workLink } from '@weco/common/services/catalogue/routes';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import {
   getDownloadOptionsFromManifest,
@@ -30,6 +30,8 @@ import Space, {
   type SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
 import Modal from '@weco/common/views/components/Modal/Modal';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import NextLink from 'next/link';
 
 const IframePdfViewer: ComponentType<SpaceComponentProps> = styled(Space).attrs(
   {
@@ -216,7 +218,18 @@ const ItemPage = ({
             setIsActive={setShowModal}
             removeCloseButton={true}
           >
-            <p>This is a modal window.</p>
+            <div className="body-text">
+              <h2>{authService?.authService?.label}</h2>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: authService?.authService?.description,
+                }}
+              />
+              <ButtonSolidLink text="Show the content" link={`/`} />
+              <NextLink {...workLink({ id: workId })}>
+                <a>Take me back to the item page</a>
+              </NextLink>
+            </div>
           </Modal>
         </IIIFViewerBackground>
       ) : (

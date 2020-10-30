@@ -74,7 +74,7 @@ const ModalWindow = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
   className: classNames({
-    'shadow bg-white': true,
+    'shadow bg-white font-black': true,
   }),
 })`
   z-index: 10001;
