@@ -150,6 +150,10 @@ const WorkDetails = ({
   const isbnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'isbn';
   });
+  
+  const issnIdentifiers = work.identifiers.filter(id => {
+    return id.identifierType.id === 'issn';
+  });
 
   const sierraIdFromManifestUrl =
     iiifPresentationLocation &&
@@ -580,12 +584,18 @@ const WorkDetails = ({
         </div>
       </WorkDetailsSection>
 
-      {(isbnIdentifiers.length > 0 || work.citeAs) && (
+      {(isbnIdentifiers.length > 0 || issnIdentifiers.length > 0 || work.citeAs) && (
         <WorkDetailsSection headingText="Identifiers" isInArchive={isInArchive}>
           {isbnIdentifiers.length > 0 && (
             <WorkDetailsList
               title="ISBN"
               list={isbnIdentifiers.map(id => id.value)}
+            />
+          )}
+          {issnIdentifiers.length > 0 && (
+            <WorkDetailsList
+              title="ISSN"
+              list={issnIdentifiers.map(id => id.value)}
             />
           )}
           {work.citeAs && (
