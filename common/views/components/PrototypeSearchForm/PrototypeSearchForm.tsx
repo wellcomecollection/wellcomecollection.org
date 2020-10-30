@@ -72,9 +72,9 @@ const PrototypeSearchForm = ({
   // This is the query used by the input, that is then eventually passed to the
   // Router
   const [inputQuery, setInputQuery] = useState(query);
-  const [enhanced, setEnhanced] = useState(false);
   const searchInput = useRef(null);
   const [portalSortOrder, setPortalSortOrder] = useState(routeProps.sortOrder);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   function submit() {
     searchForm.current &&
@@ -94,12 +94,12 @@ const PrototypeSearchForm = ({
   }, [query]);
 
   useEffect(() => {
-    isActive && submit();
-  }, [isActive]);
+    setIsInitialLoad(false);
+  }, []);
 
   useEffect(() => {
-    setEnhanced(true);
-  }, []);
+    isActive && !isInitialLoad && submit();
+  }, [isActive]);
 
   useEffect(() => {
     if (portalSortOrder !== routeProps.sortOrder) {
