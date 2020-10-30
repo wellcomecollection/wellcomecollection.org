@@ -1,5 +1,5 @@
 // @flow
-import { type ComponentType } from 'react';
+import { type ComponentType, useEffect, useState } from 'react';
 import { type Context } from 'next';
 import {
   type Work,
@@ -16,16 +16,20 @@ import {
   getServiceId,
   getUiExtensions,
   isUiEnabled,
+  getAuthService,
 } from '@weco/common/utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+import IIIFViewer, {
+  IIIFViewerBackground,
+} from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
 import Space, {
   type SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
+import Modal from '@weco/common/views/components/Modal/Modal';
 
 const IframePdfViewer: ComponentType<SpaceComponentProps> = styled(Space).attrs(
   {
@@ -75,6 +79,7 @@ const ItemPage = ({
   video,
   audio,
 }: Props) => {
+  const [showModal, setShowModal] = useState(false);
   const title = (manifest && manifest.label) || (work && work.title) || '';
   const iiifImageLocation =
     work && getDigitalLocationOfType(work, 'iiif-image');
@@ -95,6 +100,8 @@ const ItemPage = ({
     (downloadOptions &&
       downloadOptions.find(option => option.label === 'Download PDF')) ||
     null;
+
+  const authService = getAuthService(manifest);
 
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
@@ -120,6 +127,10 @@ const ItemPage = ({
     linkKey: 'page',
     ...sharedPaginatorProps,
   };
+
+  useEffect(() => {
+    setShowModal(true);
+  }, []);
 
   return (
     <CataloguePageLayout
@@ -198,24 +209,36 @@ const ItemPage = ({
         />
       )}
 
-      {((mainImageService && currentCanvas) || iiifImageLocation) && (
-        <IIIFViewer
-          title={title}
-          mainPaginatorProps={mainPaginatorProps}
-          thumbsPaginatorProps={thumbsPaginatorProps}
-          currentCanvas={currentCanvas}
-          lang={langCode}
-          canvasOcr={canvasOcr}
-          canvases={canvases}
-          workId={workId}
-          pageIndex={pageIndex}
-          sierraId={sierraId}
-          pageSize={pageSize}
-          canvasIndex={canvasIndex}
-          iiifImageLocation={iiifImageLocation}
-          work={work}
-          manifest={manifest}
-        />
+      {authService /* and no cookie authorisation */ ? ( // TODO where should headerHeight value come from?
+        <IIIFViewerBackground headerHeight={85}>
+          <Modal
+            isActive={showModal}
+            setIsActive={setShowModal}
+            removeCloseButton={true}
+          >
+            <p>This is a modal window.</p>
+          </Modal>
+        </IIIFViewerBackground>
+      ) : (
+        ((mainImageService && currentCanvas) || iiifImageLocation) && (
+          <IIIFViewer
+            title={title}
+            mainPaginatorProps={mainPaginatorProps}
+            thumbsPaginatorProps={thumbsPaginatorProps}
+            currentCanvas={currentCanvas}
+            lang={langCode}
+            canvasOcr={canvasOcr}
+            canvases={canvases}
+            workId={workId}
+            pageIndex={pageIndex}
+            sierraId={sierraId}
+            pageSize={pageSize}
+            canvasIndex={canvasIndex}
+            iiifImageLocation={iiifImageLocation}
+            work={work}
+            manifest={manifest}
+          />
+        )
       )}
     </CataloguePageLayout>
   );
