@@ -81,7 +81,7 @@ const SearchFiltersDesktop = ({
 }: SearchFiltersSharedProps) => {
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
-  const { enableColorFiltering, locationsFilter } = useContext(TogglesContext);
+  const { enableColorFiltering } = useContext(TogglesContext);
   const showColorFilter =
     enableColorFiltering && worksRouteProps.search === 'images';
 
@@ -180,7 +180,7 @@ const SearchFiltersDesktop = ({
           </DropdownButton>
         )}
 
-        {locationsFilter && aggregations && aggregations.locationType && (
+        {aggregations && aggregations.locationType && (
           <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
             <DropdownButton label={'Locations'} isInline={true}>
               <ul

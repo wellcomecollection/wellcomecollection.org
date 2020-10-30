@@ -20,7 +20,6 @@ import WorkHeaderPrototype from '@weco/common/views/components/WorkHeaderPrototy
 import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import WorkDetails from '../WorkDetails/WorkDetails';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -49,7 +48,7 @@ type Props = {
 };
 
 const Work = ({ work }: Props) => {
-  const { archivesPrototype, searchPrototype } = useContext(TogglesContext);
+  const { searchPrototype } = useContext(TogglesContext);
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
     page: 1,
@@ -185,26 +184,24 @@ const Work = ({ work }: Props) => {
         </div>
       </div>
 
-      {archivesPrototype && (
-        <div className="container">
-          <div className="grid">
-            <Space
-              v={{
-                size: 's',
-                properties: ['padding-top', 'padding-bottom'],
-              }}
-              className={classNames({
-                [grid({ s: 12 })]: true,
-              })}
-            >
-              <ArchiveBreadcrumb work={work} />
-            </Space>
-          </div>
-        </div>
-      )}
-
-      {archivesPrototype && isInArchive ? (
+      {isInArchive ? (
         <>
+          <div className="container">
+            <div className="grid">
+              <Space
+                v={{
+                  size: 's',
+                  properties: ['padding-top', 'padding-bottom'],
+                }}
+                className={classNames({
+                  [grid({ s: 12 })]: true,
+                })}
+              >
+                <ArchiveBreadcrumb work={work} />
+              </Space>
+            </div>
+          </div>
+
           <div className="container">
             <div className="grid">
               <WorkHeaderPrototype
@@ -213,6 +210,7 @@ const Work = ({ work }: Props) => {
               />
             </div>
           </div>
+
           <div className="container">
             <Divider extraClasses="divider--pumice divider--keyline" />
             <ArchiveDetailsContainer>

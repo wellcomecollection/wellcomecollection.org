@@ -6,6 +6,7 @@ import Icon from '../Icon/Icon';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import Space from '../styled/Space';
+// $FlowFixMe(tsx)
 import Number from '@weco/common/views/components/Number/Number';
 import styled from 'styled-components';
 // $FlowFixMe (tsx)

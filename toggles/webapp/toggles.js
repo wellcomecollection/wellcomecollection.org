@@ -8,19 +8,6 @@ module.exports = {
         'Shows a tabbed interface for library catalogue/images search',
     },
     {
-      id: 'archivesPrototype',
-      title: 'Show additions to the work page relating to archives',
-      defaultValue: true,
-      description:
-        'Shows archive specific header, breadcrumbs and archive tree on the work page.',
-    },
-    {
-      id: 'locationsFilter',
-      title: 'Online/In the library filter',
-      defaultValue: true,
-      description: 'Show the filter for "Online" and "In the library"',
-    },
-    {
       id: 'buildingReopening',
       title: 'Wellcome Collection reopening UI changes',
       description:
