@@ -3,9 +3,9 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import CovidTOC from '@weco/common/views/components/CovidTOC/CovidTOC';
+import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors/OnThisPageAnchors';
 import CovidSafetyMeasure from '@weco/common/views/components/CovidSafetyMeasure/CovidSafetyMeasure';
-import CovidInfoBox from '@weco/common/views/components/CovidInfoBox/CovidInfoBox';
+import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import {
@@ -105,7 +105,7 @@ const CovidWelcomeBackPage = () => {
               <Space
                 v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
               >
-                <CovidTOC
+                <OnThisPageAnchors
                   links={[
                     { text: 'Book your ticket', url: '#book-your-ticket' },
                     { text: 'Plan your visit', url: '#plan-your-visit' },
@@ -115,25 +115,25 @@ const CovidWelcomeBackPage = () => {
               </Space>
 
               <div className="body-text spaced-text">
-                <CovidInfoBox title={'Book your ticket'} id="book-your-ticket">
-                  <ul className="no-margin">
-                    <li>
-                      It’s still free to visit our museum and library. You’ll
-                      just need to choose a time slot and book a ticket before
-                      you arrive.
-                    </li>
-                    <li>
-                      You can explore the museum for as long as you’d like, but
-                      library sessions are now limited to either a morning or an
-                      afternoon. Library tickets include museum entry too.
-                    </li>
-                  </ul>
-                  <ButtonOutlinedLink
-                    icon="arrow"
-                    text="Book your ticket"
-                    link="/covid-book-your-ticket"
-                  />
-                </CovidInfoBox>
+                <InfoBlock
+                  title={'Book your ticket'}
+                  text={[
+                    {
+                      type: 'list-item',
+                      text:
+                        'It’s still free to visit our museum and library. You’ll just need to choose a time slot and book a ticket before you arrive.',
+                      spans: [],
+                    },
+                    {
+                      type: 'list-item',
+                      text:
+                        'You can explore the museum for as long as you’d like, but  library sessions are now limited to either a morning or an afternoon. Library tickets include museum entry too.',
+                      spans: [],
+                    },
+                  ]}
+                  linkText={`Book your ticket`}
+                  link={{ link_type: 'Web', url: `/covid-book-your-ticket` }}
+                />
 
                 <Space
                   v={{
@@ -185,6 +185,10 @@ const CovidWelcomeBackPage = () => {
                     exhibits, with priority use of the lifts.
                   </li>
                   <li>
+                    Please bring your own headphones with a standard jack to
+                    listen to audio exhibits.
+                  </li>
+                  <li>
                     Shared accessible resources, like magnifiers and large-print
                     guides, are still available, but our team are collecting and
                     cleaning them between each use. If you’d like to use them,
@@ -212,8 +216,9 @@ const CovidWelcomeBackPage = () => {
                     You can use the lockers on level 0 to store belongings.
                   </li>
                   <li>
-                    Some of the lockers are large enough for fold-up bicycles;
-                    however, we won’t be able to store luggage.
+                    Some of the lockers are large enough for fold-up bicycles or
+                    fold-up scooters; however, we won’t be able to store
+                    luggage.
                   </li>
                   <li>
                     Library users will still be able to bring laptops, pencils
@@ -268,6 +273,17 @@ const CovidWelcomeBackPage = () => {
                 </p>
 
                 <h3>What you need to do</h3>
+
+                <CovidSafetyMeasure
+                  title={'Only book for your household or bubble'}
+                  description={
+                    <span>
+                      Please only book to attend or enter the building with
+                      people from your household or support bubble.
+                    </span>
+                  }
+                  icon={CovidIconsEnum.houseHold}
+                />
 
                 <CovidSafetyMeasure
                   title={'Clean your hands regularly'}

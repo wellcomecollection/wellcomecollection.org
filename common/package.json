@@ -2,7 +2,9 @@
   "name": "@weco/common",
   "version": "1.0.0",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "yarn run test -- --watchAll",
+    "test:updateSnapshots": "yarn run test -- --updateSnapshot"
   },
   "license": "MIT",
   "dependencies": {

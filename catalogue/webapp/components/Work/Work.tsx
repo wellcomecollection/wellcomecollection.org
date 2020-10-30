@@ -28,6 +28,16 @@ import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import styled from 'styled-components';
+
+const ArchiveDetailsContainer = styled.div`
+  display: block;
+  ${props => props.theme.media.medium`
+    display: flex;
+  `}
+`;
+
 declare global {
   interface Window {
     dataLayer: any[];
@@ -174,6 +184,7 @@ const Work = ({ work }: Props) => {
           </Space>
         </div>
       </div>
+
       {archivesPrototype && (
         <div className="container">
           <div className="grid">
@@ -203,42 +214,19 @@ const Work = ({ work }: Props) => {
             </div>
           </div>
           <div className="container">
-            <div className="grid">
-              <div
-                className={classNames({
-                  [grid({
-                    s: 12,
-                    m: 5,
-                    l: 4,
-                    xl: 3,
-                  })]: true,
-                })}
-              >
-                <ArchiveTree work={work} withModal={false} />
-              </div>
-              <div
-                className={classNames({
-                  [grid({
-                    s: 12,
-                    m: 7,
-                    l: 8,
-                    xl: 9,
-                  })]: true,
-                })}
-              >
-                <Space
-                  v={{ size: 'xl', properties: ['margin-top'], negative: true }}
-                >
-                  <WorkDetails
-                    work={work}
-                    itemUrl={itemUrlObject}
-                    iiifPresentationManifest={iiifPresentationManifest}
-                    childManifestsCount={childManifestsCount}
-                    imageCount={imageTotal}
-                  />
-                </Space>
-              </div>
-            </div>
+            <Divider extraClasses="divider--pumice divider--keyline" />
+            <ArchiveDetailsContainer>
+              <ArchiveTree work={work} />
+              <Space v={{ size: 'l', properties: ['padding-top'] }}>
+                <WorkDetails
+                  work={work}
+                  itemUrl={itemUrlObject}
+                  iiifPresentationManifest={iiifPresentationManifest}
+                  childManifestsCount={childManifestsCount}
+                  imageCount={imageTotal}
+                />
+              </Space>
+            </ArchiveDetailsContainer>
           </div>
         </>
       ) : (

@@ -1,5 +1,5 @@
 // @flow
-import { type Node, useEffect, useRef, useContext } from 'react';
+import { type Node, useEffect, useRef, useContext, createContext } from 'react';
 import useFocusTrap from '../../../hooks/useFocusTrap';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
@@ -7,12 +7,18 @@ import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import { AppContext } from '../AppContext/AppContext';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
+import { CSSTransition } from 'react-transition-group';
+export const ModalContext = createContext<{|
+  updateLastFocusableRef: ?(HTMLElement) => void,
+|}>({ updateLastFocusableRef: null });
 
 type Props = {|
   children: Node,
   isActive: boolean,
   setIsActive: (value: boolean) => void,
   width?: string,
+  id: string,
+  openButtonRef: { current: HTMLElement | null },
 |};
 
 const Overlay = styled.div`
@@ -22,7 +28,10 @@ const Overlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: transparent;
+  ${props => props.theme.media.medium`
+    background: rgba(0, 0, 0, 0.7);
+  `}
 `;
 
 const CloseButton = styled(Space).attrs({
@@ -74,36 +83,89 @@ const ModalWindow = styled(Space).attrs({
   right: 0;
   position: fixed;
   overflow: auto;
+  transition: opacity 350ms ease, transform 350ms ease;
+
+  &,
+  &.fade-exit-done {
+    z-index: -1;
+    pointer-events: none;
+  }
+  &.fade-enter,
+  &.fade-exit,
+  &.fade-enter-done {
+    z-index: 1001;
+    pointer-events: all;
+  }
+  &,
+  &.fade-enter,
+  &.fade-exit-active,
+  &.fade-exit-done {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  &.fade-enter-active,
+  &.fade-enter-done {
+    opacity: 1;
+    transform: scale(1);
+  }
 
   ${props => props.theme.media.medium`
     top: 50%;
     left: 50%;
     right: auto;
     bottom: auto;
-    transform: translateX(-50%) translateY(-50%);
     height: auto;
     max-height: 90vh;
     max-width: ${props.width || `${props.theme.sizes.large}px`}
     width: ${props.width || 'auto'};
     border-radius: ${props.theme.borderRadiusUnit}px;
+
+    &,
+    &.fade-enter,
+    &.fade-exit-active,
+    &.fade-exit-done {
+      transform: scale(0.9) translateX(-50%) translateY(-50%);
+    }
+    &.fade-enter-active,
+    &.fade-enter-done {
+      opacity: 1;
+      transform: scale(1) translateX(-50%) translateY(-50%);
+    }
   `}
+  @media screen and (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 `;
 
-const Modal = ({ children, isActive, setIsActive, width = null }: Props) => {
+const Modal = ({
+  children,
+  isActive,
+  setIsActive,
+  width = null,
+  id,
+  openButtonRef,
+}: Props) => {
   const closeButtonRef = useRef(null);
-  const endRef = useRef(null);
+  const lastFocusableRef = useRef(null);
   const modalRef = useRef(null);
   const { isKeyboard } = useContext(AppContext);
+
+  function updateLastFocusableRef(newRef) {
+    lastFocusableRef.current = newRef;
+  }
 
   useEffect(() => {
     const focusables = modalRef &&
       modalRef.current && [...getFocusableElements(modalRef.current)];
-    endRef.current = focusables && focusables[focusables.length - 1];
+    lastFocusableRef.current = focusables && focusables[focusables.length - 1];
   }, [modalRef.current]);
 
   useEffect(() => {
     if (isActive && closeButtonRef && closeButtonRef.current) {
       closeButtonRef.current.focus();
+    }
+    if (!isActive && openButtonRef && openButtonRef.current) {
+      openButtonRef.current.focus();
     }
   }, [isActive]);
 
@@ -129,13 +191,13 @@ const Modal = ({ children, isActive, setIsActive, width = null }: Props) => {
     }
   }, [isActive]);
 
-  useFocusTrap(closeButtonRef, endRef);
+  useFocusTrap(closeButtonRef, lastFocusableRef);
 
   return (
     <>
       {isActive && <Overlay onClick={() => setIsActive(false)} />}
-      {isActive && (
-        <ModalWindow ref={modalRef} width={width}>
+      <CSSTransition in={isActive} classNames="fade" timeout={350}>
+        <ModalWindow ref={modalRef} width={width} id={id} hidden={!isActive}>
           <CloseButton
             ref={closeButtonRef}
             onClick={() => setIsActive(false)}
@@ -144,9 +206,11 @@ const Modal = ({ children, isActive, setIsActive, width = null }: Props) => {
             <span className="visually-hidden">Close modal window</span>
             <Icon name="cross" extraClasses={`icon--currentColor`} />
           </CloseButton>
-          {children}
+          <ModalContext.Provider value={{ updateLastFocusableRef }}>
+            {children}
+          </ModalContext.Provider>
         </ModalWindow>
-      )}
+      </CSSTransition>
     </>
   );
 };

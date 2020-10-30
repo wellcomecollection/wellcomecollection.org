@@ -1,5 +1,5 @@
 import { LinkProps } from 'next/link';
-
+import { NextPageContext } from 'next';
 type Params = {
   [key: string]: any;
 };
@@ -66,7 +66,7 @@ function defaultToEmptyString(s: string | null): string {
 }
 
 type NextRoute<T> = {
-  fromQuery: (q: UrlParams) => T;
+  fromQuery: (q: NextPageContext['query']) => T;
   toLink: (t: T) => LinkProps;
   toQuery: (t: T) => UrlParams;
 };
@@ -96,6 +96,23 @@ export type WorksRouteProps = SharedWorksAndImagesProps & {
   imagesColor: string | null;
   search: string | null;
 };
+
+export function imagesRoutePropsToWorksRouteProps(imagesRouteProps: ImagesRouteProps): WorksRouteProps {
+  return {
+    query: imagesRouteProps.query,
+    page: imagesRouteProps.page,
+    source: null,
+    workType: [],
+    itemsLocationsLocationType: [],
+    itemsLocationsType: [],
+    sort:  null,
+    sortOrder:  null,
+    productionDatesFrom:  null,
+    productionDatesTo:  null,
+    imagesColor:  null,
+    search:  null,
+  }
+}
 
 export const WorksRoute: NextRoute<WorksRouteProps> = {
   fromQuery(q) {

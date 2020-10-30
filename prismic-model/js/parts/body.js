@@ -9,7 +9,8 @@ import title from './title';
 import link from './link';
 import text from './text';
 import embed from './embed';
-import boolean from '../parts/boolean';
+import heading from './heading';
+import booleanDeprecated from '../parts/boolean-deprecated';
 
 // I've left slice here as we shouldn't really use it.
 type SliceProps = {|
@@ -106,7 +107,7 @@ export default {
       collectionVenue: slice('Collection venue', {
         nonRepeat: {
           content: link('Content item', 'document', ['collection-venue']),
-          showClosingTimes: boolean('Show closing times'),
+          showClosingTimes: booleanDeprecated('Show closing times'),
         },
       }),
       contact: slice('Contact', {
@@ -123,6 +124,14 @@ export default {
               placeholder: 'unique identifier without spaces',
             },
           },
+        },
+      }),
+      infoBlock: slice('Info block', {
+        nonRepeat: {
+          title: heading('Title', 2),
+          text: structuredText('Text', 'multi', ['heading3', 'list-item']),
+          link: link('Button link', 'web'),
+          linkText: text('Button text'),
         },
       }),
       contentList: slice('(β) Content list', {

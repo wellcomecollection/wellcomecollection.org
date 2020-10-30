@@ -1,5 +1,4 @@
 // @flow
-import { type Weight } from '../../../services/prismic/parsers';
 import { defaultSerializer } from '../../../services/prismic/html-serializers';
 import { classNames } from '@weco/common/utils/classnames';
 import FeaturedText from '../FeaturedText/FeaturedText';
@@ -20,22 +19,24 @@ import VisitUsStaticContent from './VisitUsStaticContent';
 // $FlowFixMe (tsx)
 import CollectionsStaticContent from './CollectionsStaticContent';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
-
-type BodySlice = {|
-  type: string,
-  weight: Weight,
-  value: any,
-|};
-
-export type BodyType = BodySlice[];
+import { type Link } from '@weco/common/model/link';
+import { type BodyType } from '../Body/Body';
 
 type Props = {|
   body: BodyType,
   isDropCapped?: boolean,
   pageId: string,
+  onThisPage?: Link[],
+  showOnThisPage?: boolean,
 |};
 
-const Body = ({ body, isDropCapped, pageId }: Props) => {
+const Body = ({
+  body,
+  isDropCapped,
+  pageId,
+  onThisPage,
+  showOnThisPage,
+}: Props) => {
   const featuredText = body.find(slice => slice.type === 'standfirst');
   const sections = body.filter(slice => slice.type === 'contentList');
   const sectionThemes = [

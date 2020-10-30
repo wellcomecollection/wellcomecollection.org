@@ -24,7 +24,6 @@ export class Page extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { id, memoizedPrismic } = ctx.query;
     const page = await getPage(ctx.req, id, memoizedPrismic);
-
     if (page) {
       return {
         page,
@@ -107,7 +106,14 @@ export class Page extends Component<Props> {
         <ContentPage
           id={page.id}
           Header={Header}
-          Body={<Body body={body} pageId={page.id} />}
+          Body={
+            <Body
+              body={body}
+              pageId={page.id}
+              onThisPage={page.onThisPage}
+              showOnThisPage={page.showOnThisPage}
+            />
+          }
         />
       </PageLayout>
     );

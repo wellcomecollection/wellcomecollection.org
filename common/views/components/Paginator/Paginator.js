@@ -91,6 +91,7 @@ const Paginator = ({
           [font('hnl', 5)]: true,
         })}
       >
+        <div id="sort-select-portal"></div>
         {prevLink && prev && (
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <Control

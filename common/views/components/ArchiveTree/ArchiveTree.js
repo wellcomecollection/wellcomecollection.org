@@ -9,7 +9,7 @@ import NextLink from 'next/link';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import type Toggles from '@weco/catalogue/services/catalogue/common';
-import Space from '../styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 // $FlowFixMe (tsx)
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -19,40 +19,24 @@ import {
   type NodeWork,
 } from '@weco/common/utils/works';
 import { type Work } from '@weco/common/model/catalogue';
+import useWindowSize from '@weco/common/hooks/useWindowSize';
+import Modal, { ModalContext } from '@weco/common/views/components/Modal/Modal';
+// $FlowFixMe (tsx)
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+
+const TreeContainer = styled.div`
+  border-right: 1px solid ${props => props.theme.color('pumice')};
+`;
 
 const instructions =
   'Archive Tree: Tab into the tree, then use up and down arrows to move through tree items. Use right and left arrows to toggle sub menus open and closed. When focused on an item you can tab to the link it contains.';
-
-const StickyContainer = styled.div`
-  border: 1px solid ${props => props.theme.color('pumice')};
-  border-bottom: 0;
-
-  ${props => props.theme.media.medium`
-    position: sticky;
-    top: 0px;
-  `}
-`;
-
-const StickyContainerInner = styled.div`
-  ${props => props.theme.media.medium`
-    overflow: scroll;
-    max-height: calc(100vh - 48px);
-  `}
-`;
-
-const StyledLink = styled.a`
-  display: inline-block;
-  color: ${props => props.theme.color('black')};
-  background: ${props =>
-    props.theme.color(props.isCurrent ? 'yellow' : 'transparent')};
-  font-weight: ${props => (props.isCurrent ? 'bold' : 'normal')};
-  border-color: ${props =>
-    props.theme.color(props.isCurrent ? 'green' : 'transparent')};
-  border-radius: 6px;
-  padding: 0 6px;
-  cursor: pointer;
-`;
-
+const controlWidth = 44;
+const controlHeight = 44;
+const circleWidth = 30;
+const circleHeight = 30;
+const circleBorder = 2;
+const verticalGuidePosition =
+  controlHeight / 2 + circleHeight / 2 - circleBorder;
 const TreeInstructions = styled.p.attrs(props => ({
   'aria-hidden': 'true',
   id: 'tree-instructions',
@@ -63,10 +47,15 @@ const TreeInstructions = styled.p.attrs(props => ({
 const Tree = styled.div`
   ul {
     position: relative;
+    padding-left: 0;
+    margin: 0;
+    @media (min-width: ${props => props.theme.sizes.medium}px) {
+      width: 375px;
+    }
     &::before {
       display: none;
       position: absolute;
-      content: '${instructions}';
+      content: ${props => (props.isEnhanced ? `'${instructions}'` : null)};
       z-index: 2;
       top: 0;
       background: ${props => props.theme.color('yellow')};
@@ -80,72 +69,127 @@ const Tree = styled.div`
     }
     ul {
       content: '';
-    }
-    list-style: none;
-    padding-left: 0;
-    margin-left: 0;
-  }
-
-  li {
-    position: relative;
-    list-style: none;
-
-    a {
-      font-weight: bold;
+      width: auto;
     }
   }
 
-  a {
-    text-decoration: none;
-  }
-
-  a:focus,
-  a:hover {
-    text-decoration: underline;
-  }
-
-  ul ul {
-    padding-left: 30px;
-
-    li {
-      a {
-        font-weight: normal;
-      }
-    }
-
-    li::before,
-    li::after {
-      content: '';
-      position: absolute;
-      left: -22px;
-    }
-
-    li::before {
-      border-top: 2px solid ${props => props.theme.color('teal')};
-      top: 20px;
-      width: 22px;
-      height: 0;
-    }
-
-    li::after {
-      border-left: 2px solid ${props => props.theme.color('teal')};
-      height: 100%;
-      width: 0px;
-      top: 10px;
-    }
-
-    li:last-child::after {
-      height: 10px;
-    }
+  ul ul ul {
+    padding-left: ${`${controlWidth}px`};
   }
 `;
 
-const TreeItem = styled.li`
-  padding: 10px 10px 10px 0;
+const TreeItem = styled.li.attrs(props => ({
+  className: props.showGuideline ? 'guideline' : null,
+}))`
+  position: relative;
+  list-style: ${props => (props.isEnhanced ? 'none' : 'disc')};
+  padding: 0;
   &:focus {
     outline: ${props =>
       !props.hideFocus ? `2px solid ${props.theme.color('black')}` : 'none'};
   }
+
+  &.guideline::before,
+  &.guideline::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+  }
+
+  &.guideline::before {
+    border-left: 1px solid ${props => props.theme.color('yellow')};
+    height: 100%;
+    width: 0;
+    top: ${`${verticalGuidePosition}px`};
+    left: ${`${controlWidth / 2}px`};
+    height: calc(100% - ${`${verticalGuidePosition + controlHeight / 2}px`});
+  }
+
+  &.guideline::after {
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: ${props => props.theme.color('yellow')};
+    left: ${`${controlWidth / 2 - 3}px`};
+    bottom: ${`${controlHeight / 2}px`};
+  }
+`;
+
+const TreeControl = styled.span`
+  display: inline-block;
+  cursor: pointer;
+  height: ${`${controlHeight}px`};
+  width: ${`${controlWidth}px`};
+  min-width: ${`${controlWidth}px`};
+  position: relative;
+  z-index: 1;
+  &::before {
+    content: '';
+    position: absolute;
+    height: ${`${circleHeight}px`};
+    width: ${`${circleWidth}px`};
+    // centre the circle in the control
+    top: ${`${(controlHeight - circleHeight) / 2}px`};
+    left: ${`${(controlWidth - circleWidth) / 2}px`};
+    background: ${props =>
+      props.highlightCondition === 'primary'
+        ? props.theme.color('yellow')
+        : props.highlightCondition === 'secondary'
+        ? props.theme.color('yellow', 'light')
+        : props.theme.color('smoke')};
+    border: ${props =>
+      props.highlightCondition === 'secondary'
+        ? `1px solid ${props.theme.color('yellow')}`
+        : `2px solid ${props.theme.color('white')}`};
+    border-radius: 50%;
+  }
+  .icon {
+    position: absolute;
+    z-index: 1;
+    // centre the icon in the control
+    top: ${`${(controlHeight - 24) / 2}px`}; // icons have a height of 24px
+    left: ${`${(controlWidth - 24) / 2}px`}; // icons have a width of 24px
+  }
+`;
+
+const StyledLink = styled.a`
+  display: inline-block;
+  min-height: ${`${controlHeight}px`};
+  line-height: 1;
+  color: ${props => props.theme.color('viewerBlack')};
+  background: ${props =>
+    props.theme.color(props.isCurrent ? 'yellow' : 'transparent')};
+  cursor: pointer;
+  margin-left: ${props =>
+    props.hasControl ? `-${controlWidth / 2}px` : `${controlWidth / 2}px`};
+  padding-top: ${props => `${props.theme.spacingUnit}px`};
+  padding-left: ${props =>
+    props.hasControl
+      ? `${circleWidth / 2 + props.theme.spacingUnit}px`
+      : props.isCurrent
+      ? `${props.theme.spacingUnit}px`
+      : 0};
+  padding-right: ${props => `${props.theme.spacingUnit * 2}px`};
+  text-decoration: none;
+  &:focus {
+    outline: ${props => (!props.hideFocus ? 'auto' : 'none')};
+  }
+  &:focus,
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const RefNumber = styled.span.attrs({
+  className: classNames({
+    [font('hnl', 6)]: true,
+  }),
+})`
+  line-height: 1;
+  display: block;
+  color: ${props => props.theme.color('pewter')};
+  text-decoration: none;
 `;
 
 /* eslint-disable no-use-before-define */
@@ -443,6 +487,8 @@ const ListItem = ({
   posInSet,
   tabbableId,
   setTabbableId,
+  setShowArchiveTree,
+  archiveAncestorArray,
 }: {|
   item: UiTreeNode,
   currentWorkId: string,
@@ -454,13 +500,38 @@ const ListItem = ({
   posInSet: number,
   tabbableId: ?string,
   setTabbableId: string => void,
+  setShowArchiveTree: boolean => void,
+  archiveAncestorArray: NodeWork[],
 |}) => {
-  const { isKeyboard } = useContext(AppContext);
+  const { isKeyboard, isEnhanced } = useContext(AppContext);
   const isEndNode = item.children && item.children.length === 0;
   const isSelected =
     (tabbableId && tabbableId === item.work.id) ||
     (!tabbableId && currentWorkId === item.work.id);
   const toggles = useContext(TogglesContext);
+  const { updateLastFocusableRef } = useContext(ModalContext);
+  const descendentIsSelected =
+    archiveAncestorArray &&
+    archiveAncestorArray.some(ancestor => ancestor.id === item.work.id);
+  const highlightCondition = item.openStatus
+    ? 'primary'
+    : descendentIsSelected
+    ? 'secondary'
+    : '';
+  const hasControl =
+    (item.children && item.children.length > 0) || !item.children; // TODO use new API totalParts data when available
+
+  function updateTabbing(id) {
+    // We only want one tabbable item in the tree at a time,
+    // so that keyboard users can get past the tree, without having to tab through all the elements
+    // When the tree is inside a Modal we also need to update the lastFocusableRef, from Modal, which is used for the focus trap
+    // and prevents users from being able to tab items outside of the Modal when it is open.
+    setTabbableId(id);
+    const listItem = document.getElementById(id);
+    if (listItem && updateLastFocusableRef) {
+      updateLastFocusableRef(listItem.getElementsByTagName('a')[0]);
+    }
+  }
   function toggleBranch() {
     // TODO use new API totalParts data when available
     if (item.children === undefined) {
@@ -483,21 +554,31 @@ const ListItem = ({
   return (
     <TreeItem
       hideFocus={!isKeyboard}
+      isEnhanced={isEnhanced}
+      showGuideline={isEnhanced && hasControl && item.openStatus && level > 1}
       id={item.work.id}
-      role="treeitem"
-      aria-level={level}
-      aria-setsize={setSize}
-      aria-posinset={posInSet}
+      role={isEnhanced ? 'treeitem' : null}
+      aria-level={isEnhanced ? level : null}
+      aria-setsize={isEnhanced ? setSize : null}
+      aria-posinset={isEnhanced ? posInSet : null}
       aria-expanded={
-        item.children && item.children.length > 0 ? item.openStatus : null
+        isEnhanced
+          ? item.children && item.children.length > 0
+            ? item.openStatus
+            : null
+          : null
       }
-      aria-label={`${item.work.title}${
-        item.work.referenceNumber
-          ? `, reference number ${item.work.referenceNumber}`
-          : ''
-      }`}
-      aria-selected={isSelected}
-      tabIndex={isSelected ? 0 : -1}
+      aria-label={
+        isEnhanced
+          ? `${item.work.title}${
+              item.work.referenceNumber
+                ? `, reference number ${item.work.referenceNumber}`
+                : ''
+            }`
+          : null
+      }
+      aria-selected={isEnhanced ? isSelected : null}
+      tabIndex={isEnhanced ? (isSelected ? 0 : -1) : null}
       onKeyDown={event => {
         event.stopPropagation();
         const key = event.key || event.keyCode;
@@ -521,7 +602,7 @@ const ListItem = ({
             // When focus is on an open node, moves focus to the first child node.
             if (item.openStatus) {
               if (nextId) {
-                setTabbableId(nextId);
+                updateTabbing(nextId);
               }
             }
 
@@ -533,7 +614,7 @@ const ListItem = ({
             // When focus is on a closed node, opens the node; focus does not move.
             if (!item.openStatus) {
               toggleBranch();
-              setTabbableId(item.work.id);
+              updateTabbing(item.work.id);
             }
             break;
           }
@@ -548,7 +629,7 @@ const ListItem = ({
                   value: !item.openStatus,
                 })
               );
-              setTabbableId(item.work.id);
+              updateTabbing(item.work.id);
             }
             // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
             // When focus is on a root node that is also either an end node or a closed node, does nothing.
@@ -558,7 +639,7 @@ const ListItem = ({
               (item.children && item.children.length === 0) // TODO remove when API updated
             ) {
               if (item.parentId) {
-                setTabbableId(item.parentId);
+                updateTabbing(item.parentId);
               }
             }
             break;
@@ -566,14 +647,14 @@ const ListItem = ({
           case DOWN.includes(key): {
             // Moves focus to the next node that is focusable without opening or closing a node.
             if (nextId) {
-              setTabbableId(nextId);
+              updateTabbing(nextId);
             }
             break;
           }
           case UP.includes(key): {
             // Moves focus to the previous node that is focusable without opening or closing a node.
             if (previousId) {
-              setTabbableId(previousId);
+              updateTabbing(previousId);
             }
             break;
           }
@@ -583,57 +664,37 @@ const ListItem = ({
         event.stopPropagation();
         if (level > 0) {
           toggleBranch();
-          setTabbableId(item.work.id);
+          updateTabbing(item.work.id);
         }
       }}
     >
       <div className="flex-inline">
-        {level > 1 &&
-        ((item.children && item.children.length > 0) || !item.children) && ( // TODO use new API totalParts data when available
-            <span
-              style={{
-                display: 'inline-block',
-                cursor: 'pointer',
-                lineHeight: '18px',
-                height: '18px',
-                width: '18px',
-                padding: '0px',
-                marginTop: '2px',
-                marginRight: '8px',
-                fontSize: '10px',
-                background: 'rgb(204, 204, 204)',
-                textAlign: 'center',
-              }}
-            >
-              <Icon
-                extraClasses="icon--match-text"
-                name={item.openStatus ? 'minus' : 'plus'}
-              />
-            </span>
-          )}
+        {isEnhanced && level > 1 && hasControl && (
+          <TreeControl highlightCondition={highlightCondition}>
+            <Icon
+              extraClasses={item.openStatus ? '' : 'icon--270'}
+              name="chevron"
+            />
+          </TreeControl>
+        )}
         <NextLink {...workLink({ id: item.work.id })} scroll={false} passHref>
           <StyledLink
-            tabIndex={isSelected ? 0 : -1}
             className={classNames({
-              [font('hnl', 6)]: true,
+              [font('hnm', 6)]: level === 1,
+              [font('hnl', 6)]: level > 1,
             })}
+            hideFocus={!isKeyboard}
+            tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
             isCurrent={currentWorkId === item.work.id}
             ref={currentWorkId === item.work.id ? selected : null}
             onClick={event => {
               event.stopPropagation();
+              setShowArchiveTree(false);
             }}
+            hasControl={hasControl}
           >
             <WorkTitle title={item.work.title} />
-            <div
-              style={{
-                fontSize: '13px',
-                color: '#707070',
-                textDecoration: 'none',
-                padding: '0',
-              }}
-            >
-              {item.work.referenceNumber}
-            </div>
+            <RefNumber>{item.work.referenceNumber}</RefNumber>
           </StyledLink>
         </NextLink>
       </div>
@@ -647,6 +708,8 @@ const ListItem = ({
           level={level + 1}
           tabbableId={tabbableId}
           setTabbableId={setTabbableId}
+          setShowArchiveTree={setShowArchiveTree}
+          archiveAncestorArray={archiveAncestorArray}
         />
       )}
     </TreeItem>
@@ -662,6 +725,8 @@ const NestedList = ({
   level,
   tabbableId,
   setTabbableId,
+  setShowArchiveTree,
+  archiveAncestorArray,
 }: {|
   currentWorkId: string,
   archiveTree: UiTree,
@@ -671,12 +736,15 @@ const NestedList = ({
   level: number,
   tabbableId: ?string,
   setTabbableId: string => void,
+  setShowArchiveTree: boolean => void,
+  archiveAncestorArray: NodeWork[],
 |}) => {
+  const { isEnhanced } = useContext(AppContext);
   return (
     <ul
-      aria-labelledby={level === 1 ? 'tree-instructions' : null}
-      tabIndex={level === 1 ? 0 : null}
-      role={level === 1 ? 'tree' : 'group'}
+      aria-labelledby={level === 1 && isEnhanced ? 'tree-instructions' : null}
+      tabIndex={level === 1 && isEnhanced ? 0 : null}
+      role={isEnhanced ? (level === 1 ? 'tree' : 'group') : null}
       className={classNames({
         'font-size-5': true,
       })}
@@ -697,6 +765,8 @@ const NestedList = ({
                 posInSet={i + 1}
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
+                setShowArchiveTree={setShowArchiveTree}
+                archiveAncestorArray={archiveAncestorArray}
               />
             )
           );
@@ -705,12 +775,69 @@ const NestedList = ({
   );
 };
 
+const ButtonWrap = styled(Space).attrs({
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+})`
+  button {
+    width: 100%;
+    justify-content: center;
+  }
+`;
+
+function createBasicTree({
+  // Returns a UiTree with the current work (with it's children) and it's ancestors
+  // This is all the data we have without making further API calls
+  work,
+  workId,
+}: {|
+  work: Work,
+  workId: string,
+|}): UiTree {
+  const ancestorArray = getArchiveAncestorArray(work);
+  const partOfReversed = [...ancestorArray, parsePart(work)].reverse();
+  return [
+    partOfReversed.reduce(
+      (acc, curr, i, array) => {
+        return {
+          openStatus: true,
+          work: curr,
+          parentId: array[i + 1] && array[i + 1].id,
+          children:
+            i === 0
+              ? work.parts.map(part => ({
+                  work: parsePart(part),
+                  openStatus: false,
+                  parentId: work.partOf[0] && work.partOf[0].id,
+                }))
+              : [acc],
+        };
+      },
+      {
+        openStatus: true,
+        work: parsePart(work),
+        parentId: work.partOf[0] && work.partOf[0].id,
+        children: work.parts.map(part => ({
+          work: part,
+          children: part.children,
+          parentId: work.id,
+        })),
+      }
+    ),
+  ];
+}
+
 const ArchiveTree = ({ work }: { work: Work }) => {
+  const windowSize = useWindowSize();
   const toggles = useContext(TogglesContext);
+  const { isEnhanced } = useContext(AppContext);
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const initialLoad = useRef(true);
-  const [archiveTree, setArchiveTree] = useState([]);
+  const [showArchiveTree, setShowArchiveTree] = useState(false);
+  const [archiveTree, setArchiveTree] = useState(
+    createBasicTree({ work, workId: work.id })
+  );
   const [tabbableId, setTabbableId] = useState(null);
+  const openButtonRef = useRef(null);
 
   useEffect(() => {
     const elementToFocus = tabbableId && document.getElementById(tabbableId);
@@ -749,47 +876,76 @@ const ArchiveTree = ({ work }: { work: Work }) => {
     initialLoad.current = false;
   }, [work.id]);
 
-  const TreeView = () => (
-    <Tree>
-      <TreeInstructions>{instructions}</TreeInstructions>
-      <NestedList
-        selected={selected}
-        currentWorkId={work.id}
-        fullTree={archiveTree}
-        setArchiveTree={setArchiveTree}
-        archiveTree={archiveTree}
-        level={1}
-        tabbableId={tabbableId}
-        setTabbableId={setTabbableId}
-      />
-    </Tree>
-  );
-
   return isInArchive ? (
-    <StickyContainer>
-      <Space
-        v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-        className={classNames({
-          'flex flex--v-center bg-smoke': true,
-        })}
-      >
-        <Space
-          as="h2"
-          h={{ size: 'm', properties: ['margin-right'] }}
-          className={classNames({
-            [font('wb', 5)]: true,
-            'no-margin': true,
-          })}
-        >
-          Collection contents
-        </Space>
-        <Icon name="tree" />
-      </Space>
-      <StickyContainerInner>
-        <TreeView />
-      </StickyContainerInner>
-    </StickyContainer>
+    <>
+      {windowSize === 'small' && isEnhanced ? (
+        <>
+          <ButtonWrap>
+            <ButtonSolid
+              text={'Collection contents'}
+              clickHandler={() => setShowArchiveTree(true)}
+              aria-controls="collection-contents-modal"
+              aria-label="show collection contents"
+              icon="tree"
+              ref={openButtonRef}
+            />
+          </ButtonWrap>
+          <Modal
+            isActive={showArchiveTree}
+            setIsActive={setShowArchiveTree}
+            id={'collection-contents-modal'}
+            openButtonRef={openButtonRef}
+          >
+            <Tree isEnhanced={isEnhanced}>
+              {isEnhanced && (
+                <TreeInstructions>{instructions}</TreeInstructions>
+              )}
+              <NestedList
+                selected={selected}
+                currentWorkId={work.id}
+                fullTree={archiveTree}
+                setArchiveTree={setArchiveTree}
+                archiveTree={archiveTree}
+                level={1}
+                tabbableId={tabbableId}
+                setTabbableId={setTabbableId}
+                setShowArchiveTree={setShowArchiveTree}
+                archiveAncestorArray={archiveAncestorArray}
+              />
+            </Tree>
+          </Modal>
+        </>
+      ) : (
+        <TreeContainer>
+          <Space v={{ size: 'l', properties: ['padding-top'] }}>
+            <h2
+              className={classNames({
+                [font('wb', 4)]: true,
+              })}
+            >
+              Collection contents
+            </h2>
+            <Tree isEnhanced={isEnhanced}>
+              {isEnhanced && (
+                <TreeInstructions>{instructions}</TreeInstructions>
+              )}
+              <NestedList
+                selected={selected}
+                currentWorkId={work.id}
+                fullTree={archiveTree}
+                setArchiveTree={setArchiveTree}
+                archiveTree={archiveTree}
+                level={1}
+                tabbableId={tabbableId}
+                setTabbableId={setTabbableId}
+                setShowArchiveTree={setShowArchiveTree}
+                archiveAncestorArray={archiveAncestorArray}
+              />
+            </Tree>
+          </Space>
+        </TreeContainer>
+      )}
+    </>
   ) : null;
 };
 

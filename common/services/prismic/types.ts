@@ -16,6 +16,12 @@ export type PrismicDocument = {
   url?: string;
 };
 
+export type PrismicLink = {
+  link_type: 'Web' | 'Document' | 'Media';
+  url?: string;
+  id?: string;
+}
+
 export type PrismicApiSearchResponse = {
   page: number;
   results_per_page: number;
@@ -37,6 +43,7 @@ export type PrismicQueryOpts = {
 
 export type HTMLSpanTypes =
   | 'heading2'
+  | 'heading3'
   | 'paragraph'
   | 'strong'
   | 'em'
@@ -49,7 +56,7 @@ export type HTMLSpan = {
   type: HTMLSpanTypes;
   start: number;
   end: number;
-  data: Object;
+  data?: Object;
 };
 
 export type HTMLStringBlock = {

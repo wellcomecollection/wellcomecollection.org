@@ -11,6 +11,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
 import NextLink from 'next/link';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
+import { getHref } from '../ButtonSolidLink/ButtonSolidLink';
 
 type ButtonOutlinedLinkProps = ButtonOutlinedBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void,
@@ -37,7 +38,7 @@ const ButtonOutlinedLink = ({
   return (
     <ConditionalWrapper
       condition={isNextLink}
-      wrapper={children =>
+      wrapper={(children: JSX.Element) =>
         typeof link === 'object' && (
           <NextLink {...link} passHref>
             {children}
@@ -50,7 +51,7 @@ const ButtonOutlinedLink = ({
         aria-expanded={ariaExpanded}
         onClick={handleClick}
         isOnDark={isOnDark}
-        href={isNextLink ? undefined : link}
+        href={getHref(link)}
       >
         <BaseButtonInner>
           {text}

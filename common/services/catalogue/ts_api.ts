@@ -1,4 +1,5 @@
 import { WorksRouteProps } from './routes';
+import { ImagesRouteProps } from './ts_routes';
 
 export type CatalogueImagesApiProps = {
   query: string | null;
@@ -48,6 +49,12 @@ export type CatalogueWorksApiProps = {
   aggregations: (string[]) | null;
 };
 
+export type ImagesApiProps = {
+  query: string | null;
+  page: number | null;
+  color: string | null;
+}
+
 export function worksRouteToApiUrl(
   worksRouteProps: WorksRouteProps,
   overrides: CatalogueWorksApiProps
@@ -65,6 +72,16 @@ export function worksRouteToApiUrl(
     ),
     'production.dates.to': toIsoDateString(worksRouteProps.productionDatesTo),
     ...overrides,
+  };
+}
+
+export function imagesRouteToApiUrl(
+  imagesRouteProps: ImagesRouteProps
+) {
+  return {
+    query: imagesRouteProps.query,
+    page: imagesRouteProps.page,
+    color: imagesRouteProps.color
   };
 }
 

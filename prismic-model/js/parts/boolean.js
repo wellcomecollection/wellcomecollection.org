@@ -1,6 +1,11 @@
 // @flow
-import select from './select';
 
-export default function(label: string) {
-  return select(label, ['yes']);
+export default function(label: string, defaultValue: boolean = false) {
+  return {
+    type: 'Boolean',
+    config: {
+      default_value: defaultValue,
+      label: label,
+    },
+  };
 }

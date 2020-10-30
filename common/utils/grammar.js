@@ -17,3 +17,10 @@ export function camelize(title: string): string {
     }
   }, '');
 }
+
+export function dasherize(words: string): string {
+  return words
+    .trim()
+    .toLowerCase()
+    .replace(/\W/g, '-');
+}

@@ -13,21 +13,20 @@ import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayo
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import {
-  WorksRouteProps,
+  ImagesRouteProps,
   imagesLink,
   ImagesRoute,
+  imagesRoutePropsToWorksRouteProps,
 } from '@weco/common/services/catalogue/ts_routes';
 import {
-  CatalogueWorksApiProps,
-  worksRouteToApiUrl,
-  worksPropsToImagesProps,
-} from '@weco/common/services/catalogue/api';
+  ImagesApiProps,
+  imagesRouteToApiUrl,
+} from '@weco/common/services/catalogue/ts_api';
 import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { getImages } from '../services/catalogue/images';
 import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
-import cookies from 'next-cookies';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import useHotjar from '@weco/common/hooks/useHotjar';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
@@ -35,15 +34,15 @@ import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 
 type Props = {
   images: CatalogueResultsList<Image> | CatalogueApiError;
-  worksRouteProps: WorksRouteProps;
-  apiProps: CatalogueWorksApiProps;
+  imagesRouteProps: ImagesRouteProps;
+  apiProps: ImagesApiProps;
 };
 
 const ImagesPagination = ({
   query,
   page,
   results,
-  worksRouteProps,
+  imagesRouteProps,
   setSavedSearchState,
 }) => (
   <Paginator
@@ -53,14 +52,14 @@ const ImagesPagination = ({
     totalResults={results.totalResults}
     link={imagesLink(
       {
-        ...worksRouteProps,
+        ...imagesRouteProps,
       },
       'search/paginator'
     )}
     onPageChange={async (event, newPage) => {
       event.preventDefault();
       const state = {
-        ...worksRouteProps,
+        ...imagesRouteProps,
         page: newPage,
       };
       const link = imagesLink(state, 'search/paginator');
@@ -70,20 +69,20 @@ const ImagesPagination = ({
   />
 );
 
-const Images = ({ images, worksRouteProps, apiProps }: Props) => {
+const Images = ({ images, imagesRouteProps, apiProps }: Props) => {
   const [loading, setLoading] = useState(false);
-  const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
+  const [, setSavedSearchState] = useSavedSearchState(imagesRouteProps);
   const results: CatalogueResultsList<Image> | CatalogueApiError = images;
   const { searchPrototype } = useContext(TogglesContext);
 
-  const { query, page } = worksRouteProps;
+  const { query, page } = imagesRouteProps;
 
   useEffect(() => {
     trackSearch(apiProps, {
       totalResults: results?.type === 'ResultList' ? results?.totalResults : 0,
       source: Router.query.source || 'unspecified',
     });
-  }, [worksRouteProps]);
+  }, [imagesRouteProps]);
 
   useEffect(() => {
     function routeChangeStart(url: string) {
@@ -124,7 +123,7 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
             rel="prev"
             href={convertUrlToString(
               imagesLink(
-                { ...worksRouteProps, page: (page || 1) - 1 },
+                { ...imagesRouteProps, page: (page || 1) - 1 },
                 'meta_link'
               ).as
             )}
@@ -134,7 +133,8 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
           <link
             rel="next"
             href={convertUrlToString(
-              imagesLink({ ...worksRouteProps, page: page + 1 }, 'meta_link').as
+              imagesLink({ ...imagesRouteProps, page: page + 1 }, 'meta_link')
+                .as
             )}
           />
         )}
@@ -143,7 +143,7 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}image search`}
         description="Search Wellcome Collection images"
-        url={imagesLink({ ...worksRouteProps }, 'canonical_link').as}
+        url={imagesLink({ ...imagesRouteProps }, 'canonical_link').as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'collections'}
@@ -163,8 +163,10 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
                 {searchPrototype ? (
                   <>
                     <SearchTabs
-                      worksRouteProps={worksRouteProps}
-                      imagesRouteProps={worksRouteProps}
+                      worksRouteProps={imagesRoutePropsToWorksRouteProps(
+                        imagesRouteProps
+                      )}
+                      imagesRouteProps={imagesRouteProps}
                       workTypeAggregations={[]}
                       shouldShowImagesFilters={query !== ''}
                       shouldShowWorksFilters={false}
@@ -176,7 +178,7 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
                   <SearchForm
                     ariaDescribedBy="search-form-description"
                     shouldShowFilters={query !== ''}
-                    worksRouteProps={worksRouteProps}
+                    worksRouteProps={null}
                     workTypeAggregations={[]}
                     aggregations={undefined}
                   />
@@ -201,7 +203,7 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
                         query={query}
                         page={page}
                         results={results}
-                        worksRouteProps={worksRouteProps}
+                        imagesRouteProps={imagesRouteProps}
                         setSavedSearchState={setSavedSearchState}
                       />
                     </div>
@@ -221,7 +223,7 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
                 {images && images.type !== 'Error' && (
                   <ImageEndpointSearchResults
                     images={images}
-                    apiProps={worksPropsToImagesProps(apiProps)}
+                    apiProps={apiProps}
                   />
                 )}
               </div>
@@ -244,7 +246,7 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
                           query={query}
                           page={page}
                           results={results}
-                          worksRouteProps={worksRouteProps}
+                          imagesRouteProps={imagesRouteProps}
                           setSavedSearchState={setSavedSearchState}
                         />
                       </div>
@@ -262,27 +264,18 @@ const Images = ({ images, worksRouteProps, apiProps }: Props) => {
 
 Images.getInitialProps = async (ctx: NextPageContext): Promise<Props> => {
   const params = ImagesRoute.fromQuery(ctx.query);
-  const _queryType = cookies(ctx)._queryType;
-  const aggregations = ['workType', 'locationType'];
-  const apiProps = worksRouteToApiUrl(params, {
-    _queryType,
-    aggregations,
-  });
-
+  const apiProps = imagesRouteToApiUrl(params);
   const hasQuery = !!(params.query && params.query !== '');
   const imagesOrError = hasQuery
     ? await getImages({
-        params: {
-          ...worksPropsToImagesProps(apiProps),
-          color: params.color,
-        },
+        params,
         toggles: ctx.query.toggles,
       })
     : null;
 
   return {
     images: imagesOrError,
-    worksRouteProps: params,
+    imagesRouteProps: params,
     apiProps,
   };
 };
