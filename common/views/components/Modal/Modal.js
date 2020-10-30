@@ -19,6 +19,7 @@ type Props = {|
   width?: string,
   id: string,
   openButtonRef: { current: HTMLElement | null },
+  removeCloseButton?: boolean,
 |};
 
 const Overlay = styled.div`
@@ -76,7 +77,7 @@ const ModalWindow = styled(Space).attrs({
     'shadow bg-white': true,
   }),
 })`
-  z-index: 1001;
+  z-index: 10001;
   top: 0;
   bottom: 0;
   left: 0;
@@ -144,6 +145,7 @@ const Modal = ({
   width = null,
   id,
   openButtonRef,
+  removeCloseButton = false,
 }: Props) => {
   const closeButtonRef = useRef(null);
   const lastFocusableRef = useRef(null);
@@ -175,10 +177,11 @@ const Modal = ({
 
       setIsActive(false);
     }
+    if (!removeCloseButton) {
+      document.addEventListener('keydown', closeOnEscape);
 
-    document.addEventListener('keydown', closeOnEscape);
-
-    return () => document.removeEventListener('keydown', closeOnEscape);
+      return () => document.removeEventListener('keydown', closeOnEscape);
+    }
   }, []);
 
   useEffect(() => {
@@ -198,14 +201,16 @@ const Modal = ({
       {isActive && <Overlay onClick={() => setIsActive(false)} />}
       <CSSTransition in={isActive} classNames="fade" timeout={350}>
         <ModalWindow ref={modalRef} width={width} id={id} hidden={!isActive}>
-          <CloseButton
-            ref={closeButtonRef}
-            onClick={() => setIsActive(false)}
-            hideFocus={!isKeyboard}
-          >
-            <span className="visually-hidden">Close modal window</span>
-            <Icon name="cross" extraClasses={`icon--currentColor`} />
-          </CloseButton>
+          {!removeCloseButton && (
+            <CloseButton
+              ref={closeButtonRef}
+              onClick={() => setIsActive(false)}
+              hideFocus={!isKeyboard}
+            >
+              <span className="visually-hidden">Close modal window</span>
+              <Icon name="cross" extraClasses={`icon--currentColor`} />
+            </CloseButton>
+          )}
           <ModalContext.Provider value={{ updateLastFocusableRef }}>
             {children}
           </ModalContext.Provider>
