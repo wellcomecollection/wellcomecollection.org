@@ -24,6 +24,10 @@ export function getServiceId(currentCanvas: ?IIIFCanvas): ?string {
   }
 }
 
+export function getAuthService(iiifManifest: IIIFManifest): ?Service {
+  return iiifManifest?.service?.find(service => service.authService) || null;
+}
+
 export function getUiExtensions(iiifManifest: IIIFManifest): ?Service {
   if (iiifManifest.service) {
     if (
