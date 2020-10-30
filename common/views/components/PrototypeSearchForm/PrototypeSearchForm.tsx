@@ -94,12 +94,14 @@ const PrototypeSearchForm = ({
   }, [query]);
 
   useEffect(() => {
-    setIsInitialLoad(false);
-  }, []);
+    if (query && isActive && !isInitialLoad) {
+      submit();
+    }
+  }, [isActive]);
 
   useEffect(() => {
-    isActive && !isInitialLoad && submit();
-  }, [isActive]);
+    setIsInitialLoad(false);
+  }, []);
 
   useEffect(() => {
     if (portalSortOrder !== routeProps.sortOrder) {
