@@ -1,4 +1,3 @@
-const { parse } = require('url');
 const compose = require('koa-compose');
 const withGlobalAlert = require('./withGlobalAlert');
 const withPopupDialog = require('./withPopupDialog');
@@ -6,6 +5,7 @@ const withOpeningtimes = require('./withOpeningTimes');
 const withToggles = require('./withToggles');
 const withPrismicPreviewStatus = require('./withPrismicPreviewStatus');
 const withMemoizedPrismic = require('./withMemoizedPrismic');
+const withAbTest = require('./withAbTest');
 
 const withCachedValues = compose([
   withGlobalAlert,
@@ -14,6 +14,7 @@ const withCachedValues = compose([
   withToggles,
   withPrismicPreviewStatus,
   withMemoizedPrismic,
+  withAbTest,
 ]);
 
 async function route(path, page, router, app, extraParams = {}) {
@@ -77,7 +78,7 @@ async function renderIfToggleOn(
 
 function handleAllRoute(handle) {
   return async function(ctx, extraCtxParams = {}) {
-    const parsedUrl = parse(ctx.request.url, true);
+    const parsedUrl = new URL(ctx.request.url, true);
     const {
       toggles,
       globalAlert,
