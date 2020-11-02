@@ -4,6 +4,10 @@ const cookiePrefix = 'toggle_';
 const cookieExpiry = 31536000;
 
 const validToggle = (toggles, featureToggle) => {
+  if (featureToggle.startsWith('!')) {
+    const featureToggleName = featureToggle.substr(1, featureToggle.length);
+    return Object.keys(toggles).includes(featureToggleName);
+  }
   return Object.keys(toggles).includes(featureToggle);
 };
 
@@ -48,32 +52,33 @@ function withToggles(ctx, next) {
   }, {});
 
   ctx.toggles = { ...defaultToggleValues, ...toggles };
-  enableDisableToggler(ctx);
+  enableDisableToggle(ctx);
   return next();
 }
 
-function enableDisableToggler(ctx) {
+function enableDisableToggle(ctx) {
   if (ctx && ctx.toggles) {
     if (ctx.query.toggles) {
       const reqFeatureToggle = ctx.query.toggles;
-      if (reqFeatureToggle.startsWith('!')) {
-        const nameFeatureToggle = reqFeatureToggle.substr(
-          1,
-          reqFeatureToggle.length
-        );
+      const onlyCookieToggleName = reqFeatureToggle.substr(
+        1,
+        reqFeatureToggle.length
+      );
 
-        if (
-          validToggle(ctx.toggles, nameFeatureToggle) &&
-          ctx.cookies.get(cookiePrefix + nameFeatureToggle) === 'true'
-        ) {
-          ctx.cookies.set(cookiePrefix + nameFeatureToggle, null);
-        }
+      const validToggleFeature = validToggle(ctx.toggles, reqFeatureToggle);
+      const stateFeatureToggle = validToggleFeature
+        ? !reqFeatureToggle.startsWith('!')
+        : false;
+      const cookieName = stateFeatureToggle
+        ? `${cookiePrefix}${reqFeatureToggle}`
+        : `${cookiePrefix}${onlyCookieToggleName}`;
+
+      if (stateFeatureToggle) {
+        ctx.cookies.set(cookieName, true, {
+          maxAge: cookieExpiry,
+        });
       } else {
-        if (validToggle(ctx.toggles, reqFeatureToggle)) {
-          ctx.cookies.set(cookiePrefix + reqFeatureToggle, true, {
-            maxAge: cookieExpiry,
-          });
-        }
+        ctx.cookies.set(cookieName, null);
       }
     }
   }
