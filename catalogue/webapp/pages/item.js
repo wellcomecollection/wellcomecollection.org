@@ -93,6 +93,7 @@ const ItemPage = ({
   video,
   audio,
 }: Props) => {
+  const [authServiceRequested, setAuthServiceRequested] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showViewer, setShowViewer] = useState(false);
   const title = (manifest && manifest.label) || (work && work.title) || '';
@@ -160,7 +161,7 @@ const ItemPage = ({
       setShowModal(false);
       setShowViewer(true);
     }
-  }, []);
+  }, [authServiceRequested]);
 
   return (
     <CataloguePageLayout
@@ -260,7 +261,7 @@ const ItemPage = ({
                 `${authService?.authService['@id']}?origin=${window.location.protocol}//${window.location.hostname}`
               );
               authServiceWindow.addEventListener('unload', function(event) {
-                setShowModal(false);
+                setAuthServiceRequested(true);
               });
             }}
             // target="_blank"
