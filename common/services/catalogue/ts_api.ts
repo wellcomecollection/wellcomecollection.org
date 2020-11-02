@@ -84,16 +84,3 @@ export function imagesRouteToApiUrl(
     color: imagesRouteProps.color
   };
 }
-
-export const defaultWorkTypes = ['a', 'b', 'g', 'i', 'k', 'l', 'q'];
-
-export function worksPropsToImagesProps(
-  worksProps: CatalogueWorksApiProps
-): CatalogueImagesApiProps {
-  return {
-    query: worksProps.query,
-    page: worksProps.page,
-    'locations.license': undefined,
-    color: undefined,
-  };
-}

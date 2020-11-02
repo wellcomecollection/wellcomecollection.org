@@ -71,21 +71,20 @@ type NextRoute<T> = {
   toQuery: (t: T) => UrlParams;
 };
 
-
-type SharedWorksAndImagesProps = {
+// route: /images
+export type ImagesRouteProps = {
   query: string;
   page: number;
   source: string | null;
-}
-
-// route: /images
-export type ImagesRouteProps = SharedWorksAndImagesProps & {
   locationsLicense: string | null,
   color: string | null,
 }
 
 // route: /works
-export type WorksRouteProps = SharedWorksAndImagesProps & {
+export type WorksRouteProps = {
+  query: string;
+  page: number;
+  source: string | null;
   workType: string[];
   itemsLocationsLocationType: string[];
   itemsLocationsType: string[];
@@ -204,125 +203,7 @@ export const ImagesRoute: NextRoute<ImagesRouteProps> = {
   },
 };
 
-// // route: /works/{id}
-// export type WorkRouteProps = {|
-//   id: string,
-// |};
-
-// export const WorkRoute: NextRoute<WorkRouteProps> = {
-//   fromQuery(q) {
-//     return {
-//       id: defaultToEmptyString(q.id),
-//     };
-//   },
-
-//   toLink(params) {
-//     const { id } = params;
-//     return {
-//       href: {
-//         pathname: '/work',
-//         query: { id },
-//       },
-//       as: {
-//         pathname: `/works/${id}`,
-//         query: {},
-//       },
-//     };
-//   },
-
-//   toQuery(params) {
-//     return serialiseUrl({ id: params.id });
-//   },
-// };
-
-// // route: /works/{id}/items
-// // /works/{id}/items
-// export type ItemRouteProps = {|
-//   workId: string,
-//   langCode: string,
-//   canvas: number,
-//   sierraId: ?string,
-//   isOverview?: boolean,
-//   page: number,
-//   pageSize: number,
-// |};
-
-// export const ItemRoute: NextRoute<ItemRouteProps> = {
-//   fromQuery(q) {
-//     const {
-//       workId,
-//       langCode = 'eng',
-//       canvas,
-//       sierraId,
-//       isOverview,
-//       page,
-//       pageSize,
-//     } = q;
-//     return {
-//       workId: defaultToEmptyString(workId),
-//       langCode,
-//       sierraId: maybeString(sierraId),
-//       pageSize: pageSize ? parseInt(pageSize, 10) : 4,
-//       canvas: defaultTo1(canvas),
-//       isOverview: Boolean(isOverview),
-//       page: defaultTo1(page),
-//     };
-//   },
-//   toLink(params) {
-//     const { workId, ...as } = params;
-//     return {
-//       href: {
-//         pathname: `/item`,
-//         query: ItemRoute.toQuery(params),
-//       },
-//       as: {
-//         pathname: `/works/${workId}/items`,
-//         query: ItemRoute.toQuery(as),
-//       },
-//     };
-//   },
-//   toQuery(params) {
-//     return serialiseUrl(params);
-//   },
-// };
-
-// export type ImageRouteProps = {|
-//   id: string,
-//   workId: string,
-//   langCode: string,
-// |};
-
-// export const ImageRoute: NextRoute<ImageRouteProps> = {
-//   fromQuery(q) {
-//     const { workId, langCode = 'eng', id } = q;
-//     return {
-//       workId: defaultToEmptyString(workId),
-//       langCode,
-//       id: defaultToEmptyString(id),
-//     };
-//   },
-//   toLink(params) {
-//     const { workId, ...as } = params;
-//     return {
-//       href: {
-//         pathname: '/image',
-//         query: ImageRoute.toQuery(params),
-//       },
-//       as: {
-//         pathname: `/works/${workId}/images`,
-//         query: ImageRoute.toQuery(as),
-//       },
-//     };
-//   },
-//   toQuery(params) {
-//     return serialiseUrl(params);
-//   },
-// };
-
 export const imagesLink = (params: ImagesRouteProps, source: string) =>
   ImagesRoute.toLink({ ...params, source });
 export const worksLink = (params: WorksRouteProps, source: string) =>
   WorksRoute.toLink({ ...params, source });
-// export const workLink = WorkRoute.toLink;
-// export const itemLink = ItemRoute.toLink;
-// export const imageLink = ImageRoute.toLink;

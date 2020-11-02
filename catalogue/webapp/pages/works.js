@@ -239,7 +239,7 @@ const Works = ({ works, images, worksRouteProps, apiProps }: Props) => {
                     <div className="flex flex--h-space-between flex--v-center">
                       <Fragment>
                         <Paginator
-                          query={query}
+                          query={searchPrototype ? query : undefined}
                           currentPage={page || 1}
                           pageSize={results.pageSize}
                           totalResults={results.totalResults}

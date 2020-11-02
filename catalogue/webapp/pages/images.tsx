@@ -26,14 +26,13 @@ import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { getImages } from '../services/catalogue/images';
-import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import useHotjar from '@weco/common/hooks/useHotjar';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 
 type Props = {
-  images: CatalogueResultsList<Image> | CatalogueApiError;
+  results?: CatalogueResultsList<Image> | CatalogueApiError;
   imagesRouteProps: ImagesRouteProps;
   apiProps: ImagesApiProps;
 };
@@ -69,20 +68,12 @@ const ImagesPagination = ({
   />
 );
 
-const Images = ({ images, imagesRouteProps, apiProps }: Props) => {
+const Images = ({ results, imagesRouteProps, apiProps }: Props) => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(imagesRouteProps);
-  const results: CatalogueResultsList<Image> | CatalogueApiError = images;
   const { searchPrototype } = useContext(TogglesContext);
 
   const { query, page } = imagesRouteProps;
-
-  useEffect(() => {
-    trackSearch(apiProps, {
-      totalResults: results?.type === 'ResultList' ? results?.totalResults : 0,
-      source: Router.query.source || 'unspecified',
-    });
-  }, [imagesRouteProps]);
 
   useEffect(() => {
     function routeChangeStart(url: string) {
@@ -220,9 +211,9 @@ const Images = ({ images, imagesRouteProps, apiProps }: Props) => {
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
-                {images && images.type !== 'Error' && (
+                {results && (
                   <ImageEndpointSearchResults
-                    images={images}
+                    images={results}
                     apiProps={apiProps}
                   />
                 )}
@@ -271,10 +262,10 @@ Images.getInitialProps = async (ctx: NextPageContext): Promise<Props> => {
         params,
         toggles: ctx.query.toggles,
       })
-    : null;
+    : undefined;
 
   return {
-    images: imagesOrError,
+    results: imagesOrError,
     imagesRouteProps: params,
     apiProps,
   };
