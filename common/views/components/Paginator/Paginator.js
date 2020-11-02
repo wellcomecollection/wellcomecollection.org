@@ -17,6 +17,7 @@ type LinkProps = {|
 type PageChangeFunction = (event: Event, page: number) => Promise<void>;
 
 type Props = {|
+  query?: string,
   currentPage: number,
   pageSize: number,
   totalResults: number,
@@ -25,6 +26,7 @@ type Props = {|
 |};
 
 const Paginator = ({
+  query,
   currentPage,
   pageSize,
   totalResults,
@@ -77,6 +79,7 @@ const Paginator = ({
     <Fragment>
       <div className={`flex flex--v-center ${font('hnm', 3)}`}>
         {totalResults} result{totalResults !== 1 ? 's' : ''}
+        {query && ` for “${query}”`}
       </div>
       <div
         className={classNames({
@@ -88,6 +91,7 @@ const Paginator = ({
           [font('hnl', 5)]: true,
         })}
       >
+        <div id="sort-select-portal"></div>
         {prevLink && prev && (
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <Control

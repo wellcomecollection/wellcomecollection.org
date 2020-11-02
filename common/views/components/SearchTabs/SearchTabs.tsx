@@ -1,32 +1,52 @@
 import BaseTabs from '../BaseTabs/BaseTabs';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { TabType } from '../BaseTabs/BaseTabs';
 import styled from 'styled-components';
 import Space from '../styled/Space';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AppContext } from '../AppContext/AppContext';
-import Layout12 from '../Layout12/Layout12';
+import PrototypeSearchForm from '@weco/common/views/components/PrototypeSearchForm/PrototypeSearchForm';
+import {
+  WorksRouteProps,
+  ImagesRouteProps,
+} from '@weco/common/services/catalogue/ts_routes';
+import {
+  CatalogueAggregationBucket,
+  CatalogueAggregations,
+} from '@weco/common/model/catalogue';
 import { trackEvent } from '@weco/common/utils/ga';
+
+const BaseTabsWrapper = styled.div`
+  // FIXME: For testing, make the checkboxes/buttons have a white background because they're on grey
+  [class*='ButtonInline__InlineButton'],
+  [class^='CheckboxRadio__CheckboxRadioBox'] {
+    background: white !important;
+  }
+`;
 
 const Tab = styled(Space).attrs({
   as: 'span',
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  className: 'flex-inline',
+  className: classNames({
+    'flex-inline': true,
+    [font('hnm', 5)]: true,
+  }),
 })`
-  background: ${props => props.theme.color('cream')};
-  border-left: 1px solid ${props => props.theme.color('pumice')};
-  border-top: 1px solid ${props => props.theme.color('pumice')};
+  background: ${props => props.theme.color('white')};
+  border-left: 1px solid ${props => props.theme.color('marble')};
+  border-top: 1px solid ${props => props.theme.color('marble')};
 
   ${props =>
     props.isLast &&
     `
-    border-right: 1px solid ${props.theme.color('pumice')};
+    border-right: 1px solid ${props.theme.color('marble')};
   `}
 
   ${props =>
     props.isActive &&
     `
-    background: ${props.theme.color('white')};
+    background: ${props.theme.color('marble')};
   `}
 
   ${props =>
@@ -38,17 +58,30 @@ const Tab = styled(Space).attrs({
   `}
 `;
 
-const TabPanel = styled(Space).attrs({
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-})`
-  background: ${props => props.theme.color('white')};
-  border: 1px solid ${props => props.theme.color('pumice')};
+const TabPanel = styled(Space)`
+  background: ${props => props.theme.color('marble')};
 `;
+type Props = {
+  worksRouteProps: WorksRouteProps;
+  imagesRouteProps: ImagesRouteProps;
+  workTypeAggregations: CatalogueAggregationBucket[];
+  shouldShowDescription: boolean;
+  activeTabIndex?: number;
+  aggregations?: CatalogueAggregations;
+};
 
-const SearchTabs = () => {
+const SearchTabs = ({
+  worksRouteProps,
+  imagesRouteProps,
+  workTypeAggregations,
+  aggregations,
+  shouldShowDescription,
+  activeTabIndex,
+}: Props) => {
   const { isKeyboard } = useContext(AppContext);
-
+  const [activeTab, setActiveTab] = useState(
+    activeTabIndex === 0 ? 'tab-library-catalogue' : 'tab-images'
+  );
   const tabs: TabType[] = [
     {
       id: 'tab-library-catalogue',
@@ -57,7 +90,32 @@ const SearchTabs = () => {
           Library catalogue
         </Tab>
       ),
-      tabPanel: <TabPanel>Library catalogue SearchForm goes here</TabPanel>,
+      tabPanel: (
+        <TabPanel>
+          <Space
+            v={{ size: 'm', properties: ['padding-top'] }}
+            h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+            className={classNames({
+              'visually-hidden': !shouldShowDescription,
+              [font('hnl', 5)]: true,
+            })}
+            id="library-catalogue-form-description"
+            style={{ maxWidth: '70ch' }}
+          >
+            Find thousands of books, images, artworks, unpublished archives and
+            manuscripts in our collections, many of them with free online
+            access.
+          </Space>
+          <PrototypeSearchForm
+            isActive={activeTab === 'tab-library-catalogue'}
+            ariaDescribedBy={'library-catalogue-form-description'}
+            routeProps={worksRouteProps}
+            workTypeAggregations={workTypeAggregations}
+            isImageSearch={false}
+            aggregations={aggregations}
+          />
+        </TabPanel>
+      ),
     },
     {
       id: 'tab-images',
@@ -71,7 +129,31 @@ const SearchTabs = () => {
           Images
         </Tab>
       ),
-      tabPanel: <TabPanel>Image SearchForm goes here</TabPanel>,
+      tabPanel: (
+        <TabPanel>
+          <Space
+            v={{ size: 'm', properties: ['padding-top'] }}
+            h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+            className={classNames({
+              'visually-hidden': !shouldShowDescription,
+              [font('hnl', 5)]: true,
+            })}
+            id="images-form-description"
+            style={{ maxWidth: '70ch' }}
+          >
+            Search for free, downloadable images taken from our library and
+            museum collections, including objects at the Science Museum.
+          </Space>
+          <PrototypeSearchForm
+            isActive={activeTab === 'tab-images'}
+            ariaDescribedBy="images-form-description"
+            routeProps={imagesRouteProps}
+            workTypeAggregations={workTypeAggregations}
+            isImageSearch={true}
+            aggregations={aggregations}
+          />
+        </TabPanel>
+      ),
     },
   ];
 
@@ -83,20 +165,20 @@ const SearchTabs = () => {
     });
   }
 
+  function onTabChanged(id: string) {
+    setActiveTab(id);
+  }
+
   return (
-    <Layout12>
-      <Space
-        v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-        h={{ size: 'xl', properties: ['padding-left', 'padding-right'] }}
-        className="bg-cream"
-      >
-        <BaseTabs
-          tabs={tabs}
-          label={'Tabs for search'}
-          onTabClick={onTabClick}
-        />
-      </Space>
-    </Layout12>
+    <BaseTabsWrapper>
+      <BaseTabs
+        tabs={tabs}
+        label={'Tabs for search'}
+        activeTabIndex={activeTabIndex}
+        onTabClick={onTabClick}
+        onTabChanged={onTabChanged}
+      />
+    </BaseTabsWrapper>
   );
 };
 

@@ -238,7 +238,7 @@ const SearchFiltersDesktop = ({
           productionDatesTo ||
           (imagesColor && showColorFilter) ||
           workTypeInUrlArray.length > 0 ||
-          worksRouteProps.itemsLocationsType.length > 0) &&
+          worksRouteProps?.itemsLocationsType?.length > 0) &&
           (workTypeFilters.length > 0 ||
             worksRouteProps.search === 'images') && (
             <div className={classNames({ [font('hnl', 5)]: true })}>
