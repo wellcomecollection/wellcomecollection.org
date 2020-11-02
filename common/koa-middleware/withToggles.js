@@ -57,21 +57,27 @@ function enableDisableToggler(ctx) {
     // enable toggler of feature
     if (ctx.query.toggles) {
       const toggleFeature = ctx.query.toggles;
-      const validToggleFeature = validToggle(ctx.toggles, toggleFeature);
-      if (validToggleFeature) {
-        ctx.cookies.set(cookiePrefix + toggleFeature, true, {
-          maxAge: cookieExpiry,
-        });
-      }
-    } else if (ctx.query.togglesOff) {
-      const toggleFeature = ctx.query.togglesOff;
-      // remove toggler of feature
-      const validToggleFeature = validToggle(ctx.toggles, toggleFeature);
-      if (
-        validToggleFeature &&
-        ctx.cookies.get(cookiePrefix + toggleFeature) === 'true'
-      ) {
-        ctx.cookies.set(cookiePrefix + toggleFeature, null);
+      // remove toggler feature
+      if (toggleFeature.startsWith('!')) {
+        const stripNameToggleFeature = toggleFeature.substr(
+          1,
+          toggleFeature.length
+        );
+
+        if (
+          validToggle(ctx.toggles, stripNameToggleFeature) &&
+          ctx.cookies.get(cookiePrefix + stripNameToggleFeature) === 'true'
+        ) {
+          // remove cookie
+          ctx.cookies.set(cookiePrefix + stripNameToggleFeature, null);
+        }
+      } else {
+        // enable toggler feature
+        if (validToggle(ctx.toggles, toggleFeature)) {
+          ctx.cookies.set(cookiePrefix + toggleFeature, true, {
+            maxAge: cookieExpiry,
+          });
+        }
       }
     }
   }

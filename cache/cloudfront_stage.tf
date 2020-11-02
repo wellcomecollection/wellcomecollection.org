@@ -43,6 +43,7 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
         "page",
         "result",
         "uri",
+        "toggles",
       ]
 
       cookies {
