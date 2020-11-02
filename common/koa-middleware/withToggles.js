@@ -54,10 +54,8 @@ function withToggles(ctx, next) {
 
 function enableDisableToggler(ctx) {
   if (ctx && ctx.toggles) {
-    // enable toggler of feature
     if (ctx.query.toggles) {
       const reqFeatureToggle = ctx.query.toggles;
-      // remove toggler feature
       if (reqFeatureToggle.startsWith('!')) {
         const nameFeatureToggle = reqFeatureToggle.substr(
           1,
@@ -68,11 +66,9 @@ function enableDisableToggler(ctx) {
           validToggle(ctx.toggles, nameFeatureToggle) &&
           ctx.cookies.get(cookiePrefix + nameFeatureToggle) === 'true'
         ) {
-          // remove cookie
           ctx.cookies.set(cookiePrefix + nameFeatureToggle, null);
         }
       } else {
-        // enable toggler feature
         if (validToggle(ctx.toggles, reqFeatureToggle)) {
           ctx.cookies.set(cookiePrefix + reqFeatureToggle, true, {
             maxAge: cookieExpiry,
