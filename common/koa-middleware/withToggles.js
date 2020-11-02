@@ -65,8 +65,8 @@ function enableDisableToggle(ctx) {
         reqFeatureToggle.length
       );
 
-      const validToggleFeature = validToggle(ctx.toggles, reqFeatureToggle);
-      const stateFeatureToggle = validToggleFeature
+      const validFeatureToggle = validToggle(ctx.toggles, reqFeatureToggle);
+      const stateFeatureToggle = validFeatureToggle
         ? !reqFeatureToggle.startsWith('!')
         : false;
       const cookieName = stateFeatureToggle
