@@ -65,8 +65,6 @@ type Props = {
   worksRouteProps: WorksRouteProps;
   imagesRouteProps: ImagesRouteProps;
   workTypeAggregations: CatalogueAggregationBucket[];
-  shouldShowImagesFilters: boolean;
-  shouldShowWorksFilters: boolean;
   shouldShowDescription: boolean;
   activeTabIndex?: number;
   aggregations?: CatalogueAggregations;
@@ -77,8 +75,6 @@ const SearchTabs = ({
   imagesRouteProps,
   workTypeAggregations,
   aggregations,
-  shouldShowImagesFilters,
-  shouldShowWorksFilters,
   shouldShowDescription,
   activeTabIndex,
 }: Props) => {
@@ -116,7 +112,6 @@ const SearchTabs = ({
             routeProps={worksRouteProps}
             workTypeAggregations={workTypeAggregations}
             isImageSearch={false}
-            shouldShowFilters={shouldShowWorksFilters}
             aggregations={aggregations}
           />
         </TabPanel>
@@ -155,7 +150,6 @@ const SearchTabs = ({
             routeProps={imagesRouteProps}
             workTypeAggregations={workTypeAggregations}
             isImageSearch={true}
-            shouldShowFilters={shouldShowImagesFilters}
             aggregations={aggregations}
           />
         </TabPanel>

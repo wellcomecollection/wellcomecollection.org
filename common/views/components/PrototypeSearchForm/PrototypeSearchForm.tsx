@@ -26,7 +26,6 @@ import PrototypePortal from '../PrototypePortal/PrototypePortal';
 
 type Props = {
   ariaDescribedBy: string;
-  shouldShowFilters: boolean;
   routeProps: WorksRouteProps | ImagesRouteProps;
   workTypeAggregations: CatalogueAggregationBucket[];
   aggregations?: CatalogueAggregations;
@@ -58,7 +57,6 @@ const ClearSearch = styled.button`
 
 const PrototypeSearchForm = ({
   ariaDescribedBy,
-  shouldShowFilters,
   routeProps,
   workTypeAggregations,
   aggregations,
@@ -234,80 +232,76 @@ const PrototypeSearchForm = ({
         </SearchInputWrapper>
       </Space>
 
-      {shouldShowFilters && (
-        <>
-          <SearchFilters
-            searchForm={searchForm}
-            worksRouteProps={routeProps}
-            workTypeAggregations={workTypeAggregations}
-            changeHandler={submit}
-            aggregations={aggregations}
-            filtersToShow={
-              isImageSearch ? ['colors'] : ['dates', 'formats', 'locations']
-            }
+      <SearchFilters
+        searchForm={searchForm}
+        worksRouteProps={routeProps}
+        workTypeAggregations={workTypeAggregations}
+        changeHandler={submit}
+        aggregations={aggregations}
+        filtersToShow={
+          isImageSearch ? ['colors'] : ['dates', 'formats', 'locations']
+        }
+      />
+      {!isImageSearch && (
+        <PrototypePortal id="sort-select-portal">
+          <Select
+            name="portalSortOrder"
+            label="Sort by"
+            value={portalSortOrder}
+            options={[
+              {
+                value: '',
+                text: 'Relevance',
+              },
+              {
+                value: 'asc',
+                text: 'Oldest to newest',
+              },
+              {
+                value: 'desc',
+                text: 'Newest to oldest',
+              },
+            ]}
+            onChange={event => {
+              setPortalSortOrder(event.currentTarget.value);
+            }}
           />
-          {!isImageSearch && (
-            <PrototypePortal id="sort-select-portal">
-              <Select
-                name="portalSortOrder"
-                label="Sort by"
-                value={portalSortOrder}
-                options={[
-                  {
-                    value: '',
-                    text: 'Relevance',
-                  },
-                  {
-                    value: 'asc',
-                    text: 'Oldest to newest',
-                  },
-                  {
-                    value: 'desc',
-                    text: 'Newest to oldest',
-                  },
-                ]}
-                onChange={event => {
-                  setPortalSortOrder(event.currentTarget.value);
-                }}
-              />
-            </PrototypePortal>
-          )}
-          <noscript>
-            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-              <SelectUncontrolled
-                name="sort"
-                label="Sort by"
-                defaultValue={routeProps.sort || ''}
-                options={[
-                  {
-                    value: '',
-                    text: 'Relevance',
-                  },
-                  {
-                    value: 'production.dates',
-                    text: 'Production dates',
-                  },
-                ]}
-              />
-            </Space>
-            <SelectUncontrolled
-              name="sortOrder"
-              label="Sort order"
-              defaultValue={routeProps.sortOrder || ''}
-              options={[
-                {
-                  value: 'asc',
-                  text: 'Ascending',
-                },
-                {
-                  value: 'desc',
-                  text: 'Descending',
-                },
-              ]}
-            />
-          </noscript>
-        </>
+        </PrototypePortal>
       )}
+      <noscript>
+        <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+          <SelectUncontrolled
+            name="sort"
+            label="Sort by"
+            defaultValue={routeProps.sort || ''}
+            options={[
+              {
+                value: '',
+                text: 'Relevance',
+              },
+              {
+                value: 'production.dates',
+                text: 'Production dates',
+              },
+            ]}
+          />
+        </Space>
+        <SelectUncontrolled
+          name="sortOrder"
+          label="Sort order"
+          defaultValue={routeProps.sortOrder || ''}
+          options={[
+            {
+              value: 'asc',
+              text: 'Ascending',
+            },
+            {
+              value: 'desc',
+              text: 'Descending',
+            },
+          ]}
+        />
+      </noscript>
       <SearchButtonWrapper>
         <ButtonSolid
           icon="search"

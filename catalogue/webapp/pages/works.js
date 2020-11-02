@@ -195,8 +195,6 @@ const Works = ({ works, images, worksRouteProps, apiProps }: Props) => {
                         ? works.aggregations.workType.buckets
                         : []
                     }
-                    shouldShowImagesFilters={false}
-                    shouldShowWorksFilters={query !== ''}
                     shouldShowDescription={query === ''}
                     aggregations={
                       works && works.aggregations

@@ -154,8 +154,6 @@ const Work = ({ work }: Props) => {
                     color: null,
                   }}
                   workTypeAggregations={[]}
-                  shouldShowImagesFilters={false}
-                  shouldShowWorksFilters={false}
                   shouldShowDescription={false}
                   activeTabIndex={0}
                 />

@@ -159,8 +159,6 @@ const Images = ({ results, imagesRouteProps, apiProps }: Props) => {
                       )}
                       imagesRouteProps={imagesRouteProps}
                       workTypeAggregations={[]}
-                      shouldShowImagesFilters={query !== ''}
-                      shouldShowWorksFilters={false}
                       shouldShowDescription={query === ''}
                       activeTabIndex={1}
                     />
