@@ -3,8 +3,8 @@ let defaultToggleValues = {};
 const cookiePrefix = 'toggle_';
 const cookieExpiry = 31536000;
 
-const validToggle = (toggles, toggleFeature) => {
-  return Object.keys(toggles).includes(toggleFeature);
+const validToggle = (toggles, featureToggle) => {
+  return Object.keys(toggles).includes(featureToggle);
 };
 
 async function getDefaultToggleValues() {
@@ -53,28 +53,28 @@ function withToggles(ctx, next) {
 }
 
 function enableDisableToggler(ctx) {
-  if (ctx.toggles) {
+  if (ctx && ctx.toggles) {
     // enable toggler of feature
     if (ctx.query.toggles) {
-      const toggleFeature = ctx.query.toggles;
+      const reqFeatureToggle = ctx.query.toggles;
       // remove toggler feature
-      if (toggleFeature.startsWith('!')) {
-        const stripNameToggleFeature = toggleFeature.substr(
+      if (reqFeatureToggle.startsWith('!')) {
+        const nameFeatureToggle = reqFeatureToggle.substr(
           1,
-          toggleFeature.length
+          reqFeatureToggle.length
         );
 
         if (
-          validToggle(ctx.toggles, stripNameToggleFeature) &&
-          ctx.cookies.get(cookiePrefix + stripNameToggleFeature) === 'true'
+          validToggle(ctx.toggles, nameFeatureToggle) &&
+          ctx.cookies.get(cookiePrefix + nameFeatureToggle) === 'true'
         ) {
           // remove cookie
-          ctx.cookies.set(cookiePrefix + stripNameToggleFeature, null);
+          ctx.cookies.set(cookiePrefix + nameFeatureToggle, null);
         }
       } else {
         // enable toggler feature
-        if (validToggle(ctx.toggles, toggleFeature)) {
-          ctx.cookies.set(cookiePrefix + toggleFeature, true, {
+        if (validToggle(ctx.toggles, reqFeatureToggle)) {
+          ctx.cookies.set(cookiePrefix + reqFeatureToggle, true, {
             maxAge: cookieExpiry,
           });
         }
