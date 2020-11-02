@@ -238,63 +238,62 @@ const ItemPage = ({
         />
       )}
       {/* // TODO where should headerHeight value come from? */}
-      {/* // TODO Take ViewerBackground out of IIIFViewer */}
-      <IIIFViewerBackground headerHeight={85}>
-        <Modal
-          isActive={showModal}
-          setIsActive={setShowModal}
-          removeCloseButton={true}
-        >
-          <div className="body-text">
-            <h2>{authService?.authService?.label}</h2>
-            <p
-              dangerouslySetInnerHTML={{
-                __html: authService?.authService?.description,
-              }}
-            />
-            <a
-              onClick={() => {
-                const authServiceWindow = window.open(
-                  `${authService?.authService['@id']}?origin=http://localhost:3000/` // TODO get proper origin
-                );
-                authServiceWindow.addEventListener('unload', function(event) {
-                  setShowModal(false);
-                  setShowViewer(true);
-                  // TODO check can get images
-                });
-              }}
-              // target="_blank"
-              // rel="noopener noreferrer"
-            >
-              Show the content2
-            </a>
-            {/* //TODO proper origin value */}
-            <NextLink {...workLink({ id: workId })}>
-              <a>Take me back to the item page</a>
-            </NextLink>
-          </div>
-        </Modal>
-        {showViewer &&
-          ((mainImageService && currentCanvas) || iiifImageLocation) && (
-            <IIIFViewer
-              title={title}
-              mainPaginatorProps={mainPaginatorProps}
-              thumbsPaginatorProps={thumbsPaginatorProps}
-              currentCanvas={currentCanvas}
-              lang={langCode}
-              canvasOcr={canvasOcr}
-              canvases={canvases}
-              workId={workId}
-              pageIndex={pageIndex}
-              sierraId={sierraId}
-              pageSize={pageSize}
-              canvasIndex={canvasIndex}
-              iiifImageLocation={iiifImageLocation}
-              work={work}
-              manifest={manifest}
-            />
-          )}
-      </IIIFViewerBackground>
+      {showModal && (
+        <IIIFViewerBackground headerHeight={85}> </IIIFViewerBackground>
+      )}
+      <Modal
+        id="auth-modal"
+        isActive={showModal}
+        setIsActive={setShowModal}
+        removeCloseButton={true}
+      >
+        <div className="body-text">
+          <h2>{authService?.authService?.label}</h2>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: authService?.authService?.description,
+            }}
+          />
+          <a
+            onClick={() => {
+              const authServiceWindow = window.open(
+                `${authService?.authService['@id']}?origin=${window.location.protocol}//${window.location.hostname}`
+              );
+              authServiceWindow.addEventListener('unload', function(event) {
+                setShowModal(false);
+              });
+            }}
+            // target="_blank"
+            // rel="noopener noreferrer"
+          >
+            Show the content
+          </a>
+          {/* //TODO proper origin value */}
+          <NextLink {...workLink({ id: workId })}>
+            <a>Take me back to the item page</a>
+          </NextLink>
+        </div>
+      </Modal>
+      {showViewer &&
+        ((mainImageService && currentCanvas) || iiifImageLocation) && (
+          <IIIFViewer
+            title={title}
+            mainPaginatorProps={mainPaginatorProps}
+            thumbsPaginatorProps={thumbsPaginatorProps}
+            currentCanvas={currentCanvas}
+            lang={langCode}
+            canvasOcr={canvasOcr}
+            canvases={canvases}
+            workId={workId}
+            pageIndex={pageIndex}
+            sierraId={sierraId}
+            pageSize={pageSize}
+            canvasIndex={canvasIndex}
+            iiifImageLocation={iiifImageLocation}
+            work={work}
+            manifest={manifest}
+          />
+        )}
     </CataloguePageLayout>
   );
 };
