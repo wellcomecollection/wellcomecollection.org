@@ -60,7 +60,7 @@ function enableDisableToggle(ctx) {
   if (ctx && ctx.toggles) {
     if (ctx.query.toggles) {
       const reqFeatureToggle = ctx.query.toggles;
-      const onlyCookieToggleName = reqFeatureToggle.substr(
+      const onlyFeatureToggleName = reqFeatureToggle.substr(
         1,
         reqFeatureToggle.length
       );
@@ -71,7 +71,7 @@ function enableDisableToggle(ctx) {
         : false;
       const cookieName = stateFeatureToggle
         ? `${cookiePrefix}${reqFeatureToggle}`
-        : `${cookiePrefix}${onlyCookieToggleName}`;
+        : `${cookiePrefix}${onlyFeatureToggleName}`;
 
       if (stateFeatureToggle) {
         ctx.cookies.set(cookieName, true, {
