@@ -16,6 +16,14 @@ import {
 } from '@weco/common/model/catalogue';
 import { trackEvent } from '@weco/common/utils/ga';
 
+const BaseTabsWrapper = styled.div`
+  // FIXME: For testing, make the checkboxes/buttons have a white background because they're on grey
+  [class*='ButtonInline__InlineButton'],
+  [class^='CheckboxRadio__CheckboxRadioBox'] {
+    background: white !important;
+  }
+`;
+
 const Tab = styled(Space).attrs({
   as: 'span',
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -168,13 +176,15 @@ const SearchTabs = ({
   }
 
   return (
-    <BaseTabs
-      tabs={tabs}
-      label={'Tabs for search'}
-      activeTabIndex={activeTabIndex}
-      onTabClick={onTabClick}
-      onTabChanged={onTabChanged}
-    />
+    <BaseTabsWrapper>
+      <BaseTabs
+        tabs={tabs}
+        label={'Tabs for search'}
+        activeTabIndex={activeTabIndex}
+        onTabClick={onTabClick}
+        onTabChanged={onTabChanged}
+      />
+    </BaseTabsWrapper>
   );
 };
 
