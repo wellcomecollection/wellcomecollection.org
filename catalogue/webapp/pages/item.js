@@ -30,7 +30,7 @@ import Space, {
   type SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
 import Modal from '@weco/common/views/components/Modal/Modal';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+// import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import NextLink from 'next/link';
 
 const IframePdfViewer: ComponentType<SpaceComponentProps> = styled(Space).attrs(
@@ -66,6 +66,18 @@ type Props = {|
   },
 |};
 
+// We need to know if the authorisation cookie for dlcs.io has been set
+// We know that is true if we can successfully request an image from dlcs.io
+// Using fetch to get the status code doesn't work cross-domain unless the other domain sends CORS headers,
+// so we try and load an image and if not successful use it as a proxy for a 401.
+const checkImageIsAvailable = path =>
+  new Promise(resolve => {
+    const img = new window.Image();
+    img.onload = () => resolve({ path, status: 'ok' });
+    img.onerror = () => resolve({ path, status: 'error' });
+    img.src = path;
+  });
+
 const ItemPage = ({
   workId,
   sierraId,
@@ -82,14 +94,15 @@ const ItemPage = ({
   audio,
 }: Props) => {
   const [showModal, setShowModal] = useState(false);
+  const [showViewer, setShowViewer] = useState(false);
   const title = (manifest && manifest.label) || (work && work.title) || '';
   const iiifImageLocation =
     work && getDigitalLocationOfType(work, 'iiif-image');
-
   const serviceId = getServiceId(currentCanvas);
   const mainImageService = serviceId && {
     '@id': serviceId,
   };
+  const resourceId = currentCanvas?.images[0]?.resource?.['@id'];
 
   const showDownloadOptions = manifest
     ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
@@ -131,7 +144,22 @@ const ItemPage = ({
   };
 
   useEffect(() => {
-    setShowModal(true);
+    if (authService) {
+      checkImageIsAvailable(resourceId)
+        .then(response => {
+          if (response.status === 'ok') {
+            setShowModal(false);
+            setShowViewer(true);
+          } else {
+            setShowModal(true);
+            setShowViewer(false);
+          }
+        })
+        .catch(error => console.log(error));
+    } else {
+      setShowModal(false);
+      setShowViewer(true);
+    }
   }, []);
 
   return (
@@ -166,7 +194,6 @@ const ItemPage = ({
           </Space>
         </Layout12>
       )}
-
       {video && (
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -210,49 +237,64 @@ const ItemPage = ({
           src={pdfRendering['@id']}
         />
       )}
-
-      {authService /* and no cookie authorisation */ ? ( // TODO where should headerHeight value come from?
-        <IIIFViewerBackground headerHeight={85}>
-          <Modal
-            isActive={showModal}
-            setIsActive={setShowModal}
-            removeCloseButton={true}
-          >
-            <div className="body-text">
-              <h2>{authService?.authService?.label}</h2>
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: authService?.authService?.description,
-                }}
-              />
-              <ButtonSolidLink text="Show the content" link={`/`} />
-              <NextLink {...workLink({ id: workId })}>
-                <a>Take me back to the item page</a>
-              </NextLink>
-            </div>
-          </Modal>
-        </IIIFViewerBackground>
-      ) : (
-        ((mainImageService && currentCanvas) || iiifImageLocation) && (
-          <IIIFViewer
-            title={title}
-            mainPaginatorProps={mainPaginatorProps}
-            thumbsPaginatorProps={thumbsPaginatorProps}
-            currentCanvas={currentCanvas}
-            lang={langCode}
-            canvasOcr={canvasOcr}
-            canvases={canvases}
-            workId={workId}
-            pageIndex={pageIndex}
-            sierraId={sierraId}
-            pageSize={pageSize}
-            canvasIndex={canvasIndex}
-            iiifImageLocation={iiifImageLocation}
-            work={work}
-            manifest={manifest}
-          />
-        )
-      )}
+      {/* // TODO where should headerHeight value come from? */}
+      {/* // TODO Take ViewerBackground out of IIIFViewer */}
+      <IIIFViewerBackground headerHeight={85}>
+        <Modal
+          isActive={showModal}
+          setIsActive={setShowModal}
+          removeCloseButton={true}
+        >
+          <div className="body-text">
+            <h2>{authService?.authService?.label}</h2>
+            <p
+              dangerouslySetInnerHTML={{
+                __html: authService?.authService?.description,
+              }}
+            />
+            <a
+              onClick={() => {
+                const authServiceWindow = window.open(
+                  `${authService?.authService['@id']}?origin=http://localhost:3000/` // TODO get proper origin
+                );
+                authServiceWindow.addEventListener('unload', function(event) {
+                  setShowModal(false);
+                  setShowViewer(true);
+                  // TODO check can get images
+                });
+              }}
+              // target="_blank"
+              // rel="noopener noreferrer"
+            >
+              Show the content2
+            </a>
+            {/* //TODO proper origin value */}
+            <NextLink {...workLink({ id: workId })}>
+              <a>Take me back to the item page</a>
+            </NextLink>
+          </div>
+        </Modal>
+        {showViewer &&
+          ((mainImageService && currentCanvas) || iiifImageLocation) && (
+            <IIIFViewer
+              title={title}
+              mainPaginatorProps={mainPaginatorProps}
+              thumbsPaginatorProps={thumbsPaginatorProps}
+              currentCanvas={currentCanvas}
+              lang={langCode}
+              canvasOcr={canvasOcr}
+              canvases={canvases}
+              workId={workId}
+              pageIndex={pageIndex}
+              sierraId={sierraId}
+              pageSize={pageSize}
+              canvasIndex={canvasIndex}
+              iiifImageLocation={iiifImageLocation}
+              work={work}
+              manifest={manifest}
+            />
+          )}
+      </IIIFViewerBackground>
     </CataloguePageLayout>
   );
 };
