@@ -56,4 +56,68 @@ describe('withToggles', () => {
       done();
     }, 500);
   });
+
+  describe('enableDisableToggle', () => {
+    const cookieFn = jest.fn();
+    const defaultCtx = {
+      toggles: {
+        buildingReopening: true,
+        modalFiltersPrototype: false,
+      },
+      cookies: {
+        set: cookieFn,
+      },
+    };
+
+    it('should set feature toggle cookie', () => {
+      const ctx = {
+        ...defaultCtx,
+        query: {
+          toggles: 'modalFiltersPrototype',
+        },
+      };
+
+      withToggles.enableDisableToggle(ctx);
+      expect(cookieFn).toBeCalledTimes(1);
+      expect(cookieFn).toBeCalledWith('toggle_modalFiltersPrototype', true, {
+        maxAge: 31536000,
+      });
+    });
+
+    it('should delete existing feature toggle cookie', () => {
+      const ctx = {
+        ...defaultCtx,
+        query: {
+          toggles: '!modalFiltersPrototype',
+        },
+      };
+
+      withToggles.enableDisableToggle(ctx);
+      expect(cookieFn).toBeCalledTimes(1);
+      expect(cookieFn).toBeCalledWith('toggle_modalFiltersPrototype', null);
+    });
+
+    it('should only find valid toggle feature cookie before setting or deleting cookie', () => {
+      const cookieFn = jest.fn();
+      const ctxMockFeatureToggleOff = {
+        ...defaultCtx,
+        query: {
+          toggles: 'huhuh',
+        },
+      };
+
+      withToggles.enableDisableToggle(ctxMockFeatureToggleOff);
+      expect(cookieFn).toBeCalledTimes(0);
+
+      const ctxMockFeatureToggleOn = {
+        ...defaultCtx,
+        query: {
+          toggles: 'dummyFeatureToggle',
+        },
+      };
+
+      withToggles.enableDisableToggle(ctxMockFeatureToggleOn);
+      expect(cookieFn).toBeCalledTimes(0);
+    });
+  });
 });

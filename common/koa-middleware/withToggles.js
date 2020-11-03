@@ -60,28 +60,24 @@ function enableDisableToggle(ctx) {
   if (ctx && ctx.toggles) {
     if (ctx.query.toggles) {
       const reqFeatureToggle = ctx.query.toggles;
-      const onlyFeatureToggleName = reqFeatureToggle.substr(
-        1,
-        reqFeatureToggle.length
-      );
-
       const validFeatureToggle = validToggle(ctx.toggles, reqFeatureToggle);
-      const stateFeatureToggle = validFeatureToggle
-        ? !reqFeatureToggle.startsWith('!')
-        : false;
+      const stateFeatureToggle = !reqFeatureToggle.startsWith('!');
       const cookieName = stateFeatureToggle
         ? `${cookiePrefix}${reqFeatureToggle}`
-        : `${cookiePrefix}${onlyFeatureToggleName}`;
+        : `${cookiePrefix}${reqFeatureToggle.replace(/^!/, '')}`;
 
-      if (stateFeatureToggle) {
-        ctx.cookies.set(cookieName, true, {
-          maxAge: cookieExpiry,
-        });
-      } else {
-        ctx.cookies.set(cookieName, null);
+      if (validFeatureToggle) {
+        if (stateFeatureToggle) {
+          ctx.cookies.set(cookieName, true, {
+            maxAge: cookieExpiry,
+          });
+        } else {
+          ctx.cookies.set(cookieName, null);
+        }
       }
     }
   }
 }
 
-module.exports = withToggles;
+const withTogglesModule = (module.exports = withToggles);
+withTogglesModule.enableDisableToggle = enableDisableToggle;
