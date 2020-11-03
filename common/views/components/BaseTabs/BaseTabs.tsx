@@ -7,6 +7,7 @@ import {
   useEffect,
 } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
 
@@ -69,6 +70,7 @@ const Tabs = ({
   const [activeId, setActiveId] = useState(tabs[activeTabIndex || 0].id);
   const [focusedId, setFocusedId] = useState(null);
   const { isEnhanced } = useContext(AppContext);
+  const { searchPrototype } = useContext(TogglesContext);
   const tabListRef = useRef(null);
   const handleTabClick = useCallback(
     (tabId: string) => {
@@ -160,7 +162,7 @@ const Tabs = ({
           key={id}
           id={id}
           isActive={id === activeId}
-          isEnhanced={isEnhanced}
+          isEnhanced={isEnhanced || searchPrototype}
         >
           {!isEnhanced && tab(id === activeId, id === focusedId)}
           {tabPanel}
