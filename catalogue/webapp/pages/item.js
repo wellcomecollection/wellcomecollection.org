@@ -247,6 +247,7 @@ const ItemPage = ({
         isActive={showModal}
         setIsActive={setShowModal}
         removeCloseButton={true}
+        openButtonRef={{ current: null }}
       >
         <div className="body-text">
           <h2>{authService?.authService?.label}</h2>
@@ -255,20 +256,24 @@ const ItemPage = ({
               __html: authService?.authService?.description,
             }}
           />
-          <a
-            onClick={() => {
-              const authServiceWindow = window.open(
-                `${authService?.authService['@id']}?origin=${window.location.protocol}//${window.location.hostname}`
-              );
-              authServiceWindow.addEventListener('unload', function(event) {
-                setAuthServiceRequested(true);
-              });
-            }}
-            // target="_blank"
-            // rel="noopener noreferrer"
-          >
-            Show the content
-          </a>
+          {authService?.authService?.['@id'] && (
+            <a
+              onClick={() => {
+                const authServiceWindow = window.open(
+                  `${authService?.authService['@id'] || ''}?origin=${
+                    window.location.protocol
+                  }//${window.location.hostname}`
+                );
+                authServiceWindow.addEventListener('unload', function(event) {
+                  setAuthServiceRequested(true);
+                });
+              }}
+              // target="_blank"
+              // rel="noopener noreferrer"
+            >
+              Show the content
+            </a>
+          )}
           {/* //TODO proper origin value */}
           <NextLink {...workLink({ id: workId })}>
             <a>Take me back to the item page</a>

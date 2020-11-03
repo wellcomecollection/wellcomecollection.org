@@ -99,6 +99,21 @@ export type IIIFMetadata = {|
   value: string,
 |};
 
+export type AuthService = {|
+  '@context': string,
+  '@id': string,
+  accessHint: string,
+  authService: {|
+    '@context': string,
+    '@id': string,
+    description: string,
+    label: string,
+    profile: string,
+  |},
+  service: [],
+  profile: string,
+|};
+
 export type Service = {|
   profile: string,
   disableUI?: [],

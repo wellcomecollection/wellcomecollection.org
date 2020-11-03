@@ -6,6 +6,7 @@ import {
   type IIIFCanvas,
   type IIIFMediaElement,
   type Service,
+  type AuthService,
 } from '../model/iiif';
 
 export function getServiceId(currentCanvas: ?IIIFCanvas): ?string {
@@ -24,7 +25,8 @@ export function getServiceId(currentCanvas: ?IIIFCanvas): ?string {
   }
 }
 
-export function getAuthService(iiifManifest: IIIFManifest): ?Service {
+export function getAuthService(iiifManifest: ?IIIFManifest): ?AuthService {
+  // $FlowFixMe
   return iiifManifest?.service?.find(service => service.authService) || null;
 }
 
