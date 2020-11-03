@@ -116,8 +116,8 @@ const SearchFiltersDesktop = ({
         }}
         className={classNames({
           flex: true,
-          'bg-smoke': true,
         })}
+        style={{ background: '#f4f4f4' }}
       >
         <Space
           h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
