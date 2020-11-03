@@ -97,6 +97,7 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
         "query",
         "sierraId",
         "workType",
+        "toggles",
       ]
 
       cookies {
