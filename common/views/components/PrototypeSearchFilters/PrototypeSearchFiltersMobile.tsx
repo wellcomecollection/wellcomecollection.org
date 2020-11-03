@@ -236,7 +236,7 @@ const SearchFiltersMobile = ({
 
   return (
     <Space
-      v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+      v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
       className={classNames({ 'bg-white': true })}
     >
       <ShameButtonWrap>
