@@ -70,6 +70,7 @@ function enableDisableToggle(ctx) {
         if (stateFeatureToggle) {
           ctx.cookies.set(cookieName, true, {
             maxAge: cookieExpiry,
+            httpOnly: false,
           });
         } else {
           ctx.cookies.set(cookieName, null);
