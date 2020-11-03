@@ -69,7 +69,7 @@ describe('withToggles', () => {
       },
     };
 
-    it('should set feature toggle cookie', () => {
+    it('should set feature toggle cookie and set httpOnly to false', () => {
       const ctx = {
         ...defaultCtx,
         query: {
@@ -80,6 +80,7 @@ describe('withToggles', () => {
       withToggles.enableDisableToggle(ctx);
       expect(cookieFn).toBeCalledTimes(1);
       expect(cookieFn).toBeCalledWith('toggle_modalFiltersPrototype', true, {
+        httpOnly: false,
         maxAge: 31536000,
       });
     });
