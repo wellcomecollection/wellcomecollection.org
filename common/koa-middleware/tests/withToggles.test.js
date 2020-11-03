@@ -102,7 +102,7 @@ describe('withToggles', () => {
       const ctxMockFeatureToggleOff = {
         ...defaultCtx,
         query: {
-          toggles: 'huhuh',
+          toggles: '!huhuh',
         },
       };
 
