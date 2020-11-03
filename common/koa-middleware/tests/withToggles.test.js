@@ -73,7 +73,7 @@ describe('withToggles', () => {
       const ctx = {
         ...defaultCtx,
         query: {
-          toggles: 'modalFiltersPrototype',
+          toggle: 'modalFiltersPrototype',
         },
       };
 
@@ -89,7 +89,7 @@ describe('withToggles', () => {
       const ctx = {
         ...defaultCtx,
         query: {
-          toggles: '!modalFiltersPrototype',
+          toggle: '!modalFiltersPrototype',
         },
       };
 
@@ -103,7 +103,7 @@ describe('withToggles', () => {
       const ctxMockFeatureToggleOff = {
         ...defaultCtx,
         query: {
-          toggles: '!dummyNameFeatureToggle',
+          toggle: '!dummyNameFeatureToggle',
         },
       };
 
@@ -113,7 +113,7 @@ describe('withToggles', () => {
       const ctxMockFeatureToggleOn = {
         ...defaultCtx,
         query: {
-          toggles: 'dummyFeatureToggle',
+          toggle: 'dummyFeatureToggle',
         },
       };
 

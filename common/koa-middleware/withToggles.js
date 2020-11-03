@@ -58,8 +58,8 @@ function withToggles(ctx, next) {
 
 function enableDisableToggle(ctx) {
   if (ctx && ctx.toggles) {
-    if (ctx.query.toggles) {
-      const reqFeatureToggle = ctx.query.toggles;
+    if (ctx.query.toggle) {
+      const reqFeatureToggle = ctx.query.toggle;
       const validFeatureToggle = validToggle(ctx.toggles, reqFeatureToggle);
       const stateFeatureToggle = !reqFeatureToggle.startsWith('!');
       const cookieName = stateFeatureToggle

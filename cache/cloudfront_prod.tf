@@ -73,7 +73,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "page",
         "result",
         "uri",
-        "toggles",
+        "toggle",
       ]
 
       cookies {
@@ -127,7 +127,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "query",
         "sierraId",
         "workType",
-        "toggles",
+        "toggle",
       ]
 
       cookies {
