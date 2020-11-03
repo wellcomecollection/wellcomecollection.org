@@ -232,16 +232,18 @@ const PrototypeSearchForm = ({
         </SearchInputWrapper>
       </Space>
 
-      <SearchFilters
-        searchForm={searchForm}
-        worksRouteProps={routeProps}
-        workTypeAggregations={workTypeAggregations}
-        changeHandler={submit}
-        aggregations={aggregations}
-        filtersToShow={
-          isImageSearch ? ['colors'] : ['dates', 'formats', 'locations']
-        }
-      />
+      {query && (
+        <SearchFilters
+          searchForm={searchForm}
+          worksRouteProps={routeProps}
+          workTypeAggregations={workTypeAggregations}
+          changeHandler={submit}
+          aggregations={aggregations}
+          filtersToShow={
+            isImageSearch ? ['colors'] : ['dates', 'formats', 'locations']
+          }
+        />
+      )}
       {!isImageSearch && (
         <PrototypePortal id="sort-select-portal">
           <Select
