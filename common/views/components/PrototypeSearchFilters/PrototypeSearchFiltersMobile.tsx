@@ -151,9 +151,7 @@ const FiltersFooter = styled(Space).attrs({
 `;
 
 const SearchFiltersMobile = ({
-  searchForm,
   worksRouteProps,
-  workTypeAggregations,
   changeHandler,
   inputDateFrom,
   inputDateTo,
@@ -166,6 +164,7 @@ const SearchFiltersMobile = ({
   locationsTypeInUrlArray,
   imagesColor,
   aggregations,
+  filtersToShow,
 }: SearchFiltersSharedProps) => {
   const openFiltersButtonRef = useRef(null);
   const closeFiltersButtonRef = useRef(null);
@@ -225,11 +224,9 @@ const SearchFiltersMobile = ({
       closeFiltersButtonRef.current.focus();
   }
 
-  const { enableColorFiltering, locationsFilter } = useContext(TogglesContext);
+  const { locationsFilter } = useContext(TogglesContext);
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
-  const showColorFilter =
-    enableColorFiltering && worksRouteProps.search === 'images';
   const activeFiltersCount =
     locationsTypeInUrlArray.length +
     workTypeInUrlArray.length +
@@ -238,8 +235,9 @@ const SearchFiltersMobile = ({
     (imagesColor ? 1 : 0);
 
   return (
-    <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
-    className={classNames({'bg-white': true })}
+    <Space
+      v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+      className={classNames({ 'bg-white': true })}
     >
       <ShameButtonWrap>
         <SolidButton
@@ -272,72 +270,76 @@ const SearchFiltersMobile = ({
             </FiltersHeader>
 
             <FiltersBody>
-              <FilterSection>
-                <h3 className="h3">Dates</h3>
-                <Space
-                  as="span"
-                  h={{ size: 'm', properties: ['margin-right'] }}
-                >
+              {filtersToShow.includes('dates') && (
+                <FilterSection>
+                  <h3 className="h3">Dates</h3>
+                  <Space
+                    as="span"
+                    h={{ size: 'm', properties: ['margin-right'] }}
+                  >
+                    <NumberInput
+                      label="From"
+                      min="0"
+                      max="9999"
+                      placeholder={'Year'}
+                      name="production.dates.from"
+                      value={inputDateFrom || ''}
+                      onChange={event => {
+                        setInputDateFrom(`${event.currentTarget.value}`);
+                      }}
+                    />
+                  </Space>
                   <NumberInput
-                    label="From"
+                    label="to"
                     min="0"
                     max="9999"
                     placeholder={'Year'}
-                    name="production.dates.from"
-                    value={inputDateFrom || ''}
+                    name="production.dates.to"
+                    value={inputDateTo || ''}
                     onChange={event => {
-                      setInputDateFrom(`${event.currentTarget.value}`);
+                      setInputDateTo(`${event.currentTarget.value}`);
                     }}
                   />
-                </Space>
-                <NumberInput
-                  label="to"
-                  min="0"
-                  max="9999"
-                  placeholder={'Year'}
-                  name="production.dates.to"
-                  value={inputDateTo || ''}
-                  onChange={event => {
-                    setInputDateTo(`${event.currentTarget.value}`);
-                  }}
-                />
-              </FilterSection>
-              {showWorkTypeFilters && (
-                <FilterSection>
-                  <h3 className="h3">Formats</h3>
-                  <ul
-                    className={classNames({
-                      'no-margin no-padding plain-list': true,
-                    })}
-                  >
-                    {workTypeFilters.map(workType => {
-                      const isChecked = workTypeInUrlArray.includes(
-                        workType.data.id
-                      );
-
-                      return (
-                        (workType.count > 0 || isChecked) && (
-                          <Space
-                            as="li"
-                            v={{ size: 'l', properties: ['margin-bottom'] }}
-                            key={`mobile-${workType.data.id}`}
-                          >
-                            <CheckboxRadio
-                              id={`mobile-${workType.data.id}`}
-                              type={`checkbox`}
-                              text={`${workType.data.label} (${workType.count})`}
-                              value={workType.data.id}
-                              name={`workType`}
-                              checked={isChecked}
-                              onChange={changeHandler}
-                            />
-                          </Space>
-                        )
-                      );
-                    })}
-                  </ul>
                 </FilterSection>
               )}
+              {showWorkTypeFilters &&
+                showWorkTypeFilters &&
+                filtersToShow.includes('formats') && (
+                  <FilterSection>
+                    <h3 className="h3">Formats</h3>
+                    <ul
+                      className={classNames({
+                        'no-margin no-padding plain-list': true,
+                      })}
+                    >
+                      {workTypeFilters.map(workType => {
+                        const isChecked = workTypeInUrlArray.includes(
+                          workType.data.id
+                        );
+
+                        return (
+                          (workType.count > 0 || isChecked) && (
+                            <Space
+                              as="li"
+                              v={{ size: 'l', properties: ['margin-bottom'] }}
+                              key={`mobile-${workType.data.id}`}
+                            >
+                              <CheckboxRadio
+                                id={`mobile-${workType.data.id}`}
+                                type={`checkbox`}
+                                text={`${workType.data.label} (${workType.count})`}
+                                value={workType.data.id}
+                                name={`workType`}
+                                checked={isChecked}
+                                onChange={changeHandler}
+                              />
+                            </Space>
+                          )
+                        );
+                      })}
+                    </ul>
+                  </FilterSection>
+                )}
               {locationsFilter && aggregations && aggregations.locationType && (
                 <FilterSection>
                   <h3 className="h3">Locations</h3>
@@ -374,7 +376,7 @@ const SearchFiltersMobile = ({
                   </ul>
                 </FilterSection>
               )}
-              {showColorFilter && (
+              {filtersToShow.includes('colors') && (
                 <FilterSection>
                   <h3 className="h3">Colour</h3>
                   <Space
