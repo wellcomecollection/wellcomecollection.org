@@ -234,7 +234,7 @@ const Works = ({ works, images, worksRouteProps, apiProps }: Props) => {
                       [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                     })}
                   >
-                    <div className="flex flex--h-space-between flex--v-center">
+                    <div className="flex flex--h-space-between flex--v-center flex--wrap">
                       <Fragment>
                         <Paginator
                           query={searchPrototype ? query : undefined}
@@ -309,7 +309,7 @@ const Works = ({ works, images, worksRouteProps, apiProps }: Props) => {
                         [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                       })}
                     >
-                      <div className="flex flex--h-space-between flex--v-center">
+                      <div className="flex flex--h-space-between flex--v-center flex--wrap">
                         <Fragment>
                           <Paginator
                             query={query}
