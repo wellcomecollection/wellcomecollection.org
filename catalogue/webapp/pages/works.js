@@ -1,6 +1,6 @@
 // @flow
 import { type Context } from 'next';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
@@ -34,6 +34,9 @@ import cookies from 'next-cookies';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import useHotjar from '@weco/common/hooks/useHotjar';
 import WorkSearchResults from '../components/WorkSearchResults/WorkSearchResults';
+// $FlowFixMe (tsc)
+import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type Props = {|
   works: ?CatalogueResultsList<Work> | CatalogueApiError,
@@ -49,6 +52,7 @@ const Works = ({ works, images, worksRouteProps, apiProps }: Props) => {
   const results: ?CatalogueResultsList<Work | Image> | CatalogueApiError =
     works || images;
 
+  const { searchPrototype } = useContext(TogglesContext);
   const {
     query,
     page,
@@ -164,31 +168,57 @@ const Works = ({ works, images, worksRouteProps, apiProps }: Props) => {
 
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                <p
-                  className={classNames({
-                    [font('hnl', 4)]: true,
-                    'visually-hidden': Boolean(results),
-                  })}
-                  id="search-form-description"
-                >
-                  Find thousands of books, images, artworks, unpublished
-                  archives and manuscripts in our collections, many of them with
-                  free online access.
-                </p>
+                {!searchPrototype && (
+                  <p
+                    className={classNames({
+                      [font('hnl', 4)]: true,
+                      'visually-hidden': Boolean(results),
+                    })}
+                    id="search-form-description"
+                  >
+                    Find thousands of books, images, artworks, unpublished
+                    archives and manuscripts in our collections, many of them
+                    with free online access.
+                  </p>
+                )}
 
-                <SearchForm
-                  ariaDescribedBy="search-form-description"
-                  shouldShowFilters={query !== ''}
-                  worksRouteProps={worksRouteProps}
-                  workTypeAggregations={
-                    works && works.aggregations
-                      ? works.aggregations.workType.buckets
-                      : []
-                  }
-                  aggregations={
-                    works && works.aggregations ? works.aggregations : undefined
-                  }
-                />
+                {searchPrototype ? (
+                  <SearchTabs
+                    worksRouteProps={worksRouteProps}
+                    imagesRouteProps={{
+                      ...worksRouteProps,
+                      locationsLicense: null,
+                      color: null,
+                    }}
+                    workTypeAggregations={
+                      works && works.aggregations
+                        ? works.aggregations.workType.buckets
+                        : []
+                    }
+                    shouldShowDescription={query === ''}
+                    aggregations={
+                      works && works.aggregations
+                        ? works.aggregations
+                        : undefined
+                    }
+                  />
+                ) : (
+                  <SearchForm
+                    ariaDescribedBy="search-form-description"
+                    shouldShowFilters={query !== ''}
+                    worksRouteProps={worksRouteProps}
+                    workTypeAggregations={
+                      works && works.aggregations
+                        ? works.aggregations.workType.buckets
+                        : []
+                    }
+                    aggregations={
+                      works && works.aggregations
+                        ? works.aggregations
+                        : undefined
+                    }
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -207,6 +237,7 @@ const Works = ({ works, images, worksRouteProps, apiProps }: Props) => {
                     <div className="flex flex--h-space-between flex--v-center">
                       <Fragment>
                         <Paginator
+                          query={searchPrototype ? query : undefined}
                           currentPage={page || 1}
                           pageSize={results.pageSize}
                           totalResults={results.totalResults}
@@ -281,6 +312,7 @@ const Works = ({ works, images, worksRouteProps, apiProps }: Props) => {
                       <div className="flex flex--h-space-between flex--v-center">
                         <Fragment>
                           <Paginator
+                            query={query}
                             currentPage={page || 1}
                             pageSize={results.pageSize}
                             totalResults={results.totalResults}

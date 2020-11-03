@@ -17,7 +17,6 @@ import { london, formatDay, formatDate } from '@weco/common/utils/format-date';
 import { convertJsonToDates } from './event';
 import { getTodaysGalleriesHours } from '@weco/common/utils/get-todays-galleries-hours';
 import {
-  shopPromo,
   cafePromo,
   readingRoomPromo,
   dailyTourPromo,
@@ -120,14 +119,12 @@ type DateRangeProps = {|
   dateRange: any,
   period: string,
   cafePromo: any,
-  shopPromo: any,
   openingTimes: any, // TODO
 |};
 const DateRange = ({
   dateRange,
   period,
   cafePromo,
-  shopPromo,
   openingTimes,
 }: DateRangeProps) => {
   const fromDate = dateRange[0];
@@ -345,9 +342,8 @@ export class WhatsOnPage extends Component<Props> {
         events,
         dateRange,
         tryTheseTooPromos: [readingRoomPromo],
-        eatShopPromos: [cafePromo, shopPromo],
+        eatShopPromos: [cafePromo],
         cafePromo,
-        shopPromo,
         dailyTourPromo,
       };
     } else {
@@ -400,7 +396,6 @@ export class WhatsOnPage extends Component<Props> {
                             dateRange={dateRange}
                             period={period}
                             cafePromo={eatShopPromos[0]}
-                            shopPromo={eatShopPromos[1]}
                             openingTimes={openingTimes}
                           />
                           <div className="flex flex--v-center flex--h-space-between">
@@ -468,7 +463,6 @@ export class WhatsOnPage extends Component<Props> {
                           dateRange={dateRange}
                           period={period}
                           cafePromo={eatShopPromos[0]}
-                          shopPromo={eatShopPromos[1]}
                           openingTimes={openingTimes}
                         />
                         <div className="flex flex--v-center flex--h-space-between">
