@@ -238,6 +238,7 @@ const Works = ({ works, images, worksRouteProps, apiProps }: Props) => {
                       <Fragment>
                         <Paginator
                           query={searchPrototype ? query : undefined}
+                          showPortal={true}
                           currentPage={page || 1}
                           pageSize={results.pageSize}
                           totalResults={results.totalResults}

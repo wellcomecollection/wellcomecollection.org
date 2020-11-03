@@ -39,6 +39,7 @@ type Props = {
 
 const ImagesPagination = ({
   query,
+  showPortal,
   page,
   results,
   imagesRouteProps,
@@ -46,6 +47,7 @@ const ImagesPagination = ({
 }) => (
   <Paginator
     query={query}
+    showPortal={showPortal}
     currentPage={page || 1}
     pageSize={results.pageSize}
     totalResults={results.totalResults}
@@ -189,6 +191,7 @@ const Images = ({ results, imagesRouteProps, apiProps }: Props) => {
                   >
                     <div className="flex flex--h-space-between flex--v-center">
                       <ImagesPagination
+                        showPortal={true}
                         query={query}
                         page={page}
                         results={results}
@@ -232,6 +235,7 @@ const Images = ({ results, imagesRouteProps, apiProps }: Props) => {
                     >
                       <div className="flex flex--h-space-between flex--v-center">
                         <ImagesPagination
+                          showPortal={false}
                           query={query}
                           page={page}
                           results={results}
