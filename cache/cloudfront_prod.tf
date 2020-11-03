@@ -73,6 +73,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "page",
         "result",
         "uri",
+        "toggles",
       ]
 
       cookies {

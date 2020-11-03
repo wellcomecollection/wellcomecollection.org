@@ -1,6 +1,16 @@
 const fetch = require('isomorphic-unfetch');
-
 let defaultToggleValues = {};
+const cookiePrefix = 'toggle_';
+const cookieExpiry = 31536000;
+
+const validToggle = (toggles, featureToggle) => {
+  if (featureToggle.startsWith('!')) {
+    const featureToggleName = featureToggle.substr(1, featureToggle.length);
+    return Object.keys(toggles).includes(featureToggleName);
+  }
+  return Object.keys(toggles).includes(featureToggle);
+};
+
 async function getDefaultToggleValues() {
   try {
     const togglesResp = await fetch(
@@ -33,16 +43,41 @@ const parseCookies = function(req) {
 function withToggles(ctx, next) {
   const cookies = parseCookies(ctx.req);
   const togglesCookies = cookies.filter(cookie =>
-    cookie.key.startsWith('toggle_')
+    cookie.key.startsWith(cookiePrefix)
   );
   const toggles = togglesCookies.reduce((acc, cookie) => {
     return Object.assign({}, acc, {
-      [cookie.key.replace('toggle_', '')]: cookie.value === 'true',
+      [cookie.key.replace(cookiePrefix, '')]: cookie.value === 'true',
     });
   }, {});
 
   ctx.toggles = { ...defaultToggleValues, ...toggles };
+  enableDisableToggle(ctx);
   return next();
 }
 
-module.exports = withToggles;
+function enableDisableToggle(ctx) {
+  if (ctx && ctx.toggles) {
+    if (ctx.query.toggles) {
+      const reqFeatureToggle = ctx.query.toggles;
+      const validFeatureToggle = validToggle(ctx.toggles, reqFeatureToggle);
+      const stateFeatureToggle = !reqFeatureToggle.startsWith('!');
+      const cookieName = stateFeatureToggle
+        ? `${cookiePrefix}${reqFeatureToggle}`
+        : `${cookiePrefix}${reqFeatureToggle.replace(/^!/, '')}`;
+
+      if (validFeatureToggle) {
+        if (stateFeatureToggle) {
+          ctx.cookies.set(cookieName, true, {
+            maxAge: cookieExpiry,
+          });
+        } else {
+          ctx.cookies.set(cookieName, null);
+        }
+      }
+    }
+  }
+}
+
+const withTogglesModule = (module.exports = withToggles);
+withTogglesModule.enableDisableToggle = enableDisableToggle;
