@@ -97,7 +97,7 @@ describe('withToggles', () => {
       expect(cookieFn).toBeCalledWith('toggle_modalFiltersPrototype', null);
     });
 
-    it('should only find valid toggle feature cookie before setting or deleting cookie', () => {
+    it('should only find valid feature toggle before setting or deleting cookie', () => {
       const cookieFn = jest.fn();
       const ctxMockFeatureToggleOff = {
         ...defaultCtx,
