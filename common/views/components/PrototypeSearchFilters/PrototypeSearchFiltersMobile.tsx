@@ -349,7 +349,7 @@ const SearchFiltersMobile = ({
                     })}
                   >
                     {aggregations.locationType.buckets
-                      .sort((a, b) => b.data.label.localeCompare(a.data.label))
+                      .sort((a, b) => b.data.label.localeCompare(a.data.label)) // Ensure 'Online' appears before 'In the library'
                       .map(locationType => {
                         const isChecked = worksRouteProps.itemsLocationsType.includes(
                           locationType.data.type
