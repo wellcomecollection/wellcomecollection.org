@@ -47,8 +47,20 @@ const SearchButtonWrapper = styled.div.attrs({
     absolute: true,
   }),
 })`
-  top: 16px;
-  right: 16px;
+  top: ${props => props.theme.spacingUnits['3']}px;
+  right: ${props => props.theme.spacingUnits['3']}px;
+
+  ${props =>
+    props.theme.media.medium`
+    top: ${props.theme.spacingUnits['4']}px;
+    right: ${props.theme.spacingUnits['4']}px;
+  `}
+
+  ${props =>
+    props.theme.media.large`
+    top: ${props.theme.spacingUnits['5']}px;
+    right: ${props.theme.spacingUnits['5']}px;
+  `}
 `;
 
 const ClearSearch = styled.button`
