@@ -109,7 +109,7 @@ const SearchFiltersDesktop = ({
       <Space
         v={{
           size: 'm',
-          properties: ['padding-top', 'padding-bottom'],
+          properties: ['padding-top'],
         }}
         className={classNames({
           flex: true,
@@ -119,10 +119,11 @@ const SearchFiltersDesktop = ({
         <Space
           h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           className={classNames({
-            'flex flex--h-space-between flex--v-center full-width': true,
+            'flex flex--h-space-between flex--v-center full-width flex--wrap': true,
           })}
         >
-          <div
+          <Space
+            v={{ size: 'm', properties: ['margin-bottom'] }}
             className={classNames({
               'flex flex--v-center': true,
             })}
@@ -235,12 +236,13 @@ const SearchFiltersDesktop = ({
                 </DropdownButton>
               </Space>
             )}
-          </div>
+          </Space>
 
           {filtersToShow.includes('locations') &&
             aggregations &&
             aggregations.locationType && (
-              <div
+              <Space
+                v={{ size: 'm', properties: ['margin-bottom'] }}
                 className={classNames({
                   'flex flex--v-center': true,
                 })}
@@ -291,7 +293,7 @@ const SearchFiltersDesktop = ({
                       })}
                   </ul>
                 </Space>
-              </div>
+              </Space>
             )}
         </Space>
       </Space>
