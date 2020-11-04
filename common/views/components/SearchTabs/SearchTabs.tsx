@@ -34,19 +34,19 @@ const Tab = styled(Space).attrs({
   }),
 })`
   background: ${props => props.theme.color('white')};
-  border-left: 1px solid ${props => props.theme.color('marble')};
-  border-top: 1px solid ${props => props.theme.color('marble')};
+  border-left: 1px solid #e1e1e1;
+  border-top: 1px solid #e1e1e1;
 
   ${props =>
     props.isLast &&
     `
-    border-right: 1px solid ${props.theme.color('marble')};
+    border-right: 1px solid #e1e1e1;
   `}
 
   ${props =>
     props.isActive &&
     `
-    background: ${props.theme.color('marble')};
+    background: #e1e1e1;
   `}
 
   ${props =>
@@ -59,7 +59,7 @@ const Tab = styled(Space).attrs({
 `;
 
 const TabPanel = styled(Space)`
-  background: ${props => props.theme.color('marble')};
+  background: #e1e1e1;
 `;
 type Props = {
   worksRouteProps: WorksRouteProps;
