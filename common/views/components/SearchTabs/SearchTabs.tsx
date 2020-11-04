@@ -97,10 +97,9 @@ const SearchTabs = ({
             h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
             className={classNames({
               'visually-hidden': !shouldShowDescription,
-              [font('hnl', 5)]: true,
+              [font('hnl', 4)]: true,
             })}
             id="library-catalogue-form-description"
-            style={{ maxWidth: '70ch' }}
           >
             Find thousands of books, images, artworks, unpublished archives and
             manuscripts in our collections, many of them with free online
@@ -136,10 +135,9 @@ const SearchTabs = ({
             h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
             className={classNames({
               'visually-hidden': !shouldShowDescription,
-              [font('hnl', 5)]: true,
+              [font('hnl', 4)]: true,
             })}
             id="images-form-description"
-            style={{ maxWidth: '70ch' }}
           >
             Search for free, downloadable images taken from our library and
             museum collections, including objects at the Science Museum.
