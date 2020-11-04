@@ -60,11 +60,10 @@ function enableDisableToggle(ctx) {
   if (ctx && ctx.toggles) {
     if (ctx.query.toggle) {
       const reqFeatureToggle = ctx.query.toggle;
+      const featureToggleName = reqFeatureToggle.replace(/^!/, '');
       const validFeatureToggle = validToggle(ctx.toggles, reqFeatureToggle);
       const stateFeatureToggle = !reqFeatureToggle.startsWith('!');
-      const cookieName = stateFeatureToggle
-        ? `${cookiePrefix}${reqFeatureToggle}`
-        : `${cookiePrefix}${reqFeatureToggle.replace(/^!/, '')}`;
+      const cookieName = `${cookiePrefix}${featureToggleName}`;
 
       if (validFeatureToggle) {
         if (stateFeatureToggle) {
@@ -72,7 +71,12 @@ function enableDisableToggle(ctx) {
             maxAge: cookieExpiry,
             httpOnly: false,
           });
+          // Make sure we update toggles context so the toggle renders onload first time
+          ctx.toggles[featureToggleName] = true;
         } else {
+          // make sure the toggle gets updated to original default
+          ctx.toggles[featureToggleName] =
+            defaultToggleValues[featureToggleName];
           ctx.cookies.set(cookieName, null);
         }
       }

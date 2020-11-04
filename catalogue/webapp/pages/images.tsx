@@ -45,29 +45,31 @@ const ImagesPagination = ({
   imagesRouteProps,
   setSavedSearchState,
 }) => (
-  <Paginator
-    query={query}
-    showPortal={showPortal}
-    currentPage={page || 1}
-    pageSize={results.pageSize}
-    totalResults={results.totalResults}
-    link={imagesLink(
-      {
-        ...imagesRouteProps,
-      },
-      'search/paginator'
-    )}
-    onPageChange={async (event, newPage) => {
-      event.preventDefault();
-      const state = {
-        ...imagesRouteProps,
-        page: newPage,
-      };
-      const link = imagesLink(state, 'search/paginator');
-      setSavedSearchState(state);
-      Router.push(link.href, link.as).then(() => window.scrollTo(0, 0));
-    }}
-  />
+  <div className="flex flex--h-space-between flex--v-center flex--wrap">
+    <Paginator
+      query={query}
+      showPortal={showPortal}
+      currentPage={page || 1}
+      pageSize={results.pageSize}
+      totalResults={results.totalResults}
+      link={imagesLink(
+        {
+          ...imagesRouteProps,
+        },
+        'search/paginator'
+      )}
+      onPageChange={async (event, newPage) => {
+        event.preventDefault();
+        const state = {
+          ...imagesRouteProps,
+          page: newPage,
+        };
+        const link = imagesLink(state, 'search/paginator');
+        setSavedSearchState(state);
+        Router.push(link.href, link.as).then(() => window.scrollTo(0, 0));
+      }}
+    />
+  </div>
 );
 
 const Images = ({ results, imagesRouteProps, apiProps }: Props) => {
@@ -189,16 +191,14 @@ const Images = ({ results, imagesRouteProps, apiProps }: Props) => {
                       [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                     })}
                   >
-                    <div className="flex flex--h-space-between flex--v-center">
-                      <ImagesPagination
-                        showPortal={true}
-                        query={query}
-                        page={page}
-                        results={results}
-                        imagesRouteProps={imagesRouteProps}
-                        setSavedSearchState={setSavedSearchState}
-                      />
-                    </div>
+                    <ImagesPagination
+                      query={query}
+                      showPortal={true}
+                      page={page}
+                      results={results}
+                      imagesRouteProps={imagesRouteProps}
+                      setSavedSearchState={setSavedSearchState}
+                    />
                   </div>
                 </div>
               </div>
@@ -233,16 +233,14 @@ const Images = ({ results, imagesRouteProps, apiProps }: Props) => {
                         [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                       })}
                     >
-                      <div className="flex flex--h-space-between flex--v-center">
-                        <ImagesPagination
-                          showPortal={false}
-                          query={query}
-                          page={page}
-                          results={results}
-                          imagesRouteProps={imagesRouteProps}
-                          setSavedSearchState={setSavedSearchState}
-                        />
-                      </div>
+                      <ImagesPagination
+                        query={query}
+                        showPortal={false}
+                        page={page}
+                        results={results}
+                        imagesRouteProps={imagesRouteProps}
+                        setSavedSearchState={setSavedSearchState}
+                      />
                     </div>
                   </div>
                 </div>

@@ -34,19 +34,19 @@ const Tab = styled(Space).attrs({
   }),
 })`
   background: ${props => props.theme.color('white')};
-  border-left: 1px solid ${props => props.theme.color('marble')};
-  border-top: 1px solid ${props => props.theme.color('marble')};
+  border-left: 1px solid #e1e1e1;
+  border-top: 1px solid #e1e1e1;
 
   ${props =>
     props.isLast &&
     `
-    border-right: 1px solid ${props.theme.color('marble')};
+    border-right: 1px solid #e1e1e1;
   `}
 
   ${props =>
     props.isActive &&
     `
-    background: ${props.theme.color('marble')};
+    background: #e1e1e1;
   `}
 
   ${props =>
@@ -59,7 +59,7 @@ const Tab = styled(Space).attrs({
 `;
 
 const TabPanel = styled(Space)`
-  background: ${props => props.theme.color('marble')};
+  background: #e1e1e1;
 `;
 type Props = {
   worksRouteProps: WorksRouteProps;
@@ -97,10 +97,9 @@ const SearchTabs = ({
             h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
             className={classNames({
               'visually-hidden': !shouldShowDescription,
-              [font('hnl', 5)]: true,
+              [font('hnl', 4)]: true,
             })}
             id="library-catalogue-form-description"
-            style={{ maxWidth: '70ch' }}
           >
             Find thousands of books, images, artworks, unpublished archives and
             manuscripts in our collections, many of them with free online
@@ -136,10 +135,9 @@ const SearchTabs = ({
             h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
             className={classNames({
               'visually-hidden': !shouldShowDescription,
-              [font('hnl', 5)]: true,
+              [font('hnl', 4)]: true,
             })}
             id="images-form-description"
-            style={{ maxWidth: '70ch' }}
           >
             Search for free, downloadable images taken from our library and
             museum collections, including objects at the Science Museum.

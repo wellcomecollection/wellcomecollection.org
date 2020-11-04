@@ -79,10 +79,13 @@ const Paginator = ({
 
   return (
     <Fragment>
-      <div className={`flex flex--v-center ${font('hnm', 3)}`}>
+      <Space
+        h={{ size: 'm', properties: ['margin-right'] }}
+        className={`flex flex--v-center ${font('hnm', 3)}`}
+      >
         {totalResults} result{totalResults !== 1 ? 's' : ''}
         {query && ` for “${query}”`}
-      </div>
+      </Space>
       <div
         className={classNames({
           pagination: true,

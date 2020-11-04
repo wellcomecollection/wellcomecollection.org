@@ -236,7 +236,7 @@ const SearchFiltersMobile = ({
 
   return (
     <Space
-      v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+      v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
       className={classNames({ 'bg-white': true })}
     >
       <ShameButtonWrap>
@@ -348,31 +348,33 @@ const SearchFiltersMobile = ({
                       'no-margin no-padding plain-list': true,
                     })}
                   >
-                    {aggregations.locationType.buckets.map(locationType => {
-                      const isChecked = worksRouteProps.itemsLocationsType.includes(
-                        locationType.data.type
-                      );
+                    {aggregations.locationType.buckets
+                      .sort((a, b) => b.data.label.localeCompare(a.data.label)) // Ensure 'Online' appears before 'In the library'
+                      .map(locationType => {
+                        const isChecked = worksRouteProps.itemsLocationsType.includes(
+                          locationType.data.type
+                        );
 
-                      return (
-                        (locationType.count > 0 || isChecked) && (
-                          <Space
-                            as="li"
-                            v={{ size: 'l', properties: ['margin-bottom'] }}
-                            key={`mobile-${locationType.data.type}`}
-                          >
-                            <CheckboxRadio
-                              id={locationType.data.type}
-                              type={`checkbox`}
-                              text={`${locationType.data.label} (${locationType.count})`}
-                              value={locationType.data.type}
-                              name={`items.locations.type`}
-                              checked={isChecked}
-                              onChange={changeHandler}
-                            />
-                          </Space>
-                        )
-                      );
-                    })}
+                        return (
+                          (locationType.count > 0 || isChecked) && (
+                            <Space
+                              as="li"
+                              v={{ size: 'l', properties: ['margin-bottom'] }}
+                              key={`mobile-${locationType.data.type}`}
+                            >
+                              <CheckboxRadio
+                                id={locationType.data.type}
+                                type={`checkbox`}
+                                text={`${locationType.data.label} (${locationType.count})`}
+                                value={locationType.data.type}
+                                name={`items.locations.type`}
+                                checked={isChecked}
+                                onChange={changeHandler}
+                              />
+                            </Space>
+                          )
+                        );
+                      })}
                   </ul>
                 </FilterSection>
               )}

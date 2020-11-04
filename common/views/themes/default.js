@@ -162,9 +162,8 @@ function makeSpacePropertyValues(
 // using min-width because of
 // https://zellwk.com/blog/how-to-write-mobile-first-css/
 const media = Object.keys(theme.sizes).reduce((acc, label) => {
-  const emSize = theme.sizes[label] / 16;
   acc[label] = (...args: any) => css`
-    @media (min-width: ${emSize}em) {
+    @media (min-width: ${theme.sizes[label]}px) {
       ${css(...args)};
     }
   `;
