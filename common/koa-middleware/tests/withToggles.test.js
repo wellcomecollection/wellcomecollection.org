@@ -85,6 +85,33 @@ describe('withToggles', () => {
       });
     });
 
+    it('should update ctx.toggles(modalFiltersPrototype) to true', () => {
+      const ctx = {
+        ...defaultCtx,
+        query: {
+          toggle: 'modalFiltersPrototype',
+        },
+      };
+      withToggles.enableDisableToggle(ctx);
+      expect(ctx.toggles).toEqual({
+        buildingReopening: true,
+        modalFiltersPrototype: true, // update the state
+      });
+    });
+
+    it('should update ctx.toggles(modalFiltersPrototype) to default', () => {
+      const ctx = {
+        ...defaultCtx,
+        query: {
+          toggle: '!modalFiltersPrototype',
+        },
+      };
+      withToggles.enableDisableToggle(ctx);
+      expect(ctx.toggles).toEqual({
+        buildingReopening: true,
+        modalFiltersPrototype: false, // sets this to original state
+      });
+    });
     it('should delete existing feature toggle cookie', () => {
       const ctx = {
         ...defaultCtx,
