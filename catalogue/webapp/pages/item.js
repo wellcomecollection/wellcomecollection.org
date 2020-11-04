@@ -30,7 +30,7 @@ import Space, {
   type SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
 import Modal from '@weco/common/views/components/Modal/Modal';
-// import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import NextLink from 'next/link';
 
 const IframePdfViewer: ComponentType<SpaceComponentProps> = styled(Space).attrs(
@@ -257,8 +257,9 @@ const ItemPage = ({
             }}
           />
           {authService?.authService?.['@id'] && (
-            <a
-              onClick={() => {
+            <ButtonSolidLink
+              text="Show the content"
+              clickHandler={() => {
                 const authServiceWindow = window.open(
                   `${authService?.authService['@id'] || ''}?origin=${
                     window.location.protocol
@@ -270,9 +271,7 @@ const ItemPage = ({
               }}
               // target="_blank"
               // rel="noopener noreferrer"
-            >
-              Show the content
-            </a>
+            />
           )}
           {/* //TODO proper origin value */}
           <NextLink {...workLink({ id: workId })}>
