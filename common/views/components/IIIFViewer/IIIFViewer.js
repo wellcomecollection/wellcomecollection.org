@@ -189,6 +189,7 @@ type IIIFViewerProps = {|
   iiifImageLocation: ?DigitalLocation,
   work: ?(Work | CatalogueApiError),
   manifest: ?IIIFManifest,
+  handleImageError?: () => void,
 |};
 
 const IIIFViewerComponent = ({
@@ -207,6 +208,7 @@ const IIIFViewerComponent = ({
   iiifImageLocation,
   work,
   manifest,
+  handleImageError,
 }: IIIFViewerProps) => {
   const [gridVisible, setGridVisible] = useState(false);
   const [enhanced, setEnhanced] = useState(false);
@@ -578,6 +580,7 @@ const IIIFViewerComponent = ({
                     setIsLoading={setIsLoading}
                     rotatedImages={rotatedImages}
                     setShowControls={setShowControls}
+                    errorHandler={handleImageError}
                   />
                 </div>
               </ViewerLayout>

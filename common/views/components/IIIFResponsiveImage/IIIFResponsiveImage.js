@@ -14,6 +14,7 @@ type Props = {|
   isLazy: boolean,
   clickHandler?: () => void | Promise<void>,
   loadHandler?: () => void | Promise<void>,
+  errorHandler?: () => void | Promise<void>,
   presentationOnly?: boolean,
   tabIndex?: number,
 |};
@@ -29,6 +30,7 @@ const IIIFResponsiveImage = ({
   lang,
   clickHandler,
   loadHandler,
+  errorHandler,
   isLazy,
   presentationOnly,
   tabIndex,
@@ -52,13 +54,14 @@ const IIIFResponsiveImage = ({
             clickHandler && clickHandler();
           }
         }}
-        onError={event =>
+        onError={event => {
+          errorHandler && errorHandler();
           Raven.captureException(new Error('IIIF image loading error'), {
             tags: {
               service: 'dlcs',
             },
-          })
-        }
+          });
+        }}
         src={isLazy ? undefined : src}
         data-src={isLazy ? src : undefined}
         srcSet={isLazy ? undefined : srcSet}

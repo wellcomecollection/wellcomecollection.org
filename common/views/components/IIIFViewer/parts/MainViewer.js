@@ -45,6 +45,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
     setActiveIndex,
     setIsLoading,
     ocrText,
+    errorHandler,
   } = data;
   const [mainLoaded, setMainLoaded] = useState(false);
   const [thumbLoaded, setThumbLoaded] = useState(false);
@@ -117,6 +118,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
                 setMainLoaded(true);
                 setIsLoading(false);
               }}
+              errorHandler={errorHandler}
             />
           )}
         </>
@@ -137,6 +139,7 @@ type Props = {|
   rotatedImages: [],
   setShowControls: boolean => void,
   setIsLoading: boolean => void,
+  errorHandler?: () => void,
 |};
 
 const MainViewer = ({
@@ -151,6 +154,7 @@ const MainViewer = ({
   rotatedImages,
   setShowControls,
   setIsLoading,
+  errorHandler,
 }: Props) => {
   const [isProgrammaticScroll, setIsProgrammaticScroll] = useState(false);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
@@ -216,6 +220,7 @@ const MainViewer = ({
         setIsLoading,
         ocrText,
         mainViewerRef,
+        errorHandler,
       }}
       itemSize={itemHeight}
       onItemsRendered={debounceHandleOnItemsRendered.current}

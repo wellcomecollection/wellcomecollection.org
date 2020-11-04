@@ -30,6 +30,7 @@ import Space, {
   type SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
 import Modal from '@weco/common/views/components/Modal/Modal';
+// $FlowFixMe (tsx)
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import NextLink from 'next/link';
 
@@ -297,6 +298,9 @@ const ItemPage = ({
             iiifImageLocation={iiifImageLocation}
             work={work}
             manifest={manifest}
+            handleImageError={() => {
+              setAuthServiceRequested(false);
+            }}
           />
         )}
     </CataloguePageLayout>
