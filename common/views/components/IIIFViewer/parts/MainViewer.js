@@ -54,11 +54,14 @@ const ItemRenderer = memo(({ style, index, data }) => {
   const urlTemplateMain = mainImageService['@id']
     ? iiifImageTemplate(mainImageService['@id'])
     : null;
-  const thumbnailService = currentCanvas.thumbnail.service;
-  const urlTemplateThumbnail = iiifImageTemplate(thumbnailService['@id']);
-  const smallestWidthImageDimensions = thumbnailService.sizes
-    .sort((a, b) => a.width - b.width)
-    .find(dimensions => dimensions.width > 100);
+  const thumbnailService = currentCanvas?.thumbnail?.service;
+  const urlTemplateThumbnail =
+    thumbnailService && iiifImageTemplate(thumbnailService['@id']);
+  const smallestWidthImageDimensions =
+    thumbnailService &&
+    thumbnailService.sizes
+      .sort((a, b) => a.width - b.width)
+      .find(dimensions => dimensions.width > 100);
   const infoUrl =
     mainImageService['@id'] && convertIiifUriToInfoUri(mainImageService['@id']);
   const matching = rotatedImages.find(canvas => canvas.canvasIndex === index);

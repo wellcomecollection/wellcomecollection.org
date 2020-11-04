@@ -86,12 +86,15 @@ const IIIFCanvasThumbnail = ({
   thumbNumber,
   isFocusable,
 }: IIIFCanvasThumbnailProps) => {
-  const thumbnailService = canvas.thumbnail.service;
-  const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
-  const smallestWidthImageDimensions = thumbnailService.sizes
-    .sort((a, b) => a.width - b.width)
-    .find(dimensions => dimensions.width > 100);
-  return (
+  const thumbnailService = canvas?.thumbnail?.service;
+  const urlTemplate =
+    thumbnailService && iiifImageTemplate(thumbnailService['@id']);
+  const smallestWidthImageDimensions =
+    thumbnailService &&
+    thumbnailService.sizes
+      .sort((a, b) => a.width - b.width)
+      .find(dimensions => dimensions.width > 100);
+  return urlTemplate ? (
     <IIIFViewerThumb
       onClick={clickHandler}
       isActive={isActive}
@@ -133,7 +136,7 @@ const IIIFCanvasThumbnail = ({
         </div>
       </IIIFViewerThumbInner>
     </IIIFViewerThumb>
-  );
+  ) : null;
 };
 
 export default IIIFCanvasThumbnail;
