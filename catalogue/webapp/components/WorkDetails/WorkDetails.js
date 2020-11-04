@@ -8,6 +8,8 @@ import type { NextLinkType } from '@weco/common/model/next-link-type';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { worksLink } from '@weco/common/services/catalogue/routes';
+// $FlowFixMe (ts)
+import { imagesLink } from '@weco/common/services/catalogue/ts_routes';
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
@@ -85,7 +87,7 @@ const WorkDetails = ({
   imageCount,
   itemUrl,
 }: Props) => {
-  const { stacksRequestService } = useContext(TogglesContext);
+  const { stacksRequestService, searchPrototype } = useContext(TogglesContext);
   const [imageJson, setImageJson] = useState(null);
   const fetchImageJson = async () => {
     try {
@@ -442,13 +444,23 @@ const WorkDetails = ({
                 ? `View ${work.images.length} images`
                 : 'View 1 image'
             }
-            link={worksLink(
-              {
-                search: 'images',
-                query: work.id,
-              },
-              'work_details/images'
-            )}
+            link={
+              searchPrototype
+                ? imagesLink(
+                    {
+                      search: 'images',
+                      query: work.id,
+                    },
+                    'work_details/images'
+                  )
+                : worksLink(
+                    {
+                      search: 'images',
+                      query: work.id,
+                    },
+                    'work_details/images'
+                  )
+            }
           />
         </WorkDetailsSection>
       )}
