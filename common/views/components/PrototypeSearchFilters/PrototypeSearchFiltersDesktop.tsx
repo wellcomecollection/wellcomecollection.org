@@ -59,10 +59,8 @@ const CancelFilter = ({
 };
 
 const SearchFiltersDesktop = ({
-  searchForm,
   filtersToShow,
   worksRouteProps,
-  workTypeAggregations,
   changeHandler,
   inputDateFrom,
   inputDateTo,
@@ -77,7 +75,6 @@ const SearchFiltersDesktop = ({
 }: SearchFiltersSharedProps) => {
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
-  const { enableColorFiltering, locationsFilter } = useContext(TogglesContext);
 
   const resetFiltersRoute = {
     ...worksRouteProps,
@@ -264,32 +261,34 @@ const SearchFiltersDesktop = ({
                       [font('hnl', 5)]: true,
                     })}
                   >
-                    {aggregations.locationType.buckets.map(locationType => {
-                      const isChecked = worksRouteProps.itemsLocationsType.includes(
-                        locationType.data.type
-                      );
+                    {aggregations.locationType.buckets
+                      .sort((a, b) => b.data.label.localeCompare(a.data.label)) // Ensure 'Online' appears before 'In the library'
+                      .map(locationType => {
+                        const isChecked = worksRouteProps.itemsLocationsType.includes(
+                          locationType.data.type
+                        );
 
-                      return (
-                        <Space
-                          as="li"
-                          h={{ size: 's', properties: ['margin-left'] }}
-                          key={locationType.data.type}
-                          className={classNames({
-                            flex: true,
-                          })}
-                        >
-                          <CheckboxRadio
-                            id={locationType.data.type}
-                            type={`checkbox`}
-                            text={`${locationType.data.label} (${locationType.count})`}
-                            value={locationType.data.type}
-                            name={`items.locations.type`}
-                            checked={isChecked}
-                            onChange={changeHandler}
-                          />
-                        </Space>
-                      );
-                    })}
+                        return (
+                          <Space
+                            as="li"
+                            h={{ size: 's', properties: ['margin-left'] }}
+                            key={locationType.data.type}
+                            className={classNames({
+                              flex: true,
+                            })}
+                          >
+                            <CheckboxRadio
+                              id={locationType.data.type}
+                              type={`checkbox`}
+                              text={`${locationType.data.label} (${locationType.count})`}
+                              value={locationType.data.type}
+                              name={`items.locations.type`}
+                              checked={isChecked}
+                              onChange={changeHandler}
+                            />
+                          </Space>
+                        );
+                      })}
                   </ul>
                 </Space>
               </div>
