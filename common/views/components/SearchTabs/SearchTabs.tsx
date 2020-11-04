@@ -97,7 +97,7 @@ const SearchTabs = ({
             h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
             className={classNames({
               'visually-hidden': !shouldShowDescription,
-              [font('hnl', 4)]: true,
+              [font('hnl', 5)]: true,
             })}
             id="library-catalogue-form-description"
           >
@@ -135,7 +135,7 @@ const SearchTabs = ({
             h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
             className={classNames({
               'visually-hidden': !shouldShowDescription,
-              [font('hnl', 4)]: true,
+              [font('hnl', 5)]: true,
             })}
             id="images-form-description"
           >
