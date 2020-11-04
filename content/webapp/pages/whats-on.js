@@ -408,13 +408,19 @@ export class WhatsOnPage extends Component<Props> {
                         <Space
                           v={{ size: 'xl', properties: ['margin-bottom'] }}
                         >
-                          <Layout12>
-                            <FeaturedCardExhibition
-                              exhibition={firstExhibition}
-                              background={'cream'}
-                              color={'black'}
-                            />
-                          </Layout12>
+                          {firstExhibition ? (
+                            <Layout12>
+                              <FeaturedCardExhibition
+                                exhibition={firstExhibition}
+                                background={'cream'}
+                                color={'black'}
+                              />
+                            </Layout12>
+                          ) : (
+                            <Layout12>
+                              <p>There are no current exhibitions</p>
+                            </Layout12>
+                          )}
                         </Space>
                         <CardGrid
                           items={exhibitions.slice(1)}
