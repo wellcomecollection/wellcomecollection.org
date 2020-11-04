@@ -16,7 +16,11 @@ import {
 } from '@weco/common/model/catalogue';
 import { trackEvent } from '@weco/common/utils/ga';
 
-const BaseTabsWrapper = styled.div`
+const BaseTabsWrapper = styled.div.attrs<{ isEnhanced: boolean }>(props => ({
+  className: classNames({
+    'is-hidden': !props.isEnhanced,
+  }),
+}))<{ isEnhanced: boolean }>`
   // FIXME: For testing, make the checkboxes/buttons have a white background because they're on grey
   [class*='ButtonInline__InlineButton'],
   [class^='CheckboxRadio__CheckboxRadioBox'] {
@@ -78,7 +82,7 @@ const SearchTabs = ({
   shouldShowDescription,
   activeTabIndex,
 }: Props) => {
-  const { isKeyboard } = useContext(AppContext);
+  const { isKeyboard, isEnhanced } = useContext(AppContext);
   const [activeTab, setActiveTab] = useState(
     activeTabIndex === 0 ? 'tab-library-catalogue' : 'tab-images'
   );
@@ -168,7 +172,7 @@ const SearchTabs = ({
   }
 
   return (
-    <BaseTabsWrapper>
+    <BaseTabsWrapper isEnhanced={isEnhanced}>
       <BaseTabs
         tabs={tabs}
         label={'Tabs for search'}
