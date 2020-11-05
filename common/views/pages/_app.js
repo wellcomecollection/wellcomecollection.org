@@ -255,6 +255,12 @@ export default class WecoApp extends App {
       // don't do anything
     }
 
+    // GA v4
+    window.gtag &&
+      window.gtag('config', 'G-206J7SLYFC', {
+        page_path: `${window.location.pathname}${window.location.search}`,
+      });
+
     ReactGA.pageview(`${window.location.pathname}${window.location.search}`);
     engagement = setTimeout(triggerEngagement, 10000);
     Router.events.on('routeChangeStart', trackRouteChangeStart);
