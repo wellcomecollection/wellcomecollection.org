@@ -408,15 +408,13 @@ export class WhatsOnPage extends Component<Props> {
                           v={{ size: 'xl', properties: ['margin-bottom'] }}
                         >
                           {firstExhibition ? (
-                            <div data-test-id="featured-exhibition">
-                              <Layout12>
-                                <FeaturedCardExhibition
-                                  exhibition={firstExhibition}
-                                  background={'cream'}
-                                  color={'black'}
-                                />
-                              </Layout12>
-                            </div>
+                            <Layout12>
+                              <FeaturedCardExhibition
+                                exhibition={firstExhibition}
+                                background={'cream'}
+                                color={'black'}
+                              />
+                            </Layout12>
                           ) : (
                             <Layout12>
                               <p data-test-id="no-exhibitions">
