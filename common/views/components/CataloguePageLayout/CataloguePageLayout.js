@@ -7,6 +7,7 @@ import InfoBanner from '../InfoBanner/InfoBanner';
 import Layout12 from '../Layout12/Layout12';
 import BetaBar from '../BetaBar/BetaBar';
 import SearchToolbar from '../SearchToolbar/SearchToolbar';
+// $FlowFixMe (tsx)
 import TogglesContext from '../TogglesContext/TogglesContext';
 
 type Props = {|
