@@ -7,12 +7,12 @@ const closeModalButtonSelector = '[data-test-id="close-modal-button"]';
 
 const ModalExample = () => {
   const [isActive, setIsActive] = useState(false);
-  const openModalRef = useRef(null);
+  const openButtonRef = useRef(null);
 
   return (
-    <div style={{ padding: '50px' }}>
+    <div>
       <button
-        ref={openModalRef}
+        ref={openButtonRef}
         data-test-id="open-modal-button"
         onClick={() => setIsActive(true)}
       >
@@ -21,7 +21,7 @@ const ModalExample = () => {
       <Modal
         isActive={isActive}
         setIsActive={setIsActive}
-        openModalRef={openModalRef}
+        openButtonRef={openButtonRef}
       >
         <p>This is a modal window.</p>
       </Modal>
