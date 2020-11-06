@@ -167,7 +167,7 @@ const FeaturedCardExhibitionBody = ({
   exhibition,
 }: FeaturedCardExhibitionBodyProps) => {
   return (
-    <>
+    <div data-test-id="featured-exhibition">
       <h2
         className={classNames({
           [font('wb', 2)]: true,
@@ -195,7 +195,7 @@ const FeaturedCardExhibitionBody = ({
         end={exhibition.end || new Date()}
         statusOverride={exhibition.statusOverride}
       />
-    </>
+    </div>
   );
 };
 
