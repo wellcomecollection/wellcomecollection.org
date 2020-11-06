@@ -35,6 +35,7 @@ const Overlay = styled.div`
 `;
 
 const CloseButton = styled(Space).attrs({
+  'data-test-id': 'close-modal-button',
   as: 'button',
   v: { size: 'm', properties: ['top'] },
   h: { size: 'm', properties: ['left'] },
