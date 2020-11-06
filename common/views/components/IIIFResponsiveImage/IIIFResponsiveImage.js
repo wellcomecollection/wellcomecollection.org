@@ -45,7 +45,9 @@ const IIIFResponsiveImage = ({
         [extraClasses || '']: true,
         'lazy-image lazyload': isLazy,
       })}
-      onLoad={loadHandler}
+      onLoad={() => {
+        loadHandler && loadHandler();
+      }}
       onClick={clickHandler}
       onKeyDown={({ keyCode }) => {
         if (keyCode === 13) {

@@ -1,4 +1,5 @@
 // @flow
+import { useState } from 'react';
 import { type IIIFCanvas } from '@weco/common/model/iiif';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
@@ -86,6 +87,7 @@ const IIIFCanvasThumbnail = ({
   thumbNumber,
   isFocusable,
 }: IIIFCanvasThumbnailProps) => {
+  const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
   const thumbnailService = canvas?.thumbnail?.service;
   const urlTemplate =
     thumbnailService && iiifImageTemplate(thumbnailService['@id']);
@@ -103,7 +105,7 @@ const IIIFCanvasThumbnail = ({
     >
       <IIIFViewerThumbInner>
         <ImageContainer>
-          <LL small={true} lighten={true} />
+          {!thumbnailLoaded && <LL small={true} lighten={true} />}
           <IIIFResponsiveImage
             width={
               smallestWidthImageDimensions
@@ -126,6 +128,9 @@ const IIIFCanvasThumbnail = ({
             alt={''}
             lang={lang}
             isLazy={false}
+            loadHandler={() => {
+              setThumbnailLoaded(true);
+            }}
           />
         </ImageContainer>
         <div>
