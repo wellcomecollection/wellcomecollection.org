@@ -7,5 +7,6 @@
   "dependencies": {
     "aws-sdk": "^2.777.0",
     "updown.io": "^3.0.0"
-  }
+  },
+  "license": "MIT"
 }
