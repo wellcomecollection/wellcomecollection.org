@@ -36,6 +36,7 @@ import useHotjar from '@weco/common/hooks/useHotjar';
 import WorkSearchResults from '../components/WorkSearchResults/WorkSearchResults';
 // $FlowFixMe (tsc)
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
+// $FlowFixMe (tsx)
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type Props = {|

@@ -1,5 +1,3 @@
-// @flow
-
 import { useState, useRef, useEffect, useContext } from 'react';
 import dynamic from 'next/dynamic';
 import useFocusTrap from '../../../hooks/useFocusTrap';
@@ -12,16 +10,13 @@ import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
-// $FlowFixMe (tsx)
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import TogglesContext from '../TogglesContext/TogglesContext';
 import { SearchFiltersSharedProps } from './PrototypeSearchFilters';
 import ButtonSolid, {
   SolidButton,
-  // $FlowFixMe (tsx)
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
-// $FlowFixMe (tsx)
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });

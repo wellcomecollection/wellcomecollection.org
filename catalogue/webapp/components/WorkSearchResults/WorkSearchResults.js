@@ -1,6 +1,7 @@
 // @flow
 
 import { useContext } from 'react';
+// $FlowFixMe (tsx)
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import { trackSearchResultSelected } from '@weco/common/views/components/Tracker/Tracker';

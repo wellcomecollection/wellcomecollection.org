@@ -4,6 +4,7 @@ import {
   getFirstChildManifestLocation,
   getServiceId,
 } from '@weco/common/utils/iiif';
+// $FlowFixMe (tsx)
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import fetch from 'isomorphic-unfetch';
 import NextLink from 'next/link';
