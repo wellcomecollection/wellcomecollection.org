@@ -9,8 +9,8 @@ import {
   type AuthService,
 } from '../model/iiif';
 
-export function getServiceId(currentCanvas: ?IIIFCanvas): ?string {
-  const serviceSrc = currentCanvas?.images[0]?.resource?.service;
+export function getServiceId(canvas: ?IIIFCanvas): ?string {
+  const serviceSrc = canvas?.images[0]?.resource?.service;
   if (serviceSrc) {
     if (Array.isArray(serviceSrc)) {
       const service = serviceSrc.find(
@@ -28,6 +28,17 @@ export function getServiceId(currentCanvas: ?IIIFCanvas): ?string {
 export function getAuthService(iiifManifest: ?IIIFManifest): ?AuthService {
   // $FlowFixMe
   return iiifManifest?.service?.find(service => service.authService) || null;
+}
+
+export function getImageAuthService(canvas: ?IIIFCanvas) {
+  const serviceArray = canvas?.images?.[0]?.resource?.service?.[0]?.service;
+  const authService =
+    serviceArray &&
+    serviceArray.find(
+      service =>
+        service['@context'] === 'http://iiif.io/api/auth/0/context.json'
+    );
+  return authService || null;
 }
 
 export function getUiExtensions(iiifManifest: IIIFManifest): ?Service {
