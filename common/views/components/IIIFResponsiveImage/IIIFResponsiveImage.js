@@ -1,7 +1,6 @@
 // @flow
 import Raven from 'raven-js';
 import { classNames } from '../../../utils/classnames';
-
 type Props = {|
   width: number,
   height?: number,
@@ -36,41 +35,39 @@ const IIIFResponsiveImage = ({
   tabIndex,
 }: Props) => {
   return (
-    <>
-      <img
-        tabIndex={tabIndex}
-        lang={lang}
-        width={width}
-        height={height}
-        className={classNames({
-          image: true,
-          [extraClasses || '']: true,
-          'lazy-image lazyload': isLazy,
-        })}
-        onLoad={loadHandler}
-        onClick={clickHandler}
-        onKeyDown={({ keyCode }) => {
-          if (keyCode === 13) {
-            clickHandler && clickHandler();
-          }
-        }}
-        onError={event => {
-          errorHandler && errorHandler();
-          Raven.captureException(new Error('IIIF image loading error'), {
-            tags: {
-              service: 'dlcs',
-            },
-          });
-        }}
-        src={isLazy ? undefined : src}
-        data-src={isLazy ? src : undefined}
-        srcSet={isLazy ? undefined : srcSet}
-        data-srcset={isLazy ? srcSet : undefined}
-        sizes={sizes}
-        alt={alt}
-        role={presentationOnly ? 'presentation' : null}
-      />
-    </>
+    <img
+      tabIndex={tabIndex}
+      lang={lang}
+      width={width}
+      height={height}
+      className={classNames({
+        image: true,
+        [extraClasses || '']: true,
+        'lazy-image lazyload': isLazy,
+      })}
+      onLoad={loadHandler}
+      onClick={clickHandler}
+      onKeyDown={({ keyCode }) => {
+        if (keyCode === 13) {
+          clickHandler && clickHandler();
+        }
+      }}
+      onError={event => {
+        errorHandler && errorHandler();
+        Raven.captureException(new Error('IIIF image loading error'), {
+          tags: {
+            service: 'dlcs',
+          },
+        });
+      }}
+      src={isLazy ? undefined : src}
+      data-src={isLazy ? src : undefined}
+      srcSet={isLazy ? undefined : srcSet}
+      data-srcset={isLazy ? srcSet : undefined}
+      sizes={sizes}
+      alt={alt}
+      role={presentationOnly ? 'presentation' : null}
+    />
   );
 };
 
