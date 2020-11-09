@@ -1,4 +1,4 @@
-import { Work } from '@weco/common/model/work';
+import { Work } from '@weco/common/model/catalogue';
 import { workLink } from '../../../services/catalogue/routes';
 import NextLink from 'next/link';
 import styled from 'styled-components';
