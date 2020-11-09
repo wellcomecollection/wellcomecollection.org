@@ -12,7 +12,19 @@ import {
 import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { getCanvasOcr } from '@weco/catalogue/services/catalogue/works';
-import { getServiceId } from '@weco/common/utils/iiif';
+import { getServiceId, getImageAuthService } from '@weco/common/utils/iiif';
+import { font } from '@weco/common/utils/classnames';
+
+const MessageContainer = styled.div`
+  min-width: 360px;
+  max-width: 60%;
+  margin: 0 auto;
+  border: 1px solid ${props => props.theme.color('pewter')};
+  height: 80%;
+  margin-top: 50%;
+  transform: translateY(-50%);
+  padding: 10%;
+`;
 
 const ThumbnailWrapper = styled.div`
   opacity: ${props => (props.imageLoaded ? 1 : 0)};
@@ -67,12 +79,28 @@ const ItemRenderer = memo(({ style, index, data }) => {
   const matching = rotatedImages.find(canvas => canvas.canvasIndex === index);
   const rotation = matching ? matching.rotation : 0;
   const imageType = scrollVelocity >= 1 ? 'thumbnail' : 'main';
+  const imageAuthService = getImageAuthService(currentCanvas);
+  const isRestricted =
+    imageAuthService &&
+    imageAuthService.profile === 'http://iiif.io/api/auth/0/login/restricted';
   return (
     <div style={style}>
       {scrollVelocity === 3 || isProgrammaticScroll ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <LL lighten={true} />
         </div>
+      ) : isRestricted ? (
+        <MessageContainer>
+          <h2 className={font('hnm', 4)}>
+            {imageAuthService && imageAuthService.label}
+          </h2>
+          <p
+            className={font('hnl', 5)}
+            dangerouslySetInnerHTML={{
+              __html: imageAuthService && imageAuthService.description,
+            }}
+          />
+        </MessageContainer>
       ) : (
         <>
           <LL lighten={true} />
