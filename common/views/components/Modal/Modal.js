@@ -198,7 +198,15 @@ const Modal = ({
 
   return (
     <>
-      {isActive && <Overlay onClick={() => setIsActive(false)} />}
+      {isActive && (
+        <Overlay
+          onClick={() => {
+            if (!removeCloseButton) {
+              setIsActive(false);
+            }
+          }}
+        />
+      )}
       <CSSTransition in={isActive} classNames="fade" timeout={350}>
         <ModalWindow ref={modalRef} width={width} id={id} hidden={!isActive}>
           {!removeCloseButton && (
