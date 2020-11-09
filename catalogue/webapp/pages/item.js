@@ -53,7 +53,11 @@ const IframePdfViewer: ComponentType<SpaceComponentProps> = styled(Space).attrs(
 
 const iframeId = 'authMessage';
 function reloadAuthIframe(document, id) {
-  document.getElementById(id).src = document.getElementById(id).src;
+  const authMessageIframe = ((document.getElementById(
+    id
+  ): any): HTMLIFrameElement);
+  /* eslint-disable no-self-assign */
+  authMessageIframe.src = authMessageIframe.src; // assign the iframe src to itself reloads the iframe and refires the window.message event
 }
 
 type Props = {|

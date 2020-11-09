@@ -27,6 +27,7 @@ export type IIIFResource = {|
     | {
         '@id': string,
         '@context': string,
+        service: [],
       }[],
 |};
 
@@ -109,6 +110,7 @@ export type AuthService = {|
     description: string,
     label: string,
     profile: string,
+    service: [],
   |},
   service: [],
   profile: string,
