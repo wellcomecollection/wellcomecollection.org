@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 // TODO names and colours from theme
 const StyledPadlock = styled.div`
-  width: 60px;
-  height: 60px;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
   position: relative;
-  border: 10px solid transparent;
   border-radius: 50%;
   background: transparent;
   margin: 0 auto;
