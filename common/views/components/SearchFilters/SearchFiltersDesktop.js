@@ -13,6 +13,7 @@ import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import NextLink from 'next/link';
 import dynamic from 'next/dynamic';
+// $FlowFixMe (tsx)
 import TogglesContext from '../TogglesContext/TogglesContext';
 import { type SearchFiltersSharedProps } from './SearchFilters';
 
@@ -238,7 +239,7 @@ const SearchFiltersDesktop = ({
           productionDatesTo ||
           (imagesColor && showColorFilter) ||
           workTypeInUrlArray.length > 0 ||
-          worksRouteProps.itemsLocationsType.length > 0) &&
+          worksRouteProps?.itemsLocationsType?.length > 0) &&
           (workTypeFilters.length > 0 ||
             worksRouteProps.search === 'images') && (
             <div className={classNames({ [font('hnl', 5)]: true })}>

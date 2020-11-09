@@ -6,6 +6,7 @@ import Layout12 from '../Layout12/Layout12';
 import Space from '../styled/Space';
 import { classNames, font } from '../../../utils/classnames';
 import cookies from 'next-cookies';
+// $FlowFixMe (tsx)
 import TogglesContext from '../TogglesContext/TogglesContext';
 
 const Form = styled(Space).attrs({

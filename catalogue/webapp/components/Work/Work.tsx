@@ -26,8 +26,11 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
+import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
+// $FlowFixMe (tsx)
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -47,6 +50,7 @@ type Props = {
 };
 
 const Work = ({ work }: Props) => {
+  const { searchPrototype } = useContext(TogglesContext);
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
     page: 1,
@@ -138,15 +142,31 @@ const Work = ({ work }: Props) => {
         <div className="grid">
           <div
             className={classNames({
-              [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+              [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
             })}
           >
-            <SearchForm
-              ariaDescribedBy="search-form-description"
-              shouldShowFilters={false}
-              worksRouteProps={savedSearchFormState}
-              workTypeAggregations={[]}
-            />
+            {searchPrototype ? (
+              <>
+                <SearchTabs
+                  worksRouteProps={savedSearchFormState}
+                  imagesRouteProps={{
+                    ...savedSearchFormState,
+                    locationsLicense: null,
+                    color: null,
+                  }}
+                  workTypeAggregations={[]}
+                  shouldShowDescription={false}
+                  activeTabIndex={0}
+                />
+              </>
+            ) : (
+              <SearchForm
+                ariaDescribedBy="search-form-description"
+                shouldShowFilters={false}
+                worksRouteProps={savedSearchFormState}
+                workTypeAggregations={[]}
+              />
+            )}
           </div>
         </div>
         <div className="grid">
@@ -192,7 +212,7 @@ const Work = ({ work }: Props) => {
           </div>
 
           <div className="container">
-          <Divider extraClasses="divider--pumice divider--keyline" />
+            <Divider extraClasses="divider--pumice divider--keyline" />
             <ArchiveDetailsContainer>
               <ArchiveTree work={work} />
               <Space v={{ size: 'l', properties: ['padding-top'] }}>

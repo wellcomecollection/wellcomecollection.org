@@ -359,7 +359,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                 "componentStyle": ComponentStyle {
                   "componentId": "Modal__ModalWindow-sc-12234yr-2",
                   "isStatic": false,
-                  "lastClassName": "edYhjz",
+                  "lastClassName": "bUojOH",
                   "rules": Array [
                     [Function],
                     " ",
@@ -384,12 +384,12 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
             forwardedRef={
               Object {
                 "current": <div
-                  class="Space-sc-4az8w3-0 Modal__ModalWindow-sc-12234yr-2 edYhjz shadow bg-white"
+                  class="Space-sc-4az8w3-0 Modal__ModalWindow-sc-12234yr-2 bUojOH shadow bg-white"
                   hidden=""
                   id="requestModal"
                 >
                   <button
-                    class="Space-sc-4az8w3-0 Modal__CloseButton-sc-12234yr-1 gjTWQp"
+                    class="Space-sc-4az8w3-0 Modal__CloseButton-sc-12234yr-1 fXXAZK"
                   >
                     <span
                       class="visually-hidden"
@@ -523,7 +523,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
             width={null}
           >
             <div
-              className="Space-sc-4az8w3-0 Modal__ModalWindow-sc-12234yr-2 edYhjz shadow bg-white"
+              className="Space-sc-4az8w3-0 Modal__ModalWindow-sc-12234yr-2 bUojOH shadow bg-white"
               hidden={true}
               id="requestModal"
               width={null}
@@ -556,7 +556,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                       "componentStyle": ComponentStyle {
                         "componentId": "Modal__CloseButton-sc-12234yr-1",
                         "isStatic": false,
-                        "lastClassName": "gjTWQp",
+                        "lastClassName": "fXXAZK",
                         "rules": Array [
                           [Function],
                           " ",
@@ -584,7 +584,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                   forwardedRef={
                     Object {
                       "current": <button
-                        class="Space-sc-4az8w3-0 Modal__CloseButton-sc-12234yr-1 gjTWQp"
+                        class="Space-sc-4az8w3-0 Modal__CloseButton-sc-12234yr-1 fXXAZK"
                       >
                         <span
                           class="visually-hidden"
@@ -616,7 +616,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                   onClick={[Function]}
                 >
                   <button
-                    className="Space-sc-4az8w3-0 Modal__CloseButton-sc-12234yr-1 gjTWQp"
+                    className="Space-sc-4az8w3-0 Modal__CloseButton-sc-12234yr-1 fXXAZK"
                     onClick={[Function]}
                   >
                     <span

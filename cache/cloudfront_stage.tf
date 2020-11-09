@@ -43,6 +43,7 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
         "page",
         "result",
         "uri",
+        "toggle",
       ]
 
       cookies {
@@ -96,6 +97,7 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
         "query",
         "sierraId",
         "workType",
+        "toggle",
       ]
 
       cookies {
@@ -112,12 +114,12 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
 
     lambda_function_association {
       event_type = "origin-request"
-      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_request.qualified_arn
+      lambda_arn = aws_lambda_function.edge_lambda_request.qualified_arn
     }
 
     lambda_function_association {
       event_type = "origin-response"
-      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_response.qualified_arn
+      lambda_arn = aws_lambda_function.edge_lambda_response.qualified_arn
     }
   }
 

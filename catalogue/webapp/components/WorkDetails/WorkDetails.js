@@ -8,6 +8,8 @@ import type { NextLinkType } from '@weco/common/model/next-link-type';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { worksLink } from '@weco/common/services/catalogue/routes';
+// $FlowFixMe (ts)
+import { imagesLink } from '@weco/common/services/catalogue/ts_routes';
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
@@ -30,6 +32,7 @@ import NextLink from 'next/link';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+// $FlowFixMe (tsx)
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Download from '../Download/Download';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
@@ -85,7 +88,11 @@ const WorkDetails = ({
   imageCount,
   itemUrl,
 }: Props) => {
-  const { stacksRequestService, openWithAdvisory } = useContext(TogglesContext);
+  const {
+    stacksRequestService,
+    openWithAdvisory,
+    searchPrototype,
+  } = useContext(TogglesContext);
   const [imageJson, setImageJson] = useState(null);
   const fetchImageJson = async () => {
     try {
@@ -149,6 +156,10 @@ const WorkDetails = ({
   // 'Identifiers' data
   const isbnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'isbn';
+  });
+
+  const issnIdentifiers = work.identifiers.filter(id => {
+    return id.identifierType.id === 'issn';
   });
 
   const sierraIdFromManifestUrl =
@@ -444,13 +455,23 @@ const WorkDetails = ({
                 ? `View ${work.images.length} images`
                 : 'View 1 image'
             }
-            link={worksLink(
-              {
-                search: 'images',
-                query: work.id,
-              },
-              'work_details/images'
-            )}
+            link={
+              searchPrototype
+                ? imagesLink(
+                    {
+                      search: 'images',
+                      query: work.id,
+                    },
+                    'work_details/images'
+                  )
+                : worksLink(
+                    {
+                      search: 'images',
+                      query: work.id,
+                    },
+                    'work_details/images'
+                  )
+            }
           />
         </WorkDetailsSection>
       )}
@@ -582,12 +603,20 @@ const WorkDetails = ({
         </div>
       </WorkDetailsSection>
 
-      {(isbnIdentifiers.length > 0 || work.citeAs) && (
+      {(isbnIdentifiers.length > 0 ||
+        issnIdentifiers.length > 0 ||
+        work.citeAs) && (
         <WorkDetailsSection headingText="Identifiers" isInArchive={isInArchive}>
           {isbnIdentifiers.length > 0 && (
             <WorkDetailsList
               title="ISBN"
               list={isbnIdentifiers.map(id => id.value)}
+            />
+          )}
+          {issnIdentifiers.length > 0 && (
+            <WorkDetailsList
+              title="ISSN"
+              list={issnIdentifiers.map(id => id.value)}
             />
           )}
           {work.citeAs && (

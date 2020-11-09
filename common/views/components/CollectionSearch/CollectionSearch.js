@@ -4,6 +4,7 @@ import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import styled from 'styled-components';
 import Space from '../styled/Space';
+// $FlowFixMe (tsx)
 import TogglesContext from '../TogglesContext/TogglesContext';
 import { workLink } from '../../../services/catalogue/routes';
 

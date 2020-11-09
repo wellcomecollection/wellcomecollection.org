@@ -32,7 +32,10 @@ import {
 } from '../../../services/prismic/html-serializers';
 import { type Weight } from '../../../services/prismic/parsers';
 // $FlowFixMe (tsx)
+import MediaObjectList from '../MediaObjectList/MediaObjectList';
+// $FlowFixMe (tsx)
 import InfoBlock from '../InfoBlock/InfoBlock';
+import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
 
 const Map = dynamic(import('../Map/Map'), { ssr: false });
 
@@ -149,8 +152,8 @@ const Body = ({
               <Layout8>
                 {/* FIXME: this makes what-we-do and visit-us contentLists synchronous,
                 but it's hacky. */}
-                {pageId === 'WwLGFCAAAPMiB_Ps' ||
-                pageId === 'WwLIBiAAAPMiB_zC' ? (
+                {pageId === prismicPageIds.whatWeDo ||
+                pageId === prismicPageIds.visitUs ? (
                   <SearchResults
                     title={slice.value.title}
                     items={slice.value.items}
@@ -260,6 +263,11 @@ const Body = ({
             {slice.type === 'deprecatedImageList' && (
               <Layout8>
                 <DeprecatedImageList {...slice.value} />
+              </Layout8>
+            )}
+            {slice.type === 'mediaObjectList' && (
+              <Layout8>
+                <MediaObjectList {...slice.value} />
               </Layout8>
             )}
           </div>

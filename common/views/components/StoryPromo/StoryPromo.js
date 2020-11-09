@@ -5,6 +5,7 @@ import { trackEvent } from '../../../utils/ga';
 import { getPositionInSeries, getArticleColor } from '../../../model/articles';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
+// $FlowFixMe(tsx)
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import Space from '../styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';

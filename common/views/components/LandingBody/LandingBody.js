@@ -92,12 +92,14 @@ const Body = ({
         const hasFeatured =
           Boolean(section.value.hasFeatured) ||
           section.value.items.length === 1;
-        const firstItem = section.value.items[0];
-        const isCardType = firstItem.type === 'card';
+        const firstItem = section.value.items?.[0];
+        const isCardType = firstItem?.type === 'card';
 
-        const firstItemProps = isCardType
-          ? convertCardToFeaturedCardProps(firstItem)
-          : convertItemToFeaturedCardProps(firstItem);
+        const firstItemProps =
+          firstItem &&
+          (isCardType
+            ? convertCardToFeaturedCardProps(firstItem)
+            : convertItemToFeaturedCardProps(firstItem));
 
         const cardItems = hasFeatured
           ? section.value.items.slice(1)

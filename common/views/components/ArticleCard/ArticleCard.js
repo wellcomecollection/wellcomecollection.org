@@ -1,4 +1,5 @@
 // @flow
+// $FlowFixMe(tsx)
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import type { Article } from '../../../model/articles';

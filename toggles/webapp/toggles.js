@@ -1,6 +1,13 @@
 module.exports = {
   toggles: [
     {
+      id: 'searchPrototype',
+      title: 'New search interface',
+      defaultValue: false,
+      description:
+        'Shows a tabbed interface for library catalogue/images search',
+    },
+    {
       id: 'openWithAdvisory',
       title: 'Open with advisory',
       description:
@@ -12,7 +19,7 @@ module.exports = {
       title: 'Wellcome Collection reopening UI changes',
       description:
         'Show additions/amendments made in preparation for the reopening of the Wellcome Collection building',
-      defaultValue: true,
+      defaultValue: false,
     },
     {
       id: 'modalFiltersPrototype',

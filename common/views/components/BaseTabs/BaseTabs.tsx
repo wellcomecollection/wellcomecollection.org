@@ -4,6 +4,7 @@ import {
   useContext,
   useCallback,
   KeyboardEvent,
+  useEffect,
 } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import styled from 'styled-components';
@@ -53,11 +54,19 @@ export type TabType = {
 export type Props = {
   label: string;
   tabs: TabType[];
+  activeTabIndex?: number;
   onTabClick?: (tabId: string) => void;
+  onTabChanged?: (tabId: string) => void;
 };
 
-const Tabs = ({ label, tabs, onTabClick }: Props) => {
-  const [activeId, setActiveId] = useState(tabs[0].id);
+const Tabs = ({
+  label,
+  tabs,
+  activeTabIndex,
+  onTabClick,
+  onTabChanged,
+}: Props) => {
+  const [activeId, setActiveId] = useState(tabs[activeTabIndex || 0].id);
   const [focusedId, setFocusedId] = useState(null);
   const { isEnhanced } = useContext(AppContext);
   const tabListRef = useRef(null);
@@ -68,6 +77,14 @@ const Tabs = ({ label, tabs, onTabClick }: Props) => {
     },
     [activeId]
   );
+
+  function handleTabChanged(id: string) {
+    onTabChanged && onTabChanged(id);
+  }
+
+  useEffect(() => {
+    handleTabChanged(activeId);
+  }, [activeId]);
 
   function focusTabAtIndex(index: number): void {
     tabListRef?.current?.querySelector(`#${tabs[index].id}`).focus();
@@ -83,6 +100,8 @@ const Tabs = ({ label, tabs, onTabClick }: Props) => {
     const isKeyOfInterest = [...LEFT, ...RIGHT, ...HOME, ...END].includes(key);
 
     if (!isKeyOfInterest) return;
+
+    event.preventDefault();
 
     const currentTab = tabs.find(t => t.id === activeId);
     const currentIndex = tabs.indexOf(currentTab);
