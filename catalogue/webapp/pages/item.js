@@ -171,15 +171,20 @@ const ItemPage = ({
           setShowModal(false);
           setShowViewer(true);
         } else {
-          // TODO handle all error scenarios
           setShowModal(true);
           setShowViewer(false);
         }
       }
     }
-    window.addEventListener('message', receiveMessage);
 
-    return () => window.removeEventListener('message', receiveMessage);
+    if (authService) {
+      window.addEventListener('message', receiveMessage);
+
+      return () => window.removeEventListener('message', receiveMessage);
+    } else {
+      setShowModal(false);
+      setShowViewer(true);
+    }
   }, []);
 
   return (
