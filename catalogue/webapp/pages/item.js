@@ -34,6 +34,7 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import NextLink from 'next/link';
 import { font } from '@weco/common/utils/classnames';
+import { trackEvent } from '@weco/common/utils/ga';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -284,6 +285,11 @@ const ItemPage = ({
               <ButtonSolidLink
                 text="Show the content"
                 clickHandler={() => {
+                  trackEvent({
+                    category: 'ButtonSolidLink',
+                    action: 'follow link "Show the content"',
+                    label: `workId: ${workId}`,
+                  });
                   const authServiceWindow = window.open(
                     `${authService?.authService['@id'] || ''}?origin=${origin}`
                   );
@@ -295,7 +301,17 @@ const ItemPage = ({
             </Space>
           )}
           <NextLink {...workLink({ id: workId })}>
-            <a>Take me back to the item page</a>
+            <a
+              onClick={() => {
+                trackEvent({
+                  category: 'ButtonSolidLink',
+                  action: 'follow link to work page',
+                  label: `workId: ${workId}`,
+                });
+              }}
+            >
+              Take me back to the item page
+            </a>
           </NextLink>
         </div>
       </Modal>
