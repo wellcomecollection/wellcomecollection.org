@@ -34,6 +34,10 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import NextLink from 'next/link';
 
+const IframeAuthMessage = styled.iframe`
+  display: none;
+`;
+
 const IframePdfViewer: ComponentType<SpaceComponentProps> = styled(Space).attrs(
   {
     className: 'h-center',
@@ -45,6 +49,11 @@ const IframePdfViewer: ComponentType<SpaceComponentProps> = styled(Space).attrs(
   border: 0;
   margin-top: 98px;
 `;
+
+const iframeId = 'authMessage';
+function reloadAuthIframe(document, id) {
+  document.getElementById(id).src = document.getElementById(id).src;
+}
 
 type Props = {|
   workId: string,
@@ -67,17 +76,8 @@ type Props = {|
   },
 |};
 
-// We need to know if the authorisation cookie for dlcs.io has been set
-// We know that is true if we can successfully request an image from dlcs.io
-// Using fetch to get the status code doesn't work cross-domain unless the other domain sends CORS headers,
-// so we try and load an image and if not successful use it as a proxy for a 401.
-const checkImageIsAvailable = path =>
-  new Promise(resolve => {
-    const img = new window.Image();
-    img.onload = () => resolve({ path, status: 'ok' });
-    img.onerror = () => resolve({ path, status: 'error' });
-    img.src = path;
-  });
+// We need to know if the authorisation cookie for dlcs.io has been set and is valid
+// We know that is true if TODO
 
 const ItemPage = ({
   workId,
@@ -94,7 +94,7 @@ const ItemPage = ({
   video,
   audio,
 }: Props) => {
-  const [authServiceRequested, setAuthServiceRequested] = useState(false);
+  const [origin, setOrigin] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showViewer, setShowViewer] = useState(false);
   const title = (manifest && manifest.label) || (work && work.title) || '';
@@ -104,8 +104,6 @@ const ItemPage = ({
   const mainImageService = serviceId && {
     '@id': serviceId,
   };
-  const resourceId = currentCanvas?.images[0]?.resource?.['@id'];
-
   const showDownloadOptions = manifest
     ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
     : true;
@@ -119,6 +117,12 @@ const ItemPage = ({
     null;
 
   const authService = getAuthService(manifest);
+  const authServiceServices = authService?.authService?.service;
+  const tokenService = authServiceServices
+    ? authServiceServices.find(
+        service => service.profile === 'http://iiif.io/api/auth/0/token'
+      )
+    : null;
 
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
@@ -146,23 +150,31 @@ const ItemPage = ({
   };
 
   useEffect(() => {
-    if (authService) {
-      checkImageIsAvailable(resourceId)
-        .then(response => {
-          if (response.status === 'ok') {
-            setShowModal(false);
-            setShowViewer(true);
-          } else {
-            setShowModal(true);
-            setShowViewer(false);
-          }
-        })
-        .catch(error => console.log(error));
-    } else {
-      setShowModal(false);
-      setShowViewer(true);
+    setOrigin(`${window.location.protocol}//${window.location.hostname}`);
+  }, []);
+
+  useEffect(() => {
+    function receiveMessage(event) {
+      const data = event.data;
+      const serviceOrigin = tokenService && new URL(tokenService['@id']);
+      if (
+        serviceOrigin &&
+        `${serviceOrigin.protocol}//${serviceOrigin.hostname}` === event.origin
+      ) {
+        if (data.hasOwnProperty('accessToken')) {
+          setShowModal(false);
+          setShowViewer(true);
+        } else {
+          // TODO handle all error scenarios
+          setShowModal(true);
+          setShowViewer(false);
+        }
+      }
     }
-  }, [authServiceRequested]);
+    window.addEventListener('message', receiveMessage);
+
+    return () => window.removeEventListener('message', receiveMessage);
+  }, []);
 
   return (
     <CataloguePageLayout
@@ -178,6 +190,12 @@ const ItemPage = ({
       hideFooter={true}
       hideInfoBar={true}
     >
+      {tokenService && origin && (
+        <IframeAuthMessage
+          id={iframeId}
+          src={`${tokenService['@id']}?messageId=1&origin=${origin}`}
+        />
+      )}
       {audio && (
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -257,24 +275,19 @@ const ItemPage = ({
               __html: authService?.authService?.description,
             }}
           />
-          {authService?.authService?.['@id'] && (
+          {authService?.authService?.['@id'] && origin && (
             <ButtonSolidLink
               text="Show the content"
               clickHandler={() => {
                 const authServiceWindow = window.open(
-                  `${authService?.authService['@id'] || ''}?origin=${
-                    window.location.protocol
-                  }//${window.location.hostname}`
+                  `${authService?.authService['@id'] || ''}?origin=${origin}`
                 );
                 authServiceWindow.addEventListener('unload', function(event) {
-                  setAuthServiceRequested(true);
+                  reloadAuthIframe(document, iframeId);
                 });
               }}
-              // target="_blank"
-              // rel="noopener noreferrer"
             />
           )}
-          {/* //TODO proper origin value */}
           <NextLink {...workLink({ id: workId })}>
             <a>Take me back to the item page</a>
           </NextLink>
@@ -299,7 +312,8 @@ const ItemPage = ({
             work={work}
             manifest={manifest}
             handleImageError={() => {
-              setAuthServiceRequested(false);
+              // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
+              reloadAuthIframe(document, iframeId);
             }}
           />
         )}
