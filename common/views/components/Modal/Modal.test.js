@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import { mountWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
 
 const openModalButtonSelector = '[data-test-id="open-modal-button"]';
-const closeModalButtonSelector = '[data-test-id="close-modal-button"]';
+const closeModalButtonSelector = '[role="button"]';
 
 const ModalExample = () => {
   const [isActive, setIsActive] = useState(false);
