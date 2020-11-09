@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import PageLayout, {
   type Props as PageLayoutProps,
 } from '../PageLayout/PageLayout';
+// $FlowFixMe (tsx)
 import InfoBanner from '../InfoBanner/InfoBanner';
 import Layout12 from '../Layout12/Layout12';
 import BetaBar from '../BetaBar/BetaBar';

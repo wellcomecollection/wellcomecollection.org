@@ -7,6 +7,7 @@ import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
 import JsonLd from '../JsonLd/JsonLd';
 import Header from '../Header/Header';
+// $FlowFixMe (tsx)
 import InfoBanner from '../InfoBanner/InfoBanner';
 import CookieNotice from '../CookieNotice/CookieNotice';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';

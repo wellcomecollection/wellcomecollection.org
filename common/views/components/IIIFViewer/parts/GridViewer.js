@@ -6,11 +6,7 @@ import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';
-import {
-  headerHeight,
-  topBarHeight,
-} from '@weco/common/views/components/IIIFViewer/IIIFViewer';
-
+import { topBarHeight } from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 const ThumbnailSpacer = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
@@ -66,7 +62,8 @@ const GridViewerEl = styled.div`
     if (props.isVisible && props.isFullscreen) {
       return `${topBarHeight}px`;
     } else if (props.isVisible && !props.isFullscreen) {
-      return `${headerHeight}px`;
+      const viewerOffset = props?.viewerRef?.current?.offsetTop | 0;
+      return `${viewerOffset + topBarHeight}px`;
     } else {
       return `100vh`;
     }
@@ -90,6 +87,7 @@ type Props = {|
   setActiveIndex: number => void,
   canvases: [],
   isFullscreen: boolean,
+  viewerRef: { current: HTMLElement | null },
 |};
 
 const GridViewer = ({
@@ -103,6 +101,7 @@ const GridViewer = ({
   setActiveIndex,
   canvases,
   isFullscreen,
+  viewerRef,
 }: Props) => {
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
@@ -110,7 +109,6 @@ const GridViewer = ({
   const columnCount = Math.round(gridWidth / itemWidth);
   const columnWidth = gridWidth / columnCount;
   const grid = useRef();
-
   useEffect(() => {
     const rowIndex = Math.floor(activeIndex / columnCount);
     grid &&
@@ -123,6 +121,7 @@ const GridViewer = ({
       isVisible={gridVisible}
       isFullscreen={isFullscreen}
       ref={gridViewerRef}
+      viewerRef={viewerRef}
       tabIndex={0}
     >
       <FixedSizeGrid

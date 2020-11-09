@@ -549,6 +549,7 @@ const IIIFViewerComponent = ({
                   canvases={canvases}
                   gridViewerRef={gridViewerRef}
                   isFullscreen={isFullscreen}
+                  viewerRef={viewerRef}
                 />
                 {pageWidth >= 600 && (
                   <ThumbsViewer
