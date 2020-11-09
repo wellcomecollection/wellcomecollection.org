@@ -390,7 +390,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                 >
                   <button
                     class="Space-sc-4az8w3-0 Modal__CloseButton-sc-12234yr-1 fXXAZK"
-                    data-test-id="close-modal-button"
+                    role="button"
                   >
                     <span
                       class="visually-hidden"
@@ -540,13 +540,13 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                       "attrs": Array [
                         Object {
                           "as": "button",
-                          "data-test-id": "close-modal-button",
                           "h": Object {
                             "properties": Array [
                               "left",
                             ],
                             "size": "m",
                           },
+                          "role": "button",
                           "v": Object {
                             "properties": Array [
                               "top",
@@ -587,7 +587,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                     Object {
                       "current": <button
                         class="Space-sc-4az8w3-0 Modal__CloseButton-sc-12234yr-1 fXXAZK"
-                        data-test-id="close-modal-button"
+                        role="button"
                       >
                         <span
                           class="visually-hidden"
@@ -620,8 +620,8 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                 >
                   <button
                     className="Space-sc-4az8w3-0 Modal__CloseButton-sc-12234yr-1 fXXAZK"
-                    data-test-id="close-modal-button"
                     onClick={[Function]}
+                    role="button"
                   >
                     <span
                       className="visually-hidden"
