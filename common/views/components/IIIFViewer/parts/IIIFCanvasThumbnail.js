@@ -7,6 +7,8 @@ import { lighten } from 'polished';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import LL from '@weco/common/views/components/styled/LL';
+import { getImageAuthService } from '@weco/common/utils/iiif';
+import Padlock from '@weco/common/views/components/styled/Padlock';
 
 const IIIFViewerThumb = styled.button.attrs(props => ({
   tabIndex: props.isFocusable ? 0 : -1,
@@ -91,12 +93,16 @@ const IIIFCanvasThumbnail = ({
   const thumbnailService = canvas?.thumbnail?.service;
   const urlTemplate =
     thumbnailService && iiifImageTemplate(thumbnailService['@id']);
+  const imageAuthService = getImageAuthService(canvas);
+  const isRestricted =
+    imageAuthService &&
+    imageAuthService.profile === 'http://iiif.io/api/auth/0/login/restricted';
   const smallestWidthImageDimensions =
     thumbnailService &&
     thumbnailService.sizes
       .sort((a, b) => a.width - b.width)
       .find(dimensions => dimensions.width > 100);
-  return urlTemplate ? (
+  return (
     <IIIFViewerThumb
       onClick={clickHandler}
       isActive={isActive}
@@ -105,33 +111,48 @@ const IIIFCanvasThumbnail = ({
     >
       <IIIFViewerThumbInner>
         <ImageContainer>
-          {!thumbnailLoaded && <LL small={true} lighten={true} />}
-          <IIIFResponsiveImage
-            width={
-              smallestWidthImageDimensions
-                ? smallestWidthImageDimensions.width
-                : 30
-            }
-            src={urlTemplate({
-              size: `${
+          {!thumbnailLoaded && !isRestricted && (
+            <LL small={true} lighten={true} />
+          )}
+          {isRestricted ? (
+            <>
+              <Padlock />
+              <span className="visually-hidden">
+                Thumbnail image is not available
+              </span>
+            </>
+          ) : (
+            <IIIFResponsiveImage
+              width={
                 smallestWidthImageDimensions
                   ? smallestWidthImageDimensions.width
-                  : '!100'
-              },`,
-            })}
-            srcSet={''}
-            sizes={`${
-              smallestWidthImageDimensions
-                ? smallestWidthImageDimensions.width
-                : 30
-            }px`}
-            alt={''}
-            lang={lang}
-            isLazy={false}
-            loadHandler={() => {
-              setThumbnailLoaded(true);
-            }}
-          />
+                  : 30
+              }
+              src={
+                urlTemplate
+                  ? urlTemplate({
+                      size: `${
+                        smallestWidthImageDimensions
+                          ? smallestWidthImageDimensions.width
+                          : '!100'
+                      },`,
+                    })
+                  : null
+              }
+              srcSet={''}
+              sizes={`${
+                smallestWidthImageDimensions
+                  ? smallestWidthImageDimensions.width
+                  : 30
+              }px`}
+              alt={''}
+              lang={lang}
+              isLazy={false}
+              loadHandler={() => {
+                setThumbnailLoaded(true);
+              }}
+            />
+          )}
         </ImageContainer>
         <div>
           <IIIFViewerThumbNumber isActive={isActive}>
@@ -141,7 +162,7 @@ const IIIFCanvasThumbnail = ({
         </div>
       </IIIFViewerThumbInner>
     </IIIFViewerThumb>
-  ) : null;
+  );
 };
 
 export default IIIFCanvasThumbnail;
