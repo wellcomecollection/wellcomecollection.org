@@ -33,6 +33,7 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 // $FlowFixMe (tsx)
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import NextLink from 'next/link';
+import { font } from '@weco/common/utils/classnames';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -257,7 +258,6 @@ const ItemPage = ({
           src={pdfRendering['@id']}
         />
       )}
-      {/* // TODO where should headerHeight value come from? */}
       {showModal && (
         <IIIFViewerBackground headerHeight={85}> </IIIFViewerBackground>
       )}
@@ -268,25 +268,27 @@ const ItemPage = ({
         removeCloseButton={true}
         openButtonRef={{ current: null }}
       >
-        <div className="body-text">
-          <h2>{authService?.authService?.label}</h2>
+        <div className={font('hnl', 5)}>
+          <h2 className={font('hnm', 4)}>{authService?.authService?.label}</h2>
           <p
             dangerouslySetInnerHTML={{
               __html: authService?.authService?.description,
             }}
           />
           {authService?.authService?.['@id'] && origin && (
-            <ButtonSolidLink
-              text="Show the content"
-              clickHandler={() => {
-                const authServiceWindow = window.open(
-                  `${authService?.authService['@id'] || ''}?origin=${origin}`
-                );
-                authServiceWindow.addEventListener('unload', function(event) {
-                  reloadAuthIframe(document, iframeId);
-                });
-              }}
-            />
+            <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+              <ButtonSolidLink
+                text="Show the content"
+                clickHandler={() => {
+                  const authServiceWindow = window.open(
+                    `${authService?.authService['@id'] || ''}?origin=${origin}`
+                  );
+                  authServiceWindow.addEventListener('unload', function(event) {
+                    reloadAuthIframe(document, iframeId);
+                  });
+                }}
+              />
+            </Space>
           )}
           <NextLink {...workLink({ id: workId })}>
             <a>Take me back to the item page</a>
