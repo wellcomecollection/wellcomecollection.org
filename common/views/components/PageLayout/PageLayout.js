@@ -12,6 +12,7 @@ import InfoBanner from '../InfoBanner/InfoBanner';
 import CookieNotice from '../CookieNotice/CookieNotice';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer/Footer';
+// $FlowFixMe (tsx)
 import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
 // $FlowFixMe (tsx)
 import PopupDialogContext from '../PopupDialogContext/PopupDialogContext';
@@ -139,7 +140,11 @@ const PageLayout = ({
             globalAlert.isShown === 'show' &&
             (!globalAlert.routeRegex ||
               urlString.match(new RegExp(globalAlert.routeRegex))) && (
-              <InfoBanner text={globalAlert.text} cookieName="WC_globalAlert" />
+              <InfoBanner
+                text={globalAlert.text}
+                cookieName="WC_globalAlert"
+                setInfoBanner={globalAlert.setInfoBanner}
+              />
             )
           }
         </GlobalAlertContext.Consumer>

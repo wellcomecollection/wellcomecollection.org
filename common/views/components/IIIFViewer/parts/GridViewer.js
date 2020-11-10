@@ -1,12 +1,17 @@
 // @flow
 import styled from 'styled-components';
-import { useState, memo, useEffect, useRef } from 'react';
+import { useState, memo, useEffect, useRef, useContext } from 'react';
 import { FixedSizeGrid, FixedSizeList, areEqual } from 'react-window';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';
-import { topBarHeight } from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+import {
+  topBarHeight,
+  headerHeight,
+} from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+// $FlowFixMe (tsx)
+import GlobalAlertContext from '@weco/common/views/components/GlobalAlertContext/GlobalAlertContext';
 const ThumbnailSpacer = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
@@ -63,6 +68,9 @@ const GridViewerEl = styled.div`
       return `${topBarHeight}px`;
     } else if (props.isVisible && !props.isFullscreen) {
       const viewerOffset = props?.viewerRef?.current?.offsetTop | 0;
+      if (props.infoBanner) {
+        return `${headerHeight}px`;
+      }
       return `${viewerOffset + topBarHeight}px`;
     } else {
       return `100vh`;
@@ -103,6 +111,7 @@ const GridViewer = ({
   isFullscreen,
   viewerRef,
 }: Props) => {
+  const { infoBanner } = useContext(GlobalAlertContext);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
   const itemWidth = 250;
@@ -115,6 +124,11 @@ const GridViewer = ({
       grid.current &&
       grid.current.scrollToItem({ align: 'start', rowIndex });
   }, [activeIndex]);
+  useEffect(() => {
+    // there are multiple scrolls in this view, we have to set the body to hidden to stop flickering and offset
+    document.body.style.overflow = 'hidden';
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <GridViewerEl
@@ -123,6 +137,7 @@ const GridViewer = ({
       ref={gridViewerRef}
       viewerRef={viewerRef}
       tabIndex={0}
+      infoBanner={infoBanner}
     >
       <FixedSizeGrid
         columnCount={columnCount}

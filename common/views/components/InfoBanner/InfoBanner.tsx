@@ -9,6 +9,7 @@ import Space from '../styled/Space';
 type Props = {
   cookieName?: string;
   text: HTMLString;
+  setInfoBanner: (value) => void;
 };
 
 type State = {
@@ -31,6 +32,7 @@ class InfoBanner extends React.Component<Props, State> {
     this.setState(prevState => ({
       showInfoBanner: false,
     }));
+    this.props.setInfoBanner(true); // update context
   };
 
   componentDidMount() {
