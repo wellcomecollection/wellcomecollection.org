@@ -64,14 +64,15 @@ type BaseButtonInnerProps = {
   isInline?: boolean;
 };
 
-export const BaseButtonInner = styled.span.attrs<BaseButtonInnerProps>(
-  props => ({
-    className: classNames({
-      [font(props.isInline ? 'hnl' : 'hnm', 5)]: true,
-      'flex flex--v-center': true,
-    }),
-  })
-)`
+const BaseButtonInnerSpan = styled.span<BaseButtonInnerProps>``;
+export const BaseButtonInner = styled(BaseButtonInnerSpan).attrs<
+  BaseButtonInnerProps
+>(props => ({
+  className: classNames({
+    [font(props.isInline ? 'hnl' : 'hnm', 5)]: true,
+    'flex flex--v-center': true,
+  }),
+}))`
   height: 1em;
 `;
 
