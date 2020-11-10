@@ -123,10 +123,57 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "canvas",
         "current",
         "items.locations.locationType",
+        "items.locations.type",
         "page",
         "query",
         "sierraId",
         "workType",
+        "toggle",
+      ]
+
+      cookies {
+        forward = "whitelist"
+
+        whitelisted_names = [
+          "toggles",  # feature toggles
+          "toggle_*", # feature toggles
+          "WC_auth_redirect",
+          "_queryType",
+        ]
+      }
+    }
+
+    lambda_function_association {
+      event_type = "origin-request"
+      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_request.qualified_arn
+    }
+
+    lambda_function_association {
+      event_type = "origin-response"
+      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_response.qualified_arn
+    }
+  }
+
+  # Images
+  ordered_cache_behavior {
+    allowed_methods        = ["HEAD", "GET", "OPTIONS"]
+    cached_methods         = ["HEAD", "GET", "OPTIONS"]
+    viewer_protocol_policy = "redirect-to-https"
+    target_origin_id       = local.default_origin_id
+    path_pattern           = "/images*"
+    min_ttl                = 0
+    default_ttl            = 3600
+    max_ttl                = 86400
+
+    forwarded_values {
+      headers      = ["Host"]
+      query_string = true
+
+      query_string_cache_keys = [
+        "color",
+        "locations.license",
+        "page",
+        "query",
         "toggle",
       ]
 

@@ -56,31 +56,22 @@ class WecoDoc extends Document {
     return (
       <Html id="top" lang="en" className="is-keyboard">
         <Head>
-          {/* Google Tag Manager */}
+          {/* GA v4 */}
+          <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-206J7SLYFC"
+          ></script>
           <script
             dangerouslySetInnerHTML={{
-              __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-WV9JS8W');`,
+              __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', 'G-206J7SLYFC');`,
             }}
-          />
-
-          <script
-            dangerouslySetInnerHTML={{ __html: renderSegmentSnippet() }}
           />
         </Head>
         <body>
-          {/* Google Tag Manager (noscript) */}
-          <noscript>
-            <iframe
-              src="https://www.googletagmanager.com/ns.html?id=GTM-WV9JS8W"
-              height="0"
-              width="0"
-              style={{ display: 'none', visibility: 'hidden' }}
-            />
-          </noscript>
           <Main />
           <NextScript />
         </body>
