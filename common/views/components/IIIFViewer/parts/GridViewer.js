@@ -125,11 +125,20 @@ const GridViewer = ({
       grid.current.scrollToItem({ align: 'start', rowIndex });
   }, [activeIndex]);
   useEffect(() => {
-    window.scrollTo(0, 0);
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 500);
     // there are multiple scrolls in this view, we have to set the body to hidden to stop flickering and offset
     if (document.body && document.body.style) {
       document.body.style.overflow = 'hidden';
     }
+
+    return () => {
+      // unmounting
+      if (document.body && document.body.style) {
+        document.body.style.overflow = '';
+      }
+    };
   }, []);
 
   return (
