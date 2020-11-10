@@ -89,7 +89,9 @@ type NextRoute<T> = {
 };
 
 // route: /images
-export type ImagesRouteProps = {
+// We shouldn't be inherriting anything from WorksRouteProps,
+// but we do for ease of use for now.
+export type ImagesRouteProps = WorksRouteProps & {
   query: string;
   page: number;
   source: string | null;
@@ -114,7 +116,6 @@ export type WorksRouteProps = {
 
   // [1] These should not be here, but we need a good
   // old tidy up of the props in this file
-
   color: string | null;
 };
 
@@ -208,6 +209,17 @@ export const ImagesRoute: NextRoute<ImagesRouteProps> = {
       locationsLicense: defaultToEmptyString(stringQ.locationsLicense),
       color: defaultToEmptyString(stringQ.color),
       source: defaultToEmptyString(stringQ.source),
+
+      // This should be removed
+      workType: [],
+      itemsLocationsLocationType: [],
+      itemsLocationsType: [],
+      sort: null,
+      sortOrder: null,
+      productionDatesFrom: null,
+      productionDatesTo: null,
+      imagesColor: null,
+      search: null,
     };
   },
 

@@ -1,6 +1,9 @@
 const path = require('path');
 const withTM = require('@weco/next-plugin-transpile-modules');
 const withBundleAnalyzer = require('@next/bundle-analyzer');
+const withMDX = require('@next/mdx')({
+  extension: /\.(md|mdx)$/,
+});
 const buildHash = process.env.BUILD_HASH || 'test';
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -52,11 +55,6 @@ module.exports = function(webpack, assetPrefix) {
       );
 
       config.module.rules.push({
-        test: /\.md$/,
-        use: 'raw-loader',
-      });
-
-      config.module.rules.push({
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       });
@@ -65,11 +63,13 @@ module.exports = function(webpack, assetPrefix) {
     },
   });
 
-  return withTM({
-    assetPrefix: isProd
-      ? `https://${prodSubdomain}.wellcomecollection.org`
-      : '',
-    transpileModules: ['@weco'],
-    ...withBundleAnalyzerConfig,
-  });
+  return withMDX(
+    withTM({
+      assetPrefix: isProd
+        ? `https://${prodSubdomain}.wellcomecollection.org`
+        : '',
+      transpileModules: ['@weco'],
+      ...withBundleAnalyzerConfig,
+    })
+  );
 };

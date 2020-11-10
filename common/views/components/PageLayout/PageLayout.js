@@ -141,6 +141,7 @@ const PageLayout = ({
         <Header siteSection={siteSection} />
         <GlobalAlertContext.Consumer>
           {globalAlert =>
+            globalAlert &&
             globalAlert.isShown === 'show' &&
             (!globalAlert.routeRegex ||
               urlString.match(new RegExp(globalAlert.routeRegex))) && (

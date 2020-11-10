@@ -30,7 +30,6 @@
     "postcss-easy-import": "^3.0.0",
     "postcss-loader": "^3.0.0",
     "prismic-javascript": "2.0.2",
-    "raw-loader": "^2.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-test-renderer": "^16.4.1",
