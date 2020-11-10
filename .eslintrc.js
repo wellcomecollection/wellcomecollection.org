@@ -37,7 +37,11 @@ module.exports = {
     'prettier/flowtype',
     'plugin:flowtype/recommended',
   ],
-  rules: { ...sharedRules, 'flowtype/no-types-missing-file-annotation': 'off' },
+  rules: {
+    ...sharedRules,
+    'flowtype/no-types-missing-file-annotation': 'off',
+    'flowtype/space-after-type-colon': [2, 'always', { allowLineBreak: true }],
+  },
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
