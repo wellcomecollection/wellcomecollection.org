@@ -339,7 +339,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [
                   Object {
-                    "className": "shadow bg-white",
+                    "className": "shadow bg-white font-black",
                     "h": Object {
                       "properties": Array [
                         "padding-left",
@@ -359,12 +359,12 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                 "componentStyle": ComponentStyle {
                   "componentId": "Modal__ModalWindow-sc-12234yr-2",
                   "isStatic": false,
-                  "lastClassName": "bUojOH",
+                  "lastClassName": "eyAKeC",
                   "rules": Array [
                     [Function],
                     " ",
                     [Function],
-                    "z-index:1001;top:0;bottom:0;left:0;right:0;position:fixed;overflow:auto;transition:opacity 350ms ease,transform 350ms ease;&,&.fade-exit-done{z-index:-1;pointer-events:none;}&.fade-enter,&.fade-exit,&.fade-enter-done{z-index:1001;pointer-events:all;}&,&.fade-enter,&.fade-exit-active,&.fade-exit-done{opacity:0;transform:scale(0.9);}&.fade-enter-active,&.fade-enter-done{opacity:1;transform:scale(1);}",
+                    "z-index:10001;top:0;bottom:0;left:0;right:0;position:fixed;overflow:auto;transition:opacity 350ms ease,transform 350ms ease;&,&.fade-exit-done{z-index:-1;pointer-events:none;}&.fade-enter,&.fade-exit,&.fade-enter-done{z-index:1001;pointer-events:all;}&,&.fade-enter,&.fade-exit-active,&.fade-exit-done{opacity:0;transform:scale(0.9);}&.fade-enter-active,&.fade-enter-done{opacity:1;transform:scale(1);}",
                     [Function],
                     " @media screen and (prefers-reduced-motion:reduce){transition:none;}",
                   ],
@@ -384,7 +384,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
             forwardedRef={
               Object {
                 "current": <div
-                  class="Space-sc-4az8w3-0 Modal__ModalWindow-sc-12234yr-2 bUojOH shadow bg-white"
+                  class="Space-sc-4az8w3-0 Modal__ModalWindow-sc-12234yr-2 eyAKeC shadow bg-white font-black"
                   hidden=""
                   id="requestModal"
                 >
@@ -523,7 +523,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
             width={null}
           >
             <div
-              className="Space-sc-4az8w3-0 Modal__ModalWindow-sc-12234yr-2 bUojOH shadow bg-white"
+              className="Space-sc-4az8w3-0 Modal__ModalWindow-sc-12234yr-2 eyAKeC shadow bg-white font-black"
               hidden={true}
               id="requestModal"
               width={null}
