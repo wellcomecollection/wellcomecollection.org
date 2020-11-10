@@ -10,7 +10,6 @@ import {
   ButtonTypes,
 } from '../ButtonSolid/ButtonSolid';
 
-
 export const InlineButton = styled(BaseButton)`
   border: 2px solid ${props => props.theme.color('pumice')};
   background: ${props => props.theme.color('transparent')};
@@ -22,24 +21,22 @@ export const InlineButton = styled(BaseButton)`
   }
 `;
 
-
 export type ButtonInlineBaseProps = {
-  text: string,
-  icon?: string,
-  type?: ButtonTypes,
-  isOnDark?: boolean,
-  isTextHidden?: boolean,
-  trackingEvent?: GaEvent,
-  ariaControls?: string,
-  ariaExpanded?: boolean,
-  ariaLive?: 'off' | 'polite' | 'assertive',
+  text: string;
+  icon?: string;
+  type?: ButtonTypes;
+  isOnDark?: boolean;
+  isTextHidden?: boolean;
+  trackingEvent?: GaEvent;
+  ariaControls?: string;
+  ariaExpanded?: boolean;
+  ariaLive?: 'off' | 'polite' | 'assertive';
 };
 
 type ButtonInlineProps = ButtonInlineBaseProps & {
-  disabled?: boolean,
-  clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void,
+  disabled?: boolean;
+  clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
 };
-
 
 const ButtonInline = forwardRef<HTMLButtonElement, ButtonInlineProps>(
   (
@@ -71,7 +68,8 @@ const ButtonInline = forwardRef<HTMLButtonElement, ButtonInlineProps>(
         aria-live={ariaLive}
         onClick={handleClick}
         disabled={disabled}
-        ref={ref}>
+        ref={ref}
+      >
         <BaseButtonInner isInline={true}>
           <>
             <span

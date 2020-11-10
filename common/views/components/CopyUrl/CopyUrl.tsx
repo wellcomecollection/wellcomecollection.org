@@ -1,4 +1,4 @@
-import {useState, useContext, useRef} from 'react';
+import { useState, useContext, useRef } from 'react';
 import { classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
@@ -12,9 +12,8 @@ type Props = {
   url: string;
 };
 
-
-const CopyUrl = ({id, url}: Props) => {
-  const {isEnhanced} = useContext(AppContext);
+const CopyUrl = ({ id, url }: Props) => {
+  const { isEnhanced } = useContext(AppContext);
   const [isTextCopied, setIsTextCopied] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const buttonRef = useRef(null);
@@ -53,7 +52,7 @@ const CopyUrl = ({id, url}: Props) => {
       action: 'copy url to clipboard',
       label: id,
     });
-  };
+  }
 
   return (
     <>
@@ -76,7 +75,7 @@ const CopyUrl = ({id, url}: Props) => {
         big={null}
       />
 
-      {isEnhanced &&
+      {isEnhanced && (
         <Space
           v={{
             size: 'm',
@@ -91,7 +90,7 @@ const CopyUrl = ({id, url}: Props) => {
             icon={isTextCopied ? 'check' : null}
           />
         </Space>
-      }
+      )}
     </>
   );
 };

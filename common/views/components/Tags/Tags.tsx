@@ -5,11 +5,14 @@ import { InlineButton } from '@weco/common/views/components/ButtonInline/ButtonI
 
 export type TagType = {
   textParts: string[];
-  linkAttributes: {href: {pathname: string, query: string}, as: {pathname: string, query: string}};
+  linkAttributes: {
+    href: { pathname: string; query: string };
+    as: { pathname: string; query: string };
+  };
 };
 
 type Props = {
-  tags: TagType[],
+  tags: TagType[];
 };
 
 const Tags = ({ tags }: Props) => {

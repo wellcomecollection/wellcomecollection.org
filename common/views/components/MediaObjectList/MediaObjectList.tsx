@@ -5,7 +5,7 @@ const MediaObjectList = ({ items }: { items: Array<MediaObjectType> }) => {
   return (
     <div className="body-text">
       {items.map((mediaObject, index) => {
-        return <MediaObject {...mediaObject} key={index}/>;
+        return <MediaObject {...mediaObject} key={index} />;
       })}
     </div>
   );

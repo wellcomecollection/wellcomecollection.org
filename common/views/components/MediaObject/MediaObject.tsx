@@ -8,15 +8,15 @@ import { grid, classNames, font } from '../../../utils/classnames';
 import { TextWrapperProp } from '../MediaObjectBase/MediaObjectBase';
 
 type Props = {
-  id: string,
-  title: string,
-  text: HTMLString | null,
-  image: ImageType,
+  id: string;
+  title: string;
+  text: HTMLString | null;
+  image: ImageType;
 };
 
 type ImageWrapperProp = {
-  hasImage : boolean
-}
+  hasImage: boolean;
+};
 
 const grid12 = grid({ s: 12, m: 12, l: 12, xl: 12 });
 
@@ -46,10 +46,10 @@ const TitleWrapper = styled.div.attrs(props => ({
   className: classNames({
     'card-link__title': true,
     [font('wb', 4)]: true,
-  })
+  }),
 }))``;
 
-export const MediaObject = ({ title, text, image }: Props) => {  
+export const MediaObject = ({ title, text, image }: Props) => {
   const ImageComponent = image?.crops?.square && (
     <Image {...image.crops.square} />
   );

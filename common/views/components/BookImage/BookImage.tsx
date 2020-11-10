@@ -4,7 +4,6 @@ import { UiImage } from '@weco/common/views/components/Images/Images';
 import { classNames } from '@weco/common/utils/classnames';
 import { UiImageType } from '../../../model/image';
 
-
 const Outer = styled('div').attrs({
   className: classNames({
     'bg-cream relative h-center': true,
@@ -32,16 +31,18 @@ const Inner = styled('div').attrs({
 `;
 
 type Props = {
-  image: UiImageType,
-}
+  image: UiImageType;
+};
 
 const BookImage = ({ image }: Props) => {
   return (
-    <Space v={{size: 'xl', properties: ['margin-top', 'padding-top']}}>
+    <Space v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
       <Outer>
         <Inner>
-          <UiImage extraClasses="margin-h-auto width-auto max-height-70vh"
-          {...image} />
+          <UiImage
+            extraClasses="margin-h-auto width-auto max-height-70vh"
+            {...image}
+          />
         </Inner>
       </Outer>
     </Space>

@@ -19,23 +19,26 @@ import Space from '../styled/Space';
 import styled from 'styled-components';
 
 type Props = {
-  url: string | null,
-  title: string,
-  labels: ComponentProps<typeof LabelsList>,
-  description: string | ReactElement | null,
-  urlOverride: string | null,
-  extraClasses?: string,
-  partNumber: number | null,
-  color: ColorSelection | null,
-  Image: ReactElement<typeof ImageType | typeof ImagePlaceholder> | null,
-  DateInfo: ReactElement<typeof DateRange> | ReactElement<typeof EventDateRange> | null,
-  StatusIndicator: ReactElement<typeof StatusIndicator> | null,
-  ExtraInfo?: ReactNode | null,
-  xOfY: { x: number, y: number },
-  OverrideImageWrapper?: ReactNode,
-  OverrideTextWrapper?: ReactNode,
-  OverrideTitleWrapper?: ReactNode,
-  onClick?: () => void,
+  url: string | null;
+  title: string;
+  labels: ComponentProps<typeof LabelsList>;
+  description: string | ReactElement | null;
+  urlOverride: string | null;
+  extraClasses?: string;
+  partNumber: number | null;
+  color: ColorSelection | null;
+  Image: ReactElement<typeof ImageType | typeof ImagePlaceholder> | null;
+  DateInfo:
+    | ReactElement<typeof DateRange>
+    | ReactElement<typeof EventDateRange>
+    | null;
+  StatusIndicator: ReactElement<typeof StatusIndicator> | null;
+  ExtraInfo?: ReactNode | null;
+  xOfY: { x: number; y: number };
+  OverrideImageWrapper?: ReactNode;
+  OverrideTextWrapper?: ReactNode;
+  OverrideTitleWrapper?: ReactNode;
+  onClick?: () => void;
 };
 
 const BaseImageWrapper = styled.div.attrs(props => ({
@@ -46,11 +49,11 @@ const BaseTitleWrapper = styled.div.attrs(props => ({
   className: classNames({
     'card-link__title': true,
     [font('wb', 3)]: true,
-  })
+  }),
 }))``;
 
 export type TextWrapperProp = {
-  hasImage: boolean
+  hasImage: boolean;
 };
 
 // Ability to add custom prop types in TS and styled components
@@ -63,7 +66,6 @@ const BaseTextWrapper = styled.div.attrs<TextWrapperProp>(props => {
   return {
     className: grid({ s: 12, m: 12, l: 12, xl: 12 }),
   };
-  
 })<TextWrapperProp>``;
 
 const MediaObjectBase = ({
@@ -84,11 +86,17 @@ const MediaObjectBase = ({
   OverrideTextWrapper,
   OverrideTitleWrapper,
   onClick,
-} : Props) => {
+}: Props) => {
   const { x, y } = xOfY;
-  const ImageWrapper:any = OverrideImageWrapper ? OverrideImageWrapper : BaseImageWrapper;
-  const TextWrapper:any = OverrideTextWrapper ? OverrideTextWrapper : BaseTextWrapper;
-  const TitleWrapper:any = OverrideTitleWrapper ? OverrideTitleWrapper : BaseTitleWrapper;
+  const ImageWrapper: any = OverrideImageWrapper
+    ? OverrideImageWrapper
+    : BaseImageWrapper;
+  const TextWrapper: any = OverrideTextWrapper
+    ? OverrideTextWrapper
+    : BaseTextWrapper;
+  const TitleWrapper: any = OverrideTitleWrapper
+    ? OverrideTitleWrapper
+    : BaseTitleWrapper;
   const descriptionIsString = typeof description === 'string';
   return (
     <Space
@@ -112,11 +120,9 @@ const MediaObjectBase = ({
         }
       }}
     >
-      <ImageWrapper hasImage={Boolean(Image)}> 
-        {Image}
-      </ImageWrapper>
-      <TextWrapper hasImage={Boolean(Image)} >
-      {labels.labels.length > 0 && (
+      <ImageWrapper hasImage={Boolean(Image)}>{Image}</ImageWrapper>
+      <TextWrapper hasImage={Boolean(Image)}>
+        {labels.labels.length > 0 && (
           <Space
             v={{ size: 's', properties: ['margin-bottom'] }}
             className="flex"
@@ -127,23 +133,25 @@ const MediaObjectBase = ({
         {partNumber && (
           <PartNumberIndicator number={partNumber} color={color} />
         )}
-        <TitleWrapper>
-          {title}
-        </TitleWrapper>
+        <TitleWrapper>{title}</TitleWrapper>
         {DateInfo}
         {StatusIndicator}
         {ExtraInfo}
 
-        {description && 
-          <div className={classNames({
-            'spaced-text': true,
-            [font('hnl', 5)]: !descriptionIsString,
-          })}>
-            {
-              descriptionIsString ? <p className={font('hnl', 5)}>{description}</p> : description
-            }
+        {description && (
+          <div
+            className={classNames({
+              'spaced-text': true,
+              [font('hnl', 5)]: !descriptionIsString,
+            })}
+          >
+            {descriptionIsString ? (
+              <p className={font('hnl', 5)}>{description}</p>
+            ) : (
+              description
+            )}
           </div>
-        }
+        )}
       </TextWrapper>
     </Space>
   );

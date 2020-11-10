@@ -14,7 +14,7 @@ import { getArchiveAncestorArray } from '@weco/common/utils/works';
 const ArchiveTitle = styled.span.attrs({
   className: classNames({
     [font('hnm', 5)]: true,
-  })
+  }),
 })`
   display: block;
 `;
@@ -61,21 +61,35 @@ const WorkHeaderPrototype = ({ work, childManifestsCount = 0 }: Props) => {
               </Space>
             )}
             <div className="line-height-1">
-              <Space className={classNames({
-                'bg-purple font-white inline-block': work.workType.label.startsWith('Archive'),
-                [font('hnm', 5)]: work.workType.label.startsWith('Archive'),
-              })}
-                h={{size: work.workType.label.startsWith('Archive') ? 's' : null, properties: ['padding-left', 'padding-right']}}
-                v={{size: work.workType.label.startsWith('Archive') ? 's' : null, properties: ['padding-top', 'padding-bottom', 'margin-bottom', 'margin-top']}}
+              <Space
+                className={classNames({
+                  'bg-purple font-white inline-block': work.workType.label.startsWith(
+                    'Archive'
+                  ),
+                  [font('hnm', 5)]: work.workType.label.startsWith('Archive'),
+                })}
+                h={{
+                  size: work.workType.label.startsWith('Archive') ? 's' : null,
+                  properties: ['padding-left', 'padding-right'],
+                }}
+                v={{
+                  size: work.workType.label.startsWith('Archive') ? 's' : null,
+                  properties: [
+                    'padding-top',
+                    'padding-bottom',
+                    'margin-bottom',
+                    'margin-top',
+                  ],
+                }}
               >
                 {work.workType.label}
               </Space>
             </div>
           </div>
 
-            {topLevelArchive && topLevelArchive.title !== work.title ? (
-              <ArchiveTitle>{topLevelArchive.title}</ArchiveTitle>
-            ): null}
+          {topLevelArchive && topLevelArchive.title !== work.title ? (
+            <ArchiveTitle>{topLevelArchive.title}</ArchiveTitle>
+          ) : null}
 
           <h1
             aria-live="polite"
