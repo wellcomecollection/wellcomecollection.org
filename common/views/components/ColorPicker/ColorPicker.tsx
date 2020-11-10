@@ -5,8 +5,10 @@ import { HexColorPicker } from 'react-colorful';
 import styled from 'styled-components';
 import debounce from 'lodash.debounce';
 
-import 'react-colorful/dist/index.css';
-import './react-colorful-overrides.css';
+// The CSS has been moved to the global `/catalogue/webapp/pages/_app`
+// file for now until we work out what we're up to with our CSS.
+// import 'react-colorful/dist/index.css';
+// import './react-colorful-overrides.css';
 
 interface Props {
   name: string;

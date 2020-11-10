@@ -26,7 +26,6 @@ import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingInd
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
 // $FlowFixMe (tsx)
 import PopupDialogContext from '../../views/components/PopupDialogContext/PopupDialogContext';
-import JsonLd from '../../views/components/JsonLd/JsonLd';
 import { trackEvent } from '../../utils/ga';
 import { AppContextProvider } from '../components/AppContext/AppContext';
 
@@ -444,8 +443,20 @@ export default class WecoApp extends App {
             src="https://i.wellcomecollection.org/assets/libs/picturefill.min.js"
             async
           />
-          <JsonLd data={museumLd(wellcomeCollectionGalleryWithHours)} />
-          <JsonLd data={libraryLd(wellcomeLibraryWithHours)} />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(
+                museumLd(wellcomeCollectionGalleryWithHours)
+              ),
+            }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(libraryLd(wellcomeLibraryWithHours)),
+            }}
+          />
         </Head>
         <AppContextProvider>
           <TogglesContext.Provider value={{ ...togglesContext }}>

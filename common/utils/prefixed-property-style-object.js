@@ -1,6 +1,5 @@
 // @flow
-
-export default (property: string, value: string): {} => {
+const prefixPropertyStyleObject = (property: string, value: string): {} => {
   const cappedProperty = property[0].toUpperCase() + property.substring(1);
 
   return {
@@ -11,3 +10,5 @@ export default (property: string, value: string): {} => {
     [property]: value,
   };
 };
+
+export default prefixPropertyStyleObject;

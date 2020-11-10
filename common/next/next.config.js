@@ -1,6 +1,6 @@
 const path = require('path');
 const withTM = require('@weco/next-plugin-transpile-modules');
-const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
+const withBundleAnalyzer = require('@next/bundle-analyzer');
 const buildHash = process.env.BUILD_HASH || 'test';
 const isProd = process.env.NODE_ENV === 'production';
 
