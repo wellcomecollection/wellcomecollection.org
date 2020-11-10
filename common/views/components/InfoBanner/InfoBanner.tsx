@@ -79,12 +79,7 @@ class InfoBanner extends React.Component<Props, State> {
                       </div>
                     </span>
                   </div>
-                  <Space
-                    v={{
-                      size: 'xs',
-                      properties: ['margin-top'],
-                    }}
-                  >
+                  <Space v={{ size: 'xs', properties: ['margin-top'] }}>
                     <button
                       className="no-margin no-padding plain-button pointer"
                       onClick={this.hideInfoBanner}
