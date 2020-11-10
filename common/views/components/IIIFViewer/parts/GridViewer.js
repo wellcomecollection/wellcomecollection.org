@@ -126,7 +126,9 @@ const GridViewer = ({
   }, [activeIndex]);
   useEffect(() => {
     // there are multiple scrolls in this view, we have to set the body to hidden to stop flickering and offset
-    document.body.style.overflow = 'hidden';
+    if (document.body && document.body.style) {
+      document.body.style.overflow = 'hidden';
+    }
     window.scrollTo(0, 0);
   }, []);
 
