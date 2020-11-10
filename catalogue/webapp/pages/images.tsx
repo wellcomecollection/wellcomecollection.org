@@ -111,6 +111,28 @@ const Images = ({ results, imagesRouteProps, apiProps }: Props) => {
 
   return (
     <>
+      <Head>
+        {results?.type === 'ResultList' && results.prevPage && (
+          <link
+            rel="prev"
+            href={convertUrlToString(
+              imagesLink(
+                { ...imagesRouteProps, page: (page || 1) - 1 },
+                'meta_link'
+              ).as
+            )}
+          />
+        )}
+        {results?.type === 'ResultList' && results.nextPage && (
+          <link
+            rel="next"
+            href={convertUrlToString(
+              imagesLink({ ...imagesRouteProps, page: page + 1 }, 'meta_link')
+                .as
+            )}
+          />
+        )}
+      </Head>
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}image search`}
         description="Search Wellcome Collection images"
