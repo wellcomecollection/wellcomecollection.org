@@ -7,8 +7,8 @@ import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';
 import {
-  topBarHeight,
   headerHeight,
+  topBarHeight,
 } from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 // $FlowFixMe (tsx)
 import GlobalAlertContext from '@weco/common/views/components/GlobalAlertContext/GlobalAlertContext';
