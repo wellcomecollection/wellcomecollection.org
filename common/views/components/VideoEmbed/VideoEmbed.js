@@ -17,7 +17,7 @@ const VideoEmbed = ({ embedUrl, caption }: Props) => (
         msallowfullscreen="msallowfullscreen"
         oallowfullscreen="oallowfullscreen"
         webkitallowfullscreen="webkitallowfullscreen"
-        src={embedUrl}
+        src={`${embedUrl}&enablejsapi=1`}
         frameBorder="0"
         className="iframe-container__iframe absolute"
       />
