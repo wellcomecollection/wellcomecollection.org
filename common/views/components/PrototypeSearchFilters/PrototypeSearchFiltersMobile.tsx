@@ -160,7 +160,7 @@ const SearchFiltersMobile = ({
   imagesColor,
   aggregations,
   filtersToShow,
-}: SearchFiltersSharedProps) => {
+}: SearchFiltersSharedProps): JSX.Element => {
   const openFiltersButtonRef = useRef(null);
   const closeFiltersButtonRef = useRef(null);
   const okFiltersButtonRef = useRef(null);

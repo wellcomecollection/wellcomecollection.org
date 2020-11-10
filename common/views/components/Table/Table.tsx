@@ -165,7 +165,7 @@ const TableRow = ({ items, hasHeader }: TableRow) => {
   );
 };
 
-const Table = ({ rows, hasRowHeaders, caption }: Props) => {
+const Table = ({ rows, hasRowHeaders, caption }: Props): JSX.Element => {
   const leftButtonRef = useRef(null);
   const rightButtonRef = useRef(null);
   const tableRef = useRef(null);

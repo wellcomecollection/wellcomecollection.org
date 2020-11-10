@@ -1,9 +1,5 @@
 // @flow
-export const truncate = (
-  str: string,
-  length: number = 255,
-  symbol: string = '…'
-): string => {
+export const truncate = (str: string, length = 255, symbol = '…'): string => {
   if (str.length <= length) {
     return str;
   } else {

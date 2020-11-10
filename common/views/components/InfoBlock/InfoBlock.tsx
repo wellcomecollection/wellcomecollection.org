@@ -12,7 +12,7 @@ type Props = {
   link: PrismicLink | null;
 };
 
-const InfoBlock = ({ title, text, linkText, link }: Props) => {
+const InfoBlock = ({ title, text, linkText, link }: Props): JSX.Element => {
   const parsedLink = parseLink(link);
 
   return (

@@ -1,7 +1,11 @@
 import { MediaObjectType } from '../../../model/media-object';
 import MediaObject from '../../components/MediaObject/MediaObject';
 
-const MediaObjectList = ({ items }: { items: Array<MediaObjectType> }) => {
+const MediaObjectList = ({
+  items,
+}: {
+  items: Array<MediaObjectType>;
+}): JSX.Element => {
   return (
     <div className="body-text">
       {items.map((mediaObject, index) => {

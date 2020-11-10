@@ -11,7 +11,6 @@ export type ImageType = {
   };
 };
 
-
 export type UiImageType = ImageType & {
   sizesQueries: string;
   extraClasses?: string;

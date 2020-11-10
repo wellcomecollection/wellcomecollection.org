@@ -34,7 +34,7 @@ type Props = {
   image: UiImageType;
 };
 
-const BookImage = ({ image }: Props) => {
+const BookImage = ({ image }: Props): JSX.Element => {
   return (
     <Space v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
       <Outer>

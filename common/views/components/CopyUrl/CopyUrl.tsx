@@ -1,7 +1,5 @@
 import { useState, useContext, useRef } from 'react';
-import { classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
-import Icon from '../Icon/Icon';
 import TextInput from '../TextInput/TextInput';
 import Space from '../styled/Space';
 import { AppContext } from '../AppContext/AppContext';
@@ -12,7 +10,7 @@ type Props = {
   url: string;
 };
 
-const CopyUrl = ({ id, url }: Props) => {
+const CopyUrl = ({ id, url }: Props): JSX.Element => {
   const { isEnhanced } = useContext(AppContext);
   const [isTextCopied, setIsTextCopied] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -61,7 +59,7 @@ const CopyUrl = ({ id, url }: Props) => {
         type="text"
         label="Page URL"
         value={url}
-        setValue={() => {}}
+        setValue={null}
         name={null}
         pattern={null}
         required={null}

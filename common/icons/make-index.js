@@ -22,9 +22,7 @@ fs.readdir(path.join(__dirname, 'components'), (err, data) => {
 
   const importData = fileInfo
     .map(f => {
-      return `import ${f.iconName} from './components/${
-        f.fileWithoutExtension
-      }'`;
+      return `import ${f.iconName} from './components/${f.fileWithoutExtension}'`;
     })
     .join(';\n');
 

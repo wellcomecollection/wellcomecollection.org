@@ -1,5 +1,5 @@
 import { forwardRef, SyntheticEvent } from 'react';
-import { classNames, font } from '../../../utils/classnames';
+import { classNames } from '../../../utils/classnames';
 import { GaEvent, trackEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
 import Icon from '../Icon/Icon';

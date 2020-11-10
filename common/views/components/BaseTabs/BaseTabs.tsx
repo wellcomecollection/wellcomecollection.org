@@ -65,7 +65,7 @@ const Tabs = ({
   activeTabIndex,
   onTabClick,
   onTabChanged,
-}: Props) => {
+}: Props): JSX.Element => {
   const [activeId, setActiveId] = useState(tabs[activeTabIndex || 0].id);
   const [focusedId, setFocusedId] = useState(null);
   const { isEnhanced } = useContext(AppContext);

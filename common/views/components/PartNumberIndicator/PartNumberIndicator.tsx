@@ -8,7 +8,7 @@ type Props = {
   color: ColorSelection | null;
 };
 
-const PartNumberIndicator = ({ number, color }: Props) => (
+const PartNumberIndicator = ({ number, color }: Props): JSX.Element => (
   <div
     className={classNames({
       [font('wb', 5)]: true,

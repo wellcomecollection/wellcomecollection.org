@@ -71,7 +71,12 @@ type CheckboxRadioProps = {
   value: string;
 };
 
-function CheckboxRadio({ id, text, type, ...inputProps }: CheckboxRadioProps) {
+function CheckboxRadio({
+  id,
+  text,
+  type,
+  ...inputProps
+}: CheckboxRadioProps): JSX.Element {
   const { isKeyboard } = useContext(AppContext);
 
   return (

@@ -7,7 +7,7 @@ enum CovidIconsEnum {
   houseHold = 'houseHold',
 }
 
-const WashYourHands = () => (
+const WashYourHands = (): JSX.Element => (
   <svg viewBox="0 0 85.04 85.04">
     <path
       style={{ fill: '#006472' }}
@@ -70,7 +70,7 @@ const WashYourHands = () => (
   </svg>
 );
 
-const KeepYourDistance = () => (
+const KeepYourDistance = (): JSX.Element => (
   <svg viewBox="0 0 85.04 85.04">
     <path
       style={{ fill: '#006472' }}
@@ -158,7 +158,7 @@ const KeepYourDistance = () => (
   </svg>
 );
 
-const WearAMask = () => (
+const WearAMask = (): JSX.Element => (
   <svg viewBox="0 0 85.04 85.04">
     <g>
       <path
@@ -224,7 +224,7 @@ const WearAMask = () => (
   </svg>
 );
 
-const StayAtHome = () => (
+const StayAtHome = (): JSX.Element => (
   <svg viewBox="0 0 85.04 85.04">
     <path
       style={{ fill: '#006472' }}
@@ -267,7 +267,7 @@ const StayAtHome = () => (
   </svg>
 );
 
-const BookATicket = () => (
+const BookATicket = (): JSX.Element => (
   <svg viewBox="0 0 85.04 85.04">
     <path
       style={{ fill: '#FDB71A' }}
@@ -286,7 +286,7 @@ const BookATicket = () => (
   </svg>
 );
 
-const WeAreGoodToGo = () => (
+const WeAreGoodToGo = (): JSX.Element => (
   <svg viewBox="0 0 184.25 184.25">
     <g>
       <path
@@ -795,7 +795,7 @@ const WeAreGoodToGo = () => (
   </svg>
 );
 
-const HouseHold = () => (
+const HouseHold = (): JSX.Element => (
   <svg viewBox="0 0 568.90668 568.90668" id="svg2" version="1.1">
     <defs id="defs6" />
     <g transform="matrix(1.3333333,0,0,-1.3333333,0,568.90667)" id="g10">

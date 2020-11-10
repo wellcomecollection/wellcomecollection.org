@@ -19,11 +19,11 @@ const ArchiveTitle = styled.span.attrs({
   display: block;
 `;
 
-const WorkHeaderContainer = styled.div.attrs(props => ({
+const WorkHeaderContainer = styled.div.attrs({
   className: classNames({
     flex: true,
   }),
-}))`
+})`
   width: 100%;
   align-content: flex-start;
 `;
@@ -33,7 +33,10 @@ type Props = {
   childManifestsCount?: number;
 };
 
-const WorkHeaderPrototype = ({ work, childManifestsCount = 0 }: Props) => {
+const WorkHeaderPrototype = ({
+  work,
+  childManifestsCount = 0,
+}: Props): JSX.Element => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   const archiveAncestorArray = getArchiveAncestorArray(work);

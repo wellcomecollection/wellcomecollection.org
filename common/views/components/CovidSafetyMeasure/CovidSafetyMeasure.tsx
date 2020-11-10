@@ -16,7 +16,12 @@ type Props = {
   isStacked?: boolean;
 };
 
-const CovidSafetyMeasure = ({ title, description, icon, isStacked }: Props) => {
+const CovidSafetyMeasure = ({
+  title,
+  description,
+  icon,
+  isStacked,
+}: Props): JSX.Element => {
   return (
     <div
       className={classNames({

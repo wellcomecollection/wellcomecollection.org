@@ -16,7 +16,9 @@ type AppContextProviderProps = {
   children: JSX.Element;
 };
 
-export const AppContextProvider = ({ children }: AppContextProviderProps) => {
+export const AppContextProvider = ({
+  children,
+}: AppContextProviderProps): JSX.Element => {
   const [isEnhanced, setIsEnhanced] = useState(appContextDefaults.isEnhanced);
   const [isKeyboard, setIsKeyboard] = useState(appContextDefaults.isKeyboard);
 

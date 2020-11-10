@@ -1,16 +1,14 @@
-import { SyntheticEvent } from 'react';
-import { trackEvent } from '../../../utils/ga';
-import type { GaEvent } from '../../../utils/ga';
+import { trackEvent, GaEvent } from '../../../utils/ga';
 import ButtonOutlinedLink from '../ButtonOutlinedLink/ButtonOutlinedLink';
 
 type Props = {
-  url: string,
-  name: string,
-  trackingEvent?: GaEvent,
+  url: string;
+  name: string;
+  trackingEvent?: GaEvent;
 };
 
-const MoreLink = ({ url, name, trackingEvent }: Props) => {
-  function handleClick(event: SyntheticEvent<HTMLAnchorElement>) {
+const MoreLink = ({ url, name, trackingEvent }: Props): JSX.Element => {
+  function handleClick() {
     if (trackingEvent) {
       trackEvent({
         category: 'MoreLink',

@@ -10,7 +10,7 @@ type Props = {
   collectionOpeningTimes: CollectionOpeningTimes;
 };
 
-const FooterOpeningTimes = ({ collectionOpeningTimes }: Props) => {
+const FooterOpeningTimes = ({ collectionOpeningTimes }: Props): JSX.Element => {
   return (
     <ul className="plain-list no-padding no-margin">
       {collectionOpeningTimes.placesOpeningHours.map(venue => {

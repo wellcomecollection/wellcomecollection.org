@@ -1,5 +1,5 @@
 import { SyntheticEvent } from 'react';
-import { LinkProps } from 'next/link';
+import NextLink, { LinkProps } from 'next/link';
 import {
   BaseButtonInner,
   ButtonIconWrapper,
@@ -8,7 +8,7 @@ import {
 } from '../ButtonSolid/ButtonSolid';
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
-import NextLink from 'next/link';
+
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
 type ButtonSolidLinkProps = ButtonSolidBaseProps & {
@@ -29,7 +29,7 @@ const ButtonSolidLink = ({
   ariaControls,
   ariaExpanded,
   isBig,
-}: ButtonSolidLinkProps) => {
+}: ButtonSolidLinkProps): JSX.Element => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
     trackingEvent && trackEvent(trackingEvent);

@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '../../../utils/classnames';
 import { worksLink, imagesLink } from '../../../services/catalogue/ts_routes';
@@ -9,7 +8,6 @@ import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import NextLink from 'next/link';
 import dynamic from 'next/dynamic';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import { SearchFiltersSharedProps } from './PrototypeSearchFilters';
 
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
@@ -72,7 +70,7 @@ const SearchFiltersDesktop = ({
   workTypeInUrlArray,
   imagesColor,
   aggregations,
-}: SearchFiltersSharedProps) => {
+}: SearchFiltersSharedProps): JSX.Element => {
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
 

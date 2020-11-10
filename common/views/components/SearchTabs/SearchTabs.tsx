@@ -1,6 +1,5 @@
-import BaseTabs from '../BaseTabs/BaseTabs';
+import BaseTabs, { TabType } from '../BaseTabs/BaseTabs';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { TabType } from '../BaseTabs/BaseTabs';
 import styled from 'styled-components';
 import Space from '../styled/Space';
 import { useContext, useState } from 'react';
@@ -81,7 +80,7 @@ const SearchTabs = ({
   aggregations,
   shouldShowDescription,
   activeTabIndex,
-}: Props) => {
+}: Props): JSX.Element => {
   const { isKeyboard, isEnhanced } = useContext(AppContext);
   const [activeTab, setActiveTab] = useState(
     activeTabIndex === 0 ? 'tab-library-catalogue' : 'tab-images'
@@ -89,11 +88,17 @@ const SearchTabs = ({
   const tabs: TabType[] = [
     {
       id: 'tab-library-catalogue',
-      tab: (isActive, isFocused) => (
-        <Tab isActive={isActive} isFocused={isFocused} isKeyboard={isKeyboard}>
-          Library catalogue
-        </Tab>
-      ),
+      tab: function TabWithDisplayName(isActive, isFocused) {
+        return (
+          <Tab
+            isActive={isActive}
+            isFocused={isFocused}
+            isKeyboard={isKeyboard}
+          >
+            Library catalogue
+          </Tab>
+        );
+      },
       tabPanel: (
         <TabPanel>
           <Space
@@ -122,16 +127,18 @@ const SearchTabs = ({
     },
     {
       id: 'tab-images',
-      tab: (isActive, isFocused) => (
-        <Tab
-          isActive={isActive}
-          isFocused={isFocused}
-          isKeyboard={isKeyboard}
-          isLast={true}
-        >
-          Images
-        </Tab>
-      ),
+      tab: function TabWithDisplayName(isActive, isFocused) {
+        return (
+          <Tab
+            isActive={isActive}
+            isFocused={isFocused}
+            isKeyboard={isKeyboard}
+            isLast={true}
+          >
+            Images
+          </Tab>
+        );
+      },
       tabPanel: (
         <TabPanel>
           <Space

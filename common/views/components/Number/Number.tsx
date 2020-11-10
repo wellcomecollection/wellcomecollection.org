@@ -7,7 +7,7 @@ type Props = {
   color: ColorSelection | null;
 };
 
-const Number = ({ number, color }: Props) => (
+const Number = ({ number, color }: Props): JSX.Element => (
   <Space
     as="span"
     h={{ size: 's', properties: ['margin-left'] }}

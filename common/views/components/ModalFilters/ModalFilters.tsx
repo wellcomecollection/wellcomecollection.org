@@ -1,4 +1,5 @@
 import { useState, useContext, useRef } from 'react';
+import { SearchFiltersSharedProps } from '@weco/common/views/components/PrototypeSearchFilters/PrototypeSearchFilters';
 import NextLink from 'next/link';
 import dynamic from 'next/dynamic';
 import { worksLink } from '../../../services/catalogue/routes';
@@ -78,9 +79,9 @@ const FiltersInner = styled.div`
 `;
 
 const ModalFilters = ({
-  searchForm,
+  // searchForm,
   worksRouteProps,
-  workTypeAggregations,
+  // workTypeAggregations,
   changeHandler,
   inputDateFrom,
   inputDateTo,
@@ -92,7 +93,7 @@ const ModalFilters = ({
   workTypeInUrlArray,
   imagesColor,
   aggregations,
-}: SearchFiltersSharedProps) => {
+}: SearchFiltersSharedProps): JSX.Element => {
   const [isActive, setIsActive] = useState(false);
   const openButtonRef = useRef(null);
 

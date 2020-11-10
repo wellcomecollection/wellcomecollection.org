@@ -1,7 +1,12 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
-const PrototypePortal = ({ id, children }) => {
+type Props = {
+  id: string;
+  children: JSX.Element;
+};
+
+const PrototypePortal = ({ id, children }: Props): JSX.Element => {
   if (typeof window !== 'undefined') {
     const mount = document.getElementById(id);
     const el = document.createElement('div');

@@ -5,7 +5,7 @@ import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import Space from '@weco/common/views/components/styled/Space';
 import TogglesContext from '../TogglesContext/TogglesContext';
 
-const CollectionsStaticContent = () => {
+const CollectionsStaticContent = (): JSX.Element => {
   const { searchPrototype } = useContext(TogglesContext);
 
   return searchPrototype ? (

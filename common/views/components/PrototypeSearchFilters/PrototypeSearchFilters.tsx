@@ -40,7 +40,7 @@ const SearchFilters = ({
   changeHandler,
   aggregations,
   filtersToShow,
-}: Props) => {
+}: Props): JSX.Element => {
   const workTypeInUrlArray = worksRouteProps.workType || [];
   const locationsTypeInUrlArray = worksRouteProps.itemsLocationsType || [];
   const { productionDatesFrom, productionDatesTo, color } = worksRouteProps;

@@ -15,7 +15,7 @@ type Props = {
   links: Link[];
 };
 
-const OnThisPageAnchors = ({ links }) => {
+const OnThisPageAnchors = ({ links }: Props): JSX.Element => {
   return (
     <Space
       h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Products and services relating to wellcomecollection.org.",
   "scripts": {
+    "lint": "eslint ./.eslintrc.js common/ --fix",
     "setupCommon": "yarn install --production && yarn flow",
     "cardigan": "pushd cardigan && yarn dev",
     "catalogue": "pushd catalogue/webapp && yarn dev",
@@ -26,7 +27,7 @@
     "@typescript-eslint/parser": "^4.7.0",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^10.0.1",
-    "eslint": "^5.11.1",
+    "eslint": "^7.13.0",
     "eslint-config-prettier": "^4.0.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-flowtype": "^3.4.2",
@@ -43,7 +44,8 @@
     "lint-staged": "^8.1.5",
     "pa11y": "^5.1.0",
     "pa11y-reporter-html": "^1.0.0",
-    "prettier": "^1.16.4"
+    "prettier": "^1.16.4",
+    "typescript": "^4.0.5"
   },
   "dependencies": {
     "flow-bin": "^0.108.0"

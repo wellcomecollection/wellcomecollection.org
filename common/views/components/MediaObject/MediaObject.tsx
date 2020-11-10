@@ -1,14 +1,14 @@
 import Image from '../Image/Image';
-import MediaObjectBase from '../MediaObjectBase/MediaObjectBase';
+import MediaObjectBase, {
+  TextWrapperProp,
+} from '../MediaObjectBase/MediaObjectBase';
 import { ImageType } from '../../../model/image';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import styled from 'styled-components';
 import { grid, classNames, font } from '../../../utils/classnames';
-import { TextWrapperProp } from '../MediaObjectBase/MediaObjectBase';
 
 type Props = {
-  id: string;
   title: string;
   text: HTMLString | null;
   image: ImageType;
@@ -42,14 +42,14 @@ const TextWrapper = styled.div.attrs<TextWrapperProp>(props => {
   };
 })<TextWrapperProp>``;
 
-const TitleWrapper = styled.div.attrs(props => ({
+const TitleWrapper = styled.div.attrs({
   className: classNames({
     'card-link__title': true,
     [font('wb', 4)]: true,
   }),
-}))``;
+})``;
 
-export const MediaObject = ({ title, text, image }: Props) => {
+export const MediaObject = ({ title, text, image }: Props): JSX.Element => {
   const ImageComponent = image?.crops?.square && (
     <Image {...image.crops.square} />
   );

@@ -74,7 +74,7 @@ const PrototypeSearchForm = ({
   aggregations,
   isImageSearch,
   isActive,
-}: Props) => {
+}: Props): JSX.Element => {
   const [, setSearchParamsState] = useSavedSearchState(routeProps);
   const { query } = routeProps;
 

@@ -48,7 +48,7 @@ const CompactCard = ({
   OverrideImageWrapper,
   OverrideTextWrapper,
   OverrideTitleWrapper,
-}: Props) => {
+}: Props): JSX.Element => {
   return (
     <MediaObjectBase
       url={url}

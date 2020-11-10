@@ -16,13 +16,13 @@ const DropdownWrapper = styled.div.attrs({
   }),
 })``;
 
-const Dropdown = styled(Space).attrs(props => ({
+const Dropdown = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   className: classNames({
     'rounded-corners shadow bg-white': true,
   }),
-}))`
+})`
   margin-top: -2px;
   z-index: ${props => (props.isActive ? 2 : 1)};
   overflow: auto;
@@ -72,7 +72,13 @@ type Props = {
   id: string;
 };
 
-const DropdownButton = ({ label, children, isInline, isOnDark, id }: Props) => {
+const DropdownButton = ({
+  label,
+  children,
+  isInline,
+  isOnDark,
+  id,
+}: Props): JSX.Element => {
   const [isActive, setIsActive] = useState(false);
   const { isEnhanced } = useContext(AppContext);
   const dropdownWrapperRef = useRef(null);

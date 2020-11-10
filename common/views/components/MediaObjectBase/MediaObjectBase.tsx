@@ -5,7 +5,6 @@ import {
   conditionalClassNames,
   classNames,
 } from '../../../utils/classnames';
-import { trackEvent } from '../../../utils/ga';
 import DateRange from '../DateRange/DateRange';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
@@ -41,16 +40,16 @@ type Props = {
   onClick?: () => void;
 };
 
-const BaseImageWrapper = styled.div.attrs(props => ({
+const BaseImageWrapper = styled.div.attrs({
   className: grid({ s: 3, m: 3, l: 3, xl: 3 }),
-}))``;
+})``;
 
-const BaseTitleWrapper = styled.div.attrs(props => ({
+const BaseTitleWrapper = styled.div.attrs({
   className: classNames({
     'card-link__title': true,
     [font('wb', 3)]: true,
   }),
-}))``;
+})``;
 
 export type TextWrapperProp = {
   hasImage: boolean;
@@ -86,17 +85,11 @@ const MediaObjectBase = ({
   OverrideTextWrapper,
   OverrideTitleWrapper,
   onClick,
-}: Props) => {
+}: Props): JSX.Element => {
   const { x, y } = xOfY;
-  const ImageWrapper: any = OverrideImageWrapper
-    ? OverrideImageWrapper
-    : BaseImageWrapper;
-  const TextWrapper: any = OverrideTextWrapper
-    ? OverrideTextWrapper
-    : BaseTextWrapper;
-  const TitleWrapper: any = OverrideTitleWrapper
-    ? OverrideTitleWrapper
-    : BaseTitleWrapper;
+  const ImageWrapper: any = OverrideImageWrapper || BaseImageWrapper;
+  const TextWrapper: any = OverrideTextWrapper || BaseTextWrapper;
+  const TitleWrapper: any = OverrideTitleWrapper || BaseTitleWrapper;
   const descriptionIsString = typeof description === 'string';
   return (
     <Space

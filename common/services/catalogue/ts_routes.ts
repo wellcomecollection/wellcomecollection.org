@@ -76,9 +76,9 @@ export type ImagesRouteProps = {
   query: string;
   page: number;
   source: string | null;
-  locationsLicense: string | null,
-  color: string | null,
-}
+  locationsLicense: string | null;
+  color: string | null;
+};
 
 // route: /works
 export type WorksRouteProps = {
@@ -96,7 +96,9 @@ export type WorksRouteProps = {
   search: string | null;
 };
 
-export function imagesRoutePropsToWorksRouteProps(imagesRouteProps: ImagesRouteProps): WorksRouteProps {
+export function imagesRoutePropsToWorksRouteProps(
+  imagesRouteProps: ImagesRouteProps
+): WorksRouteProps {
   return {
     query: imagesRouteProps.query,
     page: imagesRouteProps.page,
@@ -104,13 +106,13 @@ export function imagesRoutePropsToWorksRouteProps(imagesRouteProps: ImagesRouteP
     workType: [],
     itemsLocationsLocationType: [],
     itemsLocationsType: [],
-    sort:  null,
-    sortOrder:  null,
-    productionDatesFrom:  null,
-    productionDatesTo:  null,
-    imagesColor:  null,
-    search:  null,
-  }
+    sort: null,
+    sortOrder: null,
+    productionDatesFrom: null,
+    productionDatesTo: null,
+    imagesColor: null,
+    search: null,
+  };
 }
 
 export const WorksRoute: NextRoute<WorksRouteProps> = {
@@ -194,7 +196,7 @@ export const ImagesRoute: NextRoute<ImagesRouteProps> = {
   },
 
   toQuery(params) {
-    return  serialiseUrl({
+    return serialiseUrl({
       query: params.query,
       page: params.page,
       'locations.license': params.locationsLicense,
@@ -203,7 +205,9 @@ export const ImagesRoute: NextRoute<ImagesRouteProps> = {
   },
 };
 
-export const imagesLink = (params: ImagesRouteProps, source: string) =>
-  ImagesRoute.toLink({ ...params, source });
-export const worksLink = (params: WorksRouteProps, source: string) =>
+export const imagesLink = (
+  params: ImagesRouteProps,
+  source: string
+): LinkProps => ImagesRoute.toLink({ ...params, source });
+export const worksLink = (params: WorksRouteProps, source: string): LinkProps =>
   WorksRoute.toLink({ ...params, source });

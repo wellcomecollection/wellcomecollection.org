@@ -15,7 +15,7 @@ type Props = {
   tags: TagType[];
 };
 
-const Tags = ({ tags }: Props) => {
+const Tags = ({ tags }: Props): JSX.Element => {
   return (
     <Space v={{ size: 's', negative: true, properties: ['margin-bottom'] }}>
       <ul
