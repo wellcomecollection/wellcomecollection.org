@@ -58,7 +58,11 @@ module.exports = {
       parser: '@typescript-eslint/parser',
       plugins: [...sharedPlugins, '@typescript-eslint'],
       extends: [...sharedExtends, 'plugin:@typescript-eslint/recommended'],
-      rules: sharedRules,
+      rules: {
+        ...sharedRules,
+        'no-use-before-define': 'off',
+        '@typescript-eslint/no-use-before-define': ['error'],
+      },
     },
   ],
 };
