@@ -1,4 +1,3 @@
-import { Children, createElement } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { grid } from '@weco/common/utils/classnames';
 import PROGRESS_NOTES from '../PROGRESS_NOTES.md';
