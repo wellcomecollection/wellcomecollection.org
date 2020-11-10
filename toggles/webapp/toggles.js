@@ -8,7 +8,7 @@ module.exports = {
         'Shows a tabbed interface for library catalogue/images search',
     },
     {
-      id: 'openWithAdvisory',
+      id: 'openWithAdvisoryPrototype',
       title: 'Open with advisory',
       description:
         'Adds functionality for viewing digitised items with an access condition of open-with-advisory',

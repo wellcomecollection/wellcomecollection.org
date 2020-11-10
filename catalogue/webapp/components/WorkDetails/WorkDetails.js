@@ -68,9 +68,10 @@ function getItemLinkState({
   itemUrl,
   audio,
   video,
+  openWithAdvisoryPrototype,
 }): ?'useItemLink' | 'useLibraryLink' {
   if (
-    (accessCondition === 'open-with-advisory' ||
+    ((accessCondition === 'open-with-advisory' && !openWithAdvisoryPrototype) ||
       accessCondition === 'restricted' ||
       accessCondition === 'permission-required') &&
     sierraIdFromManifestUrl
@@ -90,7 +91,7 @@ const WorkDetails = ({
 }: Props) => {
   const {
     stacksRequestService,
-    openWithAdvisory,
+    openWithAdvisoryPrototype,
     searchPrototype,
   } = useContext(TogglesContext);
   const [imageJson, setImageJson] = useState(null);
@@ -211,6 +212,7 @@ const WorkDetails = ({
     itemUrl,
     audio,
     video,
+    openWithAdvisoryPrototype,
   });
 
   const WhereToFindIt = () => (
@@ -266,30 +268,28 @@ const WorkDetails = ({
               <AudioPlayer audio={audio} />
             </Space>
           )}
-          {itemLinkState === 'useLibraryLink' &&
-            !(openWithAdvisory && accessCondition === 'open-with-advisory') && (
-              <Space
-                as="span"
-                h={{
-                  size: 'm',
-                  properties: ['margin-right'],
+          {itemLinkState === 'useLibraryLink' && (
+            <Space
+              as="span"
+              h={{
+                size: 'm',
+                properties: ['margin-right'],
+              }}
+            >
+              <ButtonSolidLink
+                icon="eye"
+                text="View"
+                trackingEvent={{
+                  category: 'WorkDetails',
+                  action: 'follow view link',
+                  label: work.id,
                 }}
-              >
-                <ButtonSolidLink
-                  icon="eye"
-                  text="View"
-                  trackingEvent={{
-                    category: 'WorkDetails',
-                    action: 'follow view link',
-                    label: work.id,
-                  }}
-                  link={`https://wellcomelibrary.org/item/${sierraIdFromManifestUrl ||
-                    ''}`}
-                />
-              </Space>
-            )}
-          {(itemLinkState === 'useItemLink' ||
-            (openWithAdvisory && accessCondition === 'open-with-advisory')) && (
+                link={`https://wellcomelibrary.org/item/${sierraIdFromManifestUrl ||
+                  ''}`}
+              />
+            </Space>
+          )}
+          {itemLinkState === 'useItemLink' && (
             <>
               {work.thumbnail && (
                 <Space
