@@ -12,7 +12,7 @@ import debounce from 'lodash.debounce';
 
 interface Props {
   name: string;
-  color?: string;
+  color: string | null;
   onChangeColor: (color?: string) => void;
 }
 

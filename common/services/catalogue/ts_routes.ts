@@ -111,6 +111,10 @@ export type WorksRouteProps = {
   productionDatesTo: string | null;
   imagesColor: string | null;
   search: string | null;
+
+  // These should not be here, but we need a good
+  // old tidy up of the props in this file
+  color: string | null;
 };
 
 export function imagesRoutePropsToWorksRouteProps(
@@ -129,6 +133,7 @@ export function imagesRoutePropsToWorksRouteProps(
     productionDatesTo: null,
     imagesColor: null,
     search: null,
+    color: null,
   };
 }
 
