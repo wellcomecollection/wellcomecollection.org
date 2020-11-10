@@ -68,14 +68,8 @@ class InfoBanner extends React.Component<Props, State> {
                   <div>
                     <span className="flex">
                       <Space
-                        h={{
-                          size: 'm',
-                          properties: ['margin-right'],
-                        }}
-                        v={{
-                          size: 'xs',
-                          properties: ['margin-top'],
-                        }}
+                        h={{ size: 'm', properties: ['margin-right'] }}
+                        v={{ size: 'xs', properties: ['margin-top'] }}
                         className={`flex`}
                       >
                         <Icon name="information" />
