@@ -7,19 +7,15 @@ type Props = {
 };
 
 const PrototypePortal = ({ id, children }: Props): JSX.Element => {
-  if (typeof window !== 'undefined') {
-    const mount = document.getElementById(id);
-    const el = document.createElement('div');
+  const mount = document.getElementById(id);
+  const el = document.createElement('div');
 
-    useEffect(() => {
-      mount && mount.appendChild(el);
-      return () => mount && mount.removeChild(el);
-    }, [el, mount]);
+  useEffect(() => {
+    mount && mount.appendChild(el);
+    return () => mount && mount.removeChild(el);
+  }, [el, mount]);
 
-    return createPortal(children, el);
-  } else {
-    return null;
-  }
+  return createPortal(children, el);
 };
 
 export default PrototypePortal;

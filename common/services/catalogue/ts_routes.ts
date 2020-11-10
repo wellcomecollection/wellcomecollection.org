@@ -1,8 +1,7 @@
 import { LinkProps } from 'next/link';
 import { NextPageContext } from 'next';
-type Params = {
-  [key: string]: any;
-};
+
+type Params = Record<string, unknown>;
 
 export type UrlParams = {
   [key: string]: string;

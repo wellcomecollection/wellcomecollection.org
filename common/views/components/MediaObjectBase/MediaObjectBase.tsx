@@ -87,9 +87,9 @@ const MediaObjectBase = ({
   onClick,
 }: Props): JSX.Element => {
   const { x, y } = xOfY;
-  const ImageWrapper: any = OverrideImageWrapper || BaseImageWrapper;
-  const TextWrapper: any = OverrideTextWrapper || BaseTextWrapper;
-  const TitleWrapper: any = OverrideTitleWrapper || BaseTitleWrapper;
+  const ImageWrapper = OverrideImageWrapper || BaseImageWrapper;
+  const TextWrapper = OverrideTextWrapper || BaseTextWrapper;
+  const TitleWrapper = OverrideTitleWrapper || BaseTitleWrapper;
   const descriptionIsString = typeof description === 'string';
   return (
     <Space

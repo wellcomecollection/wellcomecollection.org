@@ -14,7 +14,7 @@ export type Work = {
   genres?: Genre;
   thumbnail?: DigitalLocation;
   items?: Item[];
-  production: any; // Bah
+  production?: Record<string, unknown>;
   language: Language;
   edition?: string;
   notes?: Note[];
