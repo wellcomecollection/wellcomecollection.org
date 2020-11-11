@@ -69,14 +69,18 @@ function getItemLinkState({
   audio,
   video,
   openWithAdvisoryPrototype,
-}): ?'useItemLink' | 'useLibraryLink' {
+}): ?'useItemLink' | 'useLibraryLink' | 'useNoLink' {
   if (
     ((accessCondition === 'open-with-advisory' && !openWithAdvisoryPrototype) ||
       accessCondition === 'restricted' ||
       accessCondition === 'permission-required') &&
     sierraIdFromManifestUrl
-  )
+  ) {
     return 'useLibraryLink';
+  }
+  if (accessCondition === 'closed') {
+    return 'useNoLink';
+  }
   if (itemUrl && !audio && !video) {
     return 'useItemLink';
   }
@@ -250,7 +254,7 @@ const WorkDetails = ({
 
   const Content = () => (
     <>
-      {digitalLocation && (
+      {digitalLocation && itemLinkState !== 'useNoLink' && (
         <WorkDetailsSection
           headingText="Available online"
           isInArchive={isInArchive}
