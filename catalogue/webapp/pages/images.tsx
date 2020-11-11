@@ -39,8 +39,8 @@ type Props = {
 
 type ImagesPaginationProps = {
   query?: string;
-  page?: string;
-  results?: CatalogueResultsList<Image> | CatalogueApiError;
+  page?: number;
+  results: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesRouteProps;
   setSavedSearchState: (state: ImagesRouteProps) => void;
 };
