@@ -135,7 +135,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
           width={null}
         >
           <div
-            className="Space-sc-4az8w3-0 Modal__ModalWindow-sc-12234yr-2 qQBZz deVjSn shadow bg-white"
+            className="Space-sc-4az8w3-0 Modal__ModalWindow-sc-12234yr-2 qQBZz dHZhHz shadow bg-white font-black"
             hidden={true}
             id="requestModal"
             width={null}
