@@ -1,17 +1,14 @@
-// @flow
-
-import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 
-type Props = {|
-  id: string,
-|};
+type Props = {
+  id: string;
+};
 
 const EventDatesLink = ({ id }: Props) => {
   return (
-    <NextLink href={`#dates`} as={`#dates`}>
+    <a href={`#dates`}>
       <a
         onClick={() => {
           trackEvent({
@@ -29,7 +26,7 @@ const EventDatesLink = ({ id }: Props) => {
         <Icon name={`arrowSmall`} extraClasses="icon--black icon--90" />
         <span>{`See all dates`}</span>
       </a>
-    </NextLink>
+    </a>
   );
 };
 
