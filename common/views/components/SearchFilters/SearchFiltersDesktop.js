@@ -348,7 +348,7 @@ const SearchFiltersDesktop = ({
                     )
                     .map(locationType => (
                       <NextLink
-                        key={locationType.type}
+                        key={locationType.data.type}
                         passHref
                         {...worksLink(
                           {

@@ -14,6 +14,7 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import TogglesContext from '../TogglesContext/TogglesContext';
 import { SearchFiltersSharedProps } from './PrototypeSearchFilters';
 import ButtonSolid, {
+  ButtonTypes,
   SolidButton,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
@@ -161,10 +162,10 @@ const SearchFiltersMobile = ({
   aggregations,
   filtersToShow,
 }: SearchFiltersSharedProps) => {
-  const openFiltersButtonRef = useRef(null);
-  const closeFiltersButtonRef = useRef(null);
-  const okFiltersButtonRef = useRef(null);
-  const filtersModalRef = useRef(null);
+  const openFiltersButtonRef = useRef<HTMLButtonElement>(null);
+  const closeFiltersButtonRef = useRef<HTMLDivElement>(null);
+  const okFiltersButtonRef = useRef<HTMLButtonElement>(null);
+  const filtersModalRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(false);
 
   useFocusTrap(closeFiltersButtonRef, okFiltersButtonRef);
@@ -251,7 +252,7 @@ const SearchFiltersMobile = ({
         </SolidButton>
       </ShameButtonWrap>
       <CSSTransition in={isActive} classNames="fade" timeout={350}>
-        <FiltersModal ref={filtersModalRef} isActive={isActive}>
+        <FiltersModal ref={filtersModalRef}>
           <FiltersScrollable>
             <FiltersHeader>
               <CloseFiltersButton
@@ -406,7 +407,7 @@ const SearchFiltersMobile = ({
 
             <ButtonSolid
               ref={okFiltersButtonRef}
-              type="button"
+              type={ButtonTypes.button}
               clickHandler={handleOkFiltersButtonClick}
               text="Show results"
             />

@@ -1,4 +1,4 @@
-import { forwardRef, SyntheticEvent, RefObject } from 'react';
+import { forwardRef, SyntheticEvent, RefObject, ForwardedRef } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent, GaEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
@@ -64,14 +64,15 @@ type BaseButtonInnerProps = {
   isInline?: boolean;
 };
 
-export const BaseButtonInner = styled.span.attrs<BaseButtonInnerProps>(
-  props => ({
-    className: classNames({
-      [font(props.isInline ? 'hnl' : 'hnm', 5)]: true,
-      'flex flex--v-center': true,
-    }),
-  })
-)`
+const BaseButtonInnerSpan = styled.span<BaseButtonInnerProps>``;
+export const BaseButtonInner = styled(BaseButtonInnerSpan).attrs<
+  BaseButtonInnerProps
+>(props => ({
+  className: classNames({
+    [font(props.isInline ? 'hnl' : 'hnm', 5)]: true,
+    'flex flex--v-center': true,
+  }),
+}))`
   height: 1em;
 `;
 
@@ -138,8 +139,6 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
 `;
 
 // TODO move styles here - styled component
-
-// $FlowFixMe (forwardRef)
 const ButtonSolid = forwardRef(
   (
     {
@@ -155,7 +154,7 @@ const ButtonSolid = forwardRef(
       disabled,
       isBig,
     }: ButtonSolidProps,
-    ref: RefObject<HTMLButtonElement>
+    ref: ForwardedRef<HTMLButtonElement>
   ) => {
     function handleClick(event) {
       clickHandler && clickHandler(event);
