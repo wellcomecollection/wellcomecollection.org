@@ -153,7 +153,7 @@ const WorkDetails = ({
   const isbnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'isbn';
   });
-  
+
   const issnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'issn';
   });
@@ -597,7 +597,9 @@ const WorkDetails = ({
         </div>
       </WorkDetailsSection>
 
-      {(isbnIdentifiers.length > 0 || issnIdentifiers.length > 0 || work.citeAs) && (
+      {(isbnIdentifiers.length > 0 ||
+        issnIdentifiers.length > 0 ||
+        work.citeAs) && (
         <WorkDetailsSection headingText="Identifiers" isInArchive={isInArchive}>
           {isbnIdentifiers.length > 0 && (
             <WorkDetailsList

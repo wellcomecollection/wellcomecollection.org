@@ -32,9 +32,19 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 
 type Props = {
+  query?: string;
+  page?: string;
   results?: CatalogueResultsList<Image> | CatalogueApiError;
   imagesRouteProps: ImagesRouteProps;
   apiProps: ImagesApiProps;
+};
+
+type ImagesPaginationProps = {
+  query?: string;
+  page?: string;
+  results?: CatalogueResultsList<Image> | CatalogueApiError;
+  imagesRouteProps: ImagesRouteProps;
+  setSavedSearchState: () => void; // FIXME: this should probably be better
 };
 
 const ImagesPagination = ({
@@ -43,7 +53,7 @@ const ImagesPagination = ({
   results,
   imagesRouteProps,
   setSavedSearchState,
-}) => (
+}: ImagesPaginationProps) => (
   <div className="flex flex--h-space-between flex--v-center flex--wrap">
     <Paginator
       query={query}
@@ -71,7 +81,11 @@ const ImagesPagination = ({
   </div>
 );
 
-const Images = ({ results, imagesRouteProps, apiProps }: Props) => {
+const Images = ({
+  results,
+  imagesRouteProps,
+  apiProps,
+}: Props): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(imagesRouteProps);
   const { searchPrototype } = useContext(TogglesContext);
@@ -79,10 +93,10 @@ const Images = ({ results, imagesRouteProps, apiProps }: Props) => {
   const { query, page } = imagesRouteProps;
 
   useEffect(() => {
-    function routeChangeStart(url: string) {
+    function routeChangeStart() {
       setLoading(true);
     }
-    function routeChangeComplete(url: string) {
+    function routeChangeComplete() {
       setLoading(false);
     }
     Router.events.on('routeChangeStart', routeChangeStart);
