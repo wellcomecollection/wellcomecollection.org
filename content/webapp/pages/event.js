@@ -35,6 +35,7 @@ import { getEvent, getEvents } from '@weco/common/services/prismic/events';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { eventLd } from '@weco/common/utils/json-ld';
 import { isEventFullyBooked } from '@weco/common/model/events';
+// $FlowFixMe (tsx)
 import EventDatesLink from '@weco/common/views/components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
 
