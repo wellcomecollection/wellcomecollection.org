@@ -385,7 +385,6 @@ export class WhatsOnPage extends Component<Props> {
           {openingTimes => (
             <Fragment>
               <Header activeId={period} openingTimes={openingTimes} />
-
               <Space v={{ size: 'l', properties: ['margin-top'] }}>
                 {period === 'current-and-coming-up' && (
                   <Fragment>
@@ -418,7 +417,9 @@ export class WhatsOnPage extends Component<Props> {
                             </Layout12>
                           ) : (
                             <Layout12>
-                              <p>There are no current exhibitions</p>
+                              <p data-test-id="no-exhibitions">
+                                There are no current exhibitions
+                              </p>
                             </Layout12>
                           )}
                         </Space>
