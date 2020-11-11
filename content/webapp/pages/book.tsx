@@ -6,7 +6,6 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Body from '@weco/common/views/components/Body/Body';
-// $FlowFixMe (tsx)
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -16,7 +15,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import BookImage from '@weco/common/views/components/BookImage/BookImage';
 
 type Props = {
-  book: Book,
+  book: Book;
 };
 
 // FIXME: This is nonsense
@@ -58,30 +57,27 @@ const BookMetadata = ({ book }: Props) => (
   </Space>
 );
 
-export class ArticleSeriesPage extends Component<Props> {
-  static getInitialProps = async (ctx: NextPageContext) => {
+export class ArticleSeriesPage extends Component<
+  Props | { statusCode: number }
+> {
+  static getInitialProps = async (
+    ctx: NextPageContext
+  ): Promise<Props | { statusCode: number }> => {
     const { id, memoizedPrismic } = ctx.query;
     const book = await getBook(ctx.req, id, memoizedPrismic);
 
     if (book) {
-      return {
-        book,
-        title: book.title,
-        description: book.metadataDescription || book.promoText,
-        type: 'books',
-        canonicalUrl: `https://wellcomecollection.org/books/${book.id}`,
-        imageUrl: book.image && convertImageUri(book.image.contentUrl, 800),
-        siteSection: 'books',
-        analyticsCategory: 'books',
-      };
+      return { book };
     } else {
       return { statusCode: 404 };
     }
   };
 
-  render() {
+  render(): JSX.Element {
     const { book } = this.props;
-    const FeaturedMedia = book.cover && <BookImage image={{...book.cover, sizesQueries: null}} />;
+    const FeaturedMedia = book.cover && (
+      <BookImage image={{ ...book.cover, sizesQueries: null }} />
+    );
     const breadcrumbs = {
       items: [
         {

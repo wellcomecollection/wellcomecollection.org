@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Products and services relating to wellcomecollection.org.",
   "scripts": {
-    "lint": "eslint ./.eslintrc.js common/ --fix",
+    "lint": "eslint ./.eslintrc.js catalogue/ --fix",
     "setupCommon": "yarn install --production && yarn flow",
     "cardigan": "pushd cardigan && yarn dev",
     "catalogue": "pushd catalogue/webapp && yarn dev",
