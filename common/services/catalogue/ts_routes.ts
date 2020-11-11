@@ -1,5 +1,5 @@
 import { LinkProps } from 'next/link';
-import { NextPageContext } from 'next';
+import { ParsedUrlQuery } from 'querystring';
 
 type Params = Record<string, unknown>;
 
@@ -64,14 +64,32 @@ function defaultToEmptyString(s: string | null): string {
   return s || '';
 }
 
+function qAsStrings(q: ParsedUrlQuery): { [key: string]: string | null } {
+  return Object.entries(q).reduce((acc, [key, value]) => {
+    if (Array.isArray(value)) {
+      return {
+        ...acc,
+        [key]: value.join(','),
+      };
+    }
+
+    return {
+      ...acc,
+      [key]: value,
+    };
+  }, {});
+}
+
 type NextRoute<T> = {
-  fromQuery: (q: NextPageContext['query']) => T;
+  fromQuery: (q: ParsedUrlQuery) => T;
   toLink: (t: T) => LinkProps;
   toQuery: (t: T) => UrlParams;
 };
 
 // route: /images
-export type ImagesRouteProps = {
+// We shouldn't be inherriting anything from WorksRouteProps,
+// but we do for ease of use for now.
+export type ImagesRouteProps = WorksRouteProps & {
   query: string;
   page: number;
   source: string | null;
@@ -93,6 +111,10 @@ export type WorksRouteProps = {
   productionDatesTo: string | null;
   imagesColor: string | null;
   search: string | null;
+
+  // [1] These should not be here, but we need a good
+  // old tidy up of the props in this file
+  color: string | null;
 };
 
 export function imagesRoutePropsToWorksRouteProps(
@@ -111,26 +133,31 @@ export function imagesRoutePropsToWorksRouteProps(
     productionDatesTo: null,
     imagesColor: null,
     search: null,
+    // [1] wrong below this line
+    color: null,
   };
 }
 
 export const WorksRoute: NextRoute<WorksRouteProps> = {
   fromQuery(q) {
+    const stringQ = qAsStrings(q);
     return {
-      query: defaultToEmptyString(q.query),
-      page: defaultTo1(q.page),
-      workType: stringToCsv(q.workType),
+      query: defaultToEmptyString(stringQ.query),
+      page: defaultTo1(stringQ.page),
+      workType: stringToCsv(stringQ.workType),
       itemsLocationsLocationType: stringToCsv(
-        q['items.locations.locationType']
+        qAsStrings['items.locations.locationType']
       ),
-      itemsLocationsType: stringToCsv(q['items.locations.type']),
-      sort: maybeString(q.sort),
-      sortOrder: maybeString(q.sortOrder),
-      productionDatesFrom: maybeString(q['production.dates.from']),
-      productionDatesTo: maybeString(q['production.dates.to']),
-      imagesColor: maybeString(q['images.color']),
-      search: maybeString(q.search),
-      source: maybeString(q.source),
+      itemsLocationsType: stringToCsv(qAsStrings['items.locations.type']),
+      sort: maybeString(stringQ.sort),
+      sortOrder: maybeString(stringQ.sortOrder),
+      productionDatesFrom: maybeString(qAsStrings['production.dates.from']),
+      productionDatesTo: maybeString(qAsStrings['production.dates.to']),
+      imagesColor: maybeString(qAsStrings['images.color']),
+      search: maybeString(stringQ.search),
+      source: maybeString(stringQ.source),
+      // [1] Wrong below this line
+      color: null,
     };
   },
 
@@ -145,7 +172,10 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       },
       as: {
         pathname,
-        query: WorksRoute.toQuery(paramsWithoutSource),
+        query: WorksRoute.toQuery({
+          ...paramsWithoutSource,
+          source: null,
+        }),
       },
     };
   },
@@ -170,12 +200,24 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
 
 export const ImagesRoute: NextRoute<ImagesRouteProps> = {
   fromQuery(q) {
+    const stringQ = qAsStrings(q);
     return {
-      query: defaultToEmptyString(q.query),
-      page: defaultTo1(q.page),
-      locationsLicense: defaultToEmptyString(q.locationsLicense),
-      color: defaultToEmptyString(q.color),
-      source: defaultToEmptyString(q.source),
+      query: defaultToEmptyString(stringQ.query),
+      page: defaultTo1(stringQ.page),
+      locationsLicense: defaultToEmptyString(stringQ.locationsLicense),
+      color: defaultToEmptyString(stringQ.color),
+      source: defaultToEmptyString(stringQ.source),
+
+      // This should be removed
+      workType: [],
+      itemsLocationsLocationType: [],
+      itemsLocationsType: [],
+      sort: null,
+      sortOrder: null,
+      productionDatesFrom: null,
+      productionDatesTo: null,
+      imagesColor: null,
+      search: null,
     };
   },
 

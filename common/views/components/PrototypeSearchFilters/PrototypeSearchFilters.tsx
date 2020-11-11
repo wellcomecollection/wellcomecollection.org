@@ -1,5 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
-import { WorksRouteProps } from '@weco/common/services/catalogue/ts_routes';
+import {
+  ImagesRouteProps,
+  WorksRouteProps,
+} from '@weco/common/services/catalogue/ts_routes';
 import {
   CatalogueAggregationBucket,
   CatalogueAggregations,
@@ -12,7 +15,7 @@ import TogglesContext from '../TogglesContext/TogglesContext';
 
 type Props = {
   searchForm: { current: HTMLFormElement | null };
-  worksRouteProps: WorksRouteProps;
+  worksRouteProps: WorksRouteProps | ImagesRouteProps;
   workTypeAggregations: CatalogueAggregationBucket[];
   aggregations: CatalogueAggregations | null;
   changeHandler: () => void;

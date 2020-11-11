@@ -147,7 +147,6 @@ const Images = ({
           />
         )}
       </Head>
-
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}image search`}
         description="Search Wellcome Collection images"

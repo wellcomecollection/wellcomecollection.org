@@ -10,17 +10,6 @@ import {
   ButtonTypes,
 } from '../ButtonSolid/ButtonSolid';
 
-export const InlineButton = styled(BaseButton)`
-  border: 2px solid ${props => props.theme.color('pumice')};
-  background: ${props => props.theme.color('transparent')};
-  color: ${props => props.theme.color(props.isOnDark ? 'white' : 'charcoal')};
-  padding: 7px 12px 9px;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 export type ButtonInlineBaseProps = {
   text: string;
   icon?: string;
@@ -32,6 +21,17 @@ export type ButtonInlineBaseProps = {
   ariaExpanded?: boolean;
   ariaLive?: 'off' | 'polite' | 'assertive';
 };
+
+export const InlineButton = styled(BaseButton)<{ isOnDark?: boolean }>`
+  border: 2px solid ${props => props.theme.color('pumice')};
+  background: ${props => props.theme.color('transparent')};
+  color: ${props => props.theme.color(props.isOnDark ? 'white' : 'charcoal')};
+  padding: 7px 12px 9px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 
 type ButtonInlineProps = ButtonInlineBaseProps & {
   disabled?: boolean;
