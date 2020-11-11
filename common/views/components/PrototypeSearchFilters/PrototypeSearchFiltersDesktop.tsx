@@ -28,7 +28,7 @@ const CancelFilter = ({
   children,
 }: {
   text?: string;
-  children?: JSX.Element;
+  children?: React.ReactNode;
 }) => {
   return (
     <Space
@@ -368,10 +368,8 @@ const SearchFiltersDesktop = ({
                 >
                   <a>
                     <CancelFilter>
-                      <>
-                        Colour
-                        <ColorSwatch color={`#${imagesColor}`} />
-                      </>
+                      Colour
+                      <ColorSwatch color={`#${imagesColor}`} />
                     </CancelFilter>
                   </a>
                 </NextLink>
