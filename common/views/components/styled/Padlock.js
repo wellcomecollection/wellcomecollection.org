@@ -54,7 +54,7 @@ const StyledPadlock = styled.div`
     z-index: 1;
 
     /* keyhole */
-    ::before {
+    &::before {
       width: 25%;
       height: 25%;
       left: 38%;
@@ -62,7 +62,7 @@ const StyledPadlock = styled.div`
       border-radius: 50%;
     }
 
-    ::after {
+    &::after {
       width: 11%;
       height: 30%;
       left: 45%;
