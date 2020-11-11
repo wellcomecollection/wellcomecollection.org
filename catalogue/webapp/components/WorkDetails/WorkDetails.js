@@ -68,7 +68,7 @@ function getItemLinkState({
   itemUrl,
   audio,
   video,
-}): ?'useItemLink' | 'useLibraryLink' | 'noLink' {
+}): ?'useItemLink' | 'useLibraryLink' | 'useNoLink' {
   if (
     (accessCondition === 'open-with-advisory' ||
       accessCondition === 'restricted' ||
@@ -78,7 +78,7 @@ function getItemLinkState({
     return 'useLibraryLink';
   }
   if (accessCondition === 'closed') {
-    return 'noLink';
+    return 'useNoLink';
   }
   if (itemUrl && !audio && !video) {
     return 'useItemLink';
@@ -248,7 +248,7 @@ const WorkDetails = ({
 
   const Content = () => (
     <>
-      {digitalLocation && itemLinkState !== 'noLink' && (
+      {digitalLocation && itemLinkState !== 'useNoLink' && (
         <WorkDetailsSection
           headingText="Available online"
           isInArchive={isInArchive}
