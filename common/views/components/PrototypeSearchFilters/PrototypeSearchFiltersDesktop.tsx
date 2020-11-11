@@ -9,6 +9,7 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import NextLink from 'next/link';
 import dynamic from 'next/dynamic';
 import { SearchFiltersSharedProps } from './PrototypeSearchFilters';
+import { FunctionComponent } from 'react';
 
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
@@ -23,13 +24,9 @@ const ColorSwatch = styled.span`
   padding-top: 2px;
 `;
 
-const CancelFilter = ({
-  text,
-  children,
-}: {
+const CancelFilter: FunctionComponent<{
   text?: string;
-  children?: React.ReactNode;
-}) => {
+}> = ({ text, children }) => {
   return (
     <Space
       as="span"
