@@ -42,7 +42,7 @@ type ImagesPaginationProps = {
   page?: string;
   results?: CatalogueResultsList<Image> | CatalogueApiError;
   imagesRouteProps: ImagesRouteProps;
-  setSavedSearchState: () => void; // FIXME: this should probably be better
+  setSavedSearchState: (state: ImagesRouteProps) => void;
 };
 
 const ImagesPagination = ({

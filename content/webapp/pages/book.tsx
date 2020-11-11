@@ -57,9 +57,7 @@ const BookMetadata = ({ book }: Props) => (
   </Space>
 );
 
-export class ArticleSeriesPage extends Component<
-  Props | { statusCode: number }
-> {
+export class BookPage extends Component<Props | { statusCode: number }> {
   static getInitialProps = async (
     ctx: NextPageContext
   ): Promise<Props | { statusCode: number }> => {
@@ -74,6 +72,8 @@ export class ArticleSeriesPage extends Component<
   };
 
   render(): JSX.Element {
+    if (!('book' in this.props)) return;
+
     const { book } = this.props;
     const FeaturedMedia = book.cover && (
       <BookImage image={{ ...book.cover, sizesQueries: null }} />
@@ -194,4 +194,4 @@ export class ArticleSeriesPage extends Component<
   }
 }
 
-export default ArticleSeriesPage;
+export default BookPage;
