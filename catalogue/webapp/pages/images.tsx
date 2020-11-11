@@ -32,8 +32,6 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 
 type Props = {
-  query?: string;
-  page?: string;
   results?: CatalogueResultsList<Image> | CatalogueApiError;
   imagesRouteProps: ImagesRouteProps;
   apiProps: ImagesApiProps;
