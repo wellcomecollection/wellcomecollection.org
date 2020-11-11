@@ -8,7 +8,6 @@ import {
 } from '../ButtonSolid/ButtonSolid';
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
-
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
 type ButtonSolidLinkProps = ButtonSolidBaseProps & {
