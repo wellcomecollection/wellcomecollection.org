@@ -133,7 +133,6 @@ const Images = ({ results, imagesRouteProps, apiProps }: Props) => {
           />
         )}
       </Head>
-
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}image search`}
         description="Search Wellcome Collection images"

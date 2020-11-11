@@ -13,7 +13,8 @@ const CheckboxRadioLabel = styled.label.attrs({
   cursor: pointer;
 `;
 
-const CheckboxRadioBox = styled.span.attrs({
+const CheckboxRadioBoxSpan = styled.span<{ type: string }>``;
+const CheckboxRadioBox = styled(CheckboxRadioBoxSpan).attrs({
   className: classNames({
     'flex-inline flex--v-center flex--h-center relative': true,
   }),
@@ -76,12 +77,7 @@ function CheckboxRadio({ id, text, type, ...inputProps }: CheckboxRadioProps) {
 
   return (
     <CheckboxRadioLabel htmlFor={id}>
-      <CheckboxRadioInput
-        id={id}
-        type={type}
-        {...inputProps}
-        hideFocus={!isKeyboard}
-      />
+      <CheckboxRadioInput id={id} type={type} {...inputProps} />
       <CheckboxRadioBox type={type}>
         <Icon name={type === 'checkbox' ? 'check' : 'indicator'} />
       </CheckboxRadioBox>

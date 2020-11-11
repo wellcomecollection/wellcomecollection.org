@@ -11,8 +11,10 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import Modal from '@weco/common/views/components/Modal/Modal';
 import TogglesContext from '../TogglesContext/TogglesContext';
 import ButtonSolid, {
+  ButtonTypes,
   SolidButton,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import { SearchFiltersSharedProps } from '../PrototypeSearchFilters/PrototypeSearchFilters';
 
 // $FlowFixMe (tsx)
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
@@ -78,9 +80,7 @@ const FiltersInner = styled.div`
 `;
 
 const ModalFilters = ({
-  searchForm,
   worksRouteProps,
-  workTypeAggregations,
   changeHandler,
   inputDateFrom,
   inputDateTo,
@@ -262,7 +262,7 @@ const ModalFilters = ({
           </NextLink>
 
           <ButtonSolid
-            type="button"
+            type={ButtonTypes.button}
             clickHandler={handleOkFiltersButtonClick}
             text="OK"
           />

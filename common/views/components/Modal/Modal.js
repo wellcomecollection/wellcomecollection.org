@@ -36,6 +36,7 @@ const Overlay = styled.div`
 `;
 
 const CloseButton = styled(Space).attrs({
+  role: 'button',
   as: 'button',
   v: { size: 'm', properties: ['top'] },
   h: { size: 'm', properties: ['left'] },
@@ -156,6 +157,11 @@ const Modal = ({
     lastFocusableRef.current = newRef;
   }
 
+  function closeModal() {
+    setIsActive(false);
+    openButtonRef && openButtonRef.current && openButtonRef.current.focus();
+  }
+
   useEffect(() => {
     const focusables = modalRef &&
       modalRef.current && [...getFocusableElements(modalRef.current)];
@@ -166,16 +172,13 @@ const Modal = ({
     if (isActive && closeButtonRef && closeButtonRef.current) {
       closeButtonRef.current.focus();
     }
-    if (!isActive && openButtonRef && openButtonRef.current) {
-      openButtonRef.current.focus();
-    }
   }, [isActive]);
 
   useEffect(() => {
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key !== 'Escape') return;
 
-      setIsActive(false);
+      closeModal();
     }
     if (!removeCloseButton) {
       document.addEventListener('keydown', closeOnEscape);
@@ -202,7 +205,7 @@ const Modal = ({
         <Overlay
           onClick={() => {
             if (!removeCloseButton) {
-              setIsActive(false);
+              closeModal();
             }
           }}
         />
@@ -212,7 +215,7 @@ const Modal = ({
           {!removeCloseButton && (
             <CloseButton
               ref={closeButtonRef}
-              onClick={() => setIsActive(false)}
+              onClick={closeModal}
               hideFocus={!isKeyboard}
             >
               <span className="visually-hidden">Close modal window</span>

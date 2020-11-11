@@ -28,7 +28,7 @@ type Props = {
   ariaDescribedBy: string;
   routeProps: WorksRouteProps | ImagesRouteProps;
   workTypeAggregations: CatalogueAggregationBucket[];
-  aggregations?: CatalogueAggregations;
+  aggregations: CatalogueAggregations | null;
   isImageSearch: boolean;
   isActive: boolean;
 };
@@ -78,11 +78,11 @@ const PrototypeSearchForm = ({
   const [, setSearchParamsState] = useSavedSearchState(routeProps);
   const { query } = routeProps;
 
-  const searchForm = useRef(null);
+  const searchForm = useRef<HTMLFormElement>(null);
   // This is the query used by the input, that is then eventually passed to the
   // Router
   const [inputQuery, setInputQuery] = useState(query);
-  const searchInput = useRef(null);
+  const searchInput = useRef<HTMLInputElement>(null);
   const [portalSortOrder, setPortalSortOrder] = useState(routeProps.sortOrder);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
@@ -167,10 +167,17 @@ const PrototypeSearchForm = ({
       itemsLocationsLocationType,
       itemsLocationsType,
       source,
+      color: null,
     };
     const link = isImageSearch
       ? imagesLink(
-          { ...state, color: imagesColor, locationsLicense: null },
+          {
+            ...state,
+            color: imagesColor,
+            locationsLicense: null,
+            sortOrder: null,
+            sort: null,
+          },
           source
         )
       : worksLink(state, source);
@@ -234,7 +241,7 @@ const PrototypeSearchForm = ({
                 });
 
                 setInputQuery('');
-                searchInput?.current.focus();
+                searchInput?.current?.focus();
               }}
               type="button"
             >

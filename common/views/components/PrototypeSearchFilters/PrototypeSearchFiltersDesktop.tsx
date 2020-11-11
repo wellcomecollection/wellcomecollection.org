@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '../../../utils/classnames';
 import { worksLink, imagesLink } from '../../../services/catalogue/ts_routes';
@@ -9,8 +8,8 @@ import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import NextLink from 'next/link';
 import dynamic from 'next/dynamic';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import { SearchFiltersSharedProps } from './PrototypeSearchFilters';
+import { FunctionComponent } from 'react';
 
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
@@ -25,13 +24,9 @@ const ColorSwatch = styled.span`
   padding-top: 2px;
 `;
 
-const CancelFilter = ({
-  text,
-  children,
-}: {
+const CancelFilter: FunctionComponent<{
   text?: string;
-  children?: JSX.Element;
-}) => {
+}> = ({ text, children }) => {
   return (
     <Space
       as="span"
@@ -227,7 +222,11 @@ const SearchFiltersDesktop = ({
                   [font('hnl', 5)]: true,
                 })}
               >
-                <DropdownButton label={'Colours'} isInline={true}>
+                <DropdownButton
+                  label={'Colours'}
+                  isInline={true}
+                  id="images.color"
+                >
                   <ColorPicker
                     name="images.color"
                     color={imagesColor}
@@ -355,7 +354,12 @@ const SearchFiltersDesktop = ({
                 <NextLink
                   passHref
                   {...imagesLink(
-                    { ...worksRouteProps, page: 1, color: null },
+                    {
+                      ...worksRouteProps,
+                      page: 1,
+                      color: null,
+                      locationsLicense: null,
+                    },
                     'cancel_filter/images_color'
                   )}
                 >

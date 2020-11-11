@@ -5,7 +5,6 @@ import type { JsonLdObj } from '../JsonLd/JsonLd';
 import { Fragment } from 'react';
 import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
-import JsonLd from '../JsonLd/JsonLd';
 import Header from '../Header/Header';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import CookieNotice from '../CookieNotice/CookieNotice';
@@ -116,7 +115,14 @@ const PageLayout = ({
         />
         <meta key="twitter:image" name="twitter:image" content={imageUrl} />
         <meta name="twitter:image:alt" content={imageAltText} />
-        <JsonLd data={jsonLd} />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd),
+          }}
+        />
+
         {rssUrl && (
           <link
             rel="alternate"
@@ -135,6 +141,7 @@ const PageLayout = ({
         <Header siteSection={siteSection} />
         <GlobalAlertContext.Consumer>
           {globalAlert =>
+            globalAlert &&
             globalAlert.isShown === 'show' &&
             (!globalAlert.routeRegex ||
               urlString.match(new RegExp(globalAlert.routeRegex))) && (
