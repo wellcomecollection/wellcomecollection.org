@@ -58,7 +58,7 @@ function reloadAuthIframe(document, id) {
     id
   ): any): HTMLIFrameElement);
   /* eslint-disable no-self-assign */
-  authMessageIframe.src = authMessageIframe.src; // assign the iframe src to itself reloads the iframe and refires the window.message event
+  authMessageIframe.src = authMessageIframe.src; // assigning the iframe src to itself reloads the iframe and refires the window.message event
 }
 
 type Props = {|
@@ -81,9 +81,6 @@ type Props = {|
     '@id': string,
   },
 |};
-
-// We need to know if the authorisation cookie for dlcs.io has been set and is valid
-// We know that is true if TODO
 
 const ItemPage = ({
   workId,
