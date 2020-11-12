@@ -30,4 +30,3 @@ export type License = {
   subject?: string;
   licenseType: LicenseType;
 };
-

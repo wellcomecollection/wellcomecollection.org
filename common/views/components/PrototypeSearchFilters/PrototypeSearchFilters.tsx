@@ -1,4 +1,10 @@
-import { useState, useEffect, useContext } from 'react';
+import {
+  useState,
+  useEffect,
+  useContext,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
 import {
   ImagesRouteProps,
   WorksRouteProps,
@@ -36,14 +42,14 @@ export type SearchFiltersSharedProps = Props & {
   aggregations: CatalogueAggregations | null;
 };
 
-const SearchFilters = ({
+const SearchFilters: FunctionComponent<Props> = ({
   searchForm,
   worksRouteProps,
   workTypeAggregations,
   changeHandler,
   aggregations,
   filtersToShow,
-}: Props) => {
+}: Props): ReactElement<Props> => {
   const workTypeInUrlArray = worksRouteProps.workType || [];
   const locationsTypeInUrlArray = worksRouteProps.itemsLocationsType || [];
   const { productionDatesFrom, productionDatesTo, color } = worksRouteProps;

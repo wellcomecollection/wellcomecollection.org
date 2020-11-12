@@ -1,9 +1,7 @@
 import { LinkProps } from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 
-type Params = {
-  [key: string]: any;
-};
+type Params = Record<string, unknown>;
 
 export type UrlParams = {
   [key: string]: string;
@@ -248,7 +246,9 @@ export const ImagesRoute: NextRoute<ImagesRouteProps> = {
   },
 };
 
-export const imagesLink = (params: ImagesRouteProps, source: string) =>
-  ImagesRoute.toLink({ ...params, source });
-export const worksLink = (params: WorksRouteProps, source: string) =>
+export const imagesLink = (
+  params: ImagesRouteProps,
+  source: string
+): LinkProps => ImagesRoute.toLink({ ...params, source });
+export const worksLink = (params: WorksRouteProps, source: string): LinkProps =>
   WorksRoute.toLink({ ...params, source });

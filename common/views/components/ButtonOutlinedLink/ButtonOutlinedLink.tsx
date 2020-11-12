@@ -1,12 +1,10 @@
-import {SyntheticEvent} from 'react';
+import { FunctionComponent, ReactElement, SyntheticEvent } from 'react';
+import { BaseButtonInner, ButtonIconWrapper } from '../ButtonSolid/ButtonSolid';
 import {
-  BaseButtonInner,
-  ButtonIconWrapper,
-} from '../ButtonSolid/ButtonSolid';
-import type { ButtonOutlinedBaseProps } from '../ButtonOutlined/ButtonOutlined';
-import {
+  ButtonOutlinedBaseProps,
   OutlinedButton,
 } from '../ButtonOutlined/ButtonOutlined';
+
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
 import NextLink from 'next/link';
@@ -14,11 +12,16 @@ import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import { getHref } from '../ButtonSolidLink/ButtonSolidLink';
 
 type ButtonOutlinedLinkProps = ButtonOutlinedBaseProps & {
-  clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void,
-  link: {href: {pathname: string, query: string}, as: {pathname: string, query: string}} | string,
+  clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
+  link:
+    | {
+        href: { pathname: string; query: string };
+        as: { pathname: string; query: string };
+      }
+    | string;
 };
 
-const ButtonOutlinedLink = ({
+const ButtonOutlinedLink: FunctionComponent<ButtonOutlinedLinkProps> = ({
   text,
   link,
   icon,
@@ -26,8 +29,8 @@ const ButtonOutlinedLink = ({
   clickHandler,
   ariaControls,
   ariaExpanded,
-  isOnDark
-}: ButtonOutlinedLinkProps) => {
+  isOnDark,
+}: ButtonOutlinedLinkProps): ReactElement<ButtonOutlinedLinkProps> => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
     trackingEvent && trackEvent(trackingEvent);
@@ -38,7 +41,7 @@ const ButtonOutlinedLink = ({
   return (
     <ConditionalWrapper
       condition={isNextLink}
-      wrapper={(children: JSX.Element) =>
+      wrapper={(children: ReactElement) =>
         typeof link === 'object' && (
           <NextLink {...link} passHref>
             {children}

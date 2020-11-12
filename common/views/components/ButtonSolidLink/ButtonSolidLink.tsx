@@ -1,5 +1,5 @@
-import { SyntheticEvent } from 'react';
-import { LinkProps } from 'next/link';
+import { FunctionComponent, ReactElement, SyntheticEvent } from 'react';
+import NextLink, { LinkProps } from 'next/link';
 import {
   BaseButtonInner,
   ButtonIconWrapper,
@@ -8,7 +8,6 @@ import {
 } from '../ButtonSolid/ButtonSolid';
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
-import NextLink from 'next/link';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
 type ButtonSolidLinkProps = ButtonSolidBaseProps & {
@@ -20,7 +19,7 @@ export function getHref(link: LinkProps | string): undefined | string {
   return typeof link === 'object' ? undefined : link;
 }
 
-const ButtonSolidLink = ({
+const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   text,
   link,
   icon,
@@ -29,7 +28,7 @@ const ButtonSolidLink = ({
   ariaControls,
   ariaExpanded,
   isBig,
-}: ButtonSolidLinkProps) => {
+}: ButtonSolidLinkProps): ReactElement<ButtonSolidLinkProps> => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
     trackingEvent && trackEvent(trackingEvent);

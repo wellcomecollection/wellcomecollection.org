@@ -1,4 +1,10 @@
-import { useState, useContext, useRef } from 'react';
+import {
+  useState,
+  useContext,
+  useRef,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
 import NextLink from 'next/link';
 import dynamic from 'next/dynamic';
 import { worksLink } from '../../../services/catalogue/routes';
@@ -79,7 +85,7 @@ const FiltersInner = styled.div`
   `}
 `;
 
-const ModalFilters = ({
+const ModalFilters: FunctionComponent<SearchFiltersSharedProps> = ({
   worksRouteProps,
   changeHandler,
   inputDateFrom,
@@ -92,7 +98,7 @@ const ModalFilters = ({
   workTypeInUrlArray,
   imagesColor,
   aggregations,
-}: SearchFiltersSharedProps) => {
+}: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const [isActive, setIsActive] = useState(false);
   const openButtonRef = useRef(null);
 
