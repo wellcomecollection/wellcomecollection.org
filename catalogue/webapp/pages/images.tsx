@@ -1,11 +1,5 @@
-import { NextPageContext } from 'next';
-import {
-  useEffect,
-  useState,
-  useContext,
-  FunctionComponent,
-  ReactElement,
-} from 'react';
+import { NextPage, NextPageContext } from 'next';
+import { useEffect, useState, useContext, ReactElement } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
@@ -85,7 +79,7 @@ const ImagesPagination = ({
   </div>
 );
 
-const Images: FunctionComponent<Props> = ({
+const Images: NextPage<Props> = ({
   results,
   imagesRouteProps,
   apiProps,

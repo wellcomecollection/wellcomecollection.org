@@ -4,13 +4,14 @@ import PROGRESS_NOTES from '../PROGRESS_NOTES.md';
 import { webpageLd } from '@weco/common/utils/json-ld';
 import Space from '@weco/common/views/components/styled/Space';
 import { ReactElement } from 'react';
+import { NextPage } from 'next';
 
 const title = "How we're improving search";
 const description =
   'We are working to make a more welcoming space where you' +
   'can discover more of what Wellcome Collection has to offer.';
 
-const ProgressPage = (): ReactElement => (
+const ProgressPage: NextPage = (): ReactElement => (
   <PageLayout
     title={title}
     description={description}
