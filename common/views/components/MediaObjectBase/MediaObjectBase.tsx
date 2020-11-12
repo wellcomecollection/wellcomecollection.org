@@ -67,7 +67,7 @@ const BaseTextWrapper = styled.div.attrs<TextWrapperProp>(props => {
   };
 })<TextWrapperProp>``;
 
-const MediaObjectBase = ({
+const MediaObjectBase: FunctionComponent<Props> = ({
   url,
   title,
   labels,
@@ -85,7 +85,7 @@ const MediaObjectBase = ({
   OverrideTextWrapper,
   OverrideTitleWrapper,
   onClick,
-}: Props): JSX.Element => {
+}: Props): ReactElement<Props> => {
   const { x, y } = xOfY;
   const ImageWrapper = OverrideImageWrapper || BaseImageWrapper;
   const TextWrapper = OverrideTextWrapper || BaseTextWrapper;

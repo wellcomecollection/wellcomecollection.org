@@ -1,5 +1,4 @@
-// @flow
-import { SyntheticEvent } from 'react';
+import { FunctionComponent, SyntheticEvent, ReactElement } from 'react';
 import { BaseButtonInner, ButtonIconWrapper } from '../ButtonSolid/ButtonSolid';
 import {
   ButtonInlineBaseProps,
@@ -21,7 +20,7 @@ type ButtonInlineLinkProps = ButtonInlineBaseProps & {
     | string;
 };
 
-const ButtonInlineLink = ({
+const ButtonInlineLink: FunctionComponent<ButtonInlineLinkProps> = ({
   text,
   link,
   icon,
@@ -29,7 +28,7 @@ const ButtonInlineLink = ({
   clickHandler,
   ariaControls,
   ariaExpanded,
-}: ButtonInlineLinkProps): JSX.Element => {
+}: ButtonInlineLinkProps): ReactElement<ButtonInlineLinkProps> => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
     trackingEvent && trackEvent(trackingEvent);

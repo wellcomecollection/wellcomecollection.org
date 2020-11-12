@@ -1,5 +1,11 @@
 import { Work as WorkType } from '@weco/common/model/catalogue';
-import { useEffect, useState, useContext } from 'react';
+import {
+  useEffect,
+  useState,
+  useContext,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
 import fetch from 'isomorphic-unfetch';
 import { grid, classNames, font } from '@weco/common/utils/classnames';
 import {
@@ -49,7 +55,9 @@ type Props = {
   work: WorkType;
 };
 
-const Work = ({ work }: Props): JSX.Element => {
+const Work: FunctionComponent<Props> = ({
+  work,
+}: Props): ReactElement<Props> => {
   const { searchPrototype } = useContext(TogglesContext);
   const [savedSearchFormState] = useSavedSearchState({
     query: '',

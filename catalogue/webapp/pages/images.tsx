@@ -1,5 +1,11 @@
 import { NextPageContext } from 'next';
-import { useEffect, useState, useContext } from 'react';
+import {
+  useEffect,
+  useState,
+  useContext,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
@@ -79,11 +85,11 @@ const ImagesPagination = ({
   </div>
 );
 
-const Images = ({
+const Images: FunctionComponent<Props> = ({
   results,
   imagesRouteProps,
   apiProps,
-}: Props): JSX.Element => {
+}: Props): ReactElement<Props> => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(imagesRouteProps);
   const { searchPrototype } = useContext(TogglesContext);

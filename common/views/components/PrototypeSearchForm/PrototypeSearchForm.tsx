@@ -68,14 +68,14 @@ const ClearSearch = styled.button`
   right: 12px;
 `;
 
-const PrototypeSearchForm = ({
+const PrototypeSearchForm: FunctionComponent<Props> = ({
   ariaDescribedBy,
   routeProps,
   workTypeAggregations,
   aggregations,
   isImageSearch,
   isActive,
-}: Props): JSX.Element => {
+}: Props): ReactElement<Props> => {
   const [, setSearchParamsState] = useSavedSearchState(routeProps);
   const { query } = routeProps;
   const { isEnhanced } = useContext(AppContext);

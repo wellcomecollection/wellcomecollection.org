@@ -1,4 +1,6 @@
 import {
+  FunctionComponent,
+  ReactElement,
   useState,
   useRef,
   useEffect,
@@ -151,13 +153,13 @@ type Props = {
   link: PrismicLink;
 };
 
-const PopupDialog = ({
+const PopupDialog: FunctionComponent<Props> = ({
   openButtonText,
   title,
   text,
   linkText,
   link,
-}: Props): JSX.Element => {
+}: Props): ReactElement<Props> => {
   const [shouldRender, setShouldRender] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const isActiveRef = useRef(isActive);

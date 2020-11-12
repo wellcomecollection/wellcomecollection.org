@@ -1,5 +1,11 @@
 import { CSSTransition } from 'react-transition-group';
-import { useState, useRef, useEffect, useContext } from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  FunctionComponent,
+} from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
@@ -66,19 +72,19 @@ const Popper = styled('div')<{ isVisible: boolean }>`
 
 type Props = {
   label: string;
-  children: JSX.Element | JSX.Element[];
+  children: ReactElement;
   isInline: boolean | null;
   isOnDark?: boolean;
   id: string;
 };
 
-const DropdownButton = ({
+const DropdownButton: FunctionComponent<Props> = ({
   label,
   children,
   isInline,
   isOnDark,
   id,
-}: Props): JSX.Element => {
+}: Props): ReactElement<Props> => {
   const [isActive, setIsActive] = useState(false);
   const { isEnhanced } = useContext(AppContext);
   const dropdownWrapperRef = useRef(null);

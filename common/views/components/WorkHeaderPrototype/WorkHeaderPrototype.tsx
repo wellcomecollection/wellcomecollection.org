@@ -1,4 +1,4 @@
-// @flow
+import { FunctionComponent, ReactElement } from 'react';
 import { Work } from '../../../model/work';
 import { font, classNames, grid } from '../../../utils/classnames';
 import { getProductionDates, getWorkTypeIcon } from '../../../utils/works';
@@ -33,10 +33,10 @@ type Props = {
   childManifestsCount?: number;
 };
 
-const WorkHeaderPrototype = ({
+const WorkHeaderPrototype: FunctionComponent<Props> = ({
   work,
   childManifestsCount = 0,
-}: Props): JSX.Element => {
+}: Props): ReactElement<Props> => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   const archiveAncestorArray = getArchiveAncestorArray(work);

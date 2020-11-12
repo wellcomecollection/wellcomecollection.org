@@ -5,12 +5,15 @@ import {
   collectionVenueId,
   getNameFromCollectionVenue,
 } from '@weco/common/services/prismic/hardcoded-id';
+import { FunctionComponent, ReactElement } from 'react';
 
 type Props = {
   collectionOpeningTimes: CollectionOpeningTimes;
 };
 
-const FooterOpeningTimes = ({ collectionOpeningTimes }: Props): JSX.Element => {
+const FooterOpeningTimes: FunctionComponent<Props> = ({
+  collectionOpeningTimes,
+}: Props): ReactElement<Props> => {
   return (
     <ul className="plain-list no-padding no-margin">
       {collectionOpeningTimes.placesOpeningHours.map(venue => {

@@ -59,7 +59,7 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
   );
 };
 
-const SearchFiltersDesktop = ({
+const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   filtersToShow,
   worksRouteProps,
   changeHandler,
@@ -73,7 +73,7 @@ const SearchFiltersDesktop = ({
   workTypeInUrlArray,
   imagesColor,
   aggregations,
-}: SearchFiltersSharedProps): JSX.Element => {
+}: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
 

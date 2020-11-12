@@ -1,3 +1,4 @@
+import { FunctionComponent, ReactElement } from 'react';
 import { trackEvent, GaEvent } from '../../../utils/ga';
 import ButtonOutlinedLink from '../ButtonOutlinedLink/ButtonOutlinedLink';
 
@@ -7,7 +8,11 @@ type Props = {
   trackingEvent?: GaEvent;
 };
 
-const MoreLink = ({ url, name, trackingEvent }: Props): JSX.Element => {
+const MoreLink: FunctionComponent<Props> = ({
+  url,
+  name,
+  trackingEvent,
+}: Props): ReactElement<Props> => {
   function handleClick() {
     if (trackingEvent) {
       trackEvent({

@@ -1,6 +1,6 @@
 import { NextPageContext } from 'next';
 import { Book } from '@weco/common/model/books';
-import { Fragment, Component } from 'react';
+import { Fragment, Component, ReactElement } from 'react';
 import { getBook } from '@weco/common/services/prismic/books';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
@@ -71,7 +71,7 @@ export class BookPage extends Component<Props | { statusCode: number }> {
     }
   };
 
-  render(): JSX.Element {
+  render(): ReactElement<Props> {
     if (!('book' in this.props)) return;
 
     const { book } = this.props;

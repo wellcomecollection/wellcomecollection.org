@@ -2,6 +2,7 @@ import Space from '../styled/Space';
 import styled from 'styled-components';
 import { Link } from '../../../model/link';
 import { classNames, font } from '../../../utils/classnames';
+import { FunctionComponent, ReactElement } from 'react';
 
 const Anchor = styled.a.attrs(() => ({
   className: classNames({
@@ -15,7 +16,9 @@ type Props = {
   links: Link[];
 };
 
-const OnThisPageAnchors = ({ links }: Props): JSX.Element => {
+const OnThisPageAnchors: FunctionComponent<Props> = ({
+  links,
+}: Props): ReactElement<Props> => {
   return (
     <Space
       h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}

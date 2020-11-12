@@ -1,4 +1,4 @@
-import { SyntheticEvent } from 'react';
+import { FunctionComponent, SyntheticEvent, ReactElement } from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
@@ -71,12 +71,12 @@ type CheckboxRadioProps = {
   value: string;
 };
 
-function CheckboxRadio({
+const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
   id,
   text,
   type,
   ...inputProps
-}: CheckboxRadioProps): JSX.Element {
+}: CheckboxRadioProps): ReactElement<CheckboxRadioProps> => {
   return (
     <CheckboxRadioLabel htmlFor={id}>
       <CheckboxRadioInput id={id} type={type} {...inputProps} />
@@ -88,6 +88,6 @@ function CheckboxRadio({
       </Space>
     </CheckboxRadioLabel>
   );
-}
+};
 
 export default CheckboxRadio;

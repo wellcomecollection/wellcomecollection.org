@@ -5,6 +5,7 @@ import { HTMLString, PrismicLink } from '../../../services/prismic/types';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import { parseLink } from '@weco/common/services/prismic/parsers';
 import { dasherize } from '@weco/common/utils/grammar';
+import { FunctionComponent, ReactElement } from 'react';
 type Props = {
   title: string;
   text: HTMLString;
@@ -12,7 +13,12 @@ type Props = {
   link: PrismicLink | null;
 };
 
-const InfoBlock = ({ title, text, linkText, link }: Props): JSX.Element => {
+const InfoBlock: FunctionComponent<Props> = ({
+  title,
+  text,
+  linkText,
+  link,
+}: Props): ReactElement<Props> => {
   const parsedLink = parseLink(link);
 
   return (

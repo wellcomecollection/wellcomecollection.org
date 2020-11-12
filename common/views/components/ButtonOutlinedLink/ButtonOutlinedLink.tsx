@@ -1,4 +1,4 @@
-import { SyntheticEvent } from 'react';
+import { FunctionComponent, ReactElement, SyntheticEvent } from 'react';
 import { BaseButtonInner, ButtonIconWrapper } from '../ButtonSolid/ButtonSolid';
 import {
   ButtonOutlinedBaseProps,
@@ -21,7 +21,7 @@ type ButtonOutlinedLinkProps = ButtonOutlinedBaseProps & {
     | string;
 };
 
-const ButtonOutlinedLink = ({
+const ButtonOutlinedLink: FunctionComponent<ButtonOutlinedLinkProps> = ({
   text,
   link,
   icon,
@@ -30,7 +30,7 @@ const ButtonOutlinedLink = ({
   ariaControls,
   ariaExpanded,
   isOnDark,
-}: ButtonOutlinedLinkProps): JSX.Element => {
+}: ButtonOutlinedLinkProps): ReactElement<ButtonOutlinedLinkProps> => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
     trackingEvent && trackEvent(trackingEvent);
@@ -41,7 +41,7 @@ const ButtonOutlinedLink = ({
   return (
     <ConditionalWrapper
       condition={isNextLink}
-      wrapper={(children: JSX.Element) =>
+      wrapper={(children: ReactElement) =>
         typeof link === 'object' && (
           <NextLink {...link} passHref>
             {children}

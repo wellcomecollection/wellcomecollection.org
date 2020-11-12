@@ -1,4 +1,10 @@
-import { useState, useContext, useRef } from 'react';
+import {
+  useState,
+  useContext,
+  useRef,
+  ReactElement,
+  FunctionComponent,
+} from 'react';
 import { trackEvent } from '../../../utils/ga';
 import TextInput from '../TextInput/TextInput';
 import Space from '../styled/Space';
@@ -10,7 +16,10 @@ type Props = {
   url: string;
 };
 
-const CopyUrl = ({ id, url }: Props): JSX.Element => {
+const CopyUrl: FunctionComponent<Props> = ({
+  id,
+  url,
+}: Props): ReactElement<Props> => {
   const { isEnhanced } = useContext(AppContext);
   const [isTextCopied, setIsTextCopied] = useState(false);
   const [isClicked, setIsClicked] = useState(false);

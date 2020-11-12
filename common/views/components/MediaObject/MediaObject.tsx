@@ -1,3 +1,4 @@
+import { FunctionComponent, ReactElement } from 'react';
 import Image from '../Image/Image';
 import MediaObjectBase, {
   TextWrapperProp,
@@ -49,7 +50,11 @@ const TitleWrapper = styled.div.attrs({
   }),
 })``;
 
-export const MediaObject = ({ title, text, image }: Props): JSX.Element => {
+export const MediaObject: FunctionComponent<Props> = ({
+  title,
+  text,
+  image,
+}: Props): ReactElement<Props> => {
   const ImageComponent = image?.crops?.square && (
     <Image {...image.crops.square} />
   );

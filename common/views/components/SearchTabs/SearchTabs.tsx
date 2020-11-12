@@ -73,14 +73,14 @@ type Props = {
   aggregations?: CatalogueAggregations;
 };
 
-const SearchTabs = ({
+const SearchTabs: FunctionComponent<Props> = ({
   worksRouteProps,
   imagesRouteProps,
   workTypeAggregations,
   aggregations,
   shouldShowDescription,
   activeTabIndex,
-}: Props): JSX.Element => {
+}: Props): ReactElement<Props> => {
   const { isKeyboard, isEnhanced } = useContext(AppContext);
   const [activeTab, setActiveTab] = useState(
     activeTabIndex === 0 ? 'tab-library-catalogue' : 'tab-images'

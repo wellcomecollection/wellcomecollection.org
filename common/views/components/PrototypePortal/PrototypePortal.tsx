@@ -1,12 +1,15 @@
-import { useEffect } from 'react';
+import { FunctionComponent, ReactElement, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 type Props = {
   id: string;
-  children: JSX.Element;
+  children: ReactElement;
 };
 
-const PrototypePortal = ({ id, children }: Props): JSX.Element => {
+const PrototypePortal: FunctionComponent<Props> = ({
+  id,
+  children,
+}: Props): ReactElement<Props> => {
   const mount = document.getElementById(id);
   const el = document.createElement('div');
 

@@ -1,4 +1,4 @@
-import { SyntheticEvent } from 'react';
+import { FunctionComponent, ReactElement, SyntheticEvent } from 'react';
 import NextLink, { LinkProps } from 'next/link';
 import {
   BaseButtonInner,
@@ -19,7 +19,7 @@ export function getHref(link: LinkProps | string): undefined | string {
   return typeof link === 'object' ? undefined : link;
 }
 
-const ButtonSolidLink = ({
+const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   text,
   link,
   icon,
@@ -28,7 +28,7 @@ const ButtonSolidLink = ({
   ariaControls,
   ariaExpanded,
   isBig,
-}: ButtonSolidLinkProps): JSX.Element => {
+}: ButtonSolidLinkProps): ReactElement<ButtonSolidLinkProps> => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
     trackingEvent && trackEvent(trackingEvent);

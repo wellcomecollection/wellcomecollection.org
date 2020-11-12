@@ -1,11 +1,14 @@
+import { FunctionComponent, ReactElement } from 'react';
 import { MediaObjectType } from '../../../model/media-object';
 import MediaObject from '../../components/MediaObject/MediaObject';
 
-const MediaObjectList = ({
-  items,
-}: {
+type Props = {
   items: MediaObjectType[];
-}): JSX.Element => {
+};
+
+const MediaObjectList: FunctionComponent<Props> = ({
+  items,
+}: Props): ReactElement<Props> => {
   return (
     <div className="body-text">
       {items.map((mediaObject, index) => {

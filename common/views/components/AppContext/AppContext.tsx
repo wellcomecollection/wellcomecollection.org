@@ -1,4 +1,10 @@
-import { createContext, useState, useEffect } from 'react';
+import {
+  createContext,
+  useState,
+  useEffect,
+  ReactElement,
+  FunctionComponent,
+} from 'react';
 
 type AppContextProps = {
   isEnhanced: boolean;
@@ -13,12 +19,12 @@ const appContextDefaults = {
 export const AppContext = createContext<AppContextProps>(appContextDefaults);
 
 type AppContextProviderProps = {
-  children: JSX.Element;
+  children: ReactElement;
 };
 
-export const AppContextProvider = ({
+export const AppContextProvider: FunctionComponent<AppContextProviderProps> = ({
   children,
-}: AppContextProviderProps): JSX.Element => {
+}: AppContextProviderProps): ReactElement<AppContextProviderProps> => {
   const [isEnhanced, setIsEnhanced] = useState(appContextDefaults.isEnhanced);
   const [isKeyboard, setIsKeyboard] = useState(appContextDefaults.isKeyboard);
 

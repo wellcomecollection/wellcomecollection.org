@@ -1,3 +1,4 @@
+import { FunctionComponent, ReactElement } from 'react';
 import { ColorSelection } from '../../../model/color-selections';
 import { classNames, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
@@ -7,7 +8,10 @@ type Props = {
   color: ColorSelection | null;
 };
 
-const Number = ({ number, color }: Props): JSX.Element => (
+const Number: FunctionComponent<Props> = ({
+  number,
+  color,
+}: Props): ReactElement<Props> => (
   <Space
     as="span"
     h={{ size: 's', properties: ['margin-left'] }}

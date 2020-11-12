@@ -1,4 +1,9 @@
-import { ComponentProps, ReactElement, ReactNode } from 'react';
+import {
+  ComponentProps,
+  FunctionComponent,
+  ReactElement,
+  ReactNode,
+} from 'react';
 import { trackEvent } from '../../../utils/ga';
 import DateRange from '../DateRange/DateRange';
 import EventDateRange from '../EventDateRange/EventDateRange';
@@ -31,7 +36,7 @@ type Props = {
   OverrideTitleWrapper?: ReactNode;
 };
 
-const CompactCard = ({
+const CompactCard: FunctionComponent<Props> = ({
   url,
   title,
   labels,
@@ -48,7 +53,7 @@ const CompactCard = ({
   OverrideImageWrapper,
   OverrideTextWrapper,
   OverrideTitleWrapper,
-}: Props): JSX.Element => {
+}: Props): ReactElement<Props> => {
   return (
     <MediaObjectBase
       url={url}
