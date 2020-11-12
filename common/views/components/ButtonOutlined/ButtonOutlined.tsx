@@ -111,4 +111,6 @@ const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
   }
 );
 
+ButtonOutlined.displayName = 'ButtonOutlined';
+
 export default ButtonOutlined;

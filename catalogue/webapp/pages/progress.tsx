@@ -3,13 +3,14 @@ import { grid } from '@weco/common/utils/classnames';
 import PROGRESS_NOTES from '../PROGRESS_NOTES.md';
 import { webpageLd } from '@weco/common/utils/json-ld';
 import Space from '@weco/common/views/components/styled/Space';
+import { ReactElement } from 'react';
 
 const title = "How we're improving search";
 const description =
   'We are working to make a more welcoming space where you' +
   'can discover more of what Wellcome Collection has to offer.';
 
-const ProgressPage = () => (
+const ProgressPage = (): ReactElement => (
   <PageLayout
     title={title}
     description={description}

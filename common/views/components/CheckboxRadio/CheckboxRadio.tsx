@@ -1,9 +1,8 @@
-import { useContext, SyntheticEvent } from 'react';
+import { SyntheticEvent } from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
-import { AppContext } from '../AppContext/AppContext';
 
 const CheckboxRadioLabel = styled.label.attrs({
   className: classNames({
@@ -78,8 +77,6 @@ function CheckboxRadio({
   type,
   ...inputProps
 }: CheckboxRadioProps): JSX.Element {
-  const { isKeyboard } = useContext(AppContext);
-
   return (
     <CheckboxRadioLabel htmlFor={id}>
       <CheckboxRadioInput id={id} type={type} {...inputProps} />
