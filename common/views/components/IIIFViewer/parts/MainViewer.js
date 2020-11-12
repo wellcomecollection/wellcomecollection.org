@@ -1,5 +1,5 @@
 // @flow
-import { memo, useState, useRef } from 'react';
+import { memo, useState, useRef, CSSProperties } from 'react';
 import { FixedSizeList, areEqual } from 'react-window';
 import debounce from 'lodash.debounce';
 import styled from 'styled-components';
@@ -33,7 +33,27 @@ const ThumbnailWrapper = styled.div`
   }
 `;
 
-const ItemRenderer = memo(({ style, index, data }) => {
+type ItemRendererProps = {|
+  style: CSSProperties,
+  index: number,
+  data: {|
+    scrollVelocity: number,
+    isProgrammaticScroll: boolean,
+    showZoomed: boolean,
+    setShowZoomed: (value: boolean) => void,
+    listHeight: number,
+    mainViewerRef: { current: FixedSizeList | null },
+    activeIndex: number,
+    setActiveIndex: number => void,
+    canvases: any,
+    rotatedImages: any,
+    setZoomInfoUrl: (value: string) => void,
+    setIsLoading: (value: boolean) => void,
+    ocrText: string,
+  |},
+|};
+
+const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const {
     scrollVelocity,
     isProgrammaticScroll,
@@ -124,6 +144,8 @@ const ItemRenderer = memo(({ style, index, data }) => {
     </div>
   );
 }, areEqual);
+
+ItemRenderer.displayName = 'ItemRenderer';
 
 type Props = {|
   listHeight: number,
