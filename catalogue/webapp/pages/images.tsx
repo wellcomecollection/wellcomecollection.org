@@ -30,7 +30,7 @@ import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import useHotjar from '@weco/common/hooks/useHotjar';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
-import WorkSearchNoResults from '../components/WorkSearchNoResults/WorkSearchNoResults';
+import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 
 type Props = {
   results?: CatalogueResultsList<Image> | CatalogueApiError;
@@ -255,7 +255,7 @@ const Images: NextPage<Props> = ({
           </>
         )}
         {results?.type === 'ResultList' && results.results.length === 0 && (
-          <WorkSearchNoResults query={query} hasFilters={!!color} />
+          <SearchNoResults query={query} hasFilters={!!color} />
         )}
       </CataloguePageLayout>
     </>

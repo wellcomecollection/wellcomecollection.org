@@ -12,11 +12,9 @@ const QuerySpan = styled.span.attrs({
   className: classNames({
     [font('hnm', 2)]: true,
   }),
-})`
-  fontweight: 400;
-`;
+})``;
 
-const WorkSearchNoResults: FunctionComponent<Props> = ({
+const SearchNoResults: FunctionComponent<Props> = ({
   query,
   hasFilters,
 }: Props) => {
@@ -43,4 +41,4 @@ const WorkSearchNoResults: FunctionComponent<Props> = ({
   );
 };
 
-export default WorkSearchNoResults;
+export default SearchNoResults;

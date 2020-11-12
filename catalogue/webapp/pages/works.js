@@ -39,7 +39,7 @@ import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 // $FlowFixMe (tsx)
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 // $FlowFixMe (tsx)
-import WorkSearchNoResults from '../components/WorkSearchNoResults/WorkSearchNoResults';
+import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 
 type Props = {|
   works: ?CatalogueResultsList<Work> | CatalogueApiError,
@@ -350,9 +350,9 @@ const Works = ({ works, images, worksRouteProps, apiProps }: Props) => {
         )}
 
         {results && results.results.length === 0 && (
-          <WorkSearchNoResults
+          <SearchNoResults
             query={query}
-            hasFilters={!!(productionDatesFrom || productionDatesTo)}
+            hasFilters={Boolean(productionDatesFrom || productionDatesTo)}
           />
         )}
       </CataloguePageLayout>
