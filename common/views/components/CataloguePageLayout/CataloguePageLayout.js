@@ -1,8 +1,9 @@
 // @flow
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import PageLayout, {
   type Props as PageLayoutProps,
 } from '../PageLayout/PageLayout';
+// $FlowFixMe (tsx)
 import InfoBanner from '../InfoBanner/InfoBanner';
 import Layout12 from '../Layout12/Layout12';
 import BetaBar from '../BetaBar/BetaBar';
@@ -18,11 +19,17 @@ type Props = {|
 const CataloguePageLayout = (props: Props) => {
   const { children, hideInfoBar, ...extraProps } = props;
   const { searchToolbar } = useContext(TogglesContext);
+  const [isRedirectBannerVisible, setIsRedirectBannerVisible] = useState(false);
+  useEffect(() => {
+    if (window.location.search.match('wellcomeImagesUrl')) {
+      setIsRedirectBannerVisible(true);
+    }
+  }, []);
 
   return (
     <>
       <PageLayout {...extraProps}>
-        {hideInfoBar !== true && (
+        {hideInfoBar !== true && isRedirectBannerVisible && (
           <>
             <InfoBanner
               text={[
