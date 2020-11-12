@@ -1,5 +1,5 @@
 // @flow
-import { memo, useState, useRef, CSSProperties } from 'react';
+import { memo, useState, useRef } from 'react';
 import { FixedSizeList, areEqual } from 'react-window';
 import debounce from 'lodash.debounce';
 import styled from 'styled-components';
@@ -34,7 +34,7 @@ const ThumbnailWrapper = styled.div`
 `;
 
 type ItemRendererProps = {|
-  style: CSSProperties,
+  style: any,
   index: number,
   data: {|
     scrollVelocity: number,

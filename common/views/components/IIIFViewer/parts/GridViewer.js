@@ -1,6 +1,6 @@
 // @flow
 import styled from 'styled-components';
-import { useState, memo, useEffect, useRef, CSSProperties } from 'react';
+import { useState, memo, useEffect, useRef } from 'react';
 import { FixedSizeGrid, FixedSizeList, areEqual } from 'react-window';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
@@ -18,7 +18,7 @@ const ThumbnailSpacer = styled(Space).attrs({
 `;
 
 type CellProps = {|
-  style: CSSProperties,
+  style: any,
   columnIndex: number,
   rowIndex: number,
   index: number,

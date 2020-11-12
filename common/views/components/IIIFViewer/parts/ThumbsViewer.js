@@ -1,6 +1,6 @@
 // @flow
 import { FixedSizeList, areEqual } from 'react-window';
-import { useState, memo, CSSProperties } from 'react';
+import { useState, memo } from 'react';
 import styled from 'styled-components';
 import { lighten } from 'polished';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
@@ -20,7 +20,7 @@ const ThumbnailSpacer = styled(Space).attrs({
   height: 100%;
 `;
 type ItemRendererProps = {|
-  style: CSSProperties,
+  style: any,
   index: number,
   data: {|
     scrollVelocity: number,
