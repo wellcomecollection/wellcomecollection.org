@@ -2,7 +2,7 @@ import BaseTabs, { TabType } from '../BaseTabs/BaseTabs';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Space from '../styled/Space';
-import { useContext, useState } from 'react';
+import { useContext, useState, FunctionComponent, ReactElement } from 'react';
 import { AppContext } from '../AppContext/AppContext';
 import PrototypeSearchForm from '@weco/common/views/components/PrototypeSearchForm/PrototypeSearchForm';
 import {
