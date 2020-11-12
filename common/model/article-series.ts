@@ -8,6 +8,6 @@ type ItemType = Article | ArticleScheduleItem;
 export type ArticleSeries = GenericContentFields & {
   type: 'series';
   schedule: ArticleScheduleItem[];
-  items: ReadonlyArray<ItemType>;
+  items: readonly ItemType[];
   color?: ColorSelection;
 };

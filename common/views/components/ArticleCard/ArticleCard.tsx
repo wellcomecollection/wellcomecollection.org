@@ -1,7 +1,7 @@
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import { Article } from '../../../model/articles';
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent } from 'react';
 
 type Props = {
   article: Article;
@@ -16,7 +16,7 @@ const ArticleCard: FunctionComponent<Props> = ({
   article,
   showPosition,
   xOfY,
-}: Props): ReactElement<Props> => {
+}: Props) => {
   const partOfSerial = showPosition
     ? article.series
         .map(series => {
@@ -37,9 +37,9 @@ const ArticleCard: FunctionComponent<Props> = ({
       description={article.promoText}
       urlOverride={article.promo && article.promo.link}
       Image={
-        article.image &&
-        article.image.crops &&
-        article.image.crops.square && <Image {...article.image.crops.square} />
+        article.image?.crops?.square && (
+          <Image {...article.image.crops.square} />
+        )
       }
       DateInfo={null}
       StatusIndicator={null}

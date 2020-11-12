@@ -1,8 +1,8 @@
-import  { ArticleSeries } from './article-series';
-import  { GenericContentFields } from './generic-content-fields';
-import  { LabelField } from './label-field';
-import  { ColorSelection } from './color-selections';
-import type { MultiContent } from './multi-content';
+import { ArticleSeries } from './article-series';
+import { GenericContentFields } from './generic-content-fields';
+import { LabelField } from './label-field';
+import { ColorSelection } from './color-selections';
+import { MultiContent } from './multi-content';
 
 export type Article = GenericContentFields & {
   type: 'articles';

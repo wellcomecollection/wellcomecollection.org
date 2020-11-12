@@ -50,7 +50,7 @@ export type ExhibitionPromo = {
 export type UiExhibition = Exhibition & {
   promo?: ExhibitionPromo;
   galleryLevel: number; // this should be deprecated for place
-  textAndCaptionsDocument: any;
+  textAndCaptionsDocument: Record<string, unknown>;
   featuredImageList: Picture[];
   relatedBooks: ImagePromo[];
   relatedEvents: ImagePromo[];
