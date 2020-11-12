@@ -1,4 +1,10 @@
-import { useState, useContext, useRef, FunctionComponent } from 'react';
+import {
+  useState,
+  useContext,
+  useRef,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
 import NextLink from 'next/link';
 import dynamic from 'next/dynamic';
 import { worksLink } from '../../../services/catalogue/routes';
