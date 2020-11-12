@@ -1,5 +1,5 @@
-import { NextPageContext } from 'next';
-import { useEffect, useState, useContext } from 'react';
+import { NextPage, NextPageContext } from 'next';
+import { useEffect, useState, useContext, ReactElement } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
@@ -37,13 +37,21 @@ type Props = {
   apiProps: ImagesApiProps;
 };
 
+type ImagesPaginationProps = {
+  query?: string;
+  page?: number;
+  results: CatalogueResultsList<Image>;
+  imagesRouteProps: ImagesRouteProps;
+  setSavedSearchState: (state: ImagesRouteProps) => void;
+};
+
 const ImagesPagination = ({
   query,
   page,
   results,
   imagesRouteProps,
   setSavedSearchState,
-}) => (
+}: ImagesPaginationProps) => (
   <div className="flex flex--h-space-between flex--v-center flex--wrap">
     <Paginator
       query={query}
@@ -71,7 +79,11 @@ const ImagesPagination = ({
   </div>
 );
 
-const Images = ({ results, imagesRouteProps, apiProps }: Props) => {
+const Images: NextPage<Props> = ({
+  results,
+  imagesRouteProps,
+  apiProps,
+}: Props): ReactElement<Props> => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(imagesRouteProps);
   const { searchPrototype } = useContext(TogglesContext);
@@ -79,10 +91,10 @@ const Images = ({ results, imagesRouteProps, apiProps }: Props) => {
   const { query, page } = imagesRouteProps;
 
   useEffect(() => {
-    function routeChangeStart(url: string) {
+    function routeChangeStart() {
       setLoading(true);
     }
-    function routeChangeComplete(url: string) {
+    function routeChangeComplete() {
       setLoading(false);
     }
     Router.events.on('routeChangeStart', routeChangeStart);

@@ -1,20 +1,24 @@
-import { useEffect } from 'react';
+import { FunctionComponent, ReactElement, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
-const PrototypePortal = ({ id, children }) => {
-  if (typeof window !== 'undefined') {
-    const mount = document.getElementById(id);
-    const el = document.createElement('div');
+type Props = {
+  id: string;
+  children: ReactElement;
+};
 
-    useEffect(() => {
-      mount && mount.appendChild(el);
-      return () => mount && mount.removeChild(el);
-    }, [el, mount]);
+const PrototypePortal: FunctionComponent<Props> = ({
+  id,
+  children,
+}: Props): ReactElement<Props> => {
+  const mount = document.getElementById(id);
+  const el = document.createElement('div');
 
-    return createPortal(children, el);
-  } else {
-    return null;
-  }
+  useEffect(() => {
+    mount && mount.appendChild(el);
+    return () => mount && mount.removeChild(el);
+  }, [el, mount]);
+
+  return createPortal(children, el);
 };
 
 export default PrototypePortal;

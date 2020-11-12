@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 export type PrismicDocument = {
   id: string;
   uid?: string;
@@ -10,7 +11,7 @@ export type PrismicDocument = {
   alternateLanguages: string[];
   first_publication_date: Date;
   last_publication_date: Date;
-  data: any;
+  data: Record<string, unknown>;
   isBroken: boolean | null;
   link_type?: string;
   url?: string;
@@ -20,7 +21,7 @@ export type PrismicLink = {
   link_type: 'Web' | 'Document' | 'Media';
   url?: string;
   id?: string;
-}
+};
 
 export type PrismicApiSearchResponse = {
   page: number;
@@ -56,7 +57,7 @@ export type HTMLSpan = {
   type: HTMLSpanTypes;
   start: number;
   end: number;
-  data?: Object;
+  data?: Record<string, unknown>;
 };
 
 export type HTMLStringBlock = {
@@ -67,7 +68,7 @@ export type HTMLStringBlock = {
 
 export type HTMLString = HTMLStringBlock[];
 
-export type PrismicFragment = Object;
+export type PrismicFragment = Record<string, unknown>;
 
 // This is the type we want to convert prismic
 // to as it mirrors the catalogue API

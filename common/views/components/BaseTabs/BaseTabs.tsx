@@ -5,6 +5,8 @@ import {
   useCallback,
   KeyboardEvent,
   useEffect,
+  ReactElement,
+  FunctionComponent,
 } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import styled from 'styled-components';
@@ -47,8 +49,8 @@ const TabPanel = styled.div.attrs((props: TabPanelProps) => ({
 
 export type TabType = {
   id: string;
-  tab: (isActive: boolean, isFocused: boolean) => JSX.Element;
-  tabPanel: JSX.Element | string;
+  tab: (isActive: boolean, isFocused: boolean) => ReactElement;
+  tabPanel: ReactElement | string;
 };
 
 export type Props = {
@@ -59,13 +61,13 @@ export type Props = {
   onTabChanged?: (tabId: string) => void;
 };
 
-const Tabs = ({
+const Tabs: FunctionComponent<Props> = ({
   label,
   tabs,
   activeTabIndex,
   onTabClick,
   onTabChanged,
-}: Props) => {
+}: Props): ReactElement<Props> => {
   const [activeId, setActiveId] = useState(tabs[activeTabIndex || 0].id);
   const [focusedId, setFocusedId] = useState(null);
   const { isEnhanced } = useContext(AppContext);

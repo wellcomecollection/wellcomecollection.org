@@ -1,11 +1,11 @@
-import { useContext } from 'react';
+import { FunctionComponent, ReactElement, useContext } from 'react';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import Space from '@weco/common/views/components/styled/Space';
 import TogglesContext from '../TogglesContext/TogglesContext';
 
-const CollectionsStaticContent = () => {
+const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
   const { searchPrototype } = useContext(TogglesContext);
 
   return searchPrototype ? (

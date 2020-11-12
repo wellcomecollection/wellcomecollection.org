@@ -5,7 +5,7 @@ import {
 } from '../model/organization';
 import { convertImageUri } from './convert-image-uri';
 
-export function objToJsonLd<T>(obj: T, type: string, root: boolean = true) {
+export function objToJsonLd<T>(obj: T, type: string, root = true) {
   const jsonObj = JSON.parse(JSON.stringify(obj));
   const jsonLdAddition = root
     ? {

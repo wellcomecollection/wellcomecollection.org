@@ -1,3 +1,4 @@
+import { FunctionComponent, ReactElement } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
 import Space from '../styled/Space';
 import {
@@ -11,12 +12,17 @@ import {
 
 type Props = {
   title: string;
-  description: JSX.Element;
+  description: ReactElement;
   icon: CovidIconsEnum;
   isStacked?: boolean;
 };
 
-const CovidSafetyMeasure = ({ title, description, icon, isStacked }: Props) => {
+const CovidSafetyMeasure: FunctionComponent<Props> = ({
+  title,
+  description,
+  icon,
+  isStacked,
+}: Props): ReactElement<Props> => {
   return (
     <div
       className={classNames({

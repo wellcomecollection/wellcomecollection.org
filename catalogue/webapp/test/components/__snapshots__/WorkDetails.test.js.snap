@@ -55,7 +55,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
 <div
   data-test-id="requestModalCTA"
 >
-  <ForwardRef
+  <ButtonSolid
     clickHandler={[Function]}
     text="Request"
     trackingEvent={
@@ -86,7 +86,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
         </ButtonSolid__BaseButtonInner>
       </button>
     </ButtonSolid__SolidButton>
-  </ForwardRef>
+  </ButtonSolid>
   <Modal
     id="requestModal"
     isActive={false}
@@ -381,7 +381,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                 setShowRequestModal={[Function]}
                 setShowResultsModal={[Function]}
               >
-                <ForwardRef
+                <ButtonSolid
                   clickHandler={[Function]}
                   text="Request to view in library"
                   trackingEvent={
@@ -412,7 +412,7 @@ exports[`Feature: 2. As a library member I want to request an item Scenario: I'm
                       </ButtonSolid__BaseButtonInner>
                     </button>
                   </ButtonSolid__SolidButton>
-                </ForwardRef>
+                </ButtonSolid>
               </ItemRequestButton>
               <button
                 className="plain-button"

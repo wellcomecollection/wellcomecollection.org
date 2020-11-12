@@ -1,4 +1,4 @@
-import { forwardRef, SyntheticEvent, RefObject, ForwardedRef } from 'react';
+import { forwardRef, SyntheticEvent, ForwardedRef } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent, GaEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
@@ -191,5 +191,7 @@ const ButtonSolid = forwardRef(
     );
   }
 );
+
+ButtonSolid.displayName = 'ButtonSolid';
 
 export default ButtonSolid;

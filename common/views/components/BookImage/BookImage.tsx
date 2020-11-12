@@ -3,7 +3,7 @@ import Space from '../styled/Space';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { classNames } from '@weco/common/utils/classnames';
 import { UiImageType } from '../../../model/image';
-
+import { FunctionComponent, ReactElement } from 'react';
 
 const Outer = styled('div').attrs({
   className: classNames({
@@ -32,16 +32,20 @@ const Inner = styled('div').attrs({
 `;
 
 type Props = {
-  image: UiImageType,
-}
+  image: UiImageType;
+};
 
-const BookImage = ({ image }: Props) => {
+const BookImage: FunctionComponent<Props> = ({
+  image,
+}: Props): ReactElement<Props> => {
   return (
-    <Space v={{size: 'xl', properties: ['margin-top', 'padding-top']}}>
+    <Space v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
       <Outer>
         <Inner>
-          <UiImage extraClasses="margin-h-auto width-auto max-height-70vh"
-          {...image} />
+          <UiImage
+            extraClasses="margin-h-auto width-auto max-height-70vh"
+            {...image}
+          />
         </Inner>
       </Outer>
     </Space>

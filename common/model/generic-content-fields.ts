@@ -5,7 +5,7 @@ import { ImageType } from './image';
 import { Label } from './labels';
 import { HTMLString } from '../services/prismic/types';
 
-export type Body = any[];
+export type Body = Record<string, unknown>[];
 
 // TODO: we need to get type in here to be able to union on these
 // i.e. search results
