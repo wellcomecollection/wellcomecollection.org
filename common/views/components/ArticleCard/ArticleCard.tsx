@@ -1,16 +1,17 @@
-// @flow
-// $FlowFixMe(tsx)
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
-import type { Article } from '../../../model/articles';
+import { Article } from '../../../model/articles';
 
-type Props = {|
-  article: Article,
-  showPosition: boolean,
-  xOfY: {| x: number, y: number |},
-|};
+type Props = {
+  article: Article;
+  showPosition: boolean;
+  xOfY: {
+    x: number;
+    y: number;
+  };
+};
 
-const ArticleCard = ({ article, showPosition, xOfY }: Props) => {
+const ArticleCard = ({ article, showPosition, xOfY }: Props): JSX.Element => {
   const partOfSerial = showPosition
     ? article.series
         .map(series => {
