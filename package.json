@@ -4,6 +4,7 @@
   "description": "Products and services relating to wellcomecollection.org.",
   "scripts": {
     "lint": "eslint ./.eslintrc.js catalogue/ common/ content/ toggles/ dash/ --fix",
+    "tsc": "tsc --project content/webapp/tsconfig.json & tsc --project catalogue/webapp/tsconfig.json",
     "setupCommon": "yarn install --production && yarn flow",
     "cardigan": "pushd cardigan && yarn dev",
     "catalogue": "pushd catalogue/webapp && yarn dev",
