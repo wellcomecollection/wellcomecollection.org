@@ -30,6 +30,7 @@ import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import useHotjar from '@weco/common/hooks/useHotjar';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
+import WorkSearchNoResults from '../components/WorkSearchNoResults/WorkSearchNoResults';
 
 type Props = {
   results?: CatalogueResultsList<Image> | CatalogueApiError;
@@ -87,9 +88,7 @@ const Images: NextPage<Props> = ({
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(imagesRouteProps);
   const { searchPrototype } = useContext(TogglesContext);
-
-  const { query, page } = imagesRouteProps;
-
+  const { query, page, color } = imagesRouteProps;
   useEffect(() => {
     function routeChangeStart() {
       setLoading(true);
@@ -190,7 +189,6 @@ const Images: NextPage<Props> = ({
             </div>
           </div>
         </Space>
-
         {results?.type === 'ResultList' && results.results.length > 0 && (
           <>
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
@@ -255,6 +253,9 @@ const Images: NextPage<Props> = ({
               </Space>
             </Space>
           </>
+        )}
+        {results?.type === 'ResultList' && results.results.length === 0 && (
+          <WorkSearchNoResults query={query} hasFilters={!!color} />
         )}
       </CataloguePageLayout>
     </>

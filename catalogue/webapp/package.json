@@ -7,7 +7,9 @@
     "build": "next build",
     "deployBundleAnalysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles  --only-show-errors --acl public-read",
     "start": "NODE_ENV=production node server.js",
-    "test": "NODE_ENV=test jest --no-cache"
+    "test": "NODE_ENV=test jest --no-cache",
+    "test:watch": "yarn run test -- --watchAll",
+    "test:updateSnapshots": "yarn run test -- --updateSnapshot"
   },
   "dependencies": {
     "@babel/core": "^7.1.5",
