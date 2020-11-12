@@ -35,7 +35,7 @@ const ArticleCard: FunctionComponent<Props> = ({
       color={article.color}
       labels={{ labels: article.labels }}
       description={article.promoText}
-      urlOverride={article.promo && article.promo.link}
+      urlOverride={article.promo?.link}
       Image={
         article.image?.crops?.square && (
           <Image {...article.image.crops.square} />
