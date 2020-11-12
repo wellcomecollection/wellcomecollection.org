@@ -42,4 +42,7 @@ const NumberInput = forwardRef((
     <StyledInput as="input" ref={ref} {...inputProps} />
   </label>
 ));
+
+NumberInput.displayName = 'NumberInput';
+
 export default NumberInput;
