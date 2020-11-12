@@ -1,6 +1,6 @@
 // @flow
 import styled from 'styled-components';
-import { useState, memo, useEffect, useRef } from 'react';
+import { useState, memo, useEffect, useRef, CSSProperties } from 'react';
 import { FixedSizeGrid, FixedSizeList, areEqual } from 'react-window';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
@@ -17,47 +17,69 @@ const ThumbnailSpacer = styled(Space).attrs({
   height: 200px;
 `;
 
-const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
-  const {
-    columnCount,
-    mainViewerRef,
-    gridVisible,
-    setGridVisible,
-    scrollVelocity,
-    activeIndex,
-    setActiveIndex,
-    canvases,
-  } = data;
-  const itemIndex = rowIndex * columnCount + columnIndex;
-  const currentCanvas = canvases[itemIndex];
-  return (
-    <div style={style}>
-      {scrollVelocity > 1 ? (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <LL lighten={true} />
-        </div>
-      ) : (
-        currentCanvas && (
-          <ThumbnailSpacer>
-            <IIIFCanvasThumbnail
-              canvas={currentCanvas}
-              clickHandler={() => {
-                mainViewerRef &&
-                  mainViewerRef.current &&
-                  mainViewerRef.current.scrollToItem(itemIndex);
-                setActiveIndex(itemIndex);
-                setGridVisible(false);
-              }}
-              isActive={activeIndex === itemIndex}
-              thumbNumber={itemIndex + 1}
-              isFocusable={gridVisible}
-            />
-          </ThumbnailSpacer>
-        )
-      )}
-    </div>
-  );
-}, areEqual);
+type CellProps = {|
+  style: CSSProperties,
+  columnIndex: number,
+  rowIndex: number,
+  index: number,
+  data: {|
+    scrollVelocity: number,
+    columnCount: number,
+    gridVisible: boolean,
+    setGridVisible: (value: boolean) => void,
+    mainViewerRef: { current: FixedSizeList | null },
+    activeIndex: number,
+    setActiveIndex: number => void,
+    canvases: any,
+  |},
+|};
+
+const Cell = memo(
+  ({ columnIndex, rowIndex, style, data, index }: CellProps) => {
+    const {
+      columnCount,
+      mainViewerRef,
+      gridVisible,
+      setGridVisible,
+      scrollVelocity,
+      activeIndex,
+      setActiveIndex,
+      canvases,
+    } = data;
+    const itemIndex = rowIndex * columnCount + columnIndex;
+    const currentCanvas = canvases[itemIndex];
+    return (
+      <div style={style}>
+        {scrollVelocity > 1 ? (
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <LL lighten={true} />
+          </div>
+        ) : (
+          currentCanvas && (
+            <ThumbnailSpacer>
+              <IIIFCanvasThumbnail
+                canvas={currentCanvas}
+                clickHandler={() => {
+                  mainViewerRef &&
+                    mainViewerRef.current &&
+                    mainViewerRef.current.scrollToItem(itemIndex);
+                  setActiveIndex(itemIndex);
+                  setGridVisible(false);
+                }}
+                isActive={activeIndex === itemIndex}
+                thumbNumber={itemIndex + 1}
+                isFocusable={gridVisible}
+              />
+            </ThumbnailSpacer>
+          )
+        )}
+      </div>
+    );
+  },
+  areEqual
+);
+
+Cell.displayName = 'Cell';
 
 const GridViewerEl = styled.div`
   outline: none;

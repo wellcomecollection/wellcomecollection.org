@@ -39,11 +39,8 @@ type ItemRendererProps = {|
   data: {|
     scrollVelocity: number,
     isProgrammaticScroll: boolean,
-    showZoomed: boolean,
     setShowZoomed: (value: boolean) => void,
-    listHeight: number,
     mainViewerRef: { current: FixedSizeList | null },
-    activeIndex: number,
     setActiveIndex: number => void,
     canvases: any,
     rotatedImages: any,
