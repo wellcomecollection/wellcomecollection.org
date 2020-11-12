@@ -2,17 +2,23 @@ import { font, classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
 import Space from '../styled/Space';
 import { InlineButton } from '@weco/common/views/components/ButtonInline/ButtonInline';
+import { FunctionComponent, ReactElement } from 'react';
 
 export type TagType = {
   textParts: string[];
-  linkAttributes: {href: {pathname: string, query: string}, as: {pathname: string, query: string}};
+  linkAttributes: {
+    href: { pathname: string; query: string };
+    as: { pathname: string; query: string };
+  };
 };
 
 type Props = {
-  tags: TagType[],
+  tags: TagType[];
 };
 
-const Tags = ({ tags }: Props) => {
+const Tags: FunctionComponent<Props> = ({
+  tags,
+}: Props): ReactElement<Props> => {
   return (
     <Space v={{ size: 's', negative: true, properties: ['margin-bottom'] }}>
       <ul

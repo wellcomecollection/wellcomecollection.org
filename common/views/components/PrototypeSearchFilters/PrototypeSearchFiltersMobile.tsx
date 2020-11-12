@@ -1,4 +1,11 @@
-import { useState, useRef, useEffect, useContext } from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
 import dynamic from 'next/dynamic';
 import useFocusTrap from '../../../hooks/useFocusTrap';
 import { CSSTransition } from 'react-transition-group';
@@ -146,7 +153,7 @@ const FiltersFooter = styled(Space).attrs({
   height: 60px;
 `;
 
-const SearchFiltersMobile = ({
+const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   worksRouteProps,
   changeHandler,
   inputDateFrom,
@@ -161,7 +168,7 @@ const SearchFiltersMobile = ({
   imagesColor,
   aggregations,
   filtersToShow,
-}: SearchFiltersSharedProps) => {
+}: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const openFiltersButtonRef = useRef<HTMLButtonElement>(null);
   const closeFiltersButtonRef = useRef<HTMLDivElement>(null);
   const okFiltersButtonRef = useRef<HTMLButtonElement>(null);

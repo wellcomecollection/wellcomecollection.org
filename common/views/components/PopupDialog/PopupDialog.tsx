@@ -1,4 +1,6 @@
 import {
+  FunctionComponent,
+  ReactElement,
   useState,
   useRef,
   useEffect,
@@ -63,7 +65,7 @@ const PopupDialogOpen = styled(Space).attrs(props => ({
   }
 `;
 
-const PopupDialogWindow = styled(Space).attrs(props => ({
+const PopupDialogWindow = styled(Space).attrs({
   'aria-modal': true,
   id: 'user-initiated-dialog-window',
   v: {
@@ -79,7 +81,7 @@ const PopupDialogWindow = styled(Space).attrs(props => ({
   className: classNames({
     'bg-white font-purple': true,
   }),
-}))`
+})`
   border-radius: 20px 0 20px 0;
   box-shadow: 0 2px 60px 0 rgba(0, 0, 0, 0.7);
   opacity: ${props => (props.isActive ? 1 : 0)};
@@ -151,13 +153,13 @@ type Props = {
   link: PrismicLink;
 };
 
-const PopupDialog = ({
+const PopupDialog: FunctionComponent<Props> = ({
   openButtonText,
   title,
   text,
   linkText,
   link,
-}: Props) => {
+}: Props): ReactElement<Props> => {
   const [shouldRender, setShouldRender] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const isActiveRef = useRef(isActive);

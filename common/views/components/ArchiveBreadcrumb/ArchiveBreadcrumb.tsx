@@ -6,6 +6,7 @@ import DropdownButton from '../DropdownButton/DropdownButton';
 import Icon from '../Icon/Icon';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import { getArchiveAncestorArray } from '@weco/common/utils/works';
+import { FunctionComponent, ReactElement } from 'react';
 
 const ArchiveBreadcrumbNav = styled.nav`
   * {
@@ -78,7 +79,9 @@ type Props = {
   work: Work;
 };
 
-const ArchiveBreadcrumb = ({ work }: Props) => {
+const ArchiveBreadcrumb: FunctionComponent<Props> = ({
+  work,
+}: Props): ReactElement<Props> => {
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const firstCrumb = archiveAncestorArray[0];
   const middleCrumbs =

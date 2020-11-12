@@ -1,4 +1,11 @@
-import { useRef, useState, useEffect } from 'react';
+import {
+  useRef,
+  useState,
+  useEffect,
+  useContext,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
@@ -23,6 +30,7 @@ import {
   imagesLink,
 } from '@weco/common/services/catalogue/ts_routes';
 import PrototypePortal from '../PrototypePortal/PrototypePortal';
+import { AppContext } from '../AppContext/AppContext';
 
 type Props = {
   ariaDescribedBy: string;
@@ -67,16 +75,17 @@ const ClearSearch = styled.button`
   right: 12px;
 `;
 
-const PrototypeSearchForm = ({
+const PrototypeSearchForm: FunctionComponent<Props> = ({
   ariaDescribedBy,
   routeProps,
   workTypeAggregations,
   aggregations,
   isImageSearch,
   isActive,
-}: Props) => {
+}: Props): ReactElement<Props> => {
   const [, setSearchParamsState] = useSavedSearchState(routeProps);
   const { query } = routeProps;
+  const { isEnhanced } = useContext(AppContext);
 
   const searchForm = useRef<HTMLFormElement>(null);
   // This is the query used by the input, that is then eventually passed to the
@@ -263,7 +272,7 @@ const PrototypeSearchForm = ({
           }
         />
       )}
-      {!isImageSearch && (
+      {!isImageSearch && isEnhanced && (
         <PrototypePortal id="sort-select-portal">
           <Select
             name="portalSortOrder"

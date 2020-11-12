@@ -140,14 +140,14 @@ type Item = {
 type Date = {
   label: string;
   type: 'Period';
-}
+};
 
 type Place = {
   id: string;
   identifiers: Identifier[];
   label: string;
   type: 'Place';
-}
+};
 
 type Production = {
   label: string;
@@ -155,7 +155,7 @@ type Production = {
   agents: Agent[];
   dates: Date[];
   type: 'ProductionEvent';
-}
+};
 
 type Language = {
   id?: string;
@@ -212,10 +212,10 @@ export type CatalogueApiRedirect = {
 export type Image = {
   type: 'Image';
   id: string;
-  locations: Array<{
+  locations: {
     url: string;
     Object;
-  }>;
+  }[];
   source: {
     id: string;
     type: string;

@@ -45,7 +45,24 @@ const ThumbnailWrapper = styled.div`
   }
 `;
 
-const ItemRenderer = memo(({ style, index, data }) => {
+type ItemRendererProps = {|
+  style: any,
+  index: number,
+  data: {|
+    scrollVelocity: number,
+    isProgrammaticScroll: boolean,
+    setShowZoomed: (value: boolean) => void,
+    mainViewerRef: { current: FixedSizeList | null },
+    setActiveIndex: number => void,
+    canvases: any,
+    rotatedImages: any,
+    setZoomInfoUrl: (value: string) => void,
+    setIsLoading: (value: boolean) => void,
+    ocrText: string,
+  |},
+|};
+
+const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const {
     scrollVelocity,
     isProgrammaticScroll,
@@ -157,6 +174,8 @@ const ItemRenderer = memo(({ style, index, data }) => {
     </div>
   );
 }, areEqual);
+
+ItemRenderer.displayName = 'ItemRenderer';
 
 type Props = {|
   listHeight: number,

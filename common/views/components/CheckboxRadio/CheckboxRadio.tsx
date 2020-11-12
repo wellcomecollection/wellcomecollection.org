@@ -1,9 +1,8 @@
-import { useContext, SyntheticEvent } from 'react';
+import { FunctionComponent, SyntheticEvent, ReactElement } from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
-import { AppContext } from '../AppContext/AppContext';
 
 const CheckboxRadioLabel = styled.label.attrs({
   className: classNames({
@@ -72,9 +71,12 @@ type CheckboxRadioProps = {
   value: string;
 };
 
-function CheckboxRadio({ id, text, type, ...inputProps }: CheckboxRadioProps) {
-  const { isKeyboard } = useContext(AppContext);
-
+const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
+  id,
+  text,
+  type,
+  ...inputProps
+}: CheckboxRadioProps): ReactElement<CheckboxRadioProps> => {
   return (
     <CheckboxRadioLabel htmlFor={id}>
       <CheckboxRadioInput id={id} type={type} {...inputProps} />
@@ -86,6 +88,6 @@ function CheckboxRadio({ id, text, type, ...inputProps }: CheckboxRadioProps) {
       </Space>
     </CheckboxRadioLabel>
   );
-}
+};
 
 export default CheckboxRadio;

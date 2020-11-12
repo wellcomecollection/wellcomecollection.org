@@ -19,8 +19,20 @@ const ThumbnailSpacer = styled(Space).attrs({
 })`
   height: 100%;
 `;
+type ItemRendererProps = {|
+  style: any,
+  index: number,
+  data: {|
+    scrollVelocity: number,
+    listHeight: number,
+    mainViewerRef: { current: FixedSizeList | null },
+    activeIndex: number,
+    setActiveIndex: number => void,
+    canvases: any,
+  |},
+|};
 
-const ItemRenderer = memo(({ style, index, data }) => {
+const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const {
     mainViewerRef,
     scrollVelocity,
@@ -56,6 +68,8 @@ const ItemRenderer = memo(({ style, index, data }) => {
     </div>
   );
 }, areEqual);
+
+ItemRenderer.displayName = 'ItemRenderer';
 
 type Props = {|
   listHeight: number,

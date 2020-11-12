@@ -4,7 +4,7 @@ import { ImagesRouteProps } from './ts_routes';
 export type CatalogueImagesApiProps = {
   query: string | null;
   page: number | null;
-  'locations.license': (string[]) | null;
+  'locations.license': string[] | null;
   color: string | null;
 };
 
@@ -22,38 +22,40 @@ function toIsoDateString(s: string | null): string | null {
 export type CatalogueWorksApiProps = {
   query: string | null;
   page: number | null;
-  workType: (string[]) | null;
-  'items.locations.locationType': (string[]) | null;
-  'items.locations.accessConditions.status': ((
-    | 'open'
-    | 'open-with-advisory'
-    | 'restricted'
-    | 'closed'
-    | 'licensed-resources'
-    | 'unavailable'
-    | 'permission-required'
-    | '!open'
-    | '!open-with-advisory'
-    | '!restricted'
-    | '!closed'
-    | '!licensed-resources'
-    | '!unavailable'
-    | '!permission-required'
-  )[]) | null;
-  'items.locations.type': (string[]) | null;
+  workType: string[] | null;
+  'items.locations.locationType': string[] | null;
+  'items.locations.accessConditions.status':
+    | (
+        | 'open'
+        | 'open-with-advisory'
+        | 'restricted'
+        | 'closed'
+        | 'licensed-resources'
+        | 'unavailable'
+        | 'permission-required'
+        | '!open'
+        | '!open-with-advisory'
+        | '!restricted'
+        | '!closed'
+        | '!licensed-resources'
+        | '!unavailable'
+        | '!permission-required'
+      )[]
+    | null;
+  'items.locations.type': string[] | null;
   sort: string | null;
   sortOrder: string | null;
   'production.dates.from': string | null;
   'production.dates.to': string | null;
   _queryType: string | null;
-  aggregations: (string[]) | null;
+  aggregations: string[] | null;
 };
 
 export type ImagesApiProps = {
   query: string | null;
   page: number | null;
   color: string | null;
-}
+};
 
 export function worksRouteToApiUrl(
   worksRouteProps: WorksRouteProps,
@@ -77,10 +79,10 @@ export function worksRouteToApiUrl(
 
 export function imagesRouteToApiUrl(
   imagesRouteProps: ImagesRouteProps
-) {
+): ImagesApiProps {
   return {
     query: imagesRouteProps.query,
     page: imagesRouteProps.page,
-    color: imagesRouteProps.color
+    color: imagesRouteProps.color,
   };
 }
