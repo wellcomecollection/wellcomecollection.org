@@ -1,6 +1,6 @@
 import { Component, createContext, ReactNode } from 'react';
 import { HTMLString } from '@weco/common/services/prismic/types';
-const GlobalAlertContext = createContext(null);
+const GlobalAlert = createContext(null);
 
 type GlobalObject = {
   isShown: boolean | null;
@@ -39,11 +39,11 @@ export class GlobalAlertContextProvider extends Component<Props, State> {
   render() {
     //Passing the state object as a value prop to all children
     return (
-      <GlobalAlertContext.Provider value={this.state}>
+      <GlobalAlert.Provider value={this.state}>
         {this.props.children}
-      </GlobalAlertContext.Provider>
+      </GlobalAlert.Provider>
     );
   }
 }
 
-export default GlobalAlertContext;
+export default GlobalAlert;

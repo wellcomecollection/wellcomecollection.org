@@ -125,6 +125,7 @@ const GridViewer = ({
       grid.current.scrollToItem({ align: 'start', rowIndex });
   }, [activeIndex]);
   useEffect(() => {
+    // required to be set as we are setting the body to overflow hidden to stop multiple scrolls in view bug issue.
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 500);
