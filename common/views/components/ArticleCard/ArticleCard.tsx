@@ -1,6 +1,7 @@
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import { Article } from '../../../model/articles';
+import { FunctionComponent, ReactElement } from 'react';
 
 type Props = {
   article: Article;
@@ -11,7 +12,11 @@ type Props = {
   };
 };
 
-const ArticleCard = ({ article, showPosition, xOfY }: Props): JSX.Element => {
+const ArticleCard: FunctionComponent<Props> = ({
+  article,
+  showPosition,
+  xOfY,
+}: Props): ReactElement<Props> => {
   const partOfSerial = showPosition
     ? article.series
         .map(series => {
