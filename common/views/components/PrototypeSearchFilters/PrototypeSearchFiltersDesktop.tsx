@@ -9,7 +9,7 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import NextLink from 'next/link';
 import dynamic from 'next/dynamic';
 import { SearchFiltersSharedProps } from './PrototypeSearchFilters';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, ReactElement, ReactNode } from 'react';
 
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
@@ -24,9 +24,15 @@ const ColorSwatch = styled.span`
   padding-top: 2px;
 `;
 
-const CancelFilter: FunctionComponent<{
+type CancelFilterProps = {
   text?: string;
-}> = ({ text, children }) => {
+  children?: ReactNode;
+};
+
+const CancelFilter: FunctionComponent<CancelFilterProps> = ({
+  text,
+  children,
+}: CancelFilterProps): ReactElement<CancelFilterProps> => {
   return (
     <Space
       as="span"
@@ -53,7 +59,7 @@ const CancelFilter: FunctionComponent<{
   );
 };
 
-const SearchFiltersDesktop = ({
+const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   filtersToShow,
   worksRouteProps,
   changeHandler,
@@ -67,7 +73,7 @@ const SearchFiltersDesktop = ({
   workTypeInUrlArray,
   imagesColor,
   aggregations,
-}: SearchFiltersSharedProps) => {
+}: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
 

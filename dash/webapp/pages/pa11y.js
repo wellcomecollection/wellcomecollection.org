@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import Header from '../components/Header';
 
 const fontFamily = 'Gadget, sans-serif';
-const dev = process.env.NODE_ENV !== 'production';
 const Pre = styled.pre`
   overflow: auto;
   background: #e8e8e8;

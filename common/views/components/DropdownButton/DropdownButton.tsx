@@ -1,5 +1,12 @@
 import { CSSTransition } from 'react-transition-group';
-import { useState, useRef, useEffect, useContext } from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
@@ -16,13 +23,13 @@ const DropdownWrapper = styled.div.attrs({
   }),
 })``;
 
-const Dropdown = styled(Space).attrs(props => ({
+const Dropdown = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   className: classNames({
     'rounded-corners shadow bg-white': true,
   }),
-}))`
+})`
   margin-top: -2px;
   z-index: ${props => (props.isActive ? 2 : 1)};
   overflow: auto;
@@ -66,13 +73,19 @@ const Popper = styled('div')<{ isVisible: boolean }>`
 
 type Props = {
   label: string;
-  children: JSX.Element | JSX.Element[];
+  children: ReactElement;
   isInline: boolean | null;
   isOnDark?: boolean;
   id: string;
 };
 
-const DropdownButton = ({ label, children, isInline, isOnDark, id }: Props) => {
+const DropdownButton: FunctionComponent<Props> = ({
+  label,
+  children,
+  isInline,
+  isOnDark,
+  id,
+}: Props): ReactElement<Props> => {
   const [isActive, setIsActive] = useState(false);
   const { isEnhanced } = useContext(AppContext);
   const dropdownWrapperRef = useRef(null);
