@@ -4,7 +4,7 @@ import MediaObject from '../../components/MediaObject/MediaObject';
 const MediaObjectList = ({
   items,
 }: {
-  items: Array<MediaObjectType>;
+  items: MediaObjectType[];
 }): JSX.Element => {
   return (
     <div className="body-text">

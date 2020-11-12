@@ -61,6 +61,7 @@ module.exports = {
       rules: {
         ...sharedRules,
         'no-use-before-define': 'off',
+        '@typescript-eslint/array-type': ['error'],
         '@typescript-eslint/no-use-before-define': [
           'error',
           { functions: false },
