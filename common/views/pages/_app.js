@@ -24,7 +24,9 @@ import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/Outb
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
 import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
 // $FlowFixMe (tsx)
-import { GlobalAlertContextProvider } from '../components/GlobalAlertContext/GlobalAlertContext';
+import GlobalAlertContext from '../components/GlobalAlertContext/GlobalAlertContext';
+// $FlowFixMe (tsx)
+import { GlobalInfoBarProvider } from '../components/GlobalInfoBarContext/GlobalInfoBarContext';
 // $FlowFixMe (tsx)
 import PopupDialogContext from '../../views/components/PopupDialogContext/PopupDialogContext';
 import { trackEvent } from '../../utils/ga';
@@ -468,7 +470,8 @@ export default class WecoApp extends App {
         <AppContextProvider>
           <TogglesContext.Provider value={{ ...togglesContext }}>
             <OpeningTimesContext.Provider value={parsedOpeningTimes}>
-              <GlobalAlertContextProvider value={globalAlert}>
+              <GlobalAlertContext.Provider value={globalAlert}>
+                <GlobalInfoBarProvider>
                 <PopupDialogContext.Provider value={popupDialog}>
                   <ThemeProvider theme={theme}>
                     <OutboundLinkTracker>
@@ -515,7 +518,8 @@ export default class WecoApp extends App {
                     </OutboundLinkTracker>
                   </ThemeProvider>
                 </PopupDialogContext.Provider>
-              </GlobalAlertContextProvider>
+                </GlobalInfoBarProvider>
+              </GlobalAlertContext.Provider>
             </OpeningTimesContext.Provider>
           </TogglesContext.Provider>
         </AppContextProvider>

@@ -10,8 +10,8 @@ import {
   headerHeight,
   topBarHeight,
 } from '@weco/common/views/components/IIIFViewer/IIIFViewer';
-// $FlowFixMe (tsx)
-import GlobalAlertContext from '@weco/common/views/components/GlobalAlertContext/GlobalAlertContext';
+// $FlowFixMe(tsx)
+import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
 const ThumbnailSpacer = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
@@ -86,14 +86,15 @@ const GridViewerEl = styled.div`
   outline: none;
   position: fixed;
   top: ${props => {
+    const viewerOffset = props?.viewerRef?.current?.offsetTop | 0;
     if (props.isVisible && props.isFullscreen) {
       return `${topBarHeight}px`;
     } else if (props.isVisible && !props.isFullscreen) {
-      const viewerOffset = props?.viewerRef?.current?.offsetTop | 0;
-      if (props.infoBanner) {
+      if (props.infoBannerVisible) {
+        return `${viewerOffset + topBarHeight}px`;
+      } else {
         return `${headerHeight}px`;
       }
-      return `${viewerOffset + topBarHeight}px`;
     } else {
       return `100vh`;
     }
@@ -133,7 +134,7 @@ const GridViewer = ({
   isFullscreen,
   viewerRef,
 }: Props) => {
-  const { infoBanner } = useContext(GlobalAlertContext);
+  const { showInfoBanner } = useContext(GlobalInfoBarContext);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
   const itemWidth = 250;
@@ -165,7 +166,6 @@ const GridViewer = ({
       }
     };
   }, []);
-
   return (
     <GridViewerEl
       isVisible={gridVisible}
@@ -173,7 +173,7 @@ const GridViewer = ({
       ref={gridViewerRef}
       viewerRef={viewerRef}
       tabIndex={0}
-      infoBanner={infoBanner}
+      infoBannerVisible={showInfoBanner}
     >
       <FixedSizeGrid
         columnCount={columnCount}

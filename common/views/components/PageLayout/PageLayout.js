@@ -14,6 +14,8 @@ import Footer from '../Footer/Footer';
 // $FlowFixMe (tsx)
 import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
 // $FlowFixMe (tsx)
+import GlobalInfoBarContext from '../GlobalInfoBarContext/GlobalInfoBarContext';
+// $FlowFixMe (tsx)
 import PopupDialogContext from '../PopupDialogContext/PopupDialogContext';
 // $FlowFixMe (tsx)
 import PopupDialog from '../PopupDialog/PopupDialog';
@@ -146,13 +148,7 @@ const PageLayout = ({
             globalAlert &&
             globalAlert.isShown === 'show' &&
             (!globalAlert.routeRegex ||
-              urlString.match(new RegExp(globalAlert.routeRegex))) && (
-              <InfoBanner
-                text={globalAlert.text}
-                cookieName="WC_globalAlert"
-                setInfoBanner={globalAlert.setInfoBanner}
-              />
-            )
+              urlString.match(new RegExp(globalAlert.routeRegex))) && (<InfoBanner text={globalAlert.text} cookieName="WC_globalAlert" />)
           }
         </GlobalAlertContext.Consumer>
         <PopupDialogContext.Consumer>
