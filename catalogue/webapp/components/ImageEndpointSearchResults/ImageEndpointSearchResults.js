@@ -47,9 +47,7 @@ const ImageEndpointSearchResults = ({ images, apiProps }: Props) => {
       ))}
       {expandedImage && (
         <ExpandedImage
-          title=""
           image={expandedImage}
-          workId={expandedImage.source.id}
           setExpandedImage={setExpandedImage}
           onWorkLinkClick={() => {
             trackSearchResultSelected(apiProps, {

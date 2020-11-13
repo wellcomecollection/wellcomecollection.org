@@ -33,12 +33,10 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import VisuallySimilarImagesFromApi from '../VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
 
 type Props = {
-  title: string;
-  workId: string;
-  image?: ImageType;
+  image: ImageType;
   setExpandedImage: (image?: ImageType) => void;
   onWorkLinkClick: () => void;
-  onImageLinkClick: (id: string) => void;
+  onImageLinkClick: () => void;
 };
 
 const ImageWrapper = styled(Space).attrs({
@@ -169,8 +167,6 @@ const CloseButton = styled(Space).attrs({
 `;
 
 const ExpandedImage = ({
-  title,
-  workId,
   image,
   setExpandedImage,
   onWorkLinkClick,
@@ -184,21 +180,17 @@ const ExpandedImage = ({
   const closeButtonRef = useRef(null);
   const endRef = useRef(null);
 
-  const displayTitle = title || (detailedWork && detailedWork.title) || '';
+  const workId = image.source.id;
+  const displayTitle = detailedWork?.title ?? '';
 
   useEffect(() => {
-    const focusables = modalRef &&
-      modalRef.current && [...getFocusableElements(modalRef.current)];
-    endRef.current = focusables && focusables[focusables.length - 1];
+    const focusables = modalRef?.current && [
+      ...getFocusableElements(modalRef.current),
+    ];
+    endRef.current = focusables?.[focusables.length - 1];
   }, [modalRef.current]);
 
-  useEffect(
-    () =>
-      closeButtonRef &&
-      closeButtonRef.current &&
-      closeButtonRef.current.focus(),
-    []
-  );
+  useEffect(() => closeButtonRef?.current?.focus(), []);
 
   useEffect(() => {
     function closeOnEscape(event: KeyboardEvent) {
@@ -253,7 +245,7 @@ const ExpandedImage = ({
         });
       }
     };
-    if (detailedWork && image && image.locations[0]) {
+    if (detailedWork && image.locations[0]) {
       const manifestLocation = getDigitalLocationOfType(
         detailedWork,
         'iiif-presentation'
@@ -265,14 +257,10 @@ const ExpandedImage = ({
   }, [detailedWork]);
 
   useEffect(() => {
-    document &&
-      document.documentElement &&
-      document.documentElement.classList.add('is-scroll-locked');
+    document?.documentElement?.classList.add('is-scroll-locked');
 
     return () => {
-      document &&
-        document.documentElement &&
-        document.documentElement.classList.remove('is-scroll-locked');
+      document?.documentElement?.classList.remove('is-scroll-locked');
     };
   }, []);
 
@@ -282,8 +270,7 @@ const ExpandedImage = ({
     ? image.locations[0]
     : detailedWork && getDigitalLocationOfType(detailedWork, 'iiif-image');
   const license =
-    iiifImageLocation &&
-    iiifImageLocation.license &&
+    iiifImageLocation?.license &&
     getAugmentedLicenseInfo(iiifImageLocation.license);
 
   const expandedImageLink =
@@ -292,7 +279,7 @@ const ExpandedImage = ({
       : detailedWork &&
         itemLink({
           workId,
-          langCode: detailedWork.language && detailedWork.language.id,
+          langCode: detailedWork?.language?.id,
           ...(canvasDeeplink || {}),
         });
 
@@ -352,6 +339,7 @@ const ExpandedImage = ({
                     text="View image"
                     icon="eye"
                     link={expandedImageLink}
+                    clickHandler={onImageLinkClick}
                   />
                 </Space>
               )}
