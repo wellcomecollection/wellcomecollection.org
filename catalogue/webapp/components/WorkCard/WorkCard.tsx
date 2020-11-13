@@ -150,20 +150,18 @@ const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
                 )}
               </div>
             </Details>
-            {work.thumbnail &&
-            !isPdfThumbnail(work.thumbnail) &&
-            ['k', 'q'].includes(work.workType.id) && ( // Only show thumbnails for 'Pictures' and 'Digital Images' for now
-                <Preview h={{ size: 'm', properties: ['margin-left'] }}>
-                  <Image
-                    defaultSize={178}
-                    alt={''}
-                    contentUrl={convertImageUri(work.thumbnail.url, 178)}
-                    tasl={null}
-                    srcsetRequired={false}
-                    style={{ margin: 'auto' }}
-                  />
-                </Preview>
-              )}
+            {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
+              <Preview h={{ size: 'm', properties: ['margin-left'] }}>
+                <Image
+                  defaultSize={178}
+                  alt={''}
+                  contentUrl={convertImageUri(work.thumbnail.url, 178)}
+                  tasl={null}
+                  srcsetRequired={false}
+                  style={{ margin: 'auto' }}
+                />
+              </Preview>
+            )}
           </Container>
         </Space>
       </NextLink>
