@@ -318,15 +318,15 @@ const ExpandedImage = ({
             </NextLink>
           )}
           <InfoWrapper>
-            <Space
-              as="h2"
-              v={{ size: 'l', properties: ['margin-bottom'] }}
-              className={classNames({
-                [font('hnm', 3)]: true,
-                'no-margin': true,
-              })}
-            >
-              {displayTitle}
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <h2
+                className={classNames({
+                  [font('hnm', 3)]: true,
+                  'no-margin': true,
+                })}
+              >
+                {displayTitle}
+              </h2>
               {displayContributor && (
                 <Space
                   as="h3"
