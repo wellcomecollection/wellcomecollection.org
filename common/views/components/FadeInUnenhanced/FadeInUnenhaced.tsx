@@ -14,9 +14,9 @@ type Props = {
   isEnhanced: boolean;
 };
 
-const FadeInUnehnaced = styled.div<Props>`
+const FadeInUnenhanced = styled.div<Props>`
   opacity: ${props => (props.isEnhanced ? '1' : '0')};
-  animation: ${fadeIn} 2s 1s forwards;
+  animation: ${fadeIn} 1s 1s forwards;
 
   ${props =>
     props.isEnhanced &&
@@ -25,4 +25,4 @@ const FadeInUnehnaced = styled.div<Props>`
   `}
 `;
 
-export default FadeInUnehnaced;
+export default FadeInUnenhanced;
