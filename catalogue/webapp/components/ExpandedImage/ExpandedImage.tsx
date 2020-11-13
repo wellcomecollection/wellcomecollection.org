@@ -20,7 +20,7 @@ import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
-import { Image as ImageType } from '@weco/common/model/catalogue';
+import { Image as ImageType, Work } from '@weco/common/model/catalogue';
 import { getWork } from '../../services/catalogue/works';
 import { useEffect, useState, useRef, useContext } from 'react';
 import useFocusTrap from '@weco/common/hooks/useFocusTrap';
@@ -37,6 +37,11 @@ type Props = {
   setExpandedImage: (image?: ImageType) => void;
   onWorkLinkClick: () => void;
   onImageLinkClick: () => void;
+};
+
+type CanvasLink = {
+  canvas: number;
+  sierraId: string;
 };
 
 const ImageWrapper = styled(Space).attrs({
@@ -174,14 +179,17 @@ const ExpandedImage = ({
 }: Props) => {
   const { isKeyboard } = useContext(AppContext);
   const toggles = useContext(TogglesContext);
-  const [detailedWork, setDetailedWork] = useState(null);
-  const [canvasDeeplink, setCanvasDeeplink] = useState(null);
+  const [detailedWork, setDetailedWork] = useState<Work | undefined>();
+  const [canvasDeeplink, setCanvasDeeplink] = useState<
+    CanvasLink | undefined
+  >();
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
   const endRef = useRef(null);
 
   const workId = image.source.id;
   const displayTitle = detailedWork?.title ?? '';
+  const displayContributor = detailedWork?.contributors?.[0]?.agent?.label;
 
   useEffect(() => {
     const focusables = modalRef?.current && [
@@ -319,6 +327,15 @@ const ExpandedImage = ({
               })}
             >
               {displayTitle}
+              {displayContributor && (
+                <Space
+                  as="h3"
+                  v={{ size: 's', properties: ['margin-top'] }}
+                  className={classNames({ [font('hnm', 5)]: true })}
+                >
+                  {displayContributor}
+                </Space>
+              )}
             </Space>
             {license && (
               <Space
