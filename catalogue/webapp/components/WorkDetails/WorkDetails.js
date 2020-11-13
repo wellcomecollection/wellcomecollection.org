@@ -68,14 +68,18 @@ function getItemLinkState({
   itemUrl,
   audio,
   video,
-}): ?'useItemLink' | 'useLibraryLink' {
+}): ?'useItemLink' | 'useLibraryLink' | 'useNoLink' {
   if (
     (accessCondition === 'open-with-advisory' ||
       accessCondition === 'restricted' ||
       accessCondition === 'permission-required') &&
     sierraIdFromManifestUrl
-  )
+  ) {
     return 'useLibraryLink';
+  }
+  if (accessCondition === 'closed') {
+    return 'useNoLink';
+  }
   if (itemUrl && !audio && !video) {
     return 'useItemLink';
   }
@@ -153,7 +157,7 @@ const WorkDetails = ({
   const isbnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'isbn';
   });
-  
+
   const issnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'issn';
   });
@@ -244,7 +248,7 @@ const WorkDetails = ({
 
   const Content = () => (
     <>
-      {digitalLocation && (
+      {digitalLocation && itemLinkState !== 'useNoLink' && (
         <WorkDetailsSection
           headingText="Available online"
           isInArchive={isInArchive}
@@ -597,7 +601,9 @@ const WorkDetails = ({
         </div>
       </WorkDetailsSection>
 
-      {(isbnIdentifiers.length > 0 || issnIdentifiers.length > 0 || work.citeAs) && (
+      {(isbnIdentifiers.length > 0 ||
+        issnIdentifiers.length > 0 ||
+        work.citeAs) && (
         <WorkDetailsSection headingText="Identifiers" isInArchive={isInArchive}>
           {isbnIdentifiers.length > 0 && (
             <WorkDetailsList

@@ -1,5 +1,14 @@
-import { useState, useEffect, useContext } from 'react';
-import { WorksRouteProps } from '@weco/common/services/catalogue/ts_routes';
+import {
+  useState,
+  useEffect,
+  useContext,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
+import {
+  ImagesRouteProps,
+  WorksRouteProps,
+} from '@weco/common/services/catalogue/ts_routes';
 import {
   CatalogueAggregationBucket,
   CatalogueAggregations,
@@ -12,7 +21,7 @@ import TogglesContext from '../TogglesContext/TogglesContext';
 
 type Props = {
   searchForm: { current: HTMLFormElement | null };
-  worksRouteProps: WorksRouteProps;
+  worksRouteProps: WorksRouteProps | ImagesRouteProps;
   workTypeAggregations: CatalogueAggregationBucket[];
   aggregations: CatalogueAggregations | null;
   changeHandler: () => void;
@@ -33,14 +42,14 @@ export type SearchFiltersSharedProps = Props & {
   aggregations: CatalogueAggregations | null;
 };
 
-const SearchFilters = ({
+const SearchFilters: FunctionComponent<Props> = ({
   searchForm,
   worksRouteProps,
   workTypeAggregations,
   changeHandler,
   aggregations,
   filtersToShow,
-}: Props) => {
+}: Props): ReactElement<Props> => {
   const workTypeInUrlArray = worksRouteProps.workType || [];
   const locationsTypeInUrlArray = worksRouteProps.itemsLocationsType || [];
   const { productionDatesFrom, productionDatesTo, color } = worksRouteProps;

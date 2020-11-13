@@ -1,9 +1,8 @@
-import { useContext, SyntheticEvent } from 'react';
+import { FunctionComponent, SyntheticEvent, ReactElement } from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
-import { AppContext } from '../AppContext/AppContext';
 
 const CheckboxRadioLabel = styled.label.attrs({
   className: classNames({
@@ -13,7 +12,8 @@ const CheckboxRadioLabel = styled.label.attrs({
   cursor: pointer;
 `;
 
-const CheckboxRadioBox = styled.span.attrs({
+const CheckboxRadioBoxSpan = styled.span<{ type: string }>``;
+const CheckboxRadioBox = styled(CheckboxRadioBoxSpan).attrs({
   className: classNames({
     'flex-inline flex--v-center flex--h-center relative': true,
   }),
@@ -71,17 +71,15 @@ type CheckboxRadioProps = {
   value: string;
 };
 
-function CheckboxRadio({ id, text, type, ...inputProps }: CheckboxRadioProps) {
-  const { isKeyboard } = useContext(AppContext);
-
+const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
+  id,
+  text,
+  type,
+  ...inputProps
+}: CheckboxRadioProps): ReactElement<CheckboxRadioProps> => {
   return (
     <CheckboxRadioLabel htmlFor={id}>
-      <CheckboxRadioInput
-        id={id}
-        type={type}
-        {...inputProps}
-        hideFocus={!isKeyboard}
-      />
+      <CheckboxRadioInput id={id} type={type} {...inputProps} />
       <CheckboxRadioBox type={type}>
         <Icon name={type === 'checkbox' ? 'check' : 'indicator'} />
       </CheckboxRadioBox>
@@ -90,6 +88,6 @@ function CheckboxRadio({ id, text, type, ...inputProps }: CheckboxRadioProps) {
       </Space>
     </CheckboxRadioLabel>
   );
-}
+};
 
 export default CheckboxRadio;

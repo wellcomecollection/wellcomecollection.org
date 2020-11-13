@@ -1,4 +1,11 @@
-import { useState, useRef, useEffect, useContext } from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
 import dynamic from 'next/dynamic';
 import useFocusTrap from '../../../hooks/useFocusTrap';
 import { CSSTransition } from 'react-transition-group';
@@ -14,6 +21,7 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import TogglesContext from '../TogglesContext/TogglesContext';
 import { SearchFiltersSharedProps } from './PrototypeSearchFilters';
 import ButtonSolid, {
+  ButtonTypes,
   SolidButton,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
@@ -145,7 +153,7 @@ const FiltersFooter = styled(Space).attrs({
   height: 60px;
 `;
 
-const SearchFiltersMobile = ({
+const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   worksRouteProps,
   changeHandler,
   inputDateFrom,
@@ -160,11 +168,11 @@ const SearchFiltersMobile = ({
   imagesColor,
   aggregations,
   filtersToShow,
-}: SearchFiltersSharedProps) => {
-  const openFiltersButtonRef = useRef(null);
-  const closeFiltersButtonRef = useRef(null);
-  const okFiltersButtonRef = useRef(null);
-  const filtersModalRef = useRef(null);
+}: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
+  const openFiltersButtonRef = useRef<HTMLButtonElement>(null);
+  const closeFiltersButtonRef = useRef<HTMLDivElement>(null);
+  const okFiltersButtonRef = useRef<HTMLButtonElement>(null);
+  const filtersModalRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(false);
 
   useFocusTrap(closeFiltersButtonRef, okFiltersButtonRef);
@@ -251,7 +259,7 @@ const SearchFiltersMobile = ({
         </SolidButton>
       </ShameButtonWrap>
       <CSSTransition in={isActive} classNames="fade" timeout={350}>
-        <FiltersModal ref={filtersModalRef} isActive={isActive}>
+        <FiltersModal ref={filtersModalRef}>
           <FiltersScrollable>
             <FiltersHeader>
               <CloseFiltersButton
@@ -406,7 +414,7 @@ const SearchFiltersMobile = ({
 
             <ButtonSolid
               ref={okFiltersButtonRef}
-              type="button"
+              type={ButtonTypes.button}
               clickHandler={handleOkFiltersButtonClick}
               text="Show results"
             />

@@ -1,14 +1,12 @@
-// @flow
-import { type Work } from '@weco/common/model/work';
+import { Work } from '@weco/common/model/catalogue';
 import { workLink } from '../../../services/catalogue/routes';
 import NextLink from 'next/link';
 import styled from 'styled-components';
-// $FlowFixMe (tsx)
 import DropdownButton from '../DropdownButton/DropdownButton';
 import Icon from '../Icon/Icon';
-// $FlowFixMe (tsx)
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import { getArchiveAncestorArray } from '@weco/common/utils/works';
+import { FunctionComponent, ReactElement } from 'react';
 
 const ArchiveBreadcrumbNav = styled.nav`
   * {
@@ -77,11 +75,13 @@ const ArchiveBreadcrumbNav = styled.nav`
   }
 `;
 
-type Props = {|
-  work: Work,
-|};
+type Props = {
+  work: Work;
+};
 
-const ArchiveBreadcrumb = ({ work }: Props) => {
+const ArchiveBreadcrumb: FunctionComponent<Props> = ({
+  work,
+}: Props): ReactElement<Props> => {
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const firstCrumb = archiveAncestorArray[0];
   const middleCrumbs =

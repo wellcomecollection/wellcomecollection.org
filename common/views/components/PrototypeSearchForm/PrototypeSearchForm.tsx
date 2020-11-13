@@ -1,4 +1,11 @@
-import { useRef, useState, useEffect } from 'react';
+import {
+  useRef,
+  useState,
+  useEffect,
+  useContext,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
@@ -23,12 +30,13 @@ import {
   imagesLink,
 } from '@weco/common/services/catalogue/ts_routes';
 import PrototypePortal from '../PrototypePortal/PrototypePortal';
+import { AppContext } from '../AppContext/AppContext';
 
 type Props = {
   ariaDescribedBy: string;
   routeProps: WorksRouteProps | ImagesRouteProps;
   workTypeAggregations: CatalogueAggregationBucket[];
-  aggregations?: CatalogueAggregations;
+  aggregations: CatalogueAggregations | null;
   isImageSearch: boolean;
   isActive: boolean;
 };
@@ -67,22 +75,23 @@ const ClearSearch = styled.button`
   right: 12px;
 `;
 
-const PrototypeSearchForm = ({
+const PrototypeSearchForm: FunctionComponent<Props> = ({
   ariaDescribedBy,
   routeProps,
   workTypeAggregations,
   aggregations,
   isImageSearch,
   isActive,
-}: Props) => {
+}: Props): ReactElement<Props> => {
   const [, setSearchParamsState] = useSavedSearchState(routeProps);
   const { query } = routeProps;
+  const { isEnhanced } = useContext(AppContext);
 
-  const searchForm = useRef(null);
+  const searchForm = useRef<HTMLFormElement>(null);
   // This is the query used by the input, that is then eventually passed to the
   // Router
   const [inputQuery, setInputQuery] = useState(query);
-  const searchInput = useRef(null);
+  const searchInput = useRef<HTMLInputElement>(null);
   const [portalSortOrder, setPortalSortOrder] = useState(routeProps.sortOrder);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
@@ -167,10 +176,17 @@ const PrototypeSearchForm = ({
       itemsLocationsLocationType,
       itemsLocationsType,
       source,
+      color: null,
     };
     const link = isImageSearch
       ? imagesLink(
-          { ...state, color: imagesColor, locationsLicense: null },
+          {
+            ...state,
+            color: imagesColor,
+            locationsLicense: null,
+            sortOrder: null,
+            sort: null,
+          },
           source
         )
       : worksLink(state, source);
@@ -234,7 +250,7 @@ const PrototypeSearchForm = ({
                 });
 
                 setInputQuery('');
-                searchInput?.current.focus();
+                searchInput?.current?.focus();
               }}
               type="button"
             >
@@ -256,7 +272,7 @@ const PrototypeSearchForm = ({
           }
         />
       )}
-      {!isImageSearch && (
+      {!isImageSearch && isEnhanced && (
         <PrototypePortal id="sort-select-portal">
           <Select
             name="portalSortOrder"

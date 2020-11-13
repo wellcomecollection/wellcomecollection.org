@@ -2,11 +2,12 @@ export type Work = {
   type: 'Work' | 'Collection' | 'Section' | 'Series';
   id: string;
   title: string;
-  alternativeTitle: string[];
+  alternativeTitles: string[];
+  referenceNumber: string;
   description: string;
   physicalDescription: string;
   workType: WorkType;
-  letting?: string;
+  lettering?: string;
   createdDate?: Period;
   contributors?: Contributor[];
   identifiers: Identifier[];
@@ -14,7 +15,7 @@ export type Work = {
   genres?: Genre;
   thumbnail?: DigitalLocation;
   items?: Item[];
-  production: any; // Bah
+  production: Production[];
   language: Language;
   edition?: string;
   notes?: Note[];
@@ -22,8 +23,10 @@ export type Work = {
   collectionPath?: CollectionPath;
   collection?: Collection;
   images?: ImageInclude[];
-  parts: [];
-  partOf: [];
+  parts: Work[];
+  partOf: Work[];
+  precededBy: Work[];
+  succeededBy: Work[];
 };
 
 type WorkType = {
@@ -134,6 +137,26 @@ type Item = {
   type: 'Item';
 };
 
+type Date = {
+  label: string;
+  type: 'Period';
+};
+
+type Place = {
+  id: string;
+  identifiers: Identifier[];
+  label: string;
+  type: 'Place';
+};
+
+type Production = {
+  label: string;
+  places: Place[];
+  agents: Agent[];
+  dates: Date[];
+  type: 'ProductionEvent';
+};
+
 type Language = {
   id?: string;
   label: string;
@@ -189,10 +212,10 @@ export type CatalogueApiRedirect = {
 export type Image = {
   type: 'Image';
   id: string;
-  locations: Array<{
+  locations: {
     url: string;
     Object;
-  }>;
+  }[];
   source: {
     id: string;
     type: string;

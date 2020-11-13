@@ -1,5 +1,5 @@
-import { NextPageContext } from 'next';
-import { useEffect, useState, useContext } from 'react';
+import { NextPage, NextPageContext } from 'next';
+import { useEffect, useState, useContext, ReactElement } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
@@ -30,11 +30,20 @@ import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import useHotjar from '@weco/common/hooks/useHotjar';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
+import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 
 type Props = {
   results?: CatalogueResultsList<Image> | CatalogueApiError;
   imagesRouteProps: ImagesRouteProps;
   apiProps: ImagesApiProps;
+};
+
+type ImagesPaginationProps = {
+  query?: string;
+  page?: number;
+  results: CatalogueResultsList<Image>;
+  imagesRouteProps: ImagesRouteProps;
+  setSavedSearchState: (state: ImagesRouteProps) => void;
 };
 
 const ImagesPagination = ({
@@ -43,7 +52,7 @@ const ImagesPagination = ({
   results,
   imagesRouteProps,
   setSavedSearchState,
-}) => (
+}: ImagesPaginationProps) => (
   <div className="flex flex--h-space-between flex--v-center flex--wrap">
     <Paginator
       query={query}
@@ -71,18 +80,20 @@ const ImagesPagination = ({
   </div>
 );
 
-const Images = ({ results, imagesRouteProps, apiProps }: Props) => {
+const Images: NextPage<Props> = ({
+  results,
+  imagesRouteProps,
+  apiProps,
+}: Props): ReactElement<Props> => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(imagesRouteProps);
   const { searchPrototype } = useContext(TogglesContext);
-
-  const { query, page } = imagesRouteProps;
-
+  const { query, page, color } = imagesRouteProps;
   useEffect(() => {
-    function routeChangeStart(url: string) {
+    function routeChangeStart() {
       setLoading(true);
     }
-    function routeChangeComplete(url: string) {
+    function routeChangeComplete() {
       setLoading(false);
     }
     Router.events.on('routeChangeStart', routeChangeStart);
@@ -133,7 +144,6 @@ const Images = ({ results, imagesRouteProps, apiProps }: Props) => {
           />
         )}
       </Head>
-
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}image search`}
         description="Search Wellcome Collection images"
@@ -179,7 +189,6 @@ const Images = ({ results, imagesRouteProps, apiProps }: Props) => {
             </div>
           </div>
         </Space>
-
         {results?.type === 'ResultList' && results.results.length > 0 && (
           <>
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
@@ -244,6 +253,9 @@ const Images = ({ results, imagesRouteProps, apiProps }: Props) => {
               </Space>
             </Space>
           </>
+        )}
+        {results?.type === 'ResultList' && results.results.length === 0 && (
+          <SearchNoResults query={query} hasFilters={!!color} />
         )}
       </CataloguePageLayout>
     </>

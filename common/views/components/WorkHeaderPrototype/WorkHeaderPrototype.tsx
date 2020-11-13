@@ -1,4 +1,4 @@
-// @flow
+import { FunctionComponent, ReactElement } from 'react';
 import { Work } from '../../../model/work';
 import { font, classNames, grid } from '../../../utils/classnames';
 import { getProductionDates, getWorkTypeIcon } from '../../../utils/works';
@@ -14,16 +14,16 @@ import { getArchiveAncestorArray } from '@weco/common/utils/works';
 const ArchiveTitle = styled.span.attrs({
   className: classNames({
     [font('hnm', 5)]: true,
-  })
+  }),
 })`
   display: block;
 `;
 
-const WorkHeaderContainer = styled.div.attrs(props => ({
+const WorkHeaderContainer = styled.div.attrs({
   className: classNames({
     flex: true,
   }),
-}))`
+})`
   width: 100%;
   align-content: flex-start;
 `;
@@ -33,7 +33,10 @@ type Props = {
   childManifestsCount?: number;
 };
 
-const WorkHeaderPrototype = ({ work, childManifestsCount = 0 }: Props) => {
+const WorkHeaderPrototype: FunctionComponent<Props> = ({
+  work,
+  childManifestsCount = 0,
+}: Props): ReactElement<Props> => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   const archiveAncestorArray = getArchiveAncestorArray(work);
@@ -61,21 +64,35 @@ const WorkHeaderPrototype = ({ work, childManifestsCount = 0 }: Props) => {
               </Space>
             )}
             <div className="line-height-1">
-              <Space className={classNames({
-                'bg-purple font-white inline-block': work.workType.label.startsWith('Archive'),
-                [font('hnm', 5)]: work.workType.label.startsWith('Archive'),
-              })}
-                h={{size: work.workType.label.startsWith('Archive') ? 's' : null, properties: ['padding-left', 'padding-right']}}
-                v={{size: work.workType.label.startsWith('Archive') ? 's' : null, properties: ['padding-top', 'padding-bottom', 'margin-bottom', 'margin-top']}}
+              <Space
+                className={classNames({
+                  'bg-purple font-white inline-block': work.workType.label.startsWith(
+                    'Archive'
+                  ),
+                  [font('hnm', 5)]: work.workType.label.startsWith('Archive'),
+                })}
+                h={{
+                  size: work.workType.label.startsWith('Archive') ? 's' : null,
+                  properties: ['padding-left', 'padding-right'],
+                }}
+                v={{
+                  size: work.workType.label.startsWith('Archive') ? 's' : null,
+                  properties: [
+                    'padding-top',
+                    'padding-bottom',
+                    'margin-bottom',
+                    'margin-top',
+                  ],
+                }}
               >
                 {work.workType.label}
               </Space>
             </div>
           </div>
 
-            {topLevelArchive && topLevelArchive.title !== work.title ? (
-              <ArchiveTitle>{topLevelArchive.title}</ArchiveTitle>
-            ): null}
+          {topLevelArchive && topLevelArchive.title !== work.title ? (
+            <ArchiveTitle>{topLevelArchive.title}</ArchiveTitle>
+          ) : null}
 
           <h1
             aria-live="polite"

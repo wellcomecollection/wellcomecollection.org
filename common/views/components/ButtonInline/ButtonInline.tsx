@@ -1,5 +1,5 @@
 import { forwardRef, SyntheticEvent } from 'react';
-import { classNames, font } from '../../../utils/classnames';
+import { classNames } from '../../../utils/classnames';
 import { GaEvent, trackEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
 import Icon from '../Icon/Icon';
@@ -10,8 +10,19 @@ import {
   ButtonTypes,
 } from '../ButtonSolid/ButtonSolid';
 
+export type ButtonInlineBaseProps = {
+  text: string;
+  icon?: string;
+  type?: ButtonTypes;
+  isOnDark?: boolean;
+  isTextHidden?: boolean;
+  trackingEvent?: GaEvent;
+  ariaControls?: string;
+  ariaExpanded?: boolean;
+  ariaLive?: 'off' | 'polite' | 'assertive';
+};
 
-export const InlineButton = styled(BaseButton)`
+export const InlineButton = styled(BaseButton)<{ isOnDark?: boolean }>`
   border: 2px solid ${props => props.theme.color('pumice')};
   background: ${props => props.theme.color('transparent')};
   color: ${props => props.theme.color(props.isOnDark ? 'white' : 'charcoal')};
@@ -22,24 +33,10 @@ export const InlineButton = styled(BaseButton)`
   }
 `;
 
-
-export type ButtonInlineBaseProps = {
-  text: string,
-  icon?: string,
-  type?: ButtonTypes,
-  isOnDark?: boolean,
-  isTextHidden?: boolean,
-  trackingEvent?: GaEvent,
-  ariaControls?: string,
-  ariaExpanded?: boolean,
-  ariaLive?: 'off' | 'polite' | 'assertive',
-};
-
 type ButtonInlineProps = ButtonInlineBaseProps & {
-  disabled?: boolean,
-  clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void,
+  disabled?: boolean;
+  clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
 };
-
 
 const ButtonInline = forwardRef<HTMLButtonElement, ButtonInlineProps>(
   (
@@ -71,7 +68,8 @@ const ButtonInline = forwardRef<HTMLButtonElement, ButtonInlineProps>(
         aria-live={ariaLive}
         onClick={handleClick}
         disabled={disabled}
-        ref={ref}>
+        ref={ref}
+      >
         <BaseButtonInner isInline={true}>
           <>
             <span
@@ -92,5 +90,7 @@ const ButtonInline = forwardRef<HTMLButtonElement, ButtonInlineProps>(
     );
   }
 );
+
+ButtonInline.displayName = 'ButtonInline';
 
 export default ButtonInline;

@@ -1,24 +1,26 @@
-// @flow
-import {SyntheticEvent} from 'react';
+import { FunctionComponent, SyntheticEvent, ReactElement } from 'react';
+import { BaseButtonInner, ButtonIconWrapper } from '../ButtonSolid/ButtonSolid';
 import {
-  BaseButtonInner,
-  ButtonIconWrapper,
-} from '../ButtonSolid/ButtonSolid';
-import type { ButtonInlineBaseProps } from '../ButtonInline/ButtonInline';
-import {
+  ButtonInlineBaseProps,
   InlineButton,
 } from '../ButtonInline/ButtonInline';
+
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
 import NextLink from 'next/link';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
 type ButtonInlineLinkProps = ButtonInlineBaseProps & {
-  clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void,
-  link: {href: {pathname: string, query: string}, as: {pathname: string, query: string}} | string,
+  clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
+  link:
+    | {
+        href: { pathname: string; query: string };
+        as: { pathname: string; query: string };
+      }
+    | string;
 };
 
-const ButtonInlineLink = ({
+const ButtonInlineLink: FunctionComponent<ButtonInlineLinkProps> = ({
   text,
   link,
   icon,
@@ -26,7 +28,7 @@ const ButtonInlineLink = ({
   clickHandler,
   ariaControls,
   ariaExpanded,
-}: ButtonInlineLinkProps) => {
+}: ButtonInlineLinkProps): ReactElement<ButtonInlineLinkProps> => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
     trackingEvent && trackEvent(trackingEvent);
