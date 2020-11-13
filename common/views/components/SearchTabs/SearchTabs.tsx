@@ -1,4 +1,5 @@
 import BaseTabs, { TabType } from '../BaseTabs/BaseTabs';
+import FadeInUnenhanced from '../FadeInUnenhanced/FadeInUnenhaced';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Space from '../styled/Space';
@@ -15,11 +16,7 @@ import {
 } from '@weco/common/model/catalogue';
 import { trackEvent } from '@weco/common/utils/ga';
 
-const BaseTabsWrapper = styled.div.attrs<{ isEnhanced: boolean }>(props => ({
-  className: classNames({
-    'is-hidden': !props.isEnhanced,
-  }),
-}))<{ isEnhanced: boolean }>`
+const BaseTabsWrapper = styled(FadeInUnenhanced)`
   // FIXME: For testing, make the checkboxes/buttons have a white background because they're on grey
   [class*='ButtonInline__InlineButton'],
   [class^='CheckboxRadio__CheckboxRadioBox'] {
