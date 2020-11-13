@@ -28,9 +28,9 @@ const InfoBanner: FunctionComponent<Props> = ({ cookieName, text }: Props) => {
       (!window.location.search.match('wellcomeImagesUrl') &&
         cookieName === 'WC_wellcomeImagesRedirect')
     ) {
-      showInfoBarBanner(false);
+      setInfoBarBanner(false);
     } else {
-      showInfoBarBanner(true);
+      setInfoBarBanner(true);
     }
   }, []);
 
@@ -41,7 +41,7 @@ const InfoBanner: FunctionComponent<Props> = ({ cookieName, text }: Props) => {
       path: '/',
       expires: isSingleSessionCookie ? null : 'Fri, 31 Dec 2036 23:59:59 GMT',
     });
-    showInfoBarBanner(false);
+    setInfoBarBanner(false);
   };
 
   if (showInfoBarBanner) {

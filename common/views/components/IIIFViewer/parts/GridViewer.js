@@ -134,7 +134,7 @@ const GridViewer = ({
   isFullscreen,
   viewerRef,
 }: Props) => {
-  const { showInfoBanner } = useContext(GlobalInfoBarContext);
+  const { showInfoBarBanner } = useContext(GlobalInfoBarContext);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
   const itemWidth = 250;
@@ -173,7 +173,7 @@ const GridViewer = ({
       ref={gridViewerRef}
       viewerRef={viewerRef}
       tabIndex={0}
-      infoBannerVisible={showInfoBanner}
+      infoBannerVisible={showInfoBarBanner}
     >
       <FixedSizeGrid
         columnCount={columnCount}
