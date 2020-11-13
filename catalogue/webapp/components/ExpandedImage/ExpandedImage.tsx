@@ -1,10 +1,8 @@
-// @flow
 import {
   getCanvases,
   getFirstChildManifestLocation,
   getServiceId,
 } from '@weco/common/utils/iiif';
-// $FlowFixMe (tsx)
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import fetch from 'isomorphic-unfetch';
 import NextLink from 'next/link';
@@ -19,11 +17,10 @@ import {
   sierraIdFromPresentationManifestUrl,
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
-// $FlowFixMe (tsx)
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
-import { type Image as ImageType } from '@weco/common/model/catalogue';
+import { Image as ImageType } from '@weco/common/model/catalogue';
 import { getWork } from '../../services/catalogue/works';
 import { useEffect, useState, useRef, useContext } from 'react';
 import useFocusTrap from '@weco/common/hooks/useFocusTrap';
@@ -35,14 +32,14 @@ import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import VisuallySimilarImagesFromApi from '../VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
 
-type Props = {|
-  title: string,
-  workId: string,
-  image?: ImageType,
-  setExpandedImage: (image: ?ImageType) => void,
-  onWorkLinkClick: () => void,
-  onImageLinkClick: (id: string) => void,
-|};
+type Props = {
+  title: string;
+  workId: string;
+  image?: ImageType;
+  setExpandedImage: (image?: ImageType) => void;
+  onWorkLinkClick: () => void;
+  onImageLinkClick: (id: string) => void;
+};
 
 const ImageWrapper = styled(Space).attrs({
   as: 'a',
