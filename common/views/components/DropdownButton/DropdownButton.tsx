@@ -19,7 +19,7 @@ import { AppContext } from '../AppContext/AppContext';
 
 const DropdownWrapper = styled.div.attrs({
   className: classNames({
-    'flex-inline relative': true,
+    'flex-inline flex--v-center relative': true,
   }),
 })``;
 
@@ -64,11 +64,11 @@ const Dropdown = styled(Space).attrs({
   }
 `;
 
-const Popper = styled('div')<{ isVisible: boolean }>`
+const Popper = styled('div')<{ isVisible: boolean; isEnhanced: boolean }>`
   width: max-content;
-  height: ${props => (props.isVisible ? 'auto' : 0)};
+  height: ${props => (props.isVisible || !props.isEnhanced ? 'auto' : 0)};
   max-width: calc(100vw - 20px);
-  z-index: ${props => (props.isVisible ? 1 : -1)};
+  z-index: ${props => (!props.isEnhanced ? 2 : props.isVisible ? 1 : -1)};
 `;
 
 type Props = {
@@ -168,6 +168,7 @@ const DropdownButton: FunctionComponent<Props> = ({
         style={isEnhanced ? styles.popper : null}
         {...(isEnhanced ? attributes.popper : {})}
         isVisible={isPopperVisible}
+        isEnhanced={isEnhanced}
       >
         <CSSTransition
           in={isActive}
