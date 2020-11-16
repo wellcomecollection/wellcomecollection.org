@@ -50,7 +50,7 @@ export type ExhibitionPromo = {
 export type UiExhibition = Exhibition & {
   promo?: ExhibitionPromo;
   galleryLevel: number; // this should be deprecated for place
-  textAndCaptionsDocument: Record<string, unknown>;
+  textAndCaptionsDocument: TextAndCaptionsDocument;
   featuredImageList: Picture[];
   relatedBooks: ImagePromo[];
   relatedEvents: ImagePromo[];
@@ -67,4 +67,12 @@ export type Exhibit = {
 export type UiExhibit = {
   exhibitType: 'exhibitions';
   item: UiExhibition;
+};
+
+type TextAndCaptionsDocument = {
+  link_type: 'Media'; // eslint-disable-line camelcase
+  name: string;
+  kind: 'document';
+  url: string;
+  sizeInKb: number;
 };
