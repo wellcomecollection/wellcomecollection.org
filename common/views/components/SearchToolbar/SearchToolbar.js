@@ -1,6 +1,7 @@
 // @flow
 import { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
+// $FlowFixMe (tsx)
 import swagger from '../../../services/catalogue/swagger';
 import Layout12 from '../Layout12/Layout12';
 import Space from '../styled/Space';
