@@ -7,6 +7,7 @@ import Image from '../Image/Image';
 // $FlowFixMe(tsx)
 import CompactCard from '../CompactCard/CompactCard';
 import EventCard from '../EventCard/EventCard';
+// $FlowFixMe(tsx)
 import ArticleCard from '../ArticleCard/ArticleCard';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import Space from '../styled/Space';
