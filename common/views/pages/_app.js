@@ -27,6 +27,7 @@ import GlobalAlertContext from '../../views/components/GlobalAlertContext/Global
 // $FlowFixMe (tsx)
 import PopupDialogContext from '../../views/components/PopupDialogContext/PopupDialogContext';
 import { trackEvent } from '../../utils/ga';
+// $FlowFixMe (tsx)
 import { AppContextProvider } from '../components/AppContext/AppContext';
 
 type State = {|

@@ -7,6 +7,7 @@ import Image from '@weco/common/views/components/Image/Image';
 import Space from '@weco/common/views/components/styled/Space';
 import { imageLink } from '@weco/common/services/catalogue/routes';
 import styled from 'styled-components';
+// $FlowFixMe (tsx)
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 type Props = {|
