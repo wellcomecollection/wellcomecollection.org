@@ -38,6 +38,8 @@ import WorkSearchResults from '../components/WorkSearchResults/WorkSearchResults
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 // $FlowFixMe (tsx)
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+// $FlowFixMe (tsx)
+import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 
 type Props = {|
   works: ?CatalogueResultsList<Work> | CatalogueApiError,
@@ -348,34 +350,10 @@ const Works = ({ works, images, worksRouteProps, apiProps }: Props) => {
         )}
 
         {results && results.results.length === 0 && (
-          <Space
-            v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-          >
-            <div className="container">
-              <div className="grid">
-                <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
-                  <p className={font('hnl', 2)}>
-                    We couldn{`'`}t find anything that matched{' '}
-                    <span
-                      className={classNames({
-                        [font('hnm', 2)]: true,
-                      })}
-                      style={{ fontWeight: '400' }}
-                    >
-                      {query}
-                    </span>
-                    {(productionDatesFrom || productionDatesTo) && (
-                      <>
-                        {' '}
-                        <span>with the filters you have selected</span>
-                      </>
-                    )}
-                    . Please try again.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </Space>
+          <SearchNoResults
+            query={query}
+            hasFilters={Boolean(productionDatesFrom || productionDatesTo)}
+          />
         )}
       </CataloguePageLayout>
     </Fragment>

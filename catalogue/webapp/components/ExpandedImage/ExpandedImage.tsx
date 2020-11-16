@@ -1,10 +1,8 @@
-// @flow
 import {
   getCanvases,
   getFirstChildManifestLocation,
   getServiceId,
 } from '@weco/common/utils/iiif';
-// $FlowFixMe (tsx)
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import fetch from 'isomorphic-unfetch';
 import NextLink from 'next/link';
@@ -19,11 +17,10 @@ import {
   sierraIdFromPresentationManifestUrl,
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
-// $FlowFixMe (tsx)
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
-import { type Image as ImageType } from '@weco/common/model/catalogue';
+import { Image as ImageType, Work } from '@weco/common/model/catalogue';
 import { getWork } from '../../services/catalogue/works';
 import { useEffect, useState, useRef, useContext } from 'react';
 import useFocusTrap from '@weco/common/hooks/useFocusTrap';
@@ -35,14 +32,17 @@ import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import VisuallySimilarImagesFromApi from '../VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
 
-type Props = {|
-  title: string,
-  workId: string,
-  image?: ImageType,
-  setExpandedImage: (image: ?ImageType) => void,
-  onWorkLinkClick: () => void,
-  onImageLinkClick: (id: string) => void,
-|};
+type Props = {
+  image: ImageType;
+  setExpandedImage: (image?: ImageType) => void;
+  onWorkLinkClick: () => void;
+  onImageLinkClick: () => void;
+};
+
+type CanvasLink = {
+  canvas: number;
+  sierraId: string;
+};
 
 const ImageWrapper = styled(Space).attrs({
   as: 'a',
@@ -172,8 +172,6 @@ const CloseButton = styled(Space).attrs({
 `;
 
 const ExpandedImage = ({
-  title,
-  workId,
   image,
   setExpandedImage,
   onWorkLinkClick,
@@ -181,27 +179,26 @@ const ExpandedImage = ({
 }: Props) => {
   const { isKeyboard } = useContext(AppContext);
   const toggles = useContext(TogglesContext);
-  const [detailedWork, setDetailedWork] = useState(null);
-  const [canvasDeeplink, setCanvasDeeplink] = useState(null);
+  const [detailedWork, setDetailedWork] = useState<Work | undefined>();
+  const [canvasDeeplink, setCanvasDeeplink] = useState<
+    CanvasLink | undefined
+  >();
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
   const endRef = useRef(null);
 
-  const displayTitle = title || (detailedWork && detailedWork.title) || '';
+  const workId = image.source.id;
+  const displayTitle = detailedWork?.title ?? '';
+  const displayContributor = detailedWork?.contributors?.[0]?.agent?.label;
 
   useEffect(() => {
-    const focusables = modalRef &&
-      modalRef.current && [...getFocusableElements(modalRef.current)];
-    endRef.current = focusables && focusables[focusables.length - 1];
+    const focusables = modalRef?.current && [
+      ...getFocusableElements(modalRef.current),
+    ];
+    endRef.current = focusables?.[focusables.length - 1];
   }, [modalRef.current]);
 
-  useEffect(
-    () =>
-      closeButtonRef &&
-      closeButtonRef.current &&
-      closeButtonRef.current.focus(),
-    []
-  );
+  useEffect(() => closeButtonRef?.current?.focus(), []);
 
   useEffect(() => {
     function closeOnEscape(event: KeyboardEvent) {
@@ -256,7 +253,7 @@ const ExpandedImage = ({
         });
       }
     };
-    if (detailedWork && image && image.locations[0]) {
+    if (detailedWork && image.locations[0]) {
       const manifestLocation = getDigitalLocationOfType(
         detailedWork,
         'iiif-presentation'
@@ -268,14 +265,10 @@ const ExpandedImage = ({
   }, [detailedWork]);
 
   useEffect(() => {
-    document &&
-      document.documentElement &&
-      document.documentElement.classList.add('is-scroll-locked');
+    document?.documentElement?.classList.add('is-scroll-locked');
 
     return () => {
-      document &&
-        document.documentElement &&
-        document.documentElement.classList.remove('is-scroll-locked');
+      document?.documentElement?.classList.remove('is-scroll-locked');
     };
   }, []);
 
@@ -285,8 +278,7 @@ const ExpandedImage = ({
     ? image.locations[0]
     : detailedWork && getDigitalLocationOfType(detailedWork, 'iiif-image');
   const license =
-    iiifImageLocation &&
-    iiifImageLocation.license &&
+    iiifImageLocation?.license &&
     getAugmentedLicenseInfo(iiifImageLocation.license);
 
   const expandedImageLink =
@@ -295,7 +287,7 @@ const ExpandedImage = ({
       : detailedWork &&
         itemLink({
           workId,
-          langCode: detailedWork.language && detailedWork.language.id,
+          langCode: detailedWork?.language?.id,
           ...(canvasDeeplink || {}),
         });
 
@@ -326,15 +318,24 @@ const ExpandedImage = ({
             </NextLink>
           )}
           <InfoWrapper>
-            <Space
-              as="h2"
-              v={{ size: 'l', properties: ['margin-bottom'] }}
-              className={classNames({
-                [font('hnm', 3)]: true,
-                'no-margin': true,
-              })}
-            >
-              {displayTitle}
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <h2
+                className={classNames({
+                  [font('hnm', 3)]: true,
+                  'no-margin': true,
+                })}
+              >
+                {displayTitle}
+              </h2>
+              {displayContributor && (
+                <Space
+                  as="h3"
+                  v={{ size: 's', properties: ['margin-top'] }}
+                  className={classNames({ [font('hnm', 5)]: true })}
+                >
+                  {displayContributor}
+                </Space>
+              )}
             </Space>
             {license && (
               <Space
@@ -355,6 +356,7 @@ const ExpandedImage = ({
                     text="View image"
                     icon="eye"
                     link={expandedImageLink}
+                    clickHandler={onImageLinkClick}
                   />
                 </Space>
               )}
