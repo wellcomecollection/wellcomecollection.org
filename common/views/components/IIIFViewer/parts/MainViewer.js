@@ -59,6 +59,7 @@ type ItemRendererProps = {|
     setZoomInfoUrl: (value: string) => void,
     setIsLoading: (value: boolean) => void,
     ocrText: string,
+    errorHandler?: () => void,
   |},
 |};
 
