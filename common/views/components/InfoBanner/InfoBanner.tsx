@@ -12,10 +12,6 @@ type Props = {
   initialIsVisible?: boolean;
 };
 
-type State = {
-  showInfoBanner: boolean;
-};
-
 const InfoBanner: FunctionComponent<Props> = ({ cookieName, text }: Props) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const hideInfoBanner = () => {
