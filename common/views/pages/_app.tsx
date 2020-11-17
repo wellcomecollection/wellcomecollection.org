@@ -1,6 +1,5 @@
 import App, { AppProps, AppContext } from 'next/app';
 import Router from 'next/router';
-import Head from 'next/head';
 import ReactGA from 'react-ga';
 import Raven from 'raven-js';
 import { useEffect } from 'react';
@@ -79,17 +78,6 @@ function makeSurePageIsTallEnough() {
 }
 
 function WecoApp({ Component, pageProps }: AppProps) {
-  // polyfill
-  const polyfillFeatures = [
-    'default',
-    'Array.prototype.find',
-    'Array.prototype.includes',
-    'Array.prototype.includes',
-    'Object.entries',
-    'WeakMap',
-    'URL',
-  ];
-
   // enhanced
   useEffect(() => {
     makeSurePageIsTallEnough();
@@ -281,51 +269,6 @@ function WecoApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Head>
-        <meta charSet="utf-8" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <script
-          src={`https://cdn.polyfill.io/v3/polyfill.js?features=${polyfillFeatures.join(
-            ','
-          )}`}
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="https://i.wellcomecollection.org/assets/icons/apple-touch-icon.png"
-        />
-        <link
-          rel="shortcut icon"
-          href="https://i.wellcomecollection.org/assets/icons/favicon.ico"
-          type="image/ico"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          href="https://i.wellcomecollection.org/assets/icons/favicon-32x32.png"
-          sizes="32x32"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          href="https://i.wellcomecollection.org/assets/icons/favicon-16x16.png"
-          sizes="16x16"
-        />
-        <link
-          rel="manifest"
-          href="https://i.wellcomecollection.org/assets/icons/manifest.json"
-        />
-        <link
-          rel="mask-icon"
-          href="https://i.wellcomecollection.org/assets/icons/safari-pinned-tab.svg"
-          color="#000000"
-        />
-        <script
-          src="https://i.wellcomecollection.org/assets/libs/picturefill.min.js"
-          async
-        />
-      </Head>
       <AppContextProvider>
         <ThemeProvider theme={theme}>
           <OutboundLinkTracker>

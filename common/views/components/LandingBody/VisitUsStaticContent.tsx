@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement, useContext } from 'react';
+import { FunctionComponent, ReactNode, useContext } from 'react';
 import { classNames, font, grid } from '@weco/common/utils/classnames';
 import Icon from '../Icon/Icon';
 import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
@@ -10,7 +10,7 @@ import Layout8 from '../Layout8/Layout8';
 import FooterOpeningTimes from '../FooterOpeningTimes/FooterOpeningTimes';
 
 type ContainerProps = {
-  children: ReactElement;
+  children: ReactNode;
 };
 const Container: FunctionComponent<ContainerProps> = ({
   children,

@@ -1,9 +1,9 @@
-import { FunctionComponent, ReactElement, useEffect } from 'react';
+import { FunctionComponent, ReactElement, ReactNode, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 type Props = {
   id: string;
-  children: ReactElement;
+  children: ReactNode;
 };
 
 const PrototypePortal: FunctionComponent<Props> = ({

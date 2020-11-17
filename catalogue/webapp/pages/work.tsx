@@ -6,7 +6,7 @@ import {
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import Work from '../components/Work/Work';
 import { getWork } from '../services/catalogue/works';
-import GlobalContextProvider, {
+import {
   GlobalContextData,
   getGlobalContextData,
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
@@ -21,15 +21,18 @@ export const WorkPage: NextPage<Props> = ({
   globalContextData,
 }: Props) => {
   return (
-    <GlobalContextProvider value={globalContextData}>
+    <>
       {workResponse.type === 'Error' && (
         <ErrorPage
           statusCode={workResponse.httpStatus}
           title={workResponse.description}
+          globalContextData={globalContextData}
         />
       )}
-      {workResponse.type !== 'Error' && <Work work={workResponse} />}
-    </GlobalContextProvider>
+      {workResponse.type !== 'Error' && (
+        <Work work={workResponse} globalContextData={globalContextData} />
+      )}
+    </>
   );
 };
 
@@ -42,18 +45,13 @@ export const getServerSideProps: GetServerSideProps = async context => {
     toggles: globalContextData.toggles,
   });
 
-  if (workResponse.type === 'NotFound') {
-    return {
-      props: {},
-      notFound: true,
-    };
-  }
-
   if (workResponse.type === 'Redirect') {
     return {
       props: {},
-      destination: workResponse.redirectToId,
-      permanent: workResponse.status === 301,
+      redirect: {
+        destination: workResponse.redirectToId,
+        permanent: workResponse.status === 301,
+      },
     };
   }
 
