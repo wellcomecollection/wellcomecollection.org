@@ -15,6 +15,7 @@ import Space from '../styled/Space';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import ButtonInline from '../ButtonInline/ButtonInline';
 import ButtonOutlined from '../ButtonOutlined/ButtonOutlined';
+import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import { AppContext } from '../AppContext/AppContext';
 
 const DropdownWrapper = styled.div.attrs({
@@ -92,7 +93,7 @@ const DropdownButton: FunctionComponent<Props> = ({
   const dropdownRef = useRef(null);
   const popperRef = useRef(null);
   const [isPopperVisible, setIsPopperVisible] = useState(false);
-  const { styles, attributes } = usePopper(
+  const { styles, attributes, update } = usePopper(
     dropdownWrapperRef.current,
     popperRef.current,
     {
@@ -155,6 +156,12 @@ const DropdownButton: FunctionComponent<Props> = ({
     }
   }, [isActive]);
 
+  useEffect(() => {
+    if (isEnhanced && update) {
+      update();
+    }
+  }, [isEnhanced, update]);
+
   return (
     <DropdownWrapper ref={dropdownWrapperRef}>
       {isInline ? (
@@ -170,12 +177,19 @@ const DropdownButton: FunctionComponent<Props> = ({
         isVisible={isPopperVisible}
         isEnhanced={isEnhanced}
       >
-        <CSSTransition
-          in={isActive}
-          classNames="fade"
-          timeout={350}
-          onEnter={() => setIsPopperVisible(true)}
-          onExited={() => setIsPopperVisible(false)}
+        <ConditionalWrapper
+          condition={isEnhanced}
+          wrapper={wrapperChildren => (
+            <CSSTransition
+              in={isActive}
+              classNames="fade"
+              timeout={350}
+              onEnter={() => setIsPopperVisible(true)}
+              onExited={() => setIsPopperVisible(false)}
+            >
+              {wrapperChildren}
+            </CSSTransition>
+          )}
         >
           <Dropdown
             isActive={isActive}
@@ -184,7 +198,7 @@ const DropdownButton: FunctionComponent<Props> = ({
           >
             {children}
           </Dropdown>
-        </CSSTransition>
+        </ConditionalWrapper>
       </Popper>
     </DropdownWrapper>
   );
