@@ -7,7 +7,12 @@ type ContextProps = {
   isVisible: boolean;
   setIsVisible: (isVisible: boolean) => void;
 };
-const GlobalInfoBarContext = createContext<ContextProps | undefined>(undefined);
+const GlobalInfoBarContext = createContext<ContextProps>({
+  isVisible: false,
+  setIsVisible: () => {
+    // noop
+  },
+});
 const GlobalInfoBarContextProvider: FunctionComponent<Props> = ({
   children,
 }: Props) => {
