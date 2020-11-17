@@ -8,6 +8,7 @@ import { workLink } from '@weco/common/services/catalogue/routes';
 import NextLink from 'next/link';
 // $FlowFixMe (tsx)
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+// $FlowFixMe (tsx)
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import type Toggles from '@weco/catalogue/services/catalogue/common';
 import Space from '@weco/common/views/components/styled/Space';

@@ -1,6 +1,7 @@
 // @flow
 
 import { useState } from 'react';
+// $FlowFixMe
 import ExpandedImage from '../ExpandedImage/ExpandedImage';
 import ImageCard from '../ImageCard/ImageCard';
 import { trackSearchResultSelected } from '@weco/common/views/components/Tracker/Tracker';
@@ -46,9 +47,7 @@ const ImageEndpointSearchResults = ({ images, apiProps }: Props) => {
       ))}
       {expandedImage && (
         <ExpandedImage
-          title=""
           image={expandedImage}
-          workId={expandedImage.source.id}
           setExpandedImage={setExpandedImage}
           onWorkLinkClick={() => {
             trackSearchResultSelected(apiProps, {

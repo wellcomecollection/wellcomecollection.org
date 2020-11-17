@@ -1,16 +1,22 @@
-// @flow
-// $FlowFixMe(tsx)
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
-import type { Article } from '../../../model/articles';
+import { Article } from '../../../model/articles';
+import { FunctionComponent } from 'react';
 
-type Props = {|
-  article: Article,
-  showPosition: boolean,
-  xOfY: {| x: number, y: number |},
-|};
+type Props = {
+  article: Article;
+  showPosition: boolean;
+  xOfY: {
+    x: number;
+    y: number;
+  };
+};
 
-const ArticleCard = ({ article, showPosition, xOfY }: Props) => {
+const ArticleCard: FunctionComponent<Props> = ({
+  article,
+  showPosition,
+  xOfY,
+}: Props) => {
   const partOfSerial = showPosition
     ? article.series
         .map(series => {
@@ -29,11 +35,11 @@ const ArticleCard = ({ article, showPosition, xOfY }: Props) => {
       color={article.color}
       labels={{ labels: article.labels }}
       description={article.promoText}
-      urlOverride={article.promo && article.promo.link}
+      urlOverride={article.promo?.link}
       Image={
-        article.image &&
-        article.image.crops &&
-        article.image.crops.square && <Image {...article.image.crops.square} />
+        article.image?.crops?.square && (
+          <Image {...article.image.crops.square} />
+        )
       }
       DateInfo={null}
       StatusIndicator={null}

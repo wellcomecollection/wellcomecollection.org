@@ -1,3 +1,4 @@
+import { FunctionComponent } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
@@ -6,7 +7,7 @@ type Props = {
   id: string;
 };
 
-const EventDatesLink = ({ id }: Props) => {
+const EventDatesLink: FunctionComponent<Props> = ({ id }: Props) => {
   return (
     <a
       href={`#dates`}

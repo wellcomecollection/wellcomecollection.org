@@ -29,18 +29,20 @@ const CataloguePageLayout = (props: Props) => {
   return (
     <>
       <PageLayout {...extraProps}>
-        {hideInfoBar !== true && isRedirectBannerVisible && (
+        {hideInfoBar !== true && (
           <>
-            <InfoBanner
-              text={[
-                {
-                  type: 'paragraph',
-                  text: `Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`,
-                  spans: [],
-                },
-              ]}
-              cookieName="WC_wellcomeImagesRedirect"
-            />
+            {isRedirectBannerVisible && (
+              <InfoBanner
+                text={[
+                  {
+                    type: 'paragraph',
+                    text: `Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`,
+                    spans: [],
+                  },
+                ]}
+                cookieName="WC_wellcomeImagesRedirect"
+              />
+            )}
 
             {searchToolbar && <SearchToolbar />}
 

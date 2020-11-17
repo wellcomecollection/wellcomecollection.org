@@ -1,11 +1,10 @@
 import { FunctionComponent, ReactElement } from 'react';
-import { ColorSelection } from '../../../model/color-selections';
 import { classNames, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 
 type Props = {
   number: number;
-  color: ColorSelection | null;
+  color?: string;
 };
 
 const Number: FunctionComponent<Props> = ({

@@ -1,5 +1,6 @@
 // @flow
 import { useContext, type Element } from 'react';
+// $FlowFixMe (tsx)
 import { AppContext } from '../AppContext/AppContext';
 import styled from 'styled-components';
 import Space from '../styled/Space';
