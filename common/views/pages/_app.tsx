@@ -281,13 +281,4 @@ function WecoApp({ Component, pageProps }: AppProps) {
   );
 }
 
-WecoApp.getInitialProps = async (appContext: AppContext) => {
-  const appProps = await App.getInitialProps(appContext);
-  return {
-    pageProps: {},
-  };
-
-  return { ...appProps };
-};
-
 export default WecoApp;
