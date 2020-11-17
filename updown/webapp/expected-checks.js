@@ -105,7 +105,8 @@ const expectedChecks = [
     url: 'https://wellcomeimages.org/indexplus/image/L0030772.html',
     alias: 'Wellcome Images Redirect',
     period: 120,
-    note: 'This is from Wikimedia Commons linking to Wellcome Images: https://commons.wikimedia.org/wiki/File:S._Pinaeus,_De_integritatis_et_corruptionis_virginum..._Wellcome_L0030772.jpg'
+    note:
+      'This is from Wikimedia Commons linking to Wellcome Images: https://commons.wikimedia.org/wiki/File:S._Pinaeus,_De_integritatis_et_corruptionis_virginum..._Wellcome_L0030772.jpg',
   },
 ];
 

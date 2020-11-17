@@ -42,6 +42,7 @@ type ImageViewerProps = {|
   setActiveIndex?: number => void,
   rotation: number,
   loadHandler?: Function,
+  errorHandler?: Function,
   mainViewerRef?: FixedSizeList,
   index?: number,
 |};
@@ -59,6 +60,7 @@ const ImageViewer = ({
   setActiveIndex,
   rotation,
   loadHandler,
+  errorHandler,
   mainViewerRef,
   index = 0,
 }: ImageViewerProps) => {
@@ -131,6 +133,7 @@ const ImageViewer = ({
           setZoomInfoUrl && setZoomInfoUrl(infoUrl);
           setShowZoomed(true);
         }}
+        errorHandler={errorHandler}
       />
     </ImageWrapper>
   );

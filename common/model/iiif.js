@@ -27,6 +27,7 @@ export type IIIFResource = {|
     | {
         '@id': string,
         '@context': string,
+        service: [],
       }[],
 |};
 
@@ -97,6 +98,22 @@ type IIIFStructure = {|
 export type IIIFMetadata = {|
   label: string,
   value: string,
+|};
+
+export type AuthService = {|
+  '@context': string,
+  '@id': string,
+  accessHint: string,
+  authService: {|
+    '@context': string,
+    '@id': string,
+    description: string,
+    label: string,
+    profile: string,
+    service: [],
+  |},
+  service: [],
+  profile: string,
 |};
 
 export type Service = {|

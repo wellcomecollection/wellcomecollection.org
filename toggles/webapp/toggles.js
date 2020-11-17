@@ -8,6 +8,13 @@ module.exports = {
         'Shows a tabbed interface for library catalogue/images search',
     },
     {
+      id: 'openWithAdvisoryPrototype',
+      title: 'Open with advisory',
+      description:
+        'Adds functionality for viewing digitised items with an access condition of open-with-advisory',
+      defaultValue: false,
+    },
+    {
       id: 'buildingReopening',
       title: 'Wellcome Collection reopening UI changes',
       description:

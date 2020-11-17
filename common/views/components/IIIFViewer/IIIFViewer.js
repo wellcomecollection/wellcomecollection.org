@@ -60,11 +60,13 @@ const ZoomedImage = dynamic(
 export const headerHeight = 149;
 export const topBarHeight = 64;
 
-const IIIFViewerBackground = styled.div`
+export const IIIFViewerBackground = styled.div`
   position: relative;
   background: ${props => props.theme.color('viewerBlack')};
   height: ${props =>
-    props.isFullscreen ? '100vh' : `calc(100vh - ${`${headerHeight}px`})`};
+    props.isFullscreen
+      ? '100vh'
+      : `calc(100vh - ${`${props.headerHeight}px`})`};
   color: ${props => props.theme.color('white')};
 `;
 
@@ -187,6 +189,7 @@ type IIIFViewerProps = {|
   iiifImageLocation: ?DigitalLocation,
   work: ?(Work | CatalogueApiError),
   manifest: ?IIIFManifest,
+  handleImageError?: () => void,
 |};
 
 const IIIFViewerComponent = ({
@@ -205,6 +208,7 @@ const IIIFViewerComponent = ({
   iiifImageLocation,
   work,
   manifest,
+  handleImageError,
 }: IIIFViewerProps) => {
   const [gridVisible, setGridVisible] = useState(false);
   const [enhanced, setEnhanced] = useState(false);
@@ -443,7 +447,10 @@ const IIIFViewerComponent = ({
         lang={lang}
         viewerRef={viewerRef}
       />
-      <IIIFViewerBackground isFullscreen={isFullscreen}>
+      <IIIFViewerBackground
+        isFullscreen={isFullscreen}
+        headerHeight={headerHeight}
+      >
         {isLoading && <LoadingComponent />}
         {showZoomed && (
           <ZoomedImage
@@ -573,6 +580,7 @@ const IIIFViewerComponent = ({
                     setIsLoading={setIsLoading}
                     rotatedImages={rotatedImages}
                     setShowControls={setShowControls}
+                    errorHandler={handleImageError}
                   />
                 </div>
               </ViewerLayout>
