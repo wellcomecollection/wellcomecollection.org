@@ -6,7 +6,7 @@ import {
   FunctionComponent,
   ReactElement,
 } from 'react';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -88,7 +88,6 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
   const [, setSearchParamsState] = useSavedSearchState(routeProps);
   const { query } = routeProps;
   const { isEnhanced } = useContext(AppContext);
-  const Router = useRouter();
   const searchForm = useRef<HTMLFormElement>(null);
   // This is the query used by the input, that is then eventually passed to the
   // Router
