@@ -7,14 +7,13 @@ import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import Work from '../components/Work/Work';
 import { getWork } from '../services/catalogue/works';
 import {
-  GlobalContextData,
   getGlobalContextData,
+  WithGlobalContextData,
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 type Props = {
   workResponse: WorkType | CatalogueApiError;
-  globalContextData: GlobalContextData;
-};
+} & WithGlobalContextData;
 
 export const WorkPage: NextPage<Props> = ({
   workResponse,
@@ -36,7 +35,7 @@ export const WorkPage: NextPage<Props> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async context => {
+export const getServerSideProps: GetServerSideProps<Props> = async context => {
   const globalContextData = getGlobalContextData(context);
   const { id } = context.query;
 

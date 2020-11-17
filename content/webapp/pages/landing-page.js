@@ -1,7 +1,7 @@
 // @flow
 import type { Context } from 'next';
 import { Component } from 'react';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import LandingBody from '@weco/common/views/components/LandingBody/LandingBody';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';

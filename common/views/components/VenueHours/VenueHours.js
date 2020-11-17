@@ -1,5 +1,4 @@
 // @flow
-
 import { type Weight } from '@weco/common/services/prismic/parsers';
 import { useContext, type ComponentType } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -16,6 +15,7 @@ import {
   getExceptionalOpeningPeriods,
   convertJsonDateStringsToMoment,
 } from '../../../services/prismic/opening-times';
+// $FlowFixMe (tsx)
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import Space, { type SpaceComponentProps } from '../styled/Space';
 

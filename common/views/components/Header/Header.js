@@ -6,7 +6,7 @@ import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
 export const navHeight = 85;
 
 type Props = {|
-  siteSection: string,
+  siteSection: ?string,
 |};
 
 const Header = ({ siteSection }: Props) => {

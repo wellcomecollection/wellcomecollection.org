@@ -25,13 +25,16 @@ const defaultValue = {
   openingTimes: null,
 };
 
+export type WithGlobalContextData = {
+  globalContextData: GlobalContextData;
+};
+
 const Context = createContext<GlobalContextData>(defaultValue);
 const GlobalContextProvider: FunctionComponent<Props> = ({
   value,
   children,
 }: Props) => {
   const parsedOpeningTimes = parseCollectionVenues(value.openingTimes);
-
   return (
     <Context.Provider value={value}>
       <OpeningTimesContext.Provider value={parsedOpeningTimes}>

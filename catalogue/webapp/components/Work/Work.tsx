@@ -36,7 +36,7 @@ import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import { GlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -53,8 +53,7 @@ declare global {
 
 type Props = {
   work: WorkType;
-  globalContextData: GlobalContextData;
-};
+} & WithGlobalContextData;
 
 const Work: FunctionComponent<Props> = ({
   work,

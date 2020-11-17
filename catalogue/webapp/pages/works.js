@@ -43,8 +43,6 @@ import WorkSearchResults from '../components/WorkSearchResults/WorkSearchResults
 // $FlowFixMe (tsc)
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 // $FlowFixMe (tsx)
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-// $FlowFixMe (tsx)
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 
 type Props = {|
@@ -68,7 +66,7 @@ const Works = ({
   const results: ?CatalogueResultsList<Work | Image> | CatalogueApiError =
     works || images;
 
-  const { searchPrototype } = useContext(TogglesContext);
+  const { searchPrototype } = globalContextData.toggles;
   const {
     query,
     page,

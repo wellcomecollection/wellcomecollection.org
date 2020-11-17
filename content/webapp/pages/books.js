@@ -2,7 +2,7 @@
 import type { Context } from 'next';
 import { Component } from 'react';
 import { getBooks } from '@weco/common/services/prismic/books';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { Book } from '@weco/common/model/books';

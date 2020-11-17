@@ -18,6 +18,7 @@ import {
   isUiEnabled,
 } from '@weco/common/utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
+// $FlowFixMe (tsx)
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
@@ -26,6 +27,11 @@ import styled from 'styled-components';
 import Space, {
   type SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
+import {
+  GlobalContextData,
+  getGlobalContextData,
+  // $FlowFixMe (tsx)
+} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 const IframePdfViewer: ComponentType<SpaceComponentProps> = styled(Space).attrs(
   {
@@ -41,7 +47,7 @@ const IframePdfViewer: ComponentType<SpaceComponentProps> = styled(Space).attrs(
 
 type Props = {|
   workId: string,
-  sierraId: string,
+  sierraId: ?string,
   langCode: string,
   manifest: ?IIIFManifest,
   work: ?(Work | CatalogueApiError),
@@ -58,6 +64,7 @@ type Props = {|
   audio: ?{
     '@id': string,
   },
+  globalContextData: GlobalContextData,
 |};
 
 const ItemPage = ({
@@ -74,6 +81,7 @@ const ItemPage = ({
   currentCanvas,
   video,
   audio,
+  globalContextData,
 }: Props) => {
   const title = (manifest && manifest.label) || (work && work.title) || '';
   const iiifImageLocation =
@@ -134,6 +142,7 @@ const ItemPage = ({
       hideNewsletterPromo={true}
       hideFooter={true}
       hideInfoBar={true}
+      globalContextData={globalContextData}
     >
       {audio && (
         <Layout12>
@@ -221,11 +230,14 @@ const ItemPage = ({
   );
 };
 
-ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
+export const getServerSideProps = async (
+  ctx: Context
+): Promise<{ props: Props }> => {
+  const globalContextData = getGlobalContextData(ctx);
   const {
     workId,
-    sierraId,
-    langCode,
+    sierraId = null,
+    langCode = 'en',
     page = 1,
     pageSize = 4,
     canvas = 1,
@@ -249,19 +261,22 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   const currentCanvas = canvases[canvasIndex] ? canvases[canvasIndex] : null;
   const canvasOcr = currentCanvas ? await getCanvasOcr(currentCanvas) : null;
   return {
-    workId,
-    sierraId,
-    langCode,
-    manifest,
-    pageSize,
-    pageIndex,
-    canvasIndex,
-    canvasOcr,
-    work,
-    canvases,
-    currentCanvas,
-    video,
-    audio,
+    props: {
+      workId,
+      sierraId,
+      langCode,
+      manifest,
+      pageSize,
+      pageIndex,
+      canvasIndex,
+      canvasOcr,
+      work,
+      canvases,
+      currentCanvas,
+      video,
+      audio,
+      globalContextData,
+    },
   };
 };
 

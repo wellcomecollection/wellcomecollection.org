@@ -4,9 +4,11 @@ import { ThemeProvider } from 'styled-components';
 import { type ReactWrapper, type ShallowWrapper, mount, shallow } from 'enzyme';
 import theme from '../../views/themes/default';
 import { act } from 'react-dom/test-utils';
+// $FlowFixMe (tsx)
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
 // $FlowFixMe (ts);
 import PopupDialogContext from '../../views/components/PopupDialogContext/PopupDialogContext';
+// $FlowFixMe (tsx)
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext.js';
 import { openingTimes } from '../../test/fixtures/components/opening-times.js';
 

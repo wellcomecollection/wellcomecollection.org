@@ -4,23 +4,31 @@ import PROGRESS_NOTES from '../PROGRESS_NOTES.md';
 import { webpageLd } from '@weco/common/utils/json-ld';
 import Space from '@weco/common/views/components/styled/Space';
 import { ReactElement } from 'react';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
+import {
+  getGlobalContextData,
+  WithGlobalContextData,
+} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 const title = "How we're improving search";
 const description =
   'We are working to make a more welcoming space where you' +
   'can discover more of what Wellcome Collection has to offer.';
 
-const ProgressPage: NextPage = (): ReactElement => (
+type Props = WithGlobalContextData;
+const ProgressPage: NextPage<Props> = ({
+  globalContextData,
+}: Props): ReactElement => (
   <PageLayout
     title={title}
     description={description}
-    url={{ pathname: '/works/progress' }}
+    url={{ pathname: '/works/progress', query: {} }}
     openGraphType={'website'}
     jsonLd={webpageLd({ url: '/works/progress' })}
     siteSection={'collections'}
     imageUrl={null}
     imageAltText={null}
+    globalContextData={globalContextData}
   >
     <Space v={{ size: 'l', properties: ['padding-top'] }}>
       <div className="container">
@@ -35,5 +43,14 @@ const ProgressPage: NextPage = (): ReactElement => (
     </Space>
   </PageLayout>
 );
+
+export const getServerSideProps: GetServerSideProps = async context => {
+  const globalContextData = getGlobalContextData(context);
+  return {
+    props: {
+      globalContextData,
+    },
+  };
+};
 
 export default ProgressPage;
