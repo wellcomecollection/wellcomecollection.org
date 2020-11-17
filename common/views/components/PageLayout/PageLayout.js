@@ -1,5 +1,5 @@
 // @flow
-import { Node, useContext } from 'react';
+import { useContext } from 'react';
 import type { Url } from '../../../model/url';
 import type { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
