@@ -1,7 +1,6 @@
 import BaseTabs, { TabType } from '../BaseTabs/BaseTabs';
-import FadeInUnenhanced from '../FadeInUnenhanced/FadeInUnenhaced';
 import { classNames, font } from '@weco/common/utils/classnames';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Space from '../styled/Space';
 import { useContext, useState, FunctionComponent, ReactElement } from 'react';
 import { AppContext } from '../AppContext/AppContext';
@@ -16,7 +15,34 @@ import {
 } from '@weco/common/model/catalogue';
 import { trackEvent } from '@weco/common/utils/ga';
 
-const BaseTabsWrapper = styled(FadeInUnenhanced)`
+const showUnenhanced = keyframes`
+  from {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+  to {
+    opacity: 1;
+    height: auto;
+    overflow: visible;
+  }
+`;
+
+const DelayUnenhanced = styled.div<{ isEnhanced: boolean }>`
+  opacity: ${props => (props.isEnhanced ? '1' : '0')};
+  height: ${props => (props.isEnhanced ? 'auto' : '0')};
+  overflow: ${props => (props.isEnhanced ? 'visible' : 'hidden')};
+  animation: ${showUnenhanced} 1ms 1s forwards;
+
+  ${props =>
+    props.isEnhanced &&
+    `
+    animation: none;
+  `}
+`;
+
+const BaseTabsWrapper = styled(DelayUnenhanced)`
   // FIXME: For testing, make the checkboxes/buttons have a white background because they're on grey
   [class*='ButtonInline__InlineButton'],
   [class^='CheckboxRadio__CheckboxRadioBox'] {
