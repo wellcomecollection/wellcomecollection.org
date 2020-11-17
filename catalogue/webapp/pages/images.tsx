@@ -174,6 +174,7 @@ const Images: NextPage<Props> = ({
                       workTypeAggregations={[]}
                       shouldShowDescription={query === ''}
                       activeTabIndex={1}
+                      shouldShowFilters={true}
                     />
                   </>
                 ) : (

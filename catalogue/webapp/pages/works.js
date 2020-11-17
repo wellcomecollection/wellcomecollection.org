@@ -199,6 +199,7 @@ const Works = ({ works, images, worksRouteProps, apiProps }: Props) => {
                         : []
                     }
                     shouldShowDescription={query === ''}
+                    shouldShowFilters={true}
                     aggregations={
                       works && works.aggregations
                         ? works.aggregations

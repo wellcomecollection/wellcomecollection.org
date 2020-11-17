@@ -71,6 +71,7 @@ type Props = {
   shouldShowDescription: boolean;
   activeTabIndex?: number;
   aggregations?: CatalogueAggregations;
+  shouldShowFilters: boolean;
 };
 
 const SearchTabs: FunctionComponent<Props> = ({
@@ -80,6 +81,7 @@ const SearchTabs: FunctionComponent<Props> = ({
   aggregations,
   shouldShowDescription,
   activeTabIndex,
+  shouldShowFilters,
 }: Props): ReactElement<Props> => {
   const { isKeyboard, isEnhanced } = useContext(AppContext);
   const [activeTab, setActiveTab] = useState(
@@ -121,6 +123,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             workTypeAggregations={workTypeAggregations}
             isImageSearch={false}
             aggregations={aggregations}
+            shouldShowFilters={shouldShowFilters}
           />
         </TabPanel>
       ),
@@ -159,6 +162,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             routeProps={imagesRouteProps}
             workTypeAggregations={workTypeAggregations}
             isImageSearch={true}
+            shouldShowFilters={shouldShowFilters}
             aggregations={aggregations}
           />
         </TabPanel>

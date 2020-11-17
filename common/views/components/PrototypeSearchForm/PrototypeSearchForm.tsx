@@ -39,6 +39,7 @@ type Props = {
   aggregations: CatalogueAggregations | null;
   isImageSearch: boolean;
   isActive: boolean;
+  shouldShowFilters: boolean;
 };
 
 const SearchInputWrapper = styled.div`
@@ -82,6 +83,7 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
   aggregations,
   isImageSearch,
   isActive,
+  shouldShowFilters,
 }: Props): ReactElement<Props> => {
   const [, setSearchParamsState] = useSavedSearchState(routeProps);
   const { query } = routeProps;
@@ -94,7 +96,6 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
   const searchInput = useRef<HTMLInputElement>(null);
   const [portalSortOrder, setPortalSortOrder] = useState(routeProps.sortOrder);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
-  const isWorksDetailPage = /works\/[a-zA-Z0-9]+/g.test(Router.asPath);
   function submit() {
     searchForm.current &&
       searchForm.current.dispatchEvent(
@@ -259,7 +260,7 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
           )}
         </SearchInputWrapper>
       </Space>
-      {query && !isWorksDetailPage && (
+      {query && shouldShowFilters && (
         <SearchFilters
           searchForm={searchForm}
           worksRouteProps={routeProps}
