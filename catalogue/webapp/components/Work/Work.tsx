@@ -35,7 +35,6 @@ import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
-// $FlowFixMe (tsx)
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 const ArchiveDetailsContainer = styled.div`
