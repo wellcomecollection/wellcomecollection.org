@@ -87,6 +87,18 @@ const theme = {
         top: 0;
       }
       `,
+    showUnenhanced: keyframes`
+      from {
+        opacity: 0;
+        height: 0;
+        overflow: hidden;
+      }
+
+      to {
+        opacity: 1;
+        height: auto;
+        overflow: visible;
+      }`,
   },
   spacingUnits,
   spaceAtBreakpoints: {
