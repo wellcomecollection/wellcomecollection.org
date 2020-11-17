@@ -167,6 +167,8 @@ export class BookPage extends Component<Props | { statusCode: number }> {
       <PageLayout
         title={book.title}
         description={book.metadataDescription || book.promoText || ''}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         url={{ pathname: `/books/${book.id}` }}
         jsonLd={{ '@type': 'WebPage' }}
         openGraphType={'book'}
