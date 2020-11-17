@@ -3,6 +3,7 @@ import { font, classNames } from '../../../utils/classnames';
 import { getLicenseInfo } from '../../../utils/licenses';
 import { trackEvent } from '../../../utils/ga';
 import { Fragment, useContext } from 'react';
+// $FlowFixMe (tsx)
 import { AppContext } from '../../components/AppContext/AppContext';
 import { withToggler } from '../../hocs/withToggler';
 import Icon from '../Icon/Icon';

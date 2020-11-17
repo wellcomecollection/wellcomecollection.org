@@ -68,9 +68,10 @@ function getItemLinkState({
   itemUrl,
   audio,
   video,
+  openWithAdvisoryPrototype,
 }): ?'useItemLink' | 'useLibraryLink' | 'useNoLink' {
   if (
-    (accessCondition === 'open-with-advisory' ||
+    ((accessCondition === 'open-with-advisory' && !openWithAdvisoryPrototype) ||
       accessCondition === 'restricted' ||
       accessCondition === 'permission-required') &&
     sierraIdFromManifestUrl
@@ -92,7 +93,11 @@ const WorkDetails = ({
   imageCount,
   itemUrl,
 }: Props) => {
-  const { stacksRequestService, searchPrototype } = useContext(TogglesContext);
+  const {
+    stacksRequestService,
+    openWithAdvisoryPrototype,
+    searchPrototype,
+  } = useContext(TogglesContext);
   const [imageJson, setImageJson] = useState(null);
   const fetchImageJson = async () => {
     try {
@@ -211,6 +216,7 @@ const WorkDetails = ({
     itemUrl,
     audio,
     video,
+    openWithAdvisoryPrototype,
   });
 
   const WhereToFindIt = () => (

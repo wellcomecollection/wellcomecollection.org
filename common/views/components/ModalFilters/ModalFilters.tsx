@@ -22,7 +22,6 @@ import ButtonSolid, {
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { SearchFiltersSharedProps } from '../PrototypeSearchFilters/PrototypeSearchFilters';
 
-// $FlowFixMe (tsx)
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });

@@ -1,8 +1,7 @@
-// @flow
-import type { ComponentType } from 'react';
+import { FunctionComponent } from 'react';
 import NextLink from 'next/link';
 import styled from 'styled-components';
-import { type Work } from '@weco/common/model/work';
+import { Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
@@ -12,14 +11,13 @@ import { workLink } from '@weco/common/services/catalogue/routes';
 import Image from '@weco/common/views/components/Image/Image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space, {
-  type SpaceComponentProps,
+  SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
-// $FlowFixMe (tsx)
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 
-type Props = {|
-  work: Work,
-|};
+type Props = {
+  work: Work;
+};
 
 const Container = styled.div`
   ${props => props.theme.media.medium`
@@ -31,7 +29,7 @@ const Details = styled.div`
     flex-grow: 1;
   `}
 `;
-const Preview: ComponentType<SpaceComponentProps> = styled(Space).attrs(() => ({
+const Preview = styled(Space).attrs<SpaceComponentProps>(() => ({
   className: classNames({
     'text-align-center': true,
   }),
@@ -61,7 +59,7 @@ function isPdfThumbnail(thumbnail): boolean {
   return Boolean(thumbnail.url.match('.pdf/full'));
 }
 
-const WorkCard = ({ work }: Props) => {
+const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   return (
@@ -152,20 +150,18 @@ const WorkCard = ({ work }: Props) => {
                 )}
               </div>
             </Details>
-            {work.thumbnail &&
-            !isPdfThumbnail(work.thumbnail) &&
-            ['k', 'q'].includes(work.workType.id) && ( // Only show thumbnails for 'Pictures' and 'Digital Images' for now
-                <Preview h={{ size: 'm', properties: ['margin-left'] }}>
-                  <Image
-                    defaultSize={178}
-                    alt={''}
-                    contentUrl={convertImageUri(work.thumbnail.url, 178)}
-                    tasl={null}
-                    srcsetRequired={false}
-                    style={{ margin: 'auto' }}
-                  />
-                </Preview>
-              )}
+            {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
+              <Preview h={{ size: 'm', properties: ['margin-left'] }}>
+                <Image
+                  defaultSize={178}
+                  alt={''}
+                  contentUrl={convertImageUri(work.thumbnail.url, 178)}
+                  tasl={null}
+                  srcsetRequired={false}
+                  style={{ margin: 'auto' }}
+                />
+              </Preview>
+            )}
           </Container>
         </Space>
       </NextLink>

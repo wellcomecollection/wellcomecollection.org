@@ -27,7 +27,10 @@ import GlobalAlertContext from '../../views/components/GlobalAlertContext/Global
 // $FlowFixMe (tsx)
 import PopupDialogContext from '../../views/components/PopupDialogContext/PopupDialogContext';
 import { trackEvent } from '../../utils/ga';
+// $FlowFixMe (tsx)
 import { AppContextProvider } from '../components/AppContext/AppContext';
+// $FlowFixMe (tsx)
+import { GlobalInfoBarContextProvider } from '../components/GlobalInfoBarContext/GlobalInfoBarContext';
 
 type State = {|
   togglesContext: {},
@@ -465,20 +468,21 @@ export default class WecoApp extends App {
           />
         </Head>
         <AppContextProvider>
-          <TogglesContext.Provider value={{ ...togglesContext }}>
-            <OpeningTimesContext.Provider value={parsedOpeningTimes}>
-              <GlobalAlertContext.Provider value={globalAlert}>
-                <PopupDialogContext.Provider value={popupDialog}>
-                  <ThemeProvider theme={theme}>
-                    <OutboundLinkTracker>
-                      <Fragment>
-                        <TogglesContext.Consumer>
-                          {({ helveticaRegular }) =>
-                            helveticaRegular && (
-                              <style
-                                type="text/css"
-                                dangerouslySetInnerHTML={{
-                                  __html: `
+          <GlobalInfoBarContextProvider>
+            <TogglesContext.Provider value={{ ...togglesContext }}>
+              <OpeningTimesContext.Provider value={parsedOpeningTimes}>
+                <GlobalAlertContext.Provider value={globalAlert}>
+                  <PopupDialogContext.Provider value={popupDialog}>
+                    <ThemeProvider theme={theme}>
+                      <OutboundLinkTracker>
+                        <Fragment>
+                          <TogglesContext.Consumer>
+                            {({ helveticaRegular }) =>
+                              helveticaRegular && (
+                                <style
+                                  type="text/css"
+                                  dangerouslySetInnerHTML={{
+                                    __html: `
                                     @font-face {
                                       font-family: 'Helvetica Neue Light Web';
                                       src: local('Helvetica Neue Regular'),
@@ -499,24 +503,27 @@ export default class WecoApp extends App {
                                       font-style: normal;
                                     }
                                   `,
-                                }}
-                              />
-                            )
-                          }
-                        </TogglesContext.Consumer>
-                        <LoadingIndicator />
-                        {!pageProps.statusCode && <Component {...pageProps} />}
-                        {pageProps.statusCode &&
-                          pageProps.statusCode !== 200 && (
-                            <ErrorPage statusCode={pageProps.statusCode} />
+                                  }}
+                                />
+                              )
+                            }
+                          </TogglesContext.Consumer>
+                          <LoadingIndicator />
+                          {!pageProps.statusCode && (
+                            <Component {...pageProps} />
                           )}
-                      </Fragment>
-                    </OutboundLinkTracker>
-                  </ThemeProvider>
-                </PopupDialogContext.Provider>
-              </GlobalAlertContext.Provider>
-            </OpeningTimesContext.Provider>
-          </TogglesContext.Provider>
+                          {pageProps.statusCode &&
+                            pageProps.statusCode !== 200 && (
+                              <ErrorPage statusCode={pageProps.statusCode} />
+                            )}
+                        </Fragment>
+                      </OutboundLinkTracker>
+                    </ThemeProvider>
+                  </PopupDialogContext.Provider>
+                </GlobalAlertContext.Provider>
+              </OpeningTimesContext.Provider>
+            </TogglesContext.Provider>
+          </GlobalInfoBarContextProvider>
         </AppContextProvider>
       </>
     );
