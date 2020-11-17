@@ -5,19 +5,22 @@ import { grid, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '../styled/Space';
+import usePrevious from '../../../hooks/usePrevious';
 
 type Props = {
   cookieName?: string;
   text: HTMLString;
-  initialIsVisible?: boolean;
+  onVisibilityChange?: (isVisible: boolean) => void;
 };
 
-type State = {
-  showInfoBanner: boolean;
-};
-
-const InfoBanner: FunctionComponent<Props> = ({ cookieName, text }: Props) => {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+const InfoBanner: FunctionComponent<Props> = ({
+  cookieName,
+  text,
+  onVisibilityChange,
+}: Props) => {
+  const defaultValue = false;
+  const [isVisible, setIsVisible] = useState<boolean>(defaultValue);
+  const prevIsVisible = usePrevious(defaultValue);
   const hideInfoBanner = () => {
     const singleSessionCookies = ['WC_globalAlert'];
     const isSingleSessionCookie =
@@ -30,6 +33,12 @@ const InfoBanner: FunctionComponent<Props> = ({ cookieName, text }: Props) => {
 
     setIsVisible(false);
   };
+
+  useEffect(() => {
+    if (prevIsVisible !== isVisible && onVisibilityChange) {
+      onVisibilityChange(isVisible);
+    }
+  }, [isVisible]);
 
   useEffect(() => {
     const isAccepted = cookie.get(cookieName);

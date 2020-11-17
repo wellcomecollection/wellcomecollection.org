@@ -1,8 +1,7 @@
 // @flow
-import type { Node } from 'react';
+import { Node, useContext } from 'react';
 import type { Url } from '../../../model/url';
 import type { JsonLdObj } from '../JsonLd/JsonLd';
-import { Fragment } from 'react';
 import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
 import Header from '../Header/Header';
@@ -18,6 +17,8 @@ import PopupDialogContext from '../PopupDialogContext/PopupDialogContext';
 import PopupDialog from '../PopupDialog/PopupDialog';
 import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 import Space from '../styled/Space';
+// $FlowFixMe (tsx)
+import GlobalInfoBarContext from '../GlobalInfoBarContext/GlobalInfoBarContext';
 
 type SiteSection =
   | 'collections'
@@ -64,8 +65,9 @@ const PageLayout = ({
       : 'Wellcome Collection | A free museum and library exploring health and human experience';
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
+  const globalInfoBar = useContext(GlobalInfoBarContext);
   return (
-    <Fragment>
+    <>
       <Head>
         <title>{fullTitle}</title>
         <meta name="description" content={description || ''} />
@@ -140,13 +142,20 @@ const PageLayout = ({
           Skip to main content
         </a>
         <Header siteSection={siteSection} />
+
         <GlobalAlertContext.Consumer>
           {globalAlert =>
             globalAlert &&
             globalAlert.isShown === 'show' &&
             (!globalAlert.routeRegex ||
               urlString.match(new RegExp(globalAlert.routeRegex))) && (
-              <InfoBanner text={globalAlert.text} cookieName="WC_globalAlert" />
+              <InfoBanner
+                text={globalAlert.text}
+                cookieName="WC_globalAlert"
+                onVisibilityChange={isVisible => {
+                  globalInfoBar.setIsVisible(isVisible);
+                }}
+              />
             )
           }
         </GlobalAlertContext.Consumer>
@@ -178,7 +187,7 @@ const PageLayout = ({
           )}
         </OpeningTimesContext.Consumer>
       </div>
-    </Fragment>
+    </>
   );
 };
 export default PageLayout;
