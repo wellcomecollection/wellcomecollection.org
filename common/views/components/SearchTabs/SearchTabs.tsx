@@ -19,7 +19,7 @@ const DelayUnenhanced = styled.div<{ isEnhanced: boolean }>`
   opacity: ${props => (props.isEnhanced ? '1' : '0')};
   height: ${props => (props.isEnhanced ? 'auto' : '0')};
   overflow: ${props => (props.isEnhanced ? 'visible' : 'hidden')};
-  animation: ${props => props.theme.keyframes.showUnenhanced} 1ms 2s forwards;
+  animation: ${props => props.theme.keyframes.showUnenhanced} 1ms 1s forwards;
 
   ${props =>
     props.isEnhanced &&
