@@ -130,6 +130,7 @@ const SearchFiltersMobile = ({
     <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
       <ShameButtonWrap>
         <SolidButton
+          type="button"
           onClick={() => {
             setShowFiltersModal(true);
           }}
