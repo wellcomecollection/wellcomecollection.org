@@ -113,9 +113,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           properties: ['padding-top'],
         }}
         className={classNames({
-          flex: true,
+          'flex bg-pumice': true,
         })}
-        style={{ background: '#f4f4f4' }}
       >
         <Space
           h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
