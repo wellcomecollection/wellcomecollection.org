@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement, useEffect } from 'react';
+import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 type Props = {
@@ -11,14 +11,13 @@ const PrototypePortal: FunctionComponent<Props> = ({
   children,
 }: Props): ReactElement<Props> => {
   const mount = document.getElementById(id);
-  const el = document.createElement('div');
-
+  const [element] = useState(document.createElement('div'));
   useEffect(() => {
-    mount && mount.appendChild(el);
-    return () => mount && mount.removeChild(el);
-  }, [el, mount]);
+    mount && mount.appendChild(element);
+    return () => mount && mount.removeChild(element);
+  }, [element, mount]);
 
-  return createPortal(children, el);
+  return createPortal(children, element);
 };
 
 export default PrototypePortal;
