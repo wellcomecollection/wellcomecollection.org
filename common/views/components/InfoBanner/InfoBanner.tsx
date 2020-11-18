@@ -32,6 +32,7 @@ const InfoBanner: FunctionComponent<Props> = ({
     });
 
     setIsVisible(false);
+    onVisibilityChange(false);
   };
 
   useEffect(() => {

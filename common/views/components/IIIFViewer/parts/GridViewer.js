@@ -1,6 +1,6 @@
 // @flow
 import styled from 'styled-components';
-import { useState, memo, useEffect, useRef } from 'react';
+import { useState, memo, useEffect, useRef, useContext } from 'react';
 import { FixedSizeGrid, FixedSizeList, areEqual } from 'react-window';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
@@ -10,6 +10,8 @@ import {
   headerHeight,
   topBarHeight,
 } from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+// $FlowFixMe(tsx)
+import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
 
 const ThumbnailSpacer = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
@@ -85,10 +87,16 @@ const GridViewerEl = styled.div`
   outline: none;
   position: fixed;
   top: ${props => {
+    const viewerOffset = props?.viewerRef?.current?.offsetTop | 0;
+
     if (props.isVisible && props.isFullscreen) {
       return `${topBarHeight}px`;
     } else if (props.isVisible && !props.isFullscreen) {
-      return `${headerHeight}px`;
+      if (props.infoBarIsVisible) {
+        return `${viewerOffset + topBarHeight}px`;
+      } else {
+        return `${headerHeight}px`;
+      }
     } else {
       return `100vh`;
     }
@@ -112,6 +120,7 @@ type Props = {|
   setActiveIndex: number => void,
   canvases: [],
   isFullscreen: boolean,
+  viewerRef: { current: HTMLElement | null },
 |};
 
 const GridViewer = ({
@@ -125,6 +134,7 @@ const GridViewer = ({
   setActiveIndex,
   canvases,
   isFullscreen,
+  viewerRef,
 }: Props) => {
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
@@ -132,6 +142,7 @@ const GridViewer = ({
   const columnCount = Math.round(gridWidth / itemWidth);
   const columnWidth = gridWidth / columnCount;
   const grid = useRef();
+  const { isVisible } = useContext(GlobalInfoBarContext);
 
   useEffect(() => {
     const rowIndex = Math.floor(activeIndex / columnCount);
@@ -140,12 +151,34 @@ const GridViewer = ({
       grid.current.scrollToItem({ align: 'start', rowIndex });
   }, [activeIndex]);
 
+  useEffect(() => {
+    // required to be set as we are setting the body to overflow hidden to stop multiple scrolls in view bug issue.
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 700);
+
+    const body = document && document.body ? document.body : null;
+    // there are multiple scrolls in this view, we have to set the body to hidden to stop flickering and offset
+    if (body && body.style) {
+      body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      // unmounting
+      if (body && body.style) {
+        body.style.overflow = '';
+      }
+    };
+  }, []);
+
   return (
     <GridViewerEl
       isVisible={gridVisible}
       isFullscreen={isFullscreen}
       ref={gridViewerRef}
+      viewerRef={viewerRef}
       tabIndex={0}
+      infoBarIsVisible={isVisible}
     >
       <FixedSizeGrid
         columnCount={columnCount}
