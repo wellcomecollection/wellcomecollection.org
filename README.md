@@ -64,8 +64,11 @@ This project uses the [weco-deploy](https://github.com/wellcomecollection/weco-d
 
 ### Rolling back
 
-Get a list of previous release ids
-`weco-deploy show-deployments --limit 30`
+Display a list of releases:
+`weco-deploy show-deployments --limit 30 --environment-id prod`
+
+Choose the last one you know to be good and deploy:
+`weco-deploy deploy --release-id $(LAST_GOOD_RELEASE_ID) --environment-id prod`
 
 ### Running CI steps locally
 
