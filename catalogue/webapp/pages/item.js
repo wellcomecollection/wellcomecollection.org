@@ -268,6 +268,7 @@ const ItemPage = ({
       {showModal && (
         <IIIFViewerBackground headerHeight={85}> </IIIFViewerBackground>
       )}
+
       <Modal
         id="auth-modal"
         isActive={showModal}
@@ -276,12 +277,18 @@ const ItemPage = ({
         openButtonRef={{ current: null }}
       >
         <div className={font('hnl', 5)}>
-          <h2 className={font('hnm', 4)}>{authService?.authService?.label}</h2>
-          <p
-            dangerouslySetInnerHTML={{
-              __html: authService?.authService?.description,
-            }}
-          />
+          {authService?.authService?.label && (
+            <h2 className={font('hnm', 4)}>
+              {authService?.authService?.label}
+            </h2>
+          )}
+          {authService?.authService?.description && (
+            <p
+              dangerouslySetInnerHTML={{
+                __html: authService?.authService?.description,
+              }}
+            />
+          )}
           {authService?.authService?.['@id'] && origin && (
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
               <ButtonSolidLink
