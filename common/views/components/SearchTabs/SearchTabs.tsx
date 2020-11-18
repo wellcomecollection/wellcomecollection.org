@@ -24,6 +24,7 @@ const BaseTabsWrapper = styled.div.attrs<{ isEnhanced: boolean }>(props => ({
   [class*='ButtonInline__InlineButton'],
   [class^='CheckboxRadio__CheckboxRadioBox'] {
     background: white !important;
+    border-color: ${props => props.theme.color('marble')};
   }
 `;
 
