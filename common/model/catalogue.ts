@@ -27,7 +27,7 @@ export type Work = {
   partOf: Work[];
   precededBy: Work[];
   succeededBy: Work[];
-  availableOnline?: boolean;
+  availableOnline: boolean;
 };
 
 type WorkType = {
