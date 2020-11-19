@@ -286,11 +286,18 @@ const catalogueWork = {
       type: 'ProductionEvent',
     },
   ],
-  language: {
-    id: 'eng',
-    label: 'English',
-    type: 'Language',
-  },
+  languages: [
+    {
+      id: 'eng',
+      label: 'English',
+      type: 'Language',
+    },
+    {
+      id: 'ger',
+      label: 'German',
+      type: 'Language',
+    }
+  ],
   notes: [],
   type: 'Work',
   parts: [],

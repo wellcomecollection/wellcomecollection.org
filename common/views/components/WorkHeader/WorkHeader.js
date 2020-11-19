@@ -61,7 +61,9 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
               [font('hnm', 2)]: true,
               'inline-block': true,
             })}
-            lang={work.language && work.language.id}
+            // We only send a lang if it's unambiguous -- better to send
+            // no language than the wrong one.
+            lang={work.languages.length === 1 && work.languages[0].id}
           >
             <WorkTitle title={work.title} />
           </h1>
