@@ -61,7 +61,7 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
               [font('hnm', 2)]: true,
               'inline-block': true,
             })}
-            lang={work.language && work.language.id}
+            lang={work.languages.length > 0 && work.languages[0].id}
           >
             <WorkTitle title={work.title} />
           </h1>

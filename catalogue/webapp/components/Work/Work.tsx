@@ -127,7 +127,7 @@ const Work: FunctionComponent<Props> = ({
       (iiifPresentationLocation &&
         sierraIdFromPresentationManifestUrl(iiifPresentationLocation.url)) ||
       null,
-    langCode: work.language && work.language.id,
+      langCode: work.languages.length > 0 && work.languages[0].id,
     canvas: 1,
     page: 1,
   });
