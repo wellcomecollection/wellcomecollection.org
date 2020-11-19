@@ -297,11 +297,18 @@ export const workFixture = {
       type: 'ProductionEvent',
     },
   ],
-  language: {
-    id: 'ger',
-    label: 'German',
-    type: 'Language',
-  },
+  languages: [
+    {
+      id: 'eng',
+      label: 'English',
+      type: 'German'
+    },
+    {
+      id: 'ger',
+      label: 'German',
+      type: 'Language',
+    },
+  ],
   notes: [
     {
       contents: ['Wellcome Library no. 665618i'],
