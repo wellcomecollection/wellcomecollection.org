@@ -124,7 +124,7 @@ const Work: FunctionComponent<Props> = ({
       null,
     // We only send a langCode if it's unambiguous -- better to send no language
     // than the wrong one.
-    langCode: work.languages.length === 1 && work.languages[0]?.id,
+    langCode: work?.languages?.length === 1 && work?.languages[0]?.id,
     canvas: 1,
     page: 1,
   });
