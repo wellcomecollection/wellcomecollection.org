@@ -37,6 +37,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import { PageviewProps } from 'pages/work';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -51,9 +52,15 @@ declare global {
   }
 }
 
+// this is here as it's in the common folder
+// it should live in pages/work.tsx
+export type PageviewProps = {
+  workType: string;
+};
+
 type Props = {
   work: WorkType;
-} & WithGlobalContextData;
+} & WithGlobalContextData<PageviewProps>;
 
 const Work: FunctionComponent<Props> = ({
   work,
@@ -129,9 +136,9 @@ const Work: FunctionComponent<Props> = ({
       (iiifPresentationLocation &&
         sierraIdFromPresentationManifestUrl(iiifPresentationLocation.url)) ||
       null,
-      // We only send a langCode if it's unambiguous -- better to send no language
-      // than the wrong one.
-      langCode: work.languages.length === 1 && work.languages[0].id,
+    // We only send a langCode if it's unambiguous -- better to send no language
+    // than the wrong one.
+    langCode: work.languages.length === 1 && work.languages[0].id,
     canvas: 1,
     page: 1,
   });

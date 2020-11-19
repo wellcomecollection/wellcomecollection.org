@@ -4,7 +4,7 @@ import {
   CatalogueApiError,
 } from '@weco/common/model/catalogue';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
-import Work from '../components/Work/Work';
+import Work, { PageviewProps } from '../components/Work/Work';
 import { getWork } from '../services/catalogue/works';
 import {
   getGlobalContextData,
@@ -14,7 +14,7 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 
 type Props = {
   workResponse: WorkType | CatalogueApiError;
-} & WithGlobalContextData;
+} & WithGlobalContextData<PageviewProps>;
 
 export const WorkPage: NextPage<Props> = ({
   workResponse,
@@ -59,6 +59,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
     props: removeUndefinedProps({
       workResponse,
       globalContextData,
+      pageview: {
+        name: 'Work',
+        url: '/url',
+        query: context.query,
+        data: {
+          workType: workResponse.data.workType,
+        },
+      },
     }),
   };
 };

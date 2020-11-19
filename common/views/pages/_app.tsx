@@ -1,8 +1,8 @@
 import { AppProps } from 'next/app';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import ReactGA from 'react-ga';
 import Raven from 'raven-js';
-import { useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme from '../../views/themes/default';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
@@ -52,36 +52,59 @@ function calculateHiddenTimeOnPage() {
   pageVisibilityLastChanged = window.performance.now();
 }
 
-function makeSurePageIsTallEnough() {
-  const pageHeightCache: number[] = [];
-  const html = document.querySelector('html');
+function WecoApp({ Component, pageProps }: AppProps): ReactElement {
+  const router = useRouter();
+  useEffect(() => {
+    const handleRouteChangeStart = (url: string) => {
+      console.info('pageview start', pageProps.pageview);
+    };
+    const handleRouteChangeComplete = (url: string) => {
+      console.info('pageview end', pageProps.pageview);
+    };
+    router.events.on('routeChangeStart', handleRouteChangeStart);
+    router.events.on('routeChangeComplete', handleRouteChangeComplete);
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChangeStart);
+      router.events.off('routeChangeComplete', handleRouteChangeComplete);
+    };
+  }, [router.events]);
 
-  Router.events.on('routeChangeStart', () => {
-    document &&
-      document.documentElement &&
-      pageHeightCache.push(document.documentElement.offsetHeight);
-  });
-
-  Router.events.on('routeChangeComplete', () => {
-    if (html) {
-      html.style.height = 'initial';
-    }
-  });
-
-  Router.beforePopState(() => {
-    if (html) {
-      html.style.height = `${pageHeightCache.pop()}px`;
-    }
-
-    return true;
-  });
-}
-
-function WecoApp({ Component, pageProps }: AppProps) {
   // enhanced
   useEffect(() => {
-    makeSurePageIsTallEnough();
+    // JS hook
     document.documentElement.classList.add('enhanced');
+
+    // Making sure the page is tall enough
+    const pageHeightCache: number[] = [];
+    const html = document.querySelector('html');
+
+    const handleRouteChangeStart = () => {
+      document &&
+        document.documentElement &&
+        pageHeightCache.push(document.documentElement.offsetHeight);
+    };
+
+    const handleRouteChangeComplete = () => {
+      if (html) {
+        html.style.height = 'initial';
+      }
+    };
+
+    router.events.on('routeChangeStart', handleRouteChangeStart);
+    router.events.on('routeChangeComplete', handleRouteChangeComplete);
+
+    router.beforePopState(() => {
+      if (html) {
+        html.style.height = `${pageHeightCache.pop()}px`;
+      }
+
+      return true;
+    });
+
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChangeStart);
+      router.events.off('routeChangeComplete', handleRouteChangeComplete);
+    };
   }, []);
 
   // GA v4
@@ -106,9 +129,9 @@ function WecoApp({ Component, pageProps }: AppProps) {
     // TODO: Add this back
     // ReactGA.set({ dimension5: JSON.stringify(toggles) });
     trackPageview();
-    Router.events.on('routeChangeComplete', trackPageview);
+    router.events.on('routeChangeComplete', trackPageview);
     return () => {
-      Router.events.off('routeChangeComplete', trackPageview);
+      router.events.off('routeChangeComplete', trackPageview);
     };
   }, []);
 
@@ -126,8 +149,8 @@ function WecoApp({ Component, pageProps }: AppProps) {
       engagement = setTimeout(triggerEngagement, 10000);
     }
 
-    Router.events.on('routeChangeStart', trackAndResetVisibleTime);
-    Router.events.on('routeChangeComplete', resetEngagementTimeout);
+    router.events.on('routeChangeStart', trackAndResetVisibleTime);
+    router.events.on('routeChangeComplete', resetEngagementTimeout);
 
     engagement = setTimeout(triggerEngagement, 10000);
     try {
@@ -146,8 +169,8 @@ function WecoApp({ Component, pageProps }: AppProps) {
     }
 
     return () => {
-      Router.events.off('routeChangeStart', trackAndResetVisibleTime);
-      Router.events.off('routeChangeComplete', resetEngagementTimeout);
+      router.events.off('routeChangeStart', trackAndResetVisibleTime);
+      router.events.off('routeChangeComplete', resetEngagementTimeout);
       try {
         document.removeEventListener(
           'visibilitychange',

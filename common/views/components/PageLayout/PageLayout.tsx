@@ -1,4 +1,9 @@
-import React, { useContext, FunctionComponent, ReactNode } from 'react';
+import React, {
+  useContext,
+  FunctionComponent,
+  ReactNode,
+  useEffect,
+} from 'react';
 import { Url } from '../../../model/url';
 import { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
@@ -26,6 +31,7 @@ import GlobalContextProvider, {
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
+import { useRouter } from 'next/router';
 
 type SiteSection =
   | 'collections'
@@ -105,6 +111,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
   ];
 
   const globalInfoBar = useContext(GlobalInfoBarContext);
+
   return (
     <>
       <Head>

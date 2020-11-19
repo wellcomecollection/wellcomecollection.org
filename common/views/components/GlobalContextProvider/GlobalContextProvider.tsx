@@ -25,11 +25,20 @@ const defaultValue = {
   openingTimes: null,
 };
 
-export type WithGlobalContextData = {
+type Pageview<T> = {
+  name: string;
+  url: string;
+  query: string;
+  data: T;
+};
+
+export type WithGlobalContextData<T> = {
   globalContextData: GlobalContextData;
+  pageview: Pageview<T>;
 };
 
 const Context = createContext<GlobalContextData>(defaultValue);
+
 const GlobalContextProvider: FunctionComponent<Props> = ({
   value,
   children,

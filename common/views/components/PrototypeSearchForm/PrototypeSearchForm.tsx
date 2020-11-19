@@ -38,7 +38,6 @@ type Props = {
   workTypeAggregations: CatalogueAggregationBucket[];
   aggregations: CatalogueAggregations | null;
   isImageSearch: boolean;
-  isActive: boolean;
   shouldShowFilters: boolean;
 };
 
@@ -82,7 +81,6 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
   workTypeAggregations,
   aggregations,
   isImageSearch,
-  isActive,
   shouldShowFilters,
 }: Props): ReactElement<Props> => {
   const [, setSearchParamsState] = useSavedSearchState(routeProps);
@@ -94,7 +92,6 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
   const [inputQuery, setInputQuery] = useState(query);
   const searchInput = useRef<HTMLInputElement>(null);
   const [portalSortOrder, setPortalSortOrder] = useState(routeProps.sortOrder);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
   function submit() {
     searchForm.current &&
       searchForm.current.dispatchEvent(
@@ -111,16 +108,6 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
       setInputQuery(query);
     }
   }, [query]);
-
-  useEffect(() => {
-    if (query && isActive && !isInitialLoad) {
-      submit();
-    }
-  }, [isActive]);
-
-  useEffect(() => {
-    setIsInitialLoad(false);
-  }, []);
 
   useEffect(() => {
     if (portalSortOrder !== routeProps.sortOrder) {
@@ -210,6 +197,7 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
           label: query,
         });
 
+        console.info('onSubmit');
         updateUrl(event.currentTarget);
         return false;
       }}
