@@ -15,6 +15,8 @@ import {
   getGlobalContextData,
   // $FlowFixMe (tsx)
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+// $FlowFixMe (tsx)
+import { removeUndefinedProps } from '@weco/common/utils/json';
 
 type Props = {|
   image: Image,
@@ -133,12 +135,12 @@ export const getServerSideProps = async (
   }
 
   return {
-    props: {
+    props: removeUndefinedProps({
       image,
       langCode,
       sourceWork: work,
       globalContextData,
-    },
+    }),
   };
 };
 

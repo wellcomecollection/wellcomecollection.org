@@ -1,6 +1,6 @@
 // @flow
 import { type Context } from 'next';
-import { Fragment, useEffect, useState, useContext } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
@@ -44,6 +44,8 @@ import WorkSearchResults from '../components/WorkSearchResults/WorkSearchResults
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 // $FlowFixMe (tsx)
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
+// $FlowFixMe (tsx)
+import { removeUndefinedProps } from '@weco/common/utils/json';
 
 type Props = {|
   works: ?CatalogueResultsList<Work> | CatalogueApiError,
@@ -412,14 +414,14 @@ export const getServerSideProps = async (
     : null;
 
   return {
-    props: {
+    props: removeUndefinedProps({
       works: worksOrError,
       images: imagesOrError,
       worksRouteProps: params,
       shouldGetWorks,
       apiProps,
       globalContextData,
-    },
+    }),
   };
 };
 

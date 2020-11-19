@@ -10,6 +10,7 @@ import {
   getGlobalContextData,
   WithGlobalContextData,
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import { removeUndefinedProps } from '@weco/common/utils/json';
 
 type Props = {
   workResponse: WorkType | CatalogueApiError;
@@ -55,10 +56,10 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
   }
 
   return {
-    props: {
+    props: removeUndefinedProps({
       workResponse,
       globalContextData,
-    },
+    }),
   };
 };
 

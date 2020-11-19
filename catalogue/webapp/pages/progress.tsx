@@ -9,6 +9,7 @@ import {
   getGlobalContextData,
   WithGlobalContextData,
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import { removeUndefinedProps } from '@weco/common/utils/json';
 
 const title = "How we're improving search";
 const description =
@@ -47,9 +48,9 @@ const ProgressPage: NextPage<Props> = ({
 export const getServerSideProps: GetServerSideProps = async context => {
   const globalContextData = getGlobalContextData(context);
   return {
-    props: {
+    props: removeUndefinedProps({
       globalContextData,
-    },
+    }),
   };
 };
 

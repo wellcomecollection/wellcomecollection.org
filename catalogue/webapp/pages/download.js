@@ -32,6 +32,8 @@ import {
   getGlobalContextData,
   // $FlowFixMe (tsx)
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+// $FlowFixMe (tsx)
+import { removeUndefinedProps } from '@weco/common/utils/json';
 
 type Props = {|
   workId: string,
@@ -178,7 +180,13 @@ export const getServerSideProps = async (
   const manifest = manifestUrl ? await (await fetch(manifestUrl)).json() : null;
   const work = await getWork({ id: workId, toggles: ctx.query.toggles });
   return {
-    props: { workId, sierraId, manifest, work, globalContextData },
+    props: removeUndefinedProps({
+      workId,
+      sierraId,
+      manifest,
+      work,
+      globalContextData,
+    }),
   };
 };
 

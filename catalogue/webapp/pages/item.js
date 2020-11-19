@@ -41,6 +41,8 @@ import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/Butto
 import NextLink from 'next/link';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
+// $FlowFixMe (tsx)
+import { removeUndefinedProps } from '@weco/common/utils/json';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -392,7 +394,7 @@ export const getServerSideProps = async (
   const currentCanvas = canvases[canvasIndex] ? canvases[canvasIndex] : null;
   const canvasOcr = currentCanvas ? await getCanvasOcr(currentCanvas) : null;
   return {
-    props: {
+    props: removeUndefinedProps({
       workId,
       sierraId,
       langCode,
@@ -407,7 +409,7 @@ export const getServerSideProps = async (
       video,
       audio,
       globalContextData,
-    },
+    }),
   };
 };
 
