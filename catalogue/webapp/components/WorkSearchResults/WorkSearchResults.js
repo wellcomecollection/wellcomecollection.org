@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import { trackSearchResultSelected } from '@weco/common/views/components/Tracker/Tracker';
+// $FlowFixMe (tsx)
 import WorkCard from '../WorkCard/WorkCard';
 import { grid } from '@weco/common/utils/classnames';
 import {

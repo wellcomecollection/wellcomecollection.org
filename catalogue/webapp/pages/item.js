@@ -1,5 +1,5 @@
 // @flow
-import { type ComponentType } from 'react';
+import { type ComponentType, useEffect, useState } from 'react';
 import { type Context } from 'next';
 import {
   type Work,
@@ -7,7 +7,7 @@ import {
 } from '@weco/common/model/catalogue';
 import fetch from 'isomorphic-unfetch';
 import { type IIIFManifest } from '@weco/common/model/iiif';
-import { itemLink } from '@weco/common/services/catalogue/routes';
+import { itemLink, workLink } from '@weco/common/services/catalogue/routes';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import {
   getDownloadOptionsFromManifest,
@@ -16,12 +16,15 @@ import {
   getServiceId,
   getUiExtensions,
   isUiEnabled,
+  getAuthService,
 } from '@weco/common/utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 // $FlowFixMe (tsx)
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+import IIIFViewer, {
+  IIIFViewerBackground,
+} from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
 import Space, {
@@ -32,6 +35,16 @@ import {
   getGlobalContextData,
   // $FlowFixMe (tsx)
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import Modal from '@weco/common/views/components/Modal/Modal';
+// $FlowFixMe (tsx)
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import NextLink from 'next/link';
+import { font } from '@weco/common/utils/classnames';
+import { trackEvent } from '@weco/common/utils/ga';
+
+const IframeAuthMessage = styled.iframe`
+  display: none;
+`;
 
 const IframePdfViewer: ComponentType<SpaceComponentProps> = styled(Space).attrs(
   {
@@ -44,6 +57,15 @@ const IframePdfViewer: ComponentType<SpaceComponentProps> = styled(Space).attrs(
   border: 0;
   margin-top: 98px;
 `;
+
+const iframeId = 'authMessage';
+function reloadAuthIframe(document, id) {
+  const authMessageIframe = ((document.getElementById(
+    id
+  ): any): HTMLIFrameElement);
+  /* eslint-disable no-self-assign */
+  authMessageIframe.src = authMessageIframe.src; // assigning the iframe src to itself reloads the iframe and refires the window.message event
+}
 
 type Props = {|
   workId: string,
@@ -83,15 +105,16 @@ const ItemPage = ({
   audio,
   globalContextData,
 }: Props) => {
+  const [origin, setOrigin] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [showViewer, setShowViewer] = useState(false);
   const title = (manifest && manifest.label) || (work && work.title) || '';
   const iiifImageLocation =
     work && getDigitalLocationOfType(work, 'iiif-image');
-
   const serviceId = getServiceId(currentCanvas);
   const mainImageService = serviceId && {
     '@id': serviceId,
   };
-
   const showDownloadOptions = manifest
     ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
     : true;
@@ -103,6 +126,14 @@ const ItemPage = ({
     (downloadOptions &&
       downloadOptions.find(option => option.label === 'Download PDF')) ||
     null;
+
+  const authService = getAuthService(manifest);
+  const authServiceServices = authService?.authService?.service;
+  const tokenService = authServiceServices
+    ? authServiceServices.find(
+        service => service.profile === 'http://iiif.io/api/auth/0/token'
+      )
+    : null;
 
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
@@ -129,6 +160,38 @@ const ItemPage = ({
     ...sharedPaginatorProps,
   };
 
+  useEffect(() => {
+    setOrigin(`${window.location.protocol}//${window.location.hostname}`);
+  }, []);
+
+  useEffect(() => {
+    function receiveMessage(event) {
+      const data = event.data;
+      const serviceOrigin = tokenService && new URL(tokenService['@id']);
+      if (
+        serviceOrigin &&
+        `${serviceOrigin.protocol}//${serviceOrigin.hostname}` === event.origin
+      ) {
+        if (data.hasOwnProperty('accessToken')) {
+          setShowModal(false);
+          setShowViewer(true);
+        } else {
+          setShowModal(true);
+          setShowViewer(false);
+        }
+      }
+    }
+
+    if (authService) {
+      window.addEventListener('message', receiveMessage);
+
+      return () => window.removeEventListener('message', receiveMessage);
+    } else {
+      setShowModal(false);
+      setShowViewer(true);
+    }
+  }, []);
+
   return (
     <CataloguePageLayout
       title={title}
@@ -144,6 +207,12 @@ const ItemPage = ({
       hideInfoBar={true}
       globalContextData={globalContextData}
     >
+      {tokenService && origin && (
+        <IframeAuthMessage
+          id={iframeId}
+          src={`${tokenService['@id']}?messageId=1&origin=${origin}`}
+        />
+      )}
       {audio && (
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -162,7 +231,6 @@ const ItemPage = ({
           </Space>
         </Layout12>
       )}
-
       {video && (
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -206,26 +274,89 @@ const ItemPage = ({
           src={pdfRendering['@id']}
         />
       )}
-
-      {((mainImageService && currentCanvas) || iiifImageLocation) && (
-        <IIIFViewer
-          title={title}
-          mainPaginatorProps={mainPaginatorProps}
-          thumbsPaginatorProps={thumbsPaginatorProps}
-          currentCanvas={currentCanvas}
-          lang={langCode}
-          canvasOcr={canvasOcr}
-          canvases={canvases}
-          workId={workId}
-          pageIndex={pageIndex}
-          sierraId={sierraId}
-          pageSize={pageSize}
-          canvasIndex={canvasIndex}
-          iiifImageLocation={iiifImageLocation}
-          work={work}
-          manifest={manifest}
-        />
+      {showModal && (
+        <IIIFViewerBackground headerHeight={85}> </IIIFViewerBackground>
       )}
+
+      <Modal
+        id="auth-modal"
+        isActive={showModal}
+        setIsActive={setShowModal}
+        removeCloseButton={true}
+        openButtonRef={{ current: null }}
+      >
+        <div className={font('hnl', 5)}>
+          {authService?.authService?.label && (
+            <h2 className={font('hnm', 4)}>
+              {authService?.authService?.label}
+            </h2>
+          )}
+          {authService?.authService?.description && (
+            <p
+              dangerouslySetInnerHTML={{
+                __html: authService?.authService?.description,
+              }}
+            />
+          )}
+          {authService?.authService?.['@id'] && origin && (
+            <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+              <ButtonSolidLink
+                text="Show the content"
+                clickHandler={() => {
+                  trackEvent({
+                    category: 'ButtonSolidLink',
+                    action: 'follow link "Show the content"',
+                    label: `workId: ${workId}`,
+                  });
+                  const authServiceWindow = window.open(
+                    `${authService?.authService['@id'] || ''}?origin=${origin}`
+                  );
+                  authServiceWindow.addEventListener('unload', function(event) {
+                    reloadAuthIframe(document, iframeId);
+                  });
+                }}
+              />
+            </Space>
+          )}
+          <NextLink {...workLink({ id: workId })}>
+            <a
+              onClick={() => {
+                trackEvent({
+                  category: 'ButtonSolidLink',
+                  action: 'follow link to work page',
+                  label: `workId: ${workId}`,
+                });
+              }}
+            >
+              Take me back to the item page
+            </a>
+          </NextLink>
+        </div>
+      </Modal>
+      {showViewer &&
+        ((mainImageService && currentCanvas) || iiifImageLocation) && (
+          <IIIFViewer
+            title={title}
+            mainPaginatorProps={mainPaginatorProps}
+            thumbsPaginatorProps={thumbsPaginatorProps}
+            currentCanvas={currentCanvas}
+            lang={langCode}
+            canvasOcr={canvasOcr}
+            canvases={canvases}
+            workId={workId}
+            pageIndex={pageIndex}
+            sierraId={sierraId}
+            pageSize={pageSize}
+            canvasIndex={canvasIndex}
+            iiifImageLocation={iiifImageLocation}
+            work={work}
+            manifest={manifest}
+            handleImageError={() => {
+              // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
+              reloadAuthIframe(document, iframeId);
+            }}
+          />
+        )}
     </CataloguePageLayout>
   );
 };

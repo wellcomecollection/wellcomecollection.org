@@ -1,4 +1,5 @@
 // @flow
+import { useState } from 'react';
 import { type IIIFCanvas } from '@weco/common/model/iiif';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
@@ -6,6 +7,8 @@ import { lighten } from 'polished';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import LL from '@weco/common/views/components/styled/LL';
+import { getImageAuthService } from '@weco/common/utils/iiif';
+import Padlock from '@weco/common/views/components/styled/Padlock';
 
 const IIIFViewerThumb = styled.button.attrs(props => ({
   tabIndex: props.isFocusable ? 0 : -1,
@@ -86,11 +89,19 @@ const IIIFCanvasThumbnail = ({
   thumbNumber,
   isFocusable,
 }: IIIFCanvasThumbnailProps) => {
-  const thumbnailService = canvas.thumbnail.service;
-  const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
-  const smallestWidthImageDimensions = thumbnailService.sizes
-    .sort((a, b) => a.width - b.width)
-    .find(dimensions => dimensions.width > 100);
+  const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
+  const thumbnailService = canvas?.thumbnail?.service;
+  const urlTemplate =
+    thumbnailService && iiifImageTemplate(thumbnailService['@id']);
+  const imageAuthService = getImageAuthService(canvas);
+  const isRestricted =
+    imageAuthService &&
+    imageAuthService.profile === 'http://iiif.io/api/auth/0/login/restricted';
+  const smallestWidthImageDimensions =
+    thumbnailService &&
+    thumbnailService.sizes
+      .sort((a, b) => a.width - b.width)
+      .find(dimensions => dimensions.width > 100);
   return (
     <IIIFViewerThumb
       onClick={clickHandler}
@@ -100,30 +111,48 @@ const IIIFCanvasThumbnail = ({
     >
       <IIIFViewerThumbInner>
         <ImageContainer>
-          <LL small={true} lighten={true} />
-          <IIIFResponsiveImage
-            width={
-              smallestWidthImageDimensions
-                ? smallestWidthImageDimensions.width
-                : 30
-            }
-            src={urlTemplate({
-              size: `${
+          {!thumbnailLoaded && !isRestricted && (
+            <LL small={true} lighten={true} />
+          )}
+          {isRestricted ? (
+            <>
+              <Padlock />
+              <span className="visually-hidden">
+                Thumbnail image is not available
+              </span>
+            </>
+          ) : (
+            <IIIFResponsiveImage
+              width={
                 smallestWidthImageDimensions
                   ? smallestWidthImageDimensions.width
-                  : '!100'
-              },`,
-            })}
-            srcSet={''}
-            sizes={`${
-              smallestWidthImageDimensions
-                ? smallestWidthImageDimensions.width
-                : 30
-            }px`}
-            alt={''}
-            lang={lang}
-            isLazy={false}
-          />
+                  : 30
+              }
+              src={
+                urlTemplate
+                  ? urlTemplate({
+                      size: `${
+                        smallestWidthImageDimensions
+                          ? smallestWidthImageDimensions.width
+                          : '!100'
+                      },`,
+                    })
+                  : null
+              }
+              srcSet={''}
+              sizes={`${
+                smallestWidthImageDimensions
+                  ? smallestWidthImageDimensions.width
+                  : 30
+              }px`}
+              alt={''}
+              lang={lang}
+              isLazy={false}
+              loadHandler={() => {
+                setThumbnailLoaded(true);
+              }}
+            />
+          )}
         </ImageContainer>
         <div>
           <IIIFViewerThumbNumber isActive={isActive}>

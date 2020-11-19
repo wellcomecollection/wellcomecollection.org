@@ -166,6 +166,7 @@ const Work: FunctionComponent<Props> = ({
                   }}
                   workTypeAggregations={[]}
                   shouldShowDescription={false}
+                  shouldShowFilters={false} // not display filters on the work detail page
                   activeTabIndex={0}
                 />
               </>

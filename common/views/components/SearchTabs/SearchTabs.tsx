@@ -24,6 +24,7 @@ const BaseTabsWrapper = styled.div.attrs<{ isEnhanced: boolean }>(props => ({
   [class*='ButtonInline__InlineButton'],
   [class^='CheckboxRadio__CheckboxRadioBox'] {
     background: white !important;
+    border-color: ${props => props.theme.color('marble')};
   }
 `;
 
@@ -36,20 +37,20 @@ const Tab = styled(Space).attrs({
     [font('hnm', 5)]: true,
   }),
 })`
-  background: ${props => props.theme.color('white')};
-  border-left: 1px solid #e1e1e1;
-  border-top: 1px solid #e1e1e1;
+  background: ${props => props.theme.color('pumice')};
+  border-left: 1px solid ${props => props.theme.color('cream')};
+  border-top: 1px solid ${props => props.theme.color('cream')};
 
   ${props =>
     props.isLast &&
     `
-    border-right: 1px solid #e1e1e1;
+    border-right: 1px solid ${props.theme.color('cream')};
   `}
 
   ${props =>
     props.isActive &&
     `
-    background: #e1e1e1;
+    background: ${props.theme.color('cream')};
   `}
 
   ${props =>
@@ -62,7 +63,7 @@ const Tab = styled(Space).attrs({
 `;
 
 const TabPanel = styled(Space)`
-  background: #e1e1e1;
+  background: ${props => props.theme.color('cream')};
 `;
 type Props = {
   worksRouteProps: WorksRouteProps;
@@ -71,6 +72,7 @@ type Props = {
   shouldShowDescription: boolean;
   activeTabIndex?: number;
   aggregations?: CatalogueAggregations;
+  shouldShowFilters: boolean;
 };
 
 const SearchTabs: FunctionComponent<Props> = ({
@@ -80,6 +82,7 @@ const SearchTabs: FunctionComponent<Props> = ({
   aggregations,
   shouldShowDescription,
   activeTabIndex,
+  shouldShowFilters,
 }: Props): ReactElement<Props> => {
   const { isKeyboard, isEnhanced } = useContext(AppContext);
   const [activeTab, setActiveTab] = useState(
@@ -121,6 +124,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             workTypeAggregations={workTypeAggregations}
             isImageSearch={false}
             aggregations={aggregations}
+            shouldShowFilters={shouldShowFilters}
           />
         </TabPanel>
       ),
@@ -159,6 +163,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             routeProps={imagesRouteProps}
             workTypeAggregations={workTypeAggregations}
             isImageSearch={true}
+            shouldShowFilters={shouldShowFilters}
             aggregations={aggregations}
           />
         </TabPanel>

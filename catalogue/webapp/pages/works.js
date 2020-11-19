@@ -212,6 +212,7 @@ const Works = ({
                         : []
                     }
                     shouldShowDescription={query === ''}
+                    shouldShowFilters={true}
                     aggregations={
                       works && works.aggregations
                         ? works.aggregations
