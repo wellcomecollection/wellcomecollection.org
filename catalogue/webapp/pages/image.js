@@ -4,19 +4,31 @@ import { type Work, type Image } from '@weco/common/model/catalogue';
 import { imageLink } from '@weco/common/services/catalogue/routes';
 import { getWork } from '../services/catalogue/works';
 import { getImage } from '../services/catalogue/images';
+// $FlowFixMe (tsx)
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
+import {
+  GlobalContextData,
+  getGlobalContextData,
+  // $FlowFixMe (tsx)
+} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 type Props = {|
   image: Image,
   sourceWork: Work,
   langCode: string,
+  globalContextData: GlobalContextData,
 |};
 
-const ImagePage = ({ image, sourceWork, langCode }: Props) => {
+const ImagePage = ({
+  image,
+  sourceWork,
+  langCode,
+  globalContextData,
+}: Props) => {
   const title = sourceWork.title || '';
   const iiifImageLocation = image.locations[0];
 
@@ -59,6 +71,7 @@ const ImagePage = ({ image, sourceWork, langCode }: Props) => {
       hideNewsletterPromo={true}
       hideFooter={true}
       hideInfoBar={true}
+      globalContextData={globalContextData}
     >
       {iiifImageLocation ? (
         <IIIFViewer
@@ -91,8 +104,11 @@ const ImagePage = ({ image, sourceWork, langCode }: Props) => {
   );
 };
 
-ImagePage.getInitialProps = async (ctx: Context): Promise<Props> => {
-  const { id, workId, langCode } = ctx.query;
+export const getServerSideProps = async (
+  ctx: Context
+): Promise<{ props: Props }> => {
+  const globalContextData = getGlobalContextData(ctx);
+  const { id, workId, langCode = 'en' } = ctx.query;
   if (!id) {
     // $FlowFixMe
     return { statusCode: 404 };
@@ -117,9 +133,12 @@ ImagePage.getInitialProps = async (ctx: Context): Promise<Props> => {
   }
 
   return {
-    image,
-    langCode,
-    sourceWork: work,
+    props: {
+      image,
+      langCode,
+      sourceWork: work,
+      globalContextData,
+    },
   };
 };
 

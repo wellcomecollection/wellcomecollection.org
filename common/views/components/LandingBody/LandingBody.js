@@ -15,6 +15,7 @@ import FeaturedCard, {
   convertCardToFeaturedCardProps,
 } from '../FeaturedCard/FeaturedCard';
 import { convertItemToCardProps } from '@weco/common/model/card';
+// $FlowFixMe (tsx)
 import VisitUsStaticContent from './VisitUsStaticContent';
 // $FlowFixMe (tsx)
 import CollectionsStaticContent from './CollectionsStaticContent';

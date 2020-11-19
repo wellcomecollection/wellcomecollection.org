@@ -1,6 +1,7 @@
 // @flow
 import { type Node, useContext } from 'react';
 import type { Url } from '../../../model/url';
+// $FlowFixMe (tsx)
 import type { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
@@ -10,11 +11,13 @@ import InfoBanner from '../InfoBanner/InfoBanner';
 import CookieNotice from '../CookieNotice/CookieNotice';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer/Footer';
+// $FlowFixMe (tsx)
 import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
 // $FlowFixMe (tsx)
 import PopupDialogContext from '../PopupDialogContext/PopupDialogContext';
 // $FlowFixMe (tsx)
 import PopupDialog from '../PopupDialog/PopupDialog';
+// $FlowFixMe (tsx)
 import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 import Space from '../styled/Space';
 // $FlowFixMe (tsx)

@@ -6,6 +6,7 @@ import {
   useContext,
   FunctionComponent,
   ReactElement,
+  ReactNode,
 } from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
@@ -73,7 +74,7 @@ const Popper = styled('div')<{ isVisible: boolean }>`
 
 type Props = {
   label: string;
-  children: ReactElement;
+  children: ReactNode;
   isInline: boolean | null;
   isOnDark?: boolean;
   id: string;

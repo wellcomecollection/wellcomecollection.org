@@ -72,3 +72,8 @@ export type CatalogueApiRedirect = {
   status: number,
   redirectToId: string,
 };
+
+export type CatalogueApiNotFound = {
+  type: 'NotFound',
+  status: 404,
+};

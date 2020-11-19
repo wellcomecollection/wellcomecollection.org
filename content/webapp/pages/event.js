@@ -3,7 +3,7 @@ import type { Context } from 'next';
 import NextLink from 'next/link';
 import { Component, Fragment } from 'react';
 import Prismic from 'prismic-javascript';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import Body from '@weco/common/views/components/Body/Body';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';

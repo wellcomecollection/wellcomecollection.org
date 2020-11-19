@@ -4,6 +4,7 @@ import {
   useEffect,
   ReactElement,
   FunctionComponent,
+  ReactNode,
 } from 'react';
 
 type AppContextProps = {
@@ -19,7 +20,7 @@ const appContextDefaults = {
 export const AppContext = createContext<AppContextProps>(appContextDefaults);
 
 type AppContextProviderProps = {
-  children: ReactElement;
+  children: ReactNode;
 };
 
 export const AppContextProvider: FunctionComponent<AppContextProviderProps> = ({

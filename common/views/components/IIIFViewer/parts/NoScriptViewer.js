@@ -138,7 +138,7 @@ type NoScriptViewerProps = {|
   canvasOcr: ?string,
   workId: string,
   pageIndex: number,
-  sierraId: string,
+  sierraId: ?string,
   pageSize: number,
   imageUrl: ?string,
   thumbnailsRequired: boolean,

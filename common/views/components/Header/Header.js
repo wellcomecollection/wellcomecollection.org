@@ -1,17 +1,16 @@
 // @flow
-import { withToggler } from '../../hocs/withToggler';
+import { useState } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
 
 export const navHeight = 85;
 
 type Props = {|
-  siteSection: string,
-  isActive: boolean,
-  toggle: () => void,
+  siteSection: ?string,
 |};
 
-const Header = withToggler(({ siteSection, toggle, isActive }: Props) => {
+const Header = ({ siteSection }: Props) => {
+  const [isActive, setIsActive] = useState(false);
   const links = [
     {
       href: '/visit-us',
@@ -61,7 +60,7 @@ const Header = withToggler(({ siteSection, toggle, isActive }: Props) => {
               aria-label="menu"
               onClick={event => {
                 event.preventDefault();
-                toggle();
+                setIsActive(!isActive);
               }}
             >
               <span />
@@ -113,6 +112,6 @@ const Header = withToggler(({ siteSection, toggle, isActive }: Props) => {
       </div>
     </div>
   );
-});
+};
 
 export default Header;

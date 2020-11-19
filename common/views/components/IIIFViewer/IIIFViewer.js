@@ -183,7 +183,7 @@ type IIIFViewerProps = {|
   canvases: [],
   workId: string,
   pageIndex: number,
-  sierraId: string,
+  sierraId: ?string,
   pageSize: number,
   canvasIndex: number,
   iiifImageLocation: ?DigitalLocation,

@@ -1,7 +1,6 @@
-// @flow
 export type JsonLdObj = { '@type': string };
 type Props = {
-  data: JsonLdObj | JsonLdObj[],
+  data: JsonLdObj | JsonLdObj[];
 };
 
 const JsonLd = ({ data }: Props) => {

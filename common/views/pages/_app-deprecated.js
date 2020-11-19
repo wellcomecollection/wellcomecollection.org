@@ -15,14 +15,14 @@ import {
   getParseCollectionVenueById,
 } from '../../services/prismic/opening-times';
 import { collectionVenueId } from '../../services/prismic/hardcoded-id';
-
 import { type OpeningHours } from '../../model/opening-hours';
-import ErrorPage from '../../views/components/ErrorPage/ErrorPage';
 // $FlowFixMe (tsx)
 import TogglesContext from '../../views/components/TogglesContext/TogglesContext';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
+// $FlowFixMe (tsx)
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
 import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
+// $FlowFixMe (tsx)
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
 // $FlowFixMe (tsx)
 import PopupDialogContext from '../../views/components/PopupDialogContext/PopupDialogContext';
@@ -512,10 +512,6 @@ export default class WecoApp extends App {
                           {!pageProps.statusCode && (
                             <Component {...pageProps} />
                           )}
-                          {pageProps.statusCode &&
-                            pageProps.statusCode !== 200 && (
-                              <ErrorPage statusCode={pageProps.statusCode} />
-                            )}
                         </Fragment>
                       </OutboundLinkTracker>
                     </ThemeProvider>

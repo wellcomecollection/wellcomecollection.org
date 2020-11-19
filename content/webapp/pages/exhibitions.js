@@ -3,7 +3,7 @@ import type { Context } from 'next';
 import { Component } from 'react';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import type { UiExhibition } from '@weco/common/model/exhibitions';
 import type { Period } from '@weco/common/model/periods';

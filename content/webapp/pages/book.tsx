@@ -2,7 +2,7 @@ import { NextPageContext } from 'next';
 import { Book } from '@weco/common/model/books';
 import { Fragment, Component, ReactElement } from 'react';
 import { getBook } from '@weco/common/services/prismic/books';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayoutDeprecated from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Body from '@weco/common/views/components/Body/Body';
@@ -164,10 +164,10 @@ export class BookPage extends Component<Props | { statusCode: number }> {
         : [];
 
     return (
-      <PageLayout
+      <PageLayoutDeprecated
         title={book.title}
         description={book.metadataDescription || book.promoText || ''}
-        url={{ pathname: `/books/${book.id}` }}
+        url={{ pathname: `/books/${book.id}`, query: {} }}
         jsonLd={{ '@type': 'WebPage' }}
         openGraphType={'book'}
         siteSection={null}
@@ -189,7 +189,7 @@ export class BookPage extends Component<Props | { statusCode: number }> {
             )}
           </Fragment>
         </ContentPage>
-      </PageLayout>
+      </PageLayoutDeprecated>
     );
   }
 }
