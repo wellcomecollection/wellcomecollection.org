@@ -105,7 +105,7 @@ const WorkHeaderPrototype: FunctionComponent<Props> = ({
             // We only send a lang if it's unambiguous -- better to send
             // no language than the wrong one.
             lang={
-              work.languages.length === 1 ? work.languages[0].id : undefined
+              work.languages.length === 1 ? work.languages[0]?.id : undefined
             }
           >
             <WorkTitle title={work.title} />
