@@ -23,6 +23,9 @@ import { wellcomeCollectionGallery } from '../../../model/organization';
 import GlobalContextProvider, {
   GlobalContextData,
 } from '../GlobalContextProvider/GlobalContextProvider';
+import GlobalInfoBarContext, {
+  GlobalInfoBarContextProvider,
+} from '../GlobalInfoBarContext/GlobalInfoBarContext';
 
 type SiteSection =
   | 'collections'
@@ -101,6 +104,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
     'URL',
   ];
 
+  const globalInfoBar = useContext(GlobalInfoBarContext);
   return (
     <>
       <Head>
@@ -239,7 +243,13 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
           globalAlert.isShown === 'show' &&
           (!globalAlert.routeRegex ||
             urlString.match(new RegExp(globalAlert.routeRegex))) && (
-            <InfoBanner text={globalAlert.text} cookieName="WC_globalAlert" />
+            <InfoBanner
+              text={globalAlert.text}
+              cookieName="WC_globalAlert"
+              onVisibilityChange={isVisible => {
+                globalInfoBar.setIsVisible(isVisible);
+              }}
+            />
           )}
 
         {popupDialog && popupDialog.isShown && <PopupDialog {...popupDialog} />}
@@ -280,7 +290,9 @@ const PageLayout: FunctionComponent<Props> = ({
 }: Props) => {
   return (
     <GlobalContextProvider value={globalContextData}>
-      <PageLayoutComponent {...props} />
+      <GlobalInfoBarContextProvider>
+        <PageLayoutComponent {...props} />
+      </GlobalInfoBarContextProvider>
     </GlobalContextProvider>
   );
 };

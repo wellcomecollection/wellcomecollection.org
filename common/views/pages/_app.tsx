@@ -1,4 +1,4 @@
-import App, { AppProps, AppContext } from 'next/app';
+import { AppProps } from 'next/app';
 import Router from 'next/router';
 import ReactGA from 'react-ga';
 import Raven from 'raven-js';
