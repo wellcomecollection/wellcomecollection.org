@@ -10,6 +10,7 @@
     "deploy": "aws s3 sync ./out s3://dash.wellcomecollection.org --only-show-errors --acl public-read"
   },
   "dependencies": {
+    "@babel/core": "^7.12.3",
     "@babel/preset-flow": "^7.0.0",
     "babel-plugin-styled-components": "^1.9.0",
     "isomorphic-unfetch": "^3.0.0",
