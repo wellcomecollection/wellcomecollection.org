@@ -64,8 +64,6 @@ const VisitUsStaticContent: FunctionComponent = () => {
                   'no-margin': true,
                 })}
               >{`Today's opening times`}</h2>
-
-              {JSON.stringify(openingTimes)}
               {openingTimes && openingTimes?.collectionOpeningTimes && (
                 <FooterOpeningTimes
                   collectionOpeningTimes={openingTimes.collectionOpeningTimes}
