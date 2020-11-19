@@ -15,20 +15,9 @@ import {
 } from '@weco/common/model/catalogue';
 import { trackEvent } from '@weco/common/utils/ga';
 
-const DelayUnenhanced = styled.div<{ isEnhanced: boolean }>`
-  opacity: ${props => (props.isEnhanced ? '1' : '0')};
-  height: ${props => (props.isEnhanced ? 'auto' : '0')};
-  overflow: ${props => (props.isEnhanced ? 'visible' : 'hidden')};
-  animation: ${props => props.theme.keyframes.showUnenhanced} 1ms 1s forwards;
-
-  ${props =>
-    props.isEnhanced &&
-    `
-    animation: none;
-  `}
-`;
-
-const BaseTabsWrapper = styled(DelayUnenhanced)`
+const BaseTabsWrapper = styled.div<{ isEnhanced: boolean }>`
+  // TODO: Decide if we want a different solution for no-js rendering
+  ${props => props.theme.delayUnenhanced(props.isEnhanced)}
   // FIXME: For testing, make the checkboxes/buttons have a white background because they're on grey
   [class*='ButtonInline__InlineButton'],
   [class^='CheckboxRadio__CheckboxRadioBox'] {

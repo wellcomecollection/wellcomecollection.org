@@ -146,6 +146,20 @@ function color(name: string, variant: 'base' | 'light' | 'dark' = 'base') {
   return this.colors[name][variant];
 }
 
+function delayUnenhanced(isEnhanced: boolean) {
+  return css`
+    opacity: ${isEnhanced ? '1' : '0'};
+    height: ${isEnhanced ? 'auto' : '0'};
+    overflow: ${isEnhanced ? 'visible' : 'hidden'};
+    animation: ${theme.keyframes.showUnenhanced} 1ms 1s forwards;
+
+    ${isEnhanced &&
+      `
+      animation: none;
+    `}
+  `;
+}
+
 function makeSpacePropertyValues(
   size: SpaceSize,
   properties: SpaceProperty[],
@@ -186,4 +200,5 @@ export default {
   ...theme,
   media,
   makeSpacePropertyValues,
+  delayUnenhanced,
 };
