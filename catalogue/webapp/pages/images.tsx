@@ -28,7 +28,6 @@ import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { getImages } from '../services/catalogue/images';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import useHotjar from '@weco/common/hooks/useHotjar';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 import {
