@@ -19,6 +19,18 @@ type Props = {
   work: Work;
 };
 
+const ShameAvailableOnlineTag = styled(Space).attrs({
+  h: {
+    size: 's',
+    properties: ['padding-left', 'padding-right'],
+  },
+  v: {
+    size: 's',
+    properties: ['padding-top', 'padding-bottom'],
+  },
+  className: `bg-smoke line-height-1`,
+})``;
+
 const Container = styled.div`
   ${props => props.theme.media.medium`
     display: flex;
@@ -111,6 +123,13 @@ const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
                   </Space>
                 )}
                 {work.workType.label}
+                {work.availableOnline && (
+                  <Space h={{ size: 'm', properties: ['margin-left'] }}>
+                    <ShameAvailableOnlineTag>
+                      Available online
+                    </ShameAvailableOnlineTag>
+                  </Space>
+                )}
               </Space>
               <h2
                 className={classNames({
