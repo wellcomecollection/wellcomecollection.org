@@ -62,12 +62,12 @@
                 "genres",
                 "production.dates",
                 "subjects",
-                "language"
+                "languages"
               ]
             }
           },
           {
-            "name": "language",
+            "name": "languages",
             "in": "query",
             "description": "Filter the work by language.",
             "schema": {
@@ -415,7 +415,7 @@
           "subjects": {
             "$ref": "#/components/schemas/SubjectAggregation"
           },
-          "language": {
+          "languages": {
             "$ref": "#/components/schemas/LanguageAggregation"
           },
           "license": {
@@ -1450,7 +1450,7 @@
                     "description": "An event contributing to the production, publishing or distribution of a work."
                   }
                 },
-                "language": {
+                "languages": {
                   "$ref": "#/components/schemas/Language"
                 },
                 "edition": {
@@ -1906,7 +1906,7 @@
               "description": "An event contributing to the production, publishing or distribution of a work."
             }
           },
-          "language": {
+          "languages": {
             "$ref": "#/components/schemas/Language"
           },
           "edition": {

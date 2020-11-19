@@ -35,7 +35,6 @@ const WorkSearchResults = ({ works, worksRouteProps, apiProps }: Props) => {
                 id: result.id,
                 position: i,
                 resultWorkType: result.workType.label,
-                resultLanguage: result.language && result.language.label,
                 resultIdentifiers: result.identifiers.map(
                   identifier => identifier.value
                 ),

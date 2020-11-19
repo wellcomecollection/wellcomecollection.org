@@ -44,6 +44,7 @@ const workIncludes = [
   'partOf',
   'precededBy',
   'succeededBy',
+  'languages',
 ];
 
 const redirect = (id: string, status: number = 302): CatalogueApiRedirect => ({
