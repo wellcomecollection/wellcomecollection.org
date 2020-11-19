@@ -105,5 +105,5 @@ module "works_data_listener" {
     "/_next/data/*/work.json",
     "/_next/data/*/works.json",
   ]
-  priority = "49997"
+  priority = "49996"
 }
