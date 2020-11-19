@@ -287,7 +287,9 @@ const ExpandedImage = ({
       : detailedWork &&
         itemLink({
           workId,
-          langCode: detailedWork?.languages.length > 0 && detailedWork?.languages[0].id,
+          // We only send a langCode if it's unambiguous -- better to send
+          // no language than the wrong one.
+          langCode: detailedWork?.languages.length === 1 && detailedWork?.languages[0].id,
           ...(canvasDeeplink || {}),
         });
 
