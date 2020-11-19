@@ -9,7 +9,7 @@ import GlobalAlertContext from '../../views/components/GlobalAlertContext/Global
 // $FlowFixMe (ts);
 import PopupDialogContext from '../../views/components/PopupDialogContext/PopupDialogContext';
 // $FlowFixMe (tsx)
-import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext.js';
+import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
 import { openingTimes } from '../../test/fixtures/components/opening-times.js';
 
 export function mountWithTheme(Component: Node) {
