@@ -83,14 +83,11 @@ module "images_search_rule" {
 # These routes will mimic the `/catalogue/webapp/pages/*` directory
 # see: https://github.com/vercel/next.js/issues/16090
 
-module "works_data_listener" {
-  source = "../../../infrastructure/terraform/modules/alb_listener_rule"
+locals {
+  # Listener rules are limited to 5 different condition values so we
+  # must create several to cover all of the path patterns we need
 
-  alb_listener_https_arn = var.alb_listener_https_arn
-  alb_listener_http_arn  = var.alb_listener_http_arn
-  target_group_arn       = local.target_group_arn
-
-  path_patterns = [
+  works_data_paths = [
     "/_next/data/*/download.json",
     "/_next/data/*/embed.json",
     "/_next/data/*/image.json",
@@ -100,5 +97,26 @@ module "works_data_listener" {
     "/_next/data/*/work.json",
     "/_next/data/*/works.json",
   ]
-  priority = "49996"
+  max_conditions_per_rule = 5
+
+  works_data_path_chunks = chunklist(local.works_data_paths, local.max_conditions_per_rule)
+  works_data_path_sets = zipmap(
+    range(length(local.works_data_path_chunks)),
+    local.works_data_path_chunks
+  )
+
+  max_priority = 49996
+  min_priority = local.max_priority - length(local.works_data_path_chunks) + 1
+}
+
+module "works_data_listener" {
+  source   = "../../../infrastructure/terraform/modules/alb_listener_rule"
+  for_each = local.works_data_path_sets
+
+  alb_listener_https_arn = var.alb_listener_https_arn
+  alb_listener_http_arn  = var.alb_listener_http_arn
+  target_group_arn       = local.target_group_arn
+
+  path_patterns = each.value
+  priority      = local.min_priority + each.key
 }
