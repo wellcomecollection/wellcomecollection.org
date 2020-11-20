@@ -4,6 +4,7 @@ import description from './parts/description';
 import image from './parts/image';
 import list from './parts/list';
 import structuredText from './parts/structured-text';
+import link from './parts/link';
 
 export default {
   Person: {
@@ -14,5 +15,8 @@ export default {
       link: text('Link'),
       title: structuredText('Link text', 'single'),
     }),
+  },
+  'Content relationships': {
+    season: link('Season', 'document', ['seasons'], 'Select a Season'),
   },
 };

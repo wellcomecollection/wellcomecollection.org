@@ -648,6 +648,19 @@
       }
     }
   },
+  "Content relationships": {
+    "season": {
+      "type": "Link",
+      "config": {
+        "label": "Season",
+        "select": "document",
+        "customtypes": [
+          "seasons"
+        ],
+        "placeholder": "Select a Season"
+      }
+    }
+  },
   "Migration": {
     "publishDate": {
       "config": {

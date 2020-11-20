@@ -461,6 +461,50 @@
                 }
               }
             }
+          },
+          "mediaObjectList": {
+            "type": "Slice",
+            "fieldset": "Media Object List",
+            "repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              },
+              "text": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,hyperlink,strong,em",
+                  "label": "Text"
+                }
+              },
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Image",
+                  "thumbnails": [
+                    {
+                      "name": "32:15",
+                      "width": 3200,
+                      "height": 1500
+                    },
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -689,6 +733,19 @@
       "config": {
         "single": "paragraph,hyperlink,strong,em",
         "label": "Metadata description"
+      }
+    }
+  },
+  "Content relationships": {
+    "season": {
+      "type": "Link",
+      "config": {
+        "label": "Season",
+        "select": "document",
+        "customtypes": [
+          "seasons"
+        ],
+        "placeholder": "Select a Season"
       }
     }
   },

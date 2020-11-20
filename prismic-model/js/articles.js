@@ -36,6 +36,9 @@ const Article = {
   Metadata: {
     metadataDescription: structuredText('Metadata description', 'single'),
   },
+  'Content relationships': {
+    season: link('Season', 'document', ['seasons'], 'Select a Season'),
+  },
   Migration: {
     publishDate: {
       config: {

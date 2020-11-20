@@ -50,6 +50,9 @@ const Exhibitions = {
   Metadata: {
     metadataDescription: structuredText('Metadata description', 'single'),
   },
+  'Content relationships': {
+    season: link('Season', 'document', ['seasons'], 'Select a Season'),
+  },
   Migration: {
     drupalPromoImage: link('Drupal promo image', 'web'),
     drupalNid: text('Drupal node ID'),

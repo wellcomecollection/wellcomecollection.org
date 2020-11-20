@@ -70,6 +70,9 @@ const Events = {
   Metadata: {
     metadataDescription: structuredText('Metadata description', 'single'),
   },
+  'Content relationships': {
+    season: link('Season', 'document', ['seasons'], 'Select a Season'),
+  },
   Deprecated: {
     description: structuredText('Description', 'multi', [
       'heading2',
