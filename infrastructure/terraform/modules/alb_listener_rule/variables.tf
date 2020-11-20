@@ -3,8 +3,12 @@ variable "alb_listener_http_arn" {}
 variable "target_group_arn" {}
 variable "priority" {}
 
-variable "values" {
-  type = list(string)
+variable "path_patterns" {
+  type    = list(string)
+  default = []
 }
 
-variable "field" {}
+variable "host_headers" {
+  type    = list(string)
+  default = []
+}

@@ -38,9 +38,8 @@ module "path_listener" {
   alb_listener_http_arn  = var.alb_listener_http_arn
   target_group_arn       = local.target_group_arn
 
-  field    = "path-pattern"
-  values   = ["/works*"]
-  priority = "49997"
+  path_patterns = ["/works*"]
+  priority      = "49997"
 }
 
 # This is used for the static assets served from _next with multiple next apps
@@ -52,9 +51,8 @@ module "subdomain_listener" {
   alb_listener_http_arn  = var.alb_listener_http_arn
   target_group_arn       = local.target_group_arn
 
-  priority = "201"
-  values   = ["${var.subdomain}.wellcomecollection.org"]
-  field    = "host-header"
+  priority     = "201"
+  host_headers = ["${var.subdomain}.wellcomecollection.org"]
 }
 
 module "embed_path_rule" {
@@ -64,9 +62,8 @@ module "embed_path_rule" {
   alb_listener_http_arn  = var.alb_listener_http_arn
   target_group_arn       = local.target_group_arn
 
-  priority = "202"
-  field    = "path-pattern"
-  values   = ["/oembed*"]
+  priority      = "202"
+  path_patterns = ["/oembed*"]
 }
 
 module "images_search_rule" {
@@ -76,9 +73,8 @@ module "images_search_rule" {
   alb_listener_http_arn  = var.alb_listener_http_arn
   target_group_arn       = local.target_group_arn
 
-  priority = "203"
-  field    = "path-pattern"
-  values   = ["/images*"]
+  priority      = "203"
+  path_patterns = ["/images*"]
 }
 
 # We do this as our server side props for next.js are served over
@@ -94,8 +90,7 @@ module "works_data_listener" {
   alb_listener_http_arn  = var.alb_listener_http_arn
   target_group_arn       = local.target_group_arn
 
-  field = "path-pattern"
-  values = [
+  path_patterns = [
     "/_next/data/*/download.json",
     "/_next/data/*/embed.json",
     "/_next/data/*/image.json",

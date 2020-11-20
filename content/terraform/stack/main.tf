@@ -1,7 +1,7 @@
 module "content-service-17092020" {
   source = "../../../infrastructure/terraform/modules/service"
 
-  namespace    = "content-17092020-${var.env_suffix}"
+  namespace = "content-17092020-${var.env_suffix}"
 
   namespace_id = var.namespace_id
   cluster_arn  = var.cluster_arn
@@ -29,7 +29,7 @@ module "content-service-17092020" {
   subnets = local.private_subnets
 
   deployment_service_name = "content_webapp"
-  deployment_service_env = var.env_suffix
+  deployment_service_env  = var.env_suffix
 }
 
 locals {
@@ -43,9 +43,8 @@ module "path_listener" {
   alb_listener_http_arn  = var.alb_listener_http_arn
   target_group_arn       = local.target_group_arn
 
-  field                  = "path-pattern"
-  values                 = ["/*"]
-  priority               = "49998"
+  path_patterns = ["/*"]
+  priority      = "49998"
 }
 
 # This is used for the static assets served from _next with multiple next apps
@@ -57,7 +56,6 @@ module "subdomain_listener" {
   alb_listener_http_arn  = var.alb_listener_http_arn
   target_group_arn       = local.target_group_arn
 
-  field                  = "host-header"
-  values                 = ["${var.subdomain}.wellcomecollection.org"]
-  priority               = "49999"
+  host_headers = ["${var.subdomain}.wellcomecollection.org"]
+  priority     = "49999"
 }
