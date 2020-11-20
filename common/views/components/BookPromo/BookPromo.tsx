@@ -1,11 +1,11 @@
-// @flow
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import UiImage from '../Image/Image';
-import type { ImageType } from '../../../model/image';
+import { ImageType } from '../../../model/image';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import LabelsList from '../LabelsList/LabelsList';
+import { FunctionComponent, ReactElement } from 'react';
 
 const BookPromoImageContainer = styled.div.attrs({
   className: classNames({
@@ -27,15 +27,21 @@ const BookPromoImage = styled(Space).attrs({
   transform: translateX(-50%) rotate(2deg);
 `;
 
-type Props = {|
-  url: string,
-  title: string,
-  subtitle: ?string,
-  description: ?string,
-  image: ?ImageType,
-|};
+type Props = {
+  url: string;
+  title: string;
+  subtitle: string | null | undefined;
+  description: string | null | undefined;
+  image: ImageType | null | undefined;
+};
 
-const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
+const BookPromo: FunctionComponent<Props> = ({
+  url,
+  image,
+  title,
+  subtitle,
+  description,
+}: Props): ReactElement => {
   return (
     <Space
       v={{
@@ -71,13 +77,22 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
             </BookPromoImage>
           )}
         </BookPromoImageContainer>
-        <Space h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}>
+        <Space
+          h={{
+            size: 'l',
+            properties: ['padding-left', 'padding-right'],
+          }}
+        >
           <Space
             v={{ size: 's', properties: ['margin-bottom'] }}
             className={'relative'}
           >
             <Space
-              v={{ size: 'm', negative: true, properties: ['margin-top'] }}
+              v={{
+                size: 'm',
+                negative: true,
+                properties: ['margin-top'],
+              }}
             >
               <LabelsList labels={[{ text: 'Book', url: null }]} />
             </Space>

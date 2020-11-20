@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, ReactElement, FunctionComponent } from 'react';
 import { trackEvent } from '@weco/common/utils/ga';
 import { font, classNames } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 
-const StyledBetaMessage = styled.div.attrs(props => ({
+const StyledBetaMessage = styled.div.attrs(() => ({
   className: classNames({
     [font('hnl', 5)]: true,
     'flex flex--v-center': true,
@@ -14,9 +14,11 @@ const StyledBetaMessage = styled.div.attrs(props => ({
   padding-left: ${props => props.theme.spacingUnit}px;
 `;
 
-type Props = {| message: string |};
+type Props = { message: string };
 
-const BetaMessage = ({ message }: Props) => {
+const BetaMessage: FunctionComponent<Props> = ({
+  message,
+}: Props): ReactElement => {
   useEffect(() => {
     trackEvent({
       category: 'BetaMessage',

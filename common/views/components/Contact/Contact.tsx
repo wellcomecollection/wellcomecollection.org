@@ -1,16 +1,20 @@
-// @flow
-
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
+import { FunctionComponent, ReactElement } from 'react';
 
-type Props = {|
-  title: string,
-  subtitle: ?string,
-  phone: ?string,
-  email: ?string,
-|};
+type Props = {
+  title: string;
+  subtitle: string | null | undefined;
+  phone: string | null | undefined;
+  email: string | null | undefined;
+};
 
-function Contact({ title, subtitle, phone, email }: Props) {
+const Contact: FunctionComponent<Props> = ({
+  title,
+  subtitle,
+  phone,
+  email,
+}: Props): ReactElement => {
   return (
     <Space
       h={{ size: 'm', properties: ['padding-left'] }}
@@ -66,6 +70,6 @@ function Contact({ title, subtitle, phone, email }: Props) {
       )}
     </Space>
   );
-}
+};
 
 export default Contact;

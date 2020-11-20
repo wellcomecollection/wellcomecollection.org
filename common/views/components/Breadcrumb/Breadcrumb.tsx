@@ -1,20 +1,22 @@
-// @flow
 import { font, classNames } from '../../../utils/classnames';
 import { breadcrumbsLd } from '../../../utils/json-ld';
 import Space from '../styled/Space';
+import { FunctionComponent, ReactElement } from 'react';
 
-export type Breadcrumbs = {|
-  text: string,
-  url?: string,
-  prefix?: string,
-  isHidden?: boolean,
-|}[];
+export type Breadcrumbs = {
+  text: string;
+  url?: string;
+  prefix?: string;
+  isHidden?: boolean;
+}[];
 
-type Props = {|
-  items: Breadcrumbs,
-|};
+type Props = {
+  items: Breadcrumbs;
+};
 
-const Breadcrumb = ({ items }: Props) => (
+const Breadcrumb: FunctionComponent<Props> = ({
+  items,
+}: Props): ReactElement => (
   <div
     className={classNames({
       flex: true,
