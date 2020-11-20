@@ -88,6 +88,8 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
       headers      = ["Host"]
       query_string = true
 
+      # The number of keys here is higher than the default limit of 10 -
+      # AWS have increased this to 50 for us here.
       query_string_cache_keys = [
         "_queryType",
         "canvas",
@@ -172,7 +174,7 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
     }
   }
 
-  # This is for the data fetching routes used in NextJs's getServerSideProps 
+  # This is for the data fetching routes used in NextJs's getServerSideProps
   # see: https://nextjs.org/docs/basic-features/data-fetching#getserversideprops-server-side-rendering
   ordered_cache_behavior {
     target_origin_id       = local.default_origin_id

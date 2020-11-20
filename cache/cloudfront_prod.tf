@@ -118,6 +118,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
       headers      = ["Host"]
       query_string = true
 
+      # The number of keys here is higher than the default limit of 10 -
+      # AWS have increased this to 50 for us - worth noting if we move accounts etc.
       query_string_cache_keys = [
         "_queryType",
         "canvas",
