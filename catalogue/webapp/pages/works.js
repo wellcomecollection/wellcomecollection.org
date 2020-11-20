@@ -1,6 +1,6 @@
 // @flow
 import { type Context } from 'next';
-import { Fragment, useEffect, useState, useContext } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
@@ -11,6 +11,12 @@ import {
 } from '@weco/common/model/catalogue';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
+import {
+  GlobalContextData,
+  getGlobalContextData,
+  // $FlowFixMe (tsx)
+} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+// $FlowFixMe (tsx)
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
@@ -37,9 +43,9 @@ import WorkSearchResults from '../components/WorkSearchResults/WorkSearchResults
 // $FlowFixMe (tsc)
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 // $FlowFixMe (tsx)
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-// $FlowFixMe (tsx)
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
+// $FlowFixMe (tsx)
+import { removeUndefinedProps } from '@weco/common/utils/json';
 
 type Props = {|
   works: ?CatalogueResultsList<Work> | CatalogueApiError,
@@ -47,15 +53,22 @@ type Props = {|
   worksRouteProps: WorksRouteProps,
   shouldGetWorks: boolean,
   apiProps: CatalogueWorksApiProps,
+  globalContextData: GlobalContextData,
 |};
 
-const Works = ({ works, images, worksRouteProps, apiProps }: Props) => {
+const Works = ({
+  works,
+  images,
+  worksRouteProps,
+  apiProps,
+  globalContextData,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
   const results: ?CatalogueResultsList<Work | Image> | CatalogueApiError =
     works || images;
 
-  const { searchPrototype } = useContext(TogglesContext);
+  const { searchPrototype } = globalContextData.toggles;
   const {
     query,
     page,
@@ -99,6 +112,7 @@ const Works = ({ works, images, worksRouteProps, apiProps }: Props) => {
             : undefined
         }
         statusCode={results.httpStatus}
+        globalContextData={globalContextData}
       />
     );
   }
@@ -136,6 +150,7 @@ const Works = ({ works, images, worksRouteProps, apiProps }: Props) => {
         siteSection={'collections'}
         imageUrl={null}
         imageAltText={null}
+        globalContextData={globalContextData}
       >
         <Space
           v={{
@@ -361,7 +376,10 @@ const Works = ({ works, images, worksRouteProps, apiProps }: Props) => {
   );
 };
 
-Works.getInitialProps = async (ctx: Context): Promise<Props> => {
+export const getServerSideProps = async (
+  ctx: Context
+): Promise<{ props: Props }> => {
+  const globalContextData = getGlobalContextData(ctx);
   const params = WorksRoute.fromQuery(ctx.query);
   const { enableColorFiltering } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
@@ -396,11 +414,14 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     : null;
 
   return {
-    works: worksOrError,
-    images: imagesOrError,
-    worksRouteProps: params,
-    shouldGetWorks,
-    apiProps,
+    props: removeUndefinedProps({
+      works: worksOrError,
+      images: imagesOrError,
+      worksRouteProps: params,
+      shouldGetWorks,
+      apiProps,
+      globalContextData,
+    }),
   };
 };
 

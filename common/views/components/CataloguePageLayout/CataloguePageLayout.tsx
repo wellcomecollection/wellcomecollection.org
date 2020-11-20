@@ -1,23 +1,21 @@
 // @flow
-import { useContext, useEffect, useState } from 'react';
-import PageLayout, {
-  type Props as PageLayoutProps,
-} from '../PageLayout/PageLayout';
-// $FlowFixMe (tsx)
+import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import PageLayout, { Props as PageLayoutProps } from '../PageLayout/PageLayout';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import Layout12 from '../Layout12/Layout12';
 import BetaBar from '../BetaBar/BetaBar';
 import SearchToolbar from '../SearchToolbar/SearchToolbar';
-// $FlowFixMe (tsx)
 import TogglesContext from '../TogglesContext/TogglesContext';
 
-type Props = {|
-  ...PageLayoutProps,
-  hideInfoBar?: boolean,
-|};
+type Props = {
+  hideInfoBar?: boolean;
+} & PageLayoutProps;
 
-const CataloguePageLayout = (props: Props) => {
-  const { children, hideInfoBar, ...extraProps } = props;
+const CataloguePageLayout: FunctionComponent<Props> = ({
+  hideInfoBar,
+  children,
+  ...props
+}: Props) => {
   const { searchToolbar } = useContext(TogglesContext);
   const [isRedirectBannerVisible, setIsRedirectBannerVisible] = useState(false);
   useEffect(() => {
@@ -28,7 +26,7 @@ const CataloguePageLayout = (props: Props) => {
 
   return (
     <>
-      <PageLayout {...extraProps}>
+      <PageLayout {...props}>
         {hideInfoBar !== true && (
           <>
             {isRedirectBannerVisible && (
@@ -56,4 +54,5 @@ const CataloguePageLayout = (props: Props) => {
     </>
   );
 };
+
 export default CataloguePageLayout;

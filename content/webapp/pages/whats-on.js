@@ -21,7 +21,7 @@ import {
   readingRoomPromo,
   dailyTourPromo,
 } from '@weco/common/data/facility-promos';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import EventsByMonth from '@weco/common/views/components/EventsByMonth/EventsByMonth';
@@ -31,7 +31,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import FacilityPromo from '@weco/common/views/components/FacilityPromo/FacilityPromo';
-// import Divider from '@weco/common/views/components/Divider/Divider';
+// $FlowFixMe (tsx)
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';

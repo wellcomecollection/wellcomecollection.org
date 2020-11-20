@@ -1,5 +1,5 @@
-import { NextPage, NextPageContext } from 'next';
-import { useEffect, useState, useContext, ReactElement } from 'react';
+import { GetServerSideProps, NextPage } from 'next';
+import { useEffect, useState, ReactElement } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
@@ -28,15 +28,19 @@ import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { getImages } from '../services/catalogue/images';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import useHotjar from '@weco/common/hooks/useHotjar';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
+import {
+  getGlobalContextData,
+  WithGlobalContextData,
+} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import { removeUndefinedProps } from '@weco/common/utils/json';
 
 type Props = {
   results?: CatalogueResultsList<Image> | CatalogueApiError;
   imagesRouteProps: ImagesRouteProps;
   apiProps: ImagesApiProps;
-};
+} & WithGlobalContextData;
 
 type ImagesPaginationProps = {
   query?: string;
@@ -84,10 +88,11 @@ const Images: NextPage<Props> = ({
   results,
   imagesRouteProps,
   apiProps,
+  globalContextData,
 }: Props): ReactElement<Props> => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(imagesRouteProps);
-  const { searchPrototype } = useContext(TogglesContext);
+  const { searchPrototype } = globalContextData.toggles;
   const { query, page, color } = imagesRouteProps;
   useEffect(() => {
     function routeChangeStart() {
@@ -147,12 +152,15 @@ const Images: NextPage<Props> = ({
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}image search`}
         description="Search Wellcome Collection images"
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         url={imagesLink({ ...imagesRouteProps }, 'canonical_link').as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'collections'}
         imageUrl={null}
         imageAltText={null}
+        globalContextData={globalContextData}
       >
         <Space
           v={{
@@ -263,21 +271,25 @@ const Images: NextPage<Props> = ({
   );
 };
 
-Images.getInitialProps = async (ctx: NextPageContext): Promise<Props> => {
-  const params = ImagesRoute.fromQuery(ctx.query);
+export const getServerSideProps: GetServerSideProps<Props> = async context => {
+  const globalContextData = getGlobalContextData(context);
+  const params = ImagesRoute.fromQuery(context.query);
   const apiProps = imagesRouteToApiUrl(params);
   const hasQuery = !!(params.query && params.query !== '');
   const imagesOrError = hasQuery
     ? await getImages({
         params,
-        toggles: ctx.query.toggles,
+        toggles: context.query.toggles,
       })
     : undefined;
 
   return {
-    results: imagesOrError,
-    imagesRouteProps: params,
-    apiProps,
+    props: removeUndefinedProps({
+      results: imagesOrError,
+      imagesRouteProps: params,
+      apiProps,
+      globalContextData,
+    }),
   };
 };
 

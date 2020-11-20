@@ -19,6 +19,7 @@ import {
 import fetch from 'isomorphic-unfetch';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { getWork } from '../services/catalogue/works';
+// $FlowFixMe (tsx)
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Download from '@weco/catalogue/components/Download/Download';
@@ -26,15 +27,29 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkDetailsText from '../components/WorkDetailsText/WorkDetailsText';
+import {
+  GlobalContextData,
+  getGlobalContextData,
+  // $FlowFixMe (tsx)
+} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+// $FlowFixMe (tsx)
+import { removeUndefinedProps } from '@weco/common/utils/json';
 
 type Props = {|
   workId: string,
   sierraId: string,
   manifest: ?IIIFManifest,
   work: ?(Work | CatalogueApiError),
+  globalContextData: GlobalContextData,
 |};
 
-const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
+const DownloadPage = ({
+  workId,
+  sierraId,
+  manifest,
+  work,
+  globalContextData,
+}: Props) => {
   const title = (manifest && manifest.label) || (work && work.title) || '';
   const iiifImageLocation =
     work && work.type !== 'Error'
@@ -88,6 +103,7 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
       imageUrl={null}
       imageAltText={''}
       hideNewsletterPromo={true}
+      globalContextData={globalContextData}
     >
       <Layout8>
         <SpacingSection>
@@ -153,7 +169,10 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
   );
 };
 
-DownloadPage.getInitialProps = async (ctx: Context): Promise<Props> => {
+export const getServerSideProps = async (
+  ctx: Context
+): Promise<{ props: Props }> => {
+  const globalContextData = getGlobalContextData(ctx);
   const { workId, sierraId } = ctx.query;
   const manifestUrl = sierraId
     ? `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
@@ -161,10 +180,13 @@ DownloadPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   const manifest = manifestUrl ? await (await fetch(manifestUrl)).json() : null;
   const work = await getWork({ id: workId, toggles: ctx.query.toggles });
   return {
-    workId,
-    sierraId,
-    manifest,
-    work,
+    props: removeUndefinedProps({
+      workId,
+      sierraId,
+      manifest,
+      work,
+      globalContextData,
+    }),
   };
 };
 

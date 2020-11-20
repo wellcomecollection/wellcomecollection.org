@@ -19,6 +19,7 @@ import {
   getAuthService,
 } from '@weco/common/utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
+// $FlowFixMe (tsx)
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer, {
@@ -29,12 +30,19 @@ import styled from 'styled-components';
 import Space, {
   type SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
+import {
+  GlobalContextData,
+  getGlobalContextData,
+  // $FlowFixMe (tsx)
+} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import Modal from '@weco/common/views/components/Modal/Modal';
 // $FlowFixMe (tsx)
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import NextLink from 'next/link';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
+// $FlowFixMe (tsx)
+import { removeUndefinedProps } from '@weco/common/utils/json';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -63,7 +71,7 @@ function reloadAuthIframe(document, id) {
 
 type Props = {|
   workId: string,
-  sierraId: string,
+  sierraId: ?string,
   langCode: string,
   manifest: ?IIIFManifest,
   work: ?(Work | CatalogueApiError),
@@ -80,6 +88,7 @@ type Props = {|
   audio: ?{
     '@id': string,
   },
+  globalContextData: GlobalContextData,
 |};
 
 const ItemPage = ({
@@ -96,6 +105,7 @@ const ItemPage = ({
   currentCanvas,
   video,
   audio,
+  globalContextData,
 }: Props) => {
   const [origin, setOrigin] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -197,6 +207,7 @@ const ItemPage = ({
       hideNewsletterPromo={true}
       hideFooter={true}
       hideInfoBar={true}
+      globalContextData={globalContextData}
     >
       {tokenService && origin && (
         <IframeAuthMessage
@@ -352,11 +363,14 @@ const ItemPage = ({
   );
 };
 
-ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
+export const getServerSideProps = async (
+  ctx: Context
+): Promise<{ props: Props }> => {
+  const globalContextData = getGlobalContextData(ctx);
   const {
     workId,
-    sierraId,
-    langCode,
+    sierraId = null,
+    langCode = 'en',
     page = 1,
     pageSize = 4,
     canvas = 1,
@@ -380,19 +394,22 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   const currentCanvas = canvases[canvasIndex] ? canvases[canvasIndex] : null;
   const canvasOcr = currentCanvas ? await getCanvasOcr(currentCanvas) : null;
   return {
-    workId,
-    sierraId,
-    langCode,
-    manifest,
-    pageSize,
-    pageIndex,
-    canvasIndex,
-    canvasOcr,
-    work,
-    canvases,
-    currentCanvas,
-    video,
-    audio,
+    props: removeUndefinedProps({
+      workId,
+      sierraId,
+      langCode,
+      manifest,
+      pageSize,
+      pageIndex,
+      canvasIndex,
+      canvasOcr,
+      work,
+      canvases,
+      currentCanvas,
+      video,
+      audio,
+      globalContextData,
+    }),
   };
 };
 

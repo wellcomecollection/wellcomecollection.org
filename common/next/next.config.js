@@ -1,5 +1,5 @@
 const path = require('path');
-const withTM = require('@weco/next-plugin-transpile-modules');
+const withTM = require('next-transpile-modules')(['@weco']);
 const withBundleAnalyzer = require('@next/bundle-analyzer');
 const withMDX = require('@next/mdx')({
   extension: /\.(md|mdx)$/,
@@ -68,7 +68,6 @@ module.exports = function(webpack, assetPrefix) {
       assetPrefix: isProd
         ? `https://${prodSubdomain}.wellcomecollection.org`
         : '',
-      transpileModules: ['@weco'],
       ...withBundleAnalyzerConfig,
     })
   );

@@ -12,6 +12,7 @@ import type {
 import { type PrismicFragment } from '../../services/prismic/types';
 import type Moment from 'moment';
 import { asText } from '../../services/prismic/parsers';
+import { objToJsonLd } from '../../utils/json-ld';
 
 // TODO add comprehensive comments and probably rename some functions
 
@@ -350,7 +351,7 @@ export function parseCollectionVenue(venue: PrismicFragment): Venue {
     },
     image: data?.image,
     url: data?.link?.url,
-    linkText: asText(data.linkText),
+    linkText: asText(data?.linkText),
   };
 }
 
@@ -395,4 +396,33 @@ export function getTodaysVenueHours(venue: Venue) {
     venue.openingHours.regular &&
     venue.openingHours.regular.find(i => i.dayOfWeek === todayString);
   return exceptionalOpeningHours || regularOpeningHours;
+}
+
+export function openingHoursToOpeningHoursSpecification(openingHours: any) {
+  return {
+    openingHoursSpecification:
+      openingHours && openingHours.regular
+        ? openingHours.regular.map(openingHoursDay => {
+            const specObject = objToJsonLd(
+              openingHoursDay,
+              'OpeningHoursSpecification',
+              false
+            );
+            delete specObject.note;
+            return specObject;
+          })
+        : [],
+    specialOpeningHoursSpecification:
+      openingHours &&
+      openingHours.exceptional &&
+      openingHours.exceptional.map(openingHoursDate => {
+        const specObject = {
+          opens: openingHoursDate.opens,
+          closes: openingHoursDate.closes,
+          validFrom: openingHoursDate.overrideDate.format('DD MMMM YYYY'),
+          validThrough: openingHoursDate.overrideDate.format('DD MMMM YYYY'),
+        };
+        return objToJsonLd(specObject, 'OpeningHoursSpecification', false);
+      }),
+  };
 }

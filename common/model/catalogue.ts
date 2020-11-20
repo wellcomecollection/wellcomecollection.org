@@ -16,7 +16,7 @@ export type Work = {
   thumbnail?: DigitalLocation;
   items?: Item[];
   production: Production[];
-  language: Language;
+  languages: Language[];
   edition?: string;
   notes?: Note[];
   duration?: number;
@@ -27,6 +27,7 @@ export type Work = {
   partOf: Work[];
   precededBy: Work[];
   succeededBy: Work[];
+  availableOnline: boolean;
 };
 
 type WorkType = {

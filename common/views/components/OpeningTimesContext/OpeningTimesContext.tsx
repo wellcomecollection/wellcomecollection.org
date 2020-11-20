@@ -1,5 +1,3 @@
-// @flow
 import { createContext } from 'react';
-// $FlowFixMe
-const OpeningTimesContext = createContext();
+const OpeningTimesContext = createContext<any>(null);
 export default OpeningTimesContext;

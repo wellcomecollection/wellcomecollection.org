@@ -6,7 +6,7 @@ import {
   orderEventsByNextAvailableDate,
 } from '@weco/common/services/prismic/events';
 import { eventLd } from '@weco/common/utils/json-ld';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import type { UiEvent } from '@weco/common/model/events';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';

@@ -1,11 +1,5 @@
 import { Work as WorkType } from '@weco/common/model/catalogue';
-import {
-  useEffect,
-  useState,
-  useContext,
-  FunctionComponent,
-  ReactElement,
-} from 'react';
+import { useEffect, useState, FunctionComponent, ReactElement } from 'react';
 import fetch from 'isomorphic-unfetch';
 import { grid, classNames, font } from '@weco/common/utils/classnames';
 import {
@@ -35,7 +29,7 @@ import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -52,12 +46,13 @@ declare global {
 
 type Props = {
   work: WorkType;
-};
+} & WithGlobalContextData;
 
 const Work: FunctionComponent<Props> = ({
   work,
+  globalContextData,
 }: Props): ReactElement<Props> => {
-  const { searchPrototype } = useContext(TogglesContext);
+  const { searchPrototype } = globalContextData.toggles;
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
     page: 1,
@@ -127,7 +122,9 @@ const Work: FunctionComponent<Props> = ({
       (iiifPresentationLocation &&
         sierraIdFromPresentationManifestUrl(iiifPresentationLocation.url)) ||
       null,
-    langCode: work.language && work.language.id,
+    // We only send a langCode if it's unambiguous -- better to send no language
+    // than the wrong one.
+    langCode: work?.languages?.length === 1 && work?.languages[0]?.id,
     canvas: 1,
     page: 1,
   });
@@ -136,7 +133,7 @@ const Work: FunctionComponent<Props> = ({
     <CataloguePageLayout
       title={work.title}
       description={work.description || work.title}
-      url={{ pathname: `/works/${work.id}` }}
+      url={{ pathname: `/works/${work.id}`, query: {} }}
       openGraphType={'website'}
       jsonLd={workLd(work)}
       siteSection={'collections'}
@@ -144,6 +141,7 @@ const Work: FunctionComponent<Props> = ({
       imageUrl={imageUrl}
       imageAltText={work.title}
       hideNewsletterPromo={true}
+      globalContextData={globalContextData}
     >
       <div className="container">
         <div className="grid">

@@ -42,39 +42,35 @@ const CookieNotice = () => {
   useEffect(() => {
     setShouldRender(!cookie.get('WC_cookiesAccepted'));
   }, []);
-  return (
-    shouldRender && (
-      <CookieNoticeStyle>
-        <Layout12>
-          <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-            <div className="flex flex--h-space-between">
-              <div className="flex flex--v-center">
-                <Icon name="cookies" />
-                <Space
-                  as="span"
-                  h={{ size: 's', properties: ['margin-left', 'margin-right'] }}
-                >
-                  <h2 className="no-margin inline">Wellcome uses cookies.</h2>
-                </Space>
-                <a href="https://wellcome.ac.uk/about-us/terms-use#cookies">
-                  Read our policy
-                </a>
-              </div>
-              <button
-                className="cookie-notification__close js-info-banner-close"
-                onClick={hideCookieNotice}
+  return shouldRender ? (
+    <CookieNoticeStyle>
+      <Layout12>
+        <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+          <div className="flex flex--h-space-between">
+            <div className="flex flex--v-center">
+              <Icon name="cookies" />
+              <Space
+                as="span"
+                h={{ size: 's', properties: ['margin-left', 'margin-right'] }}
               >
-                <Icon name="clear" />
-                <span className="visually-hidden">
-                  Close cookie notification
-                </span>
-              </button>
+                <h2 className="no-margin inline">Wellcome uses cookies.</h2>
+              </Space>
+              <a href="https://wellcome.ac.uk/about-us/terms-use#cookies">
+                Read our policy
+              </a>
             </div>
-          </Space>
-        </Layout12>
-      </CookieNoticeStyle>
-    )
-  );
+            <button
+              className="cookie-notification__close js-info-banner-close"
+              onClick={hideCookieNotice}
+            >
+              <Icon name="clear" />
+              <span className="visually-hidden">Close cookie notification</span>
+            </button>
+          </div>
+        </Space>
+      </Layout12>
+    </CookieNoticeStyle>
+  ) : null;
 };
 
 export default CookieNotice;

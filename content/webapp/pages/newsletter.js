@@ -2,7 +2,7 @@
 import type { Context } from 'next';
 import { Component } from 'react';
 import NewsletterSignup from '@weco/common/views/components/NewsletterSignup/NewsletterSignup';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
