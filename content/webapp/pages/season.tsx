@@ -1,6 +1,6 @@
 import { NextPageContext } from 'next';
 import { Component, ReactElement } from 'react';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
@@ -8,59 +8,68 @@ import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { getPage } from '@weco/common/services/prismic/pages';
 import { contentLd } from '@weco/common/utils/json-ld';
 import Body from '@weco/common/views/components/Body/Body';
 import { Season } from '@weco/common/model/season';
+import { getSeasonWithContent } from '@weco/common/services/prismic/seasons';
+// import BookPromo from '../../../common/views/components/BookPromo/BookPromo';
 
 type Props = {
-  page: Season;
+  season: Season;
+  books: any; // TODO
 };
 
 export class Page extends Component<Props> {
   static getInitialProps = async (
+    // TODO getServerSideProps
     ctx: NextPageContext
   ): Promise<Props | { statusCode: number }> => {
     const { id, memoizedPrismic } = ctx.query;
-    const page = await getPage(ctx.req, id, memoizedPrismic);
+    const seasonWithContent = await getSeasonWithContent(
+      ctx.req,
+      {
+        id,
+        pageSize: 100,
+      },
+      memoizedPrismic
+    );
+    // console.dir(seasonWithContent, { depth: null });
 
-    if (page) {
-      return {
-        page,
-      };
+    if (seasonWithContent) {
+      return seasonWithContent;
     } else {
       return { statusCode: 404 };
     }
   };
 
   render(): ReactElement<Props> {
-    const { page } = this.props;
+    const { season, books } = this.props;
     const genericFields = {
-      id: page.id,
-      title: page.title,
-      contributors: page.contributors,
-      contributorsTitle: page.contributorsTitle,
-      promo: page.promo,
-      body: page.body,
-      standfirst: page.standfirst,
-      promoImage: page.promoImage,
-      promoText: page.promoText,
-      image: page.image,
-      squareImage: page.squareImage,
-      widescreenImage: page.widescreenImage,
-      labels: page.labels,
-      metadataDescription: page.metadataDescription,
+      id: season.id,
+      title: season.title,
+      contributors: season.contributors,
+      contributorsTitle: season.contributorsTitle,
+      promo: season.promo,
+      body: season.body,
+      standfirst: season.standfirst,
+      promoImage: season.promoImage,
+      promoText: season.promoText,
+      image: season.image,
+      squareImage: season.squareImage,
+      widescreenImage: season.widescreenImage,
+      labels: season.labels,
+      metadataDescription: season.metadataDescription,
     };
 
-    const ContentTypeInfo = page.standfirst && (
-      <PageHeaderStandfirst html={page.standfirst} />
+    const ContentTypeInfo = season.standfirst && (
+      <PageHeaderStandfirst html={season.standfirst} />
     );
     const FeaturedMedia = getFeaturedMedia(genericFields);
     const Header = (
       <PageHeader
         breadcrumbs={{ items: [] }}
-        labels={{ labels: page.labels }}
-        title={page.title}
+        labels={{ labels: season.labels }}
+        title={season.title}
         ContentTypeInfo={ContentTypeInfo}
         Background={<HeaderBackground hasWobblyEdge={true} />}
         FeaturedMedia={FeaturedMedia}
@@ -70,20 +79,46 @@ export class Page extends Component<Props> {
 
     return (
       <PageLayout
-        title={page.title}
-        description={page.metadataDescription || page.promoText || ''}
-        url={{ pathname: `/seasons/${page.id}` }}
-        jsonLd={contentLd(page)}
+        title={season.title}
+        description={season.metadataDescription || season.promoText || ''}
+        url={{ pathname: `/seasons/${season.id}` }}
+        jsonLd={contentLd(season)}
         siteSection={'whats-on'}
         openGraphType={'website'}
-        imageUrl={page.image && convertImageUri(page.image.contentUrl, 800)}
-        imageAltText={page.image && page.image.alt}
+        imageUrl={season.image && convertImageUri(season.image.contentUrl, 800)}
+        imageAltText={season.image && season.image.alt}
       >
         <ContentPage
-          id={page.id}
+          id={season.id}
           Header={Header}
-          Body={<Body body={page.body} pageId={page.id} />}
-        ></ContentPage>
+          Body={<Body body={season.body} pageId={season.id} />}
+        >
+          <h2>Books</h2>
+          {books &&
+            books.map(
+              book => JSON.stringify(book)
+              // <BookPromo
+              //   key={book.id}
+              //   url={`/books/${book.id}`}
+              //   title={book.title}
+              //   subtitle={book.subtitle}
+              //   description={book.promoText}
+              //   image={book.cover}
+              // />
+            )}
+          {/* <h2>Events</h2>
+          {events && events.map(event => JSON.stringify(event))}
+          <h2>Exhibitions</h2>
+          {exhibitions &&
+            exhibitions.map(exhibition => JSON.stringify(exhibition))}
+          <h2>Stories</h2>
+          {stories && stories.map(story => JSON.stringify(story))} */}
+          {/* <h2>People</h2>
+          {people &&
+            people.map(
+              person => JSON.stringify(person)
+            )} */}
+        </ContentPage>
       </PageLayout>
     );
   }
