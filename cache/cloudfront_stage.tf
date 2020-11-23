@@ -88,6 +88,8 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
       headers      = ["Host"]
       query_string = true
 
+      # The number of keys here is higher than the default limit of 10 -
+      # AWS have increased this to 50 for us here.
       query_string_cache_keys = [
         "_queryType",
         "canvas",
@@ -99,6 +101,7 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
         "sierraId",
         "workType",
         "toggle",
+        "source",
       ]
 
       cookies {
@@ -145,6 +148,7 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
         "page",
         "query",
         "toggle",
+        "source",
       ]
 
       cookies {
@@ -167,6 +171,33 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
     lambda_function_association {
       event_type = "origin-response"
       lambda_arn = aws_lambda_function.edge_lambda_response.qualified_arn
+    }
+  }
+
+  # This is for the data fetching routes used in NextJs's getServerSideProps
+  # see: https://nextjs.org/docs/basic-features/data-fetching#getserversideprops-server-side-rendering
+  ordered_cache_behavior {
+    target_origin_id       = local.default_origin_id
+    path_pattern           = "/_next/data/*"
+    allowed_methods        = ["HEAD", "GET"]
+    cached_methods         = ["HEAD", "GET"]
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 86400
+    max_ttl                = 31536000
+
+    forwarded_values {
+      headers      = ["Host"]
+      query_string = true
+
+      cookies {
+        forward = "whitelist"
+
+        whitelisted_names = [
+          "toggles",  # feature toggles
+          "toggle_*", # feature toggles
+        ]
+      }
     }
   }
 
