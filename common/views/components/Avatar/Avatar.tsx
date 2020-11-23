@@ -1,11 +1,10 @@
-// @flow
 import { sized } from '../../../utils/style';
-import Image from '../Image/Image';
-import type { Props as ImageProps } from '../Image/Image';
+import Image, { Props as ImageProps } from '../Image/Image';
+import { ReactElement, FunctionComponent } from 'react';
 
-type Props = {|
-  imageProps: ImageProps,
-|};
+type Props = {
+  imageProps: ImageProps;
+};
 
 const style = {
   width: sized(12),
@@ -15,7 +14,9 @@ const style = {
   overflow: `hidden`,
 };
 
-const Avatar = ({ imageProps }: Props) => (
+const Avatar: FunctionComponent<Props> = ({
+  imageProps,
+}: Props): ReactElement => (
   <div style={style}>
     <Image
       {...imageProps}

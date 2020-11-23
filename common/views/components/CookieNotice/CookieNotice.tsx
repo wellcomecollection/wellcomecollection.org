@@ -1,8 +1,7 @@
-// @flow
 import styled from 'styled-components';
 import cookie from 'cookie-cutter';
 import { font, classNames } from '@weco/common/utils/classnames';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FunctionComponent, ReactElement } from 'react';
 import moment from 'moment';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -26,7 +25,7 @@ const CookieNoticeStyle = styled.div.attrs({
   }
 }
 `;
-const CookieNotice = () => {
+const CookieNotice: FunctionComponent = (): ReactElement => {
   const [shouldRender, setShouldRender] = useState(true);
   function hideCookieNotice() {
     cookie.set('WC_cookiesAccepted', 'true', {
@@ -51,7 +50,10 @@ const CookieNotice = () => {
               <Icon name="cookies" />
               <Space
                 as="span"
-                h={{ size: 's', properties: ['margin-left', 'margin-right'] }}
+                h={{
+                  size: 's',
+                  properties: ['margin-left', 'margin-right'],
+                }}
               >
                 <h2 className="no-margin inline">Wellcome uses cookies.</h2>
               </Space>

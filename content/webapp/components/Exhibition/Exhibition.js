@@ -17,6 +17,7 @@ import Contributors from '@weco/common/views/components/Contributors/Contributor
 import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
 import Body from '@weco/common/views/components/Body/Body';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
+// $FlowFixMe (tsx)
 import BookPromo from '@weco/common/views/components/BookPromo/BookPromo';
 import { font, grid } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';

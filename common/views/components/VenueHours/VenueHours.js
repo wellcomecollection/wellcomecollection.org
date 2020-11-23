@@ -7,6 +7,7 @@ import styled from 'styled-components';
 // $FlowFixMe
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
+// $FlowFixMe(tsx)
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import {

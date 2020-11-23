@@ -1,6 +1,7 @@
 // @flow
 import CardGrid from '../CardGrid/CardGrid';
 import Layout12 from '../Layout12/Layout12';
+// $FlowFixMe (tsx)
 import Divider from '../Divider/Divider';
 import Pagination from '../Pagination/Pagination';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';

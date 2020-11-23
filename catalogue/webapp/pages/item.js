@@ -25,6 +25,7 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer, {
   IIIFViewerBackground,
 } from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+// $FlowFixMe (tsx)
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
 import Space, {
