@@ -24,7 +24,6 @@ import {
 } from '@weco/common/services/catalogue/ts_api';
 import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
-import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { getImages } from '../services/catalogue/images';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import useHotjar from '@weco/common/hooks/useHotjar';
@@ -92,7 +91,6 @@ const Images: NextPage<Props> = ({
 }: Props): ReactElement<Props> => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(imagesRouteProps);
-  const { searchPrototype } = globalContextData.toggles;
   const { query, page, color } = imagesRouteProps;
   useEffect(() => {
     function routeChangeStart() {
@@ -172,28 +170,16 @@ const Images: NextPage<Props> = ({
           <div className="container">
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                {searchPrototype ? (
-                  <>
-                    <SearchTabs
-                      worksRouteProps={imagesRoutePropsToWorksRouteProps(
-                        imagesRouteProps
-                      )}
-                      imagesRouteProps={imagesRouteProps}
-                      workTypeAggregations={[]}
-                      shouldShowDescription={query === ''}
-                      activeTabIndex={1}
-                      shouldShowFilters={true}
-                    />
-                  </>
-                ) : (
-                  <SearchForm
-                    ariaDescribedBy="search-form-description"
-                    shouldShowFilters={query !== ''}
-                    worksRouteProps={null}
-                    workTypeAggregations={[]}
-                    aggregations={undefined}
-                  />
-                )}
+                <SearchTabs
+                  worksRouteProps={imagesRoutePropsToWorksRouteProps(
+                    imagesRouteProps
+                  )}
+                  imagesRouteProps={imagesRouteProps}
+                  workTypeAggregations={[]}
+                  shouldShowDescription={query === ''}
+                  activeTabIndex={1}
+                  shouldShowFilters={true}
+                />
               </div>
             </div>
           </div>
