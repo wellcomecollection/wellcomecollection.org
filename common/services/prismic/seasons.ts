@@ -9,7 +9,7 @@ import { SeasonWithContent } from '@weco/common/model/season';
 export async function getSeasonWithContent(
   req: Request,
   { id }: { id: string },
-  memoizedPrismic: Object | null
+  memoizedPrismic: Record<string, unknown> | null
 ): Promise<SeasonWithContent | null> {
   const seasonPromise = await getPage(req, id, {}, memoizedPrismic);
 
