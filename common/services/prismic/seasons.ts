@@ -7,17 +7,11 @@ import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import { SeasonWithContent } from '@weco/common/model/season';
 
 export async function getSeasonWithContent(
-  req: Request | null,
+  req: Request,
   { id }: { id: string },
   memoizedPrismic: Object | null
 ): Promise<SeasonWithContent | null> {
-  const seasonPromise = await getPage(
-    // TODO getSeason with parsing
-    req,
-    id,
-    {},
-    memoizedPrismic
-  );
+  const seasonPromise = await getPage(req, id, {}, memoizedPrismic);
 
   const articlesPromise = await getArticles(
     req,
@@ -43,29 +37,12 @@ export async function getSeasonWithContent(
     memoizedPrismic
   );
 
-  // const peoplePromise = await getDocuments(
-  //   // TODO getPeople, with parsing
-  //   req,
-  //   [Prismic.Predicates.at('my.people.season', id)],
-  //   {
-  //     ...opts,
-  //   },
-  //   memoizedPrismic
-  // );
-
-  const [
-    season,
-    articles,
-    books,
-    events,
-    exhibitions /* people */,
-  ] = await Promise.all([
+  const [season, articles, books, events, exhibitions] = await Promise.all([
     seasonPromise,
     articlesPromise,
     booksPromise,
     eventsPromise,
     exhibitionsPromise,
-    // peoplePromise,
   ]);
 
   return {
@@ -74,6 +51,5 @@ export async function getSeasonWithContent(
     books: books?.results || null,
     events: events?.results || null,
     exhibitions: exhibitions?.results || null,
-    // people: people?.results || null,
   };
 }

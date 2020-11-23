@@ -16,7 +16,4 @@ export default {
       title: structuredText('Link text', 'single'),
     }),
   },
-  'Content relationships': {
-    season: link('Season', 'document', ['seasons'], 'Select a Season'),
-  },
 };
