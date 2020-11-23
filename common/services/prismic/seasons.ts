@@ -4,37 +4,26 @@ import { getArticles } from '@weco/common/services/prismic/articles';
 import { getBooks } from '@weco/common/services/prismic/books';
 import { getEvents } from '@weco/common/services/prismic/events';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
+import { SeasonWithContent } from '@weco/common/model/season';
 
-// TODO typing
 export async function getSeasonWithContent(
-  req,
-  { id, ...opts },
-  memoizedPrismic
-) {
+  req: Request | null,
+  { id }: { id: string },
+  memoizedPrismic: Object | null
+): Promise<SeasonWithContent | null> {
   const seasonPromise = await getPage(
     // TODO getSeason with parsing
     req,
     id,
-    {
-      // fetchLinks: peopleFields.concat(
-      //   exhibitionFields,
-      //   organisationsFields,
-      //   contributorsFields,
-      //   placesFields,
-      //   exhibitionResourcesFields,
-      //   eventSeriesFields,
-      //   articlesFields,
-      //   eventsFields
-      // ),
-    },
+    {},
     memoizedPrismic
   );
 
-  // const articlesPromise = await getArticles(
-  //   req,
-  //   { predicates: [Prismic.Predicates.at('my.articles.season', id)] },
-  //   memoizedPrismic
-  // );
+  const articlesPromise = await getArticles(
+    req,
+    { predicates: [Prismic.Predicates.at('my.articles.season', id)] },
+    memoizedPrismic
+  );
 
   const booksPromise = await getBooks(
     req,
@@ -42,16 +31,17 @@ export async function getSeasonWithContent(
     memoizedPrismic
   );
 
-  // const eventsPromise = await getEvents(
-  //   req,
-  //   { predicates: [Prismic.Predicates.at('my.events.season', id)] },
-  //   memoizedPrismic
-  // );
-  // const exhibitionsPromise = await getExhibitions(
-  //   req,
-  //   { predicates: [Prismic.Predicates.at('my.events.season', id)] },
-  //   memoizedPrismic
-  // );
+  const eventsPromise = await getEvents(
+    req,
+    { predicates: [Prismic.Predicates.at('my.events.season', id)] },
+    memoizedPrismic
+  );
+
+  const exhibitionsPromise = await getExhibitions(
+    req,
+    { predicates: [Prismic.Predicates.at('my.exhibitions.season', id)] },
+    memoizedPrismic
+  );
 
   // const peoplePromise = await getDocuments(
   //   // TODO getPeople, with parsing
@@ -63,22 +53,27 @@ export async function getSeasonWithContent(
   //   memoizedPrismic
   // );
 
-  // const [season, articles, books, events, exhibitions] = await Promise.all([
-  const [season, books] = await Promise.all([
+  const [
+    season,
+    articles,
+    books,
+    events,
+    exhibitions /* people */,
+  ] = await Promise.all([
     seasonPromise,
-    // articlesPromise,
+    articlesPromise,
     booksPromise,
-    // eventsPromise,
-    // exhibitionsPromise,
+    eventsPromise,
+    exhibitionsPromise,
     // peoplePromise,
   ]);
 
   return {
     season,
-    // articles: articles?.results,
-    books: books?.results,
-    // events: events?.results,
-    // exhibitions: exhibitions?.results,
-    // people: people?.results,
+    articles: articles?.results || null,
+    books: books?.results || null,
+    events: events?.results || null,
+    exhibitions: exhibitions?.results || null,
+    // people: people?.results || null,
   };
 }
