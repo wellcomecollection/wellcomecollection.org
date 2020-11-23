@@ -5,34 +5,39 @@ import { getBooks } from '@weco/common/services/prismic/books';
 import { getEvents } from '@weco/common/services/prismic/events';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import { SeasonWithContent } from '@weco/common/model/season';
+import { IncomingMessage } from 'http';
 
-export async function getSeasonWithContent(
-  req: Request,
-  { id }: { id: string },
-  memoizedPrismic: Record<string, unknown> | null
-): Promise<SeasonWithContent | null> {
-  const seasonPromise = await getPage(req, id, {}, memoizedPrismic);
+export async function getSeasonWithContent({
+  request,
+  id,
+  memoizedPrismic,
+}: {
+  request: IncomingMessage;
+  id: string | string[];
+  memoizedPrismic: string | string[] | null;
+}): Promise<SeasonWithContent | null> {
+  const seasonPromise = await getPage(request, id, {}, memoizedPrismic);
 
   const articlesPromise = await getArticles(
-    req,
+    request,
     { predicates: [Prismic.Predicates.at('my.articles.season', id)] },
     memoizedPrismic
   );
 
   const booksPromise = await getBooks(
-    req,
+    request,
     { predicates: [Prismic.Predicates.at('my.books.season', id)] },
     memoizedPrismic
   );
 
   const eventsPromise = await getEvents(
-    req,
+    request,
     { predicates: [Prismic.Predicates.at('my.events.season', id)] },
     memoizedPrismic
   );
 
   const exhibitionsPromise = await getExhibitions(
-    req,
+    request,
     { predicates: [Prismic.Predicates.at('my.exhibitions.season', id)] },
     memoizedPrismic
   );

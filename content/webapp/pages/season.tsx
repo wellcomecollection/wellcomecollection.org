@@ -18,14 +18,11 @@ export class Page extends Component<SeasonWithContent> {
     ctx: NextPageContext
   ): Promise<SeasonWithContent | { statusCode: number }> => {
     const { id, memoizedPrismic } = ctx.query;
-    const seasonWithContent = await getSeasonWithContent(
-      ctx.req,
-      {
-        id,
-        pageSize: 100,
-      },
-      memoizedPrismic
-    );
+    const seasonWithContent = await getSeasonWithContent({
+      request: ctx.req,
+      id,
+      memoizedPrismic,
+    });
 
     if (seasonWithContent) {
       return seasonWithContent;
