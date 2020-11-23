@@ -34,6 +34,7 @@ import {
   WithGlobalContextData,
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { removeUndefinedProps } from '@weco/common/utils/json';
+import SearchTitle from '../components/SearchTitle/SearchTitle';
 
 type Props = {
   results?: CatalogueResultsList<Image> | CatalogueApiError;
@@ -168,6 +169,8 @@ const Images: NextPage<Props> = ({
           className={classNames(['row'])}
         >
           <div className="container">
+            {!results && <SearchTitle />}
+
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 <SearchTabs

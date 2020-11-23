@@ -2,7 +2,7 @@ import BaseTabs, { TabType } from '../BaseTabs/BaseTabs';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Space from '../styled/Space';
-import { useContext, useState, FunctionComponent, ReactElement } from 'react';
+import { useContext, FunctionComponent, ReactElement } from 'react';
 import { AppContext } from '../AppContext/AppContext';
 import PrototypeSearchForm from '@weco/common/views/components/PrototypeSearchForm/PrototypeSearchForm';
 import {
@@ -14,12 +14,11 @@ import {
   CatalogueAggregations,
 } from '@weco/common/model/catalogue';
 import { trackEvent } from '@weco/common/utils/ga';
+import NextLink from 'next/link';
+import { removeEmptyProps } from '../../../utils/json';
+import { useRouter } from 'next/router';
 
-const BaseTabsWrapper = styled.div.attrs<{ isEnhanced: boolean }>(props => ({
-  className: classNames({
-    'is-hidden': !props.isEnhanced,
-  }),
-}))<{ isEnhanced: boolean }>`
+const BaseTabsWrapper = styled.div`
   // FIXME: For testing, make the checkboxes/buttons have a white background because they're on grey
   [class*='ButtonInline__InlineButton'],
   [class^='CheckboxRadio__CheckboxRadioBox'] {
@@ -84,22 +83,37 @@ const SearchTabs: FunctionComponent<Props> = ({
   activeTabIndex,
   shouldShowFilters,
 }: Props): ReactElement<Props> => {
-  const { isKeyboard, isEnhanced } = useContext(AppContext);
-  const [activeTab, setActiveTab] = useState(
-    activeTabIndex === 0 ? 'tab-library-catalogue' : 'tab-images'
-  );
+  const router = useRouter();
+  const { query } = router.query;
+
+  const { isKeyboard } = useContext(AppContext);
   const tabs: TabType[] = [
     {
       id: 'tab-library-catalogue',
       tab: function TabWithDisplayName(isActive, isFocused) {
         return (
-          <Tab
-            isActive={isActive}
-            isFocused={isFocused}
-            isKeyboard={isKeyboard}
+          <NextLink
+            href={{
+              pathname: '/works',
+              query: removeEmptyProps({
+                query,
+              }),
+            }}
           >
-            Library catalogue
-          </Tab>
+            <a
+              className={classNames({
+                'plain-link': true,
+              })}
+            >
+              <Tab
+                isActive={isActive}
+                isFocused={isFocused}
+                isKeyboard={isKeyboard}
+              >
+                Library catalogue
+              </Tab>
+            </a>
+          </NextLink>
         );
       },
       tabPanel: (
@@ -118,7 +132,6 @@ const SearchTabs: FunctionComponent<Props> = ({
             access.
           </Space>
           <PrototypeSearchForm
-            isActive={activeTab === 'tab-library-catalogue'}
             ariaDescribedBy={'library-catalogue-form-description'}
             routeProps={worksRouteProps}
             workTypeAggregations={workTypeAggregations}
@@ -133,14 +146,29 @@ const SearchTabs: FunctionComponent<Props> = ({
       id: 'tab-images',
       tab: function TabWithDisplayName(isActive, isFocused) {
         return (
-          <Tab
-            isActive={isActive}
-            isFocused={isFocused}
-            isKeyboard={isKeyboard}
-            isLast={true}
+          <NextLink
+            href={{
+              pathname: '/images',
+              query: removeEmptyProps({
+                query,
+              }),
+            }}
           >
-            Images
-          </Tab>
+            <a
+              className={classNames({
+                'plain-link': true,
+              })}
+            >
+              <Tab
+                isActive={isActive}
+                isFocused={isFocused}
+                isKeyboard={isKeyboard}
+                isLast={true}
+              >
+                Images
+              </Tab>
+            </a>
+          </NextLink>
         );
       },
       tabPanel: (
@@ -158,7 +186,6 @@ const SearchTabs: FunctionComponent<Props> = ({
             museum collections, including objects at the Science Museum.
           </Space>
           <PrototypeSearchForm
-            isActive={activeTab === 'tab-images'}
             ariaDescribedBy="images-form-description"
             routeProps={imagesRouteProps}
             workTypeAggregations={workTypeAggregations}
@@ -179,18 +206,13 @@ const SearchTabs: FunctionComponent<Props> = ({
     });
   }
 
-  function onTabChanged(id: string) {
-    setActiveTab(id);
-  }
-
   return (
-    <BaseTabsWrapper isEnhanced={isEnhanced}>
+    <BaseTabsWrapper>
       <BaseTabs
         tabs={tabs}
         label={'Tabs for search'}
         activeTabIndex={activeTabIndex}
         onTabClick={onTabClick}
-        onTabChanged={onTabChanged}
       />
     </BaseTabsWrapper>
   );
