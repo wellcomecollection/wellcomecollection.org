@@ -7,6 +7,7 @@ import { useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
+// $FlowFixMe (tsx)
 import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';

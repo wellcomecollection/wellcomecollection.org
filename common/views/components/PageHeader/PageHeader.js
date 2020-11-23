@@ -1,6 +1,7 @@
 // @flow
 
 import { font, classNames } from '../../../utils/classnames';
+// $FlowFixMe(tsx)
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import LabelsList from '../LabelsList/LabelsList';
 import { UiImage } from '../Images/Images';
