@@ -30,9 +30,9 @@ const BookPromoImage = styled(Space).attrs({
 type Props = {
   url: string;
   title: string;
-  subtitle: string | null | undefined;
-  description: string | null | undefined;
-  image: ImageType | null | undefined;
+  subtitle: string | null;
+  description: string | null;
+  image: ImageType | null;
 };
 
 const BookPromo: FunctionComponent<Props> = ({

@@ -4,9 +4,9 @@ import { FunctionComponent, ReactElement } from 'react';
 
 type Props = {
   title: string;
-  subtitle: string | null | undefined;
-  phone: string | null | undefined;
-  email: string | null | undefined;
+  subtitle: string | null;
+  phone: string | null;
+  email: string | null;
 };
 
 const Contact: FunctionComponent<Props> = ({
