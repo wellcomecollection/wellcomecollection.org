@@ -568,19 +568,9 @@ const WorkDetails = ({
         )}
 
         {work.languages.length > 0 && (
-          <WorkDetailsTags
+          <WorkDetailsList
             title="Languages"
-            tags={work.languages.map(lang => {
-              return {
-                textParts: [lang.label],
-                linkAttributes: worksLink(
-                  {
-                    query: `"${lang.label}"`,
-                  },
-                  'work_details/languages'
-                ),
-              };
-            })}
+            list={work.languages.map(lang => lang.label)}
           />
         )}
       </WorkDetailsSection>
