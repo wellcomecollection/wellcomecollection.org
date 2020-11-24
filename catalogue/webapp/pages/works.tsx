@@ -1,35 +1,31 @@
 // @flow
-import { type Context } from 'next';
 import { Fragment, useEffect, useState } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
-  type CatalogueApiError,
-  type CatalogueResultsList,
-  type Work,
-  type Image,
+  CatalogueResultsList,
+  Work,
+  Image,
 } from '@weco/common/model/catalogue';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import {
   GlobalContextData,
   getGlobalContextData,
-  // $FlowFixMe (tsx)
+  WithGlobalContextData,
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
-// $FlowFixMe (tsx)
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
-import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import {
-  type WorksRouteProps,
+  WorksRouteProps,
   worksLink,
   WorksRoute,
 } from '@weco/common/services/catalogue/routes';
 import {
-  type CatalogueWorksApiProps,
+  CatalogueWorksApiProps,
   worksRouteToApiUrl,
   worksPropsToImagesProps,
-} from '@weco/common/services/catalogue/api';
+} from '@weco/common/services/catalogue/ts_api';
 import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
@@ -39,25 +35,29 @@ import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
 import cookies from 'next-cookies';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import useHotjar from '@weco/common/hooks/useHotjar';
-import WorkSearchResults from '../components/WorkSearchResults/WorkSearchResults';
-// $FlowFixMe (tsc)
+import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResults';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
-// $FlowFixMe (tsx)
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
-// $FlowFixMe (tsx)
 import { removeUndefinedProps } from '@weco/common/utils/json';
-// $FlowFixMe (tsx)
 import SearchTitle from '../components/SearchTitle/SearchTitle';
-type Props = {|
-  works: ?CatalogueResultsList<Work> | CatalogueApiError,
-  images: ?CatalogueResultsList<Image> | CatalogueApiError,
-  worksRouteProps: WorksRouteProps,
-  shouldGetWorks: boolean,
-  apiProps: CatalogueWorksApiProps,
-  globalContextData: GlobalContextData,
-|};
+import { GetServerSideProps, NextPage } from 'next';
+import {
+  appError,
+  AppErrorProps,
+  WithPageview,
+} from '@weco/common/views/pages/_app';
 
-const Works = ({
+type Props = {
+  works: CatalogueResultsList<Work> | null;
+  images: CatalogueResultsList<Image> | null;
+  worksRouteProps: WorksRouteProps;
+  shouldGetWorks: boolean;
+  apiProps: CatalogueWorksApiProps;
+  globalContextData: GlobalContextData;
+} & WithGlobalContextData &
+  WithPageview;
+
+const Works: NextPage<Props> = ({
   works,
   images,
   worksRouteProps,
@@ -66,8 +66,7 @@ const Works = ({
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
-  const results: ?CatalogueResultsList<Work | Image> | CatalogueApiError =
-    works || images;
+  const results: CatalogueResultsList<Work | Image> | null = works || images;
 
   const { searchPrototype } = globalContextData.toggles;
   const {
@@ -85,10 +84,10 @@ const Works = ({
   }, [worksRouteProps]);
 
   useEffect(() => {
-    function routeChangeStart(url: string) {
+    function routeChangeStart() {
       setLoading(true);
     }
-    function routeChangeComplete(url: string) {
+    function routeChangeComplete() {
       setLoading(false);
     }
     Router.events.on('routeChangeStart', routeChangeStart);
@@ -103,20 +102,6 @@ const Works = ({
   useHotjar();
 
   const isImageSearch = worksRouteProps.search === 'images';
-
-  if (results && results.type === 'Error') {
-    return (
-      <ErrorPage
-        title={
-          results.httpStatus === 500
-            ? `We're experiencing technical difficulties at the moment. We're working to get this fixed.`
-            : undefined
-        }
-        statusCode={results.httpStatus}
-        globalContextData={globalContextData}
-      />
-    );
-  }
 
   return (
     <Fragment>
@@ -275,7 +260,7 @@ const Works = ({
             >
               <div className="container">
                 {(() => {
-                  if (images && images.type !== 'Error' && isImageSearch) {
+                  if (images && isImageSearch) {
                     return (
                       <ImageEndpointSearchResults
                         images={images}
@@ -283,9 +268,9 @@ const Works = ({
                       />
                     );
                   }
-                  if (works && works.type !== 'Error') {
+                  if (works) {
                     return (
-                      <WorkSearchResults
+                      <WorksSearchResults
                         works={works}
                         worksRouteProps={worksRouteProps}
                         apiProps={apiProps}
@@ -355,16 +340,29 @@ const Works = ({
   );
 };
 
-export const getServerSideProps = async (
-  ctx: Context
-): Promise<{ props: Props }> => {
-  const globalContextData = getGlobalContextData(ctx);
-  const params = WorksRoute.fromQuery(ctx.query);
-  const { enableColorFiltering } = ctx.query.toggles;
-  const _queryType = cookies(ctx)._queryType;
+export const t: GetServerSideProps<{ things: string }> = async context => {
+  console.info(context);
+
+  const things = await Promise.resolve('things');
+  return {
+    props: { things },
+  };
+};
+
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const globalContextData = getGlobalContextData(context);
+  const params = WorksRoute.fromQuery(context.query);
+  // TODO: Fix this, we should have the toggles typesd at this point
+  const { enableColorFiltering } = (context.query.toggles as unknown) as Record<
+    string,
+    unknown
+  >;
+  const _queryType = cookies(context)._queryType;
   const isImageSearch = params.search === 'images';
   const aggregations = ['workType', 'locationType'];
-  const apiProps = worksRouteToApiUrl(params, {
+  const worksApiProps = worksRouteToApiUrl(params, {
     _queryType,
     aggregations,
   });
@@ -374,32 +372,54 @@ export const getServerSideProps = async (
   const shouldGetWorks = hasQuery && !isImageSearch;
   const shouldGetImages = hasQuery && isImageSearch;
 
-  const worksOrError = shouldGetWorks
+  const works = shouldGetWorks
     ? await getWorks({
-        params: apiProps,
-        toggles: ctx.query.toggles,
+        params: worksApiProps,
+        toggles: context.query.toggles,
       })
     : null;
 
+  if (works && works.type === 'Error') {
+    return appError(context, works.statusCode, 'Works API error');
+  }
+
   // TODO: increase pageSize to 100 when `isImageSearch` (but only if `isEnhanced`)
-  const imagesOrError = shouldGetImages
+  const imagesApiProps = {
+    ...worksPropsToImagesProps(worksApiProps),
+    color: enableColorFiltering ? params.imagesColor : undefined,
+  };
+  const images = shouldGetImages
     ? await getImages({
-        params: {
-          ...worksPropsToImagesProps(apiProps),
-          color: enableColorFiltering ? params.imagesColor : undefined,
-        },
-        toggles: ctx.query.toggles,
+        params: imagesApiProps,
+        toggles: context.query.toggles,
       })
     : null;
+
+  if (images && images.type === 'Error') {
+    return appError(context, images.statusCode, 'Images API error');
+  }
+
+  // This logic is wonky, but it'll be removed once we have the
+  // `/images` endpoint.
+  const pageviewProperties = shouldGetWorks
+    ? { totalResults: works.totalResults }
+    : shouldGetImages
+    ? { totalResults: images.totalResults }
+    : {};
 
   return {
     props: removeUndefinedProps({
-      works: worksOrError,
-      images: imagesOrError,
+      works,
+      images,
       worksRouteProps: params,
       shouldGetWorks,
-      apiProps,
+      apiProps: worksApiProps,
       globalContextData,
+      pageview: {
+        // This is just like this for now until we move to the `/images` endpoint
+        name: isImageSearch ? 'images' : 'works',
+        properties: pageviewProperties,
+      },
     }),
   };
 };

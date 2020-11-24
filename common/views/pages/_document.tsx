@@ -18,7 +18,7 @@ const {
 function renderSegmentSnippet() {
   const opts = {
     apiKey: ANALYTICS_WRITE_KEY,
-    page: true,
+    page: false,
   };
 
   if (NODE_ENV === 'development') {

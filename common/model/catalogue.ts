@@ -259,6 +259,7 @@ export type CatalogueResultsList<Result = Work> = {
   nextPage: string | null;
   aggregations: {
     workType: CatalogueAggregation;
+    locationType: CatalogueAggregation;
   } | null;
 };
 

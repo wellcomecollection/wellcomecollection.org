@@ -1,9 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
-import {
-  Work as WorkType,
-  CatalogueApiError,
-} from '@weco/common/model/catalogue';
-import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
+import { Work as WorkType } from '@weco/common/model/catalogue';
 import Work from '../components/Work/Work';
 import { getWork } from '../services/catalogue/works';
 import {
@@ -11,30 +7,23 @@ import {
   WithGlobalContextData,
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
+import {
+  appError,
+  AppErrorProps,
+  WithPageview,
+} from '@weco/common/views/pages/_app';
 
 type Props = {
-  workResponse: WorkType | CatalogueApiError;
-} & WithGlobalContextData;
+  workResponse: WorkType;
+} & WithGlobalContextData &
+  WithPageview;
 
 export const WorkPage: NextPage<Props> = ({
   workResponse,
   globalContextData,
 }: Props) => {
-  return (
-    <>
-      {workResponse.type === 'Error' && (
-        <ErrorPage
-          statusCode={workResponse.httpStatus}
-          title={workResponse.description}
-          globalContextData={globalContextData}
-        />
-      )}
-      {workResponse.type !== 'Error' && (
-        <Work work={workResponse} globalContextData={globalContextData} />
-      )}
-    </>
-  );
+  // TODO: move the <Work> ocmponent content back into here
+  return <Work work={workResponse} globalContextData={globalContextData} />;
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -68,6 +57,12 @@ export const getServerSideProps: GetServerSideProps<
     props: removeUndefinedProps({
       workResponse,
       globalContextData,
+      pageview: {
+        name: 'work',
+        properties: {
+          workId: workResponse.id,
+        },
+      },
     }),
   };
 };
