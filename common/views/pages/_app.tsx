@@ -298,10 +298,7 @@ function WecoApp({ Component, pageProps }: AppProps) {
   if (isClient) {
     const { pageview } = pageProps as { pageview: Pageview };
     if (pageview) {
-      console.info('pageview', pageProps, pageview);
       window.analytics.page(pageview.name, pageview.properties);
-    } else {
-      console.info('nopageview', pageProps);
     }
   }
 
