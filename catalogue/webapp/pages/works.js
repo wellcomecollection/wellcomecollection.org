@@ -46,7 +46,8 @@ import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 // $FlowFixMe (tsx)
 import { removeUndefinedProps } from '@weco/common/utils/json';
-
+// $FlowFixMe (tsx)
+import SearchTitle from '../components/SearchTitle/SearchTitle';
 type Props = {|
   works: ?CatalogueResultsList<Work> | CatalogueApiError,
   images: ?CatalogueResultsList<Image> | CatalogueApiError,
@@ -160,29 +161,7 @@ const Works = ({
           className={classNames(['row'])}
         >
           <div className="container">
-            {!results && (
-              <div className="grid">
-                <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                  <Space
-                    v={{
-                      size: 'm',
-                      properties: ['margin-bottom'],
-                    }}
-                    className={classNames([
-                      'flex flex--h-space-between flex--v-center flex--wrap',
-                    ])}
-                  >
-                    <Space
-                      as="h1"
-                      v={{ size: 'm', properties: ['margin-bottom'] }}
-                      className="h1"
-                    >
-                      Search the collections
-                    </Space>
-                  </Space>
-                </div>
-              </div>
-            )}
+            {!results && <SearchTitle />}
 
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
