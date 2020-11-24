@@ -1,4 +1,3 @@
-// @flow
 import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import PageLayout, { Props as PageLayoutProps } from '../PageLayout/PageLayout';
 import InfoBanner from '../InfoBanner/InfoBanner';

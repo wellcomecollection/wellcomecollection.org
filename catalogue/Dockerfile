@@ -1,4 +1,4 @@
-# This image should be built with the parent directory as context
+  # This image should be built with the parent directory as context
 FROM 760097843905.dkr.ecr.eu-west-1.amazonaws.com/node:12.18.3
 
 WORKDIR /usr/src/app/webapp

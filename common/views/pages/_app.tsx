@@ -9,11 +9,43 @@ import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/Outb
 import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
 import { trackEvent } from '../../utils/ga';
 import { AppContextProvider } from '../components/AppContext/AppContext';
+import ErrorPage from '../components/ErrorPage/ErrorPage';
+import {
+  getGlobalContextData,
+  GlobalContextData,
+} from '../components/GlobalContextProvider/GlobalContextProvider';
+import { GetServerSidePropsContext } from 'next';
 
 declare global {
   interface Window {
     prismic: any;
   }
+}
+
+export type AppErrorProps = {
+  err: {
+    statusCode: number;
+    message: string;
+  };
+  globalContextData: GlobalContextData;
+};
+
+export function appError(
+  context: GetServerSidePropsContext,
+  statusCode: number,
+  message: string
+): { props: AppErrorProps } {
+  const globalContextData = getGlobalContextData(context);
+  context.res.statusCode = statusCode;
+  return {
+    props: {
+      err: {
+        statusCode,
+        message,
+      },
+      globalContextData,
+    },
+  };
 }
 
 let engagement;
@@ -273,7 +305,14 @@ function WecoApp({ Component, pageProps }: AppProps) {
         <ThemeProvider theme={theme}>
           <OutboundLinkTracker>
             <LoadingIndicator />
-            <Component {...pageProps} />
+            {!pageProps.err && <Component {...pageProps} />}
+            {pageProps.err && (
+              <ErrorPage
+                statusCode={pageProps.err.statusCode}
+                title={pageProps.err.message}
+                globalContextData={pageProps.globalContextData}
+              />
+            )}
           </OutboundLinkTracker>
         </ThemeProvider>
       </AppContextProvider>
