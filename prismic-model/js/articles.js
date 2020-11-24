@@ -15,12 +15,6 @@ const Article = {
     format: link('Format', 'document', ['article-formats']),
     body: articleBody,
   },
-  Series: {
-    series: list('Series', {
-      series: link('Series', 'document', ['series']),
-      positionInSeries: number('Position in series'),
-    }),
-  },
   Outro: {
     outroResearchItem: link('Outro: Research item'),
     outroResearchLinkText: singleLineText('Outro: Research link text'),
@@ -37,6 +31,10 @@ const Article = {
     metadataDescription: structuredText('Metadata description', 'single'),
   },
   'Content relationships': {
+    series: list('Series', {
+      series: link('Series', 'document', ['series']),
+      positionInSeries: number('Position in series'),
+    }),
     season: link('Season', 'document', ['seasons'], 'Select a Season'),
   },
   Migration: {

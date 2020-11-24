@@ -29,24 +29,6 @@
         "label": "Where is it?"
       }
     },
-    "series": {
-      "type": "Group",
-      "fieldset": "Event series",
-      "config": {
-        "fields": {
-          "series": {
-            "type": "Link",
-            "config": {
-              "label": "Series",
-              "select": "document",
-              "customtypes": [
-                "event-series"
-              ]
-            }
-          }
-        }
-      }
-    },
     "times": {
       "type": "Group",
       "fieldset": "Times",
@@ -844,6 +826,24 @@
     }
   },
   "Content relationships": {
+    "series": {
+      "type": "Group",
+      "fieldset": "Event series",
+      "config": {
+        "fields": {
+          "series": {
+            "type": "Link",
+            "config": {
+              "label": "Series",
+              "select": "document",
+              "customtypes": [
+                "event-series"
+              ]
+            }
+          }
+        }
+      }
+    },
     "season": {
       "type": "Link",
       "config": {
