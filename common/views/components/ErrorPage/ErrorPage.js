@@ -12,12 +12,12 @@ import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { type GlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 type Props = {|
-  statusCode: number,
-  title?: ?string,
+  statusCode?: number,
+  title?: string,
   globalContextData: GlobalContextData,
 |};
 
-const ErrorPage = ({ statusCode, title, globalContextData }: Props) => {
+const ErrorPage = ({ statusCode = 500, title, globalContextData }: Props) => {
   return (
     <PageLayout
       title={`${statusCode}`}

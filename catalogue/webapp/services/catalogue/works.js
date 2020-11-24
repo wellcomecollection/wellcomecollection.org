@@ -15,6 +15,7 @@ import {
   globalApiOptions,
   queryString,
   rootUris,
+  notFound,
   type Toggles,
 } from './common';
 
@@ -121,6 +122,9 @@ export async function getWork({
 
   try {
     const json = await res.json();
+    if (res.status === 404) {
+      return notFound();
+    }
     return json;
   } catch (e) {
     return catalogueApiError();

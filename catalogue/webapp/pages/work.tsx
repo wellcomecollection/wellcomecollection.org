@@ -11,6 +11,7 @@ import {
   WithGlobalContextData,
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { removeUndefinedProps } from '@weco/common/utils/json';
+import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 
 type Props = {
   workResponse: WorkType | CatalogueApiError;
@@ -36,7 +37,9 @@ export const WorkPage: NextPage<Props> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async context => {
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
   const globalContextData = getGlobalContextData(context);
   const { id } = context.query;
 
@@ -53,6 +56,13 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
         permanent: workResponse.status === 301,
       },
     };
+  }
+
+  if (workResponse.type === 'Error') {
+    if (workResponse.httpStatus === 404) {
+      return { notFound: true };
+    }
+    return appError(context, workResponse.statusCode, 'Works API error');
   }
 
   return {

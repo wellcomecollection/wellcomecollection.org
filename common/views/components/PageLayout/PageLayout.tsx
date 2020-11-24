@@ -75,14 +75,12 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
   const globalAlert = useContext(GlobalAlertContext);
   const popupDialog = useContext(PopupDialogContext);
   const openingTimes = useContext(OpeningTimesContext);
-  const galleries = getParseCollectionVenueById(
-    openingTimes,
-    collectionVenueId.galleries.id
-  );
-  const library = getParseCollectionVenueById(
-    openingTimes,
-    collectionVenueId.libraries.id
-  );
+  const galleries =
+    openingTimes &&
+    getParseCollectionVenueById(openingTimes, collectionVenueId.galleries.id);
+  const library =
+    openingTimes &&
+    getParseCollectionVenueById(openingTimes, collectionVenueId.libraries.id);
   const galleriesOpeningHours = galleries && galleries.openingHours;
   const libraryOpeningHours = library && library.openingHours;
   const wellcomeCollectionGalleryWithHours = {
@@ -272,7 +270,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
           hide={hideFooter}
           openingTimes={openingTimes}
           upcomingExceptionalOpeningPeriods={
-            openingTimes.upcomingExceptionalOpeningPeriods
+            openingTimes && openingTimes.upcomingExceptionalOpeningPeriods
           }
         />
       </div>

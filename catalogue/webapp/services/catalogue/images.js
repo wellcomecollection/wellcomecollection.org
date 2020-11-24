@@ -11,6 +11,7 @@ import {
   globalApiOptions,
   queryString,
   catalogueApiError,
+  notFound,
 } from './common';
 
 type GetImagesProps = {|
@@ -70,6 +71,10 @@ export async function getImage({
   try {
     const res = await fetch(url);
     const json = await res.json();
+    if (res.status === 404) {
+      return notFound();
+    }
+
     return json;
   } catch (e) {
     return catalogueApiError();

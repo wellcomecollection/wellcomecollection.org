@@ -1,32 +1,29 @@
-// @flow
-import { type Context } from 'next';
-import { type Work, type Image } from '@weco/common/model/catalogue';
+import { FunctionComponent } from 'react';
+import { GetServerSideProps } from 'next';
+import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
+import { Work, Image } from '@weco/common/model/catalogue';
 import { imageLink } from '@weco/common/services/catalogue/routes';
-import { getWork } from '../services/catalogue/works';
-import { getImage } from '../services/catalogue/images';
-// $FlowFixMe (tsx)
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
-// $FlowFixMe (tsx)
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
 import {
   GlobalContextData,
   getGlobalContextData,
-  // $FlowFixMe (tsx)
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
-// $FlowFixMe (tsx)
 import { removeUndefinedProps } from '@weco/common/utils/json';
+import { getWork } from '../services/catalogue/works';
+import { getImage } from '../services/catalogue/images';
 
-type Props = {|
-  image: Image,
-  sourceWork: Work,
-  langCode: string,
-  globalContextData: GlobalContextData,
-|};
+type Props = {
+  image: Image;
+  sourceWork: Work;
+  langCode: string;
+  globalContextData: GlobalContextData;
+};
 
-const ImagePage = ({
+const ImagePage: FunctionComponent<Props> = ({
   image,
   sourceWork,
   langCode,
@@ -107,38 +104,53 @@ const ImagePage = ({
   );
 };
 
-export const getServerSideProps = async (
-  ctx: Context
-): Promise<{ props: Props }> => {
-  const globalContextData = getGlobalContextData(ctx);
-  const { id, workId, langCode = 'en' } = ctx.query;
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const globalContextData = getGlobalContextData(context);
+  const { id, workId, langCode = 'en' } = context.query;
+
   if (!id) {
-    // $FlowFixMe
-    return { statusCode: 404 };
+    return { notFound: true };
   }
 
   const image = await getImage({
     id,
-    toggles: ctx.query.toggles,
+    toggles: context.query.toggles,
   });
-  if (image.type === 'Error' || image.source.id !== workId) {
-    // $FlowFixMe
-    return { statusCode: 404 };
+
+  if (image.type === 'Error') {
+    if (image.httpStatus === 404) {
+      return { notFound: true };
+    }
+    return appError(context, image.statusCode, 'Images API error');
+  }
+
+  // This is to avoid exposing a URL that has a valid `imageId` in it
+  // but not the correct `workId`, which would technically work,
+  // but the data on the page would be incorrect. e.g:
+  // image: { id: '1234567', image.source.id: 'abcdefg' }
+  // url: /works/gfedcba/images?id=1234567
+  if (image.source.id !== workId) {
+    return { notFound: true };
   }
 
   const work = await getWork({
     id: workId,
-    toggles: ctx.query.toggles,
+    toggles: context.query.toggles,
   });
+
   if (work.type === 'Error') {
-    // $FlowFixMe
-    return { statusCode: 404 };
+    if (work.httpStatus === 404) {
+      return { notFound: true };
+    }
+    return appError(context, work.statusCode, 'Works API error');
   }
 
   return {
     props: removeUndefinedProps({
       image,
-      langCode,
+      langCode: langCode.toString(),
       sourceWork: work,
       globalContextData,
     }),

@@ -34,14 +34,15 @@ const GlobalContextProvider: FunctionComponent<Props> = ({
   value,
   children,
 }: Props) => {
-  const parsedOpeningTimes = parseCollectionVenues(value.openingTimes);
+  const parsedOpeningTimes =
+    value.openingTimes && parseCollectionVenues(value.openingTimes);
   return (
     <Context.Provider value={value}>
       <OpeningTimesContext.Provider value={parsedOpeningTimes}>
         <GlobalAlertContext.Provider value={value.globalAlert}>
           <PopupDialogContext.Provider value={value.popupDialog}>
             <TogglesContext.Provider value={value.toggles}>
-              {value.toggles.helveticaRegular && (
+              {value.toggles && value.toggles.helveticaRegular && (
                 <style
                   type="text/css"
                   dangerouslySetInnerHTML={{
