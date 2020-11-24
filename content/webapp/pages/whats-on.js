@@ -147,18 +147,19 @@ const DateRange = ({
         })}
       >
         {period === 'today' && (
-          <time dateTime={fromDate}>{formatDate(fromDate)}</time>
+          <time dateTime={formatDate(fromDate)}>{formatDate(fromDate)}</time>
         )}
         {period === 'this-weekend' && (
           <Fragment>
-            <time dateTime={fromDate}>{formatDay(fromDate)}</time>
+            <time dateTime={formatDate(fromDate)}>{formatDay(fromDate)}</time>
             &ndash;
-            <time dateTime={toDate}>{formatDay(toDate)}</time>
+            <time dateTime={formatDate(toDate)}>{formatDay(toDate)}</time>
           </Fragment>
         )}
         {period === 'current-and-coming-up' && (
           <Fragment>
-            From <time dateTime={fromDate}>{formatDate(fromDate)}</time>
+            From{' '}
+            <time dateTime={formatDate(fromDate)}>{formatDate(fromDate)}</time>
           </Fragment>
         )}
       </Space>
