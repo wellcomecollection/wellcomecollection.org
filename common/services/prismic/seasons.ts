@@ -13,8 +13,8 @@ export async function getSeasonWithContent({
   memoizedPrismic,
 }: {
   request: IncomingMessage;
-  id: string | string[];
   memoizedPrismic: string | string[] | null;
+  id: string;
 }): Promise<SeasonWithContent | null> {
   const seasonPromise = await getPage(request, id, memoizedPrismic);
 
