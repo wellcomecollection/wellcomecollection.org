@@ -16,7 +16,7 @@ export async function getSeasonWithContent({
   id: string | string[];
   memoizedPrismic: string | string[] | null;
 }): Promise<SeasonWithContent | null> {
-  const seasonPromise = await getPage(request, id, {}, memoizedPrismic);
+  const seasonPromise = await getPage(request, id, memoizedPrismic);
 
   const articlesPromise = await getArticles(
     request,
