@@ -51,7 +51,7 @@ export async function getSeasonWithContent({
     eventsPromise,
     exhibitionsPromise,
   ]);
-  console.log(events);
+
   return {
     season,
     articles: articles?.results || [],
