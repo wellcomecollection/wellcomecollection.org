@@ -72,6 +72,7 @@ type Props = {
   activeTabIndex?: number;
   aggregations?: CatalogueAggregations;
   shouldShowFilters: boolean;
+  isCollectionsPage: boolean;
 };
 
 const SearchTabs: FunctionComponent<Props> = ({
@@ -82,6 +83,7 @@ const SearchTabs: FunctionComponent<Props> = ({
   shouldShowDescription,
   activeTabIndex,
   shouldShowFilters,
+  isCollectionsPage,
 }: Props): ReactElement<Props> => {
   const router = useRouter();
   const { query } = router.query;
@@ -138,6 +140,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             isImageSearch={false}
             aggregations={aggregations}
             shouldShowFilters={shouldShowFilters}
+            isCollectionsPage={isCollectionsPage}
           />
         </TabPanel>
       ),
@@ -192,6 +195,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             isImageSearch={true}
             shouldShowFilters={shouldShowFilters}
             aggregations={aggregations}
+            isCollectionsPage={isCollectionsPage}
           />
         </TabPanel>
       ),

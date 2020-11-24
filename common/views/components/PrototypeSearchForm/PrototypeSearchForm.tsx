@@ -39,6 +39,7 @@ type Props = {
   aggregations: CatalogueAggregations | null;
   isImageSearch: boolean;
   shouldShowFilters: boolean;
+  isCollectionsPage: boolean;
 };
 
 const SearchInputWrapper = styled.div`
@@ -82,6 +83,7 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
   aggregations,
   isImageSearch,
   shouldShowFilters,
+  isCollectionsPage,
 }: Props): ReactElement<Props> => {
   const [, setSearchParamsState] = useSavedSearchState(routeProps);
   const { query } = routeProps;
@@ -91,6 +93,7 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
   // Router
   const [inputQuery, setInputQuery] = useState(query);
   const searchInput = useRef<HTMLInputElement>(null);
+  const [forceState, setForceState] = useState(false);
   const [portalSortOrder, setPortalSortOrder] = useState(routeProps.sortOrder);
   function submit() {
     searchForm.current &&
@@ -98,6 +101,16 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
         new window.Event('submit', { cancelable: true })
       );
   }
+
+  useEffect(() => {
+    // This has been added in as the rerendering of createPortal does not trigger
+    // Manually force this to trigger to rerender so the createPortal gets created
+    // This is referred inside the paginator component
+    // Adhoc: Added set timeout for some reason allows it to work.
+    setTimeout(() => {
+      !forceState && setForceState(true);
+    }, 0);
+  }, []);
 
   // We need to make sure that the changes to `query` affect `inputQuery` as
   // when we navigate between pages which all contain `SearchForm`, each
@@ -285,38 +298,42 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
         </PrototypePortal>
       )}
       <noscript>
-        <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-          <SelectUncontrolled
-            name="sort"
-            label="Sort by"
-            defaultValue={routeProps.sort || ''}
-            options={[
-              {
-                value: '',
-                text: 'Relevance',
-              },
-              {
-                value: 'production.dates',
-                text: 'Production dates',
-              },
-            ]}
-          />
-        </Space>
-        <SelectUncontrolled
-          name="sortOrder"
-          label="Sort order"
-          defaultValue={routeProps.sortOrder || ''}
-          options={[
-            {
-              value: 'asc',
-              text: 'Ascending',
-            },
-            {
-              value: 'desc',
-              text: 'Descending',
-            },
-          ]}
-        />
+        {!isImageSearch && isCollectionsPage && (
+          <>
+            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+              <SelectUncontrolled
+                name="sort"
+                label="Sort by"
+                defaultValue={routeProps.sort || ''}
+                options={[
+                  {
+                    value: '',
+                    text: 'Relevance',
+                  },
+                  {
+                    value: 'production.dates',
+                    text: 'Production dates',
+                  },
+                ]}
+              />
+            </Space>
+            <SelectUncontrolled
+              name="sortOrder"
+              label="Sort order"
+              defaultValue={routeProps.sortOrder || ''}
+              options={[
+                {
+                  value: 'asc',
+                  text: 'Ascending',
+                },
+                {
+                  value: 'desc',
+                  text: 'Descending',
+                },
+              ]}
+            />
+          </>
+        )}
       </noscript>
       <SearchButtonWrapper>
         <ButtonSolid
