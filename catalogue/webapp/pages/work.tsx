@@ -50,7 +50,6 @@ export const getServerSideProps: GetServerSideProps<
 
   if (workResponse.type === 'Redirect') {
     return {
-      props: {},
       redirect: {
         destination: workResponse.redirectToId,
         permanent: workResponse.status === 301,
