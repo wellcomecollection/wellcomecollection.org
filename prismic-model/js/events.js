@@ -17,9 +17,6 @@ const Events = {
     title,
     format: link('Format', 'document', ['event-formats']),
     place: place,
-    series: list('Event series', {
-      series: link('Series', 'document', ['event-series']),
-    }),
     times: list('Times', {
       startDateTime: timestamp('Start'),
       endDateTime: timestamp('End'),
@@ -71,6 +68,9 @@ const Events = {
     metadataDescription: structuredText('Metadata description', 'single'),
   },
   'Content relationships': {
+    series: list('Event series', {
+      series: link('Series', 'document', ['event-series']),
+    }),
     season: link('Season', 'document', ['seasons'], 'Select a Season'),
   },
   Deprecated: {
