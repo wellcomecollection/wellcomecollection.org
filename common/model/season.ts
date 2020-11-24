@@ -10,8 +10,8 @@ export type Season = GenericContentFields & {
 
 export type SeasonWithContent = {
   season: Season;
-  articles: Article[] | null;
-  books: Book[] | null;
-  events: Event[] | null;
-  exhibitions: Exhibition[] | null;
+  articles: Article[];
+  books: Book[];
+  events: Event[];
+  exhibitions: Exhibition[];
 };

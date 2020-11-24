@@ -20,25 +20,27 @@ export async function getSeasonWithContent({
 
   const articlesPromise = await getArticles(
     request,
-    { predicates: [Prismic.Predicates.at('my.articles.season', id)] },
+    { predicates: [Prismic.Predicates.at('my.articles.seasons.season', id)] },
     memoizedPrismic
   );
 
   const booksPromise = await getBooks(
     request,
-    { predicates: [Prismic.Predicates.at('my.books.season', id)] },
+    { predicates: [Prismic.Predicates.at('my.books.seasons.season', id)] },
     memoizedPrismic
   );
 
   const eventsPromise = await getEvents(
     request,
-    { predicates: [Prismic.Predicates.at('my.events.season', id)] },
+    { predicates: [Prismic.Predicates.at('my.events.seasons.season', id)] },
     memoizedPrismic
   );
 
   const exhibitionsPromise = await getExhibitions(
     request,
-    { predicates: [Prismic.Predicates.at('my.exhibitions.season', id)] },
+    {
+      predicates: [Prismic.Predicates.at('my.exhibitions.seasons.season', id)],
+    },
     memoizedPrismic
   );
 
@@ -49,12 +51,12 @@ export async function getSeasonWithContent({
     eventsPromise,
     exhibitionsPromise,
   ]);
-
+  console.log(events);
   return {
     season,
-    articles: articles?.results || null,
-    books: books?.results || null,
-    events: events?.results || null,
-    exhibitions: exhibitions?.results || null,
+    articles: articles?.results || [],
+    books: books?.results || [],
+    events: events?.results || [],
+    exhibitions: exhibitions?.results || [],
   };
 }

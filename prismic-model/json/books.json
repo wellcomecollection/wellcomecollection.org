@@ -670,15 +670,23 @@
     }
   },
   "Content relationships": {
-    "season": {
-      "type": "Link",
+    "seasons": {
+      "type": "Group",
+      "fieldset": "Seasons",
       "config": {
-        "label": "Season",
-        "select": "document",
-        "customtypes": [
-          "seasons"
-        ],
-        "placeholder": "Select a Season"
+        "fields": {
+          "season": {
+            "type": "Link",
+            "config": {
+              "label": "Season",
+              "select": "document",
+              "customtypes": [
+                "seasons"
+              ],
+              "placeholder": "Select a Season"
+            }
+          }
+        }
       }
     }
   },

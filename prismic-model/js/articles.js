@@ -35,7 +35,9 @@ const Article = {
       series: link('Series', 'document', ['series']),
       positionInSeries: number('Position in series'),
     }),
-    season: link('Season', 'document', ['seasons'], 'Select a Season'),
+    seasons: list('Seasons', {
+      season: link('Season', 'document', ['seasons'], 'Select a Season'),
+    }),
   },
   Migration: {
     publishDate: {

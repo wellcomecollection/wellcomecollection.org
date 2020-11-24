@@ -71,7 +71,9 @@ const Events = {
     series: list('Event series', {
       series: link('Series', 'document', ['event-series']),
     }),
-    season: link('Season', 'document', ['seasons'], 'Select a Season'),
+    seasons: list('Seasons', {
+      season: link('Season', 'document', ['seasons'], 'Select a Season'),
+    }),
   },
   Deprecated: {
     description: structuredText('Description', 'multi', [
