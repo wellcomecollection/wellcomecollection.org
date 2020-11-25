@@ -1,11 +1,55 @@
 import Prismic from 'prismic-javascript';
-import { getPage } from '@weco/common/services/prismic/pages';
-import { getArticles } from '@weco/common/services/prismic/articles';
-import { getBooks } from '@weco/common/services/prismic/books';
-import { getEvents } from '@weco/common/services/prismic/events';
-import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
-import { SeasonWithContent } from '@weco/common/model/season';
+import { getDocument } from './api';
+import { getPage } from './pages'; // TODO use getSeason from here instead
+import { getArticles } from './articles';
+import { getBooks } from './books';
+import { getEvents } from './events';
+import { getExhibitions } from './exhibitions';
+import { SeasonWithContent } from '../../model/season';
 import { IncomingMessage } from 'http';
+import { parseGenericFields } from './parsers';
+import {
+  pagesFields,
+  articlesFields,
+  bookFields,
+  eventsFields,
+  exhibitionFields,
+} from './fetch-links';
+
+export function parseSeason(document: PrismicDocument): Page {
+  const genericFields = parseGenericFields(document);
+  const promo = genericFields.promo;
+
+  return {
+    type: 'pages',
+    ...genericFields,
+    promo: promo && promo.image && promo,
+  };
+}
+
+export async function getSeason(
+  req: Request | null,
+  id: string,
+  memoizedPrismic: Object
+): Promise<Page> {
+  const season = await getDocument(
+    req,
+    id,
+    {
+      fetchLinks: pagesFields.concat(
+        articlesFields,
+        bookFields,
+        eventsFields,
+        exhibitionFields
+      ),
+    },
+    memoizedPrismic
+  );
+
+  if (season) {
+    return parseSeason(season);
+  }
+}
 
 export async function getSeasonWithContent({
   request,
@@ -16,7 +60,7 @@ export async function getSeasonWithContent({
   memoizedPrismic: string | string[] | null;
   id: string;
 }): Promise<SeasonWithContent | null> {
-  const seasonPromise = await getPage(request, id, memoizedPrismic);
+  const seasonPromise = await getPage(request, id, memoizedPrismic); // TODO use getSeason
 
   const articlesPromise = await getArticles(
     request,
