@@ -340,15 +340,6 @@ const Works: NextPage<Props> = ({
   );
 };
 
-export const t: GetServerSideProps<{ things: string }> = async context => {
-  console.info(context);
-
-  const things = await Promise.resolve('things');
-  return {
-    props: { things },
-  };
-};
-
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
