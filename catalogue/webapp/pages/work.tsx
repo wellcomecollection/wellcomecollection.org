@@ -22,7 +22,8 @@ export const WorkPage: NextPage<Props> = ({
   workResponse,
   globalContextData,
 }: Props) => {
-  // TODO: move the <Work> ocmponent content back into here
+  // TODO: remove the <Work> component and move the JSX in here.
+  // It was abstracted as we did error handling in the page, and it made it a little clearer.
   return <Work work={workResponse} globalContextData={globalContextData} />;
 };
 
