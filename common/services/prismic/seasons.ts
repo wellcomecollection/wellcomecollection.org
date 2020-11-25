@@ -1,10 +1,11 @@
 import Prismic from 'prismic-javascript';
+import { PrismicDocument } from './types';
 import { getDocument } from './api';
 import { getArticles } from './articles';
 import { getBooks } from './books';
 import { getEvents } from './events';
 import { getExhibitions } from './exhibitions';
-import { SeasonWithContent } from '../../model/season';
+import { Season, SeasonWithContent } from '../../model/seasons';
 import { IncomingMessage } from 'http';
 import { parseGenericFields } from './parsers';
 import {
@@ -15,12 +16,12 @@ import {
   exhibitionFields,
 } from './fetch-links';
 
-export function parseSeason(document: PrismicDocument): Page {
+export function parseSeason(document: PrismicDocument): Season {
   const genericFields = parseGenericFields(document);
   const promo = genericFields.promo;
 
   return {
-    type: 'pages',
+    type: 'seasons',
     ...genericFields,
     promo: promo && promo.image && promo,
   };
@@ -29,8 +30,8 @@ export function parseSeason(document: PrismicDocument): Page {
 export async function getSeason(
   req: Request | null,
   id: string,
-  memoizedPrismic: Object
-): Promise<Page> {
+  memoizedPrismic: Record<string, unknown>
+): Promise<Season> {
   const season = await getDocument(
     req,
     id,

@@ -1,6 +1,6 @@
 import { NextPageContext } from 'next';
 import { ReactElement } from 'react';
-import { SeasonWithContent } from '@weco/common/model/season';
+import { SeasonWithContent } from '@weco/common/model/seasons';
 import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
