@@ -70,6 +70,7 @@ const Popper = styled('div')<{ isVisible: boolean }>`
   height: ${props => (props.isVisible ? 'auto' : 0)};
   max-width: calc(100vw - 20px);
   z-index: ${props => (props.isVisible ? 1 : -1)};
+  opacity: ${props => (props.isVisible ? 1 : 0)};
 `;
 
 type Props = {
