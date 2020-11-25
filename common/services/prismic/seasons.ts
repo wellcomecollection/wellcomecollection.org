@@ -6,7 +6,6 @@ import { getBooks } from './books';
 import { getEvents } from './events';
 import { getExhibitions } from './exhibitions';
 import { Season, SeasonWithContent } from '../../model/seasons';
-import { IncomingMessage } from 'http';
 import { parseGenericFields } from './parsers';
 import {
   pagesFields,
@@ -28,7 +27,7 @@ export function parseSeason(document: PrismicDocument): Season {
 }
 
 export async function getSeason(
-  req: Request | null,
+  req: any,
   id: string,
   memoizedPrismic: Record<string, unknown>
 ): Promise<Season> {
@@ -56,8 +55,8 @@ export async function getSeasonWithContent({
   id,
   memoizedPrismic,
 }: {
-  request: IncomingMessage;
-  memoizedPrismic: string | string[] | null;
+  request: any;
+  memoizedPrismic: Record<string, unknown>;
   id: string;
 }): Promise<SeasonWithContent | null> {
   const seasonPromise = await getSeason(request, id, memoizedPrismic);
