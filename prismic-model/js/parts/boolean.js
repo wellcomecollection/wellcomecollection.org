@@ -1,6 +1,5 @@
 // @flow
-
-export default function(label: string, defaultValue: boolean = false) {
+export default function boolean(label: string, defaultValue: boolean = false) {
   return {
     type: 'Boolean',
     config: {

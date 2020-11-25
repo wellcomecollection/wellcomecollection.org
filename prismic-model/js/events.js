@@ -11,12 +11,14 @@ import booleanDeprecated from './parts/boolean-deprecated';
 import text from './parts/text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import body from './parts/body';
+import boolean from './parts/boolean';
 
 const Events = {
   Event: {
     title,
     format: link('Format', 'document', ['event-formats']),
     place: place,
+    isOnline: boolean('Online?', false),
     times: list('Times', {
       startDateTime: timestamp('Start'),
       endDateTime: timestamp('End'),
