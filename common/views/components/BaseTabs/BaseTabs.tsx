@@ -43,7 +43,7 @@ type TabPanelProps = {
 const TabPanel = styled.div.attrs((props: TabPanelProps) => ({
   id: props.id,
   role: 'tabpanel',
-  hidden: props.isEnhanced && !props.isActive,
+  hidden: !props.isActive,
   'aria-expanded': props.isActive,
 }))<TabPanelProps>``;
 
@@ -139,32 +139,29 @@ const Tabs: FunctionComponent<Props> = ({
 
   return (
     <>
-      {isEnhanced && (
-        <TabList ref={tabListRef} aria-label={label}>
-          {tabs.map(({ id, tab }) => (
-            <Tab
-              key={id}
-              id={id}
-              tabPanelId={id}
-              isActive={id === activeId}
-              onClick={() => handleTabClick(id)}
-              onBlur={() => setFocusedId(null)}
-              onFocus={() => setFocusedId(id)}
-              onKeyDown={handleKeyDown}
-            >
-              {tab(id === activeId, id === focusedId)}
-            </Tab>
-          ))}
-        </TabList>
-      )}
-      {tabs.map(({ id, tabPanel, tab }) => (
+      <TabList ref={tabListRef} aria-label={label}>
+        {tabs.map(({ id, tab }) => (
+          <Tab
+            key={id}
+            id={id}
+            tabPanelId={id}
+            isActive={id === activeId}
+            onClick={() => handleTabClick(id)}
+            onBlur={() => setFocusedId(null)}
+            onFocus={() => setFocusedId(id)}
+            onKeyDown={handleKeyDown}
+          >
+            {tab(id === activeId, id === focusedId)}
+          </Tab>
+        ))}
+      </TabList>
+      {tabs.map(({ id, tabPanel }) => (
         <TabPanel
           key={id}
           id={id}
           isActive={id === activeId}
           isEnhanced={isEnhanced}
         >
-          {!isEnhanced && tab(id === activeId, id === focusedId)}
           {tabPanel}
         </TabPanel>
       ))}
