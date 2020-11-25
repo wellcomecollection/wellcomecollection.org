@@ -1,6 +1,5 @@
 import Prismic from 'prismic-javascript';
 import { getDocument } from './api';
-import { getPage } from './pages'; // TODO use getSeason from here instead
 import { getArticles } from './articles';
 import { getBooks } from './books';
 import { getEvents } from './events';
@@ -60,7 +59,7 @@ export async function getSeasonWithContent({
   memoizedPrismic: string | string[] | null;
   id: string;
 }): Promise<SeasonWithContent | null> {
-  const seasonPromise = await getPage(request, id, memoizedPrismic); // TODO use getSeason
+  const seasonPromise = await getSeason(request, id, memoizedPrismic);
 
   const articlesPromise = await getArticles(
     request,
