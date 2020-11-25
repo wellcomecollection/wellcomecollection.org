@@ -17,6 +17,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import NextLink from 'next/link';
 import { removeEmptyProps } from '../../../utils/json';
 import { useRouter } from 'next/router';
+// const { isEnhanced } = useContext(AppContext);
 
 const BaseTabsWrapper = styled.div`
   // FIXME: For testing, make the checkboxes/buttons have a white background because they're on grey
@@ -88,7 +89,7 @@ const SearchTabs: FunctionComponent<Props> = ({
   const router = useRouter();
   const { query } = router.query;
 
-  const { isKeyboard } = useContext(AppContext);
+  const { isKeyboard, isEnhanced } = useContext(AppContext);
   const tabs: TabType[] = [
     {
       id: 'tab-library-catalogue',
@@ -193,7 +194,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             routeProps={imagesRouteProps}
             workTypeAggregations={workTypeAggregations}
             isImageSearch={true}
-            shouldShowFilters={shouldShowFilters}
+            shouldShowFilters={isEnhanced && shouldShowFilters} // non js images filters doesnt work hide for now\
             aggregations={aggregations}
             isCollectionsPage={isCollectionsPage}
           />
