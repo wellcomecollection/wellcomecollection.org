@@ -40,6 +40,7 @@ const ImageWrap = styled(Space).attrs({
     height: 100%;
     width: auto;
   }
+  noscript { display: inline; }
 `;
 
 const ImageCard = ({ id, image, onClick, workId }: Props) => {
