@@ -81,11 +81,10 @@ const SeasonPage = ({
 SeasonPage.getInitialProps = async (
   ctx: NextPageContext
 ): Promise<SeasonWithContent | { statusCode: number }> => {
-  const { idQuery, memoizedPrismic } = ctx.query;
-  const id = Array.isArray(idQuery) ? idQuery[0] : idQuery;
+  const { id, memoizedPrismic } = ctx.query;
   const seasonWithContent = await getSeasonWithContent({
     request: ctx.req,
-    id,
+    id: Array.isArray(id) ? id[0] : id,
     memoizedPrismic,
   });
 
