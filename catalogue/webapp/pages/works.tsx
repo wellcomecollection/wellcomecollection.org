@@ -354,11 +354,7 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   const globalContextData = getGlobalContextData(context);
   const params = WorksRoute.fromQuery(context.query);
-  // TODO: Fix this, we should have the toggles typesd at this point
-  const { enableColorFiltering } = (context.query.toggles as unknown) as Record<
-    string,
-    unknown
-  >;
+  const { enableColorFiltering } = globalContextData.toggles;
   const _queryType = cookies(context)._queryType;
   const isImageSearch = params.search === 'images';
   const aggregations = ['workType', 'locationType'];
