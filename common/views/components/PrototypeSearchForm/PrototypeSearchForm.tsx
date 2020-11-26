@@ -39,7 +39,7 @@ type Props = {
   aggregations: CatalogueAggregations | null;
   isImageSearch: boolean;
   shouldShowFilters: boolean;
-  isCollectionsPage: boolean;
+  showSortBy: boolean;
 };
 
 const SearchInputWrapper = styled.div`
@@ -83,7 +83,7 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
   aggregations,
   isImageSearch,
   shouldShowFilters,
-  isCollectionsPage,
+  showSortBy,
 }: Props): ReactElement<Props> => {
   const [, setSearchParamsState] = useSavedSearchState(routeProps);
   const { query } = routeProps;
@@ -298,7 +298,7 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
         </PrototypePortal>
       )}
       <noscript>
-        {!isImageSearch && isCollectionsPage && (
+        {!isImageSearch && showSortBy && (
           <>
             <Space v={{ size: 's', properties: ['margin-bottom'] }}>
               <SelectUncontrolled

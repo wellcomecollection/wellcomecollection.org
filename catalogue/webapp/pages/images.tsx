@@ -110,7 +110,6 @@ const Images: NextPage<Props> = ({
   }, []);
 
   useHotjar();
-  const isCollectionsPage = Boolean(results);
 
   if (results && results.type === 'Error') {
     return (
@@ -170,7 +169,7 @@ const Images: NextPage<Props> = ({
           className={classNames(['row'])}
         >
           <div className="container">
-            {!isCollectionsPage && <SearchTitle />}
+            {!results && <SearchTitle />}
 
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
@@ -183,7 +182,7 @@ const Images: NextPage<Props> = ({
                   shouldShowDescription={query === ''}
                   activeTabIndex={1}
                   shouldShowFilters={true}
-                  isCollectionsPage={isCollectionsPage}
+                  showSortBy={Boolean(results)}
                 />
               </div>
             </div>
