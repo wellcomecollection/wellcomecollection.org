@@ -361,7 +361,7 @@ export const getServerSideProps = async (
 ): Promise<{ props: Props }> => {
   const globalContextData = getGlobalContextData(ctx);
   if (ctx.query?.workType) {
-    // make sure workType is a serialised
+    // make sure workType is converted
     ctx.query.workType = arrayToString(ctx.query.workType);
   }
   const params = WorksRoute.fromQuery(ctx.query);
