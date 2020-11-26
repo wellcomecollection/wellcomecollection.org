@@ -3,6 +3,26 @@ import { type NextLinkType } from '@weco/common/model/next-link-type';
 
 type Params = { [key: string]: any };
 export type UrlParams = { [key: string]: string };
+
+export function serialiseQueryParams(
+  ctxQueryParams: Params,
+  paramsToConvert: string[]
+): UrlParams {
+  // find all of query params that matches we want to convert
+  const itemToConvert = Object.keys(ctxQueryParams).filter(param => {
+    if (paramsToConvert.includes(param)) {
+      return true;
+    }
+    return false;
+  });
+
+  // convert the items to string else return back
+  itemToConvert.forEach(key => {
+    ctxQueryParams[key] = arrayToString(ctxQueryParams[key]);
+  });
+  return ctxQueryParams;
+}
+
 export function serialiseUrl(params: Params): UrlParams {
   return Object.keys(params).reduce((acc, key) => {
     const val = params[key];

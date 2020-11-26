@@ -24,7 +24,7 @@ import {
   type WorksRouteProps,
   worksLink,
   WorksRoute,
-  arrayToString,
+  serialiseQueryParams,
 } from '@weco/common/services/catalogue/routes';
 import {
   type CatalogueWorksApiProps,
@@ -360,15 +360,8 @@ export const getServerSideProps = async (
   ctx: Context
 ): Promise<{ props: Props }> => {
   const globalContextData = getGlobalContextData(ctx);
-  // Make sure multiple items are converted before serialised
-  if (ctx.query?.workType) {
-    ctx.query.workType = arrayToString(ctx.query.workType);
-  }
-  if (ctx.query['items.locations.type']) {
-    ctx.query['items.locations.type'] = arrayToString(
-      ctx.query['items.locations.type']
-    );
-  }
+  // Make sure items we want are serialised to strings
+  serialiseQueryParams(ctx.query, ['workType', 'items.locations.type']);
   const params = WorksRoute.fromQuery(ctx.query);
   const { enableColorFiltering } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
