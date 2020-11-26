@@ -360,7 +360,7 @@ export const getServerSideProps = async (
   ctx: Context
 ): Promise<{ props: Props }> => {
   const globalContextData = getGlobalContextData(ctx);
-  if (ctx.query.workType) {
+  if (ctx.query?.workType) {
     // make sure workType is a serialised
     ctx.query.workType = arrayToString(ctx.query.workType);
   }
