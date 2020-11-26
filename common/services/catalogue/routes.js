@@ -45,6 +45,9 @@ export function serialiseUrl(params: Params): UrlParams {
 }
 
 function stringToCsv(s: ?string): string[] {
+  if (Array.isArray(s)) {
+    return s;
+  }
   return s ? s.split(',') : [];
 }
 

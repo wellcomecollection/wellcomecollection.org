@@ -80,6 +80,35 @@ test('/works: with values', () => {
   });
 });
 
+test('/works: with values contain array instead of strings', () => {
+  const query = {
+    query: 'gargoyles',
+    page: '3',
+    'production.dates.from': '1500',
+    'production.dates.to': '1900',
+    notValid: '( ͡° ͜ʖ ͡°)',
+    workType: ['a', 'b', 'c'],
+    'items.locations.type': ['DigitalLocation', 'PhysicalLocation'],
+    'items.locations.locationType': ['DigitalLocation', 'PhysicalLocation'],
+  };
+  const worksRouteState = WorksRoute.fromQuery(query);
+
+  expect(worksRouteState).toEqual({
+    query: 'gargoyles',
+    page: 3,
+    workType: ['a', 'b', 'c'],
+    itemsLocationsLocationType: ['DigitalLocation', 'PhysicalLocation'],
+    itemsLocationsType: ['DigitalLocation', 'PhysicalLocation'],
+    sort: null,
+    sortOrder: null,
+    productionDatesFrom: '1500',
+    productionDatesTo: '1900',
+    search: null,
+    source: null,
+    imagesColor: null,
+  });
+});
+
 // route: /works/{id}
 test('/works/{id}: with no values', () => {
   const query = {};
