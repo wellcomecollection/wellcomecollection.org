@@ -26,7 +26,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import { getImages } from '../services/catalogue/images';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
-import useHotjar from '@weco/common/hooks/useHotjar';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 import {
@@ -108,8 +107,6 @@ const Images: NextPage<Props> = ({
       Router.events.off('routeChangeComplete', routeChangeComplete);
     };
   }, []);
-
-  useHotjar();
 
   if (results && results.type === 'Error') {
     return (
