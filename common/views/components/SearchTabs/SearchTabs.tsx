@@ -17,7 +17,6 @@ import { trackEvent } from '@weco/common/utils/ga';
 import NextLink from 'next/link';
 import { removeEmptyProps } from '../../../utils/json';
 import { useRouter } from 'next/router';
-// const { isEnhanced } = useContext(AppContext);
 
 const BaseTabsWrapper = styled.div`
   // FIXME: For testing, make the checkboxes/buttons have a white background because they're on grey
