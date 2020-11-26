@@ -2,7 +2,7 @@
 import { type NextLinkType } from '@weco/common/model/next-link-type';
 
 type Params = { [key: string]: any };
-export type UrlParams = { [key: string]: string };
+export type UrlParams = { [key: string]: any };
 export function serialiseUrl(params: Params): UrlParams {
   return Object.keys(params).reduce((acc, key) => {
     const val = params[key];
