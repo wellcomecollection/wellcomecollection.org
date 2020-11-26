@@ -360,9 +360,14 @@ export const getServerSideProps = async (
   ctx: Context
 ): Promise<{ props: Props }> => {
   const globalContextData = getGlobalContextData(ctx);
+  // Make sure multiple items are converted before serialised
   if (ctx.query?.workType) {
-    // make sure workType is converted
     ctx.query.workType = arrayToString(ctx.query.workType);
+  }
+  if (ctx.query['items.locations.type']) {
+    ctx.query['items.locations.type'] = arrayToString(
+      ctx.query['items.locations.type']
+    );
   }
   const params = WorksRoute.fromQuery(ctx.query);
   const { enableColorFiltering } = ctx.query.toggles;
