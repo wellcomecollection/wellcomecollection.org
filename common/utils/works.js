@@ -21,6 +21,9 @@ export type NodeWork = {|
   title: string,
   alternativeTitles: string[],
   referenceNumber?: string,
+  availableOnline: boolean,
+  totalParts: number,
+  totalDescendentParts: number,
   // partOf?: [],
   parts?: [],
   // precededBy?: [],
@@ -266,6 +269,9 @@ export function parsePart(part: Work): NodeWork {
     title: part.title,
     alternativeTitles: part.alternativeTitles,
     referenceNumber: part.referenceNumber,
+    availableOnline: part.availableOnline,
+    totalParts: part.totalParts,
+    totalDescendentParts: part.totalDescendentParts,
     type: part.type,
   };
 }
