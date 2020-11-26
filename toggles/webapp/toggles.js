@@ -69,7 +69,7 @@ module.exports = {
     {
       id: 'isHotjarActive',
       title: 'Hotjar',
-      defaultValue: false,
+      defaultValue: true,
       description: 'Embeds the Hotjar script for user research',
     },
   ],

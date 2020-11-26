@@ -1,15 +1,19 @@
-import { useEffect, useContext } from 'react';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import { useEffect } from 'react';
 
-const useHotjar = () => {
-  const { isHotjarActive } = useContext(TogglesContext);
-
+const useHotjar = (
+  toggles: { [key: string]: boolean },
+  conditionToInsert: boolean
+): void => {
+  const { isHotjarActive } = toggles;
   useEffect(() => {
     isHotjarActive &&
-      (function(h, o, t, j, a, r) {
+      conditionToInsert &&
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (function(h: any, o, t, j, a, r) {
         h.hj =
           h.hj ||
           function() {
+            // eslint-disable-next-line prefer-rest-params
             (h.hj.q = h.hj.q || []).push(arguments);
           };
         h._hjSettings = { hjid: 3858, hjsv: 6 };
