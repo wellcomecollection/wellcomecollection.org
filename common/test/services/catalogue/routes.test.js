@@ -79,6 +79,7 @@ test('/works: with values', () => {
     imagesColor: null,
   });
 });
+
 // route: /works/{id}
 test('/works/{id}: with no values', () => {
   const query = {};
