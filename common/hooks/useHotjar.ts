@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 
 function renderScript() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  console.log('hello world');
   (function(h: any, o, t, j, a, r) {
     h.hj =
       h.hj ||
