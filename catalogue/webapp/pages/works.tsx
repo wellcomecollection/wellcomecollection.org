@@ -100,7 +100,6 @@ const Works: NextPage<Props> = ({
   }, []);
 
   useHotjar();
-
   const isImageSearch = worksRouteProps.search === 'images';
 
   return (
@@ -184,6 +183,7 @@ const Works: NextPage<Props> = ({
                         ? works.aggregations
                         : undefined
                     }
+                    showSortBy={Boolean(results)}
                   />
                 ) : (
                   <SearchForm

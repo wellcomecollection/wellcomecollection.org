@@ -188,6 +188,7 @@ const Images: NextPage<Props> = ({
                   shouldShowDescription={query === ''}
                   activeTabIndex={1}
                   shouldShowFilters={true}
+                  showSortBy={Boolean(results)}
                 />
               </div>
             </div>

@@ -299,7 +299,10 @@ function createSiblingsArray({
       children: undefined,
     })),
     createNodeFromWork({
-      work,
+      work: {
+        ...work,
+        totalParts: work.parts && work.parts.length,
+      },
       openStatus: !openStatusOverride,
     }),
     ...(work.succeededBy || []).map(item => ({
@@ -416,7 +419,10 @@ async function getSiblings({
 |}): Promise<UiTreeNode[]> {
   const currWork = await getWork({ id, toggles });
   const siblings = createSiblingsArray({
-    work: currWork,
+    work: {
+      ...currWork,
+      totalParts: currWork.parts && currWork.parts.length,
+    },
     workId,
     openStatusOverride,
   });
@@ -520,8 +526,10 @@ const ListItem = ({
     : descendentIsSelected
     ? 'secondary'
     : '';
-  const hasControl =
-    (item.children && item.children.length > 0) || !item.children; // TODO use new API totalParts data when available
+
+  const hasControl = Boolean(
+    item?.work?.totalParts && item?.work?.totalParts > 0
+  );
 
   function updateTabbing(id) {
     // We only want one tabbable item in the tree at a time,
