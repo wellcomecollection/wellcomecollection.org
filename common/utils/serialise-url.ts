@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type QueryParams = { [key: string]: any };
+export type ParsedUrlQuery = { [key: string]: any };
 export type UrlParams = { [key: string]: string };
 
 export function parseUrlParams(
-  query: Readonly<QueryParams>,
+  query: Readonly<ParsedUrlQuery>,
   paramsToConvert: string[]
 ): UrlParams {
   const newParams = { ...query }; // clone variable as it modifies original
