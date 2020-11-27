@@ -101,7 +101,6 @@ const Works = ({
   }, []);
 
   useHotjar();
-
   const isImageSearch = worksRouteProps.search === 'images';
 
   if (results && results.type === 'Error') {
@@ -199,6 +198,7 @@ const Works = ({
                         ? works.aggregations
                         : undefined
                     }
+                    showSortBy={Boolean(results)}
                   />
                 ) : (
                   <SearchForm

@@ -72,6 +72,7 @@ type Props = {
   activeTabIndex?: number;
   aggregations?: CatalogueAggregations;
   shouldShowFilters: boolean;
+  showSortBy: boolean;
 };
 
 const SearchTabs: FunctionComponent<Props> = ({
@@ -82,11 +83,12 @@ const SearchTabs: FunctionComponent<Props> = ({
   shouldShowDescription,
   activeTabIndex,
   shouldShowFilters,
+  showSortBy,
 }: Props): ReactElement<Props> => {
   const router = useRouter();
   const { query } = router.query;
 
-  const { isKeyboard } = useContext(AppContext);
+  const { isKeyboard, isEnhanced } = useContext(AppContext);
   const tabs: TabType[] = [
     {
       id: 'tab-library-catalogue',
@@ -138,6 +140,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             isImageSearch={false}
             aggregations={aggregations}
             shouldShowFilters={shouldShowFilters}
+            showSortBy={showSortBy}
           />
         </TabPanel>
       ),
@@ -190,8 +193,9 @@ const SearchTabs: FunctionComponent<Props> = ({
             routeProps={imagesRouteProps}
             workTypeAggregations={workTypeAggregations}
             isImageSearch={true}
-            shouldShowFilters={shouldShowFilters}
+            shouldShowFilters={isEnhanced && shouldShowFilters} // non js images filters doesnt work hide for now\
             aggregations={aggregations}
+            showSortBy={showSortBy}
           />
         </TabPanel>
       ),
