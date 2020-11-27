@@ -66,11 +66,5 @@ module.exports = {
       description:
         'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
     },
-    {
-      id: 'isHotjarActive',
-      title: 'Hotjar',
-      defaultValue: true,
-      description: 'Embeds the Hotjar script for user research',
-    },
   ],
 };

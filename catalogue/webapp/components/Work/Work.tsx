@@ -67,8 +67,7 @@ const Work: FunctionComponent<Props> = ({
   });
 
   const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
-  // added condition isInArchive as its a hook as we only want to trigger in that view
-  useHotjar(globalContextData.toggles, isInArchive);
+  useHotjar(isInArchive);
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
     'iiif-presentation'
