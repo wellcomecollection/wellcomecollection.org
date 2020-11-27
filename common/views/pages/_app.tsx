@@ -14,11 +14,11 @@ import {
   GlobalContextData,
 } from '../components/GlobalContextProvider/GlobalContextProvider';
 import { GetServerSidePropsContext } from 'next';
+import { trackPageview } from '../../services/conversion/track';
 
 declare global {
   interface Window {
     prismic: any;
-    analytics: any;
   }
 }
 
@@ -298,7 +298,7 @@ function WecoApp({ Component, pageProps }: AppProps) {
   if (isClient) {
     const { pageview } = pageProps as { pageview: Pageview };
     if (pageview) {
-      window.analytics.page(pageview.name, pageview.properties);
+      trackPageview(pageview.name, pageview.properties);
     }
   }
 
