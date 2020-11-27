@@ -299,7 +299,10 @@ function createSiblingsArray({
       children: undefined,
     })),
     createNodeFromWork({
-      work,
+      work: {
+        ...work,
+        totalParts: work.parts && work.parts.length,
+      },
       openStatus: !openStatusOverride,
     }),
     ...(work.succeededBy || []).map(item => ({
