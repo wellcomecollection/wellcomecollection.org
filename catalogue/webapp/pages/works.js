@@ -362,10 +362,7 @@ export const getServerSideProps = async (
   ctx: Context
 ): Promise<{ props: Props }> => {
   const globalContextData = getGlobalContextData(ctx);
-  const parseParams = parseUrlParams(ctx.query, [
-    'workType',
-    'items.locations.type',
-  ]);
+  const parseParams = parseUrlParams(ctx.query);
   const params = WorksRoute.fromQuery(parseParams);
   const { enableColorFiltering } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;

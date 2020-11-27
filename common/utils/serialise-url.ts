@@ -1,27 +1,17 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ParsedUrlQuery = { [key: string]: any };
+import { ParsedUrlQuery } from 'querystring';
 export type UrlParams = { [key: string]: string };
 
-export function parseUrlParams(
-  query: Readonly<ParsedUrlQuery>,
-  paramsToConvert: string[]
-): UrlParams {
-  const newParams = { ...query }; // clone variable as it modifies original
-  // query contains global context, being specific on parsing
-  const itemToConvert = Object.keys(newParams).filter(param => {
-    if (paramsToConvert.includes(param)) {
-      return true;
-    }
-    return false;
-  });
-
-  // convert the items to string else return back
-  itemToConvert.forEach(key => {
-    newParams[key] = parseQueryParam(newParams[key]);
-  });
-  return newParams;
+export function parseUrlParams(query: ParsedUrlQuery): UrlParams {
+  const parsedQuerys = Object.entries(query).reduce((acc, [key, val]) => {
+    return {
+      ...acc,
+      [key]: parseQueryParam(val),
+    };
+  }, {});
+  return parsedQuerys;
 }
 
-export function parseQueryParam(param: string | []): string {
-  return Array.isArray(param) ? param.join(',') : param;
+export function parseQueryParam(param: string | string[]): string {
+  const parseParam = Array.isArray(param) ? param.join(',') : param;
+  return typeof parseParam === 'string' ? parseParam : '';
 }
