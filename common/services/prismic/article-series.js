@@ -59,7 +59,7 @@ export async function getArticleSeries(
   // GOTCHA: This is for body squabbles where we have the `webcomics` type.
   // This will have to remain like this until we figure out how to migrate it.
   const seriesField =
-    id === 'WleP3iQAACUAYEoN'
+    id === 'WleP3iQAACUAYEoN' || id === 'X8D9qxIAACIAcKSf'
       ? 'my.webcomics.series.series'
       : 'my.articles.series.series';
   const articles = await getArticles(
