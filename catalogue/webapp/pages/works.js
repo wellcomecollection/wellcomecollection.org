@@ -12,7 +12,6 @@ import {
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import {
-  GlobalContextData,
   getGlobalContextData,
   // $FlowFixMe (tsx)
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
@@ -24,7 +23,6 @@ import {
   type WorksRouteProps,
   worksLink,
   WorksRoute,
-  serialiseQueryParams,
 } from '@weco/common/services/catalogue/routes';
 import {
   type CatalogueWorksApiProps,
@@ -45,10 +43,13 @@ import WorkSearchResults from '../components/WorkSearchResults/WorkSearchResults
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 // $FlowFixMe (tsx)
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
-// $FlowFixMe (tsx)
+// $FlowFixMe (ts)
 import { removeUndefinedProps } from '@weco/common/utils/json';
 // $FlowFixMe (tsx)
 import SearchTitle from '../components/SearchTitle/SearchTitle';
+// $FlowFixMe (ts)
+import { parseUrlParams } from '@weco/common/utils/serialise-url';
+
 type Props = {|
   works: ?CatalogueResultsList<Work> | CatalogueApiError,
   images: ?CatalogueResultsList<Image> | CatalogueApiError,
@@ -360,9 +361,11 @@ export const getServerSideProps = async (
   ctx: Context
 ): Promise<{ props: Props }> => {
   const globalContextData = getGlobalContextData(ctx);
-  // Make sure items we want are serialised to strings
-  serialiseQueryParams(ctx.query, ['workType', 'items.locations.type']);
-  const params = WorksRoute.fromQuery(ctx.query);
+  const parseParams = parseUrlParams(ctx.query, [
+    'workType',
+    'items.locations.type',
+  ]);
+  const params = WorksRoute.fromQuery(parseParams);
   const { enableColorFiltering } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
