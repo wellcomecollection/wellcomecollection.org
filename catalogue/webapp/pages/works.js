@@ -12,8 +12,8 @@ import {
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import {
-  getGlobalContextData,
   GlobalContextData,
+  getGlobalContextData,
   // $FlowFixMe (tsx)
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 // $FlowFixMe (tsx)
