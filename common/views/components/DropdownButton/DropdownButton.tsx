@@ -70,6 +70,7 @@ const Popper = styled('div')<{ isVisible: boolean }>`
   height: ${props => (props.isVisible ? 'auto' : 0)};
   max-width: calc(100vw - 20px);
   z-index: ${props => (props.isVisible ? 1 : -1)};
+  opacity: ${props => (props.isVisible ? 1 : 0)};
 `;
 
 type Props = {
@@ -163,20 +164,33 @@ const DropdownButton: FunctionComponent<Props> = ({
       ) : (
         <ButtonOutlined {...buttonProps} />
       )}
-      <Popper
-        id={id}
-        ref={popperRef}
-        style={isEnhanced ? styles.popper : null}
-        {...(isEnhanced ? attributes.popper : {})}
-        isVisible={isPopperVisible}
-      >
-        <CSSTransition
-          in={isActive}
-          classNames="fade"
-          timeout={350}
-          onEnter={() => setIsPopperVisible(true)}
-          onExited={() => setIsPopperVisible(false)}
+      {isEnhanced && (
+        <Popper
+          id={id}
+          ref={popperRef}
+          style={styles.popper}
+          {...(isEnhanced ? attributes.popper : {})}
+          isVisible={isPopperVisible}
         >
+          <CSSTransition
+            in={isActive}
+            classNames="fade"
+            timeout={350}
+            onEnter={() => setIsPopperVisible(true)}
+            onExited={() => setIsPopperVisible(false)}
+          >
+            <Dropdown
+              isActive={isActive}
+              isEnhanced={isEnhanced}
+              ref={dropdownRef}
+            >
+              {children}
+            </Dropdown>
+          </CSSTransition>
+        </Popper>
+      )}
+      <noscript>
+        <Popper id={id} ref={popperRef} style={null} isVisible={true}>
           <Dropdown
             isActive={isActive}
             isEnhanced={isEnhanced}
@@ -184,8 +198,8 @@ const DropdownButton: FunctionComponent<Props> = ({
           >
             {children}
           </Dropdown>
-        </CSSTransition>
-      </Popper>
+        </Popper>
+      </noscript>
     </DropdownWrapper>
   );
 };

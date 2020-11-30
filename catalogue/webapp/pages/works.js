@@ -196,6 +196,7 @@ const Works = ({
                         ? works.aggregations
                         : undefined
                     }
+                    showSortBy={Boolean(results)}
                   />
                 ) : (
                   <SearchForm
