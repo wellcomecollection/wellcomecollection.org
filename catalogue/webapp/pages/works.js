@@ -258,6 +258,7 @@ const Works = ({
                               window.scrollTo(0, 0)
                             );
                           }}
+                          hideMobilePaging={true}
                         />
                       </Fragment>
                     </div>

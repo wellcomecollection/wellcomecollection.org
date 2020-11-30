@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import { classNames, font } from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
 import Space from '../styled/Space';
-
+import styled from 'styled-components';
 type Link = {|
   +pathname: string,
   +query: Object,
@@ -24,7 +24,14 @@ type Props = {|
   totalResults: number,
   link: LinkProps,
   onPageChange: PageChangeFunction,
+  hideMobilePaging: boolean,
 |};
+
+const PaginatorWrapper = styled.div`
+  @media (max-width: ${props => props.theme.sizes.medium}px) {
+    display: ${props => (props.hideMobilePaging ? 'none' : 'block')};
+  }
+`;
 
 const Paginator = ({
   query,
@@ -34,6 +41,7 @@ const Paginator = ({
   totalResults,
   link,
   onPageChange,
+  hideMobilePaging,
 }: Props) => {
   const totalPages = Math.ceil(totalResults / pageSize);
   const next = currentPage < totalPages ? currentPage + 1 : null;
@@ -97,40 +105,40 @@ const Paginator = ({
         })}
       >
         {showPortal && <div id="sort-select-portal"></div>}
-        {prevLink && prev && (
-          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-            <Control
-              link={prevLink}
-              clickHandler={event => {
-                onPageChange(event, prev);
-              }}
-              type="light"
-              extraClasses={classNames({
-                'icon--180': true,
-              })}
-              icon="arrow"
-              text={`Previous (page ${prev})`}
-            />
-          </Space>
-        )}
-
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-
-        {nextLink && next && (
-          <Space as="span" h={{ size: 'm', properties: ['margin-left'] }}>
-            <Control
-              link={nextLink}
-              clickHandler={event => {
-                onPageChange(event, next);
-              }}
-              type="light"
-              icon="arrow"
-              text={`Next (page ${next})`}
-            />
-          </Space>
-        )}
+        <PaginatorWrapper hideMobilePaging={hideMobilePaging}>
+          {prevLink && prev && (
+            <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+              <Control
+                link={prevLink}
+                clickHandler={event => {
+                  onPageChange(event, prev);
+                }}
+                type="light"
+                extraClasses={classNames({
+                  'icon--180': true,
+                })}
+                icon="arrow"
+                text={`Previous (page ${prev})`}
+              />
+            </Space>
+          )}
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+          {nextLink && next && (
+            <Space as="span" h={{ size: 'm', properties: ['margin-left'] }}>
+              <Control
+                link={nextLink}
+                clickHandler={event => {
+                  onPageChange(event, next);
+                }}
+                type="light"
+                icon="arrow"
+                text={`Next (page ${next})`}
+              />
+            </Space>
+          )}
+        </PaginatorWrapper>
       </div>
     </Fragment>
   );
