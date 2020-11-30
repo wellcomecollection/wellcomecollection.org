@@ -1,5 +1,4 @@
 import { FunctionComponent } from 'react';
-import NextLink from 'next/link';
 import styled from 'styled-components';
 import { Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -7,13 +6,13 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import { getProductionDates, getWorkTypeIcon } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
-import { workLink } from '@weco/common/services/catalogue/routes';
 import Image from '@weco/common/views/components/Image/Image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space, {
   SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
+import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 
 type Props = {
   work: Work;
@@ -81,7 +80,7 @@ const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
         'border-top-width-1': true,
       })}
     >
-      <NextLink {...workLink({ id: work.id })} passHref>
+      <WorkLink id={work.id} source={`works_search_result`} passHref>
         <Space
           as="a"
           v={{
@@ -94,6 +93,8 @@ const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
             'card-link': true,
           })}
           onClick={() => {
+            // We've left `WorkCard` here for legacy tracking.
+            // We don't really use it.
             trackEvent({
               category: 'WorkCard',
               action: 'follow link',
@@ -183,7 +184,7 @@ const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
             )}
           </Container>
         </Space>
-      </NextLink>
+      </WorkLink>
     </div>
   );
 };

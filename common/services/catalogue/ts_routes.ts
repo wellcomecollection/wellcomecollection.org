@@ -227,7 +227,10 @@ export const ImagesRoute: NextRoute<ImagesRouteProps> = {
     return {
       href: {
         pathname,
-        query: ImagesRoute.toQuery(params),
+        query: {
+          ...ImagesRoute.toQuery(params),
+          source: params.source,
+        },
       },
       as: {
         pathname,

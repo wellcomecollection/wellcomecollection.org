@@ -182,9 +182,13 @@ const PopupDialog: FunctionComponent<Props> = ({
   useEffect(() => {
     setShouldRender(!cookie.get('WC_PopupDialog'));
 
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setShouldStartAnimation(true);
     }, 2000);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
   useEffect(() => {
