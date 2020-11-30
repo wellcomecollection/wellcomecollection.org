@@ -48,7 +48,7 @@ type ImagesPaginationProps = {
   results: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesRouteProps;
   setSavedSearchState: (state: ImagesRouteProps) => void;
-  hideMobilePaging: boolean;
+  hideMobilePaging?: boolean;
 };
 
 const ImagesPagination = ({
