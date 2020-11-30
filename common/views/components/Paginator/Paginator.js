@@ -24,7 +24,7 @@ type Props = {|
   totalResults: number,
   link: LinkProps,
   onPageChange: PageChangeFunction,
-  hideMobilePaging: boolean,
+  hideMobilePaging?: boolean,
 |};
 
 const PaginatorWrapper = styled.div`
