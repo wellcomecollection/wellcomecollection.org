@@ -1,7 +1,6 @@
 import { AppProps } from 'next/app';
 import Router from 'next/router';
 import ReactGA from 'react-ga';
-import Raven from 'raven-js';
 import { useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme from '../../views/themes/default';
@@ -15,6 +14,7 @@ import {
   GlobalContextData,
 } from '../components/GlobalContextProvider/GlobalContextProvider';
 import { GetServerSidePropsContext } from 'next';
+import { trackPageview } from '../../services/conversion/track';
 
 declare global {
   interface Window {
@@ -28,6 +28,15 @@ export type AppErrorProps = {
     message: string;
   };
   globalContextData: GlobalContextData;
+};
+
+type Pageview = {
+  name: string;
+  properties: Record<string, unknown>;
+};
+
+export type WithPageview = {
+  pageview: Pageview;
 };
 
 export function appError(
@@ -280,24 +289,18 @@ function WecoApp({ Component, pageProps }: AppProps) {
     }
   }, []);
 
-  // sentry
-  useEffect(() => {
-    Raven.config('https://f756b8d4b492473782987a054aa9a347@sentry.io/133634', {
-      shouldSendCallback() {
-        const oldSafari = /^.*Version\/[0-8].*Safari.*$/;
-        const bingPreview = /^.*BingPreview.*$/;
+  // sentry pageview
+  // We use this method as suggested to optimise the client/server bundles
+  // https://github.com/vercel/next.js/issues/5354#issuecomment-520305040
+  const isServer = typeof window === 'undefined';
+  const isClient = !isServer;
 
-        return ![oldSafari, bingPreview].some(r =>
-          r.test(window.navigator.userAgent)
-        );
-      },
-      whitelistUrls: [/wellcomecollection\.org/],
-      ignoreErrors: [
-        /Blocked a frame with origin/,
-        /document\.getElementsByClassName\.ToString/, // https://github.com/SamsungInternet/support/issues/56
-      ],
-    }).install();
-  }, []);
+  if (isClient) {
+    const { pageview } = pageProps as { pageview: Pageview };
+    if (pageview) {
+      trackPageview(pageview.name, pageview.properties);
+    }
+  }
 
   return (
     <>

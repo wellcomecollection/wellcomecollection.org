@@ -98,6 +98,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             href={{
               pathname: '/works',
               query: removeEmptyProps({
+                source: 'search_tabs',
                 query,
               }),
             }}
@@ -154,6 +155,7 @@ const SearchTabs: FunctionComponent<Props> = ({
               pathname: '/images',
               query: removeEmptyProps({
                 query,
+                source: 'search_tabs',
               }),
             }}
           >

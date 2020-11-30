@@ -320,12 +320,13 @@ export async function getEvent(
 type EventsQueryProps = {|
   predicates?: Prismic.Predicates[],
   period?: 'current-and-coming-up' | 'past',
+  isOnline?: boolean,
   ...PrismicQueryOpts,
 |};
 
 export async function getEvents(
   req: ?Request,
-  { predicates = [], period, ...opts }: EventsQueryProps,
+  { predicates = [], period, isOnline, ...opts }: EventsQueryProps,
   memoizedPrismic: ?Object
 ): Promise<PaginatedResults<UiEvent>> {
   const graphQuery = `{
@@ -411,12 +412,18 @@ export async function getEvents(
   const dateRangePredicates = period
     ? getPeriodPredicates(period, startField, endField)
     : [];
+
+  // We only send the predicates over for true values as
+  // events can either have `false` or `undefined`.
+  const isOnlinePredicate = isOnline
+    ? Prismic.Predicates.at('my.events.isOnline', true)
+    : undefined;
+
   const paginatedResults = await getDocuments(
     req,
-    [Prismic.Predicates.at('document.type', 'events')].concat(
-      predicates,
-      dateRangePredicates
-    ),
+    [Prismic.Predicates.at('document.type', 'events')]
+      .concat(predicates, dateRangePredicates, isOnlinePredicate)
+      .filter(Boolean),
     {
       orderings,
       page: opts.page,

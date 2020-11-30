@@ -167,7 +167,7 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
       .filter(checkbox => checkbox.checked)
       .map(checkbox => checkbox.value);
 
-    const source = `search_form/${search || 'works'}`;
+    const source = `search_form`;
     const state = {
       query: inputQuery,
       workType,

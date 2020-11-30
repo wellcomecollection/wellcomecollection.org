@@ -26,7 +26,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import { getImages } from '../services/catalogue/images';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
-import useHotjar from '@weco/common/hooks/useHotjar';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 import {
@@ -35,12 +34,18 @@ import {
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import SearchTitle from '../components/SearchTitle/SearchTitle';
+import {
+  appError,
+  AppErrorProps,
+  WithPageview,
+} from '@weco/common/views/pages/_app';
 
 type Props = {
   results?: CatalogueResultsList<Image> | CatalogueApiError;
   imagesRouteProps: ImagesRouteProps;
   apiProps: ImagesApiProps;
-} & WithGlobalContextData;
+} & WithGlobalContextData &
+  WithPageview;
 
 type ImagesPaginationProps = {
   query?: string;
@@ -111,8 +116,6 @@ const Images: NextPage<Props> = ({
       Router.events.off('routeChangeComplete', routeChangeComplete);
     };
   }, []);
-
-  useHotjar();
 
   if (results && results.type === 'Error') {
     return (
@@ -265,7 +268,9 @@ const Images: NextPage<Props> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async context => {
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
   const globalContextData = getGlobalContextData(context);
   const params = ImagesRoute.fromQuery(context.query);
   const apiProps = imagesRouteToApiUrl(params);
@@ -277,12 +282,25 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
       })
     : undefined;
 
+  if (imagesOrError && imagesOrError.type === 'Error') {
+    return appError(context, imagesOrError.statusCode, 'Images API error');
+  }
+
   return {
     props: removeUndefinedProps({
       results: imagesOrError,
       imagesRouteProps: params,
       apiProps,
       globalContextData,
+      pageview: {
+        // This is just like this for now until we move to the `/images` endpoint
+        name: 'images',
+        properties: imagesOrError
+          ? {
+              totalResults: imagesOrError.totalResults,
+            }
+          : {},
+      },
     }),
   };
 };

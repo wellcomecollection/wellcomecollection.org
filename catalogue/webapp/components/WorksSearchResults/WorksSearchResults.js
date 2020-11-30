@@ -6,7 +6,7 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import { trackSearchResultSelected } from '@weco/common/views/components/Tracker/Tracker';
 // $FlowFixMe (tsx)
-import WorkCard from '../WorkCard/WorkCard';
+import WorksSearchResult from '../WorksSearchResult/WorksSearchResult';
 import { grid } from '@weco/common/utils/classnames';
 import {
   type CatalogueResultsList,
@@ -43,7 +43,7 @@ const WorkSearchResults = ({ works, worksRouteProps, apiProps }: Props) => {
               });
             }}
           >
-            <WorkCard work={result} />
+            <WorksSearchResult work={result} />
           </div>
 
           {relevanceRating && (

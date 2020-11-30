@@ -1,9 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
-import {
-  Work as WorkType,
-  CatalogueApiError,
-} from '@weco/common/model/catalogue';
-import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
+import { Work as WorkType } from '@weco/common/model/catalogue';
 import Work from '../components/Work/Work';
 import { getWork } from '../services/catalogue/works';
 import {
@@ -11,30 +7,24 @@ import {
   WithGlobalContextData,
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
+import {
+  appError,
+  AppErrorProps,
+  WithPageview,
+} from '@weco/common/views/pages/_app';
 
 type Props = {
-  workResponse: WorkType | CatalogueApiError;
-} & WithGlobalContextData;
+  workResponse: WorkType;
+} & WithGlobalContextData &
+  WithPageview;
 
 export const WorkPage: NextPage<Props> = ({
   workResponse,
   globalContextData,
 }: Props) => {
-  return (
-    <>
-      {workResponse.type === 'Error' && (
-        <ErrorPage
-          statusCode={workResponse.httpStatus}
-          title={workResponse.description}
-          globalContextData={globalContextData}
-        />
-      )}
-      {workResponse.type !== 'Error' && (
-        <Work work={workResponse} globalContextData={globalContextData} />
-      )}
-    </>
-  );
+  // TODO: remove the <Work> component and move the JSX in here.
+  // It was abstracted as we did error handling in the page, and it made it a little clearer.
+  return <Work work={workResponse} globalContextData={globalContextData} />;
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -50,7 +40,6 @@ export const getServerSideProps: GetServerSideProps<
 
   if (workResponse.type === 'Redirect') {
     return {
-      props: {},
       redirect: {
         destination: workResponse.redirectToId,
         permanent: workResponse.status === 301,
@@ -69,6 +58,12 @@ export const getServerSideProps: GetServerSideProps<
     props: removeUndefinedProps({
       workResponse,
       globalContextData,
+      pageview: {
+        name: 'work',
+        properties: {
+          workId: workResponse.id,
+        },
+      },
     }),
   };
 };
