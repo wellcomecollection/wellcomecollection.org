@@ -129,9 +129,9 @@ const SearchTabs: FunctionComponent<Props> = ({
             })}
             id="library-catalogue-form-description"
           >
-            Find thousands of books, images, artworks, unpublished archives and
-            manuscripts in our collections, many of them with free online
-            access.
+            Find thousands of books, manuscripts, visual materials and
+            unpublished archives from our collections, many of them with free
+            online access.
           </Space>
           <PrototypeSearchForm
             ariaDescribedBy={'library-catalogue-form-description'}
@@ -186,7 +186,8 @@ const SearchTabs: FunctionComponent<Props> = ({
             id="images-form-description"
           >
             Search for free, downloadable images taken from our library and
-            museum collections, including objects at the Science Museum.
+            museum collections, including paintings, illustrations, photos and
+            more.
           </Space>
           <PrototypeSearchForm
             ariaDescribedBy="images-form-description"
