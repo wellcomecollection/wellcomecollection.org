@@ -43,10 +43,13 @@ import WorkSearchResults from '../components/WorkSearchResults/WorkSearchResults
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 // $FlowFixMe (tsx)
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
-// $FlowFixMe (tsx)
+// $FlowFixMe (ts)
 import { removeUndefinedProps } from '@weco/common/utils/json';
 // $FlowFixMe (tsx)
 import SearchTitle from '../components/SearchTitle/SearchTitle';
+// $FlowFixMe (ts)
+import { parseUrlParams } from '@weco/common/utils/serialise-url';
+
 type Props = {|
   works: ?CatalogueResultsList<Work> | CatalogueApiError,
   images: ?CatalogueResultsList<Image> | CatalogueApiError,
@@ -357,7 +360,8 @@ export const getServerSideProps = async (
   ctx: Context
 ): Promise<{ props: Props }> => {
   const globalContextData = getGlobalContextData(ctx);
-  const params = WorksRoute.fromQuery(ctx.query);
+  const parseParams = parseUrlParams(ctx.query);
+  const params = WorksRoute.fromQuery(parseParams);
   const { enableColorFiltering } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
