@@ -38,7 +38,6 @@ import { getWorks } from '../services/catalogue/works';
 import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
 import cookies from 'next-cookies';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
-import useHotjar from '@weco/common/hooks/useHotjar';
 import WorkSearchResults from '../components/WorkSearchResults/WorkSearchResults';
 // $FlowFixMe (tsc)
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
@@ -100,7 +99,6 @@ const Works = ({
     };
   }, []);
 
-  useHotjar();
   const isImageSearch = worksRouteProps.search === 'images';
 
   if (results && results.type === 'Error') {
