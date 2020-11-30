@@ -29,6 +29,13 @@
         "label": "Where is it?"
       }
     },
+    "isOnline": {
+      "type": "Boolean",
+      "config": {
+        "default_value": false,
+        "label": "Online?"
+      }
+    },
     "times": {
       "type": "Group",
       "fieldset": "Times",
