@@ -13,5 +13,5 @@ export function parseUrlParams(query: ParsedUrlQuery): UrlParams {
 
 export function parseQueryParam(param: string | string[]): string {
   const parseParam = Array.isArray(param) ? param.join(',') : param;
-  return typeof parseParam === 'string' ? parseParam : '';
+  return typeof parseParam === 'string' ? parseParam : undefined;
 }
