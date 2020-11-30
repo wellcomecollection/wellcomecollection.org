@@ -27,19 +27,26 @@ type Props = {|
 
 const pageDescription =
   'Our events are now taking place online. Choose from an inspiring range of free talks, discussions and more.';
-export class ArticleSeriesPage extends Component<Props> {
+export class EventsPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const { page = 1, memoizedPrismic } = ctx.query;
-    const { period = 'current-and-coming-up' } = ctx.query;
+    const {
+      page = 1,
+      memoizedPrismic,
+      period = 'current-and-coming-up',
+      isOnline,
+    } = ctx.query;
+
     const events = await getEvents(
       ctx.req,
       {
         page,
         period,
         pageSize: 100,
+        isOnline: Boolean(isOnline),
       },
       memoizedPrismic
     );
+
     if (events) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
       return {
@@ -107,4 +114,4 @@ export class ArticleSeriesPage extends Component<Props> {
   }
 }
 
-export default ArticleSeriesPage;
+export default EventsPage;

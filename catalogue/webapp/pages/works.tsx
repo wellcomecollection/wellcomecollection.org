@@ -34,7 +34,6 @@ import { getWorks } from '../services/catalogue/works';
 import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
 import cookies from 'next-cookies';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
-import useHotjar from '@weco/common/hooks/useHotjar';
 import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResults';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
@@ -99,7 +98,6 @@ const Works: NextPage<Props> = ({
     };
   }, []);
 
-  useHotjar();
   const isImageSearch = worksRouteProps.search === 'images';
 
   return (
