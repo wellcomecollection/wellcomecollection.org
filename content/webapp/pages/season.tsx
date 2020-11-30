@@ -69,7 +69,7 @@ const SeasonPage = ({
         id={season.id}
         Header={Header}
         Body={<Body body={season.body} pageId={season.id} />}
-      ></ContentPage>
+      />
       <CardGrid
         items={[...articles, ...books, ...events, ...exhibitions]}
         itemsPerRow={4}
