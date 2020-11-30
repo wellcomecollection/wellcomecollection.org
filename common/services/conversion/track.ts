@@ -1,3 +1,4 @@
+import cookies from 'next-cookies';
 import Router from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 
@@ -41,7 +42,6 @@ function removeCacheValuesFromUrlQuery(query: ParsedUrlQuery) {
 }
 
 export function trackPageview(
-  // router: Router,
   name: string,
   properties: { [key: string]: unknown }
 ): void {
@@ -65,6 +65,10 @@ export function trackPageview(
 }
 
 function track(conversion: Conversion) {
-  console.info(conversion);
+  const debug = Boolean(cookies({}).analytics_debug);
+  if (debug) {
+    console.info(conversion);
+  }
+
   window.analytics.track('conversion', conversion);
 }
