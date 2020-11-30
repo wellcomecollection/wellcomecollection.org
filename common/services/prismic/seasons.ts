@@ -14,6 +14,7 @@ import {
   eventsFields,
   exhibitionFields,
 } from './fetch-links';
+import { IncomingMessage } from 'http';
 
 export function parseSeason(document: PrismicDocument): Season {
   const genericFields = parseGenericFields(document);
@@ -27,7 +28,7 @@ export function parseSeason(document: PrismicDocument): Season {
 }
 
 export async function getSeason(
-  req: any,
+  req: IncomingMessage,
   id: string,
   memoizedPrismic: Record<string, unknown>
 ): Promise<Season> {
@@ -55,7 +56,7 @@ export async function getSeasonWithContent({
   id,
   memoizedPrismic,
 }: {
-  request: any;
+  request: IncomingMessage;
   memoizedPrismic: Record<string, unknown>;
   id: string;
 }): Promise<SeasonWithContent | null> {
