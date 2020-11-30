@@ -45,6 +45,7 @@ import {
   AppErrorProps,
   WithPageview,
 } from '@weco/common/views/pages/_app';
+import { parseUrlParams } from '@weco/common/utils/serialise-url';
 
 type Props = {
   works: CatalogueResultsList<Work> | null;
@@ -342,7 +343,8 @@ export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
   const globalContextData = getGlobalContextData(context);
-  const params = WorksRoute.fromQuery(context.query);
+  const parsedParams = parseUrlParams(context.query);
+  const params = WorksRoute.fromQuery(parsedParams);
   const { enableColorFiltering } = globalContextData.toggles;
   const _queryType = cookies(context)._queryType;
   const isImageSearch = params.search === 'images';
