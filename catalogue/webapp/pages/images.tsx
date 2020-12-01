@@ -53,7 +53,7 @@ type ImagesPaginationProps = {
   results: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesRouteProps;
   setSavedSearchState: (state: ImagesRouteProps) => void;
-  hideMobilePaging?: boolean;
+  hideMobilePagination?: boolean;
 };
 
 const ImagesPagination = ({
@@ -62,7 +62,7 @@ const ImagesPagination = ({
   results,
   imagesRouteProps,
   setSavedSearchState,
-  hideMobilePaging,
+  hideMobilePagination,
 }: ImagesPaginationProps) => (
   <div className="flex flex--h-space-between flex--v-center flex--wrap">
     <Paginator
@@ -87,7 +87,7 @@ const ImagesPagination = ({
         setSavedSearchState(state);
         Router.push(link.href, link.as).then(() => window.scrollTo(0, 0));
       }}
-      hideMobilePaging={hideMobilePaging}
+      hideMobilePagination={hideMobilePagination}
     />
   </div>
 );
@@ -210,7 +210,7 @@ const Images: NextPage<Props> = ({
                       results={results}
                       imagesRouteProps={imagesRouteProps}
                       setSavedSearchState={setSavedSearchState}
-                      hideMobilePaging={true}
+                      hideMobilePagination={true}
                     />
                   </div>
                 </div>

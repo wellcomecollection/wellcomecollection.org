@@ -24,12 +24,12 @@ type Props = {|
   totalResults: number,
   link: LinkProps,
   onPageChange: PageChangeFunction,
-  hideMobilePaging?: boolean,
+  hideMobilePagination?: boolean,
 |};
 
 const PaginatorWrapper = styled.div`
   @media (max-width: ${props => props.theme.sizes.medium}px) {
-    display: ${props => (props.hideMobilePaging ? 'none' : 'block')};
+    display: ${props => (props.hideMobilePagination ? 'none' : 'block')};
   }
 `;
 
@@ -41,7 +41,7 @@ const Paginator = ({
   totalResults,
   link,
   onPageChange,
-  hideMobilePaging,
+  hideMobilePagination,
 }: Props) => {
   const totalPages = Math.ceil(totalResults / pageSize);
   const next = currentPage < totalPages ? currentPage + 1 : null;
@@ -105,7 +105,7 @@ const Paginator = ({
         })}
       >
         {showPortal && <div id="sort-select-portal"></div>}
-        <PaginatorWrapper hideMobilePaging={hideMobilePaging}>
+        <PaginatorWrapper hideMobilePagination={hideMobilePagination}>
           {prevLink && prev && (
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
               <Control
