@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon --watch server.js server.js",
+    "dev": "yarn next",
     "build": "next build",
     "deployBundleAnalysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles  --only-show-errors --acl public-read",
     "start": "NODE_ENV=production next",
