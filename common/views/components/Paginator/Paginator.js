@@ -29,7 +29,7 @@ type Props = {|
 
 const PaginatorWrapper = styled.div.attrs(props => ({
   className: classNames({
-    'is-hidden-s': props.hideMobilePagination,
+    'is-hidden-s': Boolean(props.hideMobilePagination),
   }),
 }))``;
 
