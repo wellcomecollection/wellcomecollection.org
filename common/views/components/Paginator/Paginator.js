@@ -27,11 +27,11 @@ type Props = {|
   hideMobilePagination?: boolean,
 |};
 
-const PaginatorWrapper = styled.div`
-  @media (max-width: ${props => props.theme.sizes.medium}px) {
-    display: ${props => (props.hideMobilePagination ? 'none' : 'block')};
-  }
-`;
+const PaginatorWrapper = styled.div.attrs(props => ({
+  className: classNames({
+    'is-hidden-s': props.hideMobilePagination,
+  }),
+}))``;
 
 const Paginator = ({
   query,
