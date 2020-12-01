@@ -1,32 +1,35 @@
-// @flow
-import { type Work } from '../../../model/work';
+import { Work } from '../../../model/catalogue';
 import { font, classNames, grid } from '../../../utils/classnames';
 import { getProductionDates, getWorkTypeIcon } from '../../../utils/works';
 import Icon from '../Icon/Icon';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import Space from '../styled/Space';
-// $FlowFixMe(tsx)
+
 import Number from '@weco/common/views/components/Number/Number';
 import styled from 'styled-components';
-// $FlowFixMe (tsx)
-import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 
-const WorkHeaderContainer = styled.div.attrs(props => ({
+import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
+import { FunctionComponent, ReactElement } from 'react';
+
+const WorkHeaderContainer = styled.div.attrs({
   className: classNames({
     flex: true,
   }),
-}))`
+})`
   width: 100%;
   align-content: flex-start;
 `;
 
-type Props = {|
-  work: Work,
-  childManifestsCount?: number,
-|};
+type Props = {
+  work: Work;
+  childManifestsCount?: number;
+};
 
-const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
+const WorkHeader: FunctionComponent<Props> = ({
+  work,
+  childManifestsCount = 0,
+}: Props): ReactElement => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   return (
@@ -60,10 +63,11 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
               'no-margin': true,
               [font('hnm', 2)]: true,
               'inline-block': true,
-            })}
-            // We only send a lang if it's unambiguous -- better to send
+            })} // We only send a lang if it's unambiguous -- better to send
             // no language than the wrong one.
-            lang={work.languages.length === 1 ? work.languages[0].id : undefined}
+            lang={
+              work.languages.length === 1 ? work.languages[0].id : undefined
+            }
           >
             <WorkTitle title={work.title} />
           </h1>
@@ -79,7 +83,12 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
               })}
             >
               {work.contributors.length > 0 && (
-                <Space h={{ size: 'm', properties: ['margin-right'] }}>
+                <Space
+                  h={{
+                    size: 'm',
+                    properties: ['margin-right'],
+                  }}
+                >
                   <LinkLabels
                     items={[
                       {

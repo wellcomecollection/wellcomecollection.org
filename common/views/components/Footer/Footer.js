@@ -2,7 +2,9 @@
 import { useRef, useEffect } from 'react';
 import { font, grid, classNames } from '../../../utils/classnames';
 import FooterWellcomeLogo from '../FooterWellcomeLogo/FooterWellcomeLogo';
+// $FlowFixMe(tsx)
 import FooterNav from '../FooterNav/FooterNav';
+// $FlowFixMe(tsx)
 import FindUs from '../FindUs/FindUs';
 import FooterSocial from '../FooterSocial/FooterSocial';
 import Icon from '../Icon/Icon';

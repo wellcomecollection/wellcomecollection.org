@@ -50,6 +50,7 @@ const LoadingComponent = () => (
 );
 
 const ZoomedImage = dynamic(
+  // $FlowFixMe(tsx)
   () => import('@weco/common/views/components/ZoomedImage/ZoomedImage'),
   {
     ssr: false,

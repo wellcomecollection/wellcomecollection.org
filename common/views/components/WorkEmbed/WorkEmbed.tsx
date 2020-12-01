@@ -1,4 +1,3 @@
-// @flow
 import WorkCredit from '../WorkCredit/WorkCredit';
 import ImageViewer from '../ImageViewer/ImageViewer';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
@@ -7,13 +6,14 @@ import {
   convertImageUri,
   convertIiifUriToInfoUri,
 } from '../../../utils/convert-image-uri';
-import type { Work } from '../../../model/work';
+import { Work } from '../../../model/catalogue';
+import { FunctionComponent, ReactElement } from 'react';
 
-type Props = {|
-  work: Work,
-|};
+type Props = {
+  work: Work;
+};
 
-const WorkEmbed = ({ work }: Props) => {
+const WorkEmbed: FunctionComponent<Props> = ({ work }: Props): ReactElement => {
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImage = iiifInfoUrl && iiifImageTemplate(iiifInfoUrl);
@@ -57,7 +57,7 @@ const WorkEmbed = ({ work }: Props) => {
               width={800}
               urlTemplate={iiifImage}
               alt=""
-              setShowZoomed={() => {}}
+              setShowZoomed={false}
               rotation={0}
             />
           </div>
