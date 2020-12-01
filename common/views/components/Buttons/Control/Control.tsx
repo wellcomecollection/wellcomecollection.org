@@ -1,15 +1,13 @@
-import { forwardRef, ForwardedRef } from 'react';
+import { forwardRef } from 'react';
 import NextLink, { LinkProps } from 'next/link';
 import Icon from '../../Icon/Icon';
 import { GaEvent, trackEvent } from '../../../../utils/ga';
 
 type CommonProps = {
-  tabIndex?: string;
   link?: LinkProps;
   scroll?: boolean;
   replace?: boolean;
   prefetch?: boolean;
-  id?: string;
   colorScheme: 'light' | 'dark' | 'on-black' | 'black-on-white';
   extraClasses?: string;
   icon: string;
@@ -51,7 +49,7 @@ const Control = forwardRef(
       replace,
       prefetch,
       id,
-      type,
+      colorScheme,
       extraClasses,
       icon,
       text,
@@ -68,7 +66,7 @@ const Control = forwardRef(
       'aria-expanded': ariaExpanded || undefined,
       tabIndex: tabIndex || undefined,
       id: id,
-      className: `control control--${type} ${extraClasses || ''}`,
+      className: `control control--${colorScheme} ${extraClasses || ''}`,
       disabled: disabled,
       onClick: handleClick,
     };
