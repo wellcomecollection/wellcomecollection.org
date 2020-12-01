@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    hj: any;
+  }
+}
 async function renderScript() {
   return new Promise<boolean>(resolve => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,8 +27,10 @@ async function renderScript() {
 }
 
 const heatMapTrigger = (): void => {
+  // Use heatmaps if page cannot be determinted by url. e.g archive page.
+  // https://help.hotjar.com/hc/en-us/articles/115011867948
   try {
-    hj('trigger', 'archives_heatmap_trigger');
+    window.hj('trigger', 'archives_heatmap_trigger');
   } catch (e) {}
 };
 
@@ -39,7 +46,7 @@ const useHotjar = (shouldRender: boolean) => {
     }
 
     if (rendered) {
-      heatMapTrigger(); // trigger this if script has already rendered.
+      heatMapTrigger(); // trigger this if script has already been inserted.
     }
   }, []);
 };
