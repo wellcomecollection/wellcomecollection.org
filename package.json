@@ -55,6 +55,7 @@
   "workspaces": [
     "catalogue/webapp",
     "content/webapp",
+    "identity/webapp",
     "common"
   ],
   "lint-staged": {
