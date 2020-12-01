@@ -7,6 +7,7 @@ import PageHeader from '../PageHeader/PageHeader';
 import Outro from '../Outro/Outro';
 import { classNames } from '../../../utils/classnames';
 import type { Node, Element, ElementProps } from 'react';
+// $FlowFixMe (tsx)
 import Body from '../Body/Body';
 import SpacingSection from '../SpacingSection/SpacingSection';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';

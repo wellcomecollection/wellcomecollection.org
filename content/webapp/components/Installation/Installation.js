@@ -6,6 +6,7 @@ import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageL
 import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusIndicator/DateAndStatusIndicator';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
+// $FlowFixMe (tsx)
 import Body from '@weco/common/views/components/Body/Body';
 import PageHeader, {
   getFeaturedMedia,
