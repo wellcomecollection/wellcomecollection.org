@@ -1,31 +1,38 @@
-// @flow
-
-import { forwardRef } from 'react';
+import { forwardRef, ForwardedRef } from 'react';
+import NextLink, { LinkProps } from 'next/link';
 import Icon from '../../Icon/Icon';
-import type { GaEvent } from '../../../../utils/ga';
-import { trackEvent } from '../../../../utils/ga';
-import NextLink from 'next/link';
-import { type NextLinkType } from '../../../../model/next-link-type';
+import { GaEvent, trackEvent } from '../../../../utils/ga';
 
-type Props = {|
-  tabIndex?: string,
-  link?: NextLinkType,
-  scroll?: boolean,
-  replace?: boolean,
-  prefetch?: boolean,
-  id?: string,
-  type: 'light' | 'dark' | 'on-black' | 'black-on-white',
-  extraClasses?: string,
-  icon: string,
-  text: string,
-  trackingEvent?: GaEvent,
-  disabled?: boolean,
-  ariaControls?: string,
-  ariaExpanded?: boolean,
-  clickHandler?: (event: Event) => void | Promise<void>,
-|};
+type CommonProps = {
+  tabIndex?: string;
+  link?: LinkProps;
+  scroll?: boolean;
+  replace?: boolean;
+  prefetch?: boolean;
+  id?: string;
+  colorScheme: 'light' | 'dark' | 'on-black' | 'black-on-white';
+  extraClasses?: string;
+  icon: string;
+  text: string;
+  trackingEvent?: GaEvent;
+  disabled?: boolean;
+  ariaControls?: string;
+  ariaExpanded?: boolean;
+  clickHandler?: (event: Event) => void | Promise<void>;
+};
 
-type InnerControlProps = { text: string, icon: string };
+interface ButtonProps
+  extends Omit<JSX.IntrinsicElements['button'], 'ref'>,
+    CommonProps {
+  link?: undefined;
+}
+interface AnchorProps
+  extends Omit<JSX.IntrinsicElements['a'], 'ref'>,
+    CommonProps {
+  link: LinkProps;
+}
+
+type InnerControlProps = { text: string; icon: string };
 const InnerControl = ({ text, icon }: InnerControlProps) => (
   <span className="control__inner flex-inline flex--v-center flex--h-center">
     <Icon name={icon} />
@@ -33,7 +40,9 @@ const InnerControl = ({ text, icon }: InnerControlProps) => (
   </span>
 );
 
-const Control = forwardRef<Props, HTMLButtonElement | HTMLAnchorElement>(
+type Props = ButtonProps | AnchorProps;
+
+const Control = forwardRef(
   (
     {
       tabIndex,
@@ -52,7 +61,7 @@ const Control = forwardRef<Props, HTMLButtonElement | HTMLAnchorElement>(
       ariaControls,
       ariaExpanded,
     }: Props,
-    ref
+    ref: any
   ) => {
     const attrs = {
       'aria-controls': ariaControls || undefined,

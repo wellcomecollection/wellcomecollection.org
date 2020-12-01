@@ -1,5 +1,6 @@
 // @flow
 import { font } from '../../../utils/classnames';
+// $FlowFixMe (tsx)
 import Control from '../Buttons/Control/Control';
 import Space from '../styled/Space';
 
@@ -38,7 +39,7 @@ const Pagination = ({
             href: prevQueryString,
             as: prevQueryString,
           }}
-          type="light"
+          colorScheme="light"
           extraClasses={`icon--180`}
           icon="arrow"
           text={`Previous (page ${prevPage})`}

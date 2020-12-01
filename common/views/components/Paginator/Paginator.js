@@ -1,6 +1,7 @@
 // @flow
 import { Fragment } from 'react';
 import { classNames, font } from '../../../utils/classnames';
+// $FlowFixMe (tsx)
 import Control from '../Buttons/Control/Control';
 import Space from '../styled/Space';
 
@@ -104,7 +105,7 @@ const Paginator = ({
               clickHandler={event => {
                 onPageChange(event, prev);
               }}
-              type="light"
+              colorScheme="light"
               extraClasses={classNames({
                 'icon--180': true,
               })}
@@ -125,7 +126,7 @@ const Paginator = ({
               clickHandler={event => {
                 onPageChange(event, next);
               }}
-              type="light"
+              colorScheme="light"
               icon="arrow"
               text={`Next (page ${next})`}
             />
