@@ -27,7 +27,7 @@ async function renderScript() {
 }
 
 const heatMapTrigger = (): void => {
-  // Use heatmaps if page cannot be determinted by url. e.g archive page.
+  // Use triggers if page cannot be determinted by url. e.g archive page.
   // https://help.hotjar.com/hc/en-us/articles/115011867948
   try {
     window.hj('trigger', 'archives_heatmap_trigger');
