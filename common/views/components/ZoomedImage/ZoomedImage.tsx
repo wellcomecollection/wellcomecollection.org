@@ -54,7 +54,7 @@ const ErrorMessage = () => (
 type Props = {
   id: string;
   infoUrl: string;
-  setShowViewer: (arg0: boolean) => void;
+  setShowViewer: (arg: boolean) => void;
   isFullscreen: boolean;
 };
 
