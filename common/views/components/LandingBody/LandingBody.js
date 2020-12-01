@@ -89,6 +89,8 @@ const Body = ({
       {pageId === 'X2jSjBMAACIA8Wq_' && <CollectionsStaticContent />}
 
       {sections.map((section, index) => {
+        const isFirst = index === 0;
+        const isLast = index === sections.length - 1;
         const sectionTheme = sectionThemes[index % sectionThemes.length];
         const hasFeatured =
           Boolean(section.value.hasFeatured) ||
@@ -130,8 +132,6 @@ const Body = ({
             item.type === 'card' ? item : convertItemToCardProps(item);
           return <Card key={i} item={cardProps} />;
         });
-        const isFirst = index === 0;
-        const isLast = index === sections.length - 1;
 
         return (
           <ConditionalWrapper
@@ -161,16 +161,9 @@ const Body = ({
                 </Space>
               )}
               {featuredItem && (
-                <ConditionalWrapper
-                  condition={!isLast}
-                  wrapper={children => (
-                    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                      {children}
-                    </Space>
-                  )}
-                >
+                <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                   <Layout12>{featuredItem}</Layout12>
-                </ConditionalWrapper>
+                </Space>
               )}
               {cards.length > 0 && <GridFactory items={cards} />}
             </Space>

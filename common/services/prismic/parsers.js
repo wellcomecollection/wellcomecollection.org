@@ -38,6 +38,8 @@ import { dasherize } from '../../utils/grammar';
 import linkResolver from './link-resolver';
 import { parseArticle } from './articles';
 import { parseEventDoc } from './events';
+// $FlowFixMe (tsx)
+import { parseSeason } from './seasons';
 
 // $FlowFixMe (ts)
 import { MediaObjectType } from '../../model/media-object';
@@ -639,6 +641,8 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
                       return parseArticle(item.content);
                     case 'events':
                       return parseEventDoc(item.content);
+                    case 'seasons':
+                      return parseSeason(item.content);
                     case 'card':
                       return parseCard(item.content);
                   }
