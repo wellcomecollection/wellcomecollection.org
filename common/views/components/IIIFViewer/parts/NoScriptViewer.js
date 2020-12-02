@@ -1,5 +1,4 @@
 // @flow
-
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
@@ -14,6 +13,7 @@ import Paginator, {
   type PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction,
   type PaginatorRenderFunctionProps,
 } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
+// $FlowFixMe (tsx)
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import { type IIIFCanvas } from '@weco/common/model/iiif';

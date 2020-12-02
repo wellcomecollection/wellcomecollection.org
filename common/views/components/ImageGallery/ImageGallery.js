@@ -6,6 +6,7 @@ import { CaptionedImage } from '../Images/Images';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 // $FlowFixMe (tsx)
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
+// $FlowFixMe (tsx)
 import Control from '../Buttons/Control/Control';
 import Icon from '../Icon/Icon';
 import Layout12 from '../Layout12/Layout12';
@@ -222,7 +223,7 @@ class ImageGallery extends Component<Props, State> {
                           ariaExpanded={isActive}
                           ref={this.closeButtonRef}
                           replace={true}
-                          type={`light`}
+                          colorScheme={`light`}
                           text={`close`}
                           icon={`cross`}
                           clickHandler={() => {

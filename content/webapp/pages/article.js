@@ -11,6 +11,7 @@ import { capitalize } from '@weco/common/utils/grammar';
 import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+// $FlowFixMe (tsx)
 import Body from '@weco/common/views/components/Body/Body';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import SeriesNavigation from '@weco/common/views/components/SeriesNavigation/SeriesNavigation';

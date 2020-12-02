@@ -15,6 +15,7 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';
 import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
+// $FlowFixMe (tsx)
 import Body from '@weco/common/views/components/Body/Body';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 // $FlowFixMe (tsx)

@@ -26,6 +26,7 @@ import type { GenericContentFields } from '../../model/generic-content-fields';
 import type { LabelField } from '../../model/label-field';
 import type { SameAs } from '../../model/same-as';
 import type { HtmlSerializer } from './html-serializers';
+// $FlowFixMe (tsx)
 import { type BodyType } from '../../views/components/Body/Body';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';

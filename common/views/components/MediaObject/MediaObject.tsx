@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactElement } from 'react';
 import Image from '../Image/Image';
 import MediaObjectBase, {
-  TextWrapperProp,
+  HasImageProps,
 } from '../MediaObjectBase/MediaObjectBase';
 import { ImageType } from '../../../model/image';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
@@ -32,7 +32,7 @@ const ImageWrapper = styled.div.attrs<ImageWrapperProp>(props => {
   };
 })<ImageWrapperProp>``;
 
-const TextWrapper = styled.div.attrs<TextWrapperProp>(props => {
+const TextWrapper = styled.div.attrs<HasImageProps>(props => {
   if (props.hasImage) {
     return {
       className: grid({ s: 10, m: 10, l: 10, xl: 10 }),
@@ -41,7 +41,7 @@ const TextWrapper = styled.div.attrs<TextWrapperProp>(props => {
   return {
     className: grid12,
   };
-})<TextWrapperProp>``;
+})<HasImageProps>``;
 
 const TitleWrapper = styled.div.attrs({
   className: classNames({
