@@ -1,10 +1,9 @@
-// @flow
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackEvent, GaEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
-import type { GaEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
+import { FunctionComponent } from 'react';
 
 const DownloadLinkStyle = styled.a.attrs({
   className: classNames({
@@ -23,14 +22,16 @@ const DownloadLinkStyle = styled.a.attrs({
     height: 1.3em;
   }
 `;
-type Props = {|
-  isTabbable?: boolean,
-  href: string,
-  trackingEvent: GaEvent,
-  linkText: string,
-  format: ?('PDF' | 'PLAIN' | 'JPG' | 'MP4' | 'MP3'),
-|};
-const DownloadLink = ({
+
+export type DownloadFormat = 'PDF' | 'PLAIN' | 'JPG' | 'MP4' | 'MP3';
+type Props = {
+  isTabbable?: boolean;
+  href: string;
+  trackingEvent: GaEvent;
+  linkText: string;
+  format?: DownloadFormat;
+};
+const DownloadLink: FunctionComponent<Props> = ({
   isTabbable = true,
   href,
   trackingEvent,

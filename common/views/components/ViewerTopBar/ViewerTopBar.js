@@ -8,6 +8,7 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import { trackEvent } from '@weco/common/utils/ga';
+// $FlowFixMe (tsx)
 import Download from '@weco/catalogue/components/Download/Download';
 import MultipleManifestList from '@weco/catalogue/components/MultipleManifestList/MultipleManifestList';
 import Icon from '@weco/common/views/components/Icon/Icon';

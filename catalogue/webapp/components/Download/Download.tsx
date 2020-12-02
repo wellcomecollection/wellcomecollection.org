@@ -1,20 +1,18 @@
-// @flow
-// $FlowFixMe (tsx)
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { type IIIFRendering } from '@weco/common/model/iiif';
-import { type LicenseData } from '@weco/common/utils/licenses';
+import { IIIFRendering } from '@weco/common/model/iiif';
+import { LicenseData } from '@weco/common/utils/licenses';
 import { useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
-// $FlowFixMe (tsx)
 import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
-// $FlowFixMe (tsx)
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
+import { NextPage } from 'next';
+import { DownloadFormat } from 'components/DownloadLink/DownloadLink';
 
-export const DownloadOptions = styled.div.attrs(props => ({
+export const DownloadOptions = styled.div.attrs(() => ({
   className: classNames({
     [font('hnm', 4)]: true,
   }),
@@ -27,7 +25,7 @@ export const DownloadOptions = styled.div.attrs(props => ({
   }
 `;
 
-export function getFormatString(format: string) {
+export function getFormatString(format: string): DownloadFormat | undefined {
   switch (format) {
     case 'application/pdf':
       return 'PDF';
@@ -40,22 +38,22 @@ export function getFormatString(format: string) {
     case 'audio/mp3':
       return 'MP3';
     default:
-      return null;
+      return undefined;
   }
 }
 
-type Props = {|
-  ariaControlsId: string,
-  workId: string,
-  downloadOptions: IIIFRendering[],
-  title?: string,
-  license?: ?LicenseData,
-  iiifImageLocationCredit?: ?string,
-  useDarkControl?: boolean,
-  isInline?: boolean,
-|};
+type Props = {
+  ariaControlsId: string;
+  workId: string;
+  downloadOptions: IIIFRendering[];
+  title?: string;
+  license?: LicenseData;
+  iiifImageLocationCredit?: string;
+  useDarkControl?: boolean;
+  isInline?: boolean;
+};
 
-const Download = ({
+const Download: NextPage<Props> = ({
   ariaControlsId,
   title = '',
   workId,

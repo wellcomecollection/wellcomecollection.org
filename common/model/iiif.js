@@ -51,7 +51,7 @@ export type IIIFRendering = {|
   label: string,
 |};
 
-export type IIIFMediaElement = {|
+export type IIIFMediaElement = {
   '@id': string,
   '@type': 'dctypes:Sound',
   format: string,
@@ -74,7 +74,7 @@ export type IIIFMediaElement = {|
       },
     }
   ],
-|};
+};
 type IIIFMediaSequence = {|
   '@id': string,
   '@type': string,
