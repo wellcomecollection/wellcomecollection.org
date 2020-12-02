@@ -318,6 +318,7 @@ const Works: NextPage<Props> = ({
                                 window.scrollTo(0, 0)
                               );
                             }}
+                            hideMobileTotalResults={true}
                           />
                         </Fragment>
                       </div>

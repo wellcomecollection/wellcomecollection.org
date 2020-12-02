@@ -95,6 +95,7 @@ const SearchTabs: FunctionComponent<Props> = ({
       tab: function TabWithDisplayName(isActive, isFocused) {
         return (
           <NextLink
+            scroll={false}
             href={{
               pathname: '/works',
               query: removeEmptyProps({
@@ -151,6 +152,7 @@ const SearchTabs: FunctionComponent<Props> = ({
       tab: function TabWithDisplayName(isActive, isFocused) {
         return (
           <NextLink
+            scroll={false}
             href={{
               pathname: '/images',
               query: removeEmptyProps({

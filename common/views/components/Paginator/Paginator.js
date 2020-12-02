@@ -25,14 +25,22 @@ type Props = {|
   link: LinkProps,
   onPageChange: PageChangeFunction,
   hideMobilePagination?: boolean,
+  hideMobileTotalResults?: boolean,
 |};
 
 const PaginatorWrapper = styled.div.attrs(props => ({
   className: classNames({
     'is-hidden-s': Boolean(props.hideMobilePagination),
+    flex: true,
+    'flex--v-center': true,
   }),
 }))``;
 
+const TotalResultsWrapper = styled.div.attrs(props => ({
+  className: classNames({
+    'is-hidden-s': Boolean(props.hideMobileTotalResults),
+  }),
+}))``;
 const Paginator = ({
   query,
   showPortal,
@@ -42,6 +50,7 @@ const Paginator = ({
   link,
   onPageChange,
   hideMobilePagination,
+  hideMobileTotalResults,
 }: Props) => {
   const totalPages = Math.ceil(totalResults / pageSize);
   const next = currentPage < totalPages ? currentPage + 1 : null;
@@ -89,12 +98,18 @@ const Paginator = ({
     <Fragment>
       <Space
         h={{ size: 'm', properties: ['margin-right'] }}
-        className={`flex flex--v-center ${font('hnm', 3)}`}
+        className={classNames({
+          flex: true,
+          'flex--v-center': true,
+          [font('hnm', 3)]: true,
+        })}
       >
-        {totalResults} result{totalResults !== 1 ? 's' : ''}
-        {query && ` for “${query}”`}
+        <TotalResultsWrapper hideMobileTotalResults={hideMobileTotalResults}>
+          {totalResults} result{totalResults !== 1 ? 's' : ''}
+          {query && ` for “${query}”`}
+        </TotalResultsWrapper>
       </Space>
-      <div
+      <Space
         className={classNames({
           pagination: true,
           'float-r': true,
@@ -102,7 +117,13 @@ const Paginator = ({
           'flex--v-center': true,
           'font-pewter': true,
           [font('hnl', 5)]: true,
+          'flex-end': true,
         })}
+        v={{
+          size: 'm',
+          properties: ['padding-top', 'padding-bottom'],
+          overrides: { small: 5, medium: 5, large: 1 },
+        }}
       >
         {showPortal && <div id="sort-select-portal"></div>}
         <PaginatorWrapper hideMobilePagination={hideMobilePagination}>
@@ -139,7 +160,7 @@ const Paginator = ({
             </Space>
           )}
         </PaginatorWrapper>
-      </div>
+      </Space>
     </Fragment>
   );
 };
