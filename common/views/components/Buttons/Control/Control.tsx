@@ -8,7 +8,7 @@ type CommonProps = {
   scroll?: boolean;
   replace?: boolean;
   prefetch?: boolean;
-  colorScheme: 'light' | 'dark' | 'on-black' | 'black-on-white';
+  colorScheme?: 'light' | 'dark' | 'on-black' | 'black-on-white';
   extraClasses?: string;
   icon: string;
   text: string;

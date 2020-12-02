@@ -1,4 +1,10 @@
-import { ComponentProps, ReactElement, ReactNode } from 'react';
+import {
+  ComponentProps,
+  ComponentType,
+  FunctionComponent,
+  ReactElement,
+  ReactNode,
+} from 'react';
 import {
   grid,
   font,
@@ -33,9 +39,9 @@ type Props = {
   StatusIndicator: ReactElement<typeof StatusIndicator> | null;
   ExtraInfo?: ReactNode | null;
   xOfY: { x: number; y: number };
-  OverrideImageWrapper?: ReactNode;
-  OverrideTextWrapper?: ReactNode;
-  OverrideTitleWrapper?: ReactNode;
+  OverrideImageWrapper?: ComponentType;
+  OverrideTextWrapper?: ComponentType;
+  OverrideTitleWrapper?: ComponentType;
   onClick?: () => void;
 };
 
@@ -50,12 +56,12 @@ const BaseTitleWrapper = styled.div.attrs({
   }),
 })``;
 
-export type TextWrapperProp = {
+export type TextWrapperProps = {
   hasImage: boolean;
 };
 
 // Ability to add custom prop types in TS and styled components
-const BaseTextWrapper = styled.div.attrs<TextWrapperProp>(props => {
+const BaseTextWrapper = styled.div.attrs<TextWrapperProps>(props => {
   if (props.hasImage) {
     return {
       className: grid({ s: 9, m: 9, l: 9, xl: 9 }),
@@ -64,7 +70,7 @@ const BaseTextWrapper = styled.div.attrs<TextWrapperProp>(props => {
   return {
     className: grid({ s: 12, m: 12, l: 12, xl: 12 }),
   };
-})<TextWrapperProp>``;
+})<TextWrapperProps>``;
 
 const MediaObjectBase: FunctionComponent<Props> = ({
   url,
@@ -112,7 +118,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
         }
       }}
     >
-      <ImageWrapper hasImage={Boolean(Image)}>{Image}</ImageWrapper>
+      <ImageWrapper>{Image}</ImageWrapper>
       <TextWrapper hasImage={Boolean(Image)}>
         {labels.labels.length > 0 && (
           <Space
