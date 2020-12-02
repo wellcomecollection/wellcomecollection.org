@@ -1,4 +1,6 @@
 // @flow
+// This has been deprecated and we should be using the article format of comic
+// and general article series.
 import title from './parts/title';
 import structuredText from './parts/structured-text';
 import promo from './parts/promo';
