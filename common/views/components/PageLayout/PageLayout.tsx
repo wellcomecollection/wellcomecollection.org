@@ -32,7 +32,8 @@ type SiteSection =
   | 'what-we-do'
   | 'visit-us'
   | 'stories'
-  | 'whats-on';
+  | 'whats-on'
+  | 'identity';
 
 type ComponentProps = {
   title: string;
