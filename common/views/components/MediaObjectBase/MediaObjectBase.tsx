@@ -39,8 +39,8 @@ type Props = {
   StatusIndicator: ReactElement<typeof StatusIndicator> | null;
   ExtraInfo?: ReactNode | null;
   xOfY: { x: number; y: number };
-  OverrideImageWrapper?: ComponentType;
-  OverrideTextWrapper?: ComponentType;
+  OverrideImageWrapper?: ComponentType<HasImageProps>;
+  OverrideTextWrapper?: ComponentType<HasImageProps>;
   OverrideTitleWrapper?: ComponentType;
   onClick?: () => void;
 };
@@ -56,12 +56,12 @@ const BaseTitleWrapper = styled.div.attrs({
   }),
 })``;
 
-export type TextWrapperProps = {
+export type HasImageProps = {
   hasImage: boolean;
 };
 
 // Ability to add custom prop types in TS and styled components
-const BaseTextWrapper = styled.div.attrs<TextWrapperProps>(props => {
+const BaseTextWrapper = styled.div.attrs<HasImageProps>(props => {
   if (props.hasImage) {
     return {
       className: grid({ s: 9, m: 9, l: 9, xl: 9 }),
@@ -70,7 +70,7 @@ const BaseTextWrapper = styled.div.attrs<TextWrapperProps>(props => {
   return {
     className: grid({ s: 12, m: 12, l: 12, xl: 12 }),
   };
-})<TextWrapperProps>``;
+})<HasImageProps>``;
 
 const MediaObjectBase: FunctionComponent<Props> = ({
   url,
@@ -118,7 +118,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
         }
       }}
     >
-      <ImageWrapper>{Image}</ImageWrapper>
+      <ImageWrapper hasImage={Boolean(Image)}>{Image}</ImageWrapper>
       <TextWrapper hasImage={Boolean(Image)}>
         {labels.labels.length > 0 && (
           <Space
