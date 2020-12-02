@@ -1,7 +1,7 @@
 import NextLink, { LinkProps } from 'next/link';
 import { FunctionComponent, PropsWithChildren } from 'react';
 
-type WorkLinkSource = 'works_search_result';
+type WorkLinkSource = 'works_search_result' | 'expanded_image_more_link';
 
 // We remove `href` and `as` because we contruct those ourselves
 // in the component.
