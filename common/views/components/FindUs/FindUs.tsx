@@ -6,7 +6,7 @@ import {
   wellcomeCollectionAddress,
 } from '../../../model/organization';
 import Space from '../styled/Space';
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent } from 'react';
 
 const StyledFindUs = styled.div.attrs({
   className: classNames({
@@ -34,7 +34,7 @@ const StyledFindUs = styled.div.attrs({
   }
 `;
 
-const FindUs: FunctionComponent = (): ReactElement => (
+const FindUs: FunctionComponent = () => (
   <StyledFindUs>
     <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
       <a

@@ -7,13 +7,13 @@ import {
   convertIiifUriToInfoUri,
 } from '../../../utils/convert-image-uri';
 import { Work } from '../../../model/catalogue';
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent } from 'react';
 
 type Props = {
   work: Work;
 };
 
-const WorkEmbed: FunctionComponent<Props> = ({ work }: Props): ReactElement => {
+const WorkEmbed: FunctionComponent<Props> = ({ work }: Props) => {
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImage = iiifInfoUrl && iiifImageTemplate(iiifInfoUrl);

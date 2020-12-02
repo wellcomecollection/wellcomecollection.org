@@ -1,6 +1,6 @@
 import { font } from '../../../utils/classnames';
 import Space from '../styled/Space';
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent } from 'react';
 
 // TODO: share these with the main nav
 const navLinks = [
@@ -26,7 +26,7 @@ const navLinks = [
   },
 ];
 
-const FooterNav: FunctionComponent = (): ReactElement => (
+const FooterNav: FunctionComponent = () => (
   <div className="footer-nav">
     <nav className="footer-nav__nav">
       <ul className={`plain-list footer-nav__list no-margin no-padding`}>

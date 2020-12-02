@@ -1,12 +1,6 @@
 import fetch from 'isomorphic-unfetch';
 import openseadragon from 'openseadragon';
-import {
-  useState,
-  useEffect,
-  useRef,
-  FunctionComponent,
-  ReactElement,
-} from 'react';
+import { useState, useEffect, useRef, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { trackEvent } from '@weco/common/utils/ga';
 import Raven from 'raven-js';
@@ -54,7 +48,7 @@ const ErrorMessage = () => (
 type Props = {
   id: string;
   infoUrl: string;
-  setShowViewer: (arg: boolean) => void;
+  setShowViewer: (setShowZoomed: boolean) => void;
   isFullscreen: boolean;
 };
 
@@ -63,7 +57,7 @@ const ZoomedImage: FunctionComponent<Props> = ({
   infoUrl,
   setShowViewer,
   isFullscreen,
-}: Props): ReactElement => {
+}: Props) => {
   const [scriptError, setScriptError] = useState(false);
   const [viewer, setViewer] = useState(null);
   const zoomStep = 0.5;
@@ -95,8 +89,7 @@ const ZoomedImage: FunctionComponent<Props> = ({
             },
           ],
         });
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        osdViewer.addOnceHandler('tile-loaded', _ => {
+        osdViewer.addOnceHandler('tile-loaded', () => {
           doZoomIn(osdViewer);
         });
         setViewer(osdViewer);
