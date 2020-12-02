@@ -3,7 +3,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import { Work } from '@weco/common/model/catalogue';
 import fetch from 'isomorphic-unfetch';
 import { IIIFManifest } from '@weco/common/model/iiif';
-import { itemLink, workLink } from '@weco/common/services/catalogue/routes';
+import { itemLink } from '@weco/common/services/catalogue/routes';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import {
   getDownloadOptionsFromManifest,
@@ -31,7 +31,6 @@ import {
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import NextLink from 'next/link';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -41,6 +40,7 @@ import {
   WithPageview,
 } from '@weco/common/views/pages/_app';
 import { ItemRoute } from '@weco/common/services/catalogue/ts_routes';
+import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -321,7 +321,7 @@ const ItemPage: NextPage<Props> = ({
               />
             </Space>
           )}
-          <NextLink {...workLink({ id: workId })}>
+          <WorkLink id={workId} source="item_auth_modal_back_to_work_link">
             <a
               onClick={() => {
                 trackEvent({
@@ -333,7 +333,7 @@ const ItemPage: NextPage<Props> = ({
             >
               Take me back to the item page
             </a>
-          </NextLink>
+          </WorkLink>
         </div>
       </Modal>
       {showViewer &&

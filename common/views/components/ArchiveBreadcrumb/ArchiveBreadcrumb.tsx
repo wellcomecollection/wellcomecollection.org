@@ -1,12 +1,11 @@
 import { Work } from '@weco/common/model/catalogue';
-import { workLink } from '../../../services/catalogue/routes';
-import NextLink from 'next/link';
 import styled from 'styled-components';
 import DropdownButton from '../DropdownButton/DropdownButton';
 import Icon from '../Icon/Icon';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import { getArchiveAncestorArray } from '@weco/common/utils/works';
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
+import WorkLink from '../WorkLink/WorkLink';
 
 const ArchiveBreadcrumbNav = styled.nav`
   * {
@@ -75,13 +74,26 @@ const ArchiveBreadcrumbNav = styled.nav`
   }
 `;
 
+type ArchiveWorkLinkProps = {
+  id: string;
+  children: ReactNode;
+};
+const ArchiveWorkLink: FunctionComponent<ArchiveWorkLinkProps> = ({
+  id,
+  children,
+}: ArchiveWorkLinkProps) => {
+  return (
+    <WorkLink id={id} source={'archive_tree'}>
+      {children}
+    </WorkLink>
+  );
+};
+
 type Props = {
   work: Work;
 };
 
-const ArchiveBreadcrumb: FunctionComponent<Props> = ({
-  work,
-}: Props): ReactElement<Props> => {
+const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const firstCrumb = archiveAncestorArray[0];
   const middleCrumbs =
@@ -103,11 +115,11 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({
               extraClasses={`icon--match-text icon--currentColor`}
               name={`archive`}
             />
-            <NextLink {...workLink({ id: firstCrumb.id })}>
+            <ArchiveWorkLink id={firstCrumb.id}>
               <a className="crumb-inner">
                 <WorkTitle title={firstCrumb.title} />
               </a>
-            </NextLink>
+            </ArchiveWorkLink>
           </li>
         )}
         {middleCrumbs.length > 1 && (
@@ -132,13 +144,13 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({
                             //   : 'folder'
                           }
                         />
-                        <NextLink {...workLink({ id: crumb.id })}>
+                        <ArchiveWorkLink id={crumb.id}>
                           <a className="crumb-inner">
                             <WorkTitle
                               title={`${crumb.title} ${crumb.referenceNumber}`}
                             />
                           </a>
-                        </NextLink>
+                        </ArchiveWorkLink>
                       </li>
                     );
                   })}
@@ -160,13 +172,13 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({
                       // crumb.path.level === 'Item' ? 'digitalImage' : 'folder'
                     }
                   />
-                  <NextLink {...workLink({ id: crumb.id })}>
+                  <ArchiveWorkLink id={crumb.id}>
                     <a className="crumb-inner">
                       <WorkTitle
                         title={`${crumb.title} ${crumb.referenceNumber}`}
                       />
                     </a>
-                  </NextLink>
+                  </ArchiveWorkLink>
                 </li>
               );
             })}
