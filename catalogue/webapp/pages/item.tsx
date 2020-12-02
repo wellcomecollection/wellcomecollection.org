@@ -86,7 +86,7 @@ type Props = {
   canvasIndex: number;
   canvasOcr?: string;
   canvases: [];
-  currentCanvas?: any;
+  currentCanvas?: unknown;
   video?: Video;
   audio?: Audio;
   globalContextData: GlobalContextData;
