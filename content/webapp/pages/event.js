@@ -203,7 +203,7 @@ class EventPage extends Component<Props, State> {
       metadataDescription: event.metadataDescription,
     };
 
-    const maybeFeaturedMedia = getFeaturedMedia(genericFields) || null;
+    const maybeFeaturedMedia = getFeaturedMedia(genericFields);
     const hasFeaturedVideo =
       event.body.length > 0 && event.body[0].type === 'videoEmbed';
     const body = hasFeaturedVideo
