@@ -146,14 +146,14 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       page: defaultTo1(stringQ.page),
       workType: stringToCsv(stringQ.workType),
       itemsLocationsLocationType: stringToCsv(
-        qAsStrings['items.locations.locationType']
+        stringQ['items.locations.locationType']
       ),
-      itemsLocationsType: stringToCsv(qAsStrings['items.locations.type']),
+      itemsLocationsType: stringToCsv(stringQ['items.locations.type']),
       sort: maybeString(stringQ.sort),
       sortOrder: maybeString(stringQ.sortOrder),
-      productionDatesFrom: maybeString(qAsStrings['production.dates.from']),
-      productionDatesTo: maybeString(qAsStrings['production.dates.to']),
-      imagesColor: maybeString(qAsStrings['images.color']),
+      productionDatesFrom: maybeString(stringQ['production.dates.from']),
+      productionDatesTo: maybeString(stringQ['production.dates.to']),
+      imagesColor: maybeString(stringQ['images.color']),
       search: maybeString(stringQ.search),
       source: maybeString(stringQ.source),
       // [1] Wrong below this line
@@ -255,3 +255,53 @@ export const imagesLink = (
 ): LinkProps => ImagesRoute.toLink({ ...params, source });
 export const worksLink = (params: WorksRouteProps, source: string): LinkProps =>
   WorksRoute.toLink({ ...params, source });
+
+// route: /works/{id}/items
+// /works/{id}/items
+export type ItemRouteProps = {
+  workId: string;
+  langCode: string;
+  canvas: number;
+  sierraId?: string;
+  isOverview?: boolean;
+  page: number;
+  pageSize: number;
+};
+
+export const ItemRoute: NextRoute<ItemRouteProps> = {
+  fromQuery(q) {
+    const {
+      workId,
+      langCode = 'eng',
+      canvas,
+      sierraId,
+      isOverview,
+      page,
+      pageSize,
+    } = qAsStrings(q);
+    return {
+      workId: defaultToEmptyString(workId),
+      langCode,
+      sierraId: maybeString(sierraId),
+      pageSize: pageSize ? parseInt(pageSize, 10) : 4,
+      canvas: defaultTo1(canvas),
+      isOverview: Boolean(isOverview),
+      page: defaultTo1(page),
+    };
+  },
+  toLink(params) {
+    return {
+      href: {
+        pathname: `/item`,
+        query: ItemRoute.toQuery(params),
+      },
+      as: {
+        pathname: `/works/${params.workId}/items`,
+        query: ItemRoute.toQuery(params),
+      },
+    };
+  },
+  toQuery(params) {
+    return serialiseUrl(params);
+  },
+};
