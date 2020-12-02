@@ -1,6 +1,10 @@
 import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
-import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
+import {
+  appError,
+  AppErrorProps,
+  WithPageview,
+} from '@weco/common/views/pages/_app';
 import { Work, Image } from '@weco/common/model/catalogue';
 import { imageLink } from '@weco/common/services/catalogue/routes';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
@@ -21,7 +25,7 @@ type Props = {
   sourceWork: Work;
   langCode: string;
   globalContextData: GlobalContextData;
-};
+} & WithPageview;
 
 const ImagePage: FunctionComponent<Props> = ({
   image,
@@ -152,6 +156,10 @@ export const getServerSideProps: GetServerSideProps<
       image,
       langCode: langCode.toString(),
       sourceWork: work,
+      pageview: {
+        name: 'image',
+        properties: {},
+      },
       globalContextData,
     }),
   };
