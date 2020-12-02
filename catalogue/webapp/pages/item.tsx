@@ -1,12 +1,8 @@
-// @flow
-import { type ComponentType, useEffect, useState } from 'react';
-import { type Context } from 'next';
-import {
-  type Work,
-  type CatalogueApiError,
-} from '@weco/common/model/catalogue';
+import { ComponentType, useEffect, useState } from 'react';
+import { GetServerSideProps, NextPage } from 'next';
+import { Work } from '@weco/common/model/catalogue';
 import fetch from 'isomorphic-unfetch';
-import { type IIIFManifest } from '@weco/common/model/iiif';
+import { IIIFManifest } from '@weco/common/model/iiif';
 import { itemLink, workLink } from '@weco/common/services/catalogue/routes';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import {
@@ -19,31 +15,32 @@ import {
   getAuthService,
 } from '@weco/common/utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
-// $FlowFixMe (tsx)
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer, {
   IIIFViewerBackground,
 } from '@weco/common/views/components/IIIFViewer/IIIFViewer';
-// $FlowFixMe (tsx)
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
 import Space, {
-  type SpaceComponentProps,
+  SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
 import {
   GlobalContextData,
   getGlobalContextData,
-  // $FlowFixMe (tsx)
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import Modal from '@weco/common/views/components/Modal/Modal';
-// $FlowFixMe (tsx)
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import NextLink from 'next/link';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-// $FlowFixMe (tsx)
 import { removeUndefinedProps } from '@weco/common/utils/json';
+import {
+  appError,
+  AppErrorProps,
+  WithPageview,
+} from '@weco/common/views/pages/_app';
+import { ItemRoute } from '@weco/common/services/catalogue/ts_routes';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -62,37 +59,40 @@ const IframePdfViewer: ComponentType<SpaceComponentProps> = styled(Space).attrs(
 `;
 
 const iframeId = 'authMessage';
-function reloadAuthIframe(document, id) {
-  const authMessageIframe = ((document.getElementById(
-    id
-  ): any): HTMLIFrameElement);
-  /* eslint-disable no-self-assign */
-  authMessageIframe.src = authMessageIframe.src; // assigning the iframe src to itself reloads the iframe and refires the window.message event
+function reloadAuthIframe(document, id: string) {
+  const authMessageIframe: HTMLIFrameElement = document.getElementById(id);
+  // assigning the iframe src to itself reloads the iframe and refires the window.message event
+  // eslint-disable-next-line no-self-assign
+  authMessageIframe.src = authMessageIframe.src;
 }
 
-type Props = {|
-  workId: string,
-  sierraId: ?string,
-  langCode: string,
-  manifest: ?IIIFManifest,
-  work: ?(Work | CatalogueApiError),
-  pageSize: number,
-  pageIndex: number,
-  canvasIndex: number,
-  canvasOcr: ?string,
-  canvases: [],
-  currentCanvas: ?any,
-  video: ?{
-    '@id': string,
-    format: string,
-  },
-  audio: ?{
-    '@id': string,
-  },
-  globalContextData: GlobalContextData,
-|};
+type Audio = {
+  '@id': string;
+};
 
-const ItemPage = ({
+type Video = {
+  '@id': string;
+  format: string;
+};
+
+type Props = {
+  workId: string;
+  sierraId?: string;
+  langCode: string;
+  manifest?: IIIFManifest;
+  work: Work;
+  pageSize: number;
+  pageIndex: number;
+  canvasIndex: number;
+  canvasOcr?: string;
+  canvases: [];
+  currentCanvas?: any;
+  video?: Video;
+  audio?: Audio;
+  globalContextData: GlobalContextData;
+} & WithPageview;
+
+const ItemPage: NextPage<Props> = ({
   workId,
   sierraId,
   langCode,
@@ -303,7 +303,7 @@ const ItemPage = ({
           )}
           {authService?.authService?.['@id'] && origin && (
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-              <ButtonSolidLink
+              <ButtonSolid
                 text="Show the content"
                 clickHandler={() => {
                   trackEvent({
@@ -314,7 +314,7 @@ const ItemPage = ({
                   const authServiceWindow = window.open(
                     `${authService?.authService['@id'] || ''}?origin=${origin}`
                   );
-                  authServiceWindow.addEventListener('unload', function(event) {
+                  authServiceWindow.addEventListener('unload', function() {
                     reloadAuthIframe(document, iframeId);
                   });
                 }}
@@ -364,10 +364,10 @@ const ItemPage = ({
   );
 };
 
-export const getServerSideProps = async (
-  ctx: Context
-): Promise<{ props: Props }> => {
-  const globalContextData = getGlobalContextData(ctx);
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const globalContextData = getGlobalContextData(context);
   const {
     workId,
     sierraId = null,
@@ -375,7 +375,7 @@ export const getServerSideProps = async (
     page = 1,
     pageSize = 4,
     canvas = 1,
-  } = ctx.query;
+  } = ItemRoute.fromQuery(context.query);
   const pageIndex = page - 1;
   const canvasIndex = canvas - 1;
   const manifestUrl = sierraId
@@ -386,8 +386,13 @@ export const getServerSideProps = async (
   const audio = manifest && getAudio(manifest);
   const work = await getWork({
     id: workId,
-    toggles: ctx.query.toggles,
+    toggles: context.query.toggles,
   });
+
+  if (work.type === 'Error') {
+    return appError(context, work.statusCode, 'Works API error');
+  }
+
   const canvases =
     manifest && manifest.sequences && manifest.sequences[0].canvases
       ? manifest.sequences[0].canvases
@@ -410,6 +415,9 @@ export const getServerSideProps = async (
       video,
       audio,
       globalContextData,
+      pageview: {
+        name: 'item',
+      },
     }),
   };
 };
