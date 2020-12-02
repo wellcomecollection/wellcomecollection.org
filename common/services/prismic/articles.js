@@ -183,6 +183,21 @@ const graphQuery = `{
         }
       }
     }
+    seasons {
+      season {
+        ... on seasons {
+          title
+          promo {
+            ... on editorialImage {
+              non-repeat {
+                caption
+                image
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }`.replace(/\n(\s+)/g, '\n');
 

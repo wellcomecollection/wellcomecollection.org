@@ -20,6 +20,7 @@ import {
   articleFormatsFields,
   articlesFields,
   eventsFields,
+  seasonsFields,
 } from './fetch-links';
 import { breakpoints } from '../../utils/breakpoints';
 import {
@@ -369,7 +370,8 @@ export async function getExhibition(
         exhibitionResourcesFields,
         eventSeriesFields,
         articlesFields,
-        eventsFields
+        eventsFields,
+        seasonsFields
       ),
     },
     memoizedPrismic

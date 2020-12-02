@@ -23,6 +23,7 @@ import {
   peopleFields,
   contributorsFields,
   eventPoliciesFields,
+  seasonsFields,
 } from './fetch-links';
 import {
   parseTitle,
@@ -281,6 +282,7 @@ const fetchLinks = [
   contributorsFields,
   eventSeriesFields,
   eventPoliciesFields,
+  seasonsFields,
 ];
 
 type EventQueryProps = {|

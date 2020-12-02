@@ -12,6 +12,7 @@ import {
   contributorsFields,
   peopleFields,
   organisationsFields,
+  seasonsFields,
 } from './fetch-links';
 import type { Book } from '../../model/books';
 import type {
@@ -63,7 +64,11 @@ export async function getBook(
     req,
     id,
     {
-      fetchLinks: contributorsFields.concat(peopleFields, organisationsFields),
+      fetchLinks: contributorsFields.concat(
+        peopleFields,
+        organisationsFields,
+        seasonsFields
+      ),
     },
     memoizedPrismic
   );
