@@ -417,6 +417,7 @@ export const getServerSideProps: GetServerSideProps<
       globalContextData,
       pageview: {
         name: 'item',
+        properties: {},
       },
     }),
   };
