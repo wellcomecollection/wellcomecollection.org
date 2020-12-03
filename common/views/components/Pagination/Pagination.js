@@ -58,7 +58,7 @@ const Pagination = ({
             href: nextQueryString,
             as: nextQueryString,
           }}
-          type="light"
+          colorScheme="light"
           icon="arrow"
           text={`Next (page ${nextPage})`}
         />
