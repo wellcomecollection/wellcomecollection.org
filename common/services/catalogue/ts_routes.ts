@@ -1,4 +1,4 @@
-import { LinkProps } from 'next/link';
+import { LinkProps } from '../../model/link-props';
 import { ParsedUrlQuery } from 'querystring';
 
 type Params = Record<string, unknown>;
