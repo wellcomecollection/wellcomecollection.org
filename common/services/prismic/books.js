@@ -7,7 +7,10 @@ import {
   asHtml,
   asText,
   parsePromoToCaptionedImage,
+  parseSingleLevelGroup,
 } from './parsers';
+// $FlowFixMe (tsx)
+import { parseSeason } from './seasons';
 import {
   contributorsFields,
   peopleFields,
@@ -30,6 +33,9 @@ export function parseBook(document: PrismicDocument): Book {
     (data.promo.length > 0
       ? parsePromoToCaptionedImage(data.promo, null)
       : null);
+  const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
+    return parseSeason(season);
+  });
   return {
     type: 'books',
     ...genericFields,
@@ -52,6 +58,7 @@ export function parseBook(document: PrismicDocument): Book {
     authorImage: data.authorImage && data.authorImage.url,
     authorDescription: data.authorDescription,
     cover: cover && cover.image,
+    seasons,
   };
 }
 

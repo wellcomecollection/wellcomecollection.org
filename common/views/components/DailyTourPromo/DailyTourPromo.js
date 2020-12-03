@@ -74,6 +74,7 @@ export const data = {
   standfirst: null,
   metadataDescription: null,
   scheduleLength: 0,
+  seasons: [],
 };
 
 const DailyTourPromo = () => (

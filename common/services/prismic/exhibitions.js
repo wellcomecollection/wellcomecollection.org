@@ -37,7 +37,10 @@ import {
   asHtml,
   parseGenericFields,
   parseBoolean,
+  parseSingleLevelGroup,
 } from './parsers';
+// $FlowFixMe (tsx)
+import { parseSeason } from './seasons';
 import { london } from '../../utils/format-date';
 import { getPeriodPredicates } from './utils';
 import type { Period } from '../../model/periods';
@@ -189,6 +192,10 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     data.intro[0] && [Object.assign({}, data.intro[0], { type: 'paragraph' })];
   const promoList = document.data.promoList || [];
 
+  const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
+    return parseSeason(season);
+  });
+
   const exhibition = {
     ...genericFields,
     type: 'exhibitions',
@@ -234,6 +241,7 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       .filter(x => x.type === 'article')
       .map(parsePromoListItem),
     relatedIds,
+    seasons,
   };
 
   const labels = exhibition.isPermanent
