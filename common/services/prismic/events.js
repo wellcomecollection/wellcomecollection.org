@@ -321,12 +321,24 @@ type EventsQueryProps = {|
   predicates?: Prismic.Predicates[],
   period?: 'current-and-coming-up' | 'past',
   isOnline?: boolean,
+  availableOnline?: boolean,
   ...PrismicQueryOpts,
 |};
 
+const isOnlinePredicate = Prismic.Predicates.at('my.events.isOnline', true);
+const availableOnlinePredicate = Prismic.Predicates.at(
+  'my.events.availableOnline',
+  true
+);
 export async function getEvents(
   req: ?Request,
-  { predicates = [], period, isOnline, ...opts }: EventsQueryProps,
+  {
+    predicates = [],
+    period,
+    isOnline,
+    availableOnline,
+    ...opts
+  }: EventsQueryProps,
   memoizedPrismic: ?Object
 ): Promise<PaginatedResults<UiEvent>> {
   const graphQuery = `{
@@ -415,14 +427,17 @@ export async function getEvents(
 
   // We only send the predicates over for true values as
   // events can either have `false` or `undefined`.
-  const isOnlinePredicate = isOnline
-    ? Prismic.Predicates.at('my.events.isOnline', true)
-    : undefined;
+  const filterPredicates = [
+    [isOnline, isOnlinePredicate],
+    [availableOnline, availableOnlinePredicate],
+  ]
+    .filter(([condition, predicate]) => condition)
+    .map(([condition, predicate]) => predicate);
 
   const paginatedResults = await getDocuments(
     req,
     [Prismic.Predicates.at('document.type', 'events')]
-      .concat(predicates, dateRangePredicates, isOnlinePredicate)
+      .concat(predicates, dateRangePredicates, filterPredicates)
       .filter(Boolean),
     {
       orderings,
@@ -432,7 +447,6 @@ export async function getEvents(
     },
     memoizedPrismic
   );
-
   const events = paginatedResults.results.map(doc => {
     return parseEventDoc(doc, null);
   });
