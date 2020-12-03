@@ -6,11 +6,7 @@ import {
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import fetch from 'isomorphic-unfetch';
 import NextLink from 'next/link';
-import {
-  workLink,
-  itemLink,
-  imageLink,
-} from '@weco/common/services/catalogue/routes';
+import { itemLink, imageLink } from '@weco/common/services/catalogue/routes';
 import { font, classNames } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
@@ -22,7 +18,13 @@ import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
 import { Image as ImageType, Work } from '@weco/common/model/catalogue';
 import { getWork } from '../../services/catalogue/works';
-import { useEffect, useState, useRef, useContext } from 'react';
+import {
+  useEffect,
+  useState,
+  useRef,
+  useContext,
+  FunctionComponent,
+} from 'react';
 import useFocusTrap from '@weco/common/hooks/useFocusTrap';
 import styled from 'styled-components';
 import VisuallySimilarImages from '../VisuallySimilarImages/VisuallySimilarImages';
@@ -31,6 +33,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import VisuallySimilarImagesFromApi from '../VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
+import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 
 type Props = {
   image: ImageType;
@@ -171,7 +174,7 @@ const CloseButton = styled(Space).attrs({
   `}
 `;
 
-const ExpandedImage = ({
+const ExpandedImage: FunctionComponent<Props> = ({
   image,
   setExpandedImage,
   onWorkLinkClick,
@@ -289,7 +292,9 @@ const ExpandedImage = ({
           workId,
           // We only send a langCode if it's unambiguous -- better to send
           // no language than the wrong one.
-          langCode: detailedWork?.languages.length === 1 && detailedWork?.languages[0].id,
+          langCode:
+            detailedWork?.languages.length === 1 &&
+            detailedWork?.languages[0].id,
           ...(canvasDeeplink || {}),
         });
 
@@ -362,7 +367,7 @@ const ExpandedImage = ({
                   />
                 </Space>
               )}
-              <NextLink {...workLink({ id: workId })} passHref>
+              <WorkLink id={workId} source={'expanded_image_more_link'}>
                 <a
                   className={classNames({
                     'inline-block': true,
@@ -372,7 +377,7 @@ const ExpandedImage = ({
                 >
                   More about this work
                 </a>
-              </NextLink>
+              </WorkLink>
             </Space>
             {image ? (
               <VisuallySimilarImagesFromApi

@@ -4,8 +4,8 @@ import flattenDeep from 'lodash.flattendeep';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getWork } from '@weco/catalogue/services/catalogue/works';
-import { workLink } from '@weco/common/services/catalogue/routes';
-import NextLink from 'next/link';
+// $FlowFixMe (tsx)
+import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 // $FlowFixMe (tsx)
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 // $FlowFixMe (tsx)
@@ -687,7 +687,12 @@ const ListItem = ({
             />
           </TreeControl>
         )}
-        <NextLink {...workLink({ id: item.work.id })} scroll={false} passHref>
+        <WorkLink
+          id={item.work.id}
+          source="archive_tree"
+          scroll={false}
+          passHref
+        >
           <StyledLink
             className={classNames({
               [font('hnm', 6)]: level === 1,
@@ -706,7 +711,7 @@ const ListItem = ({
             <WorkTitle title={item.work.title} />
             <RefNumber>{item.work.referenceNumber}</RefNumber>
           </StyledLink>
-        </NextLink>
+        </WorkLink>
       </div>
       {item.children && item.openStatus && (
         <NestedList
