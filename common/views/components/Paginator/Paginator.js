@@ -135,7 +135,7 @@ const Paginator = ({
                 clickHandler={event => {
                   onPageChange(event, prev);
                 }}
-                type="light"
+                colorScheme="light"
                 extraClasses={classNames({
                   'icon--180': true,
                 })}
@@ -154,7 +154,7 @@ const Paginator = ({
                 clickHandler={event => {
                   onPageChange(event, next);
                 }}
-                type="light"
+                colorScheme="light"
                 icon="arrow"
                 text={`Next (page ${next})`}
               />
