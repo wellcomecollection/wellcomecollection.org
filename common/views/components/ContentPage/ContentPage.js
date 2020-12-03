@@ -32,6 +32,7 @@ type Props = {|
   contributorProps?: ElementProps<typeof Contributors>,
   Siblings?: Element<typeof SeriesNavigation>[],
   outroProps?: ?ElementProps<typeof Outro>,
+  seasons?: any, // TODO
 |};
 
 // FIXME: obviously we can't carry on like this!
@@ -74,6 +75,7 @@ const ContentPage = ({
   contributorProps,
   Siblings = [],
   outroProps,
+  seasons = [],
 }: Props) => {
   // We don't want to add a spacing unit if there's nothing to render
   // in the body (we don't render the 'standfirst' here anymore).
@@ -155,6 +157,11 @@ const ContentPage = ({
               </div>
             </Layout8>
           )}
+
+          {seasons.length > 0 &&
+            seasons.map(season => (
+              <div key={season.id}>{JSON.stringify(season)}</div>
+            ))}
         </div>
       </article>
     </PageBackgroundContext.Provider>

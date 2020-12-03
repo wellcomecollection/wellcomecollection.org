@@ -276,6 +276,7 @@ export class ArticlePage extends Component<Props, State> {
                 }
               : null
           }
+          seasons={article.seasons}
         />
       </PageLayout>
     );
