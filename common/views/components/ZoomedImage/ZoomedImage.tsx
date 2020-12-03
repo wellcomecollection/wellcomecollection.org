@@ -1,7 +1,6 @@
-// @flow
 import fetch from 'isomorphic-unfetch';
 import openseadragon from 'openseadragon';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { trackEvent } from '@weco/common/utils/ga';
 import Raven from 'raven-js';
@@ -11,7 +10,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { topBarHeight } from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import { navHeight } from '@weco/common/views/components/Header/Header';
 
-const ZoomedImageContainer = styled.div`
+const ZoomedImageContainer = styled.div<{ isFullscreen: boolean }>`
   position: fixed;
   width: 100vw;
   height: 100vh;
@@ -47,14 +46,19 @@ const ErrorMessage = () => (
   </div>
 );
 
-type Props = {|
-  id: string,
-  infoUrl: string,
-  setShowViewer: boolean => void,
-  isFullscreen: boolean,
-|};
+type Props = {
+  id: string;
+  infoUrl: string;
+  setShowViewer: (setShowZoomed: boolean) => void;
+  isFullscreen: boolean;
+};
 
-const ZoomedImage = ({ id, infoUrl, setShowViewer, isFullscreen }: Props) => {
+const ZoomedImage: FunctionComponent<Props> = ({
+  id,
+  infoUrl,
+  setShowViewer,
+  isFullscreen,
+}: Props) => {
   const [scriptError, setScriptError] = useState(false);
   const [viewer, setViewer] = useState(null);
   const zoomStep = 0.5;
@@ -86,7 +90,7 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer, isFullscreen }: Props) => {
             },
           ],
         });
-        osdViewer.addOnceHandler('tile-loaded', _ => {
+        osdViewer.addOnceHandler('tile-loaded', () => {
           doZoomIn(osdViewer);
         });
         setViewer(osdViewer);

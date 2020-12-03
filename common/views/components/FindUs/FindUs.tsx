@@ -1,5 +1,3 @@
-// @flow
-
 import styled from 'styled-components';
 import { font, classNames } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
@@ -8,12 +6,13 @@ import {
   wellcomeCollectionAddress,
 } from '../../../model/organization';
 import Space from '../styled/Space';
+import { FunctionComponent } from 'react';
 
-const StyledFindUs = styled.div.attrs(props => ({
+const StyledFindUs = styled.div.attrs({
   className: classNames({
     [font('hnl', 5)]: true,
   }),
-}))`
+})`
   &:hover,
   &:focus {
     .icon {
@@ -35,7 +34,7 @@ const StyledFindUs = styled.div.attrs(props => ({
   }
 `;
 
-const FindUs = () => (
+const FindUs: FunctionComponent = () => (
   <StyledFindUs>
     <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
       <a
