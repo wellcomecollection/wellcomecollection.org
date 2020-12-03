@@ -2,6 +2,7 @@
 import { Children, Fragment, createContext } from 'react';
 import Contributors from '../Contributors/Contributors';
 import Layout8 from '../Layout8/Layout8';
+import Layout12 from '../Layout12/Layout12';
 import SeriesNavigation from '../SeriesNavigation/SeriesNavigation';
 import PageHeader from '../PageHeader/PageHeader';
 import Outro from '../Outro/Outro';
@@ -17,9 +18,12 @@ import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+/* eslint-enable */
+import FeaturedCard, {
+  convertItemToFeaturedCardProps,
+} from '../FeaturedCard/FeaturedCard';
 /*eslint-disable */
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
-/* eslint-enable */
 
 // TODO: use Element<typeof Component>
 type Props = {|
@@ -160,7 +164,25 @@ const ContentPage = ({
 
           {seasons.length > 0 &&
             seasons.map(season => (
-              <div key={season.id}>{JSON.stringify(season)}</div>
+            <SpacingSection>
+              <Layout12>
+                <FeaturedCard
+                  key={season.id}
+                  {...convertItemToFeaturedCardProps(season)}
+                  background={'charcoal'}
+                  color={'white'}>
+                  <h2 className="font-wb font-size-2">{season.title}</h2>
+                  {season.description && (
+                    <p className="font-hnl font-size-5">{season.description}</p>
+                  )}
+                  {season.promo && (
+                    <p className="font-hnl font-size-5">
+                      {season.promo.caption}
+                    </p>
+                  )}
+                </FeaturedCard>
+              </Layout12>
+            </SpacingSection>
             ))}
         </div>
       </article>
