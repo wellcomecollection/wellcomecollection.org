@@ -104,6 +104,7 @@ const Images: NextPage<Props> = ({
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(imagesRouteProps);
   const { query, page, color } = imagesRouteProps;
+  const { searchPrototype } = globalContextData.toggles;
   useEffect(() => {
     function routeChangeStart() {
       setLoading(true);
@@ -213,7 +214,7 @@ const Images: NextPage<Props> = ({
                       results={results}
                       imagesRouteProps={imagesRouteProps}
                       setSavedSearchState={setSavedSearchState}
-                      hideMobilePagination={true}
+                      hideMobilePagination={Boolean(searchPrototype)}
                     />
                   </div>
                 </div>
@@ -255,7 +256,7 @@ const Images: NextPage<Props> = ({
                         results={results}
                         imagesRouteProps={imagesRouteProps}
                         setSavedSearchState={setSavedSearchState}
-                        hideMobileTotalResults={true}
+                        hideMobileTotalResults={Boolean(searchPrototype)}
                       />
                     </div>
                   </div>
