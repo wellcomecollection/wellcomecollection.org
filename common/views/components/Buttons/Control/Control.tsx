@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
-import NextLink, { LinkProps } from 'next/link';
+import NextLink from 'next/link';
+import { LinkProps } from '../../../../model/link-props';
 import Icon from '../../Icon/Icon';
 import { GaEvent, trackEvent } from '../../../../utils/ga';
 

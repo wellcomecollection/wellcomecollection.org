@@ -1,24 +1,23 @@
-// @flow
+import { FunctionComponent } from 'react';
 import { font } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
 import Control from '../Buttons/Control/Control';
 import Space from '../styled/Space';
 
-export type Props = {|
-  total: number,
-  prevPage?: ?number,
-  currentPage: number,
-  pageCount: number,
-  nextPage?: ?number,
-  nextQueryString?: string,
-  prevQueryString?: string,
-  range?: {|
-    beginning: number,
-    end: number,
-  |},
-|};
+export type Props = {
+  total: number;
+  prevPage?: number;
+  currentPage: number;
+  pageCount: number;
+  nextPage?: number;
+  nextQueryString?: string;
+  prevQueryString?: string;
+  range?: {
+    beginning: number;
+    end: number;
+  };
+};
 
-const Pagination = ({
+const Pagination: FunctionComponent<Props> = ({
   prevPage,
   currentPage,
   pageCount,
@@ -72,16 +71,16 @@ export class PaginationFactory {
   static fromList(
     l: [],
     total: number,
-    currentPage: number = 1,
-    pageSize: number = 32,
-    getParams: {} = {}
-  ) {
+    currentPage = 1,
+    pageSize = 32,
+    getParams = {}
+  ): Props {
     const size = l.length;
     const pageCount = Math.ceil(total / pageSize);
     const prevPage =
-      pageCount > 1 && currentPage !== 1 ? currentPage - 1 : null;
+      pageCount > 1 && currentPage !== 1 ? currentPage - 1 : undefined;
     const nextPage =
-      pageCount > 1 && currentPage !== pageCount ? currentPage + 1 : null;
+      pageCount > 1 && currentPage !== pageCount ? currentPage + 1 : undefined;
     const beginning = pageSize * currentPage - pageSize + 1;
     const range = {
       beginning: beginning,
@@ -103,7 +102,10 @@ export class PaginationFactory {
   }
 }
 
-function buildQueryString(page: number | null, getParams: {} = {}): string {
+function buildQueryString(
+  page: number | undefined,
+  getParams: Record<string, string> = {}
+): string {
   const paramsArray = Object.keys(getParams)
     .map(key => {
       if (key !== 'page') {

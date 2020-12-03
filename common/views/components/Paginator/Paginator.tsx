@@ -1,48 +1,47 @@
-// @flow
-import { Fragment } from 'react';
+import { Fragment, FunctionComponent } from 'react';
+import { LinkProps } from '../../../model/link-props';
 import { classNames, font } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
 import Control from '../Buttons/Control/Control';
 import Space from '../styled/Space';
 import styled from 'styled-components';
-type Link = {|
-  +pathname: string,
-  +query: Object,
-|};
-
-type LinkProps = {|
-  href: Link,
-  as: Link,
-|};
 
 type PageChangeFunction = (event: Event, page: number) => Promise<void>;
 
-type Props = {|
-  query?: string,
-  showPortal?: boolean,
-  currentPage: number,
-  pageSize: number,
-  totalResults: number,
-  link: LinkProps,
-  onPageChange: PageChangeFunction,
-  hideMobilePagination?: boolean,
-  hideMobileTotalResults?: boolean,
-|};
+type Props = {
+  query?: string;
+  showPortal?: boolean;
+  currentPage: number;
+  pageSize: number;
+  totalResults: number;
+  link: LinkProps;
+  onPageChange: PageChangeFunction;
+  hideMobilePagination?: boolean;
+  hideMobileTotalResults?: boolean;
+};
 
-const PaginatorWrapper = styled.div.attrs(props => ({
+type PaginatorWrapperProps = {
+  hideMobilePagination: boolean | undefined;
+};
+const PaginatorWrapper = styled.div.attrs<PaginatorWrapperProps>(props => ({
   className: classNames({
     'is-hidden-s': Boolean(props.hideMobilePagination),
     flex: true,
     'flex--v-center': true,
   }),
-}))``;
+}))<PaginatorWrapperProps>``;
 
-const TotalResultsWrapper = styled.div.attrs(props => ({
-  className: classNames({
-    'is-hidden-s': Boolean(props.hideMobileTotalResults),
-  }),
-}))``;
-const Paginator = ({
+type TotalResultsWrapperProps = {
+  hideMobileTotalResults: boolean | undefined;
+};
+const TotalResultsWrapper = styled.div.attrs<TotalResultsWrapperProps>(
+  props => ({
+    className: classNames({
+      'is-hidden-s': Boolean(props.hideMobileTotalResults),
+    }),
+  })
+)<TotalResultsWrapperProps>``;
+
+const Paginator: FunctionComponent<Props> = ({
   query,
   showPortal,
   currentPage,
