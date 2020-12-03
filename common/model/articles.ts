@@ -3,12 +3,14 @@ import { GenericContentFields } from './generic-content-fields';
 import { LabelField } from './label-field';
 import { ColorSelection } from './color-selections';
 import { MultiContent } from './multi-content';
+import { Season } from './seasons';
 
 export type Article = GenericContentFields & {
   type: 'articles';
   format?: LabelField;
   datePublished: Date;
   series: ArticleSeries[];
+  seasons: Season[];
   color?: ColorSelection;
   outroResearchLinkText?: string;
   outroResearchItem?: MultiContent;
