@@ -34,6 +34,7 @@ export class EventsPage extends Component<Props> {
       memoizedPrismic,
       period = 'current-and-coming-up',
       isOnline,
+      availableOnline,
     } = ctx.query;
 
     const events = await getEvents(
@@ -42,7 +43,8 @@ export class EventsPage extends Component<Props> {
         page,
         period,
         pageSize: 100,
-        isOnline: Boolean(isOnline),
+        isOnline: isOnline === 'true',
+        availableOnline: availableOnline === 'true',
       },
       memoizedPrismic
     );

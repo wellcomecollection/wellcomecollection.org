@@ -18,7 +18,8 @@ const Events = {
     title,
     format: link('Format', 'document', ['event-formats']),
     place: place,
-    isOnline: boolean('Online?', false),
+    isOnline: boolean('Happens Online?', false),
+    availableOnline: boolean('Available Online?', false),
     times: list('Times', {
       startDateTime: timestamp('Start'),
       endDateTime: timestamp('End'),

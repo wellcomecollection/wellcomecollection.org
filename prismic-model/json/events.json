@@ -33,7 +33,14 @@
       "type": "Boolean",
       "config": {
         "default_value": false,
-        "label": "Online?"
+        "label": "Happens Online?"
+      }
+    },
+    "availableOnline": {
+      "type": "Boolean",
+      "config": {
+        "default_value": false,
+        "label": "Available Online?"
       }
     },
     "times": {
