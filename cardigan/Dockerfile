@@ -22,7 +22,7 @@ ADD ./cardigan ./cardigan
 
 WORKDIR /usr/src/app/webapp/cardigan
 
-RUN yarn
+RUN yarn install
 RUN yarn build
 
 CMD ["true"]
