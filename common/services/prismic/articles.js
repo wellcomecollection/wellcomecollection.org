@@ -12,6 +12,8 @@ import {
 } from './parsers';
 import { parseMultiContent } from './multi-content';
 import { parseArticleSeries } from './article-series';
+// $FlowFixMe (tsx)
+import { parseSeason } from './seasons';
 import type { Article } from '../../model/articles';
 import type { MultiContent } from '../../model/multi-content';
 import type {
@@ -236,6 +238,9 @@ function parseArticleDoc(document: PrismicDocument): Article {
     series: parseSingleLevelGroup(data.series, 'series').map(series => {
       return parseArticleSeries(series);
     }),
+    seasons: parseSingleLevelGroup(data.seasons, 'season').map(season => {
+      return parseSeason(season);
+    }),
   };
   const labels = [
     article.format ? { url: null, text: article.format.title || '' } : null,
@@ -272,6 +277,7 @@ function parseWebcomicDoc(document: PrismicDocument): Article {
     series: parseSingleLevelGroup(data.series, 'series').map(series => {
       return parseArticleSeries(series);
     }),
+    seasons: [],
   };
   const labels = [
     article.format ? { url: null, text: article.format.title || '' } : null,
