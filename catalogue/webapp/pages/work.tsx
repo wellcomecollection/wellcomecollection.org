@@ -60,9 +60,7 @@ export const getServerSideProps: GetServerSideProps<
       globalContextData,
       pageview: {
         name: 'work',
-        properties: {
-          workId: workResponse.id,
-        },
+        properties: {},
       },
     }),
   };

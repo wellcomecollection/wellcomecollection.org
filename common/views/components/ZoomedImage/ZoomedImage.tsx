@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { trackEvent } from '@weco/common/utils/ga';
 import Raven from 'raven-js';
+// $FlowFixMe (tsx)
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Space from '@weco/common/views/components/styled/Space';
 import { topBarHeight } from '@weco/common/views/components/IIIFViewer/IIIFViewer';
@@ -215,7 +216,7 @@ const ZoomedImage: FunctionComponent<Props> = ({
           >
             <Control
               ref={firstControl}
-              type="black-on-white"
+              colorScheme="black-on-white"
               text="Zoom in"
               icon="plus"
               clickHandler={() => {
@@ -231,7 +232,7 @@ const ZoomedImage: FunctionComponent<Props> = ({
             }}
           >
             <Control
-              type="black-on-white"
+              colorScheme="black-on-white"
               text="Zoom out"
               icon="minus"
               clickHandler={() => {
@@ -247,7 +248,7 @@ const ZoomedImage: FunctionComponent<Props> = ({
             }}
           >
             <Control
-              type="black-on-white"
+              colorScheme="black-on-white"
               text="Rotate"
               icon="rotatePageRight"
               clickHandler={() => {
@@ -264,7 +265,7 @@ const ZoomedImage: FunctionComponent<Props> = ({
           >
             <Control
               ref={lastControl}
-              type="black-on-white"
+              colorScheme="black-on-white"
               text="Close"
               icon="cross"
               clickHandler={() => {

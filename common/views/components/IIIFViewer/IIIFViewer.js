@@ -31,6 +31,7 @@ import NoScriptViewer from './parts/NoScriptViewer';
 import MainViewer from './parts/MainViewer';
 import ThumbsViewer from './parts/ThumbsViewer';
 import GridViewer from './parts/GridViewer';
+// $FlowFixMe (tsx)
 import Control from '../Buttons/Control/Control';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '@weco/catalogue/components/Download/Download';
@@ -487,7 +488,7 @@ const IIIFViewerComponent = ({
                 v={{ size: 'l', properties: ['margin-bottom'] }}
               >
                 <Control
-                  type="black-on-white"
+                  colorScheme="black-on-white"
                   text="Zoom in"
                   icon="zoomIn"
                   clickHandler={() => {
@@ -500,7 +501,7 @@ const IIIFViewerComponent = ({
                 v={{ size: 'l', properties: ['margin-bottom'] }}
               >
                 <Control
-                  type="black-on-white"
+                  colorScheme="black-on-white"
                   text="Rotate"
                   icon="rotatePageRight"
                   clickHandler={() => {

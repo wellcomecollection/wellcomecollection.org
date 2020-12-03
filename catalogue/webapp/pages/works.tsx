@@ -242,6 +242,7 @@ const Works: NextPage<Props> = ({
                               window.scrollTo(0, 0)
                             );
                           }}
+                          hideMobilePagination={true}
                         />
                       </Fragment>
                     </div>

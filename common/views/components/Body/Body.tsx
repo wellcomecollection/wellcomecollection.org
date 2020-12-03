@@ -1,5 +1,3 @@
-// @flow
-// TODO: Sync up types with the body slices and the components they return
 import dynamic from 'next/dynamic';
 import { classNames } from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
@@ -12,7 +10,6 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import GifVideo from '../GifVideo/GifVideo';
-// $FlowFixMe (tsx)
 import Contact from '../Contact/Contact';
 import Iframe from '../Iframe/Iframe';
 import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
@@ -21,42 +18,40 @@ import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
 import VenueHours from '../VenueHours/VenueHours';
-import type { Link } from '../../../model/link';
-// $FlowFixMe (tsx)
+import { Link } from '../../../model/link';
 import OnThisPageAnchors from '../OnThisPageAnchors/OnThisPageAnchors';
 import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
-// $FlowFixMe (tsx)
 import Table from '../Table/Table';
 import {
   defaultSerializer,
   dropCapSerializer,
 } from '../../../services/prismic/html-serializers';
-import { type Weight } from '../../../services/prismic/parsers';
-// $FlowFixMe (tsx)
+import { Weight } from '../../../services/prismic/parsers';
 import MediaObjectList from '../MediaObjectList/MediaObjectList';
-// $FlowFixMe (tsx)
 import InfoBlock from '../InfoBlock/InfoBlock';
 import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
+import { FunctionComponent } from 'react';
 
 const Map = dynamic(import('../Map/Map'), { ssr: false });
 
-type BodySlice = {|
-  type: string,
-  weight?: Weight,
-  value: any,
-|};
+type BodySlice = {
+  type: string;
+  weight?: Weight;
+  // TODO: Sync up types with the body slices and the components they return
+  value: any;
+};
 
 export type BodyType = BodySlice[];
 
-type Props = {|
-  body: BodyType,
-  onThisPage?: Link[],
-  showOnThisPage?: boolean,
-  isDropCapped?: boolean,
-  pageId: string,
-|};
+type Props = {
+  body: BodyType;
+  onThisPage?: Link[];
+  showOnThisPage?: boolean;
+  isDropCapped?: boolean;
+  pageId: string;
+};
 
-const Body = ({
+const Body: FunctionComponent<Props> = ({
   body,
   onThisPage,
   showOnThisPage,

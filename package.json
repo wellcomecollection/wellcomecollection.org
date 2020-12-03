@@ -53,9 +53,11 @@
   },
   "private": true,
   "workspaces": [
+    "common",
+    "cardigan",
     "catalogue/webapp",
     "content/webapp",
-    "common"
+    "identity/webapp"
   ],
   "lint-staged": {
     "*.{js,ts,tsx}": [

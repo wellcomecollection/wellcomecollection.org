@@ -76,6 +76,10 @@ const ClearSearch = styled.button`
   right: 12px;
 `;
 
+const SearchSortOrderWrapper = styled.div`
+  color: ${props => props.theme.color('black')};
+`;
+
 const PrototypeSearchForm: FunctionComponent<Props> = ({
   ariaDescribedBy,
   routeProps,
@@ -274,28 +278,30 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
       )}
       {!isImageSearch && isEnhanced && (
         <PrototypePortal id="sort-select-portal">
-          <Select
-            name="portalSortOrder"
-            label="Sort by"
-            value={portalSortOrder || ''}
-            options={[
-              {
-                value: '',
-                text: 'Relevance',
-              },
-              {
-                value: 'asc',
-                text: 'Oldest to newest',
-              },
-              {
-                value: 'desc',
-                text: 'Newest to oldest',
-              },
-            ]}
-            onChange={event => {
-              setPortalSortOrder(event.currentTarget.value);
-            }}
-          />
+          <SearchSortOrderWrapper>
+            <Select
+              name="portalSortOrder"
+              label="Sort by:"
+              value={portalSortOrder || ''}
+              options={[
+                {
+                  value: '',
+                  text: 'Relevance',
+                },
+                {
+                  value: 'asc',
+                  text: 'Oldest to newest',
+                },
+                {
+                  value: 'desc',
+                  text: 'Newest to oldest',
+                },
+              ]}
+              onChange={event => {
+                setPortalSortOrder(event.currentTarget.value);
+              }}
+            />
+          </SearchSortOrderWrapper>
         </PrototypePortal>
       )}
       <noscript>

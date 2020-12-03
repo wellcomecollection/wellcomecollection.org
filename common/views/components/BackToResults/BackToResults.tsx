@@ -1,11 +1,11 @@
-// @flow
+import { FunctionComponent } from 'react';
 import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { worksLink } from '../../../services/catalogue/routes';
 import useSavedSearchState from '../../../hooks/useSavedSearchState';
 
-const BackToResults = () => {
+const BackToResults: FunctionComponent = () => {
   const [savedSearchState] = useSavedSearchState({});
   const { query } = savedSearchState;
 

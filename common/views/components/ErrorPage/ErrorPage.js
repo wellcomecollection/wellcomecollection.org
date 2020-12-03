@@ -3,6 +3,7 @@
 import PageLayout from '../PageLayout/PageLayout';
 import ContentPage from '../ContentPage/ContentPage';
 import PageHeader from '../PageHeader/PageHeader';
+// $FlowFixMe (tsx)
 import Body from '../Body/Body';
 // $FlowFixMe (tsx)
 import MoreLink from '../MoreLink/MoreLink';
