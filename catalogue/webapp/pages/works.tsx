@@ -242,7 +242,7 @@ const Works: NextPage<Props> = ({
                               window.scrollTo(0, 0)
                             );
                           }}
-                          hideMobilePagination={true}
+                          hideMobilePagination={Boolean(searchPrototype)}
                         />
                       </Fragment>
                     </div>
@@ -318,6 +318,7 @@ const Works: NextPage<Props> = ({
                                 window.scrollTo(0, 0)
                               );
                             }}
+                            hideMobileTotalResults={Boolean(searchPrototype)}
                           />
                         </Fragment>
                       </div>
