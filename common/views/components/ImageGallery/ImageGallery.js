@@ -9,6 +9,7 @@ import ButtonSolid from '../ButtonSolid/ButtonSolid';
 // $FlowFixMe (tsx)
 import Control from '../Buttons/Control/Control';
 import Icon from '../Icon/Icon';
+// $FlowFixMe (tsx)
 import Layout12 from '../Layout12/Layout12';
 import type { CaptionedImage as CaptionedImageProps } from '../../../model/captioned-image';
 import { PageBackgroundContext } from '../ContentPage/ContentPage';

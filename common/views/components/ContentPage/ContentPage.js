@@ -1,6 +1,7 @@
 // @flow
 import { Children, Fragment, createContext } from 'react';
 import Contributors from '../Contributors/Contributors';
+// $FlowFixMe (tsx)
 import Layout8 from '../Layout8/Layout8';
 import SeriesNavigation from '../SeriesNavigation/SeriesNavigation';
 import PageHeader from '../PageHeader/PageHeader';

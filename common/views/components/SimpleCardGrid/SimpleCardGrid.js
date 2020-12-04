@@ -3,6 +3,7 @@ import { classNames, cssGrid } from '../../../utils/classnames';
 import type { Card as CardType } from '@weco/common/model/card';
 import FeaturedCard from '../FeaturedCard/FeaturedCard';
 import Card from '../Card/Card';
+// $FlowFixMe (tsx)
 import Layout12 from '../Layout12/Layout12';
 import Space from '@weco/common/views/components/styled/Space';
 

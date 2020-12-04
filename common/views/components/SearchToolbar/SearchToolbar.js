@@ -3,6 +3,7 @@ import { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 // $FlowFixMe (tsx)
 import swagger from '../../../services/catalogue/swagger';
+// $FlowFixMe (tsx)
 import Layout12 from '../Layout12/Layout12';
 import Space from '../styled/Space';
 import { classNames, font } from '../../../utils/classnames';
