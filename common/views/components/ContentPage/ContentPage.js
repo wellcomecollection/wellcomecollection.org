@@ -18,10 +18,8 @@ import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
-/* eslint-enable */
-import FeaturedCard, {
-  convertItemToFeaturedCardProps,
-} from '../FeaturedCard/FeaturedCard';
+// $FlowFixMe (tsx)
+import BannerCard from '../BannerCard/BannerCard';
 /*eslint-disable */
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 
@@ -164,23 +162,11 @@ const ContentPage = ({
 
           {seasons.length > 0 &&
             seasons.map(season => (
-            <SpacingSection>
+            <SpacingSection key={season.id}>
               <Layout12>
-                <FeaturedCard
-                  key={season.id}
-                  {...convertItemToFeaturedCardProps(season)}
-                  background={'charcoal'}
-                  color={'white'}>
-                  <h2 className="font-wb font-size-2">{season.title}</h2>
-                  {season.description && (
-                    <p className="font-hnl font-size-5">{season.description}</p>
-                  )}
-                  {season.promo && (
-                    <p className="font-hnl font-size-5">
-                      {season.promo.caption}
-                    </p>
-                  )}
-                </FeaturedCard>
+                <BannerCard
+                  item={season}
+                  />
               </Layout12>
             </SpacingSection>
             ))}
