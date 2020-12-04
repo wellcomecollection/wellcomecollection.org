@@ -5,9 +5,10 @@ import Space from '../styled/Space';
 
 export type Props = {|
   label: LabelType,
+  labelColor?: 'orange',
 |};
 
-const Label = ({ label }: Props) => {
+const Label = ({ label, labelColor = 'yellow' }: Props) => {
   return (
     <Space
       v={{
@@ -23,7 +24,7 @@ const Label = ({ label }: Props) => {
       ${
         label.url
           ? 'plain-link font-white bg-green bg-hover-black'
-          : 'font-black bg-yellow'
+          : `font-black bg-${labelColor}`
       }
       ${font('hnm', 6)}
     `}
