@@ -74,7 +74,7 @@ type Props = {
   aggregations?: CatalogueAggregations;
   shouldShowFilters: boolean;
   showSortBy: boolean;
-  disableLink: boolean;
+  disableLink?: boolean;
 };
 
 const SearchTabs: FunctionComponent<Props> = ({
