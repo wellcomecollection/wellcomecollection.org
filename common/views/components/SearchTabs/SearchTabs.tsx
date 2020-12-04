@@ -86,18 +86,19 @@ const SearchTabs: FunctionComponent<Props> = ({
   activeTabIndex,
   shouldShowFilters,
   showSortBy,
-  disableLink,
+  disableLink = false,
 }: Props): ReactElement<Props> => {
   const router = useRouter();
   const { query } = router.query;
   const { isKeyboard, isEnhanced } = useContext(AppContext);
+  const tabCondition = (!disableLink && isEnhanced) || !isEnhanced;
   const tabs: TabType[] = [
     {
       id: 'tab-library-catalogue',
       tab: function TabWithDisplayName(isActive, isFocused) {
         return (
           <ConditionalWrapper
-            condition={!disableLink && !isEnhanced}
+            condition={tabCondition}
             wrapper={children => (
               <NextLink
                 scroll={false}
@@ -161,7 +162,7 @@ const SearchTabs: FunctionComponent<Props> = ({
       tab: function TabWithDisplayName(isActive, isFocused) {
         return (
           <ConditionalWrapper
-            condition={!disableLink && !isEnhanced}
+            condition={tabCondition}
             wrapper={children => (
               <NextLink
                 scroll={false}
