@@ -17,6 +17,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import NextLink from 'next/link';
 import { removeEmptyProps } from '../../../utils/json';
 import { useRouter } from 'next/router';
+import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
 const BaseTabsWrapper = styled.div`
   // FIXME: For testing, make the checkboxes/buttons have a white background because they're on grey
@@ -73,6 +74,7 @@ type Props = {
   aggregations?: CatalogueAggregations;
   shouldShowFilters: boolean;
   showSortBy: boolean;
+  disableLink?: boolean;
 };
 
 const SearchTabs: FunctionComponent<Props> = ({
@@ -84,40 +86,48 @@ const SearchTabs: FunctionComponent<Props> = ({
   activeTabIndex,
   shouldShowFilters,
   showSortBy,
+  disableLink = false,
 }: Props): ReactElement<Props> => {
   const router = useRouter();
   const { query } = router.query;
-
   const { isKeyboard, isEnhanced } = useContext(AppContext);
+  const tabCondition = (!disableLink && isEnhanced) || !isEnhanced;
   const tabs: TabType[] = [
     {
       id: 'tab-library-catalogue',
       tab: function TabWithDisplayName(isActive, isFocused) {
         return (
-          <NextLink
-            scroll={false}
-            href={{
-              pathname: '/works',
-              query: removeEmptyProps({
-                source: 'search_tabs',
-                query,
-              }),
-            }}
-          >
-            <a
-              className={classNames({
-                'plain-link': true,
-              })}
-            >
-              <Tab
-                isActive={isActive}
-                isFocused={isFocused}
-                isKeyboard={isKeyboard}
+          <ConditionalWrapper
+            condition={tabCondition}
+            wrapper={children => (
+              <NextLink
+                scroll={false}
+                href={{
+                  pathname: '/works',
+                  query: removeEmptyProps({
+                    source: 'search_tabs',
+                    query,
+                  }),
+                }}
               >
-                Library catalogue
-              </Tab>
-            </a>
-          </NextLink>
+                <a
+                  className={classNames({
+                    'plain-link': true,
+                  })}
+                >
+                  {children}
+                </a>
+              </NextLink>
+            )}
+          >
+            <Tab
+              isActive={isActive}
+              isFocused={isFocused}
+              isKeyboard={isKeyboard}
+            >
+              Library catalogue
+            </Tab>
+          </ConditionalWrapper>
         );
       },
       tabPanel: (
@@ -151,31 +161,38 @@ const SearchTabs: FunctionComponent<Props> = ({
       id: 'tab-images',
       tab: function TabWithDisplayName(isActive, isFocused) {
         return (
-          <NextLink
-            scroll={false}
-            href={{
-              pathname: '/images',
-              query: removeEmptyProps({
-                query,
-                source: 'search_tabs',
-              }),
-            }}
-          >
-            <a
-              className={classNames({
-                'plain-link': true,
-              })}
-            >
-              <Tab
-                isActive={isActive}
-                isFocused={isFocused}
-                isKeyboard={isKeyboard}
-                isLast={true}
+          <ConditionalWrapper
+            condition={tabCondition}
+            wrapper={children => (
+              <NextLink
+                scroll={false}
+                href={{
+                  pathname: '/images',
+                  query: removeEmptyProps({
+                    source: 'search_tabs',
+                    query,
+                  }),
+                }}
               >
-                Images
-              </Tab>
-            </a>
-          </NextLink>
+                <a
+                  className={classNames({
+                    'plain-link': true,
+                  })}
+                >
+                  {children}
+                </a>
+              </NextLink>
+            )}
+          >
+            <Tab
+              isActive={isActive}
+              isFocused={isFocused}
+              isKeyboard={isKeyboard}
+              isLast={true}
+            >
+              Images
+            </Tab>
+          </ConditionalWrapper>
         );
       },
       tabPanel: (

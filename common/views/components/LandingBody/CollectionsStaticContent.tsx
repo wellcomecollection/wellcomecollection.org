@@ -39,6 +39,7 @@ const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
             }}
             workTypeAggregations={[]}
             shouldShowDescription={true}
+            disableLink={true}
           />
         </Space>
       </Layout12>
