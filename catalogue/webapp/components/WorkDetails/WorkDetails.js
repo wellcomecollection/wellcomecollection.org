@@ -51,6 +51,7 @@ import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/Expla
 import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
+// $FlowFixMe (tsx)
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 type Props = {|
   work: Work,
