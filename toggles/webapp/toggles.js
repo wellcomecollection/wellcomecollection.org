@@ -3,7 +3,7 @@ module.exports = {
     {
       id: 'searchPrototype',
       title: 'New search interface',
-      defaultValue: false,
+      defaultValue: true,
       description:
         'Shows a tabbed interface for library catalogue/images search',
     },
