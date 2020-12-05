@@ -10,13 +10,34 @@ import Space from '../styled/Space';
 import { UiImage } from '../Images/Images';
 import ButtonOutlined from '../ButtonOutlined/ButtonOutlined';
 
-const CardOuter = styled.a.attrs({})`
+const CardOuter = styled.a`
   display: flex;
+  flex-direction: column-reverse;
+  overflow: hidden;
   text-decoration: none;
   border-left: 4px solid ${props => props.theme.color(props.highlightColor)};
   background: ${props => props.theme.color(props.background)};
   color: ${props =>
     props.theme.color(props.background === 'charcoal' ? 'cream' : 'black')};
+
+  ${props => props.theme.media.large`
+    flex-direction: row;
+  `}
+`;
+
+const TextWrapper = styled.div`
+  ${props => props.theme.media.large`
+    flex-grow: 2;
+  `};
+`;
+const ImageWrapper = styled.div`
+  ${props => props.theme.media.large`
+    flex-grow: 1;
+    flex-basis: 106%;
+  `};
+  ${props => props.theme.media.xlarge`
+    flex-basis: 48%;
+  `};
 `;
 
 function getTypeLabel(type: 'seasons') {
@@ -40,7 +61,6 @@ const BannerCard: FunctionComponent<Props> = ({
   highlightColor = 'orange',
 }: Props) => {
   const { type, title, description, image, link } = {
-    // TODO use shared function? what about format?
     type: getTypeLabel(item.type),
     title: item.title,
     description: item.promo && item.promo.caption,
@@ -83,6 +103,7 @@ const BannerCard: FunctionComponent<Props> = ({
       // }}
     >
       <Space
+        as={TextWrapper}
         v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
         h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
       >
@@ -100,7 +121,7 @@ const BannerCard: FunctionComponent<Props> = ({
           as="h2"
           className={classNames({
             'promo-link__title': true,
-            [font('wb', 1)]: true,
+            [font('wb', 2)]: true,
           })}
         >
           {title}
@@ -118,11 +139,16 @@ const BannerCard: FunctionComponent<Props> = ({
           isOnDark={true}
         />
       </Space>
-      <UiImage
-        {...image.crops['16:9']}
-        // sizesQueries="(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(33.24vw - 43px), calc(100vw - 36px)"
-        showTasl={false}
-      />
+      <Space
+        as={ImageWrapper}
+        // h={{ size: 'm', properties: ['padding-left'], overrides: { small: 0 } }}
+      >
+        <UiImage
+          {...image.crops['16:9']}
+          // sizesQueries="(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(33.24vw - 43px), calc(100vw - 36px)"
+          showTasl={false}
+        />
+      </Space>
     </CardOuter>
   );
 };
