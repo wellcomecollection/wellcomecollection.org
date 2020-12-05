@@ -10,7 +10,12 @@ import Space from '../styled/Space';
 import { UiImage } from '../Images/Images';
 import ButtonOutlined from '../ButtonOutlined/ButtonOutlined';
 
-const CardOuter = styled.a`
+type CardOuterProps = {
+  highlightColor: 'yellow' | 'orange';
+  background: 'charcoal' | 'cream';
+};
+
+const CardOuter = styled.a<CardOuterProps>`
   display: flex;
   flex-direction: column-reverse;
   overflow: hidden;
@@ -52,7 +57,7 @@ function getTypeLabel(type: 'seasons') {
 type Props = {
   item: Season;
   background?: 'charcoal' | 'cream';
-  highlightColor?: string;
+  highlightColor?: 'yellow' | 'orange';
 };
 
 const BannerCard: FunctionComponent<Props> = ({
