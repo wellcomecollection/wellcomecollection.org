@@ -1,7 +1,7 @@
 import { classNames, font } from '../../../utils/classnames';
 import LabelsList from '../LabelsList/LabelsList';
 // import { formatDate } from '../../../../common/utils/format-date';
-// import { trackEvent } from '../../../utils/ga';
+import { trackEvent } from '../../../utils/ga';
 import { FunctionComponent } from 'react';
 import { Season } from '../../../model/seasons';
 import linkResolver from '../../../../common/services/prismic/link-resolver';
@@ -99,13 +99,13 @@ const BannerCard: FunctionComponent<Props> = ({
       href={link}
       highlightColor={highlightColor}
       background={background}
-      // onClick={() => {
-      //   trackEvent({
-      //     category: 'Card',
-      //     action: 'follow link',
-      //     label: `${item.title || ''}`,
-      //   });
-      // }}
+      onClick={() => {
+        trackEvent({
+          category: 'BannerCard',
+          action: 'follow link',
+          label: `${title || ''}`,
+        });
+      }}
     >
       <Space
         as={TextWrapper}
