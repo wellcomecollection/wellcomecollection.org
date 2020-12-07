@@ -11,6 +11,7 @@ const sharedExtends = [
   'standard',
   'plugin:react/recommended',
   'plugin:prettier/recommended',
+  'plugin:jest-playwright/recommended',
   'prettier',
   'prettier/react',
   'prettier/standard',
