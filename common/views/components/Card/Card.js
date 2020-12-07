@@ -95,11 +95,12 @@ const Card = ({ item }: Props) => {
             </Space>
           )}
 
-          {item.description && (
-            <p className={`${font('hnl', 5)} no-padding no-margin`}>
-              {item.description}
-            </p>
-          )}
+          {item.description ||
+            (item?.promo?.caption && (
+              <p className={`${font('hnl', 5)} no-padding no-margin`}>
+                {item.description || item?.promo?.caption}
+              </p>
+            ))}
         </div>
       </CardBody>
     </CardOuter>
