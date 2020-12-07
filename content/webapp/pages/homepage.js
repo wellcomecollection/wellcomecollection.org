@@ -31,6 +31,7 @@ import {
 import { type UiExhibition } from '@weco/common/model/exhibitions';
 import { type UiEvent } from '@weco/common/model/events';
 import { convertJsonToDates } from './event';
+import { convertItemToCardProps } from '@weco/common/model/card';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -198,7 +199,15 @@ export class HomePage extends Component<Props> {
               <SectionHeader title={contentList.value.title} />
             </SpacingComponent>
             <SpacingComponent>
-              <SimpleCardGrid items={contentList.value.items} />
+              <SimpleCardGrid
+                items={contentList.value.items.map(item => {
+                  if (item.type === 'seasons') {
+                    return convertItemToCardProps(item);
+                  } else {
+                    return item;
+                  }
+                })}
+              />
             </SpacingComponent>
           </SpacingSection>
         )}
