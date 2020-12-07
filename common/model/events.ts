@@ -5,6 +5,7 @@ import { BackgroundTexture } from './background-texture';
 import { ImageType } from './image';
 import { LabelField } from './label-field';
 import { Place } from './places';
+import { Season } from './seasons';
 import { HTMLString } from '../services/prismic/types';
 
 type DateTimeRange = {
@@ -78,6 +79,7 @@ export type Event = GenericContentFields & {
   ticketSalesStart?: Date;
   times: EventTime[];
   series: EventSeries[];
+  seasons: Season[];
   place?: Place;
   bookingEnquiryTeam?: Team;
   interpretations: Interpretation[];

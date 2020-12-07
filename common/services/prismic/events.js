@@ -23,6 +23,7 @@ import {
   peopleFields,
   contributorsFields,
   eventPoliciesFields,
+  seasonsFields,
 } from './fetch-links';
 import {
   parseTitle,
@@ -34,9 +35,12 @@ import {
   parseBoolean,
   parseGenericFields,
   parseLabelTypeList,
+  parseSingleLevelGroup,
 } from './parsers';
 import { getPeriodPredicates } from './utils';
 import { parseEventSeries } from './event-series';
+// $FlowFixMe (tsx)
+import { parseSeason } from './seasons';
 import isEmptyObj from '../../utils/is-empty-object';
 import { london, formatDayDate } from '../../utils/format-date';
 import { getNextWeekendDateRange, isPast } from '../../utils/dates';
@@ -163,6 +167,10 @@ export function parseEventDoc(
     )
     .filter(Boolean);
 
+  const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
+    return parseSeason(season);
+  });
+
   const times =
     (data.times &&
       data.times
@@ -211,6 +219,7 @@ export function parseEventDoc(
       : [],
     hasEarlyRegistration: Boolean(data.hasEarlyRegistration),
     series,
+    seasons,
     scheduleLength,
     schedule,
     backgroundTexture:
@@ -281,6 +290,7 @@ const fetchLinks = [
   contributorsFields,
   eventSeriesFields,
   eventPoliciesFields,
+  seasonsFields,
 ];
 
 type EventQueryProps = {|

@@ -179,6 +179,7 @@ export class BookPage extends Component<Props | { statusCode: number }> {
           Header={Header}
           Body={<Body body={book.body} pageId={book.id} />}
           contributorProps={{ contributors }}
+          seasons={book.seasons}
         >
           <Fragment>
             <div className={`border-top-width-1 border-color-smoke`}>

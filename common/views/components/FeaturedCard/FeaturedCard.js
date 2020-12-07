@@ -4,6 +4,7 @@ import { type UiImageProps, UiImage } from '../../components/Images/Images';
 import type { UiExhibition } from '../../../../common/model/exhibitions';
 import type { UiEvent } from '../../../../common/model/events';
 import type { Article } from '../../../../common/model/articles';
+import type { Season } from '../../../../common/model/seasons';
 import type { Card } from '../../../../common/model/card';
 import type { LandingPage } from '../../../../common/model/landing-pages';
 import { type Label } from '../../../../common/model/labels';
@@ -55,7 +56,7 @@ export function convertCardToFeaturedCardProps(
 }
 
 export function convertItemToFeaturedCardProps(
-  item: Article | UiEvent | UiExhibition | LandingPage
+  item: Article | UiEvent | UiExhibition | LandingPage | Season
 ) {
   return {
     id: item.id,
