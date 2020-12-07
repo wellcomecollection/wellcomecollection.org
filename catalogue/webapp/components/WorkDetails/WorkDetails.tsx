@@ -1,14 +1,13 @@
-// @flow
 import moment from 'moment';
-import { useEffect, useState, useContext } from 'react';
+import NextLink from 'next/link';
+import { useEffect, useState, useContext, FunctionComponent } from 'react';
 import fetch from 'isomorphic-unfetch';
-import { type IIIFManifest } from '@weco/common/model/iiif';
-import { type Work } from '@weco/common/model/work';
-import type { NextLinkType } from '@weco/common/model/next-link-type';
+import { IIIFManifest } from '@weco/common/model/iiif';
+import { Work } from '@weco/common/model/work';
+import { NextLinkType } from '@weco/common/model/next-link-type';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { worksLink } from '@weco/common/services/catalogue/routes';
-// $FlowFixMe (ts)
 import { imagesLink } from '@weco/common/services/catalogue/ts_routes';
 import {
   getDownloadOptionsFromImageUrl,
@@ -17,6 +16,7 @@ import {
   getWorkIdentifiersWith,
   getEncoreLink,
   sierraIdFromPresentationManifestUrl,
+  DigitalLocation,
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
@@ -27,13 +27,10 @@ import {
   getUiExtensions,
   isUiEnabled,
 } from '@weco/common/utils/iiif';
-import NextLink from 'next/link';
-// $FlowFixMe (tsx)
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
 // $FlowFixMe (tsx)
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-// $FlowFixMe (tsx)
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Download from '../Download/Download';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
@@ -41,29 +38,26 @@ import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
-// $FlowFixMe (tsx)
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
-// $FlowFixMe (tsx)
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-// $FlowFixMe (tsx)
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
-import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
 // $FlowFixMe (tsx)
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-type Props = {|
-  work: Work,
-  iiifPresentationManifest: ?IIIFManifest,
-  childManifestsCount: number,
-  imageCount: number,
-  itemUrl: ?NextLinkType,
-|};
+type Props = {
+  work: Work;
+  iiifPresentationManifest?: IIIFManifest;
+  childManifestsCount: number;
+  imageCount: number;
+  itemUrl?: NextLinkType;
+};
 
 // At the moment we aren't set up to cope with access conditions 'open-with-advisory, 'restricted',
 // 'permission-required', so we pass them off to the UV on the library site
 // If we have audio or video, then we show it in situ and don't link to the Item page
+type ItemLinkState = 'useItemLink' | 'useLibraryLink' | 'useNoLink';
 function getItemLinkState({
   accessCondition,
   sierraIdFromManifestUrl,
@@ -71,7 +65,7 @@ function getItemLinkState({
   audio,
   video,
   openWithAdvisoryPrototype,
-}): ?'useItemLink' | 'useLibraryLink' | 'useNoLink' {
+}): ItemLinkState | undefined {
   if (
     ((accessCondition === 'open-with-advisory' && !openWithAdvisoryPrototype) ||
       accessCondition === 'restricted' ||
@@ -88,7 +82,7 @@ function getItemLinkState({
   }
 }
 
-const WorkDetails = ({
+const WorkDetails: FunctionComponent<Props> = ({
   work,
   iiifPresentationManifest,
   childManifestsCount,
@@ -100,6 +94,15 @@ const WorkDetails = ({
     openWithAdvisoryPrototype,
     searchPrototype,
   } = useContext(TogglesContext);
+  // Determine digital location
+  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
+  const digitalLocation: DigitalLocation | undefined =
+    iiifPresentationLocation || iiifImageLocation;
+
   const [imageJson, setImageJson] = useState(null);
   const fetchImageJson = async () => {
     try {
@@ -112,15 +115,6 @@ const WorkDetails = ({
   useEffect(() => {
     fetchImageJson();
   }, []);
-
-  // Determine digital location
-  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
-  const iiifPresentationLocation = getDigitalLocationOfType(
-    work,
-    'iiif-presentation'
-  );
-  const digitalLocation: ?DigitalLocation =
-    iiifPresentationLocation || iiifImageLocation;
 
   // Determine access conditions of digital location
   const accessCondition = getAccessConditionForDigitalLocation(digitalLocation);
@@ -221,6 +215,7 @@ const WorkDetails = ({
     openWithAdvisoryPrototype,
   });
 
+  const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
   const WhereToFindIt = () => (
     <WorkDetailsSection
       headingText="Where to find it"
@@ -251,8 +246,6 @@ const WorkDetails = ({
       {stacksRequestService && <ItemLocation work={work} />}
     </WorkDetailsSection>
   );
-
-  const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
 
   const Content = () => (
     <>
@@ -307,13 +300,15 @@ const WorkDetails = ({
                   <ConditionalWrapper
                     condition={itemUrl}
                     wrapper={children => (
-                      <NextLink {...itemUrl}>
+                      <NextLink href={itemUrl.href} as={itemUrl.as}>
                         <a
-                          onClick={trackEvent({
-                            category: 'WorkDetails',
-                            action: 'follow image link',
-                            label: itemUrl?.href?.query?.workId,
-                          })}
+                          onClick={() =>
+                            trackEvent({
+                              category: 'WorkDetails',
+                              action: 'follow image link',
+                              label: itemUrl?.href?.query?.workId.toString(),
+                            })
+                          }
                         >
                           {children}
                         </a>
@@ -350,7 +345,7 @@ const WorkDetails = ({
                     trackingEvent={{
                       category: 'WorkDetails',
                       action: 'follow view link',
-                      label: itemUrl?.href?.query?.workId,
+                      label: itemUrl?.href?.query?.workId.toString(),
                     }}
                     link={{ ...itemUrl }}
                   />
@@ -467,6 +462,18 @@ const WorkDetails = ({
                     {
                       search: 'images',
                       query: work.id,
+                      page: 1,
+                      source: 'work_details/images',
+                      workType: [],
+                      sort: undefined,
+                      sortOrder: undefined,
+                      itemsLocationsLocationType: [],
+                      itemsLocationsType: [],
+                      productionDatesFrom: undefined,
+                      productionDatesTo: undefined,
+                      imagesColor: undefined,
+                      color: undefined,
+                      locationsLicense: undefined,
                     },
                     'work_details/images'
                   )

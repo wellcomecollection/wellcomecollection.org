@@ -1,7 +1,15 @@
-import { Url } from './url';
-// We've used Type here as we have the NextLink naming convention for importing
-// the module `next/link`
+import { UrlObject } from 'url';
+import { ParsedUrlQueryInput } from 'querystring';
+
+// We've used `Type` prefix as we use the
+//   `import NextLink from 'next/link'`
+// naming convention
+
 export type NextLinkType = {
-  href: Url;
-  as: Url;
+  href: UrlObject & {
+    query?: null | ParsedUrlQueryInput;
+  };
+  as: UrlObject & {
+    query?: null | ParsedUrlQueryInput;
+  };
 };

@@ -1,9 +1,4 @@
-// @flow
-import { type Context } from 'next';
-import {
-  type Work,
-  type CatalogueApiError,
-} from '@weco/common/model/catalogue';
+import { Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import {
   getDownloadOptionsFromImageUrl,
@@ -17,9 +12,8 @@ import {
   isUiEnabled,
 } from '@weco/common/utils/iiif';
 import fetch from 'isomorphic-unfetch';
-import { type IIIFManifest } from '@weco/common/model/iiif';
+import { IIIFManifest } from '@weco/common/model/iiif';
 import { getWork } from '../services/catalogue/works';
-// $FlowFixMe (tsx)
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 // $FlowFixMe (tsx)
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
@@ -31,20 +25,20 @@ import WorkDetailsText from '../components/WorkDetailsText/WorkDetailsText';
 import {
   GlobalContextData,
   getGlobalContextData,
-  // $FlowFixMe (tsx)
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
-// $FlowFixMe (tsx)
 import { removeUndefinedProps } from '@weco/common/utils/json';
+import { GetServerSideProps, NextPage } from 'next';
+import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 
-type Props = {|
-  workId: string,
-  sierraId: string,
-  manifest: ?IIIFManifest,
-  work: ?(Work | CatalogueApiError),
-  globalContextData: GlobalContextData,
-|};
+type Props = {
+  workId: string;
+  sierraId: string;
+  manifest?: IIIFManifest;
+  work?: Work;
+  globalContextData: GlobalContextData;
+};
 
-const DownloadPage = ({
+const DownloadPage: NextPage<Props> = ({
   workId,
   sierraId,
   manifest,
@@ -52,14 +46,12 @@ const DownloadPage = ({
   globalContextData,
 }: Props) => {
   const title = (manifest && manifest.label) || (work && work.title) || '';
-  const iiifImageLocation =
-    work && work.type !== 'Error'
-      ? getDigitalLocationOfType(work, 'iiif-image')
-      : null;
-  const iiifPresentationLocation =
-    work && work.type !== 'Error'
-      ? getDigitalLocationOfType(work, 'iiif-presentation')
-      : null;
+  const iiifImageLocation = work
+    ? getDigitalLocationOfType(work, 'iiif-image')
+    : null;
+  const iiifPresentationLocation = work
+    ? getDigitalLocationOfType(work, 'iiif-presentation')
+    : null;
   const digitalLocation = iiifImageLocation || iiifPresentationLocation;
   const license =
     digitalLocation &&
@@ -93,6 +85,7 @@ const DownloadPage = ({
   const showDownloadOptions = manifest
     ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
     : true;
+
   return (
     <PageLayout
       title={title}
@@ -170,16 +163,27 @@ const DownloadPage = ({
   );
 };
 
-export const getServerSideProps = async (
-  ctx: Context
-): Promise<{ props: Props }> => {
-  const globalContextData = getGlobalContextData(ctx);
-  const { workId, sierraId } = ctx.query;
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const globalContextData = getGlobalContextData(context);
+  const { workId, sierraId } = context.query;
+
+  if (typeof workId !== 'string' || typeof sierraId !== 'string') {
+    return {
+      notFound: true,
+    };
+  }
+
   const manifestUrl = sierraId
     ? `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
     : null;
   const manifest = manifestUrl ? await (await fetch(manifestUrl)).json() : null;
-  const work = await getWork({ id: workId, toggles: ctx.query.toggles });
+  const work = await getWork({ id: workId, toggles: context.query.toggles });
+  if (work.type === 'Error') {
+    appError(context, work.httpStatus, 'Works API error');
+  }
+
   return {
     props: removeUndefinedProps({
       workId,
