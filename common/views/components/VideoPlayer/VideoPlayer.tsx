@@ -1,22 +1,24 @@
-// @flow
 import Router from 'next/router';
 import { trackEvent } from '@weco/common/utils/ga';
-import { useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import useInterval from '@weco/common/hooks/useInterval';
-import { type IIIFMediaElement } from '@weco/common/model/iiif';
+import { IIIFMediaElement } from '@weco/common/model/iiif';
 import { getAnnotationFromMediaElement } from '@weco/common/utils/iiif';
 import Space from '@weco/common/views/components/styled/Space';
 import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
 
-type Props = {|
-  video: IIIFMediaElement,
-  showDownloadOptions: boolean,
-|};
+type Props = {
+  video: IIIFMediaElement;
+  showDownloadOptions: boolean;
+};
 
-const VideoPlayer = ({ video, showDownloadOptions }: Props) => {
+const VideoPlayer: FunctionComponent<Props> = ({
+  video,
+  showDownloadOptions,
+}: Props) => {
   const [secondsPlayed, setSecondsPlayed] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const annotation = getAnnotationFromMediaElement(video);
+  const annotation: any = getAnnotationFromMediaElement(video);
   function trackViewingTime() {
     trackEvent({
       category: 'Engagement',
@@ -69,7 +71,7 @@ const VideoPlayer = ({ video, showDownloadOptions }: Props) => {
         onPause={() => {
           setIsPlaying(false);
         }}
-        controlsList={!showDownloadOptions ? 'nodownload' : null}
+        controlsList={!showDownloadOptions ? 'nodownload' : undefined}
         controls
         preload="none"
         poster={video.thumbnail}
