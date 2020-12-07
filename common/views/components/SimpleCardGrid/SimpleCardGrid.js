@@ -34,20 +34,15 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => (
       color="white"
     >
       {item.title && <h2 className="font-wb font-size-2">{item.title}</h2>}
-      {item.description ||
-        (item?.promo?.caption && (
-          <p className="font-hnl font-size-5">
-            {item.description || item?.promo?.caption}
-          </p>
-        ))}
+      {item.description && (
+        <p className="font-hnl font-size-5">{item.description}</p>
+      )}
     </FeaturedCard>
   </Layout12>
 );
 
 const CardGrid = ({ items, isFeaturedFirst }: Props) => {
-  const cards = items.filter(
-    item => item.type === 'card' || item.type === 'seasons'
-  );
+  const cards = items.filter(item => item.type === 'card');
   const threeCards = isFeaturedFirst ? cards.slice(1) : cards.slice(0, 3);
   const featuredCard = isFeaturedFirst ? cards[0] : cards[3];
 
