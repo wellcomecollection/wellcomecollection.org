@@ -1,19 +1,24 @@
 // @flow
+// $FlowFixMe (tsx)
 import PageLayout from '../PageLayout/PageLayout';
 import ContentPage from '../ContentPage/ContentPage';
 import PageHeader from '../PageHeader/PageHeader';
+// $FlowFixMe (tsx)
 import Body from '../Body/Body';
-// $FlowFixMe
+// $FlowFixMe (tsx)
 import MoreLink from '../MoreLink/MoreLink';
 import Space from '../styled/Space';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+// $FlowFixMe (tsx)
+import { type GlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 type Props = {|
-  statusCode: number,
-  title?: ?string,
+  statusCode?: number,
+  title?: string,
+  globalContextData: GlobalContextData,
 |};
 
-const ErrorPage = ({ statusCode, title }: Props) => {
+const ErrorPage = ({ statusCode = 500, title, globalContextData }: Props) => {
   return (
     <PageLayout
       title={`${statusCode}`}
@@ -24,6 +29,7 @@ const ErrorPage = ({ statusCode, title }: Props) => {
       siteSection={'stories'}
       imageUrl={null}
       imageAltText={null}
+      globalContextData={globalContextData}
     >
       <ContentPage
         id={'error'}

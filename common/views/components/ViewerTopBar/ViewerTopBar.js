@@ -3,14 +3,15 @@ import { type IIIFManifest, type IIIFRendering } from '@weco/common/model/iiif';
 import type { LicenseData } from '@weco/common/utils/licenses';
 import { lighten } from 'polished';
 import styled from 'styled-components';
-import { workLink } from '@weco/common/services/catalogue/routes';
 import { classNames, font } from '@weco/common/utils/classnames';
-import NextLink from 'next/link';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import { trackEvent } from '@weco/common/utils/ga';
+// $FlowFixMe (tsx)
 import Download from '@weco/catalogue/components/Download/Download';
 import MultipleManifestList from '@weco/catalogue/components/MultipleManifestList/MultipleManifestList';
 import Icon from '@weco/common/views/components/Icon/Icon';
+// $FlowFixMe (tsc)
+import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import Space from '@weco/common/views/components/styled/Space';
 
 // TODO: update this with a more considered button from our system
@@ -175,7 +176,7 @@ const ViewerTopBar = ({
       <TitleContainer isEnhanced={enhanced && canvases && canvases.length > 1}>
         <div className="title">
           <span className="part">{currentManifestLabel}</span>
-          <NextLink {...workLink({ id: workId })}>
+          <WorkLink id={workId} source="viewer_back_link">
             <a
               className={classNames({
                 [font('hnm', 5)]: true,
@@ -188,7 +189,7 @@ const ViewerTopBar = ({
               <Icon name="chevron" extraClasses="icon--90 icon--white" />
               <TruncatedText as="h1">{title}</TruncatedText>
             </a>
-          </NextLink>
+          </WorkLink>
         </div>
         {canvases && canvases.length > 1 && (
           <>{`${canvasIndex + 1 || ''} / ${(canvases && canvases.length) ||

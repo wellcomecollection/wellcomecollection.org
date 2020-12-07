@@ -1,5 +1,6 @@
 // @flow
 import { type Node } from 'react';
+// $FlowFixMe (tsx)
 import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';

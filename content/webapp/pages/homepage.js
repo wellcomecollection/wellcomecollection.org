@@ -10,14 +10,16 @@ import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import { type Article } from '@weco/common/model/articles';
 import type { Page as PageType } from '@weco/common/model/pages';
 import { type PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
+// $FlowFixMe (tsx)
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import SimpleCardGrid from '@weco/common/views/components/SimpleCardGrid/SimpleCardGrid';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
+// $FlowFixMe (tsx)
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';

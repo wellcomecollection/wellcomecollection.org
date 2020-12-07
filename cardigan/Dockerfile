@@ -1,5 +1,5 @@
 # This image should be built with the parent directory as context
-FROM node:12.18.3
+FROM 760097843905.dkr.ecr.eu-west-1.amazonaws.com/node:12.18.3
 
 WORKDIR /usr/src/app/webapp
 
@@ -22,7 +22,7 @@ ADD ./cardigan ./cardigan
 
 WORKDIR /usr/src/app/webapp/cardigan
 
-RUN yarn
+RUN yarn install
 RUN yarn build
 
 CMD ["true"]

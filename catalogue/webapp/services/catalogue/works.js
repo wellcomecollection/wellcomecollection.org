@@ -2,6 +2,7 @@
 import {
   type CatalogueApiError,
   type CatalogueApiRedirect,
+  type CatalogueApiNotFound,
   type CatalogueResultsList,
   type Work,
 } from '@weco/common/model/catalogue';
@@ -14,6 +15,7 @@ import {
   globalApiOptions,
   queryString,
   rootUris,
+  notFound,
   type Toggles,
 } from './common';
 
@@ -43,6 +45,7 @@ const workIncludes = [
   'partOf',
   'precededBy',
   'succeededBy',
+  'languages',
 ];
 
 const redirect = (id: string, status: number = 302): CatalogueApiRedirect => ({
@@ -77,10 +80,16 @@ export async function getWorks({
   }
 }
 
+type WorkResponse =
+  | Work
+  | CatalogueApiError
+  | CatalogueApiRedirect
+  | CatalogueApiNotFound;
+
 export async function getWork({
   id,
   toggles,
-}: GetWorkProps): Promise<Work | CatalogueApiError | CatalogueApiRedirect> {
+}: GetWorkProps): Promise<WorkResponse> {
   const apiOptions = globalApiOptions(toggles);
   const params = {
     include: workIncludes,
@@ -113,6 +122,9 @@ export async function getWork({
 
   try {
     const json = await res.json();
+    if (res.status === 404) {
+      return notFound();
+    }
     return json;
   } catch (e) {
     return catalogueApiError();

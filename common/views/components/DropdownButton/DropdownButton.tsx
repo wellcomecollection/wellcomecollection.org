@@ -1,5 +1,13 @@
 import { CSSTransition } from 'react-transition-group';
-import { useState, useRef, useEffect, useContext } from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  FunctionComponent,
+  ReactElement,
+  ReactNode,
+} from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
@@ -16,13 +24,13 @@ const DropdownWrapper = styled.div.attrs({
   }),
 })``;
 
-const Dropdown = styled(Space).attrs(props => ({
+const Dropdown = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   className: classNames({
     'rounded-corners shadow bg-white': true,
   }),
-}))`
+})`
   margin-top: -2px;
   z-index: ${props => (props.isActive ? 2 : 1)};
   overflow: auto;
@@ -62,17 +70,24 @@ const Popper = styled('div')<{ isVisible: boolean }>`
   height: ${props => (props.isVisible ? 'auto' : 0)};
   max-width: calc(100vw - 20px);
   z-index: ${props => (props.isVisible ? 1 : -1)};
+  opacity: ${props => (props.isVisible ? 1 : 0)};
 `;
 
 type Props = {
   label: string;
-  children: JSX.Element | JSX.Element[];
+  children: ReactNode;
   isInline: boolean | null;
   isOnDark?: boolean;
   id: string;
 };
 
-const DropdownButton = ({ label, children, isInline, isOnDark, id }: Props) => {
+const DropdownButton: FunctionComponent<Props> = ({
+  label,
+  children,
+  isInline,
+  isOnDark,
+  id,
+}: Props): ReactElement<Props> => {
   const [isActive, setIsActive] = useState(false);
   const { isEnhanced } = useContext(AppContext);
   const dropdownWrapperRef = useRef(null);
@@ -149,20 +164,33 @@ const DropdownButton = ({ label, children, isInline, isOnDark, id }: Props) => {
       ) : (
         <ButtonOutlined {...buttonProps} />
       )}
-      <Popper
-        id={id}
-        ref={popperRef}
-        style={isEnhanced ? styles.popper : null}
-        {...(isEnhanced ? attributes.popper : {})}
-        isVisible={isPopperVisible}
-      >
-        <CSSTransition
-          in={isActive}
-          classNames="fade"
-          timeout={350}
-          onEnter={() => setIsPopperVisible(true)}
-          onExited={() => setIsPopperVisible(false)}
+      {isEnhanced && (
+        <Popper
+          id={id}
+          ref={popperRef}
+          style={styles.popper}
+          {...(isEnhanced ? attributes.popper : {})}
+          isVisible={isPopperVisible}
         >
+          <CSSTransition
+            in={isActive}
+            classNames="fade"
+            timeout={350}
+            onEnter={() => setIsPopperVisible(true)}
+            onExited={() => setIsPopperVisible(false)}
+          >
+            <Dropdown
+              isActive={isActive}
+              isEnhanced={isEnhanced}
+              ref={dropdownRef}
+            >
+              {children}
+            </Dropdown>
+          </CSSTransition>
+        </Popper>
+      )}
+      <noscript>
+        <Popper id={id} ref={popperRef} style={null} isVisible={true}>
           <Dropdown
             isActive={isActive}
             isEnhanced={isEnhanced}
@@ -170,8 +198,8 @@ const DropdownButton = ({ label, children, isInline, isOnDark, id }: Props) => {
           >
             {children}
           </Dropdown>
-        </CSSTransition>
-      </Popper>
+        </Popper>
+      </noscript>
     </DropdownWrapper>
   );
 };

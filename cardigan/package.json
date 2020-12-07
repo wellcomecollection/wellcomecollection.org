@@ -1,4 +1,7 @@
 {
+  "name": "@weco/cardigan",
+  "license": "MIT",
+  "version": "1.0.0",
   "scripts": {
     "dev": "start-storybook -p 9001 -c .storybook",
     "build": "build-storybook -c .storybook -o .dist",

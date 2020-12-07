@@ -26,10 +26,18 @@ export const queryString = (params: { [key: string]: any }): string => {
   return strings.length > 0 ? `?${strings.join('&')}` : '';
 };
 
-export const catalogueApiError = (): CatalogueApiError => ({
+export const notFound = (): CatalogueApiError => ({
+  errorType: 'http',
+  httpStatus: 404,
+  label: 'Not Found',
   description: '',
+  type: 'Error',
+});
+
+export const catalogueApiError = (): CatalogueApiError => ({
   errorType: 'http',
   httpStatus: 500,
   label: 'Internal Server Error',
+  description: '',
   type: 'Error',
 });

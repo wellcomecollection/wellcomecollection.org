@@ -8,12 +8,14 @@ import { getArticle } from '@weco/common/services/prismic/articles';
 import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+// $FlowFixMe (tsx)
 import Body from '@weco/common/views/components/Body/Body';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import SeriesNavigation from '@weco/common/views/components/SeriesNavigation/SeriesNavigation';
+// $FlowFixMe(tsx)
 import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
 import PageHeader, {
   getFeaturedMedia,

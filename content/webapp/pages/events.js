@@ -6,7 +6,7 @@ import {
   orderEventsByNextAvailableDate,
 } from '@weco/common/services/prismic/events';
 import { eventLd } from '@weco/common/utils/json-ld';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import type { UiEvent } from '@weco/common/model/events';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
@@ -15,6 +15,7 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { convertJsonToDates } from './event';
 // $FlowFixMe
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
+// $FlowFixMe (tsx)
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
@@ -27,19 +28,28 @@ type Props = {|
 
 const pageDescription =
   'Our events are now taking place online. Choose from an inspiring range of free talks, discussions and more.';
-export class ArticleSeriesPage extends Component<Props> {
+export class EventsPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const { page = 1, memoizedPrismic } = ctx.query;
-    const { period = 'current-and-coming-up' } = ctx.query;
+    const {
+      page = 1,
+      memoizedPrismic,
+      period = 'current-and-coming-up',
+      isOnline,
+      availableOnline,
+    } = ctx.query;
+
     const events = await getEvents(
       ctx.req,
       {
         page,
         period,
         pageSize: 100,
+        isOnline: isOnline === 'true',
+        availableOnline: availableOnline === 'true',
       },
       memoizedPrismic
     );
+
     if (events) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
       return {
@@ -107,4 +117,4 @@ export class ArticleSeriesPage extends Component<Props> {
   }
 }
 
-export default ArticleSeriesPage;
+export default EventsPage;

@@ -28,7 +28,6 @@ type SearchResultSelectedData = {|
   id: string,
   position: number,
   resultWorkType: string,
-  resultLanguage: ?string,
   resultIdentifiers: ?string,
   resultSubjects: ?string,
 |};

@@ -1,7 +1,6 @@
 import { forwardRef, SyntheticEvent } from 'react';
 import { classNames } from '../../../utils/classnames';
-import { GaEvent } from '@weco/common/utils/ga';
-import { trackEvent } from '@weco/common/utils/ga';
+import { GaEvent, trackEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
 import Icon from '../Icon/Icon';
 import {
@@ -10,15 +9,18 @@ import {
   ButtonIconWrapper,
 } from '../ButtonSolid/ButtonSolid';
 
-type MaybeAnchor = {
+type OutlinedButtonProps = {
   href?: string;
+  isOnDark?: boolean;
 };
 
-export const OutlinedButton = styled(BaseButton).attrs<MaybeAnchor>(props => ({
-  className: classNames({
-    'link-reset': !!props.href,
-  }),
-}))`
+export const OutlinedButton = styled(BaseButton).attrs<OutlinedButtonProps>(
+  props => ({
+    className: classNames({
+      'link-reset': !!props.href,
+    }),
+  })
+)<OutlinedButtonProps>`
   border: 2px solid
     ${props => props.theme.color(props.isOnDark ? 'white' : 'green')};
   background: ${props => props.theme.color('transparent')};
@@ -108,5 +110,7 @@ const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
     );
   }
 );
+
+ButtonOutlined.displayName = 'ButtonOutlined';
 
 export default ButtonOutlined;

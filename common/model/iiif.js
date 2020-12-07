@@ -27,6 +27,7 @@ export type IIIFResource = {|
     | {
         '@id': string,
         '@context': string,
+        service: [],
       }[],
 |};
 
@@ -50,7 +51,7 @@ export type IIIFRendering = {|
   label: string,
 |};
 
-export type IIIFMediaElement = {|
+export type IIIFMediaElement = {
   '@id': string,
   '@type': 'dctypes:Sound',
   format: string,
@@ -73,7 +74,7 @@ export type IIIFMediaElement = {|
       },
     }
   ],
-|};
+};
 type IIIFMediaSequence = {|
   '@id': string,
   '@type': string,
@@ -97,6 +98,22 @@ type IIIFStructure = {|
 export type IIIFMetadata = {|
   label: string,
   value: string,
+|};
+
+export type AuthService = {|
+  '@context': string,
+  '@id': string,
+  accessHint: string,
+  authService: {|
+    '@context': string,
+    '@id': string,
+    description: string,
+    label: string,
+    profile: string,
+    service: [],
+  |},
+  service: [],
+  profile: string,
 |};
 
 export type Service = {|

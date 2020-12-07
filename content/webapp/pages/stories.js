@@ -6,9 +6,10 @@ import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { articleLd } from '@weco/common/utils/json-ld';
 import { classNames, grid, font } from '@weco/common/utils/classnames';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
+// $FlowFixMe (tsx)
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';

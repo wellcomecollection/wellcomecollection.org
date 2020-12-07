@@ -31,8 +31,12 @@ import NoScriptViewer from './parts/NoScriptViewer';
 import MainViewer from './parts/MainViewer';
 import ThumbsViewer from './parts/ThumbsViewer';
 import GridViewer from './parts/GridViewer';
+// $FlowFixMe (tsx)
 import Control from '../Buttons/Control/Control';
+// $FlowFixMe (tsx)
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+
+// $FlowFixMe (tsx)
 import Download from '@weco/catalogue/components/Download/Download';
 import dynamic from 'next/dynamic';
 
@@ -50,6 +54,7 @@ const LoadingComponent = () => (
 );
 
 const ZoomedImage = dynamic(
+  // $FlowFixMe(tsx)
   () => import('@weco/common/views/components/ZoomedImage/ZoomedImage'),
   {
     ssr: false,
@@ -60,11 +65,13 @@ const ZoomedImage = dynamic(
 export const headerHeight = 149;
 export const topBarHeight = 64;
 
-const IIIFViewerBackground = styled.div`
+export const IIIFViewerBackground = styled.div`
   position: relative;
   background: ${props => props.theme.color('viewerBlack')};
   height: ${props =>
-    props.isFullscreen ? '100vh' : `calc(100vh - ${`${headerHeight}px`})`};
+    props.isFullscreen
+      ? '100vh'
+      : `calc(100vh - ${`${props.headerHeight}px`})`};
   color: ${props => props.theme.color('white')};
 `;
 
@@ -181,12 +188,13 @@ type IIIFViewerProps = {|
   canvases: [],
   workId: string,
   pageIndex: number,
-  sierraId: string,
+  sierraId: ?string,
   pageSize: number,
   canvasIndex: number,
   iiifImageLocation: ?DigitalLocation,
   work: ?(Work | CatalogueApiError),
   manifest: ?IIIFManifest,
+  handleImageError?: () => void,
 |};
 
 const IIIFViewerComponent = ({
@@ -205,6 +213,7 @@ const IIIFViewerComponent = ({
   iiifImageLocation,
   work,
   manifest,
+  handleImageError,
 }: IIIFViewerProps) => {
   const [gridVisible, setGridVisible] = useState(false);
   const [enhanced, setEnhanced] = useState(false);
@@ -443,7 +452,10 @@ const IIIFViewerComponent = ({
         lang={lang}
         viewerRef={viewerRef}
       />
-      <IIIFViewerBackground isFullscreen={isFullscreen}>
+      <IIIFViewerBackground
+        isFullscreen={isFullscreen}
+        headerHeight={headerHeight}
+      >
         {isLoading && <LoadingComponent />}
         {showZoomed && (
           <ZoomedImage
@@ -479,7 +491,7 @@ const IIIFViewerComponent = ({
                 v={{ size: 'l', properties: ['margin-bottom'] }}
               >
                 <Control
-                  type="black-on-white"
+                  colorScheme="black-on-white"
                   text="Zoom in"
                   icon="zoomIn"
                   clickHandler={() => {
@@ -492,7 +504,7 @@ const IIIFViewerComponent = ({
                 v={{ size: 'l', properties: ['margin-bottom'] }}
               >
                 <Control
-                  type="black-on-white"
+                  colorScheme="black-on-white"
                   text="Rotate"
                   icon="rotatePageRight"
                   clickHandler={() => {
@@ -549,6 +561,7 @@ const IIIFViewerComponent = ({
                   canvases={canvases}
                   gridViewerRef={gridViewerRef}
                   isFullscreen={isFullscreen}
+                  viewerRef={viewerRef}
                 />
                 {pageWidth >= 600 && (
                   <ThumbsViewer
@@ -573,6 +586,7 @@ const IIIFViewerComponent = ({
                     setIsLoading={setIsLoading}
                     rotatedImages={rotatedImages}
                     setShowControls={setShowControls}
+                    errorHandler={handleImageError}
                   />
                 </div>
               </ViewerLayout>

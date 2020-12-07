@@ -1,6 +1,7 @@
 const path = require('path');
 module.exports = {
   stories: [
+    '../stories/components/**/*.tsx',
     '../stories/components/*.js',
     '../stories/global/**/*.js',
     '../stories/docs/*.js',

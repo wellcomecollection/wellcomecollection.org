@@ -10,13 +10,14 @@
     "deploy": "aws s3 sync ./out s3://dash.wellcomecollection.org --only-show-errors --acl public-read"
   },
   "dependencies": {
+    "@babel/core": "^7.12.3",
     "@babel/preset-flow": "^7.0.0",
     "babel-plugin-styled-components": "^1.9.0",
     "isomorphic-unfetch": "^3.0.0",
-    "next": "^9.4.4",
+    "next": "^10.0.1",
     "next-cookies": "^1.0.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "styled-components": "^4.1.1"
+    "styled-components": "^5.2.1"
   }
 }

@@ -1,62 +1,69 @@
-import { NextPage, NextPageContext } from 'next';
-import Router from 'next/router';
-import {
-  Work as WorkType,
-  CatalogueApiError,
-} from '@weco/common/model/catalogue';
-import { workLink } from '@weco/common/services/catalogue/routes';
-import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
+import { GetServerSideProps, NextPage } from 'next';
+import { Work as WorkType } from '@weco/common/model/catalogue';
 import Work from '../components/Work/Work';
 import { getWork } from '../services/catalogue/works';
+import {
+  getGlobalContextData,
+  WithGlobalContextData,
+} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import { removeUndefinedProps } from '@weco/common/utils/json';
+import {
+  appError,
+  AppErrorProps,
+  WithPageview,
+} from '@weco/common/views/pages/_app';
 
 type Props = {
-  workResponse: WorkType | CatalogueApiError;
+  workResponse: WorkType;
+} & WithGlobalContextData &
+  WithPageview;
+
+export const WorkPage: NextPage<Props> = ({
+  workResponse,
+  globalContextData,
+}: Props) => {
+  // TODO: remove the <Work> component and move the JSX in here.
+  // It was abstracted as we did error handling in the page, and it made it a little clearer.
+  return <Work work={workResponse} globalContextData={globalContextData} />;
 };
 
-export const WorkPage: NextPage<Props> = ({ workResponse }) => {
-  if (workResponse.type === 'Work' || workResponse.type === 'Collection' || workResponse.type === 'Section' || workResponse.type === 'Series' ) {
-    return <Work work={workResponse} />;
-  }
-
-  if (workResponse.type === 'Error') {
-    return (
-      <ErrorPage
-        statusCode={workResponse.httpStatus}
-        title={workResponse.description}
-      />
-    );
-  }
-};
-
-WorkPage.getInitialProps = async (ctx: NextPageContext) => {
-  const { id } = ctx.query;
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const globalContextData = getGlobalContextData(context);
+  const { id } = context.query;
 
   const workResponse = await getWork({
     id,
-    toggles: ctx.query.toggles,
+    toggles: globalContextData.toggles,
   });
 
-  if (workResponse) {
-    if (workResponse.type === 'Redirect') {
-      const { res } = ctx;
-      if (res) {
-        res.writeHead(workResponse.status, {
-          Location: workResponse.redirectToId,
-        });
-        res.end();
-      } else {
-        const link = workLink({ id: workResponse.redirectToId });
-        Router.push(link.href, link.as);
-      }
-    }
-
+  if (workResponse.type === 'Redirect') {
     return {
-      workResponse:
-        workResponse.type === 'Work' || workResponse.type === 'Error' || workResponse.type === 'Collection' || workResponse.type === 'Section' || workResponse.type === 'Series'
-          ? workResponse
-          : undefined,
+      redirect: {
+        destination: workResponse.redirectToId,
+        permanent: workResponse.status === 301,
+      },
     };
   }
+
+  if (workResponse.type === 'Error') {
+    if (workResponse.httpStatus === 404) {
+      return { notFound: true };
+    }
+    return appError(context, workResponse.statusCode, 'Works API error');
+  }
+
+  return {
+    props: removeUndefinedProps({
+      workResponse,
+      globalContextData,
+      pageview: {
+        name: 'work',
+        properties: {},
+      },
+    }),
+  };
 };
 
 export default WorkPage;

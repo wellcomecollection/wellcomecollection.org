@@ -1,7 +1,6 @@
 // @flow
 import Raven from 'raven-js';
 import { classNames } from '../../../utils/classnames';
-
 type Props = {|
   width: number,
   height?: number,
@@ -14,6 +13,7 @@ type Props = {|
   isLazy: boolean,
   clickHandler?: () => void | Promise<void>,
   loadHandler?: () => void | Promise<void>,
+  errorHandler?: () => void | Promise<void>,
   presentationOnly?: boolean,
   tabIndex?: number,
 |};
@@ -29,45 +29,47 @@ const IIIFResponsiveImage = ({
   lang,
   clickHandler,
   loadHandler,
+  errorHandler,
   isLazy,
   presentationOnly,
   tabIndex,
 }: Props) => {
   return (
-    <>
-      <img
-        tabIndex={tabIndex}
-        lang={lang}
-        width={width}
-        height={height}
-        className={classNames({
-          image: true,
-          [extraClasses || '']: true,
-          'lazy-image lazyload': isLazy,
-        })}
-        onLoad={loadHandler}
-        onClick={clickHandler}
-        onKeyDown={({ keyCode }) => {
-          if (keyCode === 13) {
-            clickHandler && clickHandler();
-          }
-        }}
-        onError={event =>
-          Raven.captureException(new Error('IIIF image loading error'), {
-            tags: {
-              service: 'dlcs',
-            },
-          })
+    <img
+      tabIndex={tabIndex}
+      lang={lang}
+      width={width}
+      height={height}
+      className={classNames({
+        image: true,
+        [extraClasses || '']: true,
+        'lazy-image lazyload': isLazy,
+      })}
+      onLoad={() => {
+        loadHandler && loadHandler();
+      }}
+      onClick={clickHandler}
+      onKeyDown={({ keyCode }) => {
+        if (keyCode === 13) {
+          clickHandler && clickHandler();
         }
-        src={isLazy ? undefined : src}
-        data-src={isLazy ? src : undefined}
-        srcSet={isLazy ? undefined : srcSet}
-        data-srcset={isLazy ? srcSet : undefined}
-        sizes={sizes}
-        alt={alt}
-        role={presentationOnly ? 'presentation' : null}
-      />
-    </>
+      }}
+      onError={event => {
+        errorHandler && errorHandler();
+        Raven.captureException(new Error('IIIF image loading error'), {
+          tags: {
+            service: 'dlcs',
+          },
+        });
+      }}
+      src={isLazy ? undefined : src}
+      data-src={isLazy ? src : undefined}
+      srcSet={isLazy ? undefined : srcSet}
+      data-srcset={isLazy ? srcSet : undefined}
+      sizes={sizes}
+      alt={alt}
+      role={presentationOnly ? 'presentation' : null}
+    />
   );
 };
 

@@ -3,7 +3,9 @@ import { classNames, cssGrid } from '../../../utils/classnames';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import EventPromo from '../EventPromo/EventPromo';
 import DailyTourPromo from '../DailyTourPromo/DailyTourPromo';
+// $FlowFixMe(tsx)
 import BookPromo from '../BookPromo/BookPromo';
+// $FlowFixMe (tsx)
 import Layout12 from '../Layout12/Layout12';
 import StoryPromo from '../StoryPromo/StoryPromo';
 // $FlowFixMe

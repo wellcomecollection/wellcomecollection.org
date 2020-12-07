@@ -1,24 +1,25 @@
 module.exports = {
   toggles: [
     {
-      id: 'archivesPrototype',
-      title: 'Show additions to the work page relating to archives',
+      id: 'searchPrototype',
+      title: 'New search interface',
       defaultValue: true,
       description:
-        'Shows archive specific header, breadcrumbs and archive tree on the work page.',
+        'Shows a tabbed interface for library catalogue/images search',
     },
     {
-      id: 'locationsFilter',
-      title: 'Online/In the library filter',
+      id: 'openWithAdvisoryPrototype',
+      title: 'Open with advisory',
+      description:
+        'Adds functionality for viewing digitised items with an access condition of open-with-advisory',
       defaultValue: true,
-      description: 'Show the filter for "Online" and "In the library"',
     },
     {
       id: 'buildingReopening',
       title: 'Wellcome Collection reopening UI changes',
       description:
         'Show additions/amendments made in preparation for the reopening of the Wellcome Collection building',
-      defaultValue: true,
+      defaultValue: false,
     },
     {
       id: 'modalFiltersPrototype',
@@ -64,12 +65,6 @@ module.exports = {
       defaultValue: false,
       description:
         'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
-    },
-    {
-      id: 'isHotjarActive',
-      title: 'Hotjar',
-      defaultValue: false,
-      description: 'Embeds the Hotjar script for user research',
     },
   ],
 };

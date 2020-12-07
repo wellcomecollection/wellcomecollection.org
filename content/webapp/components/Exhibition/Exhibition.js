@@ -4,7 +4,7 @@ import { getExhibitionRelatedContent } from '@weco/common/services/prismic/exhib
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader, {
   getFeaturedMedia,
@@ -15,8 +15,10 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';
 import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
+// $FlowFixMe (tsx)
 import Body from '@weco/common/views/components/Body/Body';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
+// $FlowFixMe (tsx)
 import BookPromo from '@weco/common/views/components/BookPromo/BookPromo';
 import { font, grid } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';

@@ -35,6 +35,7 @@ export const collectionVenuesFields = [
   'collection-venue.sunday',
   'collection-venue.modifiedDayOpeningTimes',
 ];
+
 export const eventSeriesFields = [
   'event-series.title',
   'event-series.description',
@@ -93,6 +94,7 @@ export const eventsFields = [
   'events.series',
   'events.times',
 ];
+export const seasonsFields = ['seasons.title', 'seasons.promo'];
 export const cardsFields = [
   'card.title',
   'card.format',

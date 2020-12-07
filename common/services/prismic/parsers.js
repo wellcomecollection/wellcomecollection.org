@@ -26,6 +26,7 @@ import type { GenericContentFields } from '../../model/generic-content-fields';
 import type { LabelField } from '../../model/label-field';
 import type { SameAs } from '../../model/same-as';
 import type { HtmlSerializer } from './html-serializers';
+// $FlowFixMe (tsx)
 import { type BodyType } from '../../views/components/Body/Body';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
@@ -38,6 +39,11 @@ import { dasherize } from '../../utils/grammar';
 import linkResolver from './link-resolver';
 import { parseArticle } from './articles';
 import { parseEventDoc } from './events';
+// $FlowFixMe (tsx)
+import { parseSeason } from './seasons';
+
+// $FlowFixMe (ts)
+import { MediaObjectType } from '../../model/media-object';
 
 const placeHolderImage = ({
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
@@ -544,6 +550,26 @@ export function parseOnThisPage(fragment: PrismicFragment[]): Link[] {
     });
 }
 
+export function parseMediaObjectList(
+  fragment: PrismicFragment[]
+): Array<MediaObjectType> {
+  return fragment.map(mediaObject => {
+    if (mediaObject) {
+      // make sure we have the content we require
+      const title = mediaObject.title.length ? mediaObject?.title : undefined;
+      const text = mediaObject.text.length ? mediaObject?.text : undefined;
+      const image = mediaObject.image?.square?.dimensions
+        ? mediaObject.image
+        : undefined;
+      return {
+        title: title ? parseTitle(title) : null,
+        text: text ? parseStructuredText(text) : null,
+        image: image ? parseImage(image) : null,
+      };
+    }
+  });
+}
+
 export function parseBody(fragment: PrismicFragment[]): BodyType {
   return fragment
     .map(slice => {
@@ -616,6 +642,8 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
                       return parseArticle(item.content);
                     case 'events':
                       return parseEventDoc(item.content);
+                    case 'seasons':
+                      return parseSeason(item.content);
                     case 'card':
                       return parseCard(item.content);
                   }
@@ -773,6 +801,13 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
                 image: parseCaptionedImage(item),
                 description: parseStructuredText(item.description),
               })),
+            },
+          };
+        case 'mediaObjectList':
+          return {
+            type: 'mediaObjectList',
+            value: {
+              items: parseMediaObjectList(slice.items),
             },
           };
       }

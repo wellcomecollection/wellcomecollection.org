@@ -2,6 +2,7 @@
 import { font, classNames } from '@weco/common/utils/classnames';
 import Image from '@weco/common/views/components/Image/Image';
 import { type Image as ImageType } from '@weco/common/model/catalogue';
+// $FlowFixMe (tsx)
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';

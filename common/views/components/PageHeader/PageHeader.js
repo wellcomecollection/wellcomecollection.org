@@ -1,6 +1,7 @@
 // @flow
 
 import { font, classNames } from '../../../utils/classnames';
+// $FlowFixMe(tsx)
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import LabelsList from '../LabelsList/LabelsList';
 import { UiImage } from '../Images/Images';
@@ -9,6 +10,7 @@ import Picture from '../Picture/Picture';
 import HeaderBackground from '../HeaderBackground/HeaderBackground';
 import FreeSticker from '../FreeSticker/FreeSticker';
 import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
+// $FlowFixMe (tsx)
 import Layout10 from '../Layout10/Layout10';
 import Layout from '../Layout/Layout';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';

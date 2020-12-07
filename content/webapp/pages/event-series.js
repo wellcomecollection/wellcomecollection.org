@@ -4,8 +4,9 @@ import type { EventSeries } from '@weco/common/model/event-series';
 import type { UiEvent } from '@weco/common/model/events';
 import { Component } from 'react';
 import { getEventSeries } from '@weco/common/services/prismic/event-series';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
+// $FlowFixMe (tsx)
 import Body from '@weco/common/views/components/Body/Body';
 import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';

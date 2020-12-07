@@ -96,8 +96,8 @@ const ExhibitionPromo = ({
               className={`${font('hnl', 5)} no-padding`}
             >
               <Fragment>
-                <time dateTime={start}>{formatDate(start)}</time>—
-                <time dateTime={end}>{formatDate(end)}</time>
+                <time dateTime={formatDate(start)}>{formatDate(start)}</time>—
+                <time dateTime={formatDate(end)}>{formatDate(end)}</time>
               </Fragment>
             </Space>
           )}

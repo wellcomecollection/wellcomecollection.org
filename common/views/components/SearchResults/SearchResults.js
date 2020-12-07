@@ -4,8 +4,10 @@ import type { MultiContent } from '../../../model/multi-content';
 import { grid } from '../../../utils/classnames';
 import { formatDate } from '../../../utils/format-date';
 import Image from '../Image/Image';
+// $FlowFixMe(tsx)
 import CompactCard from '../CompactCard/CompactCard';
 import EventCard from '../EventCard/EventCard';
+// $FlowFixMe(tsx)
 import ArticleCard from '../ArticleCard/ArticleCard';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import Space from '../styled/Space';

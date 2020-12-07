@@ -9,6 +9,7 @@ import SearchFiltersDesktop from '@weco/common/views/components/SearchFilters/Se
 import SearchFiltersMobile from '@weco/common/views/components/SearchFilters/SearchFiltersMobile';
 // $FlowFixMe (tsx)
 import ModalFilters from '@weco/common/views/components/ModalFilters/ModalFilters';
+// $FlowFixMe (tsx)
 import TogglesContext from '../TogglesContext/TogglesContext';
 import useWindowSize from '@weco/common/hooks/useWindowSize';
 type Props = {|

@@ -1,6 +1,7 @@
 // @flow
 
 import { useState } from 'react';
+// $FlowFixMe
 import ExpandedImage from '../ExpandedImage/ExpandedImage';
 import ImageCard from '../ImageCard/ImageCard';
 import { trackSearchResultSelected } from '@weco/common/views/components/Tracker/Tracker';
@@ -46,16 +47,13 @@ const ImageEndpointSearchResults = ({ images, apiProps }: Props) => {
       ))}
       {expandedImage && (
         <ExpandedImage
-          title=""
           image={expandedImage}
-          workId={expandedImage.source.id}
           setExpandedImage={setExpandedImage}
           onWorkLinkClick={() => {
             trackSearchResultSelected(apiProps, {
               id: expandedImage.source.id,
               position: expandedImagePosition,
               resultIdentifiers: undefined,
-              resultLanguage: undefined,
               resultSubjects: undefined,
               resultWorkType: '',
               source: 'image_endpoint_result/work_link',
@@ -66,7 +64,6 @@ const ImageEndpointSearchResults = ({ images, apiProps }: Props) => {
               id: expandedImage.id,
               position: expandedImagePosition,
               resultWorkType: '',
-              resultLanguage: undefined,
               resultIdentifiers: undefined,
               resultSubjects: undefined,
               source: 'image_endpoint_result/image_link',

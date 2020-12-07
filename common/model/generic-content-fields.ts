@@ -4,8 +4,7 @@ import { Picture } from './picture';
 import { ImageType } from './image';
 import { Label } from './labels';
 import { HTMLString } from '../services/prismic/types';
-
-export type Body = any[];
+import { BodyType } from '../views/components/Body/Body';
 
 // TODO: we need to get type in here to be able to union on these
 // i.e. search results
@@ -15,7 +14,7 @@ export type GenericContentFields = {
   contributorsTitle: string | null;
   contributors: Contributor[];
   promo: ImagePromo | null;
-  body: Body;
+  body: BodyType;
   standfirst: HTMLString | null;
   promoText: string | null;
   promoImage: Picture | null;

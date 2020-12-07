@@ -38,6 +38,7 @@ const LandingPage = {
                 'exhibitions',
                 'card',
                 'landing-pages',
+                'seasons',
               ]),
             },
           }),

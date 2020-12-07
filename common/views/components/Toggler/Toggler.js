@@ -1,5 +1,6 @@
 // @flow
 import { useContext, useState } from 'react';
+// $FlowFixMe (tsx)
 import TogglesContext from '../TogglesContext/TogglesContext';
 
 type Props = {

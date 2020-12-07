@@ -1,4 +1,5 @@
-import {SyntheticEvent} from 'react';
+import { FunctionComponent, ReactElement, SyntheticEvent } from 'react';
+import NextLink, { LinkProps } from 'next/link';
 import {
   BaseButtonInner,
   ButtonIconWrapper,
@@ -7,15 +8,18 @@ import {
 } from '../ButtonSolid/ButtonSolid';
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
-import NextLink from 'next/link';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
 type ButtonSolidLinkProps = ButtonSolidBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
-  link: {href: {pathname: string, query: string}, as: {pathname: string, query: string}} | string;
+  link: LinkProps | string;
 };
 
-const ButtonSolidLink = ({
+export function getHref(link: LinkProps | string): undefined | string {
+  return typeof link === 'object' ? undefined : link;
+}
+
+const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   text,
   link,
   icon,
@@ -24,7 +28,7 @@ const ButtonSolidLink = ({
   ariaControls,
   ariaExpanded,
   isBig,
-}: ButtonSolidLinkProps) => {
+}: ButtonSolidLinkProps): ReactElement<ButtonSolidLinkProps> => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
     trackingEvent && trackEvent(trackingEvent);
@@ -48,7 +52,7 @@ const ButtonSolidLink = ({
         aria-expanded={ariaExpanded}
         onClick={handleClick}
         isBig={isBig}
-        href={isNextLink ? undefined : link}
+        href={getHref(link)}
       >
         <BaseButtonInner>
           {icon && (

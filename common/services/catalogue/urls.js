@@ -1,5 +1,6 @@
 // @flow
 import { type NextLinkType } from '@weco/common/model/next-link-type';
+// $FlowFixMe
 import { removeEmptyProps } from '../../utils/json';
 
 export type DownloadUrlProps = {|

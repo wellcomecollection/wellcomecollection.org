@@ -1,4 +1,10 @@
-import { useState, useContext, useRef } from 'react';
+import {
+  useState,
+  useContext,
+  useRef,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
 import NextLink from 'next/link';
 import dynamic from 'next/dynamic';
 import { worksLink } from '../../../services/catalogue/routes';
@@ -11,10 +17,11 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import Modal from '@weco/common/views/components/Modal/Modal';
 import TogglesContext from '../TogglesContext/TogglesContext';
 import ButtonSolid, {
+  ButtonTypes,
   SolidButton,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import { SearchFiltersSharedProps } from '../PrototypeSearchFilters/PrototypeSearchFilters';
 
-// $FlowFixMe (tsx)
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
@@ -77,10 +84,8 @@ const FiltersInner = styled.div`
   `}
 `;
 
-const ModalFilters = ({
-  searchForm,
+const ModalFilters: FunctionComponent<SearchFiltersSharedProps> = ({
   worksRouteProps,
-  workTypeAggregations,
   changeHandler,
   inputDateFrom,
   inputDateTo,
@@ -92,7 +97,7 @@ const ModalFilters = ({
   workTypeInUrlArray,
   imagesColor,
   aggregations,
-}: SearchFiltersSharedProps) => {
+}: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const [isActive, setIsActive] = useState(false);
   const openButtonRef = useRef(null);
 
@@ -107,7 +112,7 @@ const ModalFilters = ({
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
 
-  const { enableColorFiltering, locationsFilter } = useContext(TogglesContext);
+  const { enableColorFiltering } = useContext(TogglesContext);
   const showColorFilter =
     enableColorFiltering && worksRouteProps.search === 'images';
 
@@ -203,7 +208,7 @@ const ModalFilters = ({
               </ul>
             </FilterSection>
           )}
-          {locationsFilter && aggregations && aggregations.locationType && (
+          {aggregations && aggregations.locationType && (
             <FilterSection>
               <h3 className="h3">Locations</h3>
               <ul
@@ -262,7 +267,7 @@ const ModalFilters = ({
           </NextLink>
 
           <ButtonSolid
-            type="button"
+            type={ButtonTypes.button}
             clickHandler={handleOkFiltersButtonClick}
             text="OK"
           />

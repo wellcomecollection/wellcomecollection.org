@@ -26,6 +26,13 @@ export const collectionVenueId = {
   },
 };
 
+export const prismicPageIds = {
+  covidWelcomeBack: 'X5amzBIAAB0Aq6Gm',
+  covidBookYourTicket: 'X5aomxIAAB8Aq6n5',
+  whatWeDo: 'WwLGFCAAAPMiB_Ps',
+  visitUs: 'WwLIBiAAAPMiB_zC',
+};
+
 export const getNameFromCollectionVenue = (id: string) => {
   // check the keys and returns back name based on id
   for (const [key, value] of Object.entries(collectionVenueId)) {

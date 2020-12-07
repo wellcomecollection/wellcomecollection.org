@@ -17,22 +17,22 @@ import { london, formatDay, formatDate } from '@weco/common/utils/format-date';
 import { convertJsonToDates } from './event';
 import { getTodaysGalleriesHours } from '@weco/common/utils/get-todays-galleries-hours';
 import {
-  shopPromo,
   cafePromo,
   readingRoomPromo,
   dailyTourPromo,
 } from '@weco/common/data/facility-promos';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import EventsByMonth from '@weco/common/views/components/EventsByMonth/EventsByMonth';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
+// $FlowFixMe (tsx)
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import FacilityPromo from '@weco/common/views/components/FacilityPromo/FacilityPromo';
-// import Divider from '@weco/common/views/components/Divider/Divider';
+// $FlowFixMe (tsx)
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';
@@ -120,14 +120,12 @@ type DateRangeProps = {|
   dateRange: any,
   period: string,
   cafePromo: any,
-  shopPromo: any,
   openingTimes: any, // TODO
 |};
 const DateRange = ({
   dateRange,
   period,
   cafePromo,
-  shopPromo,
   openingTimes,
 }: DateRangeProps) => {
   const fromDate = dateRange[0];
@@ -150,18 +148,19 @@ const DateRange = ({
         })}
       >
         {period === 'today' && (
-          <time dateTime={fromDate}>{formatDate(fromDate)}</time>
+          <time dateTime={formatDate(fromDate)}>{formatDate(fromDate)}</time>
         )}
         {period === 'this-weekend' && (
           <Fragment>
-            <time dateTime={fromDate}>{formatDay(fromDate)}</time>
+            <time dateTime={formatDate(fromDate)}>{formatDay(fromDate)}</time>
             &ndash;
-            <time dateTime={toDate}>{formatDay(toDate)}</time>
+            <time dateTime={formatDate(toDate)}>{formatDay(toDate)}</time>
           </Fragment>
         )}
         {period === 'current-and-coming-up' && (
           <Fragment>
-            From <time dateTime={fromDate}>{formatDate(fromDate)}</time>
+            From{' '}
+            <time dateTime={formatDate(fromDate)}>{formatDate(fromDate)}</time>
           </Fragment>
         )}
       </Space>
@@ -345,9 +344,8 @@ export class WhatsOnPage extends Component<Props> {
         events,
         dateRange,
         tryTheseTooPromos: [readingRoomPromo],
-        eatShopPromos: [cafePromo, shopPromo],
+        eatShopPromos: [cafePromo],
         cafePromo,
-        shopPromo,
         dailyTourPromo,
       };
     } else {
@@ -389,7 +387,6 @@ export class WhatsOnPage extends Component<Props> {
           {openingTimes => (
             <Fragment>
               <Header activeId={period} openingTimes={openingTimes} />
-
               <Space v={{ size: 'l', properties: ['margin-top'] }}>
                 {period === 'current-and-coming-up' && (
                   <Fragment>
@@ -400,7 +397,6 @@ export class WhatsOnPage extends Component<Props> {
                             dateRange={dateRange}
                             period={period}
                             cafePromo={eatShopPromos[0]}
-                            shopPromo={eatShopPromos[1]}
                             openingTimes={openingTimes}
                           />
                           <div className="flex flex--v-center flex--h-space-between">
@@ -413,13 +409,21 @@ export class WhatsOnPage extends Component<Props> {
                         <Space
                           v={{ size: 'xl', properties: ['margin-bottom'] }}
                         >
-                          <Layout12>
-                            <FeaturedCardExhibition
-                              exhibition={firstExhibition}
-                              background={'cream'}
-                              color={'black'}
-                            />
-                          </Layout12>
+                          {firstExhibition ? (
+                            <Layout12>
+                              <FeaturedCardExhibition
+                                exhibition={firstExhibition}
+                                background={'cream'}
+                                color={'black'}
+                              />
+                            </Layout12>
+                          ) : (
+                            <Layout12>
+                              <p data-test-id="no-exhibitions">
+                                There are no current exhibitions
+                              </p>
+                            </Layout12>
+                          )}
                         </Space>
                         <CardGrid
                           items={exhibitions.slice(1)}
@@ -468,7 +472,6 @@ export class WhatsOnPage extends Component<Props> {
                           dateRange={dateRange}
                           period={period}
                           cafePromo={eatShopPromos[0]}
-                          shopPromo={eatShopPromos[1]}
                           openingTimes={openingTimes}
                         />
                         <div className="flex flex--v-center flex--h-space-between">

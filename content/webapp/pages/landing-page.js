@@ -1,7 +1,7 @@
 // @flow
 import type { Context } from 'next';
 import { Component } from 'react';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import LandingBody from '@weco/common/views/components/LandingBody/LandingBody';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
@@ -23,7 +23,6 @@ const backgroundTexture =
 export class Page extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { id, memoizedPrismic } = ctx.query;
-    ctx.query.memoizedPrismic = undefined; // Once we've got memoizedPrismic, we need to remove it before making requests - otherwise we hit circular object issues with JSON.stringify
     const page = await getPage(ctx.req, id, memoizedPrismic);
 
     if (page) {

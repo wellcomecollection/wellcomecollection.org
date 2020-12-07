@@ -1,6 +1,7 @@
 // @flow
 import { font, grid, classNames } from '../../../utils/classnames';
 import Image from '../Image/Image';
+// $FlowFixMe (tsx)
 import Avatar from '../Avatar/Avatar';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';

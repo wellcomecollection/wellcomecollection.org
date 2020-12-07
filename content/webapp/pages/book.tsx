@@ -1,12 +1,11 @@
 import { NextPageContext } from 'next';
 import { Book } from '@weco/common/model/books';
-import { Fragment, Component } from 'react';
+import { Fragment, Component, ReactElement } from 'react';
 import { getBook } from '@weco/common/services/prismic/books';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayoutDeprecated from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Body from '@weco/common/views/components/Body/Body';
-// $FlowFixMe (tsx)
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -16,7 +15,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import BookImage from '@weco/common/views/components/BookImage/BookImage';
 
 type Props = {
-  book: Book,
+  book: Book;
 };
 
 // FIXME: This is nonsense
@@ -58,30 +57,27 @@ const BookMetadata = ({ book }: Props) => (
   </Space>
 );
 
-export class ArticleSeriesPage extends Component<Props> {
-  static getInitialProps = async (ctx: NextPageContext) => {
+export class BookPage extends Component<Props | { statusCode: number }> {
+  static getInitialProps = async (
+    ctx: NextPageContext
+  ): Promise<Props | { statusCode: number }> => {
     const { id, memoizedPrismic } = ctx.query;
     const book = await getBook(ctx.req, id, memoizedPrismic);
 
     if (book) {
-      return {
-        book,
-        title: book.title,
-        description: book.metadataDescription || book.promoText,
-        type: 'books',
-        canonicalUrl: `https://wellcomecollection.org/books/${book.id}`,
-        imageUrl: book.image && convertImageUri(book.image.contentUrl, 800),
-        siteSection: 'books',
-        analyticsCategory: 'books',
-      };
+      return { book };
     } else {
       return { statusCode: 404 };
     }
   };
 
-  render() {
+  render(): ReactElement<Props> {
+    if (!('book' in this.props)) return;
+
     const { book } = this.props;
-    const FeaturedMedia = book.cover && <BookImage image={{...book.cover, sizesQueries: null}} />;
+    const FeaturedMedia = book.cover && (
+      <BookImage image={{ ...book.cover, sizesQueries: null }} />
+    );
     const breadcrumbs = {
       items: [
         {
@@ -168,10 +164,10 @@ export class ArticleSeriesPage extends Component<Props> {
         : [];
 
     return (
-      <PageLayout
+      <PageLayoutDeprecated
         title={book.title}
         description={book.metadataDescription || book.promoText || ''}
-        url={{ pathname: `/books/${book.id}` }}
+        url={{ pathname: `/books/${book.id}`, query: {} }}
         jsonLd={{ '@type': 'WebPage' }}
         openGraphType={'book'}
         siteSection={null}
@@ -193,9 +189,9 @@ export class ArticleSeriesPage extends Component<Props> {
             )}
           </Fragment>
         </ContentPage>
-      </PageLayout>
+      </PageLayoutDeprecated>
     );
   }
 }
 
-export default ArticleSeriesPage;
+export default BookPage;

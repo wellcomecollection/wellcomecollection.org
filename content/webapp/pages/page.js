@@ -1,8 +1,9 @@
 // @flow
 import type { Context } from 'next';
 import { Component } from 'react';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
+// $FlowFixMe (tsx)
 import Body from '@weco/common/views/components/Body/Body';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -14,6 +15,7 @@ import { getPage } from '@weco/common/services/prismic/pages';
 import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page as PageType } from '@weco/common/model/pages';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 
 type Props = {|
   page: PageType,
@@ -56,13 +58,25 @@ export class Page extends Component<Props> {
       ) : null
     ) : null;
 
+    const hiddenBreadcrumbPages = [
+      prismicPageIds.covidWelcomeBack,
+      prismicPageIds.covidBookYourTicket,
+    ];
+
+    function getBreadcrumbText(siteSection: string, pageId: string): string {
+      return hiddenBreadcrumbPages.includes(page.id)
+        ? '\u200b'
+        : siteSection === 'visit-us'
+        ? 'Visit us'
+        : 'What we do';
+    }
     // TODO: This is not the way to do site sections
     const breadcrumbs = {
       items: page.siteSection
         ? [
             {
-              text: page.siteSection === 'visit-us' ? 'Visit us' : 'What we do',
-              url: `/${page.siteSection}`,
+              text: getBreadcrumbText(page.siteSection, page.id),
+              url: page.siteSection ? `/${page.siteSection}` : '',
             },
           ]
         : [],

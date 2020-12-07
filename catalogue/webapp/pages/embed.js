@@ -2,6 +2,7 @@
 import { Component } from 'react';
 import ReactGA from 'react-ga';
 import fetch from 'isomorphic-unfetch';
+// $FlowFixMe(tsx)
 import WorkEmbed from '@weco/common/views/components/WorkEmbed/WorkEmbed';
 
 // TODO: Find out where to get these types

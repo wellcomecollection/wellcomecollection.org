@@ -1,5 +1,5 @@
 import { Work as WorkType } from '@weco/common/model/catalogue';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, FunctionComponent, ReactElement } from 'react';
 import fetch from 'isomorphic-unfetch';
 import { grid, classNames, font } from '@weco/common/utils/classnames';
 import {
@@ -20,15 +20,17 @@ import WorkHeaderPrototype from '@weco/common/views/components/WorkHeaderPrototy
 import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import WorkDetails from '../WorkDetails/WorkDetails';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
+import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
+import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import useHotjar from '@weco/common/hooks/useHotjar';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -39,16 +41,19 @@ const ArchiveDetailsContainer = styled.div`
 
 declare global {
   interface Window {
-    dataLayer: any[];
+    dataLayer: Record<string, unknown>[];
   }
 }
 
 type Props = {
   work: WorkType;
-};
+} & WithGlobalContextData;
 
-const Work = ({ work }: Props) => {
-  const { archivesPrototype } = useContext(TogglesContext);
+const Work: FunctionComponent<Props> = ({
+  work,
+  globalContextData,
+}: Props): ReactElement<Props> => {
+  const { searchPrototype } = globalContextData.toggles;
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
     page: 1,
@@ -62,7 +67,7 @@ const Work = ({ work }: Props) => {
   });
 
   const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
-
+  useHotjar(isInArchive);
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
     'iiif-presentation'
@@ -118,7 +123,9 @@ const Work = ({ work }: Props) => {
       (iiifPresentationLocation &&
         sierraIdFromPresentationManifestUrl(iiifPresentationLocation.url)) ||
       null,
-    langCode: work.language && work.language.id,
+    // We only send a langCode if it's unambiguous -- better to send no language
+    // than the wrong one.
+    langCode: work?.languages?.length === 1 && work?.languages[0]?.id,
     canvas: 1,
     page: 1,
   });
@@ -127,7 +134,7 @@ const Work = ({ work }: Props) => {
     <CataloguePageLayout
       title={work.title}
       description={work.description || work.title}
-      url={{ pathname: `/works/${work.id}` }}
+      url={{ pathname: `/works/${work.id}`, query: {} }}
       openGraphType={'website'}
       jsonLd={workLd(work)}
       siteSection={'collections'}
@@ -135,20 +142,39 @@ const Work = ({ work }: Props) => {
       imageUrl={imageUrl}
       imageAltText={work.title}
       hideNewsletterPromo={true}
+      globalContextData={globalContextData}
     >
       <div className="container">
         <div className="grid">
           <div
             className={classNames({
-              [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+              [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
             })}
           >
-            <SearchForm
-              ariaDescribedBy="search-form-description"
-              shouldShowFilters={false}
-              worksRouteProps={savedSearchFormState}
-              workTypeAggregations={[]}
-            />
+            {searchPrototype ? (
+              <>
+                <SearchTabs
+                  worksRouteProps={savedSearchFormState}
+                  imagesRouteProps={{
+                    ...savedSearchFormState,
+                    locationsLicense: null,
+                    color: null,
+                  }}
+                  workTypeAggregations={[]}
+                  shouldShowDescription={false}
+                  shouldShowFilters={false} // not display filters on the work detail page
+                  activeTabIndex={0}
+                  showSortBy={false}
+                />
+              </>
+            ) : (
+              <SearchForm
+                ariaDescribedBy="search-form-description"
+                shouldShowFilters={false}
+                worksRouteProps={savedSearchFormState}
+                workTypeAggregations={[]}
+              />
+            )}
           </div>
         </div>
         <div className="grid">
@@ -166,26 +192,24 @@ const Work = ({ work }: Props) => {
         </div>
       </div>
 
-      {archivesPrototype && (
-        <div className="container">
-          <div className="grid">
-            <Space
-              v={{
-                size: 's',
-                properties: ['padding-top', 'padding-bottom'],
-              }}
-              className={classNames({
-                [grid({ s: 12 })]: true,
-              })}
-            >
-              <ArchiveBreadcrumb work={work} />
-            </Space>
-          </div>
-        </div>
-      )}
-
-      {archivesPrototype && isInArchive ? (
+      {isInArchive ? (
         <>
+          <div className="container">
+            <div className="grid">
+              <Space
+                v={{
+                  size: 's',
+                  properties: ['padding-top', 'padding-bottom'],
+                }}
+                className={classNames({
+                  [grid({ s: 12 })]: true,
+                })}
+              >
+                <ArchiveBreadcrumb work={work} />
+              </Space>
+            </div>
+          </div>
+
           <div className="container">
             <div className="grid">
               <WorkHeaderPrototype
@@ -194,10 +218,11 @@ const Work = ({ work }: Props) => {
               />
             </div>
           </div>
+
           <div className="container">
-          <Divider extraClasses="divider--pumice divider--keyline" />
+            <Divider extraClasses="divider--pumice divider--keyline" />
             <ArchiveDetailsContainer>
-                <ArchiveTree work={work} />
+              <ArchiveTree work={work} />
               <Space v={{ size: 'l', properties: ['padding-top'] }}>
                 <WorkDetails
                   work={work}

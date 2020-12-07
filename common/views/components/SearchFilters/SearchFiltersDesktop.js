@@ -13,6 +13,7 @@ import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import NextLink from 'next/link';
 import dynamic from 'next/dynamic';
+// $FlowFixMe (tsx)
 import TogglesContext from '../TogglesContext/TogglesContext';
 import { type SearchFiltersSharedProps } from './SearchFilters';
 
@@ -81,7 +82,7 @@ const SearchFiltersDesktop = ({
 }: SearchFiltersSharedProps) => {
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
-  const { enableColorFiltering, locationsFilter } = useContext(TogglesContext);
+  const { enableColorFiltering } = useContext(TogglesContext);
   const showColorFilter =
     enableColorFiltering && worksRouteProps.search === 'images';
 
@@ -180,7 +181,7 @@ const SearchFiltersDesktop = ({
           </DropdownButton>
         )}
 
-        {locationsFilter && aggregations && aggregations.locationType && (
+        {aggregations && aggregations.locationType && (
           <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
             <DropdownButton label={'Locations'} isInline={true}>
               <ul
@@ -238,7 +239,7 @@ const SearchFiltersDesktop = ({
           productionDatesTo ||
           (imagesColor && showColorFilter) ||
           workTypeInUrlArray.length > 0 ||
-          worksRouteProps.itemsLocationsType.length > 0) &&
+          worksRouteProps?.itemsLocationsType?.length > 0) &&
           (workTypeFilters.length > 0 ||
             worksRouteProps.search === 'images') && (
             <div className={classNames({ [font('hnl', 5)]: true })}>
@@ -347,7 +348,7 @@ const SearchFiltersDesktop = ({
                     )
                     .map(locationType => (
                       <NextLink
-                        key={locationType.type}
+                        key={locationType.data.type}
                         passHref
                         {...worksLink(
                           {

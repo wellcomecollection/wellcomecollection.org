@@ -1,19 +1,24 @@
 // @flow
 import { Children, Fragment, createContext } from 'react';
 import Contributors from '../Contributors/Contributors';
+// $FlowFixMe (tsx)
 import Layout8 from '../Layout8/Layout8';
 import SeriesNavigation from '../SeriesNavigation/SeriesNavigation';
 import PageHeader from '../PageHeader/PageHeader';
 import Outro from '../Outro/Outro';
 import { classNames } from '../../../utils/classnames';
 import type { Node, Element, ElementProps } from 'react';
+// $FlowFixMe (tsx)
 import Body from '../Body/Body';
 import SpacingSection from '../SpacingSection/SpacingSection';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
+// $FlowFixMe(tsx)
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import Space from '../styled/Space';
-
+// $FlowFixMe (tsx)
+import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
+import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 /*eslint-disable */
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 /* eslint-enable */
@@ -96,7 +101,7 @@ const ContentPage = ({
             <SpacingSection>
               <div className="basic-page">
                 <Fragment>{Body}</Fragment>
-                {id === 'WwLGFCAAAPMiB_Ps' && <ShameWhatWeDoHack />}
+                {id === prismicPageIds.whatWeDo && <ShameWhatWeDoHack />}
               </div>
             </SpacingSection>
           )}
@@ -143,6 +148,14 @@ const ContentPage = ({
                 <Outro {...outroProps} />
               </Layout8>
             </SpacingSection>
+          )}
+
+          {id === prismicPageIds.covidWelcomeBack && (
+            <Layout8>
+              <div style={{ width: '100px' }}>
+                <WeAreGoodToGo />
+              </div>
+            </Layout8>
           )}
         </div>
       </article>

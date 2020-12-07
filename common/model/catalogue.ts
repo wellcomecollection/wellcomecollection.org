@@ -2,11 +2,12 @@ export type Work = {
   type: 'Work' | 'Collection' | 'Section' | 'Series';
   id: string;
   title: string;
-  alternativeTitle: string[];
+  alternativeTitles: string[];
+  referenceNumber: string;
   description: string;
   physicalDescription: string;
   workType: WorkType;
-  letting?: string;
+  lettering?: string;
   createdDate?: Period;
   contributors?: Contributor[];
   identifiers: Identifier[];
@@ -14,16 +15,19 @@ export type Work = {
   genres?: Genre;
   thumbnail?: DigitalLocation;
   items?: Item[];
-  production: any; // Bah
-  language: Language;
+  production: Production[];
+  languages: Language[];
   edition?: string;
   notes?: Note[];
   duration?: number;
   collectionPath?: CollectionPath;
   collection?: Collection;
   images?: ImageInclude[];
-  parts: [];
-  partOf: [];
+  parts: Work[];
+  partOf: Work[];
+  precededBy: Work[];
+  succeededBy: Work[];
+  availableOnline: boolean;
 };
 
 type WorkType = {
@@ -134,6 +138,26 @@ type Item = {
   type: 'Item';
 };
 
+type Date = {
+  label: string;
+  type: 'Period';
+};
+
+type Place = {
+  id: string;
+  identifiers: Identifier[];
+  label: string;
+  type: 'Place';
+};
+
+type Production = {
+  label: string;
+  places: Place[];
+  agents: Agent[];
+  dates: Date[];
+  type: 'ProductionEvent';
+};
+
 type Language = {
   id?: string;
   label: string;
@@ -186,18 +210,18 @@ export type CatalogueApiRedirect = {
   type: 'Redirect';
 };
 
-// export type Image = {
-//   type: 'Image',
-//   id: string,
-//   locations: Array<{
-//     url: string,
-//     ...Object,
-//   }>,
-//   source: {
-//     id: string,
-//     type: string,
-//   },
-// };
+export type Image = {
+  type: 'Image';
+  id: string;
+  locations: {
+    url: string;
+    Object;
+  }[];
+  source: {
+    id: string;
+    type: string;
+  };
+};
 
 // export type CatalogueApiError = {|
 //   errorType: string,
@@ -207,31 +231,37 @@ export type CatalogueApiRedirect = {
 //   type: 'Error',
 // |};
 
-// export type CatalogueAggregationBucket = {|
-//   count: number,
-//   data: {|
-//     id: string,
-//     label: string,
-//     type: string,
-//   |},
-//   type: 'AggregationBucket',
-// |};
+export type CatalogueAggregationBucket = {
+  count: number;
+  data: {
+    id: string;
+    label: string;
+    type: string;
+  };
+  type: 'AggregationBucket';
+};
 
-// export type CatalogueAggregation = {|
-//   buckets: CatalogueAggregationBucket[],
-// |};
+export type CatalogueAggregation = {
+  buckets: CatalogueAggregationBucket[];
+};
 
-// export type CatalogueResultsList<Result = Work> = {
-//   type: 'ResultList',
-//   totalResults: number,
-//   results: Result[],
-//   pageSize: number,
-//   prevPage: ?string,
-//   nextPage: ?string,
-//   aggregations: ?{|
-//     workType: CatalogueAggregation,
-//   |},
-// };
+export type CatalogueAggregations = {
+  workType: CatalogueAggregation;
+  locationType: CatalogueAggregation;
+};
+
+export type CatalogueResultsList<Result = Work> = {
+  type: 'ResultList';
+  totalResults: number;
+  results: Result[];
+  pageSize: number;
+  prevPage: string | null;
+  nextPage: string | null;
+  aggregations: {
+    workType: CatalogueAggregation;
+    locationType: CatalogueAggregation;
+  } | null;
+};
 
 // export type CatalogueApiRedirect = {
 //   type: 'Redirect',

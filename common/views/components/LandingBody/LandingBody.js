@@ -2,7 +2,9 @@
 import { defaultSerializer } from '../../../services/prismic/html-serializers';
 import { classNames } from '@weco/common/utils/classnames';
 import FeaturedText from '../FeaturedText/FeaturedText';
+// $FlowFixMe (tsx)
 import Layout12 from '../Layout12/Layout12';
+// $FlowFixMe (tsx)
 import Layout8 from '../Layout8/Layout8';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '../SpacingSection/SpacingSection';
@@ -15,11 +17,14 @@ import FeaturedCard, {
   convertCardToFeaturedCardProps,
 } from '../FeaturedCard/FeaturedCard';
 import { convertItemToCardProps } from '@weco/common/model/card';
+// $FlowFixMe (tsx)
 import VisitUsStaticContent from './VisitUsStaticContent';
 // $FlowFixMe (tsx)
 import CollectionsStaticContent from './CollectionsStaticContent';
+// $FlowFixMe (tsx)
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import { type Link } from '@weco/common/model/link';
+// $FlowFixMe (tsx)
 import { type BodyType } from '../Body/Body';
 
 type Props = {|
@@ -88,16 +93,20 @@ const Body = ({
       {pageId === 'X2jSjBMAACIA8Wq_' && <CollectionsStaticContent />}
 
       {sections.map((section, index) => {
+        const isFirst = index === 0;
+        const isLast = index === sections.length - 1;
         const sectionTheme = sectionThemes[index % sectionThemes.length];
         const hasFeatured =
           Boolean(section.value.hasFeatured) ||
           section.value.items.length === 1;
-        const firstItem = section.value.items[0];
-        const isCardType = firstItem.type === 'card';
+        const firstItem = section.value.items?.[0];
+        const isCardType = firstItem?.type === 'card';
 
-        const firstItemProps = isCardType
-          ? convertCardToFeaturedCardProps(firstItem)
-          : convertItemToFeaturedCardProps(firstItem);
+        const firstItemProps =
+          firstItem &&
+          (isCardType
+            ? convertCardToFeaturedCardProps(firstItem)
+            : convertItemToFeaturedCardProps(firstItem));
 
         const cardItems = hasFeatured
           ? section.value.items.slice(1)
@@ -127,8 +136,6 @@ const Body = ({
             item.type === 'card' ? item : convertItemToCardProps(item);
           return <Card key={i} item={cardProps} />;
         });
-        const isFirst = index === 0;
-        const isLast = index === sections.length - 1;
 
         return (
           <ConditionalWrapper
@@ -158,16 +165,9 @@ const Body = ({
                 </Space>
               )}
               {featuredItem && (
-                <ConditionalWrapper
-                  condition={!isLast}
-                  wrapper={children => (
-                    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                      {children}
-                    </Space>
-                  )}
-                >
+                <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                   <Layout12>{featuredItem}</Layout12>
-                </ConditionalWrapper>
+                </Space>
               )}
               {cards.length > 0 && <GridFactory items={cards} />}
             </Space>

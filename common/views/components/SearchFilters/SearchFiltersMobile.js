@@ -10,6 +10,7 @@ import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 // $FlowFixMe (tsx)
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+// $FlowFixMe (tsx)
 import TogglesContext from '../TogglesContext/TogglesContext';
 import { type SearchFiltersSharedProps } from './SearchFilters';
 import ButtonSolid, {
@@ -113,7 +114,7 @@ const SearchFiltersMobile = ({
   const openButtonRef = useRef(null);
   const [showFiltersModal, setShowFiltersModal] = useState(false);
 
-  const { enableColorFiltering, locationsFilter } = useContext(TogglesContext);
+  const { enableColorFiltering } = useContext(TogglesContext);
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
   const showColorFilter =
@@ -129,6 +130,7 @@ const SearchFiltersMobile = ({
     <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
       <ShameButtonWrap>
         <SolidButton
+          type="button"
           onClick={() => {
             setShowFiltersModal(true);
           }}
@@ -221,7 +223,7 @@ const SearchFiltersMobile = ({
                 </ul>
               </FilterSection>
             )}
-            {locationsFilter && aggregations && aggregations.locationType && (
+            {aggregations && aggregations.locationType && (
               <FilterSection>
                 <h3 className="h3">Locations</h3>
                 <ul

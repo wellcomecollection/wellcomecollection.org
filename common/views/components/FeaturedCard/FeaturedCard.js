@@ -8,6 +8,7 @@ import type { Card } from '../../../../common/model/card';
 import type { LandingPage } from '../../../../common/model/landing-pages';
 import { type Label } from '../../../../common/model/labels';
 import { type Link } from '../../../../common/model/link';
+// $FlowFixMe(tsx)
 import PartNumberIndicator from '../../components/PartNumberIndicator/PartNumberIndicator';
 import { grid, classNames, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
@@ -166,7 +167,7 @@ const FeaturedCardExhibitionBody = ({
   exhibition,
 }: FeaturedCardExhibitionBodyProps) => {
   return (
-    <>
+    <div data-test-id="featured-exhibition">
       <h2
         className={classNames({
           [font('wb', 2)]: true,
@@ -194,7 +195,7 @@ const FeaturedCardExhibitionBody = ({
         end={exhibition.end || new Date()}
         statusOverride={exhibition.statusOverride}
       />
-    </>
+    </div>
   );
 };
 

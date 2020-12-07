@@ -73,6 +73,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "page",
         "result",
         "uri",
+        "toggle",
       ]
 
       cookies {
@@ -117,15 +118,20 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
       headers      = ["Host"]
       query_string = true
 
+      # The number of keys here is higher than the default limit of 10 -
+      # AWS have increased this to 50 for us - worth noting if we move accounts etc.
       query_string_cache_keys = [
         "_queryType",
         "canvas",
         "current",
         "items.locations.locationType",
+        "items.locations.type",
         "page",
         "query",
         "sierraId",
         "workType",
+        "toggle",
+        "source",
       ]
 
       cookies {
@@ -151,6 +157,80 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     }
   }
 
+  # Images
+  ordered_cache_behavior {
+    allowed_methods        = ["HEAD", "GET", "OPTIONS"]
+    cached_methods         = ["HEAD", "GET", "OPTIONS"]
+    viewer_protocol_policy = "redirect-to-https"
+    target_origin_id       = local.default_origin_id
+    path_pattern           = "/images*"
+    min_ttl                = 0
+    default_ttl            = 3600
+    max_ttl                = 86400
+
+    forwarded_values {
+      headers      = ["Host"]
+      query_string = true
+
+      query_string_cache_keys = [
+        "color",
+        "locations.license",
+        "page",
+        "query",
+        "toggle",
+        "source",
+      ]
+
+      cookies {
+        forward = "whitelist"
+
+        whitelisted_names = [
+          "toggles",  # feature toggles
+          "toggle_*", # feature toggles
+          "WC_auth_redirect",
+          "_queryType",
+        ]
+      }
+    }
+
+    lambda_function_association {
+      event_type = "origin-request"
+      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_request.qualified_arn
+    }
+
+    lambda_function_association {
+      event_type = "origin-response"
+      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_response.qualified_arn
+    }
+  }
+
+  # This is for the data fetching routes used in NextJs's getServerSideProps
+  # see: https://nextjs.org/docs/basic-features/data-fetching#getserversideprops-server-side-rendering
+  ordered_cache_behavior {
+    target_origin_id       = local.default_origin_id
+    path_pattern           = "/_next/data/*"
+    allowed_methods        = ["HEAD", "GET"]
+    cached_methods         = ["HEAD", "GET"]
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 86400
+    max_ttl                = 31536000
+
+    forwarded_values {
+      headers      = ["Host"]
+      query_string = true
+
+      cookies {
+        forward = "whitelist"
+
+        whitelisted_names = [
+          "toggles",  # feature toggles
+          "toggle_*", # feature toggles
+        ]
+      }
+    }
+  }
+
   ordered_cache_behavior {
     target_origin_id       = local.default_origin_id
     path_pattern           = "/_next/*"
@@ -173,7 +253,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
 
   ordered_cache_behavior {
     target_origin_id       = local.default_origin_id
-    path_pattern           = "/events/*"
+    path_pattern           = "/events*"
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"

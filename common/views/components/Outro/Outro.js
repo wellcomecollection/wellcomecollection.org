@@ -3,7 +3,9 @@ import type { MultiContent } from '../../../model/multi-content';
 
 import { classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
+// $FlowFixMe(tsx)
 import CompactCard from '../../components/CompactCard/CompactCard';
+// $FlowFixMe(tsx)
 import Divider from '../../components/Divider/Divider';
 import Space from '../styled/Space';
 

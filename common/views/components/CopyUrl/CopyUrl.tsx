@@ -1,7 +1,11 @@
-import {useState, useContext, useRef} from 'react';
-import { classNames } from '../../../utils/classnames';
+import {
+  useState,
+  useContext,
+  useRef,
+  ReactElement,
+  FunctionComponent,
+} from 'react';
 import { trackEvent } from '../../../utils/ga';
-import Icon from '../Icon/Icon';
 import TextInput from '../TextInput/TextInput';
 import Space from '../styled/Space';
 import { AppContext } from '../AppContext/AppContext';
@@ -12,9 +16,11 @@ type Props = {
   url: string;
 };
 
-
-const CopyUrl = ({id, url}: Props) => {
-  const {isEnhanced} = useContext(AppContext);
+const CopyUrl: FunctionComponent<Props> = ({
+  id,
+  url,
+}: Props): ReactElement<Props> => {
+  const { isEnhanced } = useContext(AppContext);
   const [isTextCopied, setIsTextCopied] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const buttonRef = useRef(null);
@@ -53,7 +59,7 @@ const CopyUrl = ({id, url}: Props) => {
       action: 'copy url to clipboard',
       label: id,
     });
-  };
+  }
 
   return (
     <>
@@ -62,7 +68,7 @@ const CopyUrl = ({id, url}: Props) => {
         type="text"
         label="Page URL"
         value={url}
-        setValue={() => {}}
+        setValue={null}
         name={null}
         pattern={null}
         required={null}
@@ -76,7 +82,7 @@ const CopyUrl = ({id, url}: Props) => {
         big={null}
       />
 
-      {isEnhanced &&
+      {isEnhanced && (
         <Space
           v={{
             size: 'm',
@@ -91,7 +97,7 @@ const CopyUrl = ({id, url}: Props) => {
             icon={isTextCopied ? 'check' : null}
           />
         </Space>
-      }
+      )}
     </>
   );
 };

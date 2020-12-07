@@ -29,22 +29,18 @@
         "label": "Where is it?"
       }
     },
-    "series": {
-      "type": "Group",
-      "fieldset": "Event series",
+    "isOnline": {
+      "type": "Boolean",
       "config": {
-        "fields": {
-          "series": {
-            "type": "Link",
-            "config": {
-              "label": "Series",
-              "select": "document",
-              "customtypes": [
-                "event-series"
-              ]
-            }
-          }
-        }
+        "default_value": false,
+        "label": "Happens Online?"
+      }
+    },
+    "availableOnline": {
+      "type": "Boolean",
+      "config": {
+        "default_value": false,
+        "label": "Available Online?"
       }
     },
     "times": {
@@ -512,6 +508,50 @@
                 }
               }
             }
+          },
+          "mediaObjectList": {
+            "type": "Slice",
+            "fieldset": "Media Object List",
+            "repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              },
+              "text": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,hyperlink,strong,em",
+                  "label": "Text"
+                }
+              },
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Image",
+                  "thumbnails": [
+                    {
+                      "name": "32:15",
+                      "width": 3200,
+                      "height": 1500
+                    },
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -796,6 +836,45 @@
       "config": {
         "single": "paragraph,hyperlink,strong,em",
         "label": "Metadata description"
+      }
+    }
+  },
+  "Content relationships": {
+    "series": {
+      "type": "Group",
+      "fieldset": "Event series",
+      "config": {
+        "fields": {
+          "series": {
+            "type": "Link",
+            "config": {
+              "label": "Series",
+              "select": "document",
+              "customtypes": [
+                "event-series"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "seasons": {
+      "type": "Group",
+      "fieldset": "Seasons",
+      "config": {
+        "fields": {
+          "season": {
+            "type": "Link",
+            "config": {
+              "label": "Season",
+              "select": "document",
+              "customtypes": [
+                "seasons"
+              ],
+              "placeholder": "Select a Season"
+            }
+          }
+        }
       }
     }
   },

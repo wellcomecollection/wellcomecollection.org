@@ -3,8 +3,9 @@ import type { Context } from 'next';
 import NextLink from 'next/link';
 import { Component, Fragment } from 'react';
 import Prismic from 'prismic-javascript';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
+// $FlowFixMe (tsx)
 import Body from '@weco/common/views/components/Body/Body';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';
 import EventSchedule from '@weco/common/views/components/EventSchedule/EventSchedule';
@@ -17,7 +18,6 @@ import EventbriteButton from '@weco/common/views/components/EventbriteButton/Eve
 import Message from '@weco/common/views/components/Message/Message';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
-import { UiImage } from '@weco/common/views/components/Images/Images';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import type { UiEvent } from '@weco/common/model/events';
 import { font, classNames } from '@weco/common/utils/classnames';
@@ -30,11 +30,14 @@ import {
 } from '@weco/common/utils/format-date';
 import EventDateRange from '@weco/common/views/components/EventDateRange/EventDateRange';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import PageHeader, {
+  getFeaturedMedia,
+} from '@weco/common/views/components/PageHeader/PageHeader';
 import { getEvent, getEvents } from '@weco/common/services/prismic/events';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { eventLd } from '@weco/common/utils/json-ld';
 import { isEventFullyBooked } from '@weco/common/model/events';
+// $FlowFixMe (tsx)
 import EventDatesLink from '@weco/common/views/components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -184,20 +187,29 @@ class EventPage extends Component<Props, State> {
     const event = convertJsonToDates(jsonEvent);
     const { scheduledIn } = this.state;
 
-    const image = event.promo && event.promo.image;
-    const tasl = image && {
-      isFull: false,
-      contentUrl: image.contentUrl,
-      title: image.title,
-      author: image.author,
-      sourceName: image.source && image.source.name,
-      sourceLink: image.source && image.source.link,
-      license: image.license,
-      copyrightHolder: image.copyright && image.copyright.holder,
-      copyrightLink: image.copyright && image.copyright.link,
+    const genericFields = {
+      id: event.id,
+      title: event.title,
+      contributors: event.contributors,
+      contributorsTitle: event.contributorsTitle,
+      promo: event.promo,
+      body: event.body,
+      standfirst: event.standfirst,
+      promoImage: event.promoImage,
+      promoText: event.promoText,
+      image: event.image,
+      squareImage: event.squareImage,
+      widescreenImage: event.widescreenImage,
+      labels: event.labels,
+      metadataDescription: event.metadataDescription,
     };
 
-    const FeaturedMedia = image && <UiImage tasl={tasl} {...image} />;
+    const maybeFeaturedMedia = getFeaturedMedia(genericFields);
+    const hasFeaturedVideo =
+      event.body.length > 0 && event.body[0].type === 'videoEmbed';
+    const body = hasFeaturedVideo
+      ? event.body.slice(1, event.body.length)
+      : event.body;
     const eventFormat = event.format
       ? [{ url: null, text: event.format.title }]
       : [];
@@ -265,7 +277,7 @@ class EventPage extends Component<Props, State> {
         breadcrumbs={breadcrumbs}
         labels={labels}
         title={event.title}
-        FeaturedMedia={FeaturedMedia}
+        FeaturedMedia={maybeFeaturedMedia}
         Background={
           <HeaderBackground
             hasWobblyEdge={true}
@@ -314,7 +326,7 @@ class EventPage extends Component<Props, State> {
         <ContentPage
           id={event.id}
           Header={Header}
-          Body={<Body body={event.body} pageId={event.id} />}
+          Body={<Body body={body} pageId={event.id} />}
         >
           {event.contributors.length > 0 && (
             <Contributors

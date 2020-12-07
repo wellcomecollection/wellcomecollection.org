@@ -253,6 +253,5 @@ export const ImageRoute: NextRoute<ImageRouteProps> = {
 
 export const worksLink = (params: $Shape<WorksRouteProps>, source: string) =>
   WorksRoute.toLink({ ...params, source });
-export const workLink = WorkRoute.toLink;
 export const itemLink = ItemRoute.toLink;
 export const imageLink = ImageRoute.toLink;

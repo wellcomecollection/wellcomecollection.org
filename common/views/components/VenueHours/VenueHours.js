@@ -1,5 +1,4 @@
 // @flow
-
 import { type Weight } from '@weco/common/services/prismic/parsers';
 import { useContext, type ComponentType } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -8,6 +7,7 @@ import styled from 'styled-components';
 // $FlowFixMe
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
+// $FlowFixMe(tsx)
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import {
@@ -16,6 +16,7 @@ import {
   getExceptionalOpeningPeriods,
   convertJsonDateStringsToMoment,
 } from '../../../services/prismic/opening-times';
+// $FlowFixMe (tsx)
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import Space, { type SpaceComponentProps } from '../styled/Space';
 

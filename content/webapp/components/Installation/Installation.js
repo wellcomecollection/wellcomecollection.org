@@ -2,10 +2,11 @@
 import { useEffect, useState } from 'react';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusIndicator/DateAndStatusIndicator';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
+// $FlowFixMe (tsx)
 import Body from '@weco/common/views/components/Body/Body';
 import PageHeader, {
   getFeaturedMedia,

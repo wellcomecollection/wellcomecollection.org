@@ -2,10 +2,11 @@
 import type { Context } from 'next';
 import { Component } from 'react';
 import { getPlace } from '@weco/common/services/prismic/places';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import { UiImage } from '@weco/common/views/components/Images/Images';
+// $FlowFixMe (tsx)
 import Body from '@weco/common/views/components/Body/Body';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
