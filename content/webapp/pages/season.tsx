@@ -13,6 +13,7 @@ import { contentLd } from '@weco/common/utils/json-ld';
 import Body from '@weco/common/views/components/Body/Body';
 import { getSeasonWithContent } from '@weco/common/services/prismic/seasons';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
+import { convertJsonToDates } from './event';
 
 const SeasonPage = ({
   season,
@@ -54,6 +55,14 @@ const SeasonPage = ({
     />
   );
 
+  const parsedEvents = events.map(convertJsonToDates);
+  const parsedExhibitions = exhibitions.map(exhibition => {
+    return {
+      start: exhibition.start && new Date(exhibition.start),
+      end: exhibition.end && new Date(exhibition.end),
+      ...exhibition,
+    };
+  });
   return (
     <PageLayout
       title={season.title}
@@ -71,7 +80,7 @@ const SeasonPage = ({
         Body={<Body body={season.body} pageId={season.id} />}
       />
       <CardGrid
-        items={[...articles, ...books, ...events, ...exhibitions]}
+        items={[...articles, ...books, ...parsedEvents, ...parsedExhibitions]}
         itemsPerRow={4}
       />
     </PageLayout>
