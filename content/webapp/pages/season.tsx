@@ -13,6 +13,9 @@ import { contentLd } from '@weco/common/utils/json-ld';
 import Body from '@weco/common/views/components/Body/Body';
 import { getSeasonWithContent } from '@weco/common/services/prismic/seasons';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 
 const SeasonPage = ({
   season,
@@ -70,10 +73,32 @@ const SeasonPage = ({
         Header={Header}
         Body={<Body body={season.body} pageId={season.id} />}
       />
-      <CardGrid
-        items={[...articles, ...books, ...events, ...exhibitions]}
-        itemsPerRow={4}
-      />
+
+      {events.length > 0 && (
+        <SpacingSection>
+          <SpacingComponent>
+            <SectionHeader title="Events" />
+          </SpacingComponent>
+          <SpacingComponent>
+            <CardGrid items={events} itemsPerRow={4} />
+          </SpacingComponent>
+        </SpacingSection>
+      )}
+      {exhibitions.length > 0 ||
+        articles.length > 0 ||
+        (books.length > 0 && (
+          <SpacingSection>
+            <SpacingComponent>
+              <SectionHeader title="Explore more" />
+            </SpacingComponent>
+            <SpacingComponent>
+              <CardGrid
+                items={[...exhibitions, ...articles, ...books]}
+                itemsPerRow={4}
+              />
+            </SpacingComponent>
+          </SpacingSection>
+        ))}
     </PageLayout>
   );
 };
