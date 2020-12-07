@@ -5,7 +5,7 @@ import Space from '../styled/Space';
 
 export type Props = {|
   label: LabelType,
-  labelColor?: 'orange',
+  labelColor?: 'orange' | 'yellow',
 |};
 
 const Label = ({ label, labelColor = 'yellow' }: Props) => {

@@ -5,7 +5,7 @@ import Space from '../styled/Space';
 
 type Props = {|
   labels: LabelType[],
-  labelColor?: 'orange',
+  labelColor?: 'orange' | 'yellow',
 |};
 
 const LabelsList = ({ labels, labelColor = 'yellow' }: Props) => (
