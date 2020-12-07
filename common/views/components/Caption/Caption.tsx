@@ -1,12 +1,12 @@
 import { HTMLString } from '../../../services/prismic/types';
 import { font, classNames } from '../../../utils/classnames';
-import { ReactNode, FunctionComponent } from 'react';
+import { ReactElement, FunctionComponent } from 'react';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '../styled/Space';
 
 type Props = {
   caption: HTMLString;
-  preCaptionNode?: ReactNode;
+  preCaptionNode?: ReactElement;
   width?: number | null | undefined;
 };
 
