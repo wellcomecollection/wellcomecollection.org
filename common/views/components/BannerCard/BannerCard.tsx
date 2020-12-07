@@ -41,7 +41,7 @@ const ImageWrapper = styled.div`
     flex-basis: 106%;
   `};
   ${props => props.theme.media.xlarge`
-    flex-basis: 48%;
+    flex-basis: 42%;
   `};
 `;
 
