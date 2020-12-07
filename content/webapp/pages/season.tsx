@@ -30,6 +30,14 @@ const SeasonPage = ({
       standfirst={season?.standfirst}
     />
   );
+  const parsedEvents = events.map(convertJsonToDates);
+  const parsedExhibitions = exhibitions.map(exhibition => {
+    return {
+      start: exhibition.start && new Date(exhibition.start),
+      end: exhibition.end && new Date(exhibition.end),
+      ...exhibition,
+    };
+  });
   return (
     <PageLayout
       title={season.title}
@@ -53,7 +61,7 @@ const SeasonPage = ({
             <SectionHeader title="Events" />
           </SpacingComponent>
           <SpacingComponent>
-            <CardGrid items={events.map(convertJsonToDates)} itemsPerRow={4} />
+            <CardGrid items={parsedEvents} itemsPerRow={4} />
           </SpacingComponent>
         </SpacingSection>
       )}
@@ -66,7 +74,7 @@ const SeasonPage = ({
             </SpacingComponent>
             <SpacingComponent>
               <CardGrid
-                items={[...exhibitions, ...articles, ...books]}
+                items={[...parsedExhibitions, ...articles, ...books]}
                 itemsPerRow={4}
               />
             </SpacingComponent>
