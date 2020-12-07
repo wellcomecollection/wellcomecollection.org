@@ -3,6 +3,8 @@ import { Children, Fragment, createContext } from 'react';
 import Contributors from '../Contributors/Contributors';
 // $FlowFixMe (tsx)
 import Layout8 from '../Layout8/Layout8';
+// $FlowFixMe (tsx)
+import Layout12 from '../Layout12/Layout12';
 import SeriesNavigation from '../SeriesNavigation/SeriesNavigation';
 import PageHeader from '../PageHeader/PageHeader';
 import Outro from '../Outro/Outro';
@@ -19,9 +21,10 @@ import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+// $FlowFixMe (tsx)
+import BannerCard from '../BannerCard/BannerCard';
 /*eslint-disable */
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
-/* eslint-enable */
 
 // TODO: use Element<typeof Component>
 type Props = {|
@@ -34,6 +37,7 @@ type Props = {|
   contributorProps?: ElementProps<typeof Contributors>,
   Siblings?: Element<typeof SeriesNavigation>[],
   outroProps?: ?ElementProps<typeof Outro>,
+  seasons?: any, // TODO
 |};
 
 // FIXME: obviously we can't carry on like this!
@@ -76,6 +80,7 @@ const ContentPage = ({
   contributorProps,
   Siblings = [],
   outroProps,
+  seasons = [],
 }: Props) => {
   // We don't want to add a spacing unit if there's nothing to render
   // in the body (we don't render the 'standfirst' here anymore).
@@ -157,6 +162,17 @@ const ContentPage = ({
               </div>
             </Layout8>
           )}
+
+          {seasons.length > 0 &&
+            seasons.map(season => (
+            <SpacingSection key={season.id}>
+              <Layout12>
+                <BannerCard
+                  item={season}
+                  />
+              </Layout12>
+            </SpacingSection>
+            ))}
         </div>
       </article>
     </PageBackgroundContext.Provider>

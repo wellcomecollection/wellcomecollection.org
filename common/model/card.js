@@ -4,6 +4,7 @@ import { type Format } from '@weco/common/model/format';
 import type { UiEvent } from '@weco/common/model/events';
 import type { Article } from '@weco/common/model/articles';
 import type { LandingPage } from '@weco/common/model/landing-pages';
+import type { Season } from '@weco/common/model/seasons';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 export type Card = {|
@@ -16,7 +17,7 @@ export type Card = {|
 |};
 
 export function convertItemToCardProps(
-  item: Article | UiEvent | LandingPage
+  item: Article | UiEvent | LandingPage | Season
 ): Card {
   return {
     type: 'card',

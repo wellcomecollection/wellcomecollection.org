@@ -149,6 +149,7 @@ export default {
             'exhibitions',
             'card',
             'landing-pages',
+            'seasons',
           ]),
         },
       }),

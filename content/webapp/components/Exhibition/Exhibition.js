@@ -259,6 +259,7 @@ const Exhibition = ({ exhibition }: Props) => {
         id={exhibition.id}
         Header={Header}
         Body={<Body body={exhibition.body} pageId={exhibition.id} />}
+        seasons={exhibition.seasons}
       >
         {exhibition.contributors.length > 0 && (
           <Contributors

@@ -7,6 +7,7 @@ import type { Contributor } from './contributors';
 import type { ImageType } from './image';
 import type { GenericContentFields } from './generic-content-fields';
 import type { Resource } from './resource';
+import type { Season } from './seasons';
 
 // e.g. 'Permanent'
 export type ExhibitionFormat = {|
@@ -34,6 +35,7 @@ export type Exhibition = {|
   |},
   resources: Resource[],
   relatedIds: string[],
+  seasons: Season[],
 |};
 
 export type ExhibitionPromo = {|
