@@ -15,7 +15,6 @@ import fetch from 'isomorphic-unfetch';
 import { IIIFManifest } from '@weco/common/model/iiif';
 import { getWork } from '../services/catalogue/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-// $FlowFixMe (tsx)
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Download from '@weco/catalogue/components/Download/Download';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
