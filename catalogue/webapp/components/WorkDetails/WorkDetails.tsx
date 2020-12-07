@@ -296,7 +296,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                   }}
                 >
                   <ConditionalWrapper
-                    condition={itemUrl}
+                    condition={Boolean(itemUrl)}
                     wrapper={children => (
                       <NextLink href={itemUrl.href} as={itemUrl.as}>
                         <a
