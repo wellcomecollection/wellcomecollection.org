@@ -1,17 +1,20 @@
-// @flow
-import type { HTMLString } from '../../../services/prismic/types';
+import { HTMLString } from '../../../services/prismic/types';
 import { font, classNames } from '../../../utils/classnames';
-import type { Node } from 'react';
+import { ReactElement, FunctionComponent } from 'react';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '../styled/Space';
 
-type Props = {|
-  caption: HTMLString,
-  preCaptionNode?: Node,
-  width?: ?number,
-|};
+type Props = {
+  caption: HTMLString;
+  preCaptionNode?: ReactElement;
+  width?: number | null | undefined;
+};
 
-const Caption = ({ caption, preCaptionNode, width }: Props) => {
+const Caption: FunctionComponent<Props> = ({
+  caption,
+  preCaptionNode,
+  width,
+}: Props) => {
   return (
     <Space
       v={{
@@ -30,7 +33,7 @@ const Caption = ({ caption, preCaptionNode, width }: Props) => {
           'overflow-hidden': true,
         })}
         style={{ maxWidth: '55em' }}
-        tabIndex="0"
+        tabIndex={0}
       >
         {preCaptionNode}
         <Space

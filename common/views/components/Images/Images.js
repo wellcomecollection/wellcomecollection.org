@@ -8,6 +8,7 @@ import Tasl from '../Tasl/Tasl';
 import type { Node as ReactNode } from 'react';
 import type { ImageType } from '../../../model/image';
 import type { CaptionedImage as CaptionedImageType } from '../../../model/captioned-image';
+// $FlowFixMe (tsx)
 import Caption from '../Caption/Caption';
 import LL from '../styled/LL';
 export type UiImageProps = {|

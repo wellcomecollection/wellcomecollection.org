@@ -1,11 +1,11 @@
-import type { Node } from 'react';
+import { ReactNode, FunctionComponent } from 'react';
 import Layout from '../Layout/Layout';
 
-type Props = {|
-  children: Node,
-|};
+type Props = {
+  children: ReactNode;
+};
 
-const Layout10 = ({ children }: Props) => (
+const Layout10: FunctionComponent<Props> = ({ children }: Props) => (
   <Layout
     gridSizes={{
       s: 12,

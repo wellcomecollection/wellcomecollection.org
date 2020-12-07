@@ -1,4 +1,5 @@
 // @flow
+// $FlowFixMe (tsx)
 import Caption from '../Caption/Caption';
 import type { HTMLString } from '../../../services/prismic/types';
 

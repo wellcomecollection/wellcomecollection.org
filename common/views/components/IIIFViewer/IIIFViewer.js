@@ -33,6 +33,7 @@ import ThumbsViewer from './parts/ThumbsViewer';
 import GridViewer from './parts/GridViewer';
 // $FlowFixMe (tsx)
 import Control from '../Buttons/Control/Control';
+// $FlowFixMe (tsx)
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 
 // $FlowFixMe (tsx)

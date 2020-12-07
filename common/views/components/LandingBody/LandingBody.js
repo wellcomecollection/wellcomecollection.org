@@ -2,7 +2,9 @@
 import { defaultSerializer } from '../../../services/prismic/html-serializers';
 import { classNames } from '@weco/common/utils/classnames';
 import FeaturedText from '../FeaturedText/FeaturedText';
+// $FlowFixMe (tsx)
 import Layout12 from '../Layout12/Layout12';
+// $FlowFixMe (tsx)
 import Layout8 from '../Layout8/Layout8';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '../SpacingSection/SpacingSection';
@@ -19,6 +21,7 @@ import { convertItemToCardProps } from '@weco/common/model/card';
 import VisitUsStaticContent from './VisitUsStaticContent';
 // $FlowFixMe (tsx)
 import CollectionsStaticContent from './CollectionsStaticContent';
+// $FlowFixMe (tsx)
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import { type Link } from '@weco/common/model/link';
 // $FlowFixMe (tsx)

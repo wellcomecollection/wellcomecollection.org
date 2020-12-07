@@ -5,6 +5,7 @@ import throttle from 'lodash.throttle';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import Tasl from '../Tasl/Tasl';
+// $FlowFixMe (tsx)
 import Caption from '../Caption/Caption';
 import type { HTMLString } from '../../../services/prismic/types';
 import type { Tasl as TaslType } from '../../../model/tasl';

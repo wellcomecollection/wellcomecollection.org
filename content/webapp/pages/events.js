@@ -15,6 +15,7 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { convertJsonToDates } from './event';
 // $FlowFixMe
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
+// $FlowFixMe (tsx)
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
