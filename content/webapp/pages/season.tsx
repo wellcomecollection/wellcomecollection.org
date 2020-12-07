@@ -3,11 +3,8 @@ import { ReactElement } from 'react';
 import { SeasonWithContent } from '@weco/common/model/seasons';
 import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
-import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
-import PageHeader, {
-  getFeaturedMedia,
-} from '@weco/common/views/components/PageHeader/PageHeader';
+import SeasonsHeader from '@weco/common/views/components/SeasonsHeader/SeasonsHeader';
+import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { contentLd } from '@weco/common/utils/json-ld';
 import Body from '@weco/common/views/components/Body/Body';
@@ -16,6 +13,7 @@ import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
+import { convertJsonToDates } from './event';
 
 const SeasonPage = ({
   season,
@@ -24,39 +22,14 @@ const SeasonPage = ({
   events,
   exhibitions,
 }: SeasonWithContent): ReactElement<SeasonWithContent> => {
-  const genericFields = {
-    id: season.id,
-    title: season.title,
-    contributors: season.contributors,
-    contributorsTitle: season.contributorsTitle,
-    promo: season.promo,
-    body: season.body,
-    standfirst: season.standfirst,
-    promoImage: season.promoImage,
-    promoText: season.promoText,
-    image: season.image,
-    squareImage: season.squareImage,
-    widescreenImage: season.widescreenImage,
-    labels: season.labels,
-    metadataDescription: season.metadataDescription,
-  };
-
-  const ContentTypeInfo = season.standfirst && (
-    <PageHeaderStandfirst html={season.standfirst} />
-  );
-  const FeaturedMedia = getFeaturedMedia(genericFields);
   const Header = (
-    <PageHeader
-      breadcrumbs={{ items: [] }}
+    <SeasonsHeader
       labels={{ labels: season.labels }}
       title={season.title}
-      ContentTypeInfo={ContentTypeInfo}
-      Background={<HeaderBackground hasWobblyEdge={true} />}
-      FeaturedMedia={FeaturedMedia}
-      HeroPicture={null}
+      FeaturedMedia={<UiImage {...season.widescreenImage} sizesQueries="" />}
+      standfirst={season?.standfirst}
     />
   );
-
   return (
     <PageLayout
       title={season.title}
@@ -66,7 +39,7 @@ const SeasonPage = ({
       siteSection={'whats-on'}
       openGraphType={'website'}
       imageUrl={season.image && convertImageUri(season.image.contentUrl, 800)}
-      imageAltText={season.image && season.image.alt}
+      imageAltText={season?.image?.alt}
     >
       <ContentPage
         id={season.id}
@@ -80,7 +53,7 @@ const SeasonPage = ({
             <SectionHeader title="Events" />
           </SpacingComponent>
           <SpacingComponent>
-            <CardGrid items={events} itemsPerRow={4} />
+            <CardGrid items={events.map(convertJsonToDates)} itemsPerRow={4} />
           </SpacingComponent>
         </SpacingSection>
       )}

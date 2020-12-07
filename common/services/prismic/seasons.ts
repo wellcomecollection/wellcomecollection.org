@@ -23,6 +23,7 @@ export function parseSeason(document: PrismicDocument): Season {
   return {
     type: 'seasons',
     ...genericFields,
+    labels: [{ url: null, text: 'Season' }],
     promo: promo && promo.image && promo,
   };
 }
