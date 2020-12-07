@@ -17,7 +17,7 @@ type CardOuterProps = {
 
 const CardOuter = styled.a<CardOuterProps>`
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   overflow: hidden;
   text-decoration: none;
   border-left: 4px solid ${props => props.theme.color(props.highlightColor)};
