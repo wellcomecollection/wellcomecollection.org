@@ -164,4 +164,10 @@ module.exports = {
   '/landing-pages/X2jSjBMAACIA8Wq_': '/collections',
   '/pages/X5amzBIAAB0Aq6Gm': '/covid-welcome-back',
   '/pages/X5aomxIAAB8Aq6n5': '/covid-book-your-ticket',
+  '/series/X8D9qxIAACIAcKSf': '/series/X76JKBMAACIAqtZ2',
+  '/articles/X61xYhMAACAAX_z1': '/articles/X8dTWhIAACQAjJ5S',
+  '/articles/X6P6_xMAACEANfQB': '/articles/X8dRxhIAACQAjJdL',
+  '/articles/X5rs7RIAAB4Avr_r': '/articles/X8ZZChIAACUAiFbC',
+  '/articles/X7bJORMAACEAiRPo': '/articles/X8dU2BIAACMAjKT-',
+  '/articles/X8Ay3hIAACMAbSL2': '/articles/X8dV8xIAACIAjKn6',
 };
