@@ -9,7 +9,8 @@
     "start": "NODE_ENV=production node server.js",
     "test": "NODE_ENV=test jest --no-cache",
     "test:watch": "yarn test -- --watchAll",
-    "e2e:test": "NODE_ENV=test yarn test -c jest.e2e.config.js",
+    "test:e2e": "NODE_ENV=test yarn test -c jest.e2e.config.js",
+    "test:e2e:watch": "NODE_ENV=test yarn test -- --watchAll -c jest.e2e.config.js ",
     "test:updateSnapshots": "yarn test -- --updateSnapshot"
   },
   "dependencies": {
