@@ -26,7 +26,7 @@ const WorkSearchResults = ({ works, worksRouteProps, apiProps }: Props) => {
   const { relevanceRating } = useContext(TogglesContext);
 
   return (
-    <div className={'grid'}>
+    <div className={'grid'} data-test-id="search-results">
       {works.results.map((result, i) => (
         <div key={result.id} className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
           <div

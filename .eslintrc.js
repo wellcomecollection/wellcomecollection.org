@@ -11,6 +11,7 @@ const sharedExtends = [
   'standard',
   'plugin:react/recommended',
   'plugin:prettier/recommended',
+  'plugin:jest-playwright/recommended',
   'prettier',
   'prettier/react',
   'prettier/standard',
@@ -57,7 +58,11 @@ module.exports = {
       files: ['*.ts', '*.tsx'],
       parser: '@typescript-eslint/parser',
       plugins: [...sharedPlugins, '@typescript-eslint'],
-      extends: [...sharedExtends, 'plugin:@typescript-eslint/recommended'],
+      extends: [
+        ...sharedExtends,
+        'plugin:@typescript-eslint/recommended',
+        'plugin:jest-playwright/recommended',
+      ],
       rules: {
         ...sharedRules,
         'no-use-before-define': 'off',
