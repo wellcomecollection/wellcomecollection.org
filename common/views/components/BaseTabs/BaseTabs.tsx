@@ -143,8 +143,8 @@ const Tabs: FunctionComponent<Props> = ({
       <TabList ref={tabListRef} aria-label={label}>
         {tabs.map(({ id, tab }) => (
           <Tab
-            key={id + prefixButton}
-            id={id + prefixButton}
+            key={`${id}${prefixButton}`}
+            id={`${id}${prefixButton}`}
             tabPanelId={id}
             isActive={id === activeId}
             onClick={() => handleTabClick(id)}
