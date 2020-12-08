@@ -1,47 +1,57 @@
 import { classNames, font } from '../../../utils/classnames';
 import LabelsList from '../LabelsList/LabelsList';
-// import { formatDate } from '../../../../common/utils/format-date';
 import { trackEvent } from '../../../utils/ga';
 import { FunctionComponent } from 'react';
 import { Season } from '../../../model/seasons';
 import linkResolver from '../../../../common/services/prismic/link-resolver';
 import styled from 'styled-components';
 import Space from '../styled/Space';
-import { UiImage } from '../Images/Images';
+import { convertImageUri } from '../../../utils/convert-image-uri';
 import ButtonOutlined from '../ButtonOutlined/ButtonOutlined';
 
 type CardOuterProps = {
-  highlightColor: 'yellow' | 'orange';
   background: 'charcoal' | 'cream';
 };
 
 const CardOuter = styled.a<CardOuterProps>`
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   overflow: hidden;
   text-decoration: none;
-  border-left: 4px solid ${props => props.theme.color(props.highlightColor)};
   background: ${props => props.theme.color(props.background)};
   color: ${props =>
     props.theme.color(props.background === 'charcoal' ? 'cream' : 'black')};
 
   ${props => props.theme.media.large`
     flex-direction: row;
-  `}
+    `}
 `;
 
-const TextWrapper = styled.div`
+type TextWrapperProps = {
+  highlightColor: 'yellow' | 'orange';
+};
+
+const TextWrapper = styled.div<TextWrapperProps>`
   ${props => props.theme.media.large`
     flex-grow: 2;
-  `};
+    `};
+  border-left: 4px solid ${props => props.theme.color(props.highlightColor)};
 `;
-const ImageWrapper = styled.div`
+
+type ImageWrapperProps = {
+  imageUrl: string;
+};
+
+const ImageWrapper = styled.div<ImageWrapperProps>`
+  background-image: url(${props => props.imageUrl});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
+  height: 300px;
   ${props => props.theme.media.large`
-    flex-grow: 1;
-    flex-basis: 106%;
-  `};
-  ${props => props.theme.media.xlarge`
-    flex-basis: 42%;
+    background-position: center center;
+    height: auto;
+    min-width: 38%;
   `};
 `;
 
@@ -97,7 +107,6 @@ const BannerCard: FunctionComponent<Props> = ({
   return (
     <CardOuter
       href={link}
-      highlightColor={highlightColor}
       background={background}
       onClick={() => {
         trackEvent({
@@ -109,6 +118,7 @@ const BannerCard: FunctionComponent<Props> = ({
     >
       <Space
         as={TextWrapper}
+        highlightColor={highlightColor}
         v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
         h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
       >
@@ -144,16 +154,7 @@ const BannerCard: FunctionComponent<Props> = ({
           isOnDark={true}
         />
       </Space>
-      <Space
-        as={ImageWrapper}
-        // h={{ size: 'm', properties: ['padding-left'], overrides: { small: 0 } }}
-      >
-        <UiImage
-          {...image.crops['16:9']}
-          // sizesQueries="(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(33.24vw - 43px), calc(100vw - 36px)"
-          showTasl={false}
-        />
-      </Space>
+      <ImageWrapper imageUrl={convertImageUri(image.contentUrl, 640)} />
     </CardOuter>
   );
 };
