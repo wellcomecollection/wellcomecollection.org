@@ -1,13 +1,11 @@
 import { classNames, font } from '../../../utils/classnames';
 import LabelsList from '../LabelsList/LabelsList';
-// import { formatDate } from '../../../../common/utils/format-date';
 import { trackEvent } from '../../../utils/ga';
 import { FunctionComponent } from 'react';
 import { Season } from '../../../model/seasons';
 import linkResolver from '../../../../common/services/prismic/link-resolver';
 import styled from 'styled-components';
 import Space from '../styled/Space';
-// import { UiImage } from '../Images/Images';
 import { convertImageUri } from '../../../utils/convert-image-uri';
 import ButtonOutlined from '../ButtonOutlined/ButtonOutlined';
 
