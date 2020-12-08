@@ -90,13 +90,13 @@ type NextRoute<T> = {
 };
 
 // route: /images
-// We shouldn't be inherriting anything from WorksRouteProps,
+// We shouldn't be inheriting anything from WorksRouteProps,
 // but we do for ease of use for now.
 export type ImagesRouteProps = WorksRouteProps & {
   query: string;
   page: number;
   source: string | null;
-  locationsLicense: string | null;
+  locationsLicense: string[] | null;
   color: string | null;
 };
 
@@ -207,7 +207,7 @@ export const ImagesRoute: NextRoute<ImagesRouteProps> = {
     return {
       query: defaultToEmptyString(stringQ.query),
       page: defaultTo1(stringQ.page),
-      locationsLicense: defaultToEmptyString(stringQ.locationsLicense),
+      locationsLicense: stringToCsv(stringQ.locationsLicense),
       color: defaultToEmptyString(stringQ.color),
       source: defaultToEmptyString(stringQ.source),
 

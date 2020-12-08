@@ -19,7 +19,7 @@ import {
   imagesRoutePropsToWorksRouteProps,
 } from '@weco/common/services/catalogue/ts_routes';
 import {
-  ImagesApiProps,
+  CatalogueImagesApiProps,
   imagesRouteToApiUrl,
 } from '@weco/common/services/catalogue/ts_api';
 import Space from '@weco/common/views/components/styled/Space';
@@ -43,7 +43,7 @@ import {
 type Props = {
   results?: CatalogueResultsList<Image> | CatalogueApiError;
   imagesRouteProps: ImagesRouteProps;
-  apiProps: ImagesApiProps;
+  apiProps: CatalogueImagesApiProps;
 } & WithGlobalContextData &
   WithPageview;
 

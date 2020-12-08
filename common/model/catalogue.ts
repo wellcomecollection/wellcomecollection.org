@@ -213,10 +213,7 @@ export type CatalogueApiRedirect = {
 export type Image = {
   type: 'Image';
   id: string;
-  locations: {
-    url: string;
-    Object;
-  }[];
+  locations: DigitalLocation[];
   source: {
     id: string;
     type: string;
