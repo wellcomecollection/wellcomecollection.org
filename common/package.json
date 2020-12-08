@@ -19,7 +19,7 @@
     "@popperjs/core": "^2.4.4",
     "@segment/snippet": "^4.10.0",
     "@types/gtag.js": "^0.0.3",
-    "@types/jest": "^26.0.15",
+    "@types/jest": "^26.0.17",
     "@types/lodash": "^4.14.161",
     "@weco/next-plugin-transpile-modules": "^2.0.1",
     "babel-core": "^7.0.0-bridge.0",

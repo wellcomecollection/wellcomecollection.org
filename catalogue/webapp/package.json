@@ -16,6 +16,7 @@
   "dependencies": {
     "@babel/core": "^7.1.5",
     "@babel/preset-flow": "^7.12.1",
+    "@types/jest": "^26.0.17",
     "@types/react": "^16.9.35",
     "@weco/common": "1.0.0",
     "autoprefixer": "^9.5.0",
@@ -26,6 +27,7 @@
     "crypto-browserify": "^3.12.0",
     "css-loader": "^2.1.1",
     "cssnano": "^4.1.10",
+    "eslint-plugin-jest-playwright": "^0.2.1",
     "flow-bin": "^0.95.1",
     "fontfaceobserver": "^2.0.13",
     "isomorphic-unfetch": "^3.0.0",
@@ -53,8 +55,7 @@
     "supertest": "^4.0.2",
     "typescript": "^3.9.3",
     "uuid": "^3.3.3",
-    "webpack": "^4.25.1",
-    "eslint-plugin-jest-playwright": "^0.2.1"
+    "webpack": "^4.25.1"
   },
   "browserslist": [
     "last 2 versions",
