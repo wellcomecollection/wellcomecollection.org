@@ -90,8 +90,8 @@ const DropdownButton: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   const [isActive, setIsActive] = useState(false);
   const { isEnhanced } = useContext(AppContext);
-  const dropdownWrapperRef = useRef(null);
-  const dropdownRef = useRef(null);
+  const dropdownWrapperRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const popperRef = useRef(null);
   const [isPopperVisible, setIsPopperVisible] = useState(false);
   const { styles, attributes } = usePopper(
@@ -121,19 +121,19 @@ const DropdownButton: FunctionComponent<Props> = ({
   };
 
   useEffect(() => {
-    function handleClick(event: MouseEvent) {
+    function hideDropdownOnDocClick(event: MouseEvent) {
       if (
         dropdownWrapperRef &&
         dropdownWrapperRef.current &&
-        !dropdownWrapperRef.current.contains(event.target)
+        !dropdownWrapperRef.current.contains(event.target as HTMLDivElement)
       ) {
         setIsActive(false);
       }
     }
-    document.addEventListener('click', handleClick, false);
+    document.addEventListener('click', hideDropdownOnDocClick, false);
 
     return () => {
-      document.removeEventListener('click', handleClick, false);
+      document.removeEventListener('click', hideDropdownOnDocClick, false);
     };
   });
 
@@ -190,7 +190,7 @@ const DropdownButton: FunctionComponent<Props> = ({
         </Popper>
       )}
       <noscript>
-        <Popper id={id} ref={popperRef} style={null} isVisible={true}>
+        <Popper id={id} ref={popperRef} isVisible={true}>
           <Dropdown
             isActive={isActive}
             isEnhanced={isEnhanced}
