@@ -5,10 +5,15 @@ import Space from '../styled/Space';
 
 type Props = {|
   labels: LabelType[],
-  labelColor?: 'orange' | 'yellow',
+  labelColor?: 'orange' | 'yellow' | 'black',
+  secondary?: Boolean,
 |};
 
-const LabelsList = ({ labels, labelColor = 'yellow' }: Props) => (
+const LabelsList = ({
+  labels,
+  labelColor = 'yellow',
+  secondary = false,
+}: Props) => (
   <Space
     v={{
       size: 'xs',
@@ -30,7 +35,7 @@ const LabelsList = ({ labels, labelColor = 'yellow' }: Props) => (
         as="li"
         key={`${label.text}-${i}`}
       >
-        <Label label={label} labelColor={labelColor} />
+        <Label label={label} labelColor={labelColor} secondary={secondary} />
       </Space>
     ))}
   </Space>
