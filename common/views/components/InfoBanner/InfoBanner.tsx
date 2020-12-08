@@ -16,7 +16,9 @@ type Props = {
 const InfoBanner: FunctionComponent<Props> = ({
   cookieName,
   text,
-  onVisibilityChange,
+  onVisibilityChange = () => {
+    // noop
+  },
 }: Props) => {
   const defaultValue = false;
   const [isVisible, setIsVisible] = useState<boolean>(defaultValue);
@@ -36,7 +38,7 @@ const InfoBanner: FunctionComponent<Props> = ({
   };
 
   useEffect(() => {
-    if (prevIsVisible !== isVisible && onVisibilityChange) {
+    if (prevIsVisible !== isVisible) {
       onVisibilityChange(isVisible);
     }
   }, [isVisible]);
