@@ -15,6 +15,7 @@ import { classNames } from '@weco/common/utils/classnames';
 const TabList = styled.div.attrs({
   role: 'tablist',
 })``;
+const prefixButton = '-btn';
 
 type TabProps = {
   isActive: boolean;
@@ -142,8 +143,8 @@ const Tabs: FunctionComponent<Props> = ({
       <TabList ref={tabListRef} aria-label={label}>
         {tabs.map(({ id, tab }) => (
           <Tab
-            key={id}
-            id={id}
+            key={`${id}${prefixButton}`}
+            id={`${id}${prefixButton}`}
             tabPanelId={id}
             isActive={id === activeId}
             onClick={() => handleTabClick(id)}
