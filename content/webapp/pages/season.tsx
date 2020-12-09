@@ -61,7 +61,7 @@ const SeasonPage = ({
             <SectionHeader title="Events" />
           </SpacingComponent>
           <SpacingComponent>
-            <CardGrid items={parsedEvents} itemsPerRow={4} />
+            <CardGrid items={parsedEvents} itemsPerRow={3} />
           </SpacingComponent>
         </SpacingSection>
       )}
@@ -76,7 +76,7 @@ const SeasonPage = ({
             <SpacingComponent>
               <CardGrid
                 items={[...parsedExhibitions, ...articles, ...books]}
-                itemsPerRow={4}
+                itemsPerRow={3}
               />
             </SpacingComponent>
           </SpacingSection>
