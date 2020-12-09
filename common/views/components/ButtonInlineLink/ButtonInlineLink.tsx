@@ -34,6 +34,9 @@ const ButtonInlineLink: FunctionComponent<ButtonInlineLinkProps> = ({
     trackingEvent && trackEvent(trackingEvent);
   }
 
+  const href: string = isStringLink(link)
+    ? link
+    : convertUrlToString(link.href);
   return (
     <ConditionalWrapper
       condition={!isStringLink(link)}
@@ -49,7 +52,9 @@ const ButtonInlineLink: FunctionComponent<ButtonInlineLinkProps> = ({
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
         onClick={handleClick}
-        href={isStringLink(link) ? undefined : convertUrlToString(link.href)}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        href={href}
       >
         <BaseButtonInner isInline={true}>
           {text}

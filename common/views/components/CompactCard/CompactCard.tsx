@@ -25,7 +25,7 @@ type Props = {
   urlOverride: string | null;
   extraClasses?: string;
   partNumber: number | undefined;
-  color: ColorSelection | null;
+  color: ColorSelection | undefined;
   Image: ReactElement<typeof ImageType | typeof ImagePlaceholder> | null;
   DateInfo:
     | ReactElement<typeof DateRange>
