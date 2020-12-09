@@ -1,24 +1,29 @@
+import {
+  fillSearchInput,
+  pressEnterSearchInput,
+  worksSearchInputId,
+  workSearchResultsContainer,
+} from './selectors/search';
+import { getInputValue, elementIsVisible } from './selectors/common';
+import { worksUrl } from './const';
+
 describe('works', () => {
   beforeAll(async () => {
-    await page.goto('http://localhost:3000/works');
+    await page.goto(worksUrl);
   });
 
   test('Submits the form correctly', async () => {
-    await page.fill('#works-search-input', 'heArTs');
-    await page.press('#works-search-input', 'Enter');
-    const value = await page.$eval<string, HTMLInputElement>(
-      '#works-search-input',
-      el => el.value
-    );
-    await page.waitForSelector('[data-test-id="search-results"]');
-    const searchResultsVisible = await page.$eval<boolean, HTMLDivElement>(
-      '[data-test-id="search-results"]',
-      () => true
+    const expectedValue = 'heArTs';
+    await fillSearchInput(expectedValue);
+    await pressEnterSearchInput();
+
+    const value = await getInputValue(worksSearchInputId);
+    await page.waitForSelector(workSearchResultsContainer);
+    const searchResultsVisible = await elementIsVisible(
+      workSearchResultsContainer
     );
 
     expect(searchResultsVisible).toBe(true);
-    expect(value).toBe('heArTs');
+    expect(value).toBe(expectedValue);
   });
 });
-
-export {};

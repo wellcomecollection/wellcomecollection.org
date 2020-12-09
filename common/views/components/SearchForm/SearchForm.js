@@ -31,6 +31,7 @@ type Props = {|
   workTypeAggregations: CatalogueAggregationBucket[],
   placeholder?: string,
   aggregations?: CatalogueAggregations,
+  ariaRoleForm?: string,
 |};
 
 const SearchInputWrapper = styled.div`
@@ -63,10 +64,12 @@ const SearchForm = ({
   workTypeAggregations,
   placeholder,
   aggregations,
+  ariaRoleForm,
 }: Props) => {
   const [, setSearchParamsState] = useSavedSearchState(worksRouteProps);
   const { query } = worksRouteProps;
 
+  console.log('hello my name is andy');
   const searchForm = useRef();
   // This is the query used by the input, that is then eventually passed to the
   // Router
@@ -160,6 +163,7 @@ const SearchForm = ({
       className="relative"
       action="/works"
       aria-describedby={ariaDescribedBy}
+      role={ariaRoleForm}
       onSubmit={event => {
         event.preventDefault();
 
@@ -184,6 +188,7 @@ const SearchForm = ({
           ref={searchInput}
           required={true}
           big={true}
+          ariaLabel={'search input field'}
         />
 
         {inputQuery && (

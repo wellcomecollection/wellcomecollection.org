@@ -40,6 +40,7 @@ type Props = {
   isImageSearch: boolean;
   shouldShowFilters: boolean;
   showSortBy: boolean;
+  ariaRoleForm?: string;
 };
 
 const SearchInputWrapper = styled.div`
@@ -88,6 +89,7 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
   isImageSearch,
   shouldShowFilters,
   showSortBy,
+  ariaRoleForm,
 }: Props): ReactElement<Props> => {
   const [, setSearchParamsState] = useSavedSearchState(routeProps);
   const { query } = routeProps;
@@ -200,6 +202,9 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
     return Router.push(link.href, link.as);
   }
 
+  console.log(ariaRoleForm);
+  console.log('hello my name is andy');
+
   return (
     <form
       ref={searchForm}
@@ -218,6 +223,7 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
         updateUrl(event.currentTarget);
         return false;
       }}
+      role={ariaRoleForm}
     >
       <Space
         h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
@@ -242,6 +248,7 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
             setIsValid={null}
             showValidity={null}
             setShowValidity={null}
+            ariaLabel="search input field"
           />
 
           {inputQuery && (
