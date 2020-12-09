@@ -202,9 +202,6 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
     return Router.push(link.href, link.as);
   }
 
-  console.log(ariaRoleForm);
-  console.log('hello my name is andy');
-
   return (
     <form
       ref={searchForm}

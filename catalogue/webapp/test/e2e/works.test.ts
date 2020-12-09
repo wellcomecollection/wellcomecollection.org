@@ -23,7 +23,7 @@ describe('works', () => {
       workSearchResultsContainer
     );
 
-    expect(searchResultsVisible).toBe(true);
+    expect(searchResultsVisible).toBeTruthy();
     expect(value).toBe(expectedValue);
   });
 });
