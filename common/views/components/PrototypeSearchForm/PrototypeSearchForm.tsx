@@ -36,7 +36,7 @@ type Props = {
   ariaDescribedBy: string;
   routeProps: WorksRouteProps | ImagesRouteProps;
   workTypeAggregations: CatalogueAggregationBucket[];
-  aggregations: CatalogueAggregations | null;
+  aggregations?: CatalogueAggregations;
   isImageSearch: boolean;
   shouldShowFilters: boolean;
   showSortBy: boolean;

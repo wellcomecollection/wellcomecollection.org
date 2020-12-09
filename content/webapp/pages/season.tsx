@@ -33,9 +33,9 @@ const SeasonPage = ({
   const parsedEvents = events.map(convertJsonToDates);
   const parsedExhibitions = exhibitions.map(exhibition => {
     return {
+      ...exhibition,
       start: exhibition.start && new Date(exhibition.start),
       end: exhibition.end && new Date(exhibition.end),
-      ...exhibition,
     };
   });
   return (
@@ -95,7 +95,7 @@ SeasonPage.getInitialProps = async (
   >;
   const seasonWithContent = await getSeasonWithContent({
     request: ctx.req,
-    id: Array.isArray(id) ? id[0] : id,
+    id: id?.toString() || '',
     memoizedPrismic: Array.isArray(memoizedPrismic)
       ? memoizedPrismic[0]
       : memoizedPrismic,

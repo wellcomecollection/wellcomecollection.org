@@ -12,9 +12,12 @@ const PrototypePortal: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   const mount = document.getElementById(id);
   const [element] = useState(document.createElement('div'));
+
   useEffect(() => {
     mount && mount.appendChild(element);
-    return () => mount && mount.removeChild(element);
+    return () => {
+      mount && mount.removeChild(element);
+    };
   }, [element, mount]);
 
   return createPortal(children, element);

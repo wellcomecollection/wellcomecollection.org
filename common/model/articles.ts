@@ -20,14 +20,14 @@ export type Article = GenericContentFields & {
   outroVisitItem?: MultiContent;
 };
 
-export function getPositionInSeries(article: Article): number | null {
+export function getPositionInSeries(article: Article): number | undefined {
   const serialisedSeries = article.series.find(
     series => series.schedule.length > 0
   );
   if (serialisedSeries) {
     const titles = serialisedSeries.schedule.map(item => item.title);
     const index = titles.indexOf(article.title);
-    return index > -1 ? index + 1 : null;
+    return index > -1 ? index + 1 : undefined;
   }
 }
 

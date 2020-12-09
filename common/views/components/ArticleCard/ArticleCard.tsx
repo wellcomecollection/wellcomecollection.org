@@ -25,7 +25,7 @@ const ArticleCard: FunctionComponent<Props> = ({
           return positionInSerial + 1;
         })
         .find(_ => _)
-    : null;
+    : undefined;
 
   return (
     <CompactCard
@@ -35,11 +35,12 @@ const ArticleCard: FunctionComponent<Props> = ({
       color={article.color}
       labels={{ labels: article.labels }}
       description={article.promoText}
-      urlOverride={article.promo?.link}
+      urlOverride={article.promo?.link || null}
       Image={
-        article.image?.crops?.square && (
+        (article.image?.crops?.square && (
           <Image {...article.image.crops.square} />
-        )
+        )) ||
+        null
       }
       DateInfo={null}
       StatusIndicator={null}

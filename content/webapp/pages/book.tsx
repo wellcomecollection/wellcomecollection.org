@@ -1,6 +1,6 @@
 import { NextPageContext } from 'next';
 import { Book } from '@weco/common/model/books';
-import { Fragment, Component, ReactElement } from 'react';
+import { Fragment, Component } from 'react';
 import { getBook } from '@weco/common/services/prismic/books';
 import PageLayoutDeprecated from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
@@ -71,12 +71,12 @@ export class BookPage extends Component<Props | { statusCode: number }> {
     }
   };
 
-  render(): ReactElement<Props> {
-    if (!('book' in this.props)) return;
+  render() {
+    if (!('book' in this.props)) return null;
 
     const { book } = this.props;
     const FeaturedMedia = book.cover && (
-      <BookImage image={{ ...book.cover, sizesQueries: null }} />
+      <BookImage image={{ ...book.cover, sizesQueries: '' }} />
     );
     const breadcrumbs = {
       items: [
