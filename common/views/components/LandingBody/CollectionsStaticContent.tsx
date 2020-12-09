@@ -16,12 +16,14 @@ const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
       <Layout12>
         <Space v={{ size: 'm', properties: ['margin-top'] }}>
           <SearchTabs
+            shouldShowFilters={false}
+            showSortBy={false}
             worksRouteProps={{
               query: '',
               page: 1,
               workType: [],
               itemsLocationsLocationType: [],
-              itemsLocationsType: null,
+              itemsLocationsType: [],
               sort: null,
               sortOrder: null,
               productionDatesFrom: null,
@@ -29,6 +31,7 @@ const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
               search: null,
               imagesColor: null,
               source: 'collections',
+              color: null,
             }}
             imagesRouteProps={{
               query: '',
@@ -36,6 +39,15 @@ const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
               source: 'collections',
               locationsLicense: null,
               color: null,
+              workType: [],
+              itemsLocationsLocationType: [],
+              itemsLocationsType: [],
+              sort: null,
+              sortOrder: null,
+              productionDatesFrom: null,
+              productionDatesTo: null,
+              imagesColor: null,
+              search: null,
             }}
             workTypeAggregations={[]}
             shouldShowDescription={true}

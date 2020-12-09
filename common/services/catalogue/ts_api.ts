@@ -94,7 +94,7 @@ export function worksPropsToImagesProps(
   return {
     query: worksProps.query,
     page: worksProps.page,
-    'locations.license': undefined,
-    color: undefined,
+    'locations.license': null,
+    color: null,
   };
 }

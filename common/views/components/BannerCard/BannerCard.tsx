@@ -154,7 +154,9 @@ const BannerCard: FunctionComponent<Props> = ({
           isOnDark={true}
         />
       </Space>
-      <ImageWrapper imageUrl={convertImageUri(image.contentUrl, 640)} />
+      {image && (
+        <ImageWrapper imageUrl={convertImageUri(image.contentUrl, 640)} />
+      )}
     </CardOuter>
   );
 };

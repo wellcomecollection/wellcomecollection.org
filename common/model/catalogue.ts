@@ -9,7 +9,7 @@ export type Work = {
   workType: WorkType;
   lettering?: string;
   createdDate?: Period;
-  contributors?: Contributor[];
+  contributors: Contributor[];
   identifiers: Identifier[];
   subjects?: Subject;
   genres?: Genre;

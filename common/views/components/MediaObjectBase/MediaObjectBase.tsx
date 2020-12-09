@@ -29,8 +29,8 @@ type Props = {
   description: string | ReactElement | null;
   urlOverride: string | null;
   extraClasses?: string;
-  partNumber: number | null;
-  color: ColorSelection | null;
+  partNumber: number | undefined;
+  color: ColorSelection | undefined;
   Image: ReactElement<typeof ImageType | typeof ImagePlaceholder> | null;
   DateInfo:
     | ReactElement<typeof DateRange>
@@ -38,7 +38,7 @@ type Props = {
     | null;
   StatusIndicator: ReactElement<typeof StatusIndicator> | null;
   ExtraInfo?: ReactNode | null;
-  xOfY: { x: number; y: number };
+  xOfY: { x: number; y: number } | undefined;
   OverrideImageWrapper?: ComponentType<HasImageProps>;
   OverrideTextWrapper?: ComponentType<HasImageProps>;
   OverrideTitleWrapper?: ComponentType;
@@ -91,7 +91,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
   OverrideTitleWrapper,
   onClick,
 }: Props): ReactElement<Props> => {
-  const { x, y } = xOfY;
+  const { x, y } = xOfY || {};
   const ImageWrapper = OverrideImageWrapper || BaseImageWrapper;
   const TextWrapper = OverrideTextWrapper || BaseTextWrapper;
   const TitleWrapper = OverrideTitleWrapper || BaseTitleWrapper;

@@ -1,9 +1,10 @@
 import { FunctionComponent, ReactElement } from 'react';
-import { MediaObjectType } from '../../../model/media-object';
-import MediaObject from '../../components/MediaObject/MediaObject';
+import MediaObject, {
+  Props as MediaObjectProps,
+} from '../../components/MediaObject/MediaObject';
 
 type Props = {
-  items: MediaObjectType[];
+  items: MediaObjectProps[];
 };
 
 const MediaObjectList: FunctionComponent<Props> = ({

@@ -70,9 +70,9 @@ const Tabs: FunctionComponent<Props> = ({
   onTabChanged,
 }: Props): ReactElement<Props> => {
   const [activeId, setActiveId] = useState(tabs[activeTabIndex || 0].id);
-  const [focusedId, setFocusedId] = useState(null);
+  const [focusedId, setFocusedId] = useState<string>();
   const { isEnhanced } = useContext(AppContext);
-  const tabListRef = useRef(null);
+  const tabListRef = useRef<HTMLDivElement>(null);
   const handleTabClick = useCallback(
     (tabId: string) => {
       onTabClick && onTabClick(tabId);
@@ -90,7 +90,9 @@ const Tabs: FunctionComponent<Props> = ({
   }, [activeId]);
 
   function focusTabAtIndex(index: number): void {
-    tabListRef?.current?.querySelector(`#${tabs[index].id}`).focus();
+    (tabListRef?.current?.querySelector(
+      `#${tabs[index].id}`
+    ) as HTMLDivElement)?.focus();
   }
 
   // A11y expectation for Keyboard interaction: https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-19
@@ -106,7 +108,7 @@ const Tabs: FunctionComponent<Props> = ({
 
     event.preventDefault();
 
-    const currentTab = tabs.find(t => t.id === activeId);
+    const currentTab = tabs.find(t => t.id === activeId) || tabs[0];
     const currentIndex = tabs.indexOf(currentTab);
     const nextIndex = tabs[currentIndex + 1] ? currentIndex + 1 : 0;
     const prevIndex = tabs[currentIndex - 1]
@@ -148,7 +150,7 @@ const Tabs: FunctionComponent<Props> = ({
             tabPanelId={id}
             isActive={id === activeId}
             onClick={() => handleTabClick(id)}
-            onBlur={() => setFocusedId(null)}
+            onBlur={() => setFocusedId(undefined)}
             onFocus={() => setFocusedId(id)}
             onKeyDown={handleKeyDown}
           >

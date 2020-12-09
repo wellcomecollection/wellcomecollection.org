@@ -5,7 +5,7 @@ import { FunctionComponent, ReactElement } from 'react';
 
 type Props = {
   number: number;
-  color: ColorSelection | null;
+  color?: ColorSelection;
 };
 
 const PartNumberIndicator: FunctionComponent<Props> = ({

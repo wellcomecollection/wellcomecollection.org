@@ -39,7 +39,7 @@ const DownloadLink: FunctionComponent<Props> = ({
   format,
 }: Props) => (
   <DownloadLinkStyle
-    tabIndex={isTabbable ? null : -1}
+    tabIndex={isTabbable ? undefined : -1}
     target="_blank"
     rel="noopener noreferrer"
     href={href}

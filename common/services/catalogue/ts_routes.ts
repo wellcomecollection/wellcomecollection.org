@@ -1,7 +1,10 @@
 import { LinkProps } from '../../model/link-props';
 import { ParsedUrlQuery } from 'querystring';
 
-type Params = Record<string, unknown>;
+type Params = Record<
+  string,
+  number | string[] | string | null | undefined | boolean
+>;
 
 export type UrlParams = {
   [key: string]: string;
@@ -272,23 +275,25 @@ export const ItemRoute: NextRoute<ItemRouteProps> = {
   fromQuery(q) {
     const {
       workId,
-      langCode = 'eng',
+      langCode,
       canvas,
       sierraId,
       isOverview,
       page,
       pageSize,
     } = qAsStrings(q);
+
     return {
       workId: defaultToEmptyString(workId),
-      langCode,
-      sierraId: maybeString(sierraId),
-      pageSize: pageSize ? parseInt(pageSize, 10) : 4,
+      langCode: langCode || 'eng',
       canvas: defaultTo1(canvas),
+      sierraId: maybeString(sierraId) || undefined,
       isOverview: Boolean(isOverview),
+      pageSize: pageSize ? parseInt(pageSize, 10) : 4,
       page: defaultTo1(page),
     };
   },
+
   toLink(params) {
     return {
       href: {
@@ -301,6 +306,7 @@ export const ItemRoute: NextRoute<ItemRouteProps> = {
       },
     };
   },
+
   toQuery(params) {
     return serialiseUrl(params);
   },

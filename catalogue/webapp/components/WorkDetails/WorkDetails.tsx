@@ -101,7 +101,10 @@ const WorkDetails: FunctionComponent<Props> = ({
   const digitalLocation: DigitalLocation | undefined =
     iiifPresentationLocation || iiifImageLocation;
 
-  const [imageJson, setImageJson] = useState(null);
+  const [imageJson, setImageJson] = useState<{
+    width: number;
+    height: number;
+  }>();
   const fetchImageJson = async () => {
     try {
       const imageJson =
@@ -297,21 +300,23 @@ const WorkDetails: FunctionComponent<Props> = ({
                 >
                   <ConditionalWrapper
                     condition={Boolean(itemUrl)}
-                    wrapper={children => (
-                      <NextLink href={itemUrl.href} as={itemUrl.as}>
-                        <a
-                          onClick={() =>
-                            trackEvent({
-                              category: 'WorkDetails',
-                              action: 'follow image link',
-                              label: itemUrl?.href?.query?.workId.toString(),
-                            })
-                          }
-                        >
-                          {children}
-                        </a>
-                      </NextLink>
-                    )}
+                    wrapper={children =>
+                      itemUrl && (
+                        <NextLink href={itemUrl.href} as={itemUrl.as}>
+                          <a
+                            onClick={() =>
+                              trackEvent({
+                                category: 'WorkDetails',
+                                action: 'follow image link',
+                                label: itemUrl.href?.query?.workId?.toString(),
+                              })
+                            }
+                          >
+                            {children}
+                          </a>
+                        </NextLink>
+                      )
+                    }
                   >
                     <img
                       style={{
@@ -330,24 +335,26 @@ const WorkDetails: FunctionComponent<Props> = ({
                   'flex flex-h-center': true,
                 })}
               >
-                <Space
-                  as="span"
-                  h={{
-                    size: 'm',
-                    properties: ['margin-right'],
-                  }}
-                >
-                  <ButtonSolidLink
-                    icon="eye"
-                    text="View"
-                    trackingEvent={{
-                      category: 'WorkDetails',
-                      action: 'follow view link',
-                      label: itemUrl?.href?.query?.workId.toString(),
+                {itemUrl && (
+                  <Space
+                    as="span"
+                    h={{
+                      size: 'm',
+                      properties: ['margin-right'],
                     }}
-                    link={{ ...itemUrl }}
-                  />
-                </Space>
+                  >
+                    <ButtonSolidLink
+                      icon="eye"
+                      text="View"
+                      trackingEvent={{
+                        category: 'WorkDetails',
+                        action: 'follow view link',
+                        label: itemUrl?.href?.query?.workId?.toString(),
+                      }}
+                      link={{ ...itemUrl }}
+                    />
+                  </Space>
+                )}
 
                 {showDownloadOptions && (
                   <Download
@@ -463,15 +470,15 @@ const WorkDetails: FunctionComponent<Props> = ({
                       page: 1,
                       source: 'work_details/images',
                       workType: [],
-                      sort: undefined,
-                      sortOrder: undefined,
+                      sort: null,
+                      sortOrder: null,
                       itemsLocationsLocationType: [],
                       itemsLocationsType: [],
-                      productionDatesFrom: undefined,
-                      productionDatesTo: undefined,
-                      imagesColor: undefined,
-                      color: undefined,
-                      locationsLicense: undefined,
+                      productionDatesFrom: null,
+                      productionDatesTo: null,
+                      imagesColor: null,
+                      color: null,
+                      locationsLicense: null,
                     },
                     'work_details/images'
                   )
