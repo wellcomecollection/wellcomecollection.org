@@ -65,9 +65,10 @@ const SeasonPage = ({
           </SpacingComponent>
         </SpacingSection>
       )}
-      {exhibitions.length > 0 ||
+
+      {(exhibitions.length > 0 ||
         articles.length > 0 ||
-        (books.length > 0 && (
+        books.length > 0) && (
           <SpacingSection>
             <SpacingComponent>
               <SectionHeader title="Explore more" />
@@ -79,7 +80,7 @@ const SeasonPage = ({
               />
             </SpacingComponent>
           </SpacingSection>
-        ))}
+        )}
     </PageLayout>
   );
 };
