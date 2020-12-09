@@ -35,7 +35,12 @@ const Pagination: FunctionComponent<Props> = ({
       <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
         <Control
           link={{
+            // TODO: Fix the type checking here
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore: Works but should be of LinkProps Type
             href: prevQueryString,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore: Works but should be of LinkProps Type
             as: prevQueryString,
           }}
           colorScheme="light"
@@ -54,7 +59,12 @@ const Pagination: FunctionComponent<Props> = ({
       <Space as="span" h={{ size: 'm', properties: ['margin-left'] }}>
         <Control
           link={{
+            // TODO: Fix the type checking here
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore: Works but should be of LinkProps Type
             href: nextQueryString,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore: Works but should be of LinkProps Type
             as: nextQueryString,
           }}
           colorScheme="light"

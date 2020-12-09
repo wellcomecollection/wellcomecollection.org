@@ -68,7 +68,7 @@ const Paginator: FunctionComponent<Props> = ({
         as: {
           ...link.as,
           query: {
-            ...link.as.query,
+            ...link?.as?.query,
             page: prev,
           },
         },
@@ -87,7 +87,7 @@ const Paginator: FunctionComponent<Props> = ({
         as: {
           ...link.as,
           query: {
-            ...link.as.query,
+            ...link?.as?.query,
             page: next,
           },
         },

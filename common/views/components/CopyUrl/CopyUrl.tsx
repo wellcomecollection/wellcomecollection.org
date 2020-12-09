@@ -23,7 +23,7 @@ const CopyUrl: FunctionComponent<Props> = ({
   const { isEnhanced } = useContext(AppContext);
   const [isTextCopied, setIsTextCopied] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-  const buttonRef = useRef(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   function getButtonMarkup() {
     if (!isClicked) {
@@ -94,7 +94,7 @@ const CopyUrl: FunctionComponent<Props> = ({
             clickHandler={handleButtonClick}
             ref={buttonRef}
             text={getButtonMarkup()}
-            icon={isTextCopied ? 'check' : null}
+            icon={isTextCopied ? 'check' : undefined}
           />
         </Space>
       )}

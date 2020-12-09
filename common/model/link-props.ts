@@ -4,7 +4,7 @@ import { ParsedUrlQueryInput } from 'querystring';
 
 // We simplify the types of LinkProps from next/link to avoid having type checks
 // throughout the code base.
-type Url = Omit<UrlObject, 'query'> & {
+export type Url = Omit<UrlObject, 'query'> & {
   query?: ParsedUrlQueryInput;
 };
 
