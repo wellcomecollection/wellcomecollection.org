@@ -124,6 +124,7 @@ export function parseEventDoc(
                 interpretation.interpretationType.data.primaryDescription,
             },
             isPrimary: Boolean(interpretation.isPrimary),
+            extraInformation: interpretation.extraInformation,
           }
         : null
     )
