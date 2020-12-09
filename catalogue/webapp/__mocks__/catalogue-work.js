@@ -296,7 +296,7 @@ const catalogueWork = {
       id: 'ger',
       label: 'German',
       type: 'Language',
-    }
+    },
   ],
   notes: [],
   type: 'Work',
