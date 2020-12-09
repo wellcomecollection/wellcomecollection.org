@@ -69,7 +69,6 @@ const SearchForm = ({
   const [, setSearchParamsState] = useSavedSearchState(worksRouteProps);
   const { query } = worksRouteProps;
 
-  console.log('hello my name is andy');
   const searchForm = useRef();
   // This is the query used by the input, that is then eventually passed to the
   // Router
