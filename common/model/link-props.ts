@@ -10,5 +10,5 @@ export type Url = Omit<UrlObject, 'query'> & {
 
 export type LinkProps = Omit<NextLinkProps, 'href' | 'as'> & {
   href: Url;
-  as?: Url;
+  as: Url;
 };

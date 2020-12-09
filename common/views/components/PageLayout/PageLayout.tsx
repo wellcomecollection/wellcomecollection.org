@@ -1,5 +1,5 @@
 import React, { useContext, FunctionComponent, ReactNode } from 'react';
-import { Url } from '../../../model/url';
+import { Url } from '../../../model/link-props';
 import { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';

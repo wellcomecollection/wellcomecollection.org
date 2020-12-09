@@ -108,7 +108,7 @@ const ItemPage: NextPage<Props> = ({
   audio,
   globalContextData,
 }: Props) => {
-  const [origin, setOrigin] = useState(null);
+  const [origin, setOrigin] = useState<string>();
   const [showModal, setShowModal] = useState(false);
   const [showViewer, setShowViewer] = useState(false);
   const title = (manifest && manifest.label) || (work && work.title) || '';
@@ -227,7 +227,7 @@ const ItemPage: NextPage<Props> = ({
                 margin: '98px auto 0',
               }}
               src={audio['@id']}
-              controlsList={!showDownloadOptions ? 'nodownload' : null}
+              controlsList={!showDownloadOptions ? 'nodownload' : undefined}
             >
               {`Sorry, your browser doesn't support embedded audio.`}
             </audio>
@@ -245,7 +245,7 @@ const ItemPage: NextPage<Props> = ({
                 display: 'block',
                 margin: '98px auto auto',
               }}
-              controlsList={!showDownloadOptions ? 'nodownload' : null}
+              controlsList={!showDownloadOptions ? 'nodownload' : undefined}
             >
               <source src={video['@id']} type={video.format} />
               {`Sorry, your browser doesn't support embedded video.`}
@@ -314,9 +314,10 @@ const ItemPage: NextPage<Props> = ({
                   const authServiceWindow = window.open(
                     `${authService?.authService['@id'] || ''}?origin=${origin}`
                   );
-                  authServiceWindow.addEventListener('unload', function() {
-                    reloadAuthIframe(document, iframeId);
-                  });
+                  authServiceWindow &&
+                    authServiceWindow.addEventListener('unload', function() {
+                      reloadAuthIframe(document, iframeId);
+                    });
                 }}
               />
             </Space>
@@ -370,7 +371,7 @@ export const getServerSideProps: GetServerSideProps<
   const globalContextData = getGlobalContextData(context);
   const {
     workId,
-    sierraId = null,
+    sierraId = undefined,
     langCode = 'en',
     page = 1,
     pageSize = 4,

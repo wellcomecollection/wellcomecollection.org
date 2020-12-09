@@ -1,6 +1,5 @@
 import {
   FunctionComponent,
-  ReactElement,
   useState,
   useRef,
   useEffect,
@@ -159,15 +158,15 @@ const PopupDialog: FunctionComponent<Props> = ({
   text,
   linkText,
   link,
-}: Props): ReactElement<Props> => {
+}: Props) => {
   const [shouldRender, setShouldRender] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const isActiveRef = useRef(isActive);
   const [shouldStartAnimation, setShouldStartAnimation] = useState(false);
   const openDialogRef = useRef<HTMLDivElement>(null);
-  const closeDialogRef = useRef(null);
-  const ctaRef = useRef(null);
-  const dialogWindowRef = useRef(null);
+  const closeDialogRef = useRef<HTMLButtonElement>(null);
+  const ctaRef = useRef<HTMLAnchorElement>(null);
+  const dialogWindowRef = useRef<HTMLDivElement>(null);
   const { isKeyboard } = useContext(AppContext);
 
   function hidePopupDialog() {
@@ -206,7 +205,11 @@ const PopupDialog: FunctionComponent<Props> = ({
   function handleBodyClick(event: MouseEvent) {
     const dialog = dialogWindowRef && dialogWindowRef.current;
 
-    if (dialog && isActiveRef.current && !dialog.contains(event.target)) {
+    if (
+      dialog &&
+      isActiveRef.current &&
+      !dialog.contains(event.target as HTMLDivElement)
+    ) {
       setIsActive(false);
       openDialogRef && openDialogRef.current && openDialogRef.current.focus();
       trackEvent({
@@ -255,103 +258,97 @@ const PopupDialog: FunctionComponent<Props> = ({
       );
   }
 
-  return (
-    shouldRender && (
-      <>
-        <PopupDialogOpen
-          title="open dialog"
-          ref={openDialogRef}
-          isActive={isActive}
-          shouldStartAnimation={shouldStartAnimation}
+  return shouldRender ? (
+    <>
+      <PopupDialogOpen
+        title="open dialog"
+        ref={openDialogRef}
+        isActive={isActive}
+        shouldStartAnimation={shouldStartAnimation}
+        onClick={() => {
+          setIsActive(true);
+          setFocusable(true);
+          closeDialogRef &&
+            closeDialogRef.current &&
+            closeDialogRef.current.focus();
+
+          trackEvent({
+            category: 'PopupDialog',
+            action: 'open dialog',
+          });
+        }}
+      >
+        <Space
+          h={{
+            size: 's',
+            properties: ['margin-right'],
+            overrides: { medium: 2, large: 2 },
+          }}
+        >
+          <Icon name="chat" extraClasses="icon--purple" />
+        </Space>
+        {openButtonText}
+      </PopupDialogOpen>
+      <PopupDialogWindow ref={dialogWindowRef} isActive={isActive}>
+        <PopupDialogClose
+          isKeyboard={isKeyboard}
+          title="close dialog"
+          ref={closeDialogRef}
+          tabIndex={isActive ? 0 : -1}
+          onKeyDown={handleTrapStartKeyDown}
           onClick={() => {
-            setIsActive(true);
-            setFocusable(true);
-            closeDialogRef &&
-              closeDialogRef.current &&
-              closeDialogRef.current.focus();
+            setIsActive(false);
+            setFocusable(false);
+            openDialogRef &&
+              openDialogRef.current &&
+              openDialogRef.current.focus();
 
             trackEvent({
               category: 'PopupDialog',
-              action: 'open dialog',
+              action: 'close dialog',
             });
           }}
         >
-          <Space
-            h={{
-              size: 's',
-              properties: ['margin-right'],
-              overrides: { medium: 2, large: 2 },
-            }}
+          <Icon name="clear" title="Close dialog" extraClasses="icon--purple" />
+        </PopupDialogClose>
+        <Space
+          h={{
+            size: 'm',
+            properties: ['padding-right'],
+            overrides: { small: 4, medium: 4, large: 4 },
+          }}
+        >
+          <h2
+            className={classNames({
+              [font('wb', 6, {
+                small: 5,
+                medium: 5,
+                large: 5,
+              })]: true,
+            })}
           >
-            <Icon name="chat" extraClasses="icon--purple" />
-          </Space>
-          {openButtonText}
-        </PopupDialogOpen>
-        <PopupDialogWindow ref={dialogWindowRef} isActive={isActive}>
-          <PopupDialogClose
-            isKeyboard={isKeyboard}
-            title="close dialog"
-            ref={closeDialogRef}
-            tabIndex={isActive ? 0 : -1}
-            onKeyDown={handleTrapStartKeyDown}
-            onClick={() => {
-              setIsActive(false);
-              setFocusable(false);
-              openDialogRef &&
-                openDialogRef.current &&
-                openDialogRef.current.focus();
-
-              trackEvent({
-                category: 'PopupDialog',
-                action: 'close dialog',
-              });
-            }}
+            {title}
+          </h2>
+          <div
+            className={classNames({
+              [font('hnl', 5, { medium: 2, large: 2 })]: true,
+            })}
           >
-            <Icon
-              name="clear"
-              title="Close dialog"
-              extraClasses="icon--purple"
-            />
-          </PopupDialogClose>
-          <Space
-            h={{
-              size: 'm',
-              properties: ['padding-right'],
-              overrides: { small: 4, medium: 4, large: 4 },
-            }}
-          >
-            <h2
-              className={classNames({
-                [font('wb', 6, {
-                  small: 5,
-                  medium: 5,
-                  large: 5,
-                })]: true,
-              })}
-            >
-              {title}
-            </h2>
-            <div
-              className={classNames({
-                [font('hnl', 5, { medium: 2, large: 2 })]: true,
-              })}
-            >
-              <PrismicHtmlBlock html={text} />
-            </div>
-          </Space>
-          <PopupDialogCTA
-            href={parseLink(link)}
-            ref={ctaRef}
-            tabIndex={isActive ? 0 : -1}
-            onKeyDown={handleTrapEndKeyDown}
-            onClick={hidePopupDialog}
-          >
-            {linkText}
-          </PopupDialogCTA>
-        </PopupDialogWindow>
-      </>
-    )
-  );
+            <PrismicHtmlBlock html={text} />
+          </div>
+        </Space>
+        <PopupDialogCTA
+          href={parseLink(link)}
+          ref={ctaRef}
+          tabIndex={isActive ? 0 : -1}
+          onKeyDown={handleTrapEndKeyDown}
+          onClick={hidePopupDialog}
+        >
+          {linkText}
+        </PopupDialogCTA>
+      </PopupDialogWindow>
+    </>
+  ) : null;
 };
 
 export default PopupDialog;

@@ -187,17 +187,17 @@ const ExpandedImage: FunctionComponent<Props> = ({
     CanvasLink | undefined
   >();
   const modalRef = useRef(null);
-  const closeButtonRef = useRef(null);
-  const endRef = useRef(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const endRef = useRef<HTMLElement>();
 
   const workId = image.source.id;
   const displayTitle = detailedWork?.title ?? '';
   const displayContributor = detailedWork?.contributors?.[0]?.agent?.label;
 
   useEffect(() => {
-    const focusables = modalRef?.current && [
-      ...getFocusableElements(modalRef.current),
-    ];
+    const focusables =
+      (modalRef?.current && [...getFocusableElements(modalRef.current)]) || [];
+
     endRef.current = focusables?.[focusables.length - 1];
   }, [modalRef.current]);
 
