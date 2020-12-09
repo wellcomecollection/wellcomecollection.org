@@ -52,7 +52,6 @@ const InfoBox = ({ title, items, children }: Props) => {
                   }}
                   className={classNames({
                     [font('hnl', 5)]: true,
-                    'first-para-no-margin': true,
                   })}
                 >
                   <PrismicHtmlBlock html={description} />

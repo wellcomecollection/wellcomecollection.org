@@ -34,6 +34,7 @@ const Events = {
         'interpretation-types',
       ]),
       isPrimary: booleanDeprecated('Primary interprtation'),
+      extraInformation: structuredText('Extra information'),
     }),
     audiences: list('Audiences', {
       audience: link('Audience', 'document', ['audiences']),

@@ -42,6 +42,7 @@ type InterpretationType = {|
 export type Interpretation = {|
   interpretationType: InterpretationType,
   isPrimary: boolean,
+  extraInformation: ?PrismicHTMLString,
 |};
 
 export type Team = {|
