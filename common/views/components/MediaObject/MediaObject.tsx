@@ -9,7 +9,7 @@ import { HTMLString } from '@weco/common/services/prismic/types';
 import styled from 'styled-components';
 import { grid, classNames, font } from '../../../utils/classnames';
 
-type Props = {
+export type Props = {
   title: string;
   text: HTMLString | null;
   image: ImageType;

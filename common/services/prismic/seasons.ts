@@ -29,7 +29,7 @@ export function parseSeason(document: PrismicDocument): Season {
 }
 
 export async function getSeason(
-  req: IncomingMessage,
+  req: IncomingMessage | undefined,
   id: string,
   memoizedPrismic: Record<string, unknown>
 ): Promise<Season | undefined> {
@@ -57,7 +57,7 @@ export async function getSeasonWithContent({
   id,
   memoizedPrismic,
 }: {
-  request: IncomingMessage;
+  request: IncomingMessage | undefined;
   memoizedPrismic: Record<string, unknown>;
   id: string;
 }): Promise<SeasonWithContent | undefined> {
