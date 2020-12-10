@@ -1,5 +1,4 @@
 export const baseUrl = (): string => {
-  console.log(process.env.NODE_ENV);
   switch (process.env.NODE_ENV) {
     case 'production':
       return 'https://wellcomecollection.org';
