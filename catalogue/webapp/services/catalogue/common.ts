@@ -1,4 +1,4 @@
-import type { CatalogueApiError } from '@weco/common/model/catalogue';
+import { CatalogueApiError } from '@weco/common/model/catalogue';
 import { serialiseUrl } from '@weco/common/services/catalogue/routes';
 
 export const rootUris = {
@@ -8,14 +8,14 @@ export const rootUris = {
 
 export type Toggles = { [key: string]: boolean };
 
-type GlobalApiOptions = {|
-  env: 'prod' | 'stage',
-  indexOverrideSuffix: ?string,
-|};
+type GlobalApiOptions = {
+  env: 'prod' | 'stage';
+  indexOverrideSuffix?: string;
+};
 
-export const globalApiOptions = (toggles: Toggles): GlobalApiOptions => ({
-  env: toggles.stagingApi ? 'stage' : 'prod',
-  indexOverrideSuffix: null,
+export const globalApiOptions = (toggles?: Toggles): GlobalApiOptions => ({
+  env: toggles?.stagingApi ? 'stage' : 'prod',
+  indexOverrideSuffix: undefined,
 });
 
 export const queryString = (params: { [key: string]: any }): string => {

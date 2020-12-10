@@ -1,12 +1,12 @@
 import fetch from 'isomorphic-unfetch';
-import type {
+import {
   CatalogueApiError,
   CatalogueResultsList,
   Image,
 } from '@weco/common/model/catalogue';
-import { type CatalogueImagesApiProps } from '@weco/common/services/catalogue/api';
+import { CatalogueImagesApiProps } from '@weco/common/services/catalogue/ts_api';
 import {
-  type Toggles,
+  Toggles,
   rootUris,
   globalApiOptions,
   queryString,
@@ -14,19 +14,24 @@ import {
   notFound,
 } from './common';
 
-type GetImagesProps = {|
-  params: CatalogueImagesApiProps,
-  pageSize?: number,
-  toggles: Toggles,
-|};
+type GetImagesProps = {
+  params: CatalogueImagesApiProps;
+  pageSize?: number;
+  toggles: Toggles;
+};
 
-type ImageInclude = 'visuallySimilar';
+type ImageInclude =
+  | 'visuallySimilar'
+  | 'withSimilarColors'
+  | 'withSimilarFeatures'
+  | 'source.contributors'
+  | 'source.languages';
 
-type GetImageProps = {|
-  id: string,
-  toggles: Toggles,
-  include: ImageInclude[],
-|};
+type GetImageProps = {
+  id: string;
+  toggles: Toggles;
+  include?: ImageInclude[];
+};
 
 export async function getImages({
   params,
@@ -47,7 +52,7 @@ export async function getImages({
     const res = await fetch(url);
     const json = await res.json();
 
-    return (json: CatalogueResultsList<Image> | CatalogueApiError);
+    return json;
   } catch (error) {
     return catalogueApiError();
   }
@@ -66,7 +71,7 @@ export async function getImage({
       : null,
   };
   const query = queryString(params);
-  let url = `${rootUris[apiOptions.env]}/v2/images/${id}${query}`;
+  const url = `${rootUris[apiOptions.env]}/v2/images/${id}${query}`;
 
   try {
     const res = await fetch(url);

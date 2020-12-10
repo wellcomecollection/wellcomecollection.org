@@ -1,13 +1,11 @@
-// @flow
 import {
-  type CatalogueApiError,
-  type CatalogueApiRedirect,
-  type CatalogueApiNotFound,
-  type CatalogueResultsList,
-  type Work,
+  CatalogueApiError,
+  CatalogueApiRedirect,
+  CatalogueResultsList,
+  Work,
 } from '@weco/common/model/catalogue';
-import { type IIIFCanvas } from '@weco/common/model/iiif';
-import { type CatalogueWorksApiProps } from '@weco/common/services/catalogue/api';
+import { IIIFCanvas } from '@weco/common/model/iiif';
+import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/ts_api';
 import fetch from 'isomorphic-unfetch';
 import Raven from 'raven-js';
 import {
@@ -16,19 +14,19 @@ import {
   queryString,
   rootUris,
   notFound,
-  type Toggles,
+  Toggles,
 } from './common';
 
-type GetWorkProps = {|
-  id: string,
-  toggles?: Toggles,
-|};
+type GetWorkProps = {
+  id: string;
+  toggles?: Toggles;
+};
 
-type GetWorksProps = {|
-  params: CatalogueWorksApiProps,
-  pageSize?: number,
-  toggles?: Toggles,
-|};
+type GetWorksProps = {
+  params: CatalogueWorksApiProps;
+  pageSize?: number;
+  toggles?: Toggles;
+};
 
 const worksIncludes = ['identifiers', 'production', 'contributors', 'subjects'];
 
@@ -48,7 +46,7 @@ const workIncludes = [
   'languages',
 ];
 
-const redirect = (id: string, status: number = 302): CatalogueApiRedirect => ({
+const redirect = (id: string, status = 302): CatalogueApiRedirect => ({
   type: 'Redirect',
   redirectToId: id,
   status,
@@ -58,7 +56,7 @@ export async function getWorks({
   params,
   toggles,
   pageSize = 25,
-}: GetWorksProps): Promise<CatalogueResultsList<Work> | CatalogueApiError> {
+}: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
   const extendedParams = {
     ...params,
@@ -74,17 +72,13 @@ export async function getWorks({
     const res = await fetch(url);
     const json = await res.json();
 
-    return (json: CatalogueResultsList<Work> | CatalogueApiError);
+    return json;
   } catch (error) {
     return catalogueApiError();
   }
 }
 
-type WorkResponse =
-  | Work
-  | CatalogueApiError
-  | CatalogueApiRedirect
-  | CatalogueApiNotFound;
+type WorkResponse = Work | CatalogueApiError | CatalogueApiRedirect;
 
 export async function getWork({
   id,
@@ -98,7 +92,7 @@ export async function getWork({
       : null,
   };
   const query = queryString(params);
-  let url = `${rootUris[apiOptions.env]}/v2/works/${id}${query}`;
+  const url = `${rootUris[apiOptions.env]}/v2/works/${id}${query}`;
   const res = await fetch(url, { redirect: 'manual' });
 
   // When records from Miro have been merged with Sierra data, we redirect the
@@ -109,15 +103,15 @@ export async function getWork({
   // redirect: 'manual' returns the status code on the server only
   if (res.status === 301 || res.status === 302) {
     const location = res.headers.get('location');
-    const id = location.match(/works\/([^?].*)\?/)[1];
-    return redirect(id, res.status);
+    const id = location?.match(/works\/([^?].*)\?/)?.[1];
+    return id ? redirect(id, res.status) : notFound();
   }
 
   // redirect: 'manual' returns an opaque response on the client only
   if (res.type === 'opaqueredirect') {
     const redirectedRes = await fetch(url, { redirect: 'follow' });
-    const id = redirectedRes.url.match(/works\/([^?].*)\?/)[1];
-    return redirect(id);
+    const id = redirectedRes.url.match(/works\/([^?].*)\?/)?.[1];
+    return id ? redirect(id, res.status) : notFound();
   }
 
   try {
