@@ -61,6 +61,7 @@ describe('getItemIdentifiersWith', () => {
 describe('getArchiveAncestorArray', () => {
   it('gets the ancestors of an archive work', () => {
     const archiveAncestorArray = getArchiveAncestorArray(workWithPartOf);
+    console.log(archiveAncestorArray);
     expect(archiveAncestorArray).toStrictEqual([
       {
         id: 'hz43r7re',
@@ -70,6 +71,7 @@ describe('getArchiveAncestorArray', () => {
         availableOnline: false,
         totalDescendentParts: 2678,
         totalParts: 14,
+        partOf: [],
         type: 'Collection',
       },
       {
@@ -78,6 +80,19 @@ describe('getArchiveAncestorArray', () => {
         alternativeTitles: [],
         referenceNumber: 'PP/CRI/A',
         availableOnline: false,
+        partOf: [
+          {
+            alternativeTitles: [],
+            availableOnline: false,
+            id: 'hz43r7re',
+            partOf: [],
+            referenceNumber: 'PP/CRI',
+            title: 'Francis Crick (1916-2004): archives',
+            totalDescendentParts: 2678,
+            totalParts: 14,
+            type: 'Collection',
+          },
+        ],
         totalDescendentParts: 50,
         totalParts: 4,
         type: 'Section',
@@ -88,6 +103,31 @@ describe('getArchiveAncestorArray', () => {
         alternativeTitles: [],
         referenceNumber: 'PP/CRI/A/1',
         availableOnline: false,
+        partOf: [
+          {
+            alternativeTitles: [],
+            availableOnline: false,
+            id: 'gnfmdk33',
+            partOf: [
+              {
+                alternativeTitles: [],
+                availableOnline: false,
+                id: 'hz43r7re',
+                partOf: [],
+                referenceNumber: 'PP/CRI',
+                title: 'Francis Crick (1916-2004): archives',
+                totalDescendentParts: 2678,
+                totalParts: 14,
+                type: 'Collection',
+              },
+            ],
+            referenceNumber: 'PP/CRI/A',
+            title: 'Personal Material',
+            totalDescendentParts: 50,
+            totalParts: 4,
+            type: 'Section',
+          },
+        ],
         totalDescendentParts: 17,
         totalParts: 6,
         type: 'Section',
@@ -98,6 +138,43 @@ describe('getArchiveAncestorArray', () => {
         alternativeTitles: [],
         referenceNumber: 'PP/CRI/A/1/2',
         availableOnline: false,
+        partOf: [
+          {
+            alternativeTitles: [],
+            availableOnline: false,
+            id: 'pwbpp7gj',
+            partOf: [
+              {
+                alternativeTitles: [],
+                availableOnline: false,
+                id: 'gnfmdk33',
+                partOf: [
+                  {
+                    alternativeTitles: [],
+                    availableOnline: false,
+                    id: 'hz43r7re',
+                    partOf: [],
+                    referenceNumber: 'PP/CRI',
+                    title: 'Francis Crick (1916-2004): archives',
+                    totalDescendentParts: 2678,
+                    totalParts: 14,
+                    type: 'Collection',
+                  },
+                ],
+                referenceNumber: 'PP/CRI/A',
+                title: 'Personal Material',
+                totalDescendentParts: 50,
+                totalParts: 4,
+                type: 'Section',
+              },
+            ],
+            referenceNumber: 'PP/CRI/A/1',
+            title: 'Miscellaneous Personal Items',
+            totalDescendentParts: 17,
+            totalParts: 6,
+            type: 'Section',
+          },
+        ],
         totalDescendentParts: 9,
         totalParts: 9,
         type: 'Series',
