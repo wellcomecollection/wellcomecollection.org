@@ -274,7 +274,10 @@ export function parseEventDoc(
     ...relaxedPerformanceLabel,
   ];
 
-  return { ...event, labels };
+  const primaryLabels = [...eventFormat, ...eventAudiences, ...relaxedPerformanceLabel];
+  const secondaryLabels = [...eventInterpretations];
+
+  return { ...event, labels, primaryLabels, secondaryLabels };
 }
 
 const fetchLinks = [

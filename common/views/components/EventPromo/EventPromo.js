@@ -9,7 +9,7 @@ import { type UiEvent, isEventFullyBooked } from '../../../model/events';
 import Moment from 'moment';
 import Space from '../styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
-
+import Divider from '../Divider/Divider';
 type Props = {|
   event: UiEvent,
   position?: number,
@@ -53,7 +53,7 @@ const EventPromo = ({
 
         {event.labels.length > 0 && (
           <div style={{ position: 'absolute', bottom: 0 }}>
-            <LabelsList labels={event.labels} />
+            <LabelsList labels={event.primaryLabels} />
           </div>
         )}
       </div>
@@ -147,6 +147,22 @@ const EventPromo = ({
           </Space>
         )}
       </CardBody>
+      <Divider extraClasses="divider--white divider--keyline" />
+      {event.secondaryLabels.length > 0 && (
+        <Space
+          v={{
+            size: 's',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
+          h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
+        >
+          <LabelsList
+            labels={event.secondaryLabels}
+            labelColor="black"
+            secondary={true}
+          />
+        </Space>
+      )}
     </CardOuter>
   );
 };

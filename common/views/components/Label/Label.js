@@ -25,9 +25,10 @@ const Label = ({ label, labelColor = 'yellow', secondary = false }: Props) => {
         'plain-link font-white bg-green bg-hover-black': label.url,
         'rounded-diagonal': secondary,
         [font('hnm', 6)]: true,
-      })} ${label.url ? '' : `bg-${labelColor}`} ${
-        label.url ? '' : `font-${fontColor}`
-      }`}
+      })}
+       ${label.url ? '' : `bg-${labelColor}`}
+       ${label.url ? '' : `font-${fontColor}`}
+      `}
     >
       {label.text}
     </Space>
