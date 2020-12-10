@@ -1,29 +1,27 @@
-// @flow
-import { Fragment, type Node } from 'react';
-import { type NextLinkType } from '@weco/common/model/next-link-type';
+import { Fragment, FunctionComponent, ReactNode } from 'react';
+import { LinkProps } from '../../../model/link-props';
 
-export type PaginatorRenderFunctionProps = {|
-  currentPage: number,
-  totalPages: number,
-  prevLink: ?NextLinkType,
-  nextLink: ?NextLinkType,
-  rangeStart: number,
-  rangeEnd: number,
-|};
+export type PaginatorRenderFunctionProps = {
+  currentPage: number;
+  totalPages: number;
+  prevLink?: LinkProps;
+  nextLink?: LinkProps;
+  rangeStart: number;
+  rangeEnd: number;
+};
 
-export type PropsWithoutRenderFunction = {|
-  currentPage: number,
-  pageSize: number,
-  totalResults: number,
-  link: NextLinkType,
-  linkKey?: string,
-|};
-export type Props = {|
-  ...PropsWithoutRenderFunction,
-  render: (data: PaginatorRenderFunctionProps) => Node,
-|};
+export type PropsWithoutRenderFunction = {
+  currentPage: number;
+  pageSize: number;
+  totalResults: number;
+  link: LinkProps;
+  linkKey?: string;
+};
+export type Props = PropsWithoutRenderFunction & {
+  render: (data: PaginatorRenderFunctionProps) => ReactNode;
+};
 
-const Paginator = ({
+const Paginator: FunctionComponent<Props> = ({
   currentPage,
   pageSize,
   totalResults,
@@ -57,7 +55,7 @@ const Paginator = ({
           },
         },
       }
-    : null;
+    : undefined;
 
   const nextLink = next
     ? {
@@ -76,7 +74,7 @@ const Paginator = ({
           },
         },
       }
-    : null;
+    : undefined;
 
   return (
     <Fragment>

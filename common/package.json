@@ -21,6 +21,7 @@
     "@types/gtag.js": "^0.0.3",
     "@types/jest": "^26.0.17",
     "@types/lodash": "^4.14.161",
+    "@types/react-window": "^1.8.2",
     "@weco/next-plugin-transpile-modules": "^2.0.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.5.0",

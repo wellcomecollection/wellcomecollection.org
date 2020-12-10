@@ -10,7 +10,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import { NextPage } from 'next';
-import { DownloadFormat } from 'components/DownloadLink/DownloadLink';
+import { DownloadFormat } from '../DownloadLink/DownloadLink';
 
 export const DownloadOptions = styled.div.attrs(() => ({
   className: classNames({
