@@ -15,3 +15,7 @@ export async function elementIsVisible(id: string): Promise<boolean> {
   const result = await page.$eval<boolean, HTMLDivElement>(id, () => true);
   return result;
 }
+
+export function isMobile(): boolean {
+  return Boolean(deviceName);
+}

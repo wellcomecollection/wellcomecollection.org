@@ -148,7 +148,12 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 
             {showWorkTypeFilters && filtersToShow.includes('formats') && (
               <Space h={{ size: 's', properties: ['margin-right'] }}>
-                <DropdownButton label={'Formats'} isInline={true} id="formats">
+                <DropdownButton
+                  label={'Formats'}
+                  isInline={true}
+                  id="formats"
+                  ariaRole="format filter drop down"
+                >
                   <ul
                     className={classNames({
                       'no-margin no-padding plain-list': true,
@@ -171,6 +176,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                               name={`workType`}
                               checked={isChecked}
                               onChange={changeHandler}
+                              ariaLabel={`Radio checkbox ${workType.data.label}`}
                             />
                           </li>
                         )
@@ -187,7 +193,12 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   [font('hnl', 5)]: true,
                 })}
               >
-                <DropdownButton label={'Dates'} isInline={true} id="dates">
+                <DropdownButton
+                  label={'Dates'}
+                  isInline={true}
+                  id="dates"
+                  ariaRole="dates filter drop down"
+                >
                   <>
                     <Space
                       as="span"

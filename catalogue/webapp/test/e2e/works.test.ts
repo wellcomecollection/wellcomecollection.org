@@ -3,12 +3,19 @@ import {
   pressEnterSearchInput,
   worksSearchInputId,
   workSearchResultsContainer,
+  clickFormatDropDown,
+  clickFormatRadioCheckbox,
 } from './selectors/search';
-import { getInputValue, elementIsVisible } from './selectors/common';
+import {
+  expectUrlIsOnWorkPage,
+  expectWorkDetailsIsVisible,
+} from './asserts/work';
+import { getInputValue, isMobile } from './selectors/common';
+import { expectSearchResultsIsVisible } from '../e2e/asserts/search';
 import { worksUrl } from './urls';
 
 describe('works', () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
     await page.goto(worksUrl);
   });
 
@@ -19,11 +26,35 @@ describe('works', () => {
 
     const value = await getInputValue(worksSearchInputId);
     await page.waitForSelector(workSearchResultsContainer);
-    const searchResultsVisible = await elementIsVisible(
-      workSearchResultsContainer
-    );
 
-    expect(searchResultsVisible).toBeTruthy();
+    await expectSearchResultsIsVisible();
     expect(value).toBe(expectedValue);
+  });
+
+  test('Search by term, filter results, check results, view result', async () => {
+    const expectedValue = 'art of science';
+    await fillSearchInput(expectedValue);
+    await pressEnterSearchInput();
+    if (!isMobile()) {
+      await clickFormatDropDown();
+      await clickFormatRadioCheckbox('Pictures');
+    } else {
+      // todo: write specific selectors for mobile for filter drop down
+    }
+    const encodeExpectedValue = encodeURIComponent(expectedValue).replace(
+      /%20/g,
+      '+'
+    );
+    expect(page.url()).toContain(encodeExpectedValue);
+    await expectSearchResultsIsVisible();
+
+    await page.waitForTimeout(1000);
+    expect(page.url()).toContain('workType=k');
+    await expectSearchResultsIsVisible();
+    await page.click(`${workSearchResultsContainer} a:first-child`);
+    await page.waitForTimeout(1000);
+
+    await expectUrlIsOnWorkPage();
+    await expectWorkDetailsIsVisible();
   });
 });

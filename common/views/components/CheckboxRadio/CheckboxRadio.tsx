@@ -69,16 +69,18 @@ type CheckboxRadioProps = {
   name: string;
   onChange: (event: SyntheticEvent<HTMLInputElement>) => void;
   value: string;
+  ariaLabel?: string;
 };
 
 const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
   id,
   text,
   type,
+  ariaLabel,
   ...inputProps
 }: CheckboxRadioProps): ReactElement<CheckboxRadioProps> => {
   return (
-    <CheckboxRadioLabel htmlFor={id}>
+    <CheckboxRadioLabel htmlFor={id} aria-label={ariaLabel}>
       <CheckboxRadioInput id={id} type={type} {...inputProps} />
       <CheckboxRadioBox type={type}>
         <Icon name={type === 'checkbox' ? 'check' : 'indicator'} />

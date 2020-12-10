@@ -79,6 +79,7 @@ type Props = {
   isInline: boolean | null;
   isOnDark?: boolean;
   id: string;
+  ariaRole?: string;
 };
 
 const DropdownButton: FunctionComponent<Props> = ({
@@ -87,6 +88,7 @@ const DropdownButton: FunctionComponent<Props> = ({
   isInline,
   isOnDark,
   id,
+  ariaRole,
 }: Props): ReactElement<Props> => {
   const [isActive, setIsActive] = useState(false);
   const { isEnhanced } = useContext(AppContext);
@@ -158,7 +160,7 @@ const DropdownButton: FunctionComponent<Props> = ({
   }, [isActive]);
 
   return (
-    <DropdownWrapper ref={dropdownWrapperRef}>
+    <DropdownWrapper ref={dropdownWrapperRef} role={ariaRole}>
       {isInline ? (
         <ButtonInline {...buttonProps} />
       ) : (
