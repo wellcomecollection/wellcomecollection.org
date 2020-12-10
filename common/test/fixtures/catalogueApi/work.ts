@@ -1,6 +1,6 @@
-// @flow
+import { Work } from '../../../model/catalogue';
 
-export const workFixture = {
+export const workFixture: Work = {
   id: 'cnkv77md',
   title:
     'The sun rising with a yellow condom instead of the sun; representing protection against AIDS. Colour lithograph after M. Kolvenbach and G. Meyer, 199-.',
@@ -10,7 +10,7 @@ export const workFixture = {
   workType: {
     id: 'k',
     label: 'Pictures',
-    type: 'WorkType',
+    type: 'Format',
   },
   lettering:
     "Guten Tag. Mach's mit. Bundeszentrale für gesundheitliche Aufklärung, 51101 Köln. Konzept + Gestaltung: Marcel Kolvenbach + Guido Meyer",
@@ -207,6 +207,7 @@ export const workFixture = {
       url: 'https://creativecommons.org/licenses/by-nc/4.0/',
       type: 'License',
     },
+    accessConditions: [],
     type: 'DigitalLocation',
   },
   items: [
@@ -240,6 +241,7 @@ export const workFixture = {
             type: 'LocationType',
           },
           label: 'Closed stores Iconographic',
+          accessConditions: [],
           type: 'PhysicalLocation',
         },
         {
@@ -249,6 +251,22 @@ export const workFixture = {
             type: 'LocationType',
           },
           url: 'https://wellcomelibrary.org/iiif/b16656180/manifest',
+          license: {
+            id: 'cc-by-nc',
+            label: 'Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)',
+            url: 'https://creativecommons.org/licenses/by-nc/4.0/',
+            type: 'License',
+          },
+          accessConditions: [
+            {
+              status: {
+                id: 'open',
+                label: 'Open',
+                type: 'AccessStatus',
+              },
+              type: 'AccessCondition',
+            },
+          ],
           type: 'DigitalLocation',
         },
         {
@@ -266,12 +284,14 @@ export const workFixture = {
             url: 'https://creativecommons.org/licenses/by-nc/4.0/',
             type: 'License',
           },
+          accessConditions: [],
           type: 'DigitalLocation',
         },
       ],
       type: 'Item',
     },
   ],
+  availableOnline: true,
   production: [
     {
       label:
@@ -301,7 +321,7 @@ export const workFixture = {
     {
       id: 'eng',
       label: 'English',
-      type: 'German',
+      type: 'Language',
     },
     {
       id: 'ger',
@@ -320,11 +340,25 @@ export const workFixture = {
       type: 'Note',
     },
   ],
+  images: [
+    {
+      id: 'y6v52b5g',
+      type: 'Image',
+    },
+    {
+      id: 'q5f9yccs',
+      type: 'Image',
+    },
+  ],
+  parts: [],
+  partOf: [],
+  precededBy: [],
+  succeededBy: [],
   type: 'Work',
   '@context': 'https://api.wellcomecollection.org/catalogue/v2/context.json',
 };
 
-export const workWithPartOf = {
+export const workWithPartOf: Work = {
   id: 'pbtyx2xx',
   title: 'Physics Research Students, Cavendish Laboratory',
   alternativeTitles: [],
@@ -457,6 +491,7 @@ export const workWithPartOf = {
     },
   ],
   notes: [],
+  languages: [],
   images: [],
   parts: [],
   partOf: [
