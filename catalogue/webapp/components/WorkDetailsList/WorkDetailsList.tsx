@@ -1,11 +1,11 @@
-// @flow
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames } from '@weco/common/utils/classnames';
 import WorkDetailsProperty from '../WorkDetailsProperty/WorkDetailsProperty';
+import { FunctionComponent } from 'react';
 
-type Props = {| title: string, list: string[] |};
+type Props = { title: string; list: string[] };
 
-const WorkDetailsList = ({ title, list }: Props) => {
+const WorkDetailsList: FunctionComponent<Props> = ({ title, list }: Props) => {
   return (
     <WorkDetailsProperty title={title}>
       <Space
@@ -18,7 +18,7 @@ const WorkDetailsList = ({ title, list }: Props) => {
           'plain-list no-margin no-padding': true,
         })}
       >
-        {list.map((item, i, arr) => (
+        {list.map((item, i) => (
           <li key={i} style={{ listStylePosition: 'inside' }}>
             {item}
           </li>

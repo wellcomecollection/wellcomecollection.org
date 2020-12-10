@@ -1,19 +1,17 @@
-// @flow
-import { type Node } from 'react';
-// $FlowFixMe (tsx)
 import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import { classNames, grid, font } from '@weco/common/utils/classnames';
+import { FunctionComponent, ReactNode } from 'react';
 
-type Props = {|
-  headingText?: string,
-  children: Node,
-  withDivider?: boolean,
-  isInArchive?: boolean,
-|};
+type Props = {
+  headingText?: string;
+  children: ReactNode;
+  withDivider?: boolean;
+  isInArchive?: boolean;
+};
 
-const WorkDetailsSection = ({
+const WorkDetailsSection: FunctionComponent<Props> = ({
   headingText,
   children,
   withDivider = true,

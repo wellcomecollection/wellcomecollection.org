@@ -591,7 +591,6 @@ const WorkDetails: FunctionComponent<Props> = ({
       {work.subjects.length > 0 && (
         <WorkDetailsSection headingText="Subjects" isInArchive={isInArchive}>
           <WorkDetailsTags
-            title={null}
             tags={work.subjects.map(s => {
               return {
                 textParts: s.concepts.map(c => c.label),
