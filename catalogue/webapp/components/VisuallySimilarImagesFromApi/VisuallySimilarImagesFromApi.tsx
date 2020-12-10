@@ -40,7 +40,9 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
         toggles,
         include: ['visuallySimilar'],
       });
-      setSimilarImages(fullImage.visuallySimilar);
+      if (fullImage.type === 'Image') {
+        setSimilarImages(fullImage.visuallySimilar || []);
+      }
     };
     fetchVisuallySimilarImages();
   }, [originalId]);

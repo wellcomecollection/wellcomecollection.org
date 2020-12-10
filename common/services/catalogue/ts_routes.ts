@@ -207,7 +207,7 @@ export const ImagesRoute: NextRoute<ImagesRouteProps> = {
     return {
       query: defaultToEmptyString(stringQ.query),
       page: defaultTo1(stringQ.page),
-      locationsLicense: stringToCsv(stringQ.locationsLicense),
+      locationsLicense: stringToCsv(stringQ['locations.license']),
       color: defaultToEmptyString(stringQ.color),
       source: defaultToEmptyString(stringQ.source),
 

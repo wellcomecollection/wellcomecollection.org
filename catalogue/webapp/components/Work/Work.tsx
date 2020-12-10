@@ -31,6 +31,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
 import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import useHotjar from '@weco/common/hooks/useHotjar';
+import { IIIFManifest } from '@weco/common/model/iiif';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -72,9 +73,9 @@ const Work: FunctionComponent<Props> = ({
     work,
     'iiif-presentation'
   );
-  const [iiifPresentationManifest, setIIIFPresentationManifest] = useState(
-    null
-  );
+  const [iiifPresentationManifest, setIIIFPresentationManifest] = useState<
+    IIIFManifest
+  >();
   const [imageTotal, setImageTotal] = useState(0);
   const [childManifestsCount, setChildManifestsCount] = useState(0);
   const fetchIIIFPresentationManifest = async () => {
