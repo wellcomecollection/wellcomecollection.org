@@ -3,7 +3,6 @@ import NextLink from 'next/link';
 import { useEffect, useState, useContext, FunctionComponent } from 'react';
 import fetch from 'isomorphic-unfetch';
 import { IIIFManifest } from '@weco/common/model/iiif';
-import { Work } from '@weco/common/model/work';
 import { NextLinkType } from '@weco/common/model/next-link-type';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
@@ -43,7 +42,7 @@ import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/Expla
 import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import { DigitalLocation } from '@weco/common/model/catalogue';
+import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 type Props = {
   work: Work;
   iiifPresentationManifest?: IIIFManifest;
@@ -527,7 +526,10 @@ const WorkDetails: FunctionComponent<Props> = ({
           <WorkDetailsTags
             title="Contributors"
             tags={work.contributors.map(contributor => ({
-              textParts: [contributor.agent.label],
+              textParts: [
+                contributor.agent.label,
+                ...contributor.roles.map(role => role.label),
+              ],
               linkAttributes: worksLink(
                 {
                   query: `"${contributor.agent.label}"`,
@@ -620,9 +622,7 @@ const WorkDetails: FunctionComponent<Props> = ({
         </div>
       </WorkDetailsSection>
 
-      {(isbnIdentifiers.length > 0 ||
-        issnIdentifiers.length > 0 ||
-        work.citeAs) && (
+      {isbnIdentifiers.length > 0 && (
         <WorkDetailsSection headingText="Identifiers" isInArchive={isInArchive}>
           {isbnIdentifiers.length > 0 && (
             <WorkDetailsList
@@ -635,9 +635,6 @@ const WorkDetails: FunctionComponent<Props> = ({
               title="ISSN"
               list={issnIdentifiers.map(id => id.value)}
             />
-          )}
-          {work.citeAs && (
-            <WorkDetailsText title="Reference number" text={[work.citeAs]} />
           )}
         </WorkDetailsSection>
       )}
