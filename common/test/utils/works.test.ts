@@ -61,7 +61,6 @@ describe('getItemIdentifiersWith', () => {
 describe('getArchiveAncestorArray', () => {
   it('gets the ancestors of an archive work', () => {
     const archiveAncestorArray = getArchiveAncestorArray(workWithPartOf);
-    console.log(archiveAncestorArray);
     expect(archiveAncestorArray).toStrictEqual([
       {
         id: 'hz43r7re',
