@@ -5,7 +5,7 @@ import {
   workSearchResultsContainer,
 } from './selectors/search';
 import { getInputValue, elementIsVisible } from './selectors/common';
-import { worksUrl } from './const';
+import { worksUrl } from './urls';
 
 describe('works', () => {
   beforeAll(async () => {
