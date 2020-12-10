@@ -276,7 +276,7 @@ async function getChildren({
   toggles: Toggles;
 }): Promise<UiTree> {
   const work = await getWork({ id: item.work.id, toggles });
-  return work.type === 'Work' && work.parts
+  return work.type !== 'Error' && work.type !== 'Redirect' && work.parts
     ? work.parts.map(part => ({
         work: part,
         openStatus: false,
@@ -363,7 +363,7 @@ async function createArchiveTree({
   const allTreeNodes = [...archiveAncestorArray, work]; // An array of a work and all its ancestors (ancestors first)
   const treeStructure = await allTreeNodes.reduce(
     async (acc, curr, i, ancestorArray) => {
-      const parentId = ancestorArray[i - 1] && ancestorArray[i - 1].id;
+      const parentId = ancestorArray?.[i - 1]?.id;
       // We add each ancestor and its siblings to the tree
       if (!parentId) {
         const siblings = await getSiblings({
@@ -410,11 +410,11 @@ async function getSiblings({
   openStatusOverride?: boolean;
 }): Promise<UiTreeNode[]> {
   const currWork = await getWork({ id, toggles });
-  if (currWork.type === 'Work') {
+  if (currWork.type !== 'Error' && currWork.type !== 'Redirect') {
     return createSiblingsArray({
       work: {
         ...currWork,
-        totalParts: currWork.parts && currWork.parts.length,
+        totalParts: currWork.parts?.length,
       },
       openStatusOverride,
     });
@@ -804,7 +804,7 @@ function createBasicTree({
   const rootNode: UiTreeNode = {
     openStatus: true,
     work: work,
-    parentId: work.partOf[0] && work.partOf[0].id,
+    parentId: work.partOf?.[0]?.id,
     children: work.parts.map(part => ({
       openStatus: false,
       work: part,
@@ -823,7 +823,7 @@ function createBasicTree({
             ? work.parts.map(part => ({
                 work: part,
                 openStatus: false,
-                parentId: work.partOf[0] && work.partOf[0].id,
+                parentId: work.partOf?.[0]?.id,
               }))
             : [acc],
       };
