@@ -5,7 +5,7 @@ export const baseUrl = (): string => {
     case 'staging':
       return 'https://www-stage.wellcomecollection.org';
     default:
-      return 'http://localhost:3000';
+      return `http://localhost:${process.env.PORT || 3000}`;
   }
 };
 
