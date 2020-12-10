@@ -48,8 +48,8 @@ import {
 import { parseUrlParams } from '@weco/common/utils/serialise-url';
 
 type Props = {
-  works: CatalogueResultsList<Work> | null;
-  images: CatalogueResultsList<Image> | null;
+  works?: CatalogueResultsList<Work>;
+  images?: CatalogueResultsList<Image>;
   worksRouteProps: WorksRouteProps;
   shouldGetWorks: boolean;
   apiProps: CatalogueWorksApiProps;
@@ -66,7 +66,8 @@ const Works: NextPage<Props> = ({
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
-  const results: CatalogueResultsList<Work | Image> | null = works || images;
+  const results: CatalogueResultsList<Work | Image> | undefined =
+    works || images;
 
   const { searchPrototype } = globalContextData.toggles;
   const {
@@ -364,12 +365,12 @@ export const getServerSideProps: GetServerSideProps<
   const works = shouldGetWorks
     ? await getWorks({
         params: worksApiProps,
-        toggles: context.query.toggles,
+        toggles: globalContextData.toggles,
       })
-    : null;
+    : undefined;
 
   if (works && works.type === 'Error') {
-    return appError(context, works.statusCode, 'Works API error');
+    return appError(context, works.httpStatus, 'Works API error');
   }
 
   // TODO: increase pageSize to 100 when `isImageSearch` (but only if `isEnhanced`)
@@ -380,21 +381,22 @@ export const getServerSideProps: GetServerSideProps<
   const images = shouldGetImages
     ? await getImages({
         params: imagesApiProps,
-        toggles: context.query.toggles,
+        toggles: globalContextData.toggles,
       })
-    : null;
+    : undefined;
 
   if (images && images.type === 'Error') {
-    return appError(context, images.statusCode, 'Images API error');
+    return appError(context, images.httpStatus, 'Images API error');
   }
 
   // This logic is wonky, but it'll be removed once we have the
   // `/images` endpoint.
-  const pageviewProperties = shouldGetWorks
-    ? { totalResults: works.totalResults }
-    : shouldGetImages
-    ? { totalResults: images.totalResults }
-    : {};
+  const pageviewProperties =
+    shouldGetWorks && works
+      ? { totalResults: works.totalResults }
+      : shouldGetImages && images
+      ? { totalResults: images.totalResults }
+      : {};
 
   return {
     props: removeUndefinedProps({

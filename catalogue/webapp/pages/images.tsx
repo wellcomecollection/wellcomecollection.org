@@ -282,13 +282,13 @@ export const getServerSideProps: GetServerSideProps<
   const hasQuery = !!(params.query && params.query !== '');
   const imagesOrError = hasQuery
     ? await getImages({
-        params,
-        toggles: context.query.toggles,
+        params: apiProps,
+        toggles: globalContextData.toggles,
       })
     : undefined;
 
   if (imagesOrError && imagesOrError.type === 'Error') {
-    return appError(context, imagesOrError.statusCode, 'Images API error');
+    return appError(context, imagesOrError.httpStatus, 'Images API error');
   }
 
   return {

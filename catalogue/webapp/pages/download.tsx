@@ -64,8 +64,8 @@ const DownloadPage: NextPage<Props> = ({
   const iiifImageDownloadOptions = iiifImageLocationUrl
     ? getDownloadOptionsFromImageUrl({
         url: iiifImageLocationUrl,
-        width: null,
-        height: null,
+        width: undefined,
+        height: undefined,
       })
     : [];
   const iiifPresentationDownloadOptions = manifest
@@ -174,13 +174,22 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const manifestUrl = sierraId
-    ? `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
-    : null;
-  const manifest = manifestUrl ? await (await fetch(manifestUrl)).json() : null;
-  const work = await getWork({ id: workId, toggles: context.query.toggles });
+  const manifestUrl =
+    sierraId && `https://wellcomelibrary.org/iiif/${sierraId}/manifest`;
+  const manifest = manifestUrl && (await (await fetch(manifestUrl)).json());
+  const work = await getWork({
+    id: workId,
+    toggles: globalContextData.toggles,
+  });
   if (work.type === 'Error') {
-    appError(context, work.httpStatus, 'Works API error');
+    return appError(context, work.httpStatus, 'Works API error');
+  } else if (work.type === 'Redirect') {
+    return {
+      redirect: {
+        destination: `/works/${work.redirectToId}/download`,
+        permanent: work.status === 301,
+      },
+    };
   }
 
   return {
