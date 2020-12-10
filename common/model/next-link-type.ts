@@ -6,10 +6,10 @@ import { ParsedUrlQueryInput } from 'querystring';
 // naming convention
 
 export type NextLinkType = {
-  href: UrlObject & {
+  href: Omit<UrlObject, 'query'> & {
     query?: null | ParsedUrlQueryInput;
   };
-  as: UrlObject & {
+  as: Omit<UrlObject, 'query'> & {
     query?: null | ParsedUrlQueryInput;
   };
 };
