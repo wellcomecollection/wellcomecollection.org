@@ -9,6 +9,7 @@ import { type UiEvent, isEventFullyBooked } from '../../../model/events';
 import Moment from 'moment';
 import Space from '../styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
+/* $FlowFixMe (tsx) */
 import Divider from '../Divider/Divider';
 type Props = {|
   event: UiEvent,
