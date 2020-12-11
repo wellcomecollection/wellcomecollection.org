@@ -1,7 +1,7 @@
 import {
   fillSearchInput,
   pressEnterSearchInput,
-  worksSearchInputId,
+  worksSearchInputField,
   workSearchResultsContainer,
   clickFormatDropDown,
   clickFormatRadioCheckbox,
@@ -27,7 +27,7 @@ describe('works', () => {
     await fillSearchInput(expectedValue);
     await pressEnterSearchInput();
 
-    const value = await getInputValue(worksSearchInputId);
+    const value = await getInputValue(worksSearchInputField);
     await page.waitForSelector(workSearchResultsContainer);
 
     await expectSearchResultsIsVisible();

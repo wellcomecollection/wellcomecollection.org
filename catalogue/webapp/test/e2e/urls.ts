@@ -11,3 +11,4 @@ export const baseUrl = (): string => {
 
 export const collectionsUrl = `${baseUrl()}/collections`;
 export const worksUrl = `${baseUrl()}/works`;
+export const imagesUrl = `${baseUrl()}/images`;
