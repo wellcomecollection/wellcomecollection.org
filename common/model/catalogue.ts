@@ -3,16 +3,16 @@ export type Work = {
   id: string;
   title: string;
   alternativeTitles: string[];
-  referenceNumber: string;
-  description: string;
+  referenceNumber?: string;
+  description?: string;
   physicalDescription: string;
   workType: WorkType;
   lettering?: string;
   createdDate?: Period;
   contributors: Contributor[];
   identifiers: Identifier[];
-  subjects?: Subject;
-  genres?: Genre;
+  subjects?: Subject[];
+  genres?: Genre[];
   thumbnail?: DigitalLocation;
   items?: Item[];
   production: Production[];
@@ -23,17 +23,29 @@ export type Work = {
   collectionPath?: CollectionPath;
   collection?: Collection;
   images?: ImageInclude[];
-  parts: Work[];
-  partOf: Work[];
-  precededBy: Work[];
-  succeededBy: Work[];
+  parts: RelatedWork[];
+  partOf: RelatedWork[];
+  precededBy: RelatedWork[];
+  succeededBy: RelatedWork[];
+  totalParts?: number;
+  totalDescendentParts?: number;
   availableOnline: boolean;
+  '@context'?: string;
 };
+
+type MinimalRelatedWorkFields =
+  | 'id'
+  | 'title'
+  | 'alternativeTitles'
+  | 'referenceNumber'
+  | 'availableOnline'
+  | 'type';
+export type RelatedWork = Partial<Work> & Pick<Work, MinimalRelatedWorkFields>;
 
 type WorkType = {
   id: string;
   label: string;
-  type: 'WorkType';
+  type: 'Format';
 };
 
 type Period = {
@@ -43,16 +55,25 @@ type Period = {
   type: 'Period';
 };
 
+type IdentifierType = {
+  id: string;
+  label: string;
+  type: 'IdentifierType';
+};
+
 type Identifier = {
   value: string;
+  identifierType: IdentifierType;
   type: 'Identifier';
 };
+
+type AgentType = 'Agent' | 'Person' | 'Organisation' | 'Meeting';
 
 type Agent = {
   id?: string;
   identifiers?: Identifier[];
   label: string;
-  type: 'Agent';
+  type: AgentType;
 };
 
 type ContributorRole = {
@@ -77,13 +98,16 @@ type Subject = {
 type Genre = {
   label: string;
   concepts: Concept[];
-  type: 'Subject';
+  type: 'Genre';
 };
+
+type ConceptType = 'Concept' | 'Period' | 'Place';
 
 type Concept = {
   id?: string;
   identifiers?: Identifier[];
   label: string;
+  type: ConceptType;
 };
 
 export type DigitalLocation = {
@@ -95,11 +119,11 @@ export type DigitalLocation = {
   type: 'DigitalLocation';
 };
 
-type PhysicalLocation = {
+export type PhysicalLocation = {
   locationType: LocationType;
   label: string;
   accessConditions: AccessCondition[];
-  type: 'DigitalLocation';
+  type: 'PhysicalLocation';
 };
 
 type Location = DigitalLocation | PhysicalLocation;
@@ -130,7 +154,7 @@ type AccessStatus = {
   type: 'AccessStatus';
 };
 
-type Item = {
+export type Item = {
   id?: string;
   identifiers?: Identifier[];
   title?: string;
@@ -144,8 +168,8 @@ type Date = {
 };
 
 type Place = {
-  id: string;
-  identifiers: Identifier[];
+  id?: string;
+  identifiers?: Identifier[];
   label: string;
   type: 'Place';
 };
@@ -213,14 +237,12 @@ export type CatalogueApiRedirect = {
 export type Image = {
   type: 'Image';
   id: string;
-  locations: {
-    url: string;
-    Object;
-  }[];
+  locations: DigitalLocation[];
   source: {
     id: string;
     type: string;
   };
+  visuallySimilar?: Image[];
 };
 
 // export type CatalogueApiError = {|
@@ -262,9 +284,3 @@ export type CatalogueResultsList<Result = Work> = {
     locationType: CatalogueAggregation;
   } | null;
 };
-
-// export type CatalogueApiRedirect = {
-//   type: 'Redirect',
-//   status: number,
-//   redirectToId: string,
-// };

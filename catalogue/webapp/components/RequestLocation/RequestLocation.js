@@ -15,6 +15,7 @@ import getStacksWork from '@weco/catalogue/services/stacks/items';
 import {
   getItemsWithPhysicalLocation,
   type PhysicalItemAugmented,
+  // $FlowFixMe (tsx)
 } from '@weco/common/utils/works';
 import { font, classNames } from '@weco/common/utils/classnames';
 import LogInButton from '../LogInButton/LogInButton';

@@ -1,6 +1,14 @@
-// @flow
 import styled from 'styled-components';
-import { useState, memo, useEffect, useRef, useContext } from 'react';
+import {
+  useState,
+  memo,
+  useEffect,
+  useRef,
+  useContext,
+  RefObject,
+  FunctionComponent,
+  CSSProperties,
+} from 'react';
 import { FixedSizeGrid, FixedSizeList, areEqual } from 'react-window';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
@@ -10,8 +18,8 @@ import {
   headerHeight,
   topBarHeight,
 } from '@weco/common/views/components/IIIFViewer/IIIFViewer';
-// $FlowFixMe(tsx)
 import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
+import { IIIFCanvas } from '../../../../model/iiif';
 
 const ThumbnailSpacer = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
@@ -19,75 +27,79 @@ const ThumbnailSpacer = styled(Space).attrs({
   height: 200px;
 `;
 
-type CellProps = {|
-  style: any,
-  columnIndex: number,
-  rowIndex: number,
-  index: number,
-  data: {|
-    scrollVelocity: number,
-    columnCount: number,
-    gridVisible: boolean,
-    setGridVisible: (value: boolean) => void,
-    mainViewerRef: { current: FixedSizeList | null },
-    activeIndex: number,
-    setActiveIndex: number => void,
-    canvases: any,
-  |},
-|};
+type CellProps = {
+  style: CSSProperties;
+  columnIndex: number;
+  rowIndex: number;
+  index: number;
+  data: {
+    scrollVelocity: number;
+    columnCount: number;
+    gridVisible: boolean;
+    setGridVisible: (value: boolean) => void;
+    mainViewerRef: RefObject<FixedSizeList>;
+    activeIndex: number;
+    setActiveIndex: (i: number) => void;
+    canvases: IIIFCanvas[];
+  };
+};
 
-const Cell = memo(
-  ({ columnIndex, rowIndex, style, data, index }: CellProps) => {
-    const {
-      columnCount,
-      mainViewerRef,
-      gridVisible,
-      setGridVisible,
-      scrollVelocity,
-      activeIndex,
-      setActiveIndex,
-      canvases,
-    } = data;
-    const itemIndex = rowIndex * columnCount + columnIndex;
-    const currentCanvas = canvases[itemIndex];
-    return (
-      <div style={style}>
-        {scrollVelocity > 1 ? (
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <LL lighten={true} />
-          </div>
-        ) : (
-          currentCanvas && (
-            <ThumbnailSpacer>
-              <IIIFCanvasThumbnail
-                canvas={currentCanvas}
-                clickHandler={() => {
-                  mainViewerRef &&
-                    mainViewerRef.current &&
-                    mainViewerRef.current.scrollToItem(itemIndex);
-                  setActiveIndex(itemIndex);
-                  setGridVisible(false);
-                }}
-                isActive={activeIndex === itemIndex}
-                thumbNumber={itemIndex + 1}
-                isFocusable={gridVisible}
-              />
-            </ThumbnailSpacer>
-          )
-        )}
-      </div>
-    );
-  },
-  areEqual
-);
+const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
+  const {
+    columnCount,
+    mainViewerRef,
+    gridVisible,
+    setGridVisible,
+    scrollVelocity,
+    activeIndex,
+    setActiveIndex,
+    canvases,
+  } = data;
+  const itemIndex = rowIndex * columnCount + columnIndex;
+  const currentCanvas = canvases[itemIndex];
+  return (
+    <div style={style}>
+      {scrollVelocity > 1 ? (
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <LL lighten={true} />
+        </div>
+      ) : (
+        currentCanvas && (
+          <ThumbnailSpacer>
+            <IIIFCanvasThumbnail
+              canvas={currentCanvas}
+              clickHandler={() => {
+                mainViewerRef &&
+                  mainViewerRef.current &&
+                  mainViewerRef.current.scrollToItem(itemIndex);
+                setActiveIndex(itemIndex);
+                setGridVisible(false);
+              }}
+              isActive={activeIndex === itemIndex}
+              thumbNumber={itemIndex + 1}
+              isFocusable={gridVisible}
+            />
+          </ThumbnailSpacer>
+        )
+      )}
+    </div>
+  );
+}, areEqual);
 
 Cell.displayName = 'Cell';
 
-const GridViewerEl = styled.div`
+type GridViewerElProps = {
+  isVisible?: boolean;
+  isFullscreen?: boolean;
+  infoBarIsVisible?: boolean;
+  viewerRef: RefObject<HTMLElement>;
+};
+
+const GridViewerEl = styled.div<GridViewerElProps>`
   outline: none;
   position: fixed;
   top: ${props => {
-    const viewerOffset = props?.viewerRef?.current?.offsetTop | 0;
+    const viewerOffset = props?.viewerRef?.current?.offsetTop || 0;
 
     if (props.isVisible && props.isFullscreen) {
       return `${topBarHeight}px`;
@@ -109,21 +121,21 @@ const GridViewerEl = styled.div`
   transition: top 500ms ease;
 `;
 
-type Props = {|
-  gridHeight: number,
-  gridWidth: number,
-  gridVisible: boolean,
-  gridViewerRef: { current: HTMLElement | null },
-  mainViewerRef: { current: FixedSizeList | null },
-  setGridVisible: boolean => void,
-  activeIndex: number,
-  setActiveIndex: number => void,
-  canvases: [],
-  isFullscreen: boolean,
-  viewerRef: { current: HTMLElement | null },
-|};
+type Props = {
+  gridHeight: number;
+  gridWidth: number;
+  gridVisible: boolean;
+  gridViewerRef: RefObject<HTMLDivElement>;
+  mainViewerRef: RefObject<FixedSizeList>;
+  setGridVisible: (visible: boolean) => void;
+  activeIndex: number;
+  setActiveIndex: (i: number) => void;
+  canvases: IIIFCanvas[];
+  isFullscreen: boolean;
+  viewerRef: RefObject<HTMLElement>;
+};
 
-const GridViewer = ({
+const GridViewer: FunctionComponent<Props> = ({
   gridHeight,
   gridWidth,
   gridVisible,
@@ -141,14 +153,12 @@ const GridViewer = ({
   const itemWidth = 250;
   const columnCount = Math.round(gridWidth / itemWidth);
   const columnWidth = gridWidth / columnCount;
-  const grid = useRef();
+  const grid = useRef<FixedSizeGrid>(null);
   const { isVisible } = useContext(GlobalInfoBarContext);
 
   useEffect(() => {
     const rowIndex = Math.floor(activeIndex / columnCount);
-    grid &&
-      grid.current &&
-      grid.current.scrollToItem({ align: 'start', rowIndex });
+    grid.current?.scrollToItem({ align: 'start', rowIndex });
   }, [activeIndex]);
 
   useEffect(() => {

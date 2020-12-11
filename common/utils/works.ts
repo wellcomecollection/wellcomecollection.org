@@ -1,7 +1,11 @@
-// @flow
-import { type Work } from '../model/work';
-import { type IIIFRendering } from '../model/iiif';
-import { type LicenseAPIData } from '@weco/common/utils/licenses';
+import {
+  DigitalLocation,
+  Item,
+  PhysicalLocation,
+  RelatedWork,
+  Work,
+} from '../model/catalogue';
+import { IIIFRendering } from '../model/iiif';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 
 export function getProductionDates(work: Work) {
@@ -10,26 +14,11 @@ export function getProductionDates(work: Work) {
     .reduce((a, b) => a.concat(b), []);
 }
 
-type DownloadImage = {|
-  url: string,
-  width: ?number,
-  height: ?number,
-|};
-
-export type NodeWork = {|
-  id: string,
-  title: string,
-  alternativeTitles: string[],
-  referenceNumber?: string,
-  availableOnline: boolean,
-  totalParts: number,
-  totalDescendentParts: number,
-  // partOf?: [],
-  parts?: [],
-  // precededBy?: [],
-  // succeededBy?: [],
-  type: string,
-|};
+type DownloadImage = {
+  url: string;
+  width?: number;
+  height?: number;
+};
 
 export function getDownloadOptionsFromImageUrl(
   downloadImage: DownloadImage
@@ -101,105 +90,77 @@ const workTypeIcons = {
   evideos: 'video',
   websites: 'website',
 };
-export function getWorkTypeIcon(work: Work): ?string {
+export function getWorkTypeIcon(work: Work): string | undefined {
   return workTypeIcons[work.workType.label.toLowerCase()];
 }
 
-type LocationType = {|
-  id: string,
-  label: string,
-  type: 'LocationType',
-|};
-
-export type DigitalLocation = {|
-  credit: string,
-  license?: LicenseAPIData,
-  locationType: LocationType,
-  type: 'DigitalLocation',
-  url: string,
-  accessConditions: [],
-|};
-export type PhysicalLocation = {|
-  locationType: LocationType,
-  label: string,
-  type: 'PhysicalLocation',
-|};
-
-export type WorkCatalogueItem = {|
-  id: string,
-  title?: string,
-  identifiers: [],
-  locations: (DigitalLocation | PhysicalLocation)[],
-  type: string,
-|};
-
-type StacksItemStatus = {| id: string, label: string, type: 'ItemStatus' |};
+type StacksItemStatus = {
+  id: string;
+  label: string;
+  type: 'ItemStatus';
+};
 
 // We have the items from the catalogue API and add additional data from the stacks API,
 // data from UI interactions and data we work out based on location and status
-export type PhysicalItemAugmented = {|
-  ...WorkCatalogueItem,
-  locations: PhysicalLocation[],
-  dueDate?: string,
-  status?: StacksItemStatus,
-  checked: boolean,
-  requestable: boolean,
-  requested: boolean,
-  requestSucceeded: boolean,
-|};
+export type PhysicalItemAugmented = {
+  locations: PhysicalLocation[];
+  dueDate?: string;
+  status?: StacksItemStatus;
+  checked?: boolean;
+  requestable?: boolean;
+  requested?: boolean;
+  requestSucceeded?: boolean;
+};
 
 export function getItemsWithPhysicalLocation(
   work: Work
 ): PhysicalItemAugmented[] {
-  return (
-    work.items &&
-    work.items
-      .map(item => {
-        if (
-          item.locations.find(location => location.type === 'PhysicalLocation')
-        ) {
-          return item;
-        }
-      })
-      .filter(Boolean)
-  );
+  return (work.items ?? [])
+    .map(item => {
+      if (
+        item.locations.find(location => location.type === 'PhysicalLocation')
+      ) {
+        return item as PhysicalItemAugmented;
+      }
+    })
+    .filter((item?: PhysicalItemAugmented): item is PhysicalItemAugmented =>
+      Boolean(item)
+    );
 }
 
 export function getDigitalLocationOfType(
   work: Work,
   locationType: string
-): ?DigitalLocation {
-  const [item] =
-    work.items &&
-    work.items
-      .map(item =>
-        item.locations.find(
-          location => location.locationType.id === locationType
-        )
-      )
-      .filter(Boolean);
-  return item;
+): DigitalLocation | undefined {
+  const [location] = (work.items ?? [])
+    .map(item =>
+      item.locations.find(location => location.locationType.id === locationType)
+    )
+    .filter(
+      (
+        location?: DigitalLocation | PhysicalLocation
+      ): location is DigitalLocation => location?.type === 'DigitalLocation'
+    );
+  return location;
 }
 
 export function getAccessConditionForDigitalLocation(
-  digitalLocation: ?DigitalLocation
-): ?string {
+  digitalLocation?: DigitalLocation
+): string | undefined {
   if (digitalLocation) {
     const accessConditions = digitalLocation?.accessConditions || [];
     const accessCondition = accessConditions.find(
       condition => condition.status
     );
-    return accessCondition?.status?.id || null;
+    return accessCondition?.status?.id;
   }
-  return null;
 }
 
-type Item = Object;
-
 function itemIdentifierWithId(item: Item, id: string): boolean {
-  const matchedIdentifiers = item.identifiers.filter(
-    identifier => identifier.identifierType.id === id
-  );
+  const matchedIdentifiers =
+    item.identifiers?.filter(
+      identifier => identifier && identifier.identifierType.id === id
+    ) ?? [];
 
   return matchedIdentifiers.length >= 1;
 }
@@ -212,29 +173,31 @@ function itemLocationWithType(item: Item, locationType: string): boolean {
   return matchedIdentifiers.length >= 1;
 }
 
-type ItemProps = {|
-  identifierId: string,
-  locationType: string,
-|};
+type ItemProps = {
+  identifierId: string;
+  locationType: string;
+};
 
 export function getItemsWith(
   work: Work,
   { identifierId, locationType }: ItemProps
 ): Item[] {
-  return work.items
-    .filter(item => itemIdentifierWithId(item, identifierId))
-    .filter(item => itemLocationWithType(item, locationType));
+  return (
+    work.items
+      ?.filter(item => itemIdentifierWithId(item, identifierId))
+      .filter(item => itemLocationWithType(item, locationType)) ?? []
+  );
 }
 
-type WorkProps = {|
-  identifierId: string,
-|};
+type WorkProps = {
+  identifierId: string;
+};
 
 export function getWorkIdentifiersWith(
   work: Work,
   { identifierId }: WorkProps
 ) {
-  return work.identifiers.reduce((acc, identifier) => {
+  return work.identifiers.reduce((acc: string[], identifier) => {
     return identifier.identifierType.id === identifierId
       ? acc.concat(identifier.value)
       : acc;
@@ -249,11 +212,11 @@ export function getItemIdentifiersWith(
   const items: Item[] = getItemsWith(work, { identifierId, locationType });
 
   return items.reduce((acc: string[], item: Item) => {
-    const matching = item.identifiers.find(
+    const matching = item.identifiers?.find(
       identifier => identifier.identifierType.id === identifierType
     );
 
-    const matchingValue = matching && matching.value;
+    const matchingValue = matching?.value;
 
     if (matchingValue) {
       acc.push(matchingValue);
@@ -263,27 +226,14 @@ export function getItemIdentifiersWith(
   }, []);
 }
 
-export function parsePart(part: Work): NodeWork {
-  return {
-    id: part.id,
-    title: part.title,
-    alternativeTitles: part.alternativeTitles,
-    referenceNumber: part.referenceNumber,
-    availableOnline: part.availableOnline,
-    totalParts: part.totalParts,
-    totalDescendentParts: part.totalDescendentParts,
-    type: part.type,
-  };
-}
-
 function makeArchiveAncestorArray(partOfArray, nextPart) {
   if (!nextPart) return partOfArray;
   return makeArchiveAncestorArray(
-    [...partOfArray, parsePart(nextPart)],
+    [...partOfArray, nextPart],
     nextPart?.partOf?.[0]
   );
 }
 
-export function getArchiveAncestorArray(work: Work): NodeWork[] {
+export function getArchiveAncestorArray(work: Work): RelatedWork[] {
   return makeArchiveAncestorArray([], work?.partOf?.[0]).reverse();
 }

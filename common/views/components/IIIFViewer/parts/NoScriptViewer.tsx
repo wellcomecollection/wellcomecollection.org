@@ -1,4 +1,3 @@
-// @flow
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
@@ -10,20 +9,20 @@ import { imageSizes } from '../../../../utils/image-sizes';
 import { trackEvent } from '@weco/common/utils/ga';
 import Space from '../../styled/Space';
 import Paginator, {
-  type PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction,
-  type PaginatorRenderFunctionProps,
+  PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction,
+  PaginatorRenderFunctionProps,
 } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
-// $FlowFixMe (tsx)
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
-import { type IIIFCanvas } from '@weco/common/model/iiif';
+import { IIIFCanvas } from '@weco/common/model/iiif';
 import {
   IIIFViewer,
   IIIFViewerMain,
   IIIFViewerImageWrapper,
 } from '../IIIFViewer';
+import { FunctionComponent } from 'react';
 
-const StaticThumbnailsContainer = styled.div.attrs(props => ({
+const StaticThumbnailsContainer = styled.div.attrs(() => ({
   className: classNames({
     'bg-viewerBlack flex relative': true,
   }),
@@ -54,7 +53,7 @@ const ThumbnailLink = styled.a`
   }
 `;
 
-export const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
+export const IIIFViewerPaginatorButtons = styled.div.attrs(() => ({
   className: classNames({
     absolute: true,
   }),
@@ -64,10 +63,12 @@ export const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
 `;
 
 /* eslint-disable react/display-name */
-export const PaginatorButtons = (isTabbable: boolean, workId: string) => {
+export const PaginatorButtons = (
+  isTabbable: boolean,
+  workId: string
+): FunctionComponent<PaginatorRenderFunctionProps> => {
   return ({
     currentPage,
-    totalPages,
     prevLink,
     nextLink,
   }: PaginatorRenderFunctionProps) => {
@@ -86,7 +87,7 @@ export const PaginatorButtons = (isTabbable: boolean, workId: string) => {
               type="black-on-white"
               icon="arrow"
               text="Previous page"
-              tabIndex={isTabbable ? '0' : '-1'}
+              tabIndex={isTabbable ? 0 : -1}
               extraClasses={classNames({
                 'icon--270': true,
               })}
@@ -109,7 +110,7 @@ export const PaginatorButtons = (isTabbable: boolean, workId: string) => {
               type="black-on-white"
               icon="arrow"
               text="Next page"
-              tabIndex={isTabbable ? '0' : '-1'}
+              tabIndex={isTabbable ? 0 : -1}
               extraClasses={classNames({
                 icon: true,
                 'icon--90': true,
@@ -130,22 +131,22 @@ export const PaginatorButtons = (isTabbable: boolean, workId: string) => {
 };
 /* eslint-enable react/display-name */
 
-type NoScriptViewerProps = {|
-  mainPaginatorProps: PaginatorPropsWithoutRenderFunction,
-  thumbsPaginatorProps: PaginatorPropsWithoutRenderFunction,
-  currentCanvas: ?IIIFCanvas,
-  lang: string,
-  canvasOcr: ?string,
-  workId: string,
-  pageIndex: number,
-  sierraId: ?string,
-  pageSize: number,
-  imageUrl: ?string,
-  thumbnailsRequired: boolean,
-  iiifImageLocation: ?{ url: string },
-  canvases: [],
-  canvasIndex: number,
-|};
+type NoScriptViewerProps = {
+  mainPaginatorProps: PaginatorPropsWithoutRenderFunction;
+  thumbsPaginatorProps: PaginatorPropsWithoutRenderFunction;
+  currentCanvas?: IIIFCanvas;
+  lang: string;
+  canvasOcr?: string;
+  workId: string;
+  pageIndex: number;
+  sierraId?: string;
+  pageSize: number;
+  imageUrl?: string;
+  thumbnailsRequired: boolean;
+  iiifImageLocation?: { url: string };
+  canvases: IIIFCanvas[];
+  canvasIndex: number;
+};
 
 const NoScriptViewer = ({
   thumbnailsRequired,
@@ -241,7 +242,7 @@ const NoScriptViewer = ({
                 <Paginator
                   key={canvas['@id']}
                   {...thumbsPaginatorProps}
-                  render={({ rangeStart }) => (
+                  render={() => (
                     <NextLink
                       {...itemLink({
                         workId,
@@ -267,7 +268,7 @@ const NoScriptViewer = ({
                 />
               );
             })}
-          <IIIFViewerPaginatorButtons isThumbs={true}>
+          <IIIFViewerPaginatorButtons>
             <Paginator
               {...thumbsPaginatorProps}
               render={PaginatorButtons(true, workId)}

@@ -1,12 +1,18 @@
-// @flow
 import { FixedSizeList, areEqual } from 'react-window';
-import { useState, memo } from 'react';
+import {
+  useState,
+  memo,
+  RefObject,
+  CSSProperties,
+  FunctionComponent,
+} from 'react';
 import styled from 'styled-components';
 import { lighten } from 'polished';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';
+import { IIIFCanvas } from '../../../../model/iiif';
 
 const ThumbnailsWrapper = styled.div`
   background: ${props => props.theme.color('viewerBlack')};
@@ -19,18 +25,18 @@ const ThumbnailSpacer = styled(Space).attrs({
 })`
   height: 100%;
 `;
-type ItemRendererProps = {|
-  style: any,
-  index: number,
-  data: {|
-    scrollVelocity: number,
-    listHeight: number,
-    mainViewerRef: { current: FixedSizeList | null },
-    activeIndex: number,
-    setActiveIndex: number => void,
-    canvases: any,
-  |},
-|};
+type ItemRendererProps = {
+  style: CSSProperties;
+  index: number;
+  data: {
+    scrollVelocity: number;
+    listHeight: number;
+    mainViewerRef: RefObject<FixedSizeList>;
+    activeIndex: number;
+    setActiveIndex: (i: number) => void;
+    canvases: IIIFCanvas[];
+  };
+};
 
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const {
@@ -71,15 +77,15 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
 
 ItemRenderer.displayName = 'ItemRenderer';
 
-type Props = {|
-  listHeight: number,
-  mainViewerRef: { current: FixedSizeList | null },
-  activeIndex: number,
-  setActiveIndex: number => void,
-  canvases: any,
-|};
+type Props = {
+  listHeight: number;
+  mainViewerRef: RefObject<FixedSizeList>;
+  activeIndex: number;
+  setActiveIndex: (i: number) => void;
+  canvases: IIIFCanvas[];
+};
 
-const ThumbsViewer = ({
+const ThumbsViewer: FunctionComponent<Props> = ({
   listHeight,
   mainViewerRef,
   activeIndex,
@@ -96,6 +102,7 @@ const ThumbsViewer = ({
   return (
     <ThumbnailsWrapper>
       <FixedSizeList
+        width="100%"
         height={listHeight}
         itemCount={canvases.length}
         itemSize={0.3 * listHeight}

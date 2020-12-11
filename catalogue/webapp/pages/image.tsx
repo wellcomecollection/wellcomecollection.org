@@ -82,9 +82,7 @@ const ImagePage: FunctionComponent<Props> = ({
           title={title}
           mainPaginatorProps={mainPaginatorProps}
           thumbsPaginatorProps={thumbsPaginatorProps}
-          currentCanvas={null}
           lang={langCode}
-          canvasOcr={null}
           canvases={[]}
           workId={sourceWork.id}
           pageIndex={0}
@@ -93,7 +91,6 @@ const ImagePage: FunctionComponent<Props> = ({
           canvasIndex={0}
           iiifImageLocation={iiifImageLocation}
           work={sourceWork}
-          manifest={null}
         />
       ) : (
         <Layout12>
@@ -114,20 +111,20 @@ export const getServerSideProps: GetServerSideProps<
   const globalContextData = getGlobalContextData(context);
   const { id, workId, langCode = 'en' } = context.query;
 
-  if (!id) {
+  if (typeof id !== 'string') {
     return { notFound: true };
   }
 
   const image = await getImage({
     id,
-    toggles: context.query.toggles,
+    toggles: globalContextData.toggles,
   });
 
   if (image.type === 'Error') {
     if (image.httpStatus === 404) {
       return { notFound: true };
     }
-    return appError(context, image.statusCode, 'Images API error');
+    return appError(context, image.httpStatus, 'Images API error');
   }
 
   // This is to avoid exposing a URL that has a valid `imageId` in it
@@ -141,14 +138,21 @@ export const getServerSideProps: GetServerSideProps<
 
   const work = await getWork({
     id: workId,
-    toggles: context.query.toggles,
+    toggles: globalContextData.toggles,
   });
 
   if (work.type === 'Error') {
     if (work.httpStatus === 404) {
       return { notFound: true };
     }
-    return appError(context, work.statusCode, 'Works API error');
+    return appError(context, work.httpStatus, 'Works API error');
+  } else if (work.type === 'Redirect') {
+    return {
+      redirect: {
+        destination: `/works/${work.redirectToId}/images`,
+        permanent: work.status === 301,
+      },
+    };
   }
 
   return {

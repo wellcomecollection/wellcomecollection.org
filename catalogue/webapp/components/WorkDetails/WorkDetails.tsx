@@ -16,7 +16,6 @@ import {
   getWorkIdentifiersWith,
   getEncoreLink,
   sierraIdFromPresentationManifestUrl,
-  DigitalLocation,
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
@@ -44,6 +43,7 @@ import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/Expla
 import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import { DigitalLocation } from '@weco/common/model/catalogue';
 type Props = {
   work: Work;
   iiifPresentationManifest?: IIIFManifest;

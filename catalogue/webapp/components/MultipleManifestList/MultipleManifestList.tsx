@@ -1,7 +1,6 @@
-// @flow
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, FunctionComponent } from 'react';
 import NextLink from 'next/link';
-import { type IIIFManifest } from '@weco/common/model/iiif';
+import { IIIFManifest } from '@weco/common/model/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
@@ -9,7 +8,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { ShameButton } from '@weco/common/views/components/ViewerTopBar/ViewerTopBar';
 
-const HiddenContent = styled.div.attrs(props => ({
+const HiddenContent = styled.div.attrs(() => ({
   className: classNames({
     [font('hnm', 5)]: true,
   }),
@@ -47,22 +46,27 @@ const HiddenContent = styled.div.attrs(props => ({
   }
 `;
 
-type Props = {|
-  buttonText: string,
-  manifests: IIIFManifest[],
-  workId: string,
-  lang: string,
-|};
+type Props = {
+  buttonText: string;
+  manifests: IIIFManifest[];
+  workId: string;
+  lang: string;
+};
 
-const MultipleManifestList = ({
+const MultipleManifestList: FunctionComponent<Props> = ({
   buttonText,
   manifests,
   workId,
   lang,
 }: Props) => {
   const [showHidden, setShowHidden] = useState(false);
-  const wrapperRef = useRef(null);
-  const downloadText = useRef(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = event => {
+    if (wrapperRef.current && !wrapperRef.current?.contains(event.target)) {
+      setShowHidden(false);
+    }
+  };
   useEffect(() => {
     window.document.addEventListener('click', handleClickOutside, false);
     return () => {
@@ -70,22 +74,6 @@ const MultipleManifestList = ({
     };
   }, []);
 
-  const handleClickOutside = event => {
-    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-      setShowHidden(false);
-    }
-  };
-  useEffect(() => {
-    const links =
-      downloadText &&
-      downloadText.current &&
-      downloadText.current.getElementsByTagName('a');
-    if (links) {
-      for (const link of links) {
-        link.setAttribute('tabindex', showHidden ? '0' : '-1');
-      }
-    }
-  }, [showHidden]);
   return (
     <div
       ref={wrapperRef}
@@ -96,8 +84,8 @@ const MultipleManifestList = ({
     >
       <ShameButton
         isDark
-        ariaControls="hiddenContent"
-        ariaExpanded={showHidden}
+        aria-controls="hiddenContent"
+        aria-expanded={showHidden}
         onClick={() => {
           setShowHidden(!showHidden);
         }}
@@ -108,7 +96,7 @@ const MultipleManifestList = ({
       <HiddenContent id="hiddenContent" hidden={!showHidden}>
         <SpacingComponent>
           <ul className="no-margin no-padding plain-list">
-            {manifests.map((manifest, i) => (
+            {manifests.map(manifest => (
               <li key={manifest['@id']}>
                 <NextLink
                   {...itemLink({

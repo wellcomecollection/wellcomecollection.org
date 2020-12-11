@@ -1,6 +1,5 @@
-// @flow
-import { useState } from 'react';
-import { type IIIFCanvas } from '@weco/common/model/iiif';
+import { FunctionComponent, useState } from 'react';
+import { IIIFCanvas } from '@weco/common/model/iiif';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { lighten } from 'polished';
@@ -10,9 +9,14 @@ import LL from '@weco/common/views/components/styled/LL';
 import { getImageAuthService } from '@weco/common/utils/iiif';
 import Padlock from '@weco/common/views/components/styled/Padlock';
 
-const IIIFViewerThumb = styled.button.attrs(props => ({
+type ViewerThumbProps = {
+  isFocusable?: boolean;
+  isActive?: boolean;
+};
+
+const IIIFViewerThumb = styled.button.attrs<ViewerThumbProps>(props => ({
   tabIndex: props.isFocusable ? 0 : -1,
-}))`
+}))<ViewerThumbProps>`
   appearance: none;
   font-family: inherit;
   letter-spacing: inherit;
@@ -59,7 +63,7 @@ const ImageContainer = styled.div`
   }
 `;
 
-const IIIFViewerThumbNumber = styled.span.attrs(props => ({
+const IIIFViewerThumbNumber = styled.span.attrs<ViewerThumbProps>(props => ({
   className: classNames({
     'line-height-1': true,
     'font-white': !props.isActive,
@@ -67,21 +71,21 @@ const IIIFViewerThumbNumber = styled.span.attrs(props => ({
     'bg-yellow': props.isActive,
     [font('hnm', 6)]: true,
   }),
-}))`
+}))<ViewerThumbProps>`
   padding: 3px 6px;
   border-radius: 3px;
 `;
 
-type IIIFCanvasThumbnailProps = {|
-  canvas: IIIFCanvas,
-  lang?: string,
-  isActive: boolean,
-  thumbNumber: number,
-  clickHandler?: () => void,
-  isFocusable?: boolean,
-|};
+type IIIFCanvasThumbnailProps = {
+  canvas: IIIFCanvas;
+  lang?: string;
+  isActive: boolean;
+  thumbNumber: number;
+  clickHandler?: () => void;
+  isFocusable?: boolean;
+};
 
-const IIIFCanvasThumbnail = ({
+const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
   canvas,
   lang,
   clickHandler,
@@ -107,7 +111,7 @@ const IIIFCanvasThumbnail = ({
       onClick={clickHandler}
       isActive={isActive}
       isFocusable={isFocusable}
-      className={isActive ? 'activeThumbnail' : null}
+      className={isActive ? 'activeThumbnail' : undefined}
     >
       <IIIFViewerThumbInner>
         <ImageContainer>

@@ -1,4 +1,3 @@
-// @flow
 import fetch from 'isomorphic-unfetch';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import {
@@ -6,8 +5,12 @@ import {
   getVideo,
   getDownloadOptionsFromManifest,
 } from '@weco/common/utils/iiif';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async (req: any, res: any) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> => {
   const { id } = req.query;
   const works = await fetch(
     `https://api.wellcomecollection.org/catalogue/v2/works?query=${id}&include=items`
