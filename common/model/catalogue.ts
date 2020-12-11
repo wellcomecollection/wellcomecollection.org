@@ -11,14 +11,14 @@ export type Work = {
   createdDate?: Period;
   contributors: Contributor[];
   identifiers: Identifier[];
-  subjects?: Subject[];
-  genres?: Genre[];
+  subjects: Subject[];
+  genres: Genre[];
   thumbnail?: DigitalLocation;
   items?: Item[];
   production: Production[];
   languages: Language[];
   edition?: string;
-  notes?: Note[];
+  notes: Note[];
   duration?: number;
   collectionPath?: CollectionPath;
   collection?: Collection;

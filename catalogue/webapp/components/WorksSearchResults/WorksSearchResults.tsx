@@ -1,27 +1,24 @@
-// @flow
-
-import { useContext } from 'react';
-// $FlowFixMe (tsx)
+import { FunctionComponent, useContext } from 'react';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import { trackSearchResultSelected } from '@weco/common/views/components/Tracker/Tracker';
-// $FlowFixMe (tsx)
 import WorksSearchResult from '../WorksSearchResult/WorksSearchResult';
 import { grid } from '@weco/common/utils/classnames';
-import {
-  type CatalogueResultsList,
-  type Work,
-} from '@weco/common/model/catalogue';
-import { type CatalogueWorksApiProps } from '@weco/common/services/catalogue/api';
-import { type WorksRouteProps } from '@weco/common/services/catalogue/routes';
+import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
+import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/ts_api';
+import { WorksRouteProps } from '@weco/common/services/catalogue/ts_routes';
 
-type Props = {|
-  works: CatalogueResultsList<Work>,
-  worksRouteProps: WorksRouteProps,
-  apiProps: CatalogueWorksApiProps,
-|};
+type Props = {
+  works: CatalogueResultsList<Work>;
+  worksRouteProps: WorksRouteProps;
+  apiProps: CatalogueWorksApiProps;
+};
 
-const WorkSearchResults = ({ works, worksRouteProps, apiProps }: Props) => {
+const WorkSearchResults: FunctionComponent<Props> = ({
+  works,
+  worksRouteProps,
+  apiProps,
+}: Props) => {
   const { query, workType, page } = worksRouteProps;
   const { relevanceRating } = useContext(TogglesContext);
 
@@ -38,7 +35,8 @@ const WorkSearchResults = ({ works, worksRouteProps, apiProps }: Props) => {
                 resultIdentifiers: result.identifiers.map(
                   identifier => identifier.value
                 ),
-                resultSubjects: result.subjects.map(subject => subject.label),
+                resultSubjects:
+                  result.subjects?.map(subject => subject.label) || [],
                 source: 'work_result',
               });
             }}
