@@ -53,6 +53,7 @@ const CloseFiltersButton = styled(Space).attrs({
   className: classNames({
     'plain-button': true,
   }),
+  'aria-label': 'close filter button',
 })`
   position: absolute;
   top: 50%;
@@ -335,6 +336,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                                 name={`workType`}
                                 checked={isChecked}
                                 onChange={changeHandler}
+                                ariaLabel={`Radio checkbox ${workType.data.label}`}
                               />
                             </Space>
                           )

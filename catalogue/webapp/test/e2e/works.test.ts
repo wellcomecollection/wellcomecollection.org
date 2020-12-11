@@ -5,12 +5,15 @@ import {
   workSearchResultsContainer,
   clickFormatDropDown,
   clickFormatRadioCheckbox,
+  closeModalFormat,
+  mobileModal,
+  clickModalFormatButton,
 } from './selectors/search';
 import {
   expectUrlIsOnWorkPage,
   expectWorkDetailsIsVisible,
 } from './asserts/work';
-import { getInputValue, isMobile } from './selectors/common';
+import { elementIsVisible, getInputValue, isMobile } from './selectors/common';
 import { expectSearchResultsIsVisible } from '../e2e/asserts/search';
 import { worksUrl } from './urls';
 
@@ -33,26 +36,31 @@ describe('works', () => {
 
   test('Search by term, filter results, check results, view result', async () => {
     const expectedValue = 'art of science';
-    await fillSearchInput(expectedValue);
-    await pressEnterSearchInput();
-    if (!isMobile()) {
-      await clickFormatDropDown();
-      await clickFormatRadioCheckbox('Pictures');
-    } else {
-      // todo: write specific selectors for mobile for filter drop down
-    }
     const encodeExpectedValue = encodeURIComponent(expectedValue).replace(
       /%20/g,
       '+'
     );
+    await fillSearchInput(expectedValue);
+    await pressEnterSearchInput();
+
+    if (isMobile()) {
+      await clickModalFormatButton();
+      await elementIsVisible(mobileModal);
+      await clickFormatRadioCheckbox('Pictures');
+      await closeModalFormat();
+    } else {
+      await clickFormatDropDown();
+      await clickFormatRadioCheckbox('Pictures');
+    }
+
     expect(page.url()).toContain(encodeExpectedValue);
     await expectSearchResultsIsVisible();
-
-    await page.waitForTimeout(1000);
+    await page.waitForNavigation();
     expect(page.url()).toContain('workType=k');
+
     await expectSearchResultsIsVisible();
     await page.click(`${workSearchResultsContainer} a:first-child`);
-    await page.waitForTimeout(1000);
+    await page.waitForNavigation();
 
     await expectUrlIsOnWorkPage();
     await expectWorkDetailsIsVisible();
