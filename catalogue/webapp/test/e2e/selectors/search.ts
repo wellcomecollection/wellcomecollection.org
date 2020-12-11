@@ -24,7 +24,7 @@ export async function clickFormatRadioCheckbox(
   filterName: string
 ): Promise<void> {
   const selector = `${
-    isMobile ? mobileModal : formatFilterDropDown
+    isMobile() ? mobileModal : formatFilterDropDown
   } label[aria-label="Radio checkbox ${filterName}"]`;
   await page.click(selector);
 }
