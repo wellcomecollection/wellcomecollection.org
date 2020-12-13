@@ -89,7 +89,7 @@ const EventPromo = ({
             {event.title}
           </Space>
 
-          {event.isOnline && <OnlineIndicator>Online</OnlineIndicator>}
+          {(event.isOnline && !event.availableOnline) && <OnlineIndicator>Online</OnlineIndicator>}
           {!isPast && (
             <p className={`${font('hnl', 5)} no-padding no-margin`}>
               <EventDateRange
@@ -139,7 +139,7 @@ const EventPromo = ({
             <p className={`${font('hnm', 6)}`}>See all dates/times</p>
           )}
 
-          {isPast && (
+          {(isPast && !event.availableOnline) && (
             <div className={`${font('hnl', 5)} flex flex--v-center`}>
               <Space
                 as="span"
