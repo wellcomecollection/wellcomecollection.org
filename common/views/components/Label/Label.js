@@ -6,10 +6,10 @@ import Space from '../styled/Space';
 export type Props = {|
   label: LabelType,
   labelColor?: 'orange' | 'yellow' | 'black',
-  secondary?: boolean,
+  roundedDiagonal?: boolean,
 |};
 
-const Label = ({ label, labelColor = 'yellow', secondary = false }: Props) => {
+const Label = ({ label, labelColor = 'yellow', roundedDiagonal = false }: Props) => {
   const fontColor = labelColor === 'black' ? 'yellow' : 'black';
   return (
     <Space
@@ -23,7 +23,7 @@ const Label = ({ label, labelColor = 'yellow', secondary = false }: Props) => {
       className={`${classNames({
         'nowrap line-height-1': true,
         'plain-link font-white bg-green bg-hover-black': label.url,
-        'rounded-diagonal': secondary,
+        'rounded-diagonal': roundedDiagonal,
         [font('hnm', 6)]: true,
       })}
        ${label.url ? '' : `bg-${labelColor}`}

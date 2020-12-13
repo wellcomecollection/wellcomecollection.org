@@ -160,7 +160,7 @@ const EventPromo = ({
           <LabelsList
             labels={event.secondaryLabels}
             labelColor="black"
-            secondary={true}
+            roundedDiagonal={true}
           />
         </Space>
       )}

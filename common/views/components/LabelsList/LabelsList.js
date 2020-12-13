@@ -6,13 +6,13 @@ import Space from '../styled/Space';
 type Props = {|
   labels: LabelType[],
   labelColor?: 'orange' | 'yellow' | 'black',
-  secondary?: boolean,
+  roundedDiagonal?: boolean,
 |};
 
 const LabelsList = ({
   labels,
   labelColor = 'yellow',
-  secondary = false,
+  roundedDiagonal = false,
 }: Props) => (
   <Space
     v={{
@@ -35,7 +35,7 @@ const LabelsList = ({
         as="li"
         key={`${label.text}-${i}`}
       >
-        <Label label={label} labelColor={labelColor} secondary={secondary} />
+        <Label label={label} labelColor={labelColor} roundedDiagonal={roundedDiagonal} />
       </Space>
     ))}
   </Space>
