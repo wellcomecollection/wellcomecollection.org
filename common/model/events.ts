@@ -7,6 +7,7 @@ import { LabelField } from './label-field';
 import { Place } from './places';
 import { Season } from './seasons';
 import { HTMLString } from '../services/prismic/types';
+import { Label } from './labels';
 
 type DateTimeRange = {
   startDateTime: Date;
@@ -98,6 +99,10 @@ export type Event = GenericContentFields & {
   isCompletelySoldOut?: boolean;
   isPast: boolean;
   isRelaxedPerformance: boolean;
+  isOnline: boolean,
+  availableOnline: boolean,
+  primaryLabels: Label[],
+  secondaryLabels: Label[],
 };
 
 export type EventPromo = {
