@@ -12,6 +12,8 @@ import ExhibitionPromo from '../../../common/views/components/ExhibitionPromo/Ex
 const EventPromoExample = () => {
   const title = text('Title', 'Priests and Drugs in 17th-Century Paris');
   const isFullyBooked = boolean('Fully booked', false);
+  const isOnline = boolean('Is online', false);
+  const availableOnline = boolean('Available online', false);
   const schedule = boolean('Has a schedule?', false);
   const series = boolean('Is part of a series?', false);
   const britishSignLanguage = boolean(
@@ -314,6 +316,8 @@ const EventPromoExample = () => {
     },
     isPast: false,
     isRelaxedPerformance: false,
+    isOnline,
+    availableOnline,
   };
   const position = 0;
   return <EventPromo event={event} position={position} />;
