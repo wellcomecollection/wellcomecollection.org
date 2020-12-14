@@ -31,7 +31,7 @@ function linkResolver(doc /* :Doc */) /* :string */ {
       return `/landing-pages/${doc.id}`;
     case 'seasons':
       return `/seasons/${doc.id}`;
-    case 'projets':
+    case 'projects':
       return `/projects/${doc.id}`;
     default:
       return '/';
