@@ -11,7 +11,7 @@ describe('images', () => {
     await fillSearchInput(expectedValue, 'images');
     await pressEnterSearchInput();
     await page.waitForNavigation();
-
+    await page.waitForTimeout(5000);
     if (isMobile()) {
       // todo select colour filter in modal
     } else {
