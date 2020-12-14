@@ -251,6 +251,9 @@ const EventPromoExample = () => {
     labels: [{ url: null, text: 'Seminar' }]
       .concat(activeAudiences)
       .concat(activeInterpretations),
+    primaryLabels: [{ url: null, text: 'Seminar' }]
+      .concat(activeAudiences),
+    secondaryLabels: [...activeInterpretations],
     place: {
       id: 'WoLtUioAACkANrUM',
       title: 'Viewing Room',

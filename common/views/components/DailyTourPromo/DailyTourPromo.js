@@ -59,6 +59,8 @@ export const data = {
       text: 'Gallery tour',
     },
   ],
+  primaryLabels: [],
+  secondaryLabels: [],
   promo: {
     image: image,
     link: '/pages/Wuw19yIAAK1Z3Sma',

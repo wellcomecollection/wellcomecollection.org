@@ -9,6 +9,7 @@ import type { LabelField } from './label-field';
 import type { Place } from './places';
 import type { Season } from './seasons';
 import type { HTMLString as PrismicHTMLString } from '../services/prismic/types';
+import type { Label } from './labels';
 
 type DateTimeRange = {|
   startDateTime: Date,
@@ -111,6 +112,8 @@ export type Event = {|
   // This is for convenience, but we use it so often, it seems worth while
   isPast: boolean,
   isRelaxedPerformance: boolean,
+  primaryLabels: Label[],
+  secondaryLabels: Label[],
 |};
 /* eslint-enable no-use-before-define */
 
