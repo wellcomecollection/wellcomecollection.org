@@ -23,8 +23,8 @@ const OnlineIndicator = styled.span.attrs(() => ({
   border: 1px solid ${props => props.theme.color('pewter')};
   border-radius: 4px;
   line-height: 1;
-  padding: ${props => `${props.theme.spacingUnit/2}px`}
-`
+  padding: ${props => `${props.theme.spacingUnit / 2}px`};
+`;
 type Props = {|
   event: UiEvent,
   position?: number,
@@ -89,7 +89,9 @@ const EventPromo = ({
             {event.title}
           </Space>
 
-          {(event.isOnline && !event.availableOnline) && <OnlineIndicator>Online</OnlineIndicator>}
+          {event.isOnline && !event.availableOnline && (
+            <OnlineIndicator>Online</OnlineIndicator>
+          )}
           {!isPast && (
             <p className={`${font('hnl', 5)} no-padding no-margin`}>
               <EventDateRange
@@ -139,7 +141,7 @@ const EventPromo = ({
             <p className={`${font('hnm', 6)}`}>See all dates/times</p>
           )}
 
-          {(isPast && !event.availableOnline) && (
+          {isPast && !event.availableOnline && (
             <div className={`${font('hnl', 5)} flex flex--v-center`}>
               <Space
                 as="span"
