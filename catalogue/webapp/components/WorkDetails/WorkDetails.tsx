@@ -86,11 +86,9 @@ const WorkDetails: FunctionComponent<Props> = ({
   imageCount,
   itemUrl,
 }: Props) => {
-  const {
-    stacksRequestService,
-    openWithAdvisoryPrototype,
-    searchPrototype,
-  } = useContext(TogglesContext);
+  const { stacksRequestService, openWithAdvisoryPrototype } = useContext(
+    TogglesContext
+  );
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
@@ -460,35 +458,25 @@ const WorkDetails: FunctionComponent<Props> = ({
                 ? `View ${work.images.length} images`
                 : 'View 1 image'
             }
-            link={
-              searchPrototype
-                ? imagesLink(
-                    {
-                      search: 'images',
-                      query: work.id,
-                      page: 1,
-                      source: 'work_details/images',
-                      workType: [],
-                      sort: null,
-                      sortOrder: null,
-                      itemsLocationsLocationType: [],
-                      itemsLocationsType: [],
-                      productionDatesFrom: null,
-                      productionDatesTo: null,
-                      imagesColor: null,
-                      color: null,
-                      locationsLicense: null,
-                    },
-                    'work_details/images'
-                  )
-                : worksLink(
-                    {
-                      search: 'images',
-                      query: work.id,
-                    },
-                    'work_details/images'
-                  )
-            }
+            link={imagesLink(
+              {
+                search: 'images',
+                query: work.id,
+                page: 1,
+                source: 'work_details/images',
+                workType: [],
+                sort: null,
+                sortOrder: null,
+                itemsLocationsLocationType: [],
+                itemsLocationsType: [],
+                productionDatesFrom: null,
+                productionDatesTo: null,
+                imagesColor: null,
+                color: null,
+                locationsLicense: null,
+              },
+              'work_details/images'
+            )}
           />
         </WorkDetailsSection>
       )}

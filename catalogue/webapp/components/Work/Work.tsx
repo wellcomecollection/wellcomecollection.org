@@ -54,7 +54,6 @@ const Work: FunctionComponent<Props> = ({
   work,
   globalContextData,
 }: Props): ReactElement<Props> => {
-  const { searchPrototype } = globalContextData.toggles;
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
     page: 1,
@@ -152,30 +151,21 @@ const Work: FunctionComponent<Props> = ({
               [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
             })}
           >
-            {searchPrototype ? (
-              <>
-                <SearchTabs
-                  worksRouteProps={savedSearchFormState}
-                  imagesRouteProps={{
-                    ...savedSearchFormState,
-                    locationsLicense: null,
-                    color: null,
-                  }}
-                  workTypeAggregations={[]}
-                  shouldShowDescription={false}
-                  shouldShowFilters={false} // not display filters on the work detail page
-                  activeTabIndex={0}
-                  showSortBy={false}
-                />
-              </>
-            ) : (
-              <SearchForm
-                ariaDescribedBy="search-form-description"
-                shouldShowFilters={false}
+            <>
+              <SearchTabs
                 worksRouteProps={savedSearchFormState}
+                imagesRouteProps={{
+                  ...savedSearchFormState,
+                  locationsLicense: null,
+                  color: null,
+                }}
                 workTypeAggregations={[]}
+                shouldShowDescription={false}
+                shouldShowFilters={false} // not display filters on the work detail page
+                activeTabIndex={0}
+                showSortBy={false}
               />
-            )}
+            </>
           </div>
         </div>
         <div className="grid">
