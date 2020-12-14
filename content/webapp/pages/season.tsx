@@ -38,6 +38,7 @@ const SeasonPage = ({
       end: exhibition.end && new Date(exhibition.end),
     };
   });
+  const exhibitionsAndEvents = [...parsedExhibitions, ...parsedEvents];
   return (
     <PageLayout
       title={season.title}
@@ -55,13 +56,13 @@ const SeasonPage = ({
         Body={<Body body={season.body} pageId={season.id} />}
       />
 
-      {(exhibitions.length > 0 || events.length > 0) && (
+      {(exhibitionsAndEvents.length > 0) && (
         <SpacingSection>
           <SpacingComponent>
             <SectionHeader title="Exhibitions and Events" />
           </SpacingComponent>
           <SpacingComponent>
-            <CardGrid items={[...parsedEvents, ...parsedExhibitions]} itemsPerRow={3} />
+            <CardGrid items={exhibitionsAndEvents} itemsPerRow={3} />
           </SpacingComponent>
         </SpacingSection>
       )}
