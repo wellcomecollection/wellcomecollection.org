@@ -5,9 +5,9 @@ import {
   workSearchResultsContainer,
   clickFormatDropDown,
   clickFormatRadioCheckbox,
-  closeModalFormat,
+  closeModalFilterButton,
   mobileModal,
-  clickModalFormatButton,
+  clickModalFilterButton,
 } from './selectors/search';
 import {
   expectUrlIsOnWorkPage,
@@ -47,10 +47,10 @@ describe('works', () => {
       await pressEnterSearchInput();
 
       if (isMobile()) {
-        await clickModalFormatButton();
+        await clickModalFilterButton();
         await elementIsVisible(mobileModal);
         await clickFormatRadioCheckbox('Pictures');
-        await closeModalFormat();
+        await closeModalFilterButton();
       } else {
         await clickFormatDropDown();
         await clickFormatRadioCheckbox('Pictures');
