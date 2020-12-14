@@ -10,15 +10,11 @@ import Icon from '../Icon/Icon';
 import NextLink from 'next/link';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import { getHref } from '../ButtonSolidLink/ButtonSolidLink';
+import { LinkProps } from '../../../model/link-props';
 
 type ButtonOutlinedLinkProps = ButtonOutlinedBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
-  link:
-    | {
-        href: { pathname: string; query: string };
-        as: { pathname: string; query: string };
-      }
-    | string;
+  link: LinkProps | string;
 };
 
 const ButtonOutlinedLink: FunctionComponent<ButtonOutlinedLinkProps> = ({

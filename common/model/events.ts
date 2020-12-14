@@ -40,6 +40,7 @@ type InterpretationType = {
 export type Interpretation = {
   interpretationType: InterpretationType;
   isPrimary: boolean;
+  extraInformation: ?PrismicHTMLString,
 };
 
 export type Team = {
@@ -99,10 +100,10 @@ export type Event = GenericContentFields & {
   isCompletelySoldOut?: boolean;
   isPast: boolean;
   isRelaxedPerformance: boolean;
-  isOnline: boolean,
-  availableOnline: boolean,
-  primaryLabels: Label[],
-  secondaryLabels: Label[],
+  isOnline: boolean;
+  availableOnline: boolean;
+  primaryLabels: Label[];
+  secondaryLabels: Label[];
 };
 
 export type EventPromo = {
