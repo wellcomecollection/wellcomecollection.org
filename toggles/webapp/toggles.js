@@ -1,13 +1,6 @@
 module.exports = {
   toggles: [
     {
-      id: 'searchPrototype',
-      title: 'New search interface',
-      defaultValue: true,
-      description:
-        'Shows a tabbed interface for library catalogue/images search',
-    },
-    {
       id: 'openWithAdvisoryPrototype',
       title: 'Open with advisory',
       description:
