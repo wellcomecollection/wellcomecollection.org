@@ -25,7 +25,8 @@ import styled from 'styled-components';
 type Props = {
   url: string | null;
   title: string;
-  labels: ComponentProps<typeof LabelsList>;
+  primaryLabels: ComponentProps<typeof LabelsList>;
+  secondaryLabels: ComponentProps<typeof LabelsList>;
   description: string | ReactElement | null;
   urlOverride: string | null;
   extraClasses?: string;
@@ -75,7 +76,8 @@ const BaseTextWrapper = styled.div.attrs<HasImageProps>(props => {
 const MediaObjectBase: FunctionComponent<Props> = ({
   url,
   title,
-  labels,
+  primaryLabels,
+  secondaryLabels,
   description,
   urlOverride,
   extraClasses,
@@ -120,14 +122,16 @@ const MediaObjectBase: FunctionComponent<Props> = ({
     >
       <ImageWrapper hasImage={Boolean(Image)}>{Image}</ImageWrapper>
       <TextWrapper hasImage={Boolean(Image)}>
-        {labels.labels.length > 0 && (
+        {primaryLabels.length > 0 && (
           <Space
             v={{ size: 's', properties: ['margin-bottom'] }}
             className="flex"
           >
-            <LabelsList {...labels} />
+            <LabelsList labels={primaryLabels} />
           </Space>
         )}
+
+
         {partNumber && (
           <PartNumberIndicator number={partNumber} color={color} />
         )}
@@ -150,6 +154,18 @@ const MediaObjectBase: FunctionComponent<Props> = ({
             )}
           </div>
         )}
+        {secondaryLabels.length > 0 && (
+            <Space
+            v={{ size: 's', properties: ['margin-top'] }}
+            className="flex"
+          >
+              <LabelsList
+              labels={secondaryLabels}
+              labelColor="black"
+              roundedDiagonal={true}
+            />
+            </Space>
+          )}
       </TextWrapper>
     </Space>
   );
