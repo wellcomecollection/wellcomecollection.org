@@ -11,11 +11,26 @@ export async function getInputValue(id: string): Promise<string> {
   return value;
 }
 
+export function isMobile(): boolean {
+  return Boolean(deviceName);
+}
+
 export async function elementIsVisible(id: string): Promise<boolean> {
   const result = await page.$eval<boolean, HTMLDivElement>(id, () => true);
   return result;
 }
 
-export function isMobile(): boolean {
-  return Boolean(deviceName);
+export async function itemsIsVisible(
+  id: string,
+  minNoOfItems: number
+): Promise<boolean> {
+  const result = await page.$$eval(
+    id,
+    (items, min) => {
+      return items.length >= min;
+    },
+    minNoOfItems
+  );
+
+  return result;
 }

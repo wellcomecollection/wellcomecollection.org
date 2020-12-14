@@ -14,8 +14,11 @@ export const mobileModal = 'div[aria-modal="true"]';
 export const mobileModalCloseButton = `${mobileModal} button[aria-label="close filter button"]`;
 export const searchWorksForm =
   'form[aria-describedby="library-catalogue-form-description"]';
-
 export const colourSelector = '.react-colorful div[aria-label="Color"]';
+
+export const imagesResultsContainer = 'ul[role="list"]';
+export const imagesResultsLisItem = `${imagesResultsContainer} li[role="listitem"]`;
+
 type formType = 'images' | 'works';
 export async function fillSearchInput(
   value: string,

@@ -7,8 +7,10 @@ import {
   clickColourPicker,
   mobileModal,
   clickColourDropDown,
+  imagesResultsContainer,
+  imagesResultsLisItem,
 } from './selectors/search';
-import { isMobile, elementIsVisible } from './selectors/common';
+import { isMobile, elementIsVisible, itemsIsVisible } from './selectors/common';
 
 describe('images', () => {
   beforeEach(async () => {
@@ -25,12 +27,12 @@ describe('images', () => {
       await elementIsVisible(mobileModal);
       await clickColourPicker();
       await closeModalFilterButton('images');
-      // todo select colour filter in modal
     } else {
       await clickColourDropDown();
       await clickColourPicker();
-
-      // todo select colour filter on desktop
     }
+
+    expect(await elementIsVisible(imagesResultsContainer)).toBeTruthy();
+    expect(await itemsIsVisible(imagesResultsLisItem, 1)).toBeTruthy();
   });
 });
