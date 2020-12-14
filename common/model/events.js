@@ -112,6 +112,8 @@ export type Event = {|
   // This is for convenience, but we use it so often, it seems worth while
   isPast: boolean,
   isRelaxedPerformance: boolean,
+  isOnline: boolean,
+  availableOnline: boolean,
   primaryLabels: Label[],
   secondaryLabels: Label[],
 |};

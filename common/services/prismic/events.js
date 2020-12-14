@@ -265,6 +265,8 @@ export function parseEventDoc(
   const displayTime = determineDisplayTime(times);
   const lastEndTime = data.times && getLastEndTime(data.times);
   const isRelaxedPerformance = parseBoolean(data.isRelaxedPerformance);
+  const isOnline = parseBoolean(data.isOnline);
+  const availableOnline = parseBoolean(data.availableOnline);
   const schedule = eventSchedule.map((event, i) => {
     const scheduleItem = data.schedule[i];
     return {
@@ -313,6 +315,8 @@ export function parseEventDoc(
     dateRange: determineDateRange(data.times),
     isPast: lastEndTime ? isPast(lastEndTime) : true,
     isRelaxedPerformance,
+    isOnline,
+    availableOnline,
   };
 
   const eventFormat = event.format

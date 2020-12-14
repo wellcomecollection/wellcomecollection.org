@@ -6,5 +6,5 @@ const ArchiveTreeExample = () => {
   return <ArchiveTree work={collectionTree} />;
 };
 
-const stories = storiesOf('Components/Experimental', module);
+const stories = storiesOf('Components', module);
 stories.add('Archive Tree', ArchiveTreeExample);
