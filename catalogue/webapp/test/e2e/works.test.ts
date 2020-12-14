@@ -16,12 +16,10 @@ import {
 import { elementIsVisible, getInputValue, isMobile } from './selectors/common';
 import { expectSearchResultsIsVisible } from '../e2e/asserts/search';
 import { worksUrl } from './urls';
-import { toggleFeature } from './utils';
 
 describe('works', () => {
   describe('New search', () => {
     beforeEach(async () => {
-      await toggleFeature('searchPrototype', 'true');
       await page.goto(worksUrl);
     });
 
