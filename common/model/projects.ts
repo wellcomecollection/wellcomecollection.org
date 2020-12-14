@@ -1,5 +1,5 @@
 import { GenericContentFields } from './generic-content-fields';
 
-export type Page = {
+export type Project = {
   type: 'projects';
 } & GenericContentFields;
