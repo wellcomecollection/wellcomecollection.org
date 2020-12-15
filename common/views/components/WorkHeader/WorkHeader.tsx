@@ -59,7 +59,7 @@ const WorkHeader: FunctionComponent<Props> = ({
 
           <h1
             id="work-info"
-            role="title heading"
+            role="heading"
             className={classNames({
               'no-margin': true,
               [font('hnm', 2)]: true,

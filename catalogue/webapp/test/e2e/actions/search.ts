@@ -2,12 +2,13 @@ import {
   searchImagesForm,
   searchWorksForm,
   worksSearchInputField,
-  formatFilterDropDown,
   colourSelectorFilterDropDown,
   mobileModal,
   formatFilterMobileButton,
   colourSelector,
   mobileModalCloseButton,
+  formatFilterDropDownButton,
+  formatFilterDropDown,
 } from '../selectors/search';
 
 import { isMobile, fillInputAction, pressEnterAction } from './common';
@@ -36,7 +37,7 @@ export async function pressActionEnterSearchInput(): Promise<void> {
 // Click actions
 
 export async function clickActionFormatDropDown(): Promise<void> {
-  await page.click(formatFilterDropDown);
+  await page.click(formatFilterDropDownButton);
 }
 
 export async function clickActionColourDropDown(): Promise<void> {

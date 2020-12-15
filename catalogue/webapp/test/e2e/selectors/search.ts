@@ -2,8 +2,8 @@ export const searchImagesForm =
   'form[aria-describedby="images-form-description"]';
 export const worksSearchInputField = 'input[aria-label="search input field"]';
 export const workSearchResultsContainer = 'ul[role="list"]';
-
-export const formatFilterDropDown = 'div[role="format filter drop down"]';
+export const formatFilterDropDown = '#formats';
+export const formatFilterDropDownButton = 'button[aria-controls="formats"]';
 export const colourSelectorFilterDropDown = `${searchImagesForm} button[aria-controls="images.color"]`;
 
 export const formatFilterDropDownContainer = 'div[id="format"]';

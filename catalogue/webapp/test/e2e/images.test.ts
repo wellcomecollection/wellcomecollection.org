@@ -21,7 +21,7 @@ describe('images', () => {
   beforeEach(async () => {
     await page.goto(imagesUrl);
   });
-  test('Search by term, filter by colour, check results, view result', async () => {
+  test('Search by term, filter by colour, check results', async () => {
     const expectedValue = 'art of science';
     await fillActionSearchInput(expectedValue, 'images');
     await pressActionEnterSearchInput();

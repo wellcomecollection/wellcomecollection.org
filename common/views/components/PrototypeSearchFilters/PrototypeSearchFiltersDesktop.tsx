@@ -148,12 +148,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 
             {showWorkTypeFilters && filtersToShow.includes('formats') && (
               <Space h={{ size: 's', properties: ['margin-right'] }}>
-                <DropdownButton
-                  label={'Formats'}
-                  isInline={true}
-                  id="formats"
-                  ariaRole="format filter drop down"
-                >
+                <DropdownButton label={'Formats'} isInline={true} id="formats">
                   <ul
                     className={classNames({
                       'no-margin no-padding plain-list': true,
