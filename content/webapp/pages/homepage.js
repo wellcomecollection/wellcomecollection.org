@@ -30,6 +30,7 @@ import {
 } from '@weco/common/services/prismic/events';
 import { type UiExhibition } from '@weco/common/model/exhibitions';
 import { type UiEvent } from '@weco/common/model/events';
+// $FlowFixMe (tsx)
 import { convertJsonToDates } from './event';
 import { convertItemToCardProps } from '@weco/common/model/card';
 
