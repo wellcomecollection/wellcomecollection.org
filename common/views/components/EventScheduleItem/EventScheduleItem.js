@@ -65,9 +65,9 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
         </Space>
         <div className={`${grid({ s: 12, m: 12, l: 9, xl: 10 })}`}>
           <div>
-            {event.labels.length > 0 && (
+            {event.primaryLabels.length > 0 && (
               <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-                <LabelsList labels={event.labels} />
+                <LabelsList labels={event.primaryLabels} />
               </Space>
             )}
             <Space
@@ -168,6 +168,16 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                   <Message text="Just turn up" />
                 </Space>
               )}
+
+            {event.secondaryLabels.length > 0 && (
+              <Space v={{ size: 'm', properties: ['margin-top'] }}>
+                <LabelsList
+                  labels={event.secondaryLabels}
+                  labelColor="black"
+                  roundedDiagonal={true}
+                />
+              </Space>
+            )}
           </div>
         </div>
       </div>

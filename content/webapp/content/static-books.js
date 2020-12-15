@@ -1,10 +1,51 @@
 export const staticBooks = [
   {
     type: 'books',
-    id: 'XlzqnxIAACMAQVH9',
-    title: 'The Rules of Contagion',
+    id: 'X85VNBIAACMAq4tS',
+    title: 'Words Fail Us',
     contributorsTitle: '',
-    contributors: [],
+    contributors: [
+      {
+        role: {
+          id: 'WcUWeCgAAFws-nGh',
+          title: 'Author',
+        },
+        contributor: {
+          type: 'people',
+          id: 'X85WchIAACIAq5ES',
+          name: 'Jonty Claypole',
+          image: {
+            contentUrl:
+              'https://images.prismic.io/wellcomecollection/a6b0fca9-207e-4523-bf11-0a3fbc14d6e4_Jonty+Claypole.JPG?auto=compress,format&rect=439,0,1916,1916&w=3200&h=3200',
+            width: 3200,
+            height: 3200,
+            alt:
+              'Photographic portrait of a white man. He is wearing a white shirt and grey suit jacket. He has his arms folded and is standing in front of a large, landscape painting.',
+            tasl: {
+              title: null,
+              author: null,
+              sourceName: null,
+              sourceLink: null,
+              license: null,
+              copyrightHolder: null,
+              copyrightLink: null,
+            },
+            crops: {},
+          },
+          description: [
+            {
+              type: 'paragraph',
+              text:
+                'Jonty Claypole is Director of BBC Arts, Chairman of the arts centre HOME in Manchester, and was listed in the Bookseller’s Top 100 Most Influential People.',
+              spans: [],
+            },
+          ],
+          twitterHandle: null,
+          sameAs: [],
+        },
+        description: null,
+      },
+    ],
     body: [
       {
         type: 'text',
@@ -13,11 +54,11 @@ export const staticBooks = [
           {
             type: 'paragraph',
             text:
-              'The new science of contagion and the surprising ways it shapes our lives and behaviour.',
+              'In an age of polished TED Talks and overconfident political oratory, success seems to depend upon charismatic public speaking. But what if hyper-fluency is not only unachievable but undesirable?',
             spans: [
               {
                 start: 0,
-                end: 87,
+                end: 194,
                 type: 'strong',
               },
             ],
@@ -31,12 +72,13 @@ export const staticBooks = [
           {
             type: 'paragraph',
             text:
-              'Why do some ideas take off – and others fail to spread? Why are some diseases predictable, and others swamped in uncertainty? And what about the outbreaks that never happen at all?\n\n We live in a world that’s more connected than ever before. But even as we see our lives being shaped by the spread of ideas, trends – and even diseases – we sometimes struggle to grasp how it actually works. Outbreaks seem to be driven by randomness and hidden laws, and in order to understand them, we need to start thinking like mathematicians.\n\nHere, epidemiologist Adam Kucharski reveals how new mathematical approaches are transforming what we know about contagion – from the revolutionary initiatives that helped tackle gun violence in Chicago to the truth behind the spread of fake news. And along the way, he’ll explain how innovations and emotions can spread through our friendship networks, what STDs can tell us about banking, and why some outbreak predictions go badly wrong.',
+              'Jonty Claypole spent 15 years of his life in and out of extreme speech therapy. From sessions with child psychologists to lengthy stuttering boot camps and exposure therapies, he tried everything until finally being told the words he’d always feared: “We can’t cure your stutter.” Those words started him on a journey towards not only making peace with his stammer but learning to use it to his advantage.',
             spans: [],
           },
           {
             type: 'paragraph',
-            text: '',
+            text:
+              'Here Jonty argues that our obsession with fluency could be hindering, rather than helping, our creativity, authenticity and persuasiveness. Exploring other speech conditions, such as aphasia and Tourette’s, and telling the stories of the “creatively disfluent” – from Lewis Carroll to Kendrick Lamar – Jonty explains why it’s time for us to stop making sense, get tongue-tied and embrace the life-changing power of inarticulacy.',
             spans: [],
           },
         ],
@@ -48,40 +90,18 @@ export const staticBooks = [
           text: [
             {
               type: 'paragraph',
-              text:
-                '“It is hard to imagine a more timely book… much of the modern world will make more sense having read it.”',
+              text: '“Timely”',
               spans: [],
             },
           ],
           citation: [
             {
               type: 'paragraph',
-              text: 'The Times',
+              text: 'David Mitchell',
               spans: [],
             },
           ],
-          isPullOrReview: true,
-        },
-      },
-      {
-        type: 'quote',
-        weight: 'default',
-        value: {
-          text: [
-            {
-              type: 'paragraph',
-              text: '“Brilliant and authoritative.”',
-              spans: [],
-            },
-          ],
-          citation: [
-            {
-              type: 'paragraph',
-              text: 'Alex Bellos, author of ‘Alex’s Adventures in Numberland’',
-              spans: [],
-            },
-          ],
-          isPullOrReview: true,
+          isPullOrReview: false,
         },
       },
       {
@@ -92,30 +112,52 @@ export const staticBooks = [
             {
               type: 'paragraph',
               text:
-                '“Prepares the ground comprehensively for readers to make sense of what is happening today, by distilling the wisdom gathered by studying previous epidemics over more than a century.”',
+                '“One of those rare books I hadn’t realised I’d been waiting for until I read it”',
               spans: [],
             },
           ],
           citation: [
             {
               type: 'paragraph',
-              text: 'Financial Times',
+              text: 'Owen Sheers',
               spans: [],
             },
           ],
-          isPullOrReview: true,
+          isPullOrReview: false,
+        },
+      },
+      {
+        type: 'quote',
+        weight: 'default',
+        value: {
+          text: [
+            {
+              type: 'paragraph',
+              text: '“Open-minded, thoughtful and wise… A liberating book”',
+              spans: [],
+            },
+          ],
+          citation: [
+            {
+              type: 'paragraph',
+              text: 'Colm Toibin',
+              spans: [],
+            },
+          ],
+          isPullOrReview: false,
         },
       },
     ],
     promo: {
       caption:
-        'The new science of contagion and the surprising ways it shapes our lives and behaviour.',
+        'In an age of polished TED Talks and overconfident political oratory, success seems to depend upon charismatic public speaking. But what if hyper-fluency is not only unachievable but undesirable?',
       image: {
         contentUrl:
-          'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,856,1621,912&w=3200&h=1800',
+          'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,1000,1879,1057&w=3200&h=1800',
         width: 3200,
         height: 1800,
-        alt: 'Bright yellow book cover with bold black text',
+        alt:
+          'Book cover featuring a typographic design in pink, red, blue and green',
         tasl: {
           title: null,
           author: null,
@@ -130,13 +172,14 @@ export const staticBooks = [
       link: null,
     },
     promoText:
-      'The new science of contagion and the surprising ways it shapes our lives and behaviour.',
+      'In an age of polished TED Talks and overconfident political oratory, success seems to depend upon charismatic public speaking. But what if hyper-fluency is not only unachievable but undesirable?',
     promoImage: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,856,1621,912&w=3200&h=1800',
+        'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,1000,1879,1057&w=3200&h=1800',
       width: 3200,
       height: 1800,
-      alt: 'Bright yellow book cover with bold black text',
+      alt:
+        'Book cover featuring a typographic design in pink, red, blue and green',
       tasl: {
         title: null,
         author: null,
@@ -150,10 +193,11 @@ export const staticBooks = [
     },
     image: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format',
-      width: 1621,
-      height: 2624,
-      alt: 'Bright yellow book cover with bold black text',
+        'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format',
+      width: 1879,
+      height: 3057,
+      alt:
+        'Book cover featuring a typographic design in pink, red, blue and green',
       tasl: {
         title: null,
         author: null,
@@ -166,10 +210,11 @@ export const staticBooks = [
       crops: {
         '32:15': {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,932,1621,760&w=3200&h=1500',
+            'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,1088,1879,881&w=3200&h=1500',
           width: 3200,
           height: 1500,
-          alt: 'Bright yellow book cover with bold black text',
+          alt:
+            'Book cover featuring a typographic design in pink, red, blue and green',
           tasl: {
             title: null,
             author: null,
@@ -183,10 +228,11 @@ export const staticBooks = [
         },
         '16:9': {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,856,1621,912&w=3200&h=1800',
+            'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,1000,1879,1057&w=3200&h=1800',
           width: 3200,
           height: 1800,
-          alt: 'Bright yellow book cover with bold black text',
+          alt:
+            'Book cover featuring a typographic design in pink, red, blue and green',
           tasl: {
             title: null,
             author: null,
@@ -200,10 +246,11 @@ export const staticBooks = [
         },
         square: {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,501,1621,1621&w=3200&h=3200',
+            'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,589,1879,1879&w=3200&h=3200',
           width: 3200,
           height: 3200,
-          alt: 'Bright yellow book cover with bold black text',
+          alt:
+            'Book cover featuring a typographic design in pink, red, blue and green',
           tasl: {
             title: null,
             author: null,
@@ -219,10 +266,11 @@ export const staticBooks = [
     },
     squareImage: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,501,1621,1621&w=3200&h=3200',
+        'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,589,1879,1879&w=3200&h=3200',
       width: 3200,
       height: 3200,
-      alt: 'Bright yellow book cover with bold black text',
+      alt:
+        'Book cover featuring a typographic design in pink, red, blue and green',
       tasl: {
         title: null,
         author: null,
@@ -236,10 +284,11 @@ export const staticBooks = [
     },
     widescreenImage: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,856,1621,912&w=3200&h=1800',
+        'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,1000,1879,1057&w=3200&h=1800',
       width: 3200,
       height: 1800,
-      alt: 'Bright yellow book cover with bold black text',
+      alt:
+        'Book cover featuring a typographic design in pink, red, blue and green',
       tasl: {
         title: null,
         author: null,
@@ -252,300 +301,35 @@ export const staticBooks = [
       crops: {},
     },
     metadataDescription: '',
-    labels: [],
-    subtitle: 'Why Things Spread – and Why They Stop',
-    orderLink:
-      'https://blackwells.co.uk/bookshop/product/The-Rules-of-Contagion-by-Adam-Kucharski-author/9781788160193',
-    price: '£16.99',
-    format: 'Hardback',
-    extent: '352',
-    isbn: '9781788160193',
-    reviews: [],
-    datePublished: '2020-02-13T00:00:00.000Z',
-    authorName: '',
-    authorDescription: [],
-    cover: {
-      contentUrl:
-        'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format',
-      width: 1621,
-      height: 2624,
-      alt: 'Bright yellow book cover with bold black text',
-      tasl: {
-        title: null,
-        author: null,
-        sourceName: null,
-        sourceLink: null,
-        license: null,
-        copyrightHolder: null,
-        copyrightLink: null,
-      },
-      crops: {
-        '32:15': {
-          contentUrl:
-            'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,932,1621,760&w=3200&h=1500',
-          width: 3200,
-          height: 1500,
-          alt: 'Bright yellow book cover with bold black text',
-          tasl: {
-            title: null,
-            author: null,
-            sourceName: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-          crops: {},
-        },
-        '16:9': {
-          contentUrl:
-            'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,856,1621,912&w=3200&h=1800',
-          width: 3200,
-          height: 1800,
-          alt: 'Bright yellow book cover with bold black text',
-          tasl: {
-            title: null,
-            author: null,
-            sourceName: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-          crops: {},
-        },
-        square: {
-          contentUrl:
-            'https://images.prismic.io/wellcomecollection/3020b5d2-1971-4fd7-a7af-efdb2b1074fd_Rules+of+Contagion+cover+02.jpg?auto=compress,format&rect=0,501,1621,1621&w=3200&h=3200',
-          width: 3200,
-          height: 3200,
-          alt: 'Bright yellow book cover with bold black text',
-          tasl: {
-            title: null,
-            author: null,
-            sourceName: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-          crops: {},
-        },
-      },
-    },
-  },
-  {
-    type: 'books',
-    id: 'XPDnmBAAADBVfE9D',
-    title: 'Michael Rosen’s Book of Play',
-    contributorsTitle: '',
-    contributors: [],
-    body: [
+    labels: [
       {
-        type: 'text',
-        weight: 'featured',
-        value: [
-          {
-            type: 'paragraph',
-            text: 'When did you last make time for play?',
-            spans: [
-              {
-                start: 0,
-                end: 37,
-                type: 'strong',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        type: 'text',
-        weight: 'default',
-        value: [
-          {
-            type: 'paragraph',
-            text:
-              'Today, we don’t get nearly enough play in our lives. At school, kids are drilled on exams, while at home we’re glued to our phones and screens. Former children’s laureate and bestselling author, Michael Rosen, is here to show us how to put this right – and why it matters so much for creativity, resilience and much more.',
-            spans: [],
-          },
-          {
-            type: 'paragraph',
-            text:
-              'Packed with silliness, activities and prompts for creative indoor and outdoor play for all ages – with specially illustrated pages for everything from doodling to word play and after-dinner games.',
-            spans: [],
-          },
-        ],
+        url: null,
+        text: 'Book',
       },
     ],
-    promo: {
-      caption:
-        'Why play really matters, and 101 ways to get more of it in your life.',
-      image: {
-        contentUrl:
-          'https://images.prismic.io/wellcomecollection/a0a7a72e08c0bbcd6a3b3a41040bbc19d5d3b8bd_9781788161909.jpg?auto=compress,format',
-        width: 3200,
-        height: 1800,
-        alt: null,
-        tasl: {
-          title: null,
-          author: null,
-          sourceName: null,
-          sourceLink: null,
-          license: null,
-          copyrightHolder: null,
-          copyrightLink: null,
-        },
-        crops: {},
-      },
-      link: null,
-    },
-    promoText:
-      'Why play really matters, and 101 ways to get more of it in your life.',
-    promoImage: {
-      contentUrl:
-        'https://images.prismic.io/wellcomecollection/a0a7a72e08c0bbcd6a3b3a41040bbc19d5d3b8bd_9781788161909.jpg?auto=compress,format',
-      width: 3200,
-      height: 1800,
-      alt: null,
-      tasl: {
-        title: null,
-        author: null,
-        sourceName: null,
-        sourceLink: null,
-        license: null,
-        copyrightHolder: null,
-        copyrightLink: null,
-      },
-      crops: {},
-    },
-    image: {
-      contentUrl:
-        'https://images.prismic.io/wellcomecollection/eb7e0f642b83cbe9421e7439f1fa3fdeea0d7d39_9781788161909.jpg?auto=compress,format',
-      width: 1630,
-      height: 2445,
-      alt: null,
-      tasl: {
-        title: null,
-        author: null,
-        sourceName: null,
-        sourceLink: null,
-        license: null,
-        copyrightHolder: null,
-        copyrightLink: null,
-      },
-      crops: {
-        square: {
-          contentUrl:
-            'https://images.prismic.io/wellcomecollection/a0e46bce4a848902bf39866a079572c2228c0b19_9781788161909.jpg?auto=compress,format',
-          width: 3200,
-          height: 3200,
-          alt: null,
-          tasl: {
-            title: null,
-            author: null,
-            sourceName: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-          crops: {},
-        },
-        '32:15': {
-          contentUrl:
-            'https://images.prismic.io/wellcomecollection/274c95e476533042bd0e4f734af5de925ea9fc82_9781788161909.jpg?auto=compress,format',
-          width: 3200,
-          height: 1500,
-          alt: null,
-          tasl: {
-            title: null,
-            author: null,
-            sourceName: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-          crops: {},
-        },
-        '16:9': {
-          contentUrl:
-            'https://images.prismic.io/wellcomecollection/a0a7a72e08c0bbcd6a3b3a41040bbc19d5d3b8bd_9781788161909.jpg?auto=compress,format',
-          width: 3200,
-          height: 1800,
-          alt: null,
-          tasl: {
-            title: null,
-            author: null,
-            sourceName: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-          crops: {},
-        },
-      },
-    },
-    squareImage: {
-      contentUrl:
-        'https://images.prismic.io/wellcomecollection/a0e46bce4a848902bf39866a079572c2228c0b19_9781788161909.jpg?auto=compress,format',
-      width: 3200,
-      height: 3200,
-      alt: null,
-      tasl: {
-        title: null,
-        author: null,
-        sourceName: null,
-        sourceLink: null,
-        license: null,
-        copyrightHolder: null,
-        copyrightLink: null,
-      },
-      crops: {},
-    },
-    widescreenImage: {
-      contentUrl:
-        'https://images.prismic.io/wellcomecollection/a0a7a72e08c0bbcd6a3b3a41040bbc19d5d3b8bd_9781788161909.jpg?auto=compress,format',
-      width: 3200,
-      height: 1800,
-      alt: null,
-      tasl: {
-        title: null,
-        author: null,
-        sourceName: null,
-        sourceLink: null,
-        license: null,
-        copyrightHolder: null,
-        copyrightLink: null,
-      },
-      crops: {},
-    },
-    metadataDescription: '',
-    labels: [],
-    subtitle:
-      'Why play really matters, and 101 ways to get more of it in your life',
+    subtitle: 'In Defence of Disfluency',
     orderLink:
-      'https://blackwells.co.uk/bookshop/product/Michael-Rosens-Book-of-Play-by-Michael-Rosen-Charlotte-Trounce-illustrator/9781788161909',
-    price: '£12.99',
+      'https://uk.bookshop.org/books/words-fail-us-in-defence-of-disfluency/9781788161718',
+    price: null,
     format: 'Hardback',
-    extent: '272',
-    isbn: '9781788161909',
+    extent: '224 pages',
+    isbn: '9781788161718',
     reviews: [
       {
         text: null,
         citation: null,
       },
     ],
-    datePublished: '2019-10-09T23:00:00.000Z',
+    datePublished: '2021-01-14T00:00:00.000Z',
     authorName: '',
     authorDescription: [],
     cover: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/eb7e0f642b83cbe9421e7439f1fa3fdeea0d7d39_9781788161909.jpg?auto=compress,format',
-      width: 1630,
-      height: 2445,
-      alt: null,
+        'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format',
+      width: 1879,
+      height: 3057,
+      alt:
+        'Book cover featuring a typographic design in pink, red, blue and green',
       tasl: {
         title: null,
         author: null,
@@ -556,29 +340,13 @@ export const staticBooks = [
         copyrightLink: null,
       },
       crops: {
-        square: {
-          contentUrl:
-            'https://images.prismic.io/wellcomecollection/a0e46bce4a848902bf39866a079572c2228c0b19_9781788161909.jpg?auto=compress,format',
-          width: 3200,
-          height: 3200,
-          alt: null,
-          tasl: {
-            title: null,
-            author: null,
-            sourceName: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-          crops: {},
-        },
         '32:15': {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/274c95e476533042bd0e4f734af5de925ea9fc82_9781788161909.jpg?auto=compress,format',
+            'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,1088,1879,881&w=3200&h=1500',
           width: 3200,
           height: 1500,
-          alt: null,
+          alt:
+            'Book cover featuring a typographic design in pink, red, blue and green',
           tasl: {
             title: null,
             author: null,
@@ -592,10 +360,29 @@ export const staticBooks = [
         },
         '16:9': {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/a0a7a72e08c0bbcd6a3b3a41040bbc19d5d3b8bd_9781788161909.jpg?auto=compress,format',
+            'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,1000,1879,1057&w=3200&h=1800',
           width: 3200,
           height: 1800,
-          alt: null,
+          alt:
+            'Book cover featuring a typographic design in pink, red, blue and green',
+          tasl: {
+            title: null,
+            author: null,
+            sourceName: null,
+            sourceLink: null,
+            license: null,
+            copyrightHolder: null,
+            copyrightLink: null,
+          },
+          crops: {},
+        },
+        square: {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,589,1879,1879&w=3200&h=3200',
+          width: 3200,
+          height: 3200,
+          alt:
+            'Book cover featuring a typographic design in pink, red, blue and green',
           tasl: {
             title: null,
             author: null,
@@ -609,23 +396,78 @@ export const staticBooks = [
         },
       },
     },
+    seasons: [],
   },
   {
     type: 'books',
-    id: 'XUAfHhEAACMABbrb',
-    title: 'Breaking and Mending',
+    id: 'X85RdRIAACMAq3pM',
+    title: 'Intensive Care',
     contributorsTitle: '',
-    contributors: [],
+    contributors: [
+      {
+        role: {
+          id: 'WcUWeCgAAFws-nGh',
+          title: 'Author',
+        },
+        contributor: {
+          type: 'people',
+          id: 'W4kS7R4AAB4Aifta',
+          name: 'Gavin Francis',
+          image: {
+            contentUrl:
+              'https://images.prismic.io/wellcomecollection/aecb99f1e6190b259f0b733962fd302730cbd587_009_tf_170516_00080222.jpg?auto=compress,format',
+            width: 3200,
+            height: 3200,
+            alt:
+              'Photographic black and white head and shoulders portrait of author Gavin Francis.',
+            tasl: {
+              title: 'Gavin Francis',
+              author: 'Thomas SG Farnetti',
+              sourceName: 'Wellcome Collection',
+              sourceLink: null,
+              license: 'CC-BY-NC',
+              copyrightHolder: null,
+              copyrightLink: null,
+            },
+            crops: {},
+          },
+          description: [
+            {
+              type: 'paragraph',
+              text:
+                'Gavin Francis is a GP, and the author of ‘True North’ and ‘Empire Antarctica: Ice, Silence & Emperor Penguins’, and and ‘Adventures in Human Being’, which won the Saltire Prize for Non-Fiction, was a BMA book of the year and the Observer Science Book of the Year. He also writes for the Guardian, the Times, London Review of Books and Granta.',
+              spans: [],
+            },
+          ],
+          twitterHandle: null,
+          sameAs: [],
+        },
+        description: [
+          {
+            type: 'paragraph',
+            text:
+              'Gavin Francis has worked across four continents as a surgeon, emergency physician, medical officer with the British Antarctic Survey and latterly as a GP; he has described the pandemic response of 2020 as the most intense period of his 20-year career in medicine. He’s the author of the Sunday Times bestseller ‘Adventures in Human Being’, which was a BMA Book of the Year, and ‘Shapeshifters’. His books have won the SMIT Scottish Book of the Year Award, the Saltire Award for Non-Fiction and been shortlisted for the Ondaatje and Costa Prizes. He also writes for the Guardian, The Times, the London Review of Books and Granta. He lives in Edinburgh with his wife and children.',
+            spans: [],
+          },
+        ],
+      },
+    ],
     body: [
       {
         type: 'text',
-        weight: 'featured',
+        weight: 'default',
         value: [
           {
             type: 'paragraph',
             text:
-              '“A few years ago, I found myself in A&E. I had never felt so ill. I was mentally and physically broken. So fractured, I hadn’t eaten properly or slept well, or even changed my expression for months. I sat in a cubicle, behind paper-thin curtains and I shook with the effort of not crying. I was an inch away from defeat… but I knew I had to carry on. Because I wasn’t the patient. I was the doctor.”',
-            spans: [],
+              'On the pandemic’s forgotten front lines, a doctor cares for his community – from care homes to homeless shelters, islands to the inner city.',
+            spans: [
+              {
+                start: 0,
+                end: 140,
+                type: 'strong',
+              },
+            ],
           },
         ],
       },
@@ -636,54 +478,34 @@ export const staticBooks = [
           {
             type: 'paragraph',
             text:
-              'In this powerful memoir, Joanna Cannon tells her story as a junior doctor in visceral, heart-rending snapshots. ',
+              '‘Intensive Care’ is about how coronavirus emerged, spread across the world and changed all of our lives for ever. But it’s not, perhaps, the story you expect. ',
             spans: [],
           },
           {
             type: 'paragraph',
             text:
-              'We walk with her through the wards, facing extraordinary and daunting moments: from attending her first post-mortem, to sitting with a patient through their final moments, to learning the power of a well- or badly chosen word. These moments, and the small sustaining acts of kindness and connection that punctuate hospital life, teach her that emotional care and mental health can be just as critical as restoring a heartbeat.',
+              'Gavin Francis is a GP who works in both urban and rural communities, splitting his time between Edinburgh and the islands of Orkney. When the pandemic ripped through our society, he saw how it affected every walk of life: the anxious teenager, the isolated care-home resident, the struggling furloughed worker and homeless ex-prisoner, all united by their vulnerability in the face of a global disaster. And he saw how the true cost of the virus was measured not just in infections, or deaths, or ITU beds, but in the consequences of the measures taken against it. ',
             spans: [],
           },
           {
             type: 'paragraph',
             text:
-              'In a profession where weakness remains a taboo, this moving, beautifully written book brings to life the vivid, human stories of doctors and patients – and shows us why we need to take better care of those who care for us.',
+              'In this deeply personal account of nine months spent caring for a society in crisis, Francis will take you from rural village streets to local clinics and communal city stairways. And in telling this story, he reveals others: of loneliness and hope, illness and recovery, and of what we can achieve when we care for each other.',
             spans: [],
           },
         ],
-      },
-      {
-        type: 'quote',
-        weight: 'default',
-        value: {
-          text: [
-            {
-              type: 'paragraph',
-              text: 'One of the most beautiful books you will ever read.',
-              spans: [],
-            },
-          ],
-          citation: [
-            {
-              type: 'paragraph',
-              text: 'Kate Mosse',
-              spans: [],
-            },
-          ],
-          isPullOrReview: true,
-        },
       },
     ],
     promo: {
       caption:
-        'Joanna Cannon tells her story as a junior doctor in visceral, heart-rending snapshots.',
+        'On the pandemic’s forgotten front lines, a doctor cares for his community – from care homes to homeless shelters, islands to the inner city.',
       image: {
         contentUrl:
-          'https://images.prismic.io/wellcomecollection/3ef14f1cc2bb4ec6292e3350ffec770118965f61_bm.jpg?auto=compress,format',
+          'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,997,1892,1064&w=3200&h=1800',
         width: 3200,
         height: 1800,
-        alt: null,
+        alt:
+          'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
         tasl: {
           title: null,
           author: null,
@@ -698,13 +520,14 @@ export const staticBooks = [
       link: null,
     },
     promoText:
-      'Joanna Cannon tells her story as a junior doctor in visceral, heart-rending snapshots.',
+      'On the pandemic’s forgotten front lines, a doctor cares for his community – from care homes to homeless shelters, islands to the inner city.',
     promoImage: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/3ef14f1cc2bb4ec6292e3350ffec770118965f61_bm.jpg?auto=compress,format',
+        'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,997,1892,1064&w=3200&h=1800',
       width: 3200,
       height: 1800,
-      alt: null,
+      alt:
+        'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
       tasl: {
         title: null,
         author: null,
@@ -718,10 +541,11 @@ export const staticBooks = [
     },
     image: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/23a12d7e1abb8c97e41762114b7738f1616cc9e4_bm.jpg?auto=compress,format',
-      width: 1820,
-      height: 2812,
-      alt: null,
+        'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format',
+      width: 1892,
+      height: 3059,
+      alt:
+        'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
       tasl: {
         title: null,
         author: null,
@@ -732,29 +556,13 @@ export const staticBooks = [
         copyrightLink: null,
       },
       crops: {
-        square: {
-          contentUrl:
-            'https://images.prismic.io/wellcomecollection/7a57ec1ed730ecc97add054f36bc9d7a7527fe68_bm.jpg?auto=compress,format',
-          width: 3200,
-          height: 3200,
-          alt: null,
-          tasl: {
-            title: null,
-            author: null,
-            sourceName: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-          crops: {},
-        },
         '32:15': {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/c1a81508b92cafd242ef15e256ddc45f111f8883_bm.jpg?auto=compress,format',
+            'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,1086,1892,887&w=3200&h=1500',
           width: 3200,
           height: 1500,
-          alt: null,
+          alt:
+            'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
           tasl: {
             title: null,
             author: null,
@@ -768,10 +576,29 @@ export const staticBooks = [
         },
         '16:9': {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/3ef14f1cc2bb4ec6292e3350ffec770118965f61_bm.jpg?auto=compress,format',
+            'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,997,1892,1064&w=3200&h=1800',
           width: 3200,
           height: 1800,
-          alt: null,
+          alt:
+            'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
+          tasl: {
+            title: null,
+            author: null,
+            sourceName: null,
+            sourceLink: null,
+            license: null,
+            copyrightHolder: null,
+            copyrightLink: null,
+          },
+          crops: {},
+        },
+        square: {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,584,1892,1892&w=3200&h=3200',
+          width: 3200,
+          height: 3200,
+          alt:
+            'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
           tasl: {
             title: null,
             author: null,
@@ -787,10 +614,11 @@ export const staticBooks = [
     },
     squareImage: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/7a57ec1ed730ecc97add054f36bc9d7a7527fe68_bm.jpg?auto=compress,format',
+        'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,584,1892,1892&w=3200&h=3200',
       width: 3200,
       height: 3200,
-      alt: null,
+      alt:
+        'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
       tasl: {
         title: null,
         author: null,
@@ -804,10 +632,11 @@ export const staticBooks = [
     },
     widescreenImage: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/3ef14f1cc2bb4ec6292e3350ffec770118965f61_bm.jpg?auto=compress,format',
+        'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,997,1892,1064&w=3200&h=1800',
       width: 3200,
       height: 1800,
-      alt: null,
+      alt:
+        'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
       tasl: {
         title: null,
         author: null,
@@ -820,29 +649,396 @@ export const staticBooks = [
       crops: {},
     },
     metadataDescription: '',
-    labels: [],
+    labels: [
+      {
+        url: null,
+        text: 'Book',
+      },
+    ],
+    subtitle: 'A GP, a Community and COVID-19',
+    orderLink:
+      'https://uk.bookshop.org/books/intensive-care-a-gp-a-community-covid-19/9781788167321',
+    price: null,
+    format: 'Hardback',
+    extent: '208 pages',
+    isbn: '9781788167321',
+    reviews: [
+      {
+        text: null,
+        citation: null,
+      },
+    ],
+    datePublished: '2021-01-07T00:00:00.000Z',
+    authorName: '',
+    authorDescription: [],
+    cover: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format',
+      width: 1892,
+      height: 3059,
+      alt:
+        'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
+      tasl: {
+        title: null,
+        author: null,
+        sourceName: null,
+        sourceLink: null,
+        license: null,
+        copyrightHolder: null,
+        copyrightLink: null,
+      },
+      crops: {
+        '32:15': {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,1086,1892,887&w=3200&h=1500',
+          width: 3200,
+          height: 1500,
+          alt:
+            'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
+          tasl: {
+            title: null,
+            author: null,
+            sourceName: null,
+            sourceLink: null,
+            license: null,
+            copyrightHolder: null,
+            copyrightLink: null,
+          },
+          crops: {},
+        },
+        '16:9': {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,997,1892,1064&w=3200&h=1800',
+          width: 3200,
+          height: 1800,
+          alt:
+            'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
+          tasl: {
+            title: null,
+            author: null,
+            sourceName: null,
+            sourceLink: null,
+            license: null,
+            copyrightHolder: null,
+            copyrightLink: null,
+          },
+          crops: {},
+        },
+        square: {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,584,1892,1892&w=3200&h=3200',
+          width: 3200,
+          height: 3200,
+          alt:
+            'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
+          tasl: {
+            title: null,
+            author: null,
+            sourceName: null,
+            sourceLink: null,
+            license: null,
+            copyrightHolder: null,
+            copyrightLink: null,
+          },
+          crops: {},
+        },
+      },
+    },
+    seasons: [],
+  },
+  {
+    type: 'books',
+    id: 'X0PFqRAAACkAOXoQ',
+    title: 'How to Stay Sane in an Age of Division',
+    contributorsTitle: '',
+    contributors: [
+      {
+        role: {
+          id: 'WcUWeCgAAFws-nGh',
+          title: 'Author',
+        },
+        contributor: {
+          type: 'people',
+          id: 'X0PGiBAAACYAOX52',
+          name: 'Elif Shafak',
+          image: {
+            contentUrl:
+              'https://images.prismic.io/wellcomecollection/2664b181-349c-438a-ad3e-d09f6c5b0791_ElifShafak+image+c_ZeynelAbidin.jpg?auto=compress,format&rect=0,12,1677,1677&w=3200&h=3200',
+            width: 3200,
+            height: 3200,
+            alt:
+              'Colour photograph portrait of a woman, showing head and shoulders.',
+            tasl: {
+              title: null,
+              author: null,
+              sourceName: null,
+              sourceLink: null,
+              license: null,
+              copyrightHolder: null,
+              copyrightLink: null,
+            },
+            crops: {},
+          },
+          description: [
+            {
+              type: 'paragraph',
+              text:
+                'Elif Shafak is an award-winning British-Turkish writer, storyteller, essayist, academic, public speaker and activist. She writes in both Turkish and English, and has published 17 books, 11 of which are novels. Her work has been translated into 50 languages. Her latest novel, ‘10 Minutes 38 Seconds in this Strange World’, was shortlisted for the Booker Prize and RSL Ondaatje Prize, and chosen as Blackwell’s Book of the Year. An advocate for women’s rights, LGBT rights and freedom of speech, Shafak is an inspiring public speaker and twice TED Global speaker, each time receiving a standing ovation. In 2017 she was chosen by Politico as one of the 12 people “who will give you a much-needed lift of the heart”.',
+              spans: [],
+            },
+          ],
+          twitterHandle: null,
+          sameAs: [
+            {
+              link: 'https://www.elifsafak.com.tr/',
+              title: 'elifsafak.com.tr',
+            },
+          ],
+        },
+        description: null,
+      },
+    ],
+    body: [
+      {
+        type: 'text',
+        weight: 'default',
+        value: [
+          {
+            type: 'paragraph',
+            text:
+              'The Booker Prize-shortlisted author Elif Shafak on how staying optimistic can make our world better.',
+            spans: [
+              {
+                start: 0,
+                end: 100,
+                type: 'strong',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'text',
+        weight: 'default',
+        value: [
+          {
+            type: 'paragraph',
+            text:
+              'Ours is the age of contagious anxiety. We feel overwhelmed by the events around us, by injustice, by suffering, by an endless feeling of crisis. So how can we nurture the parts of ourselves that hope, trust and believe in something better? And how can we stay sane in this age of division? ',
+            spans: [],
+          },
+          {
+            type: 'paragraph',
+            text:
+              'In this powerful, uplifting plea for conscious optimism, Booker Prize-nominated novelist and activist Elif Shafak draws on her own memories and delves into the power of stories to bring us together. In the process she reveals how listening to each other can nurture democracy, empathy and our faith in a kinder and wiser future.',
+            spans: [],
+          },
+        ],
+      },
+      {
+        type: 'quote',
+        weight: 'default',
+        value: {
+          text: [
+            {
+              type: 'paragraph',
+              text: '“One of the best writers in the world today.”',
+              spans: [],
+            },
+          ],
+          citation: [
+            {
+              type: 'paragraph',
+              text: 'Hanif Kureishi',
+              spans: [],
+            },
+          ],
+          isPullOrReview: false,
+        },
+      },
+    ],
+    promo: {
+      caption:
+        'The Booker Prize-shortlisted author Elif Shafak on how staying optimistic can make our world better.',
+      image: {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/89ad9a3f-7a0e-4637-b967-1a3dc06dbc78_How+to+Stay+Sane_book+cover.jpg?auto=compress,format&rect=0,796,1530,861&w=3200&h=1800',
+        width: 3200,
+        height: 1800,
+        alt:
+          'Image of the front cover of a book. The artwork is a graphic pattern of blue, green, orange and white squares and triangles. Black text in capital letters reads: How to Stay Sane in an Age of Division, Elif Shafak.',
+        tasl: {
+          title: null,
+          author: null,
+          sourceName: null,
+          sourceLink: null,
+          license: null,
+          copyrightHolder: null,
+          copyrightLink: null,
+        },
+        crops: {},
+      },
+      link: null,
+    },
+    promoText:
+      'The Booker Prize-shortlisted author Elif Shafak on how staying optimistic can make our world better.',
+    promoImage: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection/89ad9a3f-7a0e-4637-b967-1a3dc06dbc78_How+to+Stay+Sane_book+cover.jpg?auto=compress,format&rect=0,796,1530,861&w=3200&h=1800',
+      width: 3200,
+      height: 1800,
+      alt:
+        'Image of the front cover of a book. The artwork is a graphic pattern of blue, green, orange and white squares and triangles. Black text in capital letters reads: How to Stay Sane in an Age of Division, Elif Shafak.',
+      tasl: {
+        title: null,
+        author: null,
+        sourceName: null,
+        sourceLink: null,
+        license: null,
+        copyrightHolder: null,
+        copyrightLink: null,
+      },
+      crops: {},
+    },
+    image: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection/89ad9a3f-7a0e-4637-b967-1a3dc06dbc78_How+to+Stay+Sane_book+cover.jpg?auto=compress,format',
+      width: 1530,
+      height: 2453,
+      alt:
+        'Image of the front cover of a book. The artwork is a graphic pattern of blue, green, orange and white squares and triangles. Black text in capital letters reads: How to Stay Sane in an Age of Division, Elif Shafak.',
+      tasl: {
+        title: null,
+        author: null,
+        sourceName: null,
+        sourceLink: null,
+        license: null,
+        copyrightHolder: null,
+        copyrightLink: null,
+      },
+      crops: {
+        '32:15': {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/89ad9a3f-7a0e-4637-b967-1a3dc06dbc78_How+to+Stay+Sane_book+cover.jpg?auto=compress,format&rect=0,868,1530,717&w=3200&h=1500',
+          width: 3200,
+          height: 1500,
+          alt:
+            'Image of the front cover of a book. The artwork is a graphic pattern of blue, green, orange and white squares and triangles. Black text in capital letters reads: How to Stay Sane in an Age of Division, Elif Shafak.',
+          tasl: {
+            title: null,
+            author: null,
+            sourceName: null,
+            sourceLink: null,
+            license: null,
+            copyrightHolder: null,
+            copyrightLink: null,
+          },
+          crops: {},
+        },
+        '16:9': {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/89ad9a3f-7a0e-4637-b967-1a3dc06dbc78_How+to+Stay+Sane_book+cover.jpg?auto=compress,format&rect=0,796,1530,861&w=3200&h=1800',
+          width: 3200,
+          height: 1800,
+          alt:
+            'Image of the front cover of a book. The artwork is a graphic pattern of blue, green, orange and white squares and triangles. Black text in capital letters reads: How to Stay Sane in an Age of Division, Elif Shafak.',
+          tasl: {
+            title: null,
+            author: null,
+            sourceName: null,
+            sourceLink: null,
+            license: null,
+            copyrightHolder: null,
+            copyrightLink: null,
+          },
+          crops: {},
+        },
+        square: {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/89ad9a3f-7a0e-4637-b967-1a3dc06dbc78_How+to+Stay+Sane_book+cover.jpg?auto=compress,format&rect=0,461,1530,1530&w=3200&h=3200',
+          width: 3200,
+          height: 3200,
+          alt:
+            'Image of the front cover of a book. The artwork is a graphic pattern of blue, green, orange and white squares and triangles. Black text in capital letters reads: How to Stay Sane in an Age of Division, Elif Shafak.',
+          tasl: {
+            title: null,
+            author: null,
+            sourceName: null,
+            sourceLink: null,
+            license: null,
+            copyrightHolder: null,
+            copyrightLink: null,
+          },
+          crops: {},
+        },
+      },
+    },
+    squareImage: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection/89ad9a3f-7a0e-4637-b967-1a3dc06dbc78_How+to+Stay+Sane_book+cover.jpg?auto=compress,format&rect=0,461,1530,1530&w=3200&h=3200',
+      width: 3200,
+      height: 3200,
+      alt:
+        'Image of the front cover of a book. The artwork is a graphic pattern of blue, green, orange and white squares and triangles. Black text in capital letters reads: How to Stay Sane in an Age of Division, Elif Shafak.',
+      tasl: {
+        title: null,
+        author: null,
+        sourceName: null,
+        sourceLink: null,
+        license: null,
+        copyrightHolder: null,
+        copyrightLink: null,
+      },
+      crops: {},
+    },
+    widescreenImage: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection/89ad9a3f-7a0e-4637-b967-1a3dc06dbc78_How+to+Stay+Sane_book+cover.jpg?auto=compress,format&rect=0,796,1530,861&w=3200&h=1800',
+      width: 3200,
+      height: 1800,
+      alt:
+        'Image of the front cover of a book. The artwork is a graphic pattern of blue, green, orange and white squares and triangles. Black text in capital letters reads: How to Stay Sane in an Age of Division, Elif Shafak.',
+      tasl: {
+        title: null,
+        author: null,
+        sourceName: null,
+        sourceLink: null,
+        license: null,
+        copyrightHolder: null,
+        copyrightLink: null,
+      },
+      crops: {},
+    },
+    metadataDescription: '',
+    labels: [
+      {
+        url: null,
+        text: 'Book',
+      },
+    ],
     subtitle: '',
     orderLink:
-      'https://blackwells.co.uk/bookshop/product/Breaking-and-Mending-by-Joanna-Cannon-author/9781788160575',
-    price: '£12.99',
-    format: 'Hardback',
-    extent: '176',
-    isbn: '9781788160575',
+      'https://blackwells.co.uk/bookshop/product/How-to-Stay-Sane-in-an-Age-of-Division-by-Elif-Shafak-author/9781788165723',
+    price: '£5.50',
+    format: 'Paperback',
+    extent: '96 pages',
+    isbn: '9781788165723',
     reviews: [
       {
         text: null,
         citation: null,
       },
     ],
-    datePublished: '2019-09-25T23:00:00.000Z',
+    datePublished: '2020-08-26T23:00:00.000Z',
     authorName: '',
     authorDescription: [],
     cover: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/23a12d7e1abb8c97e41762114b7738f1616cc9e4_bm.jpg?auto=compress,format',
-      width: 1820,
-      height: 2812,
-      alt: null,
+        'https://images.prismic.io/wellcomecollection/89ad9a3f-7a0e-4637-b967-1a3dc06dbc78_How+to+Stay+Sane_book+cover.jpg?auto=compress,format',
+      width: 1530,
+      height: 2453,
+      alt:
+        'Image of the front cover of a book. The artwork is a graphic pattern of blue, green, orange and white squares and triangles. Black text in capital letters reads: How to Stay Sane in an Age of Division, Elif Shafak.',
       tasl: {
         title: null,
         author: null,
@@ -853,29 +1049,13 @@ export const staticBooks = [
         copyrightLink: null,
       },
       crops: {
-        square: {
-          contentUrl:
-            'https://images.prismic.io/wellcomecollection/7a57ec1ed730ecc97add054f36bc9d7a7527fe68_bm.jpg?auto=compress,format',
-          width: 3200,
-          height: 3200,
-          alt: null,
-          tasl: {
-            title: null,
-            author: null,
-            sourceName: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-          crops: {},
-        },
         '32:15': {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/c1a81508b92cafd242ef15e256ddc45f111f8883_bm.jpg?auto=compress,format',
+            'https://images.prismic.io/wellcomecollection/89ad9a3f-7a0e-4637-b967-1a3dc06dbc78_How+to+Stay+Sane_book+cover.jpg?auto=compress,format&rect=0,868,1530,717&w=3200&h=1500',
           width: 3200,
           height: 1500,
-          alt: null,
+          alt:
+            'Image of the front cover of a book. The artwork is a graphic pattern of blue, green, orange and white squares and triangles. Black text in capital letters reads: How to Stay Sane in an Age of Division, Elif Shafak.',
           tasl: {
             title: null,
             author: null,
@@ -889,10 +1069,29 @@ export const staticBooks = [
         },
         '16:9': {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/3ef14f1cc2bb4ec6292e3350ffec770118965f61_bm.jpg?auto=compress,format',
+            'https://images.prismic.io/wellcomecollection/89ad9a3f-7a0e-4637-b967-1a3dc06dbc78_How+to+Stay+Sane_book+cover.jpg?auto=compress,format&rect=0,796,1530,861&w=3200&h=1800',
           width: 3200,
           height: 1800,
-          alt: null,
+          alt:
+            'Image of the front cover of a book. The artwork is a graphic pattern of blue, green, orange and white squares and triangles. Black text in capital letters reads: How to Stay Sane in an Age of Division, Elif Shafak.',
+          tasl: {
+            title: null,
+            author: null,
+            sourceName: null,
+            sourceLink: null,
+            license: null,
+            copyrightHolder: null,
+            copyrightLink: null,
+          },
+          crops: {},
+        },
+        square: {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/89ad9a3f-7a0e-4637-b967-1a3dc06dbc78_How+to+Stay+Sane_book+cover.jpg?auto=compress,format&rect=0,461,1530,1530&w=3200&h=3200',
+          width: 3200,
+          height: 3200,
+          alt:
+            'Image of the front cover of a book. The artwork is a graphic pattern of blue, green, orange and white squares and triangles. Black text in capital letters reads: How to Stay Sane in an Age of Division, Elif Shafak.',
           tasl: {
             title: null,
             author: null,
@@ -906,5 +1105,6 @@ export const staticBooks = [
         },
       },
     },
+    seasons: [],
   },
 ];

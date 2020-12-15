@@ -1,10 +1,9 @@
 import WorkDetailsProperty from '../WorkDetailsProperty/WorkDetailsProperty';
+import { FunctionComponent } from 'react';
 
-// @flow
+type Props = { title?: string; text: string[] };
 
-type Props = {| title: ?string, text: string[] |};
-
-const WorkDetailsText = ({ title, text }: Props) => {
+const WorkDetailsText: FunctionComponent<Props> = ({ title, text }: Props) => {
   return (
     <WorkDetailsProperty title={title}>
       <div className="spaced-text">

@@ -483,7 +483,8 @@
                     "articles",
                     "exhibitions",
                     "card",
-                    "landing-pages"
+                    "landing-pages",
+                    "seasons"
                   ]
                 }
               }
@@ -589,6 +590,13 @@
               "options": [
                 "yes"
               ]
+            }
+          },
+          "extraInformation": {
+            "type": "StructuredText",
+            "config": {
+              "multi": "paragraph,hyperlink,strong,em",
+              "label": "Extra information"
             }
           }
         }

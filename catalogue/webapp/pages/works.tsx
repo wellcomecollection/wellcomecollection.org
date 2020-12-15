@@ -7,7 +7,7 @@ import {
   Work,
   Image,
 } from '@weco/common/model/catalogue';
-import { font, grid, classNames } from '@weco/common/utils/classnames';
+import { grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import {
   GlobalContextData,
@@ -28,7 +28,6 @@ import {
 } from '@weco/common/services/catalogue/ts_api';
 import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
-import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { getImages } from '../services/catalogue/images';
 import { getWorks } from '../services/catalogue/works';
 import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
@@ -69,7 +68,6 @@ const Works: NextPage<Props> = ({
   const results: CatalogueResultsList<Work | Image> | undefined =
     works || images;
 
-  const { searchPrototype } = globalContextData.toggles;
   const {
     query,
     page,
@@ -149,59 +147,25 @@ const Works: NextPage<Props> = ({
 
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                {!searchPrototype && (
-                  <p
-                    className={classNames({
-                      [font('hnl', 4)]: true,
-                      'visually-hidden': Boolean(results),
-                    })}
-                    id="search-form-description"
-                  >
-                    Find thousands of books, images, artworks, unpublished
-                    archives and manuscripts in our collections, many of them
-                    with free online access.
-                  </p>
-                )}
-
-                {searchPrototype ? (
-                  <SearchTabs
-                    worksRouteProps={worksRouteProps}
-                    imagesRouteProps={{
-                      ...worksRouteProps,
-                      locationsLicense: null,
-                      color: null,
-                    }}
-                    workTypeAggregations={
-                      works && works.aggregations
-                        ? works.aggregations.workType.buckets
-                        : []
-                    }
-                    shouldShowDescription={query === ''}
-                    shouldShowFilters={true}
-                    aggregations={
-                      works && works.aggregations
-                        ? works.aggregations
-                        : undefined
-                    }
-                    showSortBy={Boolean(results)}
-                  />
-                ) : (
-                  <SearchForm
-                    ariaDescribedBy="search-form-description"
-                    shouldShowFilters={query !== ''}
-                    worksRouteProps={worksRouteProps}
-                    workTypeAggregations={
-                      works && works.aggregations
-                        ? works.aggregations.workType.buckets
-                        : []
-                    }
-                    aggregations={
-                      works && works.aggregations
-                        ? works.aggregations
-                        : undefined
-                    }
-                  />
-                )}
+                <SearchTabs
+                  worksRouteProps={worksRouteProps}
+                  imagesRouteProps={{
+                    ...worksRouteProps,
+                    locationsLicense: null,
+                    color: null,
+                  }}
+                  workTypeAggregations={
+                    works && works.aggregations
+                      ? works.aggregations.workType.buckets
+                      : []
+                  }
+                  shouldShowDescription={query === ''}
+                  shouldShowFilters={true}
+                  aggregations={
+                    works && works.aggregations ? works.aggregations : undefined
+                  }
+                  showSortBy={Boolean(results)}
+                />
               </div>
             </div>
           </div>
@@ -220,7 +184,7 @@ const Works: NextPage<Props> = ({
                     <div className="flex flex--h-space-between flex--v-center flex--wrap">
                       <Fragment>
                         <Paginator
-                          query={searchPrototype ? query : undefined}
+                          query={query}
                           showPortal={true}
                           currentPage={page || 1}
                           pageSize={results.pageSize}
@@ -243,7 +207,7 @@ const Works: NextPage<Props> = ({
                               window.scrollTo(0, 0)
                             );
                           }}
-                          hideMobilePagination={Boolean(searchPrototype)}
+                          hideMobilePagination={true}
                         />
                       </Fragment>
                     </div>
@@ -319,7 +283,7 @@ const Works: NextPage<Props> = ({
                                 window.scrollTo(0, 0)
                               );
                             }}
-                            hideMobileTotalResults={Boolean(searchPrototype)}
+                            hideMobileTotalResults={true}
                           />
                         </Fragment>
                       </div>

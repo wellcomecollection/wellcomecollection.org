@@ -202,6 +202,7 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
 
   return (
     <form
+      role="search"
       ref={searchForm}
       className="relative"
       action={isImageSearch ? '/images' : '/works'}

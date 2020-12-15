@@ -5,8 +5,8 @@ import { trackSearchResultSelected } from '@weco/common/views/components/Tracker
 import WorksSearchResult from '../WorksSearchResult/WorksSearchResult';
 import { grid } from '@weco/common/utils/classnames';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
-import { WorksRouteProps } from '@weco/common/services/catalogue/ts_routes';
 import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/ts_api';
+import { WorksRouteProps } from '@weco/common/services/catalogue/ts_routes';
 
 type Props = {
   works: CatalogueResultsList<Work>;
@@ -35,7 +35,8 @@ const WorkSearchResults: FunctionComponent<Props> = ({
                 resultIdentifiers: result.identifiers.map(
                   identifier => identifier.value
                 ),
-                resultSubjects: result.subjects.map(subject => subject.label),
+                resultSubjects:
+                  result.subjects?.map(subject => subject.label) || [],
                 source: 'work_result',
               });
             }}

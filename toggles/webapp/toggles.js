@@ -1,18 +1,11 @@
 module.exports = {
   toggles: [
     {
-      id: 'searchPrototype',
-      title: 'New search interface',
-      defaultValue: true,
-      description:
-        'Shows a tabbed interface for library catalogue/images search',
-    },
-    {
       id: 'openWithAdvisoryPrototype',
       title: 'Open with advisory',
       description:
         'Adds functionality for viewing digitised items with an access condition of open-with-advisory',
-      defaultValue: true,
+      defaultValue: false,
     },
     {
       id: 'buildingReopening',
@@ -65,6 +58,12 @@ module.exports = {
       defaultValue: false,
       description:
         'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
+    },
+    {
+      id: 'catchUpOnWhatsOn',
+      title: "Catch up on what's on",
+      defaultValue: false,
+      description: "Shows catch up events on the what's on page",
     },
   ],
 };

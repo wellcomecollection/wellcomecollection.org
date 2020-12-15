@@ -20,7 +20,8 @@ import MediaObjectBase, {
 type Props = {
   url: string | null;
   title: string;
-  labels: ComponentProps<typeof LabelsList>;
+  primaryLabels: ComponentProps<typeof LabelsList>;
+  secondaryLabels: ComponentProps<typeof LabelsList>;
   description: string | ReactElement | null;
   urlOverride: string | null;
   extraClasses?: string;
@@ -42,7 +43,8 @@ type Props = {
 const CompactCard: FunctionComponent<Props> = ({
   url,
   title,
-  labels,
+  primaryLabels,
+  secondaryLabels,
   description,
   urlOverride,
   extraClasses,
@@ -70,7 +72,8 @@ const CompactCard: FunctionComponent<Props> = ({
       extraClasses={extraClasses}
       DateInfo={DateInfo}
       ExtraInfo={ExtraInfo}
-      labels={labels}
+      primaryLabels={primaryLabels}
+      secondaryLabels={secondaryLabels}
       xOfY={xOfY}
       OverrideImageWrapper={OverrideImageWrapper}
       OverrideTextWrapper={OverrideTextWrapper}

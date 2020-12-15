@@ -19,7 +19,8 @@ describe('CompactCard', () => {
       urlOverride={null}
       DateInfo={null}
       ExtraInfo={null}
-      labels={{ labels: [] }}
+      primaryLabels={[]}
+      secondaryLabels={[]}
       xOfY={{ x: null, y: null }}
       extraClasses={extraClass}
     />

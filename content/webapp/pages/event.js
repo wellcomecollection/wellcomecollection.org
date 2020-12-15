@@ -476,55 +476,55 @@ class EventPage extends Component<Props, State> {
                 )}
             </Fragment>
           )}
-          {!event.isPast && (
-            <Fragment>
-              <InfoBox
-                title="Need to know"
-                items={[
-                  event.place && {
-                    id: null,
-                    title: 'Location',
-                    description: event.place.information,
-                  },
-                  event.bookingInformation && {
-                    id: null,
-                    title: 'Extra information',
-                    description: event.bookingInformation,
-                  },
-                ]
-                  .concat(event.policies.map(policy => ({ ...policy })))
-                  .concat(
-                    event.interpretations.map(
-                      ({ interpretationType, isPrimary }) => {
-                        const iconName = camelize(interpretationType.title);
-                        return {
-                          id: null,
-                          icon: [
-                            'britishSignLanguage',
-                            'speechToText',
-                            'hearingLoop',
-                            'audioDescribed',
-                          ].includes(iconName)
-                            ? iconName
-                            : null,
-                          title: interpretationType.title,
-                          description: isPrimary
-                            ? interpretationType.primaryDescription
-                            : interpretationType.description,
-                        };
-                      }
-                    )
-                  )
-                  .filter(Boolean)}
-              >
-                <p className={`no-margin ${font('hnl', 5)}`}>
-                  <a href="https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sng">
-                    Our event terms and conditions
-                  </a>
-                </p>
-              </InfoBox>
-            </Fragment>
-          )}
+
+          <InfoBox
+            title="Need to know"
+            items={[
+              event.place && {
+                id: null,
+                title: 'Location',
+                description: event.place.information,
+              },
+              event.bookingInformation && {
+                id: null,
+                title: 'Extra information',
+                description: event.bookingInformation,
+              },
+            ]
+              .concat(event.policies.map(policy => ({ ...policy })))
+              .concat(
+                event.interpretations.map(
+                  ({ interpretationType, isPrimary, extraInformation }) => {
+                    const iconName = camelize(interpretationType.title);
+                    return {
+                      id: null,
+                      icon: [
+                        'britishSignLanguage',
+                        'speechToText',
+                        'hearingLoop',
+                        'audioDescribed',
+                      ].includes(iconName)
+                        ? iconName
+                        : null,
+                      title: interpretationType.title,
+                      description: (
+                        (isPrimary
+                          ? interpretationType.primaryDescription
+                          : interpretationType.description) || []
+                      ).concat(extraInformation || []),
+                    };
+                  }
+                )
+              )
+              .filter(Boolean)}
+          >
+            <p className={`no-margin ${font('hnl', 5)}`}>
+              <a href="https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sng">
+                Our event terms and conditions
+              </a>
+            </p>
+          </InfoBox>
+
           {event.audiences.map(audience => {
             if (audience.description) {
               return (

@@ -1,11 +1,13 @@
-// @flow
-import { type Node } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import { FunctionComponent, PropsWithChildren } from 'react';
 
-type Props = {| title: ?string, children: Node |};
+type Props = PropsWithChildren<{ title?: string }>;
 
-const WorkDetailsProperty = ({ title, children }: Props) => {
+const WorkDetailsProperty: FunctionComponent<Props> = ({
+  title,
+  children,
+}: Props) => {
   return (
     <SpacingComponent>
       <div className={`${font('hnl', 5, { small: 3, medium: 3 })}`}>

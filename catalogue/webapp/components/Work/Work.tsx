@@ -20,7 +20,6 @@ import WorkHeaderPrototype from '@weco/common/views/components/WorkHeaderPrototy
 import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
-import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import WorkDetails from '../WorkDetails/WorkDetails';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
@@ -54,7 +53,6 @@ const Work: FunctionComponent<Props> = ({
   work,
   globalContextData,
 }: Props): ReactElement<Props> => {
-  const { searchPrototype } = globalContextData.toggles;
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
     page: 1,
@@ -152,30 +150,21 @@ const Work: FunctionComponent<Props> = ({
               [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
             })}
           >
-            {searchPrototype ? (
-              <>
-                <SearchTabs
-                  worksRouteProps={savedSearchFormState}
-                  imagesRouteProps={{
-                    ...savedSearchFormState,
-                    locationsLicense: null,
-                    color: null,
-                  }}
-                  workTypeAggregations={[]}
-                  shouldShowDescription={false}
-                  shouldShowFilters={false} // not display filters on the work detail page
-                  activeTabIndex={0}
-                  showSortBy={false}
-                />
-              </>
-            ) : (
-              <SearchForm
-                ariaDescribedBy="search-form-description"
-                shouldShowFilters={false}
+            <>
+              <SearchTabs
                 worksRouteProps={savedSearchFormState}
+                imagesRouteProps={{
+                  ...savedSearchFormState,
+                  locationsLicense: null,
+                  color: null,
+                }}
                 workTypeAggregations={[]}
+                shouldShowDescription={false}
+                shouldShowFilters={false} // not display filters on the work detail page
+                activeTabIndex={0}
+                showSortBy={false}
               />
-            )}
+            </>
           </div>
         </div>
         <div className="grid">
