@@ -124,6 +124,10 @@ const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
                   <Space
                     as="span"
                     h={{ size: 's', properties: ['margin-right'] }}
+                    className={classNames({
+                      flex: true,
+                      'flex--v-center': true,
+                    })}
                   >
                     <Icon name={workTypeIcon} />
                   </Space>
