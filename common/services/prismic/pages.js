@@ -95,6 +95,46 @@ export async function getPage(
   }
 }
 
+type Order = 'desc' | 'asc';
+type GetPagesProps = {|
+  predicates?: Prismic.Predicates[],
+  order?: Order,
+  page?: number,
+|};
+
+export async function getPages(
+  req: ?Request,
+  {
+    predicates = [],
+    order = 'desc',
+    page = 1,
+  }: GetPagesProps = {},
+  memoizedPrismic: ?Object
+): Promise<PaginatedResults<Page>> {
+  const paginatedResults = await getDocuments(
+    req,
+    [Prismic.Predicates.any('document.type', ['pages'])].concat(
+      predicates,
+    ),
+    {
+      page,
+    },
+    memoizedPrismic
+  );
+
+  const pages: Page[] = paginatedResults.results.map(
+    parsePage
+  );
+
+  return {
+    currentPage: paginatedResults.currentPage,
+    pageSize: paginatedResults.pageSize,
+    totalResults: paginatedResults.totalResults,
+    totalPages: paginatedResults.totalPages,
+    results: pages,
+  };
+}
+
 export async function getPageFromDrupalPath(
   req: Request,
   path: string
