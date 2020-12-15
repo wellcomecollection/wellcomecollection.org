@@ -85,7 +85,7 @@ const workTypeIcons = {
   music: 'music',
   sound: 'music',
   pictures: 'picture',
-  archivesandmanuscripts: 'scroll',
+  'archives and manuscripts': 'archive',
   ephemera: 'threeD',
   evideos: 'video',
   websites: 'website',
