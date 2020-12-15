@@ -188,12 +188,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   [font('hnl', 5)]: true,
                 })}
               >
-                <DropdownButton
-                  label={'Dates'}
-                  isInline={true}
-                  id="dates"
-                  ariaRole="dates filter drop down"
-                >
+                <DropdownButton label={'Dates'} isInline={true} id="dates">
                   <>
                     <Space
                       as="span"
