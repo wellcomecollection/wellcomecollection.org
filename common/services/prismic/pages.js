@@ -1,7 +1,9 @@
 // @flow
 import Prismic from 'prismic-javascript';
 import { getDocument, getDocuments } from './api';
-import { parseTimestamp, parseGenericFields, parseOnThisPage } from './parsers';
+import { parseTimestamp, parseGenericFields, parseOnThisPage, parseSingleLevelGroup } from './parsers';
+// $FlowFixMe (tsx)
+import { parseSeason } from './seasons';
 import type { Page } from '../../model/pages';
 import type { PrismicDocument } from './types';
 import {
@@ -21,7 +23,9 @@ import {
 export function parsePage(document: PrismicDocument): Page {
   const { data } = document;
   const genericFields = parseGenericFields(document);
-
+  const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
+    return parseSeason(season);
+  });
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
   // strategy for this later
   const siteSection = document.tags.find(tag =>
@@ -49,6 +53,7 @@ export function parsePage(document: PrismicDocument): Page {
   return {
     type: 'pages',
     ...genericFields,
+    seasons,
     onThisPage: data.body ? parseOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,
     promo: promo && promo.image ? promo : drupalisedPromo,
