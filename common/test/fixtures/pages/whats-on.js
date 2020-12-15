@@ -1448,6 +1448,13 @@ export const whatsOn = hasExhibition => ({
     totalPages: 0,
     results: [],
   },
+  availableOnlineEvents: {
+    currentPage: 1,
+    pageSize: 100,
+    totalResults: 0,
+    totalPages: 0,
+    results: [],
+  },
   dateRange: ['2020-11-05T00:00:00.000Z', null],
   tryTheseTooPromos: [
     {

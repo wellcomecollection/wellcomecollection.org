@@ -59,11 +59,5 @@ module.exports = {
       description:
         'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
     },
-    {
-      id: 'catchUpOnWhatsOn',
-      title: "Catch up on what's on",
-      defaultValue: false,
-      description: "Shows catch up events on the what's on page",
-    },
   ],
 };
