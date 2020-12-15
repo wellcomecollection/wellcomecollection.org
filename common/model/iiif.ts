@@ -102,17 +102,14 @@ export type IIIFMetadata = {
 export type AuthService = {
   '@context': string;
   '@id': string;
-  accessHint: string;
-  authService: {
+  description: string;
+  label: string;
+  profile: string;
+  service: {
     '@context': string;
     '@id': string;
-    description: string;
-    label: string;
-    profile: string;
-    service: [];
-  };
-  service: Service[];
-  profile: string;
+    profile: string
+  }[];
 };
 
 export type Service = {

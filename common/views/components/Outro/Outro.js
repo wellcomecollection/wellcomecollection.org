@@ -111,7 +111,8 @@ const Outro = ({
                   StatusIndicator={null}
                   DateInfo={null}
                   title={title}
-                  labels={{ labels: item.labels || [] }}
+                  primaryLabels={item.labels || []}
+                  secondaryLabels={[]}
                   url={
                     item.type === 'weblinks'
                       ? item.url

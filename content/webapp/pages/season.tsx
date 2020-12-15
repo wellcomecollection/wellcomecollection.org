@@ -59,7 +59,7 @@ const SeasonPage = ({
         Body={<Body body={season.body} pageId={season.id} />}
       />
 
-      {(exhibitionsAndEvents.length > 0) && (
+      {exhibitionsAndEvents.length > 0 && (
         <SpacingSection>
           <SpacingComponent>
             <SectionHeader title="Exhibitions and Events" />
@@ -70,7 +70,7 @@ const SeasonPage = ({
         </SpacingSection>
       )}
 
-      {(exploreMore.length > 0) && (
+      {exploreMore.length > 0 && (
           <SpacingSection>
             <SpacingComponent>
               <SectionHeader title="Explore more" />
