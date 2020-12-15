@@ -56,7 +56,7 @@ const SeasonPage = ({
         Body={<Body body={season.body} pageId={season.id} />}
       />
 
-      {(exhibitionsAndEvents.length > 0) && (
+      {exhibitionsAndEvents.length > 0 && (
         <SpacingSection>
           <SpacingComponent>
             <SectionHeader title="Exhibitions and Events" />
@@ -68,18 +68,15 @@ const SeasonPage = ({
       )}
 
       {(articles.length > 0 || books.length > 0) && (
-          <SpacingSection>
-            <SpacingComponent>
-              <SectionHeader title="Explore more" />
-            </SpacingComponent>
-            <SpacingComponent>
-              <CardGrid
-                items={[...articles, ...books]}
-                itemsPerRow={3}
-              />
-            </SpacingComponent>
-          </SpacingSection>
-        )}
+        <SpacingSection>
+          <SpacingComponent>
+            <SectionHeader title="Explore more" />
+          </SpacingComponent>
+          <SpacingComponent>
+            <CardGrid items={[...articles, ...books]} itemsPerRow={3} />
+          </SpacingComponent>
+        </SpacingSection>
+      )}
     </PageLayout>
   );
 };

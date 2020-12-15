@@ -61,8 +61,7 @@ const OnlineIndicator = styled.span.attrs({
   border-radius: 4px;
   line-height: 1;
   padding: ${props => `${props.theme.spacingUnit/2}px`};
-`;
-
+`
 type Props = {|
   event: UiEvent,
   position?: number,
@@ -104,7 +103,7 @@ const EventPromo = ({
           />
         )}
 
-        {event.labels.length > 0 && (
+        {event.primaryLabels.length > 0 && (
           <div style={{ position: 'absolute', bottom: 0 }}>
             <LabelsList labels={event.primaryLabels} />
           </div>
@@ -189,7 +188,7 @@ const EventPromo = ({
             <p className={`${font('hnm', 6)}`}>See all dates/times</p>
           )}
 
-          {(isPast && !event.availableOnline) && (
+          {isPast && !event.availableOnline && (
             <div className={`${font('hnl', 5)} flex flex--v-center`}>
               <Space
                 as="span"
