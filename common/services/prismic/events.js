@@ -355,7 +355,11 @@ export function parseEventDoc(
     ...relaxedPerformanceLabel,
   ];
 
-  const primaryLabels = [...eventFormat, ...eventAudiences, ...relaxedPerformanceLabel];
+  const primaryLabels = [
+    ...eventFormat,
+    ...eventAudiences,
+    ...relaxedPerformanceLabel,
+  ];
   const secondaryLabels = [...eventInterpretations];
 
   return { ...event, labels, primaryLabels, secondaryLabels };

@@ -66,7 +66,7 @@ const EventPromo = ({
           />
         )}
 
-        {event.labels.length > 0 && (
+        {event.primaryLabels.length > 0 && (
           <div style={{ position: 'absolute', bottom: 0 }}>
             <LabelsList labels={event.primaryLabels} />
           </div>

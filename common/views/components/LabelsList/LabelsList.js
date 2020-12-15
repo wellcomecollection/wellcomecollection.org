@@ -35,7 +35,11 @@ const LabelsList = ({
         as="li"
         key={`${label.text}-${i}`}
       >
-        <Label label={label} labelColor={labelColor} roundedDiagonal={roundedDiagonal} />
+        <Label
+          label={label}
+          labelColor={labelColor}
+          roundedDiagonal={roundedDiagonal}
+        />
       </Space>
     ))}
   </Space>

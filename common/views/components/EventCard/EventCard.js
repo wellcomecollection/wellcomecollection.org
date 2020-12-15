@@ -34,7 +34,8 @@ const EventCard = ({ event, xOfY }: Props) => {
       title={event.title}
       partNumber={null}
       color={null}
-      labels={{ labels: event.labels }}
+      primaryLabels={event.primaryLabels}
+      secondaryLabels={event.secondaryLabels}
       description={null}
       urlOverride={event.promo && event.promo.link}
       Image={ImageComponent}

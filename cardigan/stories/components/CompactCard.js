@@ -5,7 +5,8 @@ import { UiImage } from '../../../common/views/components/Images/Images';
 import { squareImage, singleLineOfText } from '../content';
 
 const imageProps = squareImage();
-const labelList = { labels: [{ text: 'Study day' }, { text: 'Schools' }] };
+const primaryLabelList = [{ text: 'Study day' }, { text: 'Schools' }];
+const secondaryLabelList = [{ text: 'Speech-to-text' }];
 
 const CompactCardExample = () => (
   <CompactCard
@@ -15,7 +16,8 @@ const CompactCardExample = () => (
     Image={<UiImage {...imageProps} tasl={null} />}
     DateInfo={null}
     Tags={null}
-    labels={labelList}
+    primaryLabels={primaryLabelList}
+    secondaryLabels={secondaryLabelList}
     xOfY={[1, 1]}
   />
 );
