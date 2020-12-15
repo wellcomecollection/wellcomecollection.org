@@ -4,7 +4,11 @@ import { Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
-import { getProductionDates, getWorkTypeIcon } from '@weco/common/utils/works';
+import {
+  getArchiveContext,
+  getProductionDates,
+  getWorkTypeIcon,
+} from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import Image from '@weco/common/views/components/Image/Image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -73,6 +77,7 @@ function isPdfThumbnail(thumbnail): boolean {
 const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
+  const archiveContext = getArchiveContext(work);
   return (
     <div
       className={classNames({
@@ -169,6 +174,22 @@ const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
                   />
                 )}
               </div>
+              {archiveContext && (
+                <>
+                  <LinkLabels
+                    heading="Reference"
+                    items={[{ text: archiveContext.reference }]}
+                  />
+                  <LinkLabels
+                    heading="Part of"
+                    items={[{ text: archiveContext.partOf }]}
+                  />
+                  <LinkLabels
+                    heading="Found in"
+                    items={[{ text: archiveContext.foundIn }]}
+                  />
+                </>
+              )}
             </Details>
             {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
               <Preview h={{ size: 'm', properties: ['margin-left'] }}>
