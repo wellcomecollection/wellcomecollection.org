@@ -4,6 +4,7 @@ import type { Article } from './articles';
 import type { Book } from './books';
 import type { Event } from './events';
 import type { Exhibition } from './exhibitions';
+import type { Page } from './pages';
 
 export type Season = {
   ...GenericContentFields,
@@ -16,4 +17,5 @@ export type SeasonWithContent = {
   books: Book[],
   events: Event[],
   exhibitions: Exhibition[],
+  pages: Page[],
 };
