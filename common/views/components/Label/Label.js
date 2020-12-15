@@ -9,7 +9,11 @@ export type Props = {|
   roundedDiagonal?: boolean,
 |};
 
-const Label = ({ label, labelColor = 'yellow', roundedDiagonal = false }: Props) => {
+const Label = ({
+  label,
+  labelColor = 'yellow',
+  roundedDiagonal = false,
+}: Props) => {
   const fontColor = labelColor === 'black' ? 'yellow' : 'black';
   return (
     <Space

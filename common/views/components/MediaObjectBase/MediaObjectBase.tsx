@@ -131,7 +131,6 @@ const MediaObjectBase: FunctionComponent<Props> = ({
           </Space>
         )}
 
-
         {partNumber && (
           <PartNumberIndicator number={partNumber} color={color} />
         )}
@@ -155,17 +154,14 @@ const MediaObjectBase: FunctionComponent<Props> = ({
           </div>
         )}
         {secondaryLabels.length > 0 && (
-            <Space
-            v={{ size: 's', properties: ['margin-top'] }}
-            className="flex"
-          >
-              <LabelsList
+          <Space v={{ size: 's', properties: ['margin-top'] }} className="flex">
+            <LabelsList
               labels={secondaryLabels}
               labelColor="black"
               roundedDiagonal={true}
             />
-            </Space>
-          )}
+          </Space>
+        )}
       </TextWrapper>
     </Space>
   );

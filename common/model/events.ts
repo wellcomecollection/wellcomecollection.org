@@ -99,10 +99,10 @@ export type Event = GenericContentFields & {
   isCompletelySoldOut?: boolean;
   isPast: boolean;
   isRelaxedPerformance: boolean;
-  isOnline: boolean,
-  availableOnline: boolean,
-  primaryLabels: Label[],
-  secondaryLabels: Label[],
+  isOnline: boolean;
+  availableOnline: boolean;
+  primaryLabels: Label[];
+  secondaryLabels: Label[];
 };
 
 export type EventPromo = {

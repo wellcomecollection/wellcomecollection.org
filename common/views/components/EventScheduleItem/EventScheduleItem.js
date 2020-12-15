@@ -171,7 +171,11 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
 
             {event.secondaryLabels.length > 0 && (
               <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                <LabelsList labels={event.secondaryLabels} labelColor="black" roundedDiagonal={true} />
+                <LabelsList
+                  labels={event.secondaryLabels}
+                  labelColor="black"
+                  roundedDiagonal={true}
+                />
               </Space>
             )}
           </div>
