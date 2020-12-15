@@ -474,31 +474,29 @@ export class WhatsOnPage extends Component<Props> {
                         </SpacingComponent>
                       </SpacingSection>
 
-                      {availableOnlineEvents && (
-                        <SpacingSection>
-                          <SpacingComponent>
-                            <SectionHeader title="Catch up" />
-                          </SpacingComponent>
-                          <SpacingComponent>
-                            {availableOnlineEvents.length > 0 ? (
-                              <CardGrid
-                                items={availableOnlineEvents}
-                                itemsPerRow={3}
-                                links={[
-                                  {
-                                    text: 'View all catch up events',
-                                    url: '/events/past?availableOnline=true',
-                                  },
-                                ]}
-                              />
-                            ) : (
-                              <Layout12>
-                                <p>There are no upcoming catch up events</p>
-                              </Layout12>
-                            )}
-                          </SpacingComponent>
-                        </SpacingSection>
-                      )}
+                      <SpacingSection>
+                        <SpacingComponent>
+                          <SectionHeader title="Catch up" />
+                        </SpacingComponent>
+                        <SpacingComponent>
+                          {availableOnlineEvents.length > 0 ? (
+                            <CardGrid
+                              items={availableOnlineEvents}
+                              itemsPerRow={3}
+                              links={[
+                                {
+                                  text: 'View all catch up events',
+                                  url: '/events/past?availableOnline=true',
+                                },
+                              ]}
+                            />
+                          ) : (
+                            <Layout12>
+                              <p>There are no upcoming catch up events</p>
+                            </Layout12>
+                          )}
+                        </SpacingComponent>
+                      </SpacingSection>
                     </Space>
                   </Fragment>
                 )}
