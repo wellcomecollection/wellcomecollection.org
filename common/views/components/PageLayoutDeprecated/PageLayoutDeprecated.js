@@ -4,6 +4,7 @@ import type { Url } from '../../../model/url';
 // $FlowFixMe (tsx)
 import type { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
+// $FlowFixMe (tsx)
 import convertUrlToString from '../../../utils/convert-url-to-string';
 import Header from '../Header/Header';
 // $FlowFixMe (tsx)

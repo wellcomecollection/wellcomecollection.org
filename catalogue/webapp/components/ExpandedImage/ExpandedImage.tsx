@@ -187,17 +187,17 @@ const ExpandedImage: FunctionComponent<Props> = ({
     CanvasLink | undefined
   >();
   const modalRef = useRef(null);
-  const closeButtonRef = useRef(null);
-  const endRef = useRef(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const endRef = useRef<HTMLElement>();
 
   const workId = image.source.id;
   const displayTitle = detailedWork?.title ?? '';
   const displayContributor = detailedWork?.contributors?.[0]?.agent?.label;
 
   useEffect(() => {
-    const focusables = modalRef?.current && [
-      ...getFocusableElements(modalRef.current),
-    ];
+    const focusables =
+      (modalRef?.current && [...getFocusableElements(modalRef.current)]) || [];
+
     endRef.current = focusables?.[focusables.length - 1];
   }, [modalRef.current]);
 
@@ -256,13 +256,13 @@ const ExpandedImage: FunctionComponent<Props> = ({
         });
       }
     };
-    if (detailedWork && image.locations[0]) {
+    if (detailedWork) {
       const manifestLocation = getDigitalLocationOfType(
         detailedWork,
         'iiif-presentation'
       );
       if (manifestLocation) {
-        fetchDeeplinkCanvasIndex(manifestLocation.url, image.locations[0].url);
+        fetchDeeplinkCanvasIndex(manifestLocation.url, image.locations[0]?.url);
       }
     }
   }, [detailedWork]);
@@ -277,9 +277,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
 
   useFocusTrap(closeButtonRef, endRef);
 
-  const iiifImageLocation = image
-    ? image.locations[0]
-    : detailedWork && getDigitalLocationOfType(detailedWork, 'iiif-image');
+  const iiifImageLocation = image.locations[0];
   const license =
     iiifImageLocation?.license &&
     getAugmentedLicenseInfo(iiifImageLocation.license);

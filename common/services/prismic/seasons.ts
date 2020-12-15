@@ -29,10 +29,10 @@ export function parseSeason(document: PrismicDocument): Season {
 }
 
 export async function getSeason(
-  req: IncomingMessage,
+  req: IncomingMessage | undefined,
   id: string,
   memoizedPrismic: Record<string, unknown>
-): Promise<Season> {
+): Promise<Season | undefined> {
   const season = await getDocument(
     req,
     id,
@@ -57,10 +57,10 @@ export async function getSeasonWithContent({
   id,
   memoizedPrismic,
 }: {
-  request: IncomingMessage;
+  request: IncomingMessage | undefined;
   memoizedPrismic: Record<string, unknown>;
   id: string;
-}): Promise<SeasonWithContent | null> {
+}): Promise<SeasonWithContent | undefined> {
   const seasonPromise = await getSeason(request, id, memoizedPrismic);
 
   const articlesPromise = await getArticles(
@@ -97,11 +97,13 @@ export async function getSeasonWithContent({
     exhibitionsPromise,
   ]);
 
-  return {
-    season,
-    articles: articles?.results || [],
-    books: books?.results || [],
-    events: events?.results || [],
-    exhibitions: exhibitions?.results || [],
-  };
+  if (season) {
+    return {
+      season,
+      articles: articles?.results || [],
+      books: books?.results || [],
+      events: events?.results || [],
+      exhibitions: exhibitions?.results || [],
+    };
+  }
 }

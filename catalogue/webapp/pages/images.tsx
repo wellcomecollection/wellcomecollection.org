@@ -19,7 +19,7 @@ import {
   imagesRoutePropsToWorksRouteProps,
 } from '@weco/common/services/catalogue/ts_routes';
 import {
-  ImagesApiProps,
+  CatalogueImagesApiProps,
   imagesRouteToApiUrl,
 } from '@weco/common/services/catalogue/ts_api';
 import Space from '@weco/common/views/components/styled/Space';
@@ -43,7 +43,7 @@ import {
 type Props = {
   results?: CatalogueResultsList<Image> | CatalogueApiError;
   imagesRouteProps: ImagesRouteProps;
-  apiProps: ImagesApiProps;
+  apiProps: CatalogueImagesApiProps;
 } & WithGlobalContextData &
   WithPageview;
 
@@ -104,7 +104,6 @@ const Images: NextPage<Props> = ({
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(imagesRouteProps);
   const { query, page, color } = imagesRouteProps;
-  const { searchPrototype } = globalContextData.toggles;
   useEffect(() => {
     function routeChangeStart() {
       setLoading(true);
@@ -167,8 +166,8 @@ const Images: NextPage<Props> = ({
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'collections'}
-        imageUrl={null}
-        imageAltText={null}
+        imageUrl={undefined}
+        imageAltText={undefined}
         globalContextData={globalContextData}
       >
         <Space
@@ -214,7 +213,7 @@ const Images: NextPage<Props> = ({
                       results={results}
                       imagesRouteProps={imagesRouteProps}
                       setSavedSearchState={setSavedSearchState}
-                      hideMobilePagination={Boolean(searchPrototype)}
+                      hideMobilePagination={true}
                     />
                   </div>
                 </div>
@@ -256,7 +255,7 @@ const Images: NextPage<Props> = ({
                         results={results}
                         imagesRouteProps={imagesRouteProps}
                         setSavedSearchState={setSavedSearchState}
-                        hideMobileTotalResults={Boolean(searchPrototype)}
+                        hideMobileTotalResults={true}
                       />
                     </div>
                   </div>
@@ -282,13 +281,13 @@ export const getServerSideProps: GetServerSideProps<
   const hasQuery = !!(params.query && params.query !== '');
   const imagesOrError = hasQuery
     ? await getImages({
-        params,
-        toggles: context.query.toggles,
+        params: apiProps,
+        toggles: globalContextData.toggles,
       })
     : undefined;
 
   if (imagesOrError && imagesOrError.type === 'Error') {
-    return appError(context, imagesOrError.statusCode, 'Images API error');
+    return appError(context, imagesOrError.httpStatus, 'Images API error');
   }
 
   return {

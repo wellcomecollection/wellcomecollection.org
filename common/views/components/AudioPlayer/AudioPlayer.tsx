@@ -1,5 +1,5 @@
 import Router from 'next/router';
-import { trackEvent } from '../../../../common/utils/ga';
+import { trackEvent } from '../../../utils/ga';
 import { useEffect, useState, ReactElement, FunctionComponent } from 'react';
 import useInterval from '../../../../common/hooks/useInterval';
 import { IIIFMediaElement } from '../../../model/iiif';

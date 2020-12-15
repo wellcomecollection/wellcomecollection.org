@@ -48,6 +48,82 @@ import { getNextWeekendDateRange, isPast } from '../../utils/dates';
 const startField = 'my.events.times.startDateTime';
 const endField = 'my.events.times.endDateTime';
 
+const graphQuery = `{
+  events {
+    ...eventsFields
+    format {
+      ...formatFields
+    }
+    place {
+      ...placeFields
+    }
+    series {
+      series {
+        ...seriesFields
+        contributors {
+          ...contributorsFields
+          role {
+            ...roleFields
+          }
+          contributor {
+            ... on people {
+              ...peopleFields
+            }
+            ... on organisations {
+              ...organisationsFields
+            }
+          }
+        }
+        promo {
+          ... on editorialImage {
+            non-repeat {
+              caption
+              image
+            }
+          }
+        }
+      }
+    }
+    interpretations {
+      interpretationType {
+        ...interpretationTypeFields
+      }
+    }
+    policies {
+      policy {
+        ...policyFields
+      }
+    }
+    audiences {
+      audience {
+        ...audienceFields
+      }
+    }
+    contributors {
+      ...contributorsFields
+      role {
+        ...roleFields
+      }
+      contributor {
+        ... on people {
+          ...peopleFields
+        }
+        ... on organisations {
+          ...organisationsFields
+        }
+      }
+    }
+    promo {
+      ... on editorialImage {
+        non-repeat {
+          caption
+          image
+        }
+      }
+    }
+  }
+}`;
+
 function parseEventBookingType(eventDoc: PrismicDocument): ?string {
   return !isEmptyObj(eventDoc.data.eventbriteEvent)
     ? 'Ticketed'
@@ -124,6 +200,7 @@ export function parseEventDoc(
                 interpretation.interpretationType.data.primaryDescription,
             },
             isPrimary: Boolean(interpretation.isPrimary),
+            extraInformation: interpretation.extraInformation,
           }
         : null
     )
@@ -188,6 +265,8 @@ export function parseEventDoc(
   const displayTime = determineDisplayTime(times);
   const lastEndTime = data.times && getLastEndTime(data.times);
   const isRelaxedPerformance = parseBoolean(data.isRelaxedPerformance);
+  const isOnline = parseBoolean(data.isOnline);
+  const availableOnline = parseBoolean(data.availableOnline);
   const schedule = eventSchedule.map((event, i) => {
     const scheduleItem = data.schedule[i];
     return {
@@ -236,6 +315,8 @@ export function parseEventDoc(
     dateRange: determineDateRange(data.times),
     isPast: lastEndTime ? isPast(lastEndTime) : true,
     isRelaxedPerformance,
+    isOnline,
+    availableOnline,
   };
 
   const eventFormat = event.format
@@ -274,7 +355,14 @@ export function parseEventDoc(
     ...relaxedPerformanceLabel,
   ];
 
-  return { ...event, labels };
+  const primaryLabels = [
+    ...eventFormat,
+    ...eventAudiences,
+    ...relaxedPerformanceLabel,
+  ];
+  const secondaryLabels = [...eventInterpretations];
+
+  return { ...event, labels, primaryLabels, secondaryLabels };
 }
 
 const fetchLinks = [
@@ -351,82 +439,6 @@ export async function getEvents(
   }: EventsQueryProps,
   memoizedPrismic: ?Object
 ): Promise<PaginatedResults<UiEvent>> {
-  const graphQuery = `{
-    events {
-      ...eventsFields
-      format {
-        ...formatFields
-      }
-      place {
-        ...placeFields
-      }
-      series {
-        series {
-          ...seriesFields
-          contributors {
-            ...contributorsFields
-            role {
-              ...roleFields
-            }
-            contributor {
-              ... on people {
-                ...peopleFields
-              }
-              ... on organisations {
-                ...organisationsFields
-              }
-            }
-          }
-          promo {
-            ... on editorialImage {
-              non-repeat {
-                caption
-                image
-              }
-            }
-          }
-        }
-      }
-      interpretations {
-        interpretationType {
-          ...interpretationTypeFields
-        }
-      }
-      policies {
-        policy {
-          ...policyFields
-        }
-      }
-      audiences {
-        audience {
-          ...audienceFields
-        }
-      }
-      contributors {
-        ...contributorsFields
-        role {
-          ...roleFields
-        }
-        contributor {
-          ... on people {
-            ...peopleFields
-          }
-          ... on organisations {
-            ...organisationsFields
-          }
-        }
-      }
-      promo {
-        ... on editorialImage {
-          non-repeat {
-            caption
-            image
-          }
-        }
-      }
-    }
-  }`;
-
   const order = period === 'past' ? 'desc' : 'asc';
   const orderings = `[my.events.times.startDateTime${
     order === 'desc' ? ' desc' : ''

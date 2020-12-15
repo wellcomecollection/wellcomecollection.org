@@ -2,7 +2,7 @@ import { ComponentType, useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { Work } from '@weco/common/model/catalogue';
 import fetch from 'isomorphic-unfetch';
-import { IIIFManifest } from '@weco/common/model/iiif';
+import { IIIFCanvas, IIIFManifest } from '@weco/common/model/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import {
@@ -85,8 +85,8 @@ type Props = {
   pageIndex: number;
   canvasIndex: number;
   canvasOcr?: string;
-  canvases: [];
-  currentCanvas?: unknown;
+  canvases: IIIFCanvas[];
+  currentCanvas?: IIIFCanvas;
   video?: Video;
   audio?: Audio;
   globalContextData: GlobalContextData;
@@ -108,7 +108,7 @@ const ItemPage: NextPage<Props> = ({
   audio,
   globalContextData,
 }: Props) => {
-  const [origin, setOrigin] = useState(null);
+  const [origin, setOrigin] = useState<string>();
   const [showModal, setShowModal] = useState(false);
   const [showViewer, setShowViewer] = useState(false);
   const title = (manifest && manifest.label) || (work && work.title) || '';
@@ -131,12 +131,10 @@ const ItemPage: NextPage<Props> = ({
     null;
 
   const authService = getAuthService(manifest);
-  const authServiceServices = authService?.authService?.service;
-  const tokenService = authServiceServices
-    ? authServiceServices.find(
-        service => service.profile === 'http://iiif.io/api/auth/0/token'
-      )
-    : null;
+  const authServiceServices = authService?.service;
+  const tokenService = authServiceServices?.find(
+    service => service.profile === 'http://iiif.io/api/auth/0/token'
+  );
 
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
@@ -227,7 +225,7 @@ const ItemPage: NextPage<Props> = ({
                 margin: '98px auto 0',
               }}
               src={audio['@id']}
-              controlsList={!showDownloadOptions ? 'nodownload' : null}
+              controlsList={!showDownloadOptions ? 'nodownload' : undefined}
             >
               {`Sorry, your browser doesn't support embedded audio.`}
             </audio>
@@ -245,7 +243,7 @@ const ItemPage: NextPage<Props> = ({
                 display: 'block',
                 margin: '98px auto auto',
               }}
-              controlsList={!showDownloadOptions ? 'nodownload' : null}
+              controlsList={!showDownloadOptions ? 'nodownload' : undefined}
             >
               <source src={video['@id']} type={video.format} />
               {`Sorry, your browser doesn't support embedded video.`}
@@ -314,9 +312,10 @@ const ItemPage: NextPage<Props> = ({
                   const authServiceWindow = window.open(
                     `${authService?.authService['@id'] || ''}?origin=${origin}`
                   );
-                  authServiceWindow.addEventListener('unload', function() {
-                    reloadAuthIframe(document, iframeId);
-                  });
+                  authServiceWindow &&
+                    authServiceWindow.addEventListener('unload', function() {
+                      reloadAuthIframe(document, iframeId);
+                    });
                 }}
               />
             </Space>
@@ -370,7 +369,7 @@ export const getServerSideProps: GetServerSideProps<
   const globalContextData = getGlobalContextData(context);
   const {
     workId,
-    sierraId = null,
+    sierraId = undefined,
     langCode = 'en',
     page = 1,
     pageSize = 4,
@@ -378,27 +377,37 @@ export const getServerSideProps: GetServerSideProps<
   } = ItemRoute.fromQuery(context.query);
   const pageIndex = page - 1;
   const canvasIndex = canvas - 1;
-  const manifestUrl = sierraId
-    ? `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
-    : null;
-  const manifest = manifestUrl ? await (await fetch(manifestUrl)).json() : null;
+  const manifestUrl =
+    sierraId && `https://wellcomelibrary.org/iiif/${sierraId}/manifest`;
+  const manifest = manifestUrl
+    ? await (await fetch(manifestUrl)).json()
+    : undefined;
   const video = manifest && getVideo(manifest);
   const audio = manifest && getAudio(manifest);
   const work = await getWork({
     id: workId,
-    toggles: context.query.toggles,
+    toggles: globalContextData.toggles,
   });
 
   if (work.type === 'Error') {
-    return appError(context, work.statusCode, 'Works API error');
+    return appError(context, work.httpStatus, 'Works API error');
+  } else if (work.type === 'Redirect') {
+    return {
+      redirect: {
+        destination: work.redirectToId,
+        permanent: work.status === 301,
+      },
+    };
   }
 
   const canvases =
     manifest && manifest.sequences && manifest.sequences[0].canvases
       ? manifest.sequences[0].canvases
       : [];
-  const currentCanvas = canvases[canvasIndex] ? canvases[canvasIndex] : null;
-  const canvasOcr = currentCanvas ? await getCanvasOcr(currentCanvas) : null;
+  const currentCanvas = canvases?.[canvasIndex];
+  const canvasOcr = currentCanvas
+    ? await getCanvasOcr(currentCanvas)
+    : undefined;
   return {
     props: removeUndefinedProps({
       workId,

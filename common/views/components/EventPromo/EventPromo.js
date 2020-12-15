@@ -9,7 +9,22 @@ import { type UiEvent, isEventFullyBooked } from '../../../model/events';
 import Moment from 'moment';
 import Space from '../styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
+/* $FlowFixMe (tsx) */
+import Divider from '../Divider/Divider';
+import styled from 'styled-components';
 
+const OnlineIndicator = styled.span.attrs(() => ({
+  className: classNames({
+    [font('hnm', 6)]: true,
+  }),
+}))`
+  display: inline-block;
+  color: ${props => props.theme.color('pewter')};
+  border: 1px solid ${props => props.theme.color('pewter')};
+  border-radius: 4px;
+  line-height: 1;
+  padding: ${props => `${props.theme.spacingUnit / 2}px`};
+`;
 type Props = {|
   event: UiEvent,
   position?: number,
@@ -51,9 +66,9 @@ const EventPromo = ({
           />
         )}
 
-        {event.labels.length > 0 && (
+        {event.primaryLabels.length > 0 && (
           <div style={{ position: 'absolute', bottom: 0 }}>
-            <LabelsList labels={event.labels} />
+            <LabelsList labels={event.primaryLabels} />
           </div>
         )}
       </div>
@@ -74,6 +89,9 @@ const EventPromo = ({
             {event.title}
           </Space>
 
+          {event.isOnline && !event.availableOnline && (
+            <OnlineIndicator>Online</OnlineIndicator>
+          )}
           {!isPast && (
             <p className={`${font('hnl', 5)} no-padding no-margin`}>
               <EventDateRange
@@ -123,7 +141,7 @@ const EventPromo = ({
             <p className={`${font('hnm', 6)}`}>See all dates/times</p>
           )}
 
-          {isPast && (
+          {isPast && !event.availableOnline && (
             <div className={`${font('hnl', 5)} flex flex--v-center`}>
               <Space
                 as="span"
@@ -147,6 +165,22 @@ const EventPromo = ({
           </Space>
         )}
       </CardBody>
+      <Divider extraClasses="divider--white divider--keyline" />
+      {event.secondaryLabels.length > 0 && (
+        <Space
+          v={{
+            size: 's',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
+          h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
+        >
+          <LabelsList
+            labels={event.secondaryLabels}
+            labelColor="black"
+            roundedDiagonal={true}
+          />
+        </Space>
+      )}
     </CardOuter>
   );
 };

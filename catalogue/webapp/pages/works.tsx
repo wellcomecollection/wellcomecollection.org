@@ -48,8 +48,8 @@ import {
 import { parseUrlParams } from '@weco/common/utils/serialise-url';
 
 type Props = {
-  works: CatalogueResultsList<Work> | null;
-  images: CatalogueResultsList<Image> | null;
+  works?: CatalogueResultsList<Work>;
+  images?: CatalogueResultsList<Image>;
   worksRouteProps: WorksRouteProps;
   shouldGetWorks: boolean;
   apiProps: CatalogueWorksApiProps;
@@ -66,9 +66,9 @@ const Works: NextPage<Props> = ({
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
-  const results: CatalogueResultsList<Work | Image> | null = works || images;
+  const results: CatalogueResultsList<Work | Image> | undefined =
+    works || images;
 
-  const { searchPrototype } = globalContextData.toggles;
   const {
     query,
     page,
@@ -132,8 +132,8 @@ const Works: NextPage<Props> = ({
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'collections'}
-        imageUrl={null}
-        imageAltText={null}
+        imageUrl={undefined}
+        imageAltText={undefined}
         globalContextData={globalContextData}
       >
         <Space
@@ -148,59 +148,25 @@ const Works: NextPage<Props> = ({
 
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                {!searchPrototype && (
-                  <p
-                    className={classNames({
-                      [font('hnl', 4)]: true,
-                      'visually-hidden': Boolean(results),
-                    })}
-                    id="search-form-description"
-                  >
-                    Find thousands of books, images, artworks, unpublished
-                    archives and manuscripts in our collections, many of them
-                    with free online access.
-                  </p>
-                )}
-
-                {searchPrototype ? (
-                  <SearchTabs
-                    worksRouteProps={worksRouteProps}
-                    imagesRouteProps={{
-                      ...worksRouteProps,
-                      locationsLicense: null,
-                      color: null,
-                    }}
-                    workTypeAggregations={
-                      works && works.aggregations
-                        ? works.aggregations.workType.buckets
-                        : []
-                    }
-                    shouldShowDescription={query === ''}
-                    shouldShowFilters={true}
-                    aggregations={
-                      works && works.aggregations
-                        ? works.aggregations
-                        : undefined
-                    }
-                    showSortBy={Boolean(results)}
-                  />
-                ) : (
-                  <SearchForm
-                    ariaDescribedBy="search-form-description"
-                    shouldShowFilters={query !== ''}
-                    worksRouteProps={worksRouteProps}
-                    workTypeAggregations={
-                      works && works.aggregations
-                        ? works.aggregations.workType.buckets
-                        : []
-                    }
-                    aggregations={
-                      works && works.aggregations
-                        ? works.aggregations
-                        : undefined
-                    }
-                  />
-                )}
+                <SearchTabs
+                  worksRouteProps={worksRouteProps}
+                  imagesRouteProps={{
+                    ...worksRouteProps,
+                    locationsLicense: null,
+                    color: null,
+                  }}
+                  workTypeAggregations={
+                    works && works.aggregations
+                      ? works.aggregations.workType.buckets
+                      : []
+                  }
+                  shouldShowDescription={query === ''}
+                  shouldShowFilters={true}
+                  aggregations={
+                    works && works.aggregations ? works.aggregations : undefined
+                  }
+                  showSortBy={Boolean(results)}
+                />
               </div>
             </div>
           </div>
@@ -219,7 +185,7 @@ const Works: NextPage<Props> = ({
                     <div className="flex flex--h-space-between flex--v-center flex--wrap">
                       <Fragment>
                         <Paginator
-                          query={searchPrototype ? query : undefined}
+                          query={query}
                           showPortal={true}
                           currentPage={page || 1}
                           pageSize={results.pageSize}
@@ -242,7 +208,7 @@ const Works: NextPage<Props> = ({
                               window.scrollTo(0, 0)
                             );
                           }}
-                          hideMobilePagination={Boolean(searchPrototype)}
+                          hideMobilePagination={true}
                         />
                       </Fragment>
                     </div>
@@ -318,7 +284,7 @@ const Works: NextPage<Props> = ({
                                 window.scrollTo(0, 0)
                               );
                             }}
-                            hideMobileTotalResults={Boolean(searchPrototype)}
+                            hideMobileTotalResults={true}
                           />
                         </Fragment>
                       </div>
@@ -364,12 +330,12 @@ export const getServerSideProps: GetServerSideProps<
   const works = shouldGetWorks
     ? await getWorks({
         params: worksApiProps,
-        toggles: context.query.toggles,
+        toggles: globalContextData.toggles,
       })
-    : null;
+    : undefined;
 
   if (works && works.type === 'Error') {
-    return appError(context, works.statusCode, 'Works API error');
+    return appError(context, works.httpStatus, 'Works API error');
   }
 
   // TODO: increase pageSize to 100 when `isImageSearch` (but only if `isEnhanced`)
@@ -380,21 +346,22 @@ export const getServerSideProps: GetServerSideProps<
   const images = shouldGetImages
     ? await getImages({
         params: imagesApiProps,
-        toggles: context.query.toggles,
+        toggles: globalContextData.toggles,
       })
-    : null;
+    : undefined;
 
   if (images && images.type === 'Error') {
-    return appError(context, images.statusCode, 'Images API error');
+    return appError(context, images.httpStatus, 'Images API error');
   }
 
   // This logic is wonky, but it'll be removed once we have the
   // `/images` endpoint.
-  const pageviewProperties = shouldGetWorks
-    ? { totalResults: works.totalResults }
-    : shouldGetImages
-    ? { totalResults: images.totalResults }
-    : {};
+  const pageviewProperties =
+    shouldGetWorks && works
+      ? { totalResults: works.totalResults }
+      : shouldGetImages && images
+      ? { totalResults: images.totalResults }
+      : {};
 
   return {
     props: removeUndefinedProps({

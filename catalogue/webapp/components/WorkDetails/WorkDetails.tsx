@@ -3,7 +3,6 @@ import NextLink from 'next/link';
 import { useEffect, useState, useContext, FunctionComponent } from 'react';
 import fetch from 'isomorphic-unfetch';
 import { IIIFManifest } from '@weco/common/model/iiif';
-import { Work } from '@weco/common/model/work';
 import { NextLinkType } from '@weco/common/model/next-link-type';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
@@ -16,7 +15,6 @@ import {
   getWorkIdentifiersWith,
   getEncoreLink,
   sierraIdFromPresentationManifestUrl,
-  DigitalLocation,
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
@@ -44,6 +42,7 @@ import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/Expla
 import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 type Props = {
   work: Work;
   iiifPresentationManifest?: IIIFManifest;
@@ -87,11 +86,9 @@ const WorkDetails: FunctionComponent<Props> = ({
   imageCount,
   itemUrl,
 }: Props) => {
-  const {
-    stacksRequestService,
-    openWithAdvisoryPrototype,
-    searchPrototype,
-  } = useContext(TogglesContext);
+  const { stacksRequestService, openWithAdvisoryPrototype } = useContext(
+    TogglesContext
+  );
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
@@ -101,7 +98,10 @@ const WorkDetails: FunctionComponent<Props> = ({
   const digitalLocation: DigitalLocation | undefined =
     iiifPresentationLocation || iiifImageLocation;
 
-  const [imageJson, setImageJson] = useState(null);
+  const [imageJson, setImageJson] = useState<{
+    width: number;
+    height: number;
+  }>();
   const fetchImageJson = async () => {
     try {
       const imageJson =
@@ -297,21 +297,23 @@ const WorkDetails: FunctionComponent<Props> = ({
                 >
                   <ConditionalWrapper
                     condition={Boolean(itemUrl)}
-                    wrapper={children => (
-                      <NextLink href={itemUrl.href} as={itemUrl.as}>
-                        <a
-                          onClick={() =>
-                            trackEvent({
-                              category: 'WorkDetails',
-                              action: 'follow image link',
-                              label: itemUrl?.href?.query?.workId.toString(),
-                            })
-                          }
-                        >
-                          {children}
-                        </a>
-                      </NextLink>
-                    )}
+                    wrapper={children =>
+                      itemUrl && (
+                        <NextLink href={itemUrl.href} as={itemUrl.as}>
+                          <a
+                            onClick={() =>
+                              trackEvent({
+                                category: 'WorkDetails',
+                                action: 'follow image link',
+                                label: itemUrl.href?.query?.workId?.toString(),
+                              })
+                            }
+                          >
+                            {children}
+                          </a>
+                        </NextLink>
+                      )
+                    }
                   >
                     <img
                       style={{
@@ -330,24 +332,26 @@ const WorkDetails: FunctionComponent<Props> = ({
                   'flex flex-h-center': true,
                 })}
               >
-                <Space
-                  as="span"
-                  h={{
-                    size: 'm',
-                    properties: ['margin-right'],
-                  }}
-                >
-                  <ButtonSolidLink
-                    icon="eye"
-                    text="View"
-                    trackingEvent={{
-                      category: 'WorkDetails',
-                      action: 'follow view link',
-                      label: itemUrl?.href?.query?.workId.toString(),
+                {itemUrl && (
+                  <Space
+                    as="span"
+                    h={{
+                      size: 'm',
+                      properties: ['margin-right'],
                     }}
-                    link={{ ...itemUrl }}
-                  />
-                </Space>
+                  >
+                    <ButtonSolidLink
+                      icon="eye"
+                      text="View"
+                      trackingEvent={{
+                        category: 'WorkDetails',
+                        action: 'follow view link',
+                        label: itemUrl?.href?.query?.workId?.toString(),
+                      }}
+                      link={{ ...itemUrl }}
+                    />
+                  </Space>
+                )}
 
                 {showDownloadOptions && (
                   <Download
@@ -454,35 +458,25 @@ const WorkDetails: FunctionComponent<Props> = ({
                 ? `View ${work.images.length} images`
                 : 'View 1 image'
             }
-            link={
-              searchPrototype
-                ? imagesLink(
-                    {
-                      search: 'images',
-                      query: work.id,
-                      page: 1,
-                      source: 'work_details/images',
-                      workType: [],
-                      sort: undefined,
-                      sortOrder: undefined,
-                      itemsLocationsLocationType: [],
-                      itemsLocationsType: [],
-                      productionDatesFrom: undefined,
-                      productionDatesTo: undefined,
-                      imagesColor: undefined,
-                      color: undefined,
-                      locationsLicense: undefined,
-                    },
-                    'work_details/images'
-                  )
-                : worksLink(
-                    {
-                      search: 'images',
-                      query: work.id,
-                    },
-                    'work_details/images'
-                  )
-            }
+            link={imagesLink(
+              {
+                search: 'images',
+                query: work.id,
+                page: 1,
+                source: 'work_details/images',
+                workType: [],
+                sort: null,
+                sortOrder: null,
+                itemsLocationsLocationType: [],
+                itemsLocationsType: [],
+                productionDatesFrom: null,
+                productionDatesTo: null,
+                imagesColor: null,
+                color: null,
+                locationsLicense: null,
+              },
+              'work_details/images'
+            )}
           />
         </WorkDetailsSection>
       )}
@@ -520,7 +514,10 @@ const WorkDetails: FunctionComponent<Props> = ({
           <WorkDetailsTags
             title="Contributors"
             tags={work.contributors.map(contributor => ({
-              textParts: [contributor.agent.label],
+              textParts: [
+                contributor.agent.label,
+                ...contributor.roles.map(role => role.label),
+              ],
               linkAttributes: worksLink(
                 {
                   query: `"${contributor.agent.label}"`,
@@ -584,7 +581,6 @@ const WorkDetails: FunctionComponent<Props> = ({
       {work.subjects.length > 0 && (
         <WorkDetailsSection headingText="Subjects" isInArchive={isInArchive}>
           <WorkDetailsTags
-            title={null}
             tags={work.subjects.map(s => {
               return {
                 textParts: s.concepts.map(c => c.label),
@@ -614,9 +610,7 @@ const WorkDetails: FunctionComponent<Props> = ({
         </div>
       </WorkDetailsSection>
 
-      {(isbnIdentifiers.length > 0 ||
-        issnIdentifiers.length > 0 ||
-        work.citeAs) && (
+      {isbnIdentifiers.length > 0 && (
         <WorkDetailsSection headingText="Identifiers" isInArchive={isInArchive}>
           {isbnIdentifiers.length > 0 && (
             <WorkDetailsList
@@ -629,9 +623,6 @@ const WorkDetails: FunctionComponent<Props> = ({
               title="ISSN"
               list={issnIdentifiers.map(id => id.value)}
             />
-          )}
-          {work.citeAs && (
-            <WorkDetailsText title="Reference number" text={[work.citeAs]} />
           )}
         </WorkDetailsSection>
       )}

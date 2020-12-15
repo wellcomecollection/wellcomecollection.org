@@ -51,12 +51,6 @@ export type CatalogueWorksApiProps = {
   aggregations: string[] | null;
 };
 
-export type ImagesApiProps = {
-  query: string | null;
-  page: number | null;
-  color: string | null;
-};
-
 export function worksRouteToApiUrl(
   worksRouteProps: WorksRouteProps,
   overrides: Partial<WorksRouteProps>
@@ -79,11 +73,12 @@ export function worksRouteToApiUrl(
 
 export function imagesRouteToApiUrl(
   imagesRouteProps: ImagesRouteProps
-): ImagesApiProps {
+): CatalogueImagesApiProps {
   return {
     query: imagesRouteProps.query,
     page: imagesRouteProps.page,
     color: imagesRouteProps.color,
+    'locations.license': imagesRouteProps.locationsLicense,
   };
 }
 
@@ -94,7 +89,7 @@ export function worksPropsToImagesProps(
   return {
     query: worksProps.query,
     page: worksProps.page,
-    'locations.license': undefined,
-    color: undefined,
+    'locations.license': null,
+    color: null,
   };
 }

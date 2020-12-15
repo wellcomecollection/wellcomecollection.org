@@ -33,11 +33,12 @@ const SeasonPage = ({
   const parsedEvents = events.map(convertJsonToDates);
   const parsedExhibitions = exhibitions.map(exhibition => {
     return {
+      ...exhibition,
       start: exhibition.start && new Date(exhibition.start),
       end: exhibition.end && new Date(exhibition.end),
-      ...exhibition,
     };
   });
+  const exhibitionsAndEvents = [...parsedExhibitions, ...parsedEvents];
   return (
     <PageLayout
       title={season.title}
@@ -55,31 +56,27 @@ const SeasonPage = ({
         Body={<Body body={season.body} pageId={season.id} />}
       />
 
-      {events.length > 0 && (
+      {exhibitionsAndEvents.length > 0 && (
         <SpacingSection>
           <SpacingComponent>
-            <SectionHeader title="Events" />
+            <SectionHeader title="Exhibitions and Events" />
           </SpacingComponent>
           <SpacingComponent>
-            <CardGrid items={parsedEvents} itemsPerRow={4} />
+            <CardGrid items={exhibitionsAndEvents} itemsPerRow={3} />
           </SpacingComponent>
         </SpacingSection>
       )}
-      {exhibitions.length > 0 ||
-        articles.length > 0 ||
-        (books.length > 0 && (
-          <SpacingSection>
-            <SpacingComponent>
-              <SectionHeader title="Explore more" />
-            </SpacingComponent>
-            <SpacingComponent>
-              <CardGrid
-                items={[...parsedExhibitions, ...articles, ...books]}
-                itemsPerRow={4}
-              />
-            </SpacingComponent>
-          </SpacingSection>
-        ))}
+
+      {(articles.length > 0 || books.length > 0) && (
+        <SpacingSection>
+          <SpacingComponent>
+            <SectionHeader title="Explore more" />
+          </SpacingComponent>
+          <SpacingComponent>
+            <CardGrid items={[...articles, ...books]} itemsPerRow={3} />
+          </SpacingComponent>
+        </SpacingSection>
+      )}
     </PageLayout>
   );
 };
@@ -94,7 +91,7 @@ SeasonPage.getInitialProps = async (
   >;
   const seasonWithContent = await getSeasonWithContent({
     request: ctx.req,
-    id: Array.isArray(id) ? id[0] : id,
+    id: id?.toString() || '',
     memoizedPrismic: Array.isArray(memoizedPrismic)
       ? memoizedPrismic[0]
       : memoizedPrismic,

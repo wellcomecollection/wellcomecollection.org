@@ -1,26 +1,28 @@
-// @flow
-import { type IIIFManifest, type IIIFRendering } from '@weco/common/model/iiif';
-import type { LicenseData } from '@weco/common/utils/licenses';
+import {
+  IIIFManifest,
+  IIIFRendering,
+  IIIFCanvas,
+} from '@weco/common/model/iiif';
+import { LicenseData } from '@weco/common/utils/licenses';
 import { lighten } from 'polished';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import { trackEvent } from '@weco/common/utils/ga';
-// $FlowFixMe (tsx)
 import Download from '@weco/catalogue/components/Download/Download';
 import MultipleManifestList from '@weco/catalogue/components/MultipleManifestList/MultipleManifestList';
 import Icon from '@weco/common/views/components/Icon/Icon';
-// $FlowFixMe (tsc)
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import Space from '@weco/common/views/components/styled/Space';
+import { FunctionComponent, RefObject } from 'react';
 
 // TODO: update this with a more considered button from our system
-export const ShameButton = styled.button.attrs(props => ({
+export const ShameButton = styled.button.attrs(() => ({
   className: classNames({
     'btn relative flex flex--v-center': true,
     [font('hnm', 5)]: true,
   }),
-}))`
+}))<{ isDark?: boolean }>`
   overflow: hidden;
 
   ${props =>
@@ -89,7 +91,7 @@ const TopBar = styled.div`
   }
 `;
 
-const ViewAllContainer = styled.div.attrs(props => ({
+const ViewAllContainer = styled.div.attrs(() => ({
   className: classNames({
     'flex flex--v-center flex--h-center': true,
   }),
@@ -100,38 +102,38 @@ const ViewAllContainer = styled.div.attrs(props => ({
     ${props => lighten(0.1, props.theme.color('viewerBlack'))};
 `;
 
-const TitleContainer = styled.div.attrs(props => ({
+const TitleContainer = styled.div.attrs(() => ({
   className: classNames({
     'flex flex--v-center': true,
     [font('hnl', 5)]: true,
   }),
-}))`
+}))<{ isEnhanced?: boolean }>`
   justify-content: space-between;
   height: 64px;
   width: ${props => (props.isEnhanced ? '80%' : '100%')};
   padding: ${props => `0 ${props.theme.spacingUnit * 2}px`};
 `;
 
-type Props = {|
-  canvases: [],
-  enhanced: boolean,
-  gridVisible: boolean,
-  setGridVisible: Function,
-  workId: string,
-  viewToggleRef: { current: HTMLElement | null },
-  currentManifestLabel: ?string,
-  canvasIndex: number,
-  title: string,
-  licenseInfo: ?LicenseData,
-  iiifImageLocationCredit: ?string,
-  downloadOptions: ?(IIIFRendering[]),
-  iiifPresentationDownloadOptions: IIIFRendering[],
-  parentManifest: ?IIIFManifest,
-  lang: string,
-  viewerRef: { current: HTMLElement | null },
-|};
+type Props = {
+  canvases: IIIFCanvas[];
+  enhanced: boolean;
+  gridVisible: boolean;
+  setGridVisible: (visible: boolean) => void;
+  workId: string;
+  viewToggleRef: RefObject<HTMLButtonElement>;
+  currentManifestLabel?: string;
+  canvasIndex: number;
+  title: string;
+  licenseInfo?: LicenseData;
+  iiifImageLocationCredit?: string;
+  downloadOptions?: IIIFRendering[];
+  iiifPresentationDownloadOptions: IIIFRendering[];
+  parentManifest?: IIIFManifest;
+  lang: string;
+  viewerRef: RefObject<HTMLElement>;
+};
 
-const ViewerTopBar = ({
+const ViewerTopBar: FunctionComponent<Props> = ({
   canvases,
   enhanced,
   gridVisible,
@@ -199,8 +201,7 @@ const ViewerTopBar = ({
           <div className="flex flex--v-center">
             {document &&
               (document.fullscreenEnabled ||
-                // $FlowFixMe
-                document.webkitFullscreenEnabled) && (
+                document['webkitFullscreenEnabled']) && (
                 <Space h={{ size: 'm', properties: ['margin-right'] }}>
                   <ShameButton
                     isDark
@@ -208,24 +209,20 @@ const ViewerTopBar = ({
                       if (viewerRef && viewerRef.current) {
                         if (
                           !document.fullscreenElement &&
-                          // $FlowFixMe
-                          !document.webkitFullscreenElement
+                          !document['webkitFullscreenElement']
                         ) {
                           if (viewerRef.current.requestFullscreen) {
                             viewerRef.current.requestFullscreen();
                           } else if (
-                            // $FlowFixMe
-                            viewerRef.current.webkitRequestFullscreen
+                            viewerRef.current['webkitRequestFullscreen']
                           ) {
-                            viewerRef.current.webkitRequestFullscreen();
+                            viewerRef.current['webkitRequestFullscreen']();
                           }
                         } else {
                           if (document.exitFullscreen) {
                             document.exitFullscreen();
-                            // $FlowFixMe
-                          } else if (document.webkitExitFullscreen) {
-                            // $FlowFixMe
-                            document.webkitExitFullscreen();
+                          } else if (document['webkitExitFullscreen']) {
+                            document['webkitExitFullscreen']();
                           }
                         }
                       }

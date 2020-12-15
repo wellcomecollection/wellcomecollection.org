@@ -1,5 +1,4 @@
-// @flow
-import { memo, useState, useRef } from 'react';
+import { memo, useState, useRef, RefObject, CSSProperties } from 'react';
 import { FixedSizeList, areEqual } from 'react-window';
 import debounce from 'lodash.debounce';
 import styled from 'styled-components';
@@ -14,6 +13,7 @@ import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveIma
 import { getCanvasOcr } from '@weco/catalogue/services/catalogue/works';
 import { getServiceId, getImageAuthService } from '@weco/common/utils/iiif';
 import { font } from '@weco/common/utils/classnames';
+import { IIIFCanvas } from '../../../../model/iiif';
 
 const MessageContainer = styled.div`
   min-width: 360px;
@@ -26,7 +26,7 @@ const MessageContainer = styled.div`
   padding: 10%;
 `;
 
-const ThumbnailWrapper = styled.div`
+const ThumbnailWrapper = styled.div<{ imageLoaded?: boolean }>`
   opacity: ${props => (props.imageLoaded ? 1 : 0)};
   transition: opacity 500ms ease;
   position: absolute;
@@ -45,23 +45,24 @@ const ThumbnailWrapper = styled.div`
   }
 `;
 
-type ItemRendererProps = {|
-  style: any,
-  index: number,
-  data: {|
-    scrollVelocity: number,
-    isProgrammaticScroll: boolean,
-    setShowZoomed: (value: boolean) => void,
-    mainViewerRef: { current: FixedSizeList | null },
-    setActiveIndex: number => void,
-    canvases: any,
-    rotatedImages: any,
-    setZoomInfoUrl: (value: string) => void,
-    setIsLoading: (value: boolean) => void,
-    ocrText: string,
-    errorHandler?: () => void,
-  |},
-|};
+type ItemRendererProps = {
+  style: CSSProperties;
+  index: number;
+  data: {
+    scrollVelocity: number;
+    isProgrammaticScroll: boolean;
+    setShowZoomed: (value: boolean) => void;
+    mainViewerRef: RefObject<FixedSizeList>;
+    setActiveIndex: (i: number) => void;
+    canvases: IIIFCanvas[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    rotatedImages: any[];
+    setZoomInfoUrl: (value: string) => void;
+    setIsLoading: (value: boolean) => void;
+    ocrText: string;
+    errorHandler?: () => void;
+  };
+};
 
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const {
@@ -178,20 +179,21 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
 
 ItemRenderer.displayName = 'ItemRenderer';
 
-type Props = {|
-  listHeight: number,
-  mainViewerRef: { current: FixedSizeList | null },
-  setActiveIndex: number => void,
-  pageWidth: number,
-  canvases: [],
-  canvasIndex: number,
-  setShowZoomed: boolean => void,
-  setZoomInfoUrl: string => void,
-  rotatedImages: [],
-  setShowControls: boolean => void,
-  setIsLoading: boolean => void,
-  errorHandler?: () => void,
-|};
+type Props = {
+  listHeight: number;
+  mainViewerRef: RefObject<FixedSizeList>;
+  setActiveIndex: (i: number) => void;
+  pageWidth: number;
+  canvases: IIIFCanvas[];
+  canvasIndex: number;
+  setShowZoomed: (show: boolean) => void;
+  setZoomInfoUrl: (url: string) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  rotatedImages: any[];
+  setShowControls: (show: boolean) => void;
+  setIsLoading: (isLoading: boolean) => void;
+  errorHandler?: () => void;
+};
 
 const MainViewer = ({
   listHeight,
@@ -217,7 +219,7 @@ const MainViewer = ({
   const debounceHandleOnItemsRendered = useRef(
     debounce(handleOnItemsRendered, 500)
   );
-  const timer = useRef(null);
+  const timer = useRef<number | undefined>();
   const itemHeight = pageWidth * 0.8;
   function handleOnScroll({ scrollOffset, scrollUpdateWasRequested }) {
     clearTimeout(timer.current);
@@ -230,7 +232,7 @@ const MainViewer = ({
     }, 500);
   }
 
-  function handleOnItemsRendered({ visibleStopIndex }) {
+  function handleOnItemsRendered() {
     setIsProgrammaticScroll(false);
     let currentCanvas;
     if (firstRenderRef.current) {
@@ -257,6 +259,7 @@ const MainViewer = ({
 
   return (
     <FixedSizeList
+      width={itemHeight}
       style={{ width: `${itemHeight}px`, margin: '0 auto' }}
       height={listHeight}
       itemCount={canvases.length}

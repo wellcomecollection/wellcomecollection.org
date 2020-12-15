@@ -23,7 +23,7 @@ type Props = {
   searchForm: { current: HTMLFormElement | null };
   worksRouteProps: WorksRouteProps | ImagesRouteProps;
   workTypeAggregations: CatalogueAggregationBucket[];
-  aggregations: CatalogueAggregations | null;
+  aggregations?: CatalogueAggregations;
   changeHandler: () => void;
   filtersToShow: string[];
 };
@@ -39,7 +39,7 @@ export type SearchFiltersSharedProps = Props & {
   workTypeInUrlArray: string[];
   locationsTypeInUrlArray: string[];
   imagesColor: string | null;
-  aggregations: CatalogueAggregations | null;
+  aggregations?: CatalogueAggregations;
 };
 
 const SearchFilters: FunctionComponent<Props> = ({

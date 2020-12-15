@@ -109,6 +109,12 @@ const SearchTabs: FunctionComponent<Props> = ({
                     query,
                   }),
                 }}
+                as={{
+                  pathname: '/works',
+                  query: removeEmptyProps({
+                    query,
+                  }),
+                }}
               >
                 <a
                   className={classNames({
@@ -171,6 +177,12 @@ const SearchTabs: FunctionComponent<Props> = ({
                   pathname: '/images',
                   query: removeEmptyProps({
                     source: 'search_tabs',
+                    query,
+                  }),
+                }}
+                as={{
+                  pathname: '/images',
+                  query: removeEmptyProps({
                     query,
                   }),
                 }}

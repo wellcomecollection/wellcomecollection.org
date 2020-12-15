@@ -62,9 +62,9 @@ const ZoomedImage: FunctionComponent<Props> = ({
   const [scriptError, setScriptError] = useState(false);
   const [viewer, setViewer] = useState(null);
   const zoomStep = 0.5;
-  const firstControl = useRef(null);
-  const lastControl = useRef(null);
-  const zoomedImage = useRef(null);
+  const firstControl = useRef<HTMLButtonElement>(null);
+  const lastControl = useRef<HTMLButtonElement>(null);
+  const zoomedImage = useRef<HTMLDivElement>(null);
   function setupViewer(imageInfoSrc, viewerId) {
     fetch(imageInfoSrc)
       .then(response => response.json())
@@ -168,16 +168,16 @@ const ZoomedImage: FunctionComponent<Props> = ({
   function handleTrapStartKeyDown(event) {
     if (event.shiftKey && event.keyCode === 9) {
       event.preventDefault();
-      zoomedImage &&
-        zoomedImage.current &&
-        zoomedImage.current.querySelector('.openseadragon-canvas').focus();
+      (zoomedImage?.current?.querySelector(
+        '.openseadragon-canvas'
+      ) as HTMLDivElement).focus();
     }
   }
 
   function handleTrapEndKeyDown(event) {
     if (!event.shiftKey && event.keyCode === 9) {
       event.preventDefault();
-      firstControl && firstControl.current && firstControl.current.focus();
+      firstControl?.current?.focus();
     }
   }
 

@@ -4,7 +4,7 @@
   "description": "Products and services relating to wellcomecollection.org.",
   "scripts": {
     "lint": "eslint ./.eslintrc.js catalogue/ common/ content/ toggles/ dash/ --fix",
-    "tsc": "tsc --project content/webapp/tsconfig.json & tsc --project catalogue/webapp/tsconfig.json",
+    "lint:tsc": "tsc --project content/webapp/tsconfig.json & tsc --project catalogue/webapp/tsconfig.json & tsc --project common/tsconfig.json",
     "setupCommon": "yarn install --production && yarn flow",
     "cardigan": "pushd cardigan && yarn dev",
     "catalogue": "pushd catalogue/webapp && yarn dev",
@@ -69,7 +69,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "yarn tsc"
+      "pre-push": "yarn lint:tsc"
     }
   }
 }

@@ -1,14 +1,10 @@
-import { FunctionComponent, ReactElement, useContext } from 'react';
+import { FunctionComponent, ReactElement } from 'react';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
-import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import Space from '@weco/common/views/components/styled/Space';
-import TogglesContext from '../TogglesContext/TogglesContext';
 
 const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
-  const { searchPrototype } = useContext(TogglesContext);
-
-  return searchPrototype ? (
+  return (
     <>
       <Layout12>
         <h2 className="h2">Search the collections</h2>
@@ -16,12 +12,14 @@ const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
       <Layout12>
         <Space v={{ size: 'm', properties: ['margin-top'] }}>
           <SearchTabs
+            shouldShowFilters={false}
+            showSortBy={false}
             worksRouteProps={{
               query: '',
               page: 1,
               workType: [],
               itemsLocationsLocationType: [],
-              itemsLocationsType: null,
+              itemsLocationsType: [],
               sort: null,
               sortOrder: null,
               productionDatesFrom: null,
@@ -29,6 +27,7 @@ const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
               search: null,
               imagesColor: null,
               source: 'collections',
+              color: null,
             }}
             imagesRouteProps={{
               query: '',
@@ -36,6 +35,15 @@ const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
               source: 'collections',
               locationsLicense: null,
               color: null,
+              workType: [],
+              itemsLocationsLocationType: [],
+              itemsLocationsType: [],
+              sort: null,
+              sortOrder: null,
+              productionDatesFrom: null,
+              productionDatesTo: null,
+              imagesColor: null,
+              search: null,
             }}
             workTypeAggregations={[]}
             shouldShowDescription={true}
@@ -44,30 +52,6 @@ const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
         </Space>
       </Layout12>
     </>
-  ) : (
-    <Layout12>
-      <h2 className="h2">Search the collections</h2>
-      <p>
-        Find thousands of books, images, artworks, unpublished archives and
-        manuscripts in our collections, many of them with free online access.
-      </p>
-      <SearchForm
-        ariaDescribedBy="search-form-description"
-        shouldShowFilters={false}
-        worksRouteProps={{
-          query: '',
-          page: 1,
-          workType: [],
-          itemsLocationsLocationType: [],
-          sort: null,
-          sortOrder: null,
-          productionDatesFrom: null,
-          productionDatesTo: null,
-          search: null,
-        }}
-        workTypeAggregations={[]}
-      />
-    </Layout12>
   );
 };
 

@@ -68,7 +68,8 @@ describe('MediaObjectBase', () => {
       urlOverride={null}
       DateInfo={null}
       ExtraInfo={null}
-      labels={{ labels: [] }}
+      primaryLabels={[]}
+      secondaryLabels={[]}
       xOfY={{ x: null, y: null }}
       extraClasses={extraClass}
       onClick={mockOnClick}
@@ -87,7 +88,8 @@ describe('MediaObjectBase', () => {
       urlOverride={null}
       DateInfo={null}
       ExtraInfo={null}
-      labels={{ labels: [] }}
+      primaryLabels={[]}
+      secondaryLabels={[]}
       xOfY={{ x: null, y: null }}
     />
   );
@@ -126,7 +128,8 @@ describe('MediaObjectBase', () => {
           urlOverride={null}
           DateInfo={null}
           ExtraInfo={null}
-          labels={{ labels: [] }}
+          primaryLabels={[]}
+          secondaryLabels={[]}
           xOfY={{ x: null, y: null }}
         />
       );
@@ -169,7 +172,8 @@ describe('MediaObjectBase', () => {
             urlOverride={null}
             DateInfo={null}
             ExtraInfo={null}
-            labels={{ labels: [] }}
+            primaryLabels={[]}
+            secondaryLabels={[]}
             xOfY={{ x: null, y: null }}
             OverrideImageWrapper={ImageWrapper}
             OverrideTitleWrapper={TitleWrapper}

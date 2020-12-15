@@ -25,12 +25,13 @@ import styled from 'styled-components';
 type Props = {
   url: string | null;
   title: string;
-  labels: ComponentProps<typeof LabelsList>;
+  primaryLabels: ComponentProps<typeof LabelsList>;
+  secondaryLabels: ComponentProps<typeof LabelsList>;
   description: string | ReactElement | null;
   urlOverride: string | null;
   extraClasses?: string;
-  partNumber: number | null;
-  color: ColorSelection | null;
+  partNumber: number | undefined;
+  color: ColorSelection | undefined;
   Image: ReactElement<typeof ImageType | typeof ImagePlaceholder> | null;
   DateInfo:
     | ReactElement<typeof DateRange>
@@ -38,7 +39,7 @@ type Props = {
     | null;
   StatusIndicator: ReactElement<typeof StatusIndicator> | null;
   ExtraInfo?: ReactNode | null;
-  xOfY: { x: number; y: number };
+  xOfY: { x: number; y: number } | undefined;
   OverrideImageWrapper?: ComponentType<HasImageProps>;
   OverrideTextWrapper?: ComponentType<HasImageProps>;
   OverrideTitleWrapper?: ComponentType;
@@ -75,7 +76,8 @@ const BaseTextWrapper = styled.div.attrs<HasImageProps>(props => {
 const MediaObjectBase: FunctionComponent<Props> = ({
   url,
   title,
-  labels,
+  primaryLabels,
+  secondaryLabels,
   description,
   urlOverride,
   extraClasses,
@@ -91,7 +93,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
   OverrideTitleWrapper,
   onClick,
 }: Props): ReactElement<Props> => {
-  const { x, y } = xOfY;
+  const { x, y } = xOfY || {};
   const ImageWrapper = OverrideImageWrapper || BaseImageWrapper;
   const TextWrapper = OverrideTextWrapper || BaseTextWrapper;
   const TitleWrapper = OverrideTitleWrapper || BaseTitleWrapper;
@@ -120,14 +122,15 @@ const MediaObjectBase: FunctionComponent<Props> = ({
     >
       <ImageWrapper hasImage={Boolean(Image)}>{Image}</ImageWrapper>
       <TextWrapper hasImage={Boolean(Image)}>
-        {labels.labels.length > 0 && (
+        {primaryLabels.length > 0 && (
           <Space
             v={{ size: 's', properties: ['margin-bottom'] }}
             className="flex"
           >
-            <LabelsList {...labels} />
+            <LabelsList labels={primaryLabels} />
           </Space>
         )}
+
         {partNumber && (
           <PartNumberIndicator number={partNumber} color={color} />
         )}
@@ -149,6 +152,15 @@ const MediaObjectBase: FunctionComponent<Props> = ({
               description
             )}
           </div>
+        )}
+        {secondaryLabels.length > 0 && (
+          <Space v={{ size: 's', properties: ['margin-top'] }} className="flex">
+            <LabelsList
+              labels={secondaryLabels}
+              labelColor="black"
+              roundedDiagonal={true}
+            />
+          </Space>
         )}
       </TextWrapper>
     </Space>

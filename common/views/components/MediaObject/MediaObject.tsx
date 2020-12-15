@@ -9,7 +9,7 @@ import { HTMLString } from '@weco/common/services/prismic/types';
 import styled from 'styled-components';
 import { grid, classNames, font } from '../../../utils/classnames';
 
-type Props = {
+export type Props = {
   title: string;
   text: HTMLString | null;
   image: ImageType;
@@ -65,15 +65,16 @@ export const MediaObject: FunctionComponent<Props> = ({
       url={null}
       title={title}
       Image={ImageComponent}
-      partNumber={null}
-      color={null}
+      partNumber={undefined}
+      color={undefined}
       StatusIndicator={null}
       description={description}
       urlOverride={null}
       DateInfo={null}
       ExtraInfo={null}
-      labels={{ labels: [] }}
-      xOfY={{ x: null, y: null }}
+      primaryLabels={[]}
+      secondaryLabels={[]}
+      xOfY={undefined}
       OverrideImageWrapper={ImageWrapper}
       OverrideTextWrapper={TextWrapper}
       OverrideTitleWrapper={TitleWrapper}

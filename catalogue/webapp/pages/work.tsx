@@ -33,6 +33,10 @@ export const getServerSideProps: GetServerSideProps<
   const globalContextData = getGlobalContextData(context);
   const { id } = context.query;
 
+  if (typeof id !== 'string') {
+    return { notFound: true };
+  }
+
   const workResponse = await getWork({
     id,
     toggles: globalContextData.toggles,
@@ -51,7 +55,7 @@ export const getServerSideProps: GetServerSideProps<
     if (workResponse.httpStatus === 404) {
       return { notFound: true };
     }
-    return appError(context, workResponse.statusCode, 'Works API error');
+    return appError(context, workResponse.httpStatus, 'Works API error');
   }
 
   return {

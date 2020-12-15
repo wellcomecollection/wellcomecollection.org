@@ -4,21 +4,21 @@ import {
   ButtonInlineBaseProps,
   InlineButton,
 } from '../ButtonInline/ButtonInline';
-
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
 import NextLink from 'next/link';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
+import convertUrlToString from '../../../utils/convert-url-to-string';
+import { LinkProps } from 'model/link-props';
 
 type ButtonInlineLinkProps = ButtonInlineBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
-  link:
-    | {
-        href: { pathname: string; query: string };
-        as: { pathname: string; query: string };
-      }
-    | string;
+  link: LinkProps | string;
 };
+
+function isStringLink(link: LinkProps | string): link is string {
+  return typeof link === 'string';
+}
 
 const ButtonInlineLink: FunctionComponent<ButtonInlineLinkProps> = ({
   text,
@@ -34,11 +34,12 @@ const ButtonInlineLink: FunctionComponent<ButtonInlineLinkProps> = ({
     trackingEvent && trackEvent(trackingEvent);
   }
 
-  const isNextLink = typeof link === 'object';
-
+  const href: string = isStringLink(link)
+    ? link
+    : convertUrlToString(link.href);
   return (
     <ConditionalWrapper
-      condition={isNextLink}
+      condition={!isStringLink(link)}
       wrapper={children =>
         typeof link === 'object' && (
           <NextLink {...link} passHref>
@@ -51,7 +52,9 @@ const ButtonInlineLink: FunctionComponent<ButtonInlineLinkProps> = ({
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
         onClick={handleClick}
-        href={isNextLink ? undefined : link}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        href={href}
       >
         <BaseButtonInner isInline={true}>
           {text}

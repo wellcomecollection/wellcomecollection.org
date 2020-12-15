@@ -49,7 +49,8 @@ const ShameWhatWeDoHack = () => (
     <CompactCard
       url="/user-panel"
       title="Join our user panel"
-      labels={{ labels: [] }}
+      primaryLabels={[]}
+      secondaryLabels={[]}
       description="Get involved in shaping better website and gallery experiences for everyone. We’re looking for people to take part in online and in-person interviews, usability tests, surveys and more."
       urlOverride={null}
       partNumber={null}

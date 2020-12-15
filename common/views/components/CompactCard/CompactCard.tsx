@@ -1,5 +1,6 @@
 import {
   ComponentProps,
+  ComponentType,
   FunctionComponent,
   ReactElement,
   ReactNode,
@@ -12,17 +13,20 @@ import LabelsList from '../LabelsList/LabelsList';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import ImageType from '../Image/Image';
 import { ColorSelection } from '../../../model/color-selections';
-import MediaObjectBase from '../MediaObjectBase/MediaObjectBase';
+import MediaObjectBase, {
+  HasImageProps,
+} from '../MediaObjectBase/MediaObjectBase';
 
 type Props = {
   url: string | null;
   title: string;
-  labels: ComponentProps<typeof LabelsList>;
+  primaryLabels: ComponentProps<typeof LabelsList>;
+  secondaryLabels: ComponentProps<typeof LabelsList>;
   description: string | ReactElement | null;
   urlOverride: string | null;
   extraClasses?: string;
-  partNumber: number | null;
-  color: ColorSelection | null;
+  partNumber: number | undefined;
+  color: ColorSelection | undefined;
   Image: ReactElement<typeof ImageType | typeof ImagePlaceholder> | null;
   DateInfo:
     | ReactElement<typeof DateRange>
@@ -31,15 +35,16 @@ type Props = {
   StatusIndicator: ReactElement<typeof StatusIndicator> | null;
   ExtraInfo?: ReactNode | null;
   xOfY: { x: number; y: number };
-  OverrideImageWrapper?: ReactNode;
-  OverrideTextWrapper?: ReactNode;
-  OverrideTitleWrapper?: ReactNode;
+  OverrideImageWrapper?: ComponentType<HasImageProps>;
+  OverrideTextWrapper?: ComponentType<HasImageProps>;
+  OverrideTitleWrapper?: ComponentType;
 };
 
 const CompactCard: FunctionComponent<Props> = ({
   url,
   title,
-  labels,
+  primaryLabels,
+  secondaryLabels,
   description,
   urlOverride,
   extraClasses,
@@ -67,7 +72,8 @@ const CompactCard: FunctionComponent<Props> = ({
       extraClasses={extraClasses}
       DateInfo={DateInfo}
       ExtraInfo={ExtraInfo}
-      labels={labels}
+      primaryLabels={primaryLabels}
+      secondaryLabels={secondaryLabels}
       xOfY={xOfY}
       OverrideImageWrapper={OverrideImageWrapper}
       OverrideTextWrapper={OverrideTextWrapper}
