@@ -14,7 +14,8 @@ import {
   mobileModal,
 } from './selectors/search';
 
-import { isMobile, elementIsVisible, itemsIsVisible } from './actions/common';
+import { isMobile, elementIsVisible } from './actions/common';
+import { expectItemsIsVisible, expectItemIsVisible } from './asserts/common';
 
 describe('images', () => {
   beforeEach(async () => {
@@ -36,7 +37,7 @@ describe('images', () => {
       await clickActionColourPicker();
     }
 
-    expect(await elementIsVisible(imagesResultsContainer)).toBeTruthy();
-    expect(await itemsIsVisible(imagesResultsLisItem, 1)).toBeTruthy();
+    await expectItemIsVisible(imagesResultsContainer);
+    await expectItemsIsVisible(imagesResultsLisItem, 1);
   });
 });

@@ -12,18 +12,14 @@ import {
   clickActionCloseModalFilterButton,
   clickActionModalFilterButton,
 } from './actions/search';
-
-import {
-  expectUrlIsOnWorkPage,
-  expectWorkDetailsIsVisible,
-} from './asserts/work';
 import {
   elementIsVisible,
   getInputValueAction,
   isMobile,
 } from './actions/common';
-import { expectSearchResultsIsVisible } from '../e2e/asserts/search';
+import { expectItemIsVisible, expectUrlIsOnPage } from '../e2e/asserts/common';
 import { worksUrl } from './helpers/urls';
+import { workTitleHeading } from './selectors/work';
 
 describe('works', () => {
   beforeEach(async () => {
@@ -38,7 +34,7 @@ describe('works', () => {
     const value = await getInputValueAction(worksSearchInputField);
     await page.waitForSelector(workSearchResultsContainer);
 
-    await expectSearchResultsIsVisible();
+    await expectItemIsVisible(workSearchResultsContainer);
     expect(value).toBe(expectedValue);
   });
 
@@ -62,15 +58,15 @@ describe('works', () => {
     }
 
     expect(page.url()).toContain(encodeExpectedValue);
-    await expectSearchResultsIsVisible();
+    await expectItemIsVisible(workSearchResultsContainer);
     await page.waitForNavigation();
     expect(page.url()).toContain('workType=k');
 
-    await expectSearchResultsIsVisible();
+    await expectItemIsVisible(workSearchResultsContainer);
     await page.click(`${workSearchResultsContainer} a:first-child`);
     await page.waitForNavigation();
 
-    await expectUrlIsOnWorkPage();
-    await expectWorkDetailsIsVisible();
+    await expectUrlIsOnPage(/\/works\/[a-zA-Z0-9]+/);
+    await expectItemIsVisible(workTitleHeading);
   });
 });
