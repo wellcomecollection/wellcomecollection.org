@@ -1,16 +1,20 @@
-import { imagesUrl } from './urls';
+import { imagesUrl } from './helpers/urls';
 import {
-  fillSearchInput,
-  pressEnterSearchInput,
-  clickModalFilterButton,
-  closeModalFilterButton,
-  clickColourPicker,
-  mobileModal,
-  clickColourDropDown,
+  fillActionSearchInput,
+  pressActionEnterSearchInput,
+  clickActionModalFilterButton,
+  clickActionCloseModalFilterButton,
+  clickActionColourPicker,
+  clickActionColourDropDown,
+} from './actions/search';
+
+import {
   imagesResultsContainer,
   imagesResultsLisItem,
+  mobileModal,
 } from './selectors/search';
-import { isMobile, elementIsVisible, itemsIsVisible } from './selectors/common';
+
+import { isMobile, elementIsVisible, itemsIsVisible } from './actions/common';
 
 describe('images', () => {
   beforeEach(async () => {
@@ -18,18 +22,18 @@ describe('images', () => {
   });
   test('Search by term, filter by colour, check results, view result', async () => {
     const expectedValue = 'art of science';
-    await fillSearchInput(expectedValue, 'images');
-    await pressEnterSearchInput();
+    await fillActionSearchInput(expectedValue, 'images');
+    await pressActionEnterSearchInput();
     await page.waitForNavigation();
 
     if (isMobile()) {
-      await clickModalFilterButton('images');
+      await clickActionModalFilterButton('images');
       await elementIsVisible(mobileModal);
-      await clickColourPicker();
-      await closeModalFilterButton('images');
+      await clickActionColourPicker();
+      await clickActionCloseModalFilterButton('images');
     } else {
-      await clickColourDropDown();
-      await clickColourPicker();
+      await clickActionColourDropDown();
+      await clickActionColourPicker();
     }
 
     expect(await elementIsVisible(imagesResultsContainer)).toBeTruthy();

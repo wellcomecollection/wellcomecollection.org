@@ -1,21 +1,25 @@
 import {
-  fillSearchInput,
-  pressEnterSearchInput,
   worksSearchInputField,
   workSearchResultsContainer,
-  clickFormatDropDown,
-  clickFormatRadioCheckbox,
-  closeModalFilterButton,
   mobileModal,
-  clickModalFilterButton,
 } from './selectors/search';
+
+import {
+  fillActionSearchInput,
+  pressActionEnterSearchInput,
+  clickActionFormatDropDown,
+  clickActionFormatRadioCheckbox,
+  clickActionCloseModalFilterButton,
+  clickActionModalFilterButton,
+} from './actions/search';
+
 import {
   expectUrlIsOnWorkPage,
   expectWorkDetailsIsVisible,
 } from './asserts/work';
-import { elementIsVisible, getInputValue, isMobile } from './selectors/common';
+import { elementIsVisible, getInputValue, isMobile } from './actions/common';
 import { expectSearchResultsIsVisible } from '../e2e/asserts/search';
-import { worksUrl } from './urls';
+import { worksUrl } from './helpers/urls';
 
 describe('works', () => {
   beforeEach(async () => {
@@ -24,8 +28,8 @@ describe('works', () => {
 
   test('Submits the form correctly', async () => {
     const expectedValue = 'heArTs';
-    await fillSearchInput(expectedValue);
-    await pressEnterSearchInput();
+    await fillActionSearchInput(expectedValue);
+    await pressActionEnterSearchInput();
 
     const value = await getInputValue(worksSearchInputField);
     await page.waitForSelector(workSearchResultsContainer);
@@ -40,17 +44,17 @@ describe('works', () => {
       /%20/g,
       '+'
     );
-    await fillSearchInput(expectedValue);
-    await pressEnterSearchInput();
+    await fillActionSearchInput(expectedValue);
+    await pressActionEnterSearchInput();
 
     if (isMobile()) {
-      await clickModalFilterButton();
+      await clickActionModalFilterButton();
       await elementIsVisible(mobileModal);
-      await clickFormatRadioCheckbox('Pictures');
-      await closeModalFilterButton();
+      await clickActionFormatRadioCheckbox('Pictures');
+      await clickActionCloseModalFilterButton();
     } else {
-      await clickFormatDropDown();
-      await clickFormatRadioCheckbox('Pictures');
+      await clickActionFormatDropDown();
+      await clickActionFormatRadioCheckbox('Pictures');
     }
 
     expect(page.url()).toContain(encodeExpectedValue);
