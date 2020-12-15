@@ -5,7 +5,7 @@ module.exports = {
       title: 'Open with advisory',
       description:
         'Adds functionality for viewing digitised items with an access condition of open-with-advisory',
-      defaultValue: true,
+      defaultValue: false,
     },
     {
       id: 'buildingReopening',
