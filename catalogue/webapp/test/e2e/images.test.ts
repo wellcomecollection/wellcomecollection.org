@@ -10,7 +10,7 @@ import {
 
 import {
   imagesResultsContainer,
-  imagesResultsLisItem,
+  imagesResultsListItem,
   mobileModal,
 } from './selectors/search';
 
@@ -38,6 +38,6 @@ describe('images', () => {
     }
 
     await expectItemIsVisible(imagesResultsContainer);
-    await expectItemsIsVisible(imagesResultsLisItem, 1);
+    await expectItemsIsVisible(imagesResultsListItem, 1);
   });
 });

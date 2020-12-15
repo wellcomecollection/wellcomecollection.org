@@ -2,6 +2,7 @@ import {
   worksSearchInputField,
   workSearchResultsContainer,
   mobileModal,
+  worksSearchResultsListItem,
 } from './selectors/search';
 
 import {
@@ -17,7 +18,11 @@ import {
   getInputValueAction,
   isMobile,
 } from './actions/common';
-import { expectItemIsVisible, expectUrlIsOnPage } from '../e2e/asserts/common';
+import {
+  expectItemIsVisible,
+  expectItemsIsVisible,
+  expectUrlIsOnPage,
+} from '../e2e/asserts/common';
 import { worksUrl } from './helpers/urls';
 import { workTitleHeading } from './selectors/work';
 
@@ -61,6 +66,9 @@ describe('works', () => {
     await expectItemIsVisible(workSearchResultsContainer);
     await page.waitForNavigation();
     expect(page.url()).toContain('workType=k');
+
+    await expectItemIsVisible(workSearchResultsContainer);
+    await expectItemsIsVisible(worksSearchResultsListItem, 1);
 
     await expectItemIsVisible(workSearchResultsContainer);
     await page.click(`${workSearchResultsContainer} a:first-child`);

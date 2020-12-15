@@ -2,6 +2,7 @@ export const searchImagesForm =
   'form[aria-describedby="images-form-description"]';
 export const worksSearchInputField = 'input[aria-label="search input field"]';
 export const workSearchResultsContainer = 'ul[role="list"]';
+export const worksSearchResultsListItem = `${workSearchResultsContainer} li[role="listitem"]`;
 export const formatFilterDropDown = '#formats';
 export const formatFilterDropDownButton = 'button[aria-controls="formats"]';
 export const colourSelectorFilterDropDown = `${searchImagesForm} button[aria-controls="images.color"]`;
@@ -16,4 +17,4 @@ export const searchWorksForm =
 export const colourSelector = '.react-colorful div[aria-label="Color"]';
 
 export const imagesResultsContainer = 'ul[role="list"]';
-export const imagesResultsLisItem = `${imagesResultsContainer} li[role="listitem"]`;
+export const imagesResultsListItem = `${imagesResultsContainer} li[role="listitem"]`;
