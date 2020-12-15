@@ -17,7 +17,11 @@ import {
   expectUrlIsOnWorkPage,
   expectWorkDetailsIsVisible,
 } from './asserts/work';
-import { elementIsVisible, getInputValue, isMobile } from './actions/common';
+import {
+  elementIsVisible,
+  getInputValueAction,
+  isMobile,
+} from './actions/common';
 import { expectSearchResultsIsVisible } from '../e2e/asserts/search';
 import { worksUrl } from './helpers/urls';
 
@@ -31,7 +35,7 @@ describe('works', () => {
     await fillActionSearchInput(expectedValue);
     await pressActionEnterSearchInput();
 
-    const value = await getInputValue(worksSearchInputField);
+    const value = await getInputValueAction(worksSearchInputField);
     await page.waitForSelector(workSearchResultsContainer);
 
     await expectSearchResultsIsVisible();

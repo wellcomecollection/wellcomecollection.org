@@ -10,7 +10,7 @@ import {
   mobileModalCloseButton,
 } from '../selectors/search';
 
-import { isMobile, fillInput, pressEnter } from './common';
+import { isMobile, fillInputAction, pressEnterAction } from './common';
 
 type formType = 'images' | 'works';
 
@@ -24,13 +24,13 @@ export async function fillActionSearchInput(
     condition === 'images' ? searchImagesForm : searchWorksForm
   } ${worksSearchInputField}`;
 
-  await fillInput(selector, value);
+  await fillInputAction(selector, value);
 }
 
 // Press actions
 
 export async function pressActionEnterSearchInput(): Promise<void> {
-  await pressEnter(worksSearchInputField);
+  await pressEnterAction(worksSearchInputField);
 }
 
 // Click actions
