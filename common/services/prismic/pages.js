@@ -5,7 +5,7 @@ import { parseTimestamp, parseGenericFields, parseOnThisPage, parseSingleLevelGr
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
 import type { Page } from '../../model/pages';
-import type { PrismicDocument } from './types';
+import type { PrismicDocument, PaginatedResults } from './types';
 import {
   pagesFields,
   collectionVenuesFields,
