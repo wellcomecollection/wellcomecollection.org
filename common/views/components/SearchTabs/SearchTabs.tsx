@@ -159,7 +159,6 @@ const SearchTabs: FunctionComponent<Props> = ({
             aggregations={aggregations}
             shouldShowFilters={shouldShowFilters}
             showSortBy={showSortBy}
-            ariaRoleForm="Search form"
           />
         </TabPanel>
       ),
