@@ -136,7 +136,7 @@ const EventPromo = ({
             }} v={{
               size: 'l',
               properties: ['margin-bottom'],
-            }}>Watch recording now</Space>
+            }}>Available to watch</Space>
             </WatchWrapper>
           }
 
