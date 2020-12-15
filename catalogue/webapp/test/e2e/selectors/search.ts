@@ -3,7 +3,7 @@ import { fillInput, pressEnter, isMobile } from './common';
 export const searchImagesForm =
   'form[aria-describedby="images-form-description"]';
 export const worksSearchInputField = 'input[aria-label="search input field"]';
-export const workSearchResultsContainer = 'div[role="search results list"]';
+export const workSearchResultsContainer = 'ul[role="list"]';
 export const formatFilterDropDown = 'div[role="format filter drop down"]';
 export const colourSelectorFilterDropDown = `${searchImagesForm} button[aria-controls="images.color"]`;
 
