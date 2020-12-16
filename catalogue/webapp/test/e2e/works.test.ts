@@ -14,7 +14,7 @@ import {
 import {
   expectItemIsVisible,
   expectItemsIsVisible,
-  expectUrlIsOnPage,
+  expectUrlToMatch,
 } from '../e2e/asserts/common';
 import { worksUrl } from './helpers/urls';
 import {
@@ -47,10 +47,6 @@ describe('works', () => {
 
   test('Search by term, filter results, check results, view result', async () => {
     const expectedValue = 'art of science';
-    const encodeExpectedValue = encodeURIComponent(expectedValue).replace(
-      /%20/g,
-      '+'
-    );
     await fillActionSearchInput(expectedValue);
     await pressActionEnterSearchInput();
 
@@ -63,11 +59,11 @@ describe('works', () => {
       await clickActionFormatDropDown();
       await clickActionFormatRadioCheckbox('Pictures');
     }
+    expectUrlToMatch(/art[+]of[+]science/);
 
-    expect(page.url()).toContain(encodeExpectedValue);
     await expectItemIsVisible(searchResultsContainer);
     await page.waitForNavigation();
-    expect(page.url()).toContain('workType=k');
+    expectUrlToMatch(/workType=k/);
 
     await expectItemIsVisible(searchResultsContainer);
     await expectItemsIsVisible(worksSearchResultsListItem, 1);
@@ -76,7 +72,7 @@ describe('works', () => {
     await page.click(`${searchResultsContainer} a:first-child`);
     await page.waitForNavigation();
 
-    await expectUrlIsOnPage(regexImageSearchResultsUrl);
+    expectUrlToMatch(regexImageSearchResultsUrl);
     await expectItemIsVisible(workTitleHeading);
   });
 });

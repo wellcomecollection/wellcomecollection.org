@@ -17,7 +17,7 @@ import { isMobile, elementIsVisible } from './actions/common';
 import {
   expectItemsIsVisible,
   expectItemIsVisible,
-  expectUrlIsOnPage,
+  expectUrlToMatch,
 } from './asserts/common';
 import {
   imagesResultsListItem,
@@ -56,6 +56,6 @@ describe('images', () => {
 
     await clickActionClickViewExpandedImage();
     await page.waitForNavigation();
-    await expectUrlIsOnPage(regexImageGalleryUrl);
+    expectUrlToMatch(regexImageGalleryUrl);
   });
 });

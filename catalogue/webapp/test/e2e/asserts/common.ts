@@ -11,7 +11,7 @@ export async function expectItemIsVisible(selector: string): Promise<void> {
   expect(await elementIsVisible(selector)).toBeTruthy();
 }
 
-export function expectUrlIsOnPage(regex: RegExp): void {
+export function expectUrlToMatch(regex: RegExp | string): void {
   const condition = RegExp(regex);
   expect(condition.test(page.url())).toBeTruthy();
 }
