@@ -6,6 +6,7 @@ import { getBooks } from './books';
 import { getEvents } from './events';
 import { getExhibitions } from './exhibitions';
 import { getPages } from './pages';
+import { getMultipleArticleSeries } from './article-series';
 import { Season, SeasonWithContent } from '../../model/seasons';
 import { parseGenericFields, parseSingleLevelGroup } from './parsers';
 import {
@@ -99,15 +100,24 @@ export async function getSeasonWithContent({
       predicates: [Prismic.Predicates.at('my.pages.seasons.season', id)],
     },
     memoizedPrismic
-  );
+    );
 
-  const [season, articles, books, events, exhibitions, pages] = await Promise.all([
+    const articleSeriesPromise = await getMultipleArticleSeries(
+    request,
+    {
+      predicates: [Prismic.Predicates.at('my.series.seasons.season', id)],
+    },
+    memoizedPrismic
+  )
+
+  const [season, articles, books, events, exhibitions, pages, articleSeries] = await Promise.all([
     seasonPromise,
     articlesPromise,
     booksPromise,
     eventsPromise,
     exhibitionsPromise,
     pagesPromise,
+    articleSeriesPromise,
   ]);
 
   if (season) {
@@ -118,6 +128,7 @@ export async function getSeasonWithContent({
       events: events?.results || [],
       exhibitions: exhibitions?.results || [],
       pages: pages?.results || [],
+      articleSeries: articleSeries?.results || [],
     };
   }
 }
