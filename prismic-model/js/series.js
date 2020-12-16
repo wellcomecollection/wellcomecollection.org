@@ -33,6 +33,11 @@ const StorySeries = {
   Metadata: {
     metadataDescription: structuredText('Metadata description', 'single'),
   },
+  'Content relationships': {
+    seasons: list('Seasons', {
+      season: link('Season', 'document', ['seasons'], 'Select a Season'),
+    }),
+  },
   Deprecated: {
     description: structuredText(
       '[Deprecated] Description. Please use standfirst slice'

@@ -1,9 +1,11 @@
 // @flow
 import Prismic from 'prismic-javascript';
 import { getDocument, getDocuments } from './api';
-import { parseTimestamp, parseGenericFields, parseOnThisPage } from './parsers';
+import { parseTimestamp, parseGenericFields, parseOnThisPage, parseSingleLevelGroup } from './parsers';
+// $FlowFixMe (tsx)
+import { parseSeason } from './seasons';
 import type { Page } from '../../model/pages';
-import type { PrismicDocument } from './types';
+import type { PrismicDocument, PaginatedResults } from './types';
 import {
   pagesFields,
   collectionVenuesFields,
@@ -21,7 +23,9 @@ import {
 export function parsePage(document: PrismicDocument): Page {
   const { data } = document;
   const genericFields = parseGenericFields(document);
-
+  const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
+    return parseSeason(season);
+  });
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
   // strategy for this later
   const siteSection = document.tags.find(tag =>
@@ -49,6 +53,7 @@ export function parsePage(document: PrismicDocument): Page {
   return {
     type: 'pages',
     ...genericFields,
+    seasons,
     onThisPage: data.body ? parseOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,
     promo: promo && promo.image ? promo : drupalisedPromo,
@@ -88,6 +93,46 @@ export async function getPage(
   if (page) {
     return parsePage(page);
   }
+}
+
+type Order = 'desc' | 'asc';
+type GetPagesProps = {|
+  predicates?: Prismic.Predicates[],
+  order?: Order,
+  page?: number,
+|};
+
+export async function getPages(
+  req: ?Request,
+  {
+    predicates = [],
+    order = 'desc',
+    page = 1,
+  }: GetPagesProps = {},
+  memoizedPrismic: ?Object
+): Promise<PaginatedResults<Page>> {
+  const paginatedResults = await getDocuments(
+    req,
+    [Prismic.Predicates.any('document.type', ['pages'])].concat(
+      predicates,
+    ),
+    {
+      page,
+    },
+    memoizedPrismic
+  );
+
+  const pages: Page[] = paginatedResults.results.map(
+    parsePage
+  );
+
+  return {
+    currentPage: paginatedResults.currentPage,
+    pageSize: paginatedResults.pageSize,
+    totalResults: paginatedResults.totalResults,
+    totalPages: paginatedResults.totalPages,
+    results: pages,
+  };
 }
 
 export async function getPageFromDrupalPath(

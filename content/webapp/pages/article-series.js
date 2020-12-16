@@ -15,6 +15,9 @@ import PageHeader, {
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { ArticleSeries } from '@weco/common/model/article-series';
 import type { Article } from '@weco/common/model/articles';
+import {
+  seasonsFields,
+} from '@weco/common/services/prismic/fetch-links';
 
 type Props = {|
   series: ArticleSeries,
@@ -29,6 +32,7 @@ export class ArticleSeriesPage extends Component<Props> {
       {
         id,
         pageSize: 100,
+        fetchLinks: seasonsFields,
       },
       memoizedPrismic
     );
@@ -116,6 +120,7 @@ export class ArticleSeriesPage extends Component<Props> {
           Header={Header}
           Body={<Body body={series.body} pageId={series.id} />}
           contributorProps={{ contributors: series.contributors }}
+          seasons={series.seasons}
         >
           {articles.length > 0 && (
             <SearchResults items={series.items} showPosition={true} />

@@ -4,6 +4,7 @@ import { exhibitionLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusIndicator/DateAndStatusIndicator';
+import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 // $FlowFixMe (tsx)
@@ -75,10 +76,21 @@ const Installation = ({ installation }: Props) => {
       FeaturedMedia={FeaturedMedia}
       Background={<HeaderBackground hasWobblyEdge={true} />}
       ContentTypeInfo={
-        <DateAndStatusIndicator
-          start={installation.start}
-          end={installation.end}
-        />
+        <>
+          {installation.start && !installation.statusOverride && (
+            <DateAndStatusIndicator
+            start={installation.start}
+            end={installation.end}
+            />
+          )}
+          {installation.statusOverride &&  (
+            <StatusIndicator
+            start={installation.start}
+            end={installation.end || new Date()}
+            statusOverride={installation.statusOverride}
+          />
+          )}
+        </>
       }
       HeroPicture={null}
       isContentTypeInfoBeforeMedia={true}
