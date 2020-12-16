@@ -16,13 +16,14 @@ import { type UiEvent } from '../../../model/events';
 import { type Book } from '../../../model/books';
 import { type Article } from '../../../model/articles';
 import { type Page } from '../../../model/pages';
+import { type ArticleSeries } from '../../../model/article-series';
 import Space from '../styled/Space';
 import type Moment from 'moment';
 import Card from '../Card/Card';
 import { convertItemToCardProps } from '@weco/common/model/card';
 
 // TODO: This should be MultiContent
-type ContentTypes = UiEvent | UiExhibition | Book | Article | Page;
+type ContentTypes = UiEvent | UiExhibition | Book | Article | Page | ArticleSeries;
 
 type Props = {|
   items: $ReadOnlyArray<ContentTypes>,
@@ -99,7 +100,7 @@ const CardGrid = ({
                   image={item.cover}
                 />
               )}
-              {item.type === 'pages' && (
+              {(item.type === 'pages' || item.type === 'series') && (
                 <Card item={convertItemToCardProps(item)} />
               )}
             </div>
