@@ -1,6 +1,6 @@
 import { baseUrl } from './urls';
 
-export type toggleFeatureProps = {
+export type cookieType = {
   name: string;
   value: string;
   url?: string;
@@ -18,7 +18,7 @@ export async function toggleFeature(
   toggle: string,
   condition: 'true' | 'false'
 ): Promise<void> {
-  const toggleFeature: toggleFeatureProps = {
+  const toggleFeature: cookieType = {
     name: `${prefixToggle}${toggle}`,
     value: condition,
     url: baseUrl(),
