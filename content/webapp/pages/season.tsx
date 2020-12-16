@@ -22,6 +22,7 @@ const SeasonPage = ({
   events,
   exhibitions,
   pages,
+  articleSeries,
 }: SeasonWithContent): ReactElement<SeasonWithContent> => {
   const Header = (
     <SeasonsHeader
@@ -40,7 +41,7 @@ const SeasonPage = ({
     };
   });
   const exhibitionsAndEvents = [...parsedExhibitions, ...parsedEvents];
-  const exploreMore = [...articles, ...books, ...pages];
+  const exploreMore = [...articles, ...books, ...pages, ...articleSeries];
 
   return (
     <PageLayout
