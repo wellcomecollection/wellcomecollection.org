@@ -1,10 +1,12 @@
 // @flow
 import Prismic from 'prismic-javascript';
 import { london } from '../../utils/format-date';
-import { getDocument } from './api';
+import { getDocument, getDocuments } from './api';
 import { getArticles } from './articles';
-import { parseGenericFields, isStructuredText, asText } from './parsers';
-import type { PrismicDocument, PrismicQueryOpts } from './types';
+import { parseGenericFields, isStructuredText, asText, parseSingleLevelGroup } from './parsers';
+// $FlowFixMe (tsx)
+import { parseSeason } from './seasons';
+import type { PrismicDocument, PrismicQueryOpts, PaginatedResults } from './types';
 import type { ArticleSeries } from '../../model/article-series';
 import type { Article } from '../../model/articles';
 import {
@@ -33,6 +35,9 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
   const labels = [
     { url: null, text: schedule.length > 0 ? 'Serial' : 'Series' },
   ];
+  const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
+    return parseSeason(season);
+  });
 
   return {
     ...genericFields,
@@ -42,6 +47,7 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
     standfirst,
     color: data.color,
     items: [],
+    seasons,
   };
 }
 
@@ -125,4 +131,44 @@ export async function getArticleSeries(
     }, memoizedPrismic);
     return document && { series: parseArticleSeries(document), articles: [] };
   }
+}
+
+type Order = 'desc' | 'asc';
+type GetMultipleArticleSeriesProps = {|
+  predicates?: Prismic.Predicates[],
+  order?: Order,
+  page?: number,
+|};
+
+export async function getMultipleArticleSeries(
+  req: ?Request,
+  {
+    predicates = [],
+    order = 'desc',
+    page = 1,
+  }: GetMultipleArticleSeriesProps = {},
+  memoizedPrismic: ?Object
+): Promise<PaginatedResults<ArticleSeries>> {
+  const paginatedResults = await getDocuments(
+    req,
+    [Prismic.Predicates.any('document.type', ['series'])].concat(
+      predicates,
+    ),
+    {
+      page,
+    },
+    memoizedPrismic
+  );
+
+  const articleSeries: ArticleSeries[] = paginatedResults.results.map(
+    parseArticleSeries
+  );
+
+  return {
+    currentPage: paginatedResults.currentPage,
+    pageSize: paginatedResults.pageSize,
+    totalResults: paginatedResults.totalResults,
+    totalPages: paginatedResults.totalPages,
+    results: articleSeries,
+  };
 }
