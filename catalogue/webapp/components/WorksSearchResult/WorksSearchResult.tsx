@@ -5,7 +5,7 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import {
-  getArchiveContext,
+  getArchiveLabels,
   getProductionDates,
   getWorkTypeIcon,
 } from '@weco/common/utils/works';
@@ -77,7 +77,7 @@ function isPdfThumbnail(thumbnail): boolean {
 const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
-  const archiveContext = getArchiveContext(work);
+  const archiveLabels = getArchiveLabels(work);
   return (
     <div
       className={classNames({
@@ -178,19 +178,19 @@ const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
                   />
                 )}
               </div>
-              {archiveContext && (
+              {archiveLabels && (
                 <>
                   <LinkLabels
                     heading="Reference"
-                    items={[{ text: archiveContext.reference }]}
+                    items={[{ text: archiveLabels.reference }]}
                   />
                   <LinkLabels
                     heading="Part of"
-                    items={[{ text: archiveContext.partOf }]}
+                    items={[{ text: archiveLabels.partOf }]}
                   />
                   <LinkLabels
                     heading="Found in"
-                    items={[{ text: archiveContext.foundIn }]}
+                    items={[{ text: archiveLabels.foundIn }]}
                   />
                 </>
               )}

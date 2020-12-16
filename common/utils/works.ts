@@ -226,7 +226,7 @@ export function getItemIdentifiersWith(
   }, []);
 }
 
-type ArchiveContext = {
+type ArchiveLabels = {
   reference: string;
   partOf: string;
   foundIn: string;
@@ -235,7 +235,7 @@ type ArchiveContext = {
 const getArchiveRoot = (work: RelatedWork, depth = 0): [RelatedWork, number] =>
   work?.partOf?.[0] ? getArchiveRoot(work.partOf[0], depth + 1) : [work, depth];
 
-export const getArchiveContext = (work: Work): ArchiveContext | undefined => {
+export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
   if (work.referenceNumber && work.partOf?.[0]?.referenceNumber) {
     const [root, depth] = getArchiveRoot(work);
     return {
