@@ -4,17 +4,14 @@ import {
   pressActionEnterSearchInput,
   clickActionModalFilterButton,
   clickActionCloseModalFilterButton,
-  clickActionColourPicker,
-  clickActionColourDropDown,
-  clickActionClickImageResultItem,
-  clickActionClickViewExpandedImage,
 } from './actions/search';
 
 import {
-  imagesResultsContainer,
-  imagesResultsListItem,
-  mobileModalImageSearch,
-} from './selectors/search';
+  clickActionColourPicker,
+  clickActionClickImageResultItem,
+  clickActionColourDropDown,
+  clickActionClickViewExpandedImage,
+} from './actions/images';
 
 import { isMobile, elementIsVisible } from './actions/common';
 import {
@@ -22,8 +19,14 @@ import {
   expectItemIsVisible,
   expectUrlIsOnPage,
 } from './asserts/common';
-import { modalexpandedImageViewMoreButton } from './selectors/images';
+import {
+  imagesResultsListItem,
+  mobileModalImageSearch,
+  modalexpandedImageViewMoreButton,
+} from './selectors/images';
+
 import { regexImageGalleryUrl } from './helpers/regex';
+import { searchResultsContainer } from './selectors/search';
 
 describe('images', () => {
   beforeEach(async () => {
@@ -45,7 +48,7 @@ describe('images', () => {
       await clickActionColourPicker();
     }
     await page.waitForNavigation();
-    await expectItemIsVisible(imagesResultsContainer);
+    await expectItemIsVisible(searchResultsContainer);
     await expectItemsIsVisible(imagesResultsListItem, 1);
 
     await clickActionClickImageResultItem(1);

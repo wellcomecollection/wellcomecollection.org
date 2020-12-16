@@ -1,11 +1,4 @@
 import {
-  worksSearchInputField,
-  workSearchResultsContainer,
-  mobileModal,
-  worksSearchResultsListItem,
-} from './selectors/search';
-
-import {
   fillActionSearchInput,
   pressActionEnterSearchInput,
   clickActionFormatDropDown,
@@ -24,8 +17,16 @@ import {
   expectUrlIsOnPage,
 } from '../e2e/asserts/common';
 import { worksUrl } from './helpers/urls';
-import { workTitleHeading } from './selectors/work';
+import {
+  worksSearchResultsListItem,
+  workTitleHeading,
+} from './selectors/works';
 import { regexImageSearchResultsUrl } from './helpers/regex';
+import {
+  mobileModal,
+  searchResultsContainer,
+  worksSearchInputField,
+} from './selectors/search';
 
 describe('works', () => {
   beforeEach(async () => {
@@ -38,9 +39,9 @@ describe('works', () => {
     await pressActionEnterSearchInput();
 
     const value = await getInputValueAction(worksSearchInputField);
-    await page.waitForSelector(workSearchResultsContainer);
+    await page.waitForSelector(searchResultsContainer);
 
-    await expectItemIsVisible(workSearchResultsContainer);
+    await expectItemIsVisible(searchResultsContainer);
     expect(value).toBe(expectedValue);
   });
 
@@ -64,15 +65,15 @@ describe('works', () => {
     }
 
     expect(page.url()).toContain(encodeExpectedValue);
-    await expectItemIsVisible(workSearchResultsContainer);
+    await expectItemIsVisible(searchResultsContainer);
     await page.waitForNavigation();
     expect(page.url()).toContain('workType=k');
 
-    await expectItemIsVisible(workSearchResultsContainer);
+    await expectItemIsVisible(searchResultsContainer);
     await expectItemsIsVisible(worksSearchResultsListItem, 1);
 
-    await expectItemIsVisible(workSearchResultsContainer);
-    await page.click(`${workSearchResultsContainer} a:first-child`);
+    await expectItemIsVisible(searchResultsContainer);
+    await page.click(`${searchResultsContainer} a:first-child`);
     await page.waitForNavigation();
 
     await expectUrlIsOnPage(regexImageSearchResultsUrl);

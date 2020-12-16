@@ -1,7 +1,7 @@
 export async function fillInputAction(
   selector: string,
   text: string
-): Promise<voselector> {
+): Promise<void> {
   await page.fill(selector, text);
 }
 
