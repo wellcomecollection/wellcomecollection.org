@@ -25,6 +25,7 @@ import {
 } from '../e2e/asserts/common';
 import { worksUrl } from './helpers/urls';
 import { workTitleHeading } from './selectors/work';
+import { regexImageSearchResultsUrl } from './helpers/regex';
 
 describe('works', () => {
   beforeEach(async () => {
@@ -74,7 +75,7 @@ describe('works', () => {
     await page.click(`${workSearchResultsContainer} a:first-child`);
     await page.waitForNavigation();
 
-    await expectUrlIsOnPage(/\/works\/[a-zA-Z0-9]+/);
+    await expectUrlIsOnPage(regexImageSearchResultsUrl);
     await expectItemIsVisible(workTitleHeading);
   });
 });

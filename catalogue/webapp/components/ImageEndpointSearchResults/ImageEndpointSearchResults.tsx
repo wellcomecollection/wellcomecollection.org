@@ -70,6 +70,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
               source: 'image_endpoint_result/image_link',
             });
           }}
+          ariaLabelledBy="expanded-image-dialog"
         />
       )}
     </ul>

@@ -6,6 +6,8 @@ import {
   clickActionCloseModalFilterButton,
   clickActionColourPicker,
   clickActionColourDropDown,
+  clickActionClickImageResultItem,
+  clickActionClickViewExpandedImage,
 } from './actions/search';
 
 import {
@@ -15,13 +17,19 @@ import {
 } from './selectors/search';
 
 import { isMobile, elementIsVisible } from './actions/common';
-import { expectItemsIsVisible, expectItemIsVisible } from './asserts/common';
+import {
+  expectItemsIsVisible,
+  expectItemIsVisible,
+  expectUrlIsOnPage,
+} from './asserts/common';
+import { modalexpandedImageViewMoreButton } from './selectors/images';
+import { regexImageGalleryUrl } from './helpers/regex';
 
 describe('images', () => {
   beforeEach(async () => {
     await page.goto(imagesUrl);
   });
-  test('Search by term, filter by colour, check results', async () => {
+  test('Search by term, filter by colour, check results, view image details, view expanded image', async () => {
     const expectedValue = 'art of science';
     await fillActionSearchInput(expectedValue, 'images');
     await pressActionEnterSearchInput();
@@ -39,5 +47,12 @@ describe('images', () => {
 
     await expectItemIsVisible(imagesResultsContainer);
     await expectItemsIsVisible(imagesResultsListItem, 1);
+
+    await clickActionClickImageResultItem(1);
+    await expectItemIsVisible(modalexpandedImageViewMoreButton);
+
+    await clickActionClickViewExpandedImage();
+    await page.waitForNavigation();
+    await expectUrlIsOnPage(regexImageGalleryUrl);
   });
 });

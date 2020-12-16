@@ -1,4 +1,8 @@
 import {
+  modalexpandedImaged,
+  modalexpandedImageViewMoreButton,
+} from '../selectors/images';
+import {
   searchImagesForm,
   searchWorksForm,
   worksSearchInputField,
@@ -9,6 +13,7 @@ import {
   mobileModalCloseButton,
   formatFilterDropDownButton,
   formatFilterDropDown,
+  imagesResultsListItem,
 } from '../selectors/search';
 
 import { isMobile, fillInputAction, pressEnterAction } from './common';
@@ -40,10 +45,6 @@ export async function clickActionFormatDropDown(): Promise<void> {
   await page.click(formatFilterDropDownButton);
 }
 
-export async function clickActionColourDropDown(): Promise<void> {
-  await page.click(colourSelectorFilterDropDown);
-}
-
 export async function clickActionFormatRadioCheckbox(
   filterName: string
 ): Promise<void> {
@@ -63,12 +64,6 @@ export async function clickActionModalFilterButton(
   await page.click(selector);
 }
 
-export async function clickActionColourPicker(): Promise<void> {
-  await page.click(colourSelector, {
-    position: { x: 100, y: 100 },
-  });
-}
-
 export async function clickActionCloseModalFilterButton(
   condition?: formType
 ): Promise<void> {
@@ -76,4 +71,28 @@ export async function clickActionCloseModalFilterButton(
     condition === 'images' ? searchImagesForm : searchWorksForm
   } ${mobileModalCloseButton}`;
   await page.click(selector);
+}
+
+// images
+
+export async function clickActionColourDropDown(): Promise<void> {
+  await page.click(colourSelectorFilterDropDown);
+}
+
+export async function clickActionColourPicker(): Promise<void> {
+  await page.click(colourSelector, {
+    position: { x: 100, y: 100 },
+  });
+}
+
+export async function clickActionClickImageResultItem(
+  nthChild: number
+): Promise<void> {
+  await page.click(`${imagesResultsListItem}:nth-child(${nthChild}) a`);
+}
+
+export async function clickActionClickViewExpandedImage(): Promise<void> {
+  await page.click(
+    `${modalexpandedImaged} ${modalexpandedImageViewMoreButton}`
+  );
 }

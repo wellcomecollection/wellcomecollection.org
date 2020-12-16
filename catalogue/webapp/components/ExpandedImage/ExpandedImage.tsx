@@ -40,6 +40,7 @@ type Props = {
   setExpandedImage: (image?: ImageType) => void;
   onWorkLinkClick: () => void;
   onImageLinkClick: () => void;
+  ariaLabelledBy?: string;
 };
 
 type CanvasLink = {
@@ -86,13 +87,16 @@ const Overlay = styled.div.attrs({})`
   background: rgba(0, 0, 0, 0.5);
 `;
 
-const Modal = styled(Space).attrs({
+const Modal = styled(Space).attrs(props => ({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
+  role: 'dialog',
+  'aria-labelledby': props.ariaLabelledBy,
+  'aria-modal': true,
   className: classNames({
     'shadow bg-white': true,
   }),
-})`
+}))`
   z-index: 1;
   top: 0;
   bottom: 0;
@@ -179,6 +183,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
   setExpandedImage,
   onWorkLinkClick,
   onImageLinkClick,
+  ariaLabelledBy,
 }: Props) => {
   const { isKeyboard } = useContext(AppContext);
   const toggles = useContext(TogglesContext);
@@ -299,7 +304,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
   return (
     <>
       <Overlay onClick={() => setExpandedImage(undefined)} />
-      <Modal ref={modalRef}>
+      <Modal ref={modalRef} ariaLabelledBy={ariaLabelledBy}>
         <CloseButton
           hideFocus={!isKeyboard}
           ref={closeButtonRef}
@@ -362,6 +367,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
                     icon="eye"
                     link={expandedImageLink}
                     clickHandler={onImageLinkClick}
+                    ariaLabel="View expanded image"
                   />
                 </Space>
               )}
