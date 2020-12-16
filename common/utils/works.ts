@@ -228,21 +228,17 @@ export function getItemIdentifiersWith(
 
 type ArchiveLabels = {
   reference: string;
-  partOf: string;
   foundIn: string;
 };
 
-const getArchiveRoot = (work: RelatedWork, depth = 0): [RelatedWork, number] =>
-  work?.partOf?.[0] ? getArchiveRoot(work.partOf[0], depth + 1) : [work, depth];
+const getArchiveRoot = (work: RelatedWork): RelatedWork =>
+  work?.partOf?.[0] ? getArchiveRoot(work.partOf[0]) : work;
 
 export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
   if (work.referenceNumber && work.partOf?.[0]?.referenceNumber) {
-    const [root, depth] = getArchiveRoot(work);
+    const root = getArchiveRoot(work);
     return {
       reference: work.referenceNumber,
-      // To avoid duplication when we are dealing with an immediate child of the root archive,
-      // in this case we show the reference number of the parent rather than the title
-      partOf: depth > 1 ? work.partOf[0].title : work.partOf[0].referenceNumber,
       foundIn: root.title,
     };
   }
