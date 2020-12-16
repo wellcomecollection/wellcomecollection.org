@@ -21,6 +21,7 @@ const SeasonPage = ({
   books,
   events,
   exhibitions,
+  pages,
 }: SeasonWithContent): ReactElement<SeasonWithContent> => {
   const Header = (
     <SeasonsHeader
@@ -39,6 +40,8 @@ const SeasonPage = ({
     };
   });
   const exhibitionsAndEvents = [...parsedExhibitions, ...parsedEvents];
+  const exploreMore = [...articles, ...books, ...pages];
+
   return (
     <PageLayout
       title={season.title}
@@ -67,16 +70,19 @@ const SeasonPage = ({
         </SpacingSection>
       )}
 
-      {(articles.length > 0 || books.length > 0) && (
-        <SpacingSection>
-          <SpacingComponent>
-            <SectionHeader title="Explore more" />
-          </SpacingComponent>
-          <SpacingComponent>
-            <CardGrid items={[...articles, ...books]} itemsPerRow={3} />
-          </SpacingComponent>
-        </SpacingSection>
-      )}
+      {exploreMore.length > 0 && (
+          <SpacingSection>
+            <SpacingComponent>
+              <SectionHeader title="Explore more" />
+            </SpacingComponent>
+            <SpacingComponent>
+              <CardGrid
+                items={exploreMore}
+                itemsPerRow={3}
+              />
+            </SpacingComponent>
+          </SpacingSection>
+        )}
     </PageLayout>
   );
 };
