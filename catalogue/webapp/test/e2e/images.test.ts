@@ -13,7 +13,7 @@ import {
 import {
   imagesResultsContainer,
   imagesResultsListItem,
-  mobileModal,
+  mobileModalImageSearch,
 } from './selectors/search';
 
 import { isMobile, elementIsVisible } from './actions/common';
@@ -37,14 +37,14 @@ describe('images', () => {
 
     if (isMobile()) {
       await clickActionModalFilterButton('images');
-      await elementIsVisible(mobileModal);
+      await elementIsVisible(mobileModalImageSearch);
       await clickActionColourPicker();
       await clickActionCloseModalFilterButton('images');
     } else {
       await clickActionColourDropDown();
       await clickActionColourPicker();
     }
-
+    await page.waitForNavigation();
     await expectItemIsVisible(imagesResultsContainer);
     await expectItemsIsVisible(imagesResultsListItem, 1);
 

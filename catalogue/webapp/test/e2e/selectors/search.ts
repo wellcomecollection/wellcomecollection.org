@@ -10,7 +10,8 @@ export const colourSelectorFilterDropDown = `${searchImagesForm} button[aria-con
 export const formatFilterDropDownContainer = 'div[id="format"]';
 export const formatFilterMobileButton =
   'button[aria-controls="mobile-filters-modal"]';
-export const mobileModal = 'div[aria-modal="true"]';
+export const mobileModal = '#mobile-filters-modal';
+export const mobileModalImageSearch = `${searchImagesForm} ${mobileModal}`;
 export const mobileModalCloseButton = `${mobileModal} button[aria-label="close filter button"]`;
 export const searchWorksForm =
   'form[aria-describedby="library-catalogue-form-description"]';

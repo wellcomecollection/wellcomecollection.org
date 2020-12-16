@@ -22,7 +22,7 @@ export function isMobile(): boolean {
 }
 
 export async function elementIsVisible(selector: string): Promise<boolean> {
-  return Boolean(await page.waitForSelector(selector, { visible: 'visible' }));
+  return Boolean(await page.waitForSelector(selector));
 }
 
 export async function itemsIsVisible(
