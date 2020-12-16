@@ -7,15 +7,11 @@ export const colourSelectorFilterDropDown = `${searchImagesForm} button[aria-con
 export const colourSelector = '.react-colorful div[aria-label="Color"]';
 
 // results list
-
 export const imagesResultsListItem = `${searchResultsContainer} li[role="listitem"]`;
 
 // modal
-
 export const mobileModalImageSearch = `${searchImagesForm} ${mobileModal}`;
-
 export const modalexpandedImaged =
   'div[aria-labelledby="expanded-image-dialog"]';
-
 export const modalexpandedImageViewMoreButton =
   'a[aria-label="View expanded image"]';
