@@ -15,6 +15,13 @@ module.exports = {
       defaultValue: false,
     },
     {
+      id: 'archiveContextInSearch',
+      title: 'Include archive context in search results',
+      description:
+        'Show reference, parent and root for archive search results (means that partOf is fetched in search results).',
+      defaultValue: false,
+    },
+    {
       id: 'modalFiltersPrototype',
       title: 'Use the modal filter prototype',
       defaultValue: false,
