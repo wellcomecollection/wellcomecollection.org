@@ -7,6 +7,9 @@ import { parseGenericFields, isStructuredText, asText } from './parsers';
 import type { PrismicDocument, PrismicQueryOpts } from './types';
 import type { ArticleSeries } from '../../model/article-series';
 import type { Article } from '../../model/articles';
+import {
+  seasonsFields,
+} from './fetch-links';
 
 export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
   const { data } = document;
@@ -117,7 +120,9 @@ export async function getArticleSeries(
   } else {
     // TODO: (perf) we shouldn't really be doing two calls here, but it's for
     // when a series has no events attached.
-    const document = await getDocument(req, id, {}, memoizedPrismic);
+    const document = await getDocument(req, id, {
+      fetchLinks:seasonsFields,
+    }, memoizedPrismic);
     return document && { series: parseArticleSeries(document), articles: [] };
   }
 }
