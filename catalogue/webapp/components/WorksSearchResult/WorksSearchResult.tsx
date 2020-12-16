@@ -187,8 +187,8 @@ const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
                     items={[{ text: archiveLabels.reference }]}
                   />
                   <LinkLabels
-                    heading="Found in"
-                    items={[{ text: archiveLabels.foundIn }]}
+                    heading="Part of"
+                    items={[{ text: archiveLabels.partOf }]}
                   />
                 </>
               )}

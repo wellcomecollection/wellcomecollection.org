@@ -228,7 +228,7 @@ export function getItemIdentifiersWith(
 
 type ArchiveLabels = {
   reference: string;
-  foundIn: string;
+  partOf: string;
 };
 
 const getArchiveRoot = (work: RelatedWork): RelatedWork =>
@@ -239,7 +239,7 @@ export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
     const root = getArchiveRoot(work);
     return {
       reference: work.referenceNumber,
-      foundIn: root.title,
+      partOf: root.title,
     };
   }
   return undefined;
