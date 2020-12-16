@@ -7,7 +7,7 @@ import { getEvents } from './events';
 import { getExhibitions } from './exhibitions';
 import { getPages } from './pages';
 import { Season, SeasonWithContent } from '../../model/seasons';
-import { parseGenericFields } from './parsers';
+import { parseGenericFields, parseSingleLevelGroup } from './parsers';
 import {
   pagesFields,
   articlesFields,
@@ -20,10 +20,13 @@ import { IncomingMessage } from 'http';
 export function parseSeason(document: PrismicDocument): Season {
   const genericFields = parseGenericFields(document);
   const promo = genericFields.promo;
-
+  const seasons = parseSingleLevelGroup(document.data.seasons, 'season').map(season => {
+    return parseSeason(season);
+  });
   return {
     type: 'seasons',
     ...genericFields,
+    seasons,
     labels: [{ url: null, text: 'Season' }],
     promo: promo && promo.image && promo,
   };
