@@ -649,6 +649,27 @@
       }
     }
   },
+  "Content relationships": {
+    "seasons": {
+      "type": "Group",
+      "fieldset": "Seasons",
+      "config": {
+        "fields": {
+          "season": {
+            "type": "Link",
+            "config": {
+              "label": "Season",
+              "select": "document",
+              "customtypes": [
+                "seasons"
+              ],
+              "placeholder": "Select a Season"
+            }
+          }
+        }
+      }
+    }
+  },
   "Deprecated": {
     "description": {
       "type": "StructuredText",
