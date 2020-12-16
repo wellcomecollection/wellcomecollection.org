@@ -67,8 +67,6 @@ describe('works', () => {
 
     await expectItemIsVisible(searchResultsContainer);
     await expectItemsIsVisible(worksSearchResultsListItem, 1);
-
-    await expectItemIsVisible(searchResultsContainer);
     await page.click(`${searchResultsContainer} a:first-child`);
     await page.waitForNavigation();
 
