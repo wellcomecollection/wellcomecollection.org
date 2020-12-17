@@ -4,11 +4,11 @@ import {
   pressActionEnterSearchInput,
   clickActionModalFilterButton,
   clickActionCloseModalFilterButton,
+  clickActionClickSearchResultItem,
 } from './actions/search';
 
 import {
   clickActionColourPicker,
-  clickActionClickImageResultItem,
   clickActionColourDropDown,
   clickActionClickViewExpandedImage,
 } from './actions/images';
@@ -51,7 +51,8 @@ describe('images', () => {
     await expectItemIsVisible(searchResultsContainer);
     await expectItemsIsVisible(imagesResultsListItem, 1);
 
-    await clickActionClickImageResultItem(1);
+    //    await clickActionClickImageResultItem(1);
+    await clickActionClickSearchResultItem(1, 'images');
     await expectItemIsVisible(modalexpandedImageViewMoreButton);
 
     await clickActionClickViewExpandedImage();

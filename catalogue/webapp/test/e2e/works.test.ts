@@ -5,6 +5,7 @@ import {
   clickActionFormatRadioCheckbox,
   clickActionCloseModalFilterButton,
   clickActionModalFilterButton,
+  clickActionClickSearchResultItem,
 } from './actions/search';
 import {
   elementIsVisible,
@@ -67,7 +68,7 @@ describe('works', () => {
 
     await expectItemIsVisible(searchResultsContainer);
     await expectItemsIsVisible(worksSearchResultsListItem, 1);
-    await page.click(`${searchResultsContainer} a:first-child`);
+    await clickActionClickSearchResultItem(1);
     await page.waitForNavigation();
 
     expectUrlToMatch(regexImageSearchResultsUrl);

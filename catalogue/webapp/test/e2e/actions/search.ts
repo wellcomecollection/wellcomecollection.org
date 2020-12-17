@@ -1,4 +1,4 @@
-import { searchImagesForm } from '../selectors/images';
+import { imagesResultsListItem, searchImagesForm } from '../selectors/images';
 import {
   formatFilterDropDown,
   formatFilterDropDownButton,
@@ -7,16 +7,19 @@ import {
   mobileModalCloseButton,
   worksSearchInputField,
 } from '../selectors/search';
-import { searchWorksForm } from '../selectors/works';
+import {
+  searchWorksForm,
+  worksSearchResultsListItem,
+} from '../selectors/works';
 import { isMobile, fillInputAction, pressEnterAction } from './common';
 
-type formType = 'images' | 'works';
+type conditionSearchType = 'images' | 'works';
 
 // Fill actions
 
 export async function fillActionSearchInput(
   value: string,
-  condition?: formType
+  condition?: conditionSearchType
 ): Promise<void> {
   const selector = `${
     condition === 'images' ? searchImagesForm : searchWorksForm
@@ -47,7 +50,7 @@ export async function clickActionFormatRadioCheckbox(
 }
 
 export async function clickActionModalFilterButton(
-  condition?: formType
+  condition?: conditionSearchType
 ): Promise<void> {
   const selector = `${
     condition === 'images' ? searchImagesForm : searchWorksForm
@@ -57,10 +60,21 @@ export async function clickActionModalFilterButton(
 }
 
 export async function clickActionCloseModalFilterButton(
-  condition?: formType
+  condition?: conditionSearchType
 ): Promise<void> {
   const selector = `${
     condition === 'images' ? searchImagesForm : searchWorksForm
   } ${mobileModalCloseButton}`;
+  await page.click(selector);
+}
+
+export async function clickActionClickSearchResultItem(
+  nthChild: number,
+  condition?: conditionSearchType
+): Promise<void> {
+  const selector = `${
+    condition === 'images' ? worksSearchResultsListItem : imagesResultsListItem
+  }:nth-child(${nthChild}) a`;
+
   await page.click(selector);
 }
