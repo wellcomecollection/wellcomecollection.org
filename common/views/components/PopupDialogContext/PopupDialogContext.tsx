@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import { HTMLString, PrismicLink } from '../../../services/prismic/types';
 
-type PopupDialog = {
+export type PopupDialog = {
   isShown: boolean;
   openButtonText: string;
   title: string;
