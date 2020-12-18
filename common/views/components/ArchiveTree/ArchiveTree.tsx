@@ -13,7 +13,6 @@ import { getWork } from '@weco/catalogue/services/catalogue/works';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { Toggles } from '@weco/catalogue/services/catalogue/common';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -22,6 +21,7 @@ import { RelatedWork, Work } from '@weco/common/model/catalogue';
 import useWindowSize from '@weco/common/hooks/useWindowSize';
 import Modal, { ModalContext } from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import { Toggles } from '@weco/toggles';
 
 const TreeContainer = styled.div`
   border-right: 1px solid ${props => props.theme.color('pumice')};

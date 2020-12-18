@@ -58,7 +58,8 @@
     "cardigan",
     "catalogue/webapp",
     "content/webapp",
-    "identity/webapp"
+    "identity/webapp",
+    "toggles/webapp"
   ],
   "lint-staged": {
     "*.{js,ts,tsx}": [

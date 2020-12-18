@@ -14,8 +14,8 @@ import {
   queryString,
   rootUris,
   notFound,
-  Toggles,
 } from './common';
+import { Toggles } from '@weco/toggles';
 
 type GetWorkProps = {
   id: string;
