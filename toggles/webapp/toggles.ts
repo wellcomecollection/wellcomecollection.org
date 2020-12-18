@@ -59,5 +59,5 @@ export default {
       description:
         'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
     },
-  ],
+  ] as const,
 };
