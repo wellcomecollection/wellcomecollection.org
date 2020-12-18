@@ -51,7 +51,6 @@ describe('images', () => {
     await expectItemIsVisible(searchResultsContainer);
     await expectItemsIsVisible(imagesResultsListItem, 1);
 
-    //    await clickActionClickImageResultItem(1);
     await clickActionClickSearchResultItem(1, 'images');
     await expectItemIsVisible(modalexpandedImageViewMoreButton);
 
