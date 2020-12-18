@@ -35,7 +35,7 @@ describe('images', () => {
   test('Search by term, filter by colour, check results, view image details, view expanded image', async () => {
     const expectedValue = 'art of science';
     await fillActionSearchInput(expectedValue, 'images');
-    await pressActionEnterSearchInput();
+    await pressActionEnterSearchInput('images');
     await page.waitForNavigation();
 
     if (isMobile()) {

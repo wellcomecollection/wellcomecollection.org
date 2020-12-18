@@ -12,7 +12,9 @@
     "test:updateSnapshots": "yarn test -- --updateSnapshot",
     "test:e2e": "NODE_ENV=test yarn jest -c jest.e2e.config.js",
     "test:e2e:mobile": "NODE_ENV=test platform=mobile yarn jest -c jest.e2e.config.js",
+    "test:e2e:debug:mobile": "NODE_ENV=test debug=true platform=mobile yarn jest -c jest.e2e.config.js",
     "test:e2e:debug": "NODE_ENV=test debug=true yarn jest -c jest.e2e.config.js",
+    "test:e2e:debug:all": "NODE_ENV=test debug=true browsers=all platform=mobile yarn jest -c jest.e2e.config.js",
     "test:e2e:watch": "NODE_ENV=test yarn jest -- --watchAll -c jest.e2e.config.js "
   },
   "dependencies": {

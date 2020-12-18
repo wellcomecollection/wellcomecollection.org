@@ -30,8 +30,14 @@ export async function fillActionSearchInput(
 
 // Press actions
 
-export async function pressActionEnterSearchInput(): Promise<void> {
-  await pressEnterAction(worksSearchInputField);
+export async function pressActionEnterSearchInput(
+  condition?: conditionSearchType
+): Promise<void> {
+  const selector = `${
+    condition === 'images' ? searchImagesForm : searchWorksForm
+  } ${worksSearchInputField}`;
+
+  await pressEnterAction(selector);
 }
 
 // Click actions
