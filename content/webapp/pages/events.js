@@ -12,8 +12,9 @@ import type { UiEvent } from '@weco/common/model/events';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import type { Period } from '@weco/common/model/periods';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+// $FlowFixMe (tsx)
 import { convertJsonToDates } from './event';
-// $FlowFixMe
+// $FlowFixMe (tsx)
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 // $FlowFixMe (tsx)
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';

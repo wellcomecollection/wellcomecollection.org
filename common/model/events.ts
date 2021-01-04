@@ -40,6 +40,7 @@ type InterpretationType = {
 export type Interpretation = {
   interpretationType: InterpretationType;
   isPrimary: boolean;
+  extraInformation?: HTMLString;
 };
 
 export type Team = {
