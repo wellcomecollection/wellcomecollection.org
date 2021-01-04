@@ -287,19 +287,19 @@ const ItemPage: NextPage<Props> = ({
         openButtonRef={{ current: null }}
       >
         <div className={font('hnl', 5)}>
-          {authService?.authService?.label && (
+          {authService?.label && (
             <h2 className={font('hnm', 4)}>
-              {authService?.authService?.label}
+              {authService?.label}
             </h2>
           )}
-          {authService?.authService?.description && (
+          {authService?.description && (
             <p
               dangerouslySetInnerHTML={{
-                __html: authService?.authService?.description,
+                __html: authService?.description,
               }}
             />
           )}
-          {authService?.authService?.['@id'] && origin && (
+          {authService?.['@id'] && origin && (
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
               <ButtonSolid
                 text="Show the content"
@@ -310,7 +310,7 @@ const ItemPage: NextPage<Props> = ({
                     label: `workId: ${workId}`,
                   });
                   const authServiceWindow = window.open(
-                    `${authService?.authService['@id'] || ''}?origin=${origin}`
+                    `${authService?.['@id'] || ''}?origin=${origin}`
                   );
                   authServiceWindow &&
                     authServiceWindow.addEventListener('unload', function() {

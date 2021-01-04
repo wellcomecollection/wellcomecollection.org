@@ -7,7 +7,7 @@ import {
   Work,
   Image,
 } from '@weco/common/model/catalogue';
-import { font, grid, classNames } from '@weco/common/utils/classnames';
+import { grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import {
   GlobalContextData,
@@ -28,7 +28,6 @@ import {
 } from '@weco/common/services/catalogue/ts_api';
 import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
-import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { getImages } from '../services/catalogue/images';
 import { getWorks } from '../services/catalogue/works';
 import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';

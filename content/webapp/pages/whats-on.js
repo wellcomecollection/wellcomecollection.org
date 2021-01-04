@@ -46,7 +46,7 @@ import { collectionVenueId } from '@weco/common/services/prismic/hardcoded-id';
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
   events: PaginatedResults<UiEvent>,
-  availableOnlineEvents?: PaginatedResults<UiEvent>,
+  availableOnlineEvents: PaginatedResults<UiEvent>,
   period: string,
   dateRange: any[],
   tryTheseTooPromos: any[],
@@ -316,7 +316,7 @@ export class WhatsOnPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const period = ctx.query.period || 'current-and-coming-up';
     const { memoizedPrismic } = ctx.query;
-    const { catchUpOnWhatsOn } = ctx.query.toggles;
+
     const exhibitionsPromise = getExhibitions(
       ctx.req,
       {
@@ -334,17 +334,15 @@ export class WhatsOnPage extends Component<Props> {
       memoizedPrismic
     );
 
-    const availableOnlineEventsPromise = catchUpOnWhatsOn
-      ? getEvents(
-          ctx.req,
-          {
-            period: 'past',
-            pageSize: 6,
-            availableOnline: true,
-          },
-          memoizedPrismic
-        )
-      : Promise.resolve(undefined);
+    const availableOnlineEventsPromise = getEvents(
+      ctx.req,
+      {
+        period: 'past',
+        pageSize: 6,
+        availableOnline: true,
+      },
+      memoizedPrismic
+    );
 
     const [exhibitions, events, availableOnlineEvents] = await Promise.all([
       exhibitionsPromise,
@@ -374,9 +372,9 @@ export class WhatsOnPage extends Component<Props> {
     const { period, dateRange, tryTheseTooPromos, eatShopPromos } = this.props;
 
     const events = this.props.events.results.map(convertJsonToDates);
-    const availableOnlineEvents = this.props.availableOnlineEvents
-      ? this.props.availableOnlineEvents.results.map(convertJsonToDates)
-      : undefined;
+    const availableOnlineEvents = this.props.availableOnlineEvents.results.map(
+      convertJsonToDates
+    );
     const exhibitions = this.props.exhibitions.results.map(exhibition => {
       return {
         start: exhibition.start && new Date(exhibition.start),
@@ -477,31 +475,29 @@ export class WhatsOnPage extends Component<Props> {
                         </SpacingComponent>
                       </SpacingSection>
 
-                      {availableOnlineEvents && (
-                        <SpacingSection>
-                          <SpacingComponent>
-                            <SectionHeader title="Catch up" />
-                          </SpacingComponent>
-                          <SpacingComponent>
-                            {availableOnlineEvents.length > 0 ? (
-                              <CardGrid
-                                items={availableOnlineEvents}
-                                itemsPerRow={3}
-                                links={[
-                                  {
-                                    text: 'View all catch up events',
-                                    url: '/events/past?availableOnline=true',
-                                  },
-                                ]}
-                              />
-                            ) : (
-                              <Layout12>
-                                <p>There are no upcoming catch up events</p>
-                              </Layout12>
-                            )}
-                          </SpacingComponent>
-                        </SpacingSection>
-                      )}
+                      <SpacingSection>
+                        <SpacingComponent>
+                          <SectionHeader title="Catch up" />
+                        </SpacingComponent>
+                        <SpacingComponent>
+                          {availableOnlineEvents.length > 0 ? (
+                            <CardGrid
+                              items={availableOnlineEvents}
+                              itemsPerRow={3}
+                              links={[
+                                {
+                                  text: 'View all catch up events',
+                                  url: '/events/past?availableOnline=true',
+                                },
+                              ]}
+                            />
+                          ) : (
+                            <Layout12>
+                              <p>There are no upcoming catch up events</p>
+                            </Layout12>
+                          )}
+                        </SpacingComponent>
+                      </SpacingSection>
                     </Space>
                   </Fragment>
                 )}

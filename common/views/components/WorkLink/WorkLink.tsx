@@ -3,7 +3,7 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 
 type WorkLinkSource =
   | 'works_search_result'
-  | 'expanded_image_more_link'
+  | 'images_search_result'
   | 'item_auth_modal_back_to_work_link'
   | 'archive_tree'
   | 'viewer_back_link';

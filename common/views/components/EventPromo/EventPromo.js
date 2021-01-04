@@ -13,18 +13,55 @@ import { CardOuter, CardBody } from '../Card/Card';
 import Divider from '../Divider/Divider';
 import styled from 'styled-components';
 
-const OnlineIndicator = styled.span.attrs(() => ({
+const WatchWrapper = styled.div`
+  display: inline-block;
+  position: relative;
+  padding-left: 36px;
+  line-height: 36px;
+
+  ::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: ${props => props.theme.color("yellow")};
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+  }
+  ::after {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 18px;
+    transform: translateX(-50%) translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 12px solid ${props => props.theme.color("black")};
+  }
+`
+const WatchText = styled.div.attrs({
+  className: classNames({
+    [font('hnl', 6)]: true,
+  })
+})`
+  color: ${props => props.theme.color("pewter")};
+`;
+
+const OnlineIndicator = styled.span.attrs({
   className: classNames({
     [font('hnm', 6)]: true,
   }),
-}))`
+})`
   display: inline-block;
   color: ${props => props.theme.color('pewter')};
   border: 1px solid ${props => props.theme.color('pewter')};
   border-radius: 4px;
   line-height: 1;
-  padding: ${props => `${props.theme.spacingUnit / 2}px`};
-`;
+  padding: ${props => `${props.theme.spacingUnit/2}px`};
+`
 type Props = {|
   event: UiEvent,
   position?: number,
@@ -66,7 +103,7 @@ const EventPromo = ({
           />
         )}
 
-        {event.labels.length > 0 && (
+        {event.primaryLabels.length > 0 && (
           <div style={{ position: 'absolute', bottom: 0 }}>
             <LabelsList labels={event.primaryLabels} />
           </div>
@@ -89,9 +126,19 @@ const EventPromo = ({
             {event.title}
           </Space>
 
-          {event.isOnline && !event.availableOnline && (
-            <OnlineIndicator>Online</OnlineIndicator>
-          )}
+          {event.isOnline && !event.availableOnline && <OnlineIndicator>Online</OnlineIndicator>}
+
+          {event.availableOnline && <WatchWrapper>
+            <Space as={WatchText} h={{
+              size: 's',
+              properties: ['margin-left'],
+            }} v={{
+              size: 'l',
+              properties: ['margin-bottom'],
+            }}>Available to watch</Space>
+            </WatchWrapper>
+          }
+
           {!isPast && (
             <p className={`${font('hnl', 5)} no-padding no-margin`}>
               <EventDateRange

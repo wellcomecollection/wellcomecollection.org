@@ -3,6 +3,7 @@ import type { GenericContentFields } from './generic-content-fields';
 import type { Article } from './articles';
 import type { ArticleScheduleItem } from './article-schedule-items';
 import type { ColorSelection } from './color-selections';
+import type { Season } from './seasons';
 
 type ItemType = Article | ArticleScheduleItem;
 
@@ -13,4 +14,5 @@ export type ArticleSeries = {|
   color: ColorSelection,
   items: $ReadOnlyArray<ItemType>,
   color?: ?ColorSelection,
+  seasons: Season[],
 |};

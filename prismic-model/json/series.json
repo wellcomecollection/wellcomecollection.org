@@ -1,5 +1,5 @@
 {
-  "Article series": {
+  "Story series": {
     "title": {
       "type": "StructuredText",
       "config": {
@@ -17,6 +17,16 @@
           "red",
           "green",
           "purple"
+        ]
+      }
+    },
+    "format": {
+      "type": "Link",
+      "config": {
+        "label": "Format",
+        "select": "document",
+        "customtypes": [
+          "article-formats"
         ]
       }
     },
@@ -431,7 +441,8 @@
                     "articles",
                     "exhibitions",
                     "card",
-                    "landing-pages"
+                    "landing-pages",
+                    "seasons"
                   ]
                 }
               }
@@ -453,6 +464,50 @@
                 "type": "Text",
                 "config": {
                   "label": "Query"
+                }
+              }
+            }
+          },
+          "mediaObjectList": {
+            "type": "Slice",
+            "fieldset": "Media Object List",
+            "repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              },
+              "text": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,hyperlink,strong,em",
+                  "label": "Text"
+                }
+              },
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Image",
+                  "thumbnails": [
+                    {
+                      "name": "32:15",
+                      "width": 3200,
+                      "height": 1500
+                    },
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
                 }
               }
             }
@@ -591,6 +646,27 @@
       "config": {
         "single": "paragraph,hyperlink,strong,em",
         "label": "Metadata description"
+      }
+    }
+  },
+  "Content relationships": {
+    "seasons": {
+      "type": "Group",
+      "fieldset": "Seasons",
+      "config": {
+        "fields": {
+          "season": {
+            "type": "Link",
+            "config": {
+              "label": "Season",
+              "select": "document",
+              "customtypes": [
+                "seasons"
+              ],
+              "placeholder": "Select a Season"
+            }
+          }
+        }
       }
     }
   },

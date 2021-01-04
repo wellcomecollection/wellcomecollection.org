@@ -9,13 +9,15 @@ import select from './parts/select';
 import text from './parts/text';
 import timestamp from './parts/timestamp';
 import structuredText from './parts/structured-text';
+import link from './parts/link';
 
 // This is called `ArticleSeries` and the filename `series`, as it was a
 // mistake we made way back when when all we were doing was articles
-const ArticleSeries = {
-  'Article series': {
+const StorySeries = {
+  'Story series': {
     title: title,
     color: select('Colour', ['teal', 'red', 'green', 'purple']),
+    format: link('Format', 'document', ['article-formats']),
     body,
   },
   Schedule: {
@@ -31,6 +33,11 @@ const ArticleSeries = {
   Metadata: {
     metadataDescription: structuredText('Metadata description', 'single'),
   },
+  'Content relationships': {
+    seasons: list('Seasons', {
+      season: link('Season', 'document', ['seasons'], 'Select a Season'),
+    }),
+  },
   Deprecated: {
     description: structuredText(
       '[Deprecated] Description. Please use standfirst slice'
@@ -40,4 +47,4 @@ const ArticleSeries = {
   },
 };
 
-export default ArticleSeries;
+export default StorySeries;

@@ -1,6 +1,6 @@
 import { createContext } from 'react';
-import { HTMLString } from '../../../../common/services/prismic/types';
-type GlobalAlert = {
+import { HTMLString } from '../../../services/prismic/types';
+export type GlobalAlert = {
   isShown: string | null;
   routeRegex: string | null;
   text: HTMLString;

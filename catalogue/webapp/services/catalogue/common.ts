@@ -1,12 +1,11 @@
 import { CatalogueApiError } from '@weco/common/model/catalogue';
 import { serialiseUrl } from '@weco/common/services/catalogue/routes';
+import { Toggles } from '@weco/toggles';
 
 export const rootUris = {
   prod: 'https://api.wellcomecollection.org/catalogue',
   stage: 'https://api-stage.wellcomecollection.org/catalogue',
 };
-
-export type Toggles = { [key: string]: boolean };
 
 type GlobalApiOptions = {
   env: 'prod' | 'stage';

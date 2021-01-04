@@ -1,16 +1,23 @@
 import { GetServerSidePropsContext } from 'next';
 import { createContext, FunctionComponent, ReactNode } from 'react';
-import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
-import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
-import PopupDialogContext from '../PopupDialogContext/PopupDialogContext';
+import OpeningTimesContext, {
+  OpeningTimes,
+} from '../OpeningTimesContext/OpeningTimesContext';
+import GlobalAlertContext, {
+  GlobalAlert,
+} from '../GlobalAlertContext/GlobalAlertContext';
+import PopupDialogContext, {
+  PopupDialog,
+} from '../PopupDialogContext/PopupDialogContext';
 import TogglesContext from '../TogglesContext/TogglesContext';
 import { parseCollectionVenues } from '../../../services/prismic/opening-times';
+import { Toggles } from '@weco/toggles';
 
 export type GlobalContextData = {
-  toggles: any;
-  globalAlert: any;
-  popupDialog: any;
-  openingTimes: any;
+  toggles: Toggles;
+  globalAlert: GlobalAlert | null;
+  popupDialog: PopupDialog | null;
+  openingTimes: OpeningTimes | null;
 };
 
 type Props = {
@@ -19,7 +26,7 @@ type Props = {
 };
 
 const defaultValue = {
-  toggles: {},
+  toggles: {} as Toggles,
   globalAlert: null,
   popupDialog: null,
   openingTimes: null,
@@ -83,10 +90,11 @@ export function getGlobalContextData(
   context: GetServerSidePropsContext
 ): GlobalContextData {
   return {
-    toggles: context.query.toggles,
-    globalAlert: context.query.globalAlert,
-    popupDialog: context.query.popupDialog,
-    openingTimes: context.query.openingTimes,
+    // NextJS types do not yet allow a parametrised `query` :(
+    toggles: (context.query.toggles as unknown) as Toggles,
+    globalAlert: (context.query.globalAlert as unknown) as GlobalAlert,
+    popupDialog: (context.query.popupDialog as unknown) as PopupDialog,
+    openingTimes: (context.query.openingTimes as unknown) as OpeningTimes,
   };
 }
 
