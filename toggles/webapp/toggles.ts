@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   toggles: [
     {
       id: 'openWithAdvisoryPrototype',
@@ -59,5 +59,5 @@ module.exports = {
       description:
         'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
     },
-  ],
+  ] as const,
 };

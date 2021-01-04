@@ -21,6 +21,7 @@
     "@types/jest": "^26.0.17",
     "@types/react": "^16.9.35",
     "@weco/common": "1.0.0",
+    "@weco/toggles": "1.0.0",
     "autoprefixer": "^9.5.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.5.0",
