@@ -13,12 +13,12 @@ import TogglesContext from '../TogglesContext/TogglesContext';
 import { parseCollectionVenues } from '../../../services/prismic/opening-times';
 import { Toggles } from '@weco/toggles';
 
-export interface GlobalContextData {
+export type GlobalContextData = {
   toggles: Toggles;
   globalAlert: GlobalAlert | null;
   popupDialog: PopupDialog | null;
   openingTimes: OpeningTimes | null;
-}
+};
 
 type Props = {
   value: GlobalContextData;
