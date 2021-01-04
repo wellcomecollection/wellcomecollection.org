@@ -26,7 +26,6 @@ import {
 } from 'react';
 import useFocusTrap from '@weco/common/hooks/useFocusTrap';
 import styled from 'styled-components';
-import VisuallySimilarImages from '../VisuallySimilarImages/VisuallySimilarImages';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
@@ -386,14 +385,10 @@ const ExpandedImage: FunctionComponent<Props> = ({
                 </a>
               </WorkLink>
             </Space>
-            {image ? (
-              <VisuallySimilarImagesFromApi
-                originalId={image.id}
-                onClickImage={setExpandedImage}
-              />
-            ) : (
-              <VisuallySimilarImages originalId={workId} />
-            )}
+            <VisuallySimilarImagesFromApi
+              originalId={image.id}
+              onClickImage={setExpandedImage}
+            />
           </InfoWrapper>
         </ModalInner>
       </Modal>
