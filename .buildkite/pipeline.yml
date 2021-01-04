@@ -222,7 +222,7 @@
   if: build.branch == "master"
   plugins:
     - docker#v3.5.0:
-        image: wellcome/weco-deploy:5.5.3
+        image: wellcome/weco-deploy:5.6.11
         workdir: /repo
         mount-ssh-agent: true
         command: [
