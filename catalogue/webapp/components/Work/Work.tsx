@@ -20,7 +20,6 @@ import WorkHeaderPrototype from '@weco/common/views/components/WorkHeaderPrototy
 import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
-import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import WorkDetails from '../WorkDetails/WorkDetails';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
