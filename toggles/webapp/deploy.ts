@@ -1,7 +1,9 @@
-const AWS = require('aws-sdk');
-const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
+#!/usr/bin/env ts-node-script
 
-const fs = require('fs');
+import AWS from 'aws-sdk';
+import fs from 'fs';
+
+const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
 
 try {
   const data = fs.readFileSync('toggles.json', 'utf8');
@@ -14,10 +16,10 @@ try {
     ContentType: 'application/json',
   };
 
-  s3.putObject(params, function(err, data) {
+  s3.putObject(params, function(err) {
     if (err) console.log(err, err.stack);
     else console.log('Finished uploading toggles.json');
   });
 } catch (e) {
-  console.log('Error:', e.stack);
+  console.error('Error:', e.stack);
 }

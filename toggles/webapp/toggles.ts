@@ -1,11 +1,11 @@
-module.exports = {
+export default {
   toggles: [
     {
       id: 'openWithAdvisoryPrototype',
       title: 'Open with advisory',
       description:
         'Adds functionality for viewing digitised items with an access condition of open-with-advisory',
-      defaultValue: false,
+      defaultValue: true,
     },
     {
       id: 'buildingReopening',
@@ -66,11 +66,5 @@ module.exports = {
       description:
         'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
     },
-    {
-      id: 'catchUpOnWhatsOn',
-      title: "Catch up on what's on",
-      defaultValue: false,
-      description: "Shows catch up events on the what's on page",
-    },
-  ],
+  ] as const,
 };

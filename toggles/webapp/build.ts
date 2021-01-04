@@ -1,6 +1,8 @@
-#!/usr/bin/env node
-const fs = require('fs');
-const toggles = require('./toggles');
+#!/usr/bin/env ts-node-script
+
+import fs from 'fs';
+import toggles from './toggles';
+
 const json = JSON.stringify(toggles);
 
 fs.writeFile('toggles.json', json, err => {
