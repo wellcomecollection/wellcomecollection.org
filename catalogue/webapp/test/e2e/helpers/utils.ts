@@ -1,6 +1,6 @@
 import { baseUrl } from './urls';
 
-export type cookieType = {
+export type CookieType = {
   name: string;
   value: string;
   url?: string;
@@ -12,14 +12,14 @@ export type cookieType = {
   sameSite?: 'Lax' | 'None' | 'Strict';
 };
 
-const prefixToggle = 'toggle_';
+const togglePrefix = 'toggle_';
 
 export async function toggleFeature(
   toggle: string,
   condition: 'true' | 'false'
 ): Promise<void> {
-  const toggleFeature: cookieType = {
-    name: `${prefixToggle}${toggle}`,
+  const toggleFeature: CookieType = {
+    name: `${togglePrefix}${toggle}`,
     value: condition,
     url: baseUrl(),
     httpOnly: false,

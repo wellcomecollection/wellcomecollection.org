@@ -34,7 +34,7 @@ import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import VisuallySimilarImagesFromApi from '../VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
-
+import { expandedViewImageButton } from '@weco/common/text/arial-labels';
 type Props = {
   image: ImageType;
   setExpandedImage: (image?: ImageType) => void;
@@ -87,16 +87,13 @@ const Overlay = styled.div.attrs({})`
   background: rgba(0, 0, 0, 0.5);
 `;
 
-const Modal = styled(Space).attrs(props => ({
+const Modal = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
-  role: 'dialog',
-  'aria-labelledby': props.ariaLabelledBy,
-  'aria-modal': true,
   className: classNames({
     'shadow bg-white': true,
   }),
-}))`
+})`
   z-index: 1;
   top: 0;
   bottom: 0;
@@ -302,9 +299,9 @@ const ExpandedImage: FunctionComponent<Props> = ({
         });
 
   return (
-    <>
+    <div role="dialog" aria-labelledby={ariaLabelledBy} aria-modal={true}>
       <Overlay onClick={() => setExpandedImage(undefined)} />
-      <Modal ref={modalRef} ariaLabelledBy={ariaLabelledBy}>
+      <Modal ref={modalRef}>
         <CloseButton
           hideFocus={!isKeyboard}
           ref={closeButtonRef}
@@ -367,7 +364,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
                     icon="eye"
                     link={expandedImageLink}
                     clickHandler={onImageLinkClick}
-                    ariaLabel="View expanded image"
+                    ariaLabel={expandedViewImageButton}
                   />
                 </Space>
               )}
@@ -394,7 +391,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
           </InfoWrapper>
         </ModalInner>
       </Modal>
-    </>
+    </div>
   );
 };
 

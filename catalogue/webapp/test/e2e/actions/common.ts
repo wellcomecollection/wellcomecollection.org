@@ -5,10 +5,6 @@ export async function fillInputAction(
   await page.fill(selector, text);
 }
 
-export async function pressEnterAction(selector: string): Promise<void> {
-  await page.press(selector, 'Enter');
-}
-
 export async function getInputValueAction(selector: string): Promise<string> {
   const value = await page.$eval<string, HTMLInputElement>(
     selector,

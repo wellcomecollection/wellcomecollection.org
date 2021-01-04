@@ -24,6 +24,7 @@ import ButtonSolid, {
   ButtonTypes,
   SolidButton,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import { searchFilterCheckBox } from '../../../text/arial-labels';
 
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
@@ -336,7 +337,9 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                                 name={`workType`}
                                 checked={isChecked}
                                 onChange={changeHandler}
-                                ariaLabel={`Radio checkbox ${workType.data.label}`}
+                                ariaLabel={searchFilterCheckBox(
+                                  workType.data.label
+                                )}
                               />
                             </Space>
                           )

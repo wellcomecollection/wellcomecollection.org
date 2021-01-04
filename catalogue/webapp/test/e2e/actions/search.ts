@@ -11,7 +11,7 @@ import {
   searchWorksForm,
   worksSearchResultsListItem,
 } from '../selectors/works';
-import { isMobile, fillInputAction, pressEnterAction } from './common';
+import { isMobile, fillInputAction } from './common';
 
 type conditionSearchType = 'images' | 'works';
 
@@ -37,7 +37,7 @@ export async function pressActionEnterSearchInput(
     condition === 'images' ? searchImagesForm : searchWorksForm
   } ${worksSearchInputField}`;
 
-  await pressEnterAction(selector);
+  await page.press(selector, 'Enter');
 }
 
 // Click actions
