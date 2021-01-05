@@ -41,7 +41,7 @@ type Props = {
   setExpandedImage: (image?: ImageType) => void;
   onWorkLinkClick: () => void;
   onImageLinkClick: () => void;
-  ariaLabelledBy?: string;
+  id?: string;
 };
 
 type CanvasLink = {
@@ -183,7 +183,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
   setExpandedImage,
   onWorkLinkClick,
   onImageLinkClick,
-  ariaLabelledBy,
+  id,
 }: Props) => {
   const { isKeyboard } = useContext(AppContext);
   const toggles = useContext(TogglesContext);
@@ -308,9 +308,9 @@ const ExpandedImage: FunctionComponent<Props> = ({
         });
 
   return (
-    <div role="dialog" id={ariaLabelledBy} aria-modal={true}>
+    <div role="dialog" id={id} aria-modal={true}>
       <Overlay onClick={() => setExpandedImage(undefined)} />
-      <Modal ref={modalRef} aria-labelledBy={ariaLabelledBy}>
+      <Modal ref={modalRef}>
         <CloseButton
           hideFocus={!isKeyboard}
           ref={closeButtonRef}
