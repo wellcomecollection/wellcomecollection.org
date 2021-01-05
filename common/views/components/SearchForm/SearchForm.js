@@ -23,6 +23,8 @@ import {
   type WorksRouteProps,
   worksLink,
 } from '@weco/common/services/catalogue/routes';
+// $FlowFixMe (ts)
+import { searchFormInputCatalogue } from '@weco/common/text/arial-labels';
 
 type Props = {|
   ariaDescribedBy: string,
@@ -185,7 +187,7 @@ const SearchForm = ({
           ref={searchInput}
           required={true}
           big={true}
-          ariaLabel={'search input field'}
+          ariaLabel={searchFormInputCatalogue}
         />
 
         {inputQuery && (

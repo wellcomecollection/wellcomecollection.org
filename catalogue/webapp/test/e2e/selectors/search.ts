@@ -1,6 +1,9 @@
 // input
 
-export const worksSearchInputField = 'input[aria-label="search input field"]';
+export const worksSearchCatalogueInputField =
+  'input[aria-label="Search the catalogue"]';
+export const worksSearchImagesInputField =
+  'input[aria-label="Search for Images"]';
 
 // modal
 

@@ -31,7 +31,10 @@ import {
 } from '@weco/common/services/catalogue/ts_routes';
 import PrototypePortal from '../PrototypePortal/PrototypePortal';
 import { AppContext } from '../AppContext/AppContext';
-import { searchFormInput } from '../../../text/arial-labels';
+import {
+  searchFormInputCatalogue,
+  searchFormInputImage,
+} from '../../../text/arial-labels';
 
 type Props = {
   ariaDescribedBy: string;
@@ -244,7 +247,9 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
             setIsValid={null}
             showValidity={null}
             setShowValidity={null}
-            ariaLabel={searchFormInput}
+            ariaLabel={
+              isImageSearch ? searchFormInputImage : searchFormInputCatalogue
+            }
           />
 
           {inputQuery && (

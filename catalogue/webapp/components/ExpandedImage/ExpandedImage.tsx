@@ -308,9 +308,9 @@ const ExpandedImage: FunctionComponent<Props> = ({
         });
 
   return (
-    <div role="dialog" aria-labelledby={ariaLabelledBy} aria-modal={true}>
+    <div role="dialog" id={ariaLabelledBy} aria-modal={true}>
       <Overlay onClick={() => setExpandedImage(undefined)} />
-      <Modal ref={modalRef}>
+      <Modal ref={modalRef} aria-labelledBy={ariaLabelledBy}>
         <CloseButton
           hideFocus={!isKeyboard}
           ref={closeButtonRef}

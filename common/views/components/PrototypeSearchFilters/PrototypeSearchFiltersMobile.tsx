@@ -22,7 +22,10 @@ import ButtonSolid, {
   ButtonTypes,
   SolidButton,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import { searchFilterCheckBox } from '../../../text/arial-labels';
+import {
+  searchFilterCheckBox,
+  searchFilterCloseButton,
+} from '../../../text/arial-labels';
 
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
@@ -52,7 +55,7 @@ const CloseFiltersButton = styled(Space).attrs({
   className: classNames({
     'plain-button': true,
   }),
-  'aria-label': 'close filter button',
+  'aria-label': searchFilterCloseButton,
 })`
   position: absolute;
   top: 50%;
