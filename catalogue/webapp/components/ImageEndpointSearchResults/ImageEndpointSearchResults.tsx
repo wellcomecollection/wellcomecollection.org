@@ -22,9 +22,13 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   );
 
   return (
-    <div className={'flex flex--wrap'}>
+    <ul
+      className={'flex flex--wrap plain-list no-padding no-margin'}
+      role="list"
+      aria-labelledby="image-results"
+    >
       {images.results.map((result: Image) => (
-        <div key={result.id}>
+        <li key={result.id} role="listitem">
           <ImageCard
             id={result.id}
             workId={result.source.id}
@@ -40,7 +44,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
               setExpandedImage(result);
             }}
           />
-        </div>
+        </li>
       ))}
       {expandedImage && (
         <ExpandedImage
@@ -66,9 +70,10 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
               source: 'image_endpoint_result/image_link',
             });
           }}
+          ariaLabelledBy="expanded-image-dialog"
         />
       )}
-    </div>
+    </ul>
   );
 };
 

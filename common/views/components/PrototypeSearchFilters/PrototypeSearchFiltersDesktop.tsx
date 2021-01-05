@@ -10,6 +10,7 @@ import NextLink from 'next/link';
 import dynamic from 'next/dynamic';
 import { SearchFiltersSharedProps } from './PrototypeSearchFilters';
 import { FunctionComponent, ReactElement, ReactNode } from 'react';
+import { searchFilterCheckBox } from '../../../text/arial-labels';
 
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
@@ -171,6 +172,9 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                               name={`workType`}
                               checked={isChecked}
                               onChange={changeHandler}
+                              ariaLabel={searchFilterCheckBox(
+                                workType.data.label
+                              )}
                             />
                           </li>
                         )

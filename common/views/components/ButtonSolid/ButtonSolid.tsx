@@ -113,10 +113,12 @@ type ButtonSolidProps = ButtonSolidBaseProps & {
 type SolidButtonProps = {
   href?: string;
   isBig?: boolean;
+  ariaLabel?: string;
 };
 
 export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
   props => ({
+    'aria-label': props.ariaLabel,
     className: classNames({
       'link-reset': !!props.href,
     }),

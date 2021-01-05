@@ -1,24 +1,77 @@
+import {
+  fillActionSearchInput,
+  pressActionEnterSearchInput,
+  clickActionFormatDropDown,
+  clickActionFormatRadioCheckbox,
+  clickActionCloseModalFilterButton,
+  clickActionModalFilterButton,
+  clickActionClickSearchResultItem,
+} from './actions/search';
+import {
+  elementIsVisible,
+  getInputValueAction,
+  isMobile,
+} from './actions/common';
+import {
+  expectItemIsVisible,
+  expectItemsIsVisible,
+  expectUrlToMatch,
+} from '../e2e/asserts/common';
+import { worksUrl } from './helpers/urls';
+import {
+  worksSearchResultsListItem,
+  workTitleHeading,
+} from './selectors/works';
+import { regexImageSearchResultsUrl } from './helpers/regex';
+import {
+  mobileModal,
+  searchResultsContainer,
+  worksSearchInputField,
+} from './selectors/search';
+
 describe('works', () => {
-  beforeAll(async () => {
-    await page.goto('http://localhost:3000/works');
+  beforeEach(async () => {
+    await page.goto(worksUrl);
   });
 
   test('Submits the form correctly', async () => {
-    await page.fill('#works-search-input', 'heArTs');
-    await page.press('#works-search-input', 'Enter');
-    const value = await page.$eval<string, HTMLInputElement>(
-      '#works-search-input',
-      el => el.value
-    );
-    await page.waitForSelector('[data-test-id="search-results"]');
-    const searchResultsVisible = await page.$eval<boolean, HTMLDivElement>(
-      '[data-test-id="search-results"]',
-      () => true
-    );
+    const expectedValue = 'heArTs';
+    await fillActionSearchInput(expectedValue);
+    await pressActionEnterSearchInput();
 
-    expect(searchResultsVisible).toBe(true);
-    expect(value).toBe('heArTs');
+    const value = await getInputValueAction(worksSearchInputField);
+    await page.waitForSelector(searchResultsContainer);
+
+    await expectItemIsVisible(searchResultsContainer);
+    expect(value).toBe(expectedValue);
+  });
+
+  test('Search by term, filter results, check results, view result', async () => {
+    const expectedValue = 'art of science';
+    await fillActionSearchInput(expectedValue);
+    await pressActionEnterSearchInput();
+
+    if (isMobile()) {
+      await clickActionModalFilterButton();
+      await elementIsVisible(mobileModal);
+      await clickActionFormatRadioCheckbox('Pictures');
+      await clickActionCloseModalFilterButton();
+    } else {
+      await clickActionFormatDropDown();
+      await clickActionFormatRadioCheckbox('Pictures');
+    }
+    expectUrlToMatch(/art[+]of[+]science/);
+
+    await expectItemIsVisible(searchResultsContainer);
+    await page.waitForNavigation();
+    expectUrlToMatch(/workType=k/);
+
+    await expectItemIsVisible(searchResultsContainer);
+    await expectItemsIsVisible(worksSearchResultsListItem, 1);
+    await clickActionClickSearchResultItem(1);
+    await page.waitForNavigation();
+
+    expectUrlToMatch(regexImageSearchResultsUrl);
+    await expectItemIsVisible(workTitleHeading);
   });
 });
-
-export {};

@@ -141,6 +141,7 @@ type Props = {
   setShowValidity: ?(value: boolean) => void,
   autoFocus: ?boolean,
   big: ?boolean,
+  ariaLabel?: string,
 };
 
 // $FlowFixMe (forwardRef)
@@ -162,6 +163,7 @@ const TextInput = forwardRef(
       setShowValidity,
       autoFocus,
       big,
+      ariaLabel,
     }: Props,
     ref // eslint-disable-line
   ) => {
@@ -214,6 +216,7 @@ const TextInput = forwardRef(
             hasErrorBorder={!isValid && showValidity}
             type={type}
             autoFocus={autoFocus}
+            aria-label={ariaLabel}
           />
           {isValid && showValidity && (
             <TextInputCheckmark>

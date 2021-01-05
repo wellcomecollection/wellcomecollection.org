@@ -13,6 +13,7 @@ import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 type ButtonSolidLinkProps = ButtonSolidBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
   link: LinkProps | string;
+  ariaLabel?: string;
 };
 
 export function getHref(link: LinkProps | string): undefined | string {
@@ -28,6 +29,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   ariaControls,
   ariaExpanded,
   isBig,
+  ariaLabel,
 }: ButtonSolidLinkProps): ReactElement<ButtonSolidLinkProps> => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
@@ -53,6 +55,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         onClick={handleClick}
         isBig={isBig}
         href={getHref(link)}
+        ariaLabel={ariaLabel}
       >
         <BaseButtonInner>
           {icon && (

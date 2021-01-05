@@ -160,6 +160,7 @@ const SearchForm = ({
       className="relative"
       action="/works"
       aria-describedby={ariaDescribedBy}
+      role="form"
       onSubmit={event => {
         event.preventDefault();
 
@@ -184,6 +185,7 @@ const SearchForm = ({
           ref={searchInput}
           required={true}
           big={true}
+          ariaLabel={'search input field'}
         />
 
         {inputQuery && (

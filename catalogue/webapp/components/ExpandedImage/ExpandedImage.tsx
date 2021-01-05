@@ -32,6 +32,7 @@ import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import VisuallySimilarImagesFromApi from '../VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
+import { expandedViewImageButton } from '@weco/common/text/arial-labels';
 import { itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
 
@@ -40,6 +41,7 @@ type Props = {
   setExpandedImage: (image?: ImageType) => void;
   onWorkLinkClick: () => void;
   onImageLinkClick: () => void;
+  ariaLabelledBy?: string;
 };
 
 type CanvasLink = {
@@ -181,6 +183,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
   setExpandedImage,
   onWorkLinkClick,
   onImageLinkClick,
+  ariaLabelledBy,
 }: Props) => {
   const { isKeyboard } = useContext(AppContext);
   const toggles = useContext(TogglesContext);
@@ -305,7 +308,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
         });
 
   return (
-    <>
+    <div role="dialog" aria-labelledby={ariaLabelledBy} aria-modal={true}>
       <Overlay onClick={() => setExpandedImage(undefined)} />
       <Modal ref={modalRef}>
         <CloseButton
@@ -370,6 +373,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
                     icon="eye"
                     link={expandedImageLink}
                     clickHandler={onImageLinkClick}
+                    ariaLabel={expandedViewImageButton}
                   />
                 </Space>
               )}
@@ -392,7 +396,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
           </InfoWrapper>
         </ModalInner>
       </Modal>
-    </>
+    </div>
   );
 };
 
