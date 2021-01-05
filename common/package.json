@@ -23,6 +23,7 @@
     "@types/lodash": "^4.14.161",
     "@types/react-window": "^1.8.2",
     "@weco/next-plugin-transpile-modules": "^2.0.1",
+    "@weco/toggles": "1.0.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.5.0",
     "babel-plugin-styled-components": "^1.9.4",

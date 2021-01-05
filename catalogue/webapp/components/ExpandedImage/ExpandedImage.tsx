@@ -6,7 +6,6 @@ import {
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import fetch from 'isomorphic-unfetch';
 import NextLink from 'next/link';
-import { itemLink, imageLink } from '@weco/common/services/catalogue/routes';
 import { font, classNames } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
@@ -27,7 +26,6 @@ import {
 } from 'react';
 import useFocusTrap from '@weco/common/hooks/useFocusTrap';
 import styled from 'styled-components';
-import VisuallySimilarImages from '../VisuallySimilarImages/VisuallySimilarImages';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
@@ -35,6 +33,9 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import VisuallySimilarImagesFromApi from '../VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import { expandedViewImageButton } from '@weco/common/text/arial-labels';
+import { itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
+import { imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
+
 type Props = {
   image: ImageType;
   setExpandedImage: (image?: ImageType) => void;
@@ -175,6 +176,8 @@ const CloseButton = styled(Space).attrs({
   `}
 `;
 
+const trackingSource = 'images_search_result';
+
 const ExpandedImage: FunctionComponent<Props> = ({
   image,
   setExpandedImage,
@@ -286,15 +289,21 @@ const ExpandedImage: FunctionComponent<Props> = ({
 
   const expandedImageLink =
     image && !canvasDeeplink
-      ? imageLink({ workId, id: image.id })
+      ? imageLink({
+          workId,
+          id: image.id,
+          source: trackingSource,
+        })
       : detailedWork &&
         itemLink({
           workId,
           // We only send a langCode if it's unambiguous -- better to send
           // no language than the wrong one.
           langCode:
-            detailedWork?.languages.length === 1 &&
-            detailedWork?.languages[0].id,
+            detailedWork?.languages.length === 1
+              ? detailedWork?.languages[0].id
+              : undefined,
+          source: trackingSource,
           ...(canvasDeeplink || {}),
         });
 
@@ -368,7 +377,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
                   />
                 </Space>
               )}
-              <WorkLink id={workId} source={'expanded_image_more_link'}>
+              <WorkLink id={workId} source={trackingSource}>
                 <a
                   className={classNames({
                     'inline-block': true,
@@ -380,14 +389,10 @@ const ExpandedImage: FunctionComponent<Props> = ({
                 </a>
               </WorkLink>
             </Space>
-            {image ? (
-              <VisuallySimilarImagesFromApi
-                originalId={image.id}
-                onClickImage={setExpandedImage}
-              />
-            ) : (
-              <VisuallySimilarImages originalId={workId} />
-            )}
+            <VisuallySimilarImagesFromApi
+              originalId={image.id}
+              onClickImage={setExpandedImage}
+            />
           </InfoWrapper>
         </ModalInner>
       </Modal>

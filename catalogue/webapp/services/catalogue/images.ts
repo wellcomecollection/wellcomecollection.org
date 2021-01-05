@@ -6,13 +6,13 @@ import {
 } from '@weco/common/model/catalogue';
 import { CatalogueImagesApiProps } from '@weco/common/services/catalogue/ts_api';
 import {
-  Toggles,
   rootUris,
   globalApiOptions,
   queryString,
   catalogueApiError,
   notFound,
 } from './common';
+import { Toggles } from '@weco/toggles';
 
 type GetImagesProps = {
   params: CatalogueImagesApiProps;

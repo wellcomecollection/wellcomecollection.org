@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   toggles: [
     {
       id: 'openWithAdvisoryPrototype',
@@ -12,6 +12,13 @@ module.exports = {
       title: 'Wellcome Collection reopening UI changes',
       description:
         'Show additions/amendments made in preparation for the reopening of the Wellcome Collection building',
+      defaultValue: false,
+    },
+    {
+      id: 'archiveContextInSearch',
+      title: 'Include archive context in search results',
+      description:
+        'Show reference, parent and root for archive search results (means that partOf is fetched in search results).',
       defaultValue: false,
     },
     {
@@ -59,5 +66,5 @@ module.exports = {
       description:
         'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
     },
-  ],
+  ] as const,
 };

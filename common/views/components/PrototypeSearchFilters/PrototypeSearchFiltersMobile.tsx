@@ -2,7 +2,6 @@ import {
   useState,
   useRef,
   useEffect,
-  useContext,
   FunctionComponent,
   ReactElement,
 } from 'react';
@@ -18,7 +17,6 @@ import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import { SearchFiltersSharedProps } from './PrototypeSearchFilters';
 import ButtonSolid, {
   ButtonTypes,
@@ -229,7 +227,6 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
       closeFiltersButtonRef.current.focus();
   }
 
-  const { locationsFilter } = useContext(TogglesContext);
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
   const activeFiltersCount =
@@ -348,7 +345,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                     </ul>
                   </FilterSection>
                 )}
-              {locationsFilter && aggregations && aggregations.locationType && (
+              {aggregations && aggregations.locationType && (
                 <FilterSection>
                   <h3 className="h3">Locations</h3>
                   <ul

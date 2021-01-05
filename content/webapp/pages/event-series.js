@@ -15,6 +15,7 @@ import PageHeader, {
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { eventLd } from '@weco/common/utils/json-ld';
+// $FlowFixMe
 import { convertJsonToDates } from './event';
 import Space from '@weco/common/views/components/styled/Space';
 

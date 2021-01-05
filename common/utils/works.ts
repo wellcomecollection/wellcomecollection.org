@@ -85,7 +85,7 @@ const workTypeIcons = {
   music: 'music',
   sound: 'music',
   pictures: 'picture',
-  archivesandmanuscripts: 'scroll',
+  'archives and manuscripts': 'archive',
   ephemera: 'threeD',
   evideos: 'video',
   websites: 'website',
@@ -225,6 +225,25 @@ export function getItemIdentifiersWith(
     return acc;
   }, []);
 }
+
+type ArchiveLabels = {
+  reference: string;
+  partOf: string;
+};
+
+const getArchiveRoot = (work: RelatedWork): RelatedWork =>
+  work?.partOf?.[0] ? getArchiveRoot(work.partOf[0]) : work;
+
+export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
+  if (work.referenceNumber && work.partOf?.[0]?.referenceNumber) {
+    const root = getArchiveRoot(work);
+    return {
+      reference: work.referenceNumber,
+      partOf: root.title,
+    };
+  }
+  return undefined;
+};
 
 function makeArchiveAncestorArray(partOfArray, nextPart) {
   if (!nextPart) return partOfArray;
