@@ -1,6 +1,12 @@
+import {
+  searchFormInputCatalogue,
+  searchFormInputImage,
+} from '@weco/common/text/arial-labels';
+
 // input
 
-export const worksSearchInputField = 'input[aria-label="search input field"]';
+export const worksSearchCatalogueInputField = `input[aria-label="${searchFormInputCatalogue}"]`;
+export const worksSearchImagesInputField = `input[aria-label="${searchFormInputImage}"]`;
 
 // modal
 

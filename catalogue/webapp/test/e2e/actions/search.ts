@@ -5,7 +5,8 @@ import {
   formatFilterMobileButton,
   mobileModal,
   mobileModalCloseButton,
-  worksSearchInputField,
+  worksSearchCatalogueInputField,
+  worksSearchImagesInputField,
 } from '../selectors/search';
 import {
   searchWorksForm,
@@ -21,10 +22,10 @@ export async function fillActionSearchInput(
   value: string,
   condition?: conditionSearchType
 ): Promise<void> {
-  const selector = `${
-    condition === 'images' ? searchImagesForm : searchWorksForm
-  } ${worksSearchInputField}`;
-
+  const searchImagesInput = `${searchImagesForm} ${worksSearchImagesInputField}`;
+  const searchCatalogueInput = `${searchWorksForm} ${worksSearchCatalogueInputField}`;
+  const selector =
+    condition === 'images' ? searchImagesInput : searchCatalogueInput;
   await fillInputAction(selector, value);
 }
 
@@ -33,9 +34,10 @@ export async function fillActionSearchInput(
 export async function pressActionEnterSearchInput(
   condition?: conditionSearchType
 ): Promise<void> {
-  const selector = `${
-    condition === 'images' ? searchImagesForm : searchWorksForm
-  } ${worksSearchInputField}`;
+  const searchImagesInput = `${searchImagesForm} ${worksSearchImagesInputField}`;
+  const searchCatalogueInput = `${searchWorksForm} ${worksSearchCatalogueInputField}`;
+  const selector =
+    condition === 'images' ? searchImagesInput : searchCatalogueInput;
 
   await page.press(selector, 'Enter');
 }
@@ -58,9 +60,13 @@ export async function clickActionFormatRadioCheckbox(
 export async function clickActionModalFilterButton(
   condition?: conditionSearchType
 ): Promise<void> {
-  const selector = `${
-    condition === 'images' ? searchImagesForm : searchWorksForm
-  } ${formatFilterMobileButton}`;
+  const searchImagesMobileButton = `${searchImagesForm} ${formatFilterMobileButton}`;
+  const searchCatalogueMobileButton = `${searchWorksForm} ${formatFilterMobileButton}`;
+
+  const selector =
+    condition === 'images'
+      ? searchImagesMobileButton
+      : searchCatalogueMobileButton;
 
   await page.click(selector);
 }
@@ -68,9 +74,14 @@ export async function clickActionModalFilterButton(
 export async function clickActionCloseModalFilterButton(
   condition?: conditionSearchType
 ): Promise<void> {
-  const selector = `${
-    condition === 'images' ? searchImagesForm : searchWorksForm
-  } ${mobileModalCloseButton}`;
+  const searchImagesCloseButton = `${searchImagesForm} ${mobileModalCloseButton}`;
+  const searchCatalogueCloseButton = `${searchWorksForm} ${mobileModalCloseButton}`;
+
+  const selector =
+    condition === 'images'
+      ? searchImagesCloseButton
+      : searchCatalogueCloseButton;
+
   await page.click(selector);
 }
 
