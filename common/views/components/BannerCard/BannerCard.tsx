@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import Space from '../styled/Space';
 import { convertImageUri } from '../../../utils/convert-image-uri';
 import ButtonOutlined from '../ButtonOutlined/ButtonOutlined';
+import DateRange from '../DateRange/DateRange';
 
 type CardOuterProps = {
   background: 'charcoal' | 'cream';
@@ -75,9 +76,11 @@ const BannerCard: FunctionComponent<Props> = ({
   background = 'charcoal',
   highlightColor = 'orange',
 }: Props) => {
-  const { type, title, description, image, link } = {
+  const { type, title, start, end, description, image, link } = {
     type: getTypeLabel(item.type),
     title: item.title,
+    start: item.start,
+    end: item.end,
     description: item.promo && item.promo.caption,
     image: item.promo &&
       item.promo.image && {
@@ -130,7 +133,7 @@ const BannerCard: FunctionComponent<Props> = ({
         )}
         <Space
           v={{
-            size: 's',
+            size: 'm',
             properties: ['margin-top', 'margin-bottom'],
           }}
           as="h2"
@@ -141,6 +144,17 @@ const BannerCard: FunctionComponent<Props> = ({
         >
           {title}
         </Space>
+        {start && end && (
+          <Space
+            v={{
+              size: 's',
+              properties: ['margin-top', 'margin-bottom'],
+            }}
+            className={`${font('hnl', 5)} font-marble`}
+          >
+            <DateRange start={new Date(start)} end={new Date(end)} />
+          </Space>
+        )}
         <p
           className={classNames({
             [font('hnl', 5)]: true,
