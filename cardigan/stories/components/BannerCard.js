@@ -1,9 +1,12 @@
 import { storiesOf } from '@storybook/react';
 import BannerCard from '../../../common/views/components/BannerCard/BannerCard';
 import Readme from '../../../common/views/components/BannerCard/README.md';
+import { boolean } from '@storybook/addon-knobs/react';
 
 const item = {
   title: 'What does it mean to be human, now?',
+  start: '2021-01-05T00:00:00.000Z',
+  end: '2021-01-26T00:00:00.000Z',
   type: 'seasons',
   promo: {
     caption:
@@ -159,6 +162,13 @@ const item = {
   },
 };
 
-const BannerCardExample = () => <BannerCard item={item} />;
+const BannerCardExample = () => {
+  const hasDateRange = boolean('hasDateRange', true);
+  return (
+    <BannerCard
+      item={hasDateRange ? item : { ...item, start: undefined, end: undefined }}
+    />
+  );
+};
 const stories = storiesOf('Components', module);
 stories.add('BannerCard', BannerCardExample, { readme: { sidebar: Readme } });
