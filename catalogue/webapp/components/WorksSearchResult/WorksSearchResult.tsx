@@ -79,7 +79,9 @@ const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   const { archiveContextInSearch } = useContext(TogglesContext);
-  const archiveLabels = archiveContextInSearch && getArchiveLabels(work);
+  const archiveLabels = archiveContextInSearch
+    ? getArchiveLabels(work)
+    : undefined;
   return (
     <div
       className={classNames({
@@ -180,17 +182,17 @@ const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
                   />
                 )}
               </div>
-              {archiveLabels && (
-                <>
-                  <LinkLabels
-                    heading="Reference"
-                    items={[{ text: archiveLabels.reference }]}
-                  />
-                  <LinkLabels
-                    heading="Part of"
-                    items={[{ text: archiveLabels.partOf }]}
-                  />
-                </>
+              {archiveLabels?.reference && (
+                <LinkLabels
+                  heading="Reference"
+                  items={[{ text: archiveLabels.reference }]}
+                />
+              )}
+              {archiveLabels?.partOf && (
+                <LinkLabels
+                  heading="Part of"
+                  items={[{ text: archiveLabels.partOf }]}
+                />
               )}
             </Details>
             {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
