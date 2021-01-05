@@ -4,4 +4,4 @@ export const searchFilterCheckBox = (label: string): string => {
 };
 export const searchFormInputCatalogue = 'Search the catalogue';
 export const searchFormInputImage = 'Search for Images';
-export const searchFilterCloseButton = 'close filter button';
+export const searchFilterCloseButton = 'Close Filter';
