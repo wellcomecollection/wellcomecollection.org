@@ -1,7 +1,8 @@
 import {
   searchFormInputCatalogue,
   searchFormInputImage,
-} from '@weco/common/text/arial-labels';
+  searchFilterCloseButton,
+} from '../text/aria-labels';
 
 // input
 
@@ -11,7 +12,7 @@ export const worksSearchImagesInputField = `input[aria-label="${searchFormInputI
 // modal
 
 export const mobileModal = '#mobile-filters-modal';
-export const mobileModalCloseButton = `${mobileModal} button[aria-label="close filter button"]`;
+export const mobileModalCloseButton = `${mobileModal} button[aria-label="${searchFilterCloseButton}"]`;
 export const formatFilterDropDownContainer = 'div[id="format"]';
 export const formatFilterMobileButton =
   'button[aria-controls="mobile-filters-modal"]';
