@@ -126,9 +126,9 @@ export class Page extends Component<Props> {
               pageId={page.id}
               onThisPage={page.onThisPage}
               showOnThisPage={page.showOnThisPage}
-              />
-            }
-            seasons={page.seasons}
+            />
+          }
+          seasons={page.seasons}
         />
       </PageLayout>
     );
