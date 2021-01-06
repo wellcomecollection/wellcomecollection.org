@@ -128,6 +128,7 @@ export class Page extends Component<Props> {
               showOnThisPage={page.showOnThisPage}
             />
           }
+          contributorProps={{ contributors: page.contributors }}
           seasons={page.seasons}
         />
       </PageLayout>

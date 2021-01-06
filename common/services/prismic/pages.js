@@ -1,7 +1,12 @@
 // @flow
 import Prismic from 'prismic-javascript';
 import { getDocument, getDocuments } from './api';
-import { parseTimestamp, parseGenericFields, parseOnThisPage, parseSingleLevelGroup } from './parsers';
+import {
+  parseTimestamp,
+  parseGenericFields,
+  parseOnThisPage,
+  parseSingleLevelGroup,
+} from './parsers';
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
 import type { Page } from '../../model/pages';
@@ -18,6 +23,8 @@ import {
   articleFormatsFields,
   labelsFields,
   seasonsFields,
+  contributorsFields,
+  peopleFields,
 } from './fetch-links';
 
 export function parsePage(document: PrismicDocument): Page {
@@ -49,7 +56,6 @@ export function parsePage(document: PrismicDocument): Page {
         },
       }
     : null;
-
   return {
     type: 'pages',
     ...genericFields,
@@ -84,12 +90,13 @@ export async function getPage(
         eventFormatsFields,
         articleFormatsFields,
         labelsFields,
-        seasonsFields
+        seasonsFields,
+        contributorsFields,
+        peopleFields
       ),
     },
     memoizedPrismic
   );
-
   if (page) {
     return parsePage(page);
   }
@@ -104,27 +111,19 @@ type GetPagesProps = {|
 
 export async function getPages(
   req: ?Request,
-  {
-    predicates = [],
-    order = 'desc',
-    page = 1,
-  }: GetPagesProps = {},
+  { predicates = [], order = 'desc', page = 1 }: GetPagesProps = {},
   memoizedPrismic: ?Object
 ): Promise<PaginatedResults<Page>> {
   const paginatedResults = await getDocuments(
     req,
-    [Prismic.Predicates.any('document.type', ['pages'])].concat(
-      predicates,
-    ),
+    [Prismic.Predicates.any('document.type', ['pages'])].concat(predicates),
     {
       page,
     },
     memoizedPrismic
   );
 
-  const pages: Page[] = paginatedResults.results.map(
-    parsePage
-  );
+  const pages: Page[] = paginatedResults.results.map(parsePage);
 
   return {
     currentPage: paginatedResults.currentPage,
