@@ -16,7 +16,7 @@ import {
   expectItemIsVisible,
   expectItemsIsVisible,
   expectUrlToMatch,
-} from '../e2e/asserts/common';
+} from './asserts/common';
 import { worksUrl } from './helpers/urls';
 import {
   worksSearchResultsListItem,
