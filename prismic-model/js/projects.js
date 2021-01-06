@@ -4,6 +4,8 @@ import body from './parts/body';
 import promo from './parts/promo';
 import structuredText from './parts/structured-text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
+import link from './parts/link';
+import list from './parts/list';
 
 const Project = {
   Project: {
@@ -13,6 +15,11 @@ const Project = {
   Contributors: contributorsWithTitle(),
   Promo: {
     promo,
+  },
+  'Content relationships': {
+    seasons: list('Seasons', {
+      season: link('Season', 'document', ['seasons'], 'Select a Season'),
+    }),
   },
   Metadata: {
     metadataDescription: structuredText('Metadata description', 'single'),
