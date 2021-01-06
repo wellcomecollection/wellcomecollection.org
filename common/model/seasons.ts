@@ -8,6 +8,8 @@ import { ArticleSeries } from './article-series';
 
 export type Season = GenericContentFields & {
   type: 'seasons';
+  start: Date | undefined;
+  end: Date | undefined;
 };
 
 export type SeasonWithContent = {
@@ -16,6 +18,6 @@ export type SeasonWithContent = {
   books: Book[];
   events: Event[];
   exhibitions: Exhibition[];
-  pages: Page[],
-  articleSeries: ArticleSeries[]
+  pages: Page[];
+  articleSeries: ArticleSeries[];
 };

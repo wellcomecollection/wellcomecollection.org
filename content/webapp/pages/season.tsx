@@ -12,7 +12,6 @@ import { getSeasonWithContent } from '@weco/common/services/prismic/seasons';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import { convertJsonToDates } from './event';
 
 const SeasonPage = ({
@@ -30,6 +29,8 @@ const SeasonPage = ({
       title={season.title}
       FeaturedMedia={<UiImage {...season.widescreenImage} sizesQueries="" />}
       standfirst={season?.standfirst}
+      start={season.start}
+      end={season.end}
     />
   );
   const parsedEvents = events.map(convertJsonToDates);
@@ -41,7 +42,14 @@ const SeasonPage = ({
     };
   });
 
-  const allItems = [...parsedExhibitions, ...parsedEvents, ...articles, ...books, ...pages, ...articleSeries];
+  const allItems = [
+    ...parsedExhibitions,
+    ...parsedEvents,
+    ...articles,
+    ...books,
+    ...pages,
+    ...articleSeries,
+  ];
 
   return (
     <PageLayout

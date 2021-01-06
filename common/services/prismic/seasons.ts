@@ -8,7 +8,11 @@ import { getExhibitions } from './exhibitions';
 import { getPages } from './pages';
 import { getMultipleArticleSeries } from './article-series';
 import { Season, SeasonWithContent } from '../../model/seasons';
-import { parseGenericFields, parseSingleLevelGroup } from './parsers';
+import {
+  parseGenericFields,
+  parseSingleLevelGroup,
+  parseTimestamp,
+} from './parsers';
 import {
   pagesFields,
   articlesFields,
@@ -19,13 +23,18 @@ import {
 import { IncomingMessage } from 'http';
 
 export function parseSeason(document: PrismicDocument): Season {
+  const data = document.data;
   const genericFields = parseGenericFields(document);
   const promo = genericFields.promo;
-  const seasons = parseSingleLevelGroup(document.data.seasons, 'season').map(season => {
+  const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
     return parseSeason(season);
   });
+  const start = parseTimestamp(data.start);
+  const end = data.end && parseTimestamp(data.end);
   return {
     type: 'seasons',
+    start,
+    end,
     ...genericFields,
     seasons,
     labels: [{ url: null, text: 'Season' }],
@@ -100,17 +109,25 @@ export async function getSeasonWithContent({
       predicates: [Prismic.Predicates.at('my.pages.seasons.season', id)],
     },
     memoizedPrismic
-    );
+  );
 
-    const articleSeriesPromise = await getMultipleArticleSeries(
+  const articleSeriesPromise = await getMultipleArticleSeries(
     request,
     {
       predicates: [Prismic.Predicates.at('my.series.seasons.season', id)],
     },
     memoizedPrismic
-  )
+  );
 
-  const [season, articles, books, events, exhibitions, pages, articleSeries] = await Promise.all([
+  const [
+    season,
+    articles,
+    books,
+    events,
+    exhibitions,
+    pages,
+    articleSeries,
+  ] = await Promise.all([
     seasonPromise,
     articlesPromise,
     booksPromise,

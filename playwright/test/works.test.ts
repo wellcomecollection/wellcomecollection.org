@@ -26,7 +26,7 @@ import { regexImageSearchResultsUrl } from './helpers/regex';
 import {
   mobileModal,
   searchResultsContainer,
-  worksSearchInputField,
+  worksSearchCatalogueInputField,
 } from './selectors/search';
 
 describe('works', () => {
@@ -39,14 +39,14 @@ describe('works', () => {
     await fillActionSearchInput(expectedValue);
     await pressActionEnterSearchInput();
 
-    const value = await getInputValueAction(worksSearchInputField);
+    const value = await getInputValueAction(worksSearchCatalogueInputField);
     await page.waitForSelector(searchResultsContainer);
 
     await expectItemIsVisible(searchResultsContainer);
     expect(value).toBe(expectedValue);
   });
 
-  test('Search by term, filter results, check results, view result', async () => {
+  fit('Search by term, filter results, check results, view result', async () => {
     const expectedValue = 'art of science';
     await fillActionSearchInput(expectedValue);
     await pressActionEnterSearchInput();

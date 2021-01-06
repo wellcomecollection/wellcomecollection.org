@@ -9,6 +9,7 @@ import Space from '../styled/Space';
 import PageHeaderStandfirst from '../PageHeaderStandfirst/PageHeaderStandfirst';
 import styled from 'styled-components';
 import { HTMLString } from '../../../services/prismic/types';
+import DateRange from '../DateRange/DateRange';
 
 const HeaderWrapper = styled.div`
   background: ${props => props.theme.color('charcoal')};
@@ -23,7 +24,8 @@ type Props = {
   title: string;
   FeaturedMedia: ReactElement<typeof UiImage> | null;
   standfirst: HTMLString | null;
-  // TODO dates
+  start: Date | undefined;
+  end: Date | undefined;
 };
 
 const SeasonsHeader: FunctionComponent<Props> = ({
@@ -31,6 +33,8 @@ const SeasonsHeader: FunctionComponent<Props> = ({
   title,
   FeaturedMedia,
   standfirst,
+  start,
+  end,
 }: Props) => {
   return (
     <Layout12>
@@ -50,9 +54,19 @@ const SeasonsHeader: FunctionComponent<Props> = ({
                     <LabelsList {...labels} labelColor="orange" />
                   )}
                   <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                    <h1 className={`inline-block no-margin ${font('wb', 1)}`}>
-                      {title}
-                    </h1>
+                    <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                      <h1 className={`inline-block no-margin ${font('wb', 1)}`}>
+                        {title}
+                      </h1>
+                    </Space>
+                    {start && end && (
+                      <div className={font('hnl', 5)}>
+                        <DateRange
+                          start={new Date(start)}
+                          end={new Date(end)}
+                        />
+                      </div>
+                    )}
                     <PageHeaderStandfirst html={standfirst} />
                   </Space>
                 </Space>

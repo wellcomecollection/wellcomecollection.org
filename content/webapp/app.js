@@ -60,6 +60,7 @@ module.exports = app
     route('/articles', '/articles', router, app);
     route('/articles/:id', '/article', router, app);
     route('/series/:id', '/article-series', router, app);
+    route('/projects/:id', '/page', router, app);
 
     route('/books', '/books', router, app);
     route('/books/:id', '/book', router, app);

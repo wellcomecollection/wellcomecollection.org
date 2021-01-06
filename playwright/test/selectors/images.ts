@@ -11,7 +11,6 @@ export const imagesResultsListItem = `${searchResultsContainer} li[role="listite
 
 // modal
 export const mobileModalImageSearch = `${searchImagesForm} ${mobileModal}`;
-export const modalexpandedImaged =
-  'div[aria-labelledby="expanded-image-dialog"]';
+export const modalexpandedImaged = 'div[id="expanded-image-dialog"]';
 export const modalexpandedImageViewMoreButton =
   'a[aria-label="View expanded image"]';
