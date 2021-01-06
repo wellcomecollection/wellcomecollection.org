@@ -34,3 +34,5 @@ services:
   updown:
     build:
       context: ./updown
+  e2e:
+    image: mcr.microsoft.com/playwright:bionic
