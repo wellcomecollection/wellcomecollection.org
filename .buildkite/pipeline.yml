@@ -219,7 +219,7 @@
 - wait
 
 - label: "release to stage"
-  if: build.branch == "master"
+  branches: "master feat/ci_prod_deploy"
   plugins:
     - docker#v3.5.0:
         image: wellcome/weco-deploy:5.6.12
