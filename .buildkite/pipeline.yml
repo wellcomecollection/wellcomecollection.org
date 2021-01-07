@@ -219,7 +219,7 @@
 - wait
 
 - label: "release to stage"
-  branches: "master feat/ci_prod_deploy"
+  if: build.branch == "master"
   plugins:
     - docker#v3.5.0:
         image: wellcome/weco-deploy:5.6.12
@@ -236,7 +236,7 @@
 - wait
 
 - label: "e2e test: desktop"
-  if: build.branch == "master"
+  branches: "master feat/ci_prod_deploy"
   plugins:
     - docker-compose#v3.5.0:
         run: e2e
@@ -245,7 +245,7 @@
         command: ["yarn", "test"]
 
 - label: "e2e test: mobile"
-  if: build.branch == "master"
+  branches: "master feat/ci_prod_deploy"
   plugins:
     - docker-compose#v3.5.0:
         run: e2e
@@ -264,6 +264,11 @@
 - block:
     branches: "master feat/ci_prod_deploy"
     prompt: "Release to prod, have you checked [staging]?"
+    depends_on: 
+    - step: "e2e test: desktop"
+      allow_failure: false
+    - step: "e2e test: mobile"
+      allow_failure: false
 
 - label: "release to prod"
   branches: "master feat/ci_prod_deploy"
