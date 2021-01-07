@@ -272,6 +272,9 @@
 
 - label: "release to prod"
   branches: "master feat/ci_prod_deploy"
+  depends_on: 
+    - step: "e2e_test_desktop"
+    - step: "e2e_test_mobile"
   plugins:
     - docker#v3.5.0:
         image: wellcome/weco-deploy:5.6.12
@@ -284,7 +287,7 @@
             "--environment-id", "stage",
             "--description", $BUILDKITE_BUILD_URL,
             "--confirmation-wait-for", 3540] # Session times out at 3600s / 1 hour
-            
+
 - wait
 
 - label: "e2e test desktop prod"
