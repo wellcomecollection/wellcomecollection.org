@@ -23,7 +23,13 @@ import Card from '../Card/Card';
 import { convertItemToCardProps } from '@weco/common/model/card';
 
 // TODO: This should be MultiContent
-type ContentTypes = UiEvent | UiExhibition | Book | Article | Page | ArticleSeries;
+type ContentTypes =
+  | UiEvent
+  | UiExhibition
+  | Book
+  | Article
+  | Page
+  | ArticleSeries;
 
 type Props = {|
   items: $ReadOnlyArray<ContentTypes>,

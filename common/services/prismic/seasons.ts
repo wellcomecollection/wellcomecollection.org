@@ -6,6 +6,7 @@ import { getBooks } from './books';
 import { getEvents } from './events';
 import { getExhibitions } from './exhibitions';
 import { getPages } from './pages';
+import { getProjects } from './projects';
 import { getMultipleArticleSeries } from './article-series';
 import { Season, SeasonWithContent } from '../../model/seasons';
 import {
@@ -119,6 +120,14 @@ export async function getSeasonWithContent({
     memoizedPrismic
   );
 
+  const projectsPromise = await getProjects(
+    request,
+    {
+      predicates: [Prismic.Predicates.at('my.projects.seasons.season', id)],
+    },
+    memoizedPrismic
+  );
+
   const [
     season,
     articles,
@@ -127,6 +136,7 @@ export async function getSeasonWithContent({
     exhibitions,
     pages,
     articleSeries,
+    projects,
   ] = await Promise.all([
     seasonPromise,
     articlesPromise,
@@ -135,6 +145,7 @@ export async function getSeasonWithContent({
     exhibitionsPromise,
     pagesPromise,
     articleSeriesPromise,
+    projectsPromise,
   ]);
 
   if (season) {
@@ -146,6 +157,7 @@ export async function getSeasonWithContent({
       exhibitions: exhibitions?.results || [],
       pages: pages?.results || [],
       articleSeries: articleSeries?.results || [],
+      projects: projects?.results || [],
     };
   }
 }
