@@ -262,11 +262,11 @@
 - wait
 
 - block:
-    if: build.branch == "master"
+    branches: "master feat/ci_prod_deploy"
     prompt: "Release to prod, have you checked [staging]?"
 
 - label: "release to prod"
-  if: build.branch == "master"
+  branches: "master feat/ci_prod_deploy"
   plugins:
     - docker#v3.5.0:
         image: wellcome/weco-deploy:5.6.12
@@ -276,6 +276,6 @@
             "--confirm",
             "release-deploy",
             "--from-label", "ref.$BUILDKITE_COMMIT",
-            "--environment-id", "production",
+            "--environment-id", "stage",
             "--description", $BUILDKITE_BUILD_URL,
             "--confirmation-wait-for", 3540] # Session times out at 3600s / 1 hour
