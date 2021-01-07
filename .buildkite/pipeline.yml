@@ -262,11 +262,11 @@
 - wait
 
 - block:
-    if: build.branch == "feat/ci_prod_deploy"
-    prompt: ":rocket: Release to prod?"
+    branches: "master feat/ci_prod_deploy"
+    prompt: ":rocket: Release to prod, have you checked [staging]?"
 
 - label: "release to prod"
-  if: build.branch == "feat/ci_prod_deploy"
+  branches: "master feat/ci_prod_deploy"
   plugins:
     - docker#v3.5.0:
         image: wellcome/weco-deploy:5.6.11
