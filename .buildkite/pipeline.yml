@@ -235,7 +235,7 @@
 
 - wait
 
-- label: "e2e test: desktop"
+- label: "e2e test desktop"
   branches: "master feat/ci_prod_deploy"
   plugins:
     - docker-compose#v3.5.0:
@@ -244,7 +244,7 @@
           - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
         command: ["yarn", "test"]
 
-- label: "e2e test: mobile"
+- label: "e2e test mobile"
   branches: "master feat/ci_prod_deploy"
   plugins:
     - docker-compose#v3.5.0:
@@ -265,9 +265,9 @@
     branches: "master feat/ci_prod_deploy"
     prompt: "Release to prod, have you checked [staging]?"
     depends_on: 
-    - step: "e2e test: desktop"
+    - step: "e2e test desktop"
       allow_failure: false
-    - step: "e2e test: mobile"
+    - step: "e2e test mobile"
       allow_failure: false
 
 - label: "release to prod"
