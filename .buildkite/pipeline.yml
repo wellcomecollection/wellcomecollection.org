@@ -268,9 +268,7 @@
     prompt: "Release to prod, have you checked [staging]?"
     depends_on: 
     - step: "e2e_test_desktop"
-      allow_failure: false
     - step: "e2e_test_mobile"
-      allow_failure: false
 
 - label: "release to prod"
   branches: "master feat/ci_prod_deploy"
