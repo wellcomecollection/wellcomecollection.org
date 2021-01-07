@@ -235,6 +235,26 @@
 
 - wait
 
+- label: "e2e test: desktop"
+  if: build.branch == "master"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: e2e
+        env:
+          - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
+        command: ["yarn", "test"]
+
+- label: "e2e test: mobile"
+  if: build.branch == "master"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: e2e
+        env:
+          - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
+        command: ["yarn", "test:mobile"]  
+
+- wait
+
 - label: "Integration pipeline"
   trigger: "integration"
   async: true

@@ -46,7 +46,7 @@ describe('works', () => {
     expect(value).toBe(expectedValue);
   });
 
-  fit('Search by term, filter results, check results, view result', async () => {
+  test('Search by term, filter results, check results, view result', async () => {
     const expectedValue = 'art of science';
     await fillActionSearchInput(expectedValue);
     await pressActionEnterSearchInput();
@@ -70,7 +70,6 @@ describe('works', () => {
     await expectItemsIsVisible(worksSearchResultsListItem, 1);
     await clickActionClickSearchResultItem(1);
     await page.waitForNavigation();
-
     expectUrlToMatch(regexImageSearchResultsUrl);
     await expectItemIsVisible(workTitleHeading);
   });
