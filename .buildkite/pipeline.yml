@@ -276,6 +276,6 @@
             "--confirm",
             "release-deploy",
             "--from-label", "ref.$BUILDKITE_COMMIT",
-            "--environment-id", "stage",
+            "--environment-id", "production",
             "--description", $BUILDKITE_BUILD_URL,
             "--confirmation-wait-for", 3540] # Session times out at 3600s / 1 hour
