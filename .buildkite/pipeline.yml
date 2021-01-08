@@ -264,11 +264,11 @@
 - wait
 
 - block: ":rocket: Release to prod"
-    branches: "master feat/ci_prod_deploy"
-    prompt: "Have you checked staging?"
-    depends_on: 
-      - step: "e2e_test_desktop_stage"
-      - step: "e2e_test_mobile_stage"
+  branches: "master feat/ci_prod_deploy"
+  prompt: "Have you checked staging?"
+  depends_on: 
+    - step: "e2e_test_desktop_stage"
+    - step: "e2e_test_mobile_stage"
 
 - label: "release to prod"
   branches: "master feat/ci_prod_deploy"
