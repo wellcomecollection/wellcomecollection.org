@@ -259,12 +259,6 @@
 
 - wait
 
-- label: "Integration pipeline"
-  trigger: "integration"
-  async: true
-
-- wait
-
 - block: ":rocket: Release to prod"
   branches: "master"
   prompt: "Have you checked staging?"
