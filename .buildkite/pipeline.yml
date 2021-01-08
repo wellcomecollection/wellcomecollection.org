@@ -85,7 +85,7 @@
           - AWS_SESSION_TOKEN
 
 - label: "deploy content (ecr image)"
-  branches: "master"
+  branches: "master feat/ci_prod_deploy"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
