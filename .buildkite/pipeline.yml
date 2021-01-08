@@ -58,7 +58,7 @@
 - wait
 
 - label: "deploy catalogue (ecr image)"
-  if: build.branch == "master"
+  branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -70,7 +70,7 @@
           - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:latest
 
 - label: "deploy catalogue (bundle analysis)"
-  if: build.branch == "master"
+  branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -85,7 +85,7 @@
           - AWS_SESSION_TOKEN
 
 - label: "deploy content (ecr image)"
-  if: build.branch == "master"
+  branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -97,7 +97,7 @@
           - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:latest
 
 - label: "deploy content (bundle analysis)"
-  if: build.branch == "master"
+  branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -112,7 +112,7 @@
           - AWS_SESSION_TOKEN
 
 - label: "deploy dash"
-  if: build.branch == "master"
+  branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -127,7 +127,7 @@
           - AWS_SESSION_TOKEN
 
 - label: "deploy cardigan"
-  if: build.branch == "master"
+  branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -142,7 +142,7 @@
           - AWS_SESSION_TOKEN
 
 - label: "deploy dash"
-  if: build.branch == "master"
+  branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -157,7 +157,7 @@
           - AWS_SESSION_TOKEN
 
 - label: "deploy toggles"
-  if: build.branch == "master"
+  branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -172,7 +172,7 @@
           - AWS_SESSION_TOKEN
 
 - label: "deploy pa11y"
-  if: build.branch == "master"
+  branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -187,7 +187,7 @@
           - AWS_SESSION_TOKEN
 
 - label: "deploy edge_lambdas"
-  if: build.branch == "master"
+  branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -202,7 +202,7 @@
           - AWS_SESSION_TOKEN
 
 - label: "deploy updown"
-  if: build.branch == "master"
+  branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -218,8 +218,8 @@
 
 - wait
 
-- label: release to stage
-  if: build.branch == "master"
+- label: "release to stage"
+  branches: "master"
   plugins:
     - docker#v3.5.0:
         image: wellcome/weco-deploy:5.6.11
@@ -235,8 +235,8 @@
 
 - wait
 
-- label: "e2e test: desktop"
-  if: build.branch == "master"
+- label: "e2e test:desktop [stage]"
+  branches: "master"
   plugins:
     - docker-compose#v3.5.0:
         run: e2e
@@ -244,8 +244,8 @@
           - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
         command: ["yarn", "test"]
 
-- label: "e2e test: mobile"
-  if: build.branch == "master"
+- label: "e2e test:mobile [stage]"
+  branches: "master"
   plugins:
     - docker-compose#v3.5.0:
         run: e2e
@@ -255,6 +255,42 @@
 
 - wait
 
-- label: "Integration pipeline"
-  trigger: "integration"
-  async: true
+- block: ":rocket: Release to prod"
+  branches: "master"
+  prompt: "Have you checked staging?"
+  blocked_state: "running"
+
+- label: "release to prod"
+  branches: "master"
+  plugins:
+    - docker#v3.5.0:
+        image: wellcome/weco-deploy:5.6.11
+        workdir: /repo
+        mount-ssh-agent: true
+        command: [
+            "--confirm",
+            "release-deploy",
+            "--from-label", "ref.$BUILDKITE_COMMIT",
+            "--environment-id", "prod",
+            "--description", $BUILDKITE_BUILD_URL,
+            "--confirmation-wait-for", 3540] # Session times out at 3600s / 1 hour
+
+- wait
+
+- label: "e2e test:desktop [prod]"
+  branches: "master"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: e2e
+        env:
+          - PLAYWRIGHT_BASE_URL=https://wellcomecollection.org
+        command: ["yarn", "test"]
+
+- label: "e2e test:mobile [prod]"
+  branches: "master"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: e2e
+        env:
+          - PLAYWRIGHT_BASE_URL=https://wellcomecollection.org
+        command: ["yarn", "test:mobile"]
