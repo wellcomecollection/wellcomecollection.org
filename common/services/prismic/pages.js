@@ -23,6 +23,8 @@ import {
   articleFormatsFields,
   labelsFields,
   seasonsFields,
+  contributorsFields,
+  peopleFields,
 } from './fetch-links';
 
 export function parsePage(document: PrismicDocument): Page {
@@ -54,7 +56,6 @@ export function parsePage(document: PrismicDocument): Page {
         },
       }
     : null;
-
   return {
     type: 'pages',
     ...genericFields,
@@ -89,12 +90,13 @@ export async function getPage(
         eventFormatsFields,
         articleFormatsFields,
         labelsFields,
-        seasonsFields
+        seasonsFields,
+        contributorsFields,
+        peopleFields
       ),
     },
     memoizedPrismic
   );
-
   if (page) {
     return parsePage(page);
   }
