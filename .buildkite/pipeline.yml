@@ -217,7 +217,6 @@
           - AWS_SESSION_TOKEN
 
 - wait
-  branches: "master"
 
 - label: "release to stage"
   branches: "master"
@@ -239,7 +238,6 @@
 - label: "e2e test:desktop [stage]"
   branches: "master"
   key: "e2e_test_desktop_stage"
-  branches: "master"
   plugins:
     - docker-compose#v3.5.0:
         run: e2e
