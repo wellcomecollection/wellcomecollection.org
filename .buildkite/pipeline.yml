@@ -58,7 +58,6 @@
 - wait
 
 - label: "deploy catalogue (ecr image)"
-  key: "deploy_catalogue_ecr_image"
   branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
@@ -86,7 +85,6 @@
           - AWS_SESSION_TOKEN
 
 - label: "deploy content (ecr image)"
-  key: "deploy_content_ecr_image"
   branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
@@ -239,7 +237,6 @@
 
 - label: "e2e test:desktop [stage]"
   branches: "master"
-  key: "e2e_test_desktop_stage"
   plugins:
     - docker-compose#v3.5.0:
         run: e2e
@@ -249,7 +246,6 @@
 
 - label: "e2e test:mobile [stage]"
   branches: "master"
-  key: "e2e_test_mobile_stage"
   plugins:
     - docker-compose#v3.5.0:
         run: e2e
