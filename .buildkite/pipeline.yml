@@ -237,6 +237,8 @@
 
 - label: "e2e test: desktop"
   branches: "master"
+  key: "e2e_test_desktop"
+  branches: "master"
   plugins:
     - docker-compose#v3.5.0:
         run: e2e
@@ -246,6 +248,7 @@
 
 - label: "e2e test: mobile"
   branches: "master"
+  key: "e2e_test_mobile"
   plugins:
     - docker-compose#v3.5.0:
         run: e2e
@@ -264,9 +267,15 @@
 - block:
     branches: "master feat/ci_prod_deploy"
     prompt: "Release to prod, have you checked [staging]?"
+    depends_on: 
+    - step: "e2e_test_desktop"
+    - step: "e2e_test_mobile"
 
 - label: "release to prod"
   branches: "master feat/ci_prod_deploy"
+  depends_on: 
+    - step: "e2e_test_desktop"
+    - step: "e2e_test_mobile"
   plugins:
     - docker#v3.5.0:
         image: wellcome/weco-deploy:5.6.12
@@ -279,3 +288,23 @@
             "--environment-id", "stage",
             "--description", $BUILDKITE_BUILD_URL,
             "--confirmation-wait-for", 3540] # Session times out at 3600s / 1 hour
+
+- wait
+
+- label: "e2e test desktop prod"
+  branches: "master feat/ci_prod_deploy"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: e2e
+        env:
+          - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
+        command: ["yarn", "test"]
+
+- label: "e2e test mobile prod"
+  branches: "master feat/ci_prod_deploy"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: e2e
+        env:
+          - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
+        command: ["yarn", "test:mobile"]  
