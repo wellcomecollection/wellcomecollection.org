@@ -266,13 +266,8 @@
 - wait
 
 - block: ":rocket: Release to prod"
-  branches: "master feat/ci_prod_deploy"
+  branches: "master"
   prompt: "Have you checked staging?"
-  depends_on:
-    - step: "deploy_catalogue_ecr_image"
-    - step: "deploy_content_ecr_image"
-    - step: "e2e_test_desktop_stage"
-    - step: "e2e_test_mobile_stage"
 
 - label: "release to prod"
   branches: "master"
@@ -285,7 +280,7 @@
             "--confirm",
             "release-deploy",
             "--from-label", "ref.$BUILDKITE_COMMIT",
-            "--environment-id", "stage",
+            "--environment-id", "prod",
             "--description", $BUILDKITE_BUILD_URL,
             "--confirmation-wait-for", 3540] # Session times out at 3600s / 1 hour
 
