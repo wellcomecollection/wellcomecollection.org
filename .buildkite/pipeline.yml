@@ -235,9 +235,9 @@
 
 - wait
 
-- label: "e2e test: desktop"
+- label: "e2e test:desktop [stage]"
   branches: "master"
-  key: "e2e_test_desktop"
+  key: "e2e_test_desktop_stage"
   branches: "master"
   plugins:
     - docker-compose#v3.5.0:
@@ -246,9 +246,9 @@
           - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
         command: ["yarn", "test"]
 
-- label: "e2e test: mobile"
+- label: "e2e test:mobile [stage]"
   branches: "master"
-  key: "e2e_test_mobile"
+  key: "e2e_test_mobile_stage"
   plugins:
     - docker-compose#v3.5.0:
         run: e2e
@@ -266,16 +266,13 @@
 
 - block:
     branches: "master feat/ci_prod_deploy"
-    prompt: "Release to prod, have you checked [staging]?"
+    prompt: "Release to prod, have you checked staging?"
     depends_on: 
-    - step: "e2e_test_desktop"
-    - step: "e2e_test_mobile"
+      - step: "e2e_test_desktop_stage"
+      - step: "e2e_test_mobile_stage"
 
 - label: "release to prod"
   branches: "master feat/ci_prod_deploy"
-  depends_on: 
-    - step: "e2e_test_desktop"
-    - step: "e2e_test_mobile"
   plugins:
     - docker#v3.5.0:
         image: wellcome/weco-deploy:5.6.12
@@ -291,20 +288,20 @@
 
 - wait
 
-- label: "e2e test desktop prod"
+- label: "e2e test:desktop [prod]"
   branches: "master feat/ci_prod_deploy"
   plugins:
     - docker-compose#v3.5.0:
         run: e2e
         env:
-          - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
+          - PLAYWRIGHT_BASE_URL=https://wellcomecollection.org
         command: ["yarn", "test"]
 
-- label: "e2e test mobile prod"
+- label: "e2e test:mobile [prod]"
   branches: "master feat/ci_prod_deploy"
   plugins:
     - docker-compose#v3.5.0:
         run: e2e
         env:
-          - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
+          - PLAYWRIGHT_BASE_URL=https://wellcomecollection.org
         command: ["yarn", "test:mobile"]  
