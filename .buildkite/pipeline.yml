@@ -59,7 +59,7 @@
 
 - label: "deploy catalogue (ecr image)"
   key: "deploy_catalogue_ecr_image"
-  branches: "master feat/ci_prod_deploy"
+  branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -87,7 +87,7 @@
 
 - label: "deploy content (ecr image)"
   key: "deploy_content_ecr_image"
-  branches: "master feat/ci_prod_deploy"
+  branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -238,7 +238,7 @@
 - wait
 
 - label: "e2e test:desktop [stage]"
-  branches: "master feat/ci_prod_deploy"
+  branches: "master"
   key: "e2e_test_desktop_stage"
   plugins:
     - docker-compose#v3.5.0:
@@ -248,7 +248,7 @@
         command: ["yarn", "test"]
 
 - label: "e2e test:mobile [stage]"
-  branches: "master feat/ci_prod_deploy"
+  branches: "master"
   key: "e2e_test_mobile_stage"
   plugins:
     - docker-compose#v3.5.0:
@@ -275,7 +275,7 @@
     - step: "e2e_test_mobile_stage"
 
 - label: "release to prod"
-  branches: "master feat/ci_prod_deploy"
+  branches: "master"
   plugins:
     - docker#v3.5.0:
         image: wellcome/weco-deploy:5.6.11
