@@ -58,6 +58,7 @@
 - wait
 
 - label: "deploy catalogue (ecr image)"
+  key: "deploy_catalogue_ecr_image"
   branches: "master feat/ci_prod_deploy"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
@@ -85,6 +86,7 @@
           - AWS_SESSION_TOKEN
 
 - label: "deploy content (ecr image)"
+  key: "deploy_content_ecr_image"
   branches: "master feat/ci_prod_deploy"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
@@ -242,7 +244,7 @@
     - docker-compose#v3.5.0:
         run: e2e
         env:
-          - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection-dummy.org
+          - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
         command: ["yarn", "test"]
 
 - label: "e2e test:mobile [stage]"
@@ -252,7 +254,7 @@
     - docker-compose#v3.5.0:
         run: e2e
         env:
-          - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection-dummy.org
+          - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
         command: ["yarn", "test:mobile"]  
 
 - wait
@@ -266,7 +268,9 @@
 - block: ":rocket: Release to prod"
   branches: "master feat/ci_prod_deploy"
   prompt: "Have you checked staging?"
-  depends_on: 
+  depends_on:
+    - step: "deploy_catalogue_ecr_image"
+    - step: "deploy_content_ecr_image"
     - step: "e2e_test_desktop_stage"
     - step: "e2e_test_mobile_stage"
 
