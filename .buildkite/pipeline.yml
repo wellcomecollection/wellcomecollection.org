@@ -217,6 +217,7 @@
           - AWS_SESSION_TOKEN
 
 - wait
+  branches: "master"
 
 - label: "release to stage"
   branches: "master"
