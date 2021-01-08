@@ -293,4 +293,4 @@
         run: e2e
         env:
           - PLAYWRIGHT_BASE_URL=https://wellcomecollection.org
-        command: ["yarn", "test:mobile"]  
+        command: ["yarn", "test:mobile"]
