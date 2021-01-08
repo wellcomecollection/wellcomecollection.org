@@ -20,4 +20,5 @@ export type SeasonWithContent = {
   exhibitions: Exhibition[];
   pages: Page[];
   articleSeries: ArticleSeries[];
+  projects: Page[];
 };

@@ -22,6 +22,7 @@ const SeasonPage = ({
   exhibitions,
   pages,
   articleSeries,
+  projects,
 }: SeasonWithContent): ReactElement<SeasonWithContent> => {
   const Header = (
     <SeasonsHeader
@@ -49,6 +50,7 @@ const SeasonPage = ({
     ...books,
     ...pages,
     ...articleSeries,
+    ...projects,
   ];
 
   return (
