@@ -58,7 +58,7 @@
 - wait
 
 - label: "deploy catalogue (ecr image)"
-  branches: "master feat/ci_prod_deploy"
+  branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -85,7 +85,7 @@
           - AWS_SESSION_TOKEN
 
 - label: "deploy content (ecr image)"
-  branches: "master feat/ci_prod_deploy"
+  branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -264,14 +264,14 @@
 - wait
 
 - block: ":rocket: Release to prod"
-  branches: "master feat/ci_prod_deploy"
+  branches: "master"
   prompt: "Have you checked staging?"
   depends_on: 
     - step: "e2e_test_desktop_stage"
     - step: "e2e_test_mobile_stage"
 
 - label: "release to prod"
-  branches: "master feat/ci_prod_deploy"
+  branches: "master"
   plugins:
     - docker#v3.5.0:
         image: wellcome/weco-deploy:5.6.11
@@ -288,7 +288,7 @@
 - wait
 
 - label: "e2e test:desktop [prod]"
-  branches: "master feat/ci_prod_deploy"
+  branches: "master"
   plugins:
     - docker-compose#v3.5.0:
         run: e2e
@@ -297,7 +297,7 @@
         command: ["yarn", "test"]
 
 - label: "e2e test:mobile [prod]"
-  branches: "master feat/ci_prod_deploy"
+  branches: "master"
   plugins:
     - docker-compose#v3.5.0:
         run: e2e
