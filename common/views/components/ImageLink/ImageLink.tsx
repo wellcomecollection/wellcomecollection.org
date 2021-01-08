@@ -21,7 +21,7 @@ export function imageLink({
 }: ImageQueryParams): LinkProps {
   return {
     href: {
-      pathname: `/item`,
+      pathname: `/image`,
       query: {
         workId,
         source,
