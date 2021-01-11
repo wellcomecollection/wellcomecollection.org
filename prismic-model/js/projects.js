@@ -11,6 +11,7 @@ import timestamp from './parts/timestamp';
 const Project = {
   Project: {
     title,
+    format: link('Format', 'document', ['project-formats']),
     start: timestamp('Start date'),
     end: timestamp('End date'),
     body,
