@@ -33,7 +33,6 @@ steps:
             - PLAYWRIGHT_BASE_URL=https://wellcomecollection.org
           command: ["yarn", "test:mobile"]
 
-
 notify:
   - slack:
       channels:
