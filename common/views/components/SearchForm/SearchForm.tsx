@@ -8,28 +8,28 @@ import {
 } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
-import TextInput from '@weco/common/views/components/TextInput/TextInput';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import { classNames } from '@weco/common/utils/classnames';
-import { trackEvent } from '@weco/common/utils/ga';
-import { inputValue, nodeListValueToArray } from '@weco/common/utils/forms';
-import SearchFilters from '@weco/common/views/components/PrototypeSearchFilters/PrototypeSearchFilters';
-import Select from '@weco/common/views/components/Select/Select';
-import Space from '@weco/common/views/components/styled/Space';
+import TextInput from '../TextInput/TextInput';
+import Icon from '../Icon/Icon';
+import ButtonSolid from '../ButtonSolid/ButtonSolid';
+import { classNames } from '../../../utils/classnames';
+import { trackEvent } from '../../../utils/ga';
+import { inputValue, nodeListValueToArray } from '../../../utils/forms';
+import SearchFilters from '../SearchFilters/SearchFilters';
+import Select from '../Select/Select';
+import Space from '../styled/Space';
 import {
   CatalogueAggregationBucket,
   CatalogueAggregations,
-} from '@weco/common/model/catalogue';
-import SelectUncontrolled from '@weco/common/views/components/SelectUncontrolled/SelectUncontrolled';
-import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
+} from '../../../model/catalogue';
+import SelectUncontrolled from '../SelectUncontrolled/SelectUncontrolled';
+import useSavedSearchState from '../../../hooks/useSavedSearchState';
 import {
   WorksRouteProps,
   ImagesRouteProps,
   worksLink,
   imagesLink,
-} from '@weco/common/services/catalogue/ts_routes';
-import PrototypePortal from '../PrototypePortal/PrototypePortal';
+} from '../../../services/catalogue/ts_routes';
+import SearchFormSortByPortal from '../SearchFormSortByPortal/SearchFormSortByPortal';
 import { AppContext } from '../AppContext/AppContext';
 import {
   searchFormInputCatalogue,
@@ -285,7 +285,7 @@ const SearchForm: FunctionComponent<Props> = ({
         />
       )}
       {!isImageSearch && isEnhanced && (
-        <PrototypePortal id="sort-select-portal">
+        <SearchFormSortByPortal id="sort-select-portal">
           <SearchSortOrderWrapper>
             <Select
               name="portalSortOrder"
@@ -310,7 +310,7 @@ const SearchForm: FunctionComponent<Props> = ({
               }}
             />
           </SearchSortOrderWrapper>
-        </PrototypePortal>
+        </SearchFormSortByPortal>
       )}
       <noscript>
         {!isImageSearch && showSortBy && (

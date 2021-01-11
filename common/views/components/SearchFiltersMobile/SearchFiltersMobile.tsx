@@ -17,7 +17,7 @@ import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import { SearchFiltersSharedProps } from './PrototypeSearchFilters';
+import { SearchFiltersSharedProps } from './SearchFilters';
 import ButtonSolid, {
   ButtonTypes,
   SolidButton,
