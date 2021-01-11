@@ -220,6 +220,7 @@
 
 - label: "deploy to stage"
   trigger: "experience-deploy-stage"
+  branches: "master"
   build:
     message: "${BUILDKITE_MESSAGE}"
     commit: "${BUILDKITE_COMMIT}"
