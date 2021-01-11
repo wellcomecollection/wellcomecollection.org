@@ -338,9 +338,6 @@ export const getServerSideProps: GetServerSideProps<
       })
     : undefined;
 
-    console.log(' WORKS DETAILS *********************************');
-    console.log(works);
-    console.log(' WORKS DETAILS *********************************');
   if (works && works.type === 'Error') {
     return appError(context, works.httpStatus, 'Works API error');
   }
