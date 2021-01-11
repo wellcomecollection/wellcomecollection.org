@@ -15,6 +15,7 @@ import Layout10 from '../Layout10/Layout10';
 import Layout from '../Layout/Layout';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
+// $FlowFixMe (ts)
 import { breakpoints } from '../../../utils/breakpoints';
 import type { Node, Element, ElementProps } from 'react';
 import type { GenericContentFields } from '../../../model/generic-content-fields';
