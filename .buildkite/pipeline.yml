@@ -9,6 +9,8 @@
       BUILDKITE_PULL_REQUEST_BASE_BRANCH: "${BUILDKITE_PULL_REQUEST_BASE_BRANCH}"
       BUILDKITE_PULL_REQUEST_REPO: "${BUILDKITE_PULL_REQUEST_REPO}"
 
+- wait
+
 - label: ":docker: Build"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
