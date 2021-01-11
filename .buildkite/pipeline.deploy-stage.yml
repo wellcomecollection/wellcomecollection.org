@@ -12,7 +12,6 @@ steps:
   - wait
 
   - block: ":rocket: Release to prod"
-    branches: "master"
     prompt: "Have you checked staging?"
     blocked_state: "running"
 
