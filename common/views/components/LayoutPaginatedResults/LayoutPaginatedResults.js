@@ -20,6 +20,7 @@ import type {
 import SpacingSection from '../SpacingSection/SpacingSection';
 import Space from '../styled/Space';
 import PageHeader from '../PageHeader/PageHeader';
+// $FlowFixMe(ts)
 import { headerBackgroundLs } from '../../../../common/utils/backgrounds';
 
 type PaginatedResultsTypes =
