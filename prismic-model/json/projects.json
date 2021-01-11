@@ -8,6 +8,18 @@
         "useAsTitle": true
       }
     },
+    "start": {
+      "type": "Timestamp",
+      "config": {
+        "label": "Start date"
+      }
+    },
+    "end": {
+      "type": "Timestamp",
+      "config": {
+        "label": "End date"
+      }
+    },
     "body": {
       "fieldset": "Body content",
       "type": "Slices",
