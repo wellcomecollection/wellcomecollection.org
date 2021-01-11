@@ -1,21 +1,44 @@
 steps:
-  - label: "release to stage"
-    command: echo "$BUILDKITE_COMMIT $BUILDKITE_BUILD_URL"
+  - label: "deploy to stage"
     concurrency: 1
     concurrency_group: "experience-deploy"
-  
+    plugins:
+      - docker#v3.5.0:
+          image: wellcome/weco-deploy:5.6.16
+          workdir: /repo
+          mount-ssh-agent: true
+          command: [
+              "--confirm",
+              "release-deploy",
+              "--from-label", "ref.$BUILDKITE_COMMIT",
+              "--environment-id", "stage",
+              "--description", $BUILDKITE_BUILD_URL,
+              "--confirmation-wait-for", 3540] # Session times out at 3600s / 1 hour
+
   - wait
 
   - label: "e2e test:desktop [stage]"
-    command: echo "testing stage"
+    plugins:
+      - docker-compose#v3.5.0:
+          run: e2e
+          env:
+            - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
+          command: ["yarn", "test"]
+
+  - label: "e2e test:mobile [stage]"
+    plugins:
+      - docker-compose#v3.5.0:
+          run: e2e
+          env:
+            - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
+          command: ["yarn", "test:mobile"]
 
   - wait
 
-  - block: ":rocket: Release to prod"
+  - block: ":rocket: deploy to prod"
     prompt: "Have you checked staging?"
-    blocked_state: "running"
 
-  - label: "Deplyments steps"
+  - label: "deploy to prod"
     trigger: "experience-deploy-prod"
     build:
       message: "${BUILDKITE_MESSAGE}"
@@ -30,4 +53,4 @@ notify:
   - slack:
       channels:
         - "#wc-experience"
-      message: "Deploying [bloop] to staging..."
+      message: "Deployed to stage https://www-stage.wellcomecollection.org"

@@ -1,16 +1,41 @@
 steps:
-  - label: "release to prod"
-    command: echo "$BUILDKITE_COMMIT $BUILDKITE_BUILD_URL"
+  - label: "deploy to prod"
     concurrency: 1
-    concurrency_group: "experience-deploy"
+    concurrency_group: "experience-deploy"  
+    plugins:
+      - docker#v3.5.0:
+          image: wellcome/weco-deploy:5.6.16
+          workdir: /repo
+          mount-ssh-agent: true
+          command: [
+              "--confirm",
+              "release-deploy",
+              "--from-label", "ref.$BUILDKITE_COMMIT",
+              "--environment-id", "prod",
+              "--description", $BUILDKITE_BUILD_URL,
+              "--confirmation-wait-for", 3540] # Session times out at 3600s / 1 hour
     
   - wait
 
   - label: "e2e test:desktop [prod]"
-    command: echo "testing prod"
+    plugins:
+      - docker-compose#v3.5.0:
+          run: e2e
+          env:
+            - PLAYWRIGHT_BASE_URL=https://wellcomecollection.org
+          command: ["yarn", "test"]
+
+  - label: "e2e test:mobile [prod]"
+    plugins:
+      - docker-compose#v3.5.0:
+          run: e2e
+          env:
+            - PLAYWRIGHT_BASE_URL=https://wellcomecollection.org
+          command: ["yarn", "test:mobile"]
+
 
 notify:
   - slack:
       channels:
         - "#wc-experience"
-      message: "Deploying [bloop] to staging..."
+      message: "Deployed to prod https://wellcomecollection.org"

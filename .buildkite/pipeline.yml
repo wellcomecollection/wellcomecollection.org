@@ -1,16 +1,3 @@
-- label: "Deplyments steps"
-  trigger: "experience-deploy-stage"
-  build:
-    message: "${BUILDKITE_MESSAGE}"
-    commit: "${BUILDKITE_COMMIT}"
-    branch: "${BUILDKITE_BRANCH}"
-    env:
-      BUILDKITE_PULL_REQUEST: "${BUILDKITE_PULL_REQUEST}"
-      BUILDKITE_PULL_REQUEST_BASE_BRANCH: "${BUILDKITE_PULL_REQUEST_BASE_BRANCH}"
-      BUILDKITE_PULL_REQUEST_REPO: "${BUILDKITE_PULL_REQUEST_REPO}"
-
-- wait
-
 - label: ":docker: Build"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
@@ -231,79 +218,13 @@
 
 - wait
 
-- label: "release to stage"
-  branches: "master"
-  plugins:
-    - docker#v3.5.0:
-        image: wellcome/weco-deploy:5.6.16
-        workdir: /repo
-        mount-ssh-agent: true
-        command: [
-            "--confirm",
-            "release-deploy",
-            "--from-label", "ref.$BUILDKITE_COMMIT",
-            "--environment-id", "stage",
-            "--description", $BUILDKITE_BUILD_URL,
-            "--confirmation-wait-for", 3540] # Session times out at 3600s / 1 hour
-
-- wait
-
-- label: "e2e test:desktop [stage]"
-  branches: "master"
-  plugins:
-    - docker-compose#v3.5.0:
-        run: e2e
-        env:
-          - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
-        command: ["yarn", "test"]
-
-- label: "e2e test:mobile [stage]"
-  branches: "master"
-  plugins:
-    - docker-compose#v3.5.0:
-        run: e2e
-        env:
-          - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
-        command: ["yarn", "test:mobile"]  
-
-- wait
-
-- block: ":rocket: Release to prod"
-  branches: "master"
-  prompt: "Have you checked staging?"
-  blocked_state: "running"
-
-- label: "release to prod"
-  branches: "master"
-  plugins:
-    - docker#v3.5.0:
-        image: wellcome/weco-deploy:5.6.16
-        workdir: /repo
-        mount-ssh-agent: true
-        command: [
-            "--confirm",
-            "release-deploy",
-            "--from-label", "ref.$BUILDKITE_COMMIT",
-            "--environment-id", "prod",
-            "--description", $BUILDKITE_BUILD_URL,
-            "--confirmation-wait-for", 3540] # Session times out at 3600s / 1 hour
-
-- wait
-
-- label: "e2e test:desktop [prod]"
-  branches: "master"
-  plugins:
-    - docker-compose#v3.5.0:
-        run: e2e
-        env:
-          - PLAYWRIGHT_BASE_URL=https://wellcomecollection.org
-        command: ["yarn", "test"]
-
-- label: "e2e test:mobile [prod]"
-  branches: "master"
-  plugins:
-    - docker-compose#v3.5.0:
-        run: e2e
-        env:
-          - PLAYWRIGHT_BASE_URL=https://wellcomecollection.org
-        command: ["yarn", "test:mobile"]
+- label: "deploy to stage"
+  trigger: "experience-deploy-stage"
+  build:
+    message: "${BUILDKITE_MESSAGE}"
+    commit: "${BUILDKITE_COMMIT}"
+    branch: "${BUILDKITE_BRANCH}"
+    env:
+      BUILDKITE_PULL_REQUEST: "${BUILDKITE_PULL_REQUEST}"
+      BUILDKITE_PULL_REQUEST_BASE_BRANCH: "${BUILDKITE_PULL_REQUEST_BASE_BRANCH}"
+      BUILDKITE_PULL_REQUEST_REPO: "${BUILDKITE_PULL_REQUEST_REPO}"
