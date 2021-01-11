@@ -1,3 +1,7 @@
+notify:
+  - slack: "#wc-experience"
+    message: "Deploying [bloop] to staging..."
+
 - label: ":docker: Build"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
