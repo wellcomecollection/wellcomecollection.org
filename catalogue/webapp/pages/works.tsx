@@ -315,7 +315,13 @@ export const getServerSideProps: GetServerSideProps<
   const { enableColorFiltering } = globalContextData.toggles;
   const _queryType = cookies(context)._queryType;
   const isImageSearch = params.search === 'images';
-  const aggregations = ['workType', 'locationType'];
+  const aggregations = [
+    'workType',
+    'locationType',
+    'genres',
+    'languages',
+    'subjects',
+  ];
   const worksApiProps = worksRouteToApiUrl(params, {
     _queryType,
     aggregations,
@@ -325,7 +331,6 @@ export const getServerSideProps: GetServerSideProps<
 
   const shouldGetWorks = hasQuery && !isImageSearch;
   const shouldGetImages = hasQuery && isImageSearch;
-
   const works = shouldGetWorks
     ? await getWorks({
         params: worksApiProps,
@@ -333,6 +338,9 @@ export const getServerSideProps: GetServerSideProps<
       })
     : undefined;
 
+    console.log(' WORKS DETAILS *********************************');
+    console.log(works);
+    console.log(' WORKS DETAILS *********************************');
   if (works && works.type === 'Error') {
     return appError(context, works.httpStatus, 'Works API error');
   }
