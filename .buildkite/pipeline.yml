@@ -222,7 +222,7 @@
   branches: "master"
   plugins:
     - docker#v3.5.0:
-        image: wellcome/weco-deploy:5.6.11
+        image: wellcome/weco-deploy:5.6.16
         workdir: /repo
         mount-ssh-agent: true
         command: [
@@ -264,7 +264,7 @@
   branches: "master"
   plugins:
     - docker#v3.5.0:
-        image: wellcome/weco-deploy:5.6.11
+        image: wellcome/weco-deploy:5.6.16
         workdir: /repo
         mount-ssh-agent: true
         command: [
