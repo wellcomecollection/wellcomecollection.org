@@ -8,7 +8,7 @@ import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import NextLink from 'next/link';
 import dynamic from 'next/dynamic';
-import { SearchFiltersSharedProps } from './PrototypeSearchFilters';
+import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
 import { FunctionComponent, ReactElement, ReactNode } from 'react';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
 
