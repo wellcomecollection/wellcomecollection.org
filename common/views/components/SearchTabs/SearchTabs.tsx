@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Space from '../styled/Space';
 import { useContext, FunctionComponent, ReactElement } from 'react';
 import { AppContext } from '../AppContext/AppContext';
-import PrototypeSearchForm from '@weco/common/views/components/PrototypeSearchForm/PrototypeSearchForm';
+import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import {
   WorksRouteProps,
   ImagesRouteProps,
@@ -151,7 +151,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             unpublished archives from our collections, many of them with free
             online access.
           </Space>
-          <PrototypeSearchForm
+          <SearchForm
             ariaDescribedBy={'library-catalogue-form-description'}
             routeProps={worksRouteProps}
             workTypeAggregations={workTypeAggregations}
@@ -222,7 +222,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             museum collections, including paintings, illustrations, photos and
             more.
           </Space>
-          <PrototypeSearchForm
+          <SearchForm
             ariaDescribedBy="images-form-description"
             routeProps={imagesRouteProps}
             workTypeAggregations={workTypeAggregations}

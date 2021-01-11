@@ -84,7 +84,7 @@ const SearchSortOrderWrapper = styled.div`
   color: ${props => props.theme.color('black')};
 `;
 
-const PrototypeSearchForm: FunctionComponent<Props> = ({
+const SearchForm: FunctionComponent<Props> = ({
   ariaDescribedBy,
   routeProps,
   workTypeAggregations,
@@ -361,4 +361,4 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
     </form>
   );
 };
-export default PrototypeSearchForm;
+export default SearchForm;
