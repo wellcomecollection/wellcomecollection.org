@@ -20,5 +20,7 @@ steps:
     trigger: "experience-deploy-prod"
 
 notify:
-  - slack: "#wc-experience"
-    message: "Deploying [bloop] to staging..."
+  - slack:
+      channels:
+        - "#wc-experience"
+      message: "Deploying [bloop] to staging..."

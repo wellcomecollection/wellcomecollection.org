@@ -10,5 +10,7 @@ steps:
     command: echo "testing prod"
 
 notify:
-  - slack: "#wc-experience"
-    message: "Deploying [bloop] to staging..."
+  - slack:
+      channels:
+        - "#wc-experience"
+      message: "Deploying [bloop] to staging..."
