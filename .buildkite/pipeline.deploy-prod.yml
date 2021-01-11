@@ -1,0 +1,14 @@
+steps:
+  - label: "release to prod"
+    command: echo "$BUILDKITE_COMMIT $BUILDKITE_BUILD_URL"
+    concurrency: 1
+    concurrency_group: "experience-deploy"
+    
+  - wait
+
+  - label: "e2e test:desktop [prod]"
+    command: echo "testing prod"
+
+notify:
+  - slack: "#wc-experience"
+    message: "Deploying [bloop] to staging..."

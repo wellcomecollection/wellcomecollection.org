@@ -1,6 +1,5 @@
-notify:
-  - slack: "#wc-experience"
-    message: "Deploying [bloop] to staging..."
+- label: "Deplyments steps"
+  trigger: "experience-deploy-stage"
 
 - label: ":docker: Build"
   plugins:
