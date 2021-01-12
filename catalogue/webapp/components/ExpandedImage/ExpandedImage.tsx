@@ -294,6 +294,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
       ? imageLink({
           workId,
           id: image.id,
+          resultPosition,
           source: trackingSource,
         })
       : detailedWork &&
@@ -305,6 +306,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
             detailedWork?.languages.length === 1
               ? detailedWork?.languages[0].id
               : undefined,
+          resultPosition: resultPosition,
           source: trackingSource,
           ...(canvasDeeplink || {}),
         });

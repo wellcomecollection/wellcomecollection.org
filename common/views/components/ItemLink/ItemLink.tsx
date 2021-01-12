@@ -11,6 +11,7 @@ export type ItemQueryParams = {
   langCode?: string;
   sierraId?: string;
   isOverview?: boolean;
+  resultPosition?: number;
   source: ItemLinkSource;
 };
 
@@ -47,6 +48,7 @@ const ItemLink: FunctionComponent<PropsWithChildren<Props>> = ({
   isOverview,
   page = 1,
   pageSize = 4,
+  resultPosition,
   source,
   children,
   ...linkProps
@@ -62,6 +64,7 @@ const ItemLink: FunctionComponent<PropsWithChildren<Props>> = ({
         isOverview,
         page,
         pageSize,
+        resultPosition,
       })}
       {...linkProps}
     >

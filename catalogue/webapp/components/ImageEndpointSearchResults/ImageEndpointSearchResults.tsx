@@ -26,7 +26,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
       className={'flex flex--wrap plain-list no-padding no-margin'}
       role="list"
     >
-      {images.results.map((result: Image, i) => (
+      {images.results.map((result: Image) => (
         <li key={result.id} role="listitem">
           <ImageCard
             id={result.id}
@@ -47,7 +47,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
       ))}
       {expandedImage && (
         <ExpandedImage
-          resultPosition={i}
+          resultPosition={expandedImagePosition}
           image={expandedImage}
           setExpandedImage={setExpandedImage}
           onWorkLinkClick={() => {
