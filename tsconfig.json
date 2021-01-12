@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "lib": ["dom", "es2020"],
+    "typeRoots": ["../../node_modules/@types", "./node_modules/@types"],
+    "target": "es2018",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "declaration": true,
+    "moduleResolution": "node",
+    "outDir": "./lib",
+    "noEmitOnError": false,
+    "strict": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "jsx": "preserve",
+    "resolveJsonModule": true,
+    "noImplicitAny": false,
+    "downlevelIteration": true,
+    "noUnusedLocals": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "references": []
+}
