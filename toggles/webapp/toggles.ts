@@ -66,5 +66,11 @@ export default {
       description:
         'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
     },
+    {
+      id: 'searchMoreFilters',
+      title: 'More Filters',
+      defaultValue: false,
+      description: 'Enable more filters within the search results',
+    },
   ] as const,
 };

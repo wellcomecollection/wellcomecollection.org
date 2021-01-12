@@ -9,7 +9,15 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import NextLink from 'next/link';
 import dynamic from 'next/dynamic';
 import { SearchFiltersSharedProps } from './PrototypeSearchFilters';
-import { FunctionComponent, ReactElement, ReactNode } from 'react';
+import React, {
+  FunctionComponent,
+  ReactElement,
+  ReactNode,
+  useRef,
+  useState,
+} from 'react';
+import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
+import ButtonInline from '../ButtonInline/ButtonInline';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
 
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
@@ -74,6 +82,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   workTypeInUrlArray,
   imagesColor,
   aggregations,
+  enableMoreFilters,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
@@ -87,6 +96,9 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
     productionDatesFrom: null,
     productionDatesTo: null,
   };
+
+  const [showMoreFiltersModal, setMoreFiltersModal] = useState(false);
+  const openMoreFiltersButtonRef = useRef(null);
 
   const resetFilters = imagesColor
     ? imagesLink(
@@ -242,6 +254,30 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                     onChangeColor={changeHandler}
                   />
                 </DropdownButton>
+              </Space>
+            )}
+            {enableMoreFilters && !filtersToShow.includes('colors') && (
+              <Space
+                className={classNames({
+                  [font('hnl', 5)]: true,
+                })}
+                h={{ size: 's', properties: ['margin-left'] }}
+              >
+                <ButtonInline
+                  text="More Filters"
+                  clickHandler={event => {
+                    event.preventDefault();
+                    setMoreFiltersModal(true);
+                  }}
+                  ref={openMoreFiltersButtonRef}
+                />
+                <ModalMoreFilters
+                  id="moreFilters"
+                  showMoreFiltersModal={showMoreFiltersModal}
+                  setMoreFiltersModal={setMoreFiltersModal}
+                  openMoreFiltersButtonRef={openMoreFiltersButtonRef}
+                  filtersToShow={filtersToShow}
+                />
               </Space>
             )}
           </Space>

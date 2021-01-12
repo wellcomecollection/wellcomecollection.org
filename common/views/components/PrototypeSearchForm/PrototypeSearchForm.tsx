@@ -35,6 +35,7 @@ import {
   searchFormInputCatalogue,
   searchFormInputImage,
 } from '../../../text/arial-labels';
+import TogglesContext from '../TogglesContext/TogglesContext';
 
 type Props = {
   ariaDescribedBy: string;
@@ -103,6 +104,7 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
   const searchInput = useRef<HTMLInputElement>(null);
   const [forceState, setForceState] = useState(false);
   const [portalSortOrder, setPortalSortOrder] = useState(routeProps.sortOrder);
+  const { searchMoreFilters } = useContext(TogglesContext);
   function submit() {
     searchForm.current &&
       searchForm.current.dispatchEvent(
@@ -280,8 +282,18 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
           changeHandler={submit}
           aggregations={aggregations}
           filtersToShow={
-            isImageSearch ? ['colors'] : ['dates', 'formats', 'locations']
+            isImageSearch
+              ? ['colors']
+              : [
+                  'dates',
+                  'formats',
+                  'locations',
+                  'languages',
+                  'genres',
+                  'subjects',
+                ]
           }
+          enableMoreFilters={Boolean(searchMoreFilters)}
         />
       )}
       {!isImageSearch && isEnhanced && (

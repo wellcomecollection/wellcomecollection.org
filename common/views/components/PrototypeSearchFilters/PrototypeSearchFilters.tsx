@@ -26,6 +26,7 @@ type Props = {
   aggregations?: CatalogueAggregations;
   changeHandler: () => void;
   filtersToShow: string[];
+  enableMoreFilters: boolean;
 };
 
 export type SearchFiltersSharedProps = Props & {
@@ -40,6 +41,7 @@ export type SearchFiltersSharedProps = Props & {
   locationsTypeInUrlArray: string[];
   imagesColor: string | null;
   aggregations?: CatalogueAggregations;
+  enableMoreFilters: boolean;
 };
 
 const SearchFilters: FunctionComponent<Props> = ({
@@ -49,6 +51,7 @@ const SearchFilters: FunctionComponent<Props> = ({
   changeHandler,
   aggregations,
   filtersToShow,
+  enableMoreFilters,
 }: Props): ReactElement<Props> => {
   const workTypeInUrlArray = worksRouteProps.workType || [];
   const locationsTypeInUrlArray = worksRouteProps.itemsLocationsType || [];
@@ -118,6 +121,7 @@ const SearchFilters: FunctionComponent<Props> = ({
     locationsTypeInUrlArray,
     imagesColor: color,
     aggregations,
+    enableMoreFilters,
   };
 
   return (
