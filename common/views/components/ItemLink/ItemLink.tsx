@@ -1,7 +1,7 @@
 import NextLink, { LinkProps } from 'next/link';
 import { FunctionComponent, PropsWithChildren } from 'react';
 
-type ItemLinkSource = 'images_search_result';
+type ItemLinkSource = 'images_search_result' | 'viewer/paginator';
 
 export type ItemQueryParams = {
   workId: string;
