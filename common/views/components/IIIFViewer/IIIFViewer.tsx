@@ -32,6 +32,7 @@ import Download from '@weco/catalogue/components/Download/Download';
 import dynamic from 'next/dynamic';
 import { DigitalLocation, Work } from '../../../model/catalogue';
 import { FixedSizeList } from 'react-window';
+import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 
 const LoadingComponent = () => (
   <div
@@ -344,11 +345,13 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
       setEnhanced(true);
     }
   }, []);
-  useEffect(() => {
+
+  useSkipInitialEffect(() => {
     const canvasParams =
       canvases.length > 0 || currentCanvas
         ? { canvas: `${activeIndex + 1}` }
         : {};
+
     Router.replace(
       {
         ...mainPaginatorProps.link.href,

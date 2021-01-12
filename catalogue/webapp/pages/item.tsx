@@ -288,9 +288,7 @@ const ItemPage: NextPage<Props> = ({
       >
         <div className={font('hnl', 5)}>
           {authService?.label && (
-            <h2 className={font('hnm', 4)}>
-              {authService?.label}
-            </h2>
+            <h2 className={font('hnm', 4)}>{authService?.label}</h2>
           )}
           {authService?.description && (
             <p
