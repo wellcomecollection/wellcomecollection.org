@@ -168,7 +168,7 @@ const ImageViewerControls = styled.div<{ showControls?: boolean }>`
     width: 1px;
     white-space: nowrap;
   }
-}`;
+`;
 
 type IIIFViewerProps = {
   title: string;
@@ -358,6 +358,7 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
         query: {
           ...mainPaginatorProps.link.href.query,
           ...canvasParams,
+          source: 'viewer/paginator',
         },
       },
       {
@@ -365,6 +366,7 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
         query: {
           ...mainPaginatorProps.link.as.query,
           ...canvasParams,
+          source: 'viewer/paginator',
         },
       }
     );
