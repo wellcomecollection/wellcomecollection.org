@@ -1,5 +1,9 @@
 // @flow
-import body from './body';
+import body, { slice } from './body';
+import heading from './heading';
+import link from './link';
+import text from './text';
+
 export default {
   fieldset: 'Body content',
   type: 'Slices',
@@ -290,6 +294,15 @@ export default {
           },
         },
       },
+      linkList: slice('Link List', {
+        nonRepeat: {
+          title: heading('Title', 2),
+        },
+        repeat: {
+          link: link('Link', 'web'),
+          linkText: text('Link text'),
+        },
+      }),
       imageList: {
         type: 'Slice',
         fieldset:
