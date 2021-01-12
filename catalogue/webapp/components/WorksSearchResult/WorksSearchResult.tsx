@@ -21,6 +21,7 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 
 type Props = {
   work: Work;
+  resultPosition: number;
 };
 
 const ShameAvailableOnlineTag = styled(Space).attrs({
@@ -75,7 +76,10 @@ function isPdfThumbnail(thumbnail): boolean {
   return Boolean(thumbnail.url.match('.pdf/full'));
 }
 
-const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
+const WorkSearchResult: FunctionComponent<Props> = ({
+  work,
+  resultPosition,
+}: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   const { archiveContextInSearch } = useContext(TogglesContext);
@@ -89,7 +93,12 @@ const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
         'border-top-width-1': true,
       })}
     >
-      <WorkLink id={work.id} source={`works_search_result`} passHref>
+      <WorkLink
+        id={work.id}
+        resultPosition={resultPosition}
+        source={`works_search_result`}
+        passHref
+      >
         <Space
           as="a"
           v={{
@@ -213,4 +222,4 @@ const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
     </div>
   );
 };
-export default WorkCard;
+export default WorkSearchResult;
