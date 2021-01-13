@@ -312,16 +312,16 @@ export const getServerSideProps: GetServerSideProps<
   const globalContextData = getGlobalContextData(context);
   const parsedParams = parseUrlParams(context.query);
   const params = WorksRoute.fromQuery(parsedParams);
-  const { enableColorFiltering } = globalContextData.toggles;
+  const { enableColorFiltering, searchMoreFilters } = globalContextData.toggles;
   const _queryType = cookies(context)._queryType;
   const isImageSearch = params.search === 'images';
-  const aggregations = [
-    'workType',
-    'locationType',
-    'genres',
-    'languages',
-    'subjects',
-  ];
+  const defaultAggregations = ['workType', 'locationType'];
+
+  const moreFilters = ['genres', 'languages', 'subjects'];
+  const aggregations = searchMoreFilters
+    ? [...defaultAggregations, ...moreFilters]
+    : defaultAggregations;
+
   const worksApiProps = worksRouteToApiUrl(params, {
     _queryType,
     aggregations,
