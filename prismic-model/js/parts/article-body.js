@@ -294,7 +294,7 @@ export default {
           },
         },
       },
-      linkList: slice('Link List', {
+      tagList: slice('Tag List', {
         nonRepeat: {
           title: heading('Title', 2),
         },

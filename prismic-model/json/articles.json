@@ -407,9 +407,9 @@
               }
             }
           },
-          "linkList": {
+          "tagList": {
             "type": "Slice",
-            "fieldset": "Link List",
+            "fieldset": "Tag List",
             "non-repeat": {
               "title": {
                 "type": "StructuredText",
