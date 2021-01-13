@@ -259,7 +259,7 @@ export class ArticlePage extends Component<Props, State> {
       >
         <ContentPage
           id={article.id}
-          isCreamy={true}
+          isCreamy={!isPodcast}
           Header={Header}
           Body={
             <Body body={article.body} isDropCapped={true} pageId={article.id} />
