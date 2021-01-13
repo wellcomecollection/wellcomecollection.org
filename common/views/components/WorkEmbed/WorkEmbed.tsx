@@ -69,9 +69,7 @@ const WorkEmbed: FunctionComponent<Props> = ({ work }: Props) => {
             paddingRight: '12px',
             paddingBottom: '12px',
           }}
-        >
-          <WorkCredit work={work} />
-        </div>
+        ></div>
       </div>
     );
   } else {
