@@ -139,19 +139,19 @@ type Props = {
   value: string;
   setValue: (value: string) => void;
   id: string;
-  name: string | undefined;
-  type: string | undefined;
-  pattern: string | undefined;
-  required: boolean | undefined;
-  placeholder: string | undefined;
-  errorMessage: string | undefined;
-  isValid: boolean | undefined;
-  setIsValid: ((value: boolean) => void) | undefined;
-  showValidity: boolean | undefined;
-  setShowValidity: ((value: boolean) => void) | undefined;
-  autoFocus: boolean | undefined;
-  big: boolean | undefined;
-  ariaLabel?: string | undefined;
+  name?: string;
+  type?: string;
+  pattern?: string;
+  required?: boolean;
+  placeholder?: string;
+  errorMessage?: string;
+  isValid?: boolean;
+  setIsValid?: (value: boolean) => void;
+  showValidity?: boolean;
+  setShowValidity?: (value: boolean) => void;
+  autoFocus?: boolean;
+  big?: boolean;
+  ariaLabel?: string;
 };
 
 const TextInput = forwardRef(

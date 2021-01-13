@@ -71,17 +71,6 @@ const CopyUrl: FunctionComponent<Props> = ({
         setValue={() => {
           // noop
         }}
-        name={undefined}
-        pattern={undefined}
-        required={undefined}
-        placeholder={undefined}
-        errorMessage={undefined}
-        isValid={undefined}
-        setIsValid={undefined}
-        showValidity={undefined}
-        setShowValidity={undefined}
-        autoFocus={undefined}
-        big={undefined}
       />
 
       {isEnhanced && (
