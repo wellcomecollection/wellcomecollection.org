@@ -789,6 +789,21 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
             },
           };
 
+        case 'tagList':
+          return {
+            type: 'tagList',
+            value: {
+              title: parseTitle(slice.primary.title),
+              tags: slice.items.map(item => ({
+                textParts: [item.linkText],
+                linkAttributes: {
+                  href: { pathname: parseLink(item.link), query: '' },
+                  as: { pathname: parseLink(item.link), query: '' },
+                },
+              })),
+            },
+          };
+
         // Deprecated
         case 'imageList':
           return {
