@@ -34,7 +34,7 @@ type Session = {
 
 const sessionIdLocalStorageKey = 'sessionId';
 const lastTrackedLocalStorageKey = 'lastTracked';
-const sessionTimeout = 1000 * 60 * 0.1; // 30 minutes
+const sessionTimeout = 1000 * 60 * 30; // 30 minutes
 function getSessionId(): string {
   const lsSessionId = localStorage.getItem(sessionIdLocalStorageKey);
   const lsLastTracked = localStorage.getItem(lastTrackedLocalStorageKey);
