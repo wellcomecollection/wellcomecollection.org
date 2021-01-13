@@ -110,7 +110,10 @@ function track(conversion: Conversion) {
   localStorage.setItem(lastTrackedLocalStorageKey, Date.now().toString());
 
   if (debug) {
-    console.info(sessionId, conversion);
+    console.info({
+      session,
+      ...conversion,
+    });
   }
 
   window.analytics.track('conversion', {
