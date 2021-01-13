@@ -28,6 +28,7 @@ import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import EventsByMonth from '@weco/common/views/components/EventsByMonth/EventsByMonth';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+// $FlowFixMe (tsx)
 import Icon from '@weco/common/views/components/Icon/Icon';
 // $FlowFixMe (tsx)
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';

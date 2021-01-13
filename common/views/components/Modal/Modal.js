@@ -4,6 +4,7 @@ import useFocusTrap from '../../../hooks/useFocusTrap';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
+// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 // $FlowFixMe (tsx)
 import { AppContext } from '../AppContext/AppContext';
