@@ -199,8 +199,8 @@ export class ArticlePage extends Component<Props, State> {
         title={article.title}
         ContentTypeInfo={ContentTypeInfo}
         Background={null}
-        FeaturedMedia={isImageGallery ? null : maybeFeaturedMedia}
-        HeroPicture={isImageGallery ? null : maybeHeroPicture}
+        FeaturedMedia={isImageGallery || isPodcast ? null : maybeFeaturedMedia}
+        HeroPicture={isImageGallery || isPodcast ? null : maybeHeroPicture}
         heroImageBgColor={isImageGallery ? 'white' : 'cream'}
         TitleTopper={TitleTopper}
         isContentTypeInfoBeforeMedia={true}
