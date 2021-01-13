@@ -48,6 +48,3 @@ export const config = {
     apiKey: process.env.API_KEY,
   } as { baseUrl: string, apiKey: string }
 };
-
-console.log('Base URL: ' + config.remoteApi.baseUrl);
-console.log('API Key: ' + config.remoteApi.apiKey);
