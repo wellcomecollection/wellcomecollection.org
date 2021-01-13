@@ -3,6 +3,7 @@ import { Component, Fragment, createRef } from 'react';
 import { classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';
+// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 // $FlowFixMe (tsx)
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
