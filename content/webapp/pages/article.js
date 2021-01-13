@@ -190,7 +190,8 @@ export class ArticlePage extends Component<Props, State> {
       article.format &&
       (article.format.id === ContentFormatIds.ImageGallery ||
         article.format.id === ContentFormatIds.Comic);
-
+    const isPodcast =
+      article.format && article.format.id === ContentFormatIds.Podcast;
     const Header = (
       <PageHeader
         breadcrumbs={breadcrumbs}
