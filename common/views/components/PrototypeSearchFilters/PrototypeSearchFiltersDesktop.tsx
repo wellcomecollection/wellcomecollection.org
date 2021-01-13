@@ -277,6 +277,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   setMoreFiltersModal={setMoreFiltersModal}
                   openMoreFiltersButtonRef={openMoreFiltersButtonRef}
                   filtersToShow={filtersToShow}
+                  aggregations={aggregations}
                 />
               </Space>
             )}
