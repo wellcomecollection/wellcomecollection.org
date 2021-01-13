@@ -42,4 +42,12 @@ export const config = {
         username: process.env.TEST_USER || 'test',
         password: process.env.TEST_PASSWORD || 'test',
       },
+
+  remoteApi: {
+    baseUrl: process.env.BASE_URL,
+    apiKey: process.env.API_KEY,
+  } as { baseUrl: string, apiKey: string }
 };
+
+console.log('Base URL: ' + config.remoteApi.baseUrl);
+console.log('API Key: ' + config.remoteApi.apiKey);
