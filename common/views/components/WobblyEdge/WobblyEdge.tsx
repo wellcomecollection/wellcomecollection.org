@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import debounce from 'lodash.debounce';
 import prefixedPropertyStyleObject from '../../../utils/prefixed-property-style-object';
@@ -7,19 +6,19 @@ function randomIntFromInterval(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-type Props = {|
-  background: string,
-  intensity?: number,
-  points?: number,
-  isValley?: boolean,
-  isStatic?: boolean,
-  extraClasses?: string,
-|};
+type Props = {
+  background: string;
+  intensity?: number;
+  points?: number;
+  isValley?: boolean;
+  isStatic?: boolean;
+  extraClasses?: string;
+};
 
-type State = {|
-  isActive: boolean,
-  styleObject: {},
-|};
+type State = {
+  isActive: boolean;
+  styleObject: Record<string, unknown>;
+};
 
 class WobblyEdge extends React.Component<Props, State> {
   timer: any;

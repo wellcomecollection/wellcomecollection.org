@@ -5,6 +5,7 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusIndicator/DateAndStatusIndicator';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
+// $FlowFixMe(tsx)
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 // $FlowFixMe (tsx)
@@ -79,16 +80,16 @@ const Installation = ({ installation }: Props) => {
         <>
           {installation.start && !installation.statusOverride && (
             <DateAndStatusIndicator
-            start={installation.start}
-            end={installation.end}
+              start={installation.start}
+              end={installation.end}
             />
           )}
-          {installation.statusOverride &&  (
+          {installation.statusOverride && (
             <StatusIndicator
-            start={installation.start}
-            end={installation.end || new Date()}
-            statusOverride={installation.statusOverride}
-          />
+              start={installation.start}
+              end={installation.end || new Date()}
+              statusOverride={installation.statusOverride}
+            />
           )}
         </>
       }
