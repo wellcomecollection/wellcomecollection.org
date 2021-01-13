@@ -239,14 +239,14 @@ const SearchForm: FunctionComponent<Props> = ({
             ref={searchInput}
             required={true}
             big={true}
-            type={null}
-            pattern={null}
-            errorMessage={null}
+            type={undefined}
+            pattern={undefined}
+            errorMessage={undefined}
             placeholder={''}
-            isValid={null}
-            setIsValid={null}
-            showValidity={null}
-            setShowValidity={null}
+            isValid={undefined}
+            setIsValid={undefined}
+            showValidity={undefined}
+            setShowValidity={undefined}
             ariaLabel={
               isImageSearch ? searchFormInputImage : searchFormInputCatalogue
             }
