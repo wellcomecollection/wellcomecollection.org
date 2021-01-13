@@ -5,6 +5,7 @@ import { font, classNames } from '../../../utils/classnames';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import LabelsList from '../LabelsList/LabelsList';
 import { UiImage } from '../Images/Images';
+// $FlowFixMe(tsx)
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Picture from '../Picture/Picture';
 import HeaderBackground from '../HeaderBackground/HeaderBackground';
