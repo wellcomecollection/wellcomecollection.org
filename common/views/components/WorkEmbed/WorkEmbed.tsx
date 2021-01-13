@@ -62,14 +62,6 @@ const WorkEmbed: FunctionComponent<Props> = ({ work }: Props) => {
             />
           </div>
         </div>
-        <div
-          style={{
-            marginTop: 'auto',
-            paddingLeft: '12px',
-            paddingRight: '12px',
-            paddingBottom: '12px',
-          }}
-        ></div>
       </div>
     );
   } else {
