@@ -317,9 +317,9 @@ export const getServerSideProps: GetServerSideProps<
   const isImageSearch = params.search === 'images';
   const defaultAggregations = ['workType', 'locationType'];
 
-  const moreFilters = ['genres', 'languages', 'subjects'];
+  const moreFiltersAggregations = ['genres', 'languages', 'subjects'];
   const aggregations = searchMoreFilters
-    ? [...defaultAggregations, ...moreFilters]
+    ? [...defaultAggregations, ...moreFiltersAggregations]
     : defaultAggregations;
 
   const worksApiProps = worksRouteToApiUrl(params, {
