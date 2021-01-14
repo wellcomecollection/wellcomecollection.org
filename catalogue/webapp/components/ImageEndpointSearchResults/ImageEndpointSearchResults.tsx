@@ -4,6 +4,7 @@ import ImageCard from '../ImageCard/ImageCard';
 import { trackSearchResultSelected } from '@weco/common/views/components/Tracker/Tracker';
 import { Image, CatalogueResultsList } from '@weco/common/model/catalogue';
 import { CatalogueImagesApiProps } from '@weco/common/services/catalogue/ts_api';
+import { trackEvent } from '@weco/common/utils/ga';
 
 type Props = {
   images: CatalogueResultsList<Image>;
@@ -59,6 +60,12 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
               resultWorkType: '',
               source: 'image_endpoint_result/work_link',
             });
+
+            trackEvent({
+              category: 'ExpandedImage',
+              action: 'follow work link',
+              label: expandedImage.id,
+            });
           }}
           onImageLinkClick={() => {
             trackSearchResultSelected(apiProps, {
@@ -68,6 +75,12 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
               resultIdentifiers: undefined,
               resultSubjects: undefined,
               source: 'image_endpoint_result/image_link',
+            });
+
+            trackEvent({
+              category: 'ExpandedImage',
+              action: 'follow image link',
+              label: expandedImage.id,
             });
           }}
           id="expanded-image-dialog"
