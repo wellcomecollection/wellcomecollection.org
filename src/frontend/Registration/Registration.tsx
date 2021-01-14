@@ -4,17 +4,16 @@ import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSol
 // @ts-ignore
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import EyeIcon from '@weco/common/icons/components/Eye';
-import AllyVisual from '@weco/common/icons/components/A11yVisual';
 import { AccountCreated } from './AccountCreated';
 import { RegistrationSummaryParagraph } from './RegistrationSummaryParagraph';
 import { ErrorMessage } from '../Shared/ErrorMessage';
-import CheckboxRadio from '../Shared/CheckBoxLabel';
+import CheckboxRadio from '../WellcomeComponents/CheckBoxLabel';
 import axios from 'axios';
 
 // TODO: Update this to prod.
 const logo = 'https://identity-public-assets-stage.s3.eu-west-1.amazonaws.com/images/wellcomecollections-150x50.png';
 import styled from 'styled-components';
+import { PasswordInput } from '../Shared/PasswordInput';
 
 // At least 8 characters, one uppercase, one lowercase and number
 const passwordPolicy = /(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*/;
@@ -28,16 +27,6 @@ const LogoContainer = styled.div`
   }
 `;
 
-const PasswordFieldWrapper = styled.div`
-  display: grid;
-`;
-const IconWrapper = styled.div`
-  height: 30px;
-  width: 30px;
-  justify-self: end;
-  transform: translate(-10px, -40px);
-`;
-
 export const Registration: React.FC = () => {
   const [firstName, setFirstName] = useState<string>();
   const [lastName, setLastName] = useState<string>();
@@ -49,7 +38,6 @@ export const Registration: React.FC = () => {
   const [consent, setConsent] = useState(false);
   const [alreadyExists, setAlreadyExists] = useState(false);
   const [passQualifies, setPassQualifies] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
   const [commonPassword, setCommonPassword] = useState(false);
   const [errorOccured, setErrorOccured] = useState(false);
 
@@ -172,26 +160,7 @@ export const Registration: React.FC = () => {
             )}
             {!emailValid ? <ErrorMessage>Please enter a valid email address.</ErrorMessage> : <></>}
             <SpacingComponent />
-            <PasswordFieldWrapper>
-              <TextInput
-                placeholder=""
-                required={true}
-                aria-label="Password"
-                label="Password"
-                value={pass}
-                setValue={(value: string) => setPass(value)}
-                type={showPassword ? 'text' : 'password'}
-                pattern={passwordPolicy}
-                style={{ width: '100%' }}
-              />
-              <IconWrapper>
-                {!showPassword ? (
-                  <EyeIcon onClick={() => setShowPassword(true)} />
-                ) : (
-                  <AllyVisual onClick={() => setShowPassword(false)} />
-                )}
-              </IconWrapper>
-            </PasswordFieldWrapper>
+            <PasswordInput value={pass} setValue={(value: string) => setPass(value)} pattern={passwordPolicy} />
             {commonPassword ? (
               <ErrorMessage>
                 The password you have entered has been flagged as a common password, or you have used your name in the

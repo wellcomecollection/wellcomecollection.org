@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 
-// @ts-ignore
-import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
-// @ts-ignore
-import TabNav from '@weco/common/views/components/TabNav/TabNav';
+import TabNav from '../WellcomeComponents/TabNav';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
 import { ProfileForm } from './ProfileForm';
@@ -14,18 +11,18 @@ const logo = 'https://identity-public-assets-stage.s3.eu-west-1.amazonaws.com/im
 import styled from 'styled-components';
 
 const LogoContainer = styled.div`
-   {
-    display: flex;
-    width: 200px;
-  }
+  display: flex;
+  width: 200px;
 `;
 
-export const AccountManagement: React.FC<{
-  existingTitle: string;
-  existingFirstName: string;
-  existingLastName: string;
-  existingEmail: string;
-}> = ({ existingTitle, existingFirstName, existingLastName, existingEmail }) => {
+export type UserInfo = {
+  firstName: string;
+  lastName: string;
+  emailAddress: string;
+  libraryCardNumber: string;
+};
+
+export const AccountManagement: React.FC<UserInfo> = (props) => {
   const [idx, setIdx] = useState(0);
 
   return (
@@ -38,21 +35,12 @@ export const AccountManagement: React.FC<{
       <>
         <TabNav
           items={[
-            { link: '#', text: 'Profile', selected: idx === 0, onClick: () => setIdx(0) },
-            { link: '#', text: 'Password', selected: idx === 1, onClick: () => setIdx(1) },
+            { link: { to: '#' }, text: 'Profile', selected: idx === 0, onClick: () => setIdx(0) },
+            { link: { to: '#' }, text: 'Password', selected: idx === 1, onClick: () => setIdx(1) },
           ]}
         />
-        {idx === 0 ? (
-          <ProfileForm
-            existingTitle={existingTitle}
-            existingFirstName={existingFirstName}
-            existingLastName={existingLastName}
-            existingEmail={existingEmail}
-          />
-        ) : (
-          <></>
-        )}
-        {idx === 1 ? <PasswordForm /> : <></>}
+        {idx === 0 && <ProfileForm {...props} />}
+        {idx === 1 && <PasswordForm />}
       </>
     </div>
   );

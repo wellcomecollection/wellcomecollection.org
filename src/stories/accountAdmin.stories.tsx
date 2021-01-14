@@ -7,14 +7,13 @@ import { withKnobs, text } from '@storybook/addon-knobs';
 
 export default { title: 'Account Admin', decorators: [withKnobs] };
 
-
 export const ProfileFormUI: React.FC = () => {
   return (
     <ProfileForm
-      existingTitle={text('Title', 'Lord')}
-      existingFirstName={text('First Name', 'Samuel')}
-      existingLastName={text('Surname', 'Beckett')}
-      existingEmail={text('email', 'Becketts@provider.com')}
+      firstName={text('First Name', 'Samuel')}
+      lastName={text('Surname', 'Beckett')}
+      emailAddress={text('email', 'Becketts@provider.com')}
+      libraryCardNumber={text('Library card number', '123456')}
     />
   );
 };

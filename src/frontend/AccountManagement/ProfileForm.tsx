@@ -6,62 +6,60 @@ import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/But
 // @ts-ignore
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-// @ts-ignore
-import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 
 import { ErrorMessage } from '../Shared/ErrorMessage';
+import { PasswordInput } from '../Shared/PasswordInput';
+import { UserInfo } from './AccountManagement';
 
-export const ProfileForm: React.FC<{
-  existingTitle: string;
-  existingFirstName: string;
-  existingLastName: string;
-  existingEmail: string;
-}> = ({ existingTitle, existingFirstName, existingLastName, existingEmail }) => {
-  const [title, setTitle] = useState<string>(existingTitle);
-  const [email, setEmail] = useState<string>(existingEmail);
+type ExistingDataProps = {
+  label: string;
+  value: string;
+};
+
+const ExistingData = ({ label, value }: ExistingDataProps) => (
+  <>
+    <p className="font-hnm font-size-5">{label}</p>
+    <p className="font-hnl font-size-5">{value}</p>
+  </>
+);
+
+export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, emailAddress, libraryCardNumber }) => {
+  const [email, setEmail] = useState<string>(emailAddress);
+  const [password, setPassword] = useState<string>('');
   const [alreadyExists, setAlreadyExists] = useState<boolean>(false);
   const [valid, setValid] = useState<boolean | undefined | string>(false);
-  const [saved, setSaved] = useState<boolean>(false);
+  const [saved, setSaved] = useState<boolean>(true);
 
   useEffect(() => {
-    // check if email exists
-    console.log(saved);
-    setAlreadyExists(true);
+    // TODO: check if email exists
+    setAlreadyExists(false);
   }, [email]);
 
   useEffect(() => {
-    setValid(title && email);
-  }, [title, email]);
+    // TODO: validate email
+    setValid(Boolean(email));
+  }, [email]);
+
+  const handleEmailChange = (value: string) => {
+    setEmail(value);
+    setSaved(false);
+  };
 
   const saveChanges = () => {
+    // TODO: Save changes
     setSaved(true);
-    // Save Changes
   };
 
   const deleteAccount = () => {
-    // Delete Account
+    // TODO: Delete Account
   };
+
   return (
     <div>
+      <ExistingData label="Name" value={`${firstName} ${lastName}`} />
+      <ExistingData label="Library card number" value={libraryCardNumber} />
+      <h2 className="font-wb font-size-3">Change email</h2>
       <form>
-        <SpacingComponent />
-        <SectionHeader title="Personal details" />
-
-        <TextInput
-          placeholder=""
-          required={true}
-          aria-label="Title"
-          label="Title"
-          value={title}
-          setValue={(value: string) => setTitle(value)}
-        />
-        <SpacingComponent />
-        {/* Need to style this */}
-        <p>
-          {existingFirstName} {existingLastName}
-        </p>
-        <SpacingComponent />
-
         <TextInput
           placeholder=""
           required={true}
@@ -69,18 +67,18 @@ export const ProfileForm: React.FC<{
           label="Email address"
           value={email}
           type="email"
-          setValue={(value: string) => setEmail(value)}
+          setValue={handleEmailChange}
         />
-        {alreadyExists ? (
+        {alreadyExists && (
           <ErrorMessage>
-            This account already exists. You can try to <a href="TBC">{''}login</a>
+            This account already exists. You can try to <a href="TBC">login</a>
           </ErrorMessage>
-        ) : (
-          <></>
         )}
         <SpacingComponent />
+        <PasswordInput value={password} setValue={setPassword} />
+        <SpacingComponent />
         <OutlinedButton onClick={deleteAccount}>Delete Account</OutlinedButton>
-        <SolidButton disabled={!valid} onClick={saveChanges}>
+        <SolidButton disabled={!valid || saved} onClick={saveChanges}>
           Save Changes
         </SolidButton>
         <input type="submit" value="Submit" hidden={true} />
