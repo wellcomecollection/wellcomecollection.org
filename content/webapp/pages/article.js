@@ -161,21 +161,28 @@ export class ArticlePage extends Component<Props, State> {
                   >
                     {contributor.name}
                   </span>
-                  {arr.length > 1 && i < arr.length - 2 && ', '}
-                  {arr.length > 1 && i === arr.length - 2 && ' and '}
+                  <Space
+                    as="span"
+                    h={{
+                      size: 's',
+                      properties: ['margin-left', 'margin-right'],
+                    }}
+                  >
+                    {arr.length > 1 && i < arr.length - 1 && '|'}
+                  </Space>
                 </Fragment>
               ))}
 
               {article.contributors.length > 0 && ' '}
 
-              <span
+              <div
                 className={classNames({
                   'font-pewter': true,
                   [font('hnl', 6)]: true,
                 })}
               >
                 <HTMLDate date={new Date(article.datePublished)} />
-              </span>
+              </div>
             </p>
           </Space>
         </div>
