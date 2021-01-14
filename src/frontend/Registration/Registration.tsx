@@ -70,14 +70,8 @@ export const Registration: React.FC = () => {
   }, [email]);
 
   useEffect(() => {
-    // check if password passes password policy
-    if (pass && !passwordPolicy.test(pass || '')) {
-      setPassQualifies(false);
-      setCommonPassword(false);
-    } else {
-      setPassQualifies(true);
-      setCommonPassword(false);
-    }
+    setPassQualifies(!pass || passwordPolicy.test(pass || ''));
+    setCommonPassword(false);
   }, [pass]);
 
   useEffect(() => {
