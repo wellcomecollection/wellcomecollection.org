@@ -180,8 +180,8 @@ const Body: FunctionComponent<Props> = ({
               <Layout8>
                 <iframe
                   width="100%"
-                  height="20"
-                  frameBorder="none"
+                  height="140"
+                  frameBorder="no"
                   src={slice.value.embedUrl}
                 />
               </Layout8>
