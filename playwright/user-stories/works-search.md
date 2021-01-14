@@ -13,17 +13,17 @@ Then the work should be browsable to from the search results
 ### Scenario 2: The person is searching for a work in the physical library
 Given we have a work in the physical library
 When the person searches for a term matching that work
-    And filters the results by “In the library”
+    And filters the results by "In the library"
 Then the work should be browsable to from the search results
 
 ### Scenario 3: The person is searching for a work that is available online
 Given we have a work in the physical library
 When the person searches for a term matching that work
-    And filters the results by “Online”
+    And filters the results by "Online"
 Then the work should be browsable to from the search results
 
 ### Scenario 4: The person is searching for a work from Wellcome Images
 Given we have the image in our collection
 When the person searches for a term matching that work
-    And filters the results by “Digital images”
+    And filters the results by "Digital images"
 Then the work should be browsable to from the search results
