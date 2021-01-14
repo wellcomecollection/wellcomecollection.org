@@ -9,6 +9,7 @@ import { RegistrationSummaryParagraph } from './RegistrationSummaryParagraph';
 import { ErrorMessage } from '../Shared/ErrorMessage';
 import CheckboxRadio from '../WellcomeComponents/CheckBoxLabel';
 import axios from 'axios';
+import { Link } from 'react-router-dom'
 
 // TODO: Update this to prod.
 const logo = 'https://identity-public-assets-stage.s3.eu-west-1.amazonaws.com/images/wellcomecollections-150x50.png';
@@ -47,13 +48,19 @@ export const Registration: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (email !== '') setEmailValid(emailTest.test(email || ''));
-    if (email === '') setEmailValid(true);
+    if (email !== '') {
+      setEmailValid(emailTest.test(email || ''));
+      setAlreadyExists(false);
+    }
+    if (!email || email === '') {
+      setEmailValid(true);
+      setAlreadyExists(false);
+    }
   }, [email]);
 
   useEffect(() => {
-    // check if password passes password policy
-    pass && !passwordPolicy.test(pass || '') ? setPassQualifies(false) : setPassQualifies(true);
+    setPassQualifies(!pass || passwordPolicy.test(pass || ''));
+    setCommonPassword(false);
   }, [pass]);
 
   useEffect(() => {
@@ -65,7 +72,7 @@ export const Registration: React.FC = () => {
     if (valid) {
       // Create Account
       try {
-        let res = await axios({
+        await axios({
           method: 'POST',
           url: '/api/user/create',
           data: {
@@ -74,25 +81,23 @@ export const Registration: React.FC = () => {
             email,
             password: pass,
           },
-        });
-        switch (res.status) {
-          case 200:
-            setCreated(true);
-            break;
-          case 201:
-            setCreated(true);
-            break;
-          case 422:
-            // If the password has flagged on the common password list by Auth0, or the user has used their own name -> prompted to change the password.
-            setCommonPassword(true);
-            break;
-          case 409:
-            // If there is a account already existing with that email address. -> Prompted to login
-            setAlreadyExists(true);
-            break;
-          default:
-            setErrorOccured(true);
-        }
+        })
+          .then(response => { setCreated(true) })
+          .catch(error => {
+            switch (error.response.status) {
+              case 400:
+              case 422:
+                // If the password has flagged on the common password list by Auth0, or the user has used their own name -> prompted to change the password.
+                setCommonPassword(true);
+                break;
+              case 409:
+                // If there is a account already existing with that email address. -> Prompted to login
+                setAlreadyExists(true);
+                break;
+              default:
+                setErrorOccured(true);
+            }
+          });
       } catch (error) {
         console.log('Something went wrong');
       }
@@ -153,7 +158,7 @@ export const Registration: React.FC = () => {
             />
             {alreadyExists ? (
               <ErrorMessage>
-                This account already exists. You can try to <a href="TBC">{''}login</a>
+                This account already exists. You can try to <Link to='/'>login</Link>
               </ErrorMessage>
             ) : (
               <></>
