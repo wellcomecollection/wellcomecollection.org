@@ -99,6 +99,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       imagesColor: maybeString(q['images.color']),
       search: maybeString(q.search),
       source: maybeString(q.source),
+      languages: stringToCsv(q.languages),
     };
   },
 

@@ -140,6 +140,17 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
   }, [portalSortOrder]);
 
   function updateUrl(form: HTMLFormElement) {
+    // toggle switch if needed
+    const languagesCheckboxes =
+      nodeListValueToArray(form['languageOptions']) || [];
+    const selectedlanguagesArray = [...languagesCheckboxes].filter(
+      selectedWorkType => selectedWorkType.checked
+    );
+    const languages =
+      selectedlanguagesArray.length > 0
+        ? selectedlanguagesArray.map(workType => workType.value)
+        : [];
+
     const workTypeCheckboxes = nodeListValueToArray(form['workType']) || [];
     const selectedWorkTypesArray = [...workTypeCheckboxes].filter(
       selectedWorkType => selectedWorkType.checked
@@ -188,6 +199,7 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
       itemsLocationsType,
       source,
       color: null,
+      languages,
     };
     const link = isImageSearch
       ? imagesLink(

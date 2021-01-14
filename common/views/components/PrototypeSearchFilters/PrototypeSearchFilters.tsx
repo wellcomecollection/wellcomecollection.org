@@ -42,6 +42,7 @@ export type SearchFiltersSharedProps = Props & {
   imagesColor: string | null;
   aggregations?: CatalogueAggregations;
   enableMoreFilters: boolean;
+  languagesInUrl: string[];
 };
 
 const SearchFilters: FunctionComponent<Props> = ({
@@ -56,6 +57,7 @@ const SearchFilters: FunctionComponent<Props> = ({
   const workTypeInUrlArray = worksRouteProps.workType || [];
   const locationsTypeInUrlArray = worksRouteProps.itemsLocationsType || [];
   const { productionDatesFrom, productionDatesTo, color } = worksRouteProps;
+  const languagesInUrl: string[] = worksRouteProps.languages || [];
 
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
@@ -122,6 +124,7 @@ const SearchFilters: FunctionComponent<Props> = ({
     imagesColor: color,
     aggregations,
     enableMoreFilters,
+    languagesInUrl,
   };
 
   return (

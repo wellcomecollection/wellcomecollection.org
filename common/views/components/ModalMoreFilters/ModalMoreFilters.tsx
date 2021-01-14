@@ -18,6 +18,8 @@ type MoreFiltersProps = {
   openMoreFiltersButtonRef: RefObject<HTMLInputElement>;
   filtersToShow: string[];
   aggregations: CatalogueAggregations | undefined;
+  changeHandler: () => void;
+  languagesInUrl: string[];
 };
 
 const ModalInner = styled.div`
@@ -49,7 +51,7 @@ const LanguagesDropDownContainer = styled.ul.attrs({
     [font('hnl', 5)]: true,
   }),
 })`
-  columns: 2;
+  columns: 1;
 `;
 
 const getFilterByCount = (
@@ -67,6 +69,8 @@ const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
   openMoreFiltersButtonRef,
   filtersToShow,
   aggregations,
+  changeHandler,
+  languagesInUrl,
 }: MoreFiltersProps) => {
   const languagesFilter: CatalogueAggregationBucket[] =
     aggregations && aggregations?.languages?.buckets
@@ -100,9 +104,9 @@ const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
                 >
                   <LanguagesDropDownContainer>
                     {languagesFilter.map(language => {
-                      // const isChecked = workTypeInUrlArray.includes(
-                      //   workType.data.id
-                      // );
+                      const isChecked = languagesInUrl.includes(
+                        language.data.id
+                      );
 
                       return (
                         languagesFilter.length && (
@@ -112,11 +116,9 @@ const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
                               type={`checkbox`}
                               text={`${language.data.label} (${language.count})`}
                               value={language.data.id}
-                              name={`workType`}
-                              checked={false}
-                              onChange={() => {
-                                alert('on change');
-                              }}
+                              name={`languageOptions`}
+                              checked={isChecked}
+                              onChange={changeHandler}
                               ariaLabel={searchFilterCheckBox(
                                 language.data.label
                               )}

@@ -83,6 +83,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   imagesColor,
   aggregations,
   enableMoreFilters,
+  languagesInUrl,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
@@ -278,6 +279,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   openMoreFiltersButtonRef={openMoreFiltersButtonRef}
                   filtersToShow={filtersToShow}
                   aggregations={aggregations}
+                  changeHandler={changeHandler}
+                  languagesInUrl={languagesInUrl}
                 />
               </Space>
             )}
