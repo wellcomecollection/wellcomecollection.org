@@ -1,6 +1,7 @@
 // @flow
 import { forwardRef, useContext } from 'react';
 import styled from 'styled-components';
+// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 // $FlowFixMe (tsx)
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
