@@ -97,6 +97,9 @@ export class ArticlePage extends Component<Props, State> {
       ],
     };
 
+    const isPodcast =
+      article.format && article.format.id === ContentFormatIds.Podcast;
+
     // Check if the article is in a serial, and where
     const serial = article.series.find(series => series.schedule.length > 0);
     const titlesInSerial = serial && serial.schedule.map(item => item.title);
@@ -106,7 +109,11 @@ export class ArticlePage extends Component<Props, State> {
     // We can abstract this out as a component if we see it elsewhere.
     // Not too confident it's going to be used like this for long.
     const TitleTopper = serial && positionInSerial && (
-      <PartNumberIndicator number={positionInSerial} color={serial.color} />
+      <PartNumberIndicator
+        number={positionInSerial}
+        color={serial.color}
+        isPodcast={isPodcast}
+      />
     );
 
     const genericFields = {
@@ -197,8 +204,7 @@ export class ArticlePage extends Component<Props, State> {
       article.format &&
       (article.format.id === ContentFormatIds.ImageGallery ||
         article.format.id === ContentFormatIds.Comic);
-    const isPodcast =
-      article.format && article.format.id === ContentFormatIds.Podcast;
+
     const Header = (
       <PageHeader
         breadcrumbs={breadcrumbs}

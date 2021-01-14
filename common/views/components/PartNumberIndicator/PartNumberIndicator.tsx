@@ -6,18 +6,20 @@ import { FunctionComponent, ReactElement } from 'react';
 type Props = {
   number: number;
   color?: ColorSelection;
+  isPodcast?: boolean;
 };
 
 const PartNumberIndicator: FunctionComponent<Props> = ({
   number,
   color,
+  isPodcast = false,
 }: Props): ReactElement<Props> => (
   <div
     className={classNames({
       [font('wb', 5)]: true,
     })}
   >
-    Part
+    {isPodcast ? 'Episode' : 'Part'}
     <Number color={color} number={number} />
   </div>
 );
