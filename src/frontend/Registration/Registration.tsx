@@ -11,6 +11,7 @@ import { RegistrationSummaryParagraph } from './RegistrationSummaryParagraph';
 import { ErrorMessage } from '../Shared/ErrorMessage';
 import CheckboxRadio from '../Shared/CheckBoxLabel';
 import axios from 'axios';
+import { Link } from 'react-router-dom'
 
 // TODO: Update this to prod.
 const logo = 'https://identity-public-assets-stage.s3.eu-west-1.amazonaws.com/images/wellcomecollections-150x50.png';
@@ -169,7 +170,7 @@ export const Registration: React.FC = () => {
             />
             {alreadyExists ? (
               <ErrorMessage>
-                This account already exists. You can try to <a href="TBC">{''}login</a>
+                This account already exists. You can try to <Link to='/'>login</Link>
               </ErrorMessage>
             ) : (
               <></>
