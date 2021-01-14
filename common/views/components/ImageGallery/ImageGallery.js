@@ -8,6 +8,7 @@ import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 // $FlowFixMe (tsx)
 import Control from '../Buttons/Control/Control';
+// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 // $FlowFixMe (tsx)
 import Layout12 from '../Layout12/Layout12';

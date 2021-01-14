@@ -1,5 +1,6 @@
 import { forwardRef, useContext } from 'react';
 import styled from 'styled-components';
+// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 import { AppContext } from '../AppContext/AppContext';
 import { classNames } from '../../../utils/classnames';

@@ -2,6 +2,7 @@
 import { Fragment } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
+// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 import type { Element } from 'react';
 import type { LabelField } from '../../../model/label-field';
