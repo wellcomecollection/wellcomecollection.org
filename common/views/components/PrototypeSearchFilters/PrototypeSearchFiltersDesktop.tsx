@@ -449,10 +449,12 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 );
               })}
 
-{languagesInUrl.map(id => {
-                const languageActiveFilters = languagesInUrl.find(({ data }) => {
-                  return data.id === id;
-                });
+              {languagesInUrl.map(id => {
+                const languageActiveFilters = languagesInUrl.find(
+                  ({ data }) => {
+                    return data.id === id;
+                  }
+                );
 
                 return (
                   languageActiveFilters && (
@@ -461,7 +463,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                       {...worksLink(
                         {
                           ...worksRouteProps,
-                          workType: worksRouteProps.langu.filter(
+                          workType: worksRouteProps.languages.filter(
                             w => w !== languageActiveFilters.data.id
                           ),
                           page: 1,
