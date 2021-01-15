@@ -1,4 +1,3 @@
-import WorkCredit from '../WorkCredit/WorkCredit';
 import ImageViewer from '../ImageViewer/ImageViewer';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import {
