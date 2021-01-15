@@ -1,5 +1,11 @@
 import { CatalogueAggregationBucket } from '@weco/common/model/catalogue';
 import { nodeListValueToArray } from '@weco/common/utils/forms';
+import { LinkProps } from 'next/link';
+
+import {
+  worksLink,
+  imagesLink,
+} from '@weco/common/services/catalogue/ts_routes';
 
 export const getFilterByCount = (
   bucketFilter: CatalogueAggregationBucket[]
@@ -20,4 +26,17 @@ export const getFilterItemSelected = (
   return selectedFilter.length > 0
     ? selectedFilter.map(filter => filter.value)
     : [];
+};
+
+export const getResetFilterLink = (
+  imagesColor: string | null,
+  resetFiltersRoute: any
+): any => {
+  const resetFiltersLink: LinkProps = imagesColor
+    ? imagesLink(
+        { ...resetFiltersRoute, locationsLicense: null, color: null },
+        'cancel_filter/all'
+      )
+    : worksLink(resetFiltersRoute, 'cancel_filter/all');
+  return resetFiltersLink;
 };
