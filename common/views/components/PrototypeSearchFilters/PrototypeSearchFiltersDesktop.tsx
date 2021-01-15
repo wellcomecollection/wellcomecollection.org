@@ -449,6 +449,34 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 );
               })}
 
+{languagesInUrl.map(id => {
+                const languageActiveFilters = languagesInUrl.find(({ data }) => {
+                  return data.id === id;
+                });
+
+                return (
+                  languageActiveFilters && (
+                    <NextLink
+                      key={id}
+                      {...worksLink(
+                        {
+                          ...worksRouteProps,
+                          workType: worksRouteProps.langu.filter(
+                            w => w !== languageActiveFilters.data.id
+                          ),
+                          page: 1,
+                        },
+                        'cancel_filter/work_types'
+                      )}
+                    >
+                      <a>
+                        <CancelFilter text={workTypeObject.data.label} />
+                      </a>
+                    </NextLink>
+                  )
+                );
+              })}
+
               {aggregations &&
                 aggregations.locationType.buckets
                   .filter(locationType =>

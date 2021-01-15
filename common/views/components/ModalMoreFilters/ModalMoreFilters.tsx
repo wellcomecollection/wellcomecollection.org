@@ -10,6 +10,7 @@ import Space from '../styled/Space';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
+import { getFilterByCount } from '@weco/common/utils/filters';
 
 type MoreFiltersProps = {
   id: string;
@@ -53,14 +54,6 @@ const LanguagesDropDownContainer = styled.ul.attrs({
 })`
   columns: 1;
 `;
-
-const getFilterByCount = (
-  bucketFilter: CatalogueAggregationBucket[]
-): CatalogueAggregationBucket[] => {
-  return bucketFilter.filter(items => {
-    return items.count > 0;
-  });
-};
 
 const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
   id,

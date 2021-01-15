@@ -26,6 +26,8 @@ import {
   searchFilterCheckBox,
   searchFilterCloseButton,
 } from '../../../text/arial-labels';
+import { getFilterByCount } from '@weco/common/utils/filters';
+import { CatalogueAggregationBucket } from 'model/catalogue';
 
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
@@ -171,6 +173,8 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   imagesColor,
   aggregations,
   filtersToShow,
+  enableMoreFilters,
+  languagesInUrl,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const openFiltersButtonRef = useRef<HTMLButtonElement>(null);
   const closeFiltersButtonRef = useRef<HTMLDivElement>(null);
@@ -178,6 +182,10 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   const filtersModalRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(false);
 
+  const languagesFilter: CatalogueAggregationBucket[] =
+    aggregations && aggregations?.languages?.buckets
+      ? getFilterByCount(aggregations?.languages?.buckets)
+      : [];
   useFocusTrap(closeFiltersButtonRef, okFiltersButtonRef);
 
   useEffect(() => {
@@ -386,6 +394,53 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                   </ul>
                 </FilterSection>
               )}
+              {enableMoreFilters &&
+                filtersToShow.includes('languages') &&
+                aggregations &&
+                aggregations.languages && (
+                  <FilterSection>
+                    <h3 className="h3">Languages</h3>
+                    <Space
+                      as="span"
+                      h={{ size: 'm', properties: ['margin-right'] }}
+                    >
+                      <ul
+                        className={classNames({
+                          'no-margin no-padding plain-list': true,
+                        })}
+                      >
+                        {languagesFilter.map(language => {
+                          const isChecked = languagesInUrl.includes(
+                            language.data.id
+                          );
+
+                          return (
+                            (language.count > 0 || isChecked) && (
+                              <Space
+                                as="li"
+                                v={{ size: 'l', properties: ['margin-bottom'] }}
+                                key={`mobile-${language.data.id}`}
+                              >
+                                <CheckboxRadio
+                                  id={`mobile-${language.data.id}`}
+                                  type={`checkbox`}
+                                  text={`${language.data.label} (${language.count})`}
+                                  value={language.data.id}
+                                  name={`languageOptions`}
+                                  checked={isChecked}
+                                  onChange={changeHandler}
+                                  ariaLabel={searchFilterCheckBox(
+                                    language.data.label
+                                  )}
+                                />
+                              </Space>
+                            )
+                          );
+                        })}
+                      </ul>
+                    </Space>
+                  </FilterSection>
+                )}
               {filtersToShow.includes('colors') && (
                 <FilterSection>
                   <h3 className="h3">Colour</h3>
