@@ -3,6 +3,7 @@
 import { Fragment, Component, createRef } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import { CaptionedImage } from '../Images/Images';
+// $FlowFixMe (tsx)
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 // $FlowFixMe (tsx)
 import ButtonSolid from '../ButtonSolid/ButtonSolid';

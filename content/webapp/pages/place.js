@@ -4,6 +4,7 @@ import { Component } from 'react';
 import { getPlace } from '@weco/common/services/prismic/places';
 import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
+// $FlowFixMe(tsx)
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 // $FlowFixMe (tsx)

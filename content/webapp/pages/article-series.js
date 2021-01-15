@@ -8,6 +8,7 @@ import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 // $FlowFixMe (tsx)
 import Body from '@weco/common/views/components/Body/Body';
 import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
+// $FlowFixMe(tsx)
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader, {
   getFeaturedMedia,
@@ -15,9 +16,7 @@ import PageHeader, {
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { ArticleSeries } from '@weco/common/model/article-series';
 import type { Article } from '@weco/common/model/articles';
-import {
-  seasonsFields,
-} from '@weco/common/services/prismic/fetch-links';
+import { seasonsFields } from '@weco/common/services/prismic/fetch-links';
 
 type Props = {|
   series: ArticleSeries,

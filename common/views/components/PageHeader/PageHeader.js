@@ -8,13 +8,16 @@ import { UiImage } from '../Images/Images';
 // $FlowFixMe(tsx)
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Picture from '../Picture/Picture';
+// $FlowFixMe(tsx)
 import HeaderBackground from '../HeaderBackground/HeaderBackground';
 import FreeSticker from '../FreeSticker/FreeSticker';
 import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
 // $FlowFixMe (tsx)
 import Layout10 from '../Layout10/Layout10';
 import Layout from '../Layout/Layout';
+// $FlowFixMe(tsx)
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
+// $FlowFixMe(tsx)
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
 // $FlowFixMe (ts)
 import { breakpoints } from '../../../utils/breakpoints';
