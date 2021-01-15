@@ -80,6 +80,7 @@ export type WorksRouteProps = {|
   imagesColor: ?string,
   search: ?string,
   source: ?string,
+  languages: ?string[],
 |};
 
 export const WorksRoute: NextRoute<WorksRouteProps> = {

@@ -1,5 +1,5 @@
 import { CatalogueAggregationBucket } from '@weco/common/model/catalogue';
-import { nodeListValueToArray } from '@weco/common/utils/forms';
+import { nodeListValueToArray, inputValue } from '@weco/common/utils/forms';
 import { LinkProps } from 'next/link';
 
 import {
@@ -39,4 +39,13 @@ export const getResetFilterLink = (
       )
     : worksLink(resetFiltersRoute, 'cancel_filter/all');
   return resetFiltersLink;
+};
+
+export const getSelectedFilterColor = (form: HTMLFormElement): string => {
+  const imagesColorValue = inputValue(form['images.color']);
+  const imagesColor =
+    typeof imagesColorValue === 'string'
+      ? imagesColorValue.replace('#', '')
+      : imagesColorValue;
+  return imagesColor;
 };

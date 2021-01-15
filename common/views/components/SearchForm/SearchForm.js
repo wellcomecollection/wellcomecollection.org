@@ -25,6 +25,8 @@ import {
 } from '@weco/common/services/catalogue/routes';
 // $FlowFixMe (ts)
 import { searchFormInputCatalogue } from '@weco/common/text/arial-labels';
+// $FlowFixMe (ts)
+import { getFilterItemSelected, getSelectedFilterColor, } from '@weco/common/utils/filters';
 
 type Props = {|
   ariaDescribedBy: string,
@@ -102,24 +104,14 @@ const SearchForm = ({
   }, []);
 
   function updateUrl(form: HTMLFormElement) {
-    const workTypeCheckboxes = nodeListValueToArray(form['workType']) || [];
-    const selectedWorkTypesArray = [...workTypeCheckboxes].filter(
-      selectedWorkType => selectedWorkType.checked
-    );
-    const workType =
-      selectedWorkTypesArray.length > 0
-        ? selectedWorkTypesArray.map(workType => workType.value)
-        : [];
+    const languages = getFilterItemSelected(form, 'languageOptions');
+    const workType = getFilterItemSelected(form, 'workType');
 
     const sortOrder = inputValue(form['sortOrder']);
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
     const search = inputValue(form['search']);
-    const imagesColorValue = inputValue(form['images.color']);
-    const imagesColor =
-      typeof imagesColorValue === 'string'
-        ? imagesColorValue.replace('#', '')
-        : imagesColorValue;
+    const imagesColor = getSelectedFilterColor(form);
 
     const itemsLocationsLocationType =
       form['items.locations.locationType'] instanceof window.HTMLInputElement
@@ -149,6 +141,7 @@ const SearchForm = ({
       itemsLocationsLocationType,
       itemsLocationsType,
       source,
+      languages,
     };
     const link = worksLink(state, source);
     setSearchParamsState(state);
