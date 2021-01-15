@@ -789,6 +789,21 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
             },
           };
 
+        case 'discussion':
+          return {
+            type: 'discussion',
+            value: {
+              title: parseTitle(slice.primary.title),
+              discussion: slice.items.map(item => {
+                console.log('hello');
+                return {
+                  speaker: parsePersonContributor(item.speaker),
+                  text: parseStructuredText(item.text),
+                };
+              }),
+            },
+          };
+
         case 'tagList':
           return {
             type: 'tagList',
