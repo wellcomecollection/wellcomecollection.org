@@ -6,7 +6,7 @@ WORKDIR /home/node/app
 ADD ./package.json /home/node/app/package.json
 ADD ./yarn.lock /home/node/app/yarn.lock
 
-RUN yarn install --no-interactive --frozen-lockfile --production=true
+RUN yarn install --no-interactive --frozen-lockfile
 
 COPY ./src /home/node/app/src
 COPY ./schemas /home/node/app/schemas
@@ -26,7 +26,7 @@ WORKDIR /home/node/app
 COPY --from=build /home/node/app/package.json /home/node/app/package.json
 COPY --from=build /home/node/app/yarn.lock /home/node/app/yarn.lock
 
-RUN yarn install --no-interactive --frozen-lockfile --production=true
+RUN yarn install --no-interactive --frozen-lockfile
 
 FROM 770700576653.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity-node:12
 
