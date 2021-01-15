@@ -55,6 +55,21 @@ const graphQuery = `{
     format {
       ...formatFields
     }
+    body {
+      ...on discussion {
+        non-repeat {
+          title
+        }
+        repeat {
+          speaker {
+            ...on people {
+              name
+            }
+          }
+          text
+        }
+      }
+    }
     contributors {
       ...contributorsFields
       role {
