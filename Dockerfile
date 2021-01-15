@@ -6,7 +6,7 @@ WORKDIR /home/node/app
 ADD ./package.json /home/node/app/package.json
 ADD ./yarn.lock /home/node/app/yarn.lock
 
-RUN yarn install
+RUN yarn install --no-interactive --frozen-lockfile --production=true
 
 COPY ./src /home/node/app/src
 COPY ./schemas /home/node/app/schemas
