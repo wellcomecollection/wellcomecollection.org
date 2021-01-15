@@ -12,8 +12,7 @@ import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 
 import dynamic from 'next/dynamic';
-import { SearchFiltersSharedProps } from './PrototypeSearchFilters';
-
+import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
 import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
 import ButtonInline from '../ButtonInline/ButtonInline';
 import { searchFilterCheckBox } from '../../../text/arial-labels';

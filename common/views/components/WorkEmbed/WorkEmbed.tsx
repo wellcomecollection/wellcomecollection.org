@@ -1,4 +1,3 @@
-import WorkCredit from '../WorkCredit/WorkCredit';
 import ImageViewer from '../ImageViewer/ImageViewer';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import {
@@ -61,16 +60,6 @@ const WorkEmbed: FunctionComponent<Props> = ({ work }: Props) => {
               rotation={0}
             />
           </div>
-        </div>
-        <div
-          style={{
-            marginTop: 'auto',
-            paddingLeft: '12px',
-            paddingRight: '12px',
-            paddingBottom: '12px',
-          }}
-        >
-          <WorkCredit work={work} />
         </div>
       </div>
     );

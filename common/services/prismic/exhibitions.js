@@ -22,6 +22,7 @@ import {
   eventsFields,
   seasonsFields,
 } from './fetch-links';
+// $FlowFixMe (ts)
 import { breakpoints } from '../../utils/breakpoints';
 import {
   parseTitle,

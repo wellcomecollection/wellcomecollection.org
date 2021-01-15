@@ -8,15 +8,15 @@ import {
 import {
   ImagesRouteProps,
   WorksRouteProps,
-} from '@weco/common/services/catalogue/ts_routes';
+} from '../../../services/catalogue/ts_routes';
 import {
   CatalogueAggregationBucket,
   CatalogueAggregations,
-} from '@weco/common/model/catalogue';
-import SearchFiltersDesktop from '@weco/common/views/components/PrototypeSearchFilters/PrototypeSearchFiltersDesktop';
-import SearchFiltersMobile from '@weco/common/views/components/PrototypeSearchFilters/PrototypeSearchFiltersMobile';
-import ModalFilters from '@weco/common/views/components/ModalFilters/ModalFilters';
-import theme from '@weco/common/views/themes/default';
+} from '../../../model/catalogue';
+import SearchFiltersDesktop from '../SearchFiltersDesktop/SearchFiltersDesktop';
+import SearchFiltersMobile from '../SearchFiltersMobile/SearchFiltersMobile';
+import ModalFilters from '../ModalFilters/ModalFilters';
+import theme from '../../themes/default';
 import TogglesContext from '../TogglesContext/TogglesContext';
 
 type Props = {

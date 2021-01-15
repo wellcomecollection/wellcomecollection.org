@@ -8,6 +8,7 @@ import Body from '../Body/Body';
 // $FlowFixMe (tsx)
 import MoreLink from '../MoreLink/MoreLink';
 import Space from '../styled/Space';
+// $FlowFixMe (ts)
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 // $FlowFixMe (tsx)
 import { type GlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';

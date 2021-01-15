@@ -3,17 +3,21 @@
 import { Fragment, Component, createRef } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import { CaptionedImage } from '../Images/Images';
+// $FlowFixMe (tsx)
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 // $FlowFixMe (tsx)
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 // $FlowFixMe (tsx)
 import Control from '../Buttons/Control/Control';
+// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 // $FlowFixMe (tsx)
 import Layout12 from '../Layout12/Layout12';
 import type { CaptionedImage as CaptionedImageProps } from '../../../model/captioned-image';
 import { PageBackgroundContext } from '../ContentPage/ContentPage';
+// $FlowFixMe (ts)
 import { repeatingLsBlack } from '../../../utils/backgrounds';
+// $FlowFixMe (ts)
 import { breakpoints } from '../../../utils/breakpoints';
 import { trackEvent } from '../../../utils/ga';
 import Space from '../styled/Space';

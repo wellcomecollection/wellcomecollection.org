@@ -7,6 +7,7 @@ import FooterNav from '../FooterNav/FooterNav';
 // $FlowFixMe(tsx)
 import FindUs from '../FindUs/FindUs';
 import FooterSocial from '../FooterSocial/FooterSocial';
+// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 import type { OverrideType } from '../../../model/opening-hours';
 import type Moment from 'moment';

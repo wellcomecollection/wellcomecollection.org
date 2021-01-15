@@ -1,6 +1,7 @@
 // @flow
 import Image from '../Image/Image';
 import type { ColorSelection } from '../../../model/color-selections';
+// $FlowFixMe (ts)
 import { transparentGif, repeatingLs } from '../../../utils/backgrounds';
 
 type Props = {|

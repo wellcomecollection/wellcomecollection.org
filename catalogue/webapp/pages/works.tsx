@@ -339,7 +339,7 @@ export const getServerSideProps: GetServerSideProps<
     : undefined;
 
   if (works && works.type === 'Error') {
-    return appError(context, works.httpStatus, 'Works API error');
+    return appError(context, works.httpStatus, works.description);
   }
 
   // TODO: increase pageSize to 100 when `isImageSearch` (but only if `isEnhanced`)

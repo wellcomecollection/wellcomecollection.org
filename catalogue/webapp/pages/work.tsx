@@ -55,7 +55,7 @@ export const getServerSideProps: GetServerSideProps<
     if (workResponse.httpStatus === 404) {
       return { notFound: true };
     }
-    return appError(context, workResponse.httpStatus, 'Works API error');
+    return appError(context, workResponse.httpStatus, workResponse.description);
   }
 
   return {

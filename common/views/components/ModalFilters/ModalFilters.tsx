@@ -12,15 +12,15 @@ import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
-import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import Modal from '@weco/common/views/components/Modal/Modal';
+import NumberInput from '../NumberInput/NumberInput';
+import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
+import Modal from '../Modal/Modal';
 import TogglesContext from '../TogglesContext/TogglesContext';
 import ButtonSolid, {
   ButtonTypes,
   SolidButton,
-} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import { SearchFiltersSharedProps } from '../PrototypeSearchFilters/PrototypeSearchFilters';
+} from '../ButtonSolid/ButtonSolid';
+import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
 
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,

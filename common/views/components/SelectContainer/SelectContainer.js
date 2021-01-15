@@ -4,6 +4,7 @@ import { useContext, type Element } from 'react';
 import { AppContext } from '../AppContext/AppContext';
 import styled from 'styled-components';
 import Space from '../styled/Space';
+// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 import { classNames, font } from '../../../utils/classnames';
 
