@@ -20,7 +20,7 @@ const WobblyEdgedContainer: FunctionComponent<Props> = ({
       <WobblyEdgeContainer>
         <WobblyEdge extraClasses="wobbly-edge--rotated" background={'white'} />
       </WobblyEdgeContainer>
-      <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+      <Space v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
         <Layout8>{children}</Layout8>
       </Space>
       <WobblyEdgeContainer>
