@@ -32,6 +32,8 @@ import InfoBlock from '../InfoBlock/InfoBlock';
 import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
 import { FunctionComponent } from 'react';
 import TagsGroup from '../TagsGroup/TagsGroup';
+import Discussion from '../Discussion/Discussion';
+import WobblyEdgedContainer from '../WobblyEdgedContainer/WobblyEdgedContainer';
 
 const Map = dynamic(import('../Map/Map'), { ssr: false });
 
@@ -255,6 +257,15 @@ const Body: FunctionComponent<Props> = ({
               <Layout8>
                 <InfoBlock {...slice.value} />
               </Layout8>
+            )}
+
+            {slice.type === 'discussion' && (
+              <WobblyEdgedContainer>
+                <Discussion
+                  title={slice.value.title}
+                  discussion={slice.value.discussion}
+                />
+              </WobblyEdgedContainer>
             )}
             {slice.type === 'tagList' && (
               <Layout8>
