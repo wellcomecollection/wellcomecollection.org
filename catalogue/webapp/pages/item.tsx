@@ -388,7 +388,7 @@ export const getServerSideProps: GetServerSideProps<
   });
 
   if (work.type === 'Error') {
-    return appError(context, work.httpStatus, 'Works API error');
+    return appError(context, work.httpStatus, work.description);
   } else if (work.type === 'Redirect') {
     return {
       redirect: {
