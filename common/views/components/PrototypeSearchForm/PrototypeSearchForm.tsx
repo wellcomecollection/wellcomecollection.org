@@ -36,6 +36,7 @@ import {
   searchFormInputImage,
 } from '../../../text/arial-labels';
 import TogglesContext from '../TogglesContext/TogglesContext';
+import { getFilterItemSelected } from '@weco/common/utils/filters';
 
 type Props = {
   ariaDescribedBy: string;
@@ -140,25 +141,8 @@ const PrototypeSearchForm: FunctionComponent<Props> = ({
   }, [portalSortOrder]);
 
   function updateUrl(form: HTMLFormElement) {
-    // toggle switch if needed
-    const languagesCheckboxes =
-      nodeListValueToArray(form['languageOptions']) || [];
-    const selectedlanguagesArray = [...languagesCheckboxes].filter(
-      selectedWorkType => selectedWorkType.checked
-    );
-    const languages =
-      selectedlanguagesArray.length > 0
-        ? selectedlanguagesArray.map(workType => workType.value)
-        : [];
-
-    const workTypeCheckboxes = nodeListValueToArray(form['workType']) || [];
-    const selectedWorkTypesArray = [...workTypeCheckboxes].filter(
-      selectedWorkType => selectedWorkType.checked
-    );
-    const workType =
-      selectedWorkTypesArray.length > 0
-        ? selectedWorkTypesArray.map(workType => workType.value)
-        : [];
+    const languages = getFilterItemSelected(form, 'languageOptions');
+    const workType = getFilterItemSelected(form, 'workType');
 
     const sortOrder = portalSortOrder;
     const sort =
