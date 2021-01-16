@@ -258,7 +258,6 @@ const Body: FunctionComponent<Props> = ({
                 <InfoBlock {...slice.value} />
               </Layout8>
             )}
-
             {slice.type === 'discussion' && (
               <WobblyEdgedContainer>
                 <Discussion
