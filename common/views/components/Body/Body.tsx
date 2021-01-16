@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic';
+import { ReactNode, ReactElement, FunctionComponent } from 'react';
 import { classNames } from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import SearchResults from '../SearchResults/SearchResults';
@@ -30,7 +31,7 @@ import { Weight } from '../../../services/prismic/parsers';
 import MediaObjectList from '../MediaObjectList/MediaObjectList';
 import InfoBlock from '../InfoBlock/InfoBlock';
 import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
-import { FunctionComponent } from 'react';
+
 import TagsGroup from '../TagsGroup/TagsGroup';
 import Discussion from '../Discussion/Discussion';
 import WobblyEdgedContainer from '../WobblyEdgedContainer/WobblyEdgedContainer';
@@ -46,12 +47,32 @@ type BodySlice = {
 
 export type BodyType = BodySlice[];
 
+type LayoutWidthProps = {
+  width: 8 | 10;
+  children: ReactNode;
+};
+
+const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
+  width,
+  children,
+}: LayoutWidthProps): ReactElement | null => {
+  switch (true) {
+    case width === 10:
+      return <Layout10>{children}</Layout10>;
+    case width === 8:
+      return <Layout8>{children}</Layout8>;
+    default:
+      return null;
+  }
+};
+
 type Props = {
   body: BodyType;
   onThisPage?: Link[];
   showOnThisPage?: boolean;
   isDropCapped?: boolean;
   pageId: string;
+  minWidth?: 10 | 8;
 };
 
 const Body: FunctionComponent<Props> = ({
@@ -60,6 +81,7 @@ const Body: FunctionComponent<Props> = ({
   showOnThisPage,
   isDropCapped,
   pageId,
+  minWidth = 8,
 }: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
@@ -80,9 +102,9 @@ const Body: FunctionComponent<Props> = ({
     >
       {onThisPage && onThisPage.length > 2 && showOnThisPage && (
         <SpacingComponent>
-          <Layout8>
+          <LayoutWidth width={minWidth}>
             <OnThisPageAnchors links={onThisPage} />
-          </Layout8>
+          </LayoutWidth>
         </SpacingComponent>
       )}
       {filteredBody.map((slice, i) => (
@@ -94,7 +116,7 @@ const Body: FunctionComponent<Props> = ({
           >
             {slice.type === 'inPageAnchor' && <span id={slice.value} />}
             {slice.type === 'text' && (
-              <Layout8>
+              <LayoutWidth width={minWidth}>
                 <div className="body-text spaced-text">
                   {slice.weight === 'featured' && (
                     <FeaturedText
@@ -115,7 +137,7 @@ const Body: FunctionComponent<Props> = ({
                       />
                     ))}
                 </div>
-              </Layout8>
+              </LayoutWidth>
             )}
 
             {/* TODO: use one layout for all image weights if/when it's established
@@ -126,14 +148,14 @@ const Body: FunctionComponent<Props> = ({
               </Layout10>
             )}
             {slice.type === 'picture' && slice.weight === 'standalone' && (
-              <Layout12>
+              <LayoutWidth width={minWidth}>
                 <CaptionedImage {...slice.value} sizesQueries={''} />
-              </Layout12>
+              </LayoutWidth>
             )}
             {slice.type === 'picture' && slice.weight === 'supporting' && (
-              <Layout8>
+              <LayoutWidth width={minWidth}>
                 <CaptionedImage {...slice.value} sizesQueries={''} />
-              </Layout8>
+              </LayoutWidth>
             )}
             {slice.type === 'imageGallery' && (
               <ImageGallery
@@ -143,12 +165,12 @@ const Body: FunctionComponent<Props> = ({
               />
             )}
             {slice.type === 'quote' && (
-              <Layout8>
+              <LayoutWidth width={minWidth}>
                 <Quote {...slice.value} />
-              </Layout8>
+              </LayoutWidth>
             )}
             {slice.type === 'contentList' && (
-              <Layout8>
+              <LayoutWidth width={minWidth}>
                 {/* FIXME: this makes what-we-do and visit-us contentLists synchronous,
                 but it's hacky. */}
                 {pageId === prismicPageIds.whatWeDo ||
@@ -165,33 +187,33 @@ const Body: FunctionComponent<Props> = ({
                       .join(' ')}
                   />
                 )}
-              </Layout8>
+              </LayoutWidth>
             )}
             {/* TODO: remove this slice type if we're not using it? */}
             {slice.type === 'searchResults' && (
-              <Layout8>
+              <LayoutWidth width={minWidth}>
                 <AsyncSearchResults {...slice.value} />
-              </Layout8>
+              </LayoutWidth>
             )}
             {slice.type === 'videoEmbed' && (
-              <Layout8>
+              <LayoutWidth width={minWidth}>
                 <VideoEmbed {...slice.value} />
-              </Layout8>
+              </LayoutWidth>
             )}
             {slice.type === 'soundcloudEmbed' && (
-              <Layout8>
+              <LayoutWidth width={minWidth}>
                 <iframe
                   width="100%"
                   height="140"
                   frameBorder="no"
                   src={slice.value.embedUrl}
                 />
-              </Layout8>
+              </LayoutWidth>
             )}
             {slice.type === 'map' && (
-              <Layout8>
+              <LayoutWidth width={minWidth}>
                 <Map {...slice.value} />
-              </Layout8>
+              </LayoutWidth>
             )}
             {slice.type === 'gifVideo' && (
               <Layout10>
@@ -204,16 +226,16 @@ const Body: FunctionComponent<Props> = ({
               </Layout10>
             )}
             {slice.type === 'contact' && (
-              <Layout8>
+              <LayoutWidth width={minWidth}>
                 <Contact {...slice.value} />
-              </Layout8>
+              </LayoutWidth>
             )}
             {slice.type === 'collectionVenue' && (
               <>
                 {slice.value.showClosingTimes && (
-                  <Layout8>
+                  <LayoutWidth width={minWidth}>
                     <VenueClosedPeriods venue={slice.value.content} />
-                  </Layout8>
+                  </LayoutWidth>
                 )}
                 {!slice.value.showClosingTimes && (
                   <>
@@ -249,14 +271,14 @@ const Body: FunctionComponent<Props> = ({
               </>
             )}
             {slice.type === 'table' && (
-              <Layout8>
+              <LayoutWidth width={minWidth}>
                 <Table {...slice.value} />
-              </Layout8>
+              </LayoutWidth>
             )}
             {slice.type === 'infoBlock' && (
-              <Layout8>
+              <LayoutWidth width={minWidth}>
                 <InfoBlock {...slice.value} />
-              </Layout8>
+              </LayoutWidth>
             )}
             {slice.type === 'discussion' && (
               <WobblyEdgedContainer>
@@ -267,20 +289,20 @@ const Body: FunctionComponent<Props> = ({
               </WobblyEdgedContainer>
             )}
             {slice.type === 'tagList' && (
-              <Layout8>
+              <LayoutWidth width={minWidth}>
                 <TagsGroup title={slice.value.title} tags={slice.value.tags} />
-              </Layout8>
+              </LayoutWidth>
             )}
             {/* deprecated */}
             {slice.type === 'deprecatedImageList' && (
-              <Layout8>
+              <LayoutWidth width={minWidth}>
                 <DeprecatedImageList {...slice.value} />
-              </Layout8>
+              </LayoutWidth>
             )}
             {slice.type === 'mediaObjectList' && (
-              <Layout8>
+              <LayoutWidth width={minWidth}>
                 <MediaObjectList {...slice.value} />
-              </Layout8>
+              </LayoutWidth>
             )}
           </div>
         </SpacingComponent>
