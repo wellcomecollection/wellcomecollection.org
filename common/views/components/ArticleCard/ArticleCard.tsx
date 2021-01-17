@@ -3,6 +3,7 @@ import Image from '../Image/Image';
 import { Article } from '../../../model/articles';
 import { FunctionComponent } from 'react';
 import { ContentFormatIds } from '@weco/common/model/content-format-id';
+import HTMLDate from '../HTMLDate/HTMLDate';
 
 type Props = {
   article: Article;
@@ -47,9 +48,14 @@ const ArticleCard: FunctionComponent<Props> = ({
         )) ||
         null
       }
-      DateInfo={null}
+      DateInfo={
+        isPodcast && article.datePublished ? (
+          <HTMLDate date={new Date(article.datePublished)} />
+        ) : null
+      }
       StatusIndicator={null}
       xOfY={xOfY}
+      showPlayButton={isPodcast}
     />
   );
 };

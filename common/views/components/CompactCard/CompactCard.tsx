@@ -39,6 +39,7 @@ type Props = {
   OverrideImageWrapper?: ComponentType<HasImageProps>;
   OverrideTextWrapper?: ComponentType<HasImageProps>;
   OverrideTitleWrapper?: ComponentType;
+  showPlayButton?: boolean;
 };
 
 const CompactCard: FunctionComponent<Props> = ({
@@ -60,6 +61,7 @@ const CompactCard: FunctionComponent<Props> = ({
   OverrideImageWrapper,
   OverrideTextWrapper,
   OverrideTitleWrapper,
+  showPlayButton = false,
 }: Props): ReactElement<Props> => {
   return (
     <MediaObjectBase
@@ -88,6 +90,7 @@ const CompactCard: FunctionComponent<Props> = ({
           label: title,
         });
       }}
+      showPlayButton={showPlayButton}
     />
   );
 };

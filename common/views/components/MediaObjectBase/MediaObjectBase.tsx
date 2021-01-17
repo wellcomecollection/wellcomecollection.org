@@ -21,6 +21,7 @@ import ImageType from '../Image/Image';
 import { ColorSelection } from '../../../model/color-selections';
 import Space from '../styled/Space';
 import styled from 'styled-components';
+import { WatchWrapper, WatchText } from '../EventPromo/EventPromo';
 
 type Props = {
   url: string | null;
@@ -45,6 +46,7 @@ type Props = {
   OverrideTextWrapper?: ComponentType<HasImageProps>;
   OverrideTitleWrapper?: ComponentType;
   onClick?: () => void;
+  showPlayButton?: boolean;
 };
 
 const BaseImageWrapper = styled.div.attrs({
@@ -93,6 +95,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
   OverrideImageWrapper,
   OverrideTextWrapper,
   OverrideTitleWrapper,
+  showPlayButton = false,
   onClick,
 }: Props): ReactElement<Props> => {
   const { x, y } = xOfY || {};
@@ -141,8 +144,30 @@ const MediaObjectBase: FunctionComponent<Props> = ({
           />
         )}
         <TitleWrapper>{title}</TitleWrapper>
-
-        {DateInfo}
+        {showPlayButton && (
+          <Space
+            as={WatchWrapper}
+            v={{
+              size: 's',
+              properties: ['margin-top'],
+            }}
+          >
+            <Space
+              as={WatchText}
+              h={{
+                size: 's',
+                properties: ['margin-left'],
+              }}
+              v={{
+                size: 'l',
+                properties: ['margin-bottom'],
+              }}
+            >
+              {DateInfo}
+            </Space>
+          </Space>
+        )}
+        {!showPlayButton && DateInfo}
         {StatusIndicator}
         {ExtraInfo}
 
