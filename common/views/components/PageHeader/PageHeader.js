@@ -176,10 +176,10 @@ const PageHeader = ({
           gridSizes={{
             s: 12,
             m: 10,
-            l: !hasMedia ? 10 : 8,
-            shiftL: !hasMedia ? 1 : 0,
-            xl: !hasMedia ? 10 : 8,
-            shiftXL: !hasMedia ? 1 : 0,
+            l: 10,
+            shiftL: 1,
+            xl: 10,
+            shiftXL: 1,
           }}
         >
           <Space
