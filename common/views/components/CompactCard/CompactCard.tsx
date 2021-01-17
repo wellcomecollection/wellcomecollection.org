@@ -26,6 +26,7 @@ type Props = {
   urlOverride: string | null;
   extraClasses?: string;
   partNumber: number | undefined;
+  partDescription?: 'Part' | 'Episode';
   color: ColorSelection | undefined;
   Image: ReactElement<typeof ImageType | typeof ImagePlaceholder> | null;
   DateInfo:
@@ -49,6 +50,7 @@ const CompactCard: FunctionComponent<Props> = ({
   urlOverride,
   extraClasses,
   partNumber,
+  partDescription = 'Part',
   color,
   Image,
   DateInfo,
@@ -65,6 +67,7 @@ const CompactCard: FunctionComponent<Props> = ({
       title={title}
       Image={Image}
       partNumber={partNumber}
+      partDescription={partDescription}
       color={color}
       StatusIndicator={StatusIndicator}
       description={description}

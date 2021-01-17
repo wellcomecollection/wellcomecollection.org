@@ -2,6 +2,7 @@ import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import { Article } from '../../../model/articles';
 import { FunctionComponent } from 'react';
+import { ContentFormatIds } from '@weco/common/model/content-format-id';
 
 type Props = {
   article: Article;
@@ -27,15 +28,18 @@ const ArticleCard: FunctionComponent<Props> = ({
         .find(_ => _)
     : undefined;
 
+  const isPodcast =
+    article.format && article.format.id === ContentFormatIds.Podcast;
   return (
     <CompactCard
       url={`/articles/${article.id}`}
       title={article.title || ''}
       partNumber={partOfSerial}
+      partDescription={isPodcast ? 'Episode' : 'Part'}
       color={article.color}
-      primaryLabels={article.labels}
+      primaryLabels={!isPodcast ? article.labels : []}
       secondaryLabels={[]}
-      description={article.promoText}
+      description={!isPodcast ? article.promoText : null}
       urlOverride={article.promo?.link || null}
       Image={
         (article.image?.crops?.square && (

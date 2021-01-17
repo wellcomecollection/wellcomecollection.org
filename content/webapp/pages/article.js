@@ -112,7 +112,7 @@ export class ArticlePage extends Component<Props, State> {
       <PartNumberIndicator
         number={positionInSerial}
         color={serial.color}
-        isPodcast={isPodcast}
+        description={isPodcast ? 'Episode' : 'Part'}
       />
     );
 
