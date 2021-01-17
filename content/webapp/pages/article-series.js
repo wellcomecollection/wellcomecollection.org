@@ -15,9 +15,8 @@ import PageHeader, {
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { ArticleSeries } from '@weco/common/model/article-series';
 import type { Article } from '@weco/common/model/articles';
-import {
-  seasonsFields,
-} from '@weco/common/services/prismic/fetch-links';
+import { seasonsFields } from '@weco/common/services/prismic/fetch-links';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 
 type Props = {|
   series: ArticleSeries,
@@ -98,9 +97,15 @@ export class ArticleSeriesPage extends Component<Props> {
         labels={{ labels: series.labels }}
         title={series.title}
         ContentTypeInfo={ContentTypeInfo}
-        Background={<HeaderBackground hasWobblyEdge={true} />}
+        Background={
+          <HeaderBackground
+            hasWobblyEdge={true}
+            backgroundTexture={headerBackgroundLs}
+          />
+        }
         FeaturedMedia={FeaturedMedia}
         HeroPicture={null}
+        isContentTypeInfoBeforeMedia={true}
       />
     );
 
