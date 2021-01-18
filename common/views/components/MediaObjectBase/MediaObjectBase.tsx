@@ -21,7 +21,7 @@ import ImageType from '../Image/Image';
 import { ColorSelection } from '../../../model/color-selections';
 import Space from '../styled/Space';
 import styled from 'styled-components';
-import { WatchWrapper, WatchText } from '../EventPromo/EventPromo';
+import { WatchWrapper, WatchText } from '../styled/Watch';
 
 type Props = {
   url: string | null;
