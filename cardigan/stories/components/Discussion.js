@@ -1,11 +1,12 @@
 import { storiesOf } from '@storybook/react';
 import Discussion from '../../../common/views/components/Discussion/Discussion';
 import Readme from '../../../common/views/components/BetaMessage/README.md';
+import { organisation, person } from '../content';
 
 const stories = storiesOf('Components', module);
 const discussion = [
   {
-    speaker: 'Speaker one',
+    contributor: person(),
     text: [
       {
         type: 'paragraph',
@@ -22,7 +23,7 @@ const discussion = [
     ],
   },
   {
-    speaker: 'Speaker two',
+    contributor: person(),
     text: [
       {
         type: 'paragraph',
@@ -38,7 +39,7 @@ const discussion = [
     ],
   },
   {
-    speaker: 'Speaker one',
+    contributor: person(),
     text: [
       {
         type: 'paragraph',

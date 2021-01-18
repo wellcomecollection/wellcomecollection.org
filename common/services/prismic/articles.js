@@ -146,7 +146,7 @@ const graphQuery = `{
           title
         }
         repeat {
-          speaker {
+          contributor {
             ...on people {
               name
             }

@@ -795,7 +795,7 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
             value: {
               title: parseTitle(slice.primary.title),
               discussion: slice.items.map(item => ({
-                speaker: parsePersonContributor(item.speaker),
+                contributor: parsePersonContributor(item.contributor),
                 text: parseStructuredText(item.text),
               })),
             },
