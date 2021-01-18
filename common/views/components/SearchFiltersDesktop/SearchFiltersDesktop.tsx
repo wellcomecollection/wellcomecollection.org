@@ -39,6 +39,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   aggregations,
   enableMoreFilters,
   languagesInUrl,
+  subjectsInUrl,
+  genresInUrl,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
@@ -51,6 +53,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
     page: 1,
     productionDatesFrom: null,
     productionDatesTo: null,
+    subjects: null,
+    genres: null,
   };
 
   const [showMoreFiltersModal, setMoreFiltersModal] = useState(false);
@@ -64,7 +68,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
         productionDatesTo ||
         workTypeInUrlArray.length > 0 ||
         worksRouteProps?.itemsLocationsType?.length > 0) &&
-        workTypeFilters.length > 0)
+        workTypeFilters.length > 0) ||
+      languagesInUrl.length > 0
     );
   }
 
@@ -230,6 +235,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   aggregations={aggregations}
                   changeHandler={changeHandler}
                   languagesInUrl={languagesInUrl}
+                  subjectsInUrl={subjectsInUrl}
+                  genresInUrl={genresInUrl}
                 />
               </Space>
             )}
@@ -307,6 +314,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           resetFilters={resetFilters}
           enableMoreFilters={enableMoreFilters}
           languagesInUrl={languagesInUrl}
+          subjectsInUrl={subjectsInUrl}
+          genresInUrl={genresInUrl}
         />
       )}
     </>

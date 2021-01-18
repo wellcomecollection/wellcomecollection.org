@@ -10,7 +10,11 @@ import Space from '../styled/Space';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
-import { getFilterByCount } from '@weco/common/utils/filters';
+import {
+  getAggregationFilterByName,
+  getAggregationRadioGroup,
+} from '@weco/common/utils/filters';
+import RadioGroup from '@weco/common/views/components/RadioGroup/RadioGroup';
 
 type MoreFiltersProps = {
   id: string;
@@ -21,6 +25,8 @@ type MoreFiltersProps = {
   aggregations: CatalogueAggregations | undefined;
   changeHandler: () => void;
   languagesInUrl: string[];
+  genresInUrl: string | null;
+  subjectsInUrl: string | null;
 };
 
 const ModalInner = styled.div`
@@ -64,11 +70,21 @@ const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
   aggregations,
   changeHandler,
   languagesInUrl,
+  genresInUrl,
+  subjectsInUrl,
 }: MoreFiltersProps) => {
-  const languagesFilter: CatalogueAggregationBucket[] =
-    aggregations && aggregations?.languages?.buckets
-      ? getFilterByCount(aggregations?.languages?.buckets)
-      : [];
+  const languagesFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
+    aggregations,
+    'languages'
+  );
+  const subjectsFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
+    aggregations,
+    'subjects'
+  );
+  const genresFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
+    aggregations,
+    'genres'
+  );
 
   return (
     <Modal
@@ -78,13 +94,7 @@ const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
       openButtonRef={openMoreFiltersButtonRef}
     >
       <ModalInner>
-        <h2
-          className={classNames({
-            [font('hnm', 5)]: true,
-          })}
-        >
-          More Filters
-        </h2>
+        <h3 className="h3">More Filters</h3>
 
         {filtersToShow.includes('languages') && (
           <FiltersInner>
@@ -125,6 +135,45 @@ const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
               </Space>
             </FilterSection>
           </FiltersInner>
+        )}
+
+        {filtersToShow.includes('subjects') && subjectsFilter.length && (
+          <FilterSection>
+            <h3 className="h3">Popular Subjects</h3>
+            <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+              <div
+                className={classNames({
+                  'no-margin no-padding plain-list': true,
+                })}
+              >
+                <RadioGroup
+                  name="subjectOption"
+                  selected={subjectsInUrl}
+                  onChange={changeHandler}
+                  options={getAggregationRadioGroup(subjectsFilter, 'mobile')}
+                />
+              </div>
+            </Space>
+          </FilterSection>
+        )}
+        {filtersToShow.includes('genres') && subjectsFilter.length && (
+          <FilterSection>
+            <h3 className="h3">Popular Genres</h3>
+            <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+              <div
+                className={classNames({
+                  'no-margin no-padding plain-list': true,
+                })}
+              >
+                <RadioGroup
+                  name="genresOption"
+                  selected={genresInUrl}
+                  onChange={changeHandler}
+                  options={getAggregationRadioGroup(genresFilter, 'mobile')}
+                />
+              </div>
+            </Space>
+          </FilterSection>
         )}
       </ModalInner>
     </Modal>
