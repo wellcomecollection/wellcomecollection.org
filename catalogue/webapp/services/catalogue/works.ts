@@ -28,14 +28,13 @@ type GetWorksProps = {
   toggles?: Toggles;
 };
 
-const getWorksIncludes = (toggles?: Toggles) =>
-  [
-    'identifiers',
-    'production',
-    'contributors',
-    'subjects',
-    toggles?.archiveContextInSearch ? 'partOf' : undefined,
-  ].filter(Boolean);
+const worksIncludes = [
+  'identifiers',
+  'production',
+  'contributors',
+  'subjects',
+  'partOf',
+];
 
 const workIncludes = [
   'identifiers',
@@ -68,7 +67,7 @@ export async function getWorks({
   const extendedParams = {
     ...params,
     pageSize,
-    include: getWorksIncludes(toggles),
+    include: worksIncludes,
     _index: apiOptions.indexOverrideSuffix
       ? `works-${apiOptions.indexOverrideSuffix}`
       : undefined,
