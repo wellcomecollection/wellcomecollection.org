@@ -6,6 +6,10 @@ output "catalogue_webapp_ecr_uri" {
   value = aws_ecr_repository.catalogue_webapp.repository_url
 }
 
+output "identity_webapp_ecr_uri" {
+  value = aws_ecr_repository.identity_webapp.repository_url
+}
+
 // Production
 
 output "prod_alb_dns" {
