@@ -4,7 +4,7 @@ import Space from '../styled/Space';
 import Tags, { TagType } from '../Tags/Tags';
 
 type Props = {
-  title: string | null;
+  title: string | undefined;
   tags: TagType[];
 };
 
