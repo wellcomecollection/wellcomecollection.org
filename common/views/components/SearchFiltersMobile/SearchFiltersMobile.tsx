@@ -26,9 +26,12 @@ import {
   searchFilterCheckBox,
   searchFilterCloseButton,
 } from '../../../text/arial-labels';
-import { getFilterByCount } from '@weco/common/utils/filters';
+import {
+  getAggregationFilterByName,
+  getAggregationRadioGroup,
+} from '@weco/common/utils/filters';
 import { CatalogueAggregationBucket } from 'model/catalogue';
-
+import RadioGroup from '@weco/common/views/components/RadioGroup/RadioGroup';
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
@@ -175,6 +178,8 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   filtersToShow,
   enableMoreFilters,
   languagesInUrl,
+  subjectsInUrl,
+  genresInUrl,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const openFiltersButtonRef = useRef<HTMLButtonElement>(null);
   const closeFiltersButtonRef = useRef<HTMLDivElement>(null);
@@ -182,10 +187,18 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   const filtersModalRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(false);
 
-  const languagesFilter: CatalogueAggregationBucket[] =
-    aggregations && aggregations?.languages?.buckets
-      ? getFilterByCount(aggregations?.languages?.buckets)
-      : [];
+  const languagesFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
+    aggregations,
+    'languages'
+  );
+  const subjectsFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
+    aggregations,
+    'subjects'
+  );
+  const genresFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
+    aggregations,
+    'genres'
+  );
   useFocusTrap(closeFiltersButtonRef, okFiltersButtonRef);
 
   useEffect(() => {
@@ -395,10 +408,24 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                   </ul>
                 </FilterSection>
               )}
+              {filtersToShow.includes('colors') && (
+                <FilterSection>
+                  <h3 className="h3">Colour</h3>
+                  <Space
+                    as="span"
+                    h={{ size: 'm', properties: ['margin-right'] }}
+                  >
+                    <ColorPicker
+                      color={imagesColor}
+                      name="images.color"
+                      onChangeColor={changeHandler}
+                    />
+                  </Space>
+                </FilterSection>
+              )}
               {enableMoreFilters &&
                 filtersToShow.includes('languages') &&
-                aggregations &&
-                aggregations?.languages && (
+                languagesFilter.length && (
                   <FilterSection>
                     <h3 className="h3">Languages</h3>
                     <Space
@@ -442,21 +469,60 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                     </Space>
                   </FilterSection>
                 )}
-              {filtersToShow.includes('colors') && (
-                <FilterSection>
-                  <h3 className="h3">Colour</h3>
-                  <Space
-                    as="span"
-                    h={{ size: 'm', properties: ['margin-right'] }}
-                  >
-                    <ColorPicker
-                      color={imagesColor}
-                      name="images.color"
-                      onChangeColor={changeHandler}
-                    />
-                  </Space>
-                </FilterSection>
-              )}
+              {enableMoreFilters &&
+                filtersToShow.includes('subjects') &&
+                subjectsFilter.length && (
+                  <FilterSection>
+                    <h3 className="h3">Popular Subjects</h3>
+                    <Space
+                      as="span"
+                      h={{ size: 'm', properties: ['margin-right'] }}
+                    >
+                      <div
+                        className={classNames({
+                          'no-margin no-padding plain-list': true,
+                        })}
+                      >
+                        <RadioGroup
+                          name="subjectOption"
+                          selected={subjectsInUrl}
+                          onChange={changeHandler}
+                          options={getAggregationRadioGroup(
+                            subjectsFilter,
+                            'mobile'
+                          )}
+                        />
+                      </div>
+                    </Space>
+                  </FilterSection>
+                )}
+              {enableMoreFilters &&
+                filtersToShow.includes('genres') &&
+                subjectsFilter.length && (
+                  <FilterSection>
+                    <h3 className="h3">Popular Genres</h3>
+                    <Space
+                      as="span"
+                      h={{ size: 'm', properties: ['margin-right'] }}
+                    >
+                      <div
+                        className={classNames({
+                          'no-margin no-padding plain-list': true,
+                        })}
+                      >
+                        <RadioGroup
+                          name="genresOption"
+                          selected={genresInUrl}
+                          onChange={changeHandler}
+                          options={getAggregationRadioGroup(
+                            genresFilter,
+                            'mobile'
+                          )}
+                        />
+                      </div>
+                    </Space>
+                  </FilterSection>
+                )}
             </FiltersBody>
           </FiltersScrollable>
 

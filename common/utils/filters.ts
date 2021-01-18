@@ -1,4 +1,7 @@
-import { CatalogueAggregationBucket } from '@weco/common/model/catalogue';
+import {
+  CatalogueAggregationBucket,
+  CatalogueAggregations,
+} from '@weco/common/model/catalogue';
 import { nodeListValueToArray, inputValue } from '@weco/common/utils/forms';
 import { LinkProps } from 'next/link';
 
@@ -13,6 +16,36 @@ export const getFilterByCount = (
   return bucketFilter.filter(items => {
     return items.count > 0;
   });
+};
+
+export const getAggregationFilterByName = (
+  aggregations: CatalogueAggregations | undefined,
+  name: string
+): CatalogueAggregationBucket[] | [] => {
+  return aggregations && aggregations?.[name]?.buckets
+    ? getFilterByCount(aggregations?.[name]?.buckets)
+    : [];
+};
+
+type RadioGroupOption = {
+  value: string;
+  id: string;
+  label: string;
+};
+export const getAggregationRadioGroup = (
+  aggregation: CatalogueAggregationBucket[],
+  prefixId: string
+): RadioGroupOption[] => {
+  const radioOption = aggregation.map(subject => {
+    const id = subject?.data?.label.replace(/\s/, '-').toLocaleLowerCase();
+    return {
+      value: subject?.data?.label,
+      id: `${prefixId}-${id}`,
+      label: subject?.data?.label,
+    };
+  });
+
+  return radioOption;
 };
 
 export const getFilterItemSelected = (

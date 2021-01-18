@@ -43,6 +43,8 @@ export type SearchFiltersSharedProps = Props & {
   aggregations?: CatalogueAggregations;
   enableMoreFilters: boolean;
   languagesInUrl: string[];
+  subjectsInUrl: string;
+  genresInUrl: string;
 };
 
 const SearchFilters: FunctionComponent<Props> = ({
@@ -57,7 +59,9 @@ const SearchFilters: FunctionComponent<Props> = ({
   const workTypeInUrlArray = worksRouteProps.workType || [];
   const locationsTypeInUrlArray = worksRouteProps.itemsLocationsType || [];
   const { productionDatesFrom, productionDatesTo, color } = worksRouteProps;
-  const languagesInUrl: string[] = worksRouteProps.languages || [];
+  const languagesInUrl: string[] = worksRouteProps?.languages || [];
+  const subjectsInUrl: string = worksRouteProps?.subjects || '';
+  const genresInUrl: string = worksRouteProps?.genres || '';
 
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
@@ -125,6 +129,8 @@ const SearchFilters: FunctionComponent<Props> = ({
     aggregations,
     enableMoreFilters,
     languagesInUrl,
+    subjectsInUrl,
+    genresInUrl,
   };
 
   return (

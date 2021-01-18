@@ -114,7 +114,9 @@ export type WorksRouteProps = {
   productionDatesTo: string | null;
   imagesColor: string | null;
   search: string | null;
-  languages: string[] | null;
+  languages?: string[];
+  subjects?: string | null;
+  genres?: string | null;
 
   // [1] These should not be here, but we need a good
   // old tidy up of the props in this file

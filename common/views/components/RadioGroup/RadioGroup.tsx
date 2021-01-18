@@ -1,22 +1,26 @@
-// @flow
-import React from 'react';
-// $FlowFixMe (tsx)
+import React, { FunctionComponent } from 'react';
+
 import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
 import Space from '../styled/Space';
 import { classNames } from '../../../utils/classnames';
 
-type Props = {|
-  name: string,
-  selected: string,
-  onChange: (value: string) => void,
-  options: Array<{|
-    value: string,
-    id: string,
-    label: string,
-  |}>,
-|};
+type Props = {
+  name: string;
+  selected: string;
+  onChange: (value: string) => void;
+  options: {
+    value: string;
+    id: string;
+    label: string;
+  }[];
+};
 
-const RadioGroup = ({ name, selected, onChange, options }: Props) => (
+const RadioGroup: FunctionComponent<Props> = ({
+  name,
+  selected,
+  onChange,
+  options,
+}: Props) => (
   <div>
     {options.map(({ value, label, id }, index) => (
       <Space
