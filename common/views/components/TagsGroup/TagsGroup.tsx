@@ -20,7 +20,7 @@ const TagsGroup: FunctionComponent<Props> = ({ tags, title }: Props) => {
           {title}
         </Space>
       )}
-      <Tags tags={tags} withoutBold={true} />
+      <Tags tags={tags} isFirstPartBold={false} />
     </>
   );
 };
