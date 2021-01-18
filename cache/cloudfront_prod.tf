@@ -133,6 +133,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "toggle",
         "source",
         "languages",
+        "subjects.label",
+        "genres.label"
       ]
 
       cookies {

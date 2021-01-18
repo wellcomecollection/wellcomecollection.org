@@ -103,6 +103,8 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
         "toggle",
         "source",
         "languages",
+        "subjects.label",
+        "genres.label"
       ]
 
       cookies {
