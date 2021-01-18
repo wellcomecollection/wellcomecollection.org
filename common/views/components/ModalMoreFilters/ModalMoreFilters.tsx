@@ -25,8 +25,8 @@ type MoreFiltersProps = {
   aggregations: CatalogueAggregations | undefined;
   changeHandler: () => void;
   languagesInUrl: string[];
-  genresInUrl: string | null;
-  subjectsInUrl: string | null;
+  genresInUrl: string;
+  subjectsInUrl: string;
 };
 
 const ModalInner = styled.div`
