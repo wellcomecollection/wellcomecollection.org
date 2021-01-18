@@ -21,7 +21,6 @@ import ImageType from '../Image/Image';
 import { ColorSelection } from '../../../model/color-selections';
 import Space from '../styled/Space';
 import styled from 'styled-components';
-import { WatchWrapper, WatchText } from '../styled/Watch';
 
 type Props = {
   url: string | null;
@@ -46,7 +45,7 @@ type Props = {
   OverrideTextWrapper?: ComponentType<HasImageProps>;
   OverrideTitleWrapper?: ComponentType;
   onClick?: () => void;
-  showPlayButton?: boolean;
+  postTitleChildren?: ReactElement;
 };
 
 const BaseImageWrapper = styled.div.attrs({
@@ -95,8 +94,8 @@ const MediaObjectBase: FunctionComponent<Props> = ({
   OverrideImageWrapper,
   OverrideTextWrapper,
   OverrideTitleWrapper,
-  showPlayButton = false,
   onClick,
+  postTitleChildren,
 }: Props): ReactElement<Props> => {
   const { x, y } = xOfY || {};
   const ImageWrapper = OverrideImageWrapper || BaseImageWrapper;
@@ -144,30 +143,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
           />
         )}
         <TitleWrapper>{title}</TitleWrapper>
-        {showPlayButton && (
-          <Space
-            as={WatchWrapper}
-            v={{
-              size: 's',
-              properties: ['margin-top'],
-            }}
-          >
-            <Space
-              as={WatchText}
-              h={{
-                size: 's',
-                properties: ['margin-left'],
-              }}
-              v={{
-                size: 'l',
-                properties: ['margin-bottom'],
-              }}
-            >
-              {DateInfo}
-            </Space>
-          </Space>
-        )}
-        {!showPlayButton && DateInfo}
+        {postTitleChildren || DateInfo}
         {StatusIndicator}
         {ExtraInfo}
 
