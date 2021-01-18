@@ -1,32 +1,21 @@
 import React, { useState, useEffect } from 'react';
-
 import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-// @ts-ignore
-import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import TextInput from '../WellcomeComponents/TextInput';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { AccountCreated } from './AccountCreated';
 import { RegistrationSummaryParagraph } from './RegistrationSummaryParagraph';
 import { ErrorMessage } from '../Shared/ErrorMessage';
 import CheckboxRadio from '../WellcomeComponents/CheckBoxLabel';
+import { PasswordInput } from '../Shared/PasswordInput';
+import { LogoContainer } from '../Shared/LogoContainer';
 import axios from 'axios';
-import { Link } from 'react-router-dom'
 
 // TODO: Update this to prod.
 const logo = 'https://identity-public-assets-stage.s3.eu-west-1.amazonaws.com/images/wellcomecollections-150x50.png';
-import styled from 'styled-components';
-import { PasswordInput } from '../Shared/PasswordInput';
 
 // At least 8 characters, one uppercase, one lowercase and number
 const passwordPolicy = /(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*/;
 const emailTest = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-const LogoContainer = styled.div`
-   {
-    margin: auto;
-    padding: 42px;
-    width: 200px;
-  }
-`;
 
 export const Registration: React.FC = () => {
   const [firstName, setFirstName] = useState<string>();
@@ -34,11 +23,11 @@ export const Registration: React.FC = () => {
   const [email, setEmail] = useState<string>();
   const [emailValid, setEmailValid] = useState<boolean>(true);
   const [pass, setPass] = useState<string>();
-  const [valid, setValid] = useState<boolean | undefined | ''>(false);
+  const [valid, setValid] = useState<boolean>(false);
   const [created, setCreated] = useState<boolean>(false);
   const [consent, setConsent] = useState(false);
   const [alreadyExists, setAlreadyExists] = useState(false);
-  const [passQualifies, setPassQualifies] = useState(true);
+  const [passQualifies, setPassQualifies] = useState(false);
   const [commonPassword, setCommonPassword] = useState(false);
   const [errorOccured, setErrorOccured] = useState(false);
 
@@ -64,8 +53,11 @@ export const Registration: React.FC = () => {
   }, [pass]);
 
   useEffect(() => {
-    setValid(firstName && lastName && email && passwordPolicy.test(pass || ''));
+    setValid(!!(firstName && lastName && email && passwordPolicy.test(pass || '')));
   }, [firstName, lastName, email, pass, consent]);
+
+  const isFirstNameValid = Boolean(firstName && firstName !== '');
+  const isLastNameValid = Boolean(lastName && lastName !== '');
 
   const createAccount = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -82,8 +74,10 @@ export const Registration: React.FC = () => {
             password: pass,
           },
         })
-          .then(response => { setCreated(true) })
-          .catch(error => {
+          .then((response) => {
+            setCreated(true);
+          })
+          .catch((error) => {
             switch (error.response.status) {
               case 400:
               case 422:
@@ -104,18 +98,43 @@ export const Registration: React.FC = () => {
     }
   };
 
+  const emailErrorMessage = () => {
+    if (alreadyExists) {
+      return (
+        <>
+          This account already exists. You can try to <a href="/">login</a>.
+        </>
+      );
+    } else if (!emailValid) {
+      return 'Please enter a valid email address';
+    } else {
+      return '';
+    }
+  };
+
+  const passwordErrorMessage = () => {
+    if (commonPassword) {
+      return (
+        <>
+          The password you have entered has been flagged as a common password, or you have used your name in the
+          password.
+          <br />
+          Please change your password and try again.
+        </>
+      );
+    } else if (!passQualifies) {
+      return 'The password you have entered does not meet the password policy. Please enter a password with at least 8 characters, a combination of upper and lowercase letters and at least one number.';
+    } else {
+      return '';
+    }
+  };
+
   return (
     <div>
       <LogoContainer>
         <img src={logo} alt="Wellcome Collection Logo" />
       </LogoContainer>
-      {errorOccured ? (
-        <ErrorMessage>
-          Something went wrong.
-        </ErrorMessage>
-      ) : (
-        <></>
-      )}
+      {errorOccured && <ErrorMessage>Something went wrong.</ErrorMessage>}
       {created ? (
         <AccountCreated />
       ) : (
@@ -127,67 +146,62 @@ export const Registration: React.FC = () => {
           <RegistrationSummaryParagraph />
           <form onSubmit={createAccount}>
             <SpacingComponent />
-            <h1 className="font-wb font-size-4"> Personal Details</h1>
+            <h1 className="font-wb font-size-4"> Personal details</h1>
             <TextInput
+              id="firstname"
               placeholder=""
               required={true}
               aria-label="First Name"
               label="First name"
               value={firstName}
               setValue={(value: string) => setFirstName(value)}
+              isValid={isFirstNameValid}
+              showValidity={isFirstNameValid}
+              errorMessage={'Please enter your first name'}
             />
             <SpacingComponent />
             <TextInput
+              id="lastname"
               placeholder=""
               required={true}
               aria-label="Last name"
               label="Last name"
               value={lastName}
               setValue={(value: string) => setLastName(value)}
+              isValid={isLastNameValid}
+              showValidity={isLastNameValid}
+              errorMessage={'Please enter your last name'}
             />
             <SpacingComponent />
-            <h1 className="font-wb font-size-4"> Login Details</h1>
+            <h1 className="font-wb font-size-4"> Login details</h1>
             <TextInput
+              id="email"
               placeholder=""
               required={true}
               aria-label="Email Address"
               label="Email address"
+              isValid={!alreadyExists && emailValid}
+              showValidity={!!email && email !== ''}
+              errorMessage={emailErrorMessage()}
               value={email}
               type="email"
               setValue={(value: string) => setEmail(value)}
             />
-            {alreadyExists ? (
-              <ErrorMessage>
-                This account already exists. You can try to <Link to='/'>login</Link>
-              </ErrorMessage>
-            ) : (
-              <></>
-            )}
-            {!emailValid ? <ErrorMessage>Please enter a valid email address.</ErrorMessage> : <></>}
             <SpacingComponent />
-            <PasswordInput value={pass} setValue={(value: string) => setPass(value)} pattern={passwordPolicy} />
-            {commonPassword ? (
-              <ErrorMessage>
-                The password you have entered has been flagged as a common password, or you have used your name in the
-                password. <br />
-                Please change your password and try again.
-              </ErrorMessage>
-            ) : (
-              <></>
-            )}
-            {!passQualifies ? (
-              <ErrorMessage>
-                The password you have entered does not meet the password policy. Please enter a password with at least 8
-                characters, a combination of upper and lowercase letters and at least one number.
-              </ErrorMessage>
-            ) : (
-              <ul>
-                <li className="font-hnl font-size-6">One lowercase character</li>
-                <li className="font-hnl font-size-6">One uppercase character</li>
-                <li className="font-hnl font-size-6">One number</li>
-                <li className="font-hnl font-size-6">8 characters minimum</li>
-              </ul>
-            )}
+            <PasswordInput
+              value={pass}
+              setValue={(value: string) => setPass(value)}
+              pattern={passwordPolicy}
+              isValid={!commonPassword && passQualifies}
+              showValidity={!!pass && pass !== ''}
+              errorMessage={passwordErrorMessage()}
+            />
+            <ul>
+              <li className="font-hnl font-size-6">One lowercase character</li>
+              <li className="font-hnl font-size-6">One uppercase character</li>
+              <li className="font-hnl font-size-6">One number</li>
+              <li className="font-hnl font-size-6">8 characters minimum</li>
+            </ul>
             <SpacingComponent />
             <CheckboxRadio
               type="checkbox"
@@ -196,9 +210,15 @@ export const Registration: React.FC = () => {
               onChange={() => setConsent(!consent)}
               name="Terms and Conditions"
               value={''}
-              text={`I have read and agreed to the <a href="https://wellcome.org/about-us/governance/privacy-and-terms" target="_blank" rel="noopener">
-                  Privacy and Terms
-                </a> for Wellcome Collection.`}
+              text={
+                <>
+                  I have read and agreed to the{' '}
+                  <a href="https://wellcome.org/about-us/governance/privacy-and-terms" target="_blank" rel="noopener">
+                    Privacy and Terms
+                  </a>{' '}
+                  for Wellcome Collection.
+                </>
+              }
             />
             <SpacingComponent />
             <SolidButton onClick={createAccount}>Create Account</SolidButton>

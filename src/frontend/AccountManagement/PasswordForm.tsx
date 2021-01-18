@@ -4,8 +4,6 @@ import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSol
 // @ts-ignore
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-// @ts-ignore
-import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 
 import { ErrorMessage } from '../Shared/ErrorMessage';
 
@@ -34,7 +32,7 @@ export const PasswordForm = () => {
 
   return (
     <>
-      <SectionHeader title="Change your password using the form below." />
+      <h1 className="font-wb font-size-4">Change your password using the form below.</h1>
       <form>
         <SpacingComponent />
         <TextInput

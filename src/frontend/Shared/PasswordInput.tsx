@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ReactNode } from 'react';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import EyeIcon from '@weco/common/icons/components/Eye';
@@ -12,13 +12,18 @@ const IconWrapper = styled.div`
   height: 30px;
   width: 30px;
   justify-self: end;
-  transform: translate(-10px, -40px);
+  transform: translate(-35px, 50px);
+  z-index: 10;
+  margin-top: -35px;
 `;
 
 type PasswordInputProps = {
   value: string | undefined;
   setValue: (value: string) => void;
   pattern?: RegExp;
+  showValidity?: boolean;
+  isValid?: boolean;
+  errorMessage?: string | ReactNode;
 };
 
 export const PasswordInput: React.FC<PasswordInputProps> = (props) => {
@@ -28,6 +33,9 @@ export const PasswordInput: React.FC<PasswordInputProps> = (props) => {
 
   return (
     <PasswordFieldWrapper>
+      <IconWrapper>
+        {showPassword ? <AllyVisual onClick={toggleShowPassword} /> : <EyeIcon onClick={toggleShowPassword} />}
+      </IconWrapper>
       <TextInput
         placeholder=""
         required={true}
@@ -37,9 +45,6 @@ export const PasswordInput: React.FC<PasswordInputProps> = (props) => {
         style={{ width: '100%' }}
         {...props}
       />
-      <IconWrapper>
-        {!showPassword ? <EyeIcon onClick={toggleShowPassword} /> : <AllyVisual onClick={toggleShowPassword} />}
-      </IconWrapper>
     </PasswordFieldWrapper>
   );
 };
