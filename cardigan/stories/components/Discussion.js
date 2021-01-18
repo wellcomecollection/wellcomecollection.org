@@ -3,8 +3,6 @@ import Discussion from '../../../common/views/components/Discussion/Discussion';
 import Readme from '../../../common/views/components/BetaMessage/README.md';
 
 const stories = storiesOf('Components', module);
-// [{"type":"paragraph","text":"this is some test text","spans":[{"start":8,"end":12,"type":"strong"}]}]
-// this is some test text
 const discussion = [
   {
     speaker: 'Speaker one',
