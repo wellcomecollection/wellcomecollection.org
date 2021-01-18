@@ -245,7 +245,8 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
     workTypeInUrlArray.length +
     (productionDatesFrom ? 1 : 0) +
     (productionDatesTo ? 1 : 0) +
-    (imagesColor ? 1 : 0);
+    (imagesColor ? 1 : 0) +
+    languagesInUrl.length;
 
   return (
     <Space
@@ -397,7 +398,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
               {enableMoreFilters &&
                 filtersToShow.includes('languages') &&
                 aggregations &&
-                aggregations.languages && (
+                aggregations?.languages && (
                   <FilterSection>
                     <h3 className="h3">Languages</h3>
                     <Space
