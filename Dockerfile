@@ -38,7 +38,7 @@ COPY --from=build /home/node/app/package.json /home/node/app/package.json
 COPY --from=build /home/node/app/yarn.lock /home/node/app/yarn.lock
 COPY --from=modules /home/node/app/node_modules /home/node/app/node_modules
 COPY --from=build /home/node/app/lib /home/node/app/lib
-COPY ./schemas /home/node/app/schemas
+COPY --from=build /home/node/app/schemas /home/node/app/schemas
 COPY ./webpack.frontend.js /home/node/app/webpack.frontend.js
 COPY ./ecosystem.config.js /home/node/app/ecosystem.config.js
 
