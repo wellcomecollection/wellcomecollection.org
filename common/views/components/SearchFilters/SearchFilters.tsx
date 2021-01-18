@@ -60,8 +60,8 @@ const SearchFilters: FunctionComponent<Props> = ({
   const locationsTypeInUrlArray = worksRouteProps.itemsLocationsType || [];
   const { productionDatesFrom, productionDatesTo, color } = worksRouteProps;
   const languagesInUrl: string[] = worksRouteProps?.languages || [];
-  const subjectsInUrl: string = worksRouteProps?.subjects || '';
-  const genresInUrl: string = worksRouteProps?.genres || '';
+  const subjectsInUrl: string = worksRouteProps?.subject || '';
+  const genresInUrl: string = worksRouteProps?.genre || '';
 
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
