@@ -147,7 +147,7 @@ const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
                 })}
               >
                 <RadioGroup
-                  name="subject"
+                  name="subjects"
                   selected={subjectsInUrl}
                   onChange={changeHandler}
                   options={getAggregationRadioGroup(subjectsFilter, 'mobile')}
@@ -166,7 +166,7 @@ const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
                 })}
               >
                 <RadioGroup
-                  name="genre"
+                  name="genres"
                   selected={genresInUrl}
                   onChange={changeHandler}
                   options={getAggregationRadioGroup(genresFilter, 'mobile')}

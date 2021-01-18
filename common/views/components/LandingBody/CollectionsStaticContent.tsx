@@ -29,8 +29,8 @@ const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
               source: 'collections',
               color: null,
               languages: [],
-              genre: null,
-              subject: null,
+              genresLabel: null,
+              subjectsLabel: null,
             }}
             imagesRouteProps={{
               query: '',
@@ -48,8 +48,8 @@ const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
               imagesColor: null,
               search: null,
               languages: [],
-              subject: null,
-              genre: null,
+              subjectsLabel: null,
+              genresLabel: null,
             }}
             workTypeAggregations={[]}
             shouldShowDescription={true}

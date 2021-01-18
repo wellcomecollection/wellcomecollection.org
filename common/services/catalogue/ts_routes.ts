@@ -115,8 +115,8 @@ export type WorksRouteProps = {
   imagesColor: string | null;
   search: string | null;
   languages: string[];
-  subject: string | null;
-  genre: string | null;
+  subjectsLabel: string | null;
+  genresLabel: string | null;
 
   // [1] These should not be here, but we need a good
   // old tidy up of the props in this file
@@ -142,8 +142,8 @@ export function imagesRoutePropsToWorksRouteProps(
     // [1] wrong below this line
     color: null,
     languages: [],
-    subject: null,
-    genre: null,
+    subjectsLabel: null,
+    genresLabel: null,
   };
 }
 
@@ -168,8 +168,8 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       // [1] Wrong below this line
       color: null,
       languages: stringToCsv(stringQ.languages),
-      subject: maybeString(stringQ.subject),
-      genre: maybeString(stringQ.genre),
+      subjectsLabel: maybeString(stringQ['subjects.label']),
+      genresLabel: maybeString(stringQ['genres.label']),
     };
   },
 
@@ -207,8 +207,8 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       search: params.search,
       source: params.source,
       languages: params.languages,
-      subject: params.subject,
-      genre: params.genre,
+      'subjects.label': params.subjectsLabel,
+      'genres.label': params.genresLabel,
     });
   },
 };
@@ -234,8 +234,8 @@ export const ImagesRoute: NextRoute<ImagesRouteProps> = {
       imagesColor: null,
       search: null,
       languages: [],
-      genre: null,
-      subject: null,
+      genresLabel: null,
+      subjectsLabel: null,
     };
   },
 

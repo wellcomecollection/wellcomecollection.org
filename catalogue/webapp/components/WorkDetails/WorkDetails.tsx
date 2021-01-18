@@ -475,8 +475,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                 color: null,
                 locationsLicense: null,
                 languages: [],
-                subject: null,
-                genre: null,
+                subjectsLabel: null,
+                genresLabel: null,
               },
               'work_details/images'
             )}

@@ -146,8 +146,8 @@ const SearchForm: FunctionComponent<Props> = ({
   function updateUrl(form: HTMLFormElement) {
     const languages = getFilterItemSelected(form, 'languageOptions');
     const workType = getFilterItemSelected(form, 'workType');
-    const subject = form['subject'] && form['subject']?.value;
-    const genre = form['genre'] && form['genre']?.value;
+    const subjectsLabel = form['subjects'] && form['subjects']?.value;
+    const genresLabel = form['genres'] && form['genres']?.value;
     const sortOrder = portalSortOrder;
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
@@ -184,8 +184,8 @@ const SearchForm: FunctionComponent<Props> = ({
       source,
       color: null,
       languages,
-      subject,
-      genre,
+      subjectsLabel,
+      genresLabel,
     };
     const link = isImageSearch
       ? imagesLink(
