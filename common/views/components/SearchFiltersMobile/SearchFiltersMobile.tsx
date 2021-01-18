@@ -30,7 +30,7 @@ import {
   getAggregationFilterByName,
   getAggregationRadioGroup,
 } from '@weco/common/utils/filters';
-import { CatalogueAggregationBucket } from 'model/catalogue';
+import { CatalogueAggregationBucket } from '@weco/common/model/catalogue';
 import RadioGroup from '@weco/common/views/components/RadioGroup/RadioGroup';
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
