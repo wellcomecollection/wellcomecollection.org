@@ -300,7 +300,7 @@ export default {
           title: heading('Title', 2),
         },
         repeat: {
-          speaker: link('Contributor', 'document', ['people']),
+          contibutor: link('Contributor', 'document', ['people']),
           text: structuredText('Text'),
         },
       }),

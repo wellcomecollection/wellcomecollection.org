@@ -420,7 +420,7 @@
               }
             },
             "repeat": {
-              "speaker": {
+              "contibutor": {
                 "type": "Link",
                 "config": {
                   "label": "Contributor",
