@@ -68,6 +68,8 @@ export function worksRouteToApiUrl(
     ),
     'production.dates.to': toIsoDateString(worksRouteProps.productionDatesTo),
     languages: worksRouteProps.languages,
+    'genres.label': worksRouteProps.genresLabel,
+    'subjects.label': worksRouteProps.subjectsLabel,
     ...overrides,
   };
 }
