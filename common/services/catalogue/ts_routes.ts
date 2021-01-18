@@ -115,8 +115,8 @@ export type WorksRouteProps = {
   imagesColor: string | null;
   search: string | null;
   languages?: string[];
-  subjects?: string | null;
-  genres?: string | null;
+  subject?: string | null;
+  genre?: string | null;
 
   // [1] These should not be here, but we need a good
   // old tidy up of the props in this file
@@ -166,6 +166,8 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       // [1] Wrong below this line
       color: null,
       languages: stringToCsv(stringQ.languages),
+      subject: stringToCsv(stringQ.subject),
+      genre: stringToCsv(stringQ.genre),
     };
   },
 
@@ -203,6 +205,8 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       search: params.search,
       source: params.source,
       languages: params.languages,
+      subject: params.subject,
+      genre: params.genre,
     });
   },
 };
