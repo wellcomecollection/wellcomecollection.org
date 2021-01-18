@@ -26,6 +26,8 @@ type ResetActiveFilters = {
   resetFilters: LinkProps;
   enableMoreFilters: boolean;
   languagesInUrl: string[];
+  subjectsInUrl: string;
+  genresInUrl: string;
 };
 
 const ColorSwatch = styled.span`
