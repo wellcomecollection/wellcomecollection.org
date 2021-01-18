@@ -21,3 +21,11 @@ resource "aws_ecr_repository" "catalogue_webapp" {
     prevent_destroy = true
   }
 }
+
+resource "aws_ecr_repository" "identity_webapp" {
+  name = "uk.ac.wellcome/identity_webapp"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
