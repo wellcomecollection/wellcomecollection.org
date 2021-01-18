@@ -69,7 +69,9 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
         workTypeInUrlArray.length > 0 ||
         worksRouteProps?.itemsLocationsType?.length > 0) &&
         workTypeFilters.length > 0) ||
-      languagesInUrl.length > 0
+      languagesInUrl.length > 0 ||
+      subjectsInUrl ||
+      genresInUrl
     );
   }
 

@@ -85,6 +85,8 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
   resetFilters,
   enableMoreFilters,
   languagesInUrl,
+  subjectsInUrl,
+  genresInUrl,
 }: ResetActiveFilters) => {
   const languagesFilters = aggregations?.languages?.buckets || [];
   return (
@@ -231,7 +233,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                     {...worksLink(
                       {
                         ...worksRouteProps,
-                        workType: worksRouteProps.workType.filter(
+                        languages: worksRouteProps.languages.filter(
                           w => w !== language.data.id
                         ),
                         page: 1,
@@ -246,6 +248,40 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                 )
               );
             })}
+          {enableMoreFilters && subjectsInUrl && (
+            <NextLink
+              passHref
+              {...worksLink(
+                {
+                  ...worksRouteProps,
+                  page: 1,
+                  subjectsLabel: null,
+                },
+                'cancel_filter/subjects_label'
+              )}
+            >
+              <a>
+                <CancelFilter text={subjectsInUrl} />
+              </a>
+            </NextLink>
+          )}
+          {enableMoreFilters && genresInUrl && (
+            <NextLink
+              passHref
+              {...worksLink(
+                {
+                  ...worksRouteProps,
+                  page: 1,
+                  genresLabel: null,
+                },
+                'cancel_filter/genres_label'
+              )}
+            >
+              <a>
+                <CancelFilter text={genresInUrl} />
+              </a>
+            </NextLink>
+          )}
           <NextLink passHref {...resetFilters}>
             <a>
               <CancelFilter text={'Reset filters'} />

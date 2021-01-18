@@ -259,7 +259,9 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
     (productionDatesFrom ? 1 : 0) +
     (productionDatesTo ? 1 : 0) +
     (imagesColor ? 1 : 0) +
-    languagesInUrl.length;
+    languagesInUrl.length +
+    (subjectsInUrl ? 1 : 0) +
+    (genresInUrl ? 1 : 0);
 
   return (
     <Space
