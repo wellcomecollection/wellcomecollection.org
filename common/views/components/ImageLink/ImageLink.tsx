@@ -7,6 +7,7 @@ export type ImageQueryParams = {
   id: string;
   workId: string;
   langCode?: string;
+  resultPosition?: number;
   source: ImageLinkSource;
 };
 
@@ -17,6 +18,7 @@ type Props = ImageQueryParams & Omit<LinkProps, 'as' | 'href'>;
 export function imageLink({
   workId,
   source,
+  resultPosition,
   ...params
 }: ImageQueryParams): LinkProps {
   return {
@@ -25,6 +27,7 @@ export function imageLink({
       query: {
         workId,
         source,
+        resultPosition,
         ...params,
       },
     },

@@ -6,6 +6,7 @@ import { Fragment, useContext } from 'react';
 // $FlowFixMe (tsx)
 import { AppContext } from '../../components/AppContext/AppContext';
 import { withToggler } from '../../hocs/withToggler';
+// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 

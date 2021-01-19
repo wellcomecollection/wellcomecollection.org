@@ -45,7 +45,7 @@ const WorkSearchResults: FunctionComponent<Props> = ({
               });
             }}
           >
-            <WorksSearchResult work={result} />
+            <WorksSearchResult work={result} resultPosition={i} />
           </div>
 
           {relevanceRating && (

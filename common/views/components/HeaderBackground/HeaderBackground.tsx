@@ -1,15 +1,15 @@
-// @flow
+import { FunctionComponent } from 'react';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 
-type Props = {|
-  backgroundTexture?: string,
-  hasWobblyEdge?: boolean,
-  useDefaultBackgroundTexture?: boolean,
-|};
+type Props = {
+  backgroundTexture?: string;
+  hasWobblyEdge?: boolean;
+  useDefaultBackgroundTexture?: boolean;
+};
 
 const defaultBackgroundTexture =
   'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg';
-const HeaderBackground = ({
+const HeaderBackground: FunctionComponent<Props> = ({
   backgroundTexture,
   hasWobblyEdge,
   useDefaultBackgroundTexture,

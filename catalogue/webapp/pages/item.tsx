@@ -288,9 +288,7 @@ const ItemPage: NextPage<Props> = ({
       >
         <div className={font('hnl', 5)}>
           {authService?.label && (
-            <h2 className={font('hnm', 4)}>
-              {authService?.label}
-            </h2>
+            <h2 className={font('hnm', 4)}>{authService?.label}</h2>
           )}
           {authService?.description && (
             <p
@@ -390,7 +388,7 @@ export const getServerSideProps: GetServerSideProps<
   });
 
   if (work.type === 'Error') {
-    return appError(context, work.httpStatus, 'Works API error');
+    return appError(context, work.httpStatus, work.description);
   } else if (work.type === 'Redirect') {
     return {
       redirect: {

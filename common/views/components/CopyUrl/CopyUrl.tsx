@@ -68,18 +68,9 @@ const CopyUrl: FunctionComponent<Props> = ({
         type="text"
         label="Page URL"
         value={url}
-        setValue={null}
-        name={null}
-        pattern={null}
-        required={null}
-        placeholder={null}
-        errorMessage={null}
-        isValid={null}
-        setIsValid={null}
-        showValidity={null}
-        setShowValidity={null}
-        autoFocus={null}
-        big={null}
+        setValue={() => {
+          // noop
+        }}
       />
 
       {isEnhanced && (

@@ -6,10 +6,14 @@ import structuredText from './parts/structured-text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import link from './parts/link';
 import list from './parts/list';
+import timestamp from './parts/timestamp';
 
 const Project = {
   Project: {
     title,
+    format: link('Format', 'document', ['project-formats']),
+    start: timestamp('Start date'),
+    end: timestamp('End date'),
     body,
   },
   Contributors: contributorsWithTitle(),

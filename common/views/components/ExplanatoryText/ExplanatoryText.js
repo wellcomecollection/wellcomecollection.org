@@ -4,6 +4,7 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import { useState, useEffect, useContext, type Element } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
+// $FlowFixMe (tsx)
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 

@@ -1,6 +1,7 @@
 // @flow
 import { Component, Fragment } from 'react';
 import { classNames, font } from '../../../utils/classnames';
+// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 import { trackEvent } from '../../../utils/ga';
 import Space from '../styled/Space';

@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -17,10 +17,10 @@ import Space, {
 } from '@weco/common/views/components/styled/Space';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type Props = {
   work: Work;
+  resultPosition: number;
 };
 
 const ShameAvailableOnlineTag = styled(Space).attrs({
@@ -75,13 +75,13 @@ function isPdfThumbnail(thumbnail): boolean {
   return Boolean(thumbnail.url.match('.pdf/full'));
 }
 
-const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
+const WorkSearchResult: FunctionComponent<Props> = ({
+  work,
+  resultPosition,
+}: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
-  const { archiveContextInSearch } = useContext(TogglesContext);
-  const archiveLabels = archiveContextInSearch
-    ? getArchiveLabels(work)
-    : undefined;
+  const archiveLabels = getArchiveLabels(work);
   return (
     <div
       className={classNames({
@@ -89,7 +89,12 @@ const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
         'border-top-width-1': true,
       })}
     >
-      <WorkLink id={work.id} source={`works_search_result`} passHref>
+      <WorkLink
+        id={work.id}
+        resultPosition={resultPosition}
+        source={`works_search_result`}
+        passHref
+      >
         <Space
           as="a"
           v={{
@@ -213,4 +218,4 @@ const WorkCard: FunctionComponent<Props> = ({ work }: Props) => {
     </div>
   );
 };
-export default WorkCard;
+export default WorkSearchResult;

@@ -1,6 +1,7 @@
 // @flow
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
+// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 import { UiImage } from '../Images/Images';
 import type { ImageType } from '../../../model/image';
