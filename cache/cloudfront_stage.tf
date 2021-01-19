@@ -23,6 +23,7 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
     "www-stage.wellcomecollection.org",
     "content.www-stage.wellcomecollection.org",
     "works.www-stage.wellcomecollection.org",
+    "identity.www-stage.wellcomecollection.org",
   ]
 
   default_cache_behavior {

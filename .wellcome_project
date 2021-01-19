@@ -14,3 +14,18 @@ experience:
         - id: catalogue_webapp
   name: Front End (wellcomecollection.org)
   role_arn: arn:aws:iam::130871440101:role/experience-ci
+
+# We have identity as a separate project as we need to support Digirati's rapid development
+# and not be tied to the rest of the projects deployment.
+identity:
+  environments:
+    - id: stage
+      name: Staging
+    - id: prod
+      name: Production
+  image_repositories:
+    - id: identity_webapp
+      services:
+        - id: identity_webapp
+  name: Experience identity
+  role_arn: arn:aws:iam::130871440101:role/experience-ci
