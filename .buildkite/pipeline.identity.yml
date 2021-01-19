@@ -13,7 +13,7 @@
 - wait
 
 - label: "deploy identity (ecr image)"
-  branches: "master feat/identity_ecfr_container_build"
+  branches: "master feat/identity_infra"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
