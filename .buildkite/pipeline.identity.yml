@@ -13,7 +13,7 @@
 - wait
 
 - label: "deploy identity (ecr image)"
-  branches: "master feat/identity_infra"
+  branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -27,6 +27,7 @@
 - wait
 
 - label: "deploy to stage"
+  branches: "master"
   concurrency: 1
   concurrency_group: "experience-deploy"
   plugins:
