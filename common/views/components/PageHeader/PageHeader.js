@@ -177,7 +177,16 @@ const PageHeader = ({
             </div>
           </Layout10>
         )}
-        <Layout gridSizes={{ s: 12, m: 10, l: 8, xl: 8 }}>
+        <Layout
+          gridSizes={{
+            s: 12,
+            m: 10,
+            l: 10,
+            shiftL: 1,
+            xl: 10,
+            shiftXL: 1,
+          }}
+        >
           <Space
             v={{
               size: 'l',

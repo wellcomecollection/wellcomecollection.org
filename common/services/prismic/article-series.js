@@ -3,15 +3,22 @@ import Prismic from 'prismic-javascript';
 import { london } from '../../utils/format-date';
 import { getDocument, getDocuments } from './api';
 import { getArticles } from './articles';
-import { parseGenericFields, isStructuredText, asText, parseSingleLevelGroup } from './parsers';
+import {
+  parseGenericFields,
+  isStructuredText,
+  asText,
+  parseSingleLevelGroup,
+} from './parsers';
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
-import type { PrismicDocument, PrismicQueryOpts, PaginatedResults } from './types';
+import type {
+  PrismicDocument,
+  PrismicQueryOpts,
+  PaginatedResults,
+} from './types';
 import type { ArticleSeries } from '../../model/article-series';
 import type { Article } from '../../model/articles';
-import {
-  seasonsFields,
-} from './fetch-links';
+import { seasonsFields } from './fetch-links';
 
 export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
   const { data } = document;
@@ -126,9 +133,14 @@ export async function getArticleSeries(
   } else {
     // TODO: (perf) we shouldn't really be doing two calls here, but it's for
     // when a series has no events attached.
-    const document = await getDocument(req, id, {
-      fetchLinks:seasonsFields,
-    }, memoizedPrismic);
+    const document = await getDocument(
+      req,
+      id,
+      {
+        fetchLinks: seasonsFields,
+      },
+      memoizedPrismic
+    );
     return document && { series: parseArticleSeries(document), articles: [] };
   }
 }
@@ -151,9 +163,7 @@ export async function getMultipleArticleSeries(
 ): Promise<PaginatedResults<ArticleSeries>> {
   const paginatedResults = await getDocuments(
     req,
-    [Prismic.Predicates.any('document.type', ['series'])].concat(
-      predicates,
-    ),
+    [Prismic.Predicates.any('document.type', ['series'])].concat(predicates),
     {
       page,
     },

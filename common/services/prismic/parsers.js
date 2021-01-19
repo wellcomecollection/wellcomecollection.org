@@ -789,6 +789,18 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
             },
           };
 
+        case 'discussion':
+          return {
+            type: 'discussion',
+            value: {
+              title: parseTitle(slice.primary.title),
+              discussion: slice.items.map(item => ({
+                contributor: parsePersonContributor(item.contributor),
+                text: parseStructuredText(item.text),
+              })),
+            },
+          };
+
         case 'tagList':
           return {
             type: 'tagList',

@@ -2,6 +2,10 @@ import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import { Article } from '../../../model/articles';
 import { FunctionComponent } from 'react';
+import { ContentFormatIds } from '@weco/common/model/content-format-id';
+import HTMLDate from '../HTMLDate/HTMLDate';
+import Space from '../styled/Space';
+import { WatchWrapper, WatchText } from '../styled/Watch';
 
 type Props = {
   article: Article;
@@ -27,26 +31,80 @@ const ArticleCard: FunctionComponent<Props> = ({
         .find(_ => _)
     : undefined;
 
-  return (
-    <CompactCard
-      url={`/articles/${article.id}`}
-      title={article.title || ''}
-      partNumber={partOfSerial}
-      color={article.color}
-      primaryLabels={article.labels}
-      secondaryLabels={[]}
-      description={article.promoText}
-      urlOverride={article.promo?.link || null}
-      Image={
-        (article.image?.crops?.square && (
-          <Image {...article.image.crops.square} />
-        )) ||
-        null
-      }
-      DateInfo={null}
-      StatusIndicator={null}
-      xOfY={xOfY}
-    />
-  );
+  const isPodcast =
+    article.format && article.format.id === ContentFormatIds.Podcast;
+
+  if (isPodcast) {
+    return (
+      <CompactCard
+        url={`/articles/${article.id}`}
+        title={article.title || ''}
+        partNumber={partOfSerial}
+        partDescription={isPodcast ? 'Episode' : 'Part'}
+        color={article.color}
+        primaryLabels={!isPodcast ? article.labels : []}
+        secondaryLabels={[]}
+        description={!isPodcast ? article.promoText : null}
+        urlOverride={article.promo?.link || null}
+        Image={
+          (article.image?.crops?.square && (
+            <Image {...article.image.crops.square} />
+          )) ||
+          null
+        }
+        DateInfo={null}
+        StatusIndicator={null}
+        xOfY={xOfY}
+        postTitleChildren={
+          <Space
+            as={WatchWrapper}
+            v={{
+              size: 's',
+              properties: ['margin-top'],
+            }}
+          >
+            <Space
+              as={WatchText}
+              h={{
+                size: 's',
+                properties: ['margin-left'],
+              }}
+              v={{
+                size: 'l',
+                properties: ['margin-bottom'],
+              }}
+            >
+              {article.datePublished && (
+                <HTMLDate date={new Date(article.datePublished)} />
+              )}
+            </Space>
+          </Space>
+        }
+      />
+    );
+  } else {
+    return (
+      <CompactCard
+        url={`/articles/${article.id}`}
+        title={article.title || ''}
+        partNumber={partOfSerial}
+        partDescription={isPodcast ? 'Episode' : 'Part'}
+        color={article.color}
+        primaryLabels={!isPodcast ? article.labels : []}
+        secondaryLabels={[]}
+        description={!isPodcast ? article.promoText : null}
+        urlOverride={article.promo?.link || null}
+        Image={
+          (article.image?.crops?.square && (
+            <Image {...article.image.crops.square} />
+          )) ||
+          null
+        }
+        DateInfo={null}
+        StatusIndicator={null}
+        xOfY={xOfY}
+      />
+    );
+  }
 };
 export default ArticleCard;

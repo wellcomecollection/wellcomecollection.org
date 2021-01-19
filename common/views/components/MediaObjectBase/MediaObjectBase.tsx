@@ -31,6 +31,7 @@ type Props = {
   urlOverride: string | null;
   extraClasses?: string;
   partNumber: number | undefined;
+  partDescription: 'Part' | 'Episode';
   color: ColorSelection | undefined;
   Image: ReactElement<typeof ImageType | typeof ImagePlaceholder> | null;
   DateInfo:
@@ -44,6 +45,7 @@ type Props = {
   OverrideTextWrapper?: ComponentType<HasImageProps>;
   OverrideTitleWrapper?: ComponentType;
   onClick?: () => void;
+  postTitleChildren?: ReactElement;
 };
 
 const BaseImageWrapper = styled.div.attrs({
@@ -82,6 +84,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
   urlOverride,
   extraClasses,
   partNumber,
+  partDescription,
   color,
   Image,
   DateInfo,
@@ -92,6 +95,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
   OverrideTextWrapper,
   OverrideTitleWrapper,
   onClick,
+  postTitleChildren,
 }: Props): ReactElement<Props> => {
   const { x, y } = xOfY || {};
   const ImageWrapper = OverrideImageWrapper || BaseImageWrapper;
@@ -132,10 +136,14 @@ const MediaObjectBase: FunctionComponent<Props> = ({
         )}
 
         {partNumber && (
-          <PartNumberIndicator number={partNumber} color={color} />
+          <PartNumberIndicator
+            number={partNumber}
+            description={partDescription}
+            color={color}
+          />
         )}
         <TitleWrapper>{title}</TitleWrapper>
-        {DateInfo}
+        {postTitleChildren || DateInfo}
         {StatusIndicator}
         {ExtraInfo}
 

@@ -97,6 +97,9 @@ export class ArticlePage extends Component<Props, State> {
       ],
     };
 
+    const isPodcast =
+      article.format && article.format.id === ContentFormatIds.Podcast;
+
     // Check if the article is in a serial, and where
     const serial = article.series.find(series => series.schedule.length > 0);
     const titlesInSerial = serial && serial.schedule.map(item => item.title);
@@ -106,7 +109,11 @@ export class ArticlePage extends Component<Props, State> {
     // We can abstract this out as a component if we see it elsewhere.
     // Not too confident it's going to be used like this for long.
     const TitleTopper = serial && positionInSerial && (
-      <PartNumberIndicator number={positionInSerial} color={serial.color} />
+      <PartNumberIndicator
+        number={positionInSerial}
+        color={serial.color}
+        description={isPodcast ? 'Episode' : 'Part'}
+      />
     );
 
     const genericFields = {
@@ -161,21 +168,28 @@ export class ArticlePage extends Component<Props, State> {
                   >
                     {contributor.name}
                   </span>
-                  {arr.length > 1 && i < arr.length - 2 && ', '}
-                  {arr.length > 1 && i === arr.length - 2 && ' and '}
+                  <Space
+                    as="span"
+                    h={{
+                      size: 's',
+                      properties: ['margin-left', 'margin-right'],
+                    }}
+                  >
+                    {arr.length > 1 && i < arr.length - 1 && '|'}
+                  </Space>
                 </Fragment>
               ))}
 
               {article.contributors.length > 0 && ' '}
 
-              <span
+              <div
                 className={classNames({
                   'font-pewter': true,
                   [font('hnl', 6)]: true,
                 })}
               >
                 <HTMLDate date={new Date(article.datePublished)} />
-              </span>
+              </div>
             </p>
           </Space>
         </div>
@@ -198,8 +212,8 @@ export class ArticlePage extends Component<Props, State> {
         title={article.title}
         ContentTypeInfo={ContentTypeInfo}
         Background={null}
-        FeaturedMedia={isImageGallery ? null : maybeFeaturedMedia}
-        HeroPicture={isImageGallery ? null : maybeHeroPicture}
+        FeaturedMedia={isImageGallery || isPodcast ? null : maybeFeaturedMedia}
+        HeroPicture={isImageGallery || isPodcast ? null : maybeHeroPicture}
         heroImageBgColor={isImageGallery ? 'white' : 'cream'}
         TitleTopper={TitleTopper}
         isContentTypeInfoBeforeMedia={true}
@@ -258,10 +272,15 @@ export class ArticlePage extends Component<Props, State> {
       >
         <ContentPage
           id={article.id}
-          isCreamy={true}
+          isCreamy={!isPodcast}
           Header={Header}
           Body={
-            <Body body={article.body} isDropCapped={true} pageId={article.id} />
+            <Body
+              body={article.body}
+              isDropCapped={true}
+              pageId={article.id}
+              minWidth={isPodcast ? 10 : 8}
+            />
           }
           Siblings={Siblings}
           contributorProps={{ contributors: article.contributors }}

@@ -127,6 +127,15 @@ export default {
           },
         },
       }),
+      tagList: slice('Tag List', {
+        nonRepeat: {
+          title: heading('Title', 2),
+        },
+        repeat: {
+          link: link('Link', 'web'),
+          linkText: text('Link text'),
+        },
+      }),
       infoBlock: slice('Info block', {
         nonRepeat: {
           title: heading('Title', 2),
