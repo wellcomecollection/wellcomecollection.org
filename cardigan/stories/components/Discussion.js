@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import Discussion from '../../../common/views/components/Discussion/Discussion';
 import Readme from '../../../common/views/components/BetaMessage/README.md';
-import { organisation, person } from '../content';
+import { person } from '../content';
 
 const stories = storiesOf('Components', module);
 const discussion = [
