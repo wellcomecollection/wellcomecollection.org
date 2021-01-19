@@ -1,4 +1,12 @@
-import { memo, useState, useRef, RefObject, CSSProperties } from 'react';
+import {
+  memo,
+  useState,
+  useRef,
+  RefObject,
+  CSSProperties,
+  FunctionComponent,
+  useEffect,
+} from 'react';
 import { FixedSizeList, areEqual } from 'react-window';
 import debounce from 'lodash.debounce';
 import styled from 'styled-components';
@@ -195,7 +203,7 @@ type Props = {
   errorHandler?: () => void;
 };
 
-const MainViewer = ({
+const MainViewer: FunctionComponent<Props> = ({
   listHeight,
   mainViewerRef,
   setActiveIndex,
@@ -255,7 +263,9 @@ const MainViewer = ({
     }
   }
 
-  getCanvasOcr(canvases[canvasIndex]).then(t => setOcrText(t || ''));
+  useEffect(() => {
+    getCanvasOcr(canvases[canvasIndex]).then(t => setOcrText(t || ''));
+  }, [canvasIndex]);
 
   return (
     <FixedSizeList
