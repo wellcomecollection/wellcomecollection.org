@@ -1,13 +1,12 @@
 import React, { FunctionComponent, RefObject } from 'react';
 import Modal from '../../components/Modal/Modal';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { classNames } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import {
   CatalogueAggregations,
   CatalogueAggregationBucket,
 } from '@weco/common/model/catalogue';
 import Space from '../styled/Space';
-import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
 import {
@@ -15,7 +14,12 @@ import {
   getAggregationRadioGroup,
 } from '@weco/common/utils/filters';
 import RadioGroup from '@weco/common/views/components/RadioGroup/RadioGroup';
-
+import NextLink from 'next/link';
+import { worksLink } from '../../../services/catalogue/routes';
+import ButtonSolid, {
+  ButtonTypes,
+} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import { WorksRouteProps } from '@weco/common/services/catalogue/ts_routes';
 type MoreFiltersProps = {
   id: string;
   showMoreFiltersModal: boolean;
@@ -27,38 +31,123 @@ type MoreFiltersProps = {
   languagesInUrl: string[];
   genresInUrl: string;
   subjectsInUrl: string;
+  worksRouteProps: WorksRouteProps;
 };
 
 const ModalInner = styled.div`
-  ${props => props.theme.media.medium`
-    display: flex;
-    flex-direction: column;
-    height: 60vh;
-
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  max-width: 600px;
+  ${props => props.theme.media.large`
+    width: 600px;
   `}
+  position: relative;
+  top: 10px;
+  overflow-y: auto;
+  max-height: 80vh;
 `;
 
+// shared styles
 const FilterSection = styled(Space).attrs({
-  v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
+  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
-    [font('hnl', 5)]: true,
+    'border-bottom-width-1 border-color-pumice': true,
   }),
 })``;
 
-const FiltersInner = styled.div`
-  ${props => props.theme.media.medium`
-    width: 50vw;
-    max-width: 500px;
-  `}
-`;
-
-const LanguagesDropDownContainer = styled.ul.attrs({
+const FiltersFooter = styled(Space).attrs({
+  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
-    'no-margin no-padding plain-list': true,
-    [font('hnl', 5)]: true,
+    'bg-white border-color-pumice border-top-width-1 flex flex--v-center flex--h-space-between': true,
   }),
 })`
-  columns: 1;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+`;
+
+const FiltersHeader = styled(Space).attrs({
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  className: classNames({
+    'border-color-pumice border-bottom-width-1 absolute': true,
+  }),
+})`
+  text-align: center;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+`;
+
+const OverrideModalWindow = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+  className: classNames({
+    'shadow bg-white font-black': true,
+  }),
+})`
+  z-index: 10001;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  transition: opacity 350ms ease, transform 350ms ease;
+
+  &,
+  &.fade-exit-done {
+    z-index: -1;
+    pointer-events: none;
+  }
+  &.fade-enter,
+  &.fade-exit,
+  &.fade-enter-done {
+    z-index: 1001;
+    pointer-events: all;
+  }
+  &,
+  &.fade-enter,
+  &.fade-exit-active,
+  &.fade-exit-done {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  &.fade-enter-active,
+  &.fade-enter-done {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  ${props => props.theme.media.medium`
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    height: auto;
+    max-height: 90vh;
+    max-width: ${props.width || `${props.theme.sizes.large}px`}
+    width: ${props.width || 'auto'};
+    border-radius: ${props.theme.borderRadiusUnit}px;
+
+    &,
+    &.fade-enter,
+    &.fade-exit-active,
+    &.fade-exit-done {
+      transform: scale(0.9) translateX(-50%) translateY(-50%);
+    }
+    &.fade-enter-active,
+    &.fade-enter-done {
+      opacity: 1;
+      transform: scale(1) translateX(-50%) translateY(-50%);
+    }
+  `}
+  @media screen and (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 `;
 
 const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
@@ -72,6 +161,7 @@ const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
   languagesInUrl,
   genresInUrl,
   subjectsInUrl,
+  worksRouteProps,
 }: MoreFiltersProps) => {
   const languagesFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
     aggregations,
@@ -92,52 +182,14 @@ const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
       isActive={showMoreFiltersModal}
       setIsActive={setMoreFiltersModal}
       openButtonRef={openMoreFiltersButtonRef}
+      OverrideModalWindow={OverrideModalWindow}
     >
-      <ModalInner>
+      <FiltersHeader>
         <h3 className="h3">More Filters</h3>
+      </FiltersHeader>
 
-        {filtersToShow.includes('languages') && (
-          <FiltersInner>
-            <FilterSection>
-              <Space h={{ size: 's', properties: ['margin-bottom'] }}>
-                <DropdownButton
-                  label={'Languages'}
-                  isInline={true}
-                  id="languages"
-                >
-                  <LanguagesDropDownContainer>
-                    {languagesFilter.map(language => {
-                      const isChecked = languagesInUrl.includes(
-                        language.data.id
-                      );
-
-                      return (
-                        languagesFilter.length && (
-                          <li key={language.data.id}>
-                            <CheckboxRadio
-                              id={language.data.id}
-                              type={`checkbox`}
-                              text={`${language.data.label} (${language.count})`}
-                              value={language.data.id}
-                              name={`languageOptions`}
-                              checked={isChecked}
-                              onChange={changeHandler}
-                              ariaLabel={searchFilterCheckBox(
-                                language.data.label
-                              )}
-                            />
-                          </li>
-                        )
-                      );
-                    })}
-                  </LanguagesDropDownContainer>
-                </DropdownButton>
-              </Space>
-            </FilterSection>
-          </FiltersInner>
-        )}
-
-        {filtersToShow.includes('subjects') && subjectsFilter.length && (
+      <ModalInner>
+        {filtersToShow.includes('subjects') && subjectsFilter.length > 0 && (
           <FilterSection>
             <h3 className="h3">Popular Subjects</h3>
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
@@ -156,7 +208,7 @@ const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
             </Space>
           </FilterSection>
         )}
-        {filtersToShow.includes('genres') && subjectsFilter.length && (
+        {filtersToShow.includes('genres') && subjectsFilter.length > 0 && (
           <FilterSection>
             <h3 className="h3">Popular Genres</h3>
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
@@ -175,7 +227,66 @@ const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
             </Space>
           </FilterSection>
         )}
+        {filtersToShow.includes('languages') && languagesFilter.length && (
+          <FilterSection>
+            <h3 className="h3">Languages</h3>
+            <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+              <ul
+                className={classNames({
+                  'no-margin no-padding plain-list': true,
+                })}
+              >
+                {languagesFilter.map(language => {
+                  const isChecked = languagesInUrl.includes(language.data.id);
+
+                  return (
+                    (language.count > 0 || isChecked) && (
+                      <Space
+                        as="li"
+                        v={{ size: 'l', properties: ['margin-bottom'] }}
+                        key={`desktop-${language.data.id}`}
+                      >
+                        <CheckboxRadio
+                          id={`desktop-${language.data.id}`}
+                          type={`checkbox`}
+                          text={`${language.data.label} (${language.count})`}
+                          value={language.data.id}
+                          name={`languageOptions`}
+                          checked={isChecked}
+                          onChange={changeHandler}
+                          ariaLabel={searchFilterCheckBox(language.data.label)}
+                        />
+                      </Space>
+                    )
+                  );
+                })}
+              </ul>
+            </Space>
+          </FilterSection>
+        )}
       </ModalInner>
+      <FiltersFooter>
+        <NextLink
+          passHref
+          {...worksLink(
+            {
+              query: worksRouteProps.query,
+            },
+            'cancel_filter/all'
+          )}
+        >
+          <a>Reset filters</a>
+        </NextLink>
+
+        <ButtonSolid
+          ref={undefined}
+          type={ButtonTypes.button}
+          clickHandler={() => {
+            setMoreFiltersModal(false);
+          }}
+          text="Show results"
+        />
+      </FiltersFooter>
     </Modal>
   );
 };

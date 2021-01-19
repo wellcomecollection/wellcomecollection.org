@@ -18,7 +18,6 @@ import ButtonInline from '../ButtonInline/ButtonInline';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
 import { getResetFilterLink } from '@weco/common/utils/filters';
 import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
-
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
@@ -239,6 +238,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   languagesInUrl={languagesInUrl}
                   subjectsInUrl={subjectsInUrl}
                   genresInUrl={genresInUrl}
+                  worksRouteProps={worksRouteProps}
                 />
               </Space>
             )}

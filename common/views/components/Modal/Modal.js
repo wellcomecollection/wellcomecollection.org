@@ -22,6 +22,7 @@ type Props = {|
   id: string,
   openButtonRef: { current: HTMLElement | null },
   removeCloseButton?: boolean,
+  OverrideModalWindow?: any,
 |};
 
 const Overlay = styled.div`
@@ -73,7 +74,7 @@ const CloseButton = styled(Space).attrs({
   `}
 `;
 
-const ModalWindow = styled(Space).attrs({
+const BaseModalWindow = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
   className: classNames({
@@ -149,11 +150,13 @@ const Modal = ({
   id,
   openButtonRef,
   removeCloseButton = false,
+  OverrideModalWindow,
 }: Props) => {
   const closeButtonRef = useRef(null);
   const lastFocusableRef = useRef(null);
   const modalRef = useRef(null);
   const { isKeyboard } = useContext(AppContext);
+  const ModalWindow = OverrideModalWindow || BaseModalWindow;
 
   function updateLastFocusableRef(newRef) {
     lastFocusableRef.current = newRef;

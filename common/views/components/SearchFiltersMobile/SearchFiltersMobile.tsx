@@ -426,6 +426,60 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                 </FilterSection>
               )}
               {enableMoreFilters &&
+                filtersToShow.includes('subjects') &&
+                subjectsFilter.length > 0 && (
+                  <FilterSection>
+                    <h3 className="h3">Popular Subjects</h3>
+                    <Space
+                      as="span"
+                      h={{ size: 'm', properties: ['margin-right'] }}
+                    >
+                      <div
+                        className={classNames({
+                          'no-margin no-padding plain-list': true,
+                        })}
+                      >
+                        <RadioGroup
+                          name="subjects"
+                          selected={subjectsInUrl}
+                          onChange={changeHandler}
+                          options={getAggregationRadioGroup(
+                            subjectsFilter,
+                            'mobile'
+                          )}
+                        />
+                      </div>
+                    </Space>
+                  </FilterSection>
+                )}
+              {enableMoreFilters &&
+                filtersToShow.includes('genres') &&
+                subjectsFilter.length > 0 && (
+                  <FilterSection>
+                    <h3 className="h3">Popular Genres</h3>
+                    <Space
+                      as="span"
+                      h={{ size: 'm', properties: ['margin-right'] }}
+                    >
+                      <div
+                        className={classNames({
+                          'no-margin no-padding plain-list': true,
+                        })}
+                      >
+                        <RadioGroup
+                          name="genres"
+                          selected={genresInUrl}
+                          onChange={changeHandler}
+                          options={getAggregationRadioGroup(
+                            genresFilter,
+                            'mobile'
+                          )}
+                        />
+                      </div>
+                    </Space>
+                  </FilterSection>
+                )}
+              {enableMoreFilters &&
                 filtersToShow.includes('languages') &&
                 languagesFilter.length && (
                   <FilterSection>
@@ -468,60 +522,6 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                           );
                         })}
                       </ul>
-                    </Space>
-                  </FilterSection>
-                )}
-              {enableMoreFilters &&
-                filtersToShow.includes('subjects') &&
-                subjectsFilter.length && (
-                  <FilterSection>
-                    <h3 className="h3">Popular Subjects</h3>
-                    <Space
-                      as="span"
-                      h={{ size: 'm', properties: ['margin-right'] }}
-                    >
-                      <div
-                        className={classNames({
-                          'no-margin no-padding plain-list': true,
-                        })}
-                      >
-                        <RadioGroup
-                          name="subjects"
-                          selected={subjectsInUrl}
-                          onChange={changeHandler}
-                          options={getAggregationRadioGroup(
-                            subjectsFilter,
-                            'mobile'
-                          )}
-                        />
-                      </div>
-                    </Space>
-                  </FilterSection>
-                )}
-              {enableMoreFilters &&
-                filtersToShow.includes('genres') &&
-                subjectsFilter.length && (
-                  <FilterSection>
-                    <h3 className="h3">Popular Genres</h3>
-                    <Space
-                      as="span"
-                      h={{ size: 'm', properties: ['margin-right'] }}
-                    >
-                      <div
-                        className={classNames({
-                          'no-margin no-padding plain-list': true,
-                        })}
-                      >
-                        <RadioGroup
-                          name="genres"
-                          selected={genresInUrl}
-                          onChange={changeHandler}
-                          options={getAggregationRadioGroup(
-                            genresFilter,
-                            'mobile'
-                          )}
-                        />
-                      </div>
                     </Space>
                   </FilterSection>
                 )}
