@@ -1,4 +1,4 @@
-// The service should be available at: "identity.www.wellcomecollection.org/_identity"
+// The service should be available at: "https://identity.www.wellcomecollection.org"
 
 module "identity-prod" {
   source = "./stack"
@@ -19,7 +19,7 @@ module "identity-prod" {
   subdomain = "identity.www"
 }
 
-// The service should be available at: "identity.www-stage.wellcomecollection.org/_identity"
+// The service should be available at: "https://identity.www-stage.wellcomecollection.org"
 
 module "identity-stage" {
   source = "./stack"
