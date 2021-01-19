@@ -60,6 +60,7 @@ const Discussion: FunctionComponent<Props> = ({ title, discussion }: Props) => {
   const [firstPartofDiscussion] = textWithContributorNameAdded;
   const [isActive, setIsActive] = useState(true);
   const [itemsToShow, setItemsToShow] = useState(textWithContributorNameAdded);
+  const lowercaseTitle = title?.toLowerCase();
 
   useEffect(() => {
     setIsActive(false);
@@ -93,7 +94,11 @@ const Discussion: FunctionComponent<Props> = ({ title, discussion }: Props) => {
               clickHandler={() => {
                 setIsActive(!isActive);
               }}
-              text={isActive ? 'Hide full transcript' : 'Read full transcript'}
+              text={
+                isActive
+                  ? `Hide full ${lowercaseTitle}`
+                  : `Read full ${lowercaseTitle}`
+              }
             />
           </ButtonContainer>
         )}
