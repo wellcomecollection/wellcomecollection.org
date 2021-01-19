@@ -12,6 +12,7 @@ import { CardOuter, CardBody } from '../Card/Card';
 /* $FlowFixMe (tsx) */
 import Divider from '../Divider/Divider';
 import styled from 'styled-components';
+/* $FlowFixMe (ts) */
 import { WatchWrapper, WatchText } from '../styled/Watch';
 
 const OnlineIndicator = styled.span.attrs({

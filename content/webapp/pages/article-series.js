@@ -17,6 +17,7 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { ArticleSeries } from '@weco/common/model/article-series';
 import type { Article } from '@weco/common/model/articles';
 import { seasonsFields } from '@weco/common/services/prismic/fetch-links';
+/* $FlowFixMe (tsx) */
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 
 type Props = {|
