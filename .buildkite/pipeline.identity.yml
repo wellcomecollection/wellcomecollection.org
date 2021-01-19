@@ -36,6 +36,7 @@
         mount-ssh-agent: true
         command: [
             "--confirm",
+            "--project-id", "identity",
             "release-deploy",
             "--from-label", "ref.$BUILDKITE_COMMIT",
             "--environment-id", "stage",
