@@ -1,0 +1,12 @@
+steps:
+  - label: "Triggering pipelines identity branch name"
+    branches: "identity/*"
+  - label: "Triggering pipelines via git diff"
+    plugins:
+      - chronotc/monorepo-diff#v1.3.0:
+          diff: "git diff --name-only HEAD~1"
+          watch:
+            - path: "identity/webapp/"
+              config:
+                label: "Trigger identity"
+                trigger: "experience-identity"
