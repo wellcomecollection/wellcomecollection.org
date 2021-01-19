@@ -1,6 +1,7 @@
-import { FunctionComponent, useState, useEffect } from 'react';
+import { FunctionComponent, useState, useEffect, useContext } from 'react';
 import { HTMLString } from '../../../services/prismic/types';
 import { Person } from '../../../model/people';
+import { AppContext } from '../AppContext/AppContext';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import styled from 'styled-components';
@@ -30,6 +31,7 @@ type Props = {
 };
 
 const Discussion: FunctionComponent<Props> = ({ title, discussion }: Props) => {
+  const { isEnhanced } = useContext(AppContext);
   const textWithContributorNameAdded = discussion.map(section => {
     const contributor = `${section?.contributor?.name}:`;
     return (
@@ -56,8 +58,13 @@ const Discussion: FunctionComponent<Props> = ({ title, discussion }: Props) => {
   });
 
   const [first] = textWithContributorNameAdded;
-  const [isActive, setIsActive] = useState(false);
-  const [itemsToShow, setItemsToShow] = useState([first]);
+  const [isActive, setIsActive] = useState(true);
+  const [itemsToShow, setItemsToShow] = useState(textWithContributorNameAdded);
+
+  useEffect(() => {
+    setItemsToShow([first]);
+    setIsActive(false);
+  }, []);
 
   useEffect(() => {
     if (isActive) {
@@ -78,17 +85,19 @@ const Discussion: FunctionComponent<Props> = ({ title, discussion }: Props) => {
         {itemsToShow.map((section, i) => (
           <PrismicHtmlBlock key={i} html={section} />
         ))}
-        <ButtonContainer isActive={isActive}>
-          <ButtonSolid
-            ariaControls={'discussion-container'}
-            ariaExpanded={isActive}
-            icon="plus"
-            clickHandler={() => {
-              setIsActive(!isActive);
-            }}
-            text={isActive ? 'Hide full transcript' : 'Read full transcript'}
-          />
-        </ButtonContainer>
+        {isEnhanced && (
+          <ButtonContainer isActive={isActive}>
+            <ButtonSolid
+              ariaControls={'discussion-container'}
+              ariaExpanded={isActive}
+              icon="plus"
+              clickHandler={() => {
+                setIsActive(!isActive);
+              }}
+              text={isActive ? 'Hide full transcript' : 'Read full transcript'}
+            />
+          </ButtonContainer>
+        )}
       </Container>
     </>
   );
