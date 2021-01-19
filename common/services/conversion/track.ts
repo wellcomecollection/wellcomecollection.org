@@ -1,6 +1,7 @@
 import cookies from 'next-cookies';
 import Router from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
+import { v4 as uuidv4 } from 'uuid';
 
 declare global {
   interface Window {
@@ -24,6 +25,40 @@ interface Conversion {
   properties: {
     [key: string]: unknown;
   };
+}
+
+type Session = {
+  id: string;
+  timeout: number;
+};
+
+const sessionIdLocalStorageKey = 'sessionId';
+const lastTrackedLocalStorageKey = 'lastTracked';
+const sessionTimeout = 1000 * 60 * 30; // 30 minutes
+function getSessionId(): string {
+  const lsSessionId = localStorage.getItem(sessionIdLocalStorageKey);
+  const lsLastTracked = localStorage.getItem(lastTrackedLocalStorageKey);
+
+  if (lsLastTracked) {
+    const now = Date.now();
+    const diff = now - parseInt(lsLastTracked, 10);
+
+    if (diff >= sessionTimeout) {
+      return resetSessionId();
+    }
+  }
+
+  if (lsSessionId) {
+    return lsSessionId;
+  }
+
+  return resetSessionId();
+}
+
+function resetSessionId(): string {
+  const sessionId = uuidv4();
+  localStorage.setItem(sessionIdLocalStorageKey, sessionId);
+  return sessionId;
 }
 
 function removeCacheValuesFromUrlQuery(query: ParsedUrlQuery) {
@@ -66,9 +101,23 @@ export function trackPageview(
 
 function track(conversion: Conversion) {
   const debug = Boolean(cookies({}).analytics_debug);
+  const sessionId = getSessionId();
+  const session: Session = {
+    id: sessionId,
+    timeout: sessionTimeout,
+  };
+
+  localStorage.setItem(lastTrackedLocalStorageKey, Date.now().toString());
+
   if (debug) {
-    console.info(conversion);
+    console.info({
+      session,
+      ...conversion,
+    });
   }
 
-  window.analytics.track('conversion', conversion);
+  window.analytics.track('conversion', {
+    session,
+    ...conversion,
+  });
 }

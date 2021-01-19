@@ -32,6 +32,7 @@ import Download from '@weco/catalogue/components/Download/Download';
 import dynamic from 'next/dynamic';
 import { DigitalLocation, Work } from '../../../model/catalogue';
 import { FixedSizeList } from 'react-window';
+import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 
 const LoadingComponent = () => (
   <div
@@ -167,7 +168,7 @@ const ImageViewerControls = styled.div<{ showControls?: boolean }>`
     width: 1px;
     white-space: nowrap;
   }
-}`;
+`;
 
 type IIIFViewerProps = {
   title: string;
@@ -344,17 +345,20 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
       setEnhanced(true);
     }
   }, []);
-  useEffect(() => {
+
+  useSkipInitialEffect(() => {
     const canvasParams =
       canvases.length > 0 || currentCanvas
         ? { canvas: `${activeIndex + 1}` }
         : {};
+
     Router.replace(
       {
         ...mainPaginatorProps.link.href,
         query: {
           ...mainPaginatorProps.link.href.query,
           ...canvasParams,
+          source: 'viewer/paginator',
         },
       },
       {
@@ -362,6 +366,7 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
         query: {
           ...mainPaginatorProps.link.as.query,
           ...canvasParams,
+          source: 'viewer/paginator',
         },
       }
     );

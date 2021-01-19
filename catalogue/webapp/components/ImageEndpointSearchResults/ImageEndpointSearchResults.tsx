@@ -47,6 +47,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
       ))}
       {expandedImage && (
         <ExpandedImage
+          resultPosition={expandedImagePosition}
           image={expandedImage}
           setExpandedImage={setExpandedImage}
           onWorkLinkClick={() => {

@@ -1,13 +1,13 @@
-import { grid, classNames } from '@weco/common/utils/classnames';
-import { type Node } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
+import { grid, classNames } from '../../../utils/classnames';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import { repeatingLsBlack } from '../../../utils/backgrounds';
 
-type WobblyProps = {|
-  children: Node,
-|};
+type Props = {
+  children: ReactNode;
+};
 
-const WobblyRow = ({ children }: WobblyProps) => (
+const WobblyRow: FunctionComponent<Props> = ({ children }: Props) => (
   <div
     className={classNames({
       'row bg-charcoal font-white relative': true,

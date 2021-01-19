@@ -39,8 +39,8 @@ const stories = storiesOf('Components', module);
 stories.add(
   'Tags',
   () => {
-    const withoutBold = boolean('without bold', false);
-    return <Tags tags={tags} withoutBold={withoutBold} />;
+    const isFirstPartBold = boolean('first part bold', true);
+    return <Tags tags={tags} isFirstPartBold={isFirstPartBold} />;
   },
   {
     readme: { sidebar: Readme },

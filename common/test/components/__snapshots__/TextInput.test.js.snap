@@ -4,7 +4,7 @@ exports[`TextInput A valid input will hide its valid state at the point invalid 
 
 exports[`TextInput A valid input will hide its valid state at the point valid input is added 1`] = `
 <span
-  className="TextInput__TextInputCheckmark-sc-1860hhu-3 jItgNj absolute"
+  className="TextInput__TextInputCheckmark-vuk13a-3 hZWQr absolute"
   data-test-id="TextInputCheckmark"
 >
   <Icon
@@ -37,7 +37,7 @@ exports[`TextInput A valid input will hide its valid state at the point valid in
 
 exports[`TextInput The input will hide errors at the point it becomes valid 1`] = `
 <span
-  className="TextInput__TextInputErrorMessage-sc-1860hhu-4 kLFyya font-hnm"
+  className="TextInput__TextInputErrorMessage-vuk13a-4 cubXda font-hnm"
   data-test-id="TextInputErrorMessage"
 >
   test error message
@@ -48,7 +48,7 @@ exports[`TextInput The input will hide errors at the point it becomes valid 2`] 
 
 exports[`TextInput The input will validate when blurred 1`] = `
 <span
-  className="TextInput__TextInputErrorMessage-sc-1860hhu-4 kLFyya font-hnm"
+  className="TextInput__TextInputErrorMessage-vuk13a-4 cubXda font-hnm"
   data-test-id="TextInputErrorMessage"
 >
   test error message

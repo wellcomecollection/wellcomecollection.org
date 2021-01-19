@@ -1,16 +1,20 @@
-// @flow
 import { forwardRef, useContext } from 'react';
 import styled from 'styled-components';
-import Icon from '../Icon/Icon';
 // $FlowFixMe (tsx)
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import Icon from '../Icon/Icon';
+import { AppContext } from '../AppContext/AppContext';
 import { classNames } from '../../../utils/classnames';
 
+type TextInputWrapProps = {
+  value: string;
+  big: boolean;
+  hasErrorBorder: boolean;
+};
 const TextInputWrap = styled.div.attrs({
   className: classNames({
     'flex relative': true,
   }),
-})`
+})<TextInputWrapProps>`
   font-size: ${props => (props.big ? '20px' : '16px')};
 
   &:focus-within {
@@ -32,11 +36,15 @@ const TextInputWrap = styled.div.attrs({
   `}
 `;
 
+type TextInputLabelProps = {
+  isEnhanced: boolean;
+  hasValue: boolean;
+};
 const TextInputLabel = styled.label.attrs({
   className: classNames({
     absolute: true,
   }),
-})`
+})<TextInputLabelProps>`
   /* Styles for browsers that don't support :focus-within (<=IE11) */
   font-size: 14px;
   transform: translateY(0%);
@@ -69,9 +77,12 @@ const TextInputLabel = styled.label.attrs({
   `}
 `;
 
+type TextInputInputProps = {
+  hasErrorBorder: boolean;
+};
 const TextInputInput = styled.input.attrs(props => ({
   type: props.type || 'text',
-}))`
+}))<TextInputInputProps>`
   padding: 27px 40px 8px 15px;
   appearance: none;
   border: 0;
@@ -125,26 +136,25 @@ const TextInputErrorMessage = styled.span.attrs({
 `;
 
 type Props = {
-  label: string,
-  value: string,
-  setValue: (value: string) => void,
-  id: string,
-  name: ?string,
-  type: ?string,
-  pattern: ?string,
-  required: ?boolean,
-  placeholder: ?string,
-  errorMessage: ?string,
-  isValid: ?boolean,
-  setIsValid: ?(value: boolean) => void,
-  showValidity: ?boolean,
-  setShowValidity: ?(value: boolean) => void,
-  autoFocus: ?boolean,
-  big: ?boolean,
-  ariaLabel?: string,
+  label: string;
+  value: string;
+  setValue: (value: string) => void;
+  id: string;
+  name?: string;
+  type?: string;
+  pattern?: string;
+  required?: boolean;
+  placeholder?: string;
+  errorMessage?: string;
+  isValid?: boolean;
+  setIsValid?: (value: boolean) => void;
+  showValidity?: boolean;
+  setShowValidity?: (value: boolean) => void;
+  autoFocus?: boolean;
+  big?: boolean;
+  ariaLabel?: string;
 };
 
-// $FlowFixMe (forwardRef)
 const TextInput = forwardRef(
   (
     {
@@ -165,7 +175,7 @@ const TextInput = forwardRef(
       big,
       ariaLabel,
     }: Props,
-    ref // eslint-disable-line
+    ref: any
   ) => {
     const { isEnhanced } = useContext(AppContext);
 
@@ -194,8 +204,8 @@ const TextInput = forwardRef(
       <div>
         <TextInputWrap
           value={value}
-          hasErrorBorder={!isValid && showValidity}
-          big={big}
+          hasErrorBorder={!!(!isValid && showValidity)}
+          big={!!big}
         >
           <TextInputLabel
             isEnhanced={isEnhanced}
@@ -213,7 +223,7 @@ const TextInput = forwardRef(
             pattern={pattern}
             onChange={onChange}
             onBlur={onBlur}
-            hasErrorBorder={!isValid && showValidity}
+            hasErrorBorder={!!(!isValid && showValidity)}
             type={type}
             autoFocus={autoFocus}
             aria-label={ariaLabel}

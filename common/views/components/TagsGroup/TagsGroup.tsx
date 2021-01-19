@@ -4,7 +4,7 @@ import Space from '../styled/Space';
 import Tags, { TagType } from '../Tags/Tags';
 
 type Props = {
-  title: string | null;
+  title: string | undefined;
   tags: TagType[];
 };
 
@@ -20,7 +20,7 @@ const TagsGroup: FunctionComponent<Props> = ({ tags, title }: Props) => {
           {title}
         </Space>
       )}
-      <Tags tags={tags} withoutBold={true} />
+      <Tags tags={tags} isFirstPartBold={false} />
     </>
   );
 };

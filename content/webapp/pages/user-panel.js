@@ -6,6 +6,7 @@ import Space from '@weco/common/views/components/styled/Space';
 // $FlowFixMe (tsx)
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Picture from '@weco/common/views/components/Picture/Picture';
+// $FlowFixMe(tsx)
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 
 export const pictureImages = [

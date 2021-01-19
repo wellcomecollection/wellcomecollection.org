@@ -13,11 +13,13 @@ type WorkLinkSource =
 type Props = {
   id: string;
   source: WorkLinkSource;
+  resultPosition?: number;
 } & Omit<LinkProps, 'as' | 'href'>;
 
 const WorkLink: FunctionComponent<PropsWithChildren<Props>> = ({
   id,
   source,
+  resultPosition,
   children,
   ...linkProps
 }: PropsWithChildren<Props>) => {
@@ -28,6 +30,7 @@ const WorkLink: FunctionComponent<PropsWithChildren<Props>> = ({
         query: {
           id,
           source,
+          resultPosition,
         },
       }}
       as={{
