@@ -1,5 +1,6 @@
 steps:
   - label: "Triggering pipelines identity branch name"
+    trigger: "experience-identity"
     branches: "identity/*"
   - label: "Triggering pipelines via git diff"
     plugins:
