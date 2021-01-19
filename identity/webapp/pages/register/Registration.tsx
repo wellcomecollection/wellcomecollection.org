@@ -9,7 +9,7 @@ import { LogoContainer } from '../../components/LogoContainer';
 import { AccountCreated } from './AccountCreated';
 import { RegistrationSummaryParagraph } from './RegistrationSummaryParagraph';
 import { Wrapper } from './Registration.style';
-// import axios from 'axios';
+import axios from 'axios';
 
 // TODO: Update this to prod.
 const logo =
@@ -67,41 +67,39 @@ export const Registration: React.FC = () => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    // if (valid) {
-    //   // Create Account
-    //   try {
-    //     await axios({
-    //       method: 'POST',
-    //       url: '/api/user/create',
-    //       data: {
-    //         firstName,
-    //         lastName,
-    //         email,
-    //         password: pass,
-    //       },
-    //     })
-    //       .then(response => {
-    //         setCreated(true);
-    //       })
-    //       .catch(error => {
-    //         switch (error.response.status) {
-    //           case 400:
-    //           case 422:
-    //             // If the password has flagged on the common password list by Auth0, or the user has used their own name -> prompted to change the password.
-    //             setCommonPassword(true);
-    //             break;
-    //           case 409:
-    //             // If there is a account already existing with that email address. -> Prompted to login
-    //             setAlreadyExists(true);
-    //             break;
-    //           default:
-    //             setErrorOccured(true);
-    //         }
-    //       });
-    //   } catch (error) {
-    //     console.log('Something went wrong');
-    //   }
-    // }
+    if (valid) {
+      // Create Account
+      try {
+        await axios({
+          method: 'POST',
+          url: '/api/user/create',
+          data: {
+            firstName,
+            lastName,
+            email,
+            password: pass,
+          },
+        })
+          .then(() => setCreated(true))
+          .catch(error => {
+            switch (error.response.status) {
+              case 400:
+              case 422:
+                // If the password has flagged on the common password list by Auth0, or the user has used their own name -> prompted to change the password.
+                setCommonPassword(true);
+                break;
+              case 409:
+                // If there is a account already existing with that email address. -> Prompted to login
+                setAlreadyExists(true);
+                break;
+              default:
+                setErrorOccured(true);
+            }
+          });
+      } catch (error) {
+        console.log('Something went wrong');
+      }
+    }
   };
 
   const emailErrorMessage = () => {
