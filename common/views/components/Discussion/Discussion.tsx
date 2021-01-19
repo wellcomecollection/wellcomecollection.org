@@ -57,12 +57,11 @@ const Discussion: FunctionComponent<Props> = ({ title, discussion }: Props) => {
     );
   });
 
-  const [first] = textWithContributorNameAdded;
+  const [firstPartofDiscussion] = textWithContributorNameAdded;
   const [isActive, setIsActive] = useState(true);
   const [itemsToShow, setItemsToShow] = useState(textWithContributorNameAdded);
 
   useEffect(() => {
-    setItemsToShow([first]);
     setIsActive(false);
   }, []);
 
@@ -70,7 +69,7 @@ const Discussion: FunctionComponent<Props> = ({ title, discussion }: Props) => {
     if (isActive) {
       setItemsToShow(textWithContributorNameAdded);
     } else {
-      setItemsToShow([first]);
+      setItemsToShow([firstPartofDiscussion]);
     }
   }, [isActive]);
 
