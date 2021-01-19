@@ -31,6 +31,7 @@ import MediaObjectList from '../MediaObjectList/MediaObjectList';
 import InfoBlock from '../InfoBlock/InfoBlock';
 import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
 import { FunctionComponent } from 'react';
+import TagsGroup from '../TagsGroup/TagsGroup';
 
 const Map = dynamic(import('../Map/Map'), { ssr: false });
 
@@ -253,6 +254,11 @@ const Body: FunctionComponent<Props> = ({
             {slice.type === 'infoBlock' && (
               <Layout8>
                 <InfoBlock {...slice.value} />
+              </Layout8>
+            )}
+            {slice.type === 'tagList' && (
+              <Layout8>
+                <TagsGroup title={slice.value.title} tags={slice.value.tags} />
               </Layout8>
             )}
             {/* deprecated */}
