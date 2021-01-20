@@ -1,29 +1,39 @@
-// @flow
-import { type Node, useEffect, useRef, useContext, createContext } from 'react';
+import {
+  ReactNode,
+  useEffect,
+  useRef,
+  useContext,
+  createContext,
+  FunctionComponent,
+  RefObject,
+  ComponentType,
+} from 'react';
 import useFocusTrap from '../../../hooks/useFocusTrap';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
-import Space from '../styled/Space';
-// $FlowFixMe (tsx)
+import Space, { SpaceComponentProps } from '../styled/Space';
 import Icon from '../Icon/Icon';
-// $FlowFixMe (tsx)
 import { AppContext } from '../AppContext/AppContext';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { CSSTransition } from 'react-transition-group';
-export const ModalContext = createContext<{|
-  updateLastFocusableRef: ?(HTMLElement) => void,
-|}>({ updateLastFocusableRef: null });
+export const ModalContext = createContext<{
+  updateLastFocusableRef: (
+    arg0: RefObject<HTMLElement | null>
+  ) => void | null | undefined;
+}>({
+  updateLastFocusableRef: () => null,
+});
 
-type Props = {|
-  children: Node,
-  isActive: boolean,
-  setIsActive: (value: boolean) => void,
-  width?: string,
-  id: string,
-  openButtonRef: { current: HTMLElement | null },
-  removeCloseButton?: boolean,
-  OverrideModalWindow?: any,
-|};
+type Props = {
+  children: ReactNode;
+  isActive: boolean;
+  setIsActive: (value: boolean) => void;
+  width?: string | null;
+  id: string;
+  openButtonRef: { current: HTMLElement | null };
+  removeCloseButton?: boolean;
+  OverrideModalWindow?: ComponentType<SpaceComponentProps>;
+};
 
 const Overlay = styled.div`
   z-index: 1000;
@@ -142,7 +152,7 @@ const BaseModalWindow = styled(Space).attrs({
   }
 `;
 
-const Modal = ({
+const Modal: FunctionComponent<Props> = ({
   children,
   isActive,
   setIsActive,
@@ -152,9 +162,9 @@ const Modal = ({
   removeCloseButton = false,
   OverrideModalWindow,
 }: Props) => {
-  const closeButtonRef = useRef(null);
-  const lastFocusableRef = useRef(null);
-  const modalRef = useRef(null);
+  const closeButtonRef: RefObject<HTMLInputElement> = useRef(null);
+  const lastFocusableRef = useRef<HTMLInputElement | null>(null);
+  const modalRef: RefObject<HTMLElement> = useRef(null);
   const { isKeyboard } = useContext(AppContext);
   const ModalWindow = OverrideModalWindow || BaseModalWindow;
 
@@ -174,8 +184,13 @@ const Modal = ({
   }, [modalRef.current]);
 
   useEffect(() => {
-    if (isActive && closeButtonRef && closeButtonRef.current) {
-      closeButtonRef.current.focus();
+    if (
+      isActive &&
+      closeButtonRef &&
+      closeButtonRef?.current &&
+      closeButtonRef?.current !== null
+    ) {
+      closeButtonRef?.current?.focus();
     }
   }, [isActive]);
 
