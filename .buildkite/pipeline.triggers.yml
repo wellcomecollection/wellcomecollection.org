@@ -11,8 +11,6 @@ steps:
         BUILDKITE_PULL_REQUEST_BASE_BRANCH: "${BUILDKITE_PULL_REQUEST_BASE_BRANCH}"
         BUILDKITE_PULL_REQUEST_REPO: "${BUILDKITE_PULL_REQUEST_REPO}"
   - label: "Triggering pipelines via git diff"
-    env:
-      DEBUG: true
     branches: "!identity/*"
     plugins:
       - chronotc/monorepo-diff#v1.3.0:
