@@ -8,6 +8,7 @@ import { ErrorMessage } from '../Shared/ErrorMessage';
 import CheckboxRadio from '../WellcomeComponents/CheckBoxLabel';
 import { PasswordInput } from '../Shared/PasswordInput';
 import { LogoContainer } from '../Shared/LogoContainer';
+import { PageWrapper } from '../Shared/PageWrapper';
 import axios from 'axios';
 
 // TODO: Update this to prod.
@@ -130,7 +131,7 @@ export const Registration: React.FC = () => {
   };
 
   return (
-    <div>
+    <PageWrapper>
       <LogoContainer>
         <img src={logo} alt="Wellcome Collection Logo" />
       </LogoContainer>
@@ -227,6 +228,6 @@ export const Registration: React.FC = () => {
           </form>
         </>
       )}
-    </div>
+    </PageWrapper>
   );
 };

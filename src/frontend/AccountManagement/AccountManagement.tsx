@@ -6,6 +6,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import { ProfileForm } from './ProfileForm';
 import { PasswordForm } from './PasswordForm';
 import { LogoContainer } from '../Shared/LogoContainer';
+import { PageWrapper } from '../Shared/PageWrapper';
 
 // TODO: Update this to prod.
 const logo = 'https://identity-public-assets-stage.s3.eu-west-1.amazonaws.com/images/wellcomecollections-150x50.png';
@@ -22,7 +23,7 @@ export const AccountManagement: React.FC<UserInfo> = (props) => {
   const [idx, setIdx] = useState(0);
 
   return (
-    <div>
+    <PageWrapper>
       <LogoContainer>
         <img src={logo} alt="Wellcome Collection Logo" height="200px" />
       </LogoContainer>
@@ -38,6 +39,6 @@ export const AccountManagement: React.FC<UserInfo> = (props) => {
         {idx === 0 && <ProfileForm {...props} />}
         {idx === 1 && <PasswordForm />}
       </>
-    </div>
+    </PageWrapper>
   );
 };

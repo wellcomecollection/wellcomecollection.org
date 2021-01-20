@@ -5,6 +5,7 @@ import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHe
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
+import { PageWrapper } from '../Shared/PageWrapper';
 
 // TODO: Update this to prod.
 const logo = 'https://identity-public-assets-stage.s3.eu-west-1.amazonaws.com/images/wellcomecollections-150x50.png';
@@ -29,20 +30,22 @@ export const AccountValidated = () => {
   const history = useHistory();
 
   const redirectToLogin = () => {
-    history.push('/')
+    history.push('/');
   };
 
   return (
-    <PageContainer>
-      <LogoContainer>
-        <img src={logo} alt="Wellcome Collection Logo" />
-      </LogoContainer>
-      <SpacingComponent />
-      <h1 className="font-wb font-size-1">Email verified</h1>
-      <SpacingComponent />
-      <p className="font-wb font-size-5">Thank you for verifying your email.</p>
-      <SpacingComponent />
-      <OutlinedButton onClick={redirectToLogin}>Continue to Sign in</OutlinedButton>
-    </PageContainer>
+    <PageWrapper>
+      <PageContainer>
+        <LogoContainer>
+          <img src={logo} alt="Wellcome Collection Logo" />
+        </LogoContainer>
+        <SpacingComponent />
+        <h1 className="font-wb font-size-1">Email verified</h1>
+        <SpacingComponent />
+        <p className="font-wb font-size-5">Thank you for verifying your email.</p>
+        <SpacingComponent />
+        <OutlinedButton onClick={redirectToLogin}>Continue to Sign in</OutlinedButton>
+      </PageContainer>
+    </PageWrapper>
   );
 };
