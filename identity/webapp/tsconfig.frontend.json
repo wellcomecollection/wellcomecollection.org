@@ -2,24 +2,32 @@
   "compilerOptions": {
     "baseUrl": "src",
     "lib": ["dom", "es2020"],
-    "typeRoots": ["../../node_modules/@types", "./node_modules/@types"],
-    "target": "es2018",
+    "typeRoots": ["../../node_modules/@types", "node_modules/@types"],
+    "target": "es5",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "module": "commonjs",
+    "module": "es2015",
     "declaration": true,
     "moduleResolution": "node",
     "outDir": "./lib",
     "noEmitOnError": false,
-    "strict": true,
+    "strict": false,
     "sourceMap": true,
     "skipLibCheck": true,
-    "jsx": "preserve",
+    "jsx": "react",
     "resolveJsonModule": true,
     "noImplicitAny": false,
     "downlevelIteration": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noFallthroughCasesInSwitch": true
   },
+  "exclude": [
+    "node_modules",
+    "node_modules/@weco/**",
+    "node_modules/@types/react",
+    "lib/",
+    "**/*.stories.tsx",
+    "__tests__/"
+  ],
   "references": []
 }

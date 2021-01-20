@@ -10,7 +10,8 @@
     "catalogue": "pushd catalogue/webapp && yarn dev",
     "content": "pushd content/webapp && yarn dev",
     "deployCatalogue": "pushd deploy && ./deploy_service.js -s catalogue",
-    "deployContent": "pushd deploy && ./deploy_service.js -s content"
+    "deployContent": "pushd deploy && ./deploy_service.js -s content",
+    "start": "fesk-setup"
   },
   "repository": {
     "type": "git",
