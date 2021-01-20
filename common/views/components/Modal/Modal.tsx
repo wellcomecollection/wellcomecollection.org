@@ -17,9 +17,7 @@ import { AppContext } from '../AppContext/AppContext';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { CSSTransition } from 'react-transition-group';
 export const ModalContext = createContext<{
-  updateLastFocusableRef: (
-    arg0: RefObject<HTMLElement | null>
-  ) => void | null | undefined;
+  updateLastFocusableRef: (arg0: HTMLElement | null) => void | null | undefined;
 }>({
   updateLastFocusableRef: () => null,
 });
