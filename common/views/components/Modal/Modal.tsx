@@ -182,12 +182,7 @@ const Modal: FunctionComponent<Props> = ({
   }, [modalRef.current]);
 
   useEffect(() => {
-    if (
-      isActive &&
-      closeButtonRef &&
-      closeButtonRef?.current &&
-      closeButtonRef?.current !== null
-    ) {
+    if (isActive && closeButtonRef && closeButtonRef?.current) {
       closeButtonRef?.current?.focus();
     }
   }, [isActive]);
