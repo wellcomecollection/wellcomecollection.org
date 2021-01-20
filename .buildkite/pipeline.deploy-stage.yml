@@ -9,6 +9,7 @@ steps:
           mount-ssh-agent: true
           command: [
               "--confirm",
+              "--project-id", "experience",
               "release-deploy",
               "--from-label", "ref.$BUILDKITE_COMMIT",
               "--environment-id", "stage",
