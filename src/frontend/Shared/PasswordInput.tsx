@@ -18,6 +18,7 @@ const IconWrapper = styled.div`
 `;
 
 type PasswordInputProps = {
+  label?: string;
   value: string | undefined;
   setValue: (value: string) => void;
   pattern?: RegExp;
@@ -27,6 +28,7 @@ type PasswordInputProps = {
 };
 
 export const PasswordInput: React.FC<PasswordInputProps> = (props) => {
+  const { label = 'Password' } = props;
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
@@ -39,8 +41,8 @@ export const PasswordInput: React.FC<PasswordInputProps> = (props) => {
       <TextInput
         placeholder=""
         required={true}
-        aria-label="Password"
-        label="Password"
+        aria-label={label}
+        label={label}
         type={showPassword ? 'text' : 'password'}
         style={{ width: '100%' }}
         {...props}
