@@ -3,6 +3,8 @@ steps:
     trigger: "experience-identity"
     branches: "identity/*"
   - label: "Triggering pipelines via git diff"
+    env:
+      DEBUG: true
     branches: "!identity/*"
     plugins:
       - chronotc/monorepo-diff#v1.3.0:
