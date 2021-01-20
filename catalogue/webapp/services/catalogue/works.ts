@@ -131,7 +131,9 @@ export async function getWork({
   }
 }
 
-export async function getCanvasOcr(canvas: IIIFCanvas) {
+export async function getCanvasOcr(
+  canvas: IIIFCanvas
+): Promise<string | undefined> {
   const textContent =
     canvas.otherContent &&
     canvas.otherContent.find(

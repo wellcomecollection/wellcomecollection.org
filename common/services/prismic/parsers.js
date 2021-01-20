@@ -789,6 +789,33 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
             },
           };
 
+        case 'discussion':
+          return {
+            type: 'discussion',
+            value: {
+              title: parseTitle(slice.primary.title),
+              discussion: slice.items.map(item => ({
+                contributor: parsePersonContributor(item.contributor),
+                text: parseStructuredText(item.text),
+              })),
+            },
+          };
+
+        case 'tagList':
+          return {
+            type: 'tagList',
+            value: {
+              title: parseTitle(slice.primary.title),
+              tags: slice.items.map(item => ({
+                textParts: [item.linkText],
+                linkAttributes: {
+                  href: { pathname: parseLink(item.link), query: '' },
+                  as: { pathname: parseLink(item.link), query: '' },
+                },
+              })),
+            },
+          };
+
         // Deprecated
         case 'imageList':
           return {

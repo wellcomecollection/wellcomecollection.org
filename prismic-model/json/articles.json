@@ -407,6 +407,67 @@
               }
             }
           },
+          "discussion": {
+            "type": "Slice",
+            "fieldset": "Discussion",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading2"
+                }
+              }
+            },
+            "repeat": {
+              "contibutor": {
+                "type": "Link",
+                "config": {
+                  "label": "Contributor",
+                  "select": "document",
+                  "customtypes": [
+                    "people"
+                  ]
+                }
+              },
+              "text": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,hyperlink,strong,em",
+                  "label": "Text"
+                }
+              }
+            }
+          },
+          "tagList": {
+            "type": "Slice",
+            "fieldset": "Tag List",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading2"
+                }
+              }
+            },
+            "repeat": {
+              "link": {
+                "type": "Link",
+                "config": {
+                  "label": "Link",
+                  "select": "web",
+                  "customtypes": []
+                }
+              },
+              "linkText": {
+                "type": "Text",
+                "config": {
+                  "label": "Link text"
+                }
+              }
+            }
+          },
           "imageList": {
             "type": "Slice",
             "fieldset": "[Deprecated] Image list (please use captioned image or image gallery)",

@@ -55,6 +55,128 @@ const graphQuery = `{
     format {
       ...formatFields
     }
+    body {
+      ...on text {
+        non-repeat {
+          text
+        }
+      }
+      ...on editorialImage {
+        non-repeat {
+          image
+          caption
+        }
+      }
+      ...on editorialImageGallery {
+        non-repeat {
+          title
+        }
+        repeat {
+          image
+          caption
+        }
+      }
+      ...on gifVideo {
+        non-repeat {
+          caption
+          tasl
+          video
+          playbackRate
+        }
+      }
+      ...on iframe {
+        non-repeat {
+          iframeSrc
+          previewImage
+        }
+      }
+      ...on standfirst {
+        non-repeat {
+          text
+        }
+      }
+      ...on quoteV2 {
+        non-repeat {
+          text
+          citation
+        }
+      }
+      ...on excerpt {
+        non-repeat {
+          title
+          content
+          source
+          audio
+        }
+      }
+      ...on embed {
+        non-repeat {
+          embed
+          caption
+        }
+      }
+      ...on soundcloudEmbed {
+        non-repeat {
+          iframeSrc
+        }
+      }
+      ...on vimeoVideoEmbed {
+        non-repeat {
+          embed
+        }
+      }
+      ...on instagramEmbed {
+        non-repeat {
+          embed
+        }
+      }
+      ...on twitterEmbed {
+        non-repeat {
+          embed
+        }
+      }
+      ...on youtubeVideoEmbed {
+        non-repeat {
+          embed
+          caption
+        }
+      }
+      ...on discussion {
+        non-repeat {
+          title
+        }
+        repeat {
+          contributor {
+            ...on people {
+              name
+            }
+          }
+          text
+        }
+      }
+      ...on tagList {
+        non-repeat {
+          title
+        }
+        repeat {
+          link
+          linkText
+        }
+      }
+      ...on imageList {
+        non-repeat {
+          listStyle
+          description
+        }
+        repeat {
+          title
+          subtitle
+          image
+          caption
+          description
+        }
+      }
+    }
     contributors {
       ...contributorsFields
       role {

@@ -26,6 +26,7 @@ type Props = {
   urlOverride: string | null;
   extraClasses?: string;
   partNumber: number | undefined;
+  partDescription?: 'Part' | 'Episode';
   color: ColorSelection | undefined;
   Image: ReactElement<typeof ImageType | typeof ImagePlaceholder> | null;
   DateInfo:
@@ -38,6 +39,7 @@ type Props = {
   OverrideImageWrapper?: ComponentType<HasImageProps>;
   OverrideTextWrapper?: ComponentType<HasImageProps>;
   OverrideTitleWrapper?: ComponentType;
+  postTitleChildren?: ReactElement;
 };
 
 const CompactCard: FunctionComponent<Props> = ({
@@ -49,6 +51,7 @@ const CompactCard: FunctionComponent<Props> = ({
   urlOverride,
   extraClasses,
   partNumber,
+  partDescription = 'Part',
   color,
   Image,
   DateInfo,
@@ -58,6 +61,7 @@ const CompactCard: FunctionComponent<Props> = ({
   OverrideImageWrapper,
   OverrideTextWrapper,
   OverrideTitleWrapper,
+  postTitleChildren,
 }: Props): ReactElement<Props> => {
   return (
     <MediaObjectBase
@@ -65,6 +69,7 @@ const CompactCard: FunctionComponent<Props> = ({
       title={title}
       Image={Image}
       partNumber={partNumber}
+      partDescription={partDescription}
       color={color}
       StatusIndicator={StatusIndicator}
       description={description}
@@ -85,6 +90,7 @@ const CompactCard: FunctionComponent<Props> = ({
           label: title,
         });
       }}
+      postTitleChildren={postTitleChildren}
     />
   );
 };

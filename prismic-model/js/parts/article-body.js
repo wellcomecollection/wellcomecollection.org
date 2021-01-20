@@ -1,5 +1,10 @@
 // @flow
-import body from './body';
+import body, { slice } from './body';
+import heading from './heading';
+import link from './link';
+import text from './text';
+import structuredText from './structured-text';
+
 export default {
   fieldset: 'Body content',
   type: 'Slices',
@@ -290,6 +295,24 @@ export default {
           },
         },
       },
+      discussion: slice('Discussion', {
+        nonRepeat: {
+          title: heading('Title', 2),
+        },
+        repeat: {
+          contibutor: link('Contributor', 'document', ['people']),
+          text: structuredText('Text'),
+        },
+      }),
+      tagList: slice('Tag List', {
+        nonRepeat: {
+          title: heading('Title', 2),
+        },
+        repeat: {
+          link: link('Link', 'web'),
+          linkText: text('Link text'),
+        },
+      }),
       imageList: {
         type: 'Slice',
         fieldset:

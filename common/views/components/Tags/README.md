@@ -1,6 +1,6 @@
 ## Purpose
 
-To indicate the links that will trigger a search.
+To display a horizontal list of associated links.
 
 [Edit this on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/master/common/views/components/Tags/README.md)
 

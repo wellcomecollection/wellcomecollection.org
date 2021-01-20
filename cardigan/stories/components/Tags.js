@@ -1,4 +1,5 @@
 import { storiesOf } from '@storybook/react';
+import { boolean } from '@storybook/addon-knobs/react';
 import Tags from '../../../common/views/components/Tags/Tags';
 import Readme from '../../../common/views/components/Tags/README.md';
 
@@ -35,6 +36,13 @@ const tags = [
 ];
 
 const stories = storiesOf('Components', module);
-stories.add('Tags', () => <Tags tags={tags} />, {
-  readme: { sidebar: Readme },
-});
+stories.add(
+  'Tags',
+  () => {
+    const isFirstPartBold = boolean('first part bold', true);
+    return <Tags tags={tags} isFirstPartBold={isFirstPartBold} />;
+  },
+  {
+    readme: { sidebar: Readme },
+  }
+);

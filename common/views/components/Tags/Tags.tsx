@@ -14,10 +14,12 @@ export type TagType = {
 
 type Props = {
   tags: TagType[];
+  isFirstPartBold?: boolean | null;
 };
 
 const Tags: FunctionComponent<Props> = ({
   tags,
+  isFirstPartBold = true,
 }: Props): ReactElement<Props> => {
   return (
     <Space v={{ size: 's', negative: true, properties: ['margin-bottom'] }}>
@@ -53,7 +55,10 @@ const Tags: FunctionComponent<Props> = ({
                       }
                       key={part}
                       className={classNames({
-                        [font(i === 0 ? 'hnm' : 'hnl', 5)]: true,
+                        [font(
+                          i === 0 && isFirstPartBold ? 'hnm' : 'hnl',
+                          5
+                        )]: true,
                         'inline-block': true,
                       })}
                     >
