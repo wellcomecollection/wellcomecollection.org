@@ -429,7 +429,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                 filtersToShow.includes('subjects') &&
                 subjectsFilter.length > 0 && (
                   <FilterSection>
-                    <h3 className="h3">Popular Subjects</h3>
+                    <h3 className="h3">Subjects</h3>
                     <Space
                       as="span"
                       h={{ size: 'm', properties: ['margin-right'] }}
@@ -456,7 +456,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                 filtersToShow.includes('genres') &&
                 subjectsFilter.length > 0 && (
                   <FilterSection>
-                    <h3 className="h3">Popular Genres</h3>
+                    <h3 className="h3">Genres</h3>
                     <Space
                       as="span"
                       h={{ size: 'm', properties: ['margin-right'] }}
