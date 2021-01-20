@@ -25,7 +25,11 @@ const RadioGroup: FunctionComponent<Props> = ({
     {options.map(({ value, label, id }, index) => (
       <Space
         key={value}
-        v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+        v={{
+          size: 'm',
+          properties: ['padding-top', 'padding-bottom'],
+          overrides: { small: 3, medium: 3, large: 3 },
+        }}
         h={
           index !== options.length - 1
             ? { size: 'm', properties: ['margin-right'] }
