@@ -2,7 +2,6 @@ import moment from 'moment';
 import NextLink from 'next/link';
 import { useEffect, useState, useContext, FunctionComponent } from 'react';
 import fetch from 'isomorphic-unfetch';
-import { IIIFManifest } from '@weco/common/model/iiif';
 import { NextLinkType } from '@weco/common/model/next-link-type';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
@@ -17,14 +16,6 @@ import {
   sierraIdFromPresentationManifestUrl,
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
-import {
-  getAudio,
-  getVideo,
-  getDownloadOptionsFromManifest,
-  getIIIFPresentationCredit,
-  getUiExtensions,
-  isUiEnabled,
-} from '@weco/common/utils/iiif';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
@@ -43,11 +34,10 @@ import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
+import useIIIFManifest from '@weco/common/hooks/useIIIFManifest';
+
 type Props = {
   work: Work;
-  iiifPresentationManifest?: IIIFManifest;
-  childManifestsCount: number;
-  imageCount: number;
   itemUrl?: NextLinkType;
 };
 
@@ -79,13 +69,7 @@ function getItemLinkState({
   }
 }
 
-const WorkDetails: FunctionComponent<Props> = ({
-  work,
-  iiifPresentationManifest,
-  childManifestsCount,
-  imageCount,
-  itemUrl,
-}: Props) => {
+const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
   const { stacksRequestService, openWithAdvisoryPrototype } = useContext(
     TogglesContext
   );
@@ -117,19 +101,24 @@ const WorkDetails: FunctionComponent<Props> = ({
   // Determine access conditions of digital location
   const accessCondition = getAccessConditionForDigitalLocation(digitalLocation);
 
+  const {
+    imageCount,
+    childManifestsCount,
+    audio,
+    video,
+    iiifCredit,
+    iiifPresentationDownloadOptions = [],
+    iiifDownloadEnabled,
+  } = useIIIFManifest(work);
+
   // 'Available online' data
-  const video = iiifPresentationManifest && getVideo(iiifPresentationManifest);
-  const audio = iiifPresentationManifest && getAudio(iiifPresentationManifest);
   const license =
     digitalLocation &&
     digitalLocation.license &&
     getAugmentedLicenseInfo(digitalLocation.license);
 
   // iiif-presentation locations don't have credit info in the work API currently, so we try and get it from the manifest
-  const credit =
-    (digitalLocation && digitalLocation.credit) ||
-    (iiifPresentationManifest &&
-      getIIIFPresentationCredit(iiifPresentationManifest));
+  const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
 
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImageDownloadOptions = iiifImageLocationUrl
@@ -138,9 +127,6 @@ const WorkDetails: FunctionComponent<Props> = ({
         width: imageJson && imageJson.width,
         height: imageJson && imageJson.height,
       })
-    : [];
-  const iiifPresentationDownloadOptions = iiifPresentationManifest
-    ? getDownloadOptionsFromManifest(iiifPresentationManifest)
     : [];
 
   const downloadOptions = [
@@ -200,9 +186,8 @@ const WorkDetails: FunctionComponent<Props> = ({
     return !orderedNotes.some(n => n === note);
   });
 
-  const showDownloadOptions = iiifPresentationManifest
-    ? isUiEnabled(getUiExtensions(iiifPresentationManifest), 'mediaDownload')
-    : true;
+  const showDownloadOptions =
+    iiifDownloadEnabled !== undefined ? iiifDownloadEnabled : true;
 
   const itemLinkState = getItemLinkState({
     accessCondition,
