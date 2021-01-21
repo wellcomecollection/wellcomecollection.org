@@ -12,7 +12,7 @@ import styled from 'styled-components';
 // />
 
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
-type VerticalSpaceProperty =
+export type VerticalSpaceProperty =
   | 'margin-top'
   | 'margin-bottom'
   | 'padding-top'
@@ -20,7 +20,7 @@ type VerticalSpaceProperty =
   | 'top'
   | 'bottom';
 
-type HorizontalSpaceProperty =
+export type HorizontalSpaceProperty =
   | 'margin-left'
   | 'margin-right'
   | 'padding-left'
