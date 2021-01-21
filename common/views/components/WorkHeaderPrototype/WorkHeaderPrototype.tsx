@@ -64,29 +64,28 @@ const WorkHeaderPrototype: FunctionComponent<Props> = ({
               </Space>
             )}
             <div className="line-height-1">
-              <Space
-                className={classNames({
-                  'bg-purple font-white inline-block': work.workType.label.startsWith(
-                    'Archive'
-                  ),
-                  [font('hnm', 5)]: work.workType.label.startsWith('Archive'),
-                })}
-                h={{
-                  size: work.workType.label.startsWith('Archive') ? 's' : null,
-                  properties: ['padding-left', 'padding-right'],
-                }}
-                v={{
-                  size: work.workType.label.startsWith('Archive') ? 's' : null,
-                  properties: [
-                    'padding-top',
-                    'padding-bottom',
-                    'margin-bottom',
-                    'margin-top',
-                  ],
-                }}
-              >
-                {work.workType.label}
-              </Space>
+              {!work.workType.label.startsWith('Archive') &&
+                work.workType.label}
+
+              {work.workType.label.startsWith('Archive') && (
+                <Space
+                  h={{
+                    size: 's',
+                    properties: ['padding-left', 'padding-right'],
+                  }}
+                  v={{
+                    size: 's',
+                    properties: [
+                      'padding-top',
+                      'padding-bottom',
+                      'margin-bottom',
+                      'margin-top',
+                    ],
+                  }}
+                >
+                  {work.workType.label}
+                </Space>
+              )}
             </div>
           </div>
 
