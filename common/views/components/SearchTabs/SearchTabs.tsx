@@ -28,6 +28,12 @@ const BaseTabsWrapper = styled.div`
   }
 `;
 
+type TabProps = {
+  isLast: boolean;
+  isActive: boolean;
+  isFocused: boolean;
+  isKeyboard: boolean;
+};
 const Tab = styled(Space).attrs({
   as: 'span',
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -36,7 +42,7 @@ const Tab = styled(Space).attrs({
     'flex-inline': true,
     [font('hnm', 5)]: true,
   }),
-})`
+})<TabProps>`
   background: ${props => props.theme.color('pumice')};
   border-left: 1px solid ${props => props.theme.color('cream')};
   border-top: 1px solid ${props => props.theme.color('cream')};
@@ -130,6 +136,7 @@ const SearchTabs: FunctionComponent<Props> = ({
               isActive={isActive}
               isFocused={isFocused}
               isKeyboard={isKeyboard}
+              isLast={false}
             >
               Library catalogue
             </Tab>
