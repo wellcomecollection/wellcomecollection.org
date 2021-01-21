@@ -33,22 +33,22 @@ type RadioGroupOption = {
   label: string;
 };
 
+// sort by the highest count
+export const sortByCount = (
+  a: CatalogueAggregationBucket,
+  b: CatalogueAggregationBucket
+): number => {
+  if (a.count > b.count) {
+    return -1;
+  } else {
+    return 1;
+  }
+};
+
 export const getAggregationRadioGroup = (
   aggregation: CatalogueAggregationBucket[],
   prefixId: string
 ): RadioGroupOption[] => {
-  // sort by the highest count
-  const sortByCount = (
-    a: CatalogueAggregationBucket,
-    b: CatalogueAggregationBucket
-  ) => {
-    if (a.count > b.count) {
-      return -1;
-    } else {
-      return 1;
-    }
-  };
-
   const radioOption = aggregation.sort(sortByCount).map(item => {
     const id = item?.data?.label.replace(/\s/, '-').toLocaleLowerCase();
     return {
