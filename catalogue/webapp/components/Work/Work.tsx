@@ -25,7 +25,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
 import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import useHotjar from '@weco/common/hooks/useHotjar';
-import useIIIFManifest from '@weco/common/hooks/useIIIFManifest';
+import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -63,9 +63,10 @@ const Work: FunctionComponent<Props> = ({
   const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
   useHotjar(isInArchive);
 
-  const { childManifestsCount, firstChildManifestLocation } = useIIIFManifest(
-    work
-  );
+  const {
+    childManifestsCount,
+    firstChildManifestLocation,
+  } = useIIIFManifestData(work);
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
     'iiif-presentation'

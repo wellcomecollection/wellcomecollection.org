@@ -56,7 +56,7 @@ function parseManifest(manifest: IIIFManifest): IIIFManifestData {
 const startedFetchingIds = new Set();
 const cachedManifestData: Map<string, IIIFManifestData> = new Map();
 
-const useIIIFManifest = (work: Work): IIIFManifestData => {
+const useIIIFManifestData = (work: Work): IIIFManifestData => {
   const [manifestData, setManifestData] = useState<IIIFManifestData>({
     imageCount: 0,
     childManifestsCount: 0,
@@ -99,4 +99,4 @@ const useIIIFManifest = (work: Work): IIIFManifestData => {
   return manifestData;
 };
 
-export default useIIIFManifest;
+export default useIIIFManifestData;

@@ -34,7 +34,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
-import useIIIFManifest from '@weco/common/hooks/useIIIFManifest';
+import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 
 type Props = {
   work: Work;
@@ -109,7 +109,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
     iiifCredit,
     iiifPresentationDownloadOptions = [],
     iiifDownloadEnabled,
-  } = useIIIFManifest(work);
+  } = useIIIFManifestData(work);
 
   // 'Available online' data
   const license =
