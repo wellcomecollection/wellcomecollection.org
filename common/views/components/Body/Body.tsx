@@ -148,9 +148,9 @@ const Body: FunctionComponent<Props> = ({
               </Layout10>
             )}
             {slice.type === 'picture' && slice.weight === 'standalone' && (
-              <LayoutWidth width={minWidth}>
+              <Layout12>
                 <CaptionedImage {...slice.value} sizesQueries={''} />
-              </LayoutWidth>
+              </Layout12>
             )}
             {slice.type === 'picture' && slice.weight === 'supporting' && (
               <LayoutWidth width={minWidth}>
