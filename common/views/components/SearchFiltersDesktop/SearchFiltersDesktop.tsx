@@ -61,8 +61,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   const resetFilters = getResetFilterLink(imagesColor, resetFiltersRoute);
 
   function showActiveFilters() {
-    return (
-      imagesColor ||
+    const imagesFilter = imagesColor;
+    const catalogueFilter =
       ((productionDatesFrom ||
         productionDatesTo ||
         workTypeInUrlArray.length > 0 ||
@@ -70,8 +70,9 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
         workTypeFilters.length > 0) ||
       languagesInUrl.length > 0 ||
       subjectsInUrl ||
-      genresInUrl
-    );
+      genresInUrl;
+
+    return imagesFilter || catalogueFilter;
   }
 
   return (

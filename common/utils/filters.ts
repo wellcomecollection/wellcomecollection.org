@@ -32,16 +32,28 @@ type RadioGroupOption = {
   id: string;
   label: string;
 };
+
 export const getAggregationRadioGroup = (
   aggregation: CatalogueAggregationBucket[],
   prefixId: string
 ): RadioGroupOption[] => {
-  const radioOption = aggregation.map(subject => {
-    const id = subject?.data?.label.replace(/\s/, '-').toLocaleLowerCase();
+  const sortByCount = (
+    a: CatalogueAggregationBucket,
+    b: CatalogueAggregationBucket
+  ) => {
+    if (a.count > b.count) {
+      return -1;
+    } else {
+      return 1;
+    }
+  };
+
+  const radioOption = aggregation.sort(sortByCount).map(item => {
+    const id = item?.data?.label.replace(/\s/, '-').toLocaleLowerCase();
     return {
-      value: subject?.data?.label,
+      value: item?.data?.label,
       id: `${prefixId}-${id}`,
-      label: subject?.data?.label,
+      label: `${item?.data?.label} (${item?.count})`,
     };
   });
 

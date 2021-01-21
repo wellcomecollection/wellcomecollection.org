@@ -227,7 +227,7 @@ const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
             </Space>
           </FilterSection>
         )}
-        {filtersToShow.includes('languages') && languagesFilter.length && (
+        {filtersToShow.includes('languages') && languagesFilter.length > 0 && (
           <FilterSection>
             <h3 className="h3">Languages</h3>
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
