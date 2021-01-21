@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import NextLink from 'next/link';
 import { type TextLink } from '../../../model/text-links';
 import { font, classNames } from '../../../utils/classnames';
+// $FlowFixMe (tsx)
 import Space, { type SpaceComponentProps } from '../styled/Space';
 
 type SelectableTextLink = {|

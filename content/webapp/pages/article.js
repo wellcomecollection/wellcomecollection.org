@@ -24,6 +24,7 @@ import PageHeader, {
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { articleLd } from '@weco/common/utils/json-ld';
 import { ContentFormatIds } from '@weco/common/model/content-format-id';
+// $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|

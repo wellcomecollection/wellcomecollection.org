@@ -2,6 +2,7 @@
 import { type Node } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { type ReactWrapper, type ShallowWrapper, mount, shallow } from 'enzyme';
+// $FlowFixMe (tsx)
 import theme from '../../views/themes/default';
 import { act } from 'react-dom/test-utils';
 // $FlowFixMe (tsx)

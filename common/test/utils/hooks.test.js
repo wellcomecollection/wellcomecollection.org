@@ -1,4 +1,3 @@
-// @flow
 import { getScreenSize } from '@weco/common/hooks/useWindowSize';
 import theme from '@weco/common/views/themes/default';
 

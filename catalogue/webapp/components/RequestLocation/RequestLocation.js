@@ -10,6 +10,7 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 import ItemRequestButton from '@weco/catalogue/components/ItemRequestButton/ItemRequestButton';
 // $FlowFixMe (tsx)
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+// $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
 import getStacksWork from '@weco/catalogue/services/stacks/items';
 import {

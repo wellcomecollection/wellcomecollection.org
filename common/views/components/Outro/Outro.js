@@ -7,6 +7,7 @@ import { trackEvent } from '../../../utils/ga';
 import CompactCard from '../../components/CompactCard/CompactCard';
 // $FlowFixMe(tsx)
 import Divider from '../../components/Divider/Divider';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 type Props = {|

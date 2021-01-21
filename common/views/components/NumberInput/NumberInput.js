@@ -1,6 +1,7 @@
 // @flow
 import { forwardRef, type ComponentType } from 'react';
 import styled from 'styled-components';
+// $FlowFixMe (tsx)
 import Space, { type SpaceComponentProps } from '../styled/Space';
 
 const StyledInput: ComponentType<SpaceComponentProps> = styled(Space).attrs({

@@ -1,6 +1,7 @@
 // @flow
 import type { Label as LabelType } from '../../../model/labels';
 import Label from '../../components/Label/Label';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 type Props = {|

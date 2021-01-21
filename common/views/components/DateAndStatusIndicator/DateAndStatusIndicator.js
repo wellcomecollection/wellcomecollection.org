@@ -3,6 +3,7 @@ import { Fragment } from 'react';
 import DateRange from '../DateRange/DateRange';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 type Props = {|

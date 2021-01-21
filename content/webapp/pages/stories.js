@@ -18,6 +18,7 @@ import type { ArticleSeries } from '@weco/common/model/article-series';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+// $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
 import { staticBooks } from '../content/static-books';
 import { FeaturedCardArticle } from '@weco/common/views/components/FeaturedCard/FeaturedCard';

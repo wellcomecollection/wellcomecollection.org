@@ -2,6 +2,7 @@
 import { font, classNames } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 type ItemProps = {|

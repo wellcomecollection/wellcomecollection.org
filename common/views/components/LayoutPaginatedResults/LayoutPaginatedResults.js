@@ -18,6 +18,7 @@ import type {
   HTMLString,
 } from '../../../services/prismic/types';
 import SpacingSection from '../SpacingSection/SpacingSection';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import PageHeader from '../PageHeader/PageHeader';
 // $FlowFixMe(ts)

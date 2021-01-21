@@ -6,6 +6,7 @@ import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import ButtonSolidLink from '../ButtonSolidLink/ButtonSolidLink';
 import { Fragment } from 'react';
 import { font, classNames } from '../../../utils/classnames';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 type Props = {

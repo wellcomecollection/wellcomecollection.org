@@ -6,6 +6,7 @@ import { Fragment } from 'react';
 import ButtonSolidLink from '../ButtonSolidLink/ButtonSolidLink';
 import Message from '../Message/Message';
 import { font } from '../../../utils/classnames';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 type Props = {|

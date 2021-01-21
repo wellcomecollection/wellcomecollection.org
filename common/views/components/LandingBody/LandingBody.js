@@ -6,6 +6,7 @@ import FeaturedText from '../FeaturedText/FeaturedText';
 import Layout12 from '../Layout12/Layout12';
 // $FlowFixMe (tsx)
 import Layout8 from '../Layout8/Layout8';
+// $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '../SpacingSection/SpacingSection';
 import GridFactory from '../GridFactory/GridFactory';

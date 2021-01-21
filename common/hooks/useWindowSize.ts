@@ -1,9 +1,8 @@
-// @flow
 import { useState, useEffect } from 'react';
-import theme from '@weco/common/views/themes/default';
+import theme from '../views/themes/default';
 
 type ScreenSize = 'small' | 'medium' | 'large' | 'xlarge';
-export function getScreenSize(window: Object): ScreenSize {
+export function getScreenSize(): ScreenSize {
   switch (true) {
     case window.innerWidth < theme.sizes.medium:
       return 'small';
@@ -15,14 +14,14 @@ export function getScreenSize(window: Object): ScreenSize {
       return 'xlarge';
   }
 }
-export default function useWindowSize() {
+export default function useWindowSize(): string {
   const [size, setSize] = useState('small');
   useEffect(() => {
     function updateSize() {
-      setSize(getScreenSize(window));
+      setSize(getScreenSize());
     }
     window.addEventListener('resize', updateSize);
-    setSize(getScreenSize(window));
+    setSize(getScreenSize());
 
     return () => window.removeEventListener('resize', updateSize);
   }, []);

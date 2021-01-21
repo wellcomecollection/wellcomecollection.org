@@ -1,6 +1,10 @@
-// @flow
-import { css, keyframes } from 'styled-components';
-import { type SpaceOverrides } from '../components/styled/Space';
+import {
+  css,
+  CSSObject,
+  keyframes,
+  SimpleInterpolation,
+} from 'styled-components';
+import { SpaceOverrides } from '../components/styled/Space';
 
 const spacingUnits = {
   '1': 4,
@@ -137,7 +141,7 @@ function color(name: string, variant: 'base' | 'light' | 'dark' = 'base') {
 function makeSpacePropertyValues(
   size: SpaceSize,
   properties: SpaceProperty[],
-  negative: ?boolean,
+  negative?: boolean,
   overrides?: SpaceOverrides
 ): string {
   return ['small', 'medium', 'large']
@@ -161,14 +165,20 @@ function makeSpacePropertyValues(
 // https://github.com/styled-components/styled-components/blob/master/docs/tips-and-tricks.md#media-templates
 // using min-width because of
 // https://zellwk.com/blog/how-to-write-mobile-first-css/
+type Sizes = keyof typeof theme.sizes;
+type MediaMethodArgs = [
+  TemplateStringsArray | CSSObject,
+  SimpleInterpolation[]
+];
+
 const media = Object.keys(theme.sizes).reduce((acc, label) => {
-  acc[label] = (...args: any) => css`
+  acc[label] = (...args: MediaMethodArgs) => css`
     @media (min-width: ${theme.sizes[label]}px) {
-      ${css(...args)};
+      ${css(...args)}
     }
   `;
   return acc;
-}, {});
+}, {} as Record<Sizes, (...args: MediaMethodArgs) => string>);
 
 export default {
   ...theme,

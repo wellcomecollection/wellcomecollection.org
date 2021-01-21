@@ -23,6 +23,7 @@ import WobblyBottom from '../WobblyBottom/WobblyBottom';
 import { breakpoints } from '../../../utils/breakpoints';
 import type { Node, Element, ElementProps } from 'react';
 import type { GenericContentFields } from '../../../model/generic-content-fields';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
 

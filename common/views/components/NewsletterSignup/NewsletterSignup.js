@@ -5,6 +5,7 @@ import TextInput from '../TextInput/TextInput';
 // $FlowFixMe (tsx)
 import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
 import { font, classNames } from '../../../utils/classnames';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import useValidation from '../../../hooks/useValidation';
 // $FlowFixMe (tsx)

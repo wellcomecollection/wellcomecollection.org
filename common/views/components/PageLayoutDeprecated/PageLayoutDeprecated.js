@@ -21,6 +21,7 @@ import PopupDialogContext from '../PopupDialogContext/PopupDialogContext';
 import PopupDialog from '../PopupDialog/PopupDialog';
 // $FlowFixMe (tsx)
 import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import GlobalInfoBarContext from '../GlobalInfoBarContext/GlobalInfoBarContext';

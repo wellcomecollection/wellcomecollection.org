@@ -1,6 +1,7 @@
 // @flow
 import { font } from '../../../utils/classnames';
 import { formatDateRangeWithMessage } from '../../../utils/format-date';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import Dot from '../Dot/Dot';
 

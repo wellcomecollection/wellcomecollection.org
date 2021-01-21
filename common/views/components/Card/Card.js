@@ -4,6 +4,7 @@ import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
 

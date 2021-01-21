@@ -3,6 +3,7 @@ import { type Node, useEffect, useRef, useContext, createContext } from 'react';
 import useFocusTrap from '../../../hooks/useFocusTrap';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';

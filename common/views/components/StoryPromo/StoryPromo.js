@@ -7,6 +7,7 @@ import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 // $FlowFixMe(tsx)
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
 
