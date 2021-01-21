@@ -3,7 +3,6 @@ import {
   CSSObject,
   keyframes,
   SimpleInterpolation,
-  DefaultTheme,
 } from 'styled-components';
 import { SpaceOverrides } from '../components/styled/Space';
 
@@ -180,7 +179,7 @@ const media = Object.keys(themeValues.sizes).reduce((acc, label) => {
   return acc;
 }, {} as Record<Sizes, (...args: MediaMethodArgs) => string>);
 
-const theme: DefaultTheme = {
+const theme = {
   ...themeValues,
   media,
   makeSpacePropertyValues,
