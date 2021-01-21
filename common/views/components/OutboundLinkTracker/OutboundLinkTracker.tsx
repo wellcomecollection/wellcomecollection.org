@@ -1,5 +1,3 @@
-// @flow
-
 import React, { FunctionComponent, ReactNode, useEffect } from 'react';
 import ReactGA from 'react-ga';
 import { isExternal } from '../../../utils/domain';
