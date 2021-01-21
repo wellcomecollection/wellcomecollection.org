@@ -76,7 +76,12 @@ export const BaseButtonInner = styled(BaseButtonInnerSpan).attrs<
   height: 1em;
 `;
 
-export const ButtonIconWrapper = styled(Space).attrs(props => ({
+type ButtonIconWrapperAttrsProps = {
+  iconAfter?: boolean;
+};
+export const ButtonIconWrapper = styled(Space).attrs<
+  ButtonIconWrapperAttrsProps
+>(props => ({
   as: 'span',
   h: {
     size: 'xs',
@@ -85,7 +90,7 @@ export const ButtonIconWrapper = styled(Space).attrs(props => ({
   className: classNames({
     'flex-inline': true,
   }),
-}))``;
+}))<ButtonIconWrapperAttrsProps>``;
 
 export enum ButtonTypes {
   button = 'button',
