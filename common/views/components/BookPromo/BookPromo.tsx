@@ -35,6 +35,16 @@ type Props = {
   image: ImageType | null;
 };
 
+type LinkOrSpanSpaceAttrs = {
+  url?: string;
+  elem?: string;
+};
+
+const LinkOrSpanSpace = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
+  as: props.url ? 'a' : props.elem || 'div',
+  href: props.url || undefined,
+}))<LinkOrSpanSpaceAttrs>``;
+
 const BookPromo: FunctionComponent<Props> = ({
   url,
   image,
@@ -43,14 +53,13 @@ const BookPromo: FunctionComponent<Props> = ({
   description,
 }: Props): ReactElement => {
   return (
-    <Space
+    <LinkOrSpanSpace
       v={{
         size: 'xl',
         properties: ['padding-top'],
       }}
       h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-      as={url ? 'a' : 'span'}
-      href={url}
+      url={url}
       className={classNames({
         'block promo-link plain-link': true,
       })}
@@ -135,7 +144,7 @@ const BookPromo: FunctionComponent<Props> = ({
           )}
         </Space>
       </Space>
-    </Space>
+    </LinkOrSpanSpace>
   );
 };
 
