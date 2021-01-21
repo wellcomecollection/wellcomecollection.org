@@ -3,8 +3,25 @@ import {
   CSSObject,
   keyframes,
   SimpleInterpolation,
+  DefaultTheme,
 } from 'styled-components';
 import { SpaceOverrides } from '../components/styled/Space';
+
+type ColorVarient = 'base' | 'light' | 'dark';
+type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
+type SpaceProperty =
+  | 'margin-bottom'
+  | 'margin-top'
+  | 'padding-bottom'
+  | 'padding-top'
+  | 'top'
+  | 'bottom'
+  | 'margin-left'
+  | 'margin-right'
+  | 'padding-left'
+  | 'padding-right'
+  | 'left'
+  | 'right';
 
 const spacingUnits = {
   '1': 4,
@@ -19,7 +36,7 @@ const spacingUnits = {
   '10': 64,
 };
 // When units are `number`s, we assume pixels
-const theme = {
+const themeValues = {
   spacingUnit: 6,
   borderRadiusUnit: 6,
   transitionProperties: '150ms ease',
@@ -116,27 +133,10 @@ const theme = {
       xl: spacingUnits['10'],
     },
   },
-  color,
+  color(name: string, variant: ColorVarient = 'base'): string {
+    return this.colors[name][variant];
+  },
 };
-
-type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
-type SpaceProperty =
-  | 'margin-bottom'
-  | 'margin-top'
-  | 'padding-bottom'
-  | 'padding-top'
-  | 'top'
-  | 'bottom'
-  | 'margin-left'
-  | 'margin-right'
-  | 'padding-left'
-  | 'padding-right'
-  | 'left'
-  | 'right';
-
-function color(name: string, variant: 'base' | 'light' | 'dark' = 'base') {
-  return this.colors[name][variant];
-}
 
 function makeSpacePropertyValues(
   size: SpaceSize,
@@ -146,14 +146,14 @@ function makeSpacePropertyValues(
 ): string {
   return ['small', 'medium', 'large']
     .map(bp => {
-      return `@media (min-width: ${theme.sizes[bp]}px) {
+      return `@media (min-width: ${themeValues.sizes[bp]}px) {
       ${properties
         .map(
           p =>
             `${p}: ${negative ? '-' : ''}${
               overrides && overrides[bp]
                 ? spacingUnits[overrides[bp]]
-                : theme.spaceAtBreakpoints[bp][size]
+                : themeValues.spaceAtBreakpoints[bp][size]
             }px;`
         )
         .join('')}
@@ -165,23 +165,25 @@ function makeSpacePropertyValues(
 // https://github.com/styled-components/styled-components/blob/master/docs/tips-and-tricks.md#media-templates
 // using min-width because of
 // https://zellwk.com/blog/how-to-write-mobile-first-css/
-type Sizes = keyof typeof theme.sizes;
+type Sizes = keyof typeof themeValues.sizes;
 type MediaMethodArgs = [
   TemplateStringsArray | CSSObject,
   SimpleInterpolation[]
 ];
 
-const media = Object.keys(theme.sizes).reduce((acc, label) => {
+const media = Object.keys(themeValues.sizes).reduce((acc, label) => {
   acc[label] = (...args: MediaMethodArgs) => css`
-    @media (min-width: ${theme.sizes[label]}px) {
+    @media (min-width: ${themeValues.sizes[label]}px) {
       ${css(...args)}
     }
   `;
   return acc;
 }, {} as Record<Sizes, (...args: MediaMethodArgs) => string>);
 
-export default {
-  ...theme,
+const theme: DefaultTheme = {
+  ...themeValues,
   media,
   makeSpacePropertyValues,
 };
+
+export default theme;
