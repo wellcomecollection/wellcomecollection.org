@@ -8,8 +8,12 @@ WORKDIR /usr/src/app/webapp
 
 ADD . /usr/src/app/webapp
 
-RUN yarn
+RUN yarn && yarn build
 
-RUN zip -r edge_lambda_origin.zip toggler.js origin.js redirector.js redirects.js
+RUN zip -r edge_lambda_origin.zip \
+  dist/toggler.js \
+  dist/origin.js \
+  dist/redirector.js \
+  dist/redirects.js
 
 CMD ["true"]

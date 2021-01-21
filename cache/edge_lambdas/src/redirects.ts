@@ -1,4 +1,4 @@
-module.exports = {
+const redirects: Record<string, string> = {
   '/event-series/Wo1YeCoAACoAZFoN': '/events/Wqkd1yUAAB8sW4By',
   '/explore': '/stories',
   '/eventspaces': '/pages/Wuw2MSIAACtd3SsC',
@@ -172,3 +172,4 @@ module.exports = {
   '/articles/X8Ay3hIAACMAbSL2': '/articles/X8dV8xIAACIAjKn6',
   '/articles/X_dsXREAACMASftU': '/articles/X_g6ohEAACQATYJF',
 };
+export default redirects;

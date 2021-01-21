@@ -1,7 +1,8 @@
-const abTesting = require('./toggler');
-const testEventRequest = require('./test_event_request');
+import * as abTesting from './toggler';
+import testEventRequest from './test_event_request';
+import testEventResponse from './test_event_response';
 
-function copy(obj) {
+function copy(obj: unknown) {
   return JSON.parse(JSON.stringify(obj));
 }
 
@@ -12,14 +13,14 @@ test('x-toggled header gets added, and sends the cookie to the client', () => {
       title: 'Outro',
       range: [0, 100],
       when: request => {
-        return request.uri.match(/^\/articles\/*/);
+        return !!request.uri.match(/^\/articles\/*/);
       },
     },
     {
       id: 'wontrun',
       title: `Won't run`,
       range: [0, 100],
-      when(request) {
+      when() {
         return false;
       },
     },
@@ -27,7 +28,7 @@ test('x-toggled header gets added, and sends the cookie to the client', () => {
 
   const oldRequest = copy(testEventRequest.Records[0].cf.request);
 
-  abTesting.request(testEventRequest, {});
+  abTesting.request(testEventRequest);
   const modifiedRequest = testEventRequest.Records[0].cf.request;
 
   // 1. set the new value on the cookie forwarded to the application
@@ -52,25 +53,7 @@ test('x-toggled header gets added, and sends the cookie to the client', () => {
     /toggle_outro=(true|false)/
   );
 
-  // This is just the shape of the CloudFront event
-  const testEventResponse = {
-    Records: [
-      {
-        cf: {
-          request: modifiedRequest,
-          response: {
-            uri: '/articles/things',
-            method: 'GET',
-            clientIp: '2001:cdba::3257:9652',
-            headers: {},
-            status: 2000,
-          },
-        },
-      },
-    ],
-  };
-
-  abTesting.response(testEventResponse, {});
+  abTesting.response(testEventResponse);
   const modifiedResponse = testEventResponse.Records[0].cf.response;
 
   // 3. set cookie is set from x-toggled to lock the person in for the session

@@ -1,12 +1,14 @@
-'use-strict';
-const redirects = require('./redirects');
+import { CloudFrontRequestEvent, CloudFrontResponse } from 'aws-lambda';
+import redirects from './redirects';
 
-exports.redirector = (event, context) => {
+export const getRedirect = (
+  event: CloudFrontRequestEvent
+): CloudFrontResponse | undefined => {
   const cf = event.Records[0].cf;
   const request = cf.request;
   const uriSansSlash = request.uri.replace(/\/$/, '');
   if (redirects[uriSansSlash]) {
-    const response = {
+    return {
       status: '301',
       statusDescription: 'Found',
       headers: {
@@ -24,6 +26,5 @@ exports.redirector = (event, context) => {
         ],
       },
     };
-    cf.response = response;
   }
 };

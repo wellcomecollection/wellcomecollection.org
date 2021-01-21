@@ -1,6 +1,6 @@
-// TODO: Flow comment doc
+import { getRedirect } from './redirector';
+import { CloudFrontRequestEvent } from 'aws-lambda';
 
-const redirector = require('./redirector').redirector;
 const redirectTestRequestEvent = {
   Records: [
     {
@@ -36,20 +36,19 @@ const nonRedirectTestRequestEvent = {
 
 test('redirector', () => {
   // Should have been redirected
-  const redirectedCallback = jest.fn((_, request) => request);
-  redirector(redirectTestRequestEvent, {}, redirectedCallback);
-  const redirectedResponse = redirectTestRequestEvent.Records[0].cf.response;
+  const redirectedResponse = getRedirect(
+    redirectTestRequestEvent as CloudFrontRequestEvent
+  );
 
-  expect(redirectedResponse.headers.location[0]).toEqual({
+  expect(redirectedResponse?.headers.location[0]).toEqual({
     key: 'Location',
     value: `https://wellcomecollection.org/pages/Wvl1wiAAADMJ3zNe`,
   });
 
   // Shouldn't have been redirected, and return the same request
-  const nonRedirectedCallback = jest.fn((_, request) => request);
-  redirector(nonRedirectTestRequestEvent, {}, nonRedirectedCallback);
-  const nonRedirectedResponse =
-    nonRedirectTestRequestEvent.Records[0].cf.response;
+  const nonRedirectedResponse = getRedirect(
+    nonRedirectTestRequestEvent as CloudFrontRequestEvent
+  );
   const modifiedRequest = nonRedirectTestRequestEvent.Records[0].cf.request;
   expect(nonRedirectedResponse).toBeUndefined();
   expect(modifiedRequest).toEqual(
