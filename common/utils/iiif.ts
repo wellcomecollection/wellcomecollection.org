@@ -169,11 +169,11 @@ export function getAnnotationFromMediaElement(
   );
 }
 
-export function getFirstChildManifestLocation(iiifManifest: IIIFManifest) {
+export function getFirstChildManifestLocation(
+  iiifManifest: IIIFManifest
+): string | undefined {
   if (iiifManifest.manifests) {
     return iiifManifest.manifests.find(manifest => manifest['@id'])['@id'];
-  } else {
-    return null;
   }
 }
 
