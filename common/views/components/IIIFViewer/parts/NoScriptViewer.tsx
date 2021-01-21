@@ -148,7 +148,7 @@ type NoScriptViewerProps = {
   canvasIndex: number;
 };
 
-const NoScriptViewer = ({
+const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
   thumbnailsRequired,
   imageUrl,
   iiifImageLocation,
