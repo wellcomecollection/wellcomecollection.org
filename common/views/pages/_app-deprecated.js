@@ -18,6 +18,7 @@ import { collectionVenueId } from '../../services/prismic/hardcoded-id';
 import { type OpeningHours } from '../../model/opening-hours';
 // $FlowFixMe (tsx)
 import TogglesContext from '../../views/components/TogglesContext/TogglesContext';
+// $FlowFixMe (tsx)
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
 // $FlowFixMe (tsx)
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
