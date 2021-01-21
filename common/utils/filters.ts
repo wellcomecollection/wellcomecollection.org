@@ -37,6 +37,7 @@ export const getAggregationRadioGroup = (
   aggregation: CatalogueAggregationBucket[],
   prefixId: string
 ): RadioGroupOption[] => {
+  // sort by the highest count
   const sortByCount = (
     a: CatalogueAggregationBucket,
     b: CatalogueAggregationBucket
