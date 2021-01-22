@@ -24,13 +24,17 @@ const DropdownWrapper = styled.div.attrs({
   }),
 })``;
 
+type DropdownProps = {
+  isActive: boolean;
+  isEnhanced: boolean;
+};
 const Dropdown = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   className: classNames({
     'rounded-corners shadow bg-white': true,
   }),
-})`
+})<DropdownProps>`
   margin-top: -2px;
   z-index: ${props => (props.isActive ? 2 : 1)};
   overflow: auto;

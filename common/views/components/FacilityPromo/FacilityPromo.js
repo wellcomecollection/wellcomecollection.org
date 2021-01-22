@@ -5,6 +5,7 @@ import { trackEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 import { UiImage } from '../Images/Images';
 import type { ImageType } from '../../../model/image';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
 

@@ -7,6 +7,7 @@ import ReactGA from 'react-ga';
 import Raven from 'raven-js';
 import { Fragment } from 'react';
 import { ThemeProvider } from 'styled-components';
+// $FlowFixMe (tsx)
 import theme from '../../views/themes/default';
 import { museumLd, libraryLd, objToJsonLd } from '../../utils/json-ld';
 import { wellcomeCollectionGallery } from '../../model/organization';

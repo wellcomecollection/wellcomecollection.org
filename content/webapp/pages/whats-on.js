@@ -39,6 +39,7 @@ import OpeningTimesContext from '@weco/common/views/components/OpeningTimesConte
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+// $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
 import { FeaturedCardExhibition } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 import { getParseCollectionVenueById } from '@weco/common/services/prismic/opening-times';

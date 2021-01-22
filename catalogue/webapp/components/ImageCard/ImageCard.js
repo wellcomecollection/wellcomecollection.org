@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import { trackEvent } from '@weco/common/utils/ga';
 import type { Props as ImageProps } from '@weco/common/views/components/Image/Image';
 import Image from '@weco/common/views/components/Image/Image';
+// $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
 import { imageLink } from '@weco/common/services/catalogue/routes';
 import styled from 'styled-components';

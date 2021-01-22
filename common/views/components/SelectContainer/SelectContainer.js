@@ -3,6 +3,7 @@ import { useContext, type Element } from 'react';
 // $FlowFixMe (tsx)
 import { AppContext } from '../AppContext/AppContext';
 import styled from 'styled-components';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';

@@ -142,11 +142,14 @@ const ModalInner = styled.div`
   `}
 `;
 
+type CloseButtonProps = {
+  hideFocus: boolean;
+};
+
 const CloseButton = styled(Space).attrs({
-  as: 'button',
   v: { size: 'm', properties: ['top'] },
   h: { size: 'm', properties: ['left'] },
-})`
+})<CloseButtonProps>`
   position: fixed;
   width: 28px;
   height: 28px;
@@ -317,6 +320,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
       <Modal ref={modalRef}>
         <CloseButton
           hideFocus={!isKeyboard}
+          as="button"
           ref={closeButtonRef}
           onClick={() => setExpandedImage(undefined)}
         >

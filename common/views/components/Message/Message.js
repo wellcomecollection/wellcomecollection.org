@@ -1,5 +1,6 @@
 // @flow
 import { classNames, font } from '../../../utils/classnames';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 type Props = {|
   text: string,

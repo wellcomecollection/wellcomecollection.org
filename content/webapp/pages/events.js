@@ -19,6 +19,7 @@ import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 // $FlowFixMe (tsx)
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+// $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|

@@ -7,6 +7,7 @@ import Dot from '../Dot/Dot';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import { type UiEvent, isEventFullyBooked } from '../../../model/events';
 import Moment from 'moment';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
 /* $FlowFixMe (tsx) */

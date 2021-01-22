@@ -12,6 +12,7 @@ import { type Link } from '../../../../common/model/link';
 // $FlowFixMe(tsx)
 import PartNumberIndicator from '../../components/PartNumberIndicator/PartNumberIndicator';
 import { grid, classNames, font } from '../../../utils/classnames';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import LabelsList from '../LabelsList/LabelsList';

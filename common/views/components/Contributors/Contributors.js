@@ -2,6 +2,7 @@
 import Contributor from '../Contributor/Contributor';
 import { Fragment } from 'react';
 import type { Contributor as ContributorType } from '../../../model/contributors';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 type Props = {|

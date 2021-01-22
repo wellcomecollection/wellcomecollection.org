@@ -100,11 +100,15 @@ export const IIIFViewer = styled.div.attrs(() => ({
   flex-direction: row-reverse;
 `;
 
+type IIIFViewerMainProps = {
+  noScript: boolean;
+  fullWidth?: boolean;
+};
 export const IIIFViewerMain = styled(Space).attrs(() => ({
   className: classNames({
     'relative bg-viewerBlack font-white': true,
   }),
-}))<{ fullWidth?: boolean }>`
+}))<IIIFViewerMainProps>`
   ${props => {
     if (props.noScript) {
       return `height: 80%;

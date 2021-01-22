@@ -1,5 +1,6 @@
 // @flow
 import { font, classNames } from '../../../utils/classnames';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 const FreeSticker = () => (

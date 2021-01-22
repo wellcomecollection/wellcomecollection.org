@@ -4,6 +4,7 @@ import SearchResults from '../SearchResults/SearchResults';
 import { grid } from '../../../utils/classnames';
 import { search } from '../../../services/prismic/search';
 import type { MultiContent } from '../../../model/multi-content';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 type Props = {|

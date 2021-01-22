@@ -2,6 +2,7 @@
 import { Fragment } from 'react';
 import type { Book } from '../../../model/books';
 import { font } from '../../../utils/classnames';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 type Props = {|

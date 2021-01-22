@@ -8,6 +8,7 @@ import { AppContext } from '../../components/AppContext/AppContext';
 import { withToggler } from '../../hocs/withToggler';
 // $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 export type Props = {

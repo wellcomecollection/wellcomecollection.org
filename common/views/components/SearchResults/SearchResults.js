@@ -10,6 +10,7 @@ import EventCard from '../EventCard/EventCard';
 // $FlowFixMe(tsx)
 import ArticleCard from '../ArticleCard/ArticleCard';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 type Props = {|

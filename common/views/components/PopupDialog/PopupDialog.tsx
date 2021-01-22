@@ -18,7 +18,11 @@ import { HTMLString, PrismicLink } from '../../../services/prismic/types';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import { parseLink } from '@weco/common/services/prismic/parsers';
 
-const PopupDialogOpen = styled(Space).attrs(props => ({
+type PopupDialogOpenProps = {
+  isActive: boolean;
+  shouldStartAnimation: boolean;
+};
+const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
   'aria-hidden': props.isActive ? 'true' : 'false',
   'aria-controls': 'user-initiated-dialog-window',
   tabIndex: props.isActive ? '-1' : '0',
@@ -37,7 +41,7 @@ const PopupDialogOpen = styled(Space).attrs(props => ({
     [font('hnm', 5)]: true,
     'plain-button line-height-1 flex-inline flex--v-center bg-hover-purple font-purple font-hover-white': true,
   }),
-}))`
+}))<PopupDialogOpenProps>`
   position: fixed;
   transform: ${props =>
     props.isActive || !props.shouldStartAnimation
@@ -64,6 +68,9 @@ const PopupDialogOpen = styled(Space).attrs(props => ({
   }
 `;
 
+type PopupDialogWindowProps = {
+  isActive: boolean;
+};
 const PopupDialogWindow = styled(Space).attrs({
   'aria-modal': true,
   id: 'user-initiated-dialog-window',
@@ -80,7 +87,7 @@ const PopupDialogWindow = styled(Space).attrs({
   className: classNames({
     'bg-white font-purple': true,
   }),
-})`
+})<PopupDialogWindowProps>`
   border-radius: 20px 0 20px 0;
   box-shadow: 0 2px 60px 0 rgba(0, 0, 0, 0.7);
   opacity: ${props => (props.isActive ? 1 : 0)};
@@ -239,7 +246,7 @@ const PopupDialog: FunctionComponent<Props> = ({
     }
   }
 
-  function handleTrapEndKeyDown(event: ReactKeyboardEvent<HTMLButtonElement>) {
+  function handleTrapEndKeyDown(event: ReactKeyboardEvent<HTMLAnchorElement>) {
     if (!event.shiftKey && event.keyCode === 9) {
       event.preventDefault();
       closeDialogRef &&
@@ -343,6 +350,7 @@ const PopupDialog: FunctionComponent<Props> = ({
           tabIndex={isActive ? 0 : -1}
           onKeyDown={handleTrapEndKeyDown}
           onClick={hidePopupDialog}
+          as="a"
         >
           {linkText}
         </PopupDialogCTA>

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import swagger from '../../../services/catalogue/swagger';
 // $FlowFixMe (tsx)
 import Layout12 from '../Layout12/Layout12';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import { classNames, font } from '../../../utils/classnames';
 import cookies from 'next-cookies';

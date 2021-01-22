@@ -8,6 +8,7 @@ import type { ArticleSeries } from '../../../model/article-series';
 import type { Article } from '../../../model/articles';
 import type { ArticleScheduleItem } from '../../../model/article-schedule-items';
 import type { UiEvent } from '../../../model/events';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 type Props = {|

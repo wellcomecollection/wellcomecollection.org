@@ -2,6 +2,7 @@
 import type { HTMLString } from '../../../services/prismic/types';
 import { font, classNames } from '../../../utils/classnames';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 type Props = {|
