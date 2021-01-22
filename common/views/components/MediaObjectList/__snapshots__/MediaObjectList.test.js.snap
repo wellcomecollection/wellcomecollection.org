@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MediaObjectList Component MediaObjectList Should render snapshot 1`] = `
-"<div class=\\"body-text\\"><div class=\\"Space-sc-1ntp1c3-0 OftsS grid\\"><div class=\\"MediaObject__ImageWrapper-sc-1tzxyxh-0 grid__cell grid__cell--s2 grid__cell--m2 grid__cell--l2 grid__cell--xl2\\"><noscript>
+"<div class=\\"body-text\\"><div class=\\"Space-sc-1ntp1c3-0 MediaObjectBase__LinkOrDivSpace-w8f9sz-3 OftsS grid\\"><div class=\\"MediaObject__ImageWrapper-sc-1tzxyxh-0 grid__cell grid__cell--s2 grid__cell--m2 grid__cell--l2 grid__cell--xl2\\"><noscript>
       <img width='3200'
         height='3200'
         class='image image--noscript bg-charcoal font-white'

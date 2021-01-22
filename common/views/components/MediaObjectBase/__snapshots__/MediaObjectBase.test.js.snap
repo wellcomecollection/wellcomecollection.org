@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MediaObjectBase should match snapshots 1`] = `
-"<div class=\\"Space-sc-1ntp1c3-0 OftsS grid my_extra_extra_class\\"><div class=\\"MediaObjectBase__BaseImageWrapper-w8f9sz-0 grid__cell grid__cell--s3 grid__cell--m3 grid__cell--l3 grid__cell--xl3\\"><noscript>
+"<div class=\\"Space-sc-1ntp1c3-0 MediaObjectBase__LinkOrDivSpace-w8f9sz-3 OftsS grid my_extra_extra_class\\"><div class=\\"MediaObjectBase__BaseImageWrapper-w8f9sz-0 grid__cell grid__cell--s3 grid__cell--m3 grid__cell--l3 grid__cell--xl3\\"><noscript>
       <img width='3200'
         height='3200'
         class='image image--noscript bg-charcoal font-white'
