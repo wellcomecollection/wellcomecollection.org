@@ -10,6 +10,6 @@ ADD . /usr/src/app/webapp
 
 RUN yarn && yarn build
 
-RUN zip -r edge_lambda_origin.zip dist/*
+RUN cd dist && zip -r ../edge_lambda_origin.zip .
 
 CMD ["true"]
