@@ -2,16 +2,11 @@ import { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState, ReactElement } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
-import {
-  CatalogueApiError,
-  CatalogueResultsList,
-  Image,
-} from '@weco/common/model/catalogue';
+import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
-import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import {
   ImagesRouteProps,
   imagesLink,
@@ -41,7 +36,7 @@ import {
 } from '@weco/common/views/pages/_app';
 
 type Props = {
-  results?: CatalogueResultsList<Image> | CatalogueApiError;
+  images?: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesRouteProps;
   apiProps: CatalogueImagesApiProps;
 } & WithGlobalContextData &
@@ -96,7 +91,7 @@ const ImagesPagination = ({
 );
 
 const Images: NextPage<Props> = ({
-  results,
+  images,
   imagesRouteProps,
   apiProps,
   globalContextData,
@@ -120,23 +115,10 @@ const Images: NextPage<Props> = ({
     };
   }, []);
 
-  if (results && results.type === 'Error') {
-    return (
-      <ErrorPage
-        title={
-          results.httpStatus === 500
-            ? `We're experiencing technical difficulties at the moment. We're working to get this fixed.`
-            : undefined
-        }
-        statusCode={results.httpStatus}
-      />
-    );
-  }
-
   return (
     <>
       <Head>
-        {results?.type === 'ResultList' && results.prevPage && (
+        {images?.prevPage && (
           <link
             rel="prev"
             href={convertUrlToString(
@@ -147,7 +129,7 @@ const Images: NextPage<Props> = ({
             )}
           />
         )}
-        {results?.type === 'ResultList' && results.nextPage && (
+        {images?.nextPage && (
           <link
             rel="next"
             href={convertUrlToString(
@@ -178,7 +160,7 @@ const Images: NextPage<Props> = ({
           className={classNames(['row'])}
         >
           <div className="container">
-            {!results && <SearchTitle />}
+            {!images && <SearchTitle />}
 
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
@@ -191,13 +173,13 @@ const Images: NextPage<Props> = ({
                   shouldShowDescription={query === ''}
                   activeTabIndex={1}
                   shouldShowFilters={true}
-                  showSortBy={Boolean(results)}
+                  showSortBy={Boolean(images)}
                 />
               </div>
             </div>
           </div>
         </Space>
-        {results?.type === 'ResultList' && results.results.length > 0 && (
+        {images?.results && images.results.length > 0 && (
           <>
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
@@ -210,7 +192,7 @@ const Images: NextPage<Props> = ({
                     <ImagesPagination
                       query={query}
                       page={page}
-                      results={results}
+                      results={images}
                       imagesRouteProps={imagesRouteProps}
                       setSavedSearchState={setSavedSearchState}
                       hideMobilePagination={true}
@@ -228,9 +210,9 @@ const Images: NextPage<Props> = ({
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
-                {results && (
+                {images && (
                   <ImageEndpointSearchResults
-                    images={results}
+                    images={images}
                     apiProps={apiProps}
                   />
                 )}
@@ -252,7 +234,7 @@ const Images: NextPage<Props> = ({
                       <ImagesPagination
                         query={query}
                         page={page}
-                        results={results}
+                        results={images}
                         imagesRouteProps={imagesRouteProps}
                         setSavedSearchState={setSavedSearchState}
                         hideMobileTotalResults={true}
@@ -264,7 +246,7 @@ const Images: NextPage<Props> = ({
             </Space>
           </>
         )}
-        {results?.type === 'ResultList' && results.results.length === 0 && (
+        {images?.results.length === 0 && (
           <SearchNoResults query={query} hasFilters={!!color} />
         )}
       </CataloguePageLayout>
@@ -279,29 +261,28 @@ export const getServerSideProps: GetServerSideProps<
   const params = ImagesRoute.fromQuery(context.query);
   const apiProps = imagesRouteToApiUrl(params);
   const hasQuery = !!(params.query && params.query !== '');
-  const imagesOrError = hasQuery
+  const images = hasQuery
     ? await getImages({
         params: apiProps,
         toggles: globalContextData.toggles,
       })
     : undefined;
 
-  if (imagesOrError && imagesOrError.type === 'Error') {
-    return appError(context, imagesOrError.httpStatus, 'Images API error');
+  if (images && images.type === 'Error') {
+    return appError(context, images.httpStatus, 'Images API error');
   }
 
   return {
     props: removeUndefinedProps({
-      results: imagesOrError,
+      images,
       imagesRouteProps: params,
       apiProps,
       globalContextData,
       pageview: {
-        // This is just like this for now until we move to the `/images` endpoint
         name: 'images',
-        properties: imagesOrError
+        properties: images
           ? {
-              totalResults: imagesOrError.totalResults,
+              totalResults: images.totalResults,
             }
           : {},
       },

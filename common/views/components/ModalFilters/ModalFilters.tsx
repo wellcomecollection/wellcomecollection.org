@@ -1,10 +1,4 @@
-import {
-  useState,
-  useContext,
-  useRef,
-  FunctionComponent,
-  ReactElement,
-} from 'react';
+import { useState, useRef, FunctionComponent, ReactElement } from 'react';
 import NextLink from 'next/link';
 import dynamic from 'next/dynamic';
 import { worksLink } from '../../../services/catalogue/routes';
@@ -15,7 +9,6 @@ import Icon from '../Icon/Icon';
 import NumberInput from '../NumberInput/NumberInput';
 import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
 import Modal from '../Modal/Modal';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import ButtonSolid, {
   ButtonTypes,
   SolidButton,
@@ -111,10 +104,6 @@ const ModalFilters: FunctionComponent<SearchFiltersSharedProps> = ({
 
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
-
-  const { enableColorFiltering } = useContext(TogglesContext);
-  const showColorFilter =
-    enableColorFiltering && worksRouteProps.search === 'images';
 
   const activeFiltersCount =
     workTypeInUrlArray.length +
@@ -240,7 +229,7 @@ const ModalFilters: FunctionComponent<SearchFiltersSharedProps> = ({
               </ul>
             </FilterSection>
           )}
-          {showColorFilter && (
+          {imagesColor && (
             <FilterSection>
               <h3 className="h3">Colour</h3>
               <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
