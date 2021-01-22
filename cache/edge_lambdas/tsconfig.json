@@ -14,7 +14,8 @@
     "downlevelIteration": true,
     "rootDir": "src",
     "outDir": "dist",
-    "sourceMap": true
+    "sourceMap": true,
+    "noEmit": true
   },
   "exclude": ["node_modules"],
   "include": ["**/*.ts"]

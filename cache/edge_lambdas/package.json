@@ -5,7 +5,7 @@
   "description": "Edge lambdas for redirecting and A/B toggling",
   "scripts": {
     "test": "jest",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "deploy": "node deploy"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-const redirects: Record<string, string> = {
+export const literalRedirects: Record<string, string> = {
   '/event-series/Wo1YeCoAACoAZFoN': '/events/Wqkd1yUAAB8sW4By',
   '/explore': '/stories',
   '/eventspaces': '/pages/Wuw2MSIAACtd3SsC',
@@ -172,4 +172,7 @@ const redirects: Record<string, string> = {
   '/articles/X8Ay3hIAACMAbSL2': '/articles/X8dV8xIAACIAjKn6',
   '/articles/X_dsXREAACMASftU': '/articles/X_g6ohEAACQATYJF',
 };
-export default redirects;
+
+export const queryRedirects: Record<string, string> = {
+  '/works?search=images': '/images',
+};
