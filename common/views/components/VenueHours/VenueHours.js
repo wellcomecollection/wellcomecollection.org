@@ -19,6 +19,7 @@ import {
 } from '../../../services/prismic/opening-times';
 // $FlowFixMe (tsx)
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
+// $FlowFixMe (tsx)
 import Space, { type SpaceComponentProps } from '../styled/Space';
 
 const VenueHoursImage: ComponentType<SpaceComponentProps> = styled(Space)`
