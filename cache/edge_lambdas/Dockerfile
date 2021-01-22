@@ -10,10 +10,6 @@ ADD . /usr/src/app/webapp
 
 RUN yarn && yarn build
 
-RUN zip -r edge_lambda_origin.zip \
-  dist/toggler.js \
-  dist/origin.js \
-  dist/redirector.js \
-  dist/redirects.js
+RUN zip -r edge_lambda_origin.zip dist/*
 
 CMD ["true"]
