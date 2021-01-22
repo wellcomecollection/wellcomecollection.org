@@ -52,8 +52,9 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
     page: 1,
     productionDatesFrom: null,
     productionDatesTo: null,
-    subjects: null,
-    genres: null,
+    subjectsLabel: null,
+    genresLabel: null,
+    languages: null,
   };
 
   const [showMoreFiltersModal, setMoreFiltersModal] = useState(false);
