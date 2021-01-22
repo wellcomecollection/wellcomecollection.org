@@ -182,7 +182,7 @@ const RenderMoreFilters: FunctionComponent<RenderMoreFiltersProps> = ({
               })}
             >
               <RadioGroup
-                name="subjects"
+                name="subjects.label"
                 selected={subjectsInUrl}
                 onChange={changeHandler}
                 options={getAggregationRadioGroup(subjectsFilter, 'mobile')}
@@ -201,7 +201,7 @@ const RenderMoreFilters: FunctionComponent<RenderMoreFiltersProps> = ({
               })}
             >
               <RadioGroup
-                name="genres"
+                name="genres.label"
                 selected={genresInUrl}
                 onChange={changeHandler}
                 options={getAggregationRadioGroup(genresFilter, 'mobile')}

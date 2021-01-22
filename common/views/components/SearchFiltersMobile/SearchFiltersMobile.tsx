@@ -440,7 +440,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                         })}
                       >
                         <RadioGroup
-                          name="subjects"
+                          name="subjects.label"
                           selected={subjectsInUrl}
                           onChange={changeHandler}
                           options={getAggregationRadioGroup(
@@ -467,7 +467,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                         })}
                       >
                         <RadioGroup
-                          name="genres"
+                          name="genres.label"
                           selected={genresInUrl}
                           onChange={changeHandler}
                           options={getAggregationRadioGroup(

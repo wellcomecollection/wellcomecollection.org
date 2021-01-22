@@ -139,11 +139,11 @@ export function imagesRoutePropsToWorksRouteProps(
     productionDatesTo: null,
     imagesColor: null,
     search: null,
-    // [1] wrong below this line
-    color: null,
     languages: [],
     subjectsLabel: null,
     genresLabel: null,
+    // [1] wrong below this line
+    color: null,
   };
 }
 
@@ -165,11 +165,11 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       imagesColor: maybeString(stringQ['images.color']),
       search: maybeString(stringQ.search),
       source: maybeString(stringQ.source),
-      // [1] Wrong below this line
-      color: null,
       languages: stringToCsv(stringQ.languages),
       subjectsLabel: maybeString(stringQ['subjects.label']),
       genresLabel: maybeString(stringQ['genres.label']),
+      // [1] Wrong below this line
+      color: null,
     };
   },
 
