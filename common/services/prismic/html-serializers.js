@@ -130,6 +130,9 @@ export const defaultSerializer: HtmlSerializer = (
       const rel = target ? 'noopener' : undefined;
       const linkUrl = PrismicDOM.Link.url(element.data, linkResolver);
       const isDocument = element.data.kind === 'document';
+      const nameWithoutSpaces = element.data.name
+        ? element.data.name.replace(/\s/g, '')
+        : '';
       const documentSize = isDocument
         ? Math.round(element.data.size / 1000)
         : '';
@@ -162,10 +165,12 @@ export const defaultSerializer: HtmlSerializer = (
               <svg
                 className="icon__svg no-margin"
                 role="img"
-                aria-labelledby="icon-download-title"
+                aria-labelledby={`icon-download-title-${nameWithoutSpaces}`}
                 style={{ width: '20px', height: '20px' }}
               >
-                <title id="icon-download-title">download</title>
+                <title id={`icon-download-title-${nameWithoutSpaces}`}>
+                  download
+                </title>
                 <svg viewBox="0 0 26 26">
                   <path
                     className="icon__shape"
