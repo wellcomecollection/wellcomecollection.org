@@ -21,12 +21,6 @@ export default {
       description: 'Search filters will appear in a modal',
     },
     {
-      id: 'enableColorFiltering',
-      title: 'Enable filtering images by color',
-      defaultValue: false,
-      description: 'Enable filtering images by color',
-    },
-    {
       id: 'searchToolbar',
       title: 'Search toolbar',
       defaultValue: false,
