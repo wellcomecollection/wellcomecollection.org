@@ -95,7 +95,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           <Space
             v={{ size: 'm', properties: ['margin-bottom'] }}
             className={classNames({
-              'flex flex--v-center': true,
+              'flex flex--v-center flex--wrap': true,
             })}
           >
             <Space

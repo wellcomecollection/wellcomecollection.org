@@ -20,19 +20,29 @@ import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { WorksRouteProps } from '@weco/common/services/catalogue/ts_routes';
+
+type sharedFiltersProps = {
+  changeHandler: () => void;
+  languagesInUrl: string[];
+  genresInUrl: string;
+  subjectsInUrl: string;
+  filtersToShow: string[];
+};
 type MoreFiltersProps = {
   id: string;
   showMoreFiltersModal: boolean;
   setMoreFiltersModal: (arg: boolean) => void;
   openMoreFiltersButtonRef: RefObject<HTMLInputElement>;
-  filtersToShow: string[];
   aggregations: CatalogueAggregations | undefined;
-  changeHandler: () => void;
-  languagesInUrl: string[];
-  genresInUrl: string;
-  subjectsInUrl: string;
+  filtersToShow: string[];
   worksRouteProps: WorksRouteProps;
-};
+} & sharedFiltersProps;
+
+type RenderMoreFiltersProps = {
+  genresFilter: CatalogueAggregationBucket[];
+  languagesFilter: CatalogueAggregationBucket[];
+  subjectsFilter: CatalogueAggregationBucket[];
+} & sharedFiltersProps;
 
 const ModalInner = styled.div`
   display: flex;
@@ -150,6 +160,97 @@ const OverrideModalWindow = styled(Space).attrs({
   }
 `;
 
+const RenderMoreFilters: FunctionComponent<RenderMoreFiltersProps> = ({
+  filtersToShow,
+  subjectsFilter,
+  genresFilter,
+  languagesFilter,
+  changeHandler,
+  subjectsInUrl,
+  genresInUrl,
+  languagesInUrl,
+}: RenderMoreFiltersProps) => {
+  return (
+    <>
+      {filtersToShow.includes('subjects') && subjectsFilter.length > 0 && (
+        <FilterSection>
+          <h3 className="h3">Subjects</h3>
+          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+            <div
+              className={classNames({
+                'no-margin no-padding plain-list': true,
+              })}
+            >
+              <RadioGroup
+                name="subjects"
+                selected={subjectsInUrl}
+                onChange={changeHandler}
+                options={getAggregationRadioGroup(subjectsFilter, 'mobile')}
+              />
+            </div>
+          </Space>
+        </FilterSection>
+      )}
+      {filtersToShow.includes('genres') && subjectsFilter.length > 0 && (
+        <FilterSection>
+          <h3 className="h3">Genres</h3>
+          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+            <div
+              className={classNames({
+                'no-margin no-padding plain-list': true,
+              })}
+            >
+              <RadioGroup
+                name="genres"
+                selected={genresInUrl}
+                onChange={changeHandler}
+                options={getAggregationRadioGroup(genresFilter, 'mobile')}
+              />
+            </div>
+          </Space>
+        </FilterSection>
+      )}
+      {filtersToShow.includes('languages') && languagesFilter.length > 0 && (
+        <FilterSection>
+          <h3 className="h3">Languages</h3>
+          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+            <ul
+              className={classNames({
+                'no-margin no-padding plain-list': true,
+              })}
+            >
+              {languagesFilter.map(language => {
+                const isChecked = languagesInUrl.includes(language.data.id);
+
+                return (
+                  (language.count > 0 || isChecked) && (
+                    <Space
+                      as="li"
+                      v={{ size: 'l', properties: ['margin-bottom'] }}
+                      key={`desktop-${language.data.id}`}
+                    >
+                      <CheckboxRadio
+                        id={`desktop-${language.data.id}`}
+                        type={`checkbox`}
+                        text={`${language.data.label} (${language.count})`}
+                        value={language.data.id}
+                        name={`languageOptions`}
+                        checked={isChecked}
+                        onChange={changeHandler}
+                        ariaLabel={searchFilterCheckBox(language.data.label)}
+                      />
+                    </Space>
+                  )
+                );
+              })}
+            </ul>
+          </Space>
+        </FilterSection>
+      )}
+    </>
+  );
+};
+
 const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
   id,
   showMoreFiltersModal,
@@ -177,117 +278,68 @@ const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
   );
 
   return (
-    <Modal
-      id={id}
-      isActive={showMoreFiltersModal}
-      setIsActive={setMoreFiltersModal}
-      openButtonRef={openMoreFiltersButtonRef}
-      OverrideModalWindow={OverrideModalWindow}
-    >
-      <FiltersHeader>
-        <h3 className="h3">More Filters</h3>
-      </FiltersHeader>
+    <>
+      <noscript>
+        <>
+          <RenderMoreFilters
+            filtersToShow={filtersToShow}
+            subjectsFilter={subjectsFilter}
+            genresFilter={genresFilter}
+            languagesFilter={languagesFilter}
+            changeHandler={changeHandler}
+            languagesInUrl={languagesInUrl}
+            genresInUrl={genresInUrl}
+            subjectsInUrl={subjectsInUrl}
+          />
+        </>
+      </noscript>
+      <Modal
+        id={id}
+        isActive={showMoreFiltersModal}
+        setIsActive={setMoreFiltersModal}
+        openButtonRef={openMoreFiltersButtonRef}
+        OverrideModalWindow={OverrideModalWindow}
+      >
+        <FiltersHeader>
+          <h3 className="h3">More Filters</h3>
+        </FiltersHeader>
 
-      <ModalInner>
-        {filtersToShow.includes('subjects') && subjectsFilter.length > 0 && (
-          <FilterSection>
-            <h3 className="h3">Subjects</h3>
-            <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-              <div
-                className={classNames({
-                  'no-margin no-padding plain-list': true,
-                })}
-              >
-                <RadioGroup
-                  name="subjects"
-                  selected={subjectsInUrl}
-                  onChange={changeHandler}
-                  options={getAggregationRadioGroup(subjectsFilter, 'mobile')}
-                />
-              </div>
-            </Space>
-          </FilterSection>
-        )}
-        {filtersToShow.includes('genres') && subjectsFilter.length > 0 && (
-          <FilterSection>
-            <h3 className="h3">Genres</h3>
-            <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-              <div
-                className={classNames({
-                  'no-margin no-padding plain-list': true,
-                })}
-              >
-                <RadioGroup
-                  name="genres"
-                  selected={genresInUrl}
-                  onChange={changeHandler}
-                  options={getAggregationRadioGroup(genresFilter, 'mobile')}
-                />
-              </div>
-            </Space>
-          </FilterSection>
-        )}
-        {filtersToShow.includes('languages') && languagesFilter.length > 0 && (
-          <FilterSection>
-            <h3 className="h3">Languages</h3>
-            <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-              <ul
-                className={classNames({
-                  'no-margin no-padding plain-list': true,
-                })}
-              >
-                {languagesFilter.map(language => {
-                  const isChecked = languagesInUrl.includes(language.data.id);
+        <ModalInner>
+          <RenderMoreFilters
+            filtersToShow={filtersToShow}
+            subjectsFilter={subjectsFilter}
+            genresFilter={genresFilter}
+            languagesFilter={languagesFilter}
+            changeHandler={changeHandler}
+            languagesInUrl={languagesInUrl}
+            genresInUrl={genresInUrl}
+            subjectsInUrl={subjectsInUrl}
+          />
+        </ModalInner>
+        <FiltersFooter>
+          <NextLink
+            passHref
+            {...worksLink(
+              {
+                query: worksRouteProps.query,
+              },
+              'cancel_filter/all'
+            )}
+          >
+            <a>Reset filters</a>
+          </NextLink>
 
-                  return (
-                    (language.count > 0 || isChecked) && (
-                      <Space
-                        as="li"
-                        v={{ size: 'l', properties: ['margin-bottom'] }}
-                        key={`desktop-${language.data.id}`}
-                      >
-                        <CheckboxRadio
-                          id={`desktop-${language.data.id}`}
-                          type={`checkbox`}
-                          text={`${language.data.label} (${language.count})`}
-                          value={language.data.id}
-                          name={`languageOptions`}
-                          checked={isChecked}
-                          onChange={changeHandler}
-                          ariaLabel={searchFilterCheckBox(language.data.label)}
-                        />
-                      </Space>
-                    )
-                  );
-                })}
-              </ul>
-            </Space>
-          </FilterSection>
-        )}
-      </ModalInner>
-      <FiltersFooter>
-        <NextLink
-          passHref
-          {...worksLink(
-            {
-              query: worksRouteProps.query,
-            },
-            'cancel_filter/all'
-          )}
-        >
-          <a>Reset filters</a>
-        </NextLink>
-
-        <ButtonSolid
-          ref={undefined}
-          type={ButtonTypes.button}
-          clickHandler={() => {
-            setMoreFiltersModal(false);
-          }}
-          text="Show results"
-        />
-      </FiltersFooter>
-    </Modal>
+          <ButtonSolid
+            ref={undefined}
+            type={ButtonTypes.button}
+            clickHandler={() => {
+              setMoreFiltersModal(false);
+            }}
+            text="Show results"
+          />
+        </FiltersFooter>
+      </Modal>
+    </>
   );
 };
 
