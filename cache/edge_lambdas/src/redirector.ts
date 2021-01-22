@@ -76,8 +76,11 @@ export const getRedirect = (
     if (paramsAreSubset(requestParams, potentialRedirect.params)) {
       // Do not forward any of the params in the rule
       potentialRedirect.params.forEach((_, key) => requestParams.delete(key));
+      const requestParamsString = requestParams.toString();
       return redirect301(
-        potentialRedirect.redirectPath + '?' + requestParams.toString()
+        requestParamsString
+          ? potentialRedirect.redirectPath + '?' + requestParamsString
+          : potentialRedirect.redirectPath
       );
     }
   }
