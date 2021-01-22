@@ -2,26 +2,6 @@ import { CloudFrontRequestEvent, CloudFrontResponse } from 'aws-lambda';
 import { URLSearchParams } from 'url';
 import { literalRedirects, queryRedirects } from './redirects';
 
-// This is a more convenient form of the query redirects that looks like:
-// {
-//   [original path to match]: {
-//     params: [URLSearchParams to match]
-//     redirectPath: [path to redirect to]
-//   }
-// }
-const searchParamsRedirects: Map<
-  string,
-  { params: URLSearchParams; redirectPath: string }
-> = new Map();
-for (const fromString in queryRedirects) {
-  const fromUrl = new URL(fromString, 'https://wellcomecollection.org');
-  const params = fromUrl.searchParams;
-  searchParamsRedirects.set(fromUrl.pathname, {
-    params,
-    redirectPath: queryRedirects[fromString],
-  });
-}
-
 const redirect301 = (path: string) => ({
   status: '301',
   statusDescription: 'Found',
@@ -66,9 +46,8 @@ export const getRedirect = (
     return redirect301(literalRedirects[uriSansSlash]);
   }
 
-  if (request.querystring && searchParamsRedirects.has(uriSansSlash)) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const potentialRedirect = searchParamsRedirects.get(uriSansSlash)!;
+  if (request.querystring && queryRedirects[uriSansSlash]) {
+    const potentialRedirect = queryRedirects[uriSansSlash];
     const requestParams = new URLSearchParams(request.querystring);
 
     // A redirect occurs if all of the params in the redirect rule are contained

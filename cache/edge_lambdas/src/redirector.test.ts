@@ -48,8 +48,15 @@ jest.mock('./redirects', () => {
   return {
     ...defaultRedirects,
     queryRedirects: {
-      '/works?search=images': '/images',
-      '/test?beep=boop&bing=bong&fizz=buzz': '/test-destination',
+      ...defaultRedirects.queryRedirects,
+      '/test': {
+        params: new URLSearchParams({
+          beep: 'boop',
+          bing: 'bong',
+          fizz: 'buzz',
+        }),
+        redirectPath: '/test-destination',
+      },
     },
   };
 });

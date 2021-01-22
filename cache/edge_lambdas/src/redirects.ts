@@ -173,6 +173,21 @@ export const literalRedirects: Record<string, string> = {
   '/articles/X_dsXREAACMASftU': '/articles/X_g6ohEAACQATYJF',
 };
 
-export const queryRedirects: Record<string, string> = {
-  '/works?search=images': '/images',
+// Query redirects have the form:
+// {
+//   [original path to match]: {
+//     params: [URLSearchParams to match]
+//     redirectPath: [path to redirect to]
+//   }
+// }
+export const queryRedirects: Record<
+  string,
+  { params: URLSearchParams; redirectPath: string }
+> = {
+  '/works': {
+    params: new URLSearchParams({
+      search: 'images',
+    }),
+    redirectPath: '/images',
+  },
 };
