@@ -9,6 +9,7 @@ import SegmentedControl from '../SegmentedControl/SegmentedControl';
 import CardGrid from '../CardGrid/CardGrid';
 import { type UiEvent } from '../../../model/events';
 import { type Link } from '../../../model/link';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 type Props = {|

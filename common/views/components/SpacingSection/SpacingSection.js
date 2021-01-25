@@ -1,6 +1,7 @@
 // @flow
 
 import type { Node } from 'react';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 type Props = {|

@@ -1,15 +1,10 @@
 import { Work as WorkType } from '@weco/common/model/catalogue';
-import { useEffect, useState, FunctionComponent, ReactElement } from 'react';
-import fetch from 'isomorphic-unfetch';
+import { useEffect, FunctionComponent, ReactElement } from 'react';
 import { grid, classNames, font } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
   sierraIdFromPresentationManifestUrl,
 } from '@weco/common/utils/works';
-import {
-  getFirstChildManifestLocation,
-  getCanvases,
-} from '@weco/common/utils/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
@@ -30,7 +25,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
 import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import useHotjar from '@weco/common/hooks/useHotjar';
-import { IIIFManifest } from '@weco/common/model/iiif';
+import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -67,29 +62,16 @@ const Work: FunctionComponent<Props> = ({
 
   const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
   useHotjar(isInArchive);
+
+  const {
+    childManifestsCount,
+    firstChildManifestLocation,
+  } = useIIIFManifestData(work);
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
     'iiif-presentation'
   );
-  const [iiifPresentationManifest, setIIIFPresentationManifest] = useState<
-    IIIFManifest
-  >();
-  const [imageTotal, setImageTotal] = useState(0);
-  const [childManifestsCount, setChildManifestsCount] = useState(0);
-  const fetchIIIFPresentationManifest = async () => {
-    try {
-      const iiifManifest =
-        iiifPresentationLocation && (await fetch(iiifPresentationLocation.url));
-      const manifestData = iiifManifest && (await iiifManifest.json());
-      if (manifestData) {
-        setImageTotal(getCanvases(manifestData).length);
-      }
-      if (manifestData && manifestData.manifests) {
-        setChildManifestsCount(manifestData.manifests.length);
-      }
-      setIIIFPresentationManifest(manifestData);
-    } catch (e) {}
-  };
+
   const workData = {
     workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),
   };
@@ -100,12 +82,7 @@ const Work: FunctionComponent<Props> = ({
         event: 'pageview',
         work: JSON.stringify(workData),
       });
-    fetchIIIFPresentationManifest();
   }, []);
-
-  const firstChildManifestLocation =
-    iiifPresentationManifest &&
-    getFirstChildManifestLocation(iiifPresentationManifest);
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
@@ -214,13 +191,7 @@ const Work: FunctionComponent<Props> = ({
             <ArchiveDetailsContainer>
               <ArchiveTree work={work} />
               <Space v={{ size: 'l', properties: ['padding-top'] }}>
-                <WorkDetails
-                  work={work}
-                  itemUrl={itemUrlObject}
-                  iiifPresentationManifest={iiifPresentationManifest}
-                  childManifestsCount={childManifestsCount}
-                  imageCount={imageTotal}
-                />
+                <WorkDetails work={work} itemUrl={itemUrlObject} />
               </Space>
             </ArchiveDetailsContainer>
           </div>
@@ -235,13 +206,7 @@ const Work: FunctionComponent<Props> = ({
               />
             </div>
           </div>
-          <WorkDetails
-            work={work}
-            itemUrl={itemUrlObject}
-            iiifPresentationManifest={iiifPresentationManifest}
-            childManifestsCount={childManifestsCount}
-            imageCount={imageTotal}
-          />
+          <WorkDetails work={work} itemUrl={itemUrlObject} />
         </>
       )}
 

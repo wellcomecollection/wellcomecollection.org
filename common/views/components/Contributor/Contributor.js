@@ -7,6 +7,7 @@ import LinkLabels from '../LinkLabels/LinkLabels';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import type { Contributor as ContributorType } from '../../../model/contributors';
 import type { Props as ImageProps } from '../Image/Image';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 const Contributor = ({ contributor, role, description }: ContributorType) => {

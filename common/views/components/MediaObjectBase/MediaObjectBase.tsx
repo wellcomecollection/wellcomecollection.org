@@ -19,7 +19,7 @@ import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import ImageType from '../Image/Image';
 import { ColorSelection } from '../../../model/color-selections';
-import Space from '../styled/Space';
+import Space, { VerticalSpaceProperty } from '../styled/Space';
 import styled from 'styled-components';
 
 type Props = {
@@ -75,6 +75,14 @@ const BaseTextWrapper = styled.div.attrs<HasImageProps>(props => {
   };
 })<HasImageProps>``;
 
+type LinkOrDivSpaceAttrs = {
+  url?: string;
+};
+const LinkOrDivSpace = styled(Space).attrs<LinkOrDivSpaceAttrs>(props => ({
+  as: props.url ? 'a' : 'div',
+  href: props.url || undefined,
+}))<LinkOrDivSpaceAttrs>``;
+
 const MediaObjectBase: FunctionComponent<Props> = ({
   url,
   title,
@@ -102,17 +110,18 @@ const MediaObjectBase: FunctionComponent<Props> = ({
   const TextWrapper = OverrideTextWrapper || BaseTextWrapper;
   const TitleWrapper = OverrideTitleWrapper || BaseTitleWrapper;
   const descriptionIsString = typeof description === 'string';
+  const urlProp = urlOverride || url || undefined;
+
   return (
-    <Space
+    <LinkOrDivSpace
       v={{
         size: 'l',
         properties: [
           'padding-top',
           x === y ? undefined : 'padding-bottom',
-        ].filter(Boolean),
+        ].filter(Boolean) as VerticalSpaceProperty[],
       }}
-      as={url ? 'a' : 'div'}
-      href={urlOverride || url}
+      url={urlProp}
       className={conditionalClassNames({
         grid: true,
         'card-link': Boolean(url),
@@ -171,7 +180,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
           </Space>
         )}
       </TextWrapper>
-    </Space>
+    </LinkOrDivSpace>
   );
 };
 

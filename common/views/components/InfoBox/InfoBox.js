@@ -6,6 +6,7 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Icon from '../Icon/Icon';
 import type { Element } from 'react';
 import type { LabelField } from '../../../model/label-field';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 type Props = {|

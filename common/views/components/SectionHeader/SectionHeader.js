@@ -1,5 +1,6 @@
 // @flow
 import { grid, font } from '../../../utils/classnames';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
 

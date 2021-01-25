@@ -7,6 +7,7 @@ import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import { type ExhibitionPromo as ExhibitionPromoProps } from '../../../model/exhibitions';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
 

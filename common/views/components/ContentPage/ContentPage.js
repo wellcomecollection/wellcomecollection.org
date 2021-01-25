@@ -17,6 +17,7 @@ import SpacingComponent from '../SpacingComponent/SpacingComponent';
 // $FlowFixMe(tsx)
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
@@ -166,13 +167,11 @@ const ContentPage = ({
 
           {seasons.length > 0 &&
             seasons.map(season => (
-            <SpacingSection key={season.id}>
-              <Layout12>
-                <BannerCard
-                  item={season}
-                  />
-              </Layout12>
-            </SpacingSection>
+              <SpacingSection key={season.id}>
+                <Layout12>
+                  <BannerCard item={season} />
+                </Layout12>
+              </SpacingSection>
             ))}
         </div>
       </article>

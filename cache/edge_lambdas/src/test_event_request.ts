@@ -1,12 +1,18 @@
-module.exports = {
+import { CloudFrontRequestEvent } from 'aws-lambda';
+
+const request: CloudFrontRequestEvent = {
   Records: [
     {
       cf: {
         config: {
           distributionId: 'EXAMPLE',
+          distributionDomainName: '',
+          requestId: '',
+          eventType: 'origin-request',
         },
         request: {
           uri: '/articles/things',
+          querystring: '',
           method: 'GET',
           clientIp: '2001:cdba::3257:9652',
           headers: {
@@ -34,3 +40,5 @@ module.exports = {
     },
   ],
 };
+
+export default request;

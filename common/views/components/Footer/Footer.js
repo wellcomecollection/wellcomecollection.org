@@ -12,6 +12,7 @@ import Icon from '../Icon/Icon';
 import type { OverrideType } from '../../../model/opening-hours';
 import type Moment from 'moment';
 import styled from 'styled-components';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import FooterOpeningTimes from '@weco/common/views/components/FooterOpeningTimes/FooterOpeningTimes';

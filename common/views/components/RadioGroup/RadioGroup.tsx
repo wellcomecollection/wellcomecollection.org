@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 
 import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import { classNames } from '../../../utils/classnames';
 

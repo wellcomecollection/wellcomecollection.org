@@ -5,6 +5,7 @@ import FeaturedCard from '../FeaturedCard/FeaturedCard';
 import Card from '../Card/Card';
 // $FlowFixMe (tsx)
 import Layout12 from '../Layout12/Layout12';
+// $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|

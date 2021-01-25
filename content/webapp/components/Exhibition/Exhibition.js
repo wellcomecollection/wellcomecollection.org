@@ -23,6 +23,7 @@ import BookPromo from '@weco/common/views/components/BookPromo/BookPromo';
 import { font, grid } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { UiExhibition } from '@weco/common/model/exhibitions';
+// $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
 
 function getUpcomingExhibitionObject(exhibition) {

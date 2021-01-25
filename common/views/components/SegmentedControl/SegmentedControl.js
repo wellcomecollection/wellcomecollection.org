@@ -4,6 +4,7 @@ import { classNames, font } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 import { trackEvent } from '../../../utils/ga';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 type Props = {|

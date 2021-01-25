@@ -59,10 +59,10 @@ output "s3_edge_lambda_origin_version_id" {
 }
 
 output "latest_edge_lambda_origin_request_version" {
-  value = aws_lambda_function.edge_lambda_request.version
+  value = aws_lambda_function.edge_lambda["request"].version
 }
 
 output "latest_edge_lambda_origin_response_version" {
-  value = aws_lambda_function.edge_lambda_response.version
+  value = aws_lambda_function.edge_lambda["response"].version
 }
 

@@ -7,6 +7,7 @@ import PageHeader from '../PageHeader/PageHeader';
 import Body from '../Body/Body';
 // $FlowFixMe (tsx)
 import MoreLink from '../MoreLink/MoreLink';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 // $FlowFixMe (ts)
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';

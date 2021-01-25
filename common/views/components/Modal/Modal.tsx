@@ -7,6 +7,7 @@ import {
   FunctionComponent,
   RefObject,
   ComponentType,
+  createRef,
 } from 'react';
 import useFocusTrap from '../../../hooks/useFocusTrap';
 import styled from 'styled-components';
@@ -21,6 +22,14 @@ export const ModalContext = createContext<{
 }>({
   updateLastFocusableRef: () => null,
 });
+
+type HideFocusAttr = {
+  hideFocus: boolean;
+};
+
+type WidthAttr = {
+  width?: string | null;
+};
 
 type Props = {
   children: ReactNode;
@@ -46,12 +55,12 @@ const Overlay = styled.div`
   `}
 `;
 
-const CloseButton = styled(Space).attrs({
+const CloseButton = styled(Space).attrs<HideFocusAttr>({
   role: 'button',
   as: 'button',
   v: { size: 'm', properties: ['top'] },
   h: { size: 'm', properties: ['left'] },
-})`
+})<HideFocusAttr>`
   position: fixed;
   width: 28px;
   height: 28px;
@@ -82,13 +91,13 @@ const CloseButton = styled(Space).attrs({
   `}
 `;
 
-const BaseModalWindow = styled(Space).attrs({
+const BaseModalWindow = styled(Space).attrs<WidthAttr>({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
   className: classNames({
     'shadow bg-white font-black': true,
   }),
-})`
+})<WidthAttr>`
   z-index: 10001;
   top: 0;
   bottom: 0;
@@ -162,7 +171,7 @@ const Modal: FunctionComponent<Props> = ({
 }: Props) => {
   const closeButtonRef: RefObject<HTMLInputElement> = useRef(null);
   const lastFocusableRef = useRef<HTMLInputElement | null>(null);
-  const modalRef: RefObject<HTMLElement> = useRef(null);
+  const modalRef: RefObject<HTMLDivElement> = createRef();
   const { isKeyboard } = useContext(AppContext);
   const ModalWindow = OverrideModalWindow || BaseModalWindow;
 

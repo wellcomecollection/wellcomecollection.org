@@ -18,6 +18,7 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { eventLd } from '@weco/common/utils/json-ld';
 // $FlowFixMe
 import { convertJsonToDates } from './event';
+// $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|

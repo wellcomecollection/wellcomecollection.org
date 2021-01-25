@@ -1,4 +1,4 @@
-import { ComponentType, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { Work } from '@weco/common/model/catalogue';
 import fetch from 'isomorphic-unfetch';
@@ -46,11 +46,9 @@ const IframeAuthMessage = styled.iframe`
   display: none;
 `;
 
-const IframePdfViewer: ComponentType<SpaceComponentProps> = styled(Space).attrs(
-  {
-    className: 'h-center',
-  }
-)`
+const IframePdfViewer = styled(Space).attrs({
+  className: 'h-center',
+})<SpaceComponentProps>`
   width: 90vw;
   height: 90vh;
   display: block;

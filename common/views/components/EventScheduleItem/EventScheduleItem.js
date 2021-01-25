@@ -12,6 +12,7 @@ import {
   isDatePast,
 } from '../../../utils/format-date';
 import type { UiEvent } from '../../../model/events';
+// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
 type Props = {|

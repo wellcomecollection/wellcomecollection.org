@@ -14,6 +14,7 @@ import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageL
 import { type Article } from '@weco/common/model/articles';
 import type { Page as PageType } from '@weco/common/model/pages';
 import { type PaginatedResults } from '@weco/common/services/prismic/types';
+// $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
 // $FlowFixMe (tsx)
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';

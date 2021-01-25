@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
+// $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
 
 const RatingContainer = styled(Space).attrs(props => ({

@@ -2,6 +2,7 @@
 import { type Node, type ComponentType } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
+// $FlowFixMe (tsx)
 import Space, { type SpaceComponentProps } from '../styled/Space';
 
 const PurpleTag: ComponentType<SpaceComponentProps> = styled(Space).attrs(

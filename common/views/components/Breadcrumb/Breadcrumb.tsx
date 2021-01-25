@@ -1,6 +1,6 @@
 import { font, classNames } from '../../../utils/classnames';
 import { breadcrumbsLd } from '../../../utils/json-ld';
-import Space from '../styled/Space';
+import Space, { HorizontalSpaceProperty } from '../styled/Space';
 import { FunctionComponent, ReactElement } from 'react';
 
 export type Breadcrumbs = {
@@ -34,7 +34,7 @@ const Breadcrumb: FunctionComponent<Props> = ({
               properties: [
                 'padding-right',
                 i !== 0 ? 'padding-left' : undefined,
-              ].filter(Boolean),
+              ].filter(Boolean) as HorizontalSpaceProperty[],
             }}
             key={text}
             className={classNames({
