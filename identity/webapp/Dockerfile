@@ -1,5 +1,5 @@
 
-FROM 770700576653.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity-node:12 as build
+FROM 760097843905.dkr.ecr.eu-west-1.amazonaws.com/node:12.18.3 as build
 
 WORKDIR /home/node/app
 
@@ -19,7 +19,7 @@ ENV NODE_ENV=production
 
 RUN yarn build
 
-FROM 770700576653.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity-node:12 as modules
+FROM 760097843905.dkr.ecr.eu-west-1.amazonaws.com/node:12.18.3 as modules
 
 WORKDIR /home/node/app
 
@@ -28,7 +28,7 @@ COPY --from=build /home/node/app/yarn.lock /home/node/app/yarn.lock
 
 RUN yarn install --no-interactive --frozen-lockfile
 
-FROM 770700576653.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity-node:12
+FROM 760097843905.dkr.ecr.eu-west-1.amazonaws.com/node:12.18.3
 
 WORKDIR /home/node/app
 
