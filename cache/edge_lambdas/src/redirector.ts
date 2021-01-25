@@ -36,6 +36,19 @@ const paramsAreSubset = (
   return true;
 };
 
+const filterParams = (
+  params: URLSearchParams,
+  allow: Set<string>
+): URLSearchParams => {
+  const filtered = new URLSearchParams();
+  params.forEach((value, key) => {
+    if (allow.has(key)) {
+      filtered.append(key, value);
+    }
+  });
+  return filtered;
+};
+
 export const getRedirect = (
   event: CloudFrontRequestEvent
 ): CloudFrontResponse | undefined => {
@@ -49,13 +62,15 @@ export const getRedirect = (
   if (request.querystring && queryRedirects[uriSansSlash]) {
     const potentialRedirect = queryRedirects[uriSansSlash];
     const requestParams = new URLSearchParams(request.querystring);
-
     // A redirect occurs if all of the params in the redirect rule are contained
     // within the request
-    if (paramsAreSubset(requestParams, potentialRedirect.params)) {
-      // Do not forward any of the params in the rule
-      potentialRedirect.params.forEach((_, key) => requestParams.delete(key));
-      const requestParamsString = requestParams.toString();
+    if (paramsAreSubset(requestParams, potentialRedirect.matchParams)) {
+      // Only forward params that are in `forwardParams`
+      const newParams = filterParams(
+        requestParams,
+        potentialRedirect.forwardParams
+      );
+      const requestParamsString = newParams.toString();
       return redirect301(
         requestParamsString
           ? potentialRedirect.redirectPath + '?' + requestParamsString

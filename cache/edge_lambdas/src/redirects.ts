@@ -176,18 +176,27 @@ export const literalRedirects: Record<string, string> = {
 // Query redirects have the form:
 // {
 //   [original path to match]: {
-//     params: [URLSearchParams to match]
+//     matchParams: [URLSearchParams to match]
+//     forwardParams: [param keys to forward if present]
 //     redirectPath: [path to redirect to]
 //   }
 // }
-export const queryRedirects: Record<
-  string,
-  { params: URLSearchParams; redirectPath: string }
-> = {
+type QueryRedirect = {
+  matchParams: URLSearchParams;
+  forwardParams: Set<string>;
+  redirectPath: string;
+};
+export const queryRedirects: Record<string, QueryRedirect> = {
   '/works': {
-    params: new URLSearchParams({
+    matchParams: new URLSearchParams({
       search: 'images',
     }),
+    forwardParams: new Set([
+      'query',
+      'images.color',
+      'locations.license',
+      'page',
+    ]),
     redirectPath: '/images',
   },
 };

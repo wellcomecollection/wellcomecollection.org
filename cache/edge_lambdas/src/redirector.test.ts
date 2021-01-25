@@ -50,11 +50,12 @@ jest.mock('./redirects', () => {
     queryRedirects: {
       ...defaultRedirects.queryRedirects,
       '/test': {
-        params: new URLSearchParams({
+        matchParams: new URLSearchParams({
           beep: 'boop',
           bing: 'bong',
           fizz: 'buzz',
         }),
+        forwardParams: new Set(),
         redirectPath: '/test-destination',
       },
     },
@@ -77,14 +78,14 @@ describe('Query string redirects', () => {
     expect(nonRedirectedResponse).toBeUndefined();
   });
 
-  test('Strip the params in the definition from the 301 response URI, retain others', () => {
+  test('Only forwards params that are contained within forwardParams', () => {
     const redirectedResponse = getRedirect(
-      request('/test', 'bing=bong&fizz=buzz&beep=boop&foo=bar')
+      request('/works', 'search=images&query=beep&something=else')
     );
     expect(redirectedResponse?.status).toEqual('301');
     expect(redirectedResponse?.headers.location[0]).toEqual({
       key: 'Location',
-      value: 'https://wellcomecollection.org/test-destination?foo=bar',
+      value: 'https://wellcomecollection.org/images?query=beep',
     });
   });
 });
