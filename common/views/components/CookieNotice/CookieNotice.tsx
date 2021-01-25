@@ -43,7 +43,7 @@ const CookieNotice: FunctionComponent = () => {
   }, []);
 
   return shouldRender ? (
-    <CookieNoticeStyle>
+    <CookieNoticeStyle id="cookie-notice">
       <Layout12>
         <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
           <div className="flex flex--h-space-between">
