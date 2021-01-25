@@ -52,9 +52,10 @@ const ModalInner = styled.div`
   max-width: 600px;
   ${props => props.theme.media.large`
     width: 600px;
+    top: 10px;
   `}
   position: relative;
-  top: 10px;
+  top: 15px;
   overflow-y: auto;
   max-height: 80vh;
 `;
