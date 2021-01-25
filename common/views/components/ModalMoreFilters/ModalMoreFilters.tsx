@@ -173,7 +173,7 @@ const RenderMoreFilters: FunctionComponent<RenderMoreFiltersProps> = ({
 }: RenderMoreFiltersProps) => {
   return (
     <>
-      {filtersToShow.includes('subjects') && subjectsFilter.length > 0 && (
+      {filtersToShow.includes('subjects') && (
         <FilterSection>
           <h3 className="h3">Subjects</h3>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
@@ -182,17 +182,19 @@ const RenderMoreFilters: FunctionComponent<RenderMoreFiltersProps> = ({
                 'no-margin no-padding plain-list': true,
               })}
             >
-              <RadioGroup
-                name="subjects.label"
-                selected={subjectsInUrl}
-                onChange={changeHandler}
-                options={getAggregationRadioGroup(subjectsFilter, 'desktop')}
-              />
+              {subjectsFilter.length > 0 && (
+                <RadioGroup
+                  name="subjects.label"
+                  selected={subjectsInUrl}
+                  onChange={changeHandler}
+                  options={getAggregationRadioGroup(subjectsFilter, 'desktop')}
+                />
+              )}
             </div>
           </Space>
         </FilterSection>
       )}
-      {filtersToShow.includes('genres') && subjectsFilter.length > 0 && (
+      {filtersToShow.includes('genres') && (
         <FilterSection>
           <h3 className="h3">Genres</h3>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
@@ -201,17 +203,19 @@ const RenderMoreFilters: FunctionComponent<RenderMoreFiltersProps> = ({
                 'no-margin no-padding plain-list': true,
               })}
             >
-              <RadioGroup
-                name="genres.label"
-                selected={genresInUrl}
-                onChange={changeHandler}
-                options={getAggregationRadioGroup(genresFilter, 'mobile')}
-              />
+              {subjectsFilter.length > 0 && (
+                <RadioGroup
+                  name="genres.label"
+                  selected={genresInUrl}
+                  onChange={changeHandler}
+                  options={getAggregationRadioGroup(genresFilter, 'mobile')}
+                />
+              )}
             </div>
           </Space>
         </FilterSection>
       )}
-      {filtersToShow.includes('languages') && languagesFilter.length > 0 && (
+      {filtersToShow.includes('languages') && (
         <FilterSection>
           <h3 className="h3">Languages</h3>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
@@ -220,30 +224,30 @@ const RenderMoreFilters: FunctionComponent<RenderMoreFiltersProps> = ({
                 'no-margin no-padding plain-list': true,
               })}
             >
-              {languagesFilter.map(language => {
-                const isChecked = languagesInUrl.includes(language.data.id);
-
-                return (
-                  (language.count > 0 || isChecked) && (
-                    <Space
-                      as="li"
-                      v={{ size: 'l', properties: ['margin-bottom'] }}
-                      key={`desktop-${language.data.id}`}
-                    >
-                      <CheckboxRadio
-                        id={`desktop-${language.data.id}`}
-                        type={`checkbox`}
-                        text={`${language.data.label} (${language.count})`}
-                        value={language.data.id}
-                        name={`languages`}
-                        checked={isChecked}
-                        onChange={changeHandler}
-                        ariaLabel={searchFilterCheckBox(language.data.label)}
-                      />
-                    </Space>
-                  )
-                );
-              })}
+              {languagesFilter.length > 0 &&
+                languagesFilter.map(language => {
+                  const isChecked = languagesInUrl.includes(language.data.id);
+                  return (
+                    (language.count > 0 || isChecked) && (
+                      <Space
+                        as="li"
+                        v={{ size: 'l', properties: ['margin-bottom'] }}
+                        key={`desktop-${language.data.id}`}
+                      >
+                        <CheckboxRadio
+                          id={`desktop-${language.data.id}`}
+                          type={`checkbox`}
+                          text={`${language.data.label} (${language.count})`}
+                          value={language.data.id}
+                          name={`languages`}
+                          checked={isChecked}
+                          onChange={changeHandler}
+                          ariaLabel={searchFilterCheckBox(language.data.label)}
+                        />
+                      </Space>
+                    )
+                  );
+                })}
             </ul>
           </Space>
         </FilterSection>
