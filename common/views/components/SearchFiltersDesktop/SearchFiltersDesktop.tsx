@@ -40,6 +40,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   languagesInUrl,
   subjectsInUrl,
   genresInUrl,
+  isEnhanced,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
@@ -241,6 +242,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   subjectsInUrl={subjectsInUrl}
                   genresInUrl={genresInUrl}
                   worksRouteProps={worksRouteProps}
+                  isEnhanced={isEnhanced}
                 />
               </Space>
             )}

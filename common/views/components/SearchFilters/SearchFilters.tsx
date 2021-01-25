@@ -18,7 +18,7 @@ import SearchFiltersMobile from '../SearchFiltersMobile/SearchFiltersMobile';
 import ModalFilters from '../ModalFilters/ModalFilters';
 import theme from '../../themes/default';
 import TogglesContext from '../TogglesContext/TogglesContext';
-
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 type Props = {
   searchForm: { current: HTMLFormElement | null };
   worksRouteProps: WorksRouteProps | ImagesRouteProps;
@@ -45,6 +45,7 @@ export type SearchFiltersSharedProps = Props & {
   languagesInUrl: string[];
   subjectsInUrl: string;
   genresInUrl: string;
+  isEnhanced: boolean;
 };
 
 const SearchFilters: FunctionComponent<Props> = ({
@@ -67,7 +68,7 @@ const SearchFilters: FunctionComponent<Props> = ({
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
   const { modalFiltersPrototype } = useContext(TogglesContext);
-
+  const { isEnhanced } = useContext(AppContext);
   const workTypeFilters = workTypeAggregations;
 
   useEffect(() => {
@@ -131,6 +132,7 @@ const SearchFilters: FunctionComponent<Props> = ({
     languagesInUrl,
     subjectsInUrl,
     genresInUrl,
+    isEnhanced,
   };
 
   return (

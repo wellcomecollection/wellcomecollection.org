@@ -36,6 +36,7 @@ type MoreFiltersProps = {
   aggregations: CatalogueAggregations | undefined;
   filtersToShow: string[];
   worksRouteProps: WorksRouteProps;
+  isEnhanced: boolean;
 } & sharedFiltersProps;
 
 type RenderMoreFiltersProps = {
@@ -185,7 +186,7 @@ const RenderMoreFilters: FunctionComponent<RenderMoreFiltersProps> = ({
                 name="subjects.label"
                 selected={subjectsInUrl}
                 onChange={changeHandler}
-                options={getAggregationRadioGroup(subjectsFilter, 'mobile')}
+                options={getAggregationRadioGroup(subjectsFilter, 'desktop')}
               />
             </div>
           </Space>
@@ -263,6 +264,7 @@ const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
   genresInUrl,
   subjectsInUrl,
   worksRouteProps,
+  isEnhanced,
 }: MoreFiltersProps) => {
   const languagesFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
     aggregations,
@@ -305,16 +307,18 @@ const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
         </FiltersHeader>
 
         <ModalInner>
-          <RenderMoreFilters
-            filtersToShow={filtersToShow}
-            subjectsFilter={subjectsFilter}
-            genresFilter={genresFilter}
-            languagesFilter={languagesFilter}
-            changeHandler={changeHandler}
-            languagesInUrl={languagesInUrl}
-            genresInUrl={genresInUrl}
-            subjectsInUrl={subjectsInUrl}
-          />
+          {isEnhanced && (
+            <RenderMoreFilters
+              filtersToShow={filtersToShow}
+              subjectsFilter={subjectsFilter}
+              genresFilter={genresFilter}
+              languagesFilter={languagesFilter}
+              changeHandler={changeHandler}
+              languagesInUrl={languagesInUrl}
+              genresInUrl={genresInUrl}
+              subjectsInUrl={subjectsInUrl}
+            />
+          )}
         </ModalInner>
         <FiltersFooter>
           <NextLink
