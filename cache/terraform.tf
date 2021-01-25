@@ -11,9 +11,7 @@ terraform {
 
 # Make sure we're using AWS as provider
 provider "aws" {
-  version = "~> 2.0"
   region  = "us-east-1"
-
   assume_role {
     role_arn = "arn:aws:iam::130871440101:role/experience-developer"
   }
