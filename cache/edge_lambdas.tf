@@ -23,25 +23,21 @@ data "aws_s3_bucket_object" "edge_lambda_origin" {
   key    = "edge_lambda_origin.zip"
 }
 
-resource "aws_lambda_function" "edge_lambda_request" {
-  function_name     = "cf_edge_lambda_request"
-  role              = aws_iam_role.edge_lambda_role.arn
-  runtime           = "nodejs12.x"
-  handler           = "origin.request"
-  s3_bucket         = "weco-lambdas"
-  s3_key            = "edge_lambda_origin.zip"
-  s3_object_version = data.aws_s3_bucket_object.edge_lambda_origin.version_id
-  publish           = true
-}
+resource "aws_lambda_function" "edge_lambda" {
+  for_each = toset(["request", "response"])
 
-resource "aws_lambda_function" "edge_lambda_response" {
-  function_name     = "cf_edge_lambda_response"
+  function_name     = "cf_edge_lambda_${each.key}"
   role              = aws_iam_role.edge_lambda_role.arn
   runtime           = "nodejs12.x"
-  handler           = "origin.response"
+  handler           = "origin.${each.key}"
   s3_bucket         = "weco-lambdas"
   s3_key            = "edge_lambda_origin.zip"
   s3_object_version = data.aws_s3_bucket_object.edge_lambda_origin.version_id
   publish           = true
+  environment {
+    variables = {
+      NODE_OPTIONS = "--enable-source-maps"
+    }
+  }
 }
 

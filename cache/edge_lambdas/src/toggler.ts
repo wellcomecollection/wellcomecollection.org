@@ -1,45 +1,51 @@
-'use strict';
-// TODO: Flow comment doc
-// test type
-// {
-//   id: 'outro',
-//   title: 'Outro',
-//   range: [0, 50], // Run this test on 50% of users
-//   range: [50, 100], // Run this test on 50% of users - not overlapping with ☝️
-//   when: (request, range) => {
-//     return request.uri.match(/^\/articles\/*/);
-//   }
-// }
+import {
+  CloudFrontHeaders,
+  CloudFrontRequest,
+  CloudFrontRequestEvent,
+  CloudFrontResponseEvent,
+} from 'aws-lambda';
+
+type Test = {
+  id: string;
+  title: string;
+  //   range: [0, 50], // Run this test on 50% of users
+  //   range: [50, 100], // Run this test on 50% of users - not overlapping with ☝️
+  range: [number, number];
+  // eg -
+  // when: (request) => {
+  //   return request.uri.match(/^\/articles\/*/);
+  // }
+  when: (request: CloudFrontRequest) => boolean;
+};
 
 // This is mutable for testing
-let tests = [];
-exports.tests = tests;
-exports.setTests = function(newTests) {
+export let tests: Test[] = [];
+export const setTests = function(newTests: Test[]): void {
   tests = newTests;
 };
 
 // Taken from https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-examples.html#lambda-examples-redirect-to-signin-page
-function parseToggleCookies(cookieHeader) {
-  const cookies =
-    cookieHeader && cookieHeader[0]
-      ? cookieHeader[0].value
-          .split(';')
-          .map(cookie => {
-            if (cookie) {
-              const parts = cookie.split('=');
-              const key = parts[0].trim();
-              const value = parts[1].trim();
-              if (key.match('toggle_')) {
-                return { key, value };
-              }
+function parseToggleCookies(
+  cookieHeader: CloudFrontHeaders[keyof CloudFrontHeaders]
+) {
+  return cookieHeader && cookieHeader[0]
+    ? cookieHeader[0].value
+        .split(';')
+        .map(cookie => {
+          if (cookie) {
+            const parts = cookie.split('=');
+            const key = parts[0].trim();
+            const value = parts[1].trim();
+            if (key.match('toggle_')) {
+              return { key, value };
             }
-          })
-          .filter(Boolean)
-      : [];
-  return cookies;
+          }
+        })
+        .filter((x): x is { key: string; value: string } => Boolean(x))
+    : [];
 }
 
-function randomFromRange(min, max) {
+function randomFromRange(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
@@ -47,7 +53,7 @@ function randomFromRange(min, max) {
 // 1. They are not already in the test - if so, maintain their state
 // 2. Once given a random point between 0/100, we see if this falls within the specified range
 // 3. Any custom conditions are met in the test.when method
-function shouldRun(test, request) {
+function shouldRun(test: Test, request: CloudFrontRequest) {
   const toggleCookies = parseToggleCookies(request.headers.cookie);
   const isAlreadyInTest = Boolean(
     toggleCookies.find(cookie => cookie.key === `toggle_${test.id}`)
@@ -60,7 +66,7 @@ function shouldRun(test, request) {
   return !isAlreadyInTest && inRange && test.when(request);
 }
 
-exports.request = (event, context) => {
+export const request = (event: CloudFrontRequestEvent): void => {
   const request = event.Records[0].cf.request;
 
   const newToggles = tests
@@ -84,7 +90,7 @@ exports.request = (event, context) => {
         }
       }
     })
-    .filter(Boolean);
+    .filter((x): x is { key: string; value: boolean } => Boolean(x));
 
   if (newToggles.length > 0) {
     // We can technically send multiple Cookie headers down the pipes, but not
@@ -112,7 +118,7 @@ exports.request = (event, context) => {
   }
 };
 
-exports.response = (event, context) => {
+export const response = (event: CloudFrontResponseEvent): void => {
   const request = event.Records[0].cf.request;
   const response = event.Records[0].cf.response;
 
