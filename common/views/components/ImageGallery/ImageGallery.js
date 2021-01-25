@@ -162,7 +162,6 @@ class ImageGallery extends Component<Props, State> {
               <div
                 className={classNames({
                   'absolute image-gallery-v2__background': true,
-                  'image-gallery-v2__background--standalone': isStandalone,
                 })}
                 style={{
                   bottom: 0,
@@ -277,7 +276,6 @@ class ImageGallery extends Component<Props, State> {
                                 [font('hnm', 5)]: true,
                               })}
                             >
-                              <span className="visually-hidden">slide </span>
                               {i + 1} of {items.length}
                             </Space>
                           ) : null
