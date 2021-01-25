@@ -43,8 +43,8 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
         "current",
         "page",
         "result",
-        "uri",
         "toggle",
+        "uri",
       ]
 
       cookies {
@@ -59,12 +59,12 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
 
     lambda_function_association {
       event_type = "origin-request"
-      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_request.qualified_arn
+      lambda_arn = aws_lambda_function.edge_lambda_request.qualified_arn
     }
 
     lambda_function_association {
       event_type = "origin-response"
-      lambda_arn = data.aws_lambda_function.versioned_edge_lambda_response.qualified_arn
+      lambda_arn = aws_lambda_function.edge_lambda_response.qualified_arn
     }
   }
 
@@ -100,12 +100,12 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
         "page",
         "query",
         "sierraId",
-        "workType",
-        "toggle",
         "source",
         "languages",
         "subjects.label",
-        "genres.label"
+        "genres.label",
+        "toggle",
+        "workType",
       ]
 
       cookies {
@@ -122,12 +122,12 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
 
     lambda_function_association {
       event_type = "origin-request"
-      lambda_arn = aws_lambda_function.edge_lambda["request"].qualified_arn
+      lambda_arn = aws_lambda_function.edge_lambda_request.qualified_arn
     }
 
     lambda_function_association {
       event_type = "origin-response"
-      lambda_arn = aws_lambda_function.edge_lambda["response"].qualified_arn
+      lambda_arn = aws_lambda_function.edge_lambda_response.qualified_arn
     }
   }
 
@@ -151,8 +151,8 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
         "locations.license",
         "page",
         "query",
-        "toggle",
         "source",
+        "toggle",
       ]
 
       cookies {
@@ -169,12 +169,12 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
 
     lambda_function_association {
       event_type = "origin-request"
-      lambda_arn = aws_lambda_function.edge_lambda["request"].qualified_arn
+      lambda_arn = aws_lambda_function.edge_lambda_request.qualified_arn
     }
 
     lambda_function_association {
       event_type = "origin-response"
-      lambda_arn = aws_lambda_function.edge_lambda["response"].qualified_arn
+      lambda_arn = aws_lambda_function.edge_lambda_response.qualified_arn
     }
   }
 

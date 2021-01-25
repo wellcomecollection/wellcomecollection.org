@@ -72,8 +72,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "current",
         "page",
         "result",
-        "uri",
         "toggle",
+        "uri",
       ]
 
       cookies {
@@ -129,12 +129,12 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "page",
         "query",
         "sierraId",
-        "workType",
-        "toggle",
         "source",
         "languages",
         "subjects.label",
-        "genres.label"
+        "genres.label",
+        "toggle",
+        "workType",
       ]
 
       cookies {
@@ -180,8 +180,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "locations.license",
         "page",
         "query",
-        "toggle",
         "source",
+        "toggle",
       ]
 
       cookies {

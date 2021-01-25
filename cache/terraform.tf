@@ -11,9 +11,7 @@ terraform {
 
 # Make sure we're using AWS as provider
 provider "aws" {
-  version = "~> 2.0"
   region  = "us-east-1"
-
   assume_role {
     role_arn = "arn:aws:iam::130871440101:role/experience-developer"
   }
@@ -59,10 +57,10 @@ output "s3_edge_lambda_origin_version_id" {
 }
 
 output "latest_edge_lambda_origin_request_version" {
-  value = aws_lambda_function.edge_lambda["request"].version
+  value = aws_lambda_function.edge_lambda_request.version
 }
 
 output "latest_edge_lambda_origin_response_version" {
-  value = aws_lambda_function.edge_lambda["response"].version
+  value = aws_lambda_function.edge_lambda_response.version
 }
 
