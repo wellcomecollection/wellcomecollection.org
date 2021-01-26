@@ -11,9 +11,9 @@ import {
 } from '@weco/common/services/catalogue/ts_routes';
 
 export const getNonEmptyFilters = (
-  bucketFilter: CatalogueAggregationBucket[]
+  bucket: CatalogueAggregationBucket[]
 ): CatalogueAggregationBucket[] => {
-  return bucketFilter.filter(items => {
+  return bucket.filter(items => {
     return items.count > 0;
   });
 };
