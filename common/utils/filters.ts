@@ -10,7 +10,7 @@ import {
   imagesLink,
 } from '@weco/common/services/catalogue/ts_routes';
 
-export const getFilterByCount = (
+export const getNonEmptyFilters = (
   bucketFilter: CatalogueAggregationBucket[]
 ): CatalogueAggregationBucket[] => {
   return bucketFilter.filter(items => {
@@ -23,7 +23,7 @@ export const getAggregationFilterByName = (
   name: string
 ): CatalogueAggregationBucket[] | [] => {
   return aggregations && aggregations?.[name]?.buckets
-    ? getFilterByCount(aggregations?.[name]?.buckets)
+    ? getNonEmptyFilters(aggregations?.[name]?.buckets)
     : [];
 };
 
