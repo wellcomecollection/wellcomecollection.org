@@ -25,7 +25,7 @@ type BaseModalProps = {
   width?: string | null;
 };
 
-type sharedFiltersProps = {
+type SharedFiltersProps = {
   changeHandler: () => void;
   languagesInUrl: string[];
   genresInUrl: string;
@@ -41,13 +41,13 @@ type MoreFiltersProps = {
   filtersToShow: string[];
   worksRouteProps: WorksRouteProps;
   isEnhanced: boolean;
-} & sharedFiltersProps;
+} & SharedFiltersProps;
 
 type RenderMoreFiltersProps = {
   genresFilter: CatalogueAggregationBucket[];
   languagesFilter: CatalogueAggregationBucket[];
   subjectsFilter: CatalogueAggregationBucket[];
-} & sharedFiltersProps;
+} & SharedFiltersProps;
 
 const ModalInner = styled.div`
   display: flex;
