@@ -284,6 +284,7 @@ const Works: NextPage<Props> = ({
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  console.info(context.query);
   const globalContextData = getGlobalContextData(context);
   const parsedParams = parseUrlParams(context.query);
   const params = WorksRoute.fromQuery(parsedParams);
