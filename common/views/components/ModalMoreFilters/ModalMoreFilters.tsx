@@ -166,7 +166,7 @@ const OverrideModalWindow = styled(Space).attrs<BaseModalProps>({
   }
 `;
 
-const RenderMoreFilters: FunctionComponent<MoreFiltersProps> = ({
+const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
   filtersToShow,
   subjectsFilter,
   genresFilter,
@@ -292,7 +292,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
     <>
       <noscript>
         <>
-          <RenderMoreFilters
+          <MoreFilters
             filtersToShow={filtersToShow}
             subjectsFilter={subjectsFilter}
             genresFilter={genresFilter}
@@ -317,7 +317,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
 
         <ModalInner>
           {isEnhanced && (
-            <RenderMoreFilters
+            <MoreFilters
               filtersToShow={filtersToShow}
               subjectsFilter={subjectsFilter}
               genresFilter={genresFilter}
