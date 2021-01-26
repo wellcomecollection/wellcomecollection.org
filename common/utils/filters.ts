@@ -4,7 +4,7 @@ import {
 } from '@weco/common/model/catalogue';
 import { nodeListValueToArray, inputValue } from '@weco/common/utils/forms';
 import { LinkProps } from 'next/link';
-
+import { RadioGroupOption } from '@weco/common/views/components/RadioGroup/RadioGroup';
 import {
   worksLink,
   imagesLink,
@@ -33,12 +33,6 @@ export const getAggregationFilterByName = (
   return aggregations && bucketName && aggregations?.[bucketName]?.buckets
     ? getNonEmptyFilters(aggregations?.[bucketName]?.buckets)
     : [];
-};
-
-type RadioGroupOption = {
-  value: string;
-  id: string;
-  label: string;
 };
 
 // sort by the highest count

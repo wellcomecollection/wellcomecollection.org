@@ -5,15 +5,17 @@ import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
 import Space from '../styled/Space';
 import { classNames } from '../../../utils/classnames';
 
+export type RadioGroupOption = {
+  value: string;
+  id: string;
+  label: string;
+};
+
 type Props = {
   name: string;
   selected: string;
   onChange: (value: string) => void;
-  options: {
-    value: string;
-    id: string;
-    label: string;
-  }[];
+  options: RadioGroupOption[];
 };
 
 const RadioGroup: FunctionComponent<Props> = ({
