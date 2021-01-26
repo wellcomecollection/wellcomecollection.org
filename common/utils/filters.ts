@@ -22,8 +22,16 @@ export const getAggregationFilterByName = (
   aggregations: CatalogueAggregations | undefined,
   name: string
 ): CatalogueAggregationBucket[] | [] => {
-  return aggregations && aggregations?.[name]?.buckets
-    ? getNonEmptyFilters(aggregations?.[name]?.buckets)
+  const bucketName =
+    aggregations &&
+    Object.keys(aggregations).find(aggregation => {
+      if (aggregation === name) {
+        return true;
+      }
+    });
+
+  return aggregations && bucketName && aggregations?.[bucketName]?.buckets
+    ? getNonEmptyFilters(aggregations?.[bucketName]?.buckets)
     : [];
 };
 
