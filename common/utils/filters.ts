@@ -69,9 +69,7 @@ export const getFilterItemSelected = (
   const selectedFilter = [...filterCheckboxes].filter(
     selectedFilter => selectedFilter.checked
   );
-  return selectedFilter.length > 0
-    ? selectedFilter.map(filter => filter.value)
-    : [];
+  return selectedFilter.map(filter => filter.value);
 };
 
 export const getResetFilterLink = (
