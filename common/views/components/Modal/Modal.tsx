@@ -23,11 +23,11 @@ export const ModalContext = createContext<{
   updateLastFocusableRef: () => null,
 });
 
-type HideFocusAttr = {
+type CloseButtonProps = {
   hideFocus: boolean;
 };
 
-type WidthAttr = {
+type BaseModalProps = {
   width?: string | null;
 };
 
@@ -55,12 +55,12 @@ const Overlay = styled.div`
   `}
 `;
 
-const CloseButton = styled(Space).attrs<HideFocusAttr>({
+const CloseButton = styled(Space).attrs<CloseButtonProps>({
   role: 'button',
   as: 'button',
   v: { size: 'm', properties: ['top'] },
   h: { size: 'm', properties: ['left'] },
-})<HideFocusAttr>`
+})<CloseButtonProps>`
   position: fixed;
   width: 28px;
   height: 28px;
@@ -91,13 +91,13 @@ const CloseButton = styled(Space).attrs<HideFocusAttr>({
   `}
 `;
 
-const BaseModalWindow = styled(Space).attrs<WidthAttr>({
+const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
   className: classNames({
     'shadow bg-white font-black': true,
   }),
-})<WidthAttr>`
+})<BaseModalProps>`
   z-index: 10001;
   top: 0;
   bottom: 0;

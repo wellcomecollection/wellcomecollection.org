@@ -21,7 +21,7 @@ import ButtonSolid, {
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { WorksRouteProps } from '@weco/common/services/catalogue/ts_routes';
 
-type WidthAttr = {
+type BaseModalProps = {
   width?: string | null;
 };
 
@@ -100,12 +100,12 @@ const FiltersHeader = styled(Space).attrs({
   width: 100%;
 `;
 
-const OverrideModalWindow = styled(Space).attrs<WidthAttr>({
+const OverrideModalWindow = styled(Space).attrs<BaseModalProps>({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
     'shadow bg-white font-black': true,
   }),
-})<WidthAttr>`
+})<BaseModalProps>`
   z-index: 10001;
   top: 0;
   bottom: 0;
