@@ -1,4 +1,4 @@
-version: "3.3"
+version: '3.3'
 services:
   common:
     image: common_webapp
@@ -18,8 +18,8 @@ services:
   identity:
     image: uk.ac.wellcome/identity_webapp:${CONTAINER_TAG:-test}
     build:
-      context: .
-      dockerfile: identity/Dockerfile
+      context: ./identity/webapp
+      dockerfile: Dockerfile
   cardigan:
     build:
       context: .
