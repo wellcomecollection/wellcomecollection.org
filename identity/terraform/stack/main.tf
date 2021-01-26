@@ -16,9 +16,11 @@ module "identity-service-18012021" {
     var.service_egress_security_group_id
   ]
 
-  env_vars = {
+  env_vars = merge({
     PROD_SUBDOMAIN = var.subdomain
-  }
+  }, var.env_vars)
+
+  secret_env_vars = merge({}, var.secret_env_vars)
 
   vpc_id  = local.vpc_id
   subnets = local.private_subnets
@@ -31,8 +33,7 @@ locals {
   target_group_arn = module.identity-service-18012021.target_group_arn
 }
 
-
-# This is used for the static assets served from _next with multiple next apps
+# This is used for the static assets served from _next with multiple next apps
 # See: https://github.com/zeit/next.js#multi-zones
 module "subdomain_listener" {
   source = "../../../infrastructure/terraform/modules/alb_listener_rule"
