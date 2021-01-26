@@ -32,7 +32,7 @@ type SharedFiltersProps = {
   subjectsInUrl: string;
   filtersToShow: string[];
 };
-type MoreFiltersProps = {
+type ModalMoreFiltersProps = {
   id: string;
   showMoreFiltersModal: boolean;
   setMoreFiltersModal: (arg: boolean) => void;
@@ -43,7 +43,7 @@ type MoreFiltersProps = {
   isEnhanced: boolean;
 } & SharedFiltersProps;
 
-type RenderMoreFiltersProps = {
+type MoreFiltersProps = {
   genresFilter: CatalogueAggregationBucket[];
   languagesFilter: CatalogueAggregationBucket[];
   subjectsFilter: CatalogueAggregationBucket[];
@@ -166,7 +166,7 @@ const OverrideModalWindow = styled(Space).attrs<BaseModalProps>({
   }
 `;
 
-const RenderMoreFilters: FunctionComponent<RenderMoreFiltersProps> = ({
+const RenderMoreFilters: FunctionComponent<MoreFiltersProps> = ({
   filtersToShow,
   subjectsFilter,
   genresFilter,
@@ -261,7 +261,7 @@ const RenderMoreFilters: FunctionComponent<RenderMoreFiltersProps> = ({
   );
 };
 
-const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
+const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
   id,
   showMoreFiltersModal,
   setMoreFiltersModal,
@@ -274,7 +274,7 @@ const ModalMoreFilters: FunctionComponent<MoreFiltersProps> = ({
   subjectsInUrl,
   worksRouteProps,
   isEnhanced,
-}: MoreFiltersProps) => {
+}: ModalMoreFiltersProps) => {
   const languagesFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
     aggregations,
     'languages'
