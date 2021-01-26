@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactElement, ReactNode } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 import { LinkProps } from '@weco/common/model/link-props';
 import {
   CatalogueAggregationBucket,
@@ -47,7 +47,7 @@ type CancelFilterProps = {
 const CancelFilter: FunctionComponent<CancelFilterProps> = ({
   text,
   children,
-}: CancelFilterProps): ReactElement<CancelFilterProps> => {
+}: CancelFilterProps) => {
   return (
     <Space
       as="span"
