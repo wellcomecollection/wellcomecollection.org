@@ -175,7 +175,7 @@ const RenderMoreFilters: FunctionComponent<MoreFiltersProps> = ({
   subjectsInUrl,
   genresInUrl,
   languagesInUrl,
-}: RenderMoreFiltersProps) => {
+}: MoreFiltersProps) => {
   return (
     <>
       {filtersToShow.includes('subjects') && (
