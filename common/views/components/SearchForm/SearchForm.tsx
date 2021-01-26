@@ -35,7 +35,6 @@ import {
   searchFormInputCatalogue,
   searchFormInputImage,
 } from '../../../text/arial-labels';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import {
   getFilterItemSelected,
   getSelectedFilterColor,
@@ -108,7 +107,6 @@ const SearchForm: FunctionComponent<Props> = ({
   const searchInput = useRef<HTMLInputElement>(null);
   const [forceState, setForceState] = useState(false);
   const [portalSortOrder, setPortalSortOrder] = useState(routeProps.sortOrder);
-  const { searchMoreFilters } = useContext(TogglesContext);
   function submit() {
     searchForm.current &&
       searchForm.current.dispatchEvent(
@@ -285,7 +283,6 @@ const SearchForm: FunctionComponent<Props> = ({
                   'subjects',
                 ]
           }
-          enableMoreFilters={Boolean(searchMoreFilters)}
         />
       )}
       {!isImageSearch && isEnhanced && (

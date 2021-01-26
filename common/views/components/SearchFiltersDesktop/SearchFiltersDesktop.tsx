@@ -1,6 +1,7 @@
 import React, {
   FunctionComponent,
   ReactElement,
+  useContext,
   useRef,
   useState,
 } from 'react';
@@ -18,6 +19,8 @@ import ButtonInline from '../ButtonInline/ButtonInline';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
 import { getResetFilterLink } from '@weco/common/utils/filters';
 import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
@@ -36,7 +39,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   workTypeInUrlArray,
   imagesColor,
   aggregations,
-  enableMoreFilters,
   languagesInUrl,
   subjectsInUrl,
   genresInUrl,
@@ -44,6 +46,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
+  const { searchMoreFilters } = useContext(TogglesContext);
 
   const resetFiltersRoute = {
     ...worksRouteProps,
@@ -215,7 +218,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 </DropdownButton>
               </Space>
             )}
-            {enableMoreFilters && !filtersToShow.includes('colors') && (
+            {searchMoreFilters && !filtersToShow.includes('colors') && (
               <Space
                 className={classNames({
                   [font('hnl', 5)]: true,
@@ -318,7 +321,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           workTypeInUrlArray={workTypeInUrlArray}
           aggregations={aggregations}
           resetFilters={resetFilters}
-          enableMoreFilters={enableMoreFilters}
           languagesInUrl={languagesInUrl}
           subjectsInUrl={subjectsInUrl}
           genresInUrl={genresInUrl}

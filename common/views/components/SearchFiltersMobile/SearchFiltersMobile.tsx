@@ -4,6 +4,7 @@ import {
   useEffect,
   FunctionComponent,
   ReactElement,
+  useContext,
 } from 'react';
 import dynamic from 'next/dynamic';
 import useFocusTrap from '../../../hooks/useFocusTrap';
@@ -32,6 +33,7 @@ import {
 } from '@weco/common/utils/filters';
 import { CatalogueAggregationBucket } from '@weco/common/model/catalogue';
 import RadioGroup from '@weco/common/views/components/RadioGroup/RadioGroup';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
@@ -176,7 +178,6 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   imagesColor,
   aggregations,
   filtersToShow,
-  enableMoreFilters,
   languagesInUrl,
   subjectsInUrl,
   genresInUrl,
@@ -186,7 +187,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   const okFiltersButtonRef = useRef<HTMLButtonElement>(null);
   const filtersModalRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(false);
-
+  const { searchMoreFilters } = useContext(TogglesContext);
   const languagesFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
     aggregations,
     'languages'
@@ -425,7 +426,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                   </Space>
                 </FilterSection>
               )}
-              {enableMoreFilters &&
+              {searchMoreFilters &&
                 filtersToShow.includes('subjects') &&
                 subjectsFilter.length > 0 && (
                   <FilterSection>
@@ -452,7 +453,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                     </Space>
                   </FilterSection>
                 )}
-              {enableMoreFilters &&
+              {searchMoreFilters &&
                 filtersToShow.includes('genres') &&
                 subjectsFilter.length > 0 && (
                   <FilterSection>
@@ -479,7 +480,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                     </Space>
                   </FilterSection>
                 )}
-              {enableMoreFilters &&
+              {searchMoreFilters &&
                 filtersToShow.includes('languages') &&
                 languagesFilter.length && (
                   <FilterSection>

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import React, { FunctionComponent, ReactNode, useContext } from 'react';
 import { LinkProps } from '@weco/common/model/link-props';
 import {
   CatalogueAggregationBucket,
@@ -14,6 +14,7 @@ import Space from '../styled/Space';
 import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
 import styled from 'styled-components';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type ResetActiveFilters = {
   workTypeFilters: CatalogueAggregationBucket[];
@@ -24,7 +25,6 @@ type ResetActiveFilters = {
   workTypeInUrlArray: string[];
   aggregations?: CatalogueAggregations;
   resetFilters: LinkProps;
-  enableMoreFilters: boolean;
   languagesInUrl: string[];
   subjectsInUrl: string;
   genresInUrl: string;
@@ -83,12 +83,12 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
   workTypeInUrlArray,
   aggregations,
   resetFilters,
-  enableMoreFilters,
   languagesInUrl,
   subjectsInUrl,
   genresInUrl,
 }: ResetActiveFilters) => {
   const languagesFilters = aggregations?.languages?.buckets || [];
+  const { searchMoreFilters } = useContext(TogglesContext);
   return (
     <Space
       v={{ size: 's', properties: ['padding-top'] }}
@@ -220,7 +220,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                 </NextLink>
               ))}
 
-          {enableMoreFilters &&
+          {searchMoreFilters &&
             languagesInUrl.map(id => {
               const language = languagesFilters.find(({ data }) => {
                 return data.id === id;
@@ -248,7 +248,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                 )
               );
             })}
-          {enableMoreFilters && subjectsInUrl && (
+          {searchMoreFilters && subjectsInUrl && (
             <NextLink
               passHref
               {...worksLink(
@@ -265,7 +265,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
               </a>
             </NextLink>
           )}
-          {enableMoreFilters && genresInUrl && (
+          {searchMoreFilters && genresInUrl && (
             <NextLink
               passHref
               {...worksLink(
