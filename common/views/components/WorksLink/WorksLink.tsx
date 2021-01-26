@@ -26,8 +26,6 @@ type WorksProps = {
   source: WorksPropsSource | 'unknown';
 };
 
-type Props = LinkFrom<WorksProps>;
-
 const fromQuery: QueryTo<WorksProps> = params => {
   return {
     query: toString(params.query, ''),
@@ -59,6 +57,7 @@ function toLink(params: WorksProps): LinkProps {
   };
 }
 
+type Props = LinkFrom<WorksProps>;
 const WorksLink: FunctionComponent<Props> = ({ children, ...props }: Props) => {
   return <NextLink {...toLink(props)}>{children}</NextLink>;
 };
