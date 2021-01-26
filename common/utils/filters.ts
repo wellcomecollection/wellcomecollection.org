@@ -20,7 +20,7 @@ export const getNonEmptyFilters = (
 
 export const getAggregationFilterByName = (
   aggregations: CatalogueAggregations | undefined,
-  name: string
+  name: keyof CatalogueAggregations
 ): CatalogueAggregationBucket[] | [] => {
   const bucketName =
     aggregations &&
