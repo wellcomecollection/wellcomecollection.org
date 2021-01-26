@@ -63,9 +63,9 @@ export const getAggregationRadioGroup = (
 
 export const getFilterItemSelected = (
   form: HTMLFormElement,
-  formName: string
+  inputElement: string
 ): string[] => {
-  const filterCheckboxes = nodeListValueToArray(form[formName]) || [];
+  const filterCheckboxes = nodeListValueToArray(form[inputElement]) || [];
   const selectedFilter = [...filterCheckboxes].filter(
     selectedFilter => selectedFilter.checked
   );
