@@ -20,11 +20,6 @@ import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { WorksRouteProps } from '@weco/common/services/catalogue/ts_routes';
-
-type BaseModalProps = {
-  width?: string | null;
-};
-
 type SharedFiltersProps = {
   changeHandler: () => void;
   languagesInUrl: string[];
@@ -98,72 +93,6 @@ const FiltersHeader = styled(Space).attrs({
   top: 0px;
   left: 0px;
   width: 100%;
-`;
-
-const OverrideModalWindow = styled(Space).attrs<BaseModalProps>({
-  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
-  className: classNames({
-    'shadow bg-white font-black': true,
-  }),
-})<BaseModalProps>`
-  z-index: 10001;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  position: fixed;
-  transition: opacity 350ms ease, transform 350ms ease;
-
-  &,
-  &.fade-exit-done {
-    z-index: -1;
-    pointer-events: none;
-  }
-  &.fade-enter,
-  &.fade-exit,
-  &.fade-enter-done {
-    z-index: 1001;
-    pointer-events: all;
-  }
-  &,
-  &.fade-enter,
-  &.fade-exit-active,
-  &.fade-exit-done {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  &.fade-enter-active,
-  &.fade-enter-done {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  ${props => props.theme.media.medium`
-    top: 50%;
-    left: 50%;
-    right: auto;
-    bottom: auto;
-    height: auto;
-    max-height: 90vh;
-    max-width: ${props.width || `${props.theme.sizes.large}px`}
-    width: ${props.width || 'auto'};
-    border-radius: ${props.theme.borderRadiusUnit}px;
-
-    &,
-    &.fade-enter,
-    &.fade-exit-active,
-    &.fade-exit-done {
-      transform: scale(0.9) translateX(-50%) translateY(-50%);
-    }
-    &.fade-enter-active,
-    &.fade-enter-done {
-      opacity: 1;
-      transform: scale(1) translateX(-50%) translateY(-50%);
-    }
-  `}
-  @media screen and (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
 `;
 
 const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
@@ -309,7 +238,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
         isActive={showMoreFiltersModal}
         setIsActive={setMoreFiltersModal}
         openButtonRef={openMoreFiltersButtonRef}
-        OverrideModalWindow={OverrideModalWindow}
+        overrideDefaultModalStyle={true}
       >
         <FiltersHeader>
           <h3 className="h3">More Filters</h3>
