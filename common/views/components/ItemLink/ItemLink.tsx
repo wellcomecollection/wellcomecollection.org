@@ -3,7 +3,6 @@ import { FunctionComponent } from 'react';
 import {
   LinkFrom,
   QueryTo,
-  toCsv,
   toMaybeNumber,
   toMaybeString,
   toSource,
