@@ -15,3 +15,13 @@ variable "nginx_image" {}
 variable "aws_region" {
   default = "eu-west-1"
 }
+
+variable "env_vars" {
+  type = map(string)
+  default = {}
+}
+
+variable "secret_env_vars" {
+  type = map(string)
+  default = {}
+}

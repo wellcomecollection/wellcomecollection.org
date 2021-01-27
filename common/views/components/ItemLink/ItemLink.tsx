@@ -1,9 +1,18 @@
 import NextLink, { LinkProps } from 'next/link';
-import { FunctionComponent, PropsWithChildren } from 'react';
+import { FunctionComponent } from 'react';
+import {
+  LinkFrom,
+  QueryTo,
+  toMaybeNumber,
+  toMaybeString,
+  toSource,
+  toString,
+} from '../../../utils/routes';
 
-type ItemLinkSource = 'images_search_result' | 'viewer/paginator';
+const itemPropsSources = ['images_search_result', 'viewer/paginator'] as const;
+type ItemPropsSource = typeof itemPropsSources[number];
 
-export type ItemQueryParams = {
+export type ItemProps = {
   workId: string;
   canvas?: number;
   page?: number;
@@ -12,18 +21,24 @@ export type ItemQueryParams = {
   sierraId?: string;
   isOverview?: boolean;
   resultPosition?: number;
-  source: ItemLinkSource;
+  source: ItemPropsSource | 'unknown';
 };
 
-// We remove `href` and `as` because we contruct those ourselves
-// in the component.
-type Props = ItemQueryParams & Omit<LinkProps, 'as' | 'href'>;
+const fromQuery: QueryTo<ItemProps> = params => {
+  return {
+    workId: toString(params.workId, ''),
+    canvas: toMaybeNumber(params.canvas),
+    page: toMaybeNumber(params.page),
+    pageSize: toMaybeNumber(params.pageSize),
+    langCode: toMaybeString(params.langCode),
+    sierraId: toMaybeString(params.sierraId),
+    isOverview: Boolean(params.isOverview),
+    resultPosition: toMaybeNumber(params.resultPosition),
+    source: toSource(params.source, itemPropsSources) || 'unknown',
+  };
+};
 
-export function itemLink({
-  workId,
-  source,
-  ...params
-}: ItemQueryParams): LinkProps {
+function toLink({ workId, source, ...params }: ItemProps): LinkProps {
   return {
     href: {
       pathname: `/item`,
@@ -40,7 +55,8 @@ export function itemLink({
   };
 }
 
-const ItemLink: FunctionComponent<PropsWithChildren<Props>> = ({
+type Props = LinkFrom<ItemProps>;
+const ItemLink: FunctionComponent<Props> = ({
   workId,
   sierraId,
   langCode,
@@ -52,10 +68,10 @@ const ItemLink: FunctionComponent<PropsWithChildren<Props>> = ({
   source,
   children,
   ...linkProps
-}: PropsWithChildren<Props>) => {
+}: Props) => {
   return (
     <NextLink
-      {...itemLink({
+      {...toLink({
         workId,
         source,
         langCode,
@@ -74,3 +90,4 @@ const ItemLink: FunctionComponent<PropsWithChildren<Props>> = ({
 };
 
 export default ItemLink;
+export { toLink, fromQuery };

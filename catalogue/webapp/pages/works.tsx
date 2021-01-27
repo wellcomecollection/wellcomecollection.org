@@ -2,11 +2,7 @@
 import { Fragment, useEffect, useState } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
-import {
-  CatalogueResultsList,
-  Work,
-  Image,
-} from '@weco/common/model/catalogue';
+import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import {
@@ -24,11 +20,8 @@ import {
 import {
   CatalogueWorksApiProps,
   worksRouteToApiUrl,
-  worksPropsToImagesProps,
 } from '@weco/common/services/catalogue/ts_api';
 import Space from '@weco/common/views/components/styled/Space';
-import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
-import { getImages } from '../services/catalogue/images';
 import { getWorks } from '../services/catalogue/works';
 import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
 import cookies from 'next-cookies';
@@ -48,7 +41,6 @@ import { parseUrlParams } from '@weco/common/utils/serialise-url';
 
 type Props = {
   works?: CatalogueResultsList<Work>;
-  images?: CatalogueResultsList<Image>;
   worksRouteProps: WorksRouteProps;
   shouldGetWorks: boolean;
   apiProps: CatalogueWorksApiProps;
@@ -58,15 +50,12 @@ type Props = {
 
 const Works: NextPage<Props> = ({
   works,
-  images,
   worksRouteProps,
   apiProps,
   globalContextData,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
-  const results: CatalogueResultsList<Work | Image> | undefined =
-    works || images;
 
   const {
     query,
@@ -77,7 +66,7 @@ const Works: NextPage<Props> = ({
 
   useEffect(() => {
     trackSearch(apiProps, {
-      totalResults: results && results.totalResults ? results.totalResults : 0,
+      totalResults: works?.totalResults ?? 0,
       source: Router.query.source || 'unspecified',
     });
   }, [worksRouteProps]);
@@ -98,12 +87,10 @@ const Works: NextPage<Props> = ({
     };
   }, []);
 
-  const isImageSearch = worksRouteProps.search === 'images';
-
   return (
     <Fragment>
       <Head>
-        {results && results.prevPage && (
+        {works?.prevPage && (
           <link
             rel="prev"
             href={convertUrlToString(
@@ -114,7 +101,7 @@ const Works: NextPage<Props> = ({
             )}
           />
         )}
-        {results && results.nextPage && (
+        {works?.nextPage && (
           <link
             rel="next"
             href={convertUrlToString(
@@ -143,7 +130,7 @@ const Works: NextPage<Props> = ({
           className={classNames(['row'])}
         >
           <div className="container">
-            {!results && <SearchTitle />}
+            {!works && <SearchTitle />}
 
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
@@ -164,14 +151,14 @@ const Works: NextPage<Props> = ({
                   aggregations={
                     works && works.aggregations ? works.aggregations : undefined
                   }
-                  showSortBy={Boolean(results)}
+                  showSortBy={Boolean(works)}
                 />
               </div>
             </div>
           </div>
         </Space>
 
-        {results && results.results.length > 0 && (
+        {works && works.results.length > 0 && (
           <Fragment>
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
@@ -187,8 +174,8 @@ const Works: NextPage<Props> = ({
                           query={query}
                           showPortal={true}
                           currentPage={page || 1}
-                          pageSize={results.pageSize}
-                          totalResults={results.totalResults}
+                          pageSize={works.pageSize}
+                          totalResults={works.totalResults}
                           link={worksLink(
                             {
                               ...worksRouteProps,
@@ -224,25 +211,13 @@ const Works: NextPage<Props> = ({
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
-                {(() => {
-                  if (images && isImageSearch) {
-                    return (
-                      <ImageEndpointSearchResults
-                        images={images}
-                        apiProps={worksPropsToImagesProps(apiProps)}
-                      />
-                    );
-                  }
-                  if (works) {
-                    return (
-                      <WorksSearchResults
-                        works={works}
-                        worksRouteProps={worksRouteProps}
-                        apiProps={apiProps}
-                      />
-                    );
-                  }
-                })()}
+                {works && (
+                  <WorksSearchResults
+                    works={works}
+                    worksRouteProps={worksRouteProps}
+                    apiProps={apiProps}
+                  />
+                )}
               </div>
 
               <Space
@@ -263,8 +238,8 @@ const Works: NextPage<Props> = ({
                           <Paginator
                             query={query}
                             currentPage={page || 1}
-                            pageSize={results.pageSize}
-                            totalResults={results.totalResults}
+                            pageSize={works.pageSize}
+                            totalResults={works.totalResults}
                             link={worksLink(
                               {
                                 ...worksRouteProps,
@@ -295,7 +270,7 @@ const Works: NextPage<Props> = ({
           </Fragment>
         )}
 
-        {results && results.results.length === 0 && (
+        {works && works.results.length === 0 && (
           <SearchNoResults
             query={query}
             hasFilters={Boolean(productionDatesFrom || productionDatesTo)}
@@ -312,8 +287,7 @@ export const getServerSideProps: GetServerSideProps<
   const globalContextData = getGlobalContextData(context);
   const parsedParams = parseUrlParams(context.query);
   const params = WorksRoute.fromQuery(parsedParams);
-  const { enableColorFiltering, searchMoreFilters } = globalContextData.toggles;
-  const _queryType = cookies(context)._queryType;
+  const { searchMoreFilters } = globalContextData.toggles;
   const isImageSearch = params.search === 'images';
   const defaultAggregations = ['workType', 'locationType'];
 
@@ -322,15 +296,12 @@ export const getServerSideProps: GetServerSideProps<
     ? [...defaultAggregations, ...moreFiltersAggregations]
     : defaultAggregations;
 
+  const _queryType = cookies(context)._queryType;
   const worksApiProps = worksRouteToApiUrl(params, {
     _queryType,
     aggregations,
   });
-
-  const hasQuery = !!(params.query && params.query !== '');
-
-  const shouldGetWorks = hasQuery && !isImageSearch;
-  const shouldGetImages = hasQuery && isImageSearch;
+  const shouldGetWorks = !!(params.query && params.query !== '');
   const works = shouldGetWorks
     ? await getWorks({
         params: worksApiProps,
@@ -342,43 +313,16 @@ export const getServerSideProps: GetServerSideProps<
     return appError(context, works.httpStatus, works.description);
   }
 
-  // TODO: increase pageSize to 100 when `isImageSearch` (but only if `isEnhanced`)
-  const imagesApiProps = {
-    ...worksPropsToImagesProps(worksApiProps),
-    color: enableColorFiltering ? params.imagesColor : undefined,
-  };
-  const images = shouldGetImages
-    ? await getImages({
-        params: imagesApiProps,
-        toggles: globalContextData.toggles,
-      })
-    : undefined;
-
-  if (images && images.type === 'Error') {
-    return appError(context, images.httpStatus, 'Images API error');
-  }
-
-  // This logic is wonky, but it'll be removed once we have the
-  // `/images` endpoint.
-  const pageviewProperties =
-    shouldGetWorks && works
-      ? { totalResults: works.totalResults }
-      : shouldGetImages && images
-      ? { totalResults: images.totalResults }
-      : {};
-
   return {
     props: removeUndefinedProps({
       works,
-      images,
       worksRouteProps: params,
       shouldGetWorks,
       apiProps: worksApiProps,
       globalContextData,
       pageview: {
-        // This is just like this for now until we move to the `/images` endpoint
-        name: isImageSearch ? 'images' : 'works',
-        properties: pageviewProperties,
+        name: 'works',
+        properties: works ? { totalResults: works.totalResults } : {},
       },
     }),
   };

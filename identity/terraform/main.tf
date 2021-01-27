@@ -37,5 +37,8 @@ module "identity-stage" {
   interservice_security_group_id   = local.stage_interservice_security_group_id
   service_egress_security_group_id = local.stage_service_egress_security_group_id
 
+  env_vars = local.service_env["stage"]["env_vars"]
+  secret_env_vars = local.service_env["stage"]["secret_env_vars"]
+
   subdomain = "identity.www-stage"
 }
