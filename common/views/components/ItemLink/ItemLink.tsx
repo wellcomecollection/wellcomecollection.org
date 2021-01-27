@@ -31,13 +31,10 @@ const fromQuery: QueryTo<ItemProps> = params => {
     canvas: toMaybeNumber(params.canvas),
     page: toMaybeNumber(params.page),
     pageSize: toMaybeNumber(params.pageSize),
-    workType: toCsv(params.workType),
-    sort: toMaybeString(params.sort),
-    sortOrder: toMaybeString(params.sortOrder),
-    itemsLocationsLocationType: toCsv(params['items.locations.locationType']),
-    itemsLocationsType: toCsv(params['items.locations.type']),
-    productionDatesFrom: toMaybeString(params['production.dates.from']),
-    productionDatesTo: toMaybeString(params['production.dates.to']),
+    langCode: toMaybeString(params.langCode),
+    sierraId: toMaybeString(params.sierraId),
+    isOverview: Boolean(params.isOverview),
+    resultPosition: toMaybeNumber(params.resultPosition),
     source: toSource(params.source, itemPropsSources) || 'unknown',
   };
 };
