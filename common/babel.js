@@ -10,9 +10,15 @@ module.exports = function(api) {
       },
     ],
   ];
+  const env = {
+    test: {
+      plugins: ['dynamic-import-node'],
+    },
+  };
 
   return {
     presets,
     plugins,
+    env,
   };
 };

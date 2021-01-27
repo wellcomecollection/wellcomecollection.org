@@ -4,6 +4,7 @@ import {
   useEffect,
   FunctionComponent,
   ReactElement,
+  useContext,
 } from 'react';
 import dynamic from 'next/dynamic';
 import useFocusTrap from '../../../hooks/useFocusTrap';
@@ -26,10 +27,14 @@ import {
   searchFilterCheckBox,
   searchFilterCloseButton,
 } from '../../../text/arial-labels';
+import TogglesContext from '../TogglesContext/TogglesContext';
 
-const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
+const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
+const PaletteColorPicker = dynamic(
+  import('../PaletteColorPicker/PaletteColorPicker')
+);
 
 const ShameButtonWrap = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -239,6 +244,9 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
     (productionDatesTo ? 1 : 0) +
     (imagesColor ? 1 : 0);
 
+  const { paletteColorFilter } = useContext(TogglesContext);
+  const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
+
   return (
     <Space
       v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
@@ -394,7 +402,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                     h={{ size: 'm', properties: ['margin-right'] }}
                   >
                     <ColorPicker
-                      color={imagesColor}
+                      color={imagesColor || undefined}
                       name="images.color"
                       onChangeColor={changeHandler}
                     />

@@ -75,6 +75,9 @@ module.exports = {
           'error',
           { ignoreRestSiblings: true },
         ],
+        // This rule does not support FunctionComponent<Props> and so
+        // makes using (eg) children props more of a pain than it should be
+        'react/prop-types': 'off',
       },
     },
   ],
