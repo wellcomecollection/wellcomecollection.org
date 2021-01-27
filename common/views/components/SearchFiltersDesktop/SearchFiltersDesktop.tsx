@@ -17,10 +17,13 @@ import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
 import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
 import ButtonInline from '../ButtonInline/ButtonInline';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
-import { getResetFilterLink } from '@weco/common/utils/filters';
+import {
+  getResetImagesFiltersLink,
+  getResetRouteProps,
+  getResetWorksFiltersLink,
+} from '@weco/common/utils/filters';
 import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-
 const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
@@ -47,23 +50,13 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
   const { searchMoreFilters } = useContext(TogglesContext);
-
-  const resetFiltersRoute = {
-    ...worksRouteProps,
-    itemsLocationsLocationType: [],
-    itemsLocationsType: [],
-    workType: [],
-    page: 1,
-    productionDatesFrom: null,
-    productionDatesTo: null,
-    subjectsLabel: null,
-    genresLabel: null,
-    languages: null,
-  };
+  const resetFiltersRoute = getResetRouteProps(worksRouteProps);
+  const resetFilters = imagesColor
+    ? getResetImagesFiltersLink(resetFiltersRoute)
+    : getResetWorksFiltersLink(resetFiltersRoute);
 
   const [showMoreFiltersModal, setMoreFiltersModal] = useState(false);
   const openMoreFiltersButtonRef = useRef(null);
-  const resetFilters = getResetFilterLink(imagesColor, resetFiltersRoute);
 
   function showActiveFilters() {
     const imagesFilter = imagesColor;

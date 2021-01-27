@@ -3,11 +3,12 @@ import {
   CatalogueAggregations,
 } from '@weco/common/model/catalogue';
 import { nodeListValueToArray, inputValue } from '@weco/common/utils/forms';
-import { LinkProps } from 'next/link';
+import { LinkProps } from '@weco/common/model/link-props';
 import { RadioGroupOption } from '@weco/common/views/components/RadioGroup/RadioGroup';
 import {
   worksLink,
   imagesLink,
+  WorksRouteProps,
 } from '@weco/common/services/catalogue/ts_routes';
 
 export const getNonEmptyFilters = (
@@ -74,17 +75,36 @@ export const getFilterItemSelected = (
   return selectedFilter.map(filter => filter.value);
 };
 
-export const getResetFilterLink = (
-  imagesColor: string | null,
-  resetFiltersRoute: any
-): any => {
-  const resetFiltersLink: LinkProps = imagesColor
-    ? imagesLink(
-        { ...resetFiltersRoute, locationsLicense: null, color: null },
-        'cancel_filter/all'
-      )
-    : worksLink(resetFiltersRoute, 'cancel_filter/all');
-  return resetFiltersLink;
+export const getResetWorksFiltersLink = (
+  resetFiltersRoute: WorksRouteProps
+): LinkProps => {
+  return worksLink(resetFiltersRoute, 'cancel_filter/all');
+};
+
+export const getResetImagesFiltersLink = (
+  resetFiltersRoute: WorksRouteProps
+): LinkProps => {
+  return imagesLink(
+    { ...resetFiltersRoute, locationsLicense: null, color: null },
+    'cancel_filter/all'
+  );
+};
+
+export const getResetRouteProps = (
+  worksRouteProps: WorksRouteProps
+): WorksRouteProps => {
+  return {
+    ...worksRouteProps,
+    itemsLocationsLocationType: [],
+    itemsLocationsType: [],
+    workType: [],
+    page: 1,
+    productionDatesFrom: null,
+    productionDatesTo: null,
+    subjectsLabel: null,
+    genresLabel: null,
+    languages: null,
+  };
 };
 
 export const getSelectedFilterColor = (form: HTMLFormElement): string => {

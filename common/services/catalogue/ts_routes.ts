@@ -114,7 +114,7 @@ export type WorksRouteProps = {
   productionDatesTo: string | null;
   imagesColor: string | null;
   search: string | null;
-  languages: string[];
+  languages: string[] | null;
   subjectsLabel: string | null;
   genresLabel: string | null;
 

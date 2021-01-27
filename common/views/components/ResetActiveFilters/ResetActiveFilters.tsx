@@ -233,9 +233,11 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                     {...worksLink(
                       {
                         ...worksRouteProps,
-                        languages: worksRouteProps.languages.filter(
-                          w => w !== language.data.id
-                        ),
+                        languages:
+                          worksRouteProps.languages &&
+                          worksRouteProps.languages.filter(
+                            w => w !== language.data.id
+                          ),
                         page: 1,
                       },
                       'cancel_filter/languages'
