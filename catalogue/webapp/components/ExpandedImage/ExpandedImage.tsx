@@ -33,7 +33,7 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import VisuallySimilarImagesFromApi from '../VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import { expandedViewImageButton } from '@weco/common/text/arial-labels';
-import { itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
+import * as ItemProps from '@weco/common/views/components/ItemLink/ItemLink';
 import { imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
 
 type Props = {
@@ -301,7 +301,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
           source: trackingSource,
         })
       : detailedWork &&
-        itemLink({
+        ItemProps.toLink({
           workId,
           // We only send a langCode if it's unambiguous -- better to send
           // no language than the wrong one.
