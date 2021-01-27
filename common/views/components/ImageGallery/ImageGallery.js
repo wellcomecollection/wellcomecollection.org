@@ -156,7 +156,7 @@ class ImageGallery extends Component<Props, State> {
               className={classNames({
                 'image-gallery-v2--standalone': isStandalone,
                 'image-gallery-v2 row relative': true,
-                'is-active font-white': isActive,
+                'is-active': isActive,
               })}
             >
               <div
