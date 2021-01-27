@@ -23,10 +23,14 @@ import {
   getResetWorksFiltersLink,
 } from '@weco/common/utils/filters';
 import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
+import TogglesContext from '../TogglesContext/TogglesContext';
+
+const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
+const PaletteColorPicker = dynamic(
+  import('../PaletteColorPicker/PaletteColorPicker')
+);
 
 const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   filtersToShow,
@@ -47,6 +51,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   genresSelected,
   isEnhanced,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
+  const { paletteColorFilter } = useContext(TogglesContext);
+  const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeSelected.length > 0;
   const { searchMoreFilters } = useContext(TogglesContext);
@@ -205,7 +211,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 >
                   <ColorPicker
                     name="images.color"
-                    color={imagesColor}
+                    color={imagesColor || undefined}
                     onChangeColor={changeHandler}
                   />
                 </DropdownButton>

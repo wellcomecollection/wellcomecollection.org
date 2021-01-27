@@ -21,6 +21,13 @@ export default {
       description: 'Search filters will appear in a modal',
     },
     {
+      id: 'paletteColorFilter',
+      title: 'Palette-based colour filter',
+      description:
+        'Use a new colour filtering UI that provides a fixed palette and a hue slider',
+      defaultValue: false,
+    },
+    {
       id: 'searchToolbar',
       title: 'Search toolbar',
       defaultValue: false,

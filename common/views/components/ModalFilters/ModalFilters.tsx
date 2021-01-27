@@ -1,4 +1,10 @@
-import { useState, useRef, FunctionComponent, ReactElement } from 'react';
+import {
+  useState,
+  useRef,
+  FunctionComponent,
+  ReactElement,
+  useContext,
+} from 'react';
 import NextLink from 'next/link';
 import dynamic from 'next/dynamic';
 import { worksLink } from '../../../services/catalogue/routes';
@@ -14,10 +20,14 @@ import ButtonSolid, {
   SolidButton,
 } from '../ButtonSolid/ButtonSolid';
 import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
+import TogglesContext from '../TogglesContext/TogglesContext';
 
-const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
+const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
+const PaletteColorPicker = dynamic(
+  import('../PaletteColorPicker/PaletteColorPicker')
+);
 
 const ActiveFilters = styled(Space).attrs({
   h: {
@@ -93,6 +103,8 @@ const ModalFilters: FunctionComponent<SearchFiltersSharedProps> = ({
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const [isActive, setIsActive] = useState(false);
   const openButtonRef = useRef(null);
+  const { paletteColorFilter } = useContext(TogglesContext);
+  const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
 
   function handleOkFiltersButtonClick() {
     setIsActive(false);

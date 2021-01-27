@@ -33,10 +33,13 @@ import {
 } from '@weco/common/utils/filters';
 import { CatalogueAggregationBucket } from '@weco/common/model/catalogue';
 import RadioGroup from '@weco/common/views/components/RadioGroup/RadioGroup';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
+import TogglesContext from '../TogglesContext/TogglesContext';
+const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
+const PaletteColorPicker = dynamic(
+  import('../PaletteColorPicker/PaletteColorPicker')
+);
 
 const ShameButtonWrap = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -264,6 +267,9 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
     (subjectsSelected ? 1 : 0) +
     (genresSelected ? 1 : 0);
 
+  const { paletteColorFilter } = useContext(TogglesContext);
+  const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
+
   return (
     <Space
       v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
@@ -419,7 +425,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                     h={{ size: 'm', properties: ['margin-right'] }}
                   >
                     <ColorPicker
-                      color={imagesColor}
+                      color={imagesColor || undefined}
                       name="images.color"
                       onChangeColor={changeHandler}
                     />
