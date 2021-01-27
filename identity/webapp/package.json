@@ -71,6 +71,7 @@
     "babel-plugin-transform-typescript-metadata": "^0.3.1",
     "babel-preset-react": "^6.24.1",
     "css-loader": "5.0.1",
+    "dotenv-webpack": "^6.0.0",
     "eslint": "^7.15.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-babel": "^5.3.1",
