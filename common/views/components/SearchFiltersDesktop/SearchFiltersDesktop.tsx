@@ -9,12 +9,16 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import NextLink from 'next/link';
 import dynamic from 'next/dynamic';
 import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
-import { FunctionComponent, ReactElement, ReactNode } from 'react';
+import { FunctionComponent, ReactElement, ReactNode, useContext } from 'react';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
+import TogglesContext from '../TogglesContext/TogglesContext';
 
-const ColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
+const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
+const PaletteColorPicker = dynamic(
+  import('../PaletteColorPicker/PaletteColorPicker')
+);
 
 const ColorSwatch = styled.span`
   display: inline-block;
@@ -75,6 +79,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   imagesColor,
   aggregations,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
+  const { paletteColorFilter } = useContext(TogglesContext);
+  const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
 
@@ -238,7 +244,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 >
                   <ColorPicker
                     name="images.color"
-                    color={imagesColor}
+                    color={imagesColor || undefined}
                     onChangeColor={changeHandler}
                   />
                 </DropdownButton>
