@@ -1,4 +1,5 @@
 const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
+const Dotenv = require('dotenv-webpack');
 const styledComponentsTransformer = createStyledComponentsTransformer({
   displayName: true,
 });
@@ -91,6 +92,8 @@ module.exports = {
       },
     ],
   },
+
+  plugins: [new Dotenv()],
 
   // Add problem packages to alias.
   resolve: {

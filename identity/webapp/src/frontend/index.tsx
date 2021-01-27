@@ -10,15 +10,18 @@ import { AppContextProvider } from '@weco/common/views/components/AppContext/App
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 import '@weco/common/styles/styleguide.scss';
+import { prefix } from '../utility/prefix';
 
 const root = typeof document !== 'undefined' ? document.getElementById('root') : undefined;
+
+console.log({ prefix });
 
 if (root) {
   render(
     <ThemeProvider theme={theme}>
       <style id="styleguide-sass"></style>
       <AppContextProvider>
-        <BrowserRouter basename="/batman">
+        <BrowserRouter basename={prefix}>
           <Switch>
             <Route exact path="/register" component={Registration} />
             <Route exact path="/validated" component={AccountValidated} />
