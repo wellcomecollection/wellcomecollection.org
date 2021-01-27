@@ -128,6 +128,27 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
     }
   }
 
+  # Identity
+  ordered_cache_behavior {
+    allowed_methods        = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+    cached_methods         = ["GET", "HEAD"]
+    viewer_protocol_policy = "redirect-to-https"
+    target_origin_id       = local.default_origin_id
+    path_pattern           = "/identity*"
+    min_ttl                = 0
+    default_ttl            = 3600
+    max_ttl                = 86400
+
+    forwarded_values {
+      headers      = ["*"]
+      query_string = true
+
+      cookies {
+        forward = "all"
+      }
+    }
+  }
+
   # Images
   ordered_cache_behavior {
     allowed_methods        = ["HEAD", "GET", "OPTIONS"]

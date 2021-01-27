@@ -33,6 +33,17 @@ locals {
   target_group_arn = module.identity-service-18012021.target_group_arn
 }
 
+module "path_listener" {
+  source = "../../../infrastructure/terraform/modules/alb_listener_rule"
+
+  alb_listener_https_arn = var.alb_listener_https_arn
+  alb_listener_http_arn  = var.alb_listener_http_arn
+  target_group_arn       = local.target_group_arn
+
+  path_patterns = ["/identity*"]
+  priority      = "49994"
+}
+
 # This is used for the static assets served from _next with multiple next apps
 # See: https://github.com/zeit/next.js#multi-zones
 module "subdomain_listener" {
