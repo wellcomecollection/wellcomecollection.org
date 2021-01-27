@@ -104,7 +104,7 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
       />
       <TextWrapper>
         <ColorLabel active={!!colorState}>
-          {colorState ? `#${colorState}` : 'None'}
+          {colorState ? `#${colorState.toUpperCase()}` : 'None'}
         </ColorLabel>
         <ClearButton onClick={() => handleColorChange(undefined)}>
           Clear
