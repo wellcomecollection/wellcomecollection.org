@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import HueSlider from './HueSlider';
 import { hexToHsv, hsvToHex } from './conversions';
 
@@ -32,7 +32,10 @@ const Swatches = styled.div`
   flex-wrap: wrap;
 `;
 
-const Swatch = styled.button<{ color: string; selected: boolean }>`
+const Swatch = styled.button.attrs({ type: 'button' })<{
+  color: string;
+  selected: boolean;
+}>`
   height: 32px;
   width: 32px;
   border-radius: 50%;
@@ -52,7 +55,7 @@ const ColorLabel = styled.label<{ active: boolean }>`
   font-size: 14px;
 `;
 
-const ClearButton = styled.button`
+const ClearButton = styled.button.attrs({ type: 'button' })`
   border: 0;
   padding: 0;
   background: none;
@@ -75,15 +78,19 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
 }) => {
   // Because the form is not controlled we need to maintain state internally
   const [colorState, setColorState] = useState(color);
+  const firstRender = useRef(true);
 
   useEffect(() => {
     setColorState(color);
   }, [color]);
 
-  const handleColorChange = (color?: string) => {
-    setColorState(color);
-    onChangeColor(color);
-  };
+  useEffect(() => {
+    if (!firstRender.current) {
+      onChangeColor(color);
+    } else {
+      firstRender.current = false;
+    }
+  }, [colorState]);
 
   return (
     <Wrapper>
@@ -94,19 +101,19 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
             key={swatch}
             color={swatch}
             selected={colorState === swatch}
-            onClick={() => handleColorChange(swatch)}
+            onClick={() => setColorState(swatch)}
           />
         ))}
       </Swatches>
       <Slider
         hue={hexToHsv(colorState || palette[0]).h}
-        onChangeHue={h => handleColorChange(hsvToHex({ h, s: 80, v: 90 }))}
+        onChangeHue={h => setColorState(hsvToHex({ h, s: 80, v: 90 }))}
       />
       <TextWrapper>
         <ColorLabel active={!!colorState}>
           {colorState ? `#${colorState.toUpperCase()}` : 'None'}
         </ColorLabel>
-        <ClearButton onClick={() => handleColorChange(undefined)}>
+        <ClearButton onClick={() => setColorState(undefined)}>
           Clear
         </ClearButton>
       </TextWrapper>

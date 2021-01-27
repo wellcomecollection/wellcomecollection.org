@@ -7,6 +7,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { clamp } from '../../../utils/numeric';
 
 type Props = {
   hue: number;
@@ -53,8 +54,6 @@ type InteractionEvent = MouseEvent | TouchEvent;
 type ReactInteractionEvent = React.MouseEvent | React.TouchEvent;
 
 const isTouch = (e: InteractionEvent): e is TouchEvent => 'touches' in e;
-const clamp = (x: number, min = 0, max = 1) =>
-  x > max ? max : x < min ? min : x;
 const useIsomorphicLayoutEvent =
   typeof window === 'undefined' ? useEffect : useLayoutEffect;
 const nKeyboardDetents = 50;
