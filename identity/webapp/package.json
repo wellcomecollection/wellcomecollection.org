@@ -1,5 +1,5 @@
 {
-  "name": "account-management",
+  "name": "@weco/identity",
   "version": "0.1.0",
   "main": "index.js",
   "repository": {
