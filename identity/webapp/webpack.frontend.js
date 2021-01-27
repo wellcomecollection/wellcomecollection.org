@@ -83,7 +83,7 @@ module.exports = {
               implementation: require('node-sass'),
               additionalData: '$is-next: true;',
               sassOptions: {
-                includePaths: ['node_modules/@weco/common/styles'],
+                includePaths: ['../../common/styles'],
               },
             },
           },
