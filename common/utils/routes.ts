@@ -2,9 +2,12 @@ import { LinkProps } from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { PropsWithChildren } from 'react';
 import { isInTuple } from './type-guards';
+import { OptionalToUndefined } from './utility-types';
 
 export type QueryParam = ParsedUrlQuery[string];
-export type QueryTo<Props> = (query: ParsedUrlQuery) => Props;
+export type QueryTo<Props> = (
+  query: ParsedUrlQuery
+) => OptionalToUndefined<Props>;
 export type LinkFrom<Props> = PropsWithChildren<Props> &
   Omit<LinkProps, 'as' | 'href'>;
 

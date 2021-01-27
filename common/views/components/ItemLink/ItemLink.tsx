@@ -1,6 +1,8 @@
 import NextLink, { LinkProps } from 'next/link';
 import { FunctionComponent } from 'react';
+import { OptionalToUndefined } from 'utils/utility-types';
 import {
+  ConvertOptionalToUndefined,
   LinkFrom,
   QueryTo,
   toMaybeNumber,
