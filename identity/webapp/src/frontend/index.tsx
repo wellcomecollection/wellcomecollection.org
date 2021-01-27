@@ -18,7 +18,7 @@ if (root) {
     <ThemeProvider theme={theme}>
       <style id="styleguide-sass"></style>
       <AppContextProvider>
-        <BrowserRouter>
+        <BrowserRouter basename="/batman">
           <Switch>
             <Route exact path="/register" component={Registration} />
             <Route exact path="/validated" component={AccountValidated} />
