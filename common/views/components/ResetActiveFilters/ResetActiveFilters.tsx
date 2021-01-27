@@ -22,12 +22,12 @@ type ResetActiveFilters = {
   productionDatesTo: string | null;
   worksRouteProps: WorksRouteProps;
   imagesColor: string | null;
-  workTypeInUrlArray: string[];
+  workTypeSelected: string[];
   aggregations?: CatalogueAggregations;
   resetFilters: LinkProps;
-  languagesInUrl: string[];
-  subjectsInUrl: string;
-  genresInUrl: string;
+  languagesSelected: string[];
+  subjectsSelected: string;
+  genresSelected: string;
 };
 
 const ColorSwatch = styled.span`
@@ -80,12 +80,12 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
   productionDatesTo,
   worksRouteProps,
   imagesColor,
-  workTypeInUrlArray,
+  workTypeSelected,
   aggregations,
   resetFilters,
-  languagesInUrl,
-  subjectsInUrl,
-  genresInUrl,
+  languagesSelected,
+  subjectsSelected,
+  genresSelected,
 }: ResetActiveFilters) => {
   const languagesFilters = aggregations?.languages?.buckets || [];
   const { searchMoreFilters } = useContext(TogglesContext);
@@ -164,7 +164,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
             </NextLink>
           )}
 
-          {workTypeInUrlArray.map(id => {
+          {workTypeSelected.map(id => {
             const workTypeObject = workTypeFilters.find(({ data }) => {
               return data.id === id;
             });
@@ -221,7 +221,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
               ))}
 
           {searchMoreFilters &&
-            languagesInUrl.map(id => {
+            languagesSelected.map(id => {
               const language = languagesFilters.find(({ data }) => {
                 return data.id === id;
               });
@@ -250,7 +250,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                 )
               );
             })}
-          {searchMoreFilters && subjectsInUrl && (
+          {searchMoreFilters && subjectsSelected && (
             <NextLink
               passHref
               {...worksLink(
@@ -263,11 +263,11 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
               )}
             >
               <a>
-                <CancelFilter text={subjectsInUrl} />
+                <CancelFilter text={subjectsSelected} />
               </a>
             </NextLink>
           )}
-          {searchMoreFilters && genresInUrl && (
+          {searchMoreFilters && genresSelected && (
             <NextLink
               passHref
               {...worksLink(
@@ -280,7 +280,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
               )}
             >
               <a>
-                <CancelFilter text={genresInUrl} />
+                <CancelFilter text={genresSelected} />
               </a>
             </NextLink>
           )}

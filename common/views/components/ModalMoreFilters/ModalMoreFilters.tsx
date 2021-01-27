@@ -22,9 +22,9 @@ import ButtonSolid, {
 import { WorksRouteProps } from '@weco/common/services/catalogue/ts_routes';
 type SharedFiltersProps = {
   changeHandler: () => void;
-  languagesInUrl: string[];
-  genresInUrl: string;
-  subjectsInUrl: string;
+  languagesSelected: string[];
+  genresSelected: string;
+  subjectsSelected: string;
   filtersToShow: string[];
 };
 type ModalMoreFiltersProps = {
@@ -101,9 +101,9 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
   genresFilter,
   languagesFilter,
   changeHandler,
-  subjectsInUrl,
-  genresInUrl,
-  languagesInUrl,
+  subjectsSelected,
+  genresSelected,
+  languagesSelected,
 }: MoreFiltersProps) => {
   return (
     <>
@@ -119,7 +119,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
               {subjectsFilter.length > 0 && (
                 <RadioGroup
                   name="subjects.label"
-                  selected={subjectsInUrl}
+                  selected={subjectsSelected}
                   onChange={changeHandler}
                   options={getAggregationRadioGroup(subjectsFilter, 'desktop')}
                 />
@@ -140,7 +140,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
               {subjectsFilter.length > 0 && (
                 <RadioGroup
                   name="genres.label"
-                  selected={genresInUrl}
+                  selected={genresSelected}
                   onChange={changeHandler}
                   options={getAggregationRadioGroup(genresFilter, 'mobile')}
                 />
@@ -160,7 +160,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
             >
               {languagesFilter.length > 0 &&
                 languagesFilter.map(language => {
-                  const isChecked = languagesInUrl.includes(language.data.id);
+                  const isChecked = languagesSelected.includes(language.data.id);
                   return (
                     (language.count > 0 || isChecked) && (
                       <Space
@@ -198,9 +198,9 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
   filtersToShow,
   aggregations,
   changeHandler,
-  languagesInUrl,
-  genresInUrl,
-  subjectsInUrl,
+  languagesSelected,
+  genresSelected,
+  subjectsSelected,
   worksRouteProps,
   isEnhanced,
 }: ModalMoreFiltersProps) => {
@@ -227,9 +227,9 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
             genresFilter={genresFilter}
             languagesFilter={languagesFilter}
             changeHandler={changeHandler}
-            languagesInUrl={languagesInUrl}
-            genresInUrl={genresInUrl}
-            subjectsInUrl={subjectsInUrl}
+            languagesSelected={languagesSelected}
+            genresSelected={genresSelected}
+            subjectsSelected={subjectsSelected}
           />
         </>
       </noscript>
@@ -252,9 +252,9 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
               genresFilter={genresFilter}
               languagesFilter={languagesFilter}
               changeHandler={changeHandler}
-              languagesInUrl={languagesInUrl}
-              genresInUrl={genresInUrl}
-              subjectsInUrl={subjectsInUrl}
+              languagesSelected={languagesSelected}
+              genresSelected={genresSelected}
+              subjectsSelected={subjectsSelected}
             />
           )}
         </ModalInner>

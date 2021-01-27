@@ -87,7 +87,7 @@ const ModalFilters: FunctionComponent<SearchFiltersSharedProps> = ({
   workTypeFilters,
   productionDatesFrom,
   productionDatesTo,
-  workTypeInUrlArray,
+  workTypeSelected,
   imagesColor,
   aggregations,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
@@ -103,10 +103,10 @@ const ModalFilters: FunctionComponent<SearchFiltersSharedProps> = ({
   }
 
   const showWorkTypeFilters =
-    workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
+    workTypeFilters.some(f => f.count > 0) || workTypeSelected.length > 0;
 
   const activeFiltersCount =
-    workTypeInUrlArray.length +
+    workTypeSelected.length +
     (productionDatesFrom ? 1 : 0) +
     (productionDatesTo ? 1 : 0);
 
@@ -170,9 +170,7 @@ const ModalFilters: FunctionComponent<SearchFiltersSharedProps> = ({
                 })}
               >
                 {workTypeFilters.map(workType => {
-                  const isChecked = workTypeInUrlArray.includes(
-                    workType.data.id
-                  );
+                  const isChecked = workTypeSelected.includes(workType.data.id);
 
                   return (
                     (workType.count > 0 || isChecked) && (

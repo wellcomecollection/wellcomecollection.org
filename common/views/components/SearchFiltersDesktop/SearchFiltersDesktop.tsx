@@ -39,16 +39,16 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   workTypeFilters,
   productionDatesFrom,
   productionDatesTo,
-  workTypeInUrlArray,
+  workTypeSelected,
   imagesColor,
   aggregations,
-  languagesInUrl,
-  subjectsInUrl,
-  genresInUrl,
+  languagesSelected,
+  subjectsSelected,
+  genresSelected,
   isEnhanced,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const showWorkTypeFilters =
-    workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
+    workTypeFilters.some(f => f.count > 0) || workTypeSelected.length > 0;
   const { searchMoreFilters } = useContext(TogglesContext);
   const resetFiltersRoute = getResetRouteProps(worksRouteProps);
   const resetFilters = imagesColor
@@ -63,12 +63,12 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
     const catalogueFilter =
       ((productionDatesFrom ||
         productionDatesTo ||
-        workTypeInUrlArray.length > 0 ||
+        workTypeSelected.length > 0 ||
         worksRouteProps?.itemsLocationsType?.length > 0) &&
         workTypeFilters.length > 0) ||
-      languagesInUrl.length > 0 ||
-      subjectsInUrl ||
-      genresInUrl;
+      languagesSelected.length > 0 ||
+      subjectsSelected ||
+      genresSelected;
 
     return imagesFilter || catalogueFilter;
   }
@@ -124,7 +124,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                     })}
                   >
                     {workTypeFilters.map(workType => {
-                      const isChecked = workTypeInUrlArray.includes(
+                      const isChecked = workTypeSelected.includes(
                         workType.data.id
                       );
 
@@ -234,9 +234,9 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   filtersToShow={filtersToShow}
                   aggregations={aggregations}
                   changeHandler={changeHandler}
-                  languagesInUrl={languagesInUrl}
-                  subjectsInUrl={subjectsInUrl}
-                  genresInUrl={genresInUrl}
+                  languagesSelected={languagesSelected}
+                  subjectsSelected={subjectsSelected}
+                  genresSelected={genresSelected}
                   worksRouteProps={worksRouteProps}
                   isEnhanced={isEnhanced}
                 />
@@ -311,12 +311,12 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           productionDatesTo={productionDatesTo}
           worksRouteProps={worksRouteProps}
           imagesColor={imagesColor}
-          workTypeInUrlArray={workTypeInUrlArray}
+          workTypeSelected={workTypeSelected}
           aggregations={aggregations}
           resetFilters={resetFilters}
-          languagesInUrl={languagesInUrl}
-          subjectsInUrl={subjectsInUrl}
-          genresInUrl={genresInUrl}
+          languagesSelected={languagesSelected}
+          subjectsSelected={subjectsSelected}
+          genresSelected={genresSelected}
         />
       )}
     </>

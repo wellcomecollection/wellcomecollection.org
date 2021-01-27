@@ -36,13 +36,13 @@ export type SearchFiltersSharedProps = Props & {
   workTypeFilters: CatalogueAggregationBucket[];
   productionDatesFrom: string | null;
   productionDatesTo: string | null;
-  workTypeInUrlArray: string[];
-  locationsTypeInUrlArray: string[];
+  workTypeSelected: string[];
+  locationsTypeSelected: string[];
   imagesColor: string | null;
   aggregations?: CatalogueAggregations;
-  languagesInUrl: string[];
-  subjectsInUrl: string;
-  genresInUrl: string;
+  languagesSelected: string[];
+  subjectsSelected: string;
+  genresSelected: string;
   isEnhanced: boolean;
 };
 
@@ -54,12 +54,12 @@ const SearchFilters: FunctionComponent<Props> = ({
   aggregations,
   filtersToShow,
 }: Props): ReactElement<Props> => {
-  const workTypeInUrlArray = worksRouteProps.workType || [];
-  const locationsTypeInUrlArray = worksRouteProps.itemsLocationsType || [];
   const { productionDatesFrom, productionDatesTo, color } = worksRouteProps;
-  const languagesInUrl: string[] = worksRouteProps?.languages || [];
-  const subjectsInUrl: string = worksRouteProps?.subjectsLabel || '';
-  const genresInUrl: string = worksRouteProps?.genresLabel || '';
+  const languagesSelected: string[] = worksRouteProps?.languages || [];
+  const subjectsSelected: string = worksRouteProps?.subjectsLabel || '';
+  const genresSelected: string = worksRouteProps?.genresLabel || '';
+  const workTypeSelected = worksRouteProps.workType || [];
+  const locationsTypeSelected = worksRouteProps.itemsLocationsType || [];
 
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
@@ -121,13 +121,13 @@ const SearchFilters: FunctionComponent<Props> = ({
     workTypeFilters,
     productionDatesFrom,
     productionDatesTo,
-    workTypeInUrlArray,
-    locationsTypeInUrlArray,
+    workTypeSelected,
+    locationsTypeSelected,
     imagesColor: color,
     aggregations,
-    languagesInUrl,
-    subjectsInUrl,
-    genresInUrl,
+    languagesSelected,
+    subjectsSelected,
+    genresSelected,
     isEnhanced,
   };
 

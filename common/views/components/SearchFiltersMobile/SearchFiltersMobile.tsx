@@ -173,14 +173,14 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   workTypeFilters,
   productionDatesFrom,
   productionDatesTo,
-  workTypeInUrlArray,
-  locationsTypeInUrlArray,
+  workTypeSelected,
+  locationsTypeSelected,
   imagesColor,
   aggregations,
   filtersToShow,
-  languagesInUrl,
-  subjectsInUrl,
-  genresInUrl,
+  languagesSelected,
+  subjectsSelected,
+  genresSelected,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const openFiltersButtonRef = useRef<HTMLButtonElement>(null);
   const closeFiltersButtonRef = useRef<HTMLDivElement>(null);
@@ -253,16 +253,16 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   }
 
   const showWorkTypeFilters =
-    workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
+    workTypeFilters.some(f => f.count > 0) || workTypeSelected.length > 0;
   const activeFiltersCount =
-    locationsTypeInUrlArray.length +
-    workTypeInUrlArray.length +
+    locationsTypeSelected.length +
+    workTypeSelected.length +
     (productionDatesFrom ? 1 : 0) +
     (productionDatesTo ? 1 : 0) +
     (imagesColor ? 1 : 0) +
-    languagesInUrl.length +
-    (subjectsInUrl ? 1 : 0) +
-    (genresInUrl ? 1 : 0);
+    languagesSelected.length +
+    (subjectsSelected ? 1 : 0) +
+    (genresSelected ? 1 : 0);
 
   return (
     <Space
@@ -343,7 +343,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                       })}
                     >
                       {workTypeFilters.map(workType => {
-                        const isChecked = workTypeInUrlArray.includes(
+                        const isChecked = workTypeSelected.includes(
                           workType.data.id
                         );
 
@@ -442,7 +442,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                       >
                         <RadioGroup
                           name="subjects.label"
-                          selected={subjectsInUrl}
+                          selected={subjectsSelected}
                           onChange={changeHandler}
                           options={getAggregationRadioGroup(
                             subjectsFilter,
@@ -469,7 +469,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                       >
                         <RadioGroup
                           name="genres.label"
-                          selected={genresInUrl}
+                          selected={genresSelected}
                           onChange={changeHandler}
                           options={getAggregationRadioGroup(
                             genresFilter,
@@ -495,7 +495,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                         })}
                       >
                         {languagesFilter.map(language => {
-                          const isChecked = languagesInUrl.includes(
+                          const isChecked = languagesSelected.includes(
                             language.data.id
                           );
 
