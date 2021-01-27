@@ -40,7 +40,7 @@ module "path_listener" {
   alb_listener_http_arn  = var.alb_listener_http_arn
   target_group_arn       = local.target_group_arn
 
-  path_patterns = ["/identity*"]
+  path_patterns = ["/account*"]
   priority      = "49994"
 }
 
@@ -68,7 +68,7 @@ locals {
   # must create several to cover all of the path patterns we need
 
   identity_data_paths = [
-    "/_next/data/*/identity/*.json",
+    "/_next/data/*/account/*.json",
   ]
   max_conditions_per_rule = 5
 
