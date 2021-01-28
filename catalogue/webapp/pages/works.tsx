@@ -288,7 +288,6 @@ export const getServerSideProps: GetServerSideProps<
   const parsedParams = parseUrlParams(context.query);
   const params = WorksRoute.fromQuery(parsedParams);
   const { searchMoreFilters } = globalContextData.toggles;
-  const isImageSearch = params.search === 'images';
   const defaultAggregations = ['workType', 'locationType'];
 
   const moreFiltersAggregations = ['genres', 'languages', 'subjects'];
