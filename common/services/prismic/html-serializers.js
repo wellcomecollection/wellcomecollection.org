@@ -131,7 +131,7 @@ export const defaultSerializer: HtmlSerializer = (
       const linkUrl = PrismicDOM.Link.url(element.data, linkResolver);
       const isDocument = element.data.kind === 'document';
       const nameWithoutSpaces = element.data.name
-        ? element.data.name.replace(/\s/g, '')
+        ? dasherize(element.data.name)
         : '';
       const documentSize = isDocument
         ? Math.round(element.data.size / 1000)
