@@ -206,6 +206,7 @@ const Body: FunctionComponent<Props> = ({
                   width="100%"
                   height="140"
                   frameBorder="no"
+                  title="soundcloud player"
                   src={slice.value.embedUrl}
                 />
               </LayoutWidth>

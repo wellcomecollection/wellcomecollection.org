@@ -157,13 +157,12 @@ class ImageGallery extends Component<Props, State> {
               className={classNames({
                 'image-gallery-v2--standalone': isStandalone,
                 'image-gallery-v2 row relative': true,
-                'is-active font-white': isActive,
+                'is-active': isActive,
               })}
             >
               <div
                 className={classNames({
                   'absolute image-gallery-v2__background': true,
-                  'image-gallery-v2__background--standalone': isStandalone,
                 })}
                 style={{
                   bottom: 0,
@@ -278,7 +277,6 @@ class ImageGallery extends Component<Props, State> {
                                 [font('hnm', 5)]: true,
                               })}
                             >
-                              <span className="visually-hidden">slide </span>
                               {i + 1} of {items.length}
                             </Space>
                           ) : null

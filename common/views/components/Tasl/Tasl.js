@@ -151,7 +151,7 @@ const Tasl = withToggler(
               onClick={toggleWithAnalytics}
               className="tasl__button plain-button absolute"
             >
-              <span className="tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black">
+              <span className="tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black font-white">
                 <Icon
                   name="information"
                   title="information"
@@ -159,7 +159,7 @@ const Tasl = withToggler(
                 />
                 <span className="visually-hidden">information</span>
               </span>
-              <span className="tasl__icon tasl__icon--close flex--v-center flex--h-center bg-transparent-black">
+              <span className="tasl__icon tasl__icon--close flex--v-center flex--h-center bg-transparent-black font-white">
                 <Icon name="cross" title="close" extraClasses="icon--white" />
               </span>
             </button>

@@ -20,8 +20,11 @@ $image-gallery-v2-transition-properties: 400ms ease;
       display: inherit;
     }
 
-    &:before {
-      background: color('charcoal');
+    color: color('white');
+    background: linear-gradient(color('cream') $image-gallery-v2-clip-height-s, color('charcoal') $image-gallery-v2-clip-height-s);
+
+    @include respond-to('medium') {
+      background: linear-gradient(color('cream') $image-gallery-v2-clip-height-m, color('charcoal') $image-gallery-v2-clip-height-m);
     }
 
     .captioned-image__image-container {
@@ -70,6 +73,7 @@ $image-gallery-v2-transition-properties: 400ms ease;
   transition: all $image-gallery-v2-transition-properties;
 
   &.image-gallery-v2--standalone {
+    background: color('charcoal');
     &:before {
       top: 0;
 
