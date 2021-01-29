@@ -14,8 +14,6 @@ import { prefix } from '../utility/prefix';
 
 const root = typeof document !== 'undefined' ? document.getElementById('root') : undefined;
 
-console.log({ prefix });
-
 if (root) {
   render(
     <ThemeProvider theme={theme}>
