@@ -101,6 +101,9 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
         "query",
         "sierraId",
         "source",
+        "languages",
+        "subjects.label",
+        "genres.label",
         "toggle",
         "workType",
       ]

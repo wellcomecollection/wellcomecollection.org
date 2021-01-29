@@ -1,30 +1,45 @@
-// @flow
-import { type Node, useEffect, useRef, useContext, createContext } from 'react';
+import {
+  ReactNode,
+  useEffect,
+  useRef,
+  useContext,
+  createContext,
+  FunctionComponent,
+  RefObject,
+  createRef,
+} from 'react';
 import useFocusTrap from '../../../hooks/useFocusTrap';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
-// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
-// $FlowFixMe (tsx)
 import { AppContext } from '../AppContext/AppContext';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { CSSTransition } from 'react-transition-group';
-export const ModalContext = createContext<{|
-  updateLastFocusableRef: ?(HTMLElement) => void,
-|}>({ updateLastFocusableRef: null });
+export const ModalContext = createContext<{
+  updateLastFocusableRef: (arg0: HTMLElement | null) => void | null | undefined;
+}>({
+  updateLastFocusableRef: () => null,
+});
 
-type Props = {|
-  children: Node,
-  isActive: boolean,
-  setIsActive: (value: boolean) => void,
-  width?: string,
-  id: string,
-  openButtonRef: { current: HTMLElement | null },
-  removeCloseButton?: boolean,
-|};
+type CloseButtonProps = {
+  hideFocus: boolean;
+};
 
+type BaseModalProps = {
+  width?: string | null;
+};
+
+type Props = {
+  children: ReactNode;
+  isActive: boolean;
+  setIsActive: (value: boolean) => void;
+  width?: string | null;
+  id: string;
+  openButtonRef: { current: HTMLElement | null };
+  removeCloseButton?: boolean;
+  overrideDefaultModalStyle?: boolean;
+};
 const Overlay = styled.div`
   z-index: 1000;
   position: fixed;
@@ -38,12 +53,12 @@ const Overlay = styled.div`
   `}
 `;
 
-const CloseButton = styled(Space).attrs({
+const CloseButton = styled(Space).attrs<CloseButtonProps>({
   role: 'button',
   as: 'button',
   v: { size: 'm', properties: ['top'] },
   h: { size: 'm', properties: ['left'] },
-})`
+})<CloseButtonProps>`
   position: fixed;
   width: 28px;
   height: 28px;
@@ -74,13 +89,13 @@ const CloseButton = styled(Space).attrs({
   `}
 `;
 
-const ModalWindow = styled(Space).attrs({
+const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
   className: classNames({
     'shadow bg-white font-black': true,
   }),
-})`
+})<BaseModalProps>`
   z-index: 10001;
   top: 0;
   bottom: 0;
@@ -142,7 +157,20 @@ const ModalWindow = styled(Space).attrs({
   }
 `;
 
-const Modal = ({
+const ModalWindowPaddingNoOverflow = styled(BaseModalWindow).attrs<
+  BaseModalProps
+>({
+  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+  className: classNames({
+    'shadow bg-white font-black': true,
+  }),
+})<BaseModalProps>`
+  overflow: visible;
+  padding-left: 0px;
+  padding-right: 0px;
+`;
+
+const Modal: FunctionComponent<Props> = ({
   children,
   isActive,
   setIsActive,
@@ -150,11 +178,15 @@ const Modal = ({
   id,
   openButtonRef,
   removeCloseButton = false,
+  overrideDefaultModalStyle,
 }: Props) => {
-  const closeButtonRef = useRef(null);
-  const lastFocusableRef = useRef(null);
-  const modalRef = useRef(null);
+  const closeButtonRef: RefObject<HTMLInputElement> = useRef(null);
+  const lastFocusableRef = useRef<HTMLInputElement | null>(null);
+  const modalRef: RefObject<HTMLDivElement> = createRef();
   const { isKeyboard } = useContext(AppContext);
+  const ModalWindow = overrideDefaultModalStyle
+    ? ModalWindowPaddingNoOverflow
+    : BaseModalWindow;
 
   function updateLastFocusableRef(newRef) {
     lastFocusableRef.current = newRef;
@@ -172,8 +204,8 @@ const Modal = ({
   }, [modalRef.current]);
 
   useEffect(() => {
-    if (isActive && closeButtonRef && closeButtonRef.current) {
-      closeButtonRef.current.focus();
+    if (isActive && closeButtonRef && closeButtonRef?.current) {
+      closeButtonRef?.current?.focus();
     }
   }, [isActive]);
 

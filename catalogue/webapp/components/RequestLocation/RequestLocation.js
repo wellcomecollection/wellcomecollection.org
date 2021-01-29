@@ -6,6 +6,7 @@ import useAuth from '@weco/common/hooks/useAuth';
 import Table from '@weco/common/views/components/Table/Table';
 // $FlowFixMe (tsx)
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+// $FlowFixMe (tsx)
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ItemRequestButton from '@weco/catalogue/components/ItemRequestButton/ItemRequestButton';
 // $FlowFixMe (tsx)

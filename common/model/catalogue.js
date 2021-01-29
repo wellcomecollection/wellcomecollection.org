@@ -55,6 +55,9 @@ export type CatalogueAggregation = {|
 export type CatalogueAggregations = {|
   workType: CatalogueAggregation,
   locationType: CatalogueAggregation,
+  genres?: CatalogueAggregation,
+  languages?: CatalogueAggregation,
+  subjects?: CatalogueAggregation,
 |};
 
 export type CatalogueResultsList<Result = Work> = {

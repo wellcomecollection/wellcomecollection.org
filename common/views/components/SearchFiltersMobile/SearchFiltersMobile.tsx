@@ -27,8 +27,13 @@ import {
   searchFilterCheckBox,
   searchFilterCloseButton,
 } from '../../../text/arial-labels';
+import {
+  getAggregationFilterByName,
+  getAggregationRadioGroup,
+} from '@weco/common/utils/filters';
+import { CatalogueAggregationBucket } from '@weco/common/model/catalogue';
+import RadioGroup from '@weco/common/views/components/RadioGroup/RadioGroup';
 import TogglesContext from '../TogglesContext/TogglesContext';
-
 const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
@@ -171,18 +176,33 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   workTypeFilters,
   productionDatesFrom,
   productionDatesTo,
-  workTypeInUrlArray,
-  locationsTypeInUrlArray,
+  workTypeSelected,
+  locationsTypeSelected,
   imagesColor,
   aggregations,
   filtersToShow,
+  languagesSelected,
+  subjectsSelected,
+  genresSelected,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const openFiltersButtonRef = useRef<HTMLButtonElement>(null);
   const closeFiltersButtonRef = useRef<HTMLDivElement>(null);
   const okFiltersButtonRef = useRef<HTMLButtonElement>(null);
   const filtersModalRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(false);
-
+  const { searchMoreFilters } = useContext(TogglesContext);
+  const languagesFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
+    aggregations,
+    'languages'
+  );
+  const subjectsFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
+    aggregations,
+    'subjects'
+  );
+  const genresFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
+    aggregations,
+    'genres'
+  );
   useFocusTrap(closeFiltersButtonRef, okFiltersButtonRef);
 
   useEffect(() => {
@@ -236,13 +256,16 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   }
 
   const showWorkTypeFilters =
-    workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
+    workTypeFilters.some(f => f.count > 0) || workTypeSelected.length > 0;
   const activeFiltersCount =
-    locationsTypeInUrlArray.length +
-    workTypeInUrlArray.length +
+    locationsTypeSelected.length +
+    workTypeSelected.length +
     (productionDatesFrom ? 1 : 0) +
     (productionDatesTo ? 1 : 0) +
-    (imagesColor ? 1 : 0);
+    (imagesColor ? 1 : 0) +
+    languagesSelected.length +
+    (subjectsSelected ? 1 : 0) +
+    (genresSelected ? 1 : 0);
 
   const { paletteColorFilter } = useContext(TogglesContext);
   const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
@@ -326,7 +349,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                       })}
                     >
                       {workTypeFilters.map(workType => {
-                        const isChecked = workTypeInUrlArray.includes(
+                        const isChecked = workTypeSelected.includes(
                           workType.data.id
                         );
 
@@ -409,6 +432,106 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                   </Space>
                 </FilterSection>
               )}
+              {searchMoreFilters &&
+                filtersToShow.includes('subjects') &&
+                subjectsFilter.length > 0 && (
+                  <FilterSection>
+                    <h3 className="h3">Subjects</h3>
+                    <Space
+                      as="span"
+                      h={{ size: 'm', properties: ['margin-right'] }}
+                    >
+                      <div
+                        className={classNames({
+                          'no-margin no-padding plain-list': true,
+                        })}
+                      >
+                        <RadioGroup
+                          name="subjects.label"
+                          selected={subjectsSelected}
+                          onChange={changeHandler}
+                          options={getAggregationRadioGroup(
+                            subjectsFilter,
+                            'mobile'
+                          )}
+                        />
+                      </div>
+                    </Space>
+                  </FilterSection>
+                )}
+              {searchMoreFilters &&
+                filtersToShow.includes('genres') &&
+                subjectsFilter.length > 0 && (
+                  <FilterSection>
+                    <h3 className="h3">Genres</h3>
+                    <Space
+                      as="span"
+                      h={{ size: 'm', properties: ['margin-right'] }}
+                    >
+                      <div
+                        className={classNames({
+                          'no-margin no-padding plain-list': true,
+                        })}
+                      >
+                        <RadioGroup
+                          name="genres.label"
+                          selected={genresSelected}
+                          onChange={changeHandler}
+                          options={getAggregationRadioGroup(
+                            genresFilter,
+                            'mobile'
+                          )}
+                        />
+                      </div>
+                    </Space>
+                  </FilterSection>
+                )}
+              {searchMoreFilters &&
+                filtersToShow.includes('languages') &&
+                languagesFilter.length && (
+                  <FilterSection>
+                    <h3 className="h3">Languages</h3>
+                    <Space
+                      as="span"
+                      h={{ size: 'm', properties: ['margin-right'] }}
+                    >
+                      <ul
+                        className={classNames({
+                          'no-margin no-padding plain-list': true,
+                        })}
+                      >
+                        {languagesFilter.map(language => {
+                          const isChecked = languagesSelected.includes(
+                            language.data.id
+                          );
+
+                          return (
+                            (language.count > 0 || isChecked) && (
+                              <Space
+                                as="li"
+                                v={{ size: 'l', properties: ['margin-bottom'] }}
+                                key={`mobile-${language.data.id}`}
+                              >
+                                <CheckboxRadio
+                                  id={`mobile-${language.data.id}`}
+                                  type={`checkbox`}
+                                  text={`${language.data.label} (${language.count})`}
+                                  value={language.data.id}
+                                  name={`languages`}
+                                  checked={isChecked}
+                                  onChange={changeHandler}
+                                  ariaLabel={searchFilterCheckBox(
+                                    language.data.label
+                                  )}
+                                />
+                              </Space>
+                            )
+                          );
+                        })}
+                      </ul>
+                    </Space>
+                  </FilterSection>
+                )}
             </FiltersBody>
           </FiltersScrollable>
 

@@ -270,6 +270,9 @@ export type CatalogueAggregation = {
 export type CatalogueAggregations = {
   workType: CatalogueAggregation;
   locationType: CatalogueAggregation;
+  languages?: CatalogueAggregation;
+  genres?: CatalogueAggregation;
+  subjects?: CatalogueAggregation;
 };
 
 export type CatalogueResultsList<Result = Work> = {

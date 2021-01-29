@@ -80,6 +80,9 @@ export type WorksRouteProps = {|
   imagesColor: ?string,
   search: ?string,
   source: ?string,
+  languages: ?(string[]),
+  subjectsLabel: ?string,
+  genresLabel: ?string,
 |};
 
 export const WorksRoute: NextRoute<WorksRouteProps> = {
@@ -99,6 +102,9 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       imagesColor: maybeString(q['images.color']),
       search: maybeString(q.search),
       source: maybeString(q.source),
+      languages: stringToCsv(q.languages),
+      subjectsLabel: maybeString(q['subjects.label']),
+      genresLabel: maybeString(q['genres.label']),
     };
   },
 

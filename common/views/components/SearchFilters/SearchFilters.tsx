@@ -18,7 +18,7 @@ import SearchFiltersMobile from '../SearchFiltersMobile/SearchFiltersMobile';
 import ModalFilters from '../ModalFilters/ModalFilters';
 import theme from '../../themes/default';
 import TogglesContext from '../TogglesContext/TogglesContext';
-
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 type Props = {
   searchForm: { current: HTMLFormElement | null };
   worksRouteProps: WorksRouteProps | ImagesRouteProps;
@@ -36,10 +36,14 @@ export type SearchFiltersSharedProps = Props & {
   workTypeFilters: CatalogueAggregationBucket[];
   productionDatesFrom: string | null;
   productionDatesTo: string | null;
-  workTypeInUrlArray: string[];
-  locationsTypeInUrlArray: string[];
+  workTypeSelected: string[];
+  locationsTypeSelected: string[];
   imagesColor: string | null;
   aggregations?: CatalogueAggregations;
+  languagesSelected: string[];
+  subjectsSelected: string;
+  genresSelected: string;
+  isEnhanced: boolean;
 };
 
 const SearchFilters: FunctionComponent<Props> = ({
@@ -50,15 +54,18 @@ const SearchFilters: FunctionComponent<Props> = ({
   aggregations,
   filtersToShow,
 }: Props): ReactElement<Props> => {
-  const workTypeInUrlArray = worksRouteProps.workType || [];
-  const locationsTypeInUrlArray = worksRouteProps.itemsLocationsType || [];
   const { productionDatesFrom, productionDatesTo, color } = worksRouteProps;
+  const languagesSelected: string[] = worksRouteProps?.languages || [];
+  const subjectsSelected: string = worksRouteProps?.subjectsLabel || '';
+  const genresSelected: string = worksRouteProps?.genresLabel || '';
+  const workTypeSelected = worksRouteProps.workType || [];
+  const locationsTypeSelected = worksRouteProps.itemsLocationsType || [];
 
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
   const { modalFiltersPrototype } = useContext(TogglesContext);
-
+  const { isEnhanced } = useContext(AppContext);
   const workTypeFilters = workTypeAggregations;
 
   useEffect(() => {
@@ -114,10 +121,14 @@ const SearchFilters: FunctionComponent<Props> = ({
     workTypeFilters,
     productionDatesFrom,
     productionDatesTo,
-    workTypeInUrlArray,
-    locationsTypeInUrlArray,
+    workTypeSelected,
+    locationsTypeSelected,
     imagesColor: color,
     aggregations,
+    languagesSelected,
+    subjectsSelected,
+    genresSelected,
+    isEnhanced,
   };
 
   return (
