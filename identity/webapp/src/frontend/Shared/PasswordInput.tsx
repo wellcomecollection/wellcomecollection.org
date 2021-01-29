@@ -1,6 +1,6 @@
-import React, { useState, ReactNode } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import TextInput, { TextInputProps } from '../WellcomeComponents/TextInput';
 import EyeIcon from '@weco/common/icons/components/Eye';
 import AllyVisual from '@weco/common/icons/components/A11yVisual';
 
@@ -17,18 +17,7 @@ const IconWrapper = styled.div`
   margin-top: -35px;
 `;
 
-type PasswordInputProps = {
-  label?: string;
-  value: string | undefined;
-  setValue: (value: string) => void;
-  pattern?: RegExp;
-  showValidity?: boolean;
-  isValid?: boolean;
-  errorMessage?: string | ReactNode;
-};
-
-export const PasswordInput: React.FC<PasswordInputProps> = (props) => {
-  const { label = 'Password' } = props;
+export const PasswordInput: React.FC<TextInputProps> = (props) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
@@ -38,15 +27,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = (props) => {
       <IconWrapper>
         {showPassword ? <AllyVisual onClick={toggleShowPassword} /> : <EyeIcon onClick={toggleShowPassword} />}
       </IconWrapper>
-      <TextInput
-        placeholder=""
-        required={true}
-        aria-label={label}
-        label={label}
-        type={showPassword ? 'text' : 'password'}
-        style={{ width: '100%' }}
-        {...props}
-      />
+      <TextInput {...props} placeholder="" required={true} type={showPassword ? 'text' : 'password'} />
     </PasswordFieldWrapper>
   );
 };
