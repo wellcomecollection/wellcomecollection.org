@@ -25,9 +25,20 @@ export const PasswordForm: React.FC = () => {
       <h1 className="font-wb font-size-4">Change your password using the form below.</h1>
       <SpacingComponent />
       <form>
-        <PasswordInput label="Current password" value={currentPassword} setValue={setCurrentPassword} />
+        <PasswordInput
+          label="Current password"
+          value={currentPassword}
+          setValue={setCurrentPassword}
+          id="old-password"
+        />
         <SpacingComponent />
-        <PasswordInput label="New password" value={newPassword} setValue={setNewPassword} pattern={passwordPolicy} />
+        <PasswordInput
+          label="New password"
+          id="new-password"
+          value={newPassword}
+          setValue={setNewPassword}
+          pattern={passwordPolicy.toString()}
+        />
         {!isValid && (
           <ErrorMessage>
             The password you have entered does not meet the password policy. Please enter a password with at least 8
@@ -41,7 +52,12 @@ export const PasswordForm: React.FC = () => {
           <li className="font-hnl font-size-6">8 characters minimum</li>
         </ul>
         <SpacingComponent />
-        <PasswordInput label="Retype new password" value={confirmation} setValue={setConfirmation} />
+        <PasswordInput
+          label="Retype new password"
+          value={confirmation}
+          setValue={setConfirmation}
+          id="confirm-password"
+        />
         {!isConfirmed && <ErrorMessage>The passwords you entered did not match.</ErrorMessage>}
         <SpacingComponent />
         <SolidButton disabled={!isValid || !isConfirmed} onClick={updatePassword}>

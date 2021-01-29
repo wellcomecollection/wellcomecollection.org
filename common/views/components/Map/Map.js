@@ -50,7 +50,7 @@ const Map = ({ title, latitude, longitude }: Props) => {
     };
   }, []);
 
-  return <MapContainer ref={mapContainer} />;
+  return <MapContainer data-test-id="map-container" ref={mapContainer} />;
 };
 
 export default Map;

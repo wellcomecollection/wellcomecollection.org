@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 
 import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+// eslint-disable-next-line
 // @ts-ignore
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+// eslint-disable-next-line
 // @ts-ignore
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
+// eslint-disable-next-line
 // @ts-ignore
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import Table from '@weco/common/views/components/Table/Table';
@@ -51,11 +54,11 @@ export const LinkButton: React.FC = () => {
 };
 
 export const InputField: React.FC = () => {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState<string>('');
   return (
     <>
       <h1>Input field</h1>
-      <TextInput label="Enter email" value={value} setValue={setValue} />
+      <TextInput id="email" label="Enter email" value={value} setValue={setValue} />
     </>
   );
 };
@@ -72,7 +75,7 @@ export const CheckboxAndLabelText: React.FC = () => {
         checked={value}
         name={'1'}
         onChange={() => {
-          setValue(v => !v);
+          setValue((v) => !v);
         }}
         value={'false'}
       />

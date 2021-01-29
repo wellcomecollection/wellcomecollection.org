@@ -1,54 +1,27 @@
 import React from 'react';
-import { AdminRegistration } from '../frontend/AccountAdmin/AdminRegistration';
-import { AdminAccountCreated } from '../frontend/AccountAdmin/AdminAccountCreated';
-import { AdminEditUser } from '../frontend/AccountAdmin/AdminEditUser';
-import { AdminProfileForm } from '../frontend/AccountAdmin/AdminProfileForm';
-import { AdminAccountActions } from '../frontend/AccountAdmin/AdminAccountActions';
+import { ProfileForm } from '../frontend/AccountManagement/ProfileForm';
+import { PasswordForm } from '../frontend/AccountManagement/PasswordForm';
+import { DeleteAccount } from '../frontend/AccountManagement/DeleteAccount';
 
 import { withKnobs, text } from '@storybook/addon-knobs';
 
-export default { title: 'Admin Account Management', decorators: [withKnobs] };
+export default { title: 'Account Admin', decorators: [withKnobs] };
 
-export const AdminAccountRegistration: React.FC = () => {
-  return <AdminRegistration />;
-};
-
-export const AdminAccountCreatedUI: React.FC = () => {
-  return <AdminAccountCreated createAnother={() => console.log('Create Another Clicked')} />;
-};
-
-export const AdminEditUserProfile: React.FC = () => {
+export const ProfileFormUI: React.FC = () => {
   return (
-    <AdminEditUser
-      existingTitle={text('Title', 'Lord')}
-      existingFirstName={text('First Name', 'Samuel')}
-      existingLastName={text('Surname', 'Beckett')}
-      existingEmail={text('email', 'Becketts@provider.com')}
-      existingPatronType={text('Patron Type', 'Patron Type')}
-      existingGeographicArea={text('Geographic Area', 'UK')}
-      existingSourceLocation={text('Source Location', 'Some Source')}
-      existingInterest={text('Existing Intrest', 'Books')}
-      existingUserCategory={text('User Category', 'Some user category')}
+    <ProfileForm
+      firstName={text('First Name', 'Samuel')}
+      lastName={text('Surname', 'Beckett')}
+      emailAddress={text('email', 'Becketts@provider.com')}
+      libraryCardNumber={text('Library card number', '123456')}
     />
   );
 };
 
-export const AdminEditProfileFormUI: React.FC = () => {
-  return (
-    <AdminProfileForm
-      existingTitle={text('Title', 'Lord')}
-      existingFirstName={text('First Name', 'Samuel')}
-      existingLastName={text('Surname', 'Beckett')}
-      existingEmail={text('email', 'Becketts@provider.com')}
-      existingPatronType={text('Patron Type', 'Patron Type')}
-      existingGeographicArea={text('Geographic Area', 'UK')}
-      existingSourceLocation={text('Source Location', 'Some Source')}
-      existingInterest={text('Existing Intrest', 'Books')}
-      existingUserCategory={text('User Category', 'Some user category')}
-    />
-  );
+export const PasswordFormUI: React.FC = () => {
+  return <PasswordForm />;
 };
 
-export const AdminAccountActionsUI: React.FC = () => {
-  return <AdminAccountActions />;
+export const DeleteAccountUI: React.FC = () => {
+  return <DeleteAccount />;
 };
