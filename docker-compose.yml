@@ -18,8 +18,8 @@ services:
   identity:
     image: uk.ac.wellcome/identity_webapp:${CONTAINER_TAG:-test}
     build:
-      context: ./identity/webapp
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: identity/Dockerfile
   cardigan:
     build:
       context: .
