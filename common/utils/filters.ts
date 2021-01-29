@@ -11,7 +11,7 @@ import {
   WorksRouteProps,
 } from '@weco/common/services/catalogue/ts_routes';
 
-export const getNonEmptyFilters = (
+export const getNonEmptyAggregations = (
   bucket: CatalogueAggregationBucket[]
 ): CatalogueAggregationBucket[] => {
   return bucket.filter(items => {
@@ -32,7 +32,7 @@ export const getAggregationFilterByName = (
     });
 
   return aggregations && bucketName && aggregations?.[bucketName]?.buckets
-    ? getNonEmptyFilters(aggregations?.[bucketName]?.buckets)
+    ? getNonEmptyAggregations(aggregations?.[bucketName]?.buckets)
     : [];
 };
 
