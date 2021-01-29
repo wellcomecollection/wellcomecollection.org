@@ -9,7 +9,8 @@
   "author": "Stephen Fraser <stephen.fraser@digirati.com>",
   "license": "MIT",
   "scripts": {
-    "start": "NODE_ENV=development pm2 start ecosystem.config.js --watch --no-daemon",
+    "start": "NODE_ENV=production pm2 start ecosystem.config.js",
+    "start:dev": "NODE_ENV=development pm2 start ecosystem.config.js --watch --no-daemon",
     "watch": "tsc -p ./ --watch",
     "watch-bundle": "yarn build:frontend --watch",
     "build": "NODE_ENV=production yarn build:schema && NODE_ENV=production yarn build:ts && NODE_ENV=production yarn build:frontend",
@@ -36,6 +37,7 @@
     "passport-auth0": "^1.4.0",
     "passport-local": "^1.0.0",
     "pm2": "^4.2.3",
+    "query-string": "^6.13.8",
     "react": "^16.13.1",
     "react-dom": "^16.1.0",
     "react-router-dom": "^5.2.0",
