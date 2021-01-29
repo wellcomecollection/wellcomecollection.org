@@ -61,7 +61,6 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, emailAddr
       <h2 className="font-wb font-size-3">Change email</h2>
       <form>
         <TextInput
-          id="email-address"
           placeholder=""
           required={true}
           aria-label="Email Address"
@@ -76,7 +75,7 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, emailAddr
           </ErrorMessage>
         )}
         <SpacingComponent />
-        <PasswordInput value={password} setValue={setPassword} label="password" id="password" />
+        <PasswordInput value={password} setValue={setPassword} />
         <SpacingComponent />
         <OutlinedButton onClick={deleteAccount}>Delete Account</OutlinedButton>
         <SolidButton disabled={!valid || saved} onClick={saveChanges}>

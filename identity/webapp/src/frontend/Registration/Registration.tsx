@@ -16,7 +16,7 @@ const logo = 'https://identity-public-assets-stage.s3.eu-west-1.amazonaws.com/im
 
 // At least 8 characters, one uppercase, one lowercase and number
 const passwordPolicy = /(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*/;
-const emailTest = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const emailTest = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export const Registration: React.FC = () => {
   const [firstName, setFirstName] = useState<string>();
@@ -75,7 +75,7 @@ export const Registration: React.FC = () => {
             password: pass,
           },
         })
-          .then(() => {
+          .then((response) => {
             setCreated(true);
           })
           .catch((error) => {
@@ -190,11 +190,9 @@ export const Registration: React.FC = () => {
             />
             <SpacingComponent />
             <PasswordInput
-              id="password"
-              label="Password"
               value={pass}
               setValue={(value: string) => setPass(value)}
-              pattern={passwordPolicy.toString()}
+              pattern={passwordPolicy}
               isValid={!commonPassword && passQualifies}
               showValidity={!!pass && pass !== ''}
               errorMessage={passwordErrorMessage()}
@@ -216,11 +214,7 @@ export const Registration: React.FC = () => {
               text={
                 <>
                   I have read and agreed to the{' '}
-                  <a
-                    href="https://wellcome.org/about-us/governance/privacy-and-terms"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <a href="https://wellcome.org/about-us/governance/privacy-and-terms" target="_blank" rel="noopener">
                     Privacy and Terms
                   </a>{' '}
                   for Wellcome Collection.

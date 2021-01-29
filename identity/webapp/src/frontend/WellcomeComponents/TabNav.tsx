@@ -1,8 +1,8 @@
 // Converted from flow to TSX element
-import React from 'react';
+import React, { ComponentType } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
+import Space, { SpaceComponentProps } from '@weco/common/views/components/styled/Space';
 import { Link } from 'react-router-dom';
 
 // adapted from @weco/common/views/components/styled/Space
@@ -12,14 +12,14 @@ export type SelectableTextLink = {
   text: string;
   link: any;
   selected: boolean;
-  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
+  onClick?: (element: HTMLAnchorElement) => void;
 };
 
 type Props = {
   items: SelectableTextLink[];
 };
 
-const NavItemInner = styled(Space).attrs((props: any) => ({
+const NavItemInner: ComponentType<SpaceComponentProps> = styled(Space).attrs((props: any) => ({
   className: classNames({
     selected: props.selected,
     block: true,

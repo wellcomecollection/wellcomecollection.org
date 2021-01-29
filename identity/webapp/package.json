@@ -1,5 +1,5 @@
 {
-  "name": "@weco/identity",
+  "name": "account-management",
   "version": "0.1.0",
   "main": "index.js",
   "repository": {
@@ -43,8 +43,10 @@
     "styled-components": "^5.2.1"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-decorators": "^7.12.12",
     "@babel/preset-flow": "7.12.1",
+    "@fesk/babel-config": "1.4.0-pr.b6dc2fa3",
+    "@fesk/eslint-config-standard": "1.4.0-pr.b6dc2fa3",
+    "@fesk/scripts": "1.4.0-pr.a95f698d",
     "@storybook/addon-a11y": "^6.1.9",
     "@storybook/addon-actions": "^6.0.0-rc.26",
     "@storybook/addon-essentials": "^6.0.0-rc.26",

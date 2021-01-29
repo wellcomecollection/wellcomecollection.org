@@ -12,12 +12,12 @@ type TextInputWrapProps = {
 };
 
 const TextInputWrap = styled.div.attrs<TextInputWrapProps>(() => ({
-  className: classNames({ 'flex relative': true }),
-}))<TextInputWrapProps>`
+  className: classNames({'flex relative': true,})})
+)<TextInputWrapProps>`
   font-size: ${(props: any) => (props.big ? '20px' : '16px')};
 
   &:focus-within {
-    box-shadow: ${(props) => props.theme.focusBoxShadow};
+    box-shadow: ${props => props.theme.focusBoxShadow};
 
     label {
       font-size: 14px;
@@ -28,7 +28,7 @@ const TextInputWrap = styled.div.attrs<TextInputWrapProps>(() => ({
   overflow: hidden;
   border-radius: 6px;
 
-  ${(props) =>
+  ${props =>
     props.hasErrorBorder &&
     `
     box-shadow: 0 0 0 1px ${props.theme.color('red')};
@@ -37,12 +37,13 @@ const TextInputWrap = styled.div.attrs<TextInputWrapProps>(() => ({
 
 type TextInputLabelProps = {
   isEnhanced: boolean | undefined;
-  hasValue: boolean | undefined;
+  hasValue: boolean| undefined;
   htmlFor: string;
 };
 
+
 const TextInputLabel = styled.label.attrs<TextInputLabelProps>(() => ({
-  className: classNames({
+    className: classNames({
     absolute: true,
   }),
 }))<TextInputLabelProps>`
@@ -62,9 +63,10 @@ const TextInputLabel = styled.label.attrs<TextInputLabelProps>(() => ({
 
   white-space: nowrap;
   left: 15px;
-  transition: top 125ms ease-in, font-size 125ms ease-in, transform 125ms ease-in;
+  transition: top 125ms ease-in, font-size 125ms ease-in,
+    transform 125ms ease-in;
   pointer-events: none;
-  color: ${(props) => props.theme.color('silver')};
+  color: ${props => props.theme.color('silver')};
 
   ${(props: any) =>
     (!props.$isEnhanced || props.hasValue) &&
@@ -77,25 +79,27 @@ const TextInputLabel = styled.label.attrs<TextInputLabelProps>(() => ({
   `}
 `;
 
+
 type TextInputInputProps = {
   hasErrorBorder: boolean | undefined;
 };
 
-const TextInputInput = styled.input.attrs<TextInputInputProps>((props) => ({
+
+const TextInputInput = styled.input.attrs<TextInputInputProps>(props => ({
   type: props.type || 'text',
 }))<TextInputInputProps>`
   padding: 27px 40px 8px 15px;
   appearance: none;
   border: 0;
   height: 100%;
-  border: 1px solid ${(props) => props.theme.color('pumice')};
+  border: 1px solid ${props => props.theme.color('pumice')};
   border-radius: 6px;
   font-size: inherit;
   width: 100%;
 
   &:focus {
     outline: 0;
-    border-color: ${(props) => props.theme.color('turquoise')};
+    border-color: ${props => props.theme.color('turquoise')};
   }
 
   &:-ms-clear {
@@ -133,27 +137,27 @@ const TextInputErrorMessage = styled.span.attrs({
   font-size: 14px;
   margin-top: 10px;
   padding-left: 15px;
-  color: ${(props) => props.theme.color('red')};
+  color: ${props => props.theme.color('red')};
 `;
 
-export type TextInputProps = {
-  label: string;
-  value: string | undefined;
-  setValue: (value: string) => void;
-  id: string;
-  name?: string;
-  type?: string;
-  pattern?: string;
-  required?: boolean;
-  placeholder?: string;
-  errorMessage?: string | ReactElement;
-  isValid?: boolean;
-  setIsValid?: (value: boolean) => void;
-  showValidity?: boolean;
-  setShowValidity?: (value: boolean) => void;
-  autoFocus?: boolean;
-  big?: boolean;
-  ariaLabel?: string;
+type Props = {
+  label: string,
+  value: string | undefined,
+  setValue: (value: string) => void,
+  id: string,
+  name?: string,
+  type?: string,
+  pattern?: string,
+  required?: boolean,
+  placeholder?: string,
+  errorMessage?: string | ReactElement,
+  isValid?: boolean,
+  setIsValid?: (value: boolean) => void,
+  showValidity?: boolean,
+  setShowValidity?: (value: boolean) => void,
+  autoFocus?: boolean,
+  big?: boolean,
+  ariaLabel?: string,
 };
 
 const TextInput = forwardRef(
@@ -175,8 +179,8 @@ const TextInput = forwardRef(
       autoFocus,
       big,
       ariaLabel,
-    }: TextInputProps,
-    _ref
+    }: Props,
+    ref
   ) => {
     const { isEnhanced } = useContext(AppContext);
 
@@ -226,7 +230,9 @@ const TextInput = forwardRef(
             </TextInputCheckmark>
           )}
         </TextInputWrap>
-        {errorMessage && !isValid && showValidity && <TextInputErrorMessage>{errorMessage}</TextInputErrorMessage>}
+        {errorMessage && !isValid && showValidity && (
+          <TextInputErrorMessage>{errorMessage}</TextInputErrorMessage>
+        )}
       </div>
     );
   }
