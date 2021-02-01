@@ -1,5 +1,5 @@
 // @flow
-
+// $FlowFixMe (tsx)
 import CardGrid from '../CardGrid/CardGrid';
 import type { UiExhibition } from '../../../model/exhibitions';
 import { type UiEvent } from '../../../model/events';

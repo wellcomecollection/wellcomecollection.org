@@ -6,6 +6,7 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import { getArticles } from '@weco/common/services/prismic/articles';
 import { articleLd } from '@weco/common/utils/json-ld';
 import { getPage } from '@weco/common/services/prismic/pages';
+// $FlowFixMe (tsx)
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
