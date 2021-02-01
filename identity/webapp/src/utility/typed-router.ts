@@ -2,6 +2,7 @@ import Router from '@koa/router';
 import koaBody from 'koa-body';
 import { requestBody } from '../middleware/request-body';
 import { RouteMiddleware } from '../types/application';
+import { prefix } from './prefix';
 
 export type RouteWithParams<Props, Body = any> =
   | [string, string, RouteMiddleware<Props, Body>]
@@ -29,7 +30,7 @@ export class TypedRouter<
   static PUT = 'put';
   static DELETE = 'delete';
 
-  private router = new Router();
+  private router = new Router({ prefix });
 
   constructor(routes: MappedRoutes) {
     const routeNames = Object.keys(routes) as Routes[];

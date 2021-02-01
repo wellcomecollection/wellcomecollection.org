@@ -1,6 +1,5 @@
-version: "3"
+version: '3'
 services:
-
   service:
     build:
       context: .
@@ -21,5 +20,6 @@ services:
       - SERVER_PORT=${SERVER_PORT:-3000}
       - API_BASE_URL=${API_BASE_URL}
       - API_KEY=${API_KEY}
+      - CONTEXT_PATH=${CONTEXT_PATH}
     ports:
-      - "${SERVER_PORT:-3000}:${SERVER_PORT:-3000}"
+      - '${SERVER_PORT:-3000}:${SERVER_PORT:-3000}'
