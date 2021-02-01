@@ -5,7 +5,7 @@ export const indexPage: RouteMiddleware = (context) => {
   const bundle = context.routes.url('assets-bundles');
 
   if (!context.isAuthenticated()) {
-    context.redirect(prefix + '/login');
+    context.redirect(`${prefix ? prefix : ''}/login`);
     return;
   }
 
