@@ -1,6 +1,7 @@
 // @flow
 // $FlowFixMe (tsx)
 import PageLayout from '../PageLayout/PageLayout';
+// $FlowFixMe (tsx)
 import ContentPage from '../ContentPage/ContentPage';
 import PageHeader from '../PageHeader/PageHeader';
 // $FlowFixMe (tsx)

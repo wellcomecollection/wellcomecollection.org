@@ -5,6 +5,7 @@ import type { UiEvent } from '@weco/common/model/events';
 import { Component } from 'react';
 import { getEventSeries } from '@weco/common/services/prismic/event-series';
 import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+// $FlowFixMe (tsx)
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 // $FlowFixMe (tsx)
 import Body from '@weco/common/views/components/Body/Body';
