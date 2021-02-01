@@ -1,34 +1,39 @@
 # Account management
+
 The chosen Node library for this API is the [Koa framework](https://koajs.com/). It is a battle-tested Node framework
 with a similar api to Express. The code base is written in Typescript and runs using [pm2](https://pm2.keymetrics.io/)
 process manager and built into a Docker image.
 
 ## 3rd Party components
+
 This repository uses a set of components, many of which are part of a standard set used by a few other projects at
 Digirati for Node-based micro-services. This is a breakdown of each of the libraries, where they are used and why.
 
 #### Node runtime
+
 - [AJV](https://github.com/ajv-validator/ajv) - JSON Schema validator, used for validating request bodies
 - [koa](https://koajs.com/) - The http framework that handles requests
-    - [@koa/router](https://github.com/ZijianHe/koa-router) - Path-to-regexp based router with express-like API
-    - [koa-body](https://www.npmjs.com/package/koa-body) - Parses content types into Javascript objects
-    - [koa-json](https://www.npmjs.com/package/koa-json) - Serves and serialises JSON responses
-    - [koa-logger](https://www.npmjs.com/package/koa-logger) - Logs request and response endpoints and status codes (can be disabled in production)
-    - [koa-send](https://www.npmjs.com/package/koa-send) - Serves static files
-    - [koa-session](https://www.npmjs.com/package/koa-session) - Simple and secure cookie based session store
+  - [@koa/router](https://github.com/ZijianHe/koa-router) - Path-to-regexp based router with express-like API
+  - [koa-body](https://www.npmjs.com/package/koa-body) - Parses content types into Javascript objects
+  - [koa-json](https://www.npmjs.com/package/koa-json) - Serves and serialises JSON responses
+  - [koa-logger](https://www.npmjs.com/package/koa-logger) - Logs request and response endpoints and status codes (can be disabled in production)
+  - [koa-send](https://www.npmjs.com/package/koa-send) - Serves static files
+  - [koa-session](https://www.npmjs.com/package/koa-session) - Simple and secure cookie based session store
 - [passport](http://www.passportjs.org/) - Handles authentication strategies, including Auth0
-    - [passport-local](https://www.npmjs.com/package/passport-local) - Development authentication
-    - [passport-auth0](https://www.npmjs.com/package/passport-auth0) - Auth0 strategy for authentication
-    - [koa-passport](https://www.npmjs.com/package/koa-passport) - Koa middleware for passport (wraps express middleware)
+  - [passport-local](https://www.npmjs.com/package/passport-local) - Development authentication
+  - [passport-auth0](https://www.npmjs.com/package/passport-auth0) - Auth0 strategy for authentication
+  - [koa-passport](https://www.npmjs.com/package/koa-passport) - Koa middleware for passport (wraps express middleware)
 - [PM2](https://pm2.keymetrics.io/) - NodeJS process manager
 
 ### Frontend runtime
+
 The frontend has not yet been fleshed out, but the following have been installed in preparation for development:
 
 - [React v16.14 + React DOM v16.9](http://reactjs.org/) - For rendering the client side HTML
 - [Styled components](https://styled-components.com/) - For styling components
 
 ### Build tools
+
 This is not exhaustive. The full list can be found in the `package.json`.
 
 - [Typescript compiler](https://www.typescriptlang.org/) - Compiles Typescript to javascript
@@ -59,28 +64,35 @@ Prettier is run through eslint. Enabling eslint in your IDE should pick up the c
 running `yarn install && yarn build` for the first time.
 
 To get started with an environment:
+
 ```
 $ yarn start:dev
 ```
+
 A server will be created on port 3000.
 
 If you want to change the node code, then you can watch it with
+
 ```
 $ yarn watch:server
 ```
 
 If you want to change the frontend code, then you can watch it with
+
 ```
 $ yarn watch:client
 ```
 
 If you change a type in the schema folder, you can recreate the JSON schema using:
+
 ```
 $ yarn build:frontend
 ```
 
 ### Configuring Auth0 integration
+
 You can create a `.env` file to test Auth0 integration:
+
 ```
 # Set to local for testing.
 AUTH_METHOD=auth0
@@ -106,6 +118,7 @@ comma-separated list of random strings. These are used to sign cookies. The appl
 have at least one session key.
 
 ## Custom boilerplate
+
 To facilitate rapid development, a few custom components have been created.
 
 - TypedRouter (`./src/utility/typed-router.ts`) - This is a wrapper around the koa router to add TypeScript types. (see routing below)
@@ -116,6 +129,7 @@ To facilitate rapid development, a few custom components have been created.
 - Application types (`./src/types/application.ts`) - Types for the global context in Koa
 
 ## Creating new routes
+
 Before thinking about the URL structure of an endpoint, it's useful to think about the data you need. The code that
 serves the routes is found in `./src/routes`.
 
@@ -133,6 +147,7 @@ The type assigned to the function is `RouteMiddleware`. This is a custom type th
 state and context. This extends the Koa Middleware type. The `RouteMiddleware` is generic and accepts two arguments.
 
 The first is the parameters from the url. If you had a `user_id` in the url you can type this in the middleware:
+
 ```ts
 import { RouteMiddleware } from './application';
 
@@ -143,6 +158,7 @@ export const getUser: RouteMiddleware<{ user_id: string }> = (context) => {
 ```
 
 The second is the type of the POST body.
+
 ```ts
 import { RouteMiddleware } from './application';
 
@@ -152,6 +168,7 @@ export const updateUser: RouteMiddleware<{ user_id: string }, UserModel> = (cont
   context.requestBody; // Correctly typed to UserModel
 };
 ```
+
 If you would like runtime validation of this body type, then you can add it to `./types/schemas/` folder and it
 will create a JSON schema.
 
@@ -166,6 +183,7 @@ export const router = new TypedRouter({
 This should match the generated file in `./schemas/UserModel.json` and also the type name. This is optional.
 
 In your route you can also protect an endpoint by checking the context for the authorised user.
+
 ```ts
 import { RouteMiddleware } from './application';
 
@@ -177,6 +195,7 @@ export const ping: RouteMiddleware = (context) => {
   context.response.body = { ping: 'pong' };
 };
 ```
+
 These errors can be created and caught in the error handler. This helper is provided by the passport integration.
 
 ### Making API requests
@@ -215,6 +234,7 @@ there is a script (`node ./tools/generate-ts.js`) that will recreate the typescr
 will get re-converted back into Schemas mapped to the Typescript types again as part of the build.
 
 ### Changing Auth0 configuration
+
 At the moment all the data we get from Auth0 is stored in the session to be used. We might not need all of this
 information. The mapping of this data from Auth0 to session is found in `./utility/configure-auth0.ts`. If we wanted
 to store the information somewhere else we can do that here too.
@@ -228,6 +248,7 @@ The following routes are configured for Auth0 in the router:
 All of this is handled by Passport.js and their Auth0 provider.
 
 ## Frontend code
+
 All the frontend code should live inside `./src/frontend`. At the moment it is just a plain file rendering some JSX.
 
 A simple router can be added. Any route that does not match an API will render the React frontend, so we do not need
