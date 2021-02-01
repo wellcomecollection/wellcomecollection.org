@@ -1,4 +1,5 @@
 // @flow
+// $FlowFixMe (tsx)
 import CardGrid from '../CardGrid/CardGrid';
 // $FlowFixMe (tsx)
 import Layout12 from '../Layout12/Layout12';

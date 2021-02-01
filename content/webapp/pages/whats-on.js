@@ -24,6 +24,7 @@ import {
 } from '@weco/common/data/facility-promos';
 import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
+// $FlowFixMe (tsx)
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import EventsByMonth from '@weco/common/views/components/EventsByMonth/EventsByMonth';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
