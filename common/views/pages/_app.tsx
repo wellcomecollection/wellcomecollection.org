@@ -1,4 +1,4 @@
-import { AppProps } from 'next/app';
+import { AppProps, NextWebVitalsMetric } from 'next/app';
 import Router from 'next/router';
 import ReactGA from 'react-ga';
 import { useEffect } from 'react';
