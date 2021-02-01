@@ -9,7 +9,7 @@
   "author": "Stephen Fraser <stephen.fraser@digirati.com>",
   "license": "MIT",
   "scripts": {
-    "start": "NODE_ENV=production pm2 start ecosystem.config.js",
+    "start": "NODE_ENV=production pm2-runtime start ecosystem.config.js",
     "start:dev": "NODE_ENV=development pm2 start ecosystem.config.js --watch --no-daemon",
     "watch": "tsc -p ./ --watch",
     "watch-bundle": "yarn build:frontend --watch",
