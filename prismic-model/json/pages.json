@@ -613,7 +613,7 @@
         }
       }
     },
-    "landing-pages": {
+    "landingPages": {
       "type": "Group",
       "fieldset": "Parent landing page",
       "config": {
