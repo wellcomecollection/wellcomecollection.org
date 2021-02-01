@@ -1,10 +1,11 @@
+import { prefix } from '../utility/prefix';
 import { RouteMiddleware } from '../types/application';
 
 export const indexPage: RouteMiddleware = (context) => {
   const bundle = context.routes.url('assets-bundles');
 
   if (!context.isAuthenticated()) {
-    context.redirect('/login');
+    context.redirect(prefix + '/login');
     return;
   }
 
