@@ -615,18 +615,18 @@
     },
     "landingPages": {
       "type": "Group",
-      "fieldset": "Parent landing page",
+      "fieldset": "Landing pages",
       "config": {
         "fields": {
-          "landing-page": {
+          "landingPage": {
             "type": "Link",
             "config": {
-              "label": "Parent landing-page",
+              "label": "Landing page",
               "select": "document",
               "customtypes": [
                 "landing-pages"
               ],
-              "placeholder": "Select a parent landing-page"
+              "placeholder": "Select a Landing page"
             }
           }
         }

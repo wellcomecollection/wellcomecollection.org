@@ -24,12 +24,12 @@ const Page = {
     seasons: list('Seasons', {
       season: link('Season', 'document', ['seasons'], 'Select a Season'),
     }),
-    landingPages: list('Parent landing page', {
-      'landing-page': link(
-        'Parent landing-page',
+    landingPages: list('Landing pages', {
+      landingPage: link(
+        'Landing page',
         'document',
         ['landing-pages'],
-        'Select a parent landing-page'
+        'Select a Landing page'
       ),
     }),
   },
