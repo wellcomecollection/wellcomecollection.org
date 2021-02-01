@@ -13,6 +13,7 @@ import GridFactory from '../GridFactory/GridFactory';
 // $FlowFixMe (tsx)
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import SectionHeader from '../SectionHeader/SectionHeader';
+// $FlowFixMe (tsx)
 import Card from '../Card/Card';
 import FeaturedCard, {
   convertItemToFeaturedCardProps,

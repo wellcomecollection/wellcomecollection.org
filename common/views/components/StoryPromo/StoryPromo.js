@@ -9,6 +9,7 @@ import LabelsList from '../LabelsList/LabelsList';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
+// $FlowFixMe (tsx)
 import { CardOuter, CardBody } from '../Card/Card';
 
 type Props = {|
