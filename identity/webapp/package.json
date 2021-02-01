@@ -25,6 +25,7 @@
     "@types/styled-components": "^5.1.5",
     "@weco": "git+https://github.com/wellcomecollection/wellcomecollection.org.git",
     "ajv": "^6.12.6",
+    "dotenv": "^8.2.0",
     "koa": "^2.13.0",
     "koa-body": "^4.2.0",
     "koa-json": "^2.0.2",
