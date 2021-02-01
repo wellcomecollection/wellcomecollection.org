@@ -10,7 +10,7 @@ import StoryPromo from '../StoryPromo/StoryPromo';
 
 import MoreLink from '../MoreLink/MoreLink';
 import { Link } from '../../../model/link';
-import { UiExhibition } from '../../../model/exhibitions';
+import { Exhibition, UiExhibition } from '../../../model/exhibitions';
 import { UiEvent } from '../../../model/events';
 import { Book } from '../../../model/books';
 import { Article } from '../../../model/articles';
@@ -27,6 +27,7 @@ import { FunctionComponent } from 'react';
 type ContentTypes =
   | UiEvent
   | UiExhibition
+  | Exhibition
   | Book
   | Article
   | Page
