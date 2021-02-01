@@ -1,9 +1,6 @@
-import { config } from 'dotenv';
 import { createApp } from './app';
 import { port } from './config';
 import { router } from './router';
-
-config();
 
 async function main() {
   const app = await createApp(router);
