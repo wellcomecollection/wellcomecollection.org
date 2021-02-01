@@ -7,6 +7,7 @@ import { UiImage } from '../Images/Images';
 import type { ImageType } from '../../../model/image';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
+// $FlowFixMe (tsx)
 import { CardOuter, CardBody } from '../Card/Card';
 
 type Props = {|
