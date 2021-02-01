@@ -60,29 +60,23 @@ running `yarn install && yarn build` for the first time.
 
 To get started with an environment:
 ```
-$ docker-compose up
+$ yarn start:dev
 ```
 A server will be created on port 3000.
 
 If you want to change the node code, then you can watch it with
 ```
-$ yarn build:ts --watch
+$ yarn watch:server
 ```
 
 If you want to change the frontend code, then you can watch it with
 ```
-$ yarn build:frontend --watch
+$ yarn watch:client
 ```
 
 If you change a type in the schema folder, you can recreate the JSON schema using:
 ```
 $ yarn build:frontend
-```
-
-If you add a new module to the `package.json` with the docker-compose running, it will not pick up the change until
-you restart with `docker-compose up --build` or alternatively you can run:
-```
-docker-compose exec service yarn install
 ```
 
 ### Configuring Auth0 integration
