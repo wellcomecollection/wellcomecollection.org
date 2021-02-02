@@ -24,6 +24,7 @@ import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIco
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 // $FlowFixMe (tsx)
 import BannerCard from '../BannerCard/BannerCard';
+import type { SiblingsGroup } from '@weco/common/model/siblings-group';
 /*eslint-disable */
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 
@@ -39,6 +40,7 @@ type Props = {|
   Siblings?: Element<typeof SeriesNavigation>[],
   outroProps?: ?ElementProps<typeof Outro>,
   seasons?: any, // TODO
+  pageSiblings?: SiblingsGroup[],
 |};
 
 // FIXME: obviously we can't carry on like this!
@@ -83,6 +85,7 @@ const ContentPage = ({
   Siblings = [],
   outroProps,
   seasons = [],
+  pageSiblings = [],
 }: Props) => {
   // We don't want to add a spacing unit if there's nothing to render
   // in the body (we don't render the 'standfirst' here anymore).

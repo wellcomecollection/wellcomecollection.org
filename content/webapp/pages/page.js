@@ -13,15 +13,16 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { getPage } from '@weco/common/services/prismic/pages';
+import { getPage, getPageSiblings } from '@weco/common/services/prismic/pages';
 import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page as PageType } from '@weco/common/model/pages';
+import type { SiblingsGroup } from '@weco/common/model/siblings-group';
 // $FlowFixMe (ts)
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
-
 type Props = {|
   page: PageType,
+  siblings: SiblingsGroup,
 |};
 
 const backgroundTexture = headerBackgroundLs;
@@ -30,8 +31,10 @@ export class Page extends Component<Props> {
     const { id, memoizedPrismic } = ctx.query;
     const page = await getPage(ctx.req, id, memoizedPrismic);
     if (page) {
+      const siblings = await getPageSiblings(page, ctx.req, memoizedPrismic);
       return {
         page,
+        siblings,
       };
     } else {
       return { statusCode: 404 };
@@ -39,7 +42,7 @@ export class Page extends Component<Props> {
   };
 
   render() {
-    const { page } = this.props;
+    const { page, siblings } = this.props;
     const DateInfo = page.datePublished && (
       <HTMLDate date={new Date(page.datePublished)} />
     );
@@ -133,6 +136,7 @@ export class Page extends Component<Props> {
           }
           contributorProps={{ contributors: page.contributors }}
           seasons={page.seasons}
+          pageSiblings={siblings}
         />
       </PageLayout>
     );
