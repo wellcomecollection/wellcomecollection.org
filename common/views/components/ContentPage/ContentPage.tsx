@@ -20,6 +20,7 @@ import Space from '../styled/Space';
 import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import BannerCard from '../BannerCard/BannerCard';
+import Body from '../Body/Body';
 /*eslint-disable */
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 
@@ -28,9 +29,13 @@ type Props = {
   id: string;
   isCreamy?: boolean;
   Header: ReactElement<typeof PageHeader>;
-  Body: any;
+  Body: {
+    props: {
+      body: typeof Body;
+    }
+  } 
   // This is used for content type specific components e.g. InfoBox
-  children?: ReactNode | null | undefined;
+  children?: ReactNode;
   contributorProps?: typeof Contributors;
   Siblings?: ReactElement<typeof SeriesNavigation>[];
   outroProps?: ReactElement<typeof Outro> | null | undefined;

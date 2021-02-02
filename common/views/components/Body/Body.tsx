@@ -66,7 +66,7 @@ const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
   }
 };
 
-type Props = {
+export type Props = {
   body: BodyType;
   onThisPage?: Link[];
   showOnThisPage?: boolean;
