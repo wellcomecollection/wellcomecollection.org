@@ -1,6 +1,6 @@
 import { RouteMiddleware } from '../types/application';
 import koaPassport from 'koa-passport';
-import { withPrefix } from 'utility/prefix';
+import { withPrefix } from '../utility/prefix';
 
 export const loginAction: RouteMiddleware = koaPassport.authenticate('auth0');
 
