@@ -24,6 +24,14 @@ const Page = {
     seasons: list('Seasons', {
       season: link('Season', 'document', ['seasons'], 'Select a Season'),
     }),
+    landingPages: list('Landing pages', {
+      landingPage: link(
+        'Landing page',
+        'document',
+        ['landing-pages'],
+        'Select a Landing page'
+      ),
+    }),
   },
   // TODO: (drupal migration) Remove this
   Migration: {
