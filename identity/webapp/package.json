@@ -18,7 +18,8 @@
     "build:schema": "node generate-schemas.js",
     "build:frontend": "webpack --config webpack.frontend.js --entry ./src/frontend/index.tsx --output-path lib/frontend/build",
     "storybook": "start-storybook -p 4009",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "test": "jest"
   },
   "dependencies": {
     "@koa/router": "^10.0.0",
@@ -54,6 +55,7 @@
     "@storybook/addon-links": "^6.0.0-rc.26",
     "@storybook/core": "^6.0.0-rc.26",
     "@storybook/react": "^6.0.0-rc.26",
+    "@types/jest": "^26.0.20",
     "@types/koa": "^2.11.0",
     "@types/koa-json": "^2.0.18",
     "@types/koa-logger": "^3.1.1",
@@ -90,6 +92,7 @@
     "react-ga": "3.3.0",
     "sass-loader": "10.1.0",
     "style-loader": "^2.0.0",
+    "ts-jest": "^26.5.0",
     "ts-loader": "^8.0.11",
     "ts-node": "^8.6.2",
     "typescript": "^3.9.7",
