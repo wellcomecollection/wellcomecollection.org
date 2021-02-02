@@ -10,6 +10,7 @@ import {
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
 import type { Page } from '../../model/pages';
+import type { SiblingsGroup } from '../../model/siblings-group';
 import type { PrismicDocument, PaginatedResults } from './types';
 import {
   pagesFields,
@@ -26,6 +27,7 @@ import {
   contributorsFields,
   peopleFields,
   bookFields,
+  landingPagesFields,
 } from './fetch-links';
 
 export function parsePage(document: PrismicDocument): Page {
@@ -33,6 +35,12 @@ export function parsePage(document: PrismicDocument): Page {
   const genericFields = parseGenericFields(document);
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
     return parseSeason(season);
+  });
+  const landingPages = parseSingleLevelGroup(
+    data.landingPages,
+    'landingPage'
+  ).map(page => {
+    return parsePage(page);
   });
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
   // strategy for this later
@@ -61,6 +69,7 @@ export function parsePage(document: PrismicDocument): Page {
     type: 'pages',
     ...genericFields,
     seasons,
+    landingPages,
     onThisPage: data.body ? parseOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,
     promo: promo && promo.image ? promo : drupalisedPromo,
@@ -94,7 +103,8 @@ export async function getPage(
         seasonsFields,
         contributorsFields,
         peopleFields,
-        bookFields
+        bookFields,
+        landingPagesFields
       ),
     },
     memoizedPrismic
@@ -113,7 +123,12 @@ type GetPagesProps = {|
 
 export async function getPages(
   req: ?Request,
-  { predicates = [], order = 'desc', page = 1 }: GetPagesProps = {},
+  {
+    predicates = [],
+    order = 'desc',
+    page = 1,
+    pageSize = 100,
+  }: GetPagesProps = {},
   memoizedPrismic: ?Object
 ): Promise<PaginatedResults<Page>> {
   const paginatedResults = await getDocuments(
@@ -121,6 +136,23 @@ export async function getPages(
     [Prismic.Predicates.any('document.type', ['pages'])].concat(predicates),
     {
       page,
+      pageSize,
+      fetchLinks: pagesFields.concat(
+        eventSeriesFields,
+        collectionVenuesFields,
+        exhibitionFields,
+        teamsFields,
+        eventsFields,
+        cardsFields,
+        eventFormatsFields,
+        articleFormatsFields,
+        labelsFields,
+        seasonsFields,
+        contributorsFields,
+        peopleFields,
+        bookFields,
+        landingPagesFields
+      ),
     },
     memoizedPrismic
   );
@@ -134,6 +166,36 @@ export async function getPages(
     totalPages: paginatedResults.totalPages,
     results: pages,
   };
+}
+
+export async function getPageSiblings(
+  page: Page,
+  req: ?Request,
+  memoizedPrismic: ?Object
+): SiblingsGroup[] {
+  const relatedPagePromises = page?.landingPages.map(async landingPage => {
+    const pagePromise = await getPages(
+      req,
+      {
+        predicates: [
+          Prismic.Predicates.at(
+            'my.pages.landingPages.landingPage',
+            landingPage.id
+          ),
+        ],
+      },
+      memoizedPrismic
+    );
+    return pagePromise;
+  }) || [Promise.resolve([])];
+  const relatedPages = await Promise.all(relatedPagePromises);
+  const siblingsWithLandingTitle = relatedPages.map((results, i) => {
+    return {
+      landingPageTitle: page.landingPages[i].title,
+      siblings: results.results.filter(sibling => sibling.id !== page.id),
+    };
+  });
+  return siblingsWithLandingTitle;
 }
 
 export async function getPageFromDrupalPath(
