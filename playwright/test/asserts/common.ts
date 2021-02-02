@@ -1,4 +1,4 @@
-import { itemsIsVisible, elementIsVisible } from '../actions/common';
+import { itemsIsVisible, elementIsVisible, findTextOnPage } from '../actions/common';
 
 export async function expectItemsIsVisible(
   selector: string,
@@ -14,4 +14,11 @@ export async function expectItemIsVisible(selector: string): Promise<void> {
 export function expectUrlToMatch(regex: RegExp | string): void {
   const condition = RegExp(regex);
   expect(condition.test(page.url())).toBeTruthy();
+}
+
+export async function expectFindTextOnPage(
+  regex: RegExp | string
+): Promise<void> {
+  const expectedText = await findTextOnPage(regex);
+  expect(expectedText).toBeTruthy();
 }

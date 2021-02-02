@@ -35,3 +35,9 @@ export async function itemsIsVisible(
 
   return result;
 }
+
+export async function findTextOnPage(regex: RegExp | string): Promise<boolean> {
+  const pageContent = await page.content();
+  const regexMatch = new RegExp(regex);
+  return regexMatch.test(pageContent);
+}

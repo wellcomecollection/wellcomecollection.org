@@ -13,6 +13,7 @@ import {
   isMobile,
 } from './actions/common';
 import {
+  expectFindTextOnPage,
   expectItemIsVisible,
   expectItemsIsVisible,
   expectUrlToMatch,
@@ -28,6 +29,7 @@ import {
   searchResultsContainer,
   worksSearchCatalogueInputField,
 } from './selectors/search';
+import { archiveTreeContainerList } from './selectors/archive';
 
 describe('works', () => {
   beforeEach(async () => {
@@ -72,5 +74,41 @@ describe('works', () => {
     await page.waitForNavigation();
     expectUrlToMatch(regexImageSearchResultsUrl);
     await expectItemIsVisible(workTitleHeading);
+  });
+
+  describe('As a researcher I need to find things I am interested in so I can use them in my research', () => {
+    describe('The person is looking for an archive', () => {
+      test('Given we have the archive in our collection when the person searches for a term matching the archive and filters the results for “Archive and manuscripts” Then the work should be browsable to from the search results', async () => {
+        const expectedValue = 'Printed items';
+        const ArchivesManuscripts = 'Archives and manuscripts';
+        await fillActionSearchInput(expectedValue);
+        await pressActionEnterSearchInput();
+
+        if (isMobile()) {
+          await clickActionModalFilterButton();
+          await elementIsVisible(mobileModal);
+          await clickActionFormatRadioCheckbox(ArchivesManuscripts);
+          await clickActionCloseModalFilterButton();
+        } else {
+          await clickActionFormatDropDown();
+          await clickActionFormatRadioCheckbox(ArchivesManuscripts);
+        }
+        expectUrlToMatch(/Printed[+]items/);
+
+        await expectItemIsVisible(searchResultsContainer);
+        await page.waitForNavigation();
+        expectUrlToMatch(/workType=h/);
+
+        await expectItemIsVisible(searchResultsContainer);
+        await expectItemsIsVisible(worksSearchResultsListItem, 1);
+
+        await clickActionClickSearchResultItem(3);
+        await page.waitForNavigation();
+        expectUrlToMatch(regexImageSearchResultsUrl);
+
+        await expectFindTextOnPage(ArchivesManuscripts);
+        await expectItemsIsVisible(archiveTreeContainerList, 1);
+      });
+    });
   });
 });
