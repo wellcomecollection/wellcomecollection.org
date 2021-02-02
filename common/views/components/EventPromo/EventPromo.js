@@ -3,6 +3,7 @@ import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
+// $FlowFixMe (tsx)
 import Dot from '../Dot/Dot';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import { type UiEvent, isEventFullyBooked } from '../../../model/events';
