@@ -1,36 +1,31 @@
 import React from 'react';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-// @ts-ignore
-import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { PageWrapper } from '../Shared/PageWrapper';
+import { withPrefix } from '../../utility/prefix';
 
 // TODO: Update this to prod.
 const logo = 'https://identity-public-assets-stage.s3.eu-west-1.amazonaws.com/images/wellcomecollections-150x50.png';
 
 const LogoContainer = styled.div`
-   {
-    margin: auto;
-    padding: 42px;
-    width: 200px;
-  }
+  margin: auto;
+  padding: 42px;
+  width: 200px;
 `;
 
 const PageContainer = styled.div`
-   {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
-export const AccountValidated = () => {
+export const AccountValidated = (): JSX.Element => {
   const history = useHistory();
 
   const redirectToLogin = () => {
-    history.push('/');
+    history.push(withPrefix('/'));
   };
 
   return (
