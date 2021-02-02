@@ -21,6 +21,7 @@ import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIco
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import BannerCard from '../BannerCard/BannerCard';
 import Body from '../Body/Body';
+import { Season } from '../../../model/seasons';
 /*eslint-disable */
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 
@@ -39,7 +40,7 @@ type Props = {
   contributorProps?: typeof Contributors;
   Siblings?: ReactElement<typeof SeriesNavigation>[];
   outroProps?: ReactElement<typeof Outro> | null | undefined;
-  seasons?: any; // TODO
+  seasons?: Season[];
 };
 
 // FIXME: obviously we can't carry on like this!
