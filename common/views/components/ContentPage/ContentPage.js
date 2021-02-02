@@ -5,7 +5,6 @@ import Contributors from '../Contributors/Contributors';
 import Layout8 from '../Layout8/Layout8';
 // $FlowFixMe (tsx)
 import Layout12 from '../Layout12/Layout12';
-import SeriesNavigation from '../SeriesNavigation/SeriesNavigation';
 import PageHeader from '../PageHeader/PageHeader';
 import Outro from '../Outro/Outro';
 import { classNames } from '../../../utils/classnames';
@@ -36,7 +35,7 @@ type Props = {|
   // This is used for content type specific components e.g. InfoBox
   children?: ?Node,
   contributorProps?: ElementProps<typeof Contributors>,
-  Siblings?: Element<typeof SeriesNavigation>[], // TODO typeof CardGrid?
+  Siblings?: Element,
   outroProps?: ?ElementProps<typeof Outro>,
   seasons?: any, // TODO
 |};

@@ -191,7 +191,8 @@ export async function getPageSiblings(
   const relatedPages = await Promise.all(relatedPagePromises);
   const siblingsWithLandingTitle = relatedPages.map((results, i) => {
     return {
-      landingPageTitle: page.landingPages[i].title,
+      id: page.landingPages[i].id,
+      title: page.landingPages[i].title,
       siblings: results.results.filter(sibling => sibling.id !== page.id),
     };
   });
