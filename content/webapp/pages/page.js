@@ -20,6 +20,11 @@ import type { SiblingsGroup } from '@weco/common/model/siblings-group';
 // $FlowFixMe (ts)
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
+
 type Props = {|
   page: PageType,
   siblings: SiblingsGroup,
@@ -77,16 +82,28 @@ export class Page extends Component<Props> {
         : 'What we do';
     }
     // TODO: This is not the way to do site sections
+    const sectionItem = page.siteSection
+      ? [
+          {
+            text: getBreadcrumbText(page.siteSection, page.id),
+            url: page.siteSection ? `/${page.siteSection}` : '',
+          },
+        ]
+      : [];
     const breadcrumbs = {
-      items: page.siteSection
-        ? [
-            {
-              text: getBreadcrumbText(page.siteSection, page.id),
-              url: page.siteSection ? `/${page.siteSection}` : '',
-            },
-          ]
-        : [],
+      items: [
+        ...sectionItem,
+        // Only using the first of the siblingsGroup in the list
+        // This should be fine as in reality there shouldn't be more than one
+        // Don't have capacity to implement a better solution
+        ...siblings.slice(0, 1).map(siblingGroup => ({
+          url: `/landing-pages/${siblingGroup.id}`,
+          text: siblingGroup.title || '',
+          prefix: `Part of`,
+        })),
+      ],
     };
+
     const Header = (
       <PageHeader
         breadcrumbs={breadcrumbs}
@@ -108,6 +125,20 @@ export class Page extends Component<Props> {
         isContentTypeInfoBeforeMedia={false}
       />
     );
+    const Siblings = siblings.map((siblingGroup, i) => {
+      if (siblingGroup.siblings.length > 0) {
+        return (
+          <SpacingSection key={i}>
+            <SpacingComponent>
+              <SectionHeader title={`More from ${siblingGroup.title}`} />
+            </SpacingComponent>
+            <SpacingComponent>
+              <CardGrid key={i} items={siblingGroup.siblings} itemsPerRow={3} />
+            </SpacingComponent>
+          </SpacingSection>
+        );
+      }
+    });
     return (
       <PageLayout
         title={page.title}
@@ -134,9 +165,9 @@ export class Page extends Component<Props> {
               showOnThisPage={page.showOnThisPage}
             />
           }
+          Siblings={Siblings}
           contributorProps={{ contributors: page.contributors }}
           seasons={page.seasons}
-          pageSiblings={siblings}
         />
       </PageLayout>
     );
