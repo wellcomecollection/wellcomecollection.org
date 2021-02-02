@@ -1,7 +1,7 @@
 import { TypedRouter } from '../../utility/typed-router';
 import koaPassport from 'koa-passport';
 import { RouteMiddleware } from '../../types/application';
-import { withPrefix } from 'utility/prefix';
+import { withPrefix } from '../../utility/prefix';
 
 export const localAuthRoutes: any = {
   login: [
