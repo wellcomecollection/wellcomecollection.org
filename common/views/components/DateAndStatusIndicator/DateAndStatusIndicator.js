@@ -1,5 +1,6 @@
 // @flow
 import { Fragment } from 'react';
+// $FlowFixMe (tsx)
 import DateRange from '../DateRange/DateRange';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';

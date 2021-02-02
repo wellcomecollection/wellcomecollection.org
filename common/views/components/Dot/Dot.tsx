@@ -1,5 +1,5 @@
-// @flow
 import styled from 'styled-components';
+import { FunctionComponent } from 'react';
 
 const DotEl = styled.span.attrs({
   'aria-hidden': true,
@@ -11,12 +11,12 @@ const DotEl = styled.span.attrs({
   }
 `;
 
-type Props = {|
-  color: string,
-|};
+type Props = {
+  color: string;
+};
 
-function Dot({ color }: Props) {
+const Dot: FunctionComponent<Props> = ({ color }: Props) => {
   return <DotEl className={`font-${color}`} />;
-}
+};
 
 export default Dot;
