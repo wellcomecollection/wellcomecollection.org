@@ -5,6 +5,7 @@ import { Season } from './seasons';
 export type Page = GenericContentFields & {
   type: 'pages';
   seasons: Season[];
+  landingPages: Page[];
   onThisPage: Link[];
   datePublished?: Date;
   siteSection?: string;

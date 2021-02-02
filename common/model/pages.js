@@ -7,6 +7,7 @@ export type Page = {|
   type: 'pages',
   ...GenericContentFields,
   seasons: Season[],
+  landingPages: Page[],
   onThisPage: Link[],
   datePublished: ?Date,
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
