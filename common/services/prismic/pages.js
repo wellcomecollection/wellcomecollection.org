@@ -119,6 +119,7 @@ type GetPagesProps = {|
   predicates?: Prismic.Predicates[],
   order?: Order,
   page?: number,
+  pageSize?: number,
 |};
 
 export async function getPages(
@@ -172,22 +173,23 @@ export async function getPageSiblings(
   page: Page,
   req: ?Request,
   memoizedPrismic: ?Object
-): SiblingsGroup[] {
-  const relatedPagePromises = page?.landingPages.map(async landingPage => {
-    const pagePromise = await getPages(
-      req,
-      {
-        predicates: [
-          Prismic.Predicates.at(
-            'my.pages.landingPages.landingPage',
-            landingPage.id
-          ),
-        ],
-      },
-      memoizedPrismic
-    );
-    return pagePromise;
-  }) || [Promise.resolve([])];
+): Promise<SiblingsGroup[]> {
+  const relatedPagePromises = (page.landingPages &&
+    page.landingPages.map(async landingPage => {
+      const pagePromise = await getPages(
+        req,
+        {
+          predicates: [
+            Prismic.Predicates.at(
+              'my.pages.landingPages.landingPage',
+              landingPage.id
+            ),
+          ],
+        },
+        memoizedPrismic
+      );
+      return pagePromise;
+    })) || [Promise.resolve([])];
   const relatedPages = await Promise.all(relatedPagePromises);
   const siblingsWithLandingTitle = relatedPages.map((results, i) => {
     return {

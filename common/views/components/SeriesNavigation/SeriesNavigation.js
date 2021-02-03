@@ -3,6 +3,7 @@ import SearchResults from '../SearchResults/SearchResults';
 // $FlowFixMe
 import MoreLink from '../MoreLink/MoreLink';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
+// $FlowFixMe
 import Layout8 from '../Layout8/Layout8';
 import type { EventSeries } from '../../../model/event-series';
 import type { ArticleSeries } from '../../../model/article-series';
