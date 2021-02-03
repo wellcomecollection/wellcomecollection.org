@@ -23,14 +23,7 @@ if (root) {
           <Switch>
             <Route exact path="/register" component={Registration} />
             <Route exact path="/validated" component={AccountValidated} />
-            <Route exact path="/account">
-              <AccountManagement
-                firstName="Samuel"
-                lastName="Beckett"
-                emailAddress="beckett@provider.com"
-                libraryCardNumber="123456"
-              />
-            </Route>
+            <Route exact path="/account" component={AccountManagement} />
             <Route exact path="/error" component={ErrorPage} />
           </Switch>
         </BrowserRouter>
