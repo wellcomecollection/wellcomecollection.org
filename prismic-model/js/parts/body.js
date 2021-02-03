@@ -144,6 +144,15 @@ export default {
           linkText: text('Button text'),
         },
       }),
+      resourceList: slice('Resource List', {
+        repeat: {
+          resource: {
+            title: heading('Title', 3),
+            text: structuredText('Text', 'multi', ['heading4', 'list-item']),
+            link: link('link'),
+          },
+        },
+      }),
       contentList: slice('(β) Content list', {
         nonRepeat: {
           title,

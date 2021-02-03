@@ -4,6 +4,7 @@ import heading from './heading';
 import link from './link';
 import text from './text';
 import structuredText from './structured-text';
+import boolean from './boolean';
 
 export default {
   fieldset: 'Body content',
@@ -146,6 +147,10 @@ export default {
               label: 'Playback rate',
             },
           },
+          autoPlay: boolean('Auto play', true),
+          loop: boolean('Loop video', true),
+          mute: boolean('Mute video', true),
+          showControls: boolean('Show controls', false),
         },
       },
       iframe: {

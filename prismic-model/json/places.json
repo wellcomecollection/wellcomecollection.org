@@ -210,6 +210,34 @@
                     "2"
                   ]
                 }
+              },
+              "autoPlay": {
+                "type": "Boolean",
+                "config": {
+                  "default_value": true,
+                  "label": "Auto play"
+                }
+              },
+              "loop": {
+                "type": "Boolean",
+                "config": {
+                  "default_value": true,
+                  "label": "Loop video"
+                }
+              },
+              "mute": {
+                "type": "Boolean",
+                "config": {
+                  "default_value": true,
+                  "label": "Mute video"
+                }
+              },
+              "showControls": {
+                "type": "Boolean",
+                "config": {
+                  "default_value": false,
+                  "label": "Show controls"
+                }
               }
             }
           },
@@ -383,6 +411,35 @@
               }
             }
           },
+          "tagList": {
+            "type": "Slice",
+            "fieldset": "Tag List",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading2"
+                }
+              }
+            },
+            "repeat": {
+              "link": {
+                "type": "Link",
+                "config": {
+                  "label": "Link",
+                  "select": "web",
+                  "customtypes": []
+                }
+              },
+              "linkText": {
+                "type": "Text",
+                "config": {
+                  "label": "Link text"
+                }
+              }
+            }
+          },
           "infoBlock": {
             "type": "Slice",
             "fieldset": "Info block",
@@ -417,6 +474,35 @@
               }
             }
           },
+          "resourceList": {
+            "type": "Slice",
+            "fieldset": "Resource List",
+            "repeat": {
+              "resource": {
+                "title": {
+                  "type": "StructuredText",
+                  "config": {
+                    "label": "Title",
+                    "single": "heading3"
+                  }
+                },
+                "text": {
+                  "type": "StructuredText",
+                  "config": {
+                    "multi": "paragraph,hyperlink,strong,em,heading4,list-item",
+                    "label": "Text"
+                  }
+                },
+                "link": {
+                  "type": "Link",
+                  "config": {
+                    "label": "link",
+                    "customtypes": []
+                  }
+                }
+              }
+            }
+          },
           "contentList": {
             "type": "Slice",
             "fieldset": "(β) Content list",
@@ -444,7 +530,8 @@
                     "articles",
                     "exhibitions",
                     "card",
-                    "landing-pages"
+                    "landing-pages",
+                    "seasons"
                   ]
                 }
               }
