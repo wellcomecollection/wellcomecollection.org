@@ -35,7 +35,7 @@ type Props = {|
   // This is used for content type specific components e.g. InfoBox
   children?: ?Node,
   contributorProps?: ElementProps<typeof Contributors>,
-  Siblings?: Node[],
+  RelatedContent?: Node[],
   outroProps?: ?ElementProps<typeof Outro>,
   seasons?: any, // TODO
 |};
@@ -79,7 +79,7 @@ const ContentPage = ({
   Body,
   children,
   contributorProps,
-  Siblings = [],
+  RelatedContent = [],
   outroProps,
   seasons = [],
 }: Props) => {
@@ -134,9 +134,9 @@ const ContentPage = ({
             </SpacingSection>
           )}
 
-          {Siblings.length > 0 && (
+          {RelatedContent.length > 0 && (
             <SpacingSection>
-              {Children.map(Siblings, (child, i) => (
+              {Children.map(RelatedContent, (child, i) => (
                 <Fragment>
                   {child}
                 </Fragment>

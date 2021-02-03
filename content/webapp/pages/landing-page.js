@@ -12,12 +12,17 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { getPage } from '@weco/common/services/prismic/pages';
+import { getPage, getChildren } from '@weco/common/services/prismic/pages';
 import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page as PageType } from '@weco/common/model/pages';
+import type { SiblingsGroup } from '../../model/siblings-group';
+import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
 type Props = {|
   page: PageType,
+  children: SiblingsGroup,
 |};
 
 const backgroundTexture =
@@ -28,8 +33,10 @@ export class Page extends Component<Props> {
     const page = await getPage(ctx.req, id, memoizedPrismic);
 
     if (page) {
+      const children = await getChildren(page, ctx.req, memoizedPrismic);
       return {
         page,
+        children,
       };
     } else {
       return { statusCode: 404 };
@@ -37,7 +44,7 @@ export class Page extends Component<Props> {
   };
 
   render() {
-    const { page } = this.props;
+    const { page, children } = this.props;
     const DateInfo = page.datePublished && (
       <HTMLDate date={new Date(page.datePublished)} />
     );
@@ -76,6 +83,15 @@ export class Page extends Component<Props> {
         highlightHeading={true}
       />
     );
+
+    const Children = children.siblings.length > 0 && [
+      <SpacingSection key={1}>
+        <SpacingComponent>
+          <CardGrid items={children.siblings} itemsPerRow={3} />
+        </SpacingComponent>
+      </SpacingSection>,
+    ];
+
     return (
       <PageLayout
         title={page.title}
@@ -104,6 +120,7 @@ export class Page extends Component<Props> {
               showOnThisPage={false}
             />
           }
+          RelatedContent={Children}
         />
       </PageLayout>
     );

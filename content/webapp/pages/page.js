@@ -133,7 +133,7 @@ export class Page extends Component<Props> {
               <SectionHeader title={`More from ${siblingGroup.title}`} />
             </SpacingComponent>
             <SpacingComponent>
-              <CardGrid key={i} items={siblingGroup.siblings} itemsPerRow={3} />
+              <CardGrid items={siblingGroup.siblings} itemsPerRow={3} />
             </SpacingComponent>
           </SpacingSection>
         );
@@ -165,7 +165,7 @@ export class Page extends Component<Props> {
               showOnThisPage={page.showOnThisPage}
             />
           }
-          Siblings={Siblings}
+          RelatedContent={Siblings}
           contributorProps={{ contributors: page.contributors }}
           seasons={page.seasons}
         />

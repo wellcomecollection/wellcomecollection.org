@@ -283,7 +283,7 @@ export class ArticlePage extends Component<Props, State> {
               minWidth={isPodcast ? 10 : 8}
             />
           }
-          Siblings={Siblings}
+          RelatedContent={Siblings}
           contributorProps={{ contributors: article.contributors }}
           outroProps={
             articleHasOutro(article)

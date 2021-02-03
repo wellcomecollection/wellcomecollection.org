@@ -11,7 +11,7 @@ We define 'Sections' as the top-level elements of the `ContentPage`
 - `Body`
 - `children`
 - `Contributors`
-- `Siblings`
+- `RelatedContent`
 - `Outro`
 
 Each of these is wrapped in a `<SpacingSection />`, which adds padding at the bottom in order to space them apart.
