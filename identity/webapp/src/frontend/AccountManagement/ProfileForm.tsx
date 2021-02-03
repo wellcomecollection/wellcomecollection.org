@@ -45,7 +45,7 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
 
   const handleEmailChange = (value: string) => {
     setNewEmail(value);
-    setSaved(false);
+    setSaved(newEmail !== email);
   };
 
   const saveChanges = () => {
