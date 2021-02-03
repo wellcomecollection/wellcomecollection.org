@@ -24,7 +24,7 @@ import {
 } from '@weco/common/utils/filters';
 import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
 import TogglesContext from '../TogglesContext/TogglesContext';
-
+import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
@@ -63,7 +63,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 
   const [showMoreFiltersModal, setMoreFiltersModal] = useState(false);
   const openMoreFiltersButtonRef = useRef(null);
-
   function showActiveFilters() {
     const imagesFilter = imagesColor;
     const catalogueFilter =
@@ -225,7 +224,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 h={{ size: 's', properties: ['margin-left'] }}
               >
                 <ButtonInline
-                  text="More Filters"
+                  type={ButtonTypes.button}
+                  text="more Filters"
                   clickHandler={event => {
                     event.preventDefault();
                     setMoreFiltersModal(true);
