@@ -201,6 +201,27 @@ export async function getPageSiblings(
   return siblingsWithLandingTitle;
 }
 
+export async function getChildren(
+  page: Page,
+  req: ?Request,
+  memoizedPrismic: ?Object
+): SiblingsGroup[] {
+  const children = await getPages(
+    req,
+    {
+      predicates: [
+        Prismic.Predicates.at('my.pages.landingPages.landingPage', page.id),
+      ],
+    },
+    memoizedPrismic
+  );
+  return {
+    id: page.id,
+    title: page.title,
+    siblings: children.results || [],
+  };
+}
+
 export async function getPageFromDrupalPath(
   req: Request,
   path: string
