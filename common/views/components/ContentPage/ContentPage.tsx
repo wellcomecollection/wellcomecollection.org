@@ -22,6 +22,7 @@ import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import BannerCard from '../BannerCard/BannerCard';
 import Body from '../Body/Body';
 import { Season } from '../../../model/seasons';
+import { ElementFromComponent } from 'utils/utility-types';
 /*eslint-disable */
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 
@@ -29,16 +30,12 @@ export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 type Props = {
   id: string;
   isCreamy?: boolean;
-  Header: ReactElement<typeof PageHeader>;
-  Body: {
-    props: {
-      body: typeof Body;
-    }
-  } 
+  Header: ElementFromComponent<typeof PageHeader>;
+  Body: ElementFromComponent<typeof Body>;
   // This is used for content type specific components e.g. InfoBox
   children?: ReactNode;
   contributorProps?: typeof Contributors;
-  Siblings?: ReactElement<typeof SeriesNavigation>[];
+  Siblings?: ElementFromComponent<SeriesNavigation>[];
   outroProps?: ReactElement<typeof Outro> | null | undefined;
   seasons?: Season[];
 };
