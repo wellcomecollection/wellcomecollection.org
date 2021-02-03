@@ -18,6 +18,13 @@ export function configureAuth0(): void {
   });
 
   koaPassport.deserializeUser(function (user: any, done) {
-    done(null, user);
+    const userWithIdNumber = {
+      ...user,
+      profile: {
+        ...user.profile,
+        idNumber: user.profile.id.replace('auth0|p', ''),
+      },
+    };
+    done(null, userWithIdNumber);
   });
 }
