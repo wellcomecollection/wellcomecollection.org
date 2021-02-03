@@ -205,7 +205,7 @@ export async function getChildren(
   page: Page,
   req: ?Request,
   memoizedPrismic: ?Object
-): SiblingsGroup[] {
+): Promise<SiblingsGroup> {
   const children = await getPages(
     req,
     {
