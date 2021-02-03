@@ -8,7 +8,7 @@ import { authCallback, loginAction, logoutAction } from './routes/auth';
 import { RouteMiddleware } from './types/application';
 import { updatePassword } from './routes/api/update-password';
 import { registerUser } from './routes/api/register-user';
-import { getUser } from './routes/api/get-user';
+import { getCurrentUser } from './routes/api/get-current-user';
 
 const loginRoutes =
   process.env.NODE_ENV === 'production' || config.authMethod === 'auth0'
@@ -41,11 +41,12 @@ export const router = new TypedRouter({
 
   // Proxy apis - implemented
   'create-user': [TypedRouter.POST, '/api/user/create', registerUser, 'RegisterUserSchema'],
-  'get-user': [TypedRouter.GET, '/api/users/:user_id', getUser],
+  'get-current-user': [TypedRouter.GET, '/api/users/me', getCurrentUser],
   'update-user-password': [TypedRouter.PUT, '/api/users/:user_id/password', updatePassword, 'UpdatePasswordSchema'],
 
   // Proxy APIs - todo
   'delete-user': [TypedRouter.DELETE, '/api/users/:user_id', stubApi],
+  'get-user': [TypedRouter.GET, '/api/users/:user_id', stubApi],
   'get-users': [TypedRouter.GET, '/api/users', stubApi],
   'lock-user-account': [TypedRouter.PUT, '/api/users/:user_id/lock', stubApi],
   'post-users': [TypedRouter.POST, '/api/users', stubApi],
