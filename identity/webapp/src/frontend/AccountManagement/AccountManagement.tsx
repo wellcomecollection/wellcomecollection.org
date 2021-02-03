@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 
 import TabNav from '../WellcomeComponents/TabNav';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -8,43 +7,15 @@ import { ProfileForm } from './ProfileForm';
 import { PasswordForm } from './PasswordForm';
 import { LogoContainer } from '../Shared/LogoContainer';
 import { PageWrapper } from '../Shared/PageWrapper';
+import { useUserInfo } from '../hooks/useUserInfo';
 
 // TODO: Update this to prod.
 const logo = 'https://identity-public-assets-stage.s3.eu-west-1.amazonaws.com/images/wellcomecollections-150x50.png';
 
-export type UserInfo = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  barcode: string;
-};
-
 export const AccountManagement: React.FC = () => {
   const [idx, setIdx] = useState(0);
 
-  const [data, setData] = useState<UserInfo | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      await axios
-        .get<UserInfo>('/api/users/me')
-        .then(({ data: userData, status, statusText }) => {
-          if (status !== 200) {
-            throw Error(statusText);
-          }
-          setIsLoading(false);
-          setData(userData);
-        })
-        .catch((fetchError) => {
-          setIsLoading(false);
-          setError(fetchError.message);
-        });
-    };
-
-    fetchUser();
-  }, []);
+  const { data, isLoading, error } = useUserInfo();
 
   return (
     <PageWrapper>

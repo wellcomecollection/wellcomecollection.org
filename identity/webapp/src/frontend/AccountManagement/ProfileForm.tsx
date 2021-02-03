@@ -8,7 +8,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 
 import { ErrorMessage } from '../Shared/ErrorMessage';
 import { PasswordInput } from '../Shared/PasswordInput';
-import { UserInfo } from './AccountManagement';
+import { UserInfo } from '../hooks/useUserInfo';
 
 type ExistingDataProps = {
   label: string;
