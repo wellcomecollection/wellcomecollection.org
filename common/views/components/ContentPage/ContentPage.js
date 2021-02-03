@@ -35,7 +35,7 @@ type Props = {|
   // This is used for content type specific components e.g. InfoBox
   children?: ?Node,
   contributorProps?: ElementProps<typeof Contributors>,
-  Siblings?: Element,
+  Siblings?: Node[],
   outroProps?: ?ElementProps<typeof Outro>,
   seasons?: any, // TODO
 |};
