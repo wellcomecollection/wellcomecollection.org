@@ -8,7 +8,7 @@ import {
 import { IIIFRendering } from '../model/iiif';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 
-export function getProductionDates(work: Work) {
+export function getProductionDates(work: Work): string[] {
   return work.production
     .map(productionEvent => productionEvent.dates.map(date => date.label))
     .reduce((a, b) => a.concat(b), []);
@@ -196,7 +196,7 @@ type WorkProps = {
 export function getWorkIdentifiersWith(
   work: Work,
   { identifierId }: WorkProps
-) {
+): string[] {
   return work.identifiers.reduce((acc: string[], identifier) => {
     return identifier.identifierType.id === identifierId
       ? acc.concat(identifier.value)
@@ -208,7 +208,7 @@ export function getItemIdentifiersWith(
   work: Work,
   { identifierId, locationType }: ItemProps,
   identifierType: string
-) {
+): string[] {
   const items: Item[] = getItemsWith(work, { identifierId, locationType });
 
   return items.reduce((acc: string[], item: Item) => {
