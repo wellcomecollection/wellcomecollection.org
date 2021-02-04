@@ -4,6 +4,7 @@ import { Component } from 'react';
 import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
+// $FlowFixMe (tsx)
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 // $FlowFixMe (tsx)
 import Body from '@weco/common/views/components/Body/Body';

@@ -130,6 +130,9 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "query",
         "sierraId",
         "source",
+        "languages",
+        "subjects.label",
+        "genres.label",
         "toggle",
         "workType",
       ]

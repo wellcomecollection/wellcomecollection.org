@@ -1,12 +1,11 @@
-// @flow
-import { Fragment } from 'react';
+import { Fragment, FunctionComponent } from 'react';
 import { formatTime, formatDayDate, london } from '../../../utils/format-date';
 import HTMLDate from '../HTMLDate/HTMLDate';
-import type { DateRange as DateRangeProps } from '../../../model/date-range';
+import { DateRange as DateRangeProps } from '../../../model/date-range';
 
-type DateProps = {|
-  date: Date,
-|};
+type DateProps = {
+  date: Date;
+};
 
 const HTMLDayDate = ({ date }: DateProps) => (
   <time dateTime={date.toISOString()}>{formatDayDate(date)}</time>
@@ -22,11 +21,14 @@ const TimeRange = ({ start, end }: DateRangeProps) => (
   </Fragment>
 );
 
-type Props = {|
-  ...DateRangeProps,
-  splitTime?: boolean,
-|};
-const DateRange = ({ start, end, splitTime }: Props) => {
+type Props = {
+  splitTime?: boolean;
+} & DateRangeProps;
+const DateRange: FunctionComponent<Props> = ({
+  start,
+  end,
+  splitTime,
+}: Props) => {
   const isSameDay = london(start).isSame(end, 'day');
 
   return (
@@ -35,7 +37,7 @@ const DateRange = ({ start, end, splitTime }: Props) => {
         <Fragment>
           <HTMLDayDate date={start} />
           {splitTime ? '' : ', '}
-          <span className={splitTime ? 'block' : null}>
+          <span className={splitTime ? 'block' : undefined}>
             <TimeRange start={start} end={end} />
           </span>
         </Fragment>

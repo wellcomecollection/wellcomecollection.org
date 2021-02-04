@@ -3,6 +3,7 @@ import type { Context } from 'next';
 import { Component } from 'react';
 import { getPlace } from '@weco/common/services/prismic/places';
 import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+// $FlowFixMe (tsx)
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 // $FlowFixMe(tsx)
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';

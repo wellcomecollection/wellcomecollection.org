@@ -287,13 +287,19 @@ export const getServerSideProps: GetServerSideProps<
   const globalContextData = getGlobalContextData(context);
   const parsedParams = parseUrlParams(context.query);
   const params = WorksRoute.fromQuery(parsedParams);
+  const { searchMoreFilters } = globalContextData.toggles;
+  const defaultAggregations = ['workType', 'locationType'];
+
+  const moreFiltersAggregations = ['genres', 'languages', 'subjects'];
+  const aggregations = searchMoreFilters
+    ? [...defaultAggregations, ...moreFiltersAggregations]
+    : defaultAggregations;
+
   const _queryType = cookies(context)._queryType;
-  const aggregations = ['workType', 'locationType'];
   const worksApiProps = worksRouteToApiUrl(params, {
     _queryType,
     aggregations,
   });
-
   const shouldGetWorks = !!(params.query && params.query !== '');
   const works = shouldGetWorks
     ? await getWorks({

@@ -55,6 +55,5 @@ export const router = new TypedRouter({
   ...loginRoutes,
 
   // Frontend fallback route.
-  frontend: [TypedRouter.GET, /(.*)/ as any, indexPage]
-
+  frontend: [TypedRouter.GET, '(.*)', indexPage],
 });

@@ -1,6 +1,10 @@
 import { StrategyOption } from 'passport-auth0';
 import { opts as SessionOpts } from 'koa-session';
 
+import { config as dotEnvConfig } from 'dotenv';
+
+dotEnvConfig();
+
 const isProduction = process.env.NODE_ENV === 'production';
 
 if (isProduction) {

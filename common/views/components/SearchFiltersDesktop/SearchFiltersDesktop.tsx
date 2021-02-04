@@ -1,68 +1,36 @@
-import styled from 'styled-components';
+import React, {
+  FunctionComponent,
+  ReactElement,
+  useContext,
+  useRef,
+  useState,
+} from 'react';
 import { font, classNames } from '../../../utils/classnames';
-import { worksLink, imagesLink } from '../../../services/catalogue/ts_routes';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import NextLink from 'next/link';
+
 import dynamic from 'next/dynamic';
 import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
-import { FunctionComponent, ReactElement, ReactNode, useContext } from 'react';
+import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
+import ButtonInline from '../ButtonInline/ButtonInline';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
+import {
+  getResetImagesFiltersLink,
+  getResetRouteProps,
+  getResetWorksFiltersLink,
+} from '@weco/common/utils/filters';
+import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
 import TogglesContext from '../TogglesContext/TogglesContext';
-
+import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
 const PaletteColorPicker = dynamic(
   import('../PaletteColorPicker/PaletteColorPicker')
 );
-
-const ColorSwatch = styled.span`
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  background-color: ${({ color }) => color};
-  margin-left: 6px;
-  padding-top: 2px;
-`;
-
-type CancelFilterProps = {
-  text?: string;
-  children?: ReactNode;
-};
-
-const CancelFilter: FunctionComponent<CancelFilterProps> = ({
-  text,
-  children,
-}: CancelFilterProps): ReactElement<CancelFilterProps> => {
-  return (
-    <Space
-      as="span"
-      h={{
-        size: 'm',
-        properties: ['margin-right'],
-      }}
-    >
-      <Space
-        as="span"
-        h={{
-          size: 'xs',
-          properties: ['margin-right'],
-        }}
-      >
-        <Icon
-          name="cross"
-          extraClasses="icon--match-text icon--silver v-align-middle"
-        />
-      </Space>
-      <span className="visually-hidden">remove </span>
-      {text || children}
-    </Space>
-  );
-};
 
 const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   filtersToShow,
@@ -75,41 +43,39 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   workTypeFilters,
   productionDatesFrom,
   productionDatesTo,
-  workTypeInUrlArray,
+  workTypeSelected,
   imagesColor,
   aggregations,
+  languagesSelected,
+  subjectsSelected,
+  genresSelected,
+  isEnhanced,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const { paletteColorFilter } = useContext(TogglesContext);
   const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
   const showWorkTypeFilters =
-    workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
-
-  const resetFiltersRoute = {
-    ...worksRouteProps,
-    itemsLocationsLocationType: [],
-    itemsLocationsType: [],
-    workType: [],
-    page: 1,
-    productionDatesFrom: null,
-    productionDatesTo: null,
-  };
-
+    workTypeFilters.some(f => f.count > 0) || workTypeSelected.length > 0;
+  const { searchMoreFilters } = useContext(TogglesContext);
+  const resetFiltersRoute = getResetRouteProps(worksRouteProps);
   const resetFilters = imagesColor
-    ? imagesLink(
-        { ...resetFiltersRoute, locationsLicense: null, color: null },
-        'cancel_filter/all'
-      )
-    : worksLink(resetFiltersRoute, 'cancel_filter/all');
+    ? getResetImagesFiltersLink(resetFiltersRoute)
+    : getResetWorksFiltersLink(resetFiltersRoute);
 
+  const [showMoreFiltersModal, setMoreFiltersModal] = useState(false);
+  const openMoreFiltersButtonRef = useRef(null);
   function showActiveFilters() {
-    return (
-      imagesColor ||
+    const imagesFilter = imagesColor;
+    const catalogueFilter =
       ((productionDatesFrom ||
         productionDatesTo ||
-        workTypeInUrlArray.length > 0 ||
+        workTypeSelected.length > 0 ||
         worksRouteProps?.itemsLocationsType?.length > 0) &&
-        workTypeFilters.length > 0)
-    );
+        workTypeFilters.length > 0) ||
+      languagesSelected.length > 0 ||
+      subjectsSelected ||
+      genresSelected;
+
+    return imagesFilter || catalogueFilter;
   }
 
   return (
@@ -132,7 +98,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           <Space
             v={{ size: 'm', properties: ['margin-bottom'] }}
             className={classNames({
-              'flex flex--v-center': true,
+              'flex flex--v-center flex--wrap': true,
             })}
           >
             <Space
@@ -163,7 +129,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                     })}
                   >
                     {workTypeFilters.map(workType => {
-                      const isChecked = workTypeInUrlArray.includes(
+                      const isChecked = workTypeSelected.includes(
                         workType.data.id
                       );
 
@@ -250,6 +216,38 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 </DropdownButton>
               </Space>
             )}
+            {searchMoreFilters && !filtersToShow.includes('colors') && (
+              <Space
+                className={classNames({
+                  [font('hnl', 5)]: true,
+                })}
+                h={{ size: 's', properties: ['margin-left'] }}
+              >
+                <ButtonInline
+                  type={ButtonTypes.button}
+                  text="more Filters"
+                  clickHandler={event => {
+                    event.preventDefault();
+                    setMoreFiltersModal(true);
+                  }}
+                  ref={openMoreFiltersButtonRef}
+                />
+                <ModalMoreFilters
+                  id="moreFilters"
+                  showMoreFiltersModal={showMoreFiltersModal}
+                  setMoreFiltersModal={setMoreFiltersModal}
+                  openMoreFiltersButtonRef={openMoreFiltersButtonRef}
+                  filtersToShow={filtersToShow}
+                  aggregations={aggregations}
+                  changeHandler={changeHandler}
+                  languagesSelected={languagesSelected}
+                  subjectsSelected={subjectsSelected}
+                  genresSelected={genresSelected}
+                  worksRouteProps={worksRouteProps}
+                  isEnhanced={isEnhanced}
+                />
+              </Space>
+            )}
           </Space>
 
           {filtersToShow.includes('locations') &&
@@ -313,144 +311,19 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
       </Space>
 
       {showActiveFilters() && (
-        <Space
-          v={{ size: 's', properties: ['padding-top'] }}
-          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-          className="tokens bg-white"
-        >
-          <div className={classNames({ [font('hnm', 5)]: true })}>
-            <div>
-              <h2 className="inline">
-                <Space
-                  as="span"
-                  h={{
-                    size: 'm',
-                    properties: ['margin-right'],
-                  }}
-                >
-                  Active filters:
-                </Space>
-              </h2>
-              {productionDatesFrom && (
-                <NextLink
-                  passHref
-                  {...worksLink(
-                    {
-                      ...worksRouteProps,
-                      page: 1,
-                      productionDatesFrom: null,
-                    },
-                    'cancel_filter/production_dates_from'
-                  )}
-                >
-                  <a>
-                    <CancelFilter text={`From ${productionDatesFrom}`} />
-                  </a>
-                </NextLink>
-              )}
-              {productionDatesTo && (
-                <NextLink
-                  passHref
-                  {...worksLink(
-                    {
-                      ...worksRouteProps,
-                      page: 1,
-                      productionDatesTo: null,
-                    },
-                    'cancel_filter/production_dates_to'
-                  )}
-                >
-                  <a>
-                    <CancelFilter text={`To ${productionDatesTo}`} />
-                  </a>
-                </NextLink>
-              )}
-              {imagesColor && (
-                <NextLink
-                  passHref
-                  {...imagesLink(
-                    {
-                      ...worksRouteProps,
-                      page: 1,
-                      color: null,
-                      locationsLicense: null,
-                    },
-                    'cancel_filter/images_color'
-                  )}
-                >
-                  <a>
-                    <CancelFilter>
-                      Colour
-                      <ColorSwatch color={`#${imagesColor}`} />
-                    </CancelFilter>
-                  </a>
-                </NextLink>
-              )}
-
-              {workTypeInUrlArray.map(id => {
-                const workTypeObject = workTypeFilters.find(({ data }) => {
-                  return data.id === id;
-                });
-
-                return (
-                  workTypeObject && (
-                    <NextLink
-                      key={id}
-                      {...worksLink(
-                        {
-                          ...worksRouteProps,
-                          workType: worksRouteProps.workType.filter(
-                            w => w !== workTypeObject.data.id
-                          ),
-                          page: 1,
-                        },
-                        'cancel_filter/work_types'
-                      )}
-                    >
-                      <a>
-                        <CancelFilter text={workTypeObject.data.label} />
-                      </a>
-                    </NextLink>
-                  )
-                );
-              })}
-
-              {aggregations &&
-                aggregations.locationType.buckets
-                  .filter(locationType =>
-                    worksRouteProps.itemsLocationsType.includes(
-                      locationType.data.type
-                    )
-                  )
-                  .map(locationType => (
-                    <NextLink
-                      key={locationType.type}
-                      passHref
-                      {...worksLink(
-                        {
-                          ...worksRouteProps,
-                          itemsLocationsType: worksRouteProps.itemsLocationsType.filter(
-                            type => type !== locationType.data.type
-                          ),
-                          page: 1,
-                        },
-                        'cancel_filter/items_locations_type'
-                      )}
-                    >
-                      <a>
-                        <CancelFilter text={locationType.data.label} />
-                      </a>
-                    </NextLink>
-                  ))}
-
-              <NextLink passHref {...resetFilters}>
-                <a>
-                  <CancelFilter text={'Reset filters'} />
-                </a>
-              </NextLink>
-            </div>
-          </div>
-        </Space>
+        <ResetActiveFilters
+          workTypeFilters={workTypeFilters}
+          productionDatesFrom={productionDatesFrom}
+          productionDatesTo={productionDatesTo}
+          worksRouteProps={worksRouteProps}
+          imagesColor={imagesColor}
+          workTypeSelected={workTypeSelected}
+          aggregations={aggregations}
+          resetFilters={resetFilters}
+          languagesSelected={languagesSelected}
+          subjectsSelected={subjectsSelected}
+          genresSelected={genresSelected}
+        />
       )}
     </>
   );

@@ -35,6 +35,10 @@ import {
   searchFormInputCatalogue,
   searchFormInputImage,
 } from '../../../text/arial-labels';
+import {
+  getFilterItemSelected,
+  getSelectedFilterColor,
+} from '@weco/common/utils/filters';
 
 type Props = {
   ariaDescribedBy: string;
@@ -138,24 +142,16 @@ const SearchForm: FunctionComponent<Props> = ({
   }, [portalSortOrder]);
 
   function updateUrl(form: HTMLFormElement) {
-    const workTypeCheckboxes = nodeListValueToArray(form['workType']) || [];
-    const selectedWorkTypesArray = [...workTypeCheckboxes].filter(
-      selectedWorkType => selectedWorkType.checked
-    );
-    const workType =
-      selectedWorkTypesArray.length > 0
-        ? selectedWorkTypesArray.map(workType => workType.value)
-        : [];
-
+    const languages = getFilterItemSelected(form, 'languages');
+    const workType = getFilterItemSelected(form, 'workType');
+    const subjectsLabel =
+      form['subjects.label'] && form['subjects.label']?.value;
+    const genresLabel = form['genres.label'] && form['genres.label']?.value;
     const sortOrder = portalSortOrder;
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
     const search = inputValue(form['search']);
-    const imagesColorValue = inputValue(form['images.color']);
-    const imagesColor =
-      typeof imagesColorValue === 'string'
-        ? imagesColorValue.replace('#', '')
-        : imagesColorValue;
+    const imagesColor = getSelectedFilterColor(form);
 
     const itemsLocationsLocationType =
       form['items.locations.locationType'] instanceof window.HTMLInputElement
@@ -186,6 +182,9 @@ const SearchForm: FunctionComponent<Props> = ({
       itemsLocationsType,
       source,
       color: null,
+      languages,
+      subjectsLabel,
+      genresLabel,
     };
     const link = isImageSearch
       ? imagesLink(
@@ -273,7 +272,16 @@ const SearchForm: FunctionComponent<Props> = ({
           changeHandler={submit}
           aggregations={aggregations}
           filtersToShow={
-            isImageSearch ? ['colors'] : ['dates', 'formats', 'locations']
+            isImageSearch
+              ? ['colors']
+              : [
+                  'dates',
+                  'formats',
+                  'locations',
+                  'languages',
+                  'genres',
+                  'subjects',
+                ]
           }
         />
       )}

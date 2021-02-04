@@ -1,5 +1,10 @@
 import dynamic from 'next/dynamic';
-import { ReactNode, ReactElement, FunctionComponent } from 'react';
+import {
+  ReactNode,
+  ReactElement,
+  FunctionComponent,
+  ComponentProps,
+} from 'react';
 import { classNames } from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import SearchResults from '../SearchResults/SearchResults';

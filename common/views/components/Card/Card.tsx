@@ -1,18 +1,18 @@
-// @flow
-import type { Card as CardType } from '@weco/common/model/card';
+import { Card as CardType } from '@weco/common/model/card';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
-// $FlowFixMe (tsx)
+
 import Space from '../styled/Space';
 import styled from 'styled-components';
+import { FunctionComponent } from 'react';
 
-type Props = {|
-  item: CardType,
-|};
+type Props = {
+  item: CardType;
+};
 
-export const CardOuter = styled.a.attrs(props => ({
+export const CardOuter = styled.a.attrs(() => ({
   className:
     'plain-link promo-link rounded-corners overflow-hidden flex-ie-block flex--column',
 }))`
@@ -31,7 +31,7 @@ export const CardOuter = styled.a.attrs(props => ({
   }
 `;
 
-export const CardBody = styled(Space).attrs(props => ({
+export const CardBody = styled(Space).attrs(() => ({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   className: 'flex flex--column flex-1',
 }))`
@@ -51,7 +51,7 @@ export const CardBody = styled(Space).attrs(props => ({
   }
 `;
 
-const Card = ({ item }: Props) => {
+const Card: FunctionComponent<Props> = ({ item }: Props) => {
   return (
     <CardOuter
       href={item.link}

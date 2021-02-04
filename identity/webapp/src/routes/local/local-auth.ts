@@ -1,6 +1,7 @@
 import { TypedRouter } from '../../utility/typed-router';
 import koaPassport from 'koa-passport';
 import { RouteMiddleware } from '../../types/application';
+import { withPrefix } from '../../utility/prefix';
 
 export const localAuthRoutes: any = {
   login: [
@@ -39,7 +40,7 @@ export const localAuthRoutes: any = {
     TypedRouter.POST,
     '/login',
     koaPassport.authenticate('local', {
-      successRedirect: '/app',
+      successRedirect: withPrefix('/account'),
       failureRedirect: '/',
     }),
   ],

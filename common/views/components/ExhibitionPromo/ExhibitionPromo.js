@@ -9,6 +9,7 @@ import { type ExhibitionPromo as ExhibitionPromoProps } from '../../../model/exh
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
+// $FlowFixMe (tsx)
 import { CardOuter, CardBody } from '../Card/Card';
 
 type Props = {|

@@ -6,6 +6,7 @@ import { london } from '../../../utils/format-date';
 import { getEarliestFutureDateRange } from '../../../utils/dates';
 import { classNames, cssGrid } from '../../../utils/classnames';
 import SegmentedControl from '../SegmentedControl/SegmentedControl';
+// $FlowFixMe (tsx)
 import CardGrid from '../CardGrid/CardGrid';
 import { type UiEvent } from '../../../model/events';
 import { type Link } from '../../../model/link';

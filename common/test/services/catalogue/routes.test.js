@@ -50,6 +50,9 @@ test('/works: with no values', () => {
     search: null,
     source: null,
     imagesColor: null,
+    genresLabel: null,
+    subjectsLabel: null,
+    languages: [],
   });
 });
 
@@ -77,6 +80,9 @@ test('/works: with values', () => {
     search: null,
     source: null,
     imagesColor: null,
+    genresLabel: null,
+    subjectsLabel: null,
+    languages: [],
   });
 });
 
