@@ -129,7 +129,7 @@ export const getSelectedFilterColor = (form: HTMLFormElement): string => {
   return imagesColor;
 };
 
-export const sortAggregationBucketByOrder = (
+export const sortAggregationBucket = (
   filter: CatalogueAggregationBucket[],
   sortBy?: 'alphabetical' | 'count'
 ): CatalogueAggregationBucket[] => {
