@@ -133,16 +133,12 @@ export const sortAggregationBucket = (
   filter: CatalogueAggregationBucket[],
   sortBy?: 'alphabetical' | 'count'
 ): CatalogueAggregationBucket[] => {
-  let sortedfilter;
   switch (sortBy) {
     case 'count':
-      sortedfilter = filter.sort(sortByCount);
-      break;
+      return filter.sort(sortByCount);
     case 'alphabetical':
-      sortedfilter = filter.sort(sortLabelByAlphabeticalOrder);
-      break;
+      return filter.sort(sortLabelByAlphabeticalOrder);
     default:
-      sortedfilter = filter;
+      return filter;
   }
-  return sortedfilter;
 };
