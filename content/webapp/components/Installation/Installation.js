@@ -7,6 +7,7 @@ import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusI
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 // $FlowFixMe(tsx)
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
+// $FlowFixMe (tsx)
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 // $FlowFixMe (tsx)
 import Body from '@weco/common/views/components/Body/Body';

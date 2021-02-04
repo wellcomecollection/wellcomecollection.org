@@ -1,45 +1,44 @@
-// @flow
-import { Children, Fragment, createContext } from 'react';
+import {
+  Children,
+  Fragment,
+  createContext,
+  ReactNode,
+  ReactElement,
+} from 'react';
 import Contributors from '../Contributors/Contributors';
-// $FlowFixMe (tsx)
 import Layout8 from '../Layout8/Layout8';
-// $FlowFixMe (tsx)
 import Layout12 from '../Layout12/Layout12';
 import SeriesNavigation from '../SeriesNavigation/SeriesNavigation';
 import PageHeader from '../PageHeader/PageHeader';
 import Outro from '../Outro/Outro';
 import { classNames } from '../../../utils/classnames';
-import type { Node, Element, ElementProps } from 'react';
-// $FlowFixMe (tsx)
-import Body from '../Body/Body';
 import SpacingSection from '../SpacingSection/SpacingSection';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
-// $FlowFixMe(tsx)
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
-// $FlowFixMe (tsx)
 import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
-// $FlowFixMe (tsx)
 import BannerCard from '../BannerCard/BannerCard';
+import Body from '../Body/Body';
+import { Season } from '../../../model/seasons';
+import { ElementFromComponent } from '../../../utils/utility-types';
 /*eslint-disable */
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 
 // TODO: use Element<typeof Component>
-type Props = {|
-  id: string,
-  isCreamy?: boolean,
-  Header: Element<typeof PageHeader>,
-  Body: Element<typeof Body>,
+type Props = {
+  id: string;
+  isCreamy?: boolean;
+  Header: ElementFromComponent<typeof PageHeader>;
+  Body: ElementFromComponent<typeof Body>;
   // This is used for content type specific components e.g. InfoBox
-  children?: ?Node,
-  contributorProps?: ElementProps<typeof Contributors>,
-  Siblings?: Element<typeof SeriesNavigation>[],
-  outroProps?: ?ElementProps<typeof Outro>,
-  seasons?: any, // TODO
-|};
+  children?: ReactNode;
+  contributorProps?: typeof Contributors;
+  Siblings?: ElementFromComponent<SeriesNavigation>[];
+  outroProps?: ReactElement<typeof Outro> | null | undefined;
+  seasons?: Season[];
+};
 
 // FIXME: obviously we can't carry on like this!
 const ShameWhatWeDoHack = () => (
@@ -54,8 +53,8 @@ const ShameWhatWeDoHack = () => (
       secondaryLabels={[]}
       description="Get involved in shaping better website and gallery experiences for everyone. We’re looking for people to take part in online and in-person interviews, usability tests, surveys and more."
       urlOverride={null}
-      partNumber={null}
-      color={null}
+      partNumber={undefined}
+      color={undefined}
       Image={
         <Image
           contentUrl={`https://images.prismic.io/wellcomecollection/65334f9d-50d0-433f-a4ac-a780eef352e3_user_research_square.jpg?auto=compress,format`}

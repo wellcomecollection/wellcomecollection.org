@@ -14,6 +14,7 @@ import Icon from '../Icon/Icon';
 // $FlowFixMe (tsx)
 import Layout12 from '../Layout12/Layout12';
 import type { CaptionedImage as CaptionedImageProps } from '../../../model/captioned-image';
+// $FlowFixMe (tsx)
 import { PageBackgroundContext } from '../ContentPage/ContentPage';
 // $FlowFixMe (ts)
 import { repeatingLsBlack } from '../../../utils/backgrounds';
