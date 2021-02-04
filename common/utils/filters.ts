@@ -48,7 +48,10 @@ export const sortByCount = (
   }
 };
 
-export const removeSpace = (itemString: string, replace = '-'): string => {
+export const replaceSpaceWithHypen = (
+  itemString: string,
+  replace = '-'
+): string => {
   return itemString.replace(/\s/, replace).toLocaleLowerCase();
 };
 

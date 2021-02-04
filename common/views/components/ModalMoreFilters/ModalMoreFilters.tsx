@@ -11,7 +11,7 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import { searchFilterCheckBox } from '../../../text/arial-labels';
 import {
   getAggregationFilterByName,
-  removeSpace,
+  replaceSpaceWithHypen,
 } from '@weco/common/utils/filters';
 import NextLink from 'next/link';
 import { worksLink } from '../../../services/catalogue/routes';
@@ -142,7 +142,9 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                           key={`desktop-${subject.data.label}`}
                         >
                           <CheckboxRadio
-                            id={`desktop-${removeSpace(subject.data.label)}`}
+                            id={`desktop-${replaceSpaceWithHypen(
+                              subject.data.label
+                            )}`}
                             type={`checkbox`}
                             text={`${subject.data.label} (${subject.count})`}
                             value={subject.data.label}
@@ -177,7 +179,9 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                         key={`desktop-${genre.data.label}`}
                       >
                         <CheckboxRadio
-                          id={`desktop-${removeSpace(genre.data.label)}`}
+                          id={`desktop-${replaceSpaceWithHypen(
+                            genre.data.label
+                          )}`}
                           type={`checkbox`}
                           text={`${genre.data.label} (${genre.count})`}
                           value={genre.data.label}
@@ -213,7 +217,9 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                         key={`desktop-${language.data.id}`}
                       >
                         <CheckboxRadio
-                          id={`desktop-${removeSpace(language.data.id)}`}
+                          id={`desktop-${replaceSpaceWithHypen(
+                            language.data.id
+                          )}`}
                           type={`checkbox`}
                           text={`${language.data.label} (${language.count})`}
                           value={language.data.id}

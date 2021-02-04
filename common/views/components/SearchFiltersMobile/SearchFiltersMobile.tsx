@@ -29,7 +29,7 @@ import {
 } from '../../../text/arial-labels';
 import {
   getAggregationFilterByName,
-  removeSpace,
+  replaceSpaceWithHypen,
 } from '@weco/common/utils/filters';
 import { CatalogueAggregationBucket } from '@weco/common/model/catalogue';
 import TogglesContext from '../TogglesContext/TogglesContext';
@@ -457,7 +457,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                                 key={`mobile-${subject.data.label}`}
                               >
                                 <CheckboxRadio
-                                  id={`mobile-${removeSpace(
+                                  id={`mobile-${replaceSpaceWithHypen(
                                     subject.data.label
                                   )}`}
                                   type={`checkbox`}
@@ -505,7 +505,9 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                                 key={`mobile-${genre.data.label}`}
                               >
                                 <CheckboxRadio
-                                  id={`mobile-${removeSpace(genre.data.label)}`}
+                                  id={`mobile-${replaceSpaceWithHypen(
+                                    genre.data.label
+                                  )}`}
                                   type={`checkbox`}
                                   text={`${genre.data.label} (${genre.count})`}
                                   value={genre.data.label}
