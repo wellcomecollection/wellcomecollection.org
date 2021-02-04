@@ -166,8 +166,8 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       search: maybeString(stringQ.search),
       source: maybeString(stringQ.source),
       languages: stringToCsv(stringQ.languages),
-      subjectsLabel: maybeString(stringQ['subjects.label']),
-      genresLabel: maybeString(stringQ['genres.label']),
+      subjectsLabel: stringToCsv(stringQ['subjects.label']),
+      genresLabel: stringToCsv(stringQ['genres.label']),
       // [1] Wrong below this line
       color: null,
     };
