@@ -115,6 +115,13 @@ const WorkHeader: FunctionComponent<Props> = ({
             </Space>
           )}
 
+          {work.referenceNumber && (
+            <LinkLabels
+              heading="Reference"
+              items={[{ text: work.referenceNumber }]}
+            />
+          )}
+
           {childManifestsCount > 0 && (
             <Space v={{ size: 'm', properties: ['margin-top'] }}>
               <p
