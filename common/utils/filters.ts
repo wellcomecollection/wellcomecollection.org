@@ -4,7 +4,6 @@ import {
 } from '@weco/common/model/catalogue';
 import { nodeListValueToArray, inputValue } from '@weco/common/utils/forms';
 import { LinkProps } from '@weco/common/model/link-props';
-import { RadioGroupOption } from '@weco/common/views/components/RadioGroup/RadioGroup';
 import {
   worksLink,
   imagesLink,

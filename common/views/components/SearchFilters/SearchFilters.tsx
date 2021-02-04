@@ -41,8 +41,8 @@ export type SearchFiltersSharedProps = Props & {
   imagesColor: string | null;
   aggregations?: CatalogueAggregations;
   languagesSelected: string[];
-  subjectsSelected: string;
-  genresSelected: string;
+  subjectsSelected: string[];
+  genresSelected: string[];
   isEnhanced: boolean;
 };
 
@@ -56,8 +56,8 @@ const SearchFilters: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   const { productionDatesFrom, productionDatesTo, color } = worksRouteProps;
   const languagesSelected: string[] = worksRouteProps?.languages || [];
-  const subjectsSelected: string = worksRouteProps?.subjectsLabel || '';
-  const genresSelected: string = worksRouteProps?.genresLabel || '';
+  const subjectsSelected: string[] = worksRouteProps?.subjectsLabel || [];
+  const genresSelected: string[] = worksRouteProps?.genresLabel || [];
   const workTypeSelected = worksRouteProps.workType || [];
   const locationsTypeSelected = worksRouteProps.itemsLocationsType || [];
 

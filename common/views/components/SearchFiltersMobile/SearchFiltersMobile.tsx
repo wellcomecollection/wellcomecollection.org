@@ -263,8 +263,8 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
     (productionDatesTo ? 1 : 0) +
     (imagesColor ? 1 : 0) +
     languagesSelected.length +
-    (subjectsSelected ? 1 : 0) +
-    (genresSelected ? 1 : 0);
+    subjectsSelected.length +
+    genresSelected.length;
 
   const { paletteColorFilter } = useContext(TogglesContext);
   const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;

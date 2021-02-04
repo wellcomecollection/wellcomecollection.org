@@ -103,8 +103,8 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       search: maybeString(q.search),
       source: maybeString(q.source),
       languages: stringToCsv(q.languages),
-      subjectsLabel: maybeString(q['subjects.label']),
-      genresLabel: maybeString(q['genres.label']),
+      subjectsLabel: stringToCsv(q['subjects.label']),
+      genresLabel: stringToCsv(q['genres.label']),
     };
   },
 

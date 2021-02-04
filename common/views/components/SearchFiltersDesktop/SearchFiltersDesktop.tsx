@@ -72,8 +72,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
         worksRouteProps?.itemsLocationsType?.length > 0) &&
         workTypeFilters.length > 0) ||
       languagesSelected.length > 0 ||
-      subjectsSelected ||
-      genresSelected;
+      subjectsSelected.length > 0 ||
+      genresSelected.length > 0;
 
     return imagesFilter || catalogueFilter;
   }

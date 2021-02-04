@@ -22,8 +22,8 @@ import { WorksRouteProps } from '@weco/common/services/catalogue/ts_routes';
 type SharedFiltersProps = {
   changeHandler: () => void;
   languagesSelected: string[];
-  genresSelected: string;
-  subjectsSelected: string;
+  genresSelected: string[];
+  subjectsSelected: string[];
   filtersToShow: string[];
 };
 type ModalMoreFiltersProps = {
