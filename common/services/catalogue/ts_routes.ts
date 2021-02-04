@@ -115,8 +115,8 @@ export type WorksRouteProps = {
   imagesColor: string | null;
   search: string | null;
   languages: string[] | null;
-  subjectsLabel: string | null;
-  genresLabel: string | null;
+  subjectsLabel: string[] | null;
+  genresLabel: string[] | null;
 
   // [1] These should not be here, but we need a good
   // old tidy up of the props in this file

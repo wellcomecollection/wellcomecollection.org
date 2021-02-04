@@ -81,8 +81,8 @@ export type WorksRouteProps = {|
   search: ?string,
   source: ?string,
   languages: ?(string[]),
-  subjectsLabel: ?string,
-  genresLabel: ?string,
+  subjectsLabel: ?(string[]),
+  genresLabel: ?(string[]),
 |};
 
 export const WorksRoute: NextRoute<WorksRouteProps> = {
