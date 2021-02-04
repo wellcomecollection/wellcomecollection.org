@@ -25,6 +25,7 @@ import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
+import { ContentFormatIds } from '@weco/common/model/content-format-id';
 
 type Props = {|
   page: PageType,
@@ -52,6 +53,8 @@ export class Page extends Component<Props> {
     const DateInfo = page.datePublished && (
       <HTMLDate date={new Date(page.datePublished)} />
     );
+    const isLanding =
+      page.format && page.format.id === ContentFormatIds.Landing;
 
     const hasFeaturedMedia =
       page.body.length > 1 &&
