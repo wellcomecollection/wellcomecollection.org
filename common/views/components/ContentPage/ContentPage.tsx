@@ -22,7 +22,7 @@ import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import BannerCard from '../BannerCard/BannerCard';
 import Body from '../Body/Body';
 import { Season } from '../../../model/seasons';
-import { ElementFromComponent } from 'utils/utility-types';
+import { ElementFromComponent } from '../../../utils/utility-types';
 /*eslint-disable */
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 
