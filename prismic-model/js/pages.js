@@ -11,6 +11,7 @@ import structuredText from './parts/structured-text';
 const Page = {
   Page: {
     title,
+    format: link('Format', 'document', ['page-formats']),
     datePublished: timestamp('Date published'),
     body,
   },
