@@ -5,6 +5,7 @@ import fetch from 'isomorphic-unfetch';
 import { IIIFCanvas, IIIFManifest } from '@weco/common/model/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
+import { fetchJson } from '@weco/common/utils/http';
 import {
   getDownloadOptionsFromManifest,
   getVideo,
@@ -13,6 +14,7 @@ import {
   getUiExtensions,
   isUiEnabled,
   getAuthService,
+  getFirstChildManifestLocation,
 } from '@weco/common/utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
@@ -26,8 +28,8 @@ import Space, {
   SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
 import {
-  GlobalContextData,
   getGlobalContextData,
+  WithGlobalContextData,
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
@@ -75,7 +77,6 @@ type Video = {
 
 type Props = {
   workId: string;
-  sierraId?: string;
   langCode: string;
   manifest?: IIIFManifest;
   work: Work;
@@ -87,12 +88,11 @@ type Props = {
   currentCanvas?: IIIFCanvas;
   video?: Video;
   audio?: Audio;
-  globalContextData: GlobalContextData;
-} & WithPageview;
+} & WithGlobalContextData &
+  WithPageview;
 
 const ItemPage: NextPage<Props> = ({
   workId,
-  sierraId,
   langCode,
   manifest,
   work,
@@ -141,7 +141,6 @@ const ItemPage: NextPage<Props> = ({
       page: pageIndex + 1,
       canvas: canvasIndex + 1,
       langCode,
-      sierraId,
     }),
   };
 
@@ -195,7 +194,7 @@ const ItemPage: NextPage<Props> = ({
     <CataloguePageLayout
       title={title}
       description={''}
-      url={{ pathname: `/works/${workId}/items`, query: { sierraId } }}
+      url={{ pathname: `/works/${workId}/items` }}
       openGraphType={'website'}
       jsonLd={{ '@type': 'WebPage' }}
       siteSection={'collections'}
@@ -343,7 +342,6 @@ const ItemPage: NextPage<Props> = ({
             canvases={canvases}
             workId={workId}
             pageIndex={pageIndex}
-            sierraId={sierraId}
             pageSize={pageSize}
             canvasIndex={canvasIndex}
             iiifImageLocation={iiifImageLocation}
@@ -365,7 +363,6 @@ export const getServerSideProps: GetServerSideProps<
   const globalContextData = getGlobalContextData(context);
   const {
     workId,
-    sierraId = undefined,
     langCode = 'en',
     page = 1,
     pageSize = 4,
@@ -373,13 +370,7 @@ export const getServerSideProps: GetServerSideProps<
   } = ItemRoute.fromQuery(context.query);
   const pageIndex = page - 1;
   const canvasIndex = canvas - 1;
-  const manifestUrl =
-    sierraId && `https://wellcomelibrary.org/iiif/${sierraId}/manifest`;
-  const manifest = manifestUrl
-    ? await (await fetch(manifestUrl)).json()
-    : undefined;
-  const video = manifest && getVideo(manifest);
-  const audio = manifest && getAudio(manifest);
+
   const work = await getWork({
     id: workId,
     toggles: globalContextData.toggles,
@@ -396,18 +387,37 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
+  const manifestUrl = getDigitalLocationOfType(work, 'iiif-presentation')?.url;
+  const manifestFromWork = manifestUrl
+    ? await (await fetch(manifestUrl)).json()
+    : undefined;
+
+  // This happens when the main manifest is actually a manifest of manifest.
+  // see: https://wellcomelibrary.org/iiif/collection/b21293302
+  // from: https://wellcomecollection.org/works/f6qp7m32/items
+  const firstChildManifestLocation =
+    manifestFromWork && getFirstChildManifestLocation(manifestFromWork);
+
+  const manifest = firstChildManifestLocation
+    ? await fetchJson(firstChildManifestLocation)
+    : manifestFromWork;
+
+  const video = manifest && getVideo(manifest);
+  const audio = manifest && getAudio(manifest);
+
   const canvases =
     manifest && manifest.sequences && manifest.sequences[0].canvases
       ? manifest.sequences[0].canvases
       : [];
+
   const currentCanvas = canvases?.[canvasIndex];
   const canvasOcr = currentCanvas
     ? await getCanvasOcr(currentCanvas)
     : undefined;
+
   return {
     props: removeUndefinedProps({
       workId,
-      sierraId,
       langCode,
       manifest,
       pageSize,

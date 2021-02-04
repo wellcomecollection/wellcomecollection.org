@@ -184,7 +184,6 @@ type IIIFViewerProps = {
   canvases: IIIFCanvas[];
   workId: string;
   pageIndex: number;
-  sierraId?: string;
   pageSize: number;
   canvasIndex: number;
   iiifImageLocation?: DigitalLocation;
@@ -203,7 +202,6 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
   canvases,
   workId,
   pageIndex,
-  sierraId,
   pageSize,
   canvasIndex,
   iiifImageLocation,
@@ -403,7 +401,7 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
       parentManifest.manifests &&
       parentManifest.manifests.find(manifest => {
         return (
-          (manifest['@id'].match(/iiif\/(.*)\/manifest/) || [])[1] === sierraId
+          (manifest['@id'].match(/iiif\/(.*)\/manifest/) || [])[1] === 'fixme'
         );
       });
 
@@ -478,7 +476,6 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
             canvases={canvases}
             canvasIndex={canvasIndex}
             pageIndex={pageIndex}
-            sierraId={sierraId}
             pageSize={pageSize}
           />
         )}

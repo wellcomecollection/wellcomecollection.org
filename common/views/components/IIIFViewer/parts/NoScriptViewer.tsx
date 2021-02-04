@@ -139,7 +139,6 @@ type NoScriptViewerProps = {
   canvasOcr?: string;
   workId: string;
   pageIndex: number;
-  sierraId?: string;
   pageSize: number;
   imageUrl?: string;
   thumbnailsRequired: boolean;
@@ -161,7 +160,6 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
   canvases,
   canvasIndex,
   pageIndex,
-  sierraId,
   pageSize,
 }: NoScriptViewerProps) => {
   const mainImageService = { '@id': getServiceId(currentCanvas) };
@@ -247,7 +245,6 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
                       {...itemLink({
                         workId,
                         page: pageIndex + 1,
-                        sierraId,
                         langCode: lang,
                         canvas: canvasNumber,
                       })}
