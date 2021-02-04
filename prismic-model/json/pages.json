@@ -8,6 +8,16 @@
         "useAsTitle": true
       }
     },
+    "format": {
+      "type": "Link",
+      "config": {
+        "label": "Format",
+        "select": "document",
+        "customtypes": [
+          "page-formats"
+        ]
+      }
+    },
     "datePublished": {
       "type": "Timestamp",
       "config": {
