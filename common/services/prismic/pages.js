@@ -6,6 +6,7 @@ import {
   parseGenericFields,
   parseOnThisPage,
   parseSingleLevelGroup,
+  parseFormat,
 } from './parsers';
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
@@ -28,6 +29,7 @@ import {
   peopleFields,
   bookFields,
   landingPagesFields,
+  pagesFormatsFields,
 } from './fetch-links';
 
 export function parsePage(document: PrismicDocument): Page {
@@ -67,6 +69,7 @@ export function parsePage(document: PrismicDocument): Page {
     : null;
   return {
     type: 'pages',
+    format: data.format && parseFormat(data.format),
     ...genericFields,
     seasons,
     landingPages,
@@ -104,7 +107,8 @@ export async function getPage(
         contributorsFields,
         peopleFields,
         bookFields,
-        landingPagesFields
+        landingPagesFields,
+        pagesFormatsFields
       ),
     },
     memoizedPrismic
