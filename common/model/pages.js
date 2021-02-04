@@ -2,9 +2,11 @@
 import type { GenericContentFields } from './generic-content-fields';
 import type { Link } from './link';
 import type { Season } from './seasons';
+import { Format } from './format';
 
 export type Page = {|
   type: 'pages',
+  format: ?Format,
   ...GenericContentFields,
   seasons: Season[],
   landingPages: Page[],
