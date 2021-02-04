@@ -48,6 +48,19 @@ export const sortByCount = (
   }
 };
 
+export const sortLabelByAlphabeticalOrder = (
+  a: CatalogueAggregationBucket,
+  b: CatalogueAggregationBucket
+): number => {
+  if (a.data.label.toLowerCase() < b.data.label.toLowerCase()) {
+    return -1;
+  }
+  if (a.data.label.toLowerCase() > b.data.label.toLowerCase()) {
+    return 1;
+  }
+  return 0;
+};
+
 export const getAggregationRadioGroup = (
   aggregation: CatalogueAggregationBucket[],
   prefixId: string
@@ -114,4 +127,16 @@ export const getSelectedFilterColor = (form: HTMLFormElement): string => {
       ? imagesColorValue.replace('#', '')
       : imagesColorValue;
   return imagesColor;
+};
+
+export const sortAggregationBucket = (
+  filter: CatalogueAggregationBucket[],
+  sortBy?: 'alphabetical'
+): CatalogueAggregationBucket[] => {
+  switch (sortBy) {
+    case 'alphabetical':
+      return filter.sort(sortLabelByAlphabeticalOrder);
+    default:
+      return filter;
+  }
 };

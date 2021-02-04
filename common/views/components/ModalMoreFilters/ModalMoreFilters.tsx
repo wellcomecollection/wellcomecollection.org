@@ -12,6 +12,7 @@ import { searchFilterCheckBox } from '../../../text/arial-labels';
 import {
   getAggregationFilterByName,
   getAggregationRadioGroup,
+  sortAggregationBucket,
 } from '@weco/common/utils/filters';
 import RadioGroup from '@weco/common/views/components/RadioGroup/RadioGroup';
 import NextLink from 'next/link';
@@ -204,10 +205,11 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
   worksRouteProps,
   isEnhanced,
 }: ModalMoreFiltersProps) => {
-  const languagesFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
-    aggregations,
-    'languages'
+  const languagesFilter: CatalogueAggregationBucket[] = sortAggregationBucket(
+    getAggregationFilterByName(aggregations, 'languages'),
+    'alphabetical'
   );
+
   const subjectsFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
     aggregations,
     'subjects'
