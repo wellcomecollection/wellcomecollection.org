@@ -131,11 +131,9 @@ export const getSelectedFilterColor = (form: HTMLFormElement): string => {
 
 export const sortAggregationBucket = (
   filter: CatalogueAggregationBucket[],
-  sortBy?: 'alphabetical' | 'count'
+  sortBy?: 'alphabetical'
 ): CatalogueAggregationBucket[] => {
   switch (sortBy) {
-    case 'count':
-      return filter.sort(sortByCount);
     case 'alphabetical':
       return filter.sort(sortLabelByAlphabeticalOrder);
     default:
