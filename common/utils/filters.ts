@@ -48,20 +48,8 @@ export const sortByCount = (
   }
 };
 
-export const getAggregationRadioGroup = (
-  aggregation: CatalogueAggregationBucket[],
-  prefixId: string
-): RadioGroupOption[] => {
-  const radioOption = aggregation.sort(sortByCount).map(item => {
-    const id = item?.data?.label.replace(/\s/, '-').toLocaleLowerCase();
-    return {
-      value: item?.data?.label,
-      id: `${prefixId}-${id}`,
-      label: `${item?.data?.label} (${item?.count})`,
-    };
-  });
-
-  return radioOption;
+export const removeSpace = (itemString: string, replace = '-'): string => {
+  return itemString.replace(/\s/, replace).toLocaleLowerCase();
 };
 
 export const getFilterItemSelected = (
