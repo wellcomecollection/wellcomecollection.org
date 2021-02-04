@@ -133,7 +133,6 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                     const isChecked = subjectsSelected.includes(
                       subject.data.label
                     );
-                    console.log(subjectsSelected, 'subject selected');
                     return (
                       (subject.count > 0 || isChecked) && (
                         <Space
