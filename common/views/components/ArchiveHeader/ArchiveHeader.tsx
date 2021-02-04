@@ -33,7 +33,7 @@ type Props = {
   childManifestsCount?: number;
 };
 
-const WorkHeaderPrototype: FunctionComponent<Props> = ({
+const ArchiveHeader: FunctionComponent<Props> = ({
   work,
   childManifestsCount = 0,
 }: Props): ReactElement<Props> => {
@@ -147,6 +147,13 @@ const WorkHeaderPrototype: FunctionComponent<Props> = ({
             </Space>
           )}
 
+          {work.referenceNumber && (
+            <LinkLabels
+              heading="Reference"
+              items={[{ text: work.referenceNumber }]}
+            />
+          )}
+
           {childManifestsCount > 0 && (
             <Space v={{ size: 'm', properties: ['margin-top'] }}>
               <p
@@ -165,4 +172,4 @@ const WorkHeaderPrototype: FunctionComponent<Props> = ({
     </WorkHeaderContainer>
   );
 };
-export default WorkHeaderPrototype;
+export default ArchiveHeader;

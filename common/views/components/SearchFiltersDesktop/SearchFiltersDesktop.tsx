@@ -225,7 +225,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
               >
                 <ButtonInline
                   type={ButtonTypes.button}
-                  text="more Filters"
+                  text="More filters"
                   clickHandler={event => {
                     event.preventDefault();
                     setMoreFiltersModal(true);

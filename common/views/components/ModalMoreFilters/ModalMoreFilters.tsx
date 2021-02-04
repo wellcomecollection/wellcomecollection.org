@@ -12,6 +12,7 @@ import { searchFilterCheckBox } from '../../../text/arial-labels';
 import {
   getAggregationFilterByName,
   replaceSpaceWithHypen,
+  sortAggregationBucket,
 } from '@weco/common/utils/filters';
 import NextLink from 'next/link';
 import { worksLink } from '../../../services/catalogue/routes';
@@ -254,10 +255,11 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
   worksRouteProps,
   isEnhanced,
 }: ModalMoreFiltersProps) => {
-  const languagesFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
-    aggregations,
-    'languages'
+  const languagesFilter: CatalogueAggregationBucket[] = sortAggregationBucket(
+    getAggregationFilterByName(aggregations, 'languages'),
+    'alphabetical'
   );
+
   const subjectsFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
     aggregations,
     'subjects'
