@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { Work } from '@weco/common/model/catalogue';
-import fetch from 'isomorphic-unfetch';
 import { IIIFCanvas, IIIFManifest } from '@weco/common/model/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
@@ -14,7 +13,6 @@ import {
   getUiExtensions,
   isUiEnabled,
   getAuthService,
-  getFirstChildManifestLocation,
 } from '@weco/common/utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
@@ -41,7 +39,7 @@ import {
   AppErrorProps,
   WithPageview,
 } from '@weco/common/views/pages/_app';
-import { ItemRoute } from '@weco/common/services/catalogue/ts_routes';
+import * as ItemProps from '@weco/common/views/components/ItemLink/ItemLink';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 
 const IframeAuthMessage = styled.iframe`
@@ -367,7 +365,9 @@ export const getServerSideProps: GetServerSideProps<
     page = 1,
     pageSize = 4,
     canvas = 1,
-  } = ItemRoute.fromQuery(context.query);
+    manifest: manifestIndex,
+  } = ItemProps.fromQuery(context.query);
+
   const pageIndex = page - 1;
   const canvasIndex = canvas - 1;
 
@@ -388,25 +388,29 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   const manifestUrl = getDigitalLocationOfType(work, 'iiif-presentation')?.url;
-  const manifestFromWork = manifestUrl
-    ? await (await fetch(manifestUrl)).json()
+  const manifestOrCollection = manifestUrl
+    ? await fetchJson(manifestUrl)
     : undefined;
 
-  // This happens when the main manifest is actually a manifest of manifest.
+  if (!manifestOrCollection) {
+    return { notFound: true };
+  }
+
+  // This happens when the main manifest is actually a Collection (manifest of manifest).
   // see: https://wellcomelibrary.org/iiif/collection/b21293302
   // from: https://wellcomecollection.org/works/f6qp7m32/items
-  const firstChildManifestLocation =
-    manifestFromWork && getFirstChildManifestLocation(manifestFromWork);
+  const isCollectionManifest =
+    manifestOrCollection['@type'] === 'sc:Collection';
 
-  const manifest = firstChildManifestLocation
-    ? await fetchJson(firstChildManifestLocation)
-    : manifestFromWork;
+  const manifest = isCollectionManifest
+    ? await fetchJson(manifestOrCollection.manifests[manifestIndex || 0]['@id'])
+    : manifestOrCollection;
 
-  const video = manifest && getVideo(manifest);
-  const audio = manifest && getAudio(manifest);
+  const video = getVideo(manifest);
+  const audio = getAudio(manifest);
 
   const canvases =
-    manifest && manifest.sequences && manifest.sequences[0].canvases
+    manifest.sequences && manifest.sequences[0].canvases
       ? manifest.sequences[0].canvases
       : [];
 

@@ -21,6 +21,7 @@ export type ItemProps = {
   sierraId?: string;
   isOverview?: boolean;
   resultPosition?: number;
+  manifest?: number;
   source: ItemPropsSource | 'unknown';
 };
 
@@ -34,6 +35,7 @@ const fromQuery: QueryTo<ItemProps> = params => {
     sierraId: toMaybeString(params.sierraId),
     isOverview: Boolean(params.isOverview),
     resultPosition: toMaybeNumber(params.resultPosition),
+    manifest: toMaybeNumber(params.manifest),
     source: toSource(params.source, itemPropsSources) || 'unknown',
   };
 };

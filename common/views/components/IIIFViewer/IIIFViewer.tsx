@@ -383,6 +383,17 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
   }, []);
 
   useEffect(() => {
+    const matchingManifest =
+      parentManifest &&
+      parentManifest.manifests &&
+      parentManifest.manifests.find((childManifest: IIIFManifest) => {
+        return !manifest ? false : childManifest['@id'] === manifest['@id'];
+      });
+
+    matchingManifest && setCurrentManifestLabel(matchingManifest.label);
+  });
+
+  useEffect(() => {
     if (gridVisible) {
       const thumb = gridViewerRef.current?.getElementsByClassName(
         'activeThumbnail'
@@ -392,19 +403,6 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
       viewToggleRef.current?.focus();
     }
   }, [gridVisible]);
-
-  useEffect(() => {
-    const matchingManifest =
-      parentManifest &&
-      parentManifest.manifests &&
-      parentManifest.manifests.find(manifest => {
-        return (
-          (manifest['@id'].match(/iiif\/(.*)\/manifest/) || [])[1] === 'fixme'
-        );
-      });
-
-    matchingManifest && setCurrentManifestLabel(matchingManifest.label);
-  });
 
   useEffect(() => {
     function handleResize() {

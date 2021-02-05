@@ -96,14 +96,13 @@ const MultipleManifestList: FunctionComponent<Props> = ({
       <HiddenContent id="hiddenContent" hidden={!showHidden}>
         <SpacingComponent>
           <ul className="no-margin no-padding plain-list">
-            {manifests.map(manifest => (
+            {manifests.map((manifest, i) => (
               <li key={manifest['@id']}>
                 <NextLink
                   {...itemLink({
                     workId,
-                    sierraId: (manifest['@id'].match(/iiif\/(.*)\/manifest/) ||
-                      [])[1],
                     langCode: lang,
+                    manifest: i,
                   })}
                 >
                   <a>{manifest.label}</a>
