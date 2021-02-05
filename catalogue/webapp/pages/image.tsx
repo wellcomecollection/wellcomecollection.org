@@ -86,7 +86,6 @@ const ImagePage: FunctionComponent<Props> = ({
           canvases={[]}
           workId={sourceWork.id}
           pageIndex={0}
-          sierraId=""
           pageSize={1}
           canvasIndex={0}
           iiifImageLocation={iiifImageLocation}

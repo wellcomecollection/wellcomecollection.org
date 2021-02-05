@@ -177,7 +177,9 @@ const ViewerTopBar: FunctionComponent<Props> = ({
       )}
       <TitleContainer isEnhanced={enhanced && canvases && canvases.length > 1}>
         <div className="title">
-          <span className="part">{currentManifestLabel}</span>
+          {currentManifestLabel && (
+            <span className="part">{currentManifestLabel}</span>
+          )}
           <WorkLink id={workId} source="viewer_back_link">
             <a
               className={classNames({

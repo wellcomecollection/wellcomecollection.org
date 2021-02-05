@@ -184,7 +184,6 @@ type IIIFViewerProps = {
   canvases: IIIFCanvas[];
   workId: string;
   pageIndex: number;
-  sierraId?: string;
   pageSize: number;
   canvasIndex: number;
   iiifImageLocation?: DigitalLocation;
@@ -203,7 +202,6 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
   canvases,
   workId,
   pageIndex,
-  sierraId,
   pageSize,
   canvasIndex,
   iiifImageLocation,
@@ -356,24 +354,22 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
         ? { canvas: `${activeIndex + 1}` }
         : {};
 
-    Router.replace(
-      {
-        ...mainPaginatorProps.link.href,
-        query: {
-          ...mainPaginatorProps.link.href.query,
-          ...canvasParams,
-          source: 'viewer/paginator',
-        },
+    const url = {
+      ...mainPaginatorProps.link.href,
+      query: {
+        ...mainPaginatorProps.link.href.query,
+        ...canvasParams,
+        source: 'viewer/paginator',
       },
-      {
-        ...mainPaginatorProps.link.as,
-        query: {
-          ...mainPaginatorProps.link.as.query,
-          ...canvasParams,
-          source: 'viewer/paginator',
-        },
-      }
-    );
+    };
+    const as = {
+      ...mainPaginatorProps.link.as,
+      query: {
+        ...mainPaginatorProps.link.as.query,
+        ...canvasParams,
+      },
+    };
+    Router.replace(url, as);
   }, [activeIndex]);
 
   useEffect(() => {
@@ -387,6 +383,17 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
   }, []);
 
   useEffect(() => {
+    const matchingManifest =
+      parentManifest &&
+      parentManifest.manifests &&
+      parentManifest.manifests.find((childManifest: IIIFManifest) => {
+        return !manifest ? false : childManifest['@id'] === manifest['@id'];
+      });
+
+    matchingManifest && setCurrentManifestLabel(matchingManifest.label);
+  });
+
+  useEffect(() => {
     if (gridVisible) {
       const thumb = gridViewerRef.current?.getElementsByClassName(
         'activeThumbnail'
@@ -396,19 +403,6 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
       viewToggleRef.current?.focus();
     }
   }, [gridVisible]);
-
-  useEffect(() => {
-    const matchingManifest =
-      parentManifest &&
-      parentManifest.manifests &&
-      parentManifest.manifests.find(manifest => {
-        return (
-          (manifest['@id'].match(/iiif\/(.*)\/manifest/) || [])[1] === sierraId
-        );
-      });
-
-    matchingManifest && setCurrentManifestLabel(matchingManifest.label);
-  });
 
   useEffect(() => {
     function handleResize() {
@@ -478,7 +472,6 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
             canvases={canvases}
             canvasIndex={canvasIndex}
             pageIndex={pageIndex}
-            sierraId={sierraId}
             pageSize={pageSize}
           />
         )}
