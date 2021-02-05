@@ -152,9 +152,7 @@ const Body: FunctionComponent<Props> = ({
         <>
           {pageId === prismicPageIds.visitUs && <VisitUsStaticContent />}
           {pageId === prismicPageIds.collections && (
-            <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-              <CollectionsStaticContent />
-            </Space>
+            <CollectionsStaticContent />
           )}
           {onThisPage && onThisPage.length > 2 && showOnThisPage && (
             <SpacingComponent>
