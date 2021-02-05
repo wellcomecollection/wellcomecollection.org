@@ -14,7 +14,11 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { getPage, getPageSiblings } from '@weco/common/services/prismic/pages';
+import {
+  getPage,
+  getPageSiblings,
+  getChildren,
+} from '@weco/common/services/prismic/pages';
 import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page as PageType } from '@weco/common/model/pages';
 import type { SiblingsGroup } from '@weco/common/model/siblings-group';
@@ -32,7 +36,8 @@ import { ContentFormatIds } from '@weco/common/model/content-format-id';
 
 type Props = {|
   page: PageType,
-  siblings: SiblingsGroup,
+  siblings: SiblingsGroup[],
+  children: SiblingsGroup,
 |};
 export class Page extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
@@ -40,9 +45,11 @@ export class Page extends Component<Props> {
     const page = await getPage(ctx.req, id, memoizedPrismic);
     if (page) {
       const siblings = await getPageSiblings(page, ctx.req, memoizedPrismic);
+      const children = await getChildren(page, ctx.req, memoizedPrismic);
       return {
         page,
         siblings,
+        children,
       };
     } else {
       return { statusCode: 404 };
@@ -50,7 +57,7 @@ export class Page extends Component<Props> {
   };
 
   render() {
-    const { page, siblings } = this.props;
+    const { page, siblings, children } = this.props;
     const DateInfo = page.datePublished && (
       <HTMLDate date={new Date(page.datePublished)} />
     );
@@ -103,8 +110,9 @@ export class Page extends Component<Props> {
         // Only using the first of the siblingsGroup in the list
         // This should be fine as in reality there shouldn't be more than one
         // Don't have capacity to implement a better solution
+        // TODO show them all
         ...siblings.slice(0, 1).map(siblingGroup => ({
-          url: `/landing-pages/${siblingGroup.id}`,
+          url: `/pages/${siblingGroup.id}`,
           text: siblingGroup.title || '',
           prefix: `Part of`,
         })),
@@ -146,6 +154,16 @@ export class Page extends Component<Props> {
         );
       }
     });
+    const Children =
+      children.siblings.length > 0
+        ? [
+            <SpacingSection key={1}>
+              <SpacingComponent>
+                <CardGrid items={children.siblings} itemsPerRow={3} />
+              </SpacingComponent>
+            </SpacingSection>,
+          ]
+        : [];
     return (
       <PageLayout
         title={page.title}
@@ -173,7 +191,7 @@ export class Page extends Component<Props> {
               isLanding={isLanding}
             />
           }
-          RelatedContent={Siblings}
+          RelatedContent={[...Siblings, ...Children]}
           contributorProps={{ contributors: page.contributors }}
           seasons={page.seasons}
         />

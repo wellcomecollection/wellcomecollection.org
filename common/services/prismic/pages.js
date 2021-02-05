@@ -37,12 +37,11 @@ export function parsePage(document: PrismicDocument): Page {
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
     return parseSeason(season);
   });
-  const landingPages = parseSingleLevelGroup(
-    data.landingPages,
-    'landingPage'
-  ).map(page => {
-    return parsePage(page);
-  });
+  const parentPages = parseSingleLevelGroup(data.parents, 'parent').map(
+    page => {
+      return parsePage(page);
+    }
+  );
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
   // strategy for this later
   const siteSection = document.tags.find(tag =>
@@ -71,7 +70,7 @@ export function parsePage(document: PrismicDocument): Page {
     format: data.format && parseFormat(data.format),
     ...genericFields,
     seasons,
-    landingPages,
+    parentPages,
     onThisPage: data.body ? parseOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,
     promo: promo && promo.image ? promo : drupalisedPromo,
@@ -175,16 +174,13 @@ export async function getPageSiblings(
   req: ?Request,
   memoizedPrismic: ?Object
 ): Promise<SiblingsGroup[]> {
-  const relatedPagePromises = (page.landingPages &&
-    page.landingPages.map(async landingPage => {
+  const relatedPagePromises = (page.parentPages &&
+    page.parentPages.map(async parentPage => {
       const pagePromise = await getPages(
         req,
         {
           predicates: [
-            Prismic.Predicates.at(
-              'my.pages.landingPages.landingPage',
-              landingPage.id
-            ),
+            Prismic.Predicates.at('my.pages.parents.parent', parentPage.id),
           ],
         },
         memoizedPrismic
@@ -194,8 +190,8 @@ export async function getPageSiblings(
   const relatedPages = await Promise.all(relatedPagePromises);
   const siblingsWithLandingTitle = relatedPages.map((results, i) => {
     return {
-      id: page.landingPages[i].id,
-      title: page.landingPages[i].title,
+      id: page.parentPages[i].id,
+      title: page.parentPages[i].title,
       siblings: results.results.filter(sibling => sibling.id !== page.id),
     };
   });
@@ -210,9 +206,7 @@ export async function getChildren(
   const children = await getPages(
     req,
     {
-      predicates: [
-        Prismic.Predicates.at('my.pages.landingPages.landingPage', page.id),
-      ],
+      predicates: [Prismic.Predicates.at('my.pages.parents.parent', page.id)],
     },
     memoizedPrismic
   );
