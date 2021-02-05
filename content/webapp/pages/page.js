@@ -82,7 +82,7 @@ export class Page extends Component<Props> {
     ];
 
     function getBreadcrumbText(siteSection: string, pageId: string): string {
-      return hiddenBreadcrumbPages.includes(page.id)
+      return hiddenBreadcrumbPages.includes(page.id) || isLanding
         ? '\u200b'
         : siteSection === 'visit-us'
         ? 'Visit us'
