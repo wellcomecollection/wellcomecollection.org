@@ -372,6 +372,9 @@ export const getServerSideProps: GetServerSideProps<
   // Canvas and manifest params should be 0 indexed as they reference elements in an array
   // We've chosen not to do this for some reason lost to time, but felt it better to stick
   // to the same buggy implementation than have 2 implementations
+
+  // I imagine a fix for this could be having new parameters `m&c`
+  // and then redirecting to those once we have em fixed.
   const canvasIndex = canvas - 1;
   const manifestIndex = manifestParam - 1;
 
