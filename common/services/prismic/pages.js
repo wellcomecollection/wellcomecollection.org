@@ -28,7 +28,6 @@ import {
   contributorsFields,
   peopleFields,
   bookFields,
-  landingPagesFields,
   pagesFormatsFields,
 } from './fetch-links';
 
@@ -107,7 +106,6 @@ export async function getPage(
         contributorsFields,
         peopleFields,
         bookFields,
-        landingPagesFields,
         pagesFormatsFields
       ),
     },
@@ -155,8 +153,7 @@ export async function getPages(
         seasonsFields,
         contributorsFields,
         peopleFields,
-        bookFields,
-        landingPagesFields
+        bookFields
       ),
     },
     memoizedPrismic

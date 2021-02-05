@@ -101,7 +101,6 @@ export const seasonsFields = [
   'seasons.end',
   'seasons.promo',
 ];
-export const landingPagesFields = ['landing-pages.title'];
 export const cardsFields = [
   'card.title',
   'card.format',
