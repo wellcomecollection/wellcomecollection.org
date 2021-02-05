@@ -10,6 +10,7 @@ import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import SearchResults from '../SearchResults/SearchResults';
 import { CaptionedImage } from '../Images/Images';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
+import Space from '../styled/Space';
 import Quote from '../Quote/Quote';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
@@ -40,6 +41,9 @@ import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
 import TagsGroup from '../TagsGroup/TagsGroup';
 import Discussion from '../Discussion/Discussion';
 import WobblyEdgedContainer from '../WobblyEdgedContainer/WobblyEdgedContainer';
+
+import VisitUsStaticContent from './VisitUsStaticContent';
+import CollectionsStaticContent from './CollectionsStaticContent';
 
 const Map = dynamic(import('../Map/Map'), { ssr: false });
 
@@ -101,19 +105,38 @@ const Body: FunctionComponent<Props> = ({
     .indexOf('text');
   let imageGalleryIdCount = 1;
 
+  const AdditionalContent = ({ index }) => {
+    if (index === 0) {
+      return (
+        <>
+          {pageId === prismicPageIds.visitUs && <VisitUsStaticContent />}
+          {pageId === prismicPageIds.collections && (
+            <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
+              <CollectionsStaticContent />
+            </Space>
+          )}
+          {onThisPage && onThisPage.length > 2 && showOnThisPage && (
+            <SpacingComponent>
+              <LayoutWidth width={minWidth}>
+                <OnThisPageAnchors links={onThisPage} />
+              </LayoutWidth>
+            </SpacingComponent>
+          )}
+        </>
+      );
+    } else {
+      return null;
+    }
+  };
+
   return (
     <div
       className={classNames({
         'basic-body': true,
       })}
     >
-      {onThisPage && onThisPage.length > 2 && showOnThisPage && (
-        <SpacingComponent>
-          <LayoutWidth width={minWidth}>
-            <OnThisPageAnchors links={onThisPage} />
-          </LayoutWidth>
-        </SpacingComponent>
-      )}
+      {filteredBody.length < 1 && <AdditionalContent index={0} />}
+      {/* // TO '|||||check when no body content */}
       {filteredBody.map((slice, i) => (
         <SpacingComponent key={`slice${i}`}>
           <div
@@ -122,15 +145,25 @@ const Body: FunctionComponent<Props> = ({
             })}
           >
             {slice.type === 'inPageAnchor' && <span id={slice.value} />}
-            {slice.type === 'text' && (
+            {/* If the first slice is featured text we display it above inPageAnchors and any static content, i.e. <AdditionalContent /> */}
+            {i === 0 && slice.type === 'text' && slice.weight === 'featured' && (
               <LayoutWidth width={minWidth}>
                 <div className="body-text spaced-text">
-                  {slice.weight === 'featured' && (
+                  <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                     <FeaturedText
                       html={slice.value}
                       htmlSerializer={defaultSerializer}
                     />
-                  )}
+                  </Space>
+                </div>
+              </LayoutWidth>
+            )}
+
+            <AdditionalContent index={i} />
+
+            {slice.type === 'text' && (
+              <LayoutWidth width={minWidth}>
+                <div className="body-text spaced-text">
                   {slice.weight !== 'featured' &&
                     (firstTextSliceIndex === i && isDropCapped ? (
                       <PrismicHtmlBlock
@@ -180,8 +213,7 @@ const Body: FunctionComponent<Props> = ({
               <LayoutWidth width={minWidth}>
                 {/* FIXME: this makes what-we-do and visit-us contentLists synchronous,
                 but it's hacky. */}
-                {pageId === prismicPageIds.whatWeDo ||
-                pageId === prismicPageIds.visitUs ? (
+                {pageId === prismicPageIds.whatWeDo ? (
                   <SearchResults
                     title={slice.value.title}
                     items={slice.value.items}
