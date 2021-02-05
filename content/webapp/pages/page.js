@@ -19,7 +19,10 @@ import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page as PageType } from '@weco/common/model/pages';
 import type { SiblingsGroup } from '@weco/common/model/siblings-group';
 // $FlowFixMe (ts)
-import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import {
+  headerBackgroundLs,
+  landingHeaderBackgroundLs,
+} from '@weco/common/utils/backgrounds';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -31,8 +34,6 @@ type Props = {|
   page: PageType,
   siblings: SiblingsGroup,
 |};
-
-const backgroundTexture = headerBackgroundLs;
 export class Page extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { id, memoizedPrismic } = ctx.query;
@@ -55,7 +56,9 @@ export class Page extends Component<Props> {
     );
     const isLanding =
       page.format && page.format.id === ContentFormatIds.Landing;
-
+    const backgroundTexture = isLanding
+      ? landingHeaderBackgroundLs
+      : headerBackgroundLs;
     const hasFeaturedMedia =
       page.body.length > 1 &&
       (page.body[0].type === 'picture' || page.body[0].type === 'videoEmbed');
@@ -118,7 +121,7 @@ export class Page extends Component<Props> {
           FeaturedMedia && (
             <HeaderBackground
               backgroundTexture={backgroundTexture}
-              hasWobblyEdge={true}
+              hasWobblyEdge={!isLanding}
             />
           )
         }
@@ -167,6 +170,7 @@ export class Page extends Component<Props> {
               pageId={page.id}
               onThisPage={page.onThisPage}
               showOnThisPage={page.showOnThisPage}
+              isLanding={isLanding}
             />
           }
           RelatedContent={Siblings}

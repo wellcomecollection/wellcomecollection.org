@@ -78,6 +78,7 @@ type Props = {
   isDropCapped?: boolean;
   pageId: string;
   minWidth?: 10 | 8;
+  isLanding?: boolean;
 };
 
 const Body: FunctionComponent<Props> = ({
@@ -87,6 +88,7 @@ const Body: FunctionComponent<Props> = ({
   isDropCapped,
   pageId,
   minWidth = 8,
+  isLanding = false,
 }: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
