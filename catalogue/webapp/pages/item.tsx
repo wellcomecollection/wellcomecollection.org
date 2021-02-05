@@ -365,11 +365,15 @@ export const getServerSideProps: GetServerSideProps<
     page = 1,
     pageSize = 4,
     canvas = 1,
-    manifest: manifestIndex,
+    manifest: manifestParam = 1,
   } = ItemProps.fromQuery(context.query);
 
   const pageIndex = page - 1;
+  // Canvas and manifest params should be 0 indexed as they reference elements in an array
+  // We've chosen not to do this for some reason lost to time, but felt it better to stick
+  // to the same buggy implementation than have 2 implementations
   const canvasIndex = canvas - 1;
+  const manifestIndex = manifestParam - 1;
 
   const work = await getWork({
     id: workId,
