@@ -101,8 +101,6 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
     'genres'
   );
 
-  console.log(subjectsSelected, 'subjects selected');
-
   const { searchMoreFilters } = useContext(TogglesContext);
   return (
     <Space
