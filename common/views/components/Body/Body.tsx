@@ -138,8 +138,15 @@ const Body: FunctionComponent<Props> = ({
       featuredCardText: 'black',
     },
   ];
-
-  const AdditionalContent = ({ index, sections = [], isLanding = false }) => {
+  const AdditionalContent = ({
+    index,
+    sections = [],
+    isLanding = false,
+  }: {
+    index: number;
+    sections: BodyType;
+    isLanding: boolean;
+  }): ReactElement<Props> | null => {
     if (index === 0) {
       return (
         <>
