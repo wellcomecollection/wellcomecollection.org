@@ -7,7 +7,7 @@ export type Page = GenericContentFields & {
   type: 'pages';
   format: Format | null;
   seasons: Season[];
-  landingPages: Page[];
+  parentPages: Page[];
   onThisPage: Link[];
   datePublished?: Date;
   siteSection?: string;
