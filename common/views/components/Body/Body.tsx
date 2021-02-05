@@ -1,15 +1,12 @@
 import dynamic from 'next/dynamic';
-import {
-  ReactNode,
-  ReactElement,
-  FunctionComponent,
-  ComponentProps,
-} from 'react';
+import { ReactNode, ReactElement, FunctionComponent } from 'react';
 import { classNames } from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import SearchResults from '../SearchResults/SearchResults';
 import { CaptionedImage } from '../Images/Images';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
+import SpacingSection from '../SpacingSection/SpacingSection';
+import SectionHeader from '../SectionHeader/SectionHeader';
 import Space from '../styled/Space';
 import Quote from '../Quote/Quote';
 import ImageGallery from '../ImageGallery/ImageGallery';
@@ -41,7 +38,16 @@ import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
 import TagsGroup from '../TagsGroup/TagsGroup';
 import Discussion from '../Discussion/Discussion';
 import WobblyEdgedContainer from '../WobblyEdgedContainer/WobblyEdgedContainer';
+import WobblyEdge from '../WobblyEdge/WobblyEdge';
 
+import GridFactory from '../GridFactory/GridFactory';
+import Card from '../Card/Card';
+import FeaturedCard, {
+  convertItemToFeaturedCardProps,
+  convertCardToFeaturedCardProps,
+} from '../FeaturedCard/FeaturedCard';
+import { convertItemToCardProps } from '@weco/common/model/card';
+import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import VisitUsStaticContent from './VisitUsStaticContent';
 import CollectionsStaticContent from './CollectionsStaticContent';
 
@@ -105,7 +111,35 @@ const Body: FunctionComponent<Props> = ({
     .indexOf('text');
   let imageGalleryIdCount = 1;
 
-  const AdditionalContent = ({ index }) => {
+  const sections = body.filter(slice => slice.type === 'contentList');
+  const sectionThemes = [
+    {
+      rowBackground: 'white',
+      cardBackground: 'cream',
+      featuredCardBackground: 'charcoal',
+      featuredCardText: 'white',
+    },
+    {
+      rowBackground: 'cream',
+      cardBackground: 'white',
+      featuredCardBackground: 'white',
+      featuredCardText: 'black',
+    },
+    {
+      rowBackground: 'white',
+      cardBackground: 'cream',
+      featuredCardBackground: 'cream',
+      featuredCardText: 'black',
+    },
+    {
+      rowBackground: 'charcoal',
+      cardBackground: 'transparent',
+      featuredCardBackground: 'white',
+      featuredCardText: 'black',
+    },
+  ];
+
+  const AdditionalContent = ({ index, sections = [], isLanding = false }) => {
     if (index === 0) {
       return (
         <>
@@ -122,6 +156,98 @@ const Body: FunctionComponent<Props> = ({
               </LayoutWidth>
             </SpacingComponent>
           )}
+          {isLanding &&
+            sections.map((section, index) => {
+              const isFirst = index === 0;
+              const isLast = index === sections.length - 1;
+              const sectionTheme = sectionThemes[index % sectionThemes.length];
+              const hasFeatured =
+                Boolean(section.value.hasFeatured) ||
+                section.value.items.length === 1;
+              const firstItem = section.value.items?.[0];
+              const isCardType = firstItem?.type === 'card';
+
+              const firstItemProps =
+                firstItem &&
+                (isCardType
+                  ? convertCardToFeaturedCardProps(firstItem)
+                  : convertItemToFeaturedCardProps(firstItem));
+
+              const cardItems = hasFeatured
+                ? section.value.items.slice(1)
+                : section.value.items;
+              const featuredItem =
+                hasFeatured && firstItem ? (
+                  <FeaturedCard
+                    {...firstItemProps}
+                    background={sectionTheme.featuredCardBackground}
+                    color={sectionTheme.featuredCardText}
+                    isReversed={false}
+                  >
+                    <h2 className="font-wb font-size-2">{firstItem.title}</h2>
+                    {isCardType && firstItem.description && (
+                      <p className="font-hnl font-size-5">
+                        {firstItem.description}
+                      </p>
+                    )}
+                    {firstItem.promo && (
+                      <p className="font-hnl font-size-5">
+                        {firstItem.promo.caption}
+                      </p>
+                    )}
+                  </FeaturedCard>
+                ) : null;
+
+              const cards = cardItems.map((item, i) => {
+                const cardProps =
+                  item.type === 'card' ? item : convertItemToCardProps(item);
+                return <Card key={i} item={cardProps} />;
+              });
+
+              return (
+                <ConditionalWrapper
+                  key={index}
+                  condition={!isLast}
+                  wrapper={children => (
+                    <SpacingSection>{children}</SpacingSection>
+                  )}
+                >
+                  {!isFirst && (
+                    <WobblyEdge
+                      background={sectionTheme.rowBackground}
+                      isStatic
+                    />
+                  )}
+                  <Space
+                    v={{
+                      size: 'xl',
+                      properties: isLast
+                        ? ['padding-top']
+                        : ['padding-top', 'padding-bottom'],
+                    }}
+                    className={classNames({
+                      'row card-theme': true,
+                      [`bg-${sectionTheme.rowBackground}`]: true,
+                      [`card-theme--${sectionTheme.cardBackground}`]: true,
+                    })}
+                  >
+                    {section.value.title && (
+                      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                        <SectionHeader title={section.value.title} />
+                      </Space>
+                    )}
+                    {featuredItem && (
+                      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                        <Layout12>{featuredItem}</Layout12>
+                      </Space>
+                    )}
+                    {cards.length > 0 && <GridFactory items={cards} />}
+                  </Space>
+
+                  {!isLast && <WobblyEdge background={'white'} isStatic />}
+                </ConditionalWrapper>
+              );
+            })}
         </>
       );
     } else {
@@ -135,7 +261,13 @@ const Body: FunctionComponent<Props> = ({
         'basic-body': true,
       })}
     >
-      {filteredBody.length < 1 && <AdditionalContent index={0} />}
+      {filteredBody.length < 1 && (
+        <AdditionalContent
+          index={0}
+          sections={sections}
+          isLanding={isLanding}
+        />
+      )}
       {/* // TO '|||||check when no body content */}
       {filteredBody.map((slice, i) => (
         <SpacingComponent key={`slice${i}`}>
@@ -159,7 +291,11 @@ const Body: FunctionComponent<Props> = ({
               </LayoutWidth>
             )}
 
-            <AdditionalContent index={i} />
+            <AdditionalContent
+              index={i}
+              sections={sections}
+              isLanding={isLanding}
+            />
 
             {slice.type === 'text' && (
               <LayoutWidth width={minWidth}>
@@ -209,9 +345,9 @@ const Body: FunctionComponent<Props> = ({
                 <Quote {...slice.value} />
               </LayoutWidth>
             )}
-            {slice.type === 'contentList' && (
+            {slice.type === 'contentList' && !isLanding && (
               <LayoutWidth width={minWidth}>
-                {/* FIXME: this makes what-we-do and visit-us contentLists synchronous,
+                {/* FIXME: this makes what-we-do contentLists synchronous,
                 but it's hacky. */}
                 {pageId === prismicPageIds.whatWeDo ? (
                   <SearchResults
