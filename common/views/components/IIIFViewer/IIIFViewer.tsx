@@ -354,24 +354,22 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
         ? { canvas: `${activeIndex + 1}` }
         : {};
 
-    Router.replace(
-      {
-        ...mainPaginatorProps.link.href,
-        query: {
-          ...mainPaginatorProps.link.href.query,
-          ...canvasParams,
-          source: 'viewer/paginator',
-        },
+    const url = {
+      ...mainPaginatorProps.link.href,
+      query: {
+        ...mainPaginatorProps.link.href.query,
+        ...canvasParams,
+        source: 'viewer/paginator',
       },
-      {
-        ...mainPaginatorProps.link.as,
-        query: {
-          ...mainPaginatorProps.link.as.query,
-          ...canvasParams,
-          source: 'viewer/paginator',
-        },
-      }
-    );
+    };
+    const as = {
+      ...mainPaginatorProps.link.as,
+      query: {
+        ...mainPaginatorProps.link.as.query,
+        ...canvasParams,
+      },
+    };
+    Router.replace(url, as);
   }, [activeIndex]);
 
   useEffect(() => {
