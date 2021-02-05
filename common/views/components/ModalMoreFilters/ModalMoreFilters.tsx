@@ -48,9 +48,9 @@ const ModalInner = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 320px;
-  max-width: 600px;
+  max-width: 650px;
   ${props => props.theme.media.large`
-    width: 600px;
+    width: 650px;
     top: 10px;
   `}
   position: relative;
