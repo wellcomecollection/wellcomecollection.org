@@ -157,7 +157,6 @@ export default {
             'articles',
             'exhibitions',
             'card',
-            'landing-pages',
             'seasons',
           ]),
         },
