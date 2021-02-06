@@ -107,11 +107,7 @@ export class Page extends Component<Props> {
     const breadcrumbs = {
       items: [
         ...sectionItem,
-        // Only using the first of the siblingsGroup in the list
-        // This should be fine as in reality there shouldn't be more than one
-        // Don't have capacity to implement a better solution
-        // TODO show them all
-        ...siblings.slice(0, 1).map(siblingGroup => ({
+        ...siblings.map(siblingGroup => ({
           url: `/pages/${siblingGroup.id}`,
           text: siblingGroup.title || '',
           prefix: `Part of`,
