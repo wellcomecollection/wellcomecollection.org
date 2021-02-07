@@ -22,12 +22,13 @@ import {
 import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page as PageType } from '@weco/common/model/pages';
 import type { SiblingsGroup } from '@weco/common/model/siblings-group';
-// $FlowFixMe (ts)
 import {
   headerBackgroundLs,
   landingHeaderBackgroundLs,
+  // $FlowFixMe (ts)
 } from '@weco/common/utils/backgrounds';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+// $FlowFixMe (ts)
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
