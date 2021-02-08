@@ -15,7 +15,10 @@ import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
 import styled from 'styled-components';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import { getAggregationFilterByName, replaceSpaceWithHypen } from '../../../utils/filters';
+import {
+  getAggregationFilterByName,
+  replaceSpaceWithHypen,
+} from '../../../utils/filters';
 
 type ResetActiveFilters = {
   workTypeFilters: CatalogueAggregationBucket[];
@@ -266,7 +269,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
           {searchMoreFilters &&
             subjectsSelected.map(subject => {
               const subjectActive = subjectsFilter.find(({ data }) => {
-                return data.label === subject;
+                return data.label === decodeURIComponent(subject);
               });
               return (
                 subjectActive && (
@@ -295,7 +298,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
           {searchMoreFilters &&
             genresSelected.map(subject => {
               const genreActive = genresFilter.find(({ data }) => {
-                return data.label === subject;
+                return data.label === decodeURIComponent(subject);
               });
               return (
                 genreActive && (

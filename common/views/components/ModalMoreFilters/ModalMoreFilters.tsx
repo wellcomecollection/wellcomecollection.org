@@ -131,7 +131,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
               <List>
                 {subjectsFilter.map(subject => {
                   const isChecked = subjectsSelected.includes(
-                    subject.data.label
+                    encodeURIComponent(subject.data.label)
                   );
                   return (
                     (subject.count > 0 || isChecked) && (
@@ -147,7 +147,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                           )}`}
                           type={`checkbox`}
                           text={`${subject.data.label} (${subject.count})`}
-                          value={subject.data.label}
+                          value={encodeURIComponent(subject.data.label)}
                           name={`subjects.label`}
                           checked={isChecked}
                           onChange={changeHandler}
@@ -168,7 +168,9 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <List>
               {genresFilter.map(genre => {
-                const isChecked = genresSelected.includes(genre.data.label);
+                const isChecked = genresSelected.includes(
+                  encodeURIComponent(genre.data.label)
+                );
                 return (
                   (genre.count > 0 || isChecked) && (
                     <Space
@@ -183,7 +185,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                         )}`}
                         type={`checkbox`}
                         text={`${genre.data.label} (${genre.count})`}
-                        value={genre.data.label}
+                        value={encodeURIComponent(genre.data.label)}
                         name={`genres.label`}
                         checked={isChecked}
                         onChange={changeHandler}

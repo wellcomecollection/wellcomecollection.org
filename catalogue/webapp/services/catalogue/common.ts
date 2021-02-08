@@ -17,10 +17,15 @@ export const globalApiOptions = (toggles?: Toggles): GlobalApiOptions => ({
   indexOverrideSuffix: undefined,
 });
 
+export const isParamEncoded = (param: string): boolean => {
+  return decodeURIComponent(param) !== param;
+};
+
 export const queryString = (params: { [key: string]: any }): string => {
   const strings = Object.keys(serialiseUrl(params)).map(key => {
     const val = params[key];
-    return `${key}=${encodeURIComponent(val)}`;
+    // check if items have been encoded
+    return `${key}=${isParamEncoded(val) ? val : encodeURIComponent(val)}`;
   });
   return strings.length > 0 ? `?${strings.join('&')}` : '';
 };
