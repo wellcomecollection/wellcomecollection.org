@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { Work } from '@weco/common/model/catalogue';
-import fetch from 'isomorphic-unfetch';
 import { IIIFCanvas, IIIFManifest } from '@weco/common/model/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
+import { fetchJson } from '@weco/common/utils/http';
 import {
   getDownloadOptionsFromManifest,
   getVideo,
@@ -26,8 +26,8 @@ import Space, {
   SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
 import {
-  GlobalContextData,
   getGlobalContextData,
+  WithGlobalContextData,
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
@@ -39,7 +39,7 @@ import {
   AppErrorProps,
   WithPageview,
 } from '@weco/common/views/pages/_app';
-import { ItemRoute } from '@weco/common/services/catalogue/ts_routes';
+import * as ItemProps from '@weco/common/views/components/ItemLink/ItemLink';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 
 const IframeAuthMessage = styled.iframe`
@@ -75,7 +75,6 @@ type Video = {
 
 type Props = {
   workId: string;
-  sierraId?: string;
   langCode: string;
   manifest?: IIIFManifest;
   work: Work;
@@ -87,12 +86,11 @@ type Props = {
   currentCanvas?: IIIFCanvas;
   video?: Video;
   audio?: Audio;
-  globalContextData: GlobalContextData;
-} & WithPageview;
+} & WithGlobalContextData &
+  WithPageview;
 
 const ItemPage: NextPage<Props> = ({
   workId,
-  sierraId,
   langCode,
   manifest,
   work,
@@ -141,7 +139,6 @@ const ItemPage: NextPage<Props> = ({
       page: pageIndex + 1,
       canvas: canvasIndex + 1,
       langCode,
-      sierraId,
     }),
   };
 
@@ -195,7 +192,7 @@ const ItemPage: NextPage<Props> = ({
     <CataloguePageLayout
       title={title}
       description={''}
-      url={{ pathname: `/works/${workId}/items`, query: { sierraId } }}
+      url={{ pathname: `/works/${workId}/items` }}
       openGraphType={'website'}
       jsonLd={{ '@type': 'WebPage' }}
       siteSection={'collections'}
@@ -343,7 +340,6 @@ const ItemPage: NextPage<Props> = ({
             canvases={canvases}
             workId={workId}
             pageIndex={pageIndex}
-            sierraId={sierraId}
             pageSize={pageSize}
             canvasIndex={canvasIndex}
             iiifImageLocation={iiifImageLocation}
@@ -365,21 +361,23 @@ export const getServerSideProps: GetServerSideProps<
   const globalContextData = getGlobalContextData(context);
   const {
     workId,
-    sierraId = undefined,
     langCode = 'en',
     page = 1,
     pageSize = 4,
     canvas = 1,
-  } = ItemRoute.fromQuery(context.query);
+    manifest: manifestParam = 1,
+  } = ItemProps.fromQuery(context.query);
+
   const pageIndex = page - 1;
+  // Canvas and manifest params should be 0 indexed as they reference elements in an array
+  // We've chosen not to do this for some reason lost to time, but felt it better to stick
+  // to the same buggy implementation than have 2 implementations
+
+  // I imagine a fix for this could be having new parameters `m&c`
+  // and then redirecting to those once we have em fixed.
   const canvasIndex = canvas - 1;
-  const manifestUrl =
-    sierraId && `https://wellcomelibrary.org/iiif/${sierraId}/manifest`;
-  const manifest = manifestUrl
-    ? await (await fetch(manifestUrl)).json()
-    : undefined;
-  const video = manifest && getVideo(manifest);
-  const audio = manifest && getAudio(manifest);
+  const manifestIndex = manifestParam - 1;
+
   const work = await getWork({
     id: workId,
     toggles: globalContextData.toggles,
@@ -396,18 +394,41 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
+  const manifestUrl = getDigitalLocationOfType(work, 'iiif-presentation')?.url;
+  const manifestOrCollection = manifestUrl
+    ? await fetchJson(manifestUrl)
+    : undefined;
+
+  if (!manifestOrCollection) {
+    return { notFound: true };
+  }
+
+  // This happens when the main manifest is actually a Collection (manifest of manifest).
+  // see: https://wellcomelibrary.org/iiif/collection/b21293302
+  // from: https://wellcomecollection.org/works/f6qp7m32/items
+  const isCollectionManifest =
+    manifestOrCollection['@type'] === 'sc:Collection';
+
+  const manifest = isCollectionManifest
+    ? await fetchJson(manifestOrCollection.manifests[manifestIndex || 0]['@id'])
+    : manifestOrCollection;
+
+  const video = getVideo(manifest);
+  const audio = getAudio(manifest);
+
   const canvases =
-    manifest && manifest.sequences && manifest.sequences[0].canvases
+    manifest.sequences && manifest.sequences[0].canvases
       ? manifest.sequences[0].canvases
       : [];
+
   const currentCanvas = canvases?.[canvasIndex];
   const canvasOcr = currentCanvas
     ? await getCanvasOcr(currentCanvas)
     : undefined;
+
   return {
     props: removeUndefinedProps({
       workId,
-      sierraId,
       langCode,
       manifest,
       pageSize,
