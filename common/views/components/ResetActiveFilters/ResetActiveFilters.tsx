@@ -338,7 +338,6 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                 return data.agent.label === decodeURIComponent(contributor);
               });
 
-              console.log(contributorActive, 'Contributors');
               return (
                 contributorActive && (
                   <NextLink
