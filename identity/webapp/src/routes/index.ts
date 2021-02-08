@@ -1,12 +1,17 @@
 import { withPrefix } from '../utility/prefix';
 import { RouteMiddleware } from '../types/application';
+import { prefix } from '../utility/prefix';
 
 const unAuthenticatedPages: string[] = ['/register', '/validated', '/error'];
 
 export const indexPage: RouteMiddleware = (context) => {
   const bundle = context.routes.url('assets-bundles');
+  let path = context.request.URL.pathname;
+  if (prefix) {
+    path = path.replace(prefix, '');
+  }
 
-  if (context.isAuthenticated() || unAuthenticatedPages.includes(context.request.URL.pathname)) {
+  if (context.isAuthenticated() || unAuthenticatedPages.includes(path)) {
     console.log('current user ->', context.state.user);
     context.response.body = `
       <html lang="en">
