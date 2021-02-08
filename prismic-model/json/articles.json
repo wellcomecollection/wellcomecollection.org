@@ -201,7 +201,7 @@
               "caption": {
                 "type": "StructuredText",
                 "config": {
-                  "single": "hyperlink, bold, em",
+                  "single": "paragraph,hyperlink,strong,em",
                   "label": "Caption"
                 }
               },
@@ -215,14 +215,16 @@
               "video": {
                 "type": "Link",
                 "config": {
-                  "select": "media",
                   "label": "Video",
+                  "select": "media",
+                  "customtypes": [],
                   "placeholder": "Video"
                 }
               },
               "playbackRate": {
                 "type": "Select",
                 "config": {
+                  "label": "Playback rate",
                   "options": [
                     "0.1",
                     "0.25",
@@ -233,8 +235,7 @@
                     "1.5",
                     "1.75",
                     "2"
-                  ],
-                  "label": "Playback rate"
+                  ]
                 }
               },
               "autoPlay": {
