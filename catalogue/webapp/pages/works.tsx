@@ -290,7 +290,12 @@ export const getServerSideProps: GetServerSideProps<
   const { searchMoreFilters } = globalContextData.toggles;
   const defaultAggregations = ['workType', 'locationType'];
 
-  const moreFiltersAggregations = ['genres', 'languages', 'subjects'];
+  const moreFiltersAggregations = [
+    'genres',
+    'languages',
+    'subjects',
+    'contributors',
+  ];
   const aggregations = searchMoreFilters
     ? [...defaultAggregations, ...moreFiltersAggregations]
     : defaultAggregations;
@@ -311,7 +316,6 @@ export const getServerSideProps: GetServerSideProps<
   if (works && works.type === 'Error') {
     return appError(context, works.httpStatus, works.description);
   }
-
   return {
     props: removeUndefinedProps({
       works,

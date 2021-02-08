@@ -83,6 +83,7 @@ export type WorksRouteProps = {|
   languages: ?(string[]),
   subjectsLabel: ?(string[]),
   genresLabel: ?(string[]),
+  contributors: ?(string[]),
 |};
 
 export const WorksRoute: NextRoute<WorksRouteProps> = {
@@ -105,6 +106,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       languages: stringToCsv(q.languages),
       subjectsLabel: stringToCsv(q['subjects.label']),
       genresLabel: stringToCsv(q['genres.label']),
+      contributors: stringToCsv(q.contributors),
     };
   },
 

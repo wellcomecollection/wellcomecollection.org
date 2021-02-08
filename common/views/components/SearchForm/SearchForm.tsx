@@ -146,6 +146,7 @@ const SearchForm: FunctionComponent<Props> = ({
     const workType = getFilterItemSelected(form, 'workType');
     const subjectsLabel = getFilterItemSelected(form, 'subjects.label');
     const genresLabel = getFilterItemSelected(form, 'genres.label');
+    const contributors = getFilterItemSelected(form, 'contributors');
     const sortOrder = portalSortOrder;
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
@@ -184,6 +185,7 @@ const SearchForm: FunctionComponent<Props> = ({
       languages,
       subjectsLabel,
       genresLabel,
+      contributors,
     };
     const link = isImageSearch
       ? imagesLink(
@@ -280,6 +282,7 @@ const SearchForm: FunctionComponent<Props> = ({
                   'languages',
                   'genres',
                   'subjects',
+                  'contributors',
                 ]
           }
         />

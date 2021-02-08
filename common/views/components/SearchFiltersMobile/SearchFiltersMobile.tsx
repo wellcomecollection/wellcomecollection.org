@@ -28,10 +28,14 @@ import {
   searchFilterCloseButton,
 } from '../../../text/arial-labels';
 import {
+  getAggregationContributors,
   getAggregationFilterByName,
   replaceSpaceWithHypen,
 } from '@weco/common/utils/filters';
-import { CatalogueAggregationBucket } from '@weco/common/model/catalogue';
+import {
+  CatalogueAggregationBucket,
+  CatalogueAggregationContributorsBucket,
+} from '@weco/common/model/catalogue';
 import TogglesContext from '../TogglesContext/TogglesContext';
 const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
@@ -183,6 +187,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   languagesSelected,
   subjectsSelected,
   genresSelected,
+  contributorsSelected,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const openFiltersButtonRef = useRef<HTMLButtonElement>(null);
   const closeFiltersButtonRef = useRef<HTMLDivElement>(null);
@@ -202,6 +207,11 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
     aggregations,
     'genres'
   );
+
+  const contributorsFilter: CatalogueAggregationContributorsBucket[] = getAggregationContributors(
+    aggregations
+  );
+
   useFocusTrap(closeFiltersButtonRef, okFiltersButtonRef);
 
   useEffect(() => {
@@ -264,7 +274,8 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
     (imagesColor ? 1 : 0) +
     languagesSelected.length +
     subjectsSelected.length +
-    genresSelected.length;
+    genresSelected.length +
+    contributorsSelected.length;
 
   const { paletteColorFilter } = useContext(TogglesContext);
   const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
@@ -528,6 +539,60 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                                     onChange={changeHandler}
                                     ariaLabel={searchFilterCheckBox(
                                       genre.data.label
+                                    )}
+                                  />
+                                </Space>
+                              )
+                            );
+                          })}
+                        </ul>
+                      }
+                    </Space>
+                  </FilterSection>
+                )}
+
+              {searchMoreFilters &&
+                filtersToShow.includes('contributors') &&
+                contributorsFilter.length > 0 && (
+                  <FilterSection>
+                    <h3 className="h3">Contributors</h3>
+                    <Space
+                      as="span"
+                      h={{ size: 'm', properties: ['margin-right'] }}
+                    >
+                      {
+                        <ul
+                          className={classNames({
+                            'no-margin no-padding plain-list': true,
+                          })}
+                        >
+                          {contributorsFilter.map(contributor => {
+                            const isChecked = false;
+
+                            return (
+                              (contributor.count > 0 || isChecked) && (
+                                <Space
+                                  as="li"
+                                  v={{
+                                    size: 'l',
+                                    properties: ['margin-bottom'],
+                                  }}
+                                  key={`mobile-${contributor.data.agent.label}`}
+                                >
+                                  <CheckboxRadio
+                                    id={`mobile-${replaceSpaceWithHypen(
+                                      contributor.data.agent.label
+                                    )}`}
+                                    type={`checkbox`}
+                                    text={`${contributor.data.agent.label} (${contributor.count})`}
+                                    value={encodeURIComponent(
+                                      contributor.data.agent.label
+                                    )}
+                                    name={`contributors`}
+                                    checked={isChecked}
+                                    onChange={changeHandler}
+                                    ariaLabel={searchFilterCheckBox(
+                                      contributor.data.agent.label
                                     )}
                                   />
                                 </Space>

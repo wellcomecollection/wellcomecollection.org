@@ -263,6 +263,22 @@ export type CatalogueAggregationBucket = {
   type: 'AggregationBucket';
 };
 
+export type CatalogueAggregationContributorsBucket = {
+  count: number;
+  data: {
+    agent: {
+      label: string;
+      type: string;
+    };
+    roles: string[];
+  };
+  type: 'AggregationBucket';
+};
+
+export type CatalogueAggregationContributor = {
+  buckets: CatalogueAggregationContributorsBucket[];
+};
+
 export type CatalogueAggregation = {
   buckets: CatalogueAggregationBucket[];
 };
@@ -273,6 +289,7 @@ export type CatalogueAggregations = {
   languages?: CatalogueAggregation;
   genres?: CatalogueAggregation;
   subjects?: CatalogueAggregation;
+  contributors?: CatalogueAggregationContributor;
 };
 
 export type CatalogueResultsList<Result = Work> = {

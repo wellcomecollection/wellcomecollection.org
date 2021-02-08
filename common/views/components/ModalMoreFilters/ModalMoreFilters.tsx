@@ -5,11 +5,13 @@ import styled from 'styled-components';
 import {
   CatalogueAggregations,
   CatalogueAggregationBucket,
+  CatalogueAggregationContributorsBucket,
 } from '@weco/common/model/catalogue';
 import Space from '../styled/Space';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
 import {
+  getAggregationContributors,
   getAggregationFilterByName,
   replaceSpaceWithHypen,
   sortAggregationBucket,
@@ -26,6 +28,7 @@ type SharedFiltersProps = {
   genresSelected: string[];
   subjectsSelected: string[];
   filtersToShow: string[];
+  contributorsSelected: string[];
 };
 type ModalMoreFiltersProps = {
   id: string;
@@ -42,6 +45,7 @@ type MoreFiltersProps = {
   genresFilter: CatalogueAggregationBucket[];
   languagesFilter: CatalogueAggregationBucket[];
   subjectsFilter: CatalogueAggregationBucket[];
+  contributorsFilter: CatalogueAggregationContributorsBucket[];
 } & SharedFiltersProps;
 
 const ModalInner = styled.div`
@@ -116,6 +120,8 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
   subjectsSelected,
   genresSelected,
   languagesSelected,
+  contributorsFilter,
+  contributorsSelected,
 }: MoreFiltersProps) => {
   return (
     <>
@@ -199,6 +205,46 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
           </Space>
         </FilterSection>
       )}
+
+      {filtersToShow.includes('contributors') && contributorsFilter.length > 0 && (
+        <FilterSection>
+          <h3 className="h3">Contributors</h3>
+          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+            <List>
+              {contributorsFilter.map(contributor => {
+                const isChecked = contributorsSelected.includes(
+                  encodeURIComponent(contributor.data.agent.label)
+                );
+                return (
+                  (contributor.count > 0 || isChecked) && (
+                    <Space
+                      as="li"
+                      v={{ size: 'm', properties: ['margin-bottom'] }}
+                      h={{ size: 'l', properties: ['margin-right'] }}
+                      key={`desktop-${contributor.data.agent.label}`}
+                    >
+                      <CheckboxRadio
+                        id={`desktop-${replaceSpaceWithHypen(
+                          contributor.data.agent.label
+                        )}`}
+                        type={`checkbox`}
+                        text={`${contributor.data.agent.label} (${contributor.count})`}
+                        value={encodeURIComponent(contributor.data.agent.label)}
+                        name={`contributors`}
+                        checked={isChecked}
+                        onChange={changeHandler}
+                        ariaLabel={searchFilterCheckBox(
+                          contributor.data.agent.label
+                        )}
+                      />
+                    </Space>
+                  )
+                );
+              })}
+            </List>
+          </Space>
+        </FilterSection>
+      )}
       {filtersToShow.includes('languages') && languagesFilter.length > 0 && (
         <FilterSection>
           <h3 className="h3">Languages</h3>
@@ -251,6 +297,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
   subjectsSelected,
   worksRouteProps,
   isEnhanced,
+  contributorsSelected,
 }: ModalMoreFiltersProps) => {
   const languagesFilter: CatalogueAggregationBucket[] = sortAggregationBucket(
     getAggregationFilterByName(aggregations, 'languages'),
@@ -266,6 +313,10 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
     'genres'
   );
 
+  const contributorsFilter: CatalogueAggregationContributorsBucket[] = getAggregationContributors(
+    aggregations
+  );
+
   return (
     <>
       <noscript>
@@ -275,10 +326,12 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
             subjectsFilter={subjectsFilter}
             genresFilter={genresFilter}
             languagesFilter={languagesFilter}
+            contributorsFilter={contributorsFilter}
             changeHandler={changeHandler}
             languagesSelected={languagesSelected}
             genresSelected={genresSelected}
             subjectsSelected={subjectsSelected}
+            contributorsSelected={contributorsSelected}
           />
         </>
       </noscript>
@@ -304,6 +357,8 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
               languagesSelected={languagesSelected}
               genresSelected={genresSelected}
               subjectsSelected={subjectsSelected}
+              contributorsSelected={contributorsSelected}
+              contributorsFilter={contributorsFilter}
             />
           )}
         </ModalInner>
