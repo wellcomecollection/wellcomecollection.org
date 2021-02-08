@@ -119,7 +119,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
 }: MoreFiltersProps) => {
   return (
     <>
-      {filtersToShow.includes('subjects') && (
+      {filtersToShow.includes('subjects') && subjectsFilter.length > 0 && (
         <FilterSection>
           <h3 className="h3">Subjects</h3>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
@@ -129,110 +129,105 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
               })}
             >
               <List>
-                {subjectsFilter.length > 0 &&
-                  subjectsFilter.map(subject => {
-                    const isChecked = subjectsSelected.includes(
-                      subject.data.label
-                    );
-                    return (
-                      (subject.count > 0 || isChecked) && (
-                        <Space
-                          as="li"
-                          v={{ size: 'm', properties: ['margin-bottom'] }}
-                          h={{ size: 'l', properties: ['margin-right'] }}
-                          key={`desktop-${subject.data.label}`}
-                        >
-                          <CheckboxRadio
-                            id={`desktop-${replaceSpaceWithHypen(
-                              subject.data.label
-                            )}`}
-                            type={`checkbox`}
-                            text={`${subject.data.label} (${subject.count})`}
-                            value={subject.data.label}
-                            name={`subjects.label`}
-                            checked={isChecked}
-                            onChange={changeHandler}
-                            ariaLabel={searchFilterCheckBox(subject.data.label)}
-                          />
-                        </Space>
-                      )
-                    );
-                  })}
+                {subjectsFilter.map(subject => {
+                  const isChecked = subjectsSelected.includes(
+                    subject.data.label
+                  );
+                  return (
+                    (subject.count > 0 || isChecked) && (
+                      <Space
+                        as="li"
+                        v={{ size: 'm', properties: ['margin-bottom'] }}
+                        h={{ size: 'l', properties: ['margin-right'] }}
+                        key={`desktop-${subject.data.label}`}
+                      >
+                        <CheckboxRadio
+                          id={`desktop-${replaceSpaceWithHypen(
+                            subject.data.label
+                          )}`}
+                          type={`checkbox`}
+                          text={`${subject.data.label} (${subject.count})`}
+                          value={subject.data.label}
+                          name={`subjects.label`}
+                          checked={isChecked}
+                          onChange={changeHandler}
+                          ariaLabel={searchFilterCheckBox(subject.data.label)}
+                        />
+                      </Space>
+                    )
+                  );
+                })}
               </List>
             </div>
           </Space>
         </FilterSection>
       )}
-      {filtersToShow.includes('genres') && (
+      {filtersToShow.includes('genres') && genresFilter.length > 0 && (
         <FilterSection>
           <h3 className="h3">Genres</h3>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <List>
-              {genresFilter.length > 0 &&
-                genresFilter.map(genre => {
-                  const isChecked = genresSelected.includes(genre.data.label);
-                  return (
-                    (genre.count > 0 || isChecked) && (
-                      <Space
-                        as="li"
-                        v={{ size: 'm', properties: ['margin-bottom'] }}
-                        h={{ size: 'l', properties: ['margin-right'] }}
-                        key={`desktop-${genre.data.label}`}
-                      >
-                        <CheckboxRadio
-                          id={`desktop-${replaceSpaceWithHypen(
-                            genre.data.label
-                          )}`}
-                          type={`checkbox`}
-                          text={`${genre.data.label} (${genre.count})`}
-                          value={genre.data.label}
-                          name={`genres.label`}
-                          checked={isChecked}
-                          onChange={changeHandler}
-                          ariaLabel={searchFilterCheckBox(genre.data.label)}
-                        />
-                      </Space>
-                    )
-                  );
-                })}
+              {genresFilter.map(genre => {
+                const isChecked = genresSelected.includes(genre.data.label);
+                return (
+                  (genre.count > 0 || isChecked) && (
+                    <Space
+                      as="li"
+                      v={{ size: 'm', properties: ['margin-bottom'] }}
+                      h={{ size: 'l', properties: ['margin-right'] }}
+                      key={`desktop-${genre.data.label}`}
+                    >
+                      <CheckboxRadio
+                        id={`desktop-${replaceSpaceWithHypen(
+                          genre.data.label
+                        )}`}
+                        type={`checkbox`}
+                        text={`${genre.data.label} (${genre.count})`}
+                        value={genre.data.label}
+                        name={`genres.label`}
+                        checked={isChecked}
+                        onChange={changeHandler}
+                        ariaLabel={searchFilterCheckBox(genre.data.label)}
+                      />
+                    </Space>
+                  )
+                );
+              })}
             </List>
           </Space>
         </FilterSection>
       )}
-      {filtersToShow.includes('languages') && (
+      {filtersToShow.includes('languages') && languagesFilter.length > 0 && (
         <FilterSection>
           <h3 className="h3">Languages</h3>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <List>
-              {languagesFilter.length > 0 &&
-                languagesFilter.map(language => {
-                  const isChecked = languagesSelected.includes(
-                    language.data.id
-                  );
-                  return (
-                    (language.count > 0 || isChecked) && (
-                      <Space
-                        as="li"
-                        v={{ size: 'm', properties: ['margin-bottom'] }}
-                        h={{ size: 'l', properties: ['margin-right'] }}
-                        key={`desktop-${language.data.id}`}
-                      >
-                        <CheckboxRadio
-                          id={`desktop-${replaceSpaceWithHypen(
-                            language.data.id
-                          )}`}
-                          type={`checkbox`}
-                          text={`${language.data.label} (${language.count})`}
-                          value={language.data.id}
-                          name={`languages`}
-                          checked={isChecked}
-                          onChange={changeHandler}
-                          ariaLabel={searchFilterCheckBox(language.data.label)}
-                        />
-                      </Space>
-                    )
-                  );
-                })}
+              {languagesFilter.map(language => {
+                const isChecked = languagesSelected.includes(language.data.id);
+                return (
+                  (language.count > 0 || isChecked) && (
+                    <Space
+                      as="li"
+                      v={{ size: 'm', properties: ['margin-bottom'] }}
+                      h={{ size: 'l', properties: ['margin-right'] }}
+                      key={`desktop-${language.data.id}`}
+                    >
+                      <CheckboxRadio
+                        id={`desktop-${replaceSpaceWithHypen(
+                          language.data.id
+                        )}`}
+                        type={`checkbox`}
+                        text={`${language.data.label} (${language.count})`}
+                        value={language.data.id}
+                        name={`languages`}
+                        checked={isChecked}
+                        onChange={changeHandler}
+                        ariaLabel={searchFilterCheckBox(language.data.label)}
+                      />
+                    </Space>
+                  )
+                );
+              })}
             </List>
           </Space>
         </FilterSection>
