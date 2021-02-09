@@ -9,6 +9,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import { ErrorMessage } from '../Shared/ErrorMessage';
 import { PasswordInput } from '../Shared/PasswordInput';
 import { UserInfo } from '../hooks/useUserInfo';
+import { validateEmail } from '../../utility/validate-email-address';
 
 type ExistingDataProps = {
   label: string;
@@ -26,7 +27,7 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
   const [newEmail, setNewEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [alreadyExists, setAlreadyExists] = useState<boolean>(false);
-  const [valid, setValid] = useState<boolean | undefined | string>(false);
+  const [valid, setValid] = useState<boolean>(false);
   const [saved, setSaved] = useState<boolean>(true);
 
   useEffect(() => {
@@ -38,14 +39,10 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
     setAlreadyExists(false);
   }, [newEmail]);
 
-  useEffect(() => {
-    // TODO: validate email
-    setValid(Boolean(newEmail));
-  }, [newEmail]);
-
   const handleEmailChange = (value: string) => {
     setNewEmail(value);
-    setSaved(newEmail !== email);
+    setValid(validateEmail(value));
+    setSaved(false);
   };
 
   const saveChanges = () => {
