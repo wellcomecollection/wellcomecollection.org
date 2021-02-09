@@ -30,7 +30,7 @@ const inViewport = (video: HTMLElement) => {
   );
 };
 
-const GifVideo: FunctionComponent<Props> = ({
+const GifVideo = ({
   playbackRate,
   videoUrl,
   caption,
@@ -39,7 +39,7 @@ const GifVideo: FunctionComponent<Props> = ({
   loop,
   mute,
   showControls,
-}: Props): ReactElement => {
+}: Props) => {
   const [canPlay, setCanPlay] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [autoPlayDisabled, setAutoPlayDisabled] = useState(
@@ -63,11 +63,13 @@ const GifVideo: FunctionComponent<Props> = ({
   const autoControlGif = () => {
     const video = videoRef.current;
     const inViewAndPlayable = video && inViewport(video) && canPlayRef.current;
-    if (!autoPlayDisabled) {
-      if (inViewAndPlayable) {
-        playVideo(video);
-      } else {
-        pauseVideo(video);
+    if (video) {
+      if (!autoPlayDisabled) {
+        if (inViewAndPlayable) {
+          playVideo(video);
+        } else {
+          pauseVideo(video);
+        }
       }
     }
   };
