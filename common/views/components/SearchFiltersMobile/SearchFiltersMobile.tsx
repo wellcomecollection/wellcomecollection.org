@@ -459,7 +459,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                         >
                           {subjectsFilter.map(subject => {
                             const isChecked = subjectsSelected.includes(
-                              encodeURIComponent(subject.data.label)
+                              subject.data.label
                             );
 
                             return (
@@ -478,9 +478,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                                     )}`}
                                     type={`checkbox`}
                                     text={`${subject.data.label} (${subject.count})`}
-                                    value={encodeURIComponent(
-                                      subject.data.label
-                                    )}
+                                    value={subject.data.label}
                                     name={`subjects.label`}
                                     checked={isChecked}
                                     onChange={changeHandler}
