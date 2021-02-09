@@ -42,7 +42,9 @@ const GifVideo: FunctionComponent<Props> = ({
 }: Props): ReactElement => {
   const [canPlay, setCanPlay] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [autoPlayDisabled, setAutoPlayDisabled] = useState(!autoPlay); // TODO mute stuff
+  const [autoPlayDisabled, setAutoPlayDisabled] = useState(
+    !mute ? true : !autoPlay // we never want to autoplay something with audio on
+  );
   const [computedVideoWidth, setComputedVideoWidth] = useState(null);
   const videoRef = useRef(null);
   const canPlayRef = useRef();
