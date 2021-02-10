@@ -459,7 +459,6 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                               const isChecked = subjectsSelected.includes(
                                 label
                               );
-
                               return (
                                 (count > 0 || isChecked) && (
                                   <Space
