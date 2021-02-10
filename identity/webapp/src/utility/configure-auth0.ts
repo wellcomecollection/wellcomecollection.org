@@ -1,7 +1,7 @@
 import koaPassport from 'koa-passport';
 import Auth0Strategy from 'passport-auth0';
-import {config} from '../config';
-import {callRemoteApi} from './api-caller';
+import { config } from '../config';
+import { callAuth0Api } from './api-caller';
 
 export function configureAuth0(): void {
   const strategy = new Auth0Strategy(config.auth0, function (accessToken, refreshToken, extraParams, profile, done) {
@@ -22,7 +22,7 @@ export function configureAuth0(): void {
     const accessToken: string = user?.accessToken;
 
     try {
-      const isValidToken = await callRemoteApi('GET', `/users/${user?.profile.id}`, { user: { accessToken } });
+      const isValidToken = await callAuth0Api('GET', 'userinfo', { user: { accessToken } });
       done(null, isValidToken.status !== 200 ? false : user);
     } catch (e) {
       done(null, false);

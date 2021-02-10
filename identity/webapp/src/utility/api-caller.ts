@@ -9,9 +9,13 @@ const instance: AxiosInstance = axios.create({
   },
 });
 
+const auth0Instance = axios.create({
+  baseURL: config.auth0.domain,
+});
+
 type ContextState = ApplicationState | { user: { accessToken: string } };
 
-export async function callRemoteApi(method: Method, url: string, contextState: ContextState, body?: any, authenticate: boolean = true): Promise<AxiosResponse> {
+async function callApi(axios: AxiosInstance, method: Method, url: string, contextState: ContextState, body?: any, authenticate: boolean = true) {
   let headers = instance.defaults.headers;
   if (authenticate) {
     headers = { ... headers, 'Authorization': 'Bearer ' + contextState.user.accessToken};
@@ -34,4 +38,12 @@ export async function callRemoteApi(method: Method, url: string, contextState: C
   }).catch(function(error) {
     return error.response;
   });
+}
+
+export async function callAuth0Api(method: Method, url: string, contextState: ContextState, body?: any, authenticate: boolean = true): Promise<AxiosResponse> {
+  return callApi(auth0Instance, method, url, contextState, body, authenticate);
+}
+
+export async function callRemoteApi(method: Method, url: string, contextState: ContextState, body?: any, authenticate: boolean = true): Promise<AxiosResponse> {
+  return callApi(instance, method, url, contextState, body, authenticate);
 }
