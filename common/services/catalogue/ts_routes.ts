@@ -169,7 +169,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       languages: stringToCsv(stringQ.languages),
       subjectsLabel: stringToCsv(stringQ['subjects.label']),
       genresLabel: stringToCsv(stringQ['genres.label']),
-      contributors: stringToCsv(stringQ['contributors']),
+      contributors: stringToCsv(stringQ['contributors.agent.label']),
       // [1] Wrong below this line
       color: null,
     };
@@ -211,7 +211,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       languages: params.languages,
       'subjects.label': params.subjectsLabel,
       'genres.label': params.genresLabel,
-      contributors: params.contributors,
+      'contributors.agent.label': params.contributors,
     });
   },
 };

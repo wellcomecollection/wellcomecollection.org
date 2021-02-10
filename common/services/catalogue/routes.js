@@ -1,6 +1,7 @@
 // @flow
 import { type NextLinkType } from '@weco/common/model/next-link-type';
-import Papa from 'papaparse';
+// $FlowFixMe
+import { parseCsv } from '@weco/common/utils/csv';
 
 type Params = { [key: string]: any };
 export type UrlParams = { [key: string]: string };
@@ -62,13 +63,7 @@ function defaultToEmptyString(s: ?string): string {
 }
 
 function quotedCsv(v: string | null) {
-  return v
-    ? Papa.parse(v, {
-        quoteChar: '"',
-        escapeChar: '\\',
-        delimiter: ',',
-      }).data[0]
-    : [];
+  return v ? parseCsv(v) : [];
 }
 
 type NextRoute<T> = {|
@@ -99,6 +94,7 @@ export type WorksRouteProps = {|
 
 export const WorksRoute: NextRoute<WorksRouteProps> = {
   fromQuery(q) {
+    console.info(quotedCsv(q['contributors.agent.label']));
     return {
       query: defaultToEmptyString(q.query),
       page: defaultTo1(q.page),
@@ -117,7 +113,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       languages: stringToCsv(q.languages),
       subjectsLabel: stringToCsv(q['subjects.label']),
       genresLabel: stringToCsv(q['genres.label']),
-      contributors: quotedCsv(q.contributors),
+      contributors: quotedCsv(q['contributors.agent.label']),
     };
   },
 
@@ -151,6 +147,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       'images.color': params.imagesColor,
       search: params.search,
       source: params.source,
+      'contributors.agent.label': params.contributors,
     });
   },
 };

@@ -146,7 +146,10 @@ const SearchForm: FunctionComponent<Props> = ({
     const workType = getFilterItemSelected(form, 'workType');
     const subjectsLabel = getFilterItemSelected(form, 'subjects.label');
     const genresLabel = getFilterItemSelected(form, 'genres.label');
-    const contributors = getFilterItemSelected(form, 'contributors');
+    const contributors = getFilterItemSelected(
+      form,
+      'contributors.agent.label'
+    );
     const sortOrder = portalSortOrder;
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;

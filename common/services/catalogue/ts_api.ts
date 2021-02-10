@@ -1,3 +1,4 @@
+import { parseCsv } from '../../utils/csv';
 import { WorksRouteProps } from './routes';
 import { ImagesRouteProps } from './ts_routes';
 
@@ -65,6 +66,7 @@ export function worksRouteToApiUrl(
   worksRouteProps: WorksRouteProps,
   overrides: Partial<WorksRouteProps>
 ): CatalogueWorksApiProps {
+  console.info(worksRouteProps.contributors);
   return {
     query: worksRouteProps.query,
     page: worksRouteProps.page,
@@ -80,7 +82,7 @@ export function worksRouteToApiUrl(
     languages: worksRouteProps.languages,
     'genres.label': toMutipleValuesToString(worksRouteProps.genresLabel),
     'subjects.label': toMutipleValuesToString(worksRouteProps.subjectsLabel),
-    contributors: toMutipleValuesToString(worksRouteProps.contributors),
+    'contributors.agent.label': worksRouteProps.contributors,
     ...overrides,
   };
 }
