@@ -74,12 +74,40 @@ describe('ProfileForm', () => {
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
-    mockedAxios.put.mockResolvedValue({ status: 409, message: 'This email address already exists' });
+    mockedAxios.put.mockRejectedValue({
+      response: {
+        status: 409,
+        message: 'An attempt to update the record to an email address which already exists was made.',
+      },
+    });
     userEvent.click(saveButton);
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument();
       expect(screen.getByRole('alert')).toHaveTextContent(/^this account already exists/i);
+    });
+  });
+
+  it('warns the user when they try to update with an incorrect password', async () => {
+    renderComponent();
+    const emailInput = screen.getByLabelText(/email address/i);
+    const passwordInput = screen.getByLabelText(/password/i);
+    const saveButton = screen.getByRole('button', { name: /save changes/i });
+
+    userEvent.clear(emailInput);
+    userEvent.type(emailInput, 'batman@justiceleague.com');
+    userEvent.type(passwordInput, 'dolphins');
+
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+
+    mockedAxios.put.mockRejectedValue({
+      response: { status: 401, message: 'The provided password is incorrect.' },
+    });
+    userEvent.click(saveButton);
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument();
+      expect(screen.getByRole('alert')).toHaveTextContent(/incorrect password/i);
     });
   });
 });

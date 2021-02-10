@@ -30,6 +30,7 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
   const [alreadyExists, setAlreadyExists] = useState<boolean>(false);
   const [isValid, setIsValid] = useState<boolean>(false);
   const [isSaved, setIsSaved] = useState<boolean>(true);
+  const [isIncorrectPassword, setIsIncorrectPassword] = useState<boolean>(false);
   const [updateUserInfo] = useUpdateUserInfo();
 
   useEffect(() => {
@@ -45,11 +46,16 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
   const onSaveSuccess = () => setIsSaved(true);
   const onSaveFailure = (statusCode?: number) => {
     switch (statusCode) {
-      case 409:
+      case 401: {
+        setIsIncorrectPassword(true);
+        break;
+      }
+      case 409: {
         setAlreadyExists(true);
         break;
+      }
       default:
-        console.error('Uh-oh!');
+        console.error('Error');
     }
   };
 
@@ -86,6 +92,7 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
         )}
         <SpacingComponent />
         <PasswordInput value={password} setValue={setPassword} label="password" id="password" />
+        {isIncorrectPassword && <ErrorMessage>Incorrect password</ErrorMessage>}
         <SpacingComponent />
         <OutlinedButton onClick={deleteAccount}>Delete Account</OutlinedButton>
         <SolidButton disabled={!canSave} onClick={saveChanges}>
