@@ -80,6 +80,7 @@ export function worksRouteToApiUrl(
     languages: worksRouteProps.languages,
     'genres.label': toMutipleValuesToString(worksRouteProps.genresLabel),
     'subjects.label': toMutipleValuesToString(worksRouteProps.subjectsLabel),
+    contributors: toMutipleValuesToString(worksRouteProps.contributors),
     ...overrides,
   };
 }
