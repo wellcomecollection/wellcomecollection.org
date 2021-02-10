@@ -335,7 +335,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
           {searchMoreFilters &&
             contributorsSelected.map(contributor => {
               const contributorActive = contributorsFilter.find(({ data }) => {
-                return data.agent.label === decodeURIComponent(contributor);
+                return data.agent.label === contributor;
               });
 
               return (
