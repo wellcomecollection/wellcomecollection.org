@@ -7,8 +7,7 @@ export function configureAuth0(): void {
   const strategy = new Auth0Strategy(config.auth0, function (accessToken, refreshToken, extraParams, profile, done) {
     return done(null, {
       accessToken,
-      refreshToken,
-      profile,
+      id: profile.id.replace('auth0|p', ''),
     });
   });
 
