@@ -1,5 +1,6 @@
 // @flow
 import { type NextLinkType } from '@weco/common/model/next-link-type';
+import Papa from 'papaparse';
 
 type Params = { [key: string]: any };
 export type UrlParams = { [key: string]: string };
@@ -60,6 +61,16 @@ function defaultToEmptyString(s: ?string): string {
   return s || '';
 }
 
+function quotedCsv(v: string | null) {
+  return v
+    ? Papa.parse(v, {
+        quoteChar: '"',
+        escapeChar: '\\',
+        delimiter: ',',
+      }).data[0]
+    : [];
+}
+
 type NextRoute<T> = {|
   fromQuery: (q: UrlParams) => T,
   toLink: (t: $Shape<T>) => NextLinkType,
@@ -106,7 +117,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       languages: stringToCsv(q.languages),
       subjectsLabel: stringToCsv(q['subjects.label']),
       genresLabel: stringToCsv(q['genres.label']),
-      contributors: stringToCsv(q.contributors),
+      contributors: quotedCsv(q.contributors),
     };
   },
 

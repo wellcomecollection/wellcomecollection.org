@@ -22,6 +22,7 @@ import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { WorksRouteProps } from '@weco/common/services/catalogue/ts_routes';
+import { quoteVal } from '@weco/common/utils/csv';
 type SharedFiltersProps = {
   changeHandler: () => void;
   languagesSelected: string[];
@@ -209,36 +210,38 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
           <h3 className="h3">Contributors</h3>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <List>
-              {contributorsFilter.map(contributor => {
-                const isChecked = contributorsSelected.includes(
-                  encodeURIComponent(contributor.data.agent.label)
-                );
-                return (
-                  (contributor.count > 0 || isChecked) && (
-                    <Space
-                      as="li"
-                      v={{ size: 'm', properties: ['margin-bottom'] }}
-                      h={{ size: 'l', properties: ['margin-right'] }}
-                      key={`desktop-${contributor.data.agent.label}`}
-                    >
-                      <CheckboxRadio
-                        id={`desktop-${replaceSpaceWithHypen(
-                          contributor.data.agent.label
-                        )}`}
-                        type={`checkbox`}
-                        text={`${contributor.data.agent.label} (${contributor.count})`}
-                        value={encodeURIComponent(contributor.data.agent.label)}
-                        name={`contributors`}
-                        checked={isChecked}
-                        onChange={changeHandler}
-                        ariaLabel={searchFilterCheckBox(
-                          contributor.data.agent.label
-                        )}
-                      />
-                    </Space>
-                  )
-                );
-              })}
+              {contributorsFilter
+                .map(contributor => {
+                  return {
+                    count: contributor.count,
+                    label: contributor.data.agent.label,
+                    value: quoteVal(contributor.data.agent.label),
+                  };
+                })
+                .map(({ count, label, value }) => {
+                  const isChecked = contributorsSelected.includes(label);
+                  return (
+                    (count > 0 || isChecked) && (
+                      <Space
+                        as="li"
+                        v={{ size: 'm', properties: ['margin-bottom'] }}
+                        h={{ size: 'l', properties: ['margin-right'] }}
+                        key={`desktop-${label}`}
+                      >
+                        <CheckboxRadio
+                          id={`desktop-${replaceSpaceWithHypen(label)}`}
+                          type={`checkbox`}
+                          text={`${label} (${count})`}
+                          value={value}
+                          name={`contributors`}
+                          checked={isChecked}
+                          onChange={changeHandler}
+                          ariaLabel={searchFilterCheckBox(label)}
+                        />
+                      </Space>
+                    )
+                  );
+                })}
             </List>
           </Space>
         </FilterSection>
