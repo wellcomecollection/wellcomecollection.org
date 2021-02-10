@@ -54,7 +54,6 @@
     "next-transpile-modules": "^4.1.0",
     "nprogress": "^0.2.0",
     "openseadragon": "^2.4.0",
-    "papaparse": "^5.3.0",
     "prismic-dom": "^2.1.0",
     "prismic-javascript": "^2.7.1",
     "prismic-reactjs": "^1.1.2",
