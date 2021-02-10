@@ -5,7 +5,7 @@ import { Format } from './format';
 
 export type Page = GenericContentFields & {
   type: 'pages';
-  format: Format | null;
+  format: Format | undefined;
   seasons: Season[];
   parentPages: Page[];
   onThisPage: Link[];
