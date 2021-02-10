@@ -9,6 +9,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import { ErrorMessage } from '../Shared/ErrorMessage';
 import { PasswordInput } from '../Shared/PasswordInput';
 import { UserInfo } from '../hooks/useUserInfo';
+import { useUpdateUserInfo } from '../hooks/useUpdateUserInfo';
 import { validateEmail } from '../../utility/validate-email-address';
 
 type ExistingDataProps = {
@@ -27,8 +28,9 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
   const [newEmail, setNewEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [alreadyExists, setAlreadyExists] = useState<boolean>(false);
-  const [valid, setValid] = useState<boolean>(false);
-  const [saved, setSaved] = useState<boolean>(true);
+  const [isValid, setIsValid] = useState<boolean>(false);
+  const [isSaved, setIsSaved] = useState<boolean>(true);
+  const [updateUserInfo] = useUpdateUserInfo();
 
   useEffect(() => {
     setNewEmail(email);
@@ -41,18 +43,23 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
 
   const handleEmailChange = (value: string) => {
     setNewEmail(value);
-    setValid(validateEmail(value));
-    setSaved(false);
+    setIsValid(validateEmail(value));
+    setIsSaved(false);
   };
 
-  const saveChanges = () => {
-    // TODO: Save changes
-    setSaved(true);
+  const onSaveSuccess = () => setIsSaved(true);
+  const onSaveFailure = () => console.error('Error');
+
+  const saveChanges = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    updateUserInfo({ email, password, newEmail }, onSaveSuccess, onSaveFailure);
   };
 
   const deleteAccount = () => {
     // TODO: Delete Account
   };
+
+  const canSave = isValid && !isSaved;
 
   return (
     <div>
@@ -78,7 +85,7 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
         <PasswordInput value={password} setValue={setPassword} label="password" id="password" />
         <SpacingComponent />
         <OutlinedButton onClick={deleteAccount}>Delete Account</OutlinedButton>
-        <SolidButton disabled={!valid || saved} onClick={saveChanges}>
+        <SolidButton disabled={!canSave} onClick={saveChanges}>
           Save Changes
         </SolidButton>
         <input type="submit" value="Submit" hidden={true} />
