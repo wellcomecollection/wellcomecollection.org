@@ -11,5 +11,5 @@ export function parseCsv(value: string): string[] {
     delimiter: ',',
     worker: false,
     header: true,
-  }).data[0] as string[];
+  }).meta.fields as string[];
 }

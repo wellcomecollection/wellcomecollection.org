@@ -94,7 +94,6 @@ export type WorksRouteProps = {|
 
 export const WorksRoute: NextRoute<WorksRouteProps> = {
   fromQuery(q) {
-    console.info(quotedCsv(q['contributors.agent.label']));
     return {
       query: defaultToEmptyString(q.query),
       page: defaultTo1(q.page),

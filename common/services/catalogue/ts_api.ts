@@ -66,7 +66,6 @@ export function worksRouteToApiUrl(
   worksRouteProps: WorksRouteProps,
   overrides: Partial<WorksRouteProps>
 ): CatalogueWorksApiProps {
-  console.info(worksRouteProps.contributors);
   return {
     query: worksRouteProps.query,
     page: worksRouteProps.page,
@@ -82,7 +81,7 @@ export function worksRouteToApiUrl(
     languages: worksRouteProps.languages,
     'genres.label': toMutipleValuesToString(worksRouteProps.genresLabel),
     'subjects.label': toMutipleValuesToString(worksRouteProps.subjectsLabel),
-    'contributors.agent.label': worksRouteProps.contributors,
+    'contributors.agent.label': parseCsv(worksRouteProps.contributors),
     ...overrides,
   };
 }
