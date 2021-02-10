@@ -8,3 +8,5 @@ export const leaningLMask =
   'https://images.prismic.io/wellcomecollection%2F696073c9-01ca-4f21-a633-c10bf1ff10e4_l-mask.svg';
 export const headerBackgroundLs =
   'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F43a35689-4923-4451-85d9-1ab866b1826d_event_header_background.svg';
+export const landingHeaderBackgroundLs =
+  'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg';

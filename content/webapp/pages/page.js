@@ -14,25 +14,43 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { getPage } from '@weco/common/services/prismic/pages';
+import {
+  getPage,
+  getPageSiblings,
+  getChildren,
+} from '@weco/common/services/prismic/pages';
 import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page as PageType } from '@weco/common/model/pages';
-// $FlowFixMe (ts)
-import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import type { SiblingsGroup } from '@weco/common/model/siblings-group';
+import {
+  headerBackgroundLs,
+  landingHeaderBackgroundLs,
+  // $FlowFixMe (ts)
+} from '@weco/common/utils/backgrounds';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+// $FlowFixMe (ts)
+import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
+import { ContentFormatIds } from '@weco/common/model/content-format-id';
 
 type Props = {|
   page: PageType,
+  siblings: SiblingsGroup[],
+  children: SiblingsGroup,
 |};
-
-const backgroundTexture = headerBackgroundLs;
 export class Page extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { id, memoizedPrismic } = ctx.query;
     const page = await getPage(ctx.req, id, memoizedPrismic);
     if (page) {
+      const siblings = await getPageSiblings(page, ctx.req, memoizedPrismic);
+      const children = await getChildren(page, ctx.req, memoizedPrismic);
       return {
         page,
+        siblings,
+        children,
       };
     } else {
       return { statusCode: 404 };
@@ -40,11 +58,15 @@ export class Page extends Component<Props> {
   };
 
   render() {
-    const { page } = this.props;
+    const { page, siblings, children } = this.props;
     const DateInfo = page.datePublished && (
       <HTMLDate date={new Date(page.datePublished)} />
     );
-
+    const isLanding =
+      page.format && page.format.id === ContentFormatIds.Landing;
+    const backgroundTexture = isLanding
+      ? landingHeaderBackgroundLs
+      : headerBackgroundLs;
     const hasFeaturedMedia =
       page.body.length > 1 &&
       (page.body[0].type === 'picture' || page.body[0].type === 'videoEmbed');
@@ -68,23 +90,32 @@ export class Page extends Component<Props> {
     ];
 
     function getBreadcrumbText(siteSection: string, pageId: string): string {
-      return hiddenBreadcrumbPages.includes(page.id)
+      return hiddenBreadcrumbPages.includes(page.id) || isLanding
         ? '\u200b'
         : siteSection === 'visit-us'
         ? 'Visit us'
         : 'What we do';
     }
     // TODO: This is not the way to do site sections
+    const sectionItem = page.siteSection
+      ? [
+          {
+            text: getBreadcrumbText(page.siteSection, page.id),
+            url: page.siteSection ? `/${page.siteSection}` : '',
+          },
+        ]
+      : [];
     const breadcrumbs = {
-      items: page.siteSection
-        ? [
-            {
-              text: getBreadcrumbText(page.siteSection, page.id),
-              url: page.siteSection ? `/${page.siteSection}` : '',
-            },
-          ]
-        : [],
+      items: [
+        ...sectionItem,
+        ...siblings.map(siblingGroup => ({
+          url: `/pages/${siblingGroup.id}`,
+          text: siblingGroup.title || '',
+          prefix: `Part of`,
+        })),
+      ],
     };
+
     const Header = (
       <PageHeader
         breadcrumbs={breadcrumbs}
@@ -95,7 +126,7 @@ export class Page extends Component<Props> {
           FeaturedMedia && (
             <HeaderBackground
               backgroundTexture={backgroundTexture}
-              hasWobblyEdge={true}
+              hasWobblyEdge={!isLanding}
             />
           )
         }
@@ -106,6 +137,30 @@ export class Page extends Component<Props> {
         isContentTypeInfoBeforeMedia={false}
       />
     );
+    const Siblings = siblings.map((siblingGroup, i) => {
+      if (siblingGroup.siblings.length > 0) {
+        return (
+          <SpacingSection key={i}>
+            <SpacingComponent>
+              <SectionHeader title={`More from ${siblingGroup.title}`} />
+            </SpacingComponent>
+            <SpacingComponent>
+              <CardGrid items={siblingGroup.siblings} itemsPerRow={3} />
+            </SpacingComponent>
+          </SpacingSection>
+        );
+      }
+    });
+    const Children =
+      children.siblings.length > 0
+        ? [
+            <SpacingSection key={1}>
+              <SpacingComponent>
+                <CardGrid items={children.siblings} itemsPerRow={3} />
+              </SpacingComponent>
+            </SpacingSection>,
+          ]
+        : [];
     return (
       <PageLayout
         title={page.title}
@@ -130,8 +185,10 @@ export class Page extends Component<Props> {
               pageId={page.id}
               onThisPage={page.onThisPage}
               showOnThisPage={page.showOnThisPage}
+              isLanding={isLanding}
             />
           }
+          RelatedContent={[...Siblings, ...Children]}
           contributorProps={{ contributors: page.contributors }}
           seasons={page.seasons}
         />
