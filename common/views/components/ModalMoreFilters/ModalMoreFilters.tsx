@@ -20,6 +20,7 @@ import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { WorksRouteProps } from '@weco/common/services/catalogue/ts_routes';
+import { quoteVal } from '@weco/common/utils/csv';
 type SharedFiltersProps = {
   changeHandler: () => void;
   languagesSelected: string[];
@@ -129,34 +130,38 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
               })}
             >
               <List>
-                {subjectsFilter.map(subject => {
-                  const isChecked = subjectsSelected.includes(
-                    subject.data.label
-                  );
-                  return (
-                    (subject.count > 0 || isChecked) && (
-                      <Space
-                        as="li"
-                        v={{ size: 'm', properties: ['margin-bottom'] }}
-                        h={{ size: 'l', properties: ['margin-right'] }}
-                        key={`desktop-${subject.data.label}`}
-                      >
-                        <CheckboxRadio
-                          id={`desktop-${replaceSpaceWithHypen(
-                            subject.data.label
-                          )}`}
-                          type={`checkbox`}
-                          text={`${subject.data.label} (${subject.count})`}
-                          value={subject.data.label}
-                          name={`subjects.label`}
-                          checked={isChecked}
-                          onChange={changeHandler}
-                          ariaLabel={searchFilterCheckBox(subject.data.label)}
-                        />
-                      </Space>
-                    )
-                  );
-                })}
+                {subjectsFilter
+                  .map(subject => {
+                    return {
+                      count: subject.count,
+                      label: subject.data.label,
+                      value: quoteVal(subject.data.label),
+                    };
+                  })
+                  .map(({ count, label, value }) => {
+                    const isChecked = subjectsSelected.includes(label);
+                    return (
+                      (count > 0 || isChecked) && (
+                        <Space
+                          as="li"
+                          v={{ size: 'm', properties: ['margin-bottom'] }}
+                          h={{ size: 'l', properties: ['margin-right'] }}
+                          key={`desktop-${replaceSpaceWithHypen(label)}`}
+                        >
+                          <CheckboxRadio
+                            id={`desktop-${replaceSpaceWithHypen(label)}`}
+                            type={`checkbox`}
+                            text={`${label} (${count})`}
+                            value={value}
+                            name={`subjects.label`}
+                            checked={isChecked}
+                            onChange={changeHandler}
+                            ariaLabel={searchFilterCheckBox(label)}
+                          />
+                        </Space>
+                      )
+                    );
+                  })}
               </List>
             </div>
           </Space>
@@ -167,32 +172,38 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
           <h3 className="h3">Genres</h3>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <List>
-              {genresFilter.map(genre => {
-                const isChecked = genresSelected.includes(genre.data.label);
-                return (
-                  (genre.count > 0 || isChecked) && (
-                    <Space
-                      as="li"
-                      v={{ size: 'm', properties: ['margin-bottom'] }}
-                      h={{ size: 'l', properties: ['margin-right'] }}
-                      key={`desktop-${genre.data.label}`}
-                    >
-                      <CheckboxRadio
-                        id={`desktop-${replaceSpaceWithHypen(
-                          genre.data.label
-                        )}`}
-                        type={`checkbox`}
-                        text={`${genre.data.label} (${genre.count})`}
-                        value={genre.data.label}
-                        name={`genres.label`}
-                        checked={isChecked}
-                        onChange={changeHandler}
-                        ariaLabel={searchFilterCheckBox(genre.data.label)}
-                      />
-                    </Space>
-                  )
-                );
-              })}
+              {genresFilter
+                .map(genre => {
+                  return {
+                    count: genre.count,
+                    label: genre.data.label,
+                    value: quoteVal(genre.data.label),
+                  };
+                })
+                .map(({ count, label, value }) => {
+                  const isChecked = genresSelected.includes(label);
+                  return (
+                    (count > 0 || isChecked) && (
+                      <Space
+                        as="li"
+                        v={{ size: 'm', properties: ['margin-bottom'] }}
+                        h={{ size: 'l', properties: ['margin-right'] }}
+                        key={`desktop-${replaceSpaceWithHypen(label)}`}
+                      >
+                        <CheckboxRadio
+                          id={`desktop-${replaceSpaceWithHypen(label)}`}
+                          type={`checkbox`}
+                          text={`${label} (${count})`}
+                          value={value}
+                          name={`genres.label`}
+                          checked={isChecked}
+                          onChange={changeHandler}
+                          ariaLabel={searchFilterCheckBox(label)}
+                        />
+                      </Space>
+                    )
+                  );
+                })}
             </List>
           </Space>
         </FilterSection>

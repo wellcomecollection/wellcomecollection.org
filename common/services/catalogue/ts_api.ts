@@ -1,3 +1,4 @@
+import { quoteVal } from '../../utils/csv';
 import { WorksRouteProps } from './routes';
 import { ImagesRouteProps } from './ts_routes';
 
@@ -19,16 +20,6 @@ function toIsoDateString(s: string | null): string | null {
   return null;
 }
 
-function toMutipleValuesToString(items: string[]): string | null {
-  if (items.length) {
-    const itemsConverted = items.map(e => {
-      return JSON.stringify(e);
-    });
-
-    return itemsConverted.toString();
-  }
-  return null;
-}
 export type CatalogueWorksApiProps = {
   query: string | null;
   page: number | null;
@@ -78,8 +69,8 @@ export function worksRouteToApiUrl(
     ),
     'production.dates.to': toIsoDateString(worksRouteProps.productionDatesTo),
     languages: worksRouteProps.languages,
-    'genres.label': toMutipleValuesToString(worksRouteProps.genresLabel),
-    'subjects.label': toMutipleValuesToString(worksRouteProps.subjectsLabel),
+    'genres.label': worksRouteProps.genresLabel.map(quoteVal),
+    'subjects.label': worksRouteProps.subjectsLabel.map(quoteVal),
     ...overrides,
   };
 }

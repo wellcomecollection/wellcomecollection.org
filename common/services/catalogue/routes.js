@@ -1,6 +1,7 @@
 // @flow
 import { type NextLinkType } from '@weco/common/model/next-link-type';
-import Papa from 'papaparse';
+// $FlowFixMe
+import { parseCsv } from '@weco/common/utils/csv';
 type Params = { [key: string]: any };
 export type UrlParams = { [key: string]: string };
 export function serialiseUrl(params: Params): UrlParams {
@@ -60,6 +61,10 @@ function defaultToEmptyString(s: ?string): string {
   return s || '';
 }
 
+function quotedCsv(v: string | null) {
+  return v ? parseCsv(v) : [];
+}
+
 type NextRoute<T> = {|
   fromQuery: (q: UrlParams) => T,
   toLink: (t: $Shape<T>) => NextLinkType,
@@ -87,9 +92,6 @@ export type WorksRouteProps = {|
 
 export const WorksRoute: NextRoute<WorksRouteProps> = {
   fromQuery(q) {
-    console.log(q['subjects.label'], 'original params');
-    console.log(Papa.parse(q['subjects.label']), 'routes js');
-
     return {
       query: defaultToEmptyString(q.query),
       page: defaultTo1(q.page),
@@ -106,8 +108,8 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       search: maybeString(q.search),
       source: maybeString(q.source),
       languages: stringToCsv(q.languages),
-      subjectsLabel: stringToCsv(q['subjects.label']),
-      genresLabel: stringToCsv(q['genres.label']),
+      subjectsLabel: quotedCsv(q['subjects.label']),
+      genresLabel: quotedCsv(q['genres.label']),
     };
   },
 

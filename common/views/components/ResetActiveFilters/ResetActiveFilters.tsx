@@ -269,7 +269,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
           {searchMoreFilters &&
             subjectsSelected.map(subject => {
               const subjectActive = subjectsFilter.find(({ data }) => {
-                return data.label === decodeURIComponent(subject);
+                return data.label === subject;
               });
               return (
                 subjectActive && (
@@ -298,7 +298,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
           {searchMoreFilters &&
             genresSelected.map(subject => {
               const genreActive = genresFilter.find(({ data }) => {
-                return data.label === decodeURIComponent(subject);
+                return data.label === subject;
               });
               return (
                 genreActive && (
