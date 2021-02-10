@@ -1,5 +1,5 @@
 // @flow
-import { Component, createRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
 import { font, classNames } from '../../../utils/classnames';
@@ -14,184 +14,165 @@ type Props = {|
   videoUrl: string,
   caption: ?HTMLString,
   tasl: ?TaslType,
+  autoPlay: boolean,
+  loop: boolean,
+  mute: boolean,
+  showControls: boolean,
 |};
 
-type State = {|
-  canPlay: boolean,
-  isPlaying: boolean,
-  autoPlayDisabled: boolean,
-  computedVideoWidth: ?number,
-|};
+const inViewport = (video: HTMLElement) => {
+  const rect = video.getBoundingClientRect();
+  return (
+    rect.top >= 0 - rect.height &&
+    rect.top <= window.innerHeight &&
+    rect.left >= 0 &&
+    rect.left < window.innerWidth
+  );
+};
 
-class GifVideo extends Component<Props, State> {
-  state = {
-    canPlay: false,
-    isPlaying: false,
-    autoPlayDisabled: false,
-    computedVideoWidth: null,
-  };
+const GifVideo = ({
+  playbackRate,
+  videoUrl,
+  caption,
+  tasl,
+  autoPlay,
+  loop,
+  mute,
+  showControls,
+}: Props) => {
+  const [canPlay, setCanPlay] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [autoPlayDisabled, setAutoPlayDisabled] = useState(
+    !mute ? true : !autoPlay // we never want to autoplay something with audio on
+  );
+  const [computedVideoWidth, setComputedVideoWidth] = useState(null);
+  const videoRef = useRef(null);
+  const canPlayRef = useRef();
+  canPlayRef.current = canPlay;
 
-  videoRef: { current: HTMLVideoElement | null } = createRef();
-
-  inViewport = (video: HTMLElement) => {
-    const rect = video.getBoundingClientRect();
-    return (
-      rect.top >= 0 - rect.height &&
-      rect.top <= window.innerHeight &&
-      rect.left >= 0 &&
-      rect.left < window.innerWidth
-    );
-  };
-
-  playVideo = (video: HTMLMediaElement) => {
-    this.setState({
-      isPlaying: true,
-    });
+  const playVideo = (video: HTMLMediaElement) => {
+    setIsPlaying(true);
     video.play();
   };
 
-  pauseVideo = (video: HTMLMediaElement) => {
-    this.setState({
-      isPlaying: false,
-    });
+  const pauseVideo = (video: HTMLMediaElement) => {
+    setIsPlaying(false);
     video.pause();
   };
 
-  autoControlGif = () => {
-    const video = this.videoRef.current;
-
-    const inViewAndPlayable =
-      video && this.inViewport(video) && this.state.canPlay;
+  const autoControlGif = () => {
+    const video = videoRef.current;
+    const inViewAndPlayable = video && inViewport(video) && canPlayRef.current;
     if (video) {
-      if (!this.state.autoPlayDisabled) {
+      if (!autoPlayDisabled) {
         if (inViewAndPlayable) {
-          this.playVideo(video);
+          playVideo(video);
         } else {
-          this.pauseVideo(video);
+          pauseVideo(video);
         }
       }
     }
   };
 
-  computeVideoWidth = () => {
-    const computedVideoWidth =
-      this.videoRef &&
-      this.videoRef.current &&
-      this.videoRef.current.clientWidth;
-
-    this.setState({
-      computedVideoWidth,
-    });
+  const computeVideoWidth = () => {
+    const computedVideoWidth = videoRef?.current?.clientWidth;
+    setComputedVideoWidth(computedVideoWidth);
   };
 
-  manualControlGif = () => {
-    const video = this.videoRef.current;
+  const manualControlGif = () => {
+    const video = videoRef.current;
     if (video) {
-      if (!this.state.isPlaying) {
-        this.setState({
-          autoPlayDisabled: false,
-        });
-        this.playVideo(video);
+      if (!isPlaying) {
+        setAutoPlayDisabled(false);
+        playVideo(video);
       } else {
-        this.setState({
-          autoPlayDisabled: true,
-        });
-        this.pauseVideo(video);
+        setAutoPlayDisabled(true);
+        pauseVideo(video);
       }
     }
     trackEvent({
       category: 'GifVideo',
-      action: this.state.isPlaying ? 'pause video' : 'play video',
-      label: this.props.videoUrl,
+      action: isPlaying ? 'pause video' : 'play video',
+      label: videoUrl,
     });
   };
 
-  initVideoGif = (video: HTMLMediaElement) => {
-    this.setState({
-      canPlay: true,
-    });
+  useEffect(() => {
+    autoControlGif();
+    computeVideoWidth();
+  }, [canPlay]);
 
-    setTimeout(() => {
-      this.autoControlGif();
-      this.computeVideoWidth();
-    }, 0); // TODO - fix properly - canPlay is still false without setTimeout
-  };
+  const debounceAutoControl = debounce(autoControlGif, 500);
+  const throttleAutoControl = throttle(autoControlGif, 100);
+  const debounceComputeVideoWidth = debounce(computeVideoWidth, 500);
 
-  debounceAutoControl = debounce(this.autoControlGif, 500);
-  throttleAutoControl = throttle(this.autoControlGif, 100);
-  debounceComputeVideoWidth = debounce(this.computeVideoWidth, 500);
-
-  componentDidMount() {
-    const video = this.videoRef.current;
+  useEffect(() => {
+    const video = videoRef.current;
 
     if (video) {
-      video.playbackRate = this.props.playbackRate;
+      video.playbackRate = playbackRate;
 
       if (video.readyState > 3) {
-        this.initVideoGif(video);
+        setCanPlay(true);
       } else {
         video.addEventListener('loadedmetadata', () => {
-          this.initVideoGif(video);
+          setCanPlay(true);
         });
       }
     }
 
-    window.addEventListener('resize', this.debounceAutoControl);
-    window.addEventListener('resize', this.debounceComputeVideoWidth);
-    window.addEventListener('scroll', this.throttleAutoControl);
-  }
+    window.addEventListener('resize', debounceAutoControl);
+    window.addEventListener('resize', debounceComputeVideoWidth);
+    window.addEventListener('scroll', throttleAutoControl);
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.debounceAutoControl);
-    window.removeEventListener('resize', this.debounceComputeVideoWidth);
-    window.removeEventListener('scroll', this.throttleAutoControl);
-  }
+    return () => {
+      window.removeEventListener('resize', debounceAutoControl);
+      window.removeEventListener('resize', debounceComputeVideoWidth);
+      window.removeEventListener('scroll', throttleAutoControl);
+    };
+  }, []);
 
-  render() {
-    const { videoUrl, caption, tasl } = this.props;
-    const { canPlay, isPlaying, computedVideoWidth } = this.state;
-
-    return (
-      <figure className="gif-video no-margin text-align-center">
-        <div className="gif-video__inner relative inline-block">
-          <video
-            ref={this.videoRef}
-            className="gif-video__video block"
-            preload="metadata"
-            muted
-            loop
-            playsInline
+  return (
+    <figure className="gif-video no-margin text-align-center">
+      <div className="gif-video__inner relative inline-block">
+        <video
+          ref={videoRef}
+          className="gif-video__video block"
+          preload="metadata"
+          muted={mute}
+          loop={loop}
+          controls={showControls}
+          playsInline
+        >
+          <source src={videoUrl} type="video/mp4" />
+          <p>{"Your browser doesn't support video"}</p>
+        </video>
+        {canPlay && !showControls && (
+          <button
+            className={classNames({
+              'no-margin no-padding plain-button gif-video__play-pause absolute': true,
+            })}
+            aria-label="play/pause button"
+            onClick={manualControlGif}
           >
-            <source src={videoUrl} type="video/mp4" />
-            <p>{"Your browser doesn't support video"}</p>
-          </video>
-          {canPlay && (
-            <button
+            <span
               className={classNames({
-                'no-margin no-padding plain-button gif-video__play-pause absolute': true,
+                [font('lr', 5)]: true,
+                'gif-video__text block': true,
+                'gif-video__text--is-playing': isPlaying,
               })}
-              aria-label="play/pause button"
-              onClick={this.manualControlGif}
-            >
-              <span
-                className={classNames({
-                  [font('lr', 5)]: true,
-                  'gif-video__text block': true,
-                  'gif-video__text--is-playing': isPlaying,
-                })}
-              />
-            </button>
-          )}
-          {tasl &&
-            (tasl.title ||
-              tasl.sourceName ||
-              tasl.copyrightHolder ||
-              tasl.license) && <Tasl {...tasl} />}
-        </div>
-        {caption && <Caption width={computedVideoWidth} caption={caption} />}
-      </figure>
-    );
-  }
-}
+            />
+          </button>
+        )}
+        {tasl &&
+          (tasl.title ||
+            tasl.sourceName ||
+            tasl.copyrightHolder ||
+            tasl.license) && <Tasl {...tasl} />}
+      </div>
+      {caption && <Caption width={computedVideoWidth} caption={caption} />}
+    </figure>
+  );
+};
 
 export default GifVideo;

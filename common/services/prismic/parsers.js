@@ -711,6 +711,14 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
               videoUrl: slice.primary.video && slice.primary.video.url,
               playbackRate: slice.primary.playbackRate || 1,
               tasl: parseTaslFromString(slice.primary.tasl),
+              autoPlay:
+                slice.primary.autoPlay === null ? true : slice.primary.autoPlay, // handle old content before these fields existed
+              loop: slice.primary.loop === null ? true : slice.primary.loop,
+              mute: slice.primary.mute === null ? true : slice.primary.mute,
+              showControls:
+                slice.primary.showControls === null
+                  ? false
+                  : slice.primary.showControls,
             },
           };
 

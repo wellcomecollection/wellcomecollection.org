@@ -1,15 +1,13 @@
 import dynamic from 'next/dynamic';
-import {
-  ReactNode,
-  ReactElement,
-  FunctionComponent,
-  ComponentProps,
-} from 'react';
+import { ReactNode, ReactElement, FunctionComponent } from 'react';
 import { classNames } from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import SearchResults from '../SearchResults/SearchResults';
 import { CaptionedImage } from '../Images/Images';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
+import SpacingSection from '../SpacingSection/SpacingSection';
+import SectionHeader from '../SectionHeader/SectionHeader';
+import Space from '../styled/Space';
 import Quote from '../Quote/Quote';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
@@ -40,6 +38,18 @@ import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
 import TagsGroup from '../TagsGroup/TagsGroup';
 import Discussion from '../Discussion/Discussion';
 import WobblyEdgedContainer from '../WobblyEdgedContainer/WobblyEdgedContainer';
+import WobblyEdge from '../WobblyEdge/WobblyEdge';
+
+import GridFactory from '../GridFactory/GridFactory';
+import Card from '../Card/Card';
+import FeaturedCard, {
+  convertItemToFeaturedCardProps,
+  convertCardToFeaturedCardProps,
+} from '../FeaturedCard/FeaturedCard';
+import { convertItemToCardProps } from '@weco/common/model/card';
+import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
+import VisitUsStaticContent from './VisitUsStaticContent';
+import CollectionsStaticContent from './CollectionsStaticContent';
 
 const Map = dynamic(import('../Map/Map'), { ssr: false });
 
@@ -78,6 +88,7 @@ type Props = {
   isDropCapped?: boolean;
   pageId: string;
   minWidth?: 10 | 8;
+  isLanding?: boolean;
 };
 
 const Body: FunctionComponent<Props> = ({
@@ -87,6 +98,7 @@ const Body: FunctionComponent<Props> = ({
   isDropCapped,
   pageId,
   minWidth = 8,
+  isLanding = false,
 }: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
@@ -99,19 +111,169 @@ const Body: FunctionComponent<Props> = ({
     .indexOf('text');
   let imageGalleryIdCount = 1;
 
+  const sections = body.filter(slice => slice.type === 'contentList');
+  const sectionThemes = [
+    {
+      rowBackground: 'white',
+      cardBackground: 'cream',
+      featuredCardBackground: 'charcoal',
+      featuredCardText: 'white',
+    },
+    {
+      rowBackground: 'cream',
+      cardBackground: 'white',
+      featuredCardBackground: 'white',
+      featuredCardText: 'black',
+    },
+    {
+      rowBackground: 'white',
+      cardBackground: 'cream',
+      featuredCardBackground: 'cream',
+      featuredCardText: 'black',
+    },
+    {
+      rowBackground: 'charcoal',
+      cardBackground: 'transparent',
+      featuredCardBackground: 'white',
+      featuredCardText: 'black',
+    },
+  ];
+  const AdditionalContent = ({
+    index,
+    sections = [],
+    isLanding = false,
+  }: {
+    index: number;
+    sections: BodyType;
+    isLanding: boolean;
+  }): ReactElement<Props> | null => {
+    if (index === 0) {
+      return (
+        <>
+          {pageId === prismicPageIds.visitUs && <VisitUsStaticContent />}
+          {pageId === prismicPageIds.collections && (
+            <CollectionsStaticContent />
+          )}
+          {onThisPage && onThisPage.length > 2 && showOnThisPage && (
+            <SpacingComponent>
+              <LayoutWidth width={minWidth}>
+                <OnThisPageAnchors links={onThisPage} />
+              </LayoutWidth>
+            </SpacingComponent>
+          )}
+          {isLanding &&
+            sections.map((section, index) => {
+              const isFirst = index === 0;
+              const isLast = index === sections.length - 1;
+              const sectionTheme = sectionThemes[index % sectionThemes.length];
+              const hasFeatured =
+                Boolean(section.value.hasFeatured) ||
+                section.value.items.length === 1;
+              const firstItem = section.value.items?.[0];
+              const isCardType = firstItem?.type === 'card';
+
+              const firstItemProps =
+                firstItem &&
+                (isCardType
+                  ? convertCardToFeaturedCardProps(firstItem)
+                  : convertItemToFeaturedCardProps(firstItem));
+
+              const cardItems = hasFeatured
+                ? section.value.items.slice(1)
+                : section.value.items;
+              const featuredItem =
+                hasFeatured && firstItem ? (
+                  <FeaturedCard
+                    {...firstItemProps}
+                    background={sectionTheme.featuredCardBackground}
+                    color={sectionTheme.featuredCardText}
+                    isReversed={false}
+                  >
+                    <h2 className="font-wb font-size-2">{firstItem.title}</h2>
+                    {isCardType && firstItem.description && (
+                      <p className="font-hnl font-size-5">
+                        {firstItem.description}
+                      </p>
+                    )}
+                    {firstItem.promo && (
+                      <p className="font-hnl font-size-5">
+                        {firstItem.promo.caption}
+                      </p>
+                    )}
+                  </FeaturedCard>
+                ) : null;
+
+              const cards = cardItems.map((item, i) => {
+                const cardProps =
+                  item.type === 'card' ? item : convertItemToCardProps(item);
+                return <Card key={i} item={cardProps} />;
+              });
+
+              return (
+                <ConditionalWrapper
+                  key={index}
+                  condition={!isLast}
+                  wrapper={children => (
+                    <SpacingSection>{children}</SpacingSection>
+                  )}
+                >
+                  {!isFirst && (
+                    <WobblyEdge
+                      background={sectionTheme.rowBackground}
+                      isStatic
+                    />
+                  )}
+                  <Space
+                    v={{
+                      size: 'xl',
+                      properties: isLast
+                        ? ['padding-top']
+                        : ['padding-top', 'padding-bottom'],
+                    }}
+                    className={classNames({
+                      'row card-theme': true,
+                      [`bg-${sectionTheme.rowBackground}`]: true,
+                      [`card-theme--${sectionTheme.cardBackground}`]: true,
+                    })}
+                  >
+                    {section.value.title && (
+                      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                        <SectionHeader title={section.value.title} />
+                      </Space>
+                    )}
+                    {featuredItem && (
+                      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                        <Layout12>{featuredItem}</Layout12>
+                      </Space>
+                    )}
+                    {cards.length > 0 && <GridFactory items={cards} />}
+                  </Space>
+
+                  {!isLast && <WobblyEdge background={'white'} isStatic />}
+                </ConditionalWrapper>
+              );
+            })}
+        </>
+      );
+    } else {
+      return null;
+    }
+  };
+
   return (
     <div
       className={classNames({
         'basic-body': true,
       })}
     >
-      {onThisPage && onThisPage.length > 2 && showOnThisPage && (
-        <SpacingComponent>
-          <LayoutWidth width={minWidth}>
-            <OnThisPageAnchors links={onThisPage} />
-          </LayoutWidth>
-        </SpacingComponent>
+      {filteredBody.length < 1 && (
+        <AdditionalContent
+          index={0}
+          sections={sections}
+          isLanding={isLanding}
+        />
       )}
+      {/* // TO '|||||check when no body content */}
       {filteredBody.map((slice, i) => (
         <SpacingComponent key={`slice${i}`}>
           <div
@@ -120,15 +282,29 @@ const Body: FunctionComponent<Props> = ({
             })}
           >
             {slice.type === 'inPageAnchor' && <span id={slice.value} />}
-            {slice.type === 'text' && (
+            {/* If the first slice is featured text we display it above inPageAnchors and any static content, i.e. <AdditionalContent /> */}
+            {i === 0 && slice.type === 'text' && slice.weight === 'featured' && (
               <LayoutWidth width={minWidth}>
                 <div className="body-text spaced-text">
-                  {slice.weight === 'featured' && (
+                  <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                     <FeaturedText
                       html={slice.value}
                       htmlSerializer={defaultSerializer}
                     />
-                  )}
+                  </Space>
+                </div>
+              </LayoutWidth>
+            )}
+
+            <AdditionalContent
+              index={i}
+              sections={sections}
+              isLanding={isLanding}
+            />
+
+            {slice.type === 'text' && (
+              <LayoutWidth width={minWidth}>
+                <div className="body-text spaced-text">
                   {slice.weight !== 'featured' &&
                     (firstTextSliceIndex === i && isDropCapped ? (
                       <PrismicHtmlBlock
@@ -174,12 +350,11 @@ const Body: FunctionComponent<Props> = ({
                 <Quote {...slice.value} />
               </LayoutWidth>
             )}
-            {slice.type === 'contentList' && (
+            {slice.type === 'contentList' && !isLanding && (
               <LayoutWidth width={minWidth}>
-                {/* FIXME: this makes what-we-do and visit-us contentLists synchronous,
+                {/* FIXME: this makes what-we-do contentLists synchronous,
                 but it's hacky. */}
-                {pageId === prismicPageIds.whatWeDo ||
-                pageId === prismicPageIds.visitUs ? (
+                {pageId === prismicPageIds.whatWeDo ? (
                   <SearchResults
                     title={slice.value.title}
                     items={slice.value.items}

@@ -19,7 +19,7 @@ export const indexPage: RouteMiddleware = (context) => {
           <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
         </head>
         <body>
-          <div id="root"></div>
+          <div id="root" data-context-path="${prefix}"></div>
           <script type="application/javascript" src="${bundle}"></script>
         </body>
       </html>

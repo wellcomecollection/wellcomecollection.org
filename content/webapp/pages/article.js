@@ -184,14 +184,14 @@ export class ArticlePage extends Component<Props, State> {
 
               {article.contributors.length > 0 && ' '}
 
-              <div
+              <span
                 className={classNames({
-                  'font-pewter': true,
+                  'block font-pewter': true,
                   [font('hnl', 6)]: true,
                 })}
               >
                 <HTMLDate date={new Date(article.datePublished)} />
-              </div>
+              </span>
             </p>
           </Space>
         </div>
@@ -284,7 +284,7 @@ export class ArticlePage extends Component<Props, State> {
               minWidth={isPodcast ? 10 : 8}
             />
           }
-          Siblings={Siblings}
+          RelatedContent={Siblings}
           contributorProps={{ contributors: article.contributors }}
           outroProps={
             articleHasOutro(article)
