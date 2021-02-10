@@ -20,7 +20,6 @@ export const globalApiOptions = (toggles?: Toggles): GlobalApiOptions => ({
 export const queryString = (params: { [key: string]: any }): string => {
   const strings = Object.keys(serialiseUrl(params)).map(key => {
     const val = params[key];
-    // check if items have been encoded
     return `${key}=${encodeURIComponent(val)}`;
   });
   return strings.length > 0 ? `?${strings.join('&')}` : '';
