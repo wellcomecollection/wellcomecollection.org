@@ -15,7 +15,7 @@ const logo = 'https://identity-public-assets-stage.s3.eu-west-1.amazonaws.com/im
 export const AccountManagement: React.FC = () => {
   const [idx, setIdx] = useState(0);
 
-  const { data, isLoading, error } = useUserInfo();
+  const { data, isLoading, error, refetch } = useUserInfo();
 
   return (
     <PageWrapper>
@@ -34,7 +34,7 @@ export const AccountManagement: React.FC = () => {
               { link: { to: '#' }, text: 'Password', selected: idx === 1, onClick: () => setIdx(1) },
             ]}
           />
-          {idx === 0 && <ProfileForm {...data} />}
+          {idx === 0 && <ProfileForm {...data} onUpdate={refetch} />}
           {idx === 1 && <PasswordForm />}
         </>
       )}

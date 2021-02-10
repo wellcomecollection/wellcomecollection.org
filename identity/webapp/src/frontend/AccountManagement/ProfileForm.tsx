@@ -7,8 +7,11 @@ import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
 import { ErrorMessage } from '../Shared/ErrorMessage';
+import { SuccessMessage } from '../Shared/SuccessMessage';
 import { PasswordInput } from '../Shared/PasswordInput';
 import { UserInfo } from '../hooks/useUserInfo';
+import { useUpdateUserInfo } from '../hooks/useUpdateUserInfo';
+import { validateEmail } from '../../utility/validate-email-address';
 
 type ExistingDataProps = {
   label: string;
@@ -22,49 +25,75 @@ const ExistingData = ({ label, value }: ExistingDataProps) => (
   </>
 );
 
-export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, barcode }) => {
+export type ProfileFormProps = UserInfo & {
+  onUpdate: () => void;
+};
+
+export const ProfileForm: React.FC<ProfileFormProps> = ({ firstName, lastName, email, barcode, onUpdate }) => {
   const [newEmail, setNewEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [alreadyExists, setAlreadyExists] = useState<boolean>(false);
-  const [valid, setValid] = useState<boolean | undefined | string>(false);
-  const [saved, setSaved] = useState<boolean>(true);
+  const [isValid, setIsValid] = useState<boolean>(false);
+  const [isSaved, setIsSaved] = useState<boolean>(true);
+  const [isIncorrectPassword, setIsIncorrectPassword] = useState<boolean>(false);
+  const [isUpdateSuccessful, setIsUpdateSuccessful] = useState<boolean>(false);
+  const [updateUserInfo] = useUpdateUserInfo();
 
   useEffect(() => {
     setNewEmail(email);
   }, [email]);
 
-  useEffect(() => {
-    // TODO: check if email exists
-    setAlreadyExists(false);
-  }, [newEmail]);
-
-  useEffect(() => {
-    // TODO: validate email
-    setValid(Boolean(newEmail));
-  }, [newEmail]);
-
   const handleEmailChange = (value: string) => {
     setNewEmail(value);
-    setSaved(newEmail !== email);
+    setIsValid(validateEmail(value));
+    setIsSaved(false);
   };
 
-  const saveChanges = () => {
-    // TODO: Save changes
-    setSaved(true);
+  const onSaveSuccess = () => {
+    setIsUpdateSuccessful(true);
+    setIsSaved(true);
+    onUpdate();
+  };
+
+  const onSaveFailure = (statusCode?: number) => {
+    switch (statusCode) {
+      case 401: {
+        setIsIncorrectPassword(true);
+        break;
+      }
+      case 409: {
+        setAlreadyExists(true);
+        break;
+      }
+      default:
+        console.error('Error');
+    }
+  };
+
+  const saveChanges = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsUpdateSuccessful(false);
+    updateUserInfo({ email, password, newEmail }, onSaveSuccess, onSaveFailure);
   };
 
   const deleteAccount = () => {
     // TODO: Delete Account
   };
 
+  const canSave = isValid && !isSaved;
+
   return (
     <div>
       <ExistingData label="Name" value={`${firstName} ${lastName}`} />
       <ExistingData label="Library card number" value={barcode} />
       <h2 className="font-wb font-size-3">Change email</h2>
-      <form>
+      {isUpdateSuccessful && (
+        <SuccessMessage>Your email has been updated - please check your inbox to verify this change</SuccessMessage>
+      )}
+      <form onSubmit={saveChanges}>
         <TextInput
           id="email-address"
+          name="newEmail"
           required={true}
           aria-label="Email Address"
           label="Email address"
@@ -79,12 +108,12 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
         )}
         <SpacingComponent />
         <PasswordInput value={password} setValue={setPassword} label="password" id="password" />
+        {isIncorrectPassword && <ErrorMessage>Incorrect password</ErrorMessage>}
         <SpacingComponent />
         <OutlinedButton onClick={deleteAccount}>Delete Account</OutlinedButton>
-        <SolidButton disabled={!valid || saved} onClick={saveChanges}>
+        <SolidButton type="submit" disabled={!canSave}>
           Save Changes
         </SolidButton>
-        <input type="submit" value="Submit" hidden={true} />
       </form>
     </div>
   );
