@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { callMiddlewareApi } from "../../utility/middleware-api-client";
 
 export type UserInfo = {
   firstName: string;
@@ -21,8 +21,7 @@ export function useUserInfo(): UserInfoQuery {
 
   useEffect(() => {
     const fetchUser = async () => {
-      await axios
-        .get<UserInfo>('/api/users/me')
+      await callMiddlewareApi('GET','/api/users/me')
         .then(({ data: userData, status, statusText }) => {
           if (status !== 200) {
             throw Error(statusText);

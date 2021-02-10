@@ -9,7 +9,7 @@ import CheckboxRadio from '../WellcomeComponents/CheckBoxLabel';
 import { PasswordInput } from '../Shared/PasswordInput';
 import { LogoContainer } from '../Shared/LogoContainer';
 import { PageWrapper } from '../Shared/PageWrapper';
-import axios from 'axios';
+import { callMiddlewareApi } from "../../utility/middleware-api-client";
 
 // TODO: Update this to prod.
 const logo = 'https://identity-public-assets-stage.s3.eu-west-1.amazonaws.com/images/wellcomecollections-150x50.png';
@@ -65,34 +65,32 @@ export const Registration: React.FC = () => {
     if (valid) {
       // Create Account
       try {
-        await axios({
-          method: 'POST',
-          url: '/api/user/create',
-          data: {
+        await callMiddlewareApi(
+          'POST',
+          '/api/user/create',
+          {
             firstName,
             lastName,
             email,
             password: pass,
-          },
-        })
-          .then(() => {
-            setCreated(true);
-          })
-          .catch((error) => {
-            switch (error.response.status) {
-              case 400:
-              case 422:
-                // If the password has flagged on the common password list by Auth0, or the user has used their own name -> prompted to change the password.
-                setCommonPassword(true);
-                break;
-              case 409:
-                // If there is a account already existing with that email address. -> Prompted to login
-                setAlreadyExists(true);
-                break;
-              default:
-                setErrorOccured(true);
-            }
-          });
+          }
+        ).then(() => {
+          setCreated(true);
+        }).catch((error) => {
+          switch (error.response.status) {
+            case 400:
+            case 422:
+              // If the password has flagged on the common password list by Auth0, or the user has used their own name -> prompted to change the password.
+              setCommonPassword(true);
+              break;
+            case 409:
+              // If there is a account already existing with that email address. -> Prompted to login
+              setAlreadyExists(true);
+              break;
+            default:
+              setErrorOccured(true);
+          }
+        });
       } catch (error) {
         console.log('Something went wrong');
       }
