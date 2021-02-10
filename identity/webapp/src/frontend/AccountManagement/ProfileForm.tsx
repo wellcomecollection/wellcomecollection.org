@@ -3,13 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 
-// @ts-ignore
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
 import { ErrorMessage } from '../Shared/ErrorMessage';
 import { PasswordInput } from '../Shared/PasswordInput';
-import { UserInfo } from './AccountManagement';
+import { UserInfo } from '../hooks/useUserInfo';
 
 type ExistingDataProps = {
   label: string;
@@ -23,26 +22,30 @@ const ExistingData = ({ label, value }: ExistingDataProps) => (
   </>
 );
 
-export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, emailAddress, libraryCardNumber }) => {
-  const [email, setEmail] = useState<string>(emailAddress);
+export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, barcode }) => {
+  const [newEmail, setNewEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [alreadyExists, setAlreadyExists] = useState<boolean>(false);
   const [valid, setValid] = useState<boolean | undefined | string>(false);
   const [saved, setSaved] = useState<boolean>(true);
 
   useEffect(() => {
-    // TODO: check if email exists
-    setAlreadyExists(false);
+    setNewEmail(email);
   }, [email]);
 
   useEffect(() => {
+    // TODO: check if email exists
+    setAlreadyExists(false);
+  }, [newEmail]);
+
+  useEffect(() => {
     // TODO: validate email
-    setValid(Boolean(email));
-  }, [email]);
+    setValid(Boolean(newEmail));
+  }, [newEmail]);
 
   const handleEmailChange = (value: string) => {
-    setEmail(value);
-    setSaved(false);
+    setNewEmail(value);
+    setSaved(newEmail !== email);
   };
 
   const saveChanges = () => {
@@ -57,16 +60,15 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, emailAddr
   return (
     <div>
       <ExistingData label="Name" value={`${firstName} ${lastName}`} />
-      <ExistingData label="Library card number" value={libraryCardNumber} />
+      <ExistingData label="Library card number" value={barcode} />
       <h2 className="font-wb font-size-3">Change email</h2>
       <form>
         <TextInput
           id="email-address"
-          placeholder=""
           required={true}
           aria-label="Email Address"
           label="Email address"
-          value={email}
+          value={newEmail}
           type="email"
           setValue={handleEmailChange}
         />

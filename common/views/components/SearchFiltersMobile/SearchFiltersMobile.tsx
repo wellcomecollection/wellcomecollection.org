@@ -458,39 +458,44 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                             'no-margin no-padding plain-list': true,
                           })}
                         >
-                          {subjectsFilter.map(subject => {
-                            const isChecked = subjectsSelected.includes(
-                              subject.data.label
-                            );
-
-                            return (
-                              (subject.count > 0 || isChecked) && (
-                                <Space
-                                  as="li"
-                                  v={{
-                                    size: 'l',
-                                    properties: ['margin-bottom'],
-                                  }}
-                                  key={`mobile-${subject.data.label}`}
-                                >
-                                  <CheckboxRadio
-                                    id={`mobile-${replaceSpaceWithHypen(
-                                      subject.data.label
-                                    )}`}
-                                    type={`checkbox`}
-                                    text={`${subject.data.label} (${subject.count})`}
-                                    value={subject.data.label}
-                                    name={`subjects.label`}
-                                    checked={isChecked}
-                                    onChange={changeHandler}
-                                    ariaLabel={searchFilterCheckBox(
-                                      subject.data.label
-                                    )}
-                                  />
-                                </Space>
-                              )
-                            );
-                          })}
+                          {subjectsFilter
+                            .map(subject => {
+                              return {
+                                count: subject.count,
+                                label: subject.data.label,
+                                value: quoteVal(subject.data.label),
+                              };
+                            })
+                            .map(({ count, label, value }) => {
+                              const isChecked = subjectsSelected.includes(
+                                label
+                              );
+                              return (
+                                (count > 0 || isChecked) && (
+                                  <Space
+                                    as="li"
+                                    v={{
+                                      size: 'l',
+                                      properties: ['margin-bottom'],
+                                    }}
+                                    key={`mobile-${label}`}
+                                  >
+                                    <CheckboxRadio
+                                      id={`mobile-${replaceSpaceWithHypen(
+                                        label
+                                      )}`}
+                                      type={`checkbox`}
+                                      text={`${label} (${count})`}
+                                      value={value}
+                                      name={`subjects.label`}
+                                      checked={isChecked}
+                                      onChange={changeHandler}
+                                      ariaLabel={searchFilterCheckBox(label)}
+                                    />
+                                  </Space>
+                                )
+                              );
+                            })}
                         </ul>
                       }
                     </Space>
@@ -511,39 +516,43 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                             'no-margin no-padding plain-list': true,
                           })}
                         >
-                          {genresFilter.map(genre => {
-                            const isChecked = genresSelected.includes(
-                              encodeURIComponent(genre.data.label)
-                            );
+                          {genresFilter
+                            .map(subject => {
+                              return {
+                                count: subject.count,
+                                label: subject.data.label,
+                                value: quoteVal(subject.data.label),
+                              };
+                            })
+                            .map(({ count, label, value }) => {
+                              const isChecked = genresSelected.includes(label);
 
-                            return (
-                              (genre.count > 0 || isChecked) && (
-                                <Space
-                                  as="li"
-                                  v={{
-                                    size: 'l',
-                                    properties: ['margin-bottom'],
-                                  }}
-                                  key={`mobile-${genre.data.label}`}
-                                >
-                                  <CheckboxRadio
-                                    id={`mobile-${replaceSpaceWithHypen(
-                                      genre.data.label
-                                    )}`}
-                                    type={`checkbox`}
-                                    text={`${genre.data.label} (${genre.count})`}
-                                    value={encodeURIComponent(genre.data.label)}
-                                    name={`genres.label`}
-                                    checked={isChecked}
-                                    onChange={changeHandler}
-                                    ariaLabel={searchFilterCheckBox(
-                                      genre.data.label
-                                    )}
-                                  />
-                                </Space>
-                              )
-                            );
-                          })}
+                              return (
+                                (count > 0 || isChecked) && (
+                                  <Space
+                                    as="li"
+                                    v={{
+                                      size: 'l',
+                                      properties: ['margin-bottom'],
+                                    }}
+                                    key={`mobile-${label}`}
+                                  >
+                                    <CheckboxRadio
+                                      id={`mobile-${replaceSpaceWithHypen(
+                                        label
+                                      )}`}
+                                      type={`checkbox`}
+                                      text={`${label} (${count})`}
+                                      value={value}
+                                      name={`genres.label`}
+                                      checked={isChecked}
+                                      onChange={changeHandler}
+                                      ariaLabel={searchFilterCheckBox(label)}
+                                    />
+                                  </Space>
+                                )
+                              );
+                            })}
                         </ul>
                       }
                     </Space>

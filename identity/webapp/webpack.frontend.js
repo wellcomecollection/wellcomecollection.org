@@ -93,7 +93,11 @@ module.exports = {
     ],
   },
 
-  plugins: [new Dotenv()],
+  plugins: [
+    new Dotenv({
+      systemvars: true,
+    }),
+  ],
 
   // Add problem packages to alias.
   resolve: {

@@ -12,8 +12,8 @@ export const ProfileFormUI: React.FC = () => {
     <ProfileForm
       firstName={text('First Name', 'Samuel')}
       lastName={text('Surname', 'Beckett')}
-      emailAddress={text('email', 'Becketts@provider.com')}
-      libraryCardNumber={text('Library card number', '123456')}
+      email={text('email', 'Becketts@provider.com')}
+      barcode={text('Library card number', '123456')}
     />
   );
 };

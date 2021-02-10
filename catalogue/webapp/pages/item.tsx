@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
-import { Work } from '@weco/common/model/catalogue';
+import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import { IIIFCanvas, IIIFManifest } from '@weco/common/model/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
@@ -74,7 +74,6 @@ type Video = {
 };
 
 type Props = {
-  workId: string;
   langCode: string;
   manifest?: IIIFManifest;
   work: Work;
@@ -86,11 +85,11 @@ type Props = {
   currentCanvas?: IIIFCanvas;
   video?: Video;
   audio?: Audio;
+  iiifImageLocation?: DigitalLocation;
 } & WithGlobalContextData &
   WithPageview;
 
 const ItemPage: NextPage<Props> = ({
-  workId,
   langCode,
   manifest,
   work,
@@ -102,14 +101,14 @@ const ItemPage: NextPage<Props> = ({
   currentCanvas,
   video,
   audio,
+  iiifImageLocation,
   globalContextData,
 }: Props) => {
+  const workId = work.id;
   const [origin, setOrigin] = useState<string>();
   const [showModal, setShowModal] = useState(false);
   const [showViewer, setShowViewer] = useState(false);
   const title = (manifest && manifest.label) || (work && work.title) || '';
-  const iiifImageLocation =
-    work && getDigitalLocationOfType(work, 'iiif-image');
   const serviceId = getServiceId(currentCanvas);
   const mainImageService = serviceId && {
     '@id': serviceId,
@@ -368,6 +367,11 @@ export const getServerSideProps: GetServerSideProps<
     manifest: manifestParam = 1,
   } = ItemProps.fromQuery(context.query);
 
+  const pageview = {
+    name: 'item',
+    properties: {},
+  };
+
   const pageIndex = page - 1;
   // Canvas and manifest params should be 0 indexed as they reference elements in an array
   // We've chosen not to do this for some reason lost to time, but felt it better to stick
@@ -394,58 +398,80 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const manifestUrl = getDigitalLocationOfType(work, 'iiif-presentation')?.url;
-  const manifestOrCollection = manifestUrl
-    ? await fetchJson(manifestUrl)
+  const iiifPresentationUrl = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  )?.url;
+  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+
+  const manifestOrCollection = iiifPresentationUrl
+    ? await fetchJson(iiifPresentationUrl)
     : undefined;
 
-  if (!manifestOrCollection) {
-    return { notFound: true };
+  if (manifestOrCollection) {
+    // This happens when the main manifest is actually a Collection (manifest of manifest).
+    // see: https://wellcomelibrary.org/iiif/collection/b21293302
+    // from: https://wellcomecollection.org/works/f6qp7m32/items
+    const isCollectionManifest =
+      manifestOrCollection['@type'] === 'sc:Collection';
+
+    const manifest = isCollectionManifest
+      ? await fetchJson(
+          manifestOrCollection.manifests[manifestIndex || 0]['@id']
+        )
+      : manifestOrCollection;
+
+    const video = getVideo(manifest);
+    const audio = getAudio(manifest);
+
+    const canvases =
+      manifest.sequences && manifest.sequences[0].canvases
+        ? manifest.sequences[0].canvases
+        : [];
+
+    const currentCanvas = canvases?.[canvasIndex];
+    const canvasOcr = currentCanvas
+      ? await getCanvasOcr(currentCanvas)
+      : undefined;
+
+    return {
+      props: removeUndefinedProps({
+        langCode,
+        manifest,
+        pageSize,
+        pageIndex,
+        canvasIndex,
+        canvasOcr,
+        work,
+        canvases,
+        currentCanvas,
+        video,
+        audio,
+        iiifImageLocation,
+        globalContextData,
+        pageview,
+      }),
+    };
   }
 
-  // This happens when the main manifest is actually a Collection (manifest of manifest).
-  // see: https://wellcomelibrary.org/iiif/collection/b21293302
-  // from: https://wellcomecollection.org/works/f6qp7m32/items
-  const isCollectionManifest =
-    manifestOrCollection['@type'] === 'sc:Collection';
-
-  const manifest = isCollectionManifest
-    ? await fetchJson(manifestOrCollection.manifests[manifestIndex || 0]['@id'])
-    : manifestOrCollection;
-
-  const video = getVideo(manifest);
-  const audio = getAudio(manifest);
-
-  const canvases =
-    manifest.sequences && manifest.sequences[0].canvases
-      ? manifest.sequences[0].canvases
-      : [];
-
-  const currentCanvas = canvases?.[canvasIndex];
-  const canvasOcr = currentCanvas
-    ? await getCanvasOcr(currentCanvas)
-    : undefined;
+  if (iiifImageLocation) {
+    return {
+      props: removeUndefinedProps({
+        langCode,
+        pageSize,
+        pageIndex,
+        canvasIndex,
+        work,
+        canvases: [],
+        iiifImageLocation,
+        globalContextData,
+        pageview,
+      }),
+    };
+  }
 
   return {
-    props: removeUndefinedProps({
-      workId,
-      langCode,
-      manifest,
-      pageSize,
-      pageIndex,
-      canvasIndex,
-      canvasOcr,
-      work,
-      canvases,
-      currentCanvas,
-      video,
-      audio,
-      globalContextData,
-      pageview: {
-        name: 'item',
-        properties: {},
-      },
-    }),
+    notFound: true,
   };
 };
 

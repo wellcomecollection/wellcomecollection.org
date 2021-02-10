@@ -2,7 +2,6 @@
 import { type NextLinkType } from '@weco/common/model/next-link-type';
 // $FlowFixMe
 import { parseCsv } from '@weco/common/utils/csv';
-
 type Params = { [key: string]: any };
 export type UrlParams = { [key: string]: string };
 export function serialiseUrl(params: Params): UrlParams {
@@ -110,8 +109,8 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       search: maybeString(q.search),
       source: maybeString(q.source),
       languages: stringToCsv(q.languages),
-      subjectsLabel: stringToCsv(q['subjects.label']),
-      genresLabel: stringToCsv(q['genres.label']),
+      subjectsLabel: quotedCsv(q['subjects.label']),
+      genresLabel: quotedCsv(q['genres.label']),
       contributorsLabel: quotedCsv(q['contributors.agent.label']),
     };
   },
