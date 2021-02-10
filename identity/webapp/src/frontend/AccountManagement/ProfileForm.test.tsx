@@ -61,4 +61,25 @@ describe('ProfileForm', () => {
       expect(saveButton).toBeDisabled();
     });
   });
+
+  it('warns the user when they try to update with an email that already exists', async () => {
+    renderComponent();
+    const emailInput = screen.getByLabelText(/email address/i);
+    const passwordInput = screen.getByLabelText(/password/i);
+    const saveButton = screen.getByRole('button', { name: /save changes/i });
+
+    userEvent.clear(emailInput);
+    userEvent.type(emailInput, 'superman@justiceleague.com');
+    userEvent.type(passwordInput, 'D4rkKnight1');
+
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+
+    mockedAxios.put.mockResolvedValue({ status: 409, message: 'This email address already exists' });
+    userEvent.click(saveButton);
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument();
+      expect(screen.getByRole('alert')).toHaveTextContent(/^this account already exists/i);
+    });
+  });
 });

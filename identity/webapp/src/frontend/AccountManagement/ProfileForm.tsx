@@ -36,11 +36,6 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
     setNewEmail(email);
   }, [email]);
 
-  useEffect(() => {
-    // TODO: check if email exists
-    setAlreadyExists(false);
-  }, [newEmail]);
-
   const handleEmailChange = (value: string) => {
     setNewEmail(value);
     setIsValid(validateEmail(value));
@@ -48,7 +43,15 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
   };
 
   const onSaveSuccess = () => setIsSaved(true);
-  const onSaveFailure = () => console.error('Error');
+  const onSaveFailure = (statusCode?: number) => {
+    switch (statusCode) {
+      case 409:
+        setAlreadyExists(true);
+        break;
+      default:
+        console.error('Uh-oh!');
+    }
+  };
 
   const saveChanges = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
