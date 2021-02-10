@@ -9,7 +9,9 @@ const instance: AxiosInstance = axios.create({
   },
 });
 
-export async function callRemoteApi(method: Method, url: string, contextState: ApplicationState|{accessToken: string}, body?: any, authenticate: boolean = true): Promise<AxiosResponse> {
+type ContextState = ApplicationState | { user: { accessToken: string } };
+
+export async function callRemoteApi(method: Method, url: string, contextState: ContextState, body?: any, authenticate: boolean = true): Promise<AxiosResponse> {
   let headers = instance.defaults.headers;
   if (authenticate) {
     headers = { ... headers, 'Authorization': 'Bearer ' + contextState.user.accessToken};
