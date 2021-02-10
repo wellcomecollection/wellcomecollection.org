@@ -12,11 +12,12 @@ module.exports = {
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:jest/recommended',
+    'plugin:jest-dom/recommended',
     'plugin:react/recommended',
     'prettier/@typescript-eslint',
   ],
 
-  plugins: ['@typescript-eslint', 'prettier', 'react-hooks', 'jest', 'react', 'json-format'],
+  plugins: ['@typescript-eslint', 'prettier', 'react-hooks', 'react', 'json-format', 'jest', 'jest-dom'],
   parser: '@typescript-eslint/parser',
 
   parserOptions: {

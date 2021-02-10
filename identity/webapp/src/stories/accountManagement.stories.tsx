@@ -14,6 +14,7 @@ export const ProfileFormUI: React.FC = () => {
       lastName={text('Surname', 'Beckett')}
       email={text('email', 'Becketts@provider.com')}
       barcode={text('Library card number', '123456')}
+      onUpdate={() => null}
     />
   );
 };

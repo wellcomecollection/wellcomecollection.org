@@ -9,6 +9,7 @@ import { RouteMiddleware } from './types/application';
 import { updatePassword } from './routes/api/update-password';
 import { registerUser } from './routes/api/register-user';
 import { getCurrentUser } from './routes/api/get-current-user';
+import { updateCurrentUser } from './routes/api/update-current-user';
 
 const loginRoutes =
   process.env.NODE_ENV === 'production' || config.authMethod === 'auth0'
@@ -42,6 +43,7 @@ export const router = new TypedRouter({
   // Proxy apis - implemented
   'create-user': [TypedRouter.POST, '/api/user/create', registerUser, 'RegisterUserSchema'],
   'get-current-user': [TypedRouter.GET, '/api/users/me', getCurrentUser],
+  'update-current-user': [TypedRouter.PUT, '/api/users/me', updateCurrentUser],
   'update-user-password': [TypedRouter.PUT, '/api/users/:user_id/password', updatePassword, 'UpdatePasswordSchema'],
 
   // Proxy APIs - todo
