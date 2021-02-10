@@ -59,7 +59,7 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
     }
   };
 
-  const saveChanges = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const saveChanges = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     updateUserInfo({ email, password, newEmail }, onSaveSuccess, onSaveFailure);
   };
@@ -75,9 +75,10 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
       <ExistingData label="Name" value={`${firstName} ${lastName}`} />
       <ExistingData label="Library card number" value={barcode} />
       <h2 className="font-wb font-size-3">Change email</h2>
-      <form>
+      <form onSubmit={saveChanges}>
         <TextInput
           id="email-address"
+          name="newEmail"
           required={true}
           aria-label="Email Address"
           label="Email address"
@@ -95,10 +96,9 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
         {isIncorrectPassword && <ErrorMessage>Incorrect password</ErrorMessage>}
         <SpacingComponent />
         <OutlinedButton onClick={deleteAccount}>Delete Account</OutlinedButton>
-        <SolidButton disabled={!canSave} onClick={saveChanges}>
+        <SolidButton type="submit" disabled={!canSave}>
           Save Changes
         </SolidButton>
-        <input type="submit" value="Submit" hidden={true} />
       </form>
     </div>
   );
