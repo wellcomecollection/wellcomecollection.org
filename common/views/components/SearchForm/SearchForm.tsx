@@ -146,7 +146,7 @@ const SearchForm: FunctionComponent<Props> = ({
     const workType = getFilterItemSelected(form, 'workType');
     const subjectsLabel = getFilterItemSelected(form, 'subjects.label');
     const genresLabel = getFilterItemSelected(form, 'genres.label');
-    const contributors = getFilterItemSelected(
+    const contributorsLabel = getFilterItemSelected(
       form,
       'contributors.agent.label'
     );
@@ -188,7 +188,7 @@ const SearchForm: FunctionComponent<Props> = ({
       languages,
       subjectsLabel,
       genresLabel,
-      contributors,
+      contributorsLabel,
     };
     const link = isImageSearch
       ? imagesLink(

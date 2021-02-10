@@ -81,7 +81,7 @@ export function worksRouteToApiUrl(
     languages: worksRouteProps.languages,
     'genres.label': toMutipleValuesToString(worksRouteProps.genresLabel),
     'subjects.label': toMutipleValuesToString(worksRouteProps.subjectsLabel),
-    'contributors.agent.label': worksRouteProps.contributors.map(quoteVal),
+    'contributors.agent.label': worksRouteProps.contributorsLabel.map(quoteVal),
     ...overrides,
   };
 }

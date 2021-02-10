@@ -61,7 +61,8 @@ const SearchFilters: FunctionComponent<Props> = ({
   const genresSelected: string[] = worksRouteProps?.genresLabel || [];
   const workTypeSelected = worksRouteProps.workType || [];
   const locationsTypeSelected = worksRouteProps.itemsLocationsType || [];
-  const contributorsSelected: string[] = worksRouteProps?.contributors || [];
+  const contributorsSelected: string[] =
+    worksRouteProps?.contributorsLabel || [];
 
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
