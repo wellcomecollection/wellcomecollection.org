@@ -16,7 +16,6 @@ import {
   notFound,
 } from './common';
 import { Toggles } from '@weco/toggles';
-import { parseCsv } from '@weco/common/utils/csv';
 
 type GetWorkProps = {
   id: string;
