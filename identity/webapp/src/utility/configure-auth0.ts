@@ -22,7 +22,7 @@ export function configureAuth0(): void {
     const accessToken: string = user?.accessToken;
 
     try {
-      const isValidToken = await callRemoteApi('GET', `/users/${user?.profile.id}`, { accessToken });
+      const isValidToken = await callRemoteApi('GET', `/users/${user?.profile.id}`, { user: { accessToken } });
       done(null, isValidToken.status !== 200 ? false : user);
     } catch (e) {
       done(null, false);
