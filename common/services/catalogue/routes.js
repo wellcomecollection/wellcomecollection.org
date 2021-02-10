@@ -1,6 +1,6 @@
 // @flow
 import { type NextLinkType } from '@weco/common/model/next-link-type';
-
+import Papa from 'papaparse';
 type Params = { [key: string]: any };
 export type UrlParams = { [key: string]: string };
 export function serialiseUrl(params: Params): UrlParams {
@@ -87,6 +87,9 @@ export type WorksRouteProps = {|
 
 export const WorksRoute: NextRoute<WorksRouteProps> = {
   fromQuery(q) {
+    console.log(q['subjects.label'], 'original params');
+    console.log(Papa.parse(q['subjects.label']), 'routes js');
+
     return {
       query: defaultToEmptyString(q.query),
       page: defaultTo1(q.page),
