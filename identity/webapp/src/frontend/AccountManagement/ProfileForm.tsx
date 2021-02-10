@@ -7,6 +7,7 @@ import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
 import { ErrorMessage } from '../Shared/ErrorMessage';
+import { SuccessMessage } from '../Shared/SuccessMessage';
 import { PasswordInput } from '../Shared/PasswordInput';
 import { UserInfo } from '../hooks/useUserInfo';
 import { useUpdateUserInfo } from '../hooks/useUpdateUserInfo';
@@ -31,6 +32,7 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
   const [isValid, setIsValid] = useState<boolean>(false);
   const [isSaved, setIsSaved] = useState<boolean>(true);
   const [isIncorrectPassword, setIsIncorrectPassword] = useState<boolean>(false);
+  const [isUpdateSuccessful, setIsUpdateSuccessful] = useState<boolean>(false);
   const [updateUserInfo] = useUpdateUserInfo();
 
   useEffect(() => {
@@ -43,7 +45,11 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
     setIsSaved(false);
   };
 
-  const onSaveSuccess = () => setIsSaved(true);
+  const onSaveSuccess = () => {
+    setIsUpdateSuccessful(true);
+    setIsSaved(true);
+  };
+
   const onSaveFailure = (statusCode?: number) => {
     switch (statusCode) {
       case 401: {
@@ -75,6 +81,9 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
       <ExistingData label="Name" value={`${firstName} ${lastName}`} />
       <ExistingData label="Library card number" value={barcode} />
       <h2 className="font-wb font-size-3">Change email</h2>
+      {isUpdateSuccessful && (
+        <SuccessMessage>Your email has been updated - please check your inbox to verify this change</SuccessMessage>
+      )}
       <form onSubmit={saveChanges}>
         <TextInput
           id="email-address"

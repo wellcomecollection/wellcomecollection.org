@@ -45,11 +45,13 @@ describe('ProfileForm', () => {
     const passwordInput = screen.getByLabelText(/password/i);
     const saveButton = screen.getByRole('button', { name: /save changes/i });
 
-    mockedAxios.put.mockResolvedValue({ status: 200 });
-
     userEvent.clear(emailInput);
     userEvent.type(emailInput, 'batman@justiceleague.com');
     userEvent.type(passwordInput, 'D4rkKnight1');
+
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+
+    mockedAxios.put.mockResolvedValue({ status: 200 });
     userEvent.click(saveButton);
 
     await waitFor(() => {
@@ -59,6 +61,10 @@ describe('ProfileForm', () => {
         password: 'D4rkKnight1',
       });
       expect(saveButton).toBeDisabled();
+      expect(screen.queryByRole('alert')).toBeInTheDocument();
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        /your email has been updated - please check your inbox to verify this change/i
+      );
     });
   });
 
