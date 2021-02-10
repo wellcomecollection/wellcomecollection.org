@@ -203,18 +203,26 @@ export async function getChildren(
   req: ?Request,
   memoizedPrismic: ?Object
 ): Promise<SiblingsGroup> {
-  const children = await getPages(
-    req,
-    {
-      predicates: [Prismic.Predicates.at('my.pages.parents.parent', page.id)],
-    },
-    memoizedPrismic
-  );
-  return {
-    id: page.id,
-    title: page.title,
-    siblings: children.results || [],
-  };
+  try {
+    const children = await getPages(
+      req,
+      {
+        predicates: [Prismic.Predicates.at('my.pages.parents.parent', page.id)],
+      },
+      memoizedPrismic
+    );
+    return {
+      id: page.id,
+      title: page.title,
+      siblings: children.results || [],
+    };
+  } catch (e) {
+    return {
+      id: page.id,
+      title: page.title,
+      siblings: [],
+    };
+  }
 }
 
 export async function getPageFromDrupalPath(
