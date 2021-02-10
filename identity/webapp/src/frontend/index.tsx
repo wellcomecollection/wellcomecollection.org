@@ -10,11 +10,13 @@ import { AppContextProvider } from '@weco/common/views/components/AppContext/App
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 import '@weco/common/styles/styleguide.scss';
+import { initaliseMiddlewareClient } from "../utility/middleware-api-client";
 
 const root = typeof document !== 'undefined' ? document.getElementById('root') : undefined;
 
 if (root) {
   let prefix = root.getAttribute("data-context-path");
+  initaliseMiddlewareClient(prefix);
   render(
     <ThemeProvider theme={theme}>
       <style id="styleguide-sass"></style>
