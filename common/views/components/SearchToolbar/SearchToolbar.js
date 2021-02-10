@@ -112,7 +112,6 @@ const SearchToolbar = () => {
                       checked={queryType === selectedQueryType}
                       onChange={event => {
                         const val = event.currentTarget.value;
-
                         setSelectedQueryType(val);
                         document.cookie = `_queryType=${val}; path=/; max-age=31536000; SameSite=Lax;`;
                         window.location.reload();
