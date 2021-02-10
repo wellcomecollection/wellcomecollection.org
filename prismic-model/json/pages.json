@@ -492,7 +492,6 @@
                     "articles",
                     "exhibitions",
                     "card",
-                    "landing-pages",
                     "seasons"
                   ]
                 }
@@ -651,20 +650,20 @@
         }
       }
     },
-    "landingPages": {
+    "parents": {
       "type": "Group",
-      "fieldset": "Landing pages",
+      "fieldset": "Parent pages",
       "config": {
         "fields": {
-          "landingPage": {
+          "parent": {
             "type": "Link",
             "config": {
-              "label": "Landing page",
+              "label": "Parent page",
               "select": "document",
               "customtypes": [
-                "landing-pages"
+                "pages"
               ],
-              "placeholder": "Select a Landing page"
+              "placeholder": "Select a parent page"
             }
           }
         }

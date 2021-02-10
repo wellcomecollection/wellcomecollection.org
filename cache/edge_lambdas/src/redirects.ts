@@ -161,7 +161,6 @@ export const literalRedirects: Record<string, string> = {
   '/installations/WqwC1iAAAB8AJgFB': '/exhibitions/XFximBAAAPkAioWn',
   '/installations/Wrynhx8AAAjk9XX-': '/exhibitions/XFximBAAAPkAioW1',
   '/articles/xksu0xiaadlrl4-h': '/articles/XKsU0xIAADlrL4-h',
-  '/landing-pages/X2jSjBMAACIA8Wq_': '/collections',
   '/pages/X5amzBIAAB0Aq6Gm': '/covid-welcome-back',
   '/pages/X5aomxIAAB8Aq6n5': '/covid-book-your-ticket',
   '/series/X8D9qxIAACIAcKSf': '/series/X76JKBMAACIAqtZ2',

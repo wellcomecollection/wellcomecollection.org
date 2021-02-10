@@ -8,7 +8,6 @@ import {
 import Contributors from '../Contributors/Contributors';
 import Layout8 from '../Layout8/Layout8';
 import Layout12 from '../Layout12/Layout12';
-import SeriesNavigation from '../SeriesNavigation/SeriesNavigation';
 import PageHeader from '../PageHeader/PageHeader';
 import Outro from '../Outro/Outro';
 import { classNames } from '../../../utils/classnames';
@@ -35,7 +34,7 @@ type Props = {
   // This is used for content type specific components e.g. InfoBox
   children?: ReactNode;
   contributorProps?: typeof Contributors;
-  Siblings?: ElementFromComponent<SeriesNavigation>[];
+  RelatedContent?: ReactNode[];
   outroProps?: ReactElement<typeof Outro> | null | undefined;
   seasons?: Season[];
 };
@@ -79,7 +78,7 @@ const ContentPage = ({
   Body,
   children,
   contributorProps,
-  Siblings = [],
+  RelatedContent = [],
   outroProps,
   seasons = [],
 }: Props) => {
@@ -134,15 +133,11 @@ const ContentPage = ({
             </SpacingSection>
           )}
 
-          {Siblings.length > 0 && (
+          {RelatedContent.length > 0 && (
             <SpacingSection>
-              {Children.map(Siblings, (child, i) => (
+              {Children.map(RelatedContent, (child, i) => (
                 <Fragment>
-                  {child && (
-                    <SpacingComponent>
-                      <Layout8>{child}</Layout8>
-                    </SpacingComponent>
-                  )}
+                  {child}
                 </Fragment>
               ))}
             </SpacingSection>
