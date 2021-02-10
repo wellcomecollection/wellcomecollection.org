@@ -22,7 +22,7 @@ export function configureAuth0(): void {
     const accessToken: string = user?.accessToken;
 
     try {
-      const isValidToken = await callAuth0Api('GET', 'userinfo', { user: { accessToken } });
+      const isValidToken = await callAuth0Api('GET', '/userinfo', { user: { accessToken } });
       done(null, isValidToken.status !== 200 ? false : user);
     } catch (e) {
       done(null, false);
