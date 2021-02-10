@@ -239,7 +239,7 @@ export const ImagesRoute: NextRoute<ImagesRouteProps> = {
       languages: [],
       genresLabel: null,
       subjectsLabel: null,
-      contributors: null,
+      contributorsLabel: null,
     };
   },
 
