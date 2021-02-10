@@ -1,4 +1,4 @@
-import { parseCsv } from '../../utils/csv';
+import { parseCsv, quoteVal } from '../../utils/csv';
 import { WorksRouteProps } from './routes';
 import { ImagesRouteProps } from './ts_routes';
 
@@ -81,7 +81,7 @@ export function worksRouteToApiUrl(
     languages: worksRouteProps.languages,
     'genres.label': toMutipleValuesToString(worksRouteProps.genresLabel),
     'subjects.label': toMutipleValuesToString(worksRouteProps.subjectsLabel),
-    'contributors.agent.label': parseCsv(worksRouteProps.contributors),
+    'contributors.agent.label': worksRouteProps.contributors.map(quoteVal),
     ...overrides,
   };
 }

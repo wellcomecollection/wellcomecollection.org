@@ -67,9 +67,6 @@ export async function getWorks({
   const apiOptions = globalApiOptions(toggles);
   const extendedParams = {
     ...params,
-    contributors: params['contributors.agent.label']
-      ? parseCsv(params['contributors.agent.label'])
-      : undefined,
     pageSize,
     include: worksIncludes,
     _index: apiOptions.indexOverrideSuffix
@@ -78,7 +75,7 @@ export async function getWorks({
   };
   const filterQueryString = queryString(extendedParams);
   const url = `${rootUris[apiOptions.env]}/v2/works${filterQueryString}`;
-  console.info('url', url);
+
   try {
     const res = await fetch(url);
     const json = await res.json();
