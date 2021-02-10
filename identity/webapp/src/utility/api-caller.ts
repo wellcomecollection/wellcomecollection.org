@@ -2,7 +2,7 @@ import { config } from '../config';
 import axios, {AxiosInstance, AxiosResponse, Method} from 'axios';
 import {ApplicationState} from "../types/application";
 
-const instance: AxiosInstance = axios.create({
+const identityInstance: AxiosInstance = axios.create({
   baseURL: config.remoteApi.baseUrl,
   headers: {
     'x-api-key': config.remoteApi.apiKey
@@ -15,7 +15,7 @@ const auth0Instance = axios.create({
 
 type ContextState = ApplicationState | { user: { accessToken: string } };
 
-async function callApi(axios: AxiosInstance, method: Method, url: string, contextState: ContextState, body?: any, authenticate: boolean = true) {
+async function callApi(instance: AxiosInstance, method: Method, url: string, contextState: ContextState, body?: any, authenticate: boolean = true) {
   let headers = instance.defaults.headers;
   if (authenticate) {
     headers = { ... headers, 'Authorization': 'Bearer ' + contextState.user.accessToken};
@@ -45,5 +45,5 @@ export async function callAuth0Api(method: Method, url: string, contextState: Co
 }
 
 export async function callRemoteApi(method: Method, url: string, contextState: ContextState, body?: any, authenticate: boolean = true): Promise<AxiosResponse> {
-  return callApi(instance, method, url, contextState, body, authenticate);
+  return callApi(identityInstance, method, url, contextState, body, authenticate);
 }
