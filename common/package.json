@@ -70,8 +70,5 @@
     "superagent": "^4.1.0",
     "url-template": "^2.0.8",
     "uuid": "^8.3.2"
-  },
-  "devDependencies": {
-    "@types/papaparse": "^5.2.5"
   }
 }
