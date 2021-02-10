@@ -1,8 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { render, screen } from '../test-utils';
-import { ProfileForm } from './ProfileForm';
-import { UserInfo } from '../hooks/useUserInfo';
+import { ProfileForm, ProfileFormProps } from './ProfileForm';
 import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 
@@ -10,11 +9,12 @@ jest.mock('axios');
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-const defaultProps: UserInfo = {
+const defaultProps: ProfileFormProps = {
   firstName: 'Bruce',
   lastName: 'Wayne',
   email: 'bruciebaby@justiceleague.com',
   barcode: '1234567',
+  onUpdate: jest.fn(),
 };
 
 const renderComponent = (props = defaultProps) => render(<ProfileForm {...props} />);

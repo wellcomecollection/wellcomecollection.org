@@ -25,7 +25,11 @@ const ExistingData = ({ label, value }: ExistingDataProps) => (
   </>
 );
 
-export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, barcode }) => {
+export type ProfileFormProps = UserInfo & {
+  onUpdate: () => void;
+};
+
+export const ProfileForm: React.FC<ProfileFormProps> = ({ firstName, lastName, email, barcode, onUpdate }) => {
   const [newEmail, setNewEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [alreadyExists, setAlreadyExists] = useState<boolean>(false);
@@ -48,6 +52,7 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
   const onSaveSuccess = () => {
     setIsUpdateSuccessful(true);
     setIsSaved(true);
+    onUpdate();
   };
 
   const onSaveFailure = (statusCode?: number) => {
@@ -67,6 +72,7 @@ export const ProfileForm: React.FC<UserInfo> = ({ firstName, lastName, email, ba
 
   const saveChanges = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsUpdateSuccessful(false);
     updateUserInfo({ email, password, newEmail }, onSaveSuccess, onSaveFailure);
   };
 

@@ -12,6 +12,7 @@ type UserInfoQuery = {
   data?: UserInfo;
   isLoading: boolean;
   error?: string;
+  refetch: () => void;
 };
 
 export function useUserInfo(): UserInfoQuery {
@@ -19,25 +20,27 @@ export function useUserInfo(): UserInfoQuery {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      await axios
-        .get<UserInfo>('/api/users/me')
-        .then(({ data: userData, status, statusText }) => {
-          if (status !== 200) {
-            throw Error(statusText);
-          }
-          setIsLoading(false);
-          setData(userData);
-        })
-        .catch((fetchError) => {
-          setIsLoading(false);
-          setError(fetchError.message);
-        });
-    };
+  const fetchUser = async () => {
+    setIsLoading(true);
+    setError(undefined);
+    await axios
+      .get<UserInfo>('/api/users/me')
+      .then(({ data: userData, status, statusText }) => {
+        if (status !== 200) {
+          throw Error(statusText);
+        }
+        setIsLoading(false);
+        setData(userData);
+      })
+      .catch((fetchError) => {
+        setIsLoading(false);
+        setError(fetchError.message);
+      });
+  };
 
+  useEffect(() => {
     fetchUser();
   }, []);
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, refetch: fetchUser };
 }
