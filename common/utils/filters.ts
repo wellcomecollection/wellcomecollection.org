@@ -116,7 +116,7 @@ export const getResetRouteProps = (
     subjectsLabel: null,
     genresLabel: null,
     languages: null,
-    contributorsLabel: null,
+    contributorsAgentLabel: null,
   };
 };
 

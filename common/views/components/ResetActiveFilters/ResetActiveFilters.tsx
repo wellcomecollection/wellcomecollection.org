@@ -347,9 +347,9 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                     {...worksLink(
                       {
                         ...worksRouteProps,
-                        contributorsLabel:
-                          worksRouteProps.contributorsLabel &&
-                          worksRouteProps.contributorsLabel.filter(
+                        contributorsAgentLabel:
+                          worksRouteProps.contributorsAgentLabel &&
+                          worksRouteProps.contributorsAgentLabel.filter(
                             w => w !== contributorActive.data.agent.label
                           ),
                         page: 1,

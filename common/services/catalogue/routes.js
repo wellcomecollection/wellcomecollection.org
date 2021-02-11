@@ -88,7 +88,7 @@ export type WorksRouteProps = {|
   languages: ?(string[]),
   subjectsLabel: ?(string[]),
   genresLabel: ?(string[]),
-  contributorsLabel: ?(string[]),
+  contributorsAgentLabel: ?(string[]),
 |};
 
 export const WorksRoute: NextRoute<WorksRouteProps> = {
@@ -111,7 +111,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       languages: stringToCsv(q.languages),
       subjectsLabel: quotedCsv(q['subjects.label']),
       genresLabel: quotedCsv(q['genres.label']),
-      contributorsLabel: quotedCsv(q['contributors.agent.label']),
+      contributorsAgentLabel: quotedCsv(q['contributors.agent.label']),
     };
   },
 
@@ -145,7 +145,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       'images.color': params.imagesColor,
       search: params.search,
       source: params.source,
-      'contributors.agent.label': params.contributorsLabel,
+      'contributors.agent.label': params.contributorsAgentLabel,
     });
   },
 };

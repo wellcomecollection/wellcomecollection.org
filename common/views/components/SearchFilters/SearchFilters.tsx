@@ -62,7 +62,7 @@ const SearchFilters: FunctionComponent<Props> = ({
   const workTypeSelected = worksRouteProps.workType || [];
   const locationsTypeSelected = worksRouteProps.itemsLocationsType || [];
   const contributorsSelected: string[] =
-    worksRouteProps?.contributorsLabel || [];
+    worksRouteProps?.contributorsAgentLabel || [];
 
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);

@@ -270,7 +270,6 @@ export type CatalogueAggregationContributorsBucket = {
       label: string;
       type: string;
     };
-    roles: string[];
   };
   type: 'AggregationBucket';
 };
