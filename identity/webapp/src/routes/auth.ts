@@ -3,13 +3,13 @@ import koaPassport from 'koa-passport';
 import { withPrefix } from '../utility/prefix';
 
 export const loginAction: RouteMiddleware = koaPassport.authenticate('auth0', {
-  scope: 'openid profile email'
+  scope: 'openid profile email',
 });
 
 export const authCallback: RouteMiddleware = koaPassport.authenticate('auth0', {
-  successRedirect: withPrefix('/account'),
+  successRedirect: withPrefix('/'),
   failureRedirect: '/',
-  scope: 'openid profile email'
+  scope: 'openid profile email',
 });
 
 export const logoutAction: RouteMiddleware = (context) => {
