@@ -71,6 +71,7 @@ export function worksRouteToApiUrl(
     languages: worksRouteProps.languages,
     'genres.label': worksRouteProps.genresLabel.map(quoteVal),
     'subjects.label': worksRouteProps.subjectsLabel.map(quoteVal),
+    'contributors.agent.label': worksRouteProps.contributorsLabel.map(quoteVal),
     ...overrides,
   };
 }
