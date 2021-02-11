@@ -456,6 +456,43 @@
               }
             }
           },
+          "titledTextList": {
+            "type": "Slice",
+            "fieldset": "Titled text list",
+            "repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading3"
+                }
+              },
+              "text": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,hyperlink,strong,em,heading4,list-item",
+                  "label": "Text"
+                }
+              },
+              "link": {
+                "type": "Link",
+                "config": {
+                  "label": "Link",
+                  "customtypes": []
+                }
+              },
+              "label": {
+                "type": "Link",
+                "config": {
+                  "label": "tag",
+                  "select": "document",
+                  "customtypes": [
+                    "labels"
+                  ]
+                }
+              }
+            }
+          },
           "contentList": {
             "type": "Slice",
             "fieldset": "(β) Content list",
