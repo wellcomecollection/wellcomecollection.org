@@ -8,7 +8,9 @@ import {
   CatalogueAggregationContributorsBucket,
 } from '@weco/common/model/catalogue';
 import Space from '../styled/Space';
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+import CheckboxRadio, {
+  BaseLabelContainer,
+} from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
 import {
   getAggregationContributors,
@@ -112,6 +114,16 @@ const FiltersHeader = styled(Space).attrs({
   width: 100%;
 `;
 
+const OverrideLabelContainer = styled(BaseLabelContainer)`
+  ${props => props.theme.media.medium`
+max-width: 100%;
+`}
+
+  ${props => props.theme.media.large`
+max-width: 200px;
+`}
+`;
+
 const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
   filtersToShow,
   subjectsFilter,
@@ -126,6 +138,48 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
 }: MoreFiltersProps) => {
   return (
     <>
+      {filtersToShow.includes('contributors') && contributorsFilter.length > 0 && (
+        <FilterSection>
+          <h3 className="h3">Contributors</h3>
+          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+            <List>
+              {contributorsFilter
+                .map(contributor => {
+                  return {
+                    count: contributor.count,
+                    label: contributor.data.agent.label,
+                    value: quoteVal(contributor.data.agent.label),
+                  };
+                })
+                .map(({ count, label, value }) => {
+                  const isChecked = contributorsSelected.includes(label);
+                  return (
+                    (count > 0 || isChecked) && (
+                      <Space
+                        as="li"
+                        v={{ size: 'm', properties: ['margin-bottom'] }}
+                        h={{ size: 'l', properties: ['margin-right'] }}
+                        key={`desktop-${label}`}
+                      >
+                        <CheckboxRadio
+                          id={`desktop-${replaceSpaceWithHypen(label)}`}
+                          type={`checkbox`}
+                          text={`${label} (${count})`}
+                          value={value}
+                          name={`contributors.agent.label`}
+                          checked={isChecked}
+                          onChange={changeHandler}
+                          ariaLabel={searchFilterCheckBox(label)}
+                          overrideLabelContainer={OverrideLabelContainer}
+                        />
+                      </Space>
+                    )
+                  );
+                })}
+            </List>
+          </Space>
+        </FilterSection>
+      )}
       {filtersToShow.includes('subjects') && subjectsFilter.length > 0 && (
         <FilterSection>
           <h3 className="h3">Subjects</h3>
@@ -163,6 +217,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                             checked={isChecked}
                             onChange={changeHandler}
                             ariaLabel={searchFilterCheckBox(label)}
+                            overrideLabelContainer={OverrideLabelContainer}
                           />
                         </Space>
                       )
@@ -205,6 +260,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                           checked={isChecked}
                           onChange={changeHandler}
                           ariaLabel={searchFilterCheckBox(label)}
+                          overrideLabelContainer={OverrideLabelContainer}
                         />
                       </Space>
                     )
@@ -215,47 +271,6 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
         </FilterSection>
       )}
 
-      {filtersToShow.includes('contributors') && contributorsFilter.length > 0 && (
-        <FilterSection>
-          <h3 className="h3">Contributors</h3>
-          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-            <List>
-              {contributorsFilter
-                .map(contributor => {
-                  return {
-                    count: contributor.count,
-                    label: contributor.data.agent.label,
-                    value: quoteVal(contributor.data.agent.label),
-                  };
-                })
-                .map(({ count, label, value }) => {
-                  const isChecked = contributorsSelected.includes(label);
-                  return (
-                    (count > 0 || isChecked) && (
-                      <Space
-                        as="li"
-                        v={{ size: 'm', properties: ['margin-bottom'] }}
-                        h={{ size: 'l', properties: ['margin-right'] }}
-                        key={`desktop-${label}`}
-                      >
-                        <CheckboxRadio
-                          id={`desktop-${replaceSpaceWithHypen(label)}`}
-                          type={`checkbox`}
-                          text={`${label} (${count})`}
-                          value={value}
-                          name={`contributors.agent.label`}
-                          checked={isChecked}
-                          onChange={changeHandler}
-                          ariaLabel={searchFilterCheckBox(label)}
-                        />
-                      </Space>
-                    )
-                  );
-                })}
-            </List>
-          </Space>
-        </FilterSection>
-      )}
       {filtersToShow.includes('languages') && languagesFilter.length > 0 && (
         <FilterSection>
           <h3 className="h3">Languages</h3>
@@ -282,6 +297,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                         checked={isChecked}
                         onChange={changeHandler}
                         ariaLabel={searchFilterCheckBox(language.data.label)}
+                        overrideLabelContainer={OverrideLabelContainer}
                       />
                     </Space>
                   )
@@ -354,7 +370,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
         overrideDefaultModalStyle={true}
       >
         <FiltersHeader>
-          <h3 className="h3">More Filters</h3>
+          <h3 className="h3">More filters</h3>
         </FiltersHeader>
 
         <ModalInner>

@@ -17,7 +17,9 @@ import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+import CheckboxRadio, {
+  BaseLabelContainer,
+} from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
 import ButtonSolid, {
   ButtonTypes,
@@ -168,6 +170,12 @@ const FiltersFooter = styled(Space).attrs({
   left: 0;
   right: 0;
   height: 60px;
+`;
+
+const OverrideLabelContainer = styled(BaseLabelContainer)`
+  ${props => props.theme.media.small`
+max-width: 90%;
+`}
 `;
 
 const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
@@ -444,6 +452,67 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                 </FilterSection>
               )}
               {searchMoreFilters &&
+                filtersToShow.includes('contributors') &&
+                contributorsFilter.length > 0 && (
+                  <FilterSection>
+                    <h3 className="h3">Contributors</h3>
+                    <Space
+                      as="span"
+                      h={{ size: 'm', properties: ['margin-right'] }}
+                    >
+                      {
+                        <ul
+                          className={classNames({
+                            'no-margin no-padding plain-list': true,
+                          })}
+                        >
+                          {contributorsFilter
+                            .map(contributor => {
+                              return {
+                                count: contributor.count,
+                                label: contributor.data.agent.label,
+                                value: quoteVal(contributor.data.agent.label),
+                              };
+                            })
+                            .map(({ count, label, value }) => {
+                              const isChecked = contributorsSelected.includes(
+                                label
+                              );
+                              return (
+                                (count > 0 || isChecked) && (
+                                  <Space
+                                    as="li"
+                                    v={{
+                                      size: 'l',
+                                      properties: ['margin-bottom'],
+                                    }}
+                                    key={`mobile-${label}`}
+                                  >
+                                    <CheckboxRadio
+                                      id={`mobile-${replaceSpaceWithHypen(
+                                        label
+                                      )}`}
+                                      type={`checkbox`}
+                                      text={`${label} (${count})`}
+                                      value={value}
+                                      name={`contributors.agent.label`}
+                                      checked={isChecked}
+                                      onChange={changeHandler}
+                                      ariaLabel={searchFilterCheckBox(label)}
+                                      overrideLabelContainer={
+                                        OverrideLabelContainer
+                                      }
+                                    />
+                                  </Space>
+                                )
+                              );
+                            })}
+                        </ul>
+                      }
+                    </Space>
+                  </FilterSection>
+                )}
+              {searchMoreFilters &&
                 filtersToShow.includes('subjects') &&
                 subjectsFilter.length > 0 && (
                   <FilterSection>
@@ -491,6 +560,9 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                                       checked={isChecked}
                                       onChange={changeHandler}
                                       ariaLabel={searchFilterCheckBox(label)}
+                                      overrideLabelContainer={
+                                        OverrideLabelContainer
+                                      }
                                     />
                                   </Space>
                                 )
@@ -548,65 +620,9 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                                       checked={isChecked}
                                       onChange={changeHandler}
                                       ariaLabel={searchFilterCheckBox(label)}
-                                    />
-                                  </Space>
-                                )
-                              );
-                            })}
-                        </ul>
-                      }
-                    </Space>
-                  </FilterSection>
-                )}
-
-              {searchMoreFilters &&
-                filtersToShow.includes('contributors') &&
-                contributorsFilter.length > 0 && (
-                  <FilterSection>
-                    <h3 className="h3">Contributors</h3>
-                    <Space
-                      as="span"
-                      h={{ size: 'm', properties: ['margin-right'] }}
-                    >
-                      {
-                        <ul
-                          className={classNames({
-                            'no-margin no-padding plain-list': true,
-                          })}
-                        >
-                          {contributorsFilter
-                            .map(contributor => {
-                              return {
-                                count: contributor.count,
-                                label: contributor.data.agent.label,
-                                value: quoteVal(contributor.data.agent.label),
-                              };
-                            })
-                            .map(({ count, label, value }) => {
-                              const isChecked = contributorsSelected.includes(
-                                label
-                              );
-                              return (
-                                (count > 0 || isChecked) && (
-                                  <Space
-                                    as="li"
-                                    v={{
-                                      size: 'l',
-                                      properties: ['margin-bottom'],
-                                    }}
-                                    key={`mobile-${label}`}
-                                  >
-                                    <CheckboxRadio
-                                      id={`mobile-${replaceSpaceWithHypen(
-                                        label
-                                      )}`}
-                                      type={`checkbox`}
-                                      text={`${label} (${count})`}
-                                      value={value}
-                                      name={`contributors.agent.label`}
-                                      checked={isChecked}
-                                      onChange={changeHandler}
-                                      ariaLabel={searchFilterCheckBox(label)}
+                                      overrideLabelContainer={
+                                        OverrideLabelContainer
+                                      }
                                     />
                                   </Space>
                                 )

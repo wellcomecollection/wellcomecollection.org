@@ -70,24 +70,36 @@ type CheckboxRadioProps = {
   onChange: (event: SyntheticEvent<HTMLInputElement>) => void;
   value: string;
   ariaLabel?: string;
+  overrideLabelContainer?: typeof BaseLabelContainer;
 };
+
+export type BaseLabelContainerAttr = {
+  as?: string;
+};
+
+export const BaseLabelContainer = styled(Space).attrs<BaseLabelContainerAttr>(
+  () => ({
+    h: { size: 'xs', properties: ['margin-left'] },
+    as: 'label',
+  })
+)<BaseLabelContainerAttr>``;
 
 const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
   id,
   text,
   type,
   ariaLabel,
+  overrideLabelContainer,
   ...inputProps
 }: CheckboxRadioProps): ReactElement<CheckboxRadioProps> => {
+  const LabelContainer = overrideLabelContainer || BaseLabelContainer;
   return (
     <CheckboxRadioLabel htmlFor={id} aria-label={ariaLabel}>
       <CheckboxRadioInput id={id} type={type} {...inputProps} />
       <CheckboxRadioBox type={type}>
         <Icon name={type === 'checkbox' ? 'check' : 'indicator'} />
       </CheckboxRadioBox>
-      <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>
-        {text}
-      </Space>
+      <LabelContainer>{text}</LabelContainer>
     </CheckboxRadioLabel>
   );
 };
