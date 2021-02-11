@@ -570,6 +570,15 @@ export function parseMediaObjectList(
   });
 }
 
+function parseTitledTextItem(item) {
+  return {
+    title: parseTitle(item.title),
+    text: parseStructuredText(item.text),
+    link: parseLink(item.link),
+    label: isDocumentLink(item.label) ? parseLabelType(item.label) : null,
+  };
+}
+
 export function parseBody(fragment: PrismicFragment[]): BodyType {
   return fragment
     .map(slice => {
@@ -614,6 +623,14 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
               items: (slice.items.map(item =>
                 parseCaptionedImage(item)
               ): CaptionedImage[]),
+            },
+          };
+
+        case 'titledTextList':
+          return {
+            type: 'titledTextList',
+            value: {
+              items: slice.items.map(item => parseTitledTextItem(item)),
             },
           };
 
