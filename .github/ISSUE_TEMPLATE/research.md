@@ -6,16 +6,25 @@ labels: ''
 assignees: ''
 
 ---
-**We want users to be able to**
+**What is the problem to solve?**
 
 
-**but we hypothesise this is happening**
+**What stage of research is it? (discovery/general usability testing/post release)**
 
 
-**We are right if we measure**
+**What are the objectives?**
 
 
-**and get this result**
+**What are the assumptions?**
 
 
-**The deadline for results is**
+**What research technique is required?**
+
+
+**Optimal number of participants**
+
+
+**Acceptance criteria**
+
+
+**Deadline for results/dependencies:**
