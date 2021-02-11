@@ -1,3 +1,4 @@
+import { quoteVal } from '../../utils/csv';
 import { WorksRouteProps } from './routes';
 import { ImagesRouteProps } from './ts_routes';
 
@@ -68,8 +69,8 @@ export function worksRouteToApiUrl(
     ),
     'production.dates.to': toIsoDateString(worksRouteProps.productionDatesTo),
     languages: worksRouteProps.languages,
-    'genres.label': worksRouteProps.genresLabel,
-    'subjects.label': worksRouteProps.subjectsLabel,
+    'genres.label': worksRouteProps.genresLabel.map(quoteVal),
+    'subjects.label': worksRouteProps.subjectsLabel.map(quoteVal),
     ...overrides,
   };
 }

@@ -29,10 +29,10 @@ import {
 } from '../../../text/arial-labels';
 import {
   getAggregationFilterByName,
-  getAggregationRadioGroup,
+  replaceSpaceWithHypen,
 } from '@weco/common/utils/filters';
+import { quoteVal } from '@weco/common/utils/csv';
 import { CatalogueAggregationBucket } from '@weco/common/model/catalogue';
-import RadioGroup from '@weco/common/views/components/RadioGroup/RadioGroup';
 import TogglesContext from '../TogglesContext/TogglesContext';
 const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
@@ -264,8 +264,8 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
     (productionDatesTo ? 1 : 0) +
     (imagesColor ? 1 : 0) +
     languagesSelected.length +
-    (subjectsSelected ? 1 : 0) +
-    (genresSelected ? 1 : 0);
+    subjectsSelected.length +
+    genresSelected.length;
 
   const { paletteColorFilter } = useContext(TogglesContext);
   const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
@@ -441,94 +441,160 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                       as="span"
                       h={{ size: 'm', properties: ['margin-right'] }}
                     >
-                      <div
-                        className={classNames({
-                          'no-margin no-padding plain-list': true,
-                        })}
-                      >
-                        <RadioGroup
-                          name="subjects.label"
-                          selected={subjectsSelected}
-                          onChange={changeHandler}
-                          options={getAggregationRadioGroup(
-                            subjectsFilter,
-                            'mobile'
-                          )}
-                        />
-                      </div>
+                      {
+                        <ul
+                          className={classNames({
+                            'no-margin no-padding plain-list': true,
+                          })}
+                        >
+                          {subjectsFilter
+                            .map(subject => {
+                              return {
+                                count: subject.count,
+                                label: subject.data.label,
+                                value: quoteVal(subject.data.label),
+                              };
+                            })
+                            .map(({ count, label, value }) => {
+                              const isChecked = subjectsSelected.includes(
+                                label
+                              );
+                              return (
+                                (count > 0 || isChecked) && (
+                                  <Space
+                                    as="li"
+                                    v={{
+                                      size: 'l',
+                                      properties: ['margin-bottom'],
+                                    }}
+                                    key={`mobile-${label}`}
+                                  >
+                                    <CheckboxRadio
+                                      id={`mobile-${replaceSpaceWithHypen(
+                                        label
+                                      )}`}
+                                      type={`checkbox`}
+                                      text={`${label} (${count})`}
+                                      value={value}
+                                      name={`subjects.label`}
+                                      checked={isChecked}
+                                      onChange={changeHandler}
+                                      ariaLabel={searchFilterCheckBox(label)}
+                                    />
+                                  </Space>
+                                )
+                              );
+                            })}
+                        </ul>
+                      }
                     </Space>
                   </FilterSection>
                 )}
               {searchMoreFilters &&
                 filtersToShow.includes('genres') &&
-                subjectsFilter.length > 0 && (
+                genresFilter.length > 0 && (
                   <FilterSection>
                     <h3 className="h3">Genres</h3>
                     <Space
                       as="span"
                       h={{ size: 'm', properties: ['margin-right'] }}
                     >
-                      <div
-                        className={classNames({
-                          'no-margin no-padding plain-list': true,
-                        })}
-                      >
-                        <RadioGroup
-                          name="genres.label"
-                          selected={genresSelected}
-                          onChange={changeHandler}
-                          options={getAggregationRadioGroup(
-                            genresFilter,
-                            'mobile'
-                          )}
-                        />
-                      </div>
+                      {
+                        <ul
+                          className={classNames({
+                            'no-margin no-padding plain-list': true,
+                          })}
+                        >
+                          {genresFilter
+                            .map(subject => {
+                              return {
+                                count: subject.count,
+                                label: subject.data.label,
+                                value: quoteVal(subject.data.label),
+                              };
+                            })
+                            .map(({ count, label, value }) => {
+                              const isChecked = genresSelected.includes(label);
+
+                              return (
+                                (count > 0 || isChecked) && (
+                                  <Space
+                                    as="li"
+                                    v={{
+                                      size: 'l',
+                                      properties: ['margin-bottom'],
+                                    }}
+                                    key={`mobile-${label}`}
+                                  >
+                                    <CheckboxRadio
+                                      id={`mobile-${replaceSpaceWithHypen(
+                                        label
+                                      )}`}
+                                      type={`checkbox`}
+                                      text={`${label} (${count})`}
+                                      value={value}
+                                      name={`genres.label`}
+                                      checked={isChecked}
+                                      onChange={changeHandler}
+                                      ariaLabel={searchFilterCheckBox(label)}
+                                    />
+                                  </Space>
+                                )
+                              );
+                            })}
+                        </ul>
+                      }
                     </Space>
                   </FilterSection>
                 )}
               {searchMoreFilters &&
                 filtersToShow.includes('languages') &&
-                languagesFilter.length && (
+                languagesFilter.length > 0 && (
                   <FilterSection>
                     <h3 className="h3">Languages</h3>
                     <Space
                       as="span"
                       h={{ size: 'm', properties: ['margin-right'] }}
                     >
-                      <ul
-                        className={classNames({
-                          'no-margin no-padding plain-list': true,
-                        })}
-                      >
-                        {languagesFilter.map(language => {
-                          const isChecked = languagesSelected.includes(
-                            language.data.id
-                          );
+                      {
+                        <ul
+                          className={classNames({
+                            'no-margin no-padding plain-list': true,
+                          })}
+                        >
+                          {languagesFilter.map(language => {
+                            const isChecked = languagesSelected.includes(
+                              language.data.id
+                            );
 
-                          return (
-                            (language.count > 0 || isChecked) && (
-                              <Space
-                                as="li"
-                                v={{ size: 'l', properties: ['margin-bottom'] }}
-                                key={`mobile-${language.data.id}`}
-                              >
-                                <CheckboxRadio
-                                  id={`mobile-${language.data.id}`}
-                                  type={`checkbox`}
-                                  text={`${language.data.label} (${language.count})`}
-                                  value={language.data.id}
-                                  name={`languages`}
-                                  checked={isChecked}
-                                  onChange={changeHandler}
-                                  ariaLabel={searchFilterCheckBox(
-                                    language.data.label
-                                  )}
-                                />
-                              </Space>
-                            )
-                          );
-                        })}
-                      </ul>
+                            return (
+                              (language.count > 0 || isChecked) && (
+                                <Space
+                                  as="li"
+                                  v={{
+                                    size: 'l',
+                                    properties: ['margin-bottom'],
+                                  }}
+                                  key={`mobile-${language.data.id}`}
+                                >
+                                  <CheckboxRadio
+                                    id={`mobile-${language.data.id}`}
+                                    type={`checkbox`}
+                                    text={`${language.data.label} (${language.count})`}
+                                    value={language.data.id}
+                                    name={`languages`}
+                                    checked={isChecked}
+                                    onChange={changeHandler}
+                                    ariaLabel={searchFilterCheckBox(
+                                      language.data.label
+                                    )}
+                                  />
+                                </Space>
+                              )
+                            );
+                          })}
+                        </ul>
+                      }
                     </Space>
                   </FilterSection>
                 )}

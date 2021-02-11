@@ -115,8 +115,8 @@ export type WorksRouteProps = {
   imagesColor: string | null;
   search: string | null;
   languages: string[] | null;
-  subjectsLabel: string | null;
-  genresLabel: string | null;
+  subjectsLabel: string[] | null;
+  genresLabel: string[] | null;
 
   // [1] These should not be here, but we need a good
   // old tidy up of the props in this file
@@ -166,8 +166,8 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       search: maybeString(stringQ.search),
       source: maybeString(stringQ.source),
       languages: stringToCsv(stringQ.languages),
-      subjectsLabel: maybeString(stringQ['subjects.label']),
-      genresLabel: maybeString(stringQ['genres.label']),
+      subjectsLabel: stringToCsv(stringQ['subjects.label']),
+      genresLabel: stringToCsv(stringQ['genres.label']),
       // [1] Wrong below this line
       color: null,
     };
