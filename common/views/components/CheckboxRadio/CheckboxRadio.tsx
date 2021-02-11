@@ -73,16 +73,10 @@ type CheckboxRadioProps = {
   overrideLabelContainer?: typeof BaseLabelContainer;
 };
 
-export type BaseLabelContainerAttr = {
-  as?: string;
-};
-
-export const BaseLabelContainer = styled(Space).attrs<BaseLabelContainerAttr>(
-  () => ({
-    h: { size: 'xs', properties: ['margin-left'] },
-    as: 'label',
-  })
-)<BaseLabelContainerAttr>``;
+export const BaseLabelContainer = styled(Space).attrs(() => ({
+  h: { size: 'xs', properties: ['margin-left'] },
+  as: 'label',
+}))``;
 
 const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
   id,
