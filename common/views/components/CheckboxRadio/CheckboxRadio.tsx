@@ -61,6 +61,11 @@ const CheckboxRadioInput = styled.input.attrs(props => ({
   }
 `;
 
+const CheckBoxWrapper = styled.div`
+  position: relative;
+  top: 1px;
+`;
+
 type CheckboxRadioProps = {
   type: 'checkbox' | 'radio';
   id: string;
@@ -70,30 +75,26 @@ type CheckboxRadioProps = {
   onChange: (event: SyntheticEvent<HTMLInputElement>) => void;
   value: string;
   ariaLabel?: string;
-  overrideLabelContainer?: typeof BaseLabelContainer;
 };
-
-export const BaseLabelContainer = styled(Space).attrs(() => ({
-  h: { size: 'xs', properties: ['margin-left'] },
-  as: 'label',
-}))``;
 
 const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
   id,
   text,
   type,
   ariaLabel,
-  overrideLabelContainer,
   ...inputProps
 }: CheckboxRadioProps): ReactElement<CheckboxRadioProps> => {
-  const LabelContainer = overrideLabelContainer || BaseLabelContainer;
   return (
     <CheckboxRadioLabel htmlFor={id} aria-label={ariaLabel}>
-      <CheckboxRadioInput id={id} type={type} {...inputProps} />
-      <CheckboxRadioBox type={type}>
-        <Icon name={type === 'checkbox' ? 'check' : 'indicator'} />
-      </CheckboxRadioBox>
-      <LabelContainer>{text}</LabelContainer>
+      <CheckBoxWrapper>
+        <CheckboxRadioInput id={id} type={type} {...inputProps} />
+        <CheckboxRadioBox type={type}>
+          <Icon name={type === 'checkbox' ? 'check' : 'indicator'} />
+        </CheckboxRadioBox>
+      </CheckBoxWrapper>
+      <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>
+        {text}
+      </Space>
     </CheckboxRadioLabel>
   );
 };

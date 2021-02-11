@@ -1,4 +1,4 @@
-import {
+import React, {
   useState,
   useRef,
   useEffect,
@@ -17,9 +17,6 @@ import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
-import CheckboxRadio, {
-  BaseLabelContainer,
-} from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
 import ButtonSolid, {
   ButtonTypes,
@@ -40,6 +37,7 @@ import {
 } from '@weco/common/model/catalogue';
 import { quoteVal } from '@weco/common/utils/csv';
 import TogglesContext from '../TogglesContext/TogglesContext';
+import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
 const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
@@ -170,12 +168,6 @@ const FiltersFooter = styled(Space).attrs({
   left: 0;
   right: 0;
   height: 60px;
-`;
-
-const OverrideLabelContainer = styled(BaseLabelContainer)`
-  ${props => props.theme.media.small`
-max-width: 90%;
-`}
 `;
 
 const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
@@ -499,9 +491,6 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                                       checked={isChecked}
                                       onChange={changeHandler}
                                       ariaLabel={searchFilterCheckBox(label)}
-                                      overrideLabelContainer={
-                                        OverrideLabelContainer
-                                      }
                                     />
                                   </Space>
                                 )
@@ -560,9 +549,6 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                                       checked={isChecked}
                                       onChange={changeHandler}
                                       ariaLabel={searchFilterCheckBox(label)}
-                                      overrideLabelContainer={
-                                        OverrideLabelContainer
-                                      }
                                     />
                                   </Space>
                                 )
@@ -620,9 +606,6 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                                       checked={isChecked}
                                       onChange={changeHandler}
                                       ariaLabel={searchFilterCheckBox(label)}
-                                      overrideLabelContainer={
-                                        OverrideLabelContainer
-                                      }
                                     />
                                   </Space>
                                 )

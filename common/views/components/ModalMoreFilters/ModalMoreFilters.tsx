@@ -8,9 +8,6 @@ import {
   CatalogueAggregationContributorsBucket,
 } from '@weco/common/model/catalogue';
 import Space from '../styled/Space';
-import CheckboxRadio, {
-  BaseLabelContainer,
-} from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
 import {
   getAggregationContributors,
@@ -25,6 +22,7 @@ import ButtonSolid, {
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { WorksRouteProps } from '@weco/common/services/catalogue/ts_routes';
 import { quoteVal } from '@weco/common/utils/csv';
+import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
 type SharedFiltersProps = {
   changeHandler: () => void;
   languagesSelected: string[];
@@ -114,16 +112,6 @@ const FiltersHeader = styled(Space).attrs({
   width: 100%;
 `;
 
-const OverrideLabelContainer = styled(BaseLabelContainer)`
-  ${props => props.theme.media.medium`
-max-width: 100%;
-`}
-
-  ${props => props.theme.media.large`
-max-width: 200px;
-`}
-`;
-
 const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
   filtersToShow,
   subjectsFilter,
@@ -170,7 +158,6 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                           checked={isChecked}
                           onChange={changeHandler}
                           ariaLabel={searchFilterCheckBox(label)}
-                          overrideLabelContainer={OverrideLabelContainer}
                         />
                       </Space>
                     )
@@ -217,7 +204,6 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                             checked={isChecked}
                             onChange={changeHandler}
                             ariaLabel={searchFilterCheckBox(label)}
-                            overrideLabelContainer={OverrideLabelContainer}
                           />
                         </Space>
                       )
@@ -260,7 +246,6 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                           checked={isChecked}
                           onChange={changeHandler}
                           ariaLabel={searchFilterCheckBox(label)}
-                          overrideLabelContainer={OverrideLabelContainer}
                         />
                       </Space>
                     )
@@ -297,7 +282,6 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                         checked={isChecked}
                         onChange={changeHandler}
                         ariaLabel={searchFilterCheckBox(language.data.label)}
-                        overrideLabelContainer={OverrideLabelContainer}
                       />
                     </Space>
                   )
