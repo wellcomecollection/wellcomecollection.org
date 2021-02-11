@@ -13,11 +13,6 @@ import {
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import {
-  WorksRouteProps,
-  worksLink,
-  WorksRoute,
-} from '@weco/common/services/catalogue/routes';
-import {
   CatalogueWorksApiProps,
   worksRouteToApiUrl,
 } from '@weco/common/services/catalogue/ts_api';
@@ -37,11 +32,15 @@ import {
   AppErrorProps,
   WithPageview,
 } from '@weco/common/views/pages/_app';
-import { parseUrlParams } from '@weco/common/utils/serialise-url';
+import {
+  fromQuery,
+  toLink,
+  WorksProps,
+} from '@weco/common/views/components/WorksLink/WorksLink';
 
 type Props = {
   works?: CatalogueResultsList<Work>;
-  worksRouteProps: WorksRouteProps;
+  worksRouteProps: WorksProps;
   shouldGetWorks: boolean;
   apiProps: CatalogueWorksApiProps;
   globalContextData: GlobalContextData;
@@ -94,10 +93,7 @@ const Works: NextPage<Props> = ({
           <link
             rel="prev"
             href={convertUrlToString(
-              worksLink(
-                { ...worksRouteProps, page: (page || 1) - 1 },
-                'meta_link'
-              ).as
+              toLink({ ...worksRouteProps, page: (page || 1) - 1 }).as
             )}
           />
         )}
@@ -105,7 +101,7 @@ const Works: NextPage<Props> = ({
           <link
             rel="next"
             href={convertUrlToString(
-              worksLink({ ...worksRouteProps, page: page + 1 }, 'meta_link').as
+              toLink({ ...worksRouteProps, page: page + 1 }).as
             )}
           />
         )}
@@ -114,7 +110,7 @@ const Works: NextPage<Props> = ({
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Catalogue search`}
         description="Search the Wellcome Collection catalogue"
-        url={worksLink({ ...worksRouteProps }, 'canonical_link').as}
+        url={toLink({ ...worksRouteProps }).as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'collections'}
@@ -176,19 +172,20 @@ const Works: NextPage<Props> = ({
                           currentPage={page || 1}
                           pageSize={works.pageSize}
                           totalResults={works.totalResults}
-                          link={worksLink(
-                            {
-                              ...worksRouteProps,
-                            },
-                            'search/paginator'
-                          )}
+                          link={toLink({
+                            ...worksRouteProps,
+                            source: 'search/paginator',
+                          })}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
                             const state = {
                               ...worksRouteProps,
                               page: newPage,
                             };
-                            const link = worksLink(state, 'search/paginator');
+                            const link = toLink({
+                              ...state,
+                              source: 'search/paginator',
+                            });
                             setSavedSearchState(state);
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
@@ -240,19 +237,20 @@ const Works: NextPage<Props> = ({
                             currentPage={page || 1}
                             pageSize={works.pageSize}
                             totalResults={works.totalResults}
-                            link={worksLink(
-                              {
-                                ...worksRouteProps,
-                              },
-                              'search/paginator'
-                            )}
+                            link={toLink({
+                              ...worksRouteProps,
+                              source: 'search/paginator',
+                            })}
                             onPageChange={async (event, newPage) => {
                               event.preventDefault();
                               const state = {
                                 ...worksRouteProps,
                                 page: newPage,
                               };
-                              const link = worksLink(state, 'search/paginator');
+                              const link = toLink({
+                                ...state,
+                                source: 'search/paginator',
+                              });
                               setSavedSearchState(state);
                               Router.push(link.href, link.as).then(() =>
                                 window.scrollTo(0, 0)
@@ -285,8 +283,8 @@ export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
   const globalContextData = getGlobalContextData(context);
-  const parsedParams = parseUrlParams(context.query);
-  const params = WorksRoute.fromQuery(parsedParams);
+  const props = fromQuery(context.query);
+
   const { searchMoreFilters } = globalContextData.toggles;
   const defaultAggregations = ['workType', 'locationType'];
   const moreFiltersAggregations = [
@@ -295,16 +293,20 @@ export const getServerSideProps: GetServerSideProps<
     'subjects',
     'contributors',
   ];
+
   const aggregations = searchMoreFilters
     ? [...defaultAggregations, ...moreFiltersAggregations]
     : defaultAggregations;
 
   const _queryType = cookies(context)._queryType;
-  const worksApiProps = worksRouteToApiUrl(params, {
+
+  const worksApiProps = worksRouteToApiUrl(props, {
     _queryType,
     aggregations,
   });
-  const shouldGetWorks = !!(params.query && params.query !== '');
+
+  const shouldGetWorks = !!(props.query && props.query !== '');
+
   const works = shouldGetWorks
     ? await getWorks({
         params: worksApiProps,
@@ -319,7 +321,7 @@ export const getServerSideProps: GetServerSideProps<
   return {
     props: removeUndefinedProps({
       works,
-      worksRouteProps: params,
+      worksRouteProps: props,
       shouldGetWorks,
       apiProps: worksApiProps,
       globalContextData,

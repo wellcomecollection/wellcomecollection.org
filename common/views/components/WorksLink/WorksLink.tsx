@@ -1,4 +1,5 @@
-import NextLink, { LinkProps } from 'next/link';
+import NextLink from 'next/link';
+import { LinkProps } from '../../../model/link-props';
 import { FunctionComponent } from 'react';
 import {
   toCsv,
@@ -10,17 +11,26 @@ import {
   LinkFrom,
 } from '../../../utils/routes';
 
-const worksPropsSources = ['search_form'] as const;
+const worksPropsSources = [
+  'search_form',
+  'canonical_link',
+  'meta_link',
+  'search/paginator',
+] as const;
 type WorksPropsSource = typeof worksPropsSources[number];
 
-type WorksProps = {
+export type WorksProps = {
   query: string;
   page: number;
   workType: string[];
-  sort?: string;
-  sortOrder?: string;
   itemsLocationsLocationType: string[];
   itemsLocationsType: string[];
+  languages: string[];
+  genresLabel: string[];
+  subjectsLabel: string[];
+  contributorsAgentLabel: string[];
+  sort?: string;
+  sortOrder?: string;
   productionDatesFrom?: string;
   productionDatesTo?: string;
   source: WorksPropsSource | 'unknown';
@@ -35,24 +45,28 @@ const fromQuery: QueryTo<WorksProps> = params => {
     sortOrder: toMaybeString(params.sortOrder),
     itemsLocationsLocationType: toCsv(params['items.locations.locationType']),
     itemsLocationsType: toCsv(params['items.locations.type']),
+    languages: toCsv(params.languages),
+    genresLabel: toCsv(params['genres.label']),
+    subjectsLabel: toCsv(params['subjects.label']),
+    contributorsAgentLabel: toCsv(params['contributors.agent.label']),
     productionDatesFrom: toMaybeString(params['production.dates.from']),
     productionDatesTo: toMaybeString(params['production.dates.to']),
     source: toSource(params.source, worksPropsSources) || 'unknown',
   };
 };
 
-function toLink(params: WorksProps): LinkProps {
+function toLink(props: WorksProps): LinkProps {
   const pathname = '/works';
-  const { source, ...paramsWithoutSource } = params;
+  const { source, ...propsWithoutSource } = props;
 
   return {
     href: {
       pathname,
-      query: { ...params },
+      query: { ...props },
     },
     as: {
       pathname,
-      query: { ...paramsWithoutSource },
+      query: { ...propsWithoutSource },
     },
   };
 }
