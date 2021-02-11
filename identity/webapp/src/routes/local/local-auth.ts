@@ -40,7 +40,7 @@ export const localAuthRoutes: any = {
     TypedRouter.POST,
     '/login',
     koaPassport.authenticate('local', {
-      successRedirect: withPrefix('/account'),
+      successRedirect: withPrefix('/'),
       failureRedirect: '/',
     }),
   ],
