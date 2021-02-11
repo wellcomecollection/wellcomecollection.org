@@ -82,6 +82,10 @@ const graphQuery = `{
           tasl
           video
           playbackRate
+          autoPlay
+          loop
+          mute
+          showControls
         }
       }
       ...on iframe {

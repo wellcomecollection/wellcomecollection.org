@@ -289,8 +289,12 @@ export const getServerSideProps: GetServerSideProps<
   const params = WorksRoute.fromQuery(parsedParams);
   const { searchMoreFilters } = globalContextData.toggles;
   const defaultAggregations = ['workType', 'locationType'];
-
-  const moreFiltersAggregations = ['genres', 'languages', 'subjects'];
+  const moreFiltersAggregations = [
+    'genres',
+    'languages',
+    'subjects',
+    'contributors',
+  ];
   const aggregations = searchMoreFilters
     ? [...defaultAggregations, ...moreFiltersAggregations]
     : defaultAggregations;

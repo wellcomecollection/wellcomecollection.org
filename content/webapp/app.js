@@ -67,13 +67,12 @@ module.exports = app
 
     route('/places/:id', '/place', router, app);
     route('/pages/:id', '/page', router, app);
-    route('/landing-pages/:id', '/landing-page', router, app);
     route('/seasons/:id', '/season', router, app);
 
     route('/newsletter', '/newsletter', router, app);
 
-    route('/collections', '/landing-page', router, app, {
-      id: 'X2jSjBMAACIA8Wq_',
+    route('/collections', '/page', router, app, {
+      id: 'YBfeAhMAACEAqBTx',
     });
 
     pageVanityUrl(router, app, '/opening-times', 'WwQHTSAAANBfDYXU');
@@ -85,13 +84,7 @@ module.exports = app
     pageVanityUrl(router, app, '/schools', 'Wuw2MSIAACtd3StS');
     pageVanityUrl(router, app, '/covid-welcome-back', 'X5amzBIAAB0Aq6Gm');
     pageVanityUrl(router, app, '/covid-book-your-ticket', 'X5aomxIAAB8Aq6n5');
-    pageVanityUrl(
-      router,
-      app,
-      '/visit-us',
-      'XvxzjhQAAJmq1t__',
-      '/landing-page'
-    );
+    pageVanityUrl(router, app, '/visit-us', 'X8ZTSBIAACQAiDzY', '/page');
 
     router.post('/newsletter-signup', handleNewsletterSignup);
 

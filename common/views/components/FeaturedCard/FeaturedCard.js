@@ -6,7 +6,6 @@ import type { UiEvent } from '../../../../common/model/events';
 import type { Article } from '../../../../common/model/articles';
 import type { Season } from '../../../../common/model/seasons';
 import type { Card } from '../../../../common/model/card';
-import type { LandingPage } from '../../../../common/model/landing-pages';
 import { type Label } from '../../../../common/model/labels';
 import { type Link } from '../../../../common/model/link';
 // $FlowFixMe(tsx)
@@ -57,7 +56,7 @@ export function convertCardToFeaturedCardProps(
 }
 
 export function convertItemToFeaturedCardProps(
-  item: Article | UiEvent | UiExhibition | LandingPage | Season
+  item: Article | UiEvent | UiExhibition | Season
 ) {
   return {
     id: item.id,

@@ -2,6 +2,7 @@ import React, { FunctionComponent, ReactNode, useContext } from 'react';
 import { LinkProps } from '@weco/common/model/link-props';
 import {
   CatalogueAggregationBucket,
+  CatalogueAggregationContributorsBucket,
   CatalogueAggregations,
 } from '@weco/common/model/catalogue';
 import {
@@ -15,6 +16,11 @@ import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
 import styled from 'styled-components';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import {
+  getAggregationContributors,
+  getAggregationFilterByName,
+  replaceSpaceWithHypen,
+} from '../../../utils/filters';
 
 type ResetActiveFilters = {
   workTypeFilters: CatalogueAggregationBucket[];
@@ -26,8 +32,9 @@ type ResetActiveFilters = {
   aggregations?: CatalogueAggregations;
   resetFilters: LinkProps;
   languagesSelected: string[];
-  subjectsSelected: string;
-  genresSelected: string;
+  subjectsSelected: string[];
+  genresSelected: string[];
+  contributorsSelected: string[];
 };
 
 const ColorSwatch = styled.span`
@@ -86,8 +93,25 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
   languagesSelected,
   subjectsSelected,
   genresSelected,
+  contributorsSelected,
 }: ResetActiveFilters) => {
-  const languagesFilters = aggregations?.languages?.buckets || [];
+  const languageFilters: CatalogueAggregationBucket[] = getAggregationFilterByName(
+    aggregations,
+    'languages'
+  );
+  const subjectsFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
+    aggregations,
+    'subjects'
+  );
+  const genresFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
+    aggregations,
+    'genres'
+  );
+
+  const contributorsFilter: CatalogueAggregationContributorsBucket[] = getAggregationContributors(
+    aggregations
+  );
+
   const { searchMoreFilters } = useContext(TogglesContext);
   return (
     <Space
@@ -222,7 +246,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
 
           {searchMoreFilters &&
             languagesSelected.map(id => {
-              const language = languagesFilters.find(({ data }) => {
+              const language = languageFilters.find(({ data }) => {
                 return data.id === id;
               });
 
@@ -250,40 +274,96 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                 )
               );
             })}
-          {searchMoreFilters && subjectsSelected && (
-            <NextLink
-              passHref
-              {...worksLink(
-                {
-                  ...worksRouteProps,
-                  page: 1,
-                  subjectsLabel: null,
-                },
-                'cancel_filter/subjects_label'
-              )}
-            >
-              <a>
-                <CancelFilter text={subjectsSelected} />
-              </a>
-            </NextLink>
-          )}
-          {searchMoreFilters && genresSelected && (
-            <NextLink
-              passHref
-              {...worksLink(
-                {
-                  ...worksRouteProps,
-                  page: 1,
-                  genresLabel: null,
-                },
-                'cancel_filter/genres_label'
-              )}
-            >
-              <a>
-                <CancelFilter text={genresSelected} />
-              </a>
-            </NextLink>
-          )}
+          {searchMoreFilters &&
+            subjectsSelected.map(subject => {
+              const subjectActive = subjectsFilter.find(({ data }) => {
+                return data.label === subject;
+              });
+              return (
+                subjectActive && (
+                  <NextLink
+                    key={replaceSpaceWithHypen(subjectActive.data.label)}
+                    {...worksLink(
+                      {
+                        ...worksRouteProps,
+                        subjectsLabel:
+                          worksRouteProps.subjectsLabel &&
+                          worksRouteProps.subjectsLabel.filter(
+                            w => w !== subjectActive.data.label
+                          ),
+                        page: 1,
+                      },
+                      'cancel_filter/subjects_label'
+                    )}
+                  >
+                    <a>
+                      <CancelFilter text={subjectActive.data.label} />
+                    </a>
+                  </NextLink>
+                )
+              );
+            })}
+          {searchMoreFilters &&
+            genresSelected.map(subject => {
+              const genreActive = genresFilter.find(({ data }) => {
+                return data.label === subject;
+              });
+              return (
+                genreActive && (
+                  <NextLink
+                    key={replaceSpaceWithHypen(genreActive.data.label)}
+                    {...worksLink(
+                      {
+                        ...worksRouteProps,
+                        genresLabel:
+                          worksRouteProps.genresLabel &&
+                          worksRouteProps.genresLabel.filter(
+                            w => w !== genreActive.data.label
+                          ),
+                        page: 1,
+                      },
+                      'cancel_filter/genres_label'
+                    )}
+                  >
+                    <a>
+                      <CancelFilter text={genreActive.data.label} />
+                    </a>
+                  </NextLink>
+                )
+              );
+            })}
+          {searchMoreFilters &&
+            contributorsSelected.map(contributor => {
+              const contributorActive = contributorsFilter.find(({ data }) => {
+                return data.agent.label === contributor;
+              });
+
+              return (
+                contributorActive && (
+                  <NextLink
+                    key={replaceSpaceWithHypen(
+                      contributorActive.data.agent.label
+                    )}
+                    {...worksLink(
+                      {
+                        ...worksRouteProps,
+                        contributorsAgentLabel:
+                          worksRouteProps.contributorsAgentLabel &&
+                          worksRouteProps.contributorsAgentLabel.filter(
+                            w => w !== contributorActive.data.agent.label
+                          ),
+                        page: 1,
+                      },
+                      'cancel_filter/contributors'
+                    )}
+                  >
+                    <a>
+                      <CancelFilter text={contributorActive.data.agent.label} />
+                    </a>
+                  </NextLink>
+                )
+              );
+            })}
           <NextLink passHref {...resetFilters}>
             <a>
               <CancelFilter text={'Reset filters'} />

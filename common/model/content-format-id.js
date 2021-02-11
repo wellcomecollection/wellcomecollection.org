@@ -5,6 +5,7 @@ export const ContentFormatIds = {
   Essay: 'W7TfJRAAAJ1D0eLK',
   Comic: 'W7d_ghAAALWY3Ujc',
   Podcast: 'XwRZ6hQAAG4K-bbt',
+  Landing: 'YBwQWxMAACAAuno1',
 };
 
 export type ContentFormatId = $Values<typeof ContentFormatIds>;

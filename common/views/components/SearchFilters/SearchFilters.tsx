@@ -41,9 +41,10 @@ export type SearchFiltersSharedProps = Props & {
   imagesColor: string | null;
   aggregations?: CatalogueAggregations;
   languagesSelected: string[];
-  subjectsSelected: string;
-  genresSelected: string;
+  subjectsSelected: string[];
+  genresSelected: string[];
   isEnhanced: boolean;
+  contributorsSelected: string[];
 };
 
 const SearchFilters: FunctionComponent<Props> = ({
@@ -56,10 +57,12 @@ const SearchFilters: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   const { productionDatesFrom, productionDatesTo, color } = worksRouteProps;
   const languagesSelected: string[] = worksRouteProps?.languages || [];
-  const subjectsSelected: string = worksRouteProps?.subjectsLabel || '';
-  const genresSelected: string = worksRouteProps?.genresLabel || '';
+  const subjectsSelected: string[] = worksRouteProps?.subjectsLabel || [];
+  const genresSelected: string[] = worksRouteProps?.genresLabel || [];
   const workTypeSelected = worksRouteProps.workType || [];
   const locationsTypeSelected = worksRouteProps.itemsLocationsType || [];
+  const contributorsSelected: string[] =
+    worksRouteProps?.contributorsAgentLabel || [];
 
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
@@ -129,6 +132,7 @@ const SearchFilters: FunctionComponent<Props> = ({
     subjectsSelected,
     genresSelected,
     isEnhanced,
+    contributorsSelected,
   };
 
   return (

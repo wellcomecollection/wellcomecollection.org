@@ -1,10 +1,10 @@
 import {
   CatalogueAggregationBucket,
+  CatalogueAggregationContributorsBucket,
   CatalogueAggregations,
 } from '@weco/common/model/catalogue';
 import { nodeListValueToArray, inputValue } from '@weco/common/utils/forms';
 import { LinkProps } from '@weco/common/model/link-props';
-import { RadioGroupOption } from '@weco/common/views/components/RadioGroup/RadioGroup';
 import {
   worksLink,
   imagesLink,
@@ -36,6 +36,14 @@ export const getAggregationFilterByName = (
     : [];
 };
 
+export const getAggregationContributors = (
+  aggregations: CatalogueAggregations | undefined
+): CatalogueAggregationContributorsBucket[] | [] => {
+  return aggregations && aggregations?.['contributors']?.buckets
+    ? aggregations?.['contributors']?.buckets
+    : [];
+};
+
 // sort by the highest count
 export const sortByCount = (
   a: CatalogueAggregationBucket,
@@ -46,6 +54,13 @@ export const sortByCount = (
   } else {
     return 1;
   }
+};
+
+export const replaceSpaceWithHypen = (
+  itemString: string,
+  replace = '-'
+): string => {
+  return itemString.replace(/\s/, replace).toLocaleLowerCase();
 };
 
 export const sortLabelByAlphabeticalOrder = (
@@ -59,22 +74,6 @@ export const sortLabelByAlphabeticalOrder = (
     return 1;
   }
   return 0;
-};
-
-export const getAggregationRadioGroup = (
-  aggregation: CatalogueAggregationBucket[],
-  prefixId: string
-): RadioGroupOption[] => {
-  const radioOption = aggregation.sort(sortByCount).map(item => {
-    const id = item?.data?.label.replace(/\s/, '-').toLocaleLowerCase();
-    return {
-      value: item?.data?.label,
-      id: `${prefixId}-${id}`,
-      label: `${item?.data?.label} (${item?.count})`,
-    };
-  });
-
-  return radioOption;
 };
 
 export const getFilterItemSelected = (
@@ -117,6 +116,7 @@ export const getResetRouteProps = (
     subjectsLabel: null,
     genresLabel: null,
     languages: null,
+    contributorsAgentLabel: null,
   };
 };
 

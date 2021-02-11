@@ -3,6 +3,7 @@ import structuredText from './structured-text';
 import text from './text';
 import link from './link';
 import select from './select';
+import boolean from './boolean';
 
 export default function() {
   return {
@@ -26,6 +27,10 @@ export default function() {
         '1.75',
         '2',
       ]),
+      autoPlay: boolean('Auto play', true),
+      loop: boolean('Loop video', true),
+      mute: boolean('Mute video', true),
+      showControls: boolean('Show controls', false),
     },
   };
 }

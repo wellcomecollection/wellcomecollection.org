@@ -108,5 +108,8 @@ export const cardsFields = [
   'card.image',
   'card.link',
 ];
-
+export const pagesFormatsFields = [
+  'page-formats.title',
+  'page-formats.description',
+];
 export const labelsFields = ['labels.title', 'labels.description'];

@@ -144,9 +144,12 @@ const SearchForm: FunctionComponent<Props> = ({
   function updateUrl(form: HTMLFormElement) {
     const languages = getFilterItemSelected(form, 'languages');
     const workType = getFilterItemSelected(form, 'workType');
-    const subjectsLabel =
-      form['subjects.label'] && form['subjects.label']?.value;
-    const genresLabel = form['genres.label'] && form['genres.label']?.value;
+    const subjectsLabel = getFilterItemSelected(form, 'subjects.label');
+    const genresLabel = getFilterItemSelected(form, 'genres.label');
+    const contributorsAgentLabel = getFilterItemSelected(
+      form,
+      'contributors.agent.label'
+    );
     const sortOrder = portalSortOrder;
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
@@ -185,6 +188,7 @@ const SearchForm: FunctionComponent<Props> = ({
       languages,
       subjectsLabel,
       genresLabel,
+      contributorsAgentLabel,
     };
     const link = isImageSearch
       ? imagesLink(
@@ -281,6 +285,7 @@ const SearchForm: FunctionComponent<Props> = ({
                   'languages',
                   'genres',
                   'subjects',
+                  'contributors',
                 ]
           }
         />

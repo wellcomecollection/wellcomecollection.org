@@ -462,6 +462,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
                 languages: [],
                 subjectsLabel: null,
                 genresLabel: null,
+                contributorsAgentLabel: null,
               },
               'work_details/images'
             )}

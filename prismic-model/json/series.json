@@ -207,6 +207,34 @@
                     "2"
                   ]
                 }
+              },
+              "autoPlay": {
+                "type": "Boolean",
+                "config": {
+                  "default_value": true,
+                  "label": "Auto play"
+                }
+              },
+              "loop": {
+                "type": "Boolean",
+                "config": {
+                  "default_value": true,
+                  "label": "Loop video"
+                }
+              },
+              "mute": {
+                "type": "Boolean",
+                "config": {
+                  "default_value": true,
+                  "label": "Mute video"
+                }
+              },
+              "showControls": {
+                "type": "Boolean",
+                "config": {
+                  "default_value": false,
+                  "label": "Show controls"
+                }
               }
             }
           },
@@ -470,7 +498,6 @@
                     "articles",
                     "exhibitions",
                     "card",
-                    "landing-pages",
                     "seasons"
                   ]
                 }

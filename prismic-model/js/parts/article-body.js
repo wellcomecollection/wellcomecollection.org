@@ -4,6 +4,7 @@ import heading from './heading';
 import link from './link';
 import text from './text';
 import structuredText from './structured-text';
+import gifVideoSlice from './gif-video-slice';
 
 export default {
   fieldset: 'Body content',
@@ -102,52 +103,7 @@ export default {
       },
       editorialImage: body.config.choices.editorialImage,
       editorialImageGallery: body.config.choices.editorialImageGallery,
-      gifVideo: {
-        type: 'Slice',
-        fieldset: 'Gif video',
-        'non-repeat': {
-          caption: {
-            type: 'StructuredText',
-            config: {
-              single: 'hyperlink, bold, em',
-              label: 'Caption',
-            },
-          },
-          tasl: {
-            type: 'Text',
-            config: {
-              label: 'TASL',
-              placeholder:
-                'title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink',
-            },
-          },
-          video: {
-            type: 'Link',
-            config: {
-              select: 'media',
-              label: 'Video',
-              placeholder: 'Video',
-            },
-          },
-          playbackRate: {
-            type: 'Select',
-            config: {
-              options: [
-                '0.1',
-                '0.25',
-                '0.5',
-                '0.75',
-                '1',
-                '1.25',
-                '1.5',
-                '1.75',
-                '2',
-              ],
-              label: 'Playback rate',
-            },
-          },
-        },
-      },
+      gifVideo: gifVideoSlice(),
       iframe: {
         type: 'Slice',
         fieldset: 'Iframe',
