@@ -46,14 +46,15 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ firstName, lastName, e
   const handleEmailChange = (value: string) => {
     setNewEmail(value);
     setIsValid(validateEmail(value));
-    setIsSaved(false);
+    setAlreadyExists(false);
+    setIsSaved(value === email);
   };
 
   const onSaveSuccess = () => {
-    setAlreadyExists(false);
     setIsIncorrectPassword(false);
     setIsUpdateSuccessful(true);
     setIsSaved(true);
+    setPassword('');
     onUpdate();
   };
 
@@ -72,17 +73,19 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ firstName, lastName, e
     }
   };
 
+  const canSave = isValid && !isSaved;
+
   const saveChanges = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsUpdateSuccessful(false);
-    updateUserInfo({ email, password, newEmail }, onSaveSuccess, onSaveFailure);
+    if (canSave) {
+      updateUserInfo({ email, password, newEmail }, onSaveSuccess, onSaveFailure);
+    }
   };
 
   const deleteAccount = () => {
     // TODO: Delete Account
   };
-
-  const canSave = isValid && !isSaved;
 
   return (
     <div>
