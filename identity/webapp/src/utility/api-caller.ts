@@ -2,20 +2,23 @@ import { config } from '../config';
 import axios, { AxiosInstance, AxiosResponse, Method } from 'axios';
 import { ApplicationState } from '../types/application';
 
-const instance: AxiosInstance = axios.create({
+const identityInstance: AxiosInstance = axios.create({
   baseURL: config.remoteApi.baseUrl,
   headers: {
     'x-api-key': config.remoteApi.apiKey,
   },
 });
 
-export async function callRemoteApi(
-  method: Method,
-  url: string,
-  contextState: ApplicationState,
+const auth0Instance = axios.create({
+  baseURL: config.auth0.domain,
+});
+
+type ContextState = ApplicationState | { user: { accessToken: string } };
+
+async function callApi(instance: AxiosInstance, method: Method, url: string, contextState: ContextState,
   body?: unknown,
   authenticate = true
-): Promise<AxiosResponse> {
+) {
   let headers = instance.defaults.headers;
   if (authenticate) {
     headers = { ...headers, Authorization: 'Bearer ' + contextState.user.accessToken };
@@ -42,4 +45,12 @@ export async function callRemoteApi(
     .catch(function (error) {
       return error.response;
     });
+}
+
+export async function callAuth0Api(method: Method, url: string, contextState: ContextState, body?: any, authenticate: boolean = true): Promise<AxiosResponse> {
+  return callApi(auth0Instance, method, url, contextState, body, authenticate);
+}
+
+export async function callRemoteApi(method: Method, url: string, contextState: ContextState, body?: any, authenticate: boolean = true): Promise<AxiosResponse> {
+  return callApi(identityInstance, method, url, contextState, body, authenticate);
 }
