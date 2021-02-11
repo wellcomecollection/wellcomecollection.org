@@ -53,6 +53,7 @@ test('/works: with no values', () => {
     genresLabel: [],
     subjectsLabel: [],
     languages: [],
+    contributorsAgentLabel: [],
   });
 });
 
@@ -83,6 +84,7 @@ test('/works: with values', () => {
     genresLabel: [],
     subjectsLabel: [],
     languages: [],
+    contributorsAgentLabel: [],
   });
 });
 

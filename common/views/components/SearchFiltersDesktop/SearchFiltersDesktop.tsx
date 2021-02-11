@@ -50,6 +50,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   subjectsSelected,
   genresSelected,
   isEnhanced,
+  contributorsSelected,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const { paletteColorFilter } = useContext(TogglesContext);
   const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
@@ -73,7 +74,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
         workTypeFilters.length > 0) ||
       languagesSelected.length > 0 ||
       subjectsSelected.length > 0 ||
-      genresSelected.length > 0;
+      genresSelected.length > 0 ||
+      contributorsSelected.length > 0;
 
     return imagesFilter || catalogueFilter;
   }
@@ -245,6 +247,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   genresSelected={genresSelected}
                   worksRouteProps={worksRouteProps}
                   isEnhanced={isEnhanced}
+                  contributorsSelected={contributorsSelected}
                 />
               </Space>
             )}
@@ -323,6 +326,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           languagesSelected={languagesSelected}
           subjectsSelected={subjectsSelected}
           genresSelected={genresSelected}
+          contributorsSelected={contributorsSelected}
         />
       )}
     </>

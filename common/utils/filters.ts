@@ -1,5 +1,6 @@
 import {
   CatalogueAggregationBucket,
+  CatalogueAggregationContributorsBucket,
   CatalogueAggregations,
 } from '@weco/common/model/catalogue';
 import { nodeListValueToArray, inputValue } from '@weco/common/utils/forms';
@@ -32,6 +33,14 @@ export const getAggregationFilterByName = (
 
   return aggregations && bucketName && aggregations?.[bucketName]?.buckets
     ? getNonEmptyAggregations(aggregations?.[bucketName]?.buckets)
+    : [];
+};
+
+export const getAggregationContributors = (
+  aggregations: CatalogueAggregations | undefined
+): CatalogueAggregationContributorsBucket[] | [] => {
+  return aggregations && aggregations?.['contributors']?.buckets
+    ? aggregations?.['contributors']?.buckets
     : [];
 };
 
@@ -107,6 +116,7 @@ export const getResetRouteProps = (
     subjectsLabel: null,
     genresLabel: null,
     languages: null,
+    contributorsAgentLabel: null,
   };
 };
 

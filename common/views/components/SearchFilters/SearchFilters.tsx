@@ -44,6 +44,7 @@ export type SearchFiltersSharedProps = Props & {
   subjectsSelected: string[];
   genresSelected: string[];
   isEnhanced: boolean;
+  contributorsSelected: string[];
 };
 
 const SearchFilters: FunctionComponent<Props> = ({
@@ -60,6 +61,8 @@ const SearchFilters: FunctionComponent<Props> = ({
   const genresSelected: string[] = worksRouteProps?.genresLabel || [];
   const workTypeSelected = worksRouteProps.workType || [];
   const locationsTypeSelected = worksRouteProps.itemsLocationsType || [];
+  const contributorsSelected: string[] =
+    worksRouteProps?.contributorsAgentLabel || [];
 
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
@@ -129,6 +132,7 @@ const SearchFilters: FunctionComponent<Props> = ({
     subjectsSelected,
     genresSelected,
     isEnhanced,
+    contributorsSelected,
   };
 
   return (

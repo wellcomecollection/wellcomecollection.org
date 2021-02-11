@@ -2,6 +2,7 @@ import React, { FunctionComponent, ReactNode, useContext } from 'react';
 import { LinkProps } from '@weco/common/model/link-props';
 import {
   CatalogueAggregationBucket,
+  CatalogueAggregationContributorsBucket,
   CatalogueAggregations,
 } from '@weco/common/model/catalogue';
 import {
@@ -16,6 +17,7 @@ import { font, classNames } from '../../../utils/classnames';
 import styled from 'styled-components';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import {
+  getAggregationContributors,
   getAggregationFilterByName,
   replaceSpaceWithHypen,
 } from '../../../utils/filters';
@@ -32,6 +34,7 @@ type ResetActiveFilters = {
   languagesSelected: string[];
   subjectsSelected: string[];
   genresSelected: string[];
+  contributorsSelected: string[];
 };
 
 const ColorSwatch = styled.span`
@@ -90,6 +93,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
   languagesSelected,
   subjectsSelected,
   genresSelected,
+  contributorsSelected,
 }: ResetActiveFilters) => {
   const languageFilters: CatalogueAggregationBucket[] = getAggregationFilterByName(
     aggregations,
@@ -102,6 +106,10 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
   const genresFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
     aggregations,
     'genres'
+  );
+
+  const contributorsFilter: CatalogueAggregationContributorsBucket[] = getAggregationContributors(
+    aggregations
   );
 
   const { searchMoreFilters } = useContext(TogglesContext);
@@ -319,6 +327,38 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                   >
                     <a>
                       <CancelFilter text={genreActive.data.label} />
+                    </a>
+                  </NextLink>
+                )
+              );
+            })}
+          {searchMoreFilters &&
+            contributorsSelected.map(contributor => {
+              const contributorActive = contributorsFilter.find(({ data }) => {
+                return data.agent.label === contributor;
+              });
+
+              return (
+                contributorActive && (
+                  <NextLink
+                    key={replaceSpaceWithHypen(
+                      contributorActive.data.agent.label
+                    )}
+                    {...worksLink(
+                      {
+                        ...worksRouteProps,
+                        contributorsAgentLabel:
+                          worksRouteProps.contributorsAgentLabel &&
+                          worksRouteProps.contributorsAgentLabel.filter(
+                            w => w !== contributorActive.data.agent.label
+                          ),
+                        page: 1,
+                      },
+                      'cancel_filter/contributors'
+                    )}
+                  >
+                    <a>
+                      <CancelFilter text={contributorActive.data.agent.label} />
                     </a>
                   </NextLink>
                 )
