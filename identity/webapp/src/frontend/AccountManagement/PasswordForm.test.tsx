@@ -63,7 +63,36 @@ describe('PasswordForm', () => {
     expect(getAlert()).not.toBeInTheDocument();
   });
 
-  it.todo('warns the user when the new password does not match the confirmation');
+  it('warns the user when the new password does not match the confirmation', () => {
+    const getAlert = () =>
+      screen.queryByText(/the passwords you entered did not match/i, {
+        selector: 'div[role=alert]',
+      });
+
+    renderComponent();
+    expect(getAlert()).not.toBeInTheDocument();
+
+    const newPasswordInput = screen.getByLabelText(/^new password/i);
+    const confirmPasswordInput = screen.getByLabelText(/retype new password/i);
+
+    userEvent.type(newPasswordInput, 'RedPanda4');
+    expect(getAlert()).not.toBeInTheDocument(); // nothing confirmed yet
+
+    userEvent.type(confirmPasswordInput, 'R');
+    expect(getAlert()).toBeInTheDocument(); // warns as soon as typing starts
+
+    userEvent.type(confirmPasswordInput, 'edPanda'); // entered: RedPanda
+    expect(getAlert()).toBeInTheDocument();
+
+    userEvent.type(confirmPasswordInput, '4'); // entered: RedPanda4
+    expect(getAlert()).not.toBeInTheDocument(); // disappears when passwords match
+
+    userEvent.type(confirmPasswordInput, '5'); // entered: RedPanda45
+    expect(getAlert()).toBeInTheDocument();
+
+    userEvent.clear(confirmPasswordInput);
+    expect(getAlert()).toBeInTheDocument();
+  });
 
   it.todo('only allows the password to be updated when all three fields are complete and valid');
 });

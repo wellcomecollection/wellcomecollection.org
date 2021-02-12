@@ -13,9 +13,7 @@ export const PasswordForm: React.FC = () => {
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmation, setConfirmation] = useState<string>('');
   const [isValid, setIsValid] = useState<boolean>(true);
-
-  // const isValid = newPassword && passwordPolicy.test(newPassword);
-  const isConfirmed = newPassword === confirmation;
+  const [isConfirmed, setIsConfirmed] = useState<boolean>(true);
 
   const updatePassword = () => {
     // Update Password
@@ -24,6 +22,11 @@ export const PasswordForm: React.FC = () => {
   const handlePasswordChange = (enteredValue: string) => {
     setIsValid(passwordPolicy.test(enteredValue));
     setNewPassword(enteredValue);
+  };
+
+  const handleConfirmationChange = (enteredValue: string) => {
+    setIsConfirmed(enteredValue === newPassword);
+    setConfirmation(enteredValue);
   };
 
   return (
@@ -61,7 +64,7 @@ export const PasswordForm: React.FC = () => {
         <PasswordInput
           label="Retype new password"
           value={confirmation}
-          setValue={setConfirmation}
+          setValue={handleConfirmationChange}
           id="confirm-password"
         />
         {!isConfirmed && <ErrorMessage>The passwords you entered did not match.</ErrorMessage>}
