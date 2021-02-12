@@ -12,12 +12,18 @@ export const PasswordForm: React.FC = () => {
   const [currentPassword, setCurrentPassword] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmation, setConfirmation] = useState<string>('');
+  const [isValid, setIsValid] = useState<boolean>(true);
 
-  const isValid = newPassword && passwordPolicy.test(newPassword);
+  // const isValid = newPassword && passwordPolicy.test(newPassword);
   const isConfirmed = newPassword === confirmation;
 
   const updatePassword = () => {
     // Update Password
+  };
+
+  const handlePasswordChange = (enteredValue: string) => {
+    setIsValid(passwordPolicy.test(enteredValue));
+    setNewPassword(enteredValue);
   };
 
   return (
@@ -36,7 +42,7 @@ export const PasswordForm: React.FC = () => {
           label="New password"
           id="new-password"
           value={newPassword}
-          setValue={setNewPassword}
+          setValue={handlePasswordChange}
           pattern={passwordPolicy.toString()}
         />
         {!isValid && (

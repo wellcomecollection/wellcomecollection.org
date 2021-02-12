@@ -32,7 +32,36 @@ describe('PasswordForm', () => {
     expect(confirmPasswordInput).toHaveValue('hunter2');
   });
 
-  it.todo('warns the user when the new password is invalid');
+  it('warns the user when the new password is invalid', () => {
+    const getAlert = () =>
+      screen.queryByText(/the password you have entered does not meet the password policy/i, {
+        selector: 'div[role=alert]',
+      });
+
+    renderComponent();
+    expect(getAlert()).not.toBeInTheDocument();
+
+    const newPasswordInput = screen.getByLabelText(/^new password/i);
+
+    userEvent.type(newPasswordInput, 'RedCat4'); // too short
+    expect(getAlert()).toBeInTheDocument();
+
+    userEvent.clear(newPasswordInput);
+    userEvent.type(newPasswordInput, 'redpanda4'); // no capital
+    expect(getAlert()).toBeInTheDocument();
+
+    userEvent.clear(newPasswordInput);
+    userEvent.type(newPasswordInput, 'REDPANDA4'); // no lowercase
+    expect(getAlert()).toBeInTheDocument();
+
+    userEvent.clear(newPasswordInput);
+    userEvent.type(newPasswordInput, 'RedPanda'); // no number
+    expect(getAlert()).toBeInTheDocument();
+
+    userEvent.clear(newPasswordInput);
+    userEvent.type(newPasswordInput, 'RedPanda4'); // valid password
+    expect(getAlert()).not.toBeInTheDocument();
+  });
 
   it.todo('warns the user when the new password does not match the confirmation');
 
