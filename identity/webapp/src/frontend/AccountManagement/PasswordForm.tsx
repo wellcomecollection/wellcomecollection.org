@@ -82,13 +82,7 @@ export const PasswordForm: React.FC = () => {
         />
         {isIncorrectPassword && <ErrorMessage>Incorrect password</ErrorMessage>}
         <SpacingComponent />
-        <PasswordInput
-          label="New password"
-          id="new-password"
-          value={newPassword}
-          setValue={handlePasswordChange}
-          pattern={passwordPolicy.toString()}
-        />
+        <PasswordInput label="New password" id="new-password" value={newPassword} setValue={handlePasswordChange} />
         {!isValid && (
           <ErrorMessage>
             The password you have entered does not meet the password policy. Please enter a password with at least 8
