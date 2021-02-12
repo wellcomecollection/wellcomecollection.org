@@ -4,6 +4,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 
 import { ErrorMessage } from '../Shared/ErrorMessage';
 import { PasswordInput } from '../Shared/PasswordInput';
+import { useUpdatePassword } from '../hooks/useUpdatePassword';
 
 // At least 8 characters, one uppercase, one lowercase and number
 const passwordPolicy = /(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*/;
@@ -14,9 +15,15 @@ export const PasswordForm: React.FC = () => {
   const [confirmation, setConfirmation] = useState<string>('');
   const [isValid, setIsValid] = useState<boolean>(true);
   const [isConfirmed, setIsConfirmed] = useState<boolean>(true);
+  const [updatePassword] = useUpdatePassword();
 
-  const updatePassword = () => {
-    // Update Password
+  const handleSubmission = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    updatePassword(
+      { currentPassword, newPassword },
+      () => null,
+      () => null
+    );
   };
 
   const handlePasswordChange = (enteredValue: string) => {
@@ -35,7 +42,7 @@ export const PasswordForm: React.FC = () => {
     <>
       <h1 className="font-wb font-size-4">Change your password using the form below.</h1>
       <SpacingComponent />
-      <form onSubmit={updatePassword}>
+      <form onSubmit={handleSubmission}>
         <PasswordInput
           label="Current password"
           value={currentPassword}

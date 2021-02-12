@@ -1,7 +1,12 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { render, screen } from '../test-utils';
+import { render, screen, waitFor } from '../test-utils';
 import { PasswordForm } from './PasswordForm';
+import * as apiClient from '../../utility/middleware-api-client';
+
+jest.mock('../../utility/middleware-api-client');
+
+const callMiddlewareApi = apiClient.callMiddlewareApi as jest.Mock;
 
 const renderComponent = () => render(<PasswordForm />);
 
@@ -149,6 +154,30 @@ describe('PasswordForm', () => {
       userEvent.type(newPasswordInput, 'RedPanda4');
       userEvent.type(confirmPasswordInput, 'RedPanda4');
       expect(updatePasswordButton).toBeEnabled();
+    });
+  });
+
+  describe('on submission', () => {
+    let updatePasswordButton: HTMLElement;
+
+    beforeEach(() => {
+      renderComponent();
+      userEvent.type(screen.getByLabelText(/current password/i), 'dolphins');
+      userEvent.type(screen.getByLabelText(/^new password/i), 'RedPanda4');
+      userEvent.type(screen.getByLabelText(/retype new password/i), 'RedPanda4');
+      updatePasswordButton = screen.getByRole('button', { name: /update password/i });
+    });
+
+    test('current and new passwords are passed in request to API', async () => {
+      callMiddlewareApi.mockResolvedValue({ status: 200 });
+      userEvent.click(updatePasswordButton);
+
+      await waitFor(() => {
+        expect(callMiddlewareApi).toBeCalledWith('PUT', '/api/users/me/password', {
+          currentPassword: 'dolphins',
+          newPassword: 'RedPanda4',
+        });
+      });
     });
   });
 });
