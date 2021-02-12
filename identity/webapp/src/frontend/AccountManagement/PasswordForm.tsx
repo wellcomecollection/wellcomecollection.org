@@ -53,6 +53,11 @@ export const PasswordForm: React.FC = () => {
     updatePassword({ currentPassword, newPassword }, onSubmitSuccess, onSubmitFailure);
   };
 
+  const handleCurrentPasswordChange = (enteredValue: string) => {
+    setIsIncorrectPassword(false);
+    setCurrentPassword(enteredValue);
+  };
+
   const handlePasswordChange = (enteredValue: string) => {
     setIsUpdateSuccessful(false);
     setIsValid(passwordPolicy.test(enteredValue));
@@ -77,7 +82,7 @@ export const PasswordForm: React.FC = () => {
         <PasswordInput
           label="Current password"
           value={currentPassword}
-          setValue={setCurrentPassword}
+          setValue={handleCurrentPasswordChange}
           id="old-password"
         />
         {isIncorrectPassword && <ErrorMessage>Incorrect password</ErrorMessage>}
