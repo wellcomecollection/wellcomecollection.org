@@ -1,7 +1,7 @@
 import koaPassport from 'koa-passport';
 import Auth0Strategy from 'passport-auth0';
 import { config } from '../config';
-import { callAuth0Api } from './api-caller';
+import { callRemoteApi } from './api-caller';
 
 export function configureAuth0(): void {
   const strategy = new Auth0Strategy(config.auth0, function (accessToken, refreshToken, extraParams, profile, done) {
@@ -9,7 +9,7 @@ export function configureAuth0(): void {
       accessToken,
       profile: {
         idNumber: Number(profile.id.replace('auth0|p', '')),
-      }
+      },
     });
   });
 
@@ -22,7 +22,7 @@ export function configureAuth0(): void {
   koaPassport.deserializeUser(async function (user: any, done) {
     const accessToken: string = user?.accessToken;
     try {
-      await callAuth0Api('GET', '/userinfo', { user: { accessToken } });
+      await callRemoteApi('GET', '/users/me', { user: { accessToken } });
       done(null, user);
     } catch (e) {
       done(null, false);

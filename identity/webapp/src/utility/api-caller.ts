@@ -1,5 +1,5 @@
 import { config } from '../config';
-import axios, { AxiosInstance, AxiosResponse, Method } from 'axios';
+import axios, { AxiosInstance, AxiosResponse, Method, AxiosRequestConfig } from 'axios';
 import { ApplicationState } from '../types/application';
 
 const identityInstance: AxiosInstance = axios.create({
@@ -9,48 +9,42 @@ const identityInstance: AxiosInstance = axios.create({
   },
 });
 
-const auth0Instance = axios.create({
-  baseURL: config.auth0.domain,
-});
-
 type ContextState = ApplicationState | { user: { accessToken: string } };
 
-async function callApi(instance: AxiosInstance, method: Method, url: string, contextState: ContextState,
+export async function callRemoteApi(
+  method: Method,
+  url: string,
+  contextState: ContextState,
   body?: unknown,
   authenticate = true
-) {
-  let headers = instance.defaults.headers;
+): Promise<AxiosResponse> {
+  let request: AxiosRequestConfig = {
+    method,
+    url,
+    headers: identityInstance.defaults.headers,
+    validateStatus: (status: number) => status >= 200 && status < 300,
+  };
+
   if (authenticate) {
-    headers = { ...headers, Authorization: 'Bearer ' + contextState.user.accessToken };
+    request = {
+      ...request,
+      headers: {
+        ...request.headers,
+        Authorization: 'Bearer ' + contextState.user.accessToken,
+      },
+    };
   }
   if (body) {
-    headers = { ...headers, 'Content-Type': 'application/json' };
-    return instance
-      .request({
-        method: method,
-        url: url,
-        data: body,
-        headers: headers,
-      })
-      .catch(function (error) {
-        return error.response;
-      });
+    request = {
+      ...request,
+      headers: {
+        ...request.headers,
+        'Content-Type': 'application/json',
+      },
+      data: body,
+    };
   }
-  return instance
-    .request({
-      method: method,
-      url: url,
-      headers: headers,
-    })
-    .catch(function (error) {
-      return error.response;
-    });
-}
-
-export async function callAuth0Api(method: Method, url: string, contextState: ContextState, body?: any, authenticate: boolean = true): Promise<AxiosResponse> {
-  return callApi(auth0Instance, method, url, contextState, body, authenticate);
-}
-
-export async function callRemoteApi(method: Method, url: string, contextState: ContextState, body?: any, authenticate: boolean = true): Promise<AxiosResponse> {
-  return callApi(identityInstance, method, url, contextState, body, authenticate);
+  return identityInstance.request(request).catch(function (error) {
+    return error.response;
+  });
 }
