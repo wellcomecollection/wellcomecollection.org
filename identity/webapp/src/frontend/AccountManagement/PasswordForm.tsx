@@ -5,6 +5,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import { ErrorMessage } from '../Shared/ErrorMessage';
 import { PasswordInput } from '../Shared/PasswordInput';
 import { useUpdatePassword } from '../hooks/useUpdatePassword';
+import { SuccessMessage } from '../Shared/SuccessMessage';
 
 // At least 8 characters, one uppercase, one lowercase and number
 const passwordPolicy = /(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*/;
@@ -15,23 +16,37 @@ export const PasswordForm: React.FC = () => {
   const [confirmation, setConfirmation] = useState<string>('');
   const [isValid, setIsValid] = useState<boolean>(true);
   const [isConfirmed, setIsConfirmed] = useState<boolean>(true);
+  const [isUpdateSuccessful, setIsUpdateSuccessful] = useState<boolean>(false);
   const [updatePassword] = useUpdatePassword();
+
+  const resetForm = () => {
+    setCurrentPassword('');
+    setNewPassword('');
+    setConfirmation('');
+    setIsValid(true);
+    setIsConfirmed(true);
+  };
 
   const handleSubmission = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     updatePassword(
       { currentPassword, newPassword },
-      () => null,
+      () => {
+        setIsUpdateSuccessful(true);
+        resetForm();
+      },
       () => null
     );
   };
 
   const handlePasswordChange = (enteredValue: string) => {
+    setIsUpdateSuccessful(false);
     setIsValid(passwordPolicy.test(enteredValue));
     setNewPassword(enteredValue);
   };
 
   const handleConfirmationChange = (enteredValue: string) => {
+    setIsUpdateSuccessful(false);
     setIsConfirmed(enteredValue === newPassword);
     setConfirmation(enteredValue);
   };
@@ -42,6 +57,7 @@ export const PasswordForm: React.FC = () => {
     <>
       <h1 className="font-wb font-size-4">Change your password using the form below.</h1>
       <SpacingComponent />
+      {isUpdateSuccessful && <SuccessMessage>Your password has been updated</SuccessMessage>}
       <form onSubmit={handleSubmission}>
         <PasswordInput
           label="Current password"

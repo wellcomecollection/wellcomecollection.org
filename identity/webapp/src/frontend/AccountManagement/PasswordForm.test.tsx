@@ -158,13 +158,22 @@ describe('PasswordForm', () => {
   });
 
   describe('on submission', () => {
-    let updatePasswordButton: HTMLElement;
+    let updatePasswordButton: HTMLElement,
+      currentPasswordInput: HTMLElement,
+      newPasswordInput: HTMLElement,
+      confirmPasswordInput: HTMLElement;
 
     beforeEach(() => {
       renderComponent();
-      userEvent.type(screen.getByLabelText(/current password/i), 'dolphins');
-      userEvent.type(screen.getByLabelText(/^new password/i), 'RedPanda4');
-      userEvent.type(screen.getByLabelText(/retype new password/i), 'RedPanda4');
+      currentPasswordInput = screen.getByLabelText(/current password/i);
+      userEvent.type(currentPasswordInput, 'dolphins');
+
+      newPasswordInput = screen.getByLabelText(/^new password/i);
+      userEvent.type(newPasswordInput, 'RedPanda4');
+
+      confirmPasswordInput = screen.getByLabelText(/retype new password/i);
+      userEvent.type(confirmPasswordInput, 'RedPanda4');
+
       updatePasswordButton = screen.getByRole('button', { name: /update password/i });
     });
 
@@ -177,6 +186,21 @@ describe('PasswordForm', () => {
           currentPassword: 'dolphins',
           newPassword: 'RedPanda4',
         });
+      });
+    });
+
+    test('on success, a message is shown and form is reset', async () => {
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+
+      callMiddlewareApi.mockResolvedValue({ status: 200 });
+      userEvent.click(updatePasswordButton);
+
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toBeInTheDocument();
+        expect(screen.getByRole('alert')).toHaveTextContent(/your password has been updated/i);
+        expect(currentPasswordInput).toHaveValue('');
+        expect(newPasswordInput).toHaveValue('');
+        expect(confirmPasswordInput).toHaveValue('');
       });
     });
   });
