@@ -29,11 +29,13 @@ export const PasswordForm: React.FC = () => {
     setConfirmation(enteredValue);
   };
 
+  const canUpdate = currentPassword && newPassword && confirmation && isValid && isConfirmed;
+
   return (
     <>
       <h1 className="font-wb font-size-4">Change your password using the form below.</h1>
       <SpacingComponent />
-      <form>
+      <form onSubmit={updatePassword}>
         <PasswordInput
           label="Current password"
           value={currentPassword}
@@ -69,10 +71,9 @@ export const PasswordForm: React.FC = () => {
         />
         {!isConfirmed && <ErrorMessage>The passwords you entered did not match.</ErrorMessage>}
         <SpacingComponent />
-        <SolidButton disabled={!isValid || !isConfirmed} onClick={updatePassword}>
+        <SolidButton type="submit" disabled={!canUpdate}>
           Update Password
         </SolidButton>
-        <input type="submit" value="Submit" hidden={true} />
       </form>
     </>
   );

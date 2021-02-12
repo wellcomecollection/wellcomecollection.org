@@ -94,5 +94,61 @@ describe('PasswordForm', () => {
     expect(getAlert()).toBeInTheDocument();
   });
 
-  it.todo('only allows the password to be updated when all three fields are complete and valid');
+  describe('submission', () => {
+    let updatePasswordButton: HTMLElement,
+      currentPasswordInput: HTMLElement,
+      newPasswordInput: HTMLElement,
+      confirmPasswordInput: HTMLElement;
+
+    beforeEach(() => {
+      renderComponent();
+      updatePasswordButton = screen.getByRole('button', { name: /update password/i });
+      currentPasswordInput = screen.getByLabelText(/current password/i);
+      newPasswordInput = screen.getByLabelText(/^new password/i);
+      confirmPasswordInput = screen.getByLabelText(/retype new password/i);
+    });
+
+    it('is disabled on first render', () => {
+      expect(updatePasswordButton).toBeDisabled();
+    });
+
+    it('is disabled when the current password is missing', () => {
+      userEvent.type(newPasswordInput, 'RedPanda4');
+      userEvent.type(confirmPasswordInput, 'RedPanda4');
+      expect(updatePasswordButton).toBeDisabled();
+    });
+
+    it('is disabled when the new password is missing', () => {
+      userEvent.type(currentPasswordInput, 'dolphins');
+      userEvent.type(confirmPasswordInput, 'RedPanda4');
+      expect(updatePasswordButton).toBeDisabled();
+    });
+
+    it('is disabled when the confirmation is missing', () => {
+      userEvent.type(currentPasswordInput, 'dolphins');
+      userEvent.type(newPasswordInput, 'RedPanda4');
+      expect(updatePasswordButton).toBeDisabled();
+    });
+
+    it('is disabled when the password and confirmation no not match', () => {
+      userEvent.type(currentPasswordInput, 'dolphins');
+      userEvent.type(newPasswordInput, 'RedPanda4');
+      userEvent.type(confirmPasswordInput, 'NotRedPandas138');
+      expect(updatePasswordButton).toBeDisabled();
+    });
+
+    it('is disabled when the password is confirmed but invalid', () => {
+      userEvent.type(currentPasswordInput, 'dolphins');
+      userEvent.type(newPasswordInput, 'redcat4');
+      userEvent.type(confirmPasswordInput, 'redcat4');
+      expect(updatePasswordButton).toBeDisabled();
+    });
+
+    it('is allowed when all three fields are complete and valid', () => {
+      userEvent.type(currentPasswordInput, 'dolphins');
+      userEvent.type(newPasswordInput, 'RedPanda4');
+      userEvent.type(confirmPasswordInput, 'RedPanda4');
+      expect(updatePasswordButton).toBeEnabled();
+    });
+  });
 });
