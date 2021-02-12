@@ -164,6 +164,7 @@ describe('PasswordForm', () => {
       confirmPasswordInput: HTMLElement;
 
     beforeEach(() => {
+      jest.clearAllMocks();
       renderComponent();
       currentPasswordInput = screen.getByLabelText(/current password/i);
       userEvent.type(currentPasswordInput, 'dolphins');
@@ -201,6 +202,34 @@ describe('PasswordForm', () => {
         expect(currentPasswordInput).toHaveValue('');
         expect(newPasswordInput).toHaveValue('');
         expect(confirmPasswordInput).toHaveValue('');
+      });
+    });
+
+    it('warns the user of an incorrect password', async () => {
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+
+      callMiddlewareApi.mockRejectedValue({
+        response: { status: 401 },
+      });
+      userEvent.click(updatePasswordButton);
+
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toBeInTheDocument();
+        expect(screen.getByRole('alert')).toHaveTextContent(/incorrect password/i);
+      });
+    });
+
+    it('warns the user of an error while updating', async () => {
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+
+      callMiddlewareApi.mockRejectedValue({
+        response: { status: 500 },
+      });
+      userEvent.click(updatePasswordButton);
+
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toBeInTheDocument();
+        expect(screen.getByRole('alert')).toHaveTextContent(/something went wrong/i);
       });
     });
   });

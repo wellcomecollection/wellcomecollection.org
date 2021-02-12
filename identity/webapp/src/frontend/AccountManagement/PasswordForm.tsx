@@ -17,6 +17,8 @@ export const PasswordForm: React.FC = () => {
   const [isValid, setIsValid] = useState<boolean>(true);
   const [isConfirmed, setIsConfirmed] = useState<boolean>(true);
   const [isUpdateSuccessful, setIsUpdateSuccessful] = useState<boolean>(false);
+  const [isIncorrectPassword, setIsIncorrectPassword] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
   const [updatePassword] = useUpdatePassword();
 
   const resetForm = () => {
@@ -27,16 +29,28 @@ export const PasswordForm: React.FC = () => {
     setIsConfirmed(true);
   };
 
+  const onSubmitSuccess = () => {
+    setIsUpdateSuccessful(true);
+    resetForm();
+  };
+
+  const onSubmitFailure = (statusCode?: number) => {
+    switch (statusCode) {
+      case 401: {
+        setIsIncorrectPassword(true);
+        setCurrentPassword('');
+        break;
+      }
+      default: {
+        setIsError(true);
+        break;
+      }
+    }
+  };
+
   const handleSubmission = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    updatePassword(
-      { currentPassword, newPassword },
-      () => {
-        setIsUpdateSuccessful(true);
-        resetForm();
-      },
-      () => null
-    );
+    updatePassword({ currentPassword, newPassword }, onSubmitSuccess, onSubmitFailure);
   };
 
   const handlePasswordChange = (enteredValue: string) => {
@@ -58,6 +72,7 @@ export const PasswordForm: React.FC = () => {
       <h1 className="font-wb font-size-4">Change your password using the form below.</h1>
       <SpacingComponent />
       {isUpdateSuccessful && <SuccessMessage>Your password has been updated</SuccessMessage>}
+      {isError && <ErrorMessage>Something went wrong</ErrorMessage>}
       <form onSubmit={handleSubmission}>
         <PasswordInput
           label="Current password"
@@ -65,6 +80,7 @@ export const PasswordForm: React.FC = () => {
           setValue={setCurrentPassword}
           id="old-password"
         />
+        {isIncorrectPassword && <ErrorMessage>Incorrect password</ErrorMessage>}
         <SpacingComponent />
         <PasswordInput
           label="New password"
