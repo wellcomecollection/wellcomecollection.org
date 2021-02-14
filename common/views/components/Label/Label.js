@@ -10,12 +10,23 @@ export type Props = {|
   roundedDiagonal?: boolean,
 |};
 
+function getFontColor(bgColor) {
+  switch (true) {
+    case bgColor === 'black':
+      return 'yellow';
+    case bgColor === 'cream':
+      return 'charcoal';
+    default:
+      return 'black';
+  }
+}
+
 const Label = ({
   label,
   labelColor = 'yellow',
   roundedDiagonal = false,
 }: Props) => {
-  const fontColor = labelColor === 'black' ? 'yellow' : 'black';
+  const fontColor = getFontColor(labelColor);
   return (
     <Space
       v={{
