@@ -35,6 +35,7 @@ import MediaObjectList from '../MediaObjectList/MediaObjectList';
 import InfoBlock from '../InfoBlock/InfoBlock';
 import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
 
+import TitledTextList from '../TitledTextList/TitledTextList';
 import TagsGroup from '../TagsGroup/TagsGroup';
 import Discussion from '../Discussion/Discussion';
 import WobblyEdgedContainer from '../WobblyEdgedContainer/WobblyEdgedContainer';
@@ -348,6 +349,11 @@ const Body: FunctionComponent<Props> = ({
             {slice.type === 'quote' && (
               <LayoutWidth width={minWidth}>
                 <Quote {...slice.value} />
+              </LayoutWidth>
+            )}
+            {slice.type === 'titledTextList' && (
+              <LayoutWidth width={minWidth}>
+                <TitledTextList {...slice.value} />
               </LayoutWidth>
             )}
             {slice.type === 'contentList' && !isLanding && (
