@@ -1,4 +1,4 @@
-import {
+import React, {
   useState,
   useRef,
   useEffect,
@@ -17,7 +17,6 @@ import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
 import ButtonSolid, {
   ButtonTypes,
@@ -38,6 +37,7 @@ import {
 } from '@weco/common/model/catalogue';
 import { quoteVal } from '@weco/common/utils/csv';
 import TogglesContext from '../TogglesContext/TogglesContext';
+import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
 const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
@@ -444,6 +444,64 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                 </FilterSection>
               )}
               {searchMoreFilters &&
+                filtersToShow.includes('contributors') &&
+                contributorsFilter.length > 0 && (
+                  <FilterSection>
+                    <h3 className="h3">Contributors</h3>
+                    <Space
+                      as="span"
+                      h={{ size: 'm', properties: ['margin-right'] }}
+                    >
+                      {
+                        <ul
+                          className={classNames({
+                            'no-margin no-padding plain-list': true,
+                          })}
+                        >
+                          {contributorsFilter
+                            .map(contributor => {
+                              return {
+                                count: contributor.count,
+                                label: contributor.data.agent.label,
+                                value: quoteVal(contributor.data.agent.label),
+                              };
+                            })
+                            .map(({ count, label, value }) => {
+                              const isChecked = contributorsSelected.includes(
+                                label
+                              );
+                              return (
+                                (count > 0 || isChecked) && (
+                                  <Space
+                                    as="li"
+                                    v={{
+                                      size: 'l',
+                                      properties: ['margin-bottom'],
+                                    }}
+                                    key={`mobile-${label}`}
+                                  >
+                                    <CheckboxRadio
+                                      id={`mobile-${replaceSpaceWithHypen(
+                                        label
+                                      )}`}
+                                      type={`checkbox`}
+                                      text={`${label} (${count})`}
+                                      value={value}
+                                      name={`contributors.agent.label`}
+                                      checked={isChecked}
+                                      onChange={changeHandler}
+                                      ariaLabel={searchFilterCheckBox(label)}
+                                    />
+                                  </Space>
+                                )
+                              );
+                            })}
+                        </ul>
+                      }
+                    </Space>
+                  </FilterSection>
+                )}
+              {searchMoreFilters &&
                 filtersToShow.includes('subjects') &&
                 subjectsFilter.length > 0 && (
                   <FilterSection>
@@ -545,65 +603,6 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                                       text={`${label} (${count})`}
                                       value={value}
                                       name={`genres.label`}
-                                      checked={isChecked}
-                                      onChange={changeHandler}
-                                      ariaLabel={searchFilterCheckBox(label)}
-                                    />
-                                  </Space>
-                                )
-                              );
-                            })}
-                        </ul>
-                      }
-                    </Space>
-                  </FilterSection>
-                )}
-
-              {searchMoreFilters &&
-                filtersToShow.includes('contributors') &&
-                contributorsFilter.length > 0 && (
-                  <FilterSection>
-                    <h3 className="h3">Contributors</h3>
-                    <Space
-                      as="span"
-                      h={{ size: 'm', properties: ['margin-right'] }}
-                    >
-                      {
-                        <ul
-                          className={classNames({
-                            'no-margin no-padding plain-list': true,
-                          })}
-                        >
-                          {contributorsFilter
-                            .map(contributor => {
-                              return {
-                                count: contributor.count,
-                                label: contributor.data.agent.label,
-                                value: quoteVal(contributor.data.agent.label),
-                              };
-                            })
-                            .map(({ count, label, value }) => {
-                              const isChecked = contributorsSelected.includes(
-                                label
-                              );
-                              return (
-                                (count > 0 || isChecked) && (
-                                  <Space
-                                    as="li"
-                                    v={{
-                                      size: 'l',
-                                      properties: ['margin-bottom'],
-                                    }}
-                                    key={`mobile-${label}`}
-                                  >
-                                    <CheckboxRadio
-                                      id={`mobile-${replaceSpaceWithHypen(
-                                        label
-                                      )}`}
-                                      type={`checkbox`}
-                                      text={`${label} (${count})`}
-                                      value={value}
-                                      name={`contributors.agent.label`}
                                       checked={isChecked}
                                       onChange={changeHandler}
                                       ariaLabel={searchFilterCheckBox(label)}

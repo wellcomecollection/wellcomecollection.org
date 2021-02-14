@@ -61,6 +61,11 @@ const CheckboxRadioInput = styled.input.attrs(props => ({
   }
 `;
 
+const CheckBoxWrapper = styled.div`
+  position: relative;
+  top: 1px;
+`;
+
 type CheckboxRadioProps = {
   type: 'checkbox' | 'radio';
   id: string;
@@ -81,10 +86,12 @@ const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
 }: CheckboxRadioProps): ReactElement<CheckboxRadioProps> => {
   return (
     <CheckboxRadioLabel htmlFor={id} aria-label={ariaLabel}>
-      <CheckboxRadioInput id={id} type={type} {...inputProps} />
-      <CheckboxRadioBox type={type}>
-        <Icon name={type === 'checkbox' ? 'check' : 'indicator'} />
-      </CheckboxRadioBox>
+      <CheckBoxWrapper>
+        <CheckboxRadioInput id={id} type={type} {...inputProps} />
+        <CheckboxRadioBox type={type}>
+          <Icon name={type === 'checkbox' ? 'check' : 'indicator'} />
+        </CheckboxRadioBox>
+      </CheckBoxWrapper>
       <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>
         {text}
       </Space>
