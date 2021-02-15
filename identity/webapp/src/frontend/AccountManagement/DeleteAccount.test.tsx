@@ -25,6 +25,15 @@ describe('DeleteAccount', () => {
     expect(passwordInput).toHaveValue('dolphins');
   });
 
+  it('disables submission until password is entered', () => {
+    renderComponent();
+    const passwordInput = screen.getByLabelText(/password/i);
+    const deleteButton = screen.getByRole('button', { name: /yes, delete my account/i });
+    expect(deleteButton).toBeDisabled();
+    userEvent.type(passwordInput, 'x');
+    expect(deleteButton).toBeEnabled();
+  });
+
   it('passes the entered password to the deletion request endpoint', async () => {
     renderComponent();
     callMiddlewareApi.mockResolvedValue({ response: { status: 200 } });

@@ -67,7 +67,9 @@ export const DeleteAccount: React.FC = () => {
           <form onSubmit={handleConfirmDelete}>
             <PasswordInput label="Password" id="password" value={password} setValue={handlePasswordChange} />
             {isIncorrectPassword && <ErrorMessage>Incorrect password</ErrorMessage>}
-            <SolidButton type="submit">Yes, delete my account</SolidButton>
+            <SolidButton type="submit" disabled={!password}>
+              Yes, delete my account
+            </SolidButton>
           </form>
           <SpacingComponent />
           <a href="TBC">Cancel</a>
