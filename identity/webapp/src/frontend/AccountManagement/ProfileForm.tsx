@@ -129,7 +129,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ firstName, lastName, e
         setIsActive={setIsDeleteModalActive}
         openButtonRef={modalOpenButton}
       >
-        <DeleteAccount />
+        <DeleteAccount onCancel={() => setIsDeleteModalActive(false)} />
       </Modal>
     </div>
   );

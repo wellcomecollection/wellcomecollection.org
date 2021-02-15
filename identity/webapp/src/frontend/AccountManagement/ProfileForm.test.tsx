@@ -127,4 +127,12 @@ describe('ProfileForm', () => {
     expect(screen.queryByRole('heading', { name: /delete account/i })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /yes, delete my account/i })).toBeInTheDocument();
   });
+
+  it('closes the delete modal when the user cancels', () => {
+    renderComponent();
+    userEvent.click(screen.getByRole('button', { name: /delete account/i }));
+    expect(screen.queryByRole('heading', { name: /delete account/i })).toBeInTheDocument();
+    userEvent.click(screen.getByRole('button', { name: 'No, take me back to my account' }));
+    expect(screen.queryByRole('heading', { name: /delete account/i })).not.toBeInTheDocument();
+  });
 });

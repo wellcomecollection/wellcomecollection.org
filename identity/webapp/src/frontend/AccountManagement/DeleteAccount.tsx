@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { PasswordInput } from '../Shared/PasswordInput';
 import { useRequestDelete } from '../hooks/useRequestDelete';
@@ -14,7 +15,11 @@ const LogoContainer = styled.div`
   width: 200px;
 `;
 
-export const DeleteAccount: React.FC = () => {
+export type DeleteAccountProps = {
+  onCancel: () => void;
+};
+
+export const DeleteAccount: React.FC<DeleteAccountProps> = ({ onCancel }) => {
   const [password, setPassword] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const [isIncorrectPassword, setIsIncorrectPassword] = useState(false);
@@ -67,12 +72,15 @@ export const DeleteAccount: React.FC = () => {
           <form onSubmit={handleConfirmDelete}>
             <PasswordInput label="Password" id="password" value={password} setValue={handlePasswordChange} />
             {isIncorrectPassword && <ErrorMessage>Incorrect password</ErrorMessage>}
+            <SpacingComponent />
             <SolidButton type="submit" disabled={!password}>
               Yes, delete my account
             </SolidButton>
           </form>
           <SpacingComponent />
-          <a href="TBC">Cancel</a>
+          <OutlinedButton type="button" onClick={onCancel}>
+            No, take me back to my account
+          </OutlinedButton>
         </>
       )}
     </div>

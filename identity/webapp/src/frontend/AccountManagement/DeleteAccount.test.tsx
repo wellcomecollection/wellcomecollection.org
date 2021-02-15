@@ -1,14 +1,18 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { render, screen, waitFor } from '../test-utils';
-import { DeleteAccount } from './DeleteAccount';
+import { DeleteAccount, DeleteAccountProps } from './DeleteAccount';
 import * as apiClient from '../../utility/middleware-api-client';
 
 jest.mock('../../utility/middleware-api-client');
 
 const callMiddlewareApi = apiClient.callMiddlewareApi as jest.Mock;
 
-const renderComponent = () => render(<DeleteAccount />);
+const defaultProps: DeleteAccountProps = {
+  onCancel: () => null,
+};
+
+const renderComponent = (props = defaultProps) => render(<DeleteAccount {...props} />);
 
 describe('DeleteAccount', () => {
   it('renders correctly', () => {
@@ -85,5 +89,12 @@ describe('DeleteAccount', () => {
     expect(passwordInput).toHaveValue('');
     userEvent.type(passwordInput, 'h');
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+  });
+
+  it('calls the onCancel callback when the user cancels', () => {
+    const onCancel = jest.fn();
+    renderComponent({ onCancel });
+    userEvent.click(screen.getByRole('button', { name: 'No, take me back to my account' }));
+    expect(onCancel).toBeCalled();
   });
 });
