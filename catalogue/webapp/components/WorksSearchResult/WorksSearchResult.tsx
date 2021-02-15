@@ -12,23 +12,12 @@ import Space, {
 } from '@weco/common/views/components/styled/Space';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
+import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 
 type Props = {
   work: Work;
   resultPosition: number;
 };
-
-const ShameAvailableOnlineTag = styled(Space).attrs({
-  h: {
-    size: 's',
-    properties: ['padding-left', 'padding-right'],
-  },
-  v: {
-    size: 's',
-    properties: ['padding-top', 'padding-bottom'],
-  },
-  className: `bg-smoke line-height-1`,
-})``;
 
 const Container = styled.div`
   ${props => props.theme.media.medium`
@@ -76,8 +65,10 @@ const WorkSearchResult: FunctionComponent<Props> = ({
 }: Props) => {
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
-  // const labels =          {work.workType.label}
-  // {work.availableOnline && (
+  const cardLabels = [
+    { url: null, text: work?.workType?.label },
+    work.availableOnline ? { url: null, text: 'Online' } : null,
+  ].filter(Boolean);
   return (
     <div
       className={classNames({
@@ -171,14 +162,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                   [font('hnl', 5)]: true,
                 })}
               >
-                {work.workType.label}
-                {work.availableOnline && (
-                  <Space h={{ size: 'm', properties: ['margin-left'] }}>
-                    <ShameAvailableOnlineTag>
-                      Available online
-                    </ShameAvailableOnlineTag>
-                  </Space>
-                )}
+                <LabelsList labels={cardLabels} labelColor="cream" />
               </Space>
             </Details>
             {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
