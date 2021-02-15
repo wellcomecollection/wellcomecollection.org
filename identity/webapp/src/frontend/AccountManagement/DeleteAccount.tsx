@@ -15,6 +15,11 @@ const LogoContainer = styled.div`
   width: 200px;
 `;
 
+const DangerButton = styled(SolidButton)`
+  background: ${(props) => props.theme.color('red')};
+  border-color: ${(props) => props.theme.color('red')};
+`;
+
 export type DeleteAccountProps = {
   onCancel: () => void;
 };
@@ -73,9 +78,9 @@ export const DeleteAccount: React.FC<DeleteAccountProps> = ({ onCancel }) => {
             <PasswordInput label="Password" id="password" value={password} setValue={handlePasswordChange} />
             {isIncorrectPassword && <ErrorMessage>Incorrect password</ErrorMessage>}
             <SpacingComponent />
-            <SolidButton type="submit" disabled={!password}>
+            <DangerButton type="submit" disabled={!password}>
               Yes, delete my account
-            </SolidButton>
+            </DangerButton>
           </form>
           <SpacingComponent />
           <OutlinedButton type="button" onClick={onCancel}>
