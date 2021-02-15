@@ -288,6 +288,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
     >
       <ShameButtonWrap>
         <SolidButton
+          type={ButtonTypes.button}
           ref={openFiltersButtonRef}
           onClick={handleOpenFiltersButtonClick}
           aria-controls="mobile-filters-modal"
