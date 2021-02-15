@@ -122,35 +122,32 @@ const WorkSearchResult: FunctionComponent<Props> = ({
               >
                 <WorkTitle title={work.title} />
               </h2>
-              <div
-                className={classNames({
-                  flex: true,
-                })}
-              >
-                {work.contributors.length > 0 && (
-                  <Space h={{ size: 'm', properties: ['margin-right'] }}>
-                    <LinkLabels
-                      items={[
-                        {
-                          text: work.contributors[0].agent.label,
-                          url: null,
-                        },
-                      ]}
-                    />
-                  </Space>
-                )}
-                {productionDates.length > 0 && (
+
+              {work.contributors.length > 0 && (
+                <Space h={{ size: 'm', properties: ['margin-right'] }}>
                   <LinkLabels
-                    heading={'Date'}
                     items={[
                       {
-                        text: productionDates[0],
+                        text: work.contributors[0].agent.label,
                         url: null,
                       },
                     ]}
                   />
-                )}
-              </div>
+                </Space>
+              )}
+
+              {productionDates.length > 0 && (
+                <LinkLabels
+                  heading={'Date'}
+                  items={[
+                    {
+                      text: productionDates[0],
+                      url: null,
+                    },
+                  ]}
+                />
+              )}
+
               {archiveLabels?.reference && (
                 <LinkLabels
                   heading="Reference"
