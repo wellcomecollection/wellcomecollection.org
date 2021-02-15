@@ -1,20 +1,17 @@
 import React from 'react';
-
+import styled from 'styled-components';
 import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
 // TODO: Update this to prod.
 const logo = 'https://identity-public-assets-stage.s3.eu-west-1.amazonaws.com/images/wellcomecollections-150x50.png';
-import styled from 'styled-components';
 
 const LogoContainer = styled.div`
-   {
-    display: flex;
-    width: 200px;
-  }
+  display: flex;
+  width: 200px;
 `;
 
-export const DeleteAccount = () => {
+export const DeleteAccount = (): JSX.Element => {
   return (
     <div>
       <LogoContainer>
