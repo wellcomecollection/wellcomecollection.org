@@ -118,38 +118,6 @@ const WorkSearchResult: FunctionComponent<Props> = ({
         >
           <Container>
             <Details>
-              <Space
-                v={{
-                  size: 's',
-                  properties: ['margin-bottom'],
-                }}
-                className={classNames({
-                  flex: true,
-                  'flex--v-center': true,
-                  [font('hnl', 5)]: true,
-                })}
-              >
-                {workTypeIcon && (
-                  <Space
-                    as="span"
-                    h={{ size: 's', properties: ['margin-right'] }}
-                    className={classNames({
-                      flex: true,
-                      'flex--v-center': true,
-                    })}
-                  >
-                    <Icon name={workTypeIcon} />
-                  </Space>
-                )}
-                {work.workType.label}
-                {work.availableOnline && (
-                  <Space h={{ size: 'm', properties: ['margin-left'] }}>
-                    <ShameAvailableOnlineTag>
-                      Available online
-                    </ShameAvailableOnlineTag>
-                  </Space>
-                )}
-              </Space>
               <h2
                 className={classNames({
                   [font('hnm', 4)]: true,
@@ -199,6 +167,38 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                   items={[{ text: archiveLabels.partOf }]}
                 />
               )}
+              <Space
+                v={{
+                  size: 'm',
+                  properties: ['margin-top'],
+                }}
+                className={classNames({
+                  flex: true,
+                  'flex--v-center': true,
+                  [font('hnl', 5)]: true,
+                })}
+              >
+                {workTypeIcon && (
+                  <Space
+                    as="span"
+                    h={{ size: 's', properties: ['margin-right'] }}
+                    className={classNames({
+                      flex: true,
+                      'flex--v-center': true,
+                    })}
+                  >
+                    <Icon name={workTypeIcon} />
+                  </Space>
+                )}
+                {work.workType.label}
+                {work.availableOnline && (
+                  <Space h={{ size: 'm', properties: ['margin-left'] }}>
+                    <ShameAvailableOnlineTag>
+                      Available online
+                    </ShameAvailableOnlineTag>
+                  </Space>
+                )}
+              </Space>
             </Details>
             {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
               <Preview h={{ size: 'm', properties: ['margin-left'] }}>
