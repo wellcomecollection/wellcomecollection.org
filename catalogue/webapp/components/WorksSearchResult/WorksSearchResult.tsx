@@ -2,13 +2,8 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
-import {
-  getArchiveLabels,
-  getProductionDates,
-  getWorkTypeIcon,
-} from '@weco/common/utils/works';
+import { getArchiveLabels, getProductionDates } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import Image from '@weco/common/views/components/Image/Image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -80,8 +75,9 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   resultPosition,
 }: Props) => {
   const productionDates = getProductionDates(work);
-  const workTypeIcon = getWorkTypeIcon(work);
   const archiveLabels = getArchiveLabels(work);
+  // const labels =          {work.workType.label}
+  // {work.availableOnline && (
   return (
     <div
       className={classNames({
@@ -178,18 +174,6 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                   [font('hnl', 5)]: true,
                 })}
               >
-                {workTypeIcon && (
-                  <Space
-                    as="span"
-                    h={{ size: 's', properties: ['margin-right'] }}
-                    className={classNames({
-                      flex: true,
-                      'flex--v-center': true,
-                    })}
-                  >
-                    <Icon name={workTypeIcon} />
-                  </Space>
-                )}
                 {work.workType.label}
                 {work.availableOnline && (
                   <Space h={{ size: 'm', properties: ['margin-left'] }}>
