@@ -30,7 +30,7 @@ const BackToResults: FunctionComponent = () => {
           [font('hnm', 5)]: true,
         })}
       >
-        <span>{`Search${query ? ' results' : ''}`}</span>
+        <span>{`Back to search${query ? ' results' : ''}`}</span>
       </a>
     </NextLink>
   );
