@@ -6,7 +6,7 @@ import Space from '../styled/Space';
 
 export type Props = {|
   label: LabelType,
-  labelColor?: 'orange' | 'yellow' | 'black',
+  labelColor?: 'orange' | 'yellow' | 'black' | 'cream',
   roundedDiagonal?: boolean,
 |};
 
