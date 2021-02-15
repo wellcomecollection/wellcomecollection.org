@@ -2,6 +2,11 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '../test-utils';
 import { DeleteAccount } from './DeleteAccount';
+import * as apiClient from '../../utility/middleware-api-client';
+
+jest.mock('../../utility/middleware-api-client');
+
+const callMiddlewareApi = apiClient.callMiddlewareApi as jest.Mock;
 
 const renderComponent = () => render(<DeleteAccount />);
 
@@ -18,5 +23,17 @@ describe('DeleteAccount', () => {
 
     userEvent.type(passwordInput, 'dolphins');
     expect(passwordInput).toHaveValue('dolphins');
+  });
+
+  it('passes the entered password to the deletion request endpoint', () => {
+    renderComponent();
+    callMiddlewareApi.mockResolvedValue({ status: 200 });
+
+    userEvent.type(screen.getByLabelText(/password/i), 'dolphins');
+    userEvent.click(screen.getByRole('button', { name: /yes, delete my account/i }));
+
+    expect(callMiddlewareApi).toBeCalledWith('DELETE', '/api/users/me', {
+      password: 'dolphins',
+    });
   });
 });

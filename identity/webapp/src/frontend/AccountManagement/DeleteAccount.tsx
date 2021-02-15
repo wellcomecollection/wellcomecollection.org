@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { PasswordInput } from '../Shared/PasswordInput';
+import { useRequestDelete } from '../hooks/useRequestDelete';
 
 // TODO: Update this to prod.
 const logo = 'https://identity-public-assets-stage.s3.eu-west-1.amazonaws.com/images/wellcomecollections-150x50.png';
@@ -14,6 +15,12 @@ const LogoContainer = styled.div`
 
 export const DeleteAccount = (): JSX.Element => {
   const [password, setPassword] = useState('');
+  const [requestDelete] = useRequestDelete();
+
+  const handleConfirmDelete = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    requestDelete({ password });
+  };
 
   return (
     <div>
@@ -25,8 +32,10 @@ export const DeleteAccount = (): JSX.Element => {
       <SpacingComponent />
       <p>Are you sure you want to delete your account?</p>
       <p>To permanently delete your account please enter your password and confirm.</p>
-      <PasswordInput label="Password" id="password" value={password} setValue={setPassword} />
-      <SolidButton>Yes, delete my account</SolidButton>
+      <form onSubmit={handleConfirmDelete}>
+        <PasswordInput label="Password" id="password" value={password} setValue={setPassword} />
+        <SolidButton type="submit">Yes, delete my account</SolidButton>
+      </form>
       <SpacingComponent />
       <a href="TBC">Cancel</a>
     </div>
