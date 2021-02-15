@@ -67,7 +67,9 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   const archiveLabels = getArchiveLabels(work);
   const cardLabels = [
     { url: null, text: work?.workType?.label },
-    work.availableOnline ? { url: null, text: 'Online' } : null,
+    work.availableOnline
+      ? { url: null, text: 'Online', labelColor: 'white' }
+      : null,
   ].filter(Boolean);
   return (
     <div

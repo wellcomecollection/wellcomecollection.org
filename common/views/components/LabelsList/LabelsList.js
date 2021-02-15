@@ -5,8 +5,11 @@ import Label from '../../components/Label/Label';
 import Space from '../styled/Space';
 
 type Props = {|
-  labels: LabelType[],
-  labelColor?: 'orange' | 'yellow' | 'black' | 'cream',
+  labels: {|
+    ...LabelType[],
+    labelColor?: 'orange' | 'yellow' | 'black' | 'cream' | 'white',
+  |},
+  labelColor?: 'orange' | 'yellow' | 'black' | 'cream' | 'white',
   roundedDiagonal?: boolean,
 |};
 
@@ -38,7 +41,7 @@ const LabelsList = ({
       >
         <Label
           label={label}
-          labelColor={labelColor}
+          labelColor={label.labelColor || labelColor}
           roundedDiagonal={roundedDiagonal}
         />
       </Space>
