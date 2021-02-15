@@ -116,4 +116,15 @@ describe('ProfileForm', () => {
       expect(screen.getByRole('alert')).toHaveTextContent(/incorrect password/i);
     });
   });
+
+  it('opens a modal to let the user request account deletion', () => {
+    renderComponent();
+    expect(screen.queryByRole('heading', { name: /delete account/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /yes, delete my account/i })).not.toBeInTheDocument();
+
+    userEvent.click(screen.getByRole('button', { name: /delete account/i }));
+
+    expect(screen.queryByRole('heading', { name: /delete account/i })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /yes, delete my account/i })).toBeInTheDocument();
+  });
 });
