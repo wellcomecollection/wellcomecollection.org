@@ -158,11 +158,6 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                   size: 'm',
                   properties: ['margin-top'],
                 }}
-                className={classNames({
-                  flex: true,
-                  'flex--v-center': true,
-                  [font('hnl', 5)]: true,
-                })}
               >
                 <LabelsList labels={cardLabels} labelColor="cream" />
               </Space>

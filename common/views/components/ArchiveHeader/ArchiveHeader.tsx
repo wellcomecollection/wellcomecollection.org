@@ -1,14 +1,14 @@
 import { FunctionComponent, ReactElement } from 'react';
 import { Work } from '../../../model/work';
 import { font, classNames, grid } from '../../../utils/classnames';
-import { getProductionDates, getWorkTypeIcon } from '../../../utils/works';
-import Icon from '../Icon/Icon';
+import { getProductionDates } from '../../../utils/works';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import Space from '../styled/Space';
 import Number from '@weco/common/views/components/Number/Number';
 import styled from 'styled-components';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
+import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { getArchiveAncestorArray } from '@weco/common/utils/works';
 
 const ArchiveTitle = styled.span.attrs({
@@ -38,7 +38,6 @@ const ArchiveHeader: FunctionComponent<Props> = ({
   childManifestsCount = 0,
 }: Props): ReactElement<Props> => {
   const productionDates = getProductionDates(work);
-  const workTypeIcon = getWorkTypeIcon(work);
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const [topLevelArchive] = archiveAncestorArray;
   return (
@@ -51,48 +50,6 @@ const ArchiveHeader: FunctionComponent<Props> = ({
         className={classNames([grid({ s: 12, m: 12, l: 10, xl: 10 })])}
       >
         <SpacingComponent>
-          <div
-            className={classNames({
-              flex: true,
-              'flex--v-center': true,
-              [font('hnl', 5)]: true,
-            })}
-          >
-            {workTypeIcon && (
-              <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
-                <Icon name={workTypeIcon} />
-              </Space>
-            )}
-            <div className="line-height-1">
-              {!work.workType.label.startsWith('Archive') &&
-                work.workType.label}
-
-              {work.workType.label.startsWith('Archive') && (
-                <Space
-                  h={{
-                    size: 's',
-                    properties: ['padding-left', 'padding-right'],
-                  }}
-                  v={{
-                    size: 's',
-                    properties: [
-                      'padding-top',
-                      'padding-bottom',
-                      'margin-bottom',
-                      'margin-top',
-                    ],
-                  }}
-                >
-                  {work.workType.label}
-                </Space>
-              )}
-            </div>
-          </div>
-
-          {topLevelArchive && topLevelArchive.title !== work.title ? (
-            <ArchiveTitle>{topLevelArchive.title}</ArchiveTitle>
-          ) : null}
-
           <h1
             aria-live="polite"
             id="work-info"
@@ -153,6 +110,23 @@ const ArchiveHeader: FunctionComponent<Props> = ({
               items={[{ text: work.referenceNumber }]}
             />
           )}
+          {topLevelArchive && topLevelArchive.title !== work.title ? (
+            <LinkLabels
+              heading="Part of"
+              items={[{ text: topLevelArchive.title }]}
+            />
+          ) : null}
+          <Space
+            v={{
+              size: 'm',
+              properties: ['margin-top'],
+            }}
+          >
+            <LabelsList
+              labels={[{ url: null, text: work.workType.label }]}
+              labelColor="cream"
+            />
+          </Space>
 
           {childManifestsCount > 0 && (
             <Space v={{ size: 'm', properties: ['margin-top'] }}>
