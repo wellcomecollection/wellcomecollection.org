@@ -1,6 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { render, screen } from '../test-utils';
+import { render, screen, waitFor } from '../test-utils';
 import { DeleteAccount } from './DeleteAccount';
 import * as apiClient from '../../utility/middleware-api-client';
 
@@ -25,15 +25,33 @@ describe('DeleteAccount', () => {
     expect(passwordInput).toHaveValue('dolphins');
   });
 
-  it('passes the entered password to the deletion request endpoint', () => {
+  it('passes the entered password to the deletion request endpoint', async () => {
     renderComponent();
     callMiddlewareApi.mockResolvedValue({ status: 200 });
 
     userEvent.type(screen.getByLabelText(/password/i), 'dolphins');
     userEvent.click(screen.getByRole('button', { name: /yes, delete my account/i }));
 
-    expect(callMiddlewareApi).toBeCalledWith('DELETE', '/api/users/me', {
-      password: 'dolphins',
+    await waitFor(() => {
+      expect(callMiddlewareApi).toBeCalledWith('DELETE', '/api/users/me', {
+        password: 'dolphins',
+      });
+    });
+  });
+
+  it('shows the success page if network request successful', async () => {
+    renderComponent();
+    callMiddlewareApi.mockResolvedValue({ status: 200 });
+    const passwordInput = screen.getByLabelText(/password/i);
+    const deleteButton = screen.getByRole('button', { name: /yes, delete my account/i });
+
+    userEvent.type(passwordInput, 'dolphins');
+    userEvent.click(deleteButton);
+
+    await waitFor(() => {
+      expect(screen.getByText('Your request for account deletion has been received.')).toBeInTheDocument();
+      expect(passwordInput).not.toBeInTheDocument();
+      expect(deleteButton).not.toBeInTheDocument();
     });
   });
 });
