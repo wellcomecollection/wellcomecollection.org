@@ -144,6 +144,14 @@ export default {
           linkText: text('Button text'),
         },
       }),
+      titledTextList: slice('Titled text list', {
+        repeat: {
+          title: heading('Title', 3),
+          text: structuredText('Text', 'multi', ['heading4', 'list-item']),
+          link: link('Link'),
+          label: link('tag', 'document', ['labels']),
+        },
+      }),
       contentList: slice('(β) Content list', {
         nonRepeat: {
           title,
