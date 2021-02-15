@@ -27,7 +27,7 @@ describe('DeleteAccount', () => {
 
   it('passes the entered password to the deletion request endpoint', async () => {
     renderComponent();
-    callMiddlewareApi.mockResolvedValue({ status: 200 });
+    callMiddlewareApi.mockResolvedValue({ response: { status: 200 } });
 
     userEvent.type(screen.getByLabelText(/password/i), 'dolphins');
     userEvent.click(screen.getByRole('button', { name: /yes, delete my account/i }));
@@ -41,7 +41,7 @@ describe('DeleteAccount', () => {
 
   it('shows the success page if network request successful', async () => {
     renderComponent();
-    callMiddlewareApi.mockResolvedValue({ status: 200 });
+    callMiddlewareApi.mockResolvedValue({ response: { status: 200 } });
     const passwordInput = screen.getByLabelText(/password/i);
     const deleteButton = screen.getByRole('button', { name: /yes, delete my account/i });
 
@@ -53,5 +53,28 @@ describe('DeleteAccount', () => {
       expect(passwordInput).not.toBeInTheDocument();
       expect(deleteButton).not.toBeInTheDocument();
     });
+  });
+
+  it('shows a warning when the password is incorrect', async () => {
+    renderComponent();
+    callMiddlewareApi.mockRejectedValue({ response: { status: 401 } });
+    const passwordInput = screen.getByLabelText(/password/i);
+    const deleteButton = screen.getByRole('button', { name: /yes, delete my account/i });
+
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.type(passwordInput, 'dolphins');
+    userEvent.click(deleteButton);
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument();
+      expect(screen.getByRole('alert')).toHaveTextContent(/incorrect password/i);
+      expect(screen.queryByText('Your request for account deletion has been received.')).not.toBeInTheDocument();
+      expect(passwordInput).toBeInTheDocument();
+      expect(deleteButton).toBeInTheDocument();
+    });
+
+    expect(passwordInput).toHaveValue('');
+    userEvent.type(passwordInput, 'h');
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
 });

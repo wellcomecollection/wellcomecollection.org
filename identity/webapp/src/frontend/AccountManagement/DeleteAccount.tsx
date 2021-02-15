@@ -4,6 +4,7 @@ import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSol
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { PasswordInput } from '../Shared/PasswordInput';
 import { useRequestDelete } from '../hooks/useRequestDelete';
+import { ErrorMessage } from '../Shared/ErrorMessage';
 
 // TODO: Update this to prod.
 const logo = 'https://identity-public-assets-stage.s3.eu-west-1.amazonaws.com/images/wellcomecollections-150x50.png';
@@ -16,13 +17,31 @@ const LogoContainer = styled.div`
 export const DeleteAccount: React.FC = () => {
   const [password, setPassword] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isIncorrectPassword, setIsIncorrectPassword] = useState(false);
   const [requestDelete] = useRequestDelete();
 
+  const handlePasswordChange = (enteredValue: string) => {
+    setIsIncorrectPassword(false);
+    setPassword(enteredValue);
+  };
+
   const handleSuccess = () => setIsSuccess(true);
+  const handleFailure = (statusCode?: number) => {
+    switch (statusCode) {
+      case 401: {
+        setIsIncorrectPassword(true);
+        setPassword('');
+        break;
+      }
+      default: {
+        console.error('Error');
+      }
+    }
+  };
 
   const handleConfirmDelete = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    requestDelete({ password }, handleSuccess);
+    requestDelete({ password }, handleSuccess, handleFailure);
   };
 
   return (
@@ -46,7 +65,8 @@ export const DeleteAccount: React.FC = () => {
           <p>Are you sure you want to delete your account?</p>
           <p>To permanently delete your account please enter your password and confirm.</p>
           <form onSubmit={handleConfirmDelete}>
-            <PasswordInput label="Password" id="password" value={password} setValue={setPassword} />
+            <PasswordInput label="Password" id="password" value={password} setValue={handlePasswordChange} />
+            {isIncorrectPassword && <ErrorMessage>Incorrect password</ErrorMessage>}
             <SolidButton type="submit">Yes, delete my account</SolidButton>
           </form>
           <SpacingComponent />
