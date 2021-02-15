@@ -5,14 +5,14 @@ import { classNames, font } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
 import Space, { type SpaceComponentProps } from '../styled/Space';
 
-const PurpleTag: ComponentType<SpaceComponentProps> = styled(Space).attrs(
+const ColouredTag: ComponentType<SpaceComponentProps> = styled(Space).attrs(
   props => ({
     className: classNames({
       caps: true,
       'inline-block': true,
-      'bg-purple': true,
+      'bg-charcoal': true,
       'font-white': true,
-      [font('hnm', 5)]: true,
+      [font('hnm', 6)]: true,
     }),
   })
 )`
@@ -31,11 +31,11 @@ const MessageBar = ({ tagText, children }: Props) => (
       properties: ['padding-top', 'padding-bottom'],
     }}
     className={classNames({
-      [font('hnl', 5)]: true,
+      [font('hnl', 6)]: true,
     })}
   >
     {tagText && (
-      <PurpleTag
+      <ColouredTag
         as="span"
         h={{
           size: 's',
@@ -43,7 +43,7 @@ const MessageBar = ({ tagText, children }: Props) => (
         }}
       >
         {tagText}
-      </PurpleTag>
+      </ColouredTag>
     )}
     {children}
   </Space>
