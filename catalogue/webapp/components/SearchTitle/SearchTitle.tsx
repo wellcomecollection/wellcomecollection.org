@@ -17,7 +17,7 @@ const SearchTitle: FunctionComponent = (): ReactElement => {
         >
           <Space
             as="h1"
-            v={{ size: 'm', properties: ['margin-bottom'] }}
+            v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
             className="h1"
           >
             Search the collections

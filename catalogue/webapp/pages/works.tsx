@@ -134,25 +134,29 @@ const Works: NextPage<Props> = ({
 
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                <SearchTabs
-                  worksRouteProps={worksRouteProps}
-                  imagesRouteProps={{
-                    ...worksRouteProps,
-                    locationsLicense: null,
-                    color: null,
-                  }}
-                  workTypeAggregations={
-                    works && works.aggregations
-                      ? works.aggregations.workType.buckets
-                      : []
-                  }
-                  shouldShowDescription={query === ''}
-                  shouldShowFilters={true}
-                  aggregations={
-                    works && works.aggregations ? works.aggregations : undefined
-                  }
-                  showSortBy={Boolean(works)}
-                />
+                <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                  <SearchTabs
+                    worksRouteProps={worksRouteProps}
+                    imagesRouteProps={{
+                      ...worksRouteProps,
+                      locationsLicense: null,
+                      color: null,
+                    }}
+                    workTypeAggregations={
+                      works && works.aggregations
+                        ? works.aggregations.workType.buckets
+                        : []
+                    }
+                    shouldShowDescription={query === ''}
+                    shouldShowFilters={true}
+                    aggregations={
+                      works && works.aggregations
+                        ? works.aggregations
+                        : undefined
+                    }
+                    showSortBy={Boolean(works)}
+                  />
+                </Space>
               </div>
             </div>
           </div>

@@ -1,8 +1,6 @@
 import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import PageLayout, { Props as PageLayoutProps } from '../PageLayout/PageLayout';
 import InfoBanner from '../InfoBanner/InfoBanner';
-import Layout12 from '../Layout12/Layout12';
-import BetaBar from '../BetaBar/BetaBar';
 import SearchToolbar from '../SearchToolbar/SearchToolbar';
 import TogglesContext from '../TogglesContext/TogglesContext';
 
@@ -42,10 +40,6 @@ const CataloguePageLayout: FunctionComponent<Props> = ({
             )}
 
             {searchToolbar && <SearchToolbar />}
-
-            <Layout12>
-              <BetaBar />
-            </Layout12>
           </>
         )}
         {children}

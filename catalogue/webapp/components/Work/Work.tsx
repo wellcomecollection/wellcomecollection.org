@@ -127,7 +127,7 @@ const Work: FunctionComponent<Props> = ({
               [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
             })}
           >
-            <>
+            <Space v={{ size: 'l', properties: ['margin-top'] }}>
               <SearchTabs
                 worksRouteProps={savedSearchFormState}
                 imagesRouteProps={{
@@ -141,7 +141,7 @@ const Work: FunctionComponent<Props> = ({
                 activeTabIndex={0}
                 showSortBy={false}
               />
-            </>
+            </Space>
           </div>
         </div>
         <div className="grid">
