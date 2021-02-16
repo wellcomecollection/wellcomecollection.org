@@ -21,6 +21,7 @@ import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 
 const BetaBarContainer = styled.div`
+  // on larger screens we shift the BetaBar to the right on the same level as the tabs
   ${props => props.theme.media.medium`
     position: absolute;
     right: 0;
