@@ -11,7 +11,6 @@ import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayo
 import { workLd } from '@weco/common/utils/json-ld';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
-import ArchiveHeader from '@weco/common/views/components/ArchiveHeader/ArchiveHeader';
 import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
@@ -179,7 +178,7 @@ const Work: FunctionComponent<Props> = ({
 
           <div className="container">
             <div className="grid">
-              <ArchiveHeader
+              <WorkHeader
                 work={work}
                 childManifestsCount={childManifestsCount}
               />
