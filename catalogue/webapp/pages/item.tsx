@@ -139,7 +139,7 @@ const ItemPage: NextPage<Props> = ({
       workId,
       page: pageIndex + 1,
       canvas: canvasIndex + 1,
-      manifest: manifestIndex + 1,
+      manifest: manifestIndex ? manifestIndex + 1 : undefined,
       langCode,
     }),
   };
