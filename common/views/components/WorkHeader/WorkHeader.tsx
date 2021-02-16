@@ -31,6 +31,12 @@ const WorkHeader: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
+  const cardLabels = [
+    { url: null, text: work?.workType?.label },
+    work.availableOnline
+      ? { url: null, text: 'Online', labelColor: 'white' }
+      : null,
+  ].filter(Boolean);
 
   return (
     <WorkHeaderContainer>
@@ -104,10 +110,7 @@ const WorkHeader: FunctionComponent<Props> = ({
               properties: ['margin-top'],
             }}
           >
-            <LabelsList
-              labels={[{ url: null, text: work.workType.label }]}
-              labelColor="cream"
-            />
+            <LabelsList labels={cardLabels} labelColor="cream" />
           </Space>
 
           {childManifestsCount > 0 && (
