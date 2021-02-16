@@ -1,6 +1,5 @@
 import React from 'react';
-import { useUser } from '@auth0/nextjs-auth0';
-import { withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 const Test: React.FC = () => {
   const { user, error, isLoading } = useUser();

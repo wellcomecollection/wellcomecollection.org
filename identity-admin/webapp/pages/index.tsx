@@ -1,10 +1,9 @@
 import Layout from '../components/Layout';
-import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
-import React from "react";
+import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0';
+import React from 'react';
 
 const IndexPage: React.FC = () => {
-
-  const {user} = useUser();
+  const { user } = useUser();
 
   if (user) {
     return (

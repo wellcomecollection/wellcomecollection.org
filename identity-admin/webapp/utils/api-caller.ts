@@ -1,8 +1,14 @@
-import { getAccessToken } from "@auth0/nextjs-auth0";
-import {NextApiRequest, NextApiResponse} from "next";
-import {config} from './config';
+import { getAccessToken } from '@auth0/nextjs-auth0';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { config } from './config';
 
-export async function callRemoteApi(req: NextApiRequest, res: NextApiResponse, method: string, url: string, body?: any) {
+export async function callRemoteApi(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  method: string,
+  url: string,
+  body?: any
+) {
   const headers = new Headers();
   headers.append('x-api-key', config.remoteApi.apiKey);
 
@@ -11,7 +17,7 @@ export async function callRemoteApi(req: NextApiRequest, res: NextApiResponse, m
   };
 
   const authToken = await getBearerToken(req, res);
-  if (!!authToken) {
+  if (authToken) {
     headers.append('Authorization', authToken);
   }
   if (body) {
@@ -31,10 +37,13 @@ export async function callRemoteApi(req: NextApiRequest, res: NextApiResponse, m
   return fetch(fullUrl, requestInit);
 }
 
-function getBearerToken(req: NextApiRequest, res: NextApiResponse): Promise<string | undefined> {
+function getBearerToken(
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<string | undefined> {
   return getAccessToken(req, res, {
-    scopes: ['openid', 'profile', 'email']
-  }).then((result) => {
+    scopes: ['openid', 'profile', 'email'],
+  }).then(result => {
     return result.accessToken ? 'Bearer ' + result.accessToken : undefined;
   });
 }
