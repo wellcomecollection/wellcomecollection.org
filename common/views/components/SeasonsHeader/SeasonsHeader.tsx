@@ -51,7 +51,7 @@ const SeasonsHeader: FunctionComponent<Props> = ({
               <TextWrapper>
                 <Space h={{ size: 'm', properties: ['padding-left'] }}>
                   {labels && labels.labels.length > 0 && (
-                    <LabelsList {...labels} labelColor="orange" />
+                    <LabelsList {...labels} defaultLabelColor="orange" />
                   )}
                   <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
                     <Space v={{ size: 'm', properties: ['margin-bottom'] }}>

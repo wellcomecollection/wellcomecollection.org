@@ -9,13 +9,13 @@ type Props = {|
     ...LabelType,
     labelColor?: 'orange' | 'yellow' | 'black' | 'cream' | 'white',
   |}[],
-  labelColor?: 'orange' | 'yellow' | 'black' | 'cream' | 'white',
+  defaultLabelColor?: 'orange' | 'yellow' | 'black' | 'cream' | 'white',
   roundedDiagonal?: boolean,
 |};
 
 const LabelsList = ({
   labels,
-  labelColor = 'yellow',
+  defaultLabelColor = 'yellow',
   roundedDiagonal = false,
 }: Props) => (
   <Space
@@ -41,7 +41,7 @@ const LabelsList = ({
       >
         <Label
           label={label}
-          labelColor={label.labelColor || labelColor}
+          labelColor={label.labelColor || defaultLabelColor}
           roundedDiagonal={roundedDiagonal}
         />
       </Space>

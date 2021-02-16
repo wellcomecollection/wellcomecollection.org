@@ -162,7 +162,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                   properties: ['margin-top'],
                 }}
               >
-                <LabelsList labels={cardLabels} labelColor="cream" />
+                <LabelsList labels={cardLabels} defaultLabelColor="cream" />
               </Space>
             </Details>
             {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (

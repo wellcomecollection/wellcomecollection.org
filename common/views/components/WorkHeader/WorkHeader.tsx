@@ -105,7 +105,7 @@ const WorkHeader: FunctionComponent<Props> = ({
               properties: ['margin-top'],
             }}
           >
-            <LabelsList labels={cardLabels} labelColor="cream" />
+            <LabelsList labels={cardLabels} defaultLabelColor="cream" />
           </Space>
 
           {childManifestsCount > 0 && (
