@@ -1,41 +1,40 @@
-# TypeScript Next.js example
+# Identity Admin
 
-This is a really simple project that shows the usage of Next.js with TypeScript.
+The Identity Admin application is a [Next.js](https://nextjs.org/) application for administrators to manage users' accounts.
+It uses [@auth0/nextjs-auth0](https://github.com/auth0/nextjs-auth0) to manage authentication with Auth0, and integrates with the same remote API as [the Identity Application](../../identity/webapp).
 
-## Deploy your own
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+## Getting Started
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-typescript&project-name=with-typescript&repository-name=with-typescript)
-
-## How to use it?
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-typescript with-typescript-app
-# or
-yarn create next-app --example with-typescript with-typescript-app
-```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
-
-## Notes
-
-This example shows how to integrate the TypeScript type system into Next.js. Since TypeScript is supported out of the box with Next.js, all we have to do is to install TypeScript.
+To get up and running, first install all the required dependencies:
 
 ```
-npm install --save-dev typescript
+yarn install
 ```
 
-To enable TypeScript's features, we install the type declarations for React and Node.
+To build:
 
 ```
-npm install --save-dev @types/react @types/react-dom @types/node
+yarn build
 ```
 
-When we run `next dev` the next time, Next.js will start looking for any `.ts` or `.tsx` files in our project and builds it. It even automatically creates a `tsconfig.json` file for our project with the recommended settings.
+And to start the application:
 
-Next.js has built-in TypeScript declarations, so we'll get autocompletion for Next.js' modules straight away.
+```
+yarn start
+```
 
-A `type-check` script is also added to `package.json`, which runs TypeScript's `tsc` CLI in `noEmit` mode to run type-checking separately. You can then include this, for example, in your `test` scripts.
+
+## Environment Variables
+
+There are several environment variables that must be provided at runtime in order to integrate the identity admin app with Auth0 and the identity API:
+
+- **API_BASE_URL:** The base URL of the Identity API
+- **API_KEY:** The secret access key for the Identity API
+- **AUTH0_SECRET:** A long secret value used to encrypt the session cookie
+- **AUTH0_BASE_URL:** The base URL of this application to be used to build the redirect back from Auth0
+- **AUTH0_ISSUER_BASE_URL:** The URL of the Auth0 instance to authenticate with
+- **AUTH0_CLIENT_ID:** The ID of the Auth0 client application
+- **AUTH0_CLIENT_SECRET** The secret for the Auth0 client application
+
+The easiest way to provide these for development is by creating a `.env` file in this folder with all the required environment variables (see [.env.dist](./.env.dist) for a template).
