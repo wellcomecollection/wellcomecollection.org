@@ -102,7 +102,7 @@ const MultipleManifestList: FunctionComponent<Props> = ({
                   {...itemLink({
                     workId,
                     langCode: lang,
-                    manifest: i,
+                    manifest: i + 1,
                   })}
                 >
                   <a>{manifest.label}</a>
