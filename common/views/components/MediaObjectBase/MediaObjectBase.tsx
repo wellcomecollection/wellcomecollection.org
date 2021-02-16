@@ -174,7 +174,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
           <Space v={{ size: 's', properties: ['margin-top'] }} className="flex">
             <LabelsList
               labels={secondaryLabels}
-              labelColor="black"
+              defaultLabelColor="black"
               roundedDiagonal={true}
             />
           </Space>

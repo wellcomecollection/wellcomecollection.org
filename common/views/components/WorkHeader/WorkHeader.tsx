@@ -1,16 +1,15 @@
-import { Work } from '../../../model/catalogue';
+import { FunctionComponent, ReactElement } from 'react';
+import { Work } from '../../../model/work';
 import { font, classNames, grid } from '../../../utils/classnames';
-import { getProductionDates, getWorkTypeIcon } from '../../../utils/works';
-import Icon from '../Icon/Icon';
+import { getProductionDates } from '../../../utils/works';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import Space from '../styled/Space';
-
 import Number from '@weco/common/views/components/Number/Number';
 import styled from 'styled-components';
-
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
-import { FunctionComponent, ReactElement } from 'react';
+import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import { getArchiveLabels, getCardLabels } from '@weco/common/utils/works';
 
 const WorkHeaderContainer = styled.div.attrs({
   className: classNames({
@@ -29,90 +28,61 @@ type Props = {
 const WorkHeader: FunctionComponent<Props> = ({
   work,
   childManifestsCount = 0,
-}: Props): ReactElement => {
+}: Props): ReactElement<Props> => {
   const productionDates = getProductionDates(work);
-  const workTypeIcon = getWorkTypeIcon(work);
+  const archiveLabels = getArchiveLabels(work);
+  const cardLabels = getCardLabels(work);
+
   return (
     <WorkHeaderContainer>
       <Space
         v={{
-          size: 'l',
+          size: 'xl',
           properties: ['margin-bottom'],
         }}
         className={classNames([grid({ s: 12, m: 12, l: 10, xl: 10 })])}
       >
         <SpacingComponent>
-          <div
-            className={classNames({
-              flex: true,
-              'flex--v-center': true,
-              [font('hnl', 5)]: true,
-            })}
-          >
-            {workTypeIcon && (
-              <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
-                <Icon name={workTypeIcon} />
-              </Space>
-            )}
-            <div className="line-height-1">{work.workType.label}</div>
-          </div>
-
           <h1
+            aria-live="polite"
             id="work-info"
-            role="heading"
             className={classNames({
               'no-margin': true,
               [font('hnm', 2)]: true,
               'inline-block': true,
-            })} // We only send a lang if it's unambiguous -- better to send
+            })}
+            // We only send a lang if it's unambiguous -- better to send
             // no language than the wrong one.
             lang={
-              work.languages.length === 1 ? work.languages[0].id : undefined
+              work?.languages?.length === 1 ? work?.languages[0]?.id : undefined
             }
           >
             <WorkTitle title={work.title} />
           </h1>
 
-          {(work.contributors.length > 0 || productionDates.length > 0) && (
-            <Space
-              v={{
-                size: 'l',
-                properties: ['margin-top'],
-              }}
-              className={classNames({
-                'flex flex--wrap flex--v-center': true,
-              })}
-            >
-              {work.contributors.length > 0 && (
-                <Space
-                  h={{
-                    size: 'm',
-                    properties: ['margin-right'],
-                  }}
-                >
-                  <LinkLabels
-                    items={[
-                      {
-                        text: work.contributors[0].agent.label,
-                        url: null,
-                      },
-                    ]}
-                  />
-                </Space>
-              )}
-
-              {productionDates.length > 0 && (
-                <LinkLabels
-                  heading={'Date'}
-                  items={[
-                    {
-                      text: productionDates[0],
-                      url: null,
-                    },
-                  ]}
-                />
-              )}
+          {work.contributors.length > 0 && (
+            <Space h={{ size: 'm', properties: ['margin-right'] }}>
+              <LinkLabels
+                items={[
+                  {
+                    text: work.contributors[0].agent.label,
+                    url: null,
+                  },
+                ]}
+              />
             </Space>
+          )}
+
+          {productionDates.length > 0 && (
+            <LinkLabels
+              heading={'Date'}
+              items={[
+                {
+                  text: productionDates[0],
+                  url: null,
+                },
+              ]}
+            />
           )}
 
           {work.referenceNumber && (
@@ -121,6 +91,22 @@ const WorkHeader: FunctionComponent<Props> = ({
               items={[{ text: work.referenceNumber }]}
             />
           )}
+
+          {archiveLabels?.partOf && (
+            <LinkLabels
+              heading="Part of"
+              items={[{ text: archiveLabels.partOf }]}
+            />
+          )}
+
+          <Space
+            v={{
+              size: 'm',
+              properties: ['margin-top'],
+            }}
+          >
+            <LabelsList labels={cardLabels} defaultLabelColor="cream" />
+          </Space>
 
           {childManifestsCount > 0 && (
             <Space v={{ size: 'm', properties: ['margin-top'] }}>

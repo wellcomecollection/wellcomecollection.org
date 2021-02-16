@@ -128,7 +128,7 @@ const BannerCard: FunctionComponent<Props> = ({
         {type && (
           <LabelsList
             labels={[{ url: null, text: type }]}
-            labelColor={'orange'}
+            defaultLabelColor={'orange'}
           />
         )}
         <Space

@@ -18,6 +18,15 @@ import NextLink from 'next/link';
 import { removeEmptyProps } from '../../../utils/json';
 import { useRouter } from 'next/router';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
+import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
+
+const BetaBarContainer = styled.div`
+  // on larger screens we shift the BetaBar to the right on the same level as the tabs
+  ${props => props.theme.media.medium`
+    position: absolute;
+    right: 0;
+  `}
+`;
 
 const BaseTabsWrapper = styled.div`
   // FIXME: For testing, make the checkboxes/buttons have a white background because they're on grey
@@ -252,14 +261,19 @@ const SearchTabs: FunctionComponent<Props> = ({
   }
 
   return (
-    <BaseTabsWrapper>
-      <BaseTabs
-        tabs={tabs}
-        label={'Tabs for search'}
-        activeTabIndex={activeTabIndex}
-        onTabClick={onTabClick}
-      />
-    </BaseTabsWrapper>
+    <div style={{ position: 'relative' }}>
+      <BetaBarContainer>
+        <BetaBar />
+      </BetaBarContainer>
+      <BaseTabsWrapper>
+        <BaseTabs
+          tabs={tabs}
+          label={'Tabs for search'}
+          activeTabIndex={activeTabIndex}
+          onTabClick={onTabClick}
+        />
+      </BaseTabsWrapper>
+    </div>
   );
 };
 
