@@ -27,9 +27,11 @@ const Container = styled.div`
 const Details = styled.div`
   ${props => props.theme.media.medium`
     flex-grow: 1;
+    max-width: 800px;
   `}
 `;
 const Preview = styled(Space).attrs<SpaceComponentProps>(() => ({
+  h: { size: 'm', properties: ['padding-left'] },
   className: classNames({
     'text-align-center': true,
   }),
@@ -38,6 +40,7 @@ const Preview = styled(Space).attrs<SpaceComponentProps>(() => ({
   flex-shrink: 0;
   flex-basis: 178px;
   height: 178px;
+  margin-left: auto;
   margin-top: ${props => props.theme.spacingUnit * 2}px;
 
   ${props => props.theme.media.medium`
@@ -163,7 +166,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
               </Space>
             </Details>
             {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
-              <Preview h={{ size: 'm', properties: ['margin-left'] }}>
+              <Preview>
                 <Image
                   defaultSize={178}
                   alt={''}
