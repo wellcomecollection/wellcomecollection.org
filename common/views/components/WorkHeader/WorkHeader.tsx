@@ -9,7 +9,7 @@ import Number from '@weco/common/views/components/Number/Number';
 import styled from 'styled-components';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import { getArchiveLabels } from '@weco/common/utils/works';
+import { getArchiveLabels, getCardLabels } from '@weco/common/utils/works';
 
 const WorkHeaderContainer = styled.div.attrs({
   className: classNames({
@@ -31,12 +31,7 @@ const WorkHeader: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
-  const cardLabels = [
-    { url: null, text: work?.workType?.label },
-    work.availableOnline
-      ? { url: null, text: 'Online', labelColor: 'white' }
-      : null,
-  ].filter(Boolean);
+  const cardLabels = getCardLabels(work);
 
   return (
     <WorkHeaderContainer>

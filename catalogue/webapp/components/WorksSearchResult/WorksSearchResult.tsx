@@ -3,7 +3,11 @@ import styled from 'styled-components';
 import { Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
-import { getArchiveLabels, getProductionDates } from '@weco/common/utils/works';
+import {
+  getArchiveLabels,
+  getProductionDates,
+  getCardLabels,
+} from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import Image from '@weco/common/views/components/Image/Image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -68,12 +72,8 @@ const WorkSearchResult: FunctionComponent<Props> = ({
 }: Props) => {
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
-  const cardLabels = [
-    { url: null, text: work?.workType?.label },
-    work.availableOnline
-      ? { url: null, text: 'Online', labelColor: 'white' }
-      : null,
-  ].filter(Boolean);
+  const cardLabels = getCardLabels(work);
+
   return (
     <div
       className={classNames({
