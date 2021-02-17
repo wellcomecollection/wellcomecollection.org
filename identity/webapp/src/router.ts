@@ -46,7 +46,7 @@ export const router = new TypedRouter({
   'get-current-user': [TypedRouter.GET, '/api/users/me', getCurrentUser],
   'update-current-user': [TypedRouter.PUT, '/api/users/me', updateCurrentUser],
   'update-user-password': [TypedRouter.PUT, '/api/users/me/password', updatePassword, 'UpdatePasswordSchema'],
-  'delete-user': [TypedRouter.DELETE, '/api/users/:user_id', requestDelete, 'RequestDeleteSchema'],
+  'delete-user': [TypedRouter.DELETE, '/api/users/me', requestDelete, 'RequestDeleteSchema'],
 
   // Proxy APIs - todo
   'get-user': [TypedRouter.GET, '/api/users/:user_id', stubApi],
