@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import Modal from '@weco/common/views/components/Modal/Modal';
 
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -12,6 +13,7 @@ import { PasswordInput } from '../Shared/PasswordInput';
 import { UserInfo } from '../hooks/useUserInfo';
 import { useUpdateUserInfo } from '../hooks/useUpdateUserInfo';
 import { validateEmail } from '../../utility/validate-email-address';
+import { DeleteAccount } from './DeleteAccount';
 
 type ExistingDataProps = {
   label: string;
@@ -37,7 +39,10 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ firstName, lastName, e
   const [isSaved, setIsSaved] = useState<boolean>(true);
   const [isIncorrectPassword, setIsIncorrectPassword] = useState<boolean>(false);
   const [isUpdateSuccessful, setIsUpdateSuccessful] = useState<boolean>(false);
+  const [isDeleteModalActive, setIsDeleteModalActive] = useState(false);
   const [updateUserInfo] = useUpdateUserInfo();
+
+  const modalOpenButton = useRef(null);
 
   useEffect(() => {
     setNewEmail(email);
@@ -84,10 +89,6 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ firstName, lastName, e
     }
   };
 
-  const deleteAccount = () => {
-    // TODO: Delete Account
-  };
-
   return (
     <div>
       <ExistingData label="Name" value={`${firstName} ${lastName}`} />
@@ -116,11 +117,21 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ firstName, lastName, e
         <PasswordInput value={password} setValue={setPassword} label="password" id="password" />
         {isIncorrectPassword && <ErrorMessage>Incorrect password</ErrorMessage>}
         <SpacingComponent />
-        <OutlinedButton onClick={deleteAccount}>Delete Account</OutlinedButton>
+        <OutlinedButton type="button" onClick={() => setIsDeleteModalActive(true)} ref={modalOpenButton}>
+          Delete Account
+        </OutlinedButton>
         <SolidButton type="submit" disabled={!canSave}>
           Save Changes
         </SolidButton>
       </form>
+      <Modal
+        id="delete-account"
+        isActive={isDeleteModalActive}
+        setIsActive={setIsDeleteModalActive}
+        openButtonRef={modalOpenButton}
+      >
+        <DeleteAccount onCancel={() => setIsDeleteModalActive(false)} />
+      </Modal>
     </div>
   );
 };
