@@ -184,7 +184,7 @@ describe('PasswordForm', () => {
 
       await waitFor(() => {
         expect(callMiddlewareApi).toBeCalledWith('PUT', '/api/users/me/password', {
-          currentPassword: 'dolphins',
+          password: 'dolphins',
           newPassword: 'RedPanda4',
         });
       });
