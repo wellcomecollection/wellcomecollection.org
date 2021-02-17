@@ -51,6 +51,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ firstName, lastName, e
   };
 
   const onSaveSuccess = () => {
+    setAlreadyExists(false);
     setIsIncorrectPassword(false);
     setIsUpdateSuccessful(true);
     setIsSaved(true);

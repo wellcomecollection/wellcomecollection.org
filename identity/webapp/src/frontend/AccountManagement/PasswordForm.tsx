@@ -4,6 +4,8 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 
 import { ErrorMessage } from '../Shared/ErrorMessage';
 import { PasswordInput } from '../Shared/PasswordInput';
+import { useUpdatePassword } from '../hooks/useUpdatePassword';
+import { SuccessMessage } from '../Shared/SuccessMessage';
 
 // At least 8 characters, one uppercase, one lowercase and number
 const passwordPolicy = /(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*/;
@@ -12,33 +14,80 @@ export const PasswordForm: React.FC = () => {
   const [currentPassword, setCurrentPassword] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmation, setConfirmation] = useState<string>('');
+  const [isValid, setIsValid] = useState<boolean>(true);
+  const [isConfirmed, setIsConfirmed] = useState<boolean>(true);
+  const [isUpdateSuccessful, setIsUpdateSuccessful] = useState<boolean>(false);
+  const [isIncorrectPassword, setIsIncorrectPassword] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [updatePassword] = useUpdatePassword();
 
-  const isValid = newPassword && passwordPolicy.test(newPassword);
-  const isConfirmed = newPassword === confirmation;
-
-  const updatePassword = () => {
-    // Update Password
+  const resetForm = () => {
+    setCurrentPassword('');
+    setNewPassword('');
+    setConfirmation('');
+    setIsValid(true);
+    setIsConfirmed(true);
   };
+
+  const onSubmitSuccess = () => {
+    setIsUpdateSuccessful(true);
+    resetForm();
+  };
+
+  const onSubmitFailure = (statusCode?: number) => {
+    switch (statusCode) {
+      case 401: {
+        setIsIncorrectPassword(true);
+        setCurrentPassword('');
+        break;
+      }
+      default: {
+        setIsError(true);
+        break;
+      }
+    }
+  };
+
+  const handleSubmission = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    updatePassword({ currentPassword, newPassword }, onSubmitSuccess, onSubmitFailure);
+  };
+
+  const handleCurrentPasswordChange = (enteredValue: string) => {
+    setIsIncorrectPassword(false);
+    setCurrentPassword(enteredValue);
+  };
+
+  const handlePasswordChange = (enteredValue: string) => {
+    setIsUpdateSuccessful(false);
+    setIsValid(passwordPolicy.test(enteredValue));
+    setNewPassword(enteredValue);
+  };
+
+  const handleConfirmationChange = (enteredValue: string) => {
+    setIsUpdateSuccessful(false);
+    setIsConfirmed(enteredValue === newPassword);
+    setConfirmation(enteredValue);
+  };
+
+  const canUpdate = currentPassword && newPassword && confirmation && isValid && isConfirmed;
 
   return (
     <>
       <h1 className="font-wb font-size-4">Change your password using the form below.</h1>
       <SpacingComponent />
-      <form>
+      {isUpdateSuccessful && <SuccessMessage>Your password has been updated</SuccessMessage>}
+      {isError && <ErrorMessage>Something went wrong</ErrorMessage>}
+      <form onSubmit={handleSubmission}>
         <PasswordInput
           label="Current password"
           value={currentPassword}
-          setValue={setCurrentPassword}
+          setValue={handleCurrentPasswordChange}
           id="old-password"
         />
+        {isIncorrectPassword && <ErrorMessage>Incorrect password</ErrorMessage>}
         <SpacingComponent />
-        <PasswordInput
-          label="New password"
-          id="new-password"
-          value={newPassword}
-          setValue={setNewPassword}
-          pattern={passwordPolicy.toString()}
-        />
+        <PasswordInput label="New password" id="new-password" value={newPassword} setValue={handlePasswordChange} />
         {!isValid && (
           <ErrorMessage>
             The password you have entered does not meet the password policy. Please enter a password with at least 8
@@ -55,15 +104,14 @@ export const PasswordForm: React.FC = () => {
         <PasswordInput
           label="Retype new password"
           value={confirmation}
-          setValue={setConfirmation}
+          setValue={handleConfirmationChange}
           id="confirm-password"
         />
         {!isConfirmed && <ErrorMessage>The passwords you entered did not match.</ErrorMessage>}
         <SpacingComponent />
-        <SolidButton disabled={!isValid || !isConfirmed} onClick={updatePassword}>
+        <SolidButton type="submit" disabled={!canUpdate}>
           Update Password
         </SolidButton>
-        <input type="submit" value="Submit" hidden={true} />
       </form>
     </>
   );

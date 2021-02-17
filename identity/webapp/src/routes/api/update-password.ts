@@ -1,18 +1,23 @@
 import { RouteMiddleware } from '../../types/application';
-import { RequestError } from '../../utility/errors/request-error';
 import { UpdatePasswordSchema } from '../../types/schemas/update-password';
+import { callRemoteApi } from '../../utility/api-caller';
 
-export const updatePassword: RouteMiddleware<{ user_id: string }, UpdatePasswordSchema> = (context) => {
-  if (!context.isAuthenticated()) {
-    throw new RequestError(`Unauthorized`); // Can make a specific error if required, this is a generic 400.
+export const updatePassword: RouteMiddleware<UpdatePasswordSchema> = async (context) => {
+  const validateUserResponse = await callRemoteApi('POST', '/users/me/validate', context.state, {
+    password: context.requestBody.currentPassword,
+  });
+
+  if (validateUserResponse.status === 200) {
+    const updatePasswordResponse = await callRemoteApi('PUT', '/users/me/password', context.state, {
+      password: context.requestBody.newPassword,
+    });
+
+    context.response.status = updatePasswordResponse.status;
+    context.response.body = updatePasswordResponse.data;
+
+    return;
   }
 
-  const body = context.requestBody; // type = UpdatePasswordSchema
-
-  // Make call to API.
-  // fetch( ... ,  { body: body });
-  console.log(body);
-
-  // Return whatever you want to the user.
-  context.response.status = 200;
+  context.response.status = validateUserResponse.status;
+  return;
 };

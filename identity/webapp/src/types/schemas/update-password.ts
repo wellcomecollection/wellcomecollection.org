@@ -6,5 +6,6 @@
  */
 
 export interface UpdatePasswordSchema {
-  password: string;
+  currentPassword: string;
+  newPassword: string;
 }

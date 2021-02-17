@@ -1,13 +1,13 @@
 import React from 'react';
-import axios from 'axios';
 import { render, screen } from '../test-utils';
 import { ProfileForm, ProfileFormProps } from './ProfileForm';
 import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
+import * as apiClient from '../../utility/middleware-api-client';
 
-jest.mock('axios');
+jest.mock('../../utility/middleware-api-client');
 
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+const callMiddlewareApi = apiClient.callMiddlewareApi as jest.Mock;
 
 const defaultProps: ProfileFormProps = {
   firstName: 'Bruce',
@@ -51,11 +51,11 @@ describe('ProfileForm', () => {
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
-    mockedAxios.put.mockResolvedValue({ status: 200 });
+    callMiddlewareApi.mockResolvedValue({ status: 200 });
     userEvent.click(saveButton);
 
     await waitFor(() => {
-      expect(mockedAxios.put).toBeCalledWith('/api/users/me', {
+      expect(callMiddlewareApi).toBeCalledWith('PUT', '/api/users/me', {
         email: defaultProps.email,
         newEmail: 'batman@justiceleague.com',
         password: 'D4rkKnight1',
@@ -80,7 +80,7 @@ describe('ProfileForm', () => {
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
-    mockedAxios.put.mockRejectedValue({
+    callMiddlewareApi.mockRejectedValue({
       response: {
         status: 409,
         message: 'An attempt to update the record to an email address which already exists was made.',
@@ -106,7 +106,7 @@ describe('ProfileForm', () => {
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
-    mockedAxios.put.mockRejectedValue({
+    callMiddlewareApi.mockRejectedValue({
       response: { status: 401, message: 'The provided password is incorrect.' },
     });
     userEvent.click(saveButton);
