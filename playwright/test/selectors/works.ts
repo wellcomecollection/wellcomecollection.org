@@ -2,7 +2,7 @@ import { searchImagesForm } from './images';
 import { mobileModal, searchResultsContainer } from './search';
 
 // text
-export const workTitleHeading = 'h1[role="heading"]';
+export const workTitleHeading = 'h1';
 
 // results list
 export const worksSearchResultsListItem = `${searchResultsContainer} li[role="listitem"]`;
