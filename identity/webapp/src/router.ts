@@ -10,6 +10,7 @@ import { updatePassword } from './routes/api/update-password';
 import { registerUser } from './routes/api/register-user';
 import { getCurrentUser } from './routes/api/get-current-user';
 import { updateCurrentUser } from './routes/api/update-current-user';
+import { requestDelete } from './routes/api/request-delete';
 
 const loginRoutes =
   process.env.NODE_ENV === 'production' || config.authMethod === 'auth0'
@@ -45,9 +46,9 @@ export const router = new TypedRouter({
   'get-current-user': [TypedRouter.GET, '/api/users/me', getCurrentUser],
   'update-current-user': [TypedRouter.PUT, '/api/users/me', updateCurrentUser],
   'update-user-password': [TypedRouter.PUT, '/api/users/me/password', updatePassword, 'UpdatePasswordSchema'],
+  'delete-user': [TypedRouter.DELETE, '/api/users/me', requestDelete, 'RequestDeleteSchema'],
 
   // Proxy APIs - todo
-  'delete-user': [TypedRouter.DELETE, '/api/users/:user_id', stubApi],
   'get-user': [TypedRouter.GET, '/api/users/:user_id', stubApi],
   'get-users': [TypedRouter.GET, '/api/users', stubApi],
   'lock-user-account': [TypedRouter.PUT, '/api/users/:user_id/lock', stubApi],
