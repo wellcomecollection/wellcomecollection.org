@@ -1,10 +1,10 @@
-import {RouteMiddleware} from '../types/application';
+import { RouteMiddleware } from '../types/application';
 import koaPassport from 'koa-passport';
-import {withPrefix} from '../utility/prefix';
-import {config} from '../config';
+import { withPrefix } from '../utility/prefix';
+import { config } from '../config';
 import * as querystring from 'querystring';
-import {router} from "../router";
-import {URL} from "url";
+import { router } from '../router';
+import { URL } from 'url';
 
 export const loginAction: RouteMiddleware = koaPassport.authenticate('auth0', {
   scope: 'openid profile email',
