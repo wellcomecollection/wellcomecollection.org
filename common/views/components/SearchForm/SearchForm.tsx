@@ -80,7 +80,7 @@ const SearchButtonWrapper = styled.div.attrs({
 `;
 
 const ClearSearch = styled.button`
-  right: 12px;
+  right: 102px;
 `;
 
 const SearchSortOrderWrapper = styled.div`

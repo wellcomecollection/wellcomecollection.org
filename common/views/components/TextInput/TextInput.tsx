@@ -83,7 +83,7 @@ type TextInputInputProps = {
 const TextInputInput = styled.input.attrs(props => ({
   type: props.type || 'text',
 }))<TextInputInputProps>`
-  padding: 27px 40px 8px 15px;
+  padding: 27px 130px 8px 15px;
   appearance: none;
   border: 0;
   height: 100%;
