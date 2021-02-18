@@ -96,7 +96,7 @@ const MultipleManifestList: FunctionComponent<Props> = ({
           setShowHidden(!showHidden);
         }}
       >
-        <span data-testid="current-manifest" className={`btn__text`}>
+        <span data-test-id="current-manifest" className={`btn__text`}>
           {buttonText}
         </span>
         <Icon name="chevron" />

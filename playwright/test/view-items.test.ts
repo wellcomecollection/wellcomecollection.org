@@ -15,7 +15,7 @@ describe('Scenario 1: Item has multiple volumes', () => {
     );
 
     const currentManifestLabel = await page.textContent(
-      '[data-testid=current-manifest]'
+      '[data-test-id=current-manifest]'
     );
 
     expect(currentManifestLinkLabel).toEqual(currentManifestLabel);
@@ -30,7 +30,7 @@ describe('Scenario 1: Item has multiple volumes', () => {
     await page.click(nextManifestLinkSelector);
 
     await page.waitForSelector(
-      `css=[data-testid=current-manifest] >> text="${nextManifestLinkLabel}"`
+      `css=[data-test-id=current-manifest] >> text="${nextManifestLinkLabel}"`
     );
   });
 });
