@@ -1,5 +1,4 @@
 import NextLink, { LinkProps } from 'next/link';
-import { useRouter } from 'next/router';
 import { FunctionComponent } from 'react';
 import {
   LinkFrom,
