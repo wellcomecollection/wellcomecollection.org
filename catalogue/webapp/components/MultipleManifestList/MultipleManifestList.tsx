@@ -52,6 +52,7 @@ type Props = {
   manifests: IIIFManifest[];
   workId: string;
   lang: string;
+  manifestIndex: number | undefined;
 };
 
 const MultipleManifestList: FunctionComponent<Props> = ({
