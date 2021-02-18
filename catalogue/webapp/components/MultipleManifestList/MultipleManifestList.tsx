@@ -7,6 +7,7 @@ import { font, classNames } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { ShameButton } from '@weco/common/views/components/ViewerTopBar/ViewerTopBar';
+import { volumesNavigationLabel } from '@weco/common/text/arial-labels';
 
 const HiddenContent = styled.div.attrs(() => ({
   className: classNames({
@@ -58,6 +59,7 @@ const MultipleManifestList: FunctionComponent<Props> = ({
   manifests,
   workId,
   lang,
+  manifestIndex,
 }: Props) => {
   const [showHidden, setShowHidden] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -74,9 +76,12 @@ const MultipleManifestList: FunctionComponent<Props> = ({
     };
   }, []);
 
+  const hiddenContentId = 'MultipleManifestListHiddenContent';
   return (
     <div
       ref={wrapperRef}
+      role="navigation"
+      aria-label={volumesNavigationLabel}
       className={classNames({
         'inline-block': true,
         relative: true,
@@ -84,16 +89,18 @@ const MultipleManifestList: FunctionComponent<Props> = ({
     >
       <ShameButton
         isDark
-        aria-controls="hiddenContent"
+        aria-controls={hiddenContentId}
         aria-expanded={showHidden}
         onClick={() => {
           setShowHidden(!showHidden);
         }}
       >
-        <span className={`btn__text`}>{buttonText}</span>
+        <span data-testid="current-manifest" className={`btn__text`}>
+          {buttonText}
+        </span>
         <Icon name="chevron" />
       </ShameButton>
-      <HiddenContent id="hiddenContent" hidden={!showHidden}>
+      <HiddenContent id={hiddenContentId} hidden={!showHidden}>
         <SpacingComponent>
           <ul className="no-margin no-padding plain-list">
             {manifests.map((manifest, i) => (
@@ -105,7 +112,9 @@ const MultipleManifestList: FunctionComponent<Props> = ({
                     manifest: i + 1,
                   })}
                 >
-                  <a>{manifest.label}</a>
+                  <a aria-current={i === manifestIndex ? 'page' : undefined}>
+                    {manifest.label}
+                  </a>
                 </NextLink>
               </li>
             ))}

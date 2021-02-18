@@ -1,4 +1,5 @@
 import NextLink, { LinkProps } from 'next/link';
+import { useRouter } from 'next/router';
 import { FunctionComponent } from 'react';
 import {
   LinkFrom,
@@ -57,6 +58,11 @@ function toLink({ workId, source, ...params }: ItemProps): LinkProps {
   };
 }
 
+function useProps() {
+  const router = useRouter();
+  return fromQuery(router.query);
+}
+
 type Props = LinkFrom<ItemProps>;
 const ItemLink: FunctionComponent<Props> = ({
   workId,
@@ -92,4 +98,4 @@ const ItemLink: FunctionComponent<Props> = ({
 };
 
 export default ItemLink;
-export { toLink, fromQuery };
+export { toLink, fromQuery, useProps };

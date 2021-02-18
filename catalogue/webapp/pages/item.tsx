@@ -41,6 +41,7 @@ import {
 } from '@weco/common/views/pages/_app';
 import * as ItemProps from '@weco/common/views/components/ItemLink/ItemLink';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
+import { useRouter } from 'next/router';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -344,6 +345,7 @@ const ItemPage: NextPage<Props> = ({
             pageIndex={pageIndex}
             pageSize={pageSize}
             canvasIndex={canvasIndex}
+            manifestIndex={manifestIndex}
             iiifImageLocation={iiifImageLocation}
             work={work}
             manifest={manifest}
