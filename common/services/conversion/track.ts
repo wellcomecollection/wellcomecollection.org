@@ -101,7 +101,7 @@ function trackPageview(
   track(conversion);
 }
 
-type EventName = 'more_filters_open';
+type EventName = 'open_more_filters';
 function trackEvent(
   name: EventName,
   properties: { [key: string]: unknown }

@@ -231,7 +231,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   text="More filters"
                   clickHandler={event => {
                     event.preventDefault();
-                    trackEvent('more_filters_open', {});
+                    trackEvent('open_more_filters', {});
                     setMoreFiltersModal(true);
                   }}
                   ref={openMoreFiltersButtonRef}
