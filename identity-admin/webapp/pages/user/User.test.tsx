@@ -5,8 +5,11 @@ import User from './User';
 const renderPage = () => render(<User />);
 
 describe('User', () => {
-  it('renders correctly', () => {
+  it('has a top-level heading which links to the main screen', () => {
     renderPage();
-    expect(screen.getByText(/User/)).toBeInTheDocument();
+    const heading = screen.getByRole('heading', { level: 1 });
+    expect(heading).toBeInTheDocument();
+    expect(heading).toHaveTextContent(/account administration/i);
+    expect(heading.firstChild).toHaveAttribute('href', '/');
   });
 });
