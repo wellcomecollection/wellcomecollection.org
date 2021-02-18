@@ -52,7 +52,6 @@ type Props = {
 
 const SearchInputWrapper = styled.div`
   font-size: 20px;
-  margin-right: 80px;
 
   .search-query {
     height: ${props => 10 * props.theme.spacingUnit}px;
@@ -64,19 +63,19 @@ const SearchButtonWrapper = styled.div.attrs({
     absolute: true,
   }),
 })`
-  top: ${props => props.theme.spacingUnits['3']}px;
-  right: ${props => props.theme.spacingUnits['3']}px;
+  top: ${props => props.theme.spacingUnits['3'] + 6}px;
+  right: ${props => props.theme.spacingUnits['5'] + 6}px;
 
   ${props =>
     props.theme.media.medium`
-    top: ${props.theme.spacingUnits['4']}px;
-    right: ${props.theme.spacingUnits['4']}px;
+    top: ${props.theme.spacingUnits['4'] + 6}px;
+    right: ${props.theme.spacingUnits['6'] + 6}px;
   `}
 
   ${props =>
     props.theme.media.large`
-    top: ${props.theme.spacingUnits['5']}px;
-    right: ${props.theme.spacingUnits['5']}px;
+    top: ${props.theme.spacingUnits['5'] + 6}px;
+    right: ${props.theme.spacingUnits['8'] + 6}px;
   `}
 `;
 
@@ -228,7 +227,7 @@ const SearchForm: FunctionComponent<Props> = ({
       }}
     >
       <Space
-        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+        h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
         v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
       >
         <SearchInputWrapper className="relative">
@@ -357,12 +356,7 @@ const SearchForm: FunctionComponent<Props> = ({
         )}
       </noscript>
       <SearchButtonWrapper>
-        <ButtonSolid
-          icon="search"
-          text="search"
-          isTextHidden={true}
-          isBig={true}
-        />
+        <ButtonSolid text="Search" isTextHidden={false} isBig={true} />
       </SearchButtonWrapper>
     </form>
   );

@@ -21,6 +21,7 @@ import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 
 const BetaBarContainer = styled.div`
+  text-align: right;
   // on larger screens we shift the BetaBar to the right on the same level as the tabs
   ${props => props.theme.media.medium`
     position: absolute;
@@ -52,19 +53,15 @@ const Tab = styled(Space).attrs({
     [font('hnm', 5)]: true,
   }),
 })<TabProps>`
-  background: ${props => props.theme.color('pumice')};
-  border-left: 1px solid ${props => props.theme.color('cream')};
-  border-top: 1px solid ${props => props.theme.color('cream')};
-
-  ${props =>
-    props.isLast &&
-    `
-    border-right: 1px solid ${props.theme.color('cream')};
-  `}
+  background: ${props => props.theme.color('white')};
+  border-left: 1px solid ${props => props.theme.color('pumice')};
+  border-top: 1px solid ${props => props.theme.color('pumice')};
+  border-right: 1px solid ${props => props.theme.color('pumice')};
 
   ${props =>
     props.isActive &&
     `
+    border-color: ${props.theme.color('cream')};
     background: ${props.theme.color('cream')};
   `}
 
@@ -74,6 +71,12 @@ const Tab = styled(Space).attrs({
     box-shadow: ${props.isKeyboard ? props.theme.focusBoxShadow : null};
     position: relative;
     z-index: 1;
+  `}
+
+  width: 100%;
+  text-align: center;
+  ${props => props.theme.media.medium`
+    width: auto;
   `}
 `;
 
