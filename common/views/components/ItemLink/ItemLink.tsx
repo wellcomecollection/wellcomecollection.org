@@ -58,11 +58,6 @@ function toLink({ workId, source, ...params }: ItemProps): LinkProps {
   };
 }
 
-function useProps() {
-  const router = useRouter();
-  return fromQuery(router.query);
-}
-
 type Props = LinkFrom<ItemProps>;
 const ItemLink: FunctionComponent<Props> = ({
   workId,
@@ -98,4 +93,4 @@ const ItemLink: FunctionComponent<Props> = ({
 };
 
 export default ItemLink;
-export { toLink, fromQuery, useProps };
+export { toLink, fromQuery };
