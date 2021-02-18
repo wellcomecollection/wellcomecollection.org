@@ -20,9 +20,7 @@ export const logoutAction: RouteMiddleware = (context) => {
   context.logout();
 
   const logoutUri = new URL(`https://${config.auth0.domain}/v2/logout`);
-
-  const redirectDomain = context.request.protocol + '://' + context.request.hostname;
-  const returnTo = redirectDomain + router.url('login');
+  const returnTo = context.request.origin + router.url('login');
 
   logoutUri.search = querystring.stringify({
     client_id: config.auth0.clientID,
