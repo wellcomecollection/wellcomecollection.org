@@ -6,7 +6,7 @@ import Icon from '../Icon/Icon';
 
 const CheckboxRadioLabel = styled.label.attrs({
   className: classNames({
-    'flex-inline flex--v-center': true,
+    'flex-inline flex--v-start': true,
   }),
 })`
   cursor: pointer;
