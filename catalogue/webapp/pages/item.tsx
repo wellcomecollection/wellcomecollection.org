@@ -41,7 +41,6 @@ import {
 } from '@weco/common/views/pages/_app';
 import * as ItemProps from '@weco/common/views/components/ItemLink/ItemLink';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
-import { useRouter } from 'next/router';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
