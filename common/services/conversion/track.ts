@@ -16,7 +16,7 @@ type Page = {
   query: ParsedUrlQuery;
 };
 
-type ConversionType = 'pageview' | 'search result selected';
+type ConversionType = 'pageview' | 'event';
 
 interface Conversion {
   type: ConversionType;
@@ -76,13 +76,15 @@ function removeCacheValuesFromUrlQuery(query: ParsedUrlQuery) {
   return restOfQuery;
 }
 
-export function trackPageview(
+let pageName: string;
+function trackPageview(
   name: string,
   properties: { [key: string]: unknown }
 ): void {
   // Source is passed in the querystring in the app, but not the client.
   // e.g. /common/views/component/WorkLink/WorkLink.tsx
   const { source, ...query } = removeCacheValuesFromUrlQuery(Router.query);
+  pageName = name;
 
   const conversion: Conversion = {
     type: 'pageview',
@@ -97,6 +99,25 @@ export function trackPageview(
   };
 
   track(conversion);
+}
+
+type EventName = 'more_filters_open';
+function trackEvent(
+  name: EventName,
+  properties: { [key: string]: unknown }
+): void {
+  const { ...query } = removeCacheValuesFromUrlQuery(Router.query);
+
+  track({
+    type: 'event',
+    page: {
+      path: Router.asPath,
+      pathname: Router.pathname,
+      name: pageName,
+      query,
+    },
+    properties: { event: name, ...properties },
+  });
 }
 
 function track(conversion: Conversion) {
@@ -121,3 +142,5 @@ function track(conversion: Conversion) {
     ...conversion,
   });
 }
+
+export { trackPageview, trackEvent };
