@@ -1,4 +1,4 @@
-## A researcher can view items on a work in our catalogue
+## A researcher can complete a works search
 
 > As a _researcher_
 > I want to _find things I am interested in_
