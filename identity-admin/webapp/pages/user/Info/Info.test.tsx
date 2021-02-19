@@ -1,18 +1,15 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Info } from './Info';
-import { TestUserInfoProvider, UserInfoContextState } from '../UserInfoContext';
-
-const captainAmerica = {
-  firstName: 'Steve',
-  lastName: 'Rogers',
-  locked: false,
-  emailValidated: true,
-};
+import {
+  mockUser,
+  TestUserInfoProvider,
+  UserInfoContextState,
+} from '../UserInfoContext';
 
 const defaultContext: UserInfoContextState = {
   isLoading: false,
-  data: captainAmerica,
+  data: mockUser,
 };
 
 const renderComponent = (context = defaultContext) =>
@@ -43,7 +40,7 @@ describe('Info', () => {
       renderComponent({
         ...defaultContext,
         data: {
-          ...captainAmerica,
+          ...mockUser,
           locked: true,
         },
       });
@@ -56,7 +53,7 @@ describe('Info', () => {
       renderComponent({
         ...defaultContext,
         data: {
-          ...captainAmerica,
+          ...mockUser,
           locked: true,
           deleteRequested: '2021-02-18T12:37:58.305Z',
         },
@@ -70,7 +67,7 @@ describe('Info', () => {
       renderComponent({
         ...defaultContext,
         data: {
-          ...captainAmerica,
+          ...mockUser,
           emailValidated: false,
         },
       });

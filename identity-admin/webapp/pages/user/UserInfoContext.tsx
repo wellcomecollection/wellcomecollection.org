@@ -1,15 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserInfo } from '../../types/UserInfo';
 
+export const mockUser: UserInfo = {
+  firstName: 'Steve',
+  lastName: 'Rogers',
+  locked: false,
+  emailValidated: true,
+  barcode: '1234567',
+  patronId: 7654321,
+};
+
 const mockApiCall = () =>
   Promise.resolve({
     status: 200,
-    data: {
-      firstName: 'Steve',
-      lastName: 'Rogers',
-      locked: false,
-      emailValidated: false,
-    },
+    data: mockUser,
   });
 
 export type UserInfoContextState = {
@@ -51,8 +55,10 @@ export const UserInfoProvider: React.FC<{ id: string }> = ({
 
 export const TestUserInfoProvider: React.FC<{
   value: UserInfoContextState;
-}> = props => (
-  <UserInfoContext.Provider value={props.value}>
-    {props.children}
-  </UserInfoContext.Provider>
-);
+}> = props => {
+  return (
+    <UserInfoContext.Provider value={props.value}>
+      {props.children}
+    </UserInfoContext.Provider>
+  );
+};

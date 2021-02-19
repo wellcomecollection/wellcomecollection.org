@@ -4,4 +4,6 @@ export interface UserInfo {
   locked: boolean;
   deleteRequested?: string;
   emailValidated: boolean;
+  barcode: string;
+  patronId: number;
 }
