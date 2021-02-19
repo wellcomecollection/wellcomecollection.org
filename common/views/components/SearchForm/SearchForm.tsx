@@ -14,7 +14,7 @@ import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import { classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { inputValue, nodeListValueToArray } from '../../../utils/forms';
-import SearchFilters from '../SearchFilters/SearchFilters';
+import SearchFilters, { Filter } from '../SearchFilters/SearchFilters';
 import Select from '../Select/Select';
 import Space from '../styled/Space';
 import {
@@ -24,7 +24,6 @@ import {
 import SelectUncontrolled from '../SelectUncontrolled/SelectUncontrolled';
 import useSavedSearchState from '../../../hooks/useSavedSearchState';
 import {
-  WorksRouteProps,
   ImagesRouteProps,
   worksLink,
   imagesLink,
@@ -39,15 +38,17 @@ import {
   getFilterItemSelected,
   getSelectedFilterColor,
 } from '@weco/common/utils/filters';
+import { WorksProps } from '../WorksLink/WorksLink';
 
 type Props = {
   ariaDescribedBy: string;
-  routeProps: WorksRouteProps | ImagesRouteProps;
+  routeProps: WorksProps | ImagesRouteProps;
   workTypeAggregations: CatalogueAggregationBucket[];
   aggregations?: CatalogueAggregations;
   isImageSearch: boolean;
   shouldShowFilters: boolean;
   showSortBy: boolean;
+  filters: Filter[];
 };
 
 const SearchInputWrapper = styled.div`
@@ -96,6 +97,7 @@ const SearchForm: FunctionComponent<Props> = ({
   isImageSearch,
   shouldShowFilters,
   showSortBy,
+  filters,
 }: Props): ReactElement<Props> => {
   const [, setSearchParamsState] = useSavedSearchState(routeProps);
   const { query } = routeProps;
@@ -288,6 +290,7 @@ const SearchForm: FunctionComponent<Props> = ({
                   'contributors',
                 ]
           }
+          filters={filters}
         />
       )}
       {!isImageSearch && isEnhanced && (

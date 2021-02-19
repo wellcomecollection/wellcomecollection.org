@@ -11,9 +11,12 @@ import Icon from '../Icon/Icon';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-
 import dynamic from 'next/dynamic';
-import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
+import {
+  SearchFiltersSharedProps,
+  CheckboxFilter as CheckboxFilterType,
+  DateRangeFilter as DateRangeFilterType,
+} from '../SearchFilters/SearchFilters';
 import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
 import ButtonInline from '../ButtonInline/ButtonInline';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
@@ -25,6 +28,7 @@ import {
 import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
 import TogglesContext from '../TogglesContext/TogglesContext';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
+
 const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
@@ -32,14 +36,101 @@ const PaletteColorPicker = dynamic(
   import('../PaletteColorPicker/PaletteColorPicker')
 );
 
+type CheckboxFilterProps = {
+  f: CheckboxFilterType;
+  changeHandler: () => void;
+};
+const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
+  return (
+    <DropdownButton label={f.label} isInline={true} id={f.id}>
+      <ul
+        className={classNames({
+          'no-margin no-padding plain-list': true,
+          [font('hnl', 5)]: true,
+        })}
+      >
+        {f.options.map(({ id, label, value, count, selected }) => {
+          return (
+            (count > 0 || selected) && (
+              <li key={`${f.id}-${id}`}>
+                <CheckboxRadio
+                  id={id}
+                  type={`checkbox`}
+                  text={`${label} (${count})`}
+                  value={value}
+                  name={f.id}
+                  checked={selected}
+                  onChange={changeHandler}
+                  ariaLabel={searchFilterCheckBox(label)}
+                />
+              </li>
+            )
+          );
+        })}
+      </ul>
+    </DropdownButton>
+  );
+};
+
+type DateRangeFilterProps = {
+  f: DateRangeFilterType;
+  changeHandler: () => void;
+};
+
+const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
+  const [from, setFrom] = useState(f.from.value);
+  const [to, setTo] = useState(f.to.value);
+
+  return (
+    <Space
+      className={classNames({
+        [font('hnl', 5)]: true,
+      })}
+    >
+      <DropdownButton label={f.label} isInline={true} id={f.id}>
+        <>
+          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+            <NumberInput
+              name={f.from.id}
+              label="From"
+              min="0"
+              max="9999"
+              placeholder={'Year'}
+              value={from || ''}
+              onChange={event => {
+                const val = `${event.currentTarget.value}`;
+                setFrom(val);
+                if (val.match(/^\d{4}$/)) {
+                  changeHandler();
+                }
+              }}
+            />
+          </Space>
+          <NumberInput
+            name={f.to.id}
+            label="to"
+            min="0"
+            max="9999"
+            placeholder={'Year'}
+            value={to || ''}
+            onChange={event => {
+              const val = `${event.currentTarget.value}`;
+              setTo(val);
+              if (val.match(/^\d{4}$/)) {
+                changeHandler();
+              }
+            }}
+          />
+        </>
+      </DropdownButton>
+    </Space>
+  );
+};
+
 const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   filtersToShow,
   worksRouteProps,
   changeHandler,
-  inputDateFrom,
-  inputDateTo,
-  setInputDateFrom,
-  setInputDateTo,
   workTypeFilters,
   productionDatesFrom,
   productionDatesTo,
@@ -49,13 +140,11 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   languagesSelected,
   subjectsSelected,
   genresSelected,
-  isEnhanced,
   contributorsSelected,
+  filters,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const { paletteColorFilter } = useContext(TogglesContext);
   const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
-  const showWorkTypeFilters =
-    workTypeFilters.some(f => f.count > 0) || workTypeSelected.length > 0;
   const { searchMoreFilters } = useContext(TogglesContext);
   const resetFiltersRoute = getResetRouteProps(worksRouteProps);
   const resetFilters = imagesColor
@@ -121,83 +210,26 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
               </Space>
             </Space>
 
-            {showWorkTypeFilters && filtersToShow.includes('formats') && (
-              <Space h={{ size: 's', properties: ['margin-right'] }}>
-                <DropdownButton label={'Formats'} isInline={true} id="formats">
-                  <ul
-                    className={classNames({
-                      'no-margin no-padding plain-list': true,
-                      [font('hnl', 5)]: true,
-                    })}
-                  >
-                    {workTypeFilters.map(workType => {
-                      const isChecked = workTypeSelected.includes(
-                        workType.data.id
-                      );
+            {filters.slice(0, 2).map((f, i, arr) => {
+              return (
+                <Space
+                  key={f.id}
+                  h={
+                    i + 1 !== arr.length
+                      ? { size: 's', properties: ['margin-right'] }
+                      : undefined
+                  }
+                >
+                  {f.type === 'checkbox' && (
+                    <CheckboxFilter f={f} changeHandler={changeHandler} />
+                  )}
 
-                      return (
-                        (workType.count > 0 || isChecked) && (
-                          <li key={workType.data.id}>
-                            <CheckboxRadio
-                              id={workType.data.id}
-                              type={`checkbox`}
-                              text={`${workType.data.label} (${workType.count})`}
-                              value={workType.data.id}
-                              name={`workType`}
-                              checked={isChecked}
-                              onChange={changeHandler}
-                              ariaLabel={searchFilterCheckBox(
-                                workType.data.label
-                              )}
-                            />
-                          </li>
-                        )
-                      );
-                    })}
-                  </ul>
-                </DropdownButton>
-              </Space>
-            )}
-
-            {filtersToShow.includes('dates') && (
-              <Space
-                className={classNames({
-                  [font('hnl', 5)]: true,
-                })}
-              >
-                <DropdownButton label={'Dates'} isInline={true} id="dates">
-                  <>
-                    <Space
-                      as="span"
-                      h={{ size: 'm', properties: ['margin-right'] }}
-                    >
-                      <NumberInput
-                        name="production.dates.from"
-                        label="From"
-                        min="0"
-                        max="9999"
-                        placeholder={'Year'}
-                        value={inputDateFrom || ''}
-                        onChange={event => {
-                          setInputDateFrom(`${event.currentTarget.value}`);
-                        }}
-                      />
-                    </Space>
-                    <NumberInput
-                      name="production.dates.to"
-                      label="to"
-                      min="0"
-                      max="9999"
-                      placeholder={'Year'}
-                      value={inputDateTo || ''}
-                      onChange={event => {
-                        setInputDateTo(`${event.currentTarget.value}`);
-                      }}
-                    />
-                  </>
-                </DropdownButton>
-              </Space>
-            )}
+                  {f.type === 'dateRange' && (
+                    <DateRangeFilter f={f} changeHandler={changeHandler} />
+                  )}
+                </Space>
+              );
+            })}
 
             {filtersToShow.includes('colors') && (
               <Space
@@ -218,7 +250,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 </DropdownButton>
               </Space>
             )}
-            {searchMoreFilters && !filtersToShow.includes('colors') && (
+
+            {searchMoreFilters && filters.slice(2).length > 0 && (
               <Space
                 className={classNames({
                   [font('hnl', 5)]: true,
@@ -239,15 +272,9 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   showMoreFiltersModal={showMoreFiltersModal}
                   setMoreFiltersModal={setMoreFiltersModal}
                   openMoreFiltersButtonRef={openMoreFiltersButtonRef}
-                  filtersToShow={filtersToShow}
-                  aggregations={aggregations}
                   changeHandler={changeHandler}
-                  languagesSelected={languagesSelected}
-                  subjectsSelected={subjectsSelected}
-                  genresSelected={genresSelected}
-                  worksRouteProps={worksRouteProps}
-                  isEnhanced={isEnhanced}
-                  contributorsSelected={contributorsSelected}
+                  query={worksRouteProps.query}
+                  filters={filters.slice(2)}
                 />
               </Space>
             )}
@@ -327,6 +354,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           subjectsSelected={subjectsSelected}
           genresSelected={genresSelected}
           contributorsSelected={contributorsSelected}
+          filters={filters}
         />
       )}
     </>

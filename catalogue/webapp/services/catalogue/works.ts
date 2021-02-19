@@ -74,6 +74,7 @@ export async function getWorks({
   };
   const filterQueryString = queryString(extendedParams);
   const url = `${rootUris[apiOptions.env]}/v2/works${filterQueryString}`;
+  console.info(url);
   try {
     const res = await fetch(url);
     const json = await res.json();

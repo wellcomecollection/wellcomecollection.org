@@ -9,7 +9,9 @@ import {
   toSource,
   QueryTo,
   LinkFrom,
+  toQuotedCsv,
 } from '../../../utils/routes';
+import { Prefix } from '../../../utils/utility-types';
 
 const worksPropsSources = [
   'search_form',
@@ -17,7 +19,13 @@ const worksPropsSources = [
   'meta_link',
   'search/paginator',
 ] as const;
-type WorksPropsSource = typeof worksPropsSources[number];
+// Currently we allow all strings as I can't get the Prefix to work
+// when compiling strings e.g. `cancel_filter/${value}`
+// TODO make this work
+type WorksPropsSource =
+  | typeof worksPropsSources[number]
+  | Prefix<'cancel_filter/'>
+  | string;
 
 export type WorksProps = {
   query: string;
@@ -36,7 +44,20 @@ export type WorksProps = {
   source: WorksPropsSource | 'unknown';
 };
 
-const fromQuery: QueryTo<WorksProps> = params => {
+const emptyWorksProps: WorksProps = {
+  query: '',
+  page: 1,
+  workType: [],
+  itemsLocationsLocationType: [],
+  itemsLocationsType: [],
+  languages: [],
+  genresLabel: [],
+  subjectsLabel: [],
+  contributorsAgentLabel: [],
+  source: 'unknown',
+};
+
+const fromQuery: QueryTo<WorksProps> = (params) => {
   return {
     query: toString(params.query, ''),
     page: toNumber(params.page, 1),
@@ -46,9 +67,9 @@ const fromQuery: QueryTo<WorksProps> = params => {
     itemsLocationsLocationType: toCsv(params['items.locations.locationType']),
     itemsLocationsType: toCsv(params['items.locations.type']),
     languages: toCsv(params.languages),
-    genresLabel: toCsv(params['genres.label']),
-    subjectsLabel: toCsv(params['subjects.label']),
-    contributorsAgentLabel: toCsv(params['contributors.agent.label']),
+    genresLabel: toQuotedCsv(params['genres.label']),
+    subjectsLabel: toQuotedCsv(params['subjects.label']),
+    contributorsAgentLabel: toQuotedCsv(params['contributors.agent.label']),
     productionDatesFrom: toMaybeString(params['production.dates.from']),
     productionDatesTo: toMaybeString(params['production.dates.to']),
     source: toSource(params.source, worksPropsSources) || 'unknown',
@@ -77,4 +98,4 @@ const WorksLink: FunctionComponent<Props> = ({ children, ...props }: Props) => {
 };
 
 export default WorksLink;
-export { toLink, fromQuery };
+export { toLink, fromQuery, emptyWorksProps };

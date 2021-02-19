@@ -5,47 +5,78 @@ import {
   FunctionComponent,
   ReactElement,
 } from 'react';
-import {
-  ImagesRouteProps,
-  WorksRouteProps,
-} from '../../../services/catalogue/ts_routes';
+import { ImagesRouteProps } from '../../../services/catalogue/ts_routes';
 import {
   CatalogueAggregationBucket,
   CatalogueAggregations,
 } from '../../../model/catalogue';
 import SearchFiltersDesktop from '../SearchFiltersDesktop/SearchFiltersDesktop';
 import SearchFiltersMobile from '../SearchFiltersMobile/SearchFiltersMobile';
-import ModalFilters from '../ModalFilters/ModalFilters';
 import theme from '../../themes/default';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { WorksProps } from '../WorksLink/WorksLink';
+
 type Props = {
   searchForm: { current: HTMLFormElement | null };
-  worksRouteProps: WorksRouteProps | ImagesRouteProps;
+  worksRouteProps: WorksProps | ImagesRouteProps;
   workTypeAggregations: CatalogueAggregationBucket[];
   aggregations?: CatalogueAggregations;
   changeHandler: () => void;
   filtersToShow: string[];
+  filters: Filter[];
 };
 
 export type SearchFiltersSharedProps = Props & {
-  inputDateFrom: string | null;
-  inputDateTo: string | null;
+  inputDateFrom: string | undefined;
+  inputDateTo: string | undefined;
   setInputDateFrom: (value: string) => void;
   setInputDateTo: (value: string) => void;
   workTypeFilters: CatalogueAggregationBucket[];
-  productionDatesFrom: string | null;
-  productionDatesTo: string | null;
+  productionDatesFrom: string | undefined;
+  productionDatesTo: string | undefined;
   workTypeSelected: string[];
   locationsTypeSelected: string[];
-  imagesColor: string | null;
+  imagesColor: string | undefined;
   aggregations?: CatalogueAggregations;
   languagesSelected: string[];
   subjectsSelected: string[];
   genresSelected: string[];
   isEnhanced: boolean;
   contributorsSelected: string[];
+  filters: Filter[];
 };
+
+export type DateRangeFilter = {
+  type: 'dateRange';
+  id: string;
+  label: string;
+  to: {
+    key: keyof WorksProps;
+    id: string;
+    value: string | undefined;
+  };
+  from: {
+    key: keyof WorksProps;
+    id: string;
+    value: string | undefined;
+  };
+};
+
+export type CheckboxFilter = {
+  type: 'checkbox';
+  key: keyof WorksProps;
+  id: string;
+  label: string;
+  options: {
+    id: string;
+    value: string;
+    count: number;
+    label: string;
+    selected: boolean;
+  }[];
+};
+
+export type Filter = CheckboxFilter | DateRangeFilter;
 
 const SearchFilters: FunctionComponent<Props> = ({
   searchForm,
@@ -54,6 +85,7 @@ const SearchFilters: FunctionComponent<Props> = ({
   changeHandler,
   aggregations,
   filtersToShow,
+  filters,
 }: Props): ReactElement<Props> => {
   const { productionDatesFrom, productionDatesTo, color } = worksRouteProps;
   const languagesSelected: string[] = worksRouteProps?.languages || [];
@@ -67,7 +99,6 @@ const SearchFilters: FunctionComponent<Props> = ({
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
-  const { modalFiltersPrototype } = useContext(TogglesContext);
   const { isEnhanced } = useContext(AppContext);
   const workTypeFilters = workTypeAggregations;
 
@@ -137,17 +168,11 @@ const SearchFilters: FunctionComponent<Props> = ({
 
   return (
     <>
-      {modalFiltersPrototype ? (
-        <ModalFilters {...sharedProps} />
+      {isMobile ? (
+        <SearchFiltersMobile {...sharedProps} filters={filters} />
       ) : (
         <>
-          {isMobile ? (
-            <SearchFiltersMobile {...sharedProps} />
-          ) : (
-            <>
-              <SearchFiltersDesktop {...sharedProps} />
-            </>
-          )}
+          <SearchFiltersDesktop {...sharedProps} filters={filters} />
         </>
       )}
     </>

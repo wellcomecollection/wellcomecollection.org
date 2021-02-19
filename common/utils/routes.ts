@@ -1,6 +1,7 @@
 import { LinkProps } from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { PropsWithChildren } from 'react';
+import { parseCsv } from './csv';
 import { isInTuple } from './type-guards';
 import { OptionalToUndefined } from './utility-types';
 
@@ -39,6 +40,15 @@ export function toCsv(param: QueryParam): string[] {
   return paramParser(param, {
     empty: () => [],
     string: p => p.split(','),
+    array: p => p,
+    nodef: () => [],
+  });
+}
+
+export function toQuotedCsv(param: QueryParam): string[] {
+  return paramParser(param, {
+    empty: () => [],
+    string: p => parseCsv(p),
     array: p => p,
     nodef: () => [],
   });

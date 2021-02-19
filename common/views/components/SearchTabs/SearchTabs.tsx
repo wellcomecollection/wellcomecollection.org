@@ -5,10 +5,7 @@ import Space from '../styled/Space';
 import { useContext, FunctionComponent, ReactElement } from 'react';
 import { AppContext } from '../AppContext/AppContext';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
-import {
-  WorksRouteProps,
-  ImagesRouteProps,
-} from '@weco/common/services/catalogue/ts_routes';
+import { ImagesRouteProps } from '@weco/common/services/catalogue/ts_routes';
 import {
   CatalogueAggregationBucket,
   CatalogueAggregations,
@@ -18,6 +15,8 @@ import NextLink from 'next/link';
 import { removeEmptyProps } from '../../../utils/json';
 import { useRouter } from 'next/router';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
+import { WorksProps } from '../WorksLink/WorksLink';
+import { Filter } from '../SearchFilters/SearchFilters';
 
 const BaseTabsWrapper = styled.div`
   // FIXME: For testing, make the checkboxes/buttons have a white background because they're on grey
@@ -72,7 +71,7 @@ const TabPanel = styled(Space)`
   background: ${props => props.theme.color('cream')};
 `;
 type Props = {
-  worksRouteProps: WorksRouteProps;
+  worksRouteProps: WorksProps;
   imagesRouteProps: ImagesRouteProps;
   workTypeAggregations: CatalogueAggregationBucket[];
   shouldShowDescription: boolean;
@@ -81,6 +80,8 @@ type Props = {
   shouldShowFilters: boolean;
   showSortBy: boolean;
   disableLink?: boolean;
+  worksFilters: Filter[];
+  imagesFilters: Filter[];
 };
 
 const SearchTabs: FunctionComponent<Props> = ({
@@ -93,6 +94,8 @@ const SearchTabs: FunctionComponent<Props> = ({
   shouldShowFilters,
   showSortBy,
   disableLink = false,
+  worksFilters,
+  imagesFilters,
 }: Props): ReactElement<Props> => {
   const router = useRouter();
   const { query } = router.query;
@@ -166,6 +169,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             aggregations={aggregations}
             shouldShowFilters={shouldShowFilters}
             showSortBy={showSortBy}
+            filters={worksFilters}
           />
         </TabPanel>
       ),
@@ -237,6 +241,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             shouldShowFilters={isEnhanced && shouldShowFilters} // non js images filters doesnt work hide for now\
             aggregations={aggregations}
             showSortBy={showSortBy}
+            filters={imagesFilters}
           />
         </TabPanel>
       ),
