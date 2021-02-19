@@ -46,7 +46,7 @@ describe('DeleteAccount', () => {
     userEvent.click(screen.getByRole('button', { name: /yes, delete my account/i }));
 
     await waitFor(() => {
-      expect(callMiddlewareApi).toBeCalledWith('DELETE', '/api/users/me', {
+      expect(callMiddlewareApi).toBeCalledWith('PUT', '/api/users/me/deletion-request', {
         password: 'dolphins',
       });
     });

@@ -6,6 +6,5 @@
  */
 
 export interface AuthenticationSchema {
-  email: string;
   password: string;
 }
