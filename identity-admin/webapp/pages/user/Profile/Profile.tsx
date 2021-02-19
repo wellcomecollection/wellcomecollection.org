@@ -1,11 +1,9 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { EditedUserInfo } from '../../../types/UserInfo';
 import { useUserInfo } from '../UserInfoContext';
 
-type EditProfileInputs = {
-  firstName: string;
-  lastName: string;
-};
+type EditProfileInputs = EditedUserInfo;
 
 export function Profile(): JSX.Element {
   const { user, isLoading } = useUserInfo();

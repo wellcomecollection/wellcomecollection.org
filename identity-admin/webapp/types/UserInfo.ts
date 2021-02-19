@@ -8,3 +8,5 @@ export interface UserInfo {
   barcode: string;
   patronId: number;
 }
+
+export type EditedUserInfo = Pick<UserInfo, 'firstName' | 'lastName' | 'email'>;
