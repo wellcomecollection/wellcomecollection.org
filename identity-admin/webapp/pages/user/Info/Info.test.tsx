@@ -9,7 +9,7 @@ import {
 
 const defaultContext: UserInfoContextState = {
   isLoading: false,
-  data: mockUser,
+  user: mockUser,
 };
 
 const renderComponent = (context = defaultContext) =>
@@ -39,7 +39,7 @@ describe('Info', () => {
     it('shows that an account has been blocked', () => {
       renderComponent({
         ...defaultContext,
-        data: {
+        user: {
           ...mockUser,
           locked: true,
         },
@@ -52,7 +52,7 @@ describe('Info', () => {
     it('shows that an account has requested deletion', () => {
       renderComponent({
         ...defaultContext,
-        data: {
+        user: {
           ...mockUser,
           locked: true,
           deleteRequested: '2021-02-18T12:37:58.305Z',
@@ -66,7 +66,7 @@ describe('Info', () => {
     it("shows that an account's email is not validated", () => {
       renderComponent({
         ...defaultContext,
-        data: {
+        user: {
           ...mockUser,
           emailValidated: false,
         },

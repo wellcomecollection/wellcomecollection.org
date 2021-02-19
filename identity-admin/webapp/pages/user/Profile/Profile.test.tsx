@@ -9,7 +9,7 @@ import {
 
 const defaultContext: UserInfoContextState = {
   isLoading: false,
-  data: mockUser,
+  user: mockUser,
 };
 
 const renderComponent = (context = defaultContext) =>

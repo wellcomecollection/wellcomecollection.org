@@ -13,11 +13,11 @@ export const mockUser: UserInfo = {
 const mockApiCall = () =>
   Promise.resolve({
     status: 200,
-    data: mockUser,
+    user: mockUser,
   });
 
 export type UserInfoContextState = {
-  data?: UserInfo;
+  user?: UserInfo;
   isLoading: boolean;
   error?: unknown;
 };
@@ -39,11 +39,11 @@ export const UserInfoProvider: React.FC<{ id: string }> = ({
   const [state, setState] = useState<UserInfoContextState>({ isLoading: true });
 
   useEffect(() => {
-    const fetchUser = async (): Promise<{ status: number; data: UserInfo }> => {
+    const fetchUser = async (): Promise<{ status: number; user: UserInfo }> => {
       return mockApiCall();
     };
     setState({ isLoading: true });
-    fetchUser().then(({ data }) => setState({ isLoading: false, data }));
+    fetchUser().then(({ user }) => setState({ isLoading: false, user }));
   }, [id]);
 
   return (
