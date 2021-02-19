@@ -1,9 +1,20 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import axios from 'axios';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Profile } from './Profile';
 import { TestUserInfoProvider, UserInfoContextState } from '../UserInfoContext';
 import { mockUser } from '../../../mocks/UserInfo.mock';
+
+jest.mock('axios');
+
+jest.mock('next/router', () => ({
+  useRouter: () => {
+    return {
+      query: { userId: '3141592' },
+    };
+  },
+}));
 
 const defaultContext: UserInfoContextState = {
   isLoading: false,
@@ -47,5 +58,26 @@ describe('Profile', () => {
     userEvent.clear(emailInput);
     userEvent.type(emailInput, 'iamironman@starkindustries.com');
     expect(emailInput).toHaveValue('iamironman@starkindustries.com');
+  });
+
+  it('submits the edited user details', async () => {
+    renderComponent();
+    const firstNameInput = screen.getByLabelText(/first name/i);
+    userEvent.clear(firstNameInput);
+    userEvent.type(firstNameInput, 'Tony');
+    const lastNameInput = screen.getByLabelText(/last name/i);
+    userEvent.clear(lastNameInput);
+    userEvent.type(lastNameInput, 'Stark');
+    const emailInput = screen.getByLabelText(/email address/i);
+    userEvent.clear(emailInput);
+    userEvent.type(emailInput, 'iamironman@starkindustries.com');
+    userEvent.click(screen.getByRole('button', { name: /update details/i }));
+    await waitFor(() => {
+      expect(axios.put).toBeCalledWith('/api/user/3141592', {
+        firstName: 'Tony',
+        lastName: 'Stark',
+        email: 'iamironman@starkindustries.com',
+      });
+    });
   });
 });

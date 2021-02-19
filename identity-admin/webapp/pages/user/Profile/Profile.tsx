@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useUpdateUserInfo } from '../../../hooks/useUpdateUserInfo';
 import { EditedUserInfo } from '../../../types/UserInfo';
 import { useUserInfo } from '../UserInfoContext';
 
@@ -8,12 +9,15 @@ type EditProfileInputs = EditedUserInfo;
 export function Profile(): JSX.Element {
   const { user, isLoading } = useUserInfo();
   const { register, handleSubmit } = useForm<EditProfileInputs>();
+  const { updateUserInfo } = useUpdateUserInfo();
 
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
-  const onSubmit = (formData: EditProfileInputs) => console.log(formData);
+  const onSubmit = async (formData: EditProfileInputs) => {
+    await updateUserInfo(formData);
+  };
 
   return (
     <>
@@ -44,7 +48,7 @@ export function Profile(): JSX.Element {
           defaultValue={user?.email}
           ref={register}
         />
-        <input type="submit" />
+        <input type="submit" value="Update details" />
       </form>
     </>
   );
