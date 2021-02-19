@@ -76,6 +76,7 @@ type Video = {
 type Props = {
   langCode: string;
   manifest?: IIIFManifest;
+  manifestIndex?: number;
   work: Work;
   pageSize: number;
   pageIndex: number;
@@ -92,6 +93,7 @@ type Props = {
 const ItemPage: NextPage<Props> = ({
   langCode,
   manifest,
+  manifestIndex,
   work,
   pageSize,
   pageIndex,
@@ -137,6 +139,7 @@ const ItemPage: NextPage<Props> = ({
       workId,
       page: pageIndex + 1,
       canvas: canvasIndex + 1,
+      manifest: manifestIndex ? manifestIndex + 1 : undefined,
       langCode,
     }),
   };
@@ -341,6 +344,7 @@ const ItemPage: NextPage<Props> = ({
             pageIndex={pageIndex}
             pageSize={pageSize}
             canvasIndex={canvasIndex}
+            manifestIndex={manifestIndex}
             iiifImageLocation={iiifImageLocation}
             work={work}
             manifest={manifest}
@@ -438,6 +442,7 @@ export const getServerSideProps: GetServerSideProps<
       props: removeUndefinedProps({
         langCode,
         manifest,
+        manifestIndex,
         pageSize,
         pageIndex,
         canvasIndex,

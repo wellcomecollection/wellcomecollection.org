@@ -10,11 +10,11 @@
     "test:watch": "NODE_ENV=test yarn jest -- --watchAll"
   },
   "dependencies": {
-    "@types/jest": "^26.0.19",
+    "@types/jest": "^26.0.20",
     "jest": "^26.6.3",
-    "jest-playwright-preset": "^1.4.3",
-    "playwright": "^1.7.1",
-    "ts-jest": "^26.4.4",
+    "jest-playwright-preset": "^1.4.6",
+    "playwright": "^1.8.1",
+    "ts-jest": "^26.5.1",
     "typescript": "^4.1.5"
   }
 }

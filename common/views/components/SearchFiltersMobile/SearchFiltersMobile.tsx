@@ -1,4 +1,4 @@
-import {
+import React, {
   useState,
   useRef,
   useEffect,
@@ -347,6 +347,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
     >
       <ShameButtonWrap>
         <SolidButton
+          type={ButtonTypes.button}
           ref={openFiltersButtonRef}
           onClick={handleOpenFiltersButtonClick}
           aria-controls="mobile-filters-modal"

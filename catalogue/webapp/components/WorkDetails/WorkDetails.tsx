@@ -625,19 +625,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
       </div>
     </div>
   ) : (
-    <Space
-      v={{
-        size: 'xl',
-        properties: ['padding-top', 'padding-bottom'],
-      }}
-      className={classNames({
-        row: true,
-      })}
-    >
-      <Layout12>
-        <Content />
-      </Layout12>
-    </Space>
+    <Layout12>
+      <Content />
+    </Layout12>
   );
 };
 

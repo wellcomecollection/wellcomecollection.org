@@ -5,6 +5,8 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface UpdatePasswordSchema {
-  password: string;
+import { AuthenticationSchema } from './auth';
+
+export interface UpdatePasswordSchema extends AuthenticationSchema {
+  newPassword: string;
 }

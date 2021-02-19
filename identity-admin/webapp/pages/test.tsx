@@ -1,5 +1,5 @@
 import React from 'react';
-import { useUser } from '@auth0/nextjs-auth0';
+import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 const Test: React.FC = () => {
   const { user, error, isLoading } = useUser();
@@ -19,3 +19,4 @@ const Test: React.FC = () => {
 };
 
 export default Test;
+export const getServerSideProps = withPageAuthRequired();

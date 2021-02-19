@@ -114,7 +114,7 @@ const Works: NextPage<Props> = ({
     id: 'workType',
     label: 'Formats',
     options:
-      works?.aggregations?.workType.buckets.map(bucket => ({
+      works?.aggregations?.workType.buckets.map((bucket) => ({
         id: bucket.data.id,
         value: bucket.data.id,
         count: bucket.count,
@@ -129,7 +129,7 @@ const Works: NextPage<Props> = ({
     id: 'subjects.label',
     label: 'Subjects',
     options:
-      works?.aggregations?.subjects?.buckets.map(bucket => ({
+      works?.aggregations?.subjects?.buckets.map((bucket) => ({
         id: toHtmlId(bucket.data.label),
         value: quoteVal(bucket.data.label),
         count: bucket.count,
@@ -144,7 +144,7 @@ const Works: NextPage<Props> = ({
     id: 'genres.label',
     label: 'Genres',
     options:
-      works?.aggregations?.genres?.buckets.map(bucket => ({
+      works?.aggregations?.genres?.buckets.map((bucket) => ({
         id: toHtmlId(bucket.data.label),
         value: quoteVal(bucket.data.label),
         count: bucket.count,
@@ -159,7 +159,7 @@ const Works: NextPage<Props> = ({
     id: 'contributors.agent.label',
     label: 'Contributors',
     options:
-      works?.aggregations?.contributors?.buckets.map(bucket => ({
+      works?.aggregations?.contributors?.buckets.map((bucket) => ({
         id: toHtmlId(bucket.data.agent.label),
         value: quoteVal(bucket.data.agent.label),
         count: bucket.count,
@@ -176,7 +176,7 @@ const Works: NextPage<Props> = ({
     id: 'languages',
     label: 'Languages',
     options:
-      works?.aggregations?.languages?.buckets.map(bucket => ({
+      works?.aggregations?.languages?.buckets.map((bucket) => ({
         id: bucket.data.id,
         value: bucket.data.id,
         count: bucket.count,
@@ -238,27 +238,31 @@ const Works: NextPage<Props> = ({
 
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                <SearchTabs
-                  worksFilters={filters}
-                  imagesFilters={[]}
-                  worksRouteProps={worksRouteProps}
-                  imagesRouteProps={{
-                    ...worksRouteProps,
-                    locationsLicense: null,
-                    color: null,
-                  }}
-                  workTypeAggregations={
-                    works && works.aggregations
-                      ? works.aggregations.workType.buckets
-                      : []
-                  }
-                  shouldShowDescription={query === ''}
-                  shouldShowFilters={true}
-                  aggregations={
-                    works && works.aggregations ? works.aggregations : undefined
-                  }
-                  showSortBy={Boolean(works)}
-                />
+                <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                  <SearchTabs
+                    worksFilters={filters}
+                    imagesFilters={[]}
+                    worksRouteProps={worksRouteProps}
+                    imagesRouteProps={{
+                      ...worksRouteProps,
+                      locationsLicense: null,
+                      color: null,
+                    }}
+                    workTypeAggregations={
+                      works && works.aggregations
+                        ? works.aggregations.workType.buckets
+                        : []
+                    }
+                    shouldShowDescription={query === ''}
+                    shouldShowFilters={true}
+                    aggregations={
+                      works && works.aggregations
+                        ? works.aggregations
+                        : undefined
+                    }
+                    showSortBy={Boolean(works)}
+                  />
+                </Space>
               </div>
             </div>
           </div>
@@ -391,7 +395,7 @@ const Works: NextPage<Props> = ({
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
-> = async context => {
+> = async (context) => {
   const globalContextData = getGlobalContextData(context);
   const props = fromQuery(context.query);
 

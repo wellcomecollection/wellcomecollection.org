@@ -131,6 +131,7 @@ type Props = {
   parentManifest?: IIIFManifest;
   lang: string;
   viewerRef: RefObject<HTMLElement>;
+  manifestIndex?: number;
 };
 
 const ViewerTopBar: FunctionComponent<Props> = ({
@@ -150,6 +151,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
   parentManifest,
   lang,
   viewerRef,
+  manifestIndex,
 }: Props) => {
   return (
     <TopBar className="flex">
@@ -255,6 +257,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                 manifests={parentManifest.manifests}
                 workId={workId}
                 lang={lang}
+                manifestIndex={manifestIndex}
               />
             )}
           </div>

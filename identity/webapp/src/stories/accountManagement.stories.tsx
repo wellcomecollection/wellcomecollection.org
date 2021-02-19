@@ -24,5 +24,5 @@ export const PasswordFormUI: React.FC = () => {
 };
 
 export const DeleteAccountUI: React.FC = () => {
-  return <DeleteAccount />;
+  return <DeleteAccount onCancel={() => null} />;
 };

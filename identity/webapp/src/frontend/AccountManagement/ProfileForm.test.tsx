@@ -1,13 +1,13 @@
 import React from 'react';
-import axios from 'axios';
 import { render, screen } from '../test-utils';
 import { ProfileForm, ProfileFormProps } from './ProfileForm';
 import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
+import * as apiClient from '../../utility/middleware-api-client';
 
-jest.mock('axios');
+jest.mock('../../utility/middleware-api-client');
 
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+const callMiddlewareApi = apiClient.callMiddlewareApi as jest.Mock;
 
 const defaultProps: ProfileFormProps = {
   firstName: 'Bruce',
@@ -51,12 +51,11 @@ describe('ProfileForm', () => {
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
-    mockedAxios.put.mockResolvedValue({ status: 200 });
+    callMiddlewareApi.mockResolvedValue({ status: 200 });
     userEvent.click(saveButton);
 
     await waitFor(() => {
-      expect(mockedAxios.put).toBeCalledWith('/api/users/me', {
-        email: defaultProps.email,
+      expect(callMiddlewareApi).toBeCalledWith('PUT', '/api/users/me', {
         newEmail: 'batman@justiceleague.com',
         password: 'D4rkKnight1',
       });
@@ -80,7 +79,7 @@ describe('ProfileForm', () => {
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
-    mockedAxios.put.mockRejectedValue({
+    callMiddlewareApi.mockRejectedValue({
       response: {
         status: 409,
         message: 'An attempt to update the record to an email address which already exists was made.',
@@ -106,7 +105,7 @@ describe('ProfileForm', () => {
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
-    mockedAxios.put.mockRejectedValue({
+    callMiddlewareApi.mockRejectedValue({
       response: { status: 401, message: 'The provided password is incorrect.' },
     });
     userEvent.click(saveButton);
@@ -115,5 +114,24 @@ describe('ProfileForm', () => {
       expect(screen.queryByRole('alert')).toBeInTheDocument();
       expect(screen.getByRole('alert')).toHaveTextContent(/incorrect password/i);
     });
+  });
+
+  it('opens a modal to let the user request account deletion', () => {
+    renderComponent();
+    expect(screen.queryByRole('heading', { name: /delete account/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /yes, delete my account/i })).not.toBeInTheDocument();
+
+    userEvent.click(screen.getByRole('button', { name: /delete account/i }));
+
+    expect(screen.queryByRole('heading', { name: /delete account/i })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /yes, delete my account/i })).toBeInTheDocument();
+  });
+
+  it('closes the delete modal when the user cancels', () => {
+    renderComponent();
+    userEvent.click(screen.getByRole('button', { name: /delete account/i }));
+    expect(screen.queryByRole('heading', { name: /delete account/i })).toBeInTheDocument();
+    userEvent.click(screen.getByRole('button', { name: 'No, take me back to my account' }));
+    expect(screen.queryByRole('heading', { name: /delete account/i })).not.toBeInTheDocument();
   });
 });

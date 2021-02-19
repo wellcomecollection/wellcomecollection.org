@@ -7,6 +7,7 @@ import {
 } from '../model/catalogue';
 import { IIIFRendering } from '../model/iiif';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+import { Label } from '../model/labels';
 
 export function getProductionDates(work: Work): string[] {
   return work.production
@@ -243,6 +244,15 @@ export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
     };
   }
   return undefined;
+};
+
+export const getCardLabels = (work: Work): Label[] => {
+  const cardLabels = [{ url: null, text: work.workType.label }];
+  if (work.availableOnline) {
+    return [...cardLabels, { url: null, text: 'Online', labelColor: 'white' }];
+  } else {
+    return cardLabels;
+  }
 };
 
 function makeArchiveAncestorArray(partOfArray, nextPart) {

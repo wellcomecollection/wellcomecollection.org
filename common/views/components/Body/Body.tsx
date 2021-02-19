@@ -35,6 +35,7 @@ import MediaObjectList from '../MediaObjectList/MediaObjectList';
 import InfoBlock from '../InfoBlock/InfoBlock';
 import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
 
+import TitledTextList from '../TitledTextList/TitledTextList';
 import TagsGroup from '../TagsGroup/TagsGroup';
 import Discussion from '../Discussion/Discussion';
 import WobblyEdgedContainer from '../WobblyEdgedContainer/WobblyEdgedContainer';
@@ -273,220 +274,235 @@ const Body: FunctionComponent<Props> = ({
           isLanding={isLanding}
         />
       )}
-      {/* // TO '|||||check when no body content */}
+
       {filteredBody.map((slice, i) => (
-        <SpacingComponent key={`slice${i}`}>
-          <div
-            className={classNames({
-              'body-part': true,
-            })}
-          >
-            {slice.type === 'inPageAnchor' && <span id={slice.value} />}
-            {/* If the first slice is featured text we display it above inPageAnchors and any static content, i.e. <AdditionalContent /> */}
-            {i === 0 && slice.type === 'text' && slice.weight === 'featured' && (
-              <LayoutWidth width={minWidth}>
-                <div className="body-text spaced-text">
-                  <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                    <FeaturedText
-                      html={slice.value}
-                      htmlSerializer={defaultSerializer}
-                    />
-                  </Space>
-                </div>
-              </LayoutWidth>
-            )}
-
-            <AdditionalContent
-              index={i}
-              sections={sections}
-              isLanding={isLanding}
-            />
-
-            {slice.type === 'text' && (
-              <LayoutWidth width={minWidth}>
-                <div className="body-text spaced-text">
-                  {slice.weight !== 'featured' &&
-                    (firstTextSliceIndex === i && isDropCapped ? (
-                      <PrismicHtmlBlock
-                        html={slice.value}
-                        htmlSerializer={dropCapSerializer}
-                      />
-                    ) : (
-                      <PrismicHtmlBlock
-                        html={slice.value}
-                        htmlSerializer={defaultSerializer}
-                      />
-                    ))}
-                </div>
-              </LayoutWidth>
-            )}
-
-            {/* TODO: use one layout for all image weights if/when it's established
-              that width isn't an adequate means to illustrate a difference */}
-            {slice.type === 'picture' && slice.weight === 'default' && (
-              <Layout10>
-                <CaptionedImage {...slice.value} sizesQueries={''} />
-              </Layout10>
-            )}
-            {slice.type === 'picture' && slice.weight === 'standalone' && (
-              <Layout12>
-                <CaptionedImage {...slice.value} sizesQueries={''} />
-              </Layout12>
-            )}
-            {slice.type === 'picture' && slice.weight === 'supporting' && (
-              <LayoutWidth width={minWidth}>
-                <CaptionedImage {...slice.value} sizesQueries={''} />
-              </LayoutWidth>
-            )}
-            {slice.type === 'imageGallery' && (
-              <ImageGallery
-                isStandalone={slice.weight === 'standalone'}
-                {...slice.value}
-                id={imageGalleryIdCount++}
-              />
-            )}
-            {slice.type === 'quote' && (
-              <LayoutWidth width={minWidth}>
-                <Quote {...slice.value} />
-              </LayoutWidth>
-            )}
-            {slice.type === 'contentList' && !isLanding && (
-              <LayoutWidth width={minWidth}>
-                {/* FIXME: this makes what-we-do contentLists synchronous,
-                but it's hacky. */}
-                {pageId === prismicPageIds.whatWeDo ? (
-                  <SearchResults
-                    title={slice.value.title}
-                    items={slice.value.items}
+        <>
+          {slice.type === 'inPageAnchor' && <span id={slice.value} />}
+          {/* If the first slice is featured text we display it above inPageAnchors and any static content, i.e. <AdditionalContent /> */}
+          {i === 0 && slice.type === 'text' && slice.weight === 'featured' && (
+            <LayoutWidth width={minWidth}>
+              <div className="body-text spaced-text">
+                <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                  <FeaturedText
+                    html={slice.value}
+                    htmlSerializer={defaultSerializer}
                   />
-                ) : (
-                  <AsyncSearchResults
-                    title={slice.value.title}
-                    query={slice.value.items
-                      .map(({ id }) => `id:${id}`)
-                      .join(' ')}
-                  />
-                )}
-              </LayoutWidth>
-            )}
-            {/* TODO: remove this slice type if we're not using it? */}
-            {slice.type === 'searchResults' && (
-              <LayoutWidth width={minWidth}>
-                <AsyncSearchResults {...slice.value} />
-              </LayoutWidth>
-            )}
-            {slice.type === 'videoEmbed' && (
-              <LayoutWidth width={minWidth}>
-                <VideoEmbed {...slice.value} />
-              </LayoutWidth>
-            )}
-            {slice.type === 'soundcloudEmbed' && (
-              <LayoutWidth width={minWidth}>
-                <iframe
-                  width="100%"
-                  height="140"
-                  frameBorder="no"
-                  title="soundcloud player"
-                  src={slice.value.embedUrl}
-                />
-              </LayoutWidth>
-            )}
-            {slice.type === 'map' && (
-              <LayoutWidth width={minWidth}>
-                <Map {...slice.value} />
-              </LayoutWidth>
-            )}
-            {slice.type === 'gifVideo' && (
-              <Layout10>
-                <GifVideo {...slice.value} />
-              </Layout10>
-            )}
-            {slice.type === 'iframe' && (
-              <Layout10>
-                <Iframe {...slice.value} />
-              </Layout10>
-            )}
-            {slice.type === 'contact' && (
-              <LayoutWidth width={minWidth}>
-                <Contact {...slice.value} />
-              </LayoutWidth>
-            )}
-            {slice.type === 'collectionVenue' && (
-              <>
-                {slice.value.showClosingTimes && (
+                </Space>
+              </div>
+            </LayoutWidth>
+          )}
+
+          <AdditionalContent
+            index={i}
+            sections={sections}
+            isLanding={isLanding}
+          />
+          {!(
+            i === 0 &&
+            slice.type === 'text' &&
+            slice.weight === 'featured'
+          ) && (
+            <SpacingComponent>
+              <div
+                className={classNames({
+                  'body-part': true,
+                })}
+              >
+                {slice.type === 'text' && (
                   <LayoutWidth width={minWidth}>
-                    <VenueClosedPeriods venue={slice.value.content} />
+                    <div className="body-text spaced-text">
+                      {slice.weight !== 'featured' &&
+                        (firstTextSliceIndex === i && isDropCapped ? (
+                          <PrismicHtmlBlock
+                            html={slice.value}
+                            htmlSerializer={dropCapSerializer}
+                          />
+                        ) : (
+                          <PrismicHtmlBlock
+                            html={slice.value}
+                            htmlSerializer={defaultSerializer}
+                          />
+                        ))}
+                    </div>
                   </LayoutWidth>
                 )}
-                {!slice.value.showClosingTimes && (
-                  <>
-                    <Layout
-                      gridSizes={
-                        slice.weight === 'featured'
-                          ? {
-                              s: 12,
-                              m: 12,
-                              l: 11,
-                              shiftL: 1,
-                              xl: 10,
-                              shiftXL: 2,
-                            }
-                          : {
-                              s: 12,
-                              m: 10,
-                              shiftM: 1,
-                              l: 8,
-                              shiftL: 2,
-                              xl: 8,
-                              shiftXL: 2,
-                            }
-                      }
-                    >
-                      <VenueHours
-                        venue={slice.value.content}
-                        weight={slice.weight || 'default'}
+
+                {/* TODO: use one layout for all image weights if/when it's established
+              that width isn't an adequate means to illustrate a difference */}
+                {slice.type === 'picture' && slice.weight === 'default' && (
+                  <Layout10>
+                    <CaptionedImage {...slice.value} sizesQueries={''} />
+                  </Layout10>
+                )}
+                {slice.type === 'picture' && slice.weight === 'standalone' && (
+                  <Layout12>
+                    <CaptionedImage {...slice.value} sizesQueries={''} />
+                  </Layout12>
+                )}
+                {slice.type === 'picture' && slice.weight === 'supporting' && (
+                  <LayoutWidth width={minWidth}>
+                    <CaptionedImage {...slice.value} sizesQueries={''} />
+                  </LayoutWidth>
+                )}
+                {slice.type === 'imageGallery' && (
+                  <ImageGallery
+                    isStandalone={slice.weight === 'standalone'}
+                    {...slice.value}
+                    id={imageGalleryIdCount++}
+                  />
+                )}
+                {slice.type === 'quote' && (
+                  <LayoutWidth width={minWidth}>
+                    <Quote {...slice.value} />
+                  </LayoutWidth>
+                )}
+                {slice.type === 'titledTextList' && (
+                  <LayoutWidth width={minWidth}>
+                    <TitledTextList {...slice.value} />
+                  </LayoutWidth>
+                )}
+                {slice.type === 'contentList' && !isLanding && (
+                  <LayoutWidth width={minWidth}>
+                    {/* FIXME: this makes what-we-do contentLists synchronous,
+                but it's hacky. */}
+                    {pageId === prismicPageIds.whatWeDo ? (
+                      <SearchResults
+                        title={slice.value.title}
+                        items={slice.value.items}
                       />
-                    </Layout>
+                    ) : (
+                      <AsyncSearchResults
+                        title={slice.value.title}
+                        query={slice.value.items
+                          .map(({ id }) => `id:${id}`)
+                          .join(' ')}
+                      />
+                    )}
+                  </LayoutWidth>
+                )}
+                {/* TODO: remove this slice type if we're not using it? */}
+                {slice.type === 'searchResults' && (
+                  <LayoutWidth width={minWidth}>
+                    <AsyncSearchResults {...slice.value} />
+                  </LayoutWidth>
+                )}
+                {slice.type === 'videoEmbed' && (
+                  <LayoutWidth width={minWidth}>
+                    <VideoEmbed {...slice.value} />
+                  </LayoutWidth>
+                )}
+                {slice.type === 'soundcloudEmbed' && (
+                  <LayoutWidth width={minWidth}>
+                    <iframe
+                      width="100%"
+                      height="140"
+                      frameBorder="no"
+                      title="soundcloud player"
+                      src={slice.value.embedUrl}
+                    />
+                  </LayoutWidth>
+                )}
+                {slice.type === 'map' && (
+                  <LayoutWidth width={minWidth}>
+                    <Map {...slice.value} />
+                  </LayoutWidth>
+                )}
+                {slice.type === 'gifVideo' && (
+                  <Layout10>
+                    <GifVideo {...slice.value} />
+                  </Layout10>
+                )}
+                {slice.type === 'iframe' && (
+                  <Layout10>
+                    <Iframe {...slice.value} />
+                  </Layout10>
+                )}
+                {slice.type === 'contact' && (
+                  <LayoutWidth width={minWidth}>
+                    <Contact {...slice.value} />
+                  </LayoutWidth>
+                )}
+                {slice.type === 'collectionVenue' && (
+                  <>
+                    {slice.value.showClosingTimes && (
+                      <LayoutWidth width={minWidth}>
+                        <VenueClosedPeriods venue={slice.value.content} />
+                      </LayoutWidth>
+                    )}
+                    {!slice.value.showClosingTimes && (
+                      <>
+                        <Layout
+                          gridSizes={
+                            slice.weight === 'featured'
+                              ? {
+                                  s: 12,
+                                  m: 12,
+                                  l: 11,
+                                  shiftL: 1,
+                                  xl: 10,
+                                  shiftXL: 2,
+                                }
+                              : {
+                                  s: 12,
+                                  m: 10,
+                                  shiftM: 1,
+                                  l: 8,
+                                  shiftL: 2,
+                                  xl: 8,
+                                  shiftXL: 2,
+                                }
+                          }
+                        >
+                          <VenueHours
+                            venue={slice.value.content}
+                            weight={slice.weight || 'default'}
+                          />
+                        </Layout>
+                      </>
+                    )}
                   </>
                 )}
-              </>
-            )}
-            {slice.type === 'table' && (
-              <LayoutWidth width={minWidth}>
-                <Table {...slice.value} />
-              </LayoutWidth>
-            )}
-            {slice.type === 'infoBlock' && (
-              <LayoutWidth width={minWidth}>
-                <InfoBlock {...slice.value} />
-              </LayoutWidth>
-            )}
-            {slice.type === 'discussion' && (
-              <WobblyEdgedContainer>
-                <Discussion
-                  title={slice.value.title}
-                  discussion={slice.value.discussion}
-                />
-              </WobblyEdgedContainer>
-            )}
-            {slice.type === 'tagList' && (
-              <LayoutWidth width={minWidth}>
-                <TagsGroup title={slice.value.title} tags={slice.value.tags} />
-              </LayoutWidth>
-            )}
-            {/* deprecated */}
-            {slice.type === 'deprecatedImageList' && (
-              <LayoutWidth width={minWidth}>
-                <DeprecatedImageList {...slice.value} />
-              </LayoutWidth>
-            )}
-            {slice.type === 'mediaObjectList' && (
-              <LayoutWidth width={minWidth}>
-                <MediaObjectList {...slice.value} />
-              </LayoutWidth>
-            )}
-          </div>
-        </SpacingComponent>
+                {slice.type === 'table' && (
+                  <LayoutWidth width={minWidth}>
+                    <Table {...slice.value} />
+                  </LayoutWidth>
+                )}
+                {slice.type === 'infoBlock' && (
+                  <LayoutWidth width={minWidth}>
+                    <InfoBlock {...slice.value} />
+                  </LayoutWidth>
+                )}
+                {slice.type === 'discussion' && (
+                  <WobblyEdgedContainer>
+                    <Discussion
+                      title={slice.value.title}
+                      discussion={slice.value.discussion}
+                    />
+                  </WobblyEdgedContainer>
+                )}
+                {slice.type === 'tagList' && (
+                  <LayoutWidth width={minWidth}>
+                    <TagsGroup
+                      title={slice.value.title}
+                      tags={slice.value.tags}
+                    />
+                  </LayoutWidth>
+                )}
+                {/* deprecated */}
+                {slice.type === 'deprecatedImageList' && (
+                  <LayoutWidth width={minWidth}>
+                    <DeprecatedImageList {...slice.value} />
+                  </LayoutWidth>
+                )}
+                {slice.type === 'mediaObjectList' && (
+                  <LayoutWidth width={minWidth}>
+                    <MediaObjectList {...slice.value} />
+                  </LayoutWidth>
+                )}
+              </div>
+            </SpacingComponent>
+          )}
+        </>
       ))}
     </div>
   );

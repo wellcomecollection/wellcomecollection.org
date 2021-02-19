@@ -2,12 +2,11 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import {
   getArchiveLabels,
   getProductionDates,
-  getWorkTypeIcon,
+  getCardLabels,
 } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import Image from '@weco/common/views/components/Image/Image';
@@ -17,23 +16,12 @@ import Space, {
 } from '@weco/common/views/components/styled/Space';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
+import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 
 type Props = {
   work: Work;
   resultPosition: number;
 };
-
-const ShameAvailableOnlineTag = styled(Space).attrs({
-  h: {
-    size: 's',
-    properties: ['padding-left', 'padding-right'],
-  },
-  v: {
-    size: 's',
-    properties: ['padding-top', 'padding-bottom'],
-  },
-  className: `bg-smoke line-height-1`,
-})``;
 
 const Container = styled.div`
   ${props => props.theme.media.medium`
@@ -43,9 +31,11 @@ const Container = styled.div`
 const Details = styled.div`
   ${props => props.theme.media.medium`
     flex-grow: 1;
+    max-width: 800px;
   `}
 `;
 const Preview = styled(Space).attrs<SpaceComponentProps>(() => ({
+  h: { size: 'm', properties: ['padding-left'] },
   className: classNames({
     'text-align-center': true,
   }),
@@ -54,6 +44,7 @@ const Preview = styled(Space).attrs<SpaceComponentProps>(() => ({
   flex-shrink: 0;
   flex-basis: 178px;
   height: 178px;
+  margin-left: auto;
   margin-top: ${props => props.theme.spacingUnit * 2}px;
 
   ${props => props.theme.media.medium`
@@ -80,8 +71,9 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   resultPosition,
 }: Props) => {
   const productionDates = getProductionDates(work);
-  const workTypeIcon = getWorkTypeIcon(work);
   const archiveLabels = getArchiveLabels(work);
+  const cardLabels = getCardLabels(work);
+
   return (
     <div
       className={classNames({
@@ -118,38 +110,6 @@ const WorkSearchResult: FunctionComponent<Props> = ({
         >
           <Container>
             <Details>
-              <Space
-                v={{
-                  size: 's',
-                  properties: ['margin-bottom'],
-                }}
-                className={classNames({
-                  flex: true,
-                  'flex--v-center': true,
-                  [font('hnl', 5)]: true,
-                })}
-              >
-                {workTypeIcon && (
-                  <Space
-                    as="span"
-                    h={{ size: 's', properties: ['margin-right'] }}
-                    className={classNames({
-                      flex: true,
-                      'flex--v-center': true,
-                    })}
-                  >
-                    <Icon name={workTypeIcon} />
-                  </Space>
-                )}
-                {work.workType.label}
-                {work.availableOnline && (
-                  <Space h={{ size: 'm', properties: ['margin-left'] }}>
-                    <ShameAvailableOnlineTag>
-                      Available online
-                    </ShameAvailableOnlineTag>
-                  </Space>
-                )}
-              </Space>
               <h2
                 className={classNames({
                   [font('hnm', 4)]: true,
@@ -158,35 +118,32 @@ const WorkSearchResult: FunctionComponent<Props> = ({
               >
                 <WorkTitle title={work.title} />
               </h2>
-              <div
-                className={classNames({
-                  flex: true,
-                })}
-              >
-                {work.contributors.length > 0 && (
-                  <Space h={{ size: 'm', properties: ['margin-right'] }}>
-                    <LinkLabels
-                      items={[
-                        {
-                          text: work.contributors[0].agent.label,
-                          url: null,
-                        },
-                      ]}
-                    />
-                  </Space>
-                )}
-                {productionDates.length > 0 && (
+
+              {work.contributors.length > 0 && (
+                <Space h={{ size: 'm', properties: ['margin-right'] }}>
                   <LinkLabels
-                    heading={'Date'}
                     items={[
                       {
-                        text: productionDates[0],
+                        text: work.contributors[0].agent.label,
                         url: null,
                       },
                     ]}
                   />
-                )}
-              </div>
+                </Space>
+              )}
+
+              {productionDates.length > 0 && (
+                <LinkLabels
+                  heading={'Date'}
+                  items={[
+                    {
+                      text: productionDates[0],
+                      url: null,
+                    },
+                  ]}
+                />
+              )}
+
               {archiveLabels?.reference && (
                 <LinkLabels
                   heading="Reference"
@@ -199,9 +156,17 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                   items={[{ text: archiveLabels.partOf }]}
                 />
               )}
+              <Space
+                v={{
+                  size: 'm',
+                  properties: ['margin-top'],
+                }}
+              >
+                <LabelsList labels={cardLabels} defaultLabelColor="cream" />
+              </Space>
             </Details>
             {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
-              <Preview h={{ size: 'm', properties: ['margin-left'] }}>
+              <Preview>
                 <Image
                   defaultSize={178}
                   alt={''}

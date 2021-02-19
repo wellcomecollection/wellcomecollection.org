@@ -22,7 +22,7 @@ const LinkLabels = ({ items, heading, icon }: Props) => (
       flex: true,
       'flex--wrap': true,
       'no-margin': true,
-      [font('hnl', 5)]: true,
+      [font('hnm', 5)]: true,
     })}
   >
     {heading && (
@@ -59,7 +59,7 @@ const LinkLabels = ({ items, heading, icon }: Props) => (
             }}
             as="a"
             className={classNames({
-              [`${font('hnm', 5)}`]: true,
+              [`${font('hnl', 5)}`]: true,
               'border-left-width-1 border-color-marble': i !== 0,
             })}
             href={url}
@@ -77,7 +77,7 @@ const LinkLabels = ({ items, heading, icon }: Props) => (
               ].filter(Boolean),
             }}
             className={classNames({
-              [`${font('hnm', 5)}`]: true,
+              [`${font('hnl', 5)}`]: true,
               'border-left-width-1 border-color-marble': i !== 0,
             })}
           >

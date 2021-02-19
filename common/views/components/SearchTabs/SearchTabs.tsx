@@ -2,7 +2,7 @@ import BaseTabs, { TabType } from '../BaseTabs/BaseTabs';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Space from '../styled/Space';
-import { useContext, FunctionComponent, ReactElement } from 'react';
+import React, { useContext, FunctionComponent, ReactElement } from 'react';
 import { AppContext } from '../AppContext/AppContext';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { ImagesRouteProps } from '@weco/common/services/catalogue/ts_routes';
@@ -17,13 +17,22 @@ import { useRouter } from 'next/router';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import { WorksProps } from '../WorksLink/WorksLink';
 import { Filter } from '../SearchFilters/SearchFilters';
+import BetaBar from '../BetaBar/BetaBar';
+
+const BetaBarContainer = styled.div`
+  // on larger screens we shift the BetaBar to the right on the same level as the tabs
+  ${(props) => props.theme.media.medium`
+    position: absolute;
+    right: 0;
+  `}
+`;
 
 const BaseTabsWrapper = styled.div`
   // FIXME: For testing, make the checkboxes/buttons have a white background because they're on grey
   [class*='ButtonInline__InlineButton'],
   [class^='CheckboxRadio__CheckboxRadioBox'] {
     background: white !important;
-    border-color: ${props => props.theme.color('marble')};
+    border-color: ${(props) => props.theme.color('marble')};
   }
 `;
 
@@ -42,23 +51,23 @@ const Tab = styled(Space).attrs({
     [font('hnm', 5)]: true,
   }),
 })<TabProps>`
-  background: ${props => props.theme.color('pumice')};
-  border-left: 1px solid ${props => props.theme.color('cream')};
-  border-top: 1px solid ${props => props.theme.color('cream')};
+  background: ${(props) => props.theme.color('pumice')};
+  border-left: 1px solid ${(props) => props.theme.color('cream')};
+  border-top: 1px solid ${(props) => props.theme.color('cream')};
 
-  ${props =>
+  ${(props) =>
     props.isLast &&
     `
     border-right: 1px solid ${props.theme.color('cream')};
   `}
 
-  ${props =>
+  ${(props) =>
     props.isActive &&
     `
     background: ${props.theme.color('cream')};
   `}
 
-  ${props =>
+  ${(props) =>
     props.isFocused &&
     `
     box-shadow: ${props.isKeyboard ? props.theme.focusBoxShadow : null};
@@ -68,7 +77,7 @@ const Tab = styled(Space).attrs({
 `;
 
 const TabPanel = styled(Space)`
-  background: ${props => props.theme.color('cream')};
+  background: ${(props) => props.theme.color('cream')};
 `;
 type Props = {
   worksRouteProps: WorksProps;
@@ -108,7 +117,7 @@ const SearchTabs: FunctionComponent<Props> = ({
         return (
           <ConditionalWrapper
             condition={tabCondition}
-            wrapper={children => (
+            wrapper={(children) => (
               <NextLink
                 scroll={false}
                 href={{
@@ -180,7 +189,7 @@ const SearchTabs: FunctionComponent<Props> = ({
         return (
           <ConditionalWrapper
             condition={tabCondition}
-            wrapper={children => (
+            wrapper={(children) => (
               <NextLink
                 scroll={false}
                 href={{
@@ -257,14 +266,19 @@ const SearchTabs: FunctionComponent<Props> = ({
   }
 
   return (
-    <BaseTabsWrapper>
-      <BaseTabs
-        tabs={tabs}
-        label={'Tabs for search'}
-        activeTabIndex={activeTabIndex}
-        onTabClick={onTabClick}
-      />
-    </BaseTabsWrapper>
+    <div style={{ position: 'relative' }}>
+      <BetaBarContainer>
+        <BetaBar />
+      </BetaBarContainer>
+      <BaseTabsWrapper>
+        <BaseTabs
+          tabs={tabs}
+          label={'Tabs for search'}
+          activeTabIndex={activeTabIndex}
+          onTabClick={onTabClick}
+        />
+      </BaseTabsWrapper>
+    </div>
   );
 };
 

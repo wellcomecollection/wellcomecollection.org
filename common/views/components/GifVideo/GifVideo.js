@@ -144,7 +144,7 @@ const GifVideo = ({
           controls={showControls}
           playsInline
         >
-          <source src={videoUrl} type="video/mp4" />
+          <source src={`${videoUrl}#t=0.1`} type="video/mp4" />
           <p>{"Your browser doesn't support video"}</p>
         </video>
         {canPlay && !showControls && (

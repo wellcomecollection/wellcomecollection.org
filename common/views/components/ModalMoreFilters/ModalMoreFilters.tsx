@@ -3,7 +3,6 @@ import Modal from '../../components/Modal/Modal';
 import { classNames } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Space from '../styled/Space';
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
 import NextLink from 'next/link';
 import { worksLink } from '../../../services/catalogue/routes';
@@ -15,6 +14,7 @@ import {
   CheckboxFilter as CheckboxFilterType,
 } from '../SearchFilters/SearchFilters';
 import { AppContext } from '../AppContext/AppContext';
+import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
 
 type ModalMoreFiltersProps = {
   id: string;
@@ -36,7 +36,7 @@ const ModalInner = styled.div`
   flex-direction: column;
   min-width: 320px;
   max-width: 650px;
-  ${props => props.theme.media.large`
+  ${(props) => props.theme.media.large`
     width: 650px;
     top: 10px;
   `}
@@ -134,7 +134,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
 }: MoreFiltersProps) => {
   return (
     <>
-      {filters.map(f => (
+      {filters.map((f) => (
         <FilterSection key={f.id}>
           <h3 className="h3">{f.label}</h3>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
@@ -179,7 +179,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
         overrideDefaultModalStyle={true}
       >
         <FiltersHeader>
-          <h3 className="h3">More Filters</h3>
+          <h3 className="h3">More filters</h3>
         </FiltersHeader>
 
         <ModalInner>
