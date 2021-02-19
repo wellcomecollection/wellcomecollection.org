@@ -1,16 +1,26 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Info } from './Info';
-import { UserInfo } from '../../../types/UserInfo';
+import { TestUserInfoProvider, UserInfoContextState } from '../UserInfoContext';
 
-const defaultProps: UserInfo = {
+const captainAmerica = {
   firstName: 'Steve',
   lastName: 'Rogers',
   locked: false,
   emailValidated: true,
 };
 
-const renderComponent = (props = defaultProps) => render(<Info {...props} />);
+const defaultContext: UserInfoContextState = {
+  isLoading: false,
+  data: captainAmerica,
+};
+
+const renderComponent = (context = defaultContext) =>
+  render(
+    <TestUserInfoProvider value={context}>
+      <Info />
+    </TestUserInfoProvider>
+  );
 
 describe('Info', () => {
   it('has a second-level heading with the name of the user profile being edited', () => {
@@ -30,7 +40,13 @@ describe('Info', () => {
     });
 
     it('shows that an account has been blocked', () => {
-      renderComponent({ ...defaultProps, locked: true });
+      renderComponent({
+        ...defaultContext,
+        data: {
+          ...captainAmerica,
+          locked: true,
+        },
+      });
       const userStatus = screen.getByRole('complementary');
       expect(userStatus).toBeInTheDocument();
       expect(userStatus).toHaveTextContent(/account blocked/i);
@@ -38,9 +54,12 @@ describe('Info', () => {
 
     it('shows that an account has requested deletion', () => {
       renderComponent({
-        ...defaultProps,
-        locked: true,
-        deleteRequested: '2021-02-18T12:37:58.305Z',
+        ...defaultContext,
+        data: {
+          ...captainAmerica,
+          locked: true,
+          deleteRequested: '2021-02-18T12:37:58.305Z',
+        },
       });
       const userStatus = screen.getByRole('complementary');
       expect(userStatus).toBeInTheDocument();
@@ -49,8 +68,11 @@ describe('Info', () => {
 
     it("shows that an account's email is not validated", () => {
       renderComponent({
-        ...defaultProps,
-        emailValidated: false,
+        ...defaultContext,
+        data: {
+          ...captainAmerica,
+          emailValidated: false,
+        },
       });
       const userStatus = screen.getByRole('complementary');
       expect(userStatus).toBeInTheDocument();
