@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { mockUser } from '../../mocks/UserInfo.mock';
 import { UserInfo } from '../../types/UserInfo';
 
@@ -24,11 +25,10 @@ export function useUserInfo(): UserInfoContextState {
   return contextState;
 }
 
-export const UserInfoProvider: React.FC<{ id: string }> = ({
-  id,
-  children,
-}) => {
+export const UserInfoProvider: React.FC = ({ children }) => {
   const [state, setState] = useState<UserInfoContextState>({ isLoading: true });
+  const router = useRouter();
+  const { userId } = router.query;
 
   useEffect(() => {
     const fetchUser = async (): Promise<{ status: number; user: UserInfo }> => {
@@ -36,7 +36,7 @@ export const UserInfoProvider: React.FC<{ id: string }> = ({
     };
     setState({ isLoading: true });
     fetchUser().then(({ user }) => setState({ isLoading: false, user }));
-  }, [id]);
+  }, [userId]);
 
   return (
     <UserInfoContext.Provider value={state}>

@@ -1,8 +1,20 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import User from './User';
+import { TestUserInfoProvider, UserInfoContextState } from './UserInfoContext';
+import { mockUser } from '../../mocks/UserInfo.mock';
 
-const renderPage = () => render(<User />);
+const defaultContext: UserInfoContextState = {
+  isLoading: false,
+  user: mockUser,
+};
+
+const renderPage = (context = defaultContext) =>
+  render(
+    <TestUserInfoProvider value={context}>
+      <User />
+    </TestUserInfoProvider>
+  );
 
 describe('User', () => {
   it('has a top-level heading which links to the main screen', async () => {
