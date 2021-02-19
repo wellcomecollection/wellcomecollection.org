@@ -2,11 +2,8 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Profile } from './Profile';
-import {
-  mockUser,
-  TestUserInfoProvider,
-  UserInfoContextState,
-} from '../UserInfoContext';
+import { TestUserInfoProvider, UserInfoContextState } from '../UserInfoContext';
+import { mockUser } from '../../../mocks/UserInfo.mock';
 
 const defaultContext: UserInfoContextState = {
   isLoading: false,
