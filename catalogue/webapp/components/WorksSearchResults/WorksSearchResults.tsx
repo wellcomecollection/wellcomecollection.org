@@ -6,11 +6,11 @@ import WorksSearchResult from '../WorksSearchResult/WorksSearchResult';
 import { grid } from '@weco/common/utils/classnames';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/ts_api';
-import { WorksRouteProps } from '@weco/common/services/catalogue/ts_routes';
+import { WorksProps } from '@weco/common/views/components/WorksLink/WorksLink';
 
 type Props = {
   works: CatalogueResultsList<Work>;
-  worksRouteProps: WorksRouteProps;
+  worksRouteProps: WorksProps;
   apiProps: CatalogueWorksApiProps;
 };
 
@@ -37,10 +37,10 @@ const WorkSearchResults: FunctionComponent<Props> = ({
                 position: i,
                 resultWorkType: result.workType.label,
                 resultIdentifiers: result.identifiers.map(
-                  identifier => identifier.value
+                  (identifier) => identifier.value
                 ),
                 resultSubjects:
-                  result.subjects?.map(subject => subject.label) || [],
+                  result.subjects?.map((subject) => subject.label) || [],
                 source: 'work_result',
               });
             }}
