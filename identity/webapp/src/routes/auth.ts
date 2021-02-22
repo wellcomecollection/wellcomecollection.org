@@ -3,7 +3,6 @@ import koaPassport from 'koa-passport';
 import { withPrefix } from '../utility/prefix';
 import { config } from '../config';
 import * as querystring from 'querystring';
-import { router } from '../router';
 import { URL } from 'url';
 
 export const loginAction: RouteMiddleware = koaPassport.authenticate('auth0', {
@@ -20,7 +19,7 @@ export const logoutAction: RouteMiddleware = (context) => {
   context.logout();
 
   const logoutUri = new URL(`https://${config.auth0.domain}/v2/logout`);
-  const returnTo = context.request.origin + router.url('login');
+  const returnTo = config.logout.redirectUrl;
 
   logoutUri.search = querystring.stringify({
     client_id: config.auth0.clientID,
