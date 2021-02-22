@@ -40,6 +40,10 @@ export const config = {
     // Session / cookie options.
   } as Partial<SessionOpts>,
 
+  logout : {
+    redirectUrl: process.env.LOGOUT_REDIRECT_URL
+  },
+
   testUser: isProduction
     ? undefined
     : {
