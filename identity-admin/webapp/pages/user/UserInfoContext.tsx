@@ -1,18 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 import { useRouter } from 'next/router';
-import { mockUser } from '../../mocks/UserInfo.mock';
 import { UserInfo } from '../../types/UserInfo';
-
-const mockApiCall = () =>
-  Promise.resolve({
-    status: 200,
-    user: mockUser,
-  });
 
 export type UserInfoContextState = {
   user?: UserInfo;
   isLoading: boolean;
-  error?: unknown;
+  error?: AxiosError;
 };
 
 const UserInfoContext = React.createContext<UserInfoContextState | null>(null);
@@ -31,11 +25,15 @@ export const UserInfoProvider: React.FC = ({ children }) => {
   const { userId } = router.query;
 
   useEffect(() => {
-    const fetchUser = async (): Promise<{ status: number; user: UserInfo }> => {
-      return mockApiCall();
+    const fetchUser = async (): Promise<AxiosResponse> => {
+      return axios.get<UserInfo>(`/api/user/${userId}`);
     };
     setState({ isLoading: true });
-    fetchUser().then(({ user }) => setState({ isLoading: false, user }));
+    fetchUser()
+      .then(({ data }) => {
+        setState({ isLoading: false, user: data });
+      })
+      .catch(error => setState({ isLoading: false, error }));
   }, [userId]);
 
   return (
