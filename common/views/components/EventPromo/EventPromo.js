@@ -180,7 +180,7 @@ const EventPromo = ({
         </div>
 
         {event.series.length > 0 && (
-          <Space v={{ size: 'l', properties: ['margin-top'] }}>
+          <Space v={{ size: 'm', properties: ['margin-top'] }}>
             {event.series.map(series => (
               <p key={series.title} className={`${font('hnm', 6)} no-margin`}>
                 <span className={font('hnl', 6)}>Part of</span> {series.title}
@@ -190,11 +190,12 @@ const EventPromo = ({
         )}
       </CardBody>
       {event.secondaryLabels.length > 0 && (
-        <Space h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}>
+        <Space
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+          v={{ size: 'm', properties: ['padding-bottom'] }}
+        >
           <Divider extraClasses={`divider--keyline divider--white`} />
-          <Space
-            v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
-          >
+          <Space v={{ size: 's', properties: ['padding-top'] }}>
             <LabelsList
               labels={event.secondaryLabels}
               defaultLabelColor="black"
