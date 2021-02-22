@@ -19,6 +19,7 @@ jest.mock('next/router', () => ({
 const defaultContext: UserInfoContextState = {
   isLoading: false,
   user: mockUser,
+  refetch: jest.fn(),
 };
 
 const renderComponent = (context = defaultContext) =>
@@ -65,6 +66,7 @@ describe('Profile', () => {
   });
 
   it('submits the edited user details', async () => {
+    axios.put = jest.fn().mockResolvedValueOnce({ status: 200 });
     renderComponent();
     const firstNameInput = screen.getByLabelText(/first name/i);
     userEvent.clear(firstNameInput);
@@ -137,6 +139,22 @@ describe('Profile', () => {
         /invalid email address/i
       );
       expect(axios.put).not.toBeCalled();
+    });
+  });
+
+  it('refetches data after submit', async () => {
+    axios.put = jest.fn().mockResolvedValueOnce({ status: 200 });
+    renderComponent();
+    const emailInput = screen.getByLabelText(/email address/i);
+    const submitButton = screen.getByRole('button', {
+      name: /update details/i,
+    });
+    userEvent.clear(emailInput);
+    userEvent.type(emailInput, 'captainamerica@avengers.com');
+    userEvent.click(submitButton);
+    await waitFor(() => {
+      expect(axios.put).toBeCalled();
+      expect(defaultContext.refetch).toBeCalled();
     });
   });
 });

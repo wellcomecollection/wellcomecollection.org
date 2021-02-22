@@ -15,19 +15,23 @@ const InvalidField: React.FC<{ children: React.ReactNode }> = ({
 };
 
 export function Profile(): JSX.Element {
-  const { user, isLoading } = useUserInfo();
+  const { user, isLoading, refetch } = useUserInfo();
   const { register, handleSubmit, errors, clearErrors } = useForm<
     EditProfileInputs
   >();
-  const { updateUserInfo } = useUpdateUserInfo();
+  const { updateUserInfo, isLoading: isUpdating } = useUpdateUserInfo();
 
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
+  if (isUpdating) {
+    return <p>Updating...</p>;
+  }
+
   const onSubmit = async (formData: EditProfileInputs) => {
     clearErrors();
-    await updateUserInfo(formData);
+    await updateUserInfo(formData).then(refetch);
   };
 
   return (

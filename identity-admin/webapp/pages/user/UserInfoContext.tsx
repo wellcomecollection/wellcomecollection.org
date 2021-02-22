@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import axios, { AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { UserInfo } from '../../types/UserInfo';
 
@@ -7,6 +7,7 @@ export type UserInfoContextState = {
   user?: UserInfo;
   isLoading: boolean;
   error?: AxiosError;
+  refetch?: () => void;
 };
 
 const UserInfoContext = React.createContext<UserInfoContextState | null>(null);
@@ -24,20 +25,22 @@ export const UserInfoProvider: React.FC = ({ children }) => {
   const router = useRouter();
   const { userId } = router.query;
 
-  useEffect(() => {
-    const fetchUser = async (): Promise<AxiosResponse> => {
-      return axios.get<UserInfo>(`/api/user/${userId}`);
-    };
+  const fetchUser = async (): Promise<void> => {
     setState({ isLoading: true });
-    fetchUser()
+    return axios
+      .get<UserInfo>(`/api/user/${userId}`)
       .then(({ data }) => {
         setState({ isLoading: false, user: data });
       })
       .catch(error => setState({ isLoading: false, error }));
+  };
+
+  useEffect(() => {
+    fetchUser();
   }, [userId]);
 
   return (
-    <UserInfoContext.Provider value={state}>
+    <UserInfoContext.Provider value={{ ...state, refetch: fetchUser }}>
       {children}
     </UserInfoContext.Provider>
   );

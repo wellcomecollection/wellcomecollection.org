@@ -15,6 +15,7 @@ jest.mock('next/router', () => ({
 const defaultContext: UserInfoContextState = {
   isLoading: false,
   user: mockUser,
+  refetch: () => null,
 };
 
 const renderPage = (context = defaultContext) =>
