@@ -5,20 +5,20 @@ import Space from '../styled/Space';
 import React, { useContext, FunctionComponent, ReactElement } from 'react';
 import { AppContext } from '../AppContext/AppContext';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
-import { ImagesRouteProps } from '@weco/common/services/catalogue/ts_routes';
-import {
-  CatalogueAggregationBucket,
-  CatalogueAggregations,
-} from '@weco/common/model/catalogue';
 import { trackEvent } from '@weco/common/utils/ga';
 import NextLink from 'next/link';
 import { removeEmptyProps } from '../../../utils/json';
-import { useRouter } from 'next/router';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
-import { WorksProps } from '../WorksLink/WorksLink';
 import { Filter } from '../SearchFilters/SearchFilters';
 import BetaBar from '../BetaBar/BetaBar';
-import { ImagesProps } from '../ImagesLink/ImagesLink';
+import {
+  fromQuery as worksFromQuery,
+  toLink as worksToLink,
+} from '../WorksLink/WorksLink';
+import {
+  fromQuery as imagesFromQuery,
+  toLink as imagesToLink,
+} from '../ImagesLink/ImagesLink';
 
 const BetaBarContainer = styled.div`
   // on larger screens we shift the BetaBar to the right on the same level as the tabs
@@ -80,13 +80,13 @@ const Tab = styled(Space).attrs({
 const TabPanel = styled(Space)`
   background: ${(props) => props.theme.color('cream')};
 `;
+
 type Props = {
-  worksRouteProps: WorksProps;
-  imagesRouteProps: ImagesProps;
-  workTypeAggregations: CatalogueAggregationBucket[];
+  query: string;
+  sort: string | undefined;
+  sortOrder: string | undefined;
   shouldShowDescription: boolean;
   activeTabIndex?: number;
-  aggregations?: CatalogueAggregations;
   shouldShowFilters: boolean;
   showSortBy: boolean;
   disableLink?: boolean;
@@ -95,10 +95,9 @@ type Props = {
 };
 
 const SearchTabs: FunctionComponent<Props> = ({
-  worksRouteProps,
-  imagesRouteProps,
-  workTypeAggregations,
-  aggregations,
+  query,
+  sort,
+  sortOrder,
   shouldShowDescription,
   activeTabIndex,
   shouldShowFilters,
@@ -107,8 +106,6 @@ const SearchTabs: FunctionComponent<Props> = ({
   worksFilters,
   imagesFilters,
 }: Props): ReactElement<Props> => {
-  const router = useRouter();
-  const { query } = router.query;
   const { isKeyboard, isEnhanced } = useContext(AppContext);
   const tabCondition = (!disableLink && isEnhanced) || !isEnhanced;
   const tabs: TabType[] = [
@@ -172,11 +169,12 @@ const SearchTabs: FunctionComponent<Props> = ({
             online access.
           </Space>
           <SearchForm
+            query={query}
+            sort={sort}
+            sortOrder={sortOrder}
+            linkResolver={(params) => worksToLink(worksFromQuery(params))}
             ariaDescribedBy={'library-catalogue-form-description'}
-            routeProps={worksRouteProps}
-            workTypeAggregations={workTypeAggregations}
             isImageSearch={false}
-            aggregations={aggregations}
             shouldShowFilters={shouldShowFilters}
             showSortBy={showSortBy}
             filters={worksFilters}
@@ -244,12 +242,13 @@ const SearchTabs: FunctionComponent<Props> = ({
             more.
           </Space>
           <SearchForm
+            query={query}
+            sort={undefined}
+            sortOrder={undefined}
+            linkResolver={(params) => imagesToLink(imagesFromQuery(params))}
             ariaDescribedBy="images-form-description"
-            routeProps={imagesRouteProps}
-            workTypeAggregations={workTypeAggregations}
             isImageSearch={true}
             shouldShowFilters={isEnhanced && shouldShowFilters} // non js images filters doesnt work hide for now\
-            aggregations={aggregations}
             showSortBy={showSortBy}
             filters={imagesFilters}
           />

@@ -241,22 +241,13 @@ const Works: NextPage<Props> = ({
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 <Space v={{ size: 'l', properties: ['margin-top'] }}>
                   <SearchTabs
+                    query={worksRouteProps.query}
+                    sort={worksRouteProps.sort}
+                    sortOrder={worksRouteProps.sortOrder}
                     worksFilters={filters}
                     imagesFilters={[]}
-                    worksRouteProps={worksRouteProps}
-                    imagesRouteProps={emptyImagesProps}
-                    workTypeAggregations={
-                      works && works.aggregations
-                        ? works.aggregations.workType.buckets
-                        : []
-                    }
                     shouldShowDescription={query === ''}
                     shouldShowFilters={true}
-                    aggregations={
-                      works && works.aggregations
-                        ? works.aggregations
-                        : undefined
-                    }
                     showSortBy={Boolean(works)}
                   />
                 </Space>

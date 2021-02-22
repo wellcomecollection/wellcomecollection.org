@@ -21,11 +21,6 @@ import {
 import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
 import ButtonInline from '../ButtonInline/ButtonInline';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
-import {
-  getResetImagesFiltersLink,
-  getResetRouteProps,
-  getResetWorksFiltersLink,
-} from '@weco/common/utils/filters';
 import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
 import TogglesContext from '../TogglesContext/TogglesContext';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
@@ -148,44 +143,14 @@ const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
 };
 
 const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
-  filtersToShow,
-  worksRouteProps,
   changeHandler,
-  workTypeFilters,
-  productionDatesFrom,
-  productionDatesTo,
-  workTypeSelected,
-  imagesColor,
-  aggregations,
-  languagesSelected,
-  subjectsSelected,
-  genresSelected,
-  contributorsSelected,
   filters,
+  query,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const { searchMoreFilters } = useContext(TogglesContext);
-  const resetFiltersRoute = getResetRouteProps(worksRouteProps);
-  const resetFilters = imagesColor
-    ? getResetImagesFiltersLink(resetFiltersRoute)
-    : getResetWorksFiltersLink(resetFiltersRoute);
 
   const [showMoreFiltersModal, setMoreFiltersModal] = useState(false);
   const openMoreFiltersButtonRef = useRef(null);
-  function showActiveFilters() {
-    const imagesFilter = imagesColor;
-    const catalogueFilter =
-      ((productionDatesFrom ||
-        productionDatesTo ||
-        workTypeSelected.length > 0 ||
-        worksRouteProps?.itemsLocationsType?.length > 0) &&
-        workTypeFilters.length > 0) ||
-      languagesSelected.length > 0 ||
-      subjectsSelected.length > 0 ||
-      genresSelected.length > 0 ||
-      contributorsSelected.length > 0;
-
-    return imagesFilter || catalogueFilter;
-  }
 
   return (
     <>
@@ -275,14 +240,14 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   setMoreFiltersModal={setMoreFiltersModal}
                   openMoreFiltersButtonRef={openMoreFiltersButtonRef}
                   changeHandler={changeHandler}
-                  query={worksRouteProps.query}
+                  query={query}
                   filters={filters.slice(2)}
                 />
               </Space>
             )}
           </Space>
 
-          {filtersToShow.includes('locations') &&
+          {/*filtersToShow.includes('locations') &&
             aggregations &&
             aggregations.locationType && (
               <Space
@@ -338,27 +303,17 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   </ul>
                 </Space>
               </Space>
-            )}
+                    )*/}
         </Space>
       </Space>
 
-      {showActiveFilters() && (
-        <ResetActiveFilters
-          workTypeFilters={workTypeFilters}
-          productionDatesFrom={productionDatesFrom}
-          productionDatesTo={productionDatesTo}
-          worksRouteProps={worksRouteProps}
-          imagesColor={imagesColor}
-          workTypeSelected={workTypeSelected}
-          aggregations={aggregations}
-          resetFilters={resetFilters}
-          languagesSelected={languagesSelected}
-          subjectsSelected={subjectsSelected}
-          genresSelected={genresSelected}
-          contributorsSelected={contributorsSelected}
-          filters={filters}
-        />
-      )}
+      <ResetActiveFilters
+        resetFilters={{
+          as: { pathname: '???', query: {} },
+          href: { pathname: '???', query: {} },
+        }}
+        filters={filters}
+      />
     </>
   );
 };

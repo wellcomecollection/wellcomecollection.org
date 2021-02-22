@@ -1,6 +1,5 @@
 import React, { Fragment, FunctionComponent, ReactNode } from 'react';
 import { LinkProps } from '@weco/common/model/link-props';
-import { imagesLink } from '../../../services/catalogue/ts_routes';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import NextLink from 'next/link';
@@ -10,8 +9,6 @@ import { Filter } from '../SearchFilters/SearchFilters';
 import { toLink as worksLink, WorksProps } from '../WorksLink/WorksLink';
 
 type ResetActiveFilters = {
-  worksRouteProps: WorksProps;
-  imagesColor: string | null;
   resetFilters: LinkProps;
   filters: Filter[];
 };
@@ -61,11 +58,11 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
 };
 
 export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
-  worksRouteProps,
-  imagesColor,
   resetFilters,
   filters,
 }: ResetActiveFilters) => {
+  const query = '???';
+
   return (
     <Space
       v={{ size: 's', properties: ['padding-top'] }}
@@ -98,7 +95,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                       key={`cancel-${option.id}`}
                       passHref
                       {...worksLink({
-                        ...worksRouteProps,
+                        ...query,
                         page: 1,
                         [f.key]: selectedOptions
                           .filter(
@@ -124,7 +121,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                     <NextLink
                       passHref
                       {...worksLink({
-                        ...worksRouteProps,
+                        ...query,
                         page: 1,
                         [f.from.key]: undefined,
                         source: `cancel_filter/${f.from.id}`,
@@ -140,7 +137,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                     <NextLink
                       passHref
                       {...worksLink({
-                        ...worksRouteProps,
+                        ...query,
                         page: 1,
                         [f.to.key]: undefined,
                         source: `cancel_filter/${f.to.id}`,
@@ -160,7 +157,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                   <NextLink
                     passHref
                     {...worksLink({
-                      ...worksRouteProps,
+                      ...query,
                       page: 1,
                       [f.key]: undefined,
                       source: `cancel_filter/${f.id}`,

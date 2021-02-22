@@ -170,9 +170,9 @@ const Images: NextPage<Props> = ({
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 <Space v={{ size: 'l', properties: ['margin-top'] }}>
                   <SearchTabs
-                    worksRouteProps={emptyWorksProps}
-                    imagesRouteProps={imagesRouteProps}
-                    workTypeAggregations={[]}
+                    query={imagesRouteProps.query}
+                    sort={undefined}
+                    sortOrder={undefined}
                     shouldShowDescription={query === ''}
                     activeTabIndex={1}
                     shouldShowFilters={true}

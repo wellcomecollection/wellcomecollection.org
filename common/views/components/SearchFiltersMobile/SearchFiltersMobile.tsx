@@ -271,7 +271,6 @@ const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
 };
 
 const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
-  worksRouteProps,
   changeHandler,
   filters,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
