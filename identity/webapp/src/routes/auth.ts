@@ -1,6 +1,10 @@
 import { RouteMiddleware } from '../types/application';
 import koaPassport from 'koa-passport';
 import { withPrefix } from '../utility/prefix';
+import { config } from '../config';
+import * as querystring from 'querystring';
+import { router } from '../router';
+import { URL } from 'url';
 
 export const loginAction: RouteMiddleware = koaPassport.authenticate('auth0', {
   scope: 'openid profile email',
@@ -13,7 +17,15 @@ export const authCallback: RouteMiddleware = koaPassport.authenticate('auth0', {
 });
 
 export const logoutAction: RouteMiddleware = (context) => {
-  // There is also an option here for us to logout of auth0 session too, but I don't think this is required.
   context.logout();
-  context.redirect('/');
+
+  const logoutUri = new URL(`https://${config.auth0.domain}/v2/logout`);
+  const returnTo = context.request.origin + router.url('login');
+
+  logoutUri.search = querystring.stringify({
+    client_id: config.auth0.clientID,
+    returnTo,
+  });
+
+  context.redirect(logoutUri.toString());
 };
