@@ -18,6 +18,7 @@ import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import { WorksProps } from '../WorksLink/WorksLink';
 import { Filter } from '../SearchFilters/SearchFilters';
 import BetaBar from '../BetaBar/BetaBar';
+import { ImagesProps } from '../ImagesLink/ImagesLink';
 
 const BetaBarContainer = styled.div`
   // on larger screens we shift the BetaBar to the right on the same level as the tabs
@@ -81,7 +82,7 @@ const TabPanel = styled(Space)`
 `;
 type Props = {
   worksRouteProps: WorksProps;
-  imagesRouteProps: ImagesRouteProps;
+  imagesRouteProps: ImagesProps;
   workTypeAggregations: CatalogueAggregationBucket[];
   shouldShowDescription: boolean;
   activeTabIndex?: number;

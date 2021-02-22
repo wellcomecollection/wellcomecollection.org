@@ -38,6 +38,7 @@ import {
   toLink,
   WorksProps,
 } from '@weco/common/views/components/WorksLink/WorksLink';
+import { emptyImagesProps } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import {
   CheckboxFilter,
   DateRangeFilter,
@@ -243,11 +244,7 @@ const Works: NextPage<Props> = ({
                     worksFilters={filters}
                     imagesFilters={[]}
                     worksRouteProps={worksRouteProps}
-                    imagesRouteProps={{
-                      ...worksRouteProps,
-                      locationsLicense: null,
-                      color: null,
-                    }}
+                    imagesRouteProps={emptyImagesProps}
                     workTypeAggregations={
                       works && works.aggregations
                         ? works.aggregations.workType.buckets
