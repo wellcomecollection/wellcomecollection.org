@@ -29,6 +29,10 @@ const renderComponent = (context = defaultContext) =>
   );
 
 describe('Profile', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("shows the user's library card number", () => {
     renderComponent();
     expect(screen.getByText(mockUser.barcode)).toBeInTheDocument();
@@ -78,6 +82,61 @@ describe('Profile', () => {
         lastName: 'Stark',
         email: 'iamironman@starkindustries.com',
       });
+    });
+  });
+
+  it('halts submit and shows a warning if the first name is blank', async () => {
+    renderComponent();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.clear(screen.getByLabelText(/first name/i));
+    userEvent.click(screen.getByRole('button', { name: /update details/i }));
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument();
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        /first name cannot be blank/i
+      );
+      expect(axios.put).not.toBeCalled();
+    });
+  });
+
+  it('halts submit and shows a warning if the last name is blank', async () => {
+    renderComponent();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.clear(screen.getByLabelText(/last name/i));
+    userEvent.click(screen.getByRole('button', { name: /update details/i }));
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument();
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        /last name cannot be blank/i
+      );
+      expect(axios.put).not.toBeCalled();
+    });
+  });
+
+  it('halts submit and shows a warning if the email is blank or invalid', async () => {
+    renderComponent();
+    const emailInput = screen.getByLabelText(/email address/i);
+    const submitButton = screen.getByRole('button', {
+      name: /update details/i,
+    });
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.clear(emailInput);
+    userEvent.click(submitButton);
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument();
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        /email address cannot be blank/i
+      );
+      expect(axios.put).not.toBeCalled();
+    });
+    userEvent.type(emailInput, 'captainamerica@avengers'); // not a valid email
+    userEvent.click(submitButton);
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument();
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        /invalid email address/i
+      );
+      expect(axios.put).not.toBeCalled();
     });
   });
 });
