@@ -189,19 +189,17 @@ const EventPromo = ({
           </Space>
         )}
       </CardBody>
-      <Divider extraClasses="divider--white divider--keyline" />
       {event.secondaryLabels.length > 0 && (
-        <Space
-          v={{
-            size: 's',
-            properties: ['padding-top', 'padding-bottom'],
-          }}
-          h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
-        >
-          <LabelsList
-            labels={event.secondaryLabels}
-            defaultLabelColor="black"
-          />
+        <Space h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}>
+          <Divider extraClasses={`divider--keyline divider--white`} />
+          <Space
+            v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
+          >
+            <LabelsList
+              labels={event.secondaryLabels}
+              defaultLabelColor="black"
+            />
+          </Space>
         </Space>
       )}
     </CardOuter>
