@@ -1,12 +1,13 @@
+import { ImagesProps } from 'views/components/ImagesLink/ImagesLink';
 import { quoteVal } from '../../utils/csv';
 import { WorksProps } from '../../views/components/WorksLink/WorksLink';
 import { ImagesRouteProps } from './ts_routes';
 
 export type CatalogueImagesApiProps = {
-  query: string | null;
-  page: number | null;
-  'locations.license': string[] | null;
-  color: string | null;
+  query: string | undefined;
+  page: number | undefined;
+  'locations.license': string[] | undefined;
+  color: string | undefined;
 };
 
 function toIsoDateString(s: string): string {
@@ -79,7 +80,7 @@ export function worksRouteToApiUrl(
 }
 
 export function imagesRouteToApiUrl(
-  imagesRouteProps: ImagesRouteProps
+  imagesRouteProps: ImagesProps
 ): CatalogueImagesApiProps {
   return {
     query: imagesRouteProps.query,
@@ -94,9 +95,9 @@ export function worksPropsToImagesProps(
   worksProps: CatalogueWorksApiProps
 ): CatalogueImagesApiProps {
   return {
-    query: worksProps.query || null,
-    page: worksProps.page || null,
-    'locations.license': null,
-    color: null,
+    query: worksProps.query ?? undefined,
+    page: worksProps.page ?? undefined,
+    'locations.license': undefined,
+    color: undefined,
   };
 }

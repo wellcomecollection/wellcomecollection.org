@@ -9,10 +9,9 @@ import {
   toSource,
   QueryTo,
   LinkFrom,
-  toQuotedCsv,
 } from '../../../utils/routes';
 
-const imagesPropsSources = [] as const;
+const imagesPropsSources = ['search/paginator', 'canonical_link'] as const;
 type ImagesPropsSource = typeof imagesPropsSources[number];
 
 export type ImagesProps = {

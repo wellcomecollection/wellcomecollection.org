@@ -8,12 +8,6 @@ import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import {
-  ImagesRouteProps,
-  imagesLink,
-  ImagesRoute,
-  imagesRoutePropsToWorksRouteProps,
-} from '@weco/common/services/catalogue/ts_routes';
-import {
   CatalogueImagesApiProps,
   imagesRouteToApiUrl,
 } from '@weco/common/services/catalogue/ts_api';
@@ -34,10 +28,16 @@ import {
   AppErrorProps,
   WithPageview,
 } from '@weco/common/views/pages/_app';
+import {
+  fromQuery,
+  ImagesProps,
+  toLink,
+} from '@weco/common/views/components/ImagesLink/ImagesLink';
+import { emptyWorksProps } from '@weco/common/views/components/WorksLink/WorksLink';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
-  imagesRouteProps: ImagesRouteProps;
+  imagesRouteProps: ImagesProps;
   apiProps: CatalogueImagesApiProps;
 } & WithGlobalContextData &
   WithPageview;
@@ -46,8 +46,8 @@ type ImagesPaginationProps = {
   query?: string;
   page?: number;
   results: CatalogueResultsList<Image>;
-  imagesRouteProps: ImagesRouteProps;
-  setSavedSearchState: (state: ImagesRouteProps) => void;
+  imagesRouteProps: ImagesProps;
+  setSavedSearchState: (state: ImagesProps) => void;
   hideMobilePagination?: boolean;
   hideMobileTotalResults?: boolean;
 };
@@ -68,19 +68,17 @@ const ImagesPagination = ({
       currentPage={page || 1}
       pageSize={results.pageSize}
       totalResults={results.totalResults}
-      link={imagesLink(
-        {
-          ...imagesRouteProps,
-        },
-        'search/paginator'
-      )}
+      link={toLink({
+        ...imagesRouteProps,
+        source: 'search/paginator',
+      })}
       onPageChange={async (event, newPage) => {
         event.preventDefault();
         const state = {
           ...imagesRouteProps,
           page: newPage,
         };
-        const link = imagesLink(state, 'search/paginator');
+        const link = toLink({ ...state, source: 'search/paginator' });
         setSavedSearchState(state);
         Router.push(link.href, link.as).then(() => window.scrollTo(0, 0));
       }}
@@ -122,10 +120,7 @@ const Images: NextPage<Props> = ({
           <link
             rel="prev"
             href={convertUrlToString(
-              imagesLink(
-                { ...imagesRouteProps, page: (page || 1) - 1 },
-                'meta_link'
-              ).as
+              toLink({ ...imagesRouteProps, page: (page || 1) - 1 }).as
             )}
           />
         )}
@@ -133,8 +128,7 @@ const Images: NextPage<Props> = ({
           <link
             rel="next"
             href={convertUrlToString(
-              imagesLink({ ...imagesRouteProps, page: page + 1 }, 'meta_link')
-                .as
+              toLink({ ...imagesRouteProps, page: page + 1 }).as
             )}
           />
         )}
@@ -144,7 +138,7 @@ const Images: NextPage<Props> = ({
         description="Search Wellcome Collection images"
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        url={imagesLink({ ...imagesRouteProps }, 'canonical_link').as}
+        url={toLink({ ...imagesRouteProps, source: 'canonical_link' }).as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'collections'}
@@ -166,15 +160,15 @@ const Images: NextPage<Props> = ({
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 <Space v={{ size: 'l', properties: ['margin-top'] }}>
                   <SearchTabs
-                    worksRouteProps={imagesRoutePropsToWorksRouteProps(
-                      imagesRouteProps
-                    )}
+                    worksRouteProps={emptyWorksProps}
                     imagesRouteProps={imagesRouteProps}
                     workTypeAggregations={[]}
                     shouldShowDescription={query === ''}
                     activeTabIndex={1}
                     shouldShowFilters={true}
                     showSortBy={Boolean(images)}
+                    imagesFilters={[]}
+                    worksFilters={[]}
                   />
                 </Space>
               </div>
@@ -258,9 +252,9 @@ const Images: NextPage<Props> = ({
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
-> = async context => {
+> = async (context) => {
   const globalContextData = getGlobalContextData(context);
-  const params = ImagesRoute.fromQuery(context.query);
+  const params = fromQuery(context.query);
   const apiProps = imagesRouteToApiUrl(params);
   const hasQuery = !!(params.query && params.query !== '');
   const images = hasQuery
