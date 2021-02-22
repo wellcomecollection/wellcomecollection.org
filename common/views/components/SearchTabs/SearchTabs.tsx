@@ -11,14 +11,7 @@ import { removeEmptyProps } from '../../../utils/json';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import { Filter } from '../SearchFilters/SearchFilters';
 import BetaBar from '../BetaBar/BetaBar';
-import {
-  fromQuery as worksFromQuery,
-  toLink as worksToLink,
-} from '../WorksLink/WorksLink';
-import {
-  fromQuery as imagesFromQuery,
-  toLink as imagesToLink,
-} from '../ImagesLink/ImagesLink';
+import { propsToQuery } from '../../../utils/routes';
 
 const BetaBarContainer = styled.div`
   // on larger screens we shift the BetaBar to the right on the same level as the tabs
@@ -172,7 +165,15 @@ const SearchTabs: FunctionComponent<Props> = ({
             query={query}
             sort={sort}
             sortOrder={sortOrder}
-            linkResolver={(params) => worksToLink(worksFromQuery(params))}
+            linkResolver={(params) => {
+              const query = propsToQuery(params);
+              const link = {
+                pathname: '/works',
+                query,
+              };
+
+              return { href: link, as: link };
+            }}
             ariaDescribedBy={'library-catalogue-form-description'}
             isImageSearch={false}
             shouldShowFilters={shouldShowFilters}
@@ -245,7 +246,15 @@ const SearchTabs: FunctionComponent<Props> = ({
             query={query}
             sort={undefined}
             sortOrder={undefined}
-            linkResolver={(params) => imagesToLink(imagesFromQuery(params))}
+            linkResolver={(params) => {
+              const query = propsToQuery(params);
+              const link = {
+                pathname: '/works',
+                query,
+              };
+
+              return { href: link, as: link };
+            }}
             ariaDescribedBy="images-form-description"
             isImageSearch={true}
             shouldShowFilters={isEnhanced && shouldShowFilters} // non js images filters doesnt work hide for now\
