@@ -14,7 +14,13 @@ async function updateUserInfo(req: NextApiRequest, res: NextApiResponse) {
   const {
     query: { id },
   } = req;
-  const { body, status } = await callRemoteApi(req, res, 'PUT', '/users/' + id);
+  const { body, status } = await callRemoteApi(
+    req,
+    res,
+    'PUT',
+    '/users/' + id,
+    req.body
+  );
   res.status(status).json(body);
 }
 
