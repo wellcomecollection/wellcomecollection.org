@@ -249,7 +249,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             linkResolver={(params) => {
               const query = propsToQuery(params);
               const link = {
-                pathname: '/works',
+                pathname: '/images',
                 query,
               };
 
