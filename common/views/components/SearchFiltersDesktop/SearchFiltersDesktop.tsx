@@ -16,6 +16,7 @@ import {
   SearchFiltersSharedProps,
   CheckboxFilter as CheckboxFilterType,
   DateRangeFilter as DateRangeFilterType,
+  ColorFilter as ColorFilterType,
 } from '../SearchFilters/SearchFilters';
 import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
 import ButtonInline from '../ButtonInline/ButtonInline';
@@ -97,7 +98,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
               max="9999"
               placeholder={'Year'}
               value={from || ''}
-              onChange={event => {
+              onChange={(event) => {
                 const val = `${event.currentTarget.value}`;
                 setFrom(val);
                 if (val.match(/^\d{4}$/)) {
@@ -113,7 +114,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
             max="9999"
             placeholder={'Year'}
             value={to || ''}
-            onChange={event => {
+            onChange={(event) => {
               const val = `${event.currentTarget.value}`;
               setTo(val);
               if (val.match(/^\d{4}$/)) {
@@ -124,6 +125,25 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
         </>
       </DropdownButton>
     </Space>
+  );
+};
+
+type ColorFilterProps = {
+  f: ColorFilterType;
+  changeHandler: () => void;
+};
+const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
+  const { paletteColorFilter } = useContext(TogglesContext);
+  const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
+
+  return (
+    <DropdownButton label={'Colours'} isInline={true} id="images.color">
+      <ColorPicker
+        name={f.id}
+        color={f.color || undefined}
+        onChangeColor={changeHandler}
+      />
+    </DropdownButton>
   );
 };
 
@@ -143,8 +163,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   contributorsSelected,
   filters,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
-  const { paletteColorFilter } = useContext(TogglesContext);
-  const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
   const { searchMoreFilters } = useContext(TogglesContext);
   const resetFiltersRoute = getResetRouteProps(worksRouteProps);
   const resetFilters = imagesColor
@@ -227,29 +245,13 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   {f.type === 'dateRange' && (
                     <DateRangeFilter f={f} changeHandler={changeHandler} />
                   )}
+
+                  {f.type === 'color' && (
+                    <ColorFilter f={f} changeHandler={changeHandler} />
+                  )}
                 </Space>
               );
             })}
-
-            {filtersToShow.includes('colors') && (
-              <Space
-                className={classNames({
-                  [font('hnl', 5)]: true,
-                })}
-              >
-                <DropdownButton
-                  label={'Colours'}
-                  isInline={true}
-                  id="images.color"
-                >
-                  <ColorPicker
-                    name="images.color"
-                    color={imagesColor || undefined}
-                    onChangeColor={changeHandler}
-                  />
-                </DropdownButton>
-              </Space>
-            )}
 
             {searchMoreFilters && filters.slice(2).length > 0 && (
               <Space
@@ -261,7 +263,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 <ButtonInline
                   type={ButtonTypes.button}
                   text="More filters"
-                  clickHandler={event => {
+                  clickHandler={(event) => {
                     event.preventDefault();
                     setMoreFiltersModal(true);
                   }}
@@ -307,7 +309,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   >
                     {aggregations.locationType.buckets
                       .sort((a, b) => b.data.label.localeCompare(a.data.label)) // Ensure 'Online' appears before 'In the library'
-                      .map(locationType => {
+                      .map((locationType) => {
                         const isChecked = worksRouteProps.itemsLocationsType.includes(
                           locationType.data.type
                         );

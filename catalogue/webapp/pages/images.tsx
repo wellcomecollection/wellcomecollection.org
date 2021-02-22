@@ -34,6 +34,7 @@ import {
   toLink,
 } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import { emptyWorksProps } from '@weco/common/views/components/WorksLink/WorksLink';
+import { ColorFilter } from '@weco/common/views/components/SearchFilters/SearchFilters';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
@@ -113,6 +114,15 @@ const Images: NextPage<Props> = ({
     };
   }, []);
 
+  const colorFilter: ColorFilter = {
+    type: 'color',
+    key: 'color',
+    id: 'color',
+    label: 'Colours',
+    color: imagesRouteProps.color,
+  };
+  const filters = [colorFilter];
+
   return (
     <>
       <Head>
@@ -167,7 +177,7 @@ const Images: NextPage<Props> = ({
                     activeTabIndex={1}
                     shouldShowFilters={true}
                     showSortBy={Boolean(images)}
-                    imagesFilters={[]}
+                    imagesFilters={filters}
                     worksFilters={[]}
                   />
                 </Space>

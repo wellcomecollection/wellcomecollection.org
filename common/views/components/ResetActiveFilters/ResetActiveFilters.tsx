@@ -154,29 +154,29 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                 </Fragment>
               );
             }
+            if (f.type === 'color') {
+              return (
+                <Fragment key={`cancel-${f.id}`}>
+                  <NextLink
+                    passHref
+                    {...worksLink({
+                      ...worksRouteProps,
+                      page: 1,
+                      [f.key]: undefined,
+                      source: `cancel_filter/${f.id}`,
+                    })}
+                  >
+                    <a>
+                      <CancelFilter>
+                        {f.label}
+                        <ColorSwatch color={`#${f.color}`} />
+                      </CancelFilter>
+                    </a>
+                  </NextLink>
+                </Fragment>
+              );
+            }
           })}
-
-          {imagesColor && (
-            <NextLink
-              passHref
-              {...imagesLink(
-                {
-                  ...worksRouteProps,
-                  page: 1,
-                  color: null,
-                  locationsLicense: null,
-                },
-                'cancel_filter/images_color'
-              )}
-            >
-              <a>
-                <CancelFilter>
-                  Colour
-                  <ColorSwatch color={`#${imagesColor}`} />
-                </CancelFilter>
-              </a>
-            </NextLink>
-          )}
 
           <NextLink passHref {...resetFilters}>
             <a>

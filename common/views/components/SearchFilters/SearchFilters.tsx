@@ -15,6 +15,7 @@ import SearchFiltersMobile from '../SearchFiltersMobile/SearchFiltersMobile';
 import theme from '../../themes/default';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { WorksProps } from '../WorksLink/WorksLink';
+import { ImagesProps } from '../ImagesLink/ImagesLink';
 
 type Props = {
   searchForm: { current: HTMLFormElement | null };
@@ -76,7 +77,15 @@ export type CheckboxFilter = {
   }[];
 };
 
-export type Filter = CheckboxFilter | DateRangeFilter;
+export type ColorFilter = {
+  type: 'color';
+  key: keyof ImagesProps;
+  id: string;
+  label: string;
+  color: string | undefined;
+};
+
+export type Filter = CheckboxFilter | DateRangeFilter | ColorFilter;
 
 const SearchFilters: FunctionComponent<Props> = ({
   searchForm,

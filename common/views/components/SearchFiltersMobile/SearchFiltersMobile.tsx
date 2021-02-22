@@ -22,6 +22,7 @@ import {
   SearchFiltersSharedProps,
   CheckboxFilter as CheckboxFilterType,
   DateRangeFilter as DateRangeFilterType,
+  ColorFilter as ColorFilterType,
 } from '../SearchFilters/SearchFilters';
 import ButtonSolid, {
   ButtonTypes,
@@ -252,11 +253,26 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
   );
 };
 
+type ColorFilterProps = {
+  f: ColorFilterType;
+  changeHandler: () => void;
+};
+const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
+  const { paletteColorFilter } = useContext(TogglesContext);
+  const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
+
+  return (
+    <ColorPicker
+      color={f.color || undefined}
+      name={f.id}
+      onChangeColor={changeHandler}
+    />
+  );
+};
+
 const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   worksRouteProps,
   changeHandler,
-  imagesColor,
-  filtersToShow,
   filters,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const openFiltersButtonRef = useRef<HTMLButtonElement>(null);
@@ -337,9 +353,6 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
       return acc + val;
     }, 0);
 
-  const { paletteColorFilter } = useContext(TogglesContext);
-  const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
-
   return (
     <Space
       v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
@@ -388,25 +401,13 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                     {f.type === 'dateRange' && (
                       <DateRangeFilter f={f} changeHandler={changeHandler} />
                     )}
+
+                    {f.type === 'color' && (
+                      <ColorFilter f={f} changeHandler={changeHandler} />
+                    )}
                   </FilterSection>
                 );
               })}
-
-              {filtersToShow.includes('colors') && (
-                <FilterSection>
-                  <h3 className="h3">Colour</h3>
-                  <Space
-                    as="span"
-                    h={{ size: 'm', properties: ['margin-right'] }}
-                  >
-                    <ColorPicker
-                      color={imagesColor || undefined}
-                      name="images.color"
-                      onChangeColor={changeHandler}
-                    />
-                  </Space>
-                </FilterSection>
-              )}
             </FiltersBody>
           </FiltersScrollable>
 
