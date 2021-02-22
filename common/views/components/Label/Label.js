@@ -8,7 +8,6 @@ import styled from 'styled-components';
 const LabelContainer = styled(Space).attrs(props => ({
   className: classNames({
     'nowrap line-height-1': true,
-    'rounded-diagonal': props.roundedDiagonal,
     [font('hnm', 6)]: true,
     'plain-link font-white bg-green bg-hover-black': props.isLink,
   }),
@@ -32,7 +31,6 @@ const LabelContainer = styled(Space).attrs(props => ({
 export type Props = {|
   label: LabelType,
   labelColor?: 'orange' | 'yellow' | 'black' | 'cream' | 'white',
-  roundedDiagonal?: boolean,
 |};
 
 function getFontColor(bgColor) {
@@ -46,11 +44,7 @@ function getFontColor(bgColor) {
   }
 }
 
-const Label = ({
-  label,
-  labelColor = 'yellow',
-  roundedDiagonal = false,
-}: Props) => {
+const Label = ({ label, labelColor = 'yellow' }: Props) => {
   const fontColor = getFontColor(labelColor);
   return (
     <LabelContainer
@@ -64,7 +58,6 @@ const Label = ({
       fontColor={fontColor}
       labelColor={labelColor}
       isLink={Boolean(label.url)}
-      roundedDiagonal={roundedDiagonal}
     >
       {label.text}
     </LabelContainer>

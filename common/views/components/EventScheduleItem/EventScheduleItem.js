@@ -175,7 +175,6 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                 <LabelsList
                   labels={event.secondaryLabels}
                   defaultLabelColor="black"
-                  roundedDiagonal={true}
                 />
               </Space>
             )}
