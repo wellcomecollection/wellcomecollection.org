@@ -1,5 +1,6 @@
 import React from 'react';
 import { useUserInfo } from '../UserInfoContext';
+import { DeleteAccount } from './DeleteAccount';
 import { ResendActivationEmail } from './ResendActivationEmail';
 
 export function AccountActions(): JSX.Element {
@@ -15,7 +16,7 @@ export function AccountActions(): JSX.Element {
           ) : (
             <button>Block online account</button>
           )}
-          <button>Delete account</button>
+          <DeleteAccount />
           {user.deleteRequested && (
             <button>Reverse user&apos;s deletion request</button>
           )}
