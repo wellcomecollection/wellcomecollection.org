@@ -4,6 +4,7 @@ import { BlockAccount } from './BlockAccount';
 import { DeleteAccount } from './DeleteAccount';
 import { ResendActivationEmail } from './ResendActivationEmail';
 import { ResetPassword } from './ResetPassword';
+import { UnblockAccount } from './UnblockAccount';
 
 export function AccountActions(): JSX.Element {
   const { user } = useUserInfo();
@@ -13,11 +14,7 @@ export function AccountActions(): JSX.Element {
       {user && (
         <>
           <ResendActivationEmail />
-          {user.locked ? (
-            <button>Unblock online account</button>
-          ) : (
-            <BlockAccount />
-          )}
+          {user.locked ? <UnblockAccount /> : <BlockAccount />}
           <DeleteAccount />
           {user.deleteRequested && (
             <button>Reverse user&apos;s deletion request</button>
