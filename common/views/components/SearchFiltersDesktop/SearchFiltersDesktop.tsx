@@ -25,6 +25,7 @@ import {
 import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
 import TogglesContext from '../TogglesContext/TogglesContext';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
+import { trackEvent } from '../../../services/conversion/track';
 const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
@@ -230,6 +231,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   text="More filters"
                   clickHandler={event => {
                     event.preventDefault();
+                    trackEvent('open_more_filters', {});
                     setMoreFiltersModal(true);
                   }}
                   ref={openMoreFiltersButtonRef}
