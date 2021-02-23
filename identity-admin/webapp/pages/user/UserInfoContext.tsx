@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { UserInfo } from '../../types/UserInfo';
 
 export type UserInfoContextState = {
   user?: UserInfo;
   isLoading: boolean;
-  error?: AxiosError;
+  error?: unknown;
   refetch?: () => void;
 };
 
@@ -27,11 +26,9 @@ export const UserInfoProvider: React.FC = ({ children }) => {
 
   const fetchUser = async (): Promise<void> => {
     setState({ isLoading: true });
-    return axios
-      .get<UserInfo>(`/api/user/${userId}`)
-      .then(({ data }) => {
-        setState({ isLoading: false, user: data });
-      })
+    return fetch(`/api/user/${userId}`)
+      .then(res => res.json())
+      .then(user => setState({ isLoading: false, user }))
       .catch(error => setState({ isLoading: false, error }));
   };
 

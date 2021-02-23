@@ -1,12 +1,10 @@
 import React from 'react';
-import axios from 'axios';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import fetchMock from 'jest-fetch-mock';
 import { Profile } from './Profile';
 import { TestUserInfoProvider, UserInfoContextState } from '../UserInfoContext';
 import { mockUser } from '../../../mocks/UserInfo.mock';
-
-jest.mock('axios');
 
 jest.mock('next/router', () => ({
   useRouter: () => {
@@ -31,7 +29,7 @@ const renderComponent = (context = defaultContext) =>
 
 describe('Profile', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    fetchMock.resetMocks();
   });
 
   it("shows the user's library card number", () => {
@@ -66,7 +64,6 @@ describe('Profile', () => {
   });
 
   it('submits the edited user details', async () => {
-    axios.put = jest.fn().mockResolvedValueOnce({ status: 200 });
     renderComponent();
     const firstNameInput = screen.getByLabelText(/first name/i);
     userEvent.clear(firstNameInput);
@@ -79,10 +76,16 @@ describe('Profile', () => {
     userEvent.type(emailInput, 'iamironman@starkindustries.com');
     userEvent.click(screen.getByRole('button', { name: /update details/i }));
     await waitFor(() => {
-      expect(axios.put).toBeCalledWith('/api/user/3141592', {
-        firstName: 'Tony',
-        lastName: 'Stark',
-        email: 'iamironman@starkindustries.com',
+      expect(fetch).toBeCalledWith('/api/user/3141592', {
+        method: 'put',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: 'Tony',
+          lastName: 'Stark',
+          email: 'iamironman@starkindustries.com',
+        }),
       });
     });
   });
@@ -97,7 +100,7 @@ describe('Profile', () => {
       expect(screen.queryByRole('alert')).toHaveTextContent(
         /first name cannot be blank/i
       );
-      expect(axios.put).not.toBeCalled();
+      expect(fetch).not.toBeCalled();
     });
   });
 
@@ -111,7 +114,7 @@ describe('Profile', () => {
       expect(screen.queryByRole('alert')).toHaveTextContent(
         /last name cannot be blank/i
       );
-      expect(axios.put).not.toBeCalled();
+      expect(fetch).not.toBeCalled();
     });
   });
 
@@ -129,7 +132,7 @@ describe('Profile', () => {
       expect(screen.queryByRole('alert')).toHaveTextContent(
         /email address cannot be blank/i
       );
-      expect(axios.put).not.toBeCalled();
+      expect(fetch).not.toBeCalled();
     });
     userEvent.type(emailInput, 'captainamerica@avengers'); // not a valid email
     userEvent.click(submitButton);
@@ -138,12 +141,11 @@ describe('Profile', () => {
       expect(screen.queryByRole('alert')).toHaveTextContent(
         /invalid email address/i
       );
-      expect(axios.put).not.toBeCalled();
+      expect(fetch).not.toBeCalled();
     });
   });
 
   it('refetches data after submit', async () => {
-    axios.put = jest.fn().mockResolvedValueOnce({ status: 200 });
     renderComponent();
     const emailInput = screen.getByLabelText(/email address/i);
     const submitButton = screen.getByRole('button', {
@@ -152,8 +154,9 @@ describe('Profile', () => {
     userEvent.clear(emailInput);
     userEvent.type(emailInput, 'captainamerica@avengers.com');
     userEvent.click(submitButton);
+
     await waitFor(() => {
-      expect(axios.put).toBeCalled();
+      expect(fetch).toBeCalled();
       expect(defaultContext.refetch).toBeCalled();
     });
   });

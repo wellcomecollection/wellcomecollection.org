@@ -1,7 +1,6 @@
-import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import { EditedUserInfo } from '../types/UserInfo';
+import { useMutation } from './useMutation';
 
 type UpdateUserInfoMutation = {
   isLoading: boolean;
@@ -9,16 +8,11 @@ type UpdateUserInfoMutation = {
 };
 
 export function useUpdateUserInfo(): UpdateUserInfoMutation {
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { userId } = router.query;
+  const { mutate, isLoading } = useMutation<EditedUserInfo>(
+    `/api/user/${userId}`
+  );
 
-  const updateUserInfo = async (editedUserInfo: EditedUserInfo) => {
-    setIsLoading(true);
-    await axios
-      .put(`/api/user/${userId}`, editedUserInfo)
-      .then(() => setIsLoading(false));
-  };
-
-  return { updateUserInfo, isLoading };
+  return { updateUserInfo: mutate, isLoading };
 }
