@@ -2,58 +2,45 @@
 
 Our collections search is currently in beta, which means we’re developing the service in public for our users. It’s a work in progress, and subject to change based on your feedback and testing.
 
-As part of this work, we will bring together library collections, physical and digital alike, into a single place. Here you will be able to search, browse, read and do research across the whole Wellcome library catalogue.
+As part of this work, we will bring together library collections, physical and digital alike, into a single place. Here you will be able to search, browse, read and do research across the whole Wellcome library catalogue. You can also search for downloadable images from our collections.
 
-For the most comprehensive search of all of our collections, and to request access to physical items from the library, [wellcomelibrary.org](https://wellcomelibrary.org) is still available. There you can search the library and archive catalogues for complete coverage of the collections and their data.
+For the most comprehensive search of all of our collections, and to request access to physical items from the library, the [main catalogue search](https://search.wellcomelibrary.org) on wellcomelibrary.org  is still available. There you can search the library and archive catalogues for complete coverage of the collections and their data.
 
-We will keep this page up to date with the latest information as we make more progress.
+## What you can do now
 
-## What’s new? (updated 14 October 2020)
+### Library catalogue search
+- Find all records for physical books, archive collections, manuscripts, visual collections including artworks and audio-visual materials
+- Find all of our digitised material to view online and download 
+- Filter your search by date, format, genre, subject and contributor.
 
-### Full catalogue search
-We were previously only exposing a subset of our catalogue in search results, limited to digital and digitised materials.
-We now return results from our whole catalogue, including archives, physical works from our collections, and more.
-
-This means you will see many more results for a given query, as we will be searching among approximately 1.2 million works, up from about 350,000.
-
-To help you narrow the results our current filters should help and we have added a new search filter.
-
-### Online / In library search filter
-We've added a filter to the search form, which will allow you to choose between online and in library works.
-As there are potentially many more results being returned, this will allow you to narrow to those results that you can view without having to visit the library.
-
-### Discover and navigate archives
-Now that you are able to find and view archive collections, we've made some additions to the work page to help to identify and explore archives.
-  - an indication that the work is part of an archive
-  - an indication of what the parent archive is and where in its hiearchy the work being viewed sits
-  - an archive tree, which gives the ability to browse the entire archive to which the work belongs
-
-## What's in development now
-- Improvements to the archive tree to give a better experience on small screens
-- Design improvements to the archive tree
-- Improving the interface for search:
-  - making a clearer distinction between a catalogue and image search and explaining what they are.
-  - improving the design to enable us to add more filters
-  - grouping filters and other controls in more logical ways
-- Adding the ability to view items with particular access conditions on wellcomecollection.org
-- Adding the ability to request physical items on wellcomecollection.org
-
-## What are the limits?
-- Some library catalogue data is not available yet, so there may be very little information associated with some images or not be enough information to identify the item you’re looking at.
-- Some images lack references to the item from which they were taken.
-
-For now, if you need any additional help in identifying items from library collections, please email [collections@wellcome.org](mailto:collections@wellcome.org).
+### Images search
+- Find single images from our historical collections and contemporary biomedical images that you can download freely
+- Find visually similar images
+- Filter your search by colour, contributor, genre and licence
 
 # Get involved
 
 We want to share our work in progress with you, and to get your feedback throughout the development.
 
-If you’d like to help shape how this website works, we invite you to [join our User Panel](https://wellcomecollection.org/user-panel). We’re looking for people at all levels of research experience to participate in the design process.
+If you’d like to help shape how this website works, we invite you to [join our user panel](https://wellcomecollection.org/user-panel). We’re looking for people at all levels of research experience to participate in the design process.
 
 As a panellist, you’ll be invited to take part in occasional activities which help us test new designs, functionality and features. These activities may be in-person interviews, brief interactive tests, and surveys. You do not need to be present in London to participate; all activities are currently being conducted online.
 
 [Join our user panel](https://wellcomecollection.org/user-panel) today to get involved.
 
-# Read more about our digital developments
+# Read more about our plans for wellcomecollection.org
 
-You can find out more on [Stacks](https://stacks.wellcomecollection.org/), our in-depth blog covering our digital strategy and data-led developments.
+## Roadmap
+
+Our [development roadmap](https://roadmap.wellcomecollection.org) shows what we're currently working on and what's coming up. We invite you to submit ideas for features or functionality that would help you use our website and collections in the future. 
+
+We use a third-party provider, Productboard, to manage our roadmap. If you submit an idea, you have the option to provide an email address. For information about how we handle your data, please read our [privacy notice](https://wellcome.org/about-us/governance/privacy-and-terms).
+
+## Stacks
+
+[Stacks](https://stacks.wellcomecollection.org/) is our in-depth blog covering our digital strategy, collections and data-led developments.
+
+You can read about:
+- [Why we’re bringing Wellcome Library and Wellcome Collection together into one website](https://stacks.wellcomecollection.org/one-website-for-wellcome-collection-museum-and-library-935b0bde889b)
+- [What changes you can expect as a library user](https://stacks.wellcomecollection.org/moving-to-wellcomecollection-org-a-library-perspective-a5285ae079ce)
+- [How the new digital platform supports our digitisation strategy up to 2025](https://stacks.wellcomecollection.org/digitisation-strategy-2020-2025-c965dd77624f)
