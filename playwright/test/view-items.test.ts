@@ -8,8 +8,9 @@ describe('Scenario 1: Item has multiple volumes', () => {
       await multiVolumeItem();
 
       const navigationSelector = `[role="navigation"][aria-label="${volumesNavigationLabel}"]`;
-      const navigationVisible = await page.isVisible(navigationSelector);
+      await page.waitForSelector(navigationSelector);
 
+      const navigationVisible = await page.isVisible(navigationSelector);
       expect(navigationVisible).toBeTruthy();
 
       const currentManifestLinkLabel = await page.textContent(
