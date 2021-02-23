@@ -4,6 +4,14 @@ import { AccountActions } from './AccountActions';
 import { TestUserInfoProvider, UserInfoContextState } from '../UserInfoContext';
 import { mockUser } from '../../../mocks/UserInfo.mock';
 
+jest.mock('next/router', () => ({
+  useRouter: () => {
+    return {
+      query: { userId: '3141592' },
+    };
+  },
+}));
+
 const defaultContext: UserInfoContextState = {
   isLoading: false,
   user: mockUser,

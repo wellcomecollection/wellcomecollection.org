@@ -1,5 +1,6 @@
 import React from 'react';
 import { useUserInfo } from '../UserInfoContext';
+import { ResendActivationEmail } from './ResendActivationEmail';
 
 export function AccountActions(): JSX.Element {
   const { user } = useUserInfo();
@@ -8,7 +9,7 @@ export function AccountActions(): JSX.Element {
     <>
       {user && (
         <>
-          <button>Resend activation email</button>
+          <ResendActivationEmail />
           {user.locked ? (
             <button>Unblock online account</button>
           ) : (
