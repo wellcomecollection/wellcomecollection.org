@@ -63,7 +63,7 @@ export default {
     {
       id: 'searchMoreFilters',
       title: 'More Filters',
-      defaultValue: false,
+      defaultValue: true,
       description: 'Enable more filters within the search results',
     },
   ] as const,
