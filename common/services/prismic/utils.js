@@ -4,6 +4,38 @@ import { Predicates } from 'prismic-javascript';
 import { london } from '../../utils/format-date';
 import { getNextWeekendDateRange } from '../../utils/dates';
 import type { Period } from '../../model/periods';
+import {
+  type GuideFormatId,
+  GuideFormatIds,
+} from '@weco/common/model/content-format-id';
+
+type guideTypes = 'HowTo' | 'Topic' | 'LearningResource' | 'ExhibitionGuide';
+function getKey(format: string): ?guideTypes {
+  switch (true) {
+    case format === 'how-to':
+      return 'HowTo';
+    case format === 'topic':
+      return 'Topic';
+    case format === 'learning-resource':
+      return 'LearningResource';
+    case format === 'exhibition-guide':
+      return 'ExhibitionGuide';
+  }
+}
+
+export function getGuideFormatId(formatQuery: string): ?GuideFormatId {
+  const key = getKey(formatQuery);
+  if (key) {
+    return GuideFormatIds[key];
+  }
+}
+
+export function getGuideFormatPredicates(formatQuery: string): Predicates[] {
+  const formatId = getGuideFormatId(formatQuery);
+  if (formatId) {
+    return [Predicates.at('my.guides.format', formatId)];
+  } else return [];
+}
 
 export function getPeriodPredicates(
   period: ?Period,
