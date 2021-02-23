@@ -7,6 +7,11 @@ export interface UserInfo {
   emailValidated: boolean;
   barcode: string;
   patronId: number;
+  creationDate: string;
+  updatedDate: string;
+  lastLoginDate: string;
+  lastLoginIp: string;
+  totalLogins: number;
 }
 
 export type EditedUserInfo = Pick<UserInfo, 'firstName' | 'lastName' | 'email'>;
