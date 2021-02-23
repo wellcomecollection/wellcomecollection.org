@@ -1,5 +1,6 @@
 import React from 'react';
 import { useUserInfo } from '../UserInfoContext';
+import { BlockAccount } from './BlockAccount';
 import { DeleteAccount } from './DeleteAccount';
 import { ResendActivationEmail } from './ResendActivationEmail';
 import { ResetPassword } from './ResetPassword';
@@ -15,7 +16,7 @@ export function AccountActions(): JSX.Element {
           {user.locked ? (
             <button>Unblock online account</button>
           ) : (
-            <button>Block online account</button>
+            <BlockAccount />
           )}
           <DeleteAccount />
           {user.deleteRequested && (
