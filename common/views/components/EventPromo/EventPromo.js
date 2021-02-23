@@ -18,17 +18,17 @@ import styled from 'styled-components';
 /* $FlowFixMe (ts) */
 import { WatchWrapper, WatchText } from '../styled/Watch';
 
-const OnlineIndicator = styled.span.attrs({
+// TODO: make the online indicator a part of the Label component?
+const OnlineIndicator = styled(Space).attrs({
+  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 's', properties: ['padding-left', 'padding-right'] },
   className: classNames({
     [font('hnm', 6)]: true,
   }),
 })`
   display: inline-block;
-  color: ${props => props.theme.color('pewter')};
-  border: 1px solid ${props => props.theme.color('pewter')};
-  border-radius: 4px;
+  border: 1px solid ${props => props.theme.color('silver')};
   line-height: 1;
-  padding: ${props => `${props.theme.spacingUnit / 2}px`};
 `;
 type Props = {|
   event: UiEvent,
@@ -180,7 +180,7 @@ const EventPromo = ({
         </div>
 
         {event.series.length > 0 && (
-          <Space v={{ size: 'l', properties: ['margin-top'] }}>
+          <Space v={{ size: 'm', properties: ['margin-top'] }}>
             {event.series.map(series => (
               <p key={series.title} className={`${font('hnm', 6)} no-margin`}>
                 <span className={font('hnl', 6)}>Part of</span> {series.title}
@@ -189,20 +189,18 @@ const EventPromo = ({
           </Space>
         )}
       </CardBody>
-      <Divider extraClasses="divider--white divider--keyline" />
       {event.secondaryLabels.length > 0 && (
         <Space
-          v={{
-            size: 's',
-            properties: ['padding-top', 'padding-bottom'],
-          }}
-          h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+          v={{ size: 'm', properties: ['padding-bottom'] }}
         >
-          <LabelsList
-            labels={event.secondaryLabels}
-            defaultLabelColor="black"
-            roundedDiagonal={true}
-          />
+          <Divider extraClasses={`divider--keyline divider--white`} />
+          <Space v={{ size: 's', properties: ['padding-top'] }}>
+            <LabelsList
+              labels={event.secondaryLabels}
+              defaultLabelColor="black"
+            />
+          </Space>
         </Space>
       )}
     </CardOuter>

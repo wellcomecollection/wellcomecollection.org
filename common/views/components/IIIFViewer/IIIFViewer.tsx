@@ -189,6 +189,7 @@ type IIIFViewerProps = {
   iiifImageLocation?: DigitalLocation;
   work?: Work;
   manifest?: IIIFManifest;
+  manifestIndex?: number;
   handleImageError?: () => void;
 };
 
@@ -207,6 +208,7 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
   iiifImageLocation,
   work,
   manifest,
+  manifestIndex,
   handleImageError,
 }: IIIFViewerProps) => {
   const [gridVisible, setGridVisible] = useState(false);
@@ -444,6 +446,7 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
         parentManifest={parentManifest}
         lang={lang}
         viewerRef={viewerRef}
+        manifestIndex={manifestIndex}
       />
       <IIIFViewerBackground
         isFullscreen={isFullscreen}

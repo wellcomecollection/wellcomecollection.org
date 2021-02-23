@@ -3,17 +3,13 @@ import { RouteMiddleware } from '../../types/application';
 import { UpdateUserSchema } from '../../types/schemas/update-user';
 import { callRemoteApi } from '../../utility/api-caller';
 
-export const updateCurrentUser: RouteMiddleware<unknown, UpdateUserSchema> = async (context) => {
+export const updateCurrentUser: RouteMiddleware<Record<string, never>, UpdateUserSchema> = async (context) => {
   await authenticateUser(context, async () => {
-    const { idNumber } = context.state.user.profile;
-    const { newEmail } = context.requestBody;
-
-    const updateUserResponse = await callRemoteApi('PUT', `/users/${idNumber}`, context.state, {
-      email: newEmail,
+    const { data, status } = await callRemoteApi('PUT', `/users/me`, context.state, {
+      email: context.requestBody.newEmail,
     });
 
-    context.response.status = updateUserResponse.status;
-    context.response.body = updateUserResponse.data;
-    return;
+    context.response.status = status;
+    context.response.body = data;
   });
 };
