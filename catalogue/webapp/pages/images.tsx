@@ -33,7 +33,6 @@ import {
   ImagesProps,
   toLink,
 } from '@weco/common/views/components/ImagesLink/ImagesLink';
-import { emptyWorksProps } from '@weco/common/views/components/WorksLink/WorksLink';
 import { ColorFilter } from '@weco/common/views/components/SearchFilters/SearchFilters';
 
 type Props = {
