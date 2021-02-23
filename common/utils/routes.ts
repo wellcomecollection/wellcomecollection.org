@@ -101,7 +101,9 @@ export function toSource<T extends string>(
   }
 }
 
-export function propsToQuery(props: ParsedUrlQuery): ParsedUrlQuery {
+export function propsToQuery(
+  props: Record<string, string | string[] | number | undefined>
+): ParsedUrlQuery {
   return Object.keys(props).reduce((acc, key) => {
     const val = props[key];
 
@@ -130,9 +132,10 @@ export function propsToQuery(props: ParsedUrlQuery): ParsedUrlQuery {
       return { ...acc };
     }
 
-    // As all our services default to `page: undefined` to `page: 1` so we remove it
+    // As all our services default `page: undefined` to `page: 1` we remove it
     const pageKeys = ['page', 'canvas', 'manifest'];
-    if (pageKeys.includes(key) && val === '1') {
+    // console.info(key, val, typeof val);
+    if (pageKeys.includes(key) && (val === '1' || val === 1)) {
       return { ...acc };
     }
 

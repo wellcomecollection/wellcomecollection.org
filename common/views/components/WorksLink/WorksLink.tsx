@@ -84,11 +84,11 @@ function toLink(props: WorksProps): LinkProps {
   return {
     href: {
       pathname,
-      query: { ...props },
+      query: propsToQuery({ ...props }),
     },
     as: {
       pathname,
-      query: { ...propsWithoutSource },
+      query: propsToQuery({ ...propsWithoutSource }),
     },
   };
 }
