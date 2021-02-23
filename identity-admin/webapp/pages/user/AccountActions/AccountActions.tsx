@@ -2,6 +2,7 @@ import React from 'react';
 import { useUserInfo } from '../UserInfoContext';
 import { DeleteAccount } from './DeleteAccount';
 import { ResendActivationEmail } from './ResendActivationEmail';
+import { ResetPassword } from './ResetPassword';
 
 export function AccountActions(): JSX.Element {
   const { user } = useUserInfo();
@@ -20,7 +21,7 @@ export function AccountActions(): JSX.Element {
           {user.deleteRequested && (
             <button>Reverse user&apos;s deletion request</button>
           )}
-          <button>Reset password</button>
+          <ResetPassword />
         </>
       )}
     </>
