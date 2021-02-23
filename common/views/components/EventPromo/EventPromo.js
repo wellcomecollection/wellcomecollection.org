@@ -18,17 +18,17 @@ import styled from 'styled-components';
 /* $FlowFixMe (ts) */
 import { WatchWrapper, WatchText } from '../styled/Watch';
 
-const OnlineIndicator = styled.span.attrs({
+// TODO: make the online indicator a part of the Label component?
+const OnlineIndicator = styled(Space).attrs({
+  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 's', properties: ['padding-left', 'padding-right'] },
   className: classNames({
     [font('hnm', 6)]: true,
   }),
 })`
   display: inline-block;
-  color: ${props => props.theme.color('pewter')};
-  border: 1px solid ${props => props.theme.color('pewter')};
-  border-radius: 4px;
+  border: 1px solid ${props => props.theme.color('silver')};
   line-height: 1;
-  padding: ${props => `${props.theme.spacingUnit / 2}px`};
 `;
 type Props = {|
   event: UiEvent,
