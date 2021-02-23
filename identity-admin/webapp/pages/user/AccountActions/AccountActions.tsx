@@ -4,6 +4,7 @@ import { BlockAccount } from './BlockAccount';
 import { DeleteAccount } from './DeleteAccount';
 import { ResendActivationEmail } from './ResendActivationEmail';
 import { ResetPassword } from './ResetPassword';
+import { ReverseDeleteRequest } from './ReverseDeleteRequest';
 import { UnblockAccount } from './UnblockAccount';
 
 export function AccountActions(): JSX.Element {
@@ -16,9 +17,7 @@ export function AccountActions(): JSX.Element {
           <ResendActivationEmail />
           {user.locked ? <UnblockAccount /> : <BlockAccount />}
           <DeleteAccount />
-          {user.deleteRequested && (
-            <button>Reverse user&apos;s deletion request</button>
-          )}
+          {user.deleteRequested && <ReverseDeleteRequest />}
           <ResetPassword />
         </>
       )}
