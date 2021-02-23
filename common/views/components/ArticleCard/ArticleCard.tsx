@@ -2,7 +2,7 @@ import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import { Article } from '../../../model/articles';
 import { FunctionComponent } from 'react';
-import { ContentFormatIds } from '@weco/common/model/content-format-id';
+import { ArticleFormatIds } from '@weco/common/model/content-format-id';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import Space from '../styled/Space';
 import { WatchWrapper, WatchText } from '../styled/Watch';
@@ -32,7 +32,7 @@ const ArticleCard: FunctionComponent<Props> = ({
     : undefined;
 
   const isPodcast =
-    article.format && article.format.id === ContentFormatIds.Podcast;
+    article.format && article.format.id === ArticleFormatIds.Podcast;
 
   if (isPodcast) {
     return (
