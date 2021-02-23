@@ -223,6 +223,8 @@ const SearchForm: FunctionComponent<Props> = ({
       </Space>
       {query && shouldShowFilters && (
         <SearchFilters
+          query={query}
+          linkResolver={linkResolver}
           searchForm={searchForm}
           changeHandler={submit}
           filters={filters}

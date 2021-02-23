@@ -1,14 +1,17 @@
 import { useState, FunctionComponent, ReactElement } from 'react';
+import { ParsedUrlQuery } from 'querystring';
 import SearchFiltersDesktop from '../SearchFiltersDesktop/SearchFiltersDesktop';
 import SearchFiltersMobile from '../SearchFiltersMobile/SearchFiltersMobile';
 import { WorksProps } from '../WorksLink/WorksLink';
 import { ImagesProps } from '../ImagesLink/ImagesLink';
+import { LinkProps } from '../../../model/link-props';
 
 type Props = {
   query: string;
   searchForm: { current: HTMLFormElement | null };
   changeHandler: () => void;
   filters: Filter[];
+  linkResolver: (params: ParsedUrlQuery) => LinkProps;
 };
 
 export type SearchFiltersSharedProps = Props;
@@ -58,6 +61,7 @@ const SearchFilters: FunctionComponent<Props> = ({
   searchForm,
   changeHandler,
   filters,
+  linkResolver,
 }: Props): ReactElement<Props> => {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -66,6 +70,7 @@ const SearchFilters: FunctionComponent<Props> = ({
     searchForm,
     changeHandler,
     filters,
+    linkResolver,
   };
 
   return (

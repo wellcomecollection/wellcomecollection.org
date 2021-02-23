@@ -1,4 +1,5 @@
 import React, { Fragment, FunctionComponent, ReactNode } from 'react';
+import { ParsedUrlQuery } from 'querystring';
 import { LinkProps } from '@weco/common/model/link-props';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
@@ -6,11 +7,13 @@ import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
 import styled from 'styled-components';
 import { Filter } from '../SearchFilters/SearchFilters';
-import { toLink as worksLink, WorksProps } from '../WorksLink/WorksLink';
+import { toLink as worksLink } from '../WorksLink/WorksLink';
 
 type ResetActiveFilters = {
+  query: string;
   resetFilters: LinkProps;
   filters: Filter[];
+  linkResolver: (params: ParsedUrlQuery) => LinkProps;
 };
 
 const ColorSwatch = styled.span`
@@ -58,11 +61,11 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
 };
 
 export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
+  query,
   resetFilters,
   filters,
+  linkResolver,
 }: ResetActiveFilters) => {
-  const query = '???';
-
   return (
     <Space
       v={{ size: 's', properties: ['padding-top'] }}
@@ -94,9 +97,9 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                     <NextLink
                       key={`cancel-${option.id}`}
                       passHref
-                      {...worksLink({
-                        ...query,
-                        page: 1,
+                      {...linkResolver({
+                        query,
+                        page: '1',
                         [f.key]: selectedOptions
                           .filter(
                             (selectedOption) =>
@@ -120,9 +123,9 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                   {f.from.value && (
                     <NextLink
                       passHref
-                      {...worksLink({
-                        ...query,
-                        page: 1,
+                      {...linkResolver({
+                        query,
+                        page: '1',
                         [f.from.key]: undefined,
                         source: `cancel_filter/${f.from.id}`,
                       })}
@@ -136,9 +139,9 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                   {f.to.value && (
                     <NextLink
                       passHref
-                      {...worksLink({
-                        ...query,
-                        page: 1,
+                      {...linkResolver({
+                        query,
+                        page: '1',
                         [f.to.key]: undefined,
                         source: `cancel_filter/${f.to.id}`,
                       })}
@@ -156,9 +159,9 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                 <Fragment key={`cancel-${f.id}`}>
                   <NextLink
                     passHref
-                    {...worksLink({
-                      ...query,
-                      page: 1,
+                    {...linkResolver({
+                      query,
+                      page: '1',
                       [f.key]: undefined,
                       source: `cancel_filter/${f.id}`,
                     })}

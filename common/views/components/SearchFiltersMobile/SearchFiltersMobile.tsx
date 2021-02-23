@@ -271,6 +271,7 @@ const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
 };
 
 const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
+  query,
   changeHandler,
   filters,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
@@ -415,7 +416,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
               passHref
               {...worksLink({
                 ...emptyWorksProps,
-                query: worksRouteProps.query,
+                query: query,
                 source: 'cancel_filter/all',
               })}
             >
