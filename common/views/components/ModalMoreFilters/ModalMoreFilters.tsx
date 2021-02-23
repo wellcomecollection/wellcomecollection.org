@@ -155,15 +155,16 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
 };
 
 const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
+  query,
   id,
   showMoreFiltersModal,
   setMoreFiltersModal,
   openMoreFiltersButtonRef,
-  query,
   changeHandler,
   filters,
 }: ModalMoreFiltersProps) => {
   const { isEnhanced } = useContext(AppContext);
+
   return (
     <>
       <noscript>

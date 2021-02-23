@@ -162,6 +162,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             online access.
           </Space>
           <SearchForm
+            action="/works"
             query={query}
             sort={sort}
             sortOrder={sortOrder}

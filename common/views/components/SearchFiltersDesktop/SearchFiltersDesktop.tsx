@@ -143,9 +143,9 @@ const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
 };
 
 const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
+  query,
   changeHandler,
   filters,
-  query,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const { searchMoreFilters } = useContext(TogglesContext);
 
@@ -235,12 +235,12 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   ref={openMoreFiltersButtonRef}
                 />
                 <ModalMoreFilters
+                  query={query}
                   id="moreFilters"
                   showMoreFiltersModal={showMoreFiltersModal}
                   setMoreFiltersModal={setMoreFiltersModal}
                   openMoreFiltersButtonRef={openMoreFiltersButtonRef}
                   changeHandler={changeHandler}
-                  query={query}
                   filters={filters.slice(2)}
                 />
               </Space>

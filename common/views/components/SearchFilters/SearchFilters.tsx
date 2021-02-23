@@ -5,6 +5,7 @@ import { WorksProps } from '../WorksLink/WorksLink';
 import { ImagesProps } from '../ImagesLink/ImagesLink';
 
 type Props = {
+  query: string;
   searchForm: { current: HTMLFormElement | null };
   changeHandler: () => void;
   filters: Filter[];
@@ -53,6 +54,7 @@ export type ColorFilter = {
 export type Filter = CheckboxFilter | DateRangeFilter | ColorFilter;
 
 const SearchFilters: FunctionComponent<Props> = ({
+  query,
   searchForm,
   changeHandler,
   filters,
@@ -60,10 +62,10 @@ const SearchFilters: FunctionComponent<Props> = ({
   const [isMobile, setIsMobile] = useState(false);
 
   const sharedProps: SearchFiltersSharedProps = {
+    query,
     searchForm,
     changeHandler,
     filters,
-    query: '',
   };
 
   return (
