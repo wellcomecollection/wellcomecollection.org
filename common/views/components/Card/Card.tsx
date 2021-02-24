@@ -91,9 +91,10 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
                 'promo-link__title': true,
                 [font('wb', 3)]: true,
               })}
-            ></Space>
+            >
+              {item.title}
+            </Space>
           )}
-
           {item.description && (
             <p className={`${font('hnl', 5)} no-padding no-margin`}>
               {item.description}
