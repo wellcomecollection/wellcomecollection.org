@@ -17,7 +17,7 @@ import useSavedSearchState from '../../../hooks/useSavedSearchState';
 
 const BetaBarContainer = styled.div`
   // on larger screens we shift the BetaBar to the right on the same level as the tabs
-  ${(props) => props.theme.media.medium`
+  ${props => props.theme.media.medium`
     position: absolute;
     right: 0;
   `}
@@ -28,7 +28,7 @@ const BaseTabsWrapper = styled.div`
   [class*='ButtonInline__InlineButton'],
   [class^='CheckboxRadio__CheckboxRadioBox'] {
     background: white !important;
-    border-color: ${(props) => props.theme.color('marble')};
+    border-color: ${props => props.theme.color('marble')};
   }
 `;
 
@@ -47,23 +47,23 @@ const Tab = styled(Space).attrs({
     [font('hnm', 5)]: true,
   }),
 })<TabProps>`
-  background: ${(props) => props.theme.color('pumice')};
-  border-left: 1px solid ${(props) => props.theme.color('cream')};
-  border-top: 1px solid ${(props) => props.theme.color('cream')};
+  background: ${props => props.theme.color('pumice')};
+  border-left: 1px solid ${props => props.theme.color('cream')};
+  border-top: 1px solid ${props => props.theme.color('cream')};
 
-  ${(props) =>
+  ${props =>
     props.isLast &&
     `
     border-right: 1px solid ${props.theme.color('cream')};
   `}
 
-  ${(props) =>
+  ${props =>
     props.isActive &&
     `
     background: ${props.theme.color('cream')};
   `}
 
-  ${(props) =>
+  ${props =>
     props.isFocused &&
     `
     box-shadow: ${props.isKeyboard ? props.theme.focusBoxShadow : null};
@@ -73,7 +73,7 @@ const Tab = styled(Space).attrs({
 `;
 
 const TabPanel = styled(Space)`
-  background: ${(props) => props.theme.color('cream')};
+  background: ${props => props.theme.color('cream')};
 `;
 
 type Props = {
@@ -112,7 +112,7 @@ const SearchTabs: FunctionComponent<Props> = ({
         return (
           <ConditionalWrapper
             condition={tabCondition}
-            wrapper={(children) => (
+            wrapper={children => (
               <NextLink
                 scroll={false}
                 href={{
@@ -169,7 +169,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             query={query}
             sort={sort}
             sortOrder={sortOrder}
-            linkResolver={(params) => {
+            linkResolver={params => {
               const query = propsToQuery(params);
               const link = {
                 pathname: '/works',
@@ -195,7 +195,7 @@ const SearchTabs: FunctionComponent<Props> = ({
         return (
           <ConditionalWrapper
             condition={tabCondition}
-            wrapper={(children) => (
+            wrapper={children => (
               <NextLink
                 scroll={false}
                 href={{
@@ -252,7 +252,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             query={query}
             sort={undefined}
             sortOrder={undefined}
-            linkResolver={(params) => {
+            linkResolver={params => {
               const query = propsToQuery(params);
               const link = {
                 pathname: '/images',
