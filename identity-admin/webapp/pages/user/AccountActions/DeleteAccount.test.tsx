@@ -21,9 +21,29 @@ describe('DeleteAccount', () => {
     ).toBeInTheDocument();
   });
 
+  it('opens a modal to confirm deletion', () => {
+    renderComponent();
+    expect(
+      screen.queryByText(/are you sure you want to delete this account/i)
+    ).not.toBeInTheDocument();
+    userEvent.click(screen.getByRole('button', { name: /delete account/i }));
+    expect(
+      screen.queryByText(/are you sure you want to delete this account/i)
+    ).toBeInTheDocument();
+    userEvent.click(
+      screen.getByRole('button', { name: /no, cancel this action/i })
+    );
+    expect(
+      screen.queryByText(/are you sure you want to delete this account/i)
+    ).not.toBeInTheDocument();
+  });
+
   it("requests the deletion of the user's account", async () => {
     renderComponent();
     userEvent.click(screen.getByRole('button', { name: /delete account/i }));
+    userEvent.click(
+      screen.getByRole('button', { name: /yes, delete account/i })
+    );
 
     await waitFor(() => {
       expect(fetch).toBeCalledWith('/api/delete-account/3141592', {
