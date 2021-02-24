@@ -1,11 +1,9 @@
 import React from 'react';
 import { UserInfo } from '../../../types/UserInfo';
 import { useUserInfo } from '../UserInfoContext';
+import { StatusBox } from './Info.style';
 
 function UserStatus(props: Partial<UserInfo>) {
-  const StatusBox: React.FC<{ children: string }> = ({ children }) => (
-    <aside>{children}</aside>
-  );
   if (props.deleteRequested) {
     return <StatusBox>User has requested delete</StatusBox>;
   }
