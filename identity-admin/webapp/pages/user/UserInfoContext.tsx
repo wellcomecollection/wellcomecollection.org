@@ -5,7 +5,7 @@ import { UserInfo } from '../../types/UserInfo';
 export type UserInfoContextState = {
   user?: UserInfo;
   isLoading: boolean;
-  error?: unknown;
+  error?: { message: string };
   refetch?: () => void;
 };
 
