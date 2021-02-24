@@ -102,6 +102,7 @@ const Download: NextPage<Props> = ({
 
                       return (
                         <li key={option['@id']}>
+                          label: {JSON.stringify(option)}
                           <DownloadLink
                             href={option['@id']}
                             linkText={
@@ -110,6 +111,7 @@ const Download: NextPage<Props> = ({
                                 : option.label
                             }
                             format={format}
+                            width={option.width}
                             trackingEvent={{
                               category: 'Button',
                               action: action,
