@@ -13,7 +13,6 @@ import BackToResults from '@weco/common/views/components/BackToResults/BackToRes
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
 import Space from '@weco/common/views/components/styled/Space';
-import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import WorkDetails from '../WorkDetails/WorkDetails';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
@@ -25,10 +24,12 @@ import styled from 'styled-components';
 import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import useHotjar from '@weco/common/hooks/useHotjar';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
+import { emptyWorksProps } from '@weco/common/views/components/WorksLink/WorksLink';
+import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
-  ${props => props.theme.media.medium`
+  ${(props) => props.theme.media.medium`
     display: flex;
   `}
 `;
@@ -47,17 +48,7 @@ const Work: FunctionComponent<Props> = ({
   work,
   globalContextData,
 }: Props): ReactElement<Props> => {
-  const [savedSearchFormState] = useSavedSearchState({
-    query: '',
-    page: 1,
-    workType: [],
-    itemsLocationsLocationType: [],
-    sort: null,
-    sortOrder: null,
-    productionDatesFrom: null,
-    productionDatesTo: null,
-    search: null,
-  });
+  const [savedSearchFormState] = useSavedSearchState(emptyWorksProps);
 
   const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
   useHotjar(isInArchive);
@@ -128,16 +119,13 @@ const Work: FunctionComponent<Props> = ({
           >
             <Space v={{ size: 'l', properties: ['margin-top'] }}>
               <SearchTabs
-                worksRouteProps={savedSearchFormState}
-                imagesRouteProps={{
-                  ...savedSearchFormState,
-                  locationsLicense: null,
-                  color: null,
-                }}
-                workTypeAggregations={[]}
+                query={savedSearchFormState.query}
+                sort={savedSearchFormState.sort}
+                sortOrder={savedSearchFormState.sortOrder}
+                worksFilters={[]}
+                imagesFilters={[]}
                 shouldShowDescription={false}
-                shouldShowFilters={false} // not display filters on the work detail page
-                activeTabIndex={0}
+                shouldShowFilters={false}
                 showSortBy={false}
               />
             </Space>
