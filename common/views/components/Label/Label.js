@@ -1,5 +1,5 @@
 // @flow
-import type { Label as LabelType } from '../../../model/labels';
+import type { Label as LabelType, LabelColor } from '../../../model/labels';
 import { font, classNames } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
@@ -22,6 +22,8 @@ const LabelContainer = styled(Space).attrs(props => ({
   ${props => {
     if (props.labelColor === 'white') {
       return `border: 1px solid ${props.theme.color('pumice')};`;
+    } else if (props.labelColor === 'transparent') {
+      return `border: 1px solid ${props.theme.color('silver')}`;
     } else {
       return `border: 1px solid ${props.theme.color(props.labelColor)};`;
     }
@@ -30,7 +32,7 @@ const LabelContainer = styled(Space).attrs(props => ({
 
 export type Props = {|
   label: LabelType,
-  labelColor?: 'orange' | 'yellow' | 'black' | 'cream' | 'white',
+  labelColor?: LabelColor,
 |};
 
 function getFontColor(bgColor) {
