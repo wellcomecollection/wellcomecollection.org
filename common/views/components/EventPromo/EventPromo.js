@@ -14,22 +14,9 @@ import Space from '../styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
 /* $FlowFixMe (tsx) */
 import Divider from '../Divider/Divider';
-import styled from 'styled-components';
 /* $FlowFixMe (ts) */
 import WatchLabel from '../WatchLabel/WatchLabel';
 
-// TODO: make the online indicator a part of the Label component?
-const OnlineIndicator = styled(Space).attrs({
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 's', properties: ['padding-left', 'padding-right'] },
-  className: classNames({
-    [font('hnm', 6)]: true,
-  }),
-})`
-  display: inline-block;
-  border: 1px solid ${props => props.theme.color('silver')};
-  line-height: 1;
-`;
 type Props = {|
   event: UiEvent,
   position?: number,
@@ -95,7 +82,11 @@ const EventPromo = ({
           </Space>
 
           {event.isOnline && !event.availableOnline && (
-            <OnlineIndicator>Online</OnlineIndicator>
+            <LabelsList
+              labels={[
+                { text: 'Online', labelColor: 'transparent', url: null },
+              ]}
+            />
           )}
 
           {event.availableOnline && (
