@@ -3,16 +3,11 @@ import { useForm } from 'react-hook-form';
 import { useUpdateUserInfo } from '../../../hooks/useUpdateUserInfo';
 import { EditedUserInfo } from '../../../types/UserInfo';
 import { useUserInfo } from '../UserInfoContext';
+import { Form, Input, InvalidField, Label } from './Profile.style';
 
 const emailRegEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 type EditProfileInputs = EditedUserInfo;
-
-const InvalidField: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  return <div role="alert">{children}</div>;
-};
 
 export function Profile(): JSX.Element {
   const { user, isLoading, refetch } = useUserInfo();
@@ -41,9 +36,9 @@ export function Profile(): JSX.Element {
       <h3>Patron record number</h3>
       <p>{user?.patronId}</p>
       <h3>Personal details</h3>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="first-name">First name</label>
-        <input
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Label htmlFor="first-name">First name</Label>
+        <Input
           id="first-name"
           name="firstName"
           defaultValue={user?.firstName}
@@ -52,8 +47,8 @@ export function Profile(): JSX.Element {
         {errors.firstName && (
           <InvalidField>{errors.firstName.message}</InvalidField>
         )}
-        <label htmlFor="last-name">Last name</label>
-        <input
+        <Label htmlFor="last-name">Last name</Label>
+        <Input
           id="last-name"
           name="lastName"
           defaultValue={user?.lastName}
@@ -62,8 +57,8 @@ export function Profile(): JSX.Element {
         {errors.lastName && (
           <InvalidField>{errors.lastName.message}</InvalidField>
         )}
-        <label htmlFor="email">Email address</label>
-        <input
+        <Label htmlFor="email">Email address</Label>
+        <Input
           id="email"
           name="email"
           defaultValue={user?.email}
@@ -76,8 +71,8 @@ export function Profile(): JSX.Element {
           })}
         />
         {errors.email && <InvalidField>{errors.email.message}</InvalidField>}
-        <input type="submit" value="Update details" />
-      </form>
+        <button type="submit">Update details</button>
+      </Form>
     </>
   );
 }
