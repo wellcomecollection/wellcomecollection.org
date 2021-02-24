@@ -17,11 +17,7 @@ function UserStatus(props: Partial<UserInfo>) {
 }
 
 export function Info(): JSX.Element {
-  const { user, isLoading } = useUserInfo();
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  const { user } = useUserInfo();
 
   return (
     <>

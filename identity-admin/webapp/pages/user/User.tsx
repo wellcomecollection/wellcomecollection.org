@@ -7,14 +7,27 @@ import { Profile } from './Profile';
 import { UsageData } from './UsageData';
 import { AccountActions } from './AccountActions';
 import { useUserInfo } from './UserInfoContext';
+import { Title } from './User.style';
 
 function User(): JSX.Element {
-  const { error } = useUserInfo();
+  const { isLoading, error } = useUserInfo();
+
+  if (isLoading) {
+    return (
+      <Layout title="Account administration">
+        <Title>
+          <Link href="/">Account administration</Link>
+        </Title>
+        <p>Loading...</p>
+      </Layout>
+    );
+  }
+
   return (
     <Layout title="Account administration">
-      <h1>
+      <Title>
         <Link href="/">Account administration</Link>
-      </h1>
+      </Title>
       {error ? (
         <h2>Error fetching user: {error.message}</h2>
       ) : (
