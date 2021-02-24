@@ -111,6 +111,7 @@ const Download: NextPage<Props> = ({
                             }
                             format={format}
                             width={option.width}
+                            mimeType={option.format}
                             trackingEvent={{
                               category: 'Button',
                               action: action,
