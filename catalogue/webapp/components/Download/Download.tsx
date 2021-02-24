@@ -102,7 +102,6 @@ const Download: NextPage<Props> = ({
 
                       return (
                         <li key={option['@id']}>
-                          label: {JSON.stringify(option)}
                           <DownloadLink
                             href={option['@id']}
                             linkText={
