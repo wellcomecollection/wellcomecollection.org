@@ -8,20 +8,13 @@ import styled from 'styled-components';
 
 export const Tab = styled(_Tab)`
   margin-right: 4px;
-  border: 1px solid black;
-  padding: 4px;
+  border: none;
+  padding: 0.333em 1em 0.333em;
   user-select: none;
-  cursor: arrow;
+  cursor: pointer;
 
   &.is-selected {
-    color: white;
-    background: black;
-    border-bottom: 1px solid white;
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(0, 0, 255, 0.5);
+    border-bottom: 10px solid #ffc107;
   }
 `;
 
@@ -31,17 +24,18 @@ export const Tabs = styled(_Tabs)`
 
 export const TabList = styled(_TabList)`
   list-style-type: none;
-  padding: 4px;
   display: flex;
+  padding: 0;
   margin: 0;
+  font-family: 'Wellcome Bold', sans-serif;
+  font-size: 1.1rem;
 `;
 
 export const TabPanel = styled(_TabPanel)`
   display: none;
   min-height: 40vh;
-  border: 1px solid black;
   padding: 4px;
-  margin-top: -5px;
+  margin-top: 5px;
 
   &.is-selected {
     display: block;
