@@ -1,5 +1,5 @@
-import { ImagesProps } from 'views/components/ImagesLink/ImagesLink';
 import { quoteVal } from '../../utils/csv';
+import { ImagesProps } from '../../views/components/ImagesLink/ImagesLink';
 import { WorksProps } from '../../views/components/WorksLink/WorksLink';
 
 export type CatalogueImagesApiProps = {
