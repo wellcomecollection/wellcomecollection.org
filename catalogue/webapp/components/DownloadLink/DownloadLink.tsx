@@ -1,9 +1,10 @@
-import { trackEvent, GaEvent } from '@weco/common/utils/ga';
+import { trackEvent as trackGaEvent, GaEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent } from 'react';
+import { trackEvent } from '@weco/common/services/conversion/track';
 
 const DownloadLinkStyle = styled.a.attrs({
   className: classNames({
@@ -12,8 +13,8 @@ const DownloadLinkStyle = styled.a.attrs({
 })`
   display: inline-block;
   white-space: nowrap;
-  background: ${props => props.theme.color('white')};
-  color: ${props => props.theme.color('green')};
+  background: ${(props) => props.theme.color('white')};
+  color: ${(props) => props.theme.color('green')};
   text-decoration: none;
   .icon__shape {
     fill: currentColor;
@@ -44,7 +45,8 @@ const DownloadLink: FunctionComponent<Props> = ({
     rel="noopener noreferrer"
     href={href}
     onClick={() => {
-      trackEvent(trackingEvent);
+      trackEvent('download', {});
+      trackGaEvent(trackingEvent);
     }}
   >
     <span className="flex-inline flex--v-center">
