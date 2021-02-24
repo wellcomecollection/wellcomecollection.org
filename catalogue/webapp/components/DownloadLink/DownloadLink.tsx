@@ -33,6 +33,7 @@ type Props = {
   format?: DownloadFormat;
   width?: 'full' | number;
   mimeType: string;
+  trackingTags?: string[];
 };
 const DownloadLink: FunctionComponent<Props> = ({
   isTabbable = true,
@@ -42,6 +43,7 @@ const DownloadLink: FunctionComponent<Props> = ({
   format,
   width,
   mimeType,
+  trackingTags = [],
 }: Props) => (
   <DownloadLinkStyle
     tabIndex={isTabbable ? undefined : -1}
@@ -49,7 +51,7 @@ const DownloadLink: FunctionComponent<Props> = ({
     rel="noopener noreferrer"
     href={href}
     onClick={() => {
-      trackEvent('download', { width, mimeType });
+      trackEvent('download', { width, mimeType, tags: trackingTags });
       trackGaEvent(trackingEvent);
     }}
   >

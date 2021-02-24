@@ -97,6 +97,8 @@ const VideoPlayer: FunctionComponent<Props> = ({
                 action: 'follow video annotation link',
                 label: video['@id'],
               }}
+              mimeType={annotation.resource.format}
+              trackingTags={['annotation']}
             />
           </Space>
         )}
