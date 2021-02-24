@@ -1,7 +1,6 @@
 import { ImagesProps } from 'views/components/ImagesLink/ImagesLink';
 import { quoteVal } from '../../utils/csv';
 import { WorksProps } from '../../views/components/WorksLink/WorksLink';
-import { ImagesRouteProps } from './ts_routes';
 
 export type CatalogueImagesApiProps = {
   query: string | undefined;

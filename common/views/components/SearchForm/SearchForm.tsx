@@ -17,7 +17,6 @@ import SearchFilters, { Filter } from '../SearchFilters/SearchFilters';
 import Select from '../Select/Select';
 import Space from '../styled/Space';
 import SelectUncontrolled from '../SelectUncontrolled/SelectUncontrolled';
-import useSavedSearchState from '../../../hooks/useSavedSearchState';
 import SearchFormSortByPortal from '../SearchFormSortByPortal/SearchFormSortByPortal';
 import { AppContext } from '../AppContext/AppContext';
 import {
@@ -44,7 +43,7 @@ const SearchInputWrapper = styled.div`
   margin-right: 80px;
 
   .search-query {
-    height: ${(props) => 10 * props.theme.spacingUnit}px;
+    height: ${props => 10 * props.theme.spacingUnit}px;
   }
 `;
 
@@ -53,16 +52,16 @@ const SearchButtonWrapper = styled.div.attrs({
     absolute: true,
   }),
 })`
-  top: ${(props) => props.theme.spacingUnits['3']}px;
-  right: ${(props) => props.theme.spacingUnits['3']}px;
+  top: ${props => props.theme.spacingUnits['3']}px;
+  right: ${props => props.theme.spacingUnits['3']}px;
 
-  ${(props) =>
+  ${props =>
     props.theme.media.medium`
     top: ${props.theme.spacingUnits['4']}px;
     right: ${props.theme.spacingUnits['4']}px;
   `}
 
-  ${(props) =>
+  ${props =>
     props.theme.media.large`
     top: ${props.theme.spacingUnits['5']}px;
     right: ${props.theme.spacingUnits['5']}px;
@@ -74,7 +73,7 @@ const ClearSearch = styled.button`
 `;
 
 const SearchSortOrderWrapper = styled.div`
-  color: ${(props) => props.theme.color('black')};
+  color: ${props => props.theme.color('black')};
 `;
 
 const SearchForm: FunctionComponent<Props> = ({
@@ -88,7 +87,6 @@ const SearchForm: FunctionComponent<Props> = ({
   showSortBy,
   filters,
 }: Props): ReactElement<Props> => {
-  const [, setSearchParamsState] = useSavedSearchState({});
   const { isEnhanced } = useContext(AppContext);
   const searchForm = useRef<HTMLFormElement>(null);
   // This is the query used by the input, that is then eventually passed to the
@@ -134,6 +132,7 @@ const SearchForm: FunctionComponent<Props> = ({
   function updateUrl(form: HTMLFormElement) {
     const formData = new FormData(form);
     // see: https://github.com/microsoft/TypeScript/issues/30584
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const url = new URLSearchParams(formData);
 
@@ -167,7 +166,7 @@ const SearchForm: FunctionComponent<Props> = ({
       className="relative"
       action={isImageSearch ? '/images' : '/works'}
       aria-describedby={ariaDescribedBy}
-      onSubmit={(event) => {
+      onSubmit={event => {
         event.preventDefault();
 
         trackEvent({
@@ -251,7 +250,7 @@ const SearchForm: FunctionComponent<Props> = ({
                   text: 'Newest to oldest',
                 },
               ]}
-              onChange={(event) => {
+              onChange={event => {
                 setPortalSortOrder(event.currentTarget.value);
               }}
             />
