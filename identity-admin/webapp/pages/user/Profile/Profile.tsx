@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { Button } from '../../../components/Button';
 import { useUpdateUserInfo } from '../../../hooks/useUpdateUserInfo';
 import { EditedUserInfo } from '../../../types/UserInfo';
 import { useUserInfo } from '../UserInfoContext';
@@ -71,7 +72,7 @@ export function Profile(): JSX.Element {
           })}
         />
         {errors.email && <InvalidField>{errors.email.message}</InvalidField>}
-        <button type="submit">Update details</button>
+        <Button type="submit">Update details</Button>
       </Form>
     </>
   );
