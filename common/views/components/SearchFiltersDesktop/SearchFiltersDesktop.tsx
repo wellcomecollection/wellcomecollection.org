@@ -55,7 +55,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   const { paletteColorFilter } = useContext(TogglesContext);
   const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
   const showWorkTypeFilters =
-    workTypeFilters.some((f) => f.count > 0) || workTypeSelected.length > 0;
+    workTypeFilters.some(f => f.count > 0) || workTypeSelected.length > 0;
   const { searchMoreFilters } = useContext(TogglesContext);
   const resetFiltersRoute = getResetRouteProps(worksRouteProps);
   const resetFilters = imagesColor
@@ -130,7 +130,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                       [font('hnl', 5)]: true,
                     })}
                   >
-                    {workTypeFilters.map((workType) => {
+                    {workTypeFilters.map(workType => {
                       const isChecked = workTypeSelected.includes(
                         workType.data.id
                       );
@@ -178,7 +178,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                         max="9999"
                         placeholder={'Year'}
                         value={inputDateFrom || ''}
-                        onChange={(event) => {
+                        onChange={event => {
                           setInputDateFrom(`${event.currentTarget.value}`);
                         }}
                       />
@@ -190,7 +190,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                       max="9999"
                       placeholder={'Year'}
                       value={inputDateTo || ''}
-                      onChange={(event) => {
+                      onChange={event => {
                         setInputDateTo(`${event.currentTarget.value}`);
                       }}
                     />
@@ -228,7 +228,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 <ButtonInline
                   type={ButtonTypes.button}
                   text="More filters"
-                  clickHandler={(event) => {
+                  clickHandler={event => {
                     event.preventDefault();
                     setMoreFiltersModal(true);
                   }}
@@ -280,7 +280,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   >
                     {aggregations.locationType.buckets
                       .sort((a, b) => b.data.label.localeCompare(a.data.label)) // Ensure 'Online' appears before 'In the library'
-                      .map((locationType) => {
+                      .map(locationType => {
                         const isChecked = worksRouteProps.itemsLocationsType.includes(
                           locationType.data.type
                         );
