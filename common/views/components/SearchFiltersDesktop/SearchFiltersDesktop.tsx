@@ -153,6 +153,15 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   const [showMoreFiltersModal, setMoreFiltersModal] = useState(false);
   const openMoreFiltersButtonRef = useRef(null);
 
+  const locationsTypeFilter = filters.find(
+    ({ id }) => id === 'items.locations.type'
+  );
+  const otherFilters = filters.filter(
+    ({ id }) => id !== 'items.locations.type'
+  );
+  const visibleFilters = otherFilters.slice(0, 2);
+  const modalFilters = otherFilters.slice(2);
+
   return (
     <>
       <Space
@@ -194,7 +203,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
               </Space>
             </Space>
 
-            {filters.slice(0, 2).map((f, i, arr) => {
+            {visibleFilters.map((f, i, arr) => {
               return (
                 <Space
                   key={f.id}
@@ -219,7 +228,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
               );
             })}
 
-            {searchMoreFilters && filters.slice(2).length > 0 && (
+            {searchMoreFilters && modalFilters.length > 0 && (
               <Space
                 className={classNames({
                   [font('hnl', 5)]: true,
@@ -242,69 +251,64 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   setMoreFiltersModal={setMoreFiltersModal}
                   openMoreFiltersButtonRef={openMoreFiltersButtonRef}
                   changeHandler={changeHandler}
-                  filters={filters.slice(2)}
+                  filters={modalFilters}
                 />
               </Space>
             )}
           </Space>
 
-          {/*filtersToShow.includes('locations') &&
-            aggregations &&
-            aggregations.locationType && (
+          {locationsTypeFilter && locationsTypeFilter.type === 'checkbox' && (
+            <Space
+              v={{ size: 'm', properties: ['margin-bottom'] }}
+              className={classNames({
+                'flex flex--v-center': true,
+              })}
+            >
+              <Icon name="eye" />
               <Space
-                v={{ size: 'm', properties: ['margin-bottom'] }}
+                h={{ size: 's', properties: ['margin-left'] }}
                 className={classNames({
-                  'flex flex--v-center': true,
+                  [font('hnm', 5)]: true,
                 })}
               >
-                <Icon name="eye" />
-                <Space
-                  h={{ size: 's', properties: ['margin-left'] }}
+                Show items available
+              </Space>
+              <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
+                <ul
                   className={classNames({
-                    [font('hnm', 5)]: true,
+                    'no-margin no-padding plain-list flex': true,
+                    [font('hnl', 5)]: true,
                   })}
                 >
-                  Show items available
-                </Space>
-                <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
-                  <ul
-                    className={classNames({
-                      'no-margin no-padding plain-list flex': true,
-                      [font('hnl', 5)]: true,
+                  {locationsTypeFilter.options
+                    // Hack: Ensure 'Online' appears before 'In the library'
+                    .sort(({ label: a }, { label: b }) => b.localeCompare(a))
+                    .map(({ id, label, count, value, selected }) => {
+                      return (
+                        <Space
+                          as="li"
+                          h={{ size: 's', properties: ['margin-left'] }}
+                          key={id}
+                          className={classNames({
+                            flex: true,
+                          })}
+                        >
+                          <CheckboxRadio
+                            id={id}
+                            type={`checkbox`}
+                            text={`${label} (${count})`}
+                            value={value}
+                            name={locationsTypeFilter.id}
+                            checked={selected}
+                            onChange={changeHandler}
+                          />
+                        </Space>
+                      );
                     })}
-                  >
-                    {aggregations.locationType.buckets
-                      .sort((a, b) => b.data.label.localeCompare(a.data.label)) // Ensure 'Online' appears before 'In the library'
-                      .map((locationType) => {
-                        const isChecked = worksRouteProps.itemsLocationsType.includes(
-                          locationType.data.type
-                        );
-
-                        return (
-                          <Space
-                            as="li"
-                            h={{ size: 's', properties: ['margin-left'] }}
-                            key={locationType.data.type}
-                            className={classNames({
-                              flex: true,
-                            })}
-                          >
-                            <CheckboxRadio
-                              id={locationType.data.type}
-                              type={`checkbox`}
-                              text={`${locationType.data.label} (${locationType.count})`}
-                              value={locationType.data.type}
-                              name={`items.locations.type`}
-                              checked={isChecked}
-                              onChange={changeHandler}
-                            />
-                          </Space>
-                        );
-                      })}
-                  </ul>
-                </Space>
+                </ul>
               </Space>
-                    )*/}
+            </Space>
+          )}
         </Space>
       </Space>
 

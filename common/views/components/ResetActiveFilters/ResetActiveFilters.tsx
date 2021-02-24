@@ -7,7 +7,6 @@ import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
 import styled from 'styled-components';
 import { Filter } from '../SearchFilters/SearchFilters';
-import { toLink as worksLink } from '../WorksLink/WorksLink';
 
 type ResetActiveFilters = {
   query: string;

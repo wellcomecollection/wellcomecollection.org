@@ -1,4 +1,3 @@
-// @flow
 import { Fragment, useEffect, useState } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
@@ -114,7 +113,7 @@ const Works: NextPage<Props> = ({
     id: 'workType',
     label: 'Formats',
     options:
-      works?.aggregations?.workType.buckets.map(bucket => ({
+      works?.aggregations?.workType.buckets.map((bucket) => ({
         id: bucket.data.id,
         value: bucket.data.id,
         count: bucket.count,
@@ -129,7 +128,7 @@ const Works: NextPage<Props> = ({
     id: 'subjects.label',
     label: 'Subjects',
     options:
-      works?.aggregations?.subjects?.buckets.map(bucket => ({
+      works?.aggregations?.subjects?.buckets.map((bucket) => ({
         id: toHtmlId(bucket.data.label),
         value: quoteVal(bucket.data.label),
         count: bucket.count,
@@ -144,7 +143,7 @@ const Works: NextPage<Props> = ({
     id: 'genres.label',
     label: 'Genres',
     options:
-      works?.aggregations?.genres?.buckets.map(bucket => ({
+      works?.aggregations?.genres?.buckets.map((bucket) => ({
         id: toHtmlId(bucket.data.label),
         value: quoteVal(bucket.data.label),
         count: bucket.count,
@@ -159,7 +158,7 @@ const Works: NextPage<Props> = ({
     id: 'contributors.agent.label',
     label: 'Contributors',
     options:
-      works?.aggregations?.contributors?.buckets.map(bucket => ({
+      works?.aggregations?.contributors?.buckets.map((bucket) => ({
         id: toHtmlId(bucket.data.agent.label),
         value: quoteVal(bucket.data.agent.label),
         count: bucket.count,
@@ -176,7 +175,7 @@ const Works: NextPage<Props> = ({
     id: 'languages',
     label: 'Languages',
     options:
-      works?.aggregations?.languages?.buckets.map(bucket => ({
+      works?.aggregations?.languages?.buckets.map((bucket) => ({
         id: bucket.data.id,
         value: bucket.data.id,
         count: bucket.count,
@@ -185,12 +184,28 @@ const Works: NextPage<Props> = ({
       })) || [],
   };
 
+  const locationsFilter: CheckboxFilter = {
+    type: 'checkbox',
+    key: 'itemsLocationsType',
+    id: 'items.locations.type',
+    label: 'Locations',
+    options:
+      works?.aggregations?.locationType?.buckets.map((bucket) => ({
+        id: bucket.data.type,
+        value: bucket.data.type,
+        count: bucket.count,
+        label: bucket.data.label,
+        selected: worksRouteProps.itemsLocationsType.includes(bucket.data.type),
+      })) || [],
+  };
+
   const filters = [
     productionDatesFilter,
     workTypeFilter,
+    locationsFilter,
+    contributorsFilter,
     subjectsFilter,
     genresFilter,
-    contributorsFilter,
     languagesFilter,
   ];
 
@@ -384,7 +399,7 @@ const Works: NextPage<Props> = ({
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
-> = async context => {
+> = async (context) => {
   const globalContextData = getGlobalContextData(context);
   const props = fromQuery(context.query);
 
