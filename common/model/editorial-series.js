@@ -1,4 +1,4 @@
-type EditorialSeriesColour = 'turquoise' | 'red' | 'green' | 'purple';
+export type EditorialSeriesColour = 'turquoise' | 'red' | 'green' | 'purple';
 
 export type EditorialSeries = {
   name: string,

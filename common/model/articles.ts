@@ -4,6 +4,7 @@ import { LabelField } from './label-field';
 import { ColorSelection } from './color-selections';
 import { MultiContent } from './multi-content';
 import { Season } from './seasons';
+import { EditorialSeriesColour } from './editorial-series';
 
 export type Article = GenericContentFields & {
   type: 'articles';
@@ -31,6 +32,6 @@ export function getPositionInSeries(article: Article): number | undefined {
   }
 }
 
-export function getArticleColor(article: Article): string {
+export function getArticleColor(article: Article): EditorialSeriesColour {
   return article.series.map(series => series.color).find(Boolean) || 'purple';
 }
