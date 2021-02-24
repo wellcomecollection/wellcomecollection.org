@@ -91,9 +91,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
                 'promo-link__title': true,
                 [font('wb', 3)]: true,
               })}
-            >
-              {item.title}
-            </Space>
+            ></Space>
           )}
 
           {item.description && (

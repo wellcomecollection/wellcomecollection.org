@@ -16,7 +16,7 @@ import { CardOuter, CardBody } from '../Card/Card';
 import Divider from '../Divider/Divider';
 import styled from 'styled-components';
 /* $FlowFixMe (ts) */
-import { WatchWrapper, WatchText } from '../styled/Watch';
+import WatchLabel from '../WatchLabel/WatchLabel';
 
 // TODO: make the online indicator a part of the Label component?
 const OnlineIndicator = styled(Space).attrs({
@@ -99,21 +99,9 @@ const EventPromo = ({
           )}
 
           {event.availableOnline && (
-            <WatchWrapper>
-              <Space
-                as={WatchText}
-                h={{
-                  size: 's',
-                  properties: ['margin-left'],
-                }}
-                v={{
-                  size: 'l',
-                  properties: ['margin-bottom'],
-                }}
-              >
-                Available to watch
-              </Space>
-            </WatchWrapper>
+            <Space v={{ size: 's', properties: ['margin-top'] }}>
+              <WatchLabel text={`Available to watch`} />
+            </Space>
           )}
 
           {!isPast && (
