@@ -12,6 +12,8 @@ import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import { Filter } from '../SearchFilters/SearchFilters';
 import BetaBar from '../BetaBar/BetaBar';
 import { propsToQuery } from '../../../utils/routes';
+import { emptyWorksProps, fromQuery } from '../WorksLink/WorksLink';
+import useSavedSearchState from '../../../hooks/useSavedSearchState';
 
 const BetaBarContainer = styled.div`
   // on larger screens we shift the BetaBar to the right on the same level as the tabs
@@ -101,6 +103,8 @@ const SearchTabs: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   const { isKeyboard, isEnhanced } = useContext(AppContext);
   const tabCondition = (!disableLink && isEnhanced) || !isEnhanced;
+  const [, setSavedWorksSearchState] = useSavedSearchState(emptyWorksProps);
+
   const tabs: TabType[] = [
     {
       id: 'tab-library-catalogue',
@@ -171,6 +175,8 @@ const SearchTabs: FunctionComponent<Props> = ({
                 pathname: '/works',
                 query,
               };
+
+              setSavedWorksSearchState(fromQuery(query));
 
               return { href: link, as: link };
             }}

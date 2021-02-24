@@ -4,9 +4,10 @@ import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { worksLink } from '../../../services/catalogue/routes';
 import useSavedSearchState from '../../../hooks/useSavedSearchState';
+import { emptyWorksProps } from '../WorksLink/WorksLink';
 
 const BackToResults: FunctionComponent = () => {
-  const [savedSearchState] = useSavedSearchState({});
+  const [savedSearchState] = useSavedSearchState(emptyWorksProps);
   const { query } = savedSearchState;
 
   const link = worksLink(
@@ -22,8 +23,9 @@ const BackToResults: FunctionComponent = () => {
           trackEvent({
             category: 'BackToResults',
             action: 'follow link',
-            label: `${link.href.query.query} | page: ${link.href.query.page ||
-              1}`,
+            label: `${link.href.query.query} | page: ${
+              link.href.query.page || 1
+            }`,
           });
         }}
         className={classNames({
