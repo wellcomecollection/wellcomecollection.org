@@ -20,10 +20,8 @@ const LabelContainer = styled(Space).attrs(props => ({
     }
   }}
   ${props => {
-    if (props.labelColor === 'white') {
-      return `border: 1px solid ${props.theme.color('pumice')};`;
-    } else if (props.labelColor === 'transparent') {
-      return `border: 1px solid ${props.theme.color('silver')}`;
+    if (props.labelColor === 'white' || props.labelColor === 'transparent') {
+      return `border: 1px solid ${props.theme.color('silver')};`;
     } else {
       return `border: 1px solid ${props.theme.color(props.labelColor)};`;
     }
@@ -36,14 +34,7 @@ export type Props = {|
 |};
 
 function getFontColor(bgColor) {
-  switch (true) {
-    case bgColor === 'black':
-      return 'yellow';
-    case bgColor === 'cream' || bgColor === 'white':
-      return 'charcoal';
-    default:
-      return 'black';
-  }
+  return bgColor === 'black' ? 'yellow' : 'black';
 }
 
 const Label = ({ label, labelColor = 'yellow' }: Props) => {
