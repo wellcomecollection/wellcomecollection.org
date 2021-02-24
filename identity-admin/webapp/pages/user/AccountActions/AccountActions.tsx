@@ -6,21 +6,18 @@ import { ResendActivationEmail } from './ResendActivationEmail';
 import { ResetPassword } from './ResetPassword';
 import { ReverseDeleteRequest } from './ReverseDeleteRequest';
 import { UnblockAccount } from './UnblockAccount';
+import { Container } from './AccountActions.style';
 
 export function AccountActions(): JSX.Element {
   const { user } = useUserInfo();
 
   return (
-    <>
-      {user && (
-        <>
-          <ResendActivationEmail />
-          {user.locked ? <UnblockAccount /> : <BlockAccount />}
-          <DeleteAccount />
-          {user.deleteRequested && <ReverseDeleteRequest />}
-          <ResetPassword />
-        </>
-      )}
-    </>
+    <Container>
+      <ResendActivationEmail />
+      {user?.locked ? <UnblockAccount /> : <BlockAccount />}
+      <DeleteAccount />
+      {user?.deleteRequested && <ReverseDeleteRequest />}
+      <ResetPassword />
+    </Container>
   );
 }
