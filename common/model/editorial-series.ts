@@ -1,7 +1,7 @@
 export type EditorialSeriesColour = 'turquoise' | 'red' | 'green' | 'purple';
 
 export type EditorialSeries = {
-  name: string,
-  description: string,
-  colour: EditorialSeriesColour,
+  name: string;
+  description: string;
+  colour: EditorialSeriesColour;
 };
