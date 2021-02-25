@@ -38,6 +38,7 @@ import {
   WithPageview,
 } from '@weco/common/views/pages/_app';
 import { parseUrlParams } from '@weco/common/utils/serialise-url';
+import useHotjar from '@weco/common/hooks/useHotjar';
 
 type Props = {
   works?: CatalogueResultsList<Work>;
@@ -56,6 +57,8 @@ const Works: NextPage<Props> = ({
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
+
+  useHotjar(Boolean(works && works.results.length > 0));
 
   const {
     query,
