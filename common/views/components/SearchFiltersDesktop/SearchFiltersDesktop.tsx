@@ -24,6 +24,7 @@ import { searchFilterCheckBox } from '../../../text/arial-labels';
 import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
 import TogglesContext from '../TogglesContext/TogglesContext';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
+import { trackEvent } from '../../../services/conversion/track';
 
 const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
@@ -93,7 +94,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
               max="9999"
               placeholder={'Year'}
               value={from || ''}
-              onChange={(event) => {
+              onChange={event => {
                 const val = `${event.currentTarget.value}`;
                 setFrom(val);
                 if (val.match(/^\d{4}$/)) {
@@ -109,7 +110,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
             max="9999"
             placeholder={'Year'}
             value={to || ''}
-            onChange={(event) => {
+            onChange={event => {
               const val = `${event.currentTarget.value}`;
               setTo(val);
               if (val.match(/^\d{4}$/)) {
@@ -238,8 +239,9 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 <ButtonInline
                   type={ButtonTypes.button}
                   text="More filters"
-                  clickHandler={(event) => {
+                  clickHandler={event => {
                     event.preventDefault();
+                    trackEvent('open_more_filters', {});
                     setMoreFiltersModal(true);
                   }}
                   ref={openMoreFiltersButtonRef}

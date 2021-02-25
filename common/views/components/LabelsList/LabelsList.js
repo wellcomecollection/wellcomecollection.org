@@ -1,5 +1,5 @@
 // @flow
-import type { Label as LabelType } from '../../../model/labels';
+import type { Label as LabelType, LabelColor } from '../../../model/labels';
 import Label from '../../components/Label/Label';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
@@ -7,17 +7,12 @@ import Space from '../styled/Space';
 type Props = {|
   labels: {|
     ...LabelType,
-    labelColor?: 'orange' | 'yellow' | 'black' | 'cream' | 'white',
+    labelColor?: LabelColor,
   |}[],
-  defaultLabelColor?: 'orange' | 'yellow' | 'black' | 'cream' | 'white',
-  roundedDiagonal?: boolean,
+  defaultLabelColor?: LabelColor,
 |};
 
-const LabelsList = ({
-  labels,
-  defaultLabelColor = 'yellow',
-  roundedDiagonal = false,
-}: Props) => (
+const LabelsList = ({ labels, defaultLabelColor = 'yellow' }: Props) => (
   <Space
     v={{
       size: 'xs',
@@ -42,7 +37,6 @@ const LabelsList = ({
         <Label
           label={label}
           labelColor={label.labelColor || defaultLabelColor}
-          roundedDiagonal={roundedDiagonal}
         />
       </Space>
     ))}

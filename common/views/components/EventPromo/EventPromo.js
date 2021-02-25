@@ -14,22 +14,9 @@ import Space from '../styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
 /* $FlowFixMe (tsx) */
 import Divider from '../Divider/Divider';
-import styled from 'styled-components';
 /* $FlowFixMe (ts) */
-import { WatchWrapper, WatchText } from '../styled/Watch';
+import WatchLabel from '../WatchLabel/WatchLabel';
 
-const OnlineIndicator = styled.span.attrs({
-  className: classNames({
-    [font('hnm', 6)]: true,
-  }),
-})`
-  display: inline-block;
-  color: ${props => props.theme.color('pewter')};
-  border: 1px solid ${props => props.theme.color('pewter')};
-  border-radius: 4px;
-  line-height: 1;
-  padding: ${props => `${props.theme.spacingUnit / 2}px`};
-`;
 type Props = {|
   event: UiEvent,
   position?: number,
@@ -95,25 +82,17 @@ const EventPromo = ({
           </Space>
 
           {event.isOnline && !event.availableOnline && (
-            <OnlineIndicator>Online</OnlineIndicator>
+            <LabelsList
+              labels={[
+                { text: 'Online', labelColor: 'transparent', url: null },
+              ]}
+            />
           )}
 
           {event.availableOnline && (
-            <WatchWrapper>
-              <Space
-                as={WatchText}
-                h={{
-                  size: 's',
-                  properties: ['margin-left'],
-                }}
-                v={{
-                  size: 'l',
-                  properties: ['margin-bottom'],
-                }}
-              >
-                Available to watch
-              </Space>
-            </WatchWrapper>
+            <Space v={{ size: 's', properties: ['margin-top'] }}>
+              <WatchLabel text={`Available to watch`} />
+            </Space>
           )}
 
           {!isPast && (
@@ -180,7 +159,7 @@ const EventPromo = ({
         </div>
 
         {event.series.length > 0 && (
-          <Space v={{ size: 'l', properties: ['margin-top'] }}>
+          <Space v={{ size: 'm', properties: ['margin-top'] }}>
             {event.series.map(series => (
               <p key={series.title} className={`${font('hnm', 6)} no-margin`}>
                 <span className={font('hnl', 6)}>Part of</span> {series.title}
@@ -189,20 +168,18 @@ const EventPromo = ({
           </Space>
         )}
       </CardBody>
-      <Divider extraClasses="divider--white divider--keyline" />
       {event.secondaryLabels.length > 0 && (
         <Space
-          v={{
-            size: 's',
-            properties: ['padding-top', 'padding-bottom'],
-          }}
-          h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+          v={{ size: 'm', properties: ['padding-bottom'] }}
         >
-          <LabelsList
-            labels={event.secondaryLabels}
-            defaultLabelColor="black"
-            roundedDiagonal={true}
-          />
+          <Divider extraClasses={`divider--keyline divider--white`} />
+          <Space v={{ size: 's', properties: ['padding-top'] }}>
+            <LabelsList
+              labels={event.secondaryLabels}
+              defaultLabelColor="black"
+            />
+          </Space>
         </Space>
       )}
     </CardOuter>

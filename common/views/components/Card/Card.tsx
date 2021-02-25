@@ -95,7 +95,6 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
               {item.title}
             </Space>
           )}
-
           {item.description && (
             <p className={`${font('hnl', 5)} no-padding no-margin`}>
               {item.description}
