@@ -5,55 +5,44 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
-import { getGuides } from '@weco/common/services/prismic/guides';
-import { getGuideFormatId } from '@weco/common/services/prismic/utils';
 import {
-  GuideFormatId,
-  GuideFormatIds,
-} from '@weco/common/model/content-format-id';
+  getGuides,
+  getGuideFormats,
+} from '@weco/common/services/prismic/guides';
 import { Page } from '@weco/common/model/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
+import { Format } from '@weco/common/model/format';
 
 const pageDescription = 'Guides intro text...';
 const displayTitle = 'Guides';
 
 type FiltersProps = {
-  currentId: GuideFormatId;
+  currentId: string | string[] | null;
+  guideFormats: Format[];
 };
 
-const Filters: FunctionComponent<FiltersProps> = ({ currentId }) => {
+const Filters: FunctionComponent<FiltersProps> = ({
+  currentId,
+  guideFormats,
+}) => {
+  const items = guideFormats.map(guide => {
+    return {
+      id: guide.id,
+      url: `/guides?format=${guide.id}`,
+      text: guide.title,
+    };
+  });
+  items.unshift({
+    id: 'all',
+    url: '/guides',
+    text: 'All',
+  });
   return (
     <Layout12>
       <SegmentedControl
         id={'guidesFilter'}
         activeId={currentId || 'all'}
-        items={[
-          {
-            id: 'all',
-            url: '/guides',
-            text: 'All',
-          },
-          {
-            id: GuideFormatIds.HowTo,
-            url: '/guides?format=how-to',
-            text: 'How-to',
-          },
-          {
-            id: GuideFormatIds.Topic,
-            url: '/guides?format=topic',
-            text: 'Topic',
-          },
-          {
-            id: GuideFormatIds.LearningResource,
-            url: '/guides?format=learning-resource',
-            text: 'Learning resource',
-          },
-          {
-            id: GuideFormatIds.ExhibitionGuide,
-            url: '/guides?format=exhibition-guide',
-            text: 'Exhibition guide',
-          },
-        ]}
+        items={items}
       />
     </Layout12>
   );
@@ -61,10 +50,15 @@ const Filters: FunctionComponent<FiltersProps> = ({ currentId }) => {
 
 type Props = {
   guides: PaginatedResults<Page>;
-  formatId: GuideFormatId;
+  guideFormats: Format[];
+  formatId: string | string[] | null;
 };
 
-const GuidePage = ({ guides, formatId }: Props): ReactElement<Props> => {
+const GuidePage = ({
+  guides,
+  guideFormats,
+  formatId,
+}: Props): ReactElement<Props> => {
   return (
     <PageLayout
       title={'Guides'}
@@ -88,9 +82,9 @@ const GuidePage = ({ guides, formatId }: Props): ReactElement<Props> => {
             },
           ]}
           paginatedResults={guides}
-          paginationRoot={''} // TODO
+          paginationRoot={''}
         >
-          <Filters currentId={formatId} />
+          <Filters currentId={formatId} guideFormats={guideFormats} />
         </LayoutPaginatedResults>
       </SpacingSection>
     </PageLayout>
@@ -101,7 +95,6 @@ GuidePage.getInitialProps = async (
   ctx: NextPageContext
 ): Promise<Props | { statusCode: number }> => {
   const { format } = ctx.query;
-  const formatId = getGuideFormatId(format);
   const { memoizedPrismic } = (ctx.query.memoizedPrismic as unknown) as Record<
     string,
     unknown
@@ -109,19 +102,25 @@ GuidePage.getInitialProps = async (
   const memo = Array.isArray(memoizedPrismic)
     ? memoizedPrismic[0]
     : memoizedPrismic;
-  const guides = await getGuides(
+  const guidesPromise = await getGuides(
     ctx.req,
     {
-      pageSize: 10,
       format,
     },
     memo
   );
+  const guideFormatsPromise = getGuideFormats(ctx.req, memo);
+
+  const [guides, guideFormats] = await Promise.all([
+    guidesPromise,
+    guideFormatsPromise,
+  ]);
 
   if (guides) {
     return {
       guides,
-      formatId,
+      guideFormats,
+      formatId: format || null,
     };
   } else {
     return { statusCode: 404 };
