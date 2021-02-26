@@ -11,7 +11,6 @@ import Icon from '../Icon/Icon';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-
 import dynamic from 'next/dynamic';
 import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
 import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
@@ -25,7 +24,7 @@ import {
 import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
 import TogglesContext from '../TogglesContext/TogglesContext';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
-import { trackEvent } from '../../../services/conversion/track';
+
 const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
@@ -231,7 +230,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   text="More filters"
                   clickHandler={event => {
                     event.preventDefault();
-                    trackEvent('open_more_filters', {});
                     setMoreFiltersModal(true);
                   }}
                   ref={openMoreFiltersButtonRef}
