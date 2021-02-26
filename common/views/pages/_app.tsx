@@ -15,7 +15,6 @@ import {
 } from '../components/GlobalContextProvider/GlobalContextProvider';
 import { GetServerSidePropsContext } from 'next';
 import { trackPageview } from '../../services/conversion/track';
-import { SearchContextProvider } from '../components/SearchContext/SearchContext';
 
 declare global {
   interface Window {
@@ -309,16 +308,14 @@ function WecoApp({ Component, pageProps }: AppProps) {
         <ThemeProvider theme={theme}>
           <OutboundLinkTracker>
             <LoadingIndicator />
-            <SearchContextProvider>
-              {!pageProps.err && <Component {...pageProps} />}
-              {pageProps.err && (
-                <ErrorPage
-                  statusCode={pageProps.err.statusCode}
-                  title={pageProps.err.message}
-                  globalContextData={pageProps.globalContextData}
-                />
-              )}
-            </SearchContextProvider>
+            {!pageProps.err && <Component {...pageProps} />}
+            {pageProps.err && (
+              <ErrorPage
+                statusCode={pageProps.err.statusCode}
+                title={pageProps.err.message}
+                globalContextData={pageProps.globalContextData}
+              />
+            )}
           </OutboundLinkTracker>
         </ThemeProvider>
       </AppContextProvider>
