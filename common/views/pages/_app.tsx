@@ -1,7 +1,7 @@
-import { AppProps, NextWebVitalsMetric } from 'next/app';
+import { AppProps } from 'next/app';
 import Router from 'next/router';
 import ReactGA from 'react-ga';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme from '../../views/themes/default';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';

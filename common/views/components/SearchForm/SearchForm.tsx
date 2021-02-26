@@ -22,7 +22,6 @@ import {
   CatalogueAggregations,
 } from '../../../model/catalogue';
 import SelectUncontrolled from '../SelectUncontrolled/SelectUncontrolled';
-import useSavedSearchState from '../../../hooks/useSavedSearchState';
 import {
   WorksRouteProps,
   ImagesRouteProps,
@@ -97,7 +96,6 @@ const SearchForm: FunctionComponent<Props> = ({
   shouldShowFilters,
   showSortBy,
 }: Props): ReactElement<Props> => {
-  const [, setSearchParamsState] = useSavedSearchState(routeProps);
   const { query } = routeProps;
   const { isEnhanced } = useContext(AppContext);
   const searchForm = useRef<HTMLFormElement>(null);
@@ -202,7 +200,6 @@ const SearchForm: FunctionComponent<Props> = ({
           source
         )
       : worksLink(state, source);
-    setSearchParamsState(state);
 
     return Router.push(link.href, link.as);
   }
