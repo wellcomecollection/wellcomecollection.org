@@ -6,6 +6,7 @@ import { UserInfoProvider } from '../UserInfoContext';
 import { mockUser } from '../../../__mocks__/UserInfo.mock';
 import { server } from '../../../__mocks__/server';
 import { UserInfo } from '../../../types/UserInfo';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('next/router', () => ({
   useRouter: () => {
@@ -38,9 +39,41 @@ describe('AccountActions', () => {
   it("can resend a user's activation email", async () => {
     renderComponent();
     await waitForPageToLoad();
-    expect(
-      screen.getByRole('button', { name: /resend activation email/i })
-    ).toBeInTheDocument();
+    const resendActivationEmail = screen.getByRole('button', {
+      name: /resend activation email/i,
+    });
+    expect(resendActivationEmail).toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.click(resendActivationEmail);
+    await waitFor(() => {
+      const status = screen.queryByRole('alert');
+      expect(status).toBeInTheDocument();
+      expect(status).toHaveTextContent('Activation email resent');
+    });
+  });
+
+  it("shows an error when resending a user's activation email fails", async () => {
+    server.use(
+      rest.put(
+        new RegExp('/api/resend-activation-email/123'),
+        (_req, res, ctx) => {
+          return res(ctx.status(400));
+        }
+      )
+    );
+    renderComponent();
+    await waitForPageToLoad();
+    const resendActivationEmail = screen.getByRole('button', {
+      name: /resend activation email/i,
+    });
+    expect(resendActivationEmail).toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.click(resendActivationEmail);
+    await waitFor(() => {
+      const status = screen.queryByRole('alert');
+      expect(status).toBeInTheDocument();
+      expect(status).toHaveTextContent('Failed to send activation email');
+    });
   });
 
   it('can block an unblocked user', async () => {
