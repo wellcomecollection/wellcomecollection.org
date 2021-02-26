@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios, { Method } from 'axios';
 
 type Mutation<T> = {
   isLoading: boolean;
@@ -7,7 +8,7 @@ type Mutation<T> = {
 
 export function useMutation<T = unknown>(
   url: string,
-  method = 'put'
+  method: Method = 'put'
 ): Mutation<T> {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -18,10 +19,10 @@ export function useMutation<T = unknown>(
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(data),
+          body: data,
         }
       : {};
-    return fetch(url, { method, ...config }).then(() => setIsLoading(false));
+    return axios({ url, method, ...config }).then(() => setIsLoading(false));
   };
 
   return { mutate, isLoading };

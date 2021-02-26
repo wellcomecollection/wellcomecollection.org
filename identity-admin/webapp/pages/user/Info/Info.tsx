@@ -17,9 +17,11 @@ function UserStatus(props: Partial<UserInfo>) {
 }
 
 export function Info(): JSX.Element {
-  const { user } = useUserInfo();
+  const { user, isLoading } = useUserInfo();
 
-  return (
+  return isLoading ? (
+    <p>Loading...</p>
+  ) : (
     <>
       <h2>
         Edit user profile: {user?.firstName} {user?.lastName}
