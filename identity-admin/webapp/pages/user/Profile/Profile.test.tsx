@@ -3,47 +3,50 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import fetchMock from 'jest-fetch-mock';
 import { Profile } from './Profile';
-import { TestUserInfoProvider, UserInfoContextState } from '../UserInfoContext';
-import { mockUser } from '../../../mocks/UserInfo.mock';
+import { UserInfoProvider } from '../UserInfoContext';
+import { mockUser } from '../../../__mocks__/UserInfo.mock';
 
 jest.mock('next/router', () => ({
   useRouter: () => {
     return {
-      query: { userId: '3141592' },
+      query: { userId: '123' },
     };
   },
 }));
 
-const defaultContext: UserInfoContextState = {
-  isLoading: false,
-  user: mockUser,
-  refetch: jest.fn(),
-};
-
-const renderComponent = (context = defaultContext) =>
+const renderComponent = () =>
   render(
-    <TestUserInfoProvider value={context}>
+    <UserInfoProvider>
       <Profile />
-    </TestUserInfoProvider>
+    </UserInfoProvider>
   );
+
+const waitForPageToLoad = async () => {
+  await waitFor(() =>
+    expect(screen.queryByText(/loading/i)).not.toBeInTheDocument()
+  );
+};
 
 describe('Profile', () => {
   beforeEach(() => {
     fetchMock.resetMocks();
   });
 
-  it("shows the user's library card number", () => {
+  it("shows the user's library card number", async () => {
     renderComponent();
+    await waitForPageToLoad();
     expect(screen.getByText(mockUser.barcode)).toBeInTheDocument();
   });
 
-  it("shows the user's patron record number", () => {
+  it("shows the user's patron record number", async () => {
     renderComponent();
+    await waitForPageToLoad();
     expect(screen.getByText(mockUser.patronId)).toBeInTheDocument();
   });
 
-  it("lets the admin edit the user's name and email", () => {
+  it("lets the admin edit the user's name and email", async () => {
     renderComponent();
+    await waitForPageToLoad();
     const firstNameInput = screen.getByLabelText(/first name/i);
     expect(firstNameInput).toHaveValue(mockUser.firstName);
     userEvent.clear(firstNameInput);
@@ -63,35 +66,48 @@ describe('Profile', () => {
     expect(emailInput).toHaveValue('iamironman@starkindustries.com');
   });
 
-  it('submits the edited user details', async () => {
+  it('submits the edited user details and refreshes', async () => {
     renderComponent();
+    await waitForPageToLoad();
+
     const firstNameInput = screen.getByLabelText(/first name/i);
     userEvent.clear(firstNameInput);
     userEvent.type(firstNameInput, 'Tony');
+
     const lastNameInput = screen.getByLabelText(/last name/i);
     userEvent.clear(lastNameInput);
     userEvent.type(lastNameInput, 'Stark');
+
     const emailInput = screen.getByLabelText(/email address/i);
     userEvent.clear(emailInput);
     userEvent.type(emailInput, 'iamironman@starkindustries.com');
+
     userEvent.click(screen.getByRole('button', { name: /update details/i }));
+
     await waitFor(() => {
-      expect(fetch).toBeCalledWith('/api/user/3141592', {
-        method: 'put',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          firstName: 'Tony',
-          lastName: 'Stark',
-          email: 'iamironman@starkindustries.com',
-        }),
-      });
+      expect(screen.getByText(/updating/i)).toBeInTheDocument();
     });
+    expect(firstNameInput).not.toBeInTheDocument();
+    expect(lastNameInput).not.toBeInTheDocument();
+    expect(emailInput).not.toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByText(/loading/i)).toBeInTheDocument();
+    });
+    expect(firstNameInput).not.toBeInTheDocument();
+    expect(lastNameInput).not.toBeInTheDocument();
+    expect(emailInput).not.toBeInTheDocument();
+
+    await waitForPageToLoad();
+
+    expect(firstNameInput).toHaveValue('Tony');
+    expect(lastNameInput).toHaveValue('Stark');
+    expect(emailInput).toHaveValue('iamironman@starkindustries.com');
   });
 
   it('halts submit and shows a warning if the first name is blank', async () => {
     renderComponent();
+    await waitForPageToLoad();
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     userEvent.clear(screen.getByLabelText(/first name/i));
     userEvent.click(screen.getByRole('button', { name: /update details/i }));
@@ -100,12 +116,13 @@ describe('Profile', () => {
       expect(screen.queryByRole('alert')).toHaveTextContent(
         /first name cannot be blank/i
       );
-      expect(fetch).not.toBeCalled();
     });
+    expect(screen.queryByText(/updating/i)).not.toBeInTheDocument();
   });
 
   it('halts submit and shows a warning if the last name is blank', async () => {
     renderComponent();
+    await waitForPageToLoad();
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     userEvent.clear(screen.getByLabelText(/last name/i));
     userEvent.click(screen.getByRole('button', { name: /update details/i }));
@@ -114,12 +131,13 @@ describe('Profile', () => {
       expect(screen.queryByRole('alert')).toHaveTextContent(
         /last name cannot be blank/i
       );
-      expect(fetch).not.toBeCalled();
     });
+    expect(screen.queryByText(/updating/i)).not.toBeInTheDocument();
   });
 
   it('halts submit and shows a warning if the email is blank or invalid', async () => {
     renderComponent();
+    await waitForPageToLoad();
     const emailInput = screen.getByLabelText(/email address/i);
     const submitButton = screen.getByRole('button', {
       name: /update details/i,
@@ -132,8 +150,9 @@ describe('Profile', () => {
       expect(screen.queryByRole('alert')).toHaveTextContent(
         /email address cannot be blank/i
       );
-      expect(fetch).not.toBeCalled();
     });
+    expect(screen.queryByText(/updating/i)).not.toBeInTheDocument();
+
     userEvent.type(emailInput, 'captainamerica@avengers'); // not a valid email
     userEvent.click(submitButton);
     await waitFor(() => {
@@ -141,23 +160,7 @@ describe('Profile', () => {
       expect(screen.queryByRole('alert')).toHaveTextContent(
         /invalid email address/i
       );
-      expect(fetch).not.toBeCalled();
     });
-  });
-
-  it('refetches data after submit', async () => {
-    renderComponent();
-    const emailInput = screen.getByLabelText(/email address/i);
-    const submitButton = screen.getByRole('button', {
-      name: /update details/i,
-    });
-    userEvent.clear(emailInput);
-    userEvent.type(emailInput, 'captainamerica@avengers.com');
-    userEvent.click(submitButton);
-
-    await waitFor(() => {
-      expect(fetch).toBeCalled();
-      expect(defaultContext.refetch).toBeCalled();
-    });
+    expect(screen.queryByText(/updating/i)).not.toBeInTheDocument();
   });
 });
