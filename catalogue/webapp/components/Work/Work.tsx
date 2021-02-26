@@ -1,5 +1,5 @@
 import { Work as WorkType } from '@weco/common/model/catalogue';
-import { useEffect, FunctionComponent, ReactElement } from 'react';
+import { useContext, useEffect, FunctionComponent, ReactElement } from 'react';
 import { grid, classNames, font } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
@@ -13,7 +13,6 @@ import BackToResults from '@weco/common/views/components/BackToResults/BackToRes
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
 import Space from '@weco/common/views/components/styled/Space';
-import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import WorkDetails from '../WorkDetails/WorkDetails';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
@@ -25,6 +24,7 @@ import styled from 'styled-components';
 import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import useHotjar from '@weco/common/hooks/useHotjar';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
+import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -47,17 +47,26 @@ const Work: FunctionComponent<Props> = ({
   work,
   globalContextData,
 }: Props): ReactElement<Props> => {
-  const [savedSearchFormState] = useSavedSearchState({
-    query: '',
+  const { link: searchLink } = useContext(SearchContext);
+  const query = searchLink.href?.query?.query?.toString() || '';
+  const emptyProps = {
     page: 1,
+    source: 'work_page',
     workType: [],
     itemsLocationsLocationType: [],
+    itemsLocationsType: [],
     sort: null,
     sortOrder: null,
     productionDatesFrom: null,
     productionDatesTo: null,
+    imagesColor: null,
     search: null,
-  });
+    languages: [],
+    subjectsLabel: [],
+    genresLabel: [],
+    contributorsAgentLabel: [],
+    color: null,
+  };
 
   const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
   useHotjar(isInArchive);
@@ -128,9 +137,10 @@ const Work: FunctionComponent<Props> = ({
           >
             <Space v={{ size: 'l', properties: ['margin-top'] }}>
               <SearchTabs
-                worksRouteProps={savedSearchFormState}
+                worksRouteProps={{ ...emptyProps, query }}
                 imagesRouteProps={{
-                  ...savedSearchFormState,
+                  ...emptyProps,
+                  query,
                   locationsLicense: null,
                   color: null,
                 }}

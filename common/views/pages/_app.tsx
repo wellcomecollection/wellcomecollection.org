@@ -1,7 +1,7 @@
-import { AppProps, NextWebVitalsMetric } from 'next/app';
+import { AppProps } from 'next/app';
 import Router from 'next/router';
 import ReactGA from 'react-ga';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme from '../../views/themes/default';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
@@ -15,6 +15,7 @@ import {
 } from '../components/GlobalContextProvider/GlobalContextProvider';
 import { GetServerSidePropsContext } from 'next';
 import { trackPageview } from '../../services/conversion/track';
+import { SearchContextProvider } from '../components/SearchContext/SearchContext';
 
 declare global {
   interface Window {
@@ -308,14 +309,16 @@ function WecoApp({ Component, pageProps }: AppProps) {
         <ThemeProvider theme={theme}>
           <OutboundLinkTracker>
             <LoadingIndicator />
-            {!pageProps.err && <Component {...pageProps} />}
-            {pageProps.err && (
-              <ErrorPage
-                statusCode={pageProps.err.statusCode}
-                title={pageProps.err.message}
-                globalContextData={pageProps.globalContextData}
-              />
-            )}
+            <SearchContextProvider>
+              {!pageProps.err && <Component {...pageProps} />}
+              {pageProps.err && (
+                <ErrorPage
+                  statusCode={pageProps.err.statusCode}
+                  title={pageProps.err.message}
+                  globalContextData={pageProps.globalContextData}
+                />
+              )}
+            </SearchContextProvider>
           </OutboundLinkTracker>
         </ThemeProvider>
       </AppContextProvider>
