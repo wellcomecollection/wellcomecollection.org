@@ -84,12 +84,78 @@ describe('AccountActions', () => {
     ).toBeInTheDocument();
   });
 
+  it('can block an unblocked user', async () => {
+    renderComponent({ locked: false });
+    await waitForPageToLoad();
+    const blockOnlineAccount = screen.getByRole('button', {
+      name: /^block online account/i,
+    });
+    expect(blockOnlineAccount).toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.click(blockOnlineAccount);
+    await waitFor(() => {
+      const status = screen.queryByRole('alert');
+      expect(status).toBeInTheDocument();
+      expect(status).toHaveTextContent('User has been blocked');
+    });
+  });
+
+  it('shows an error when blocking a user fails', async () => {
+    server.use(
+      rest.put(new RegExp('/api/block-account/123'), (_req, res, ctx) => {
+        return res(ctx.status(400));
+      })
+    );
+    renderComponent({ locked: false });
+    await waitForPageToLoad();
+    const blockOnlineAccount = screen.getByRole('button', {
+      name: /^block online account/i,
+    });
+    expect(blockOnlineAccount).toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.click(blockOnlineAccount);
+    await waitFor(() => {
+      const status = screen.queryByRole('alert');
+      expect(status).toBeInTheDocument();
+      expect(status).toHaveTextContent('Failed to block user');
+    });
+  });
+
   it('can unblock a blocked user', async () => {
     renderComponent({ locked: true });
     await waitForPageToLoad();
-    expect(
-      screen.getByRole('button', { name: /unblock online account/i })
-    ).toBeInTheDocument();
+    const unblockOnlineAccount = screen.getByRole('button', {
+      name: /unblock online account/i,
+    });
+    expect(unblockOnlineAccount).toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.click(unblockOnlineAccount);
+    await waitFor(() => {
+      const status = screen.queryByRole('alert');
+      expect(status).toBeInTheDocument();
+      expect(status).toHaveTextContent('User has been unblocked');
+    });
+  });
+
+  it('shows an error when unblocking a user fails', async () => {
+    server.use(
+      rest.put(new RegExp('/api/unblock-account/123'), (_req, res, ctx) => {
+        return res(ctx.status(400));
+      })
+    );
+    renderComponent({ locked: true });
+    await waitForPageToLoad();
+    const unblockOnlineAccount = screen.getByRole('button', {
+      name: /unblock online account/i,
+    });
+    expect(unblockOnlineAccount).toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.click(unblockOnlineAccount);
+    await waitFor(() => {
+      const status = screen.queryByRole('alert');
+      expect(status).toBeInTheDocument();
+      expect(status).toHaveTextContent('Failed to unblock user');
+    });
   });
 
   it("can delete a user's account", async () => {

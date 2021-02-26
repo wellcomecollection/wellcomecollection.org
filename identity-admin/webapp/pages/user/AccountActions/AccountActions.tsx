@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useUserInfo } from '../UserInfoContext';
-import { BlockAccount } from './BlockAccount';
 import { DeleteAccount } from './DeleteAccount';
 import { ReverseDeleteRequest } from './ReverseDeleteRequest';
-import { UnblockAccount } from './UnblockAccount';
 import { Container } from './AccountActions.style';
 import { useResendActivationEmail } from '../../../hooks/useResendActivationEmail';
 import { AccountActionButton } from './AccountActionButton';
 import { useResetPassword } from '../../../hooks/useResetPassword';
+import { useBlockAccount } from '../../../hooks/useBlockAccount';
+import { useUnblockAccount } from '../../../hooks/useUnblockAccount';
 
 type AccountActionState = {
   isSuccess: boolean;
@@ -18,6 +18,8 @@ export function AccountActions(): JSX.Element {
   const { user, isLoading } = useUserInfo();
   const { resendActivationEmail } = useResendActivationEmail();
   const { resetPassword } = useResetPassword();
+  const { blockAccount } = useBlockAccount();
+  const { unblockAccount } = useUnblockAccount();
   const [status, setStatus] = useState<AccountActionState>({
     isSuccess: false,
   });
@@ -43,7 +45,21 @@ export function AccountActions(): JSX.Element {
         onSuccess={() => handleSuccess('Activation email resent')}
         onFailure={() => handleFailure('Failed to send activation email')}
       />
-      {user?.locked ? <UnblockAccount /> : <BlockAccount />}
+      {user?.locked ? (
+        <AccountActionButton
+          label="Unblock online account"
+          onClick={unblockAccount}
+          onSuccess={() => handleSuccess('User has been unblocked')}
+          onFailure={() => handleFailure('Failed to unblock user')}
+        />
+      ) : (
+        <AccountActionButton
+          label="Block online account"
+          onClick={blockAccount}
+          onSuccess={() => handleSuccess('User has been blocked')}
+          onFailure={() => handleFailure('Failed to block user')}
+        />
+      )}
       <DeleteAccount />
       {user?.deleteRequested && <ReverseDeleteRequest />}
       <AccountActionButton
