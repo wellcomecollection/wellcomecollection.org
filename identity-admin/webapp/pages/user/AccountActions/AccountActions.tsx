@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useUserInfo } from '../UserInfoContext';
 import { BlockAccount } from './BlockAccount';
 import { DeleteAccount } from './DeleteAccount';
-import { ResetPassword } from './ResetPassword';
 import { ReverseDeleteRequest } from './ReverseDeleteRequest';
 import { UnblockAccount } from './UnblockAccount';
 import { Container } from './AccountActions.style';
 import { useResendActivationEmail } from '../../../hooks/useResendActivationEmail';
 import { AccountActionButton } from './AccountActionButton';
+import { useResetPassword } from '../../../hooks/useResetPassword';
 
 type AccountActionState = {
   isSuccess: boolean;
@@ -17,6 +17,7 @@ type AccountActionState = {
 export function AccountActions(): JSX.Element {
   const { user, isLoading } = useUserInfo();
   const { resendActivationEmail } = useResendActivationEmail();
+  const { resetPassword } = useResetPassword();
   const [status, setStatus] = useState<AccountActionState>({
     isSuccess: false,
   });
@@ -45,7 +46,12 @@ export function AccountActions(): JSX.Element {
       {user?.locked ? <UnblockAccount /> : <BlockAccount />}
       <DeleteAccount />
       {user?.deleteRequested && <ReverseDeleteRequest />}
-      <ResetPassword />
+      <AccountActionButton
+        label="Reset password"
+        onClick={resetPassword}
+        onSuccess={() => handleSuccess('Password reset')}
+        onFailure={() => handleFailure('Failed to reset password')}
+      />
     </Container>
   );
 }

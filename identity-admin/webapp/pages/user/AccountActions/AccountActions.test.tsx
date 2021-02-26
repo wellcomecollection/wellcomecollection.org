@@ -121,8 +121,37 @@ describe('AccountActions', () => {
   it("can reset a user's password", async () => {
     renderComponent();
     await waitForPageToLoad();
-    expect(
-      screen.getByRole('button', { name: /reset password/i })
-    ).toBeInTheDocument();
+    const resetPassword = screen.getByRole('button', {
+      name: /reset password/i,
+    });
+    expect(resetPassword).toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.click(resetPassword);
+    await waitFor(() => {
+      const status = screen.queryByRole('alert');
+      expect(status).toBeInTheDocument();
+      expect(status).toHaveTextContent('Password reset');
+    });
+  });
+
+  it("shows an error when resetting a user's password fails", async () => {
+    server.use(
+      rest.put(new RegExp('/api/reset-password/123'), (_req, res, ctx) => {
+        return res(ctx.status(400));
+      })
+    );
+    renderComponent();
+    await waitForPageToLoad();
+    const resetPassword = screen.getByRole('button', {
+      name: /reset password/i,
+    });
+    expect(resetPassword).toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.click(resetPassword);
+    await waitFor(() => {
+      const status = screen.queryByRole('alert');
+      expect(status).toBeInTheDocument();
+      expect(status).toHaveTextContent('Failed to reset password');
+    });
   });
 });

@@ -11,4 +11,7 @@ export const handlers = [
   rest.put(new RegExp('/api/resend-activation-email/123'), (_req, res, ctx) => {
     return res(ctx.status(200));
   }),
+  rest.put(new RegExp('/api/reset-password/123'), (_req, res, ctx) => {
+    return res(ctx.status(200));
+  }),
 ];
