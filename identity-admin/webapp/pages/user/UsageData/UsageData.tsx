@@ -9,7 +9,7 @@ const prettyDate = (date?: string) => {
 
 type FieldProps = {
   label: string;
-  value: string | number;
+  value?: string | number;
 };
 
 const Field: React.FC<FieldProps> = ({ label, value }) => (
@@ -20,18 +20,19 @@ const Field: React.FC<FieldProps> = ({ label, value }) => (
 );
 
 export function UsageData(): JSX.Element {
-  const { user } = useUserInfo();
+  const { user, isLoading } = useUserInfo();
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <Container>
-      {user && (
-        <>
-          <Field label="Creation date" value={prettyDate(user.creationDate)} />
-          <Field label="Last update" value={prettyDate(user.updatedDate)} />
-          <Field label="Last login" value={prettyDate(user.lastLoginDate)} />
-          <Field label="Last login IP" value={user.lastLoginIp} />
-          <Field label="Total logins" value={user.totalLogins} />
-        </>
-      )}
+      <Field label="Creation date" value={prettyDate(user?.creationDate)} />
+      <Field label="Last update" value={prettyDate(user?.updatedDate)} />
+      <Field label="Last login" value={prettyDate(user?.lastLoginDate)} />
+      <Field label="Last login IP" value={user?.lastLoginIp} />
+      <Field label="Total logins" value={user?.totalLogins} />
     </Container>
   );
 }
