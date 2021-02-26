@@ -158,20 +158,44 @@ describe('AccountActions', () => {
     });
   });
 
-  it("can delete a user's account", async () => {
-    renderComponent();
-    await waitForPageToLoad();
-    expect(
-      screen.getByRole('button', { name: /delete account/i })
-    ).toBeInTheDocument();
-  });
-
   it('can reverse a delete request', async () => {
     renderComponent({ deleteRequested: '2021-02-14T10:35:28.583Z' });
     await waitForPageToLoad();
-    expect(
-      screen.queryByRole('button', { name: /reverse user's deletion request/i })
-    ).toBeInTheDocument();
+    const reverseDeleteRequest = screen.getByRole('button', {
+      name: /reverse user's deletion request/i,
+    });
+    expect(reverseDeleteRequest).toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.click(reverseDeleteRequest);
+    await waitFor(() => {
+      const status = screen.queryByRole('alert');
+      expect(status).toBeInTheDocument();
+      expect(status).toHaveTextContent('Delete request reversed');
+    });
+  });
+
+  it("shows an error when reversing a user's delete request fails", async () => {
+    server.use(
+      rest.put(
+        new RegExp('/api/reverse-delete-request/123'),
+        (_req, res, ctx) => {
+          return res(ctx.status(400));
+        }
+      )
+    );
+    renderComponent({ deleteRequested: '2021-02-14T10:35:28.583Z' });
+    await waitForPageToLoad();
+    const reverseDeleteRequest = screen.getByRole('button', {
+      name: /reverse user's deletion request/i,
+    });
+    expect(reverseDeleteRequest).toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.click(reverseDeleteRequest);
+    await waitFor(() => {
+      const status = screen.queryByRole('alert');
+      expect(status).toBeInTheDocument();
+      expect(status).toHaveTextContent('Failed to reverse delete request');
+    });
   });
 
   it('cannot reverse a delete request if none exists', async () => {
@@ -219,5 +243,13 @@ describe('AccountActions', () => {
       expect(status).toBeInTheDocument();
       expect(status).toHaveTextContent('Failed to reset password');
     });
+  });
+
+  it("can delete a user's account", async () => {
+    renderComponent();
+    await waitForPageToLoad();
+    expect(
+      screen.getByRole('button', { name: /delete account/i })
+    ).toBeInTheDocument();
   });
 });

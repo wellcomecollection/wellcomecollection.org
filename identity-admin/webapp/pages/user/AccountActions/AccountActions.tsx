@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useUserInfo } from '../UserInfoContext';
 import { DeleteAccount } from './DeleteAccount';
-import { ReverseDeleteRequest } from './ReverseDeleteRequest';
 import { Container } from './AccountActions.style';
 import { useResendActivationEmail } from '../../../hooks/useResendActivationEmail';
 import { AccountActionButton } from './AccountActionButton';
 import { useResetPassword } from '../../../hooks/useResetPassword';
 import { useBlockAccount } from '../../../hooks/useBlockAccount';
 import { useUnblockAccount } from '../../../hooks/useUnblockAccount';
+import { useReverseDeleteRequest } from '../../../hooks/useReverseDeleteRequest';
 
 type AccountActionState = {
   isSuccess: boolean;
@@ -20,6 +20,7 @@ export function AccountActions(): JSX.Element {
   const { resetPassword } = useResetPassword();
   const { blockAccount } = useBlockAccount();
   const { unblockAccount } = useUnblockAccount();
+  const { reverseDeleteRequest } = useReverseDeleteRequest();
   const [status, setStatus] = useState<AccountActionState>({
     isSuccess: false,
   });
@@ -61,7 +62,14 @@ export function AccountActions(): JSX.Element {
         />
       )}
       <DeleteAccount />
-      {user?.deleteRequested && <ReverseDeleteRequest />}
+      {user?.deleteRequested && (
+        <AccountActionButton
+          label="Reverse user's deletion request"
+          onClick={reverseDeleteRequest}
+          onSuccess={() => handleSuccess('Delete request reversed')}
+          onFailure={() => handleFailure('Failed to reverse delete request')}
+        />
+      )}
       <AccountActionButton
         label="Reset password"
         onClick={resetPassword}
