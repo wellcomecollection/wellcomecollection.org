@@ -12,23 +12,14 @@ import { Title } from './User.style';
 function User(): JSX.Element {
   const { isLoading, error } = useUserInfo();
 
-  if (isLoading) {
-    return (
-      <Layout title="Account administration">
-        <Title>
-          <Link href="/">Account administration</Link>
-        </Title>
-        <p>Loading...</p>
-      </Layout>
-    );
-  }
-
   return (
     <Layout title="Account administration">
       <Title>
         <Link href="/">Account administration</Link>
       </Title>
-      {error ? (
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : error ? (
         <h2>Error fetching user: {error.message}</h2>
       ) : (
         <>
