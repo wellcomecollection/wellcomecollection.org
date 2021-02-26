@@ -8,4 +8,7 @@ export const handlers = [
   rest.get(new RegExp('/api/user/123'), (_req, res, ctx) => {
     return res(ctx.json(mockUser));
   }),
+  rest.put(new RegExp('/api/user/123'), (_req, res, ctx) => {
+    return res(ctx.json(mockUser));
+  }),
 ];

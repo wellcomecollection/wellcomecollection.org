@@ -9,7 +9,11 @@ import { UnblockAccount } from './UnblockAccount';
 import { Container } from './AccountActions.style';
 
 export function AccountActions(): JSX.Element {
-  const { user } = useUserInfo();
+  const { user, isLoading } = useUserInfo();
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <Container>
