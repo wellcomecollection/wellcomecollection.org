@@ -4,7 +4,6 @@ import {
   memo,
   useEffect,
   useRef,
-  useContext,
   RefObject,
   FunctionComponent,
   CSSProperties,
@@ -14,11 +13,6 @@ import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';
-import {
-  headerHeight,
-  topBarHeight,
-} from '@weco/common/views/components/IIIFViewer/IIIFViewer';
-import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
 import { IIIFCanvas } from '../../../../model/iiif';
 
 const ThumbnailSpacer = styled(Space).attrs({
@@ -88,39 +82,6 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
 
 Cell.displayName = 'Cell';
 
-type GridViewerElProps = {
-  isVisible?: boolean;
-  isFullscreen?: boolean;
-  infoBarIsVisible?: boolean;
-  viewerRef: RefObject<HTMLElement>;
-};
-
-const GridViewerEl = styled.div<GridViewerElProps>`
-  outline: none;
-  position: fixed;
-  top: ${props => {
-    const viewerOffset = props?.viewerRef?.current?.offsetTop || 0;
-
-    if (props.isVisible && props.isFullscreen) {
-      return `${topBarHeight}px`;
-    } else if (props.isVisible && !props.isFullscreen) {
-      if (props.infoBarIsVisible) {
-        return `${viewerOffset + topBarHeight}px`;
-      } else {
-        return `${headerHeight}px`;
-      }
-    } else {
-      return `100vh`;
-    }
-  }};
-  left: 0;
-  bottom: 0;
-  width: 100vw;
-  z-index: 1;
-  background: ${props => props.theme.color('viewerBlack')};
-  transition: top 500ms ease;
-`;
-
 type Props = {
   gridHeight: number;
   gridWidth: number;
@@ -145,8 +106,6 @@ const GridViewer: FunctionComponent<Props> = ({
   activeIndex,
   setActiveIndex,
   canvases,
-  isFullscreen,
-  viewerRef,
 }: Props) => {
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
@@ -154,7 +113,6 @@ const GridViewer: FunctionComponent<Props> = ({
   const columnCount = Math.round(gridWidth / itemWidth);
   const columnWidth = gridWidth / columnCount;
   const grid = useRef<FixedSizeGrid>(null);
-  const { isVisible } = useContext(GlobalInfoBarContext);
 
   useEffect(() => {
     const rowIndex = Math.floor(activeIndex / columnCount);
@@ -182,14 +140,7 @@ const GridViewer: FunctionComponent<Props> = ({
   }, []);
 
   return (
-    <GridViewerEl
-      isVisible={gridVisible}
-      isFullscreen={isFullscreen}
-      ref={gridViewerRef}
-      viewerRef={viewerRef}
-      tabIndex={0}
-      infoBarIsVisible={isVisible}
-    >
+    <div ref={gridViewerRef}>
       <FixedSizeGrid
         columnCount={columnCount}
         columnWidth={columnWidth}
@@ -212,7 +163,7 @@ const GridViewer: FunctionComponent<Props> = ({
       >
         {Cell}
       </FixedSizeGrid>
-    </GridViewerEl>
+    </div>
   );
 };
 

@@ -25,6 +25,8 @@ import NoScriptViewer from './parts/NoScriptViewer';
 import MainViewer from './parts/MainViewer';
 import ThumbsViewer from './parts/ThumbsViewer';
 import GridViewer from './parts/GridViewer';
+import ExplorePanel from './parts/ExplorePanel';
+import StructuresViewer from './parts/StructuresViewer';
 import Control from '../Buttons/Control/Control';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 
@@ -545,19 +547,34 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
             )}
             {mainImageService['@id'] && currentCanvas && (
               <ViewerLayout isFullscreen={isFullscreen}>
-                <GridViewer
-                  gridHeight={pageHeight}
-                  gridWidth={pageWidth}
-                  mainViewerRef={mainViewerRef}
+                <ExplorePanel
                   gridVisible={gridVisible}
-                  setGridVisible={setGridVisible}
-                  activeIndex={activeIndex}
-                  setActiveIndex={setActiveIndex}
-                  canvases={canvases}
-                  gridViewerRef={gridViewerRef}
                   isFullscreen={isFullscreen}
                   viewerRef={viewerRef}
-                />
+                >
+                  <StructuresViewer
+                    setActiveIndex={setActiveIndex}
+                    mainViewerRef={mainViewerRef}
+                    workId={workId}
+                    pageIndex={pageIndex}
+                    lang={lang}
+                    manifest={manifest}
+                    setGridVisible={setGridVisible}
+                  />
+                  <GridViewer
+                    gridHeight={pageHeight}
+                    gridWidth={pageWidth}
+                    mainViewerRef={mainViewerRef}
+                    gridVisible={gridVisible}
+                    setGridVisible={setGridVisible}
+                    activeIndex={activeIndex}
+                    setActiveIndex={setActiveIndex}
+                    canvases={canvases}
+                    gridViewerRef={gridViewerRef}
+                    isFullscreen={isFullscreen}
+                    viewerRef={viewerRef}
+                  />
+                </ExplorePanel>
                 {pageWidth >= 600 && (
                   <ThumbsViewer
                     canvases={canvases}

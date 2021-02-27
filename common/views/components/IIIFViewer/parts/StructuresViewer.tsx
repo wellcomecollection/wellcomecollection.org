@@ -1,30 +1,22 @@
 import { IIIFManifest } from '@weco/common/model/iiif';
-import NextLink from 'next/link';
-import { itemLink } from '@weco/common/services/catalogue/routes';
 import { getStructures, getCanvases } from '@weco/common/utils/iiif';
-// import styled from 'styled-components';
-// import {
-//   useState,
-//   memo,
-//   useEffect,
-//   useRef,
-//   useContext,
-//   RefObject,
-//   FunctionComponent,
-//   CSSProperties,
-// } from 'react';
-// import Space from '@weco/common/views/components/styled/Space';
+import { FunctionComponent, RefObject } from 'react';
+import { FixedSizeList } from 'react-window';
 
+type Props = {
+  manifest: IIIFManifest | undefined;
+  setActiveIndex: (number) => void;
+  setGridVisible: (boolean) => void;
+  mainViewerRef: RefObject<FixedSizeList>;
+};
 const StructuresViewer: FunctionComponent<Props> = ({
   manifest,
-  workId,
-  pageIndex,
-  lang,
   setActiveIndex,
   mainViewerRef,
+  setGridVisible,
 }: Props) => {
-  const structures = getStructures(manifest);
-  const canvases = getCanvases(manifest);
+  const structures = manifest ? getStructures(manifest) : [];
+  const canvases = manifest ? getCanvases(manifest) : [];
 
   return structures.length > 0 ? (
     <ul>
@@ -35,17 +27,6 @@ const StructuresViewer: FunctionComponent<Props> = ({
         );
         return (
           <li key={i}>
-            {/* <NextLink
-              {...itemLink({
-                workId,
-                page: pageIndex + 1,
-                langCode: lang,
-                canvas: canvasIndex,
-              })}
-              scroll={true}
-              replace
-              passHref
-            > */}
             <a
               onClick={e => {
                 e.preventDefault();
@@ -53,11 +34,11 @@ const StructuresViewer: FunctionComponent<Props> = ({
                   mainViewerRef.current &&
                   mainViewerRef.current.scrollToItem(canvasIndex);
                 setActiveIndex(canvasIndex);
+                setGridVisible(false);
               }}
             >
               {structure.label}
             </a>
-            {/* </NextLink> */}
           </li>
         );
       })}
