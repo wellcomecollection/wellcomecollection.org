@@ -12,8 +12,14 @@ import {
   isUiEnabled,
 } from '@weco/common/utils/iiif';
 import styled from 'styled-components';
-import { useState, useEffect, useRef, FunctionComponent } from 'react';
-import { classNames } from '@weco/common/utils/classnames';
+import {
+  useState,
+  useEffect,
+  useRef,
+  FunctionComponent,
+  useContext,
+} from 'react';
+import { classNames, font } from '@weco/common/utils/classnames';
 import Router from 'next/router';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
@@ -29,12 +35,50 @@ import ExplorePanel from './parts/ExplorePanel';
 import StructuresViewer from './parts/StructuresViewer';
 import Control from '../Buttons/Control/Control';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-
 import Download from '@weco/catalogue/components/Download/Download';
 import dynamic from 'next/dynamic';
 import { DigitalLocation, Work } from '../../../model/catalogue';
 import { FixedSizeList } from 'react-window';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
+import BaseTabs, { TabType } from '../BaseTabs/BaseTabs';
+import { AppContext } from '../AppContext/AppContext';
+
+type TabProps = {
+  isActive: boolean;
+  isFocused: boolean;
+  isKeyboard: boolean;
+};
+
+const Tab = styled(Space).attrs({
+  as: 'span',
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  className: classNames({
+    'flex-inline': true,
+    [font('hnm', 5)]: true,
+  }),
+})<TabProps>`
+  cursor: pointer;
+  background: ${props => props.theme.color('pumice')};
+
+  ${props =>
+    props.isActive &&
+    `
+    background: ${props.theme.color('cream')};
+  `}
+  ${props =>
+    props.isFocused &&
+    `
+    box-shadow: ${props.isKeyboard ? props.theme.focusBoxShadow : null};
+    position: relative;
+    z-index: 1;
+  `}
+`;
+
+const ScrollContainer = styled.div<{ height: number }>`
+  overflow: scroll;
+  height: ${props => `${props.height - 50}px`};
+`;
 
 const LoadingComponent = () => (
   <div
@@ -213,7 +257,8 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
   manifestIndex,
   handleImageError,
 }: IIIFViewerProps) => {
-  const [gridVisible, setGridVisible] = useState(false);
+  const { isKeyboard } = useContext(AppContext);
+  const [explorePanelVisible, setExplorePanelVisible] = useState(false);
   const [enhanced, setEnhanced] = useState(false);
   const [parentManifest, setParentManifest] = useState<
     IIIFManifest | undefined
@@ -244,6 +289,62 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
       .filter(Boolean);
 
   const mainImageService = { '@id': getServiceId(currentCanvas) };
+
+  const tabs: TabType[] = [
+    {
+      id: 'thumbnails',
+      tab: function TabWithDisplayName(isActive, isFocused) {
+        return (
+          <Tab
+            isActive={isActive}
+            isFocused={isFocused}
+            isKeyboard={isKeyboard}
+          >
+            Thumbnails
+          </Tab>
+        );
+      },
+      tabPanel: (
+        <GridViewer
+          gridHeight={pageHeight}
+          gridWidth={pageWidth}
+          mainViewerRef={mainViewerRef}
+          explorePanelVisible={explorePanelVisible}
+          setExplorePanelVisible={setExplorePanelVisible}
+          activeIndex={activeIndex}
+          setActiveIndex={setActiveIndex}
+          canvases={canvases}
+          gridViewerRef={gridViewerRef}
+          isFullscreen={isFullscreen}
+          viewerRef={viewerRef}
+        />
+      ),
+    },
+    {
+      id: 'index',
+      tab: function TabWithDisplayName(isActive, isFocused) {
+        return (
+          <Tab
+            isActive={isActive}
+            isFocused={isFocused}
+            isKeyboard={isKeyboard}
+          >
+            Index
+          </Tab>
+        );
+      },
+      tabPanel: (
+        <ScrollContainer height={pageHeight}>
+          <StructuresViewer
+            setActiveIndex={setActiveIndex}
+            mainViewerRef={mainViewerRef}
+            manifest={manifest}
+            setExplorePanelVisible={setExplorePanelVisible}
+          />
+        </ScrollContainer>
+      ),
+    },
+  ];
 
   useEffect(() => {
     const fetchImageJson = async () => {
@@ -283,7 +384,7 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
   }
 
   useEffect(() => {
-    setGridVisible(!!Router.query.isOverview);
+    setExplorePanelVisible(!!Router.query.isOverview);
   }, []);
 
   useEffect(() => {
@@ -398,7 +499,8 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
   });
 
   useEffect(() => {
-    if (gridVisible) {
+    // TODO similar for tab panel
+    if (explorePanelVisible) {
       const thumb = gridViewerRef.current?.getElementsByClassName(
         'activeThumbnail'
       )?.[0] as HTMLButtonElement | undefined;
@@ -406,7 +508,7 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
     } else {
       viewToggleRef.current?.focus();
     }
-  }, [gridVisible]);
+  }, [explorePanelVisible]);
 
   useEffect(() => {
     function handleResize() {
@@ -430,8 +532,8 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
       <ViewerTopBar
         canvases={canvases}
         enhanced={enhanced}
-        gridVisible={gridVisible}
-        setGridVisible={setGridVisible}
+        explorePanelVisible={explorePanelVisible}
+        setExplorePanelVisible={setExplorePanelVisible}
         workId={workId}
         viewToggleRef={viewToggleRef}
         currentManifestLabel={currentManifestLabel}
@@ -548,32 +650,33 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
             {mainImageService['@id'] && currentCanvas && (
               <ViewerLayout isFullscreen={isFullscreen}>
                 <ExplorePanel
-                  gridVisible={gridVisible}
+                  explorePanelVisible={explorePanelVisible}
                   isFullscreen={isFullscreen}
                   viewerRef={viewerRef}
                 >
-                  <StructuresViewer
-                    setActiveIndex={setActiveIndex}
-                    mainViewerRef={mainViewerRef}
-                    workId={workId}
-                    pageIndex={pageIndex}
-                    lang={lang}
-                    manifest={manifest}
-                    setGridVisible={setGridVisible}
+                  {/* if  toggle on */}
+                  <BaseTabs
+                    tabs={tabs}
+                    label={'Tabs for explore tools'}
+                    activeTabIndex={0}
+                    onTabClick={() => {
+                      return null;
+                    }}
                   />
-                  <GridViewer
+                  {/* ELSE */}
+                  {/* <GridViewer
                     gridHeight={pageHeight}
                     gridWidth={pageWidth}
                     mainViewerRef={mainViewerRef}
-                    gridVisible={gridVisible}
-                    setGridVisible={setGridVisible}
+                    explorePanelVisible={explorePanelVisible}
+                    setExplorePanelVisible={setExplorePanelVisible}
                     activeIndex={activeIndex}
                     setActiveIndex={setActiveIndex}
                     canvases={canvases}
                     gridViewerRef={gridViewerRef}
                     isFullscreen={isFullscreen}
                     viewerRef={viewerRef}
-                  />
+                  /> */}
                 </ExplorePanel>
                 {pageWidth >= 600 && (
                   <ThumbsViewer
