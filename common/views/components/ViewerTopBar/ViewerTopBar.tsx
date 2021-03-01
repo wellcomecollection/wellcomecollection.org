@@ -117,8 +117,8 @@ const TitleContainer = styled.div.attrs(() => ({
 type Props = {
   canvases: IIIFCanvas[];
   enhanced: boolean;
-  gridVisible: boolean;
-  setGridVisible: (visible: boolean) => void;
+  explorePanelVisible: boolean;
+  setExplorePanelVisible: (visible: boolean) => void;
   workId: string;
   viewToggleRef: RefObject<HTMLButtonElement>;
   currentManifestLabel?: string;
@@ -137,8 +137,8 @@ type Props = {
 const ViewerTopBar: FunctionComponent<Props> = ({
   canvases,
   enhanced,
-  gridVisible,
-  setGridVisible,
+  explorePanelVisible,
+  setExplorePanelVisible,
   workId,
   viewToggleRef,
   currentManifestLabel,
@@ -160,19 +160,24 @@ const ViewerTopBar: FunctionComponent<Props> = ({
           <ShameButton
             ref={viewToggleRef}
             onClick={() => {
-              setGridVisible(!gridVisible);
+              setExplorePanelVisible(!explorePanelVisible);
               trackEvent({
                 category: 'Control',
                 action: `clicked work viewer ${
-                  gridVisible ? '"Detail view"' : '"View all"'
+                  explorePanelVisible ? '"Detail view"' : '"View all"'
                 } button`,
                 label: `${workId}`,
               });
             }}
           >
-            <Icon name={gridVisible ? 'detailView' : 'gridView'} />
+            {/* if toggle */}
+            {/* <span className={`btn__text`}>
+              {explorePanelVisible ? 'Main view' : 'Explore'}
+            </span> */}
+            {/* else */}
+            <Icon name={explorePanelVisible ? 'detailView' : 'gridView'} />
             <span className={`btn__text`}>
-              {gridVisible ? 'Detail view' : 'View all'}
+              {explorePanelVisible ? 'Detail view' : 'View all'}
             </span>
           </ShameButton>
         </ViewAllContainer>

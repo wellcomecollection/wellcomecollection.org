@@ -6,14 +6,14 @@ import { FixedSizeList } from 'react-window';
 type Props = {
   manifest: IIIFManifest | undefined;
   setActiveIndex: (number) => void;
-  setGridVisible: (boolean) => void;
+  setExplorePanelVisible: (boolean) => void;
   mainViewerRef: RefObject<FixedSizeList>;
 };
 const StructuresViewer: FunctionComponent<Props> = ({
   manifest,
   setActiveIndex,
   mainViewerRef,
-  setGridVisible,
+  setExplorePanelVisible,
 }: Props) => {
   const structures = manifest ? getStructures(manifest) : [];
   const canvases = manifest ? getCanvases(manifest) : [];
@@ -34,7 +34,7 @@ const StructuresViewer: FunctionComponent<Props> = ({
                   mainViewerRef.current &&
                   mainViewerRef.current.scrollToItem(canvasIndex);
                 setActiveIndex(canvasIndex);
-                setGridVisible(false);
+                setExplorePanelVisible(false);
               }}
             >
               {structure.label}

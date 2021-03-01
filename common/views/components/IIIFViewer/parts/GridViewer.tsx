@@ -29,8 +29,8 @@ type CellProps = {
   data: {
     scrollVelocity: number;
     columnCount: number;
-    gridVisible: boolean;
-    setGridVisible: (value: boolean) => void;
+    explorePanelVisible: boolean;
+    setExplorePanelVisible: (value: boolean) => void;
     mainViewerRef: RefObject<FixedSizeList>;
     activeIndex: number;
     setActiveIndex: (i: number) => void;
@@ -42,8 +42,8 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
   const {
     columnCount,
     mainViewerRef,
-    gridVisible,
-    setGridVisible,
+    explorePanelVisible,
+    setExplorePanelVisible,
     scrollVelocity,
     activeIndex,
     setActiveIndex,
@@ -67,11 +67,11 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
                   mainViewerRef.current &&
                   mainViewerRef.current.scrollToItem(itemIndex);
                 setActiveIndex(itemIndex);
-                setGridVisible(false);
+                setExplorePanelVisible(false);
               }}
               isActive={activeIndex === itemIndex}
               thumbNumber={itemIndex + 1}
-              isFocusable={gridVisible}
+              isFocusable={explorePanelVisible}
             />
           </ThumbnailSpacer>
         )
@@ -85,10 +85,10 @@ Cell.displayName = 'Cell';
 type Props = {
   gridHeight: number;
   gridWidth: number;
-  gridVisible: boolean;
+  explorePanelVisible: boolean;
   gridViewerRef: RefObject<HTMLDivElement>;
   mainViewerRef: RefObject<FixedSizeList>;
-  setGridVisible: (visible: boolean) => void;
+  setExplorePanelVisible: (visible: boolean) => void;
   activeIndex: number;
   setActiveIndex: (i: number) => void;
   canvases: IIIFCanvas[];
@@ -99,10 +99,10 @@ type Props = {
 const GridViewer: FunctionComponent<Props> = ({
   gridHeight,
   gridWidth,
-  gridVisible,
+  explorePanelVisible,
   gridViewerRef,
   mainViewerRef,
-  setGridVisible,
+  setExplorePanelVisible,
   activeIndex,
   setActiveIndex,
   canvases,
@@ -151,8 +151,8 @@ const GridViewer: FunctionComponent<Props> = ({
         itemData={{
           columnCount,
           mainViewerRef,
-          gridVisible,
-          setGridVisible,
+          explorePanelVisible,
+          setExplorePanelVisible,
           scrollVelocity,
           activeIndex,
           setActiveIndex,
