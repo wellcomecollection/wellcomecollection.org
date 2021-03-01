@@ -4,7 +4,6 @@ import Head from 'next/head';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import { toHtmlId } from '@weco/common/utils/string';
 import {
   GlobalContextData,
   getGlobalContextData,
@@ -36,12 +35,8 @@ import {
   toLink,
   WorksProps,
 } from '@weco/common/views/components/WorksLink/WorksLink';
-import {
-  CheckboxFilter,
-  DateRangeFilter,
-} from '@weco/common/views/components/SearchFilters/SearchFilters';
-import { quoteVal } from '@weco/common/utils/csv';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
+import { worksFilters } from '@weco/common/services/catalogue/filters';
 
 type Props = {
   works?: CatalogueResultsList<Work>;
@@ -96,123 +91,7 @@ const Works: NextPage<Props> = ({
     };
   }, []);
 
-  const productionDatesFilter: DateRangeFilter = {
-    type: 'dateRange',
-    id: 'production.dates',
-    label: 'Dates',
-    from: {
-      key: 'productionDatesFrom',
-      id: 'production.dates.from',
-      value: productionDatesFrom ?? undefined,
-    },
-    to: {
-      key: 'productionDatesTo',
-      id: 'production.dates.to',
-      value: productionDatesTo ?? undefined,
-    },
-  };
-
-  const workTypeFilter: CheckboxFilter = {
-    type: 'checkbox',
-    key: 'workType',
-    id: 'workType',
-    label: 'Formats',
-    options:
-      works?.aggregations?.workType.buckets.map(bucket => ({
-        id: bucket.data.id,
-        value: bucket.data.id,
-        count: bucket.count,
-        label: bucket.data.label,
-        selected: worksRouteProps.workType.includes(bucket.data.id),
-      })) || [],
-  };
-
-  const subjectsFilter: CheckboxFilter = {
-    type: 'checkbox',
-    key: 'subjectsLabel',
-    id: 'subjects.label',
-    label: 'Subjects',
-    options:
-      works?.aggregations?.subjects?.buckets.map(bucket => ({
-        id: toHtmlId(bucket.data.label),
-        value: quoteVal(bucket.data.label),
-        count: bucket.count,
-        label: bucket.data.label,
-        selected: worksRouteProps.subjectsLabel.includes(bucket.data.label),
-      })) || [],
-  };
-
-  const genresFilter: CheckboxFilter = {
-    type: 'checkbox',
-    key: 'genresLabel',
-    id: 'genres.label',
-    label: 'Genres',
-    options:
-      works?.aggregations?.genres?.buckets.map(bucket => ({
-        id: toHtmlId(bucket.data.label),
-        value: quoteVal(bucket.data.label),
-        count: bucket.count,
-        label: bucket.data.label,
-        selected: worksRouteProps.genresLabel.includes(bucket.data.label),
-      })) || [],
-  };
-
-  const contributorsFilter: CheckboxFilter = {
-    type: 'checkbox',
-    key: 'contributorsAgentLabel',
-    id: 'contributors.agent.label',
-    label: 'Contributors',
-    options:
-      works?.aggregations?.contributors?.buckets.map(bucket => ({
-        id: toHtmlId(bucket.data.agent.label),
-        value: quoteVal(bucket.data.agent.label),
-        count: bucket.count,
-        label: bucket.data.agent.label,
-        selected: worksRouteProps.contributorsAgentLabel.includes(
-          bucket.data.agent.label
-        ),
-      })) || [],
-  };
-
-  const languagesFilter: CheckboxFilter = {
-    type: 'checkbox',
-    key: 'languages',
-    id: 'languages',
-    label: 'Languages',
-    options:
-      works?.aggregations?.languages?.buckets.map(bucket => ({
-        id: bucket.data.id,
-        value: bucket.data.id,
-        count: bucket.count,
-        label: bucket.data.label,
-        selected: worksRouteProps.languages.includes(bucket.data.id),
-      })) || [],
-  };
-
-  const locationsFilter: CheckboxFilter = {
-    type: 'checkbox',
-    key: 'itemsLocationsType',
-    id: 'items.locations.type',
-    label: 'Locations',
-    options:
-      works?.aggregations?.locationType?.buckets.map(bucket => ({
-        id: bucket.data.type,
-        value: bucket.data.type,
-        count: bucket.count,
-        label: bucket.data.label,
-        selected: worksRouteProps.itemsLocationsType.includes(bucket.data.type),
-      })) || [],
-  };
-
-  const filters = [
-    productionDatesFilter,
-    workTypeFilter,
-    locationsFilter,
-    contributorsFilter,
-    subjectsFilter,
-    genresFilter,
-    languagesFilter,
-  ];
+  const filters = worksFilters({ works, props: worksRouteProps });
 
   return (
     <Fragment>

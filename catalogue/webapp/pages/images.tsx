@@ -32,8 +32,8 @@ import {
   ImagesProps,
   toLink,
 } from '@weco/common/views/components/ImagesLink/ImagesLink';
-import { ColorFilter } from '@weco/common/views/components/SearchFilters/SearchFilters';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
+import { imagesFilters } from '@weco/common/services/catalogue/filters';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
@@ -109,14 +109,8 @@ const Images: NextPage<Props> = ({
     };
   }, []);
 
-  const colorFilter: ColorFilter = {
-    type: 'color',
-    key: 'color',
-    id: 'color',
-    label: 'Colours',
-    color: imagesRouteProps.color,
-  };
-  const filters = [colorFilter];
+  const filters = imagesFilters({ images, props: imagesRouteProps });
+
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
     const link = toLink({
