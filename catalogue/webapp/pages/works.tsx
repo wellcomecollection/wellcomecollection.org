@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
@@ -20,7 +20,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import { getWorks } from '../services/catalogue/works';
 import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
 import cookies from 'next-cookies';
-import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResults';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
@@ -42,6 +41,7 @@ import {
   DateRangeFilter,
 } from '@weco/common/views/components/SearchFilters/SearchFilters';
 import { quoteVal } from '@weco/common/utils/csv';
+import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 
 type Props = {
   works?: CatalogueResultsList<Work>;
@@ -59,7 +59,6 @@ const Works: NextPage<Props> = ({
   globalContextData,
 }: Props) => {
   const [loading, setLoading] = useState(false);
-  const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
 
   const {
     query,
@@ -73,6 +72,12 @@ const Works: NextPage<Props> = ({
       totalResults: works?.totalResults ?? 0,
       source: Router.query.source || 'unspecified',
     });
+  }, [worksRouteProps]);
+
+  const { setLink } = useContext(SearchContext);
+  useEffect(() => {
+    const link = toLink({ ...worksRouteProps, source: 'works_search_context' });
+    setLink(link);
   }, [worksRouteProps]);
 
   useEffect(() => {
@@ -113,7 +118,7 @@ const Works: NextPage<Props> = ({
     id: 'workType',
     label: 'Formats',
     options:
-      works?.aggregations?.workType.buckets.map((bucket) => ({
+      works?.aggregations?.workType.buckets.map(bucket => ({
         id: bucket.data.id,
         value: bucket.data.id,
         count: bucket.count,
@@ -128,7 +133,7 @@ const Works: NextPage<Props> = ({
     id: 'subjects.label',
     label: 'Subjects',
     options:
-      works?.aggregations?.subjects?.buckets.map((bucket) => ({
+      works?.aggregations?.subjects?.buckets.map(bucket => ({
         id: toHtmlId(bucket.data.label),
         value: quoteVal(bucket.data.label),
         count: bucket.count,
@@ -143,7 +148,7 @@ const Works: NextPage<Props> = ({
     id: 'genres.label',
     label: 'Genres',
     options:
-      works?.aggregations?.genres?.buckets.map((bucket) => ({
+      works?.aggregations?.genres?.buckets.map(bucket => ({
         id: toHtmlId(bucket.data.label),
         value: quoteVal(bucket.data.label),
         count: bucket.count,
@@ -158,7 +163,7 @@ const Works: NextPage<Props> = ({
     id: 'contributors.agent.label',
     label: 'Contributors',
     options:
-      works?.aggregations?.contributors?.buckets.map((bucket) => ({
+      works?.aggregations?.contributors?.buckets.map(bucket => ({
         id: toHtmlId(bucket.data.agent.label),
         value: quoteVal(bucket.data.agent.label),
         count: bucket.count,
@@ -175,7 +180,7 @@ const Works: NextPage<Props> = ({
     id: 'languages',
     label: 'Languages',
     options:
-      works?.aggregations?.languages?.buckets.map((bucket) => ({
+      works?.aggregations?.languages?.buckets.map(bucket => ({
         id: bucket.data.id,
         value: bucket.data.id,
         count: bucket.count,
@@ -190,7 +195,7 @@ const Works: NextPage<Props> = ({
     id: 'items.locations.type',
     label: 'Locations',
     options:
-      works?.aggregations?.locationType?.buckets.map((bucket) => ({
+      works?.aggregations?.locationType?.buckets.map(bucket => ({
         id: bucket.data.type,
         value: bucket.data.type,
         count: bucket.count,
@@ -303,8 +308,6 @@ const Works: NextPage<Props> = ({
                               source: 'search/paginator',
                             });
 
-                            setSavedSearchState(state);
-
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
                             );
@@ -365,11 +368,12 @@ const Works: NextPage<Props> = ({
                                 ...worksRouteProps,
                                 page: newPage,
                               };
+
                               const link = toLink({
                                 ...state,
                                 source: 'search/paginator',
                               });
-                              setSavedSearchState(state);
+
                               Router.push(link.href, link.as).then(() =>
                                 window.scrollTo(0, 0)
                               );
@@ -399,7 +403,7 @@ const Works: NextPage<Props> = ({
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
-> = async (context) => {
+> = async context => {
   const globalContextData = getGlobalContextData(context);
   const props = fromQuery(context.query);
 
@@ -423,7 +427,7 @@ export const getServerSideProps: GetServerSideProps<
     aggregations,
   });
 
-  const shouldGetWorks = !!(props.query && props.query !== '');
+  const shouldGetWorks = !!props.query;
 
   const works = shouldGetWorks
     ? await getWorks({

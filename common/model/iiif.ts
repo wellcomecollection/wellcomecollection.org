@@ -48,6 +48,7 @@ export type IIIFRendering = {
   '@id': string;
   format: string;
   label: string;
+  width?: 'full' | number;
 };
 
 export type IIIFAnnotationResource = {
@@ -108,7 +109,7 @@ export type AuthService = {
   service: {
     '@context': string;
     '@id': string;
-    profile: string
+    profile: string;
   }[];
 };
 

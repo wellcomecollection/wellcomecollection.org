@@ -15,9 +15,13 @@ const parseCookies = function(req) {
   });
 };
 function getAllowedValuesEnum(json) {
-  return json.paths['/works'].get.parameters.find(
-    parameter => parameter.name === '_queryType'
-  ).schema.enum;
+  try {
+    return json.paths['/works'].get.parameters.find(
+      parameter => parameter.name === '_queryType'
+    ).schema.enum;
+  } catch {
+    return [];
+  }
 }
 async function getQueryType(staging = false) {
   try {
@@ -54,6 +58,7 @@ module.exports = function withQueryType(ctx, next) {
   const stagingApiCookie = cookies.find(
     ({ key, value }) => key === 'toggle_stagingApi'
   );
+
   const validQueryTypeFromCookie =
     queryTypeCookie &&
     allowableValues[stagingApiCookie ? 'staging' : 'prod'].includes(

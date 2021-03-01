@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { useEffect, useState, ReactElement } from 'react';
+import { useEffect, useState, ReactElement, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
@@ -33,6 +33,7 @@ import {
   toLink,
 } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import { ColorFilter } from '@weco/common/views/components/SearchFilters/SearchFilters';
+import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
@@ -116,6 +117,14 @@ const Images: NextPage<Props> = ({
     color: imagesRouteProps.color,
   };
   const filters = [colorFilter];
+  const { setLink } = useContext(SearchContext);
+  useEffect(() => {
+    const link = toLink({
+      ...imagesRouteProps,
+      source: 'images_search_context',
+    });
+    setLink(link);
+  }, [imagesRouteProps]);
 
   return (
     <>
@@ -254,7 +263,7 @@ const Images: NextPage<Props> = ({
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
-> = async (context) => {
+> = async context => {
   const globalContextData = getGlobalContextData(context);
   const params = fromQuery(context.query);
   const apiProps = imagesRouteToApiUrl(params);

@@ -11,7 +11,11 @@ import {
   LinkFrom,
 } from '../../../utils/routes';
 
-const imagesPropsSources = ['search/paginator', 'canonical_link'] as const;
+const imagesPropsSources = [
+  'search/paginator',
+  'canonical_link',
+  'images_search_context',
+] as const;
 type ImagesPropsSource = typeof imagesPropsSources[number];
 
 export type ImagesProps = {
@@ -30,7 +34,7 @@ const emptyImagesProps: ImagesProps = {
   source: 'unknown',
 };
 
-const fromQuery: QueryTo<ImagesProps> = (params) => {
+const fromQuery: QueryTo<ImagesProps> = params => {
   return {
     query: toString(params.query, ''),
     page: toNumber(params.page, 1),

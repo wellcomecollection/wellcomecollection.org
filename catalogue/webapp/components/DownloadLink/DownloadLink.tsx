@@ -1,9 +1,10 @@
-import { trackEvent, GaEvent } from '@weco/common/utils/ga';
+import { trackEvent as trackGaEvent, GaEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent } from 'react';
+import { trackEvent } from '@weco/common/services/conversion/track';
 
 const DownloadLinkStyle = styled.a.attrs({
   className: classNames({
@@ -30,6 +31,9 @@ type Props = {
   trackingEvent: GaEvent;
   linkText: string;
   format?: DownloadFormat;
+  width?: 'full' | number;
+  mimeType: string;
+  trackingTags?: string[];
 };
 const DownloadLink: FunctionComponent<Props> = ({
   isTabbable = true,
@@ -37,6 +41,9 @@ const DownloadLink: FunctionComponent<Props> = ({
   trackingEvent,
   linkText,
   format,
+  width,
+  mimeType,
+  trackingTags = [],
 }: Props) => (
   <DownloadLinkStyle
     tabIndex={isTabbable ? undefined : -1}
@@ -44,7 +51,8 @@ const DownloadLink: FunctionComponent<Props> = ({
     rel="noopener noreferrer"
     href={href}
     onClick={() => {
-      trackEvent(trackingEvent);
+      trackEvent('download', { width, mimeType, tags: trackingTags });
+      trackGaEvent(trackingEvent);
     }}
   >
     <span className="flex-inline flex--v-center">

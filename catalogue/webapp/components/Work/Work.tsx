@@ -1,5 +1,5 @@
 import { Work as WorkType } from '@weco/common/model/catalogue';
-import { useEffect, FunctionComponent, ReactElement } from 'react';
+import { useContext, useEffect, FunctionComponent, ReactElement } from 'react';
 import { grid, classNames, font } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
@@ -24,12 +24,11 @@ import styled from 'styled-components';
 import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import useHotjar from '@weco/common/hooks/useHotjar';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
-import { emptyWorksProps } from '@weco/common/views/components/WorksLink/WorksLink';
-import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
+import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
-  ${(props) => props.theme.media.medium`
+  ${props => props.theme.media.medium`
     display: flex;
   `}
 `;
@@ -48,7 +47,7 @@ const Work: FunctionComponent<Props> = ({
   work,
   globalContextData,
 }: Props): ReactElement<Props> => {
-  const [savedSearchFormState] = useSavedSearchState(emptyWorksProps);
+  const { link: searchLink } = useContext(SearchContext);
 
   const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
   useHotjar(isInArchive);
@@ -119,9 +118,9 @@ const Work: FunctionComponent<Props> = ({
           >
             <Space v={{ size: 'l', properties: ['margin-top'] }}>
               <SearchTabs
-                query={savedSearchFormState.query}
-                sort={savedSearchFormState.sort}
-                sortOrder={savedSearchFormState.sortOrder}
+                query={searchLink.as.query?.query?.toString() || ''}
+                sort={searchLink.as.query?.sort?.toString()}
+                sortOrder={searchLink.as.query?.sortOrder?.toString()}
                 worksFilters={[]}
                 imagesFilters={[]}
                 shouldShowDescription={false}

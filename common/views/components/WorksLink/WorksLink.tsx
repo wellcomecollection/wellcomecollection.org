@@ -19,6 +19,7 @@ const worksPropsSources = [
   'canonical_link',
   'meta_link',
   'search/paginator',
+  'works_search_context',
 ] as const;
 // Currently we allow all strings as I can't get the Prefix to work
 // when compiling strings e.g. `cancel_filter/${value}`
@@ -58,7 +59,7 @@ const emptyWorksProps: WorksProps = {
   source: 'unknown',
 };
 
-const fromQuery: QueryTo<WorksProps> = (params) => {
+const fromQuery: QueryTo<WorksProps> = params => {
   return {
     query: toString(params.query, ''),
     page: toNumber(params.page, 1),
