@@ -662,7 +662,10 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
                       label={'Tabs for explore tools'}
                       activeTabIndex={0}
                       onTabClick={() => {
-                        return null;
+                        const thumb = gridViewerRef.current?.getElementsByClassName(
+                          'activeThumbnail'
+                        )?.[0] as HTMLButtonElement | undefined;
+                        setTimeout(() => thumb?.scrollIntoView(), 200);
                       }}
                     />
                   ) : (
