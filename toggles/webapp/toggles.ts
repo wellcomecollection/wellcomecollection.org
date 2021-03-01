@@ -1,6 +1,12 @@
 export default {
   toggles: [
     {
+      id: 'structuresPrototype',
+      title: 'Digitised material structures',
+      description: 'Shows the structures of digitised material in the viewer',
+      defaultValue: false,
+    },
+    {
       id: 'openWithAdvisoryPrototype',
       title: 'Open with advisory',
       description:
