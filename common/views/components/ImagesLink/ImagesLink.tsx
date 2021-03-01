@@ -45,7 +45,7 @@ const fromQuery: QueryTo<ImagesProps> = params => {
 };
 
 function toLink(props: ImagesProps): LinkProps {
-  const pathname = '/works';
+  const pathname = '/images';
   const { source, ...propsWithoutSource } = props;
 
   return {

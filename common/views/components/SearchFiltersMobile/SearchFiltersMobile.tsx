@@ -37,6 +37,7 @@ import TogglesContext from '../TogglesContext/TogglesContext';
 const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
+
 const PaletteColorPicker = dynamic(
   import('../PaletteColorPicker/PaletteColorPicker')
 );
@@ -274,6 +275,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   query,
   changeHandler,
   filters,
+  activeFiltersCount,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const openFiltersButtonRef = useRef<HTMLButtonElement>(null);
   const closeFiltersButtonRef = useRef<HTMLDivElement>(null);
@@ -332,24 +334,6 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
       closeFiltersButtonRef.current &&
       closeFiltersButtonRef.current.focus();
   }
-
-  const activeFiltersCount = filters
-    .map(f => {
-      if (f.type === 'checkbox') {
-        return f.options.filter(option => option.selected).length;
-      }
-
-      if (f.type === 'dateRange') {
-        if (f.from.value || f.to.value) {
-          return 1;
-        }
-      }
-
-      return 0;
-    })
-    .reduce((acc, val) => {
-      return acc + val;
-    }, 0);
 
   return (
     <Space

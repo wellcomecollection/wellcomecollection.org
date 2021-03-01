@@ -148,6 +148,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   changeHandler,
   filters,
   linkResolver,
+  activeFiltersCount,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const { searchMoreFilters } = useContext(TogglesContext);
 
@@ -313,15 +314,14 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
         </Space>
       </Space>
 
-      <ResetActiveFilters
-        query={query}
-        linkResolver={linkResolver}
-        resetFilters={{
-          as: { pathname: '???', query: {} },
-          href: { pathname: '???', query: {} },
-        }}
-        filters={filters}
-      />
+      {activeFiltersCount > 0 && (
+        <ResetActiveFilters
+          query={query}
+          linkResolver={linkResolver}
+          resetFilters={linkResolver({ query })}
+          filters={filters}
+        />
+      )}
     </>
   );
 };

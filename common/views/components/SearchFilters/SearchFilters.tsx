@@ -11,6 +11,7 @@ type Props = {
   changeHandler: () => void;
   filters: Filter[];
   linkResolver: (params: ParsedUrlQuery) => LinkProps;
+  activeFiltersCount: number;
 };
 
 export type SearchFiltersSharedProps = Props;
@@ -24,12 +25,31 @@ const SearchFilters: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   const [isMobile] = useState(false);
 
+  const activeFiltersCount = filters
+    .map(f => {
+      if (f.type === 'checkbox') {
+        return f.options.filter(option => option.selected).length;
+      }
+
+      if (f.type === 'dateRange') {
+        if (f.from.value || f.to.value) {
+          return 1;
+        }
+      }
+
+      return 0;
+    })
+    .reduce((acc, val) => {
+      return acc + val;
+    }, 0);
+
   const sharedProps: SearchFiltersSharedProps = {
     query,
     searchForm,
     changeHandler,
     filters,
     linkResolver,
+    activeFiltersCount,
   };
 
   return (
