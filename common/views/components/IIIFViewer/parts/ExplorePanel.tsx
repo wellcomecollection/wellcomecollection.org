@@ -39,20 +39,15 @@ const ExploreContainer = styled.div<ExploreContainerProps>`
   transition: top 500ms ease;
 `;
 
-const ScrollContainer = styled.div`
-  overflow: scroll;
-  height: 100%;
-`;
-
 type Props = {
-  gridVisible: boolean;
+  explorePanelVisible: boolean;
   isFullscreen: boolean;
   viewerRef: RefObject<HTMLElement>;
   children: ReactNode;
 };
 
 const ExplorePanel: FunctionComponent<Props> = ({
-  gridVisible,
+  explorePanelVisible,
   isFullscreen,
   viewerRef,
   children,
@@ -60,12 +55,12 @@ const ExplorePanel: FunctionComponent<Props> = ({
   const { isVisible } = useContext(GlobalInfoBarContext);
   return (
     <ExploreContainer
-      isVisible={gridVisible}
+      isVisible={explorePanelVisible}
       isFullscreen={isFullscreen}
       infoBarIsVisible={isVisible}
       viewerRef={viewerRef}
     >
-      <ScrollContainer>{children}</ScrollContainer>
+      {children}
     </ExploreContainer>
   );
 };
