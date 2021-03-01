@@ -11,10 +11,9 @@ type Props = {
   changeHandler: () => void;
   filters: Filter[];
   linkResolver: (params: ParsedUrlQuery) => LinkProps;
-  activeFiltersCount: number;
 };
 
-export type SearchFiltersSharedProps = Props;
+export type SearchFiltersSharedProps = Props & { activeFiltersCount: number };
 
 const SearchFilters: FunctionComponent<Props> = ({
   query,
