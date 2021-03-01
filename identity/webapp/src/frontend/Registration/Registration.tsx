@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { callMiddlewareApi } from '../../utility/middleware-api-client';
+import { AccountCreated } from './AccountCreated';
+import { useRegisterUser } from './useRegisterUser';
 
 type RegistrationInputs = {
   firstName: string;
@@ -11,22 +12,34 @@ type RegistrationInputs = {
 };
 
 const InvalidFieldAlert: React.FC<{ children: React.ReactNode }> = ({ children }) => <div role="alert">{children}</div>;
+const ErrorMessage: React.FC<{ children: React.ReactNode }> = ({ children }) => <div role="alert">{children}</div>;
 
 const validEmailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const validPasswordPattern = /(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*/;
 
 export function Registration(): JSX.Element {
   const { register, handleSubmit, errors } = useForm<RegistrationInputs>();
+  const { registerUser, isSuccess, emailAlreadyExists, error: submissionError } = useRegisterUser();
 
   const createUser = (formData: RegistrationInputs) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { termsAndConditions, ...userDetails } = formData;
-    callMiddlewareApi('POST', '/api/user/create', userDetails);
+    registerUser(userDetails);
   };
+
+  if (isSuccess) {
+    return <AccountCreated />;
+  }
 
   return (
     <>
       <h1>Register for Wellcome</h1>
+      {emailAlreadyExists && (
+        <ErrorMessage>
+          That account already exists - you can try to <a href="#">login</a>
+        </ErrorMessage>
+      )}
+      {submissionError && <ErrorMessage>An unknown error occurred</ErrorMessage>}
       <form onSubmit={handleSubmit(createUser)}>
         <h2>Personal details</h2>
         <label htmlFor="first-name">First name</label>

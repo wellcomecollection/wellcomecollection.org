@@ -2,11 +2,17 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { Registration } from './Registration';
 import userEvent from '@testing-library/user-event';
-import { callMiddlewareApi } from '../../utility/middleware-api-client';
+import { server } from '../mocks/server';
+import { rest } from 'msw';
+import { ThemeProvider } from 'styled-components';
+import theme from '@weco/common/views/themes/default';
 
-jest.mock('../../utility/middleware-api-client');
-
-const renderComponent = () => render(<Registration />);
+const renderComponent = () =>
+  render(
+    <ThemeProvider theme={theme}>
+      <Registration />
+    </ThemeProvider>
+  );
 
 describe('Registration', () => {
   beforeEach(() => {
@@ -64,12 +70,7 @@ describe('Registration', () => {
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     await waitFor(() => {
-      expect(callMiddlewareApi).toBeCalledWith('POST', '/api/user/create', {
-        firstName: 'Clark',
-        lastName: 'Kent',
-        email: 'clarkkent@dailybugle.com',
-        password: 'Superman1938',
-      });
+      expect(screen.getByRole('heading', { name: /account created/i, level: 1 })).toBeInTheDocument();
     });
   });
 
@@ -82,7 +83,7 @@ describe('Registration', () => {
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     expect(await screen.findByRole('alert')).toHaveTextContent(/missing first name/i);
-    expect(callMiddlewareApi).not.toBeCalled();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
   it('does not submit with an empty last name field', async () => {
@@ -94,7 +95,7 @@ describe('Registration', () => {
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     expect(await screen.findByRole('alert')).toHaveTextContent(/missing last name/i);
-    expect(callMiddlewareApi).not.toBeCalled();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
   it('does not submit with an empty or invalid email field', async () => {
@@ -108,30 +109,24 @@ describe('Registration', () => {
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(createAccountButton);
     expect(await screen.findByRole('alert')).toHaveTextContent(/missing email address/i);
-    expect(callMiddlewareApi).not.toBeCalled();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
 
     userEvent.type(emailAddressInput, 'clarkkent'); // not valid
     userEvent.click(createAccountButton);
     expect(await screen.findByRole('alert')).toHaveTextContent(/invalid email address/i);
-    expect(callMiddlewareApi).not.toBeCalled();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
 
     userEvent.clear(emailAddressInput);
     userEvent.type(emailAddressInput, 'clarkkent@dailybugle'); // not valid
     userEvent.click(createAccountButton);
     expect(await screen.findByRole('alert')).toHaveTextContent(/invalid email address/i);
-    expect(callMiddlewareApi).not.toBeCalled();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
 
     userEvent.clear(emailAddressInput);
     userEvent.type(emailAddressInput, 'clarkkent.com'); // not valid
     userEvent.click(createAccountButton);
     expect(await screen.findByRole('alert')).toHaveTextContent(/invalid email address/i);
-    expect(callMiddlewareApi).not.toBeCalled();
-
-    userEvent.clear(emailAddressInput);
-    userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com'); // valid
-    userEvent.click(createAccountButton);
-    expect(await screen.findByRole('alert')).not.toBeInTheDocument();
-    expect(callMiddlewareApi).toBeCalled();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
   it('does not submit with an empty or invalid password field', async () => {
@@ -145,36 +140,30 @@ describe('Registration', () => {
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(createAccountButton);
     expect(await screen.findByRole('alert')).toHaveTextContent(/missing password/i);
-    expect(callMiddlewareApi).not.toBeCalled();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
 
     userEvent.type(passwordInput, 'Supes1'); // too short
     userEvent.click(createAccountButton);
     expect(await screen.findByRole('alert')).toHaveTextContent(/invalid password/i);
-    expect(callMiddlewareApi).not.toBeCalled();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
 
     userEvent.clear(passwordInput);
     userEvent.type(passwordInput, 'superman1'); // no capital
     userEvent.click(createAccountButton);
     expect(await screen.findByRole('alert')).toHaveTextContent(/invalid password/i);
-    expect(callMiddlewareApi).not.toBeCalled();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
 
     userEvent.clear(passwordInput);
     userEvent.type(passwordInput, 'SUPERMAN1'); // no lower case
     userEvent.click(createAccountButton);
     expect(await screen.findByRole('alert')).toHaveTextContent(/invalid password/i);
-    expect(callMiddlewareApi).not.toBeCalled();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
 
     userEvent.clear(passwordInput);
     userEvent.type(passwordInput, 'ManOfSteel'); // no number
     userEvent.click(createAccountButton);
     expect(await screen.findByRole('alert')).toHaveTextContent(/invalid password/i);
-    expect(callMiddlewareApi).not.toBeCalled();
-
-    userEvent.clear(passwordInput);
-    userEvent.type(passwordInput, 'Superman1938'); // valid password
-    userEvent.click(createAccountButton);
-    expect(await screen.findByRole('alert')).not.toBeInTheDocument();
-    expect(callMiddlewareApi).toBeCalled();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
   it('does not submit if the user does not accept the terms', async () => {
@@ -186,6 +175,40 @@ describe('Registration', () => {
     userEvent.type(screen.getByLabelText(/password/i), 'Superman1938');
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     expect(await screen.findByRole('alert')).toHaveTextContent(/you must accept to proceed/i);
-    expect(callMiddlewareApi).not.toBeCalled();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
+  });
+
+  it('shows an error message when the email address is attached to an extant account', async () => {
+    server.use(
+      rest.post('/api/user/create', (req, res, ctx) => {
+        return res(ctx.status(409));
+      })
+    );
+    renderComponent();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
+    userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
+    userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
+    userEvent.type(screen.getByLabelText(/password/i), 'Superman1938');
+    userEvent.click(screen.getByRole('button', { name: /create account/i }));
+    userEvent.click(screen.getByRole('checkbox'));
+    expect(await screen.findByRole('alert')).toHaveTextContent(/that account already exists - you can try to login/i);
+  });
+
+  it('shows an error message when a server error occurs', async () => {
+    server.use(
+      rest.post('/api/user/create', (req, res, ctx) => {
+        return res(ctx.status(500));
+      })
+    );
+    renderComponent();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
+    userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
+    userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
+    userEvent.type(screen.getByLabelText(/password/i), 'Superman1938');
+    userEvent.click(screen.getByRole('button', { name: /create account/i }));
+    userEvent.click(screen.getByRole('checkbox'));
+    expect(await screen.findByRole('alert')).toHaveTextContent(/an unknown error occurred/i);
   });
 });
