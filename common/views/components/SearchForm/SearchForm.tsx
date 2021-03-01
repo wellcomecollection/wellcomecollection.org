@@ -26,6 +26,7 @@ import {
 import { ParsedUrlQuery } from 'querystring';
 import { LinkProps } from '../../../model/link-props';
 import { Filter } from '../../../services/catalogue/filters';
+import { formDataAsUrlQuery } from '../../../utils/forms';
 
 type Props = {
   query: string;
@@ -131,32 +132,9 @@ const SearchForm: FunctionComponent<Props> = ({
   }, [portalSortOrder]);
 
   function updateUrl(form: HTMLFormElement) {
-    const formData = new FormData(form);
-    // see: https://github.com/microsoft/TypeScript/issues/30584
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const url = new URLSearchParams(formData);
+    const urlQuery = formDataAsUrlQuery(form);
 
-    const params: ParsedUrlQuery = Array.from(url.entries()).reduce(
-      (acc, [key, value]) => {
-        if (key in acc) {
-          return {
-            ...acc,
-            [key]: Array.isArray(acc[key])
-              ? acc[key].concat(value)
-              : [acc[key]].concat(value),
-          };
-        }
-
-        return {
-          ...acc,
-          [key]: value,
-        };
-      },
-      {}
-    );
-
-    const link = linkResolver(params);
+    const link = linkResolver(urlQuery);
     return Router.push(link.href, link.as);
   }
 
