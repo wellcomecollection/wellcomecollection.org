@@ -14,10 +14,13 @@ import FreeSticker from '../FreeSticker/FreeSticker';
 import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
 // $FlowFixMe (tsx)
 import Layout10 from '../Layout10/Layout10';
+// $FlowFixMe (tsx)
+import Layout12 from '../Layout12/Layout12';
+// $FlowFixMe (tsx)
 import Layout from '../Layout/Layout';
 // $FlowFixMe(tsx)
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
-// $FlowFixMe(tsx)
+// $FlowFixMe(tsx)Layout
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
 // $FlowFixMe (ts)
 import { breakpoints } from '../../../utils/breakpoints';
@@ -158,6 +161,8 @@ const PageHeader = ({
   );
 
   const hasMedia = FeaturedMedia || HeroPicture;
+  console.log(hasMedia, 'hasMedia!!!!!');
+  console.log(isContentTypeInfoBeforeMedia, 'isContentTypeInfoBeforeMedia');
 
   return (
     <>
@@ -178,23 +183,15 @@ const PageHeader = ({
             </div>
           </Layout10>
         )}
-        <Layout
-          gridSizes={{
-            s: 12,
-            m: 10,
-            l: 10,
-            shiftL: 1,
-            xl: 10,
-            shiftXL: 1,
-          }}
-        >
+        {/* make this conditional based on landing page */}
+        <Layout12>
           <Space
             v={{
               size: 'l',
               properties:
                 isContentTypeInfoBeforeMedia || hasMedia
                   ? ['margin-bottom']
-                  : ['margin-bottom', 'padding-bottom'],
+                  : ['margin-bottom'], // todo : check if needed
             }}
           >
             <Space
@@ -247,7 +244,7 @@ const PageHeader = ({
 
             {labels && labels.labels.length > 0 && <LabelsList {...labels} />}
           </Space>
-        </Layout>
+        </Layout12>
 
         {FeaturedMedia && (
           <Layout10>

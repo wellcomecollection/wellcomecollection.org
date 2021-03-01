@@ -96,7 +96,7 @@ const ContentPage = ({
   return (
     <PageBackgroundContext.Provider value={isCreamy ? 'cream' : 'white'}>
       <article data-wio-id={id}>
-        <SpacingSection>{Header}</SpacingSection>
+        {Body.props?.isLanding ? Header : <SpacingSection>{Header}</SpacingSection>}
         <div
           className={classNames({
             'bg-cream': isCreamy,

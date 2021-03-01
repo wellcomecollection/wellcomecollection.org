@@ -7,8 +7,6 @@ import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 // $FlowFixMe (tsx)
 import Body from '@weco/common/views/components/Body/Body';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-// $FlowFixMe(tsx)
-import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 // $FlowFixMe(tsx)
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
@@ -22,11 +20,6 @@ import {
 import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page as PageType } from '@weco/common/model/pages';
 import type { SiblingsGroup } from '@weco/common/model/siblings-group';
-import {
-  headerBackgroundLs,
-  landingHeaderBackgroundLs,
-  // $FlowFixMe (ts)
-} from '@weco/common/utils/backgrounds';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 // $FlowFixMe (ts)
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
@@ -64,9 +57,6 @@ export class Page extends Component<Props> {
     );
     const isLanding =
       page.format && page.format.id === ContentFormatIds.Landing;
-    const backgroundTexture = isLanding
-      ? landingHeaderBackgroundLs
-      : headerBackgroundLs;
     const hasFeaturedMedia =
       page.body.length > 1 &&
       (page.body[0].type === 'picture' || page.body[0].type === 'videoEmbed');
@@ -122,17 +112,10 @@ export class Page extends Component<Props> {
         labels={null}
         title={page.title}
         FeaturedMedia={FeaturedMedia}
-        Background={
-          FeaturedMedia && (
-            <HeaderBackground
-              backgroundTexture={backgroundTexture}
-              hasWobblyEdge={!isLanding}
-            />
-          )
-        }
+        Background={null}
         ContentTypeInfo={DateInfo}
         HeroPicture={null}
-        backgroundTexture={!FeaturedMedia ? backgroundTexture : null}
+        backgroundTexture={null}
         highlightHeading={true}
         isContentTypeInfoBeforeMedia={false}
       />

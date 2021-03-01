@@ -64,7 +64,7 @@ type BodySlice = {
 export type BodyType = BodySlice[];
 
 type LayoutWidthProps = {
-  width: 8 | 10;
+  width: 8 | 10 | 12;
   children: ReactNode;
 };
 
@@ -73,6 +73,8 @@ const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
   children,
 }: LayoutWidthProps): ReactElement | null => {
   switch (true) {
+    case width === 12:
+      return <Layout12>{children}</Layout12>;
     case width === 10:
       return <Layout10>{children}</Layout10>;
     case width === 8:
@@ -88,7 +90,7 @@ type Props = {
   showOnThisPage?: boolean;
   isDropCapped?: boolean;
   pageId: string;
-  minWidth?: 10 | 8;
+  minWidth?: 10 | 8 | 12;
   isLanding?: boolean;
 };
 
