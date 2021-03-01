@@ -28,8 +28,8 @@ import { LinkProps } from '../../../model/link-props';
 
 type Props = {
   query: string;
-  sort: string | undefined;
-  sortOrder: string | undefined;
+  sort?: string;
+  sortOrder?: string;
   linkResolver: (params: ParsedUrlQuery) => LinkProps;
   ariaDescribedBy: string;
   isImageSearch: boolean;
