@@ -1,3 +1,4 @@
+import { useContext, FunctionComponent, RefObject } from 'react';
 import {
   IIIFManifest,
   IIIFRendering,
@@ -14,7 +15,7 @@ import MultipleManifestList from '@weco/catalogue/components/MultipleManifestLis
 import Icon from '@weco/common/views/components/Icon/Icon';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import Space from '@weco/common/views/components/styled/Space';
-import { FunctionComponent, RefObject } from 'react';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs(() => ({
@@ -153,6 +154,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
   viewerRef,
   manifestIndex,
 }: Props) => {
+  const { structuresPrototype } = useContext(TogglesContext);
   return (
     <TopBar className="flex">
       {enhanced && canvases && canvases.length > 1 && (
@@ -170,15 +172,18 @@ const ViewerTopBar: FunctionComponent<Props> = ({
               });
             }}
           >
-            {/* if toggle */}
-            {/* <span className={`btn__text`}>
-              {explorePanelVisible ? 'Main view' : 'Explore'}
-            </span> */}
-            {/* else */}
-            <Icon name={explorePanelVisible ? 'detailView' : 'gridView'} />
-            <span className={`btn__text`}>
-              {explorePanelVisible ? 'Detail view' : 'View all'}
-            </span>
+            {structuresPrototype ? (
+              <span className={`btn__text`}>
+                {explorePanelVisible ? 'Main view' : 'Explore'}
+              </span>
+            ) : (
+              <>
+                <Icon name={explorePanelVisible ? 'detailView' : 'gridView'} />
+                <span className={`btn__text`}>
+                  {explorePanelVisible ? 'Detail view' : 'View all'}
+                </span>
+              </>
+            )}
           </ShameButton>
         </ViewAllContainer>
       )}

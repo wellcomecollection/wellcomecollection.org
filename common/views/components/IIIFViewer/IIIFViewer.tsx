@@ -42,6 +42,7 @@ import { FixedSizeList } from 'react-window';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import BaseTabs, { TabType } from '../BaseTabs/BaseTabs';
 import { AppContext } from '../AppContext/AppContext';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type TabProps = {
   isActive: boolean;
@@ -257,6 +258,7 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
   manifestIndex,
   handleImageError,
 }: IIIFViewerProps) => {
+  const { structuresPrototype } = useContext(TogglesContext);
   const { isKeyboard } = useContext(AppContext);
   const [explorePanelVisible, setExplorePanelVisible] = useState(false);
   const [enhanced, setEnhanced] = useState(false);
@@ -654,29 +656,30 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
                   isFullscreen={isFullscreen}
                   viewerRef={viewerRef}
                 >
-                  {/* if  toggle on */}
-                  <BaseTabs
-                    tabs={tabs}
-                    label={'Tabs for explore tools'}
-                    activeTabIndex={0}
-                    onTabClick={() => {
-                      return null;
-                    }}
-                  />
-                  {/* ELSE */}
-                  {/* <GridViewer
-                    gridHeight={pageHeight}
-                    gridWidth={pageWidth}
-                    mainViewerRef={mainViewerRef}
-                    explorePanelVisible={explorePanelVisible}
-                    setExplorePanelVisible={setExplorePanelVisible}
-                    activeIndex={activeIndex}
-                    setActiveIndex={setActiveIndex}
-                    canvases={canvases}
-                    gridViewerRef={gridViewerRef}
-                    isFullscreen={isFullscreen}
-                    viewerRef={viewerRef}
-                  /> */}
+                  {structuresPrototype ? (
+                    <BaseTabs
+                      tabs={tabs}
+                      label={'Tabs for explore tools'}
+                      activeTabIndex={0}
+                      onTabClick={() => {
+                        return null;
+                      }}
+                    />
+                  ) : (
+                    <GridViewer
+                      gridHeight={pageHeight}
+                      gridWidth={pageWidth}
+                      mainViewerRef={mainViewerRef}
+                      explorePanelVisible={explorePanelVisible}
+                      setExplorePanelVisible={setExplorePanelVisible}
+                      activeIndex={activeIndex}
+                      setActiveIndex={setActiveIndex}
+                      canvases={canvases}
+                      gridViewerRef={gridViewerRef}
+                      isFullscreen={isFullscreen}
+                      viewerRef={viewerRef}
+                    />
+                  )}
                 </ExplorePanel>
                 {pageWidth >= 600 && (
                   <ThumbsViewer
