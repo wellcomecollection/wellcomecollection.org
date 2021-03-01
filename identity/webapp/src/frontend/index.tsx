@@ -7,20 +7,27 @@ import { ErrorPage } from './Shared/ErrorPage';
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 import '@weco/common/styles/styleguide.scss';
 import { initaliseMiddlewareClient } from '../utility/middleware-api-client';
 
+const GlobalStyles = createGlobalStyle`
+  body {
+    background-color: #f0ede3;
+  }
+`;
+
 const root = typeof document !== 'undefined' ? document.getElementById('root') : undefined;
 
 if (root) {
-  let prefix = root.getAttribute('data-context-path');
+  const prefix = root.getAttribute('data-context-path');
   initaliseMiddlewareClient(prefix);
   render(
     <ThemeProvider theme={theme}>
       <style id="styleguide-sass"></style>
       <AppContextProvider>
+        <GlobalStyles />
         <BrowserRouter basename={prefix}>
           <Switch>
             <Route exact path="/register" component={Registration} />
