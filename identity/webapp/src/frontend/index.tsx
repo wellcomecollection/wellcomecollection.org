@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Registration } from './Registration/Registration';
+import { OldRegistration } from './Registration/OldRegistration';
 import { AccountValidated } from './Registration/AccountValidated';
 import { AccountManagement } from './AccountManagement/AccountManagement';
 import { ErrorPage } from './Shared/ErrorPage';
@@ -31,6 +32,7 @@ if (root) {
         <BrowserRouter basename={prefix}>
           <Switch>
             <Route exact path="/register" component={Registration} />
+            <Route exact path="/register/old" component={OldRegistration} />
             <Route exact path="/validated" component={AccountValidated} />
             <Route exact path="/error" component={ErrorPage} />
             <Route exact path="/" component={AccountManagement} />

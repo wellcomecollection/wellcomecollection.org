@@ -2,7 +2,7 @@ import { withPrefix } from '../utility/prefix';
 import { RouteMiddleware } from '../types/application';
 import { prefix } from '../utility/prefix';
 
-const unAuthenticatedPages: string[] = ['/register', '/validated', '/error'].map((route) => {
+const unAuthenticatedPages: string[] = ['/register', '/register/old', '/validated', '/error'].map((route) => {
   return prefix ? prefix + route : route;
 });
 
