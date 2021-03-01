@@ -1,5 +1,6 @@
+import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   background-color: white;
@@ -7,7 +8,7 @@ export const Container = styled.div`
   margin: 0 auto;
 
   @media screen and (min-width: 600px) {
-    margin-top: 64px;
+    margin: 64px auto;
     border-radius: 10px;
     padding-top: 1em;
   }
@@ -42,9 +43,17 @@ export const Link = styled.a`
   white-space: nowrap;
 `;
 
-export const Button = styled(SolidButton)`
+const BaseButton = css`
   width: 100%;
   justify-content: center;
+`;
+
+export const Button = styled(SolidButton)`
+  ${BaseButton}
+`;
+
+export const SecondaryButton = styled(OutlinedButton)`
+  ${BaseButton}
 `;
 
 export const InvalidFieldAlert = styled.span.attrs({ role: 'alert', className: 'font-hnm' })`

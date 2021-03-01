@@ -211,4 +211,14 @@ describe('Registration', () => {
     userEvent.click(screen.getByRole('checkbox'));
     expect(await screen.findByRole('alert')).toHaveTextContent(/an unknown error occurred/i);
   });
+
+  it('resets when Cancel button is clicked', () => {
+    renderComponent();
+    const firstNameInput = screen.getByLabelText(/first name/i);
+    expect(firstNameInput).toHaveValue('');
+    userEvent.type(firstNameInput, 'Clark');
+    expect(firstNameInput).toHaveValue('Clark');
+    userEvent.click(screen.getByRole('button', { name: /cancel/i }));
+    expect(firstNameInput).toHaveValue('');
+  });
 });

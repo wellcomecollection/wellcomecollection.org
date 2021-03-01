@@ -11,6 +11,7 @@ import {
   InvalidFieldAlert,
   Label,
   Link,
+  SecondaryButton,
   TextInput,
   Title,
   Wrapper,
@@ -144,6 +145,8 @@ export function Registration(): JSX.Element {
           <SpacingComponent />
 
           <Button type="submit">Create account</Button>
+          <SpacingComponent />
+          <SecondaryButton type="reset">Cancel</SecondaryButton>
         </form>
       </Wrapper>
     </Container>
