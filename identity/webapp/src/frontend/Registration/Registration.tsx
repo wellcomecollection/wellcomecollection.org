@@ -3,6 +3,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { AccountCreated } from './AccountCreated';
+import { PageWrapper } from './PageWrapper';
 import {
   Button,
   Container,
@@ -44,111 +45,113 @@ export function Registration(): JSX.Element {
   }
 
   return (
-    <Container>
-      <Wrapper>
-        <Title>Register for Wellcome</Title>
-        {emailAlreadyExists && (
-          <>
-            <ErrorMessage>
-              That account already exists - you can try to <a href="#">login</a>
-            </ErrorMessage>
+    <PageWrapper>
+      <Container>
+        <Wrapper>
+          <Title>Register for Wellcome</Title>
+          {emailAlreadyExists && (
+            <>
+              <ErrorMessage>
+                That account already exists - you can try to <a href="#">login</a>
+              </ErrorMessage>
+              <SpacingComponent />
+            </>
+          )}
+          {submissionError && <ErrorMessage>An unknown error occurred</ErrorMessage>}
+          <form onSubmit={handleSubmit(createUser)}>
+            <Heading>Personal details</Heading>
+
+            <Label htmlFor="first-name">First name</Label>
+            {errors.firstName && <InvalidFieldAlert>{errors.firstName.message}</InvalidFieldAlert>}
+            <TextInput
+              id="first-name"
+              name="firstName"
+              placeholder="Forename"
+              ref={register({ required: 'Missing first name' })}
+              data-invalid={Boolean(errors.firstName)}
+            />
+
+            <Label htmlFor="last-name">Last name</Label>
+            {errors.lastName && <InvalidFieldAlert>{errors.lastName.message}</InvalidFieldAlert>}
+            <TextInput
+              id="last-name"
+              name="lastName"
+              placeholder="Surname"
+              ref={register({ required: 'Missing last name' })}
+              data-invalid={Boolean(errors.lastName)}
+            />
+
             <SpacingComponent />
-          </>
-        )}
-        {submissionError && <ErrorMessage>An unknown error occurred</ErrorMessage>}
-        <form onSubmit={handleSubmit(createUser)}>
-          <Heading>Personal details</Heading>
 
-          <Label htmlFor="first-name">First name</Label>
-          {errors.firstName && <InvalidFieldAlert>{errors.firstName.message}</InvalidFieldAlert>}
-          <TextInput
-            id="first-name"
-            name="firstName"
-            placeholder="Forename"
-            ref={register({ required: 'Missing first name' })}
-            data-invalid={Boolean(errors.firstName)}
-          />
+            <Heading>Login details</Heading>
 
-          <Label htmlFor="last-name">Last name</Label>
-          {errors.lastName && <InvalidFieldAlert>{errors.lastName.message}</InvalidFieldAlert>}
-          <TextInput
-            id="last-name"
-            name="lastName"
-            placeholder="Surname"
-            ref={register({ required: 'Missing last name' })}
-            data-invalid={Boolean(errors.lastName)}
-          />
+            <Label htmlFor="email-address" className="font-hnm font-size-4">
+              Email address
+            </Label>
+            {errors.email && <InvalidFieldAlert>{errors.email.message}</InvalidFieldAlert>}
+            <TextInput
+              id="email-address"
+              name="email"
+              type="email"
+              placeholder="myname@email.com"
+              ref={register({
+                required: 'Missing email address',
+                pattern: {
+                  value: validEmailPattern,
+                  message: 'Invalid email address',
+                },
+              })}
+              data-invalid={Boolean(errors.email)}
+            />
 
-          <SpacingComponent />
+            <Label htmlFor="password" className="font-hnm font-size-4">
+              Password
+            </Label>
+            {errors.password && <InvalidFieldAlert>{errors.password.message}</InvalidFieldAlert>}
+            <TextInput
+              id="password"
+              name="password"
+              type="password"
+              ref={register({
+                required: 'Missing password',
+                pattern: {
+                  value: validPasswordPattern,
+                  message: 'Invalid password',
+                },
+              })}
+              data-invalid={Boolean(errors.password)}
+            />
 
-          <Heading>Login details</Heading>
+            <SpacingComponent />
 
-          <Label htmlFor="email-address" className="font-hnm font-size-4">
-            Email address
-          </Label>
-          {errors.email && <InvalidFieldAlert>{errors.email.message}</InvalidFieldAlert>}
-          <TextInput
-            id="email-address"
-            name="email"
-            type="email"
-            placeholder="myname@email.com"
-            ref={register({
-              required: 'Missing email address',
-              pattern: {
-                value: validEmailPattern,
-                message: 'Invalid email address',
-              },
-            })}
-            data-invalid={Boolean(errors.email)}
-          />
+            {errors.termsAndConditions && <InvalidFieldAlert>{errors.termsAndConditions.message}</InvalidFieldAlert>}
+            <Controller
+              name="termsAndConditions"
+              control={control}
+              defaultValue={false}
+              rules={{ required: 'You must accept to proceed' }}
+              render={(props) => (
+                <CheckboxRadio
+                  onChange={(e: React.FormEvent<HTMLInputElement>) => props.onChange(e.currentTarget.checked)}
+                  checked={props.value}
+                  type="checkbox"
+                  text={
+                    <span>
+                      I have read and agree to the <Link href="#">Privacy and Terms</Link> for Wellcome
+                    </span>
+                  }
+                />
+              )}
+            />
 
-          <Label htmlFor="password" className="font-hnm font-size-4">
-            Password
-          </Label>
-          {errors.password && <InvalidFieldAlert>{errors.password.message}</InvalidFieldAlert>}
-          <TextInput
-            id="password"
-            name="password"
-            type="password"
-            ref={register({
-              required: 'Missing password',
-              pattern: {
-                value: validPasswordPattern,
-                message: 'Invalid password',
-              },
-            })}
-            data-invalid={Boolean(errors.password)}
-          />
+            <SpacingComponent />
 
-          <SpacingComponent />
-
-          {errors.termsAndConditions && <InvalidFieldAlert>{errors.termsAndConditions.message}</InvalidFieldAlert>}
-          <Controller
-            name="termsAndConditions"
-            control={control}
-            defaultValue={false}
-            rules={{ required: 'You must accept to proceed' }}
-            render={(props) => (
-              <CheckboxRadio
-                onChange={(e: React.FormEvent<HTMLInputElement>) => props.onChange(e.currentTarget.checked)}
-                checked={props.value}
-                type="checkbox"
-                text={
-                  <span>
-                    I have read and agree to the <Link href="#">Privacy and Terms</Link> for Wellcome
-                  </span>
-                }
-              />
-            )}
-          />
-
-          <SpacingComponent />
-
-          <Button type="submit">Create account</Button>
-          <SpacingComponent />
-          <SecondaryButton type="reset">Cancel</SecondaryButton>
-        </form>
-      </Wrapper>
-    </Container>
+            <Button type="submit">Create account</Button>
+            <SpacingComponent />
+            <SecondaryButton type="reset">Cancel</SecondaryButton>
+          </form>
+        </Wrapper>
+      </Container>
+    </PageWrapper>
   );
 }
