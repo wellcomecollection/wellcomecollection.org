@@ -1,26 +1,26 @@
-// @flow
-import type { Article } from '../../../model/articles';
+import { FunctionComponent } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
-import { getPositionInSeries, getArticleColor } from '../../../model/articles';
+import {
+  getPositionInSeries,
+  getArticleColor,
+  Article,
+} from '../../../model/articles';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
-// $FlowFixMe(tsx)
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
-// $FlowFixMe (tsx)
 import { CardOuter, CardBody } from '../Card/Card';
 
-type Props = {|
-  item: Article,
-  position: number,
-  hidePromoText?: boolean,
-  hasTransparentBackground?: boolean,
-  sizesQueries?: string,
-|};
+type Props = {
+  item: Article;
+  position: number;
+  hidePromoText?: boolean;
+  hasTransparentBackground?: boolean;
+  sizesQueries?: string;
+};
 
-const StoryPromo = ({
+const StoryPromo: FunctionComponent<Props> = ({
   item,
   position,
   hidePromoText = false,

@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { useEffect, useState, ReactElement } from 'react';
+import { useEffect, useState, ReactElement, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
@@ -20,7 +20,6 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import { getImages } from '../services/catalogue/images';
-import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 import {
@@ -34,6 +33,7 @@ import {
   AppErrorProps,
   WithPageview,
 } from '@weco/common/views/pages/_app';
+import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
@@ -47,7 +47,6 @@ type ImagesPaginationProps = {
   page?: number;
   results: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesRouteProps;
-  setSavedSearchState: (state: ImagesRouteProps) => void;
   hideMobilePagination?: boolean;
   hideMobileTotalResults?: boolean;
 };
@@ -57,7 +56,6 @@ const ImagesPagination = ({
   page,
   results,
   imagesRouteProps,
-  setSavedSearchState,
   hideMobilePagination,
   hideMobileTotalResults,
 }: ImagesPaginationProps) => (
@@ -81,7 +79,6 @@ const ImagesPagination = ({
           page: newPage,
         };
         const link = imagesLink(state, 'search/paginator');
-        setSavedSearchState(state);
         Router.push(link.href, link.as).then(() => window.scrollTo(0, 0));
       }}
       hideMobilePagination={hideMobilePagination}
@@ -97,7 +94,6 @@ const Images: NextPage<Props> = ({
   globalContextData,
 }: Props): ReactElement<Props> => {
   const [loading, setLoading] = useState(false);
-  const [, setSavedSearchState] = useSavedSearchState(imagesRouteProps);
   const { query, page, color } = imagesRouteProps;
   useEffect(() => {
     function routeChangeStart() {
@@ -114,6 +110,12 @@ const Images: NextPage<Props> = ({
       Router.events.off('routeChangeComplete', routeChangeComplete);
     };
   }, []);
+
+  const { setLink } = useContext(SearchContext);
+  useEffect(() => {
+    const link = imagesLink(imagesRouteProps, 'works_search_context');
+    setLink(link);
+  }, [imagesRouteProps]);
 
   return (
     <>
@@ -196,7 +198,6 @@ const Images: NextPage<Props> = ({
                       page={page}
                       results={images}
                       imagesRouteProps={imagesRouteProps}
-                      setSavedSearchState={setSavedSearchState}
                       hideMobilePagination={true}
                     />
                   </div>
@@ -238,7 +239,6 @@ const Images: NextPage<Props> = ({
                         page={page}
                         results={images}
                         imagesRouteProps={imagesRouteProps}
-                        setSavedSearchState={setSavedSearchState}
                         hideMobileTotalResults={true}
                       />
                     </div>

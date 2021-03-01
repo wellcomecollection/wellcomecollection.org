@@ -183,7 +183,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
   ];
 
   const remainingNotes = work.notes.filter(note => {
-    return !orderedNotes.some(n => n === note);
+    return ![...orderedNotes, locationOfWork].some(n => n === note);
   });
 
   const showDownloadOptions =

@@ -1,5 +1,5 @@
 // @flow
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
@@ -25,7 +25,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import { getWorks } from '../services/catalogue/works';
 import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
 import cookies from 'next-cookies';
-import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResults';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
@@ -39,6 +38,7 @@ import {
 } from '@weco/common/views/pages/_app';
 import { parseUrlParams } from '@weco/common/utils/serialise-url';
 import useHotjar from '@weco/common/hooks/useHotjar';
+import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 
 type Props = {
   works?: CatalogueResultsList<Work>;
@@ -56,7 +56,6 @@ const Works: NextPage<Props> = ({
   globalContextData,
 }: Props) => {
   const [loading, setLoading] = useState(false);
-  const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
 
   useHotjar(Boolean(works && works.results.length > 0));
 
@@ -72,6 +71,12 @@ const Works: NextPage<Props> = ({
       totalResults: works?.totalResults ?? 0,
       source: Router.query.source || 'unspecified',
     });
+  }, [worksRouteProps]);
+
+  const { setLink } = useContext(SearchContext);
+  useEffect(() => {
+    const link = worksLink(worksRouteProps, 'works_search_context');
+    setLink(link);
   }, [worksRouteProps]);
 
   useEffect(() => {
@@ -196,7 +201,7 @@ const Works: NextPage<Props> = ({
                               page: newPage,
                             };
                             const link = worksLink(state, 'search/paginator');
-                            setSavedSearchState(state);
+
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
                             );
@@ -260,7 +265,7 @@ const Works: NextPage<Props> = ({
                                 page: newPage,
                               };
                               const link = worksLink(state, 'search/paginator');
-                              setSavedSearchState(state);
+
                               Router.push(link.href, link.as).then(() =>
                                 window.scrollTo(0, 0)
                               );
