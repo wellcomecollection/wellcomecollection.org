@@ -39,8 +39,8 @@ export function toCsv(param: QueryParam): string[] {
   // but for non-js users, this works.
   return paramParser(param, {
     empty: () => [],
-    string: (p) => p.split(','),
-    array: (p) => p,
+    string: p => p.split(','),
+    array: p => p,
     nodef: () => [],
   });
 }
@@ -48,8 +48,8 @@ export function toCsv(param: QueryParam): string[] {
 export function toQuotedCsv(param: QueryParam): string[] {
   return paramParser(param, {
     empty: () => [],
-    string: (p) => parseCsv(p),
-    array: (p) => p,
+    string: p => parseCsv(p),
+    array: p => p,
     nodef: () => [],
   });
 }
@@ -57,8 +57,8 @@ export function toQuotedCsv(param: QueryParam): string[] {
 export function toNumber(param: QueryParam, fallback: number): number {
   return paramParser(param, {
     empty: () => fallback,
-    string: (p) => parseInt(p, 10) || fallback,
-    array: (p) => parseInt(p[0], 10) || fallback,
+    string: p => parseInt(p, 10) || fallback,
+    array: p => parseInt(p[0], 10) || fallback,
     nodef: () => fallback,
   });
 }
@@ -66,8 +66,8 @@ export function toNumber(param: QueryParam, fallback: number): number {
 export function toMaybeNumber(param: QueryParam): undefined | number {
   return paramParser(param, {
     empty: () => undefined,
-    string: (p) => parseInt(p, 10) || undefined,
-    array: (p) => parseInt(p[0], 10) || undefined,
+    string: p => parseInt(p, 10) || undefined,
+    array: p => parseInt(p[0], 10) || undefined,
     nodef: () => undefined,
   });
 }
@@ -75,8 +75,8 @@ export function toMaybeNumber(param: QueryParam): undefined | number {
 export function toString(param: QueryParam, fallback: string): string {
   return paramParser(param, {
     empty: () => '',
-    string: (p) => p,
-    array: (p) => p.join(','),
+    string: p => p,
+    array: p => p.join(','),
     nodef: () => fallback,
   });
 }
@@ -84,8 +84,8 @@ export function toString(param: QueryParam, fallback: string): string {
 export function toMaybeString(param: QueryParam): undefined | string {
   return paramParser(param, {
     empty: () => undefined,
-    string: (p) => p,
-    array: (p) => p.join(','),
+    string: p => p,
+    array: p => p.join(','),
     nodef: () => undefined,
   });
 }
@@ -134,7 +134,7 @@ export function propsToQuery(
 
     // As all our services default `page: undefined` to `page: 1` we remove it
     const pageKeys = ['page', 'canvas', 'manifest'];
-    // console.info(key, val, typeof val);
+
     if (pageKeys.includes(key) && (val === '1' || val === 1)) {
       return { ...acc };
     }
