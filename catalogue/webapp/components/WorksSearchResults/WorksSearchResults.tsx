@@ -37,10 +37,10 @@ const WorkSearchResults: FunctionComponent<Props> = ({
                 position: i,
                 resultWorkType: result.workType.label,
                 resultIdentifiers: result.identifiers.map(
-                  (identifier) => identifier.value
+                  identifier => identifier.value
                 ),
                 resultSubjects:
-                  result.subjects?.map((subject) => subject.label) || [],
+                  result.subjects?.map(subject => subject.label) || [],
                 source: 'work_result',
               });
             }}
