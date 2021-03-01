@@ -13,7 +13,7 @@ import Icon from '../Icon/Icon';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import { classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
-import SearchFilters, { Filter } from '../SearchFilters/SearchFilters';
+import SearchFilters from '../SearchFilters/SearchFilters';
 import Select from '../Select/Select';
 import Space from '../styled/Space';
 import SelectUncontrolled from '../SelectUncontrolled/SelectUncontrolled';
@@ -25,6 +25,7 @@ import {
 } from '../../../text/arial-labels';
 import { ParsedUrlQuery } from 'querystring';
 import { LinkProps } from '../../../model/link-props';
+import { Filter } from '../../../services/catalogue/filters';
 
 type Props = {
   query: string;

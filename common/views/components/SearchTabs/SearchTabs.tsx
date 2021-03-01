@@ -9,7 +9,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import NextLink from 'next/link';
 import { removeEmptyProps } from '../../../utils/json';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
-import { Filter } from '../SearchFilters/SearchFilters';
+import { Filter } from '../../../services/catalogue/filters';
 import BetaBar from '../BetaBar/BetaBar';
 import { propsToQuery } from '../../../utils/routes';
 

@@ -1,8 +1,8 @@
-import { CatalogueResultsList, Work, Image } from 'model/catalogue';
+import { CatalogueResultsList, Work, Image } from '../../model/catalogue';
 import { quoteVal } from '../../utils/csv';
 import { toHtmlId } from '../../utils/string';
-import { ImagesProps } from 'views/components/ImagesLink/ImagesLink';
-import { WorksProps } from 'views/components/WorksLink/WorksLink';
+import { ImagesProps } from '../../views/components/ImagesLink/ImagesLink';
+import { WorksProps } from '../../views/components/WorksLink/WorksLink';
 
 export type DateRangeFilter = {
   type: 'dateRange';

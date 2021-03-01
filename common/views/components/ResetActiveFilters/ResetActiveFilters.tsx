@@ -6,7 +6,7 @@ import Space from '../styled/Space';
 import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
 import styled from 'styled-components';
-import { Filter } from '../SearchFilters/SearchFilters';
+import { Filter } from '../../../services/catalogue/filters';
 
 type ResetActiveFilters = {
   query: string;
@@ -84,14 +84,14 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
               Active filters:
             </Space>
           </h2>
-          {filters.map((f) => {
+          {filters.map(f => {
             if (f.type === 'checkbox') {
               const selectedOptions = f.options.filter(
-                (option) => option.selected
+                option => option.selected
               );
               return selectedOptions
-                .filter((option) => option.selected)
-                .map((option) => {
+                .filter(option => option.selected)
+                .map(option => {
                   return (
                     <NextLink
                       key={`cancel-${option.id}`}
@@ -101,10 +101,10 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                         page: '1',
                         [f.key]: selectedOptions
                           .filter(
-                            (selectedOption) =>
+                            selectedOption =>
                               option.value !== selectedOption.value
                           )
-                          .map((option) => option.value),
+                          .map(option => option.value),
                         source: `cancel_filter/${f.id}`,
                       })}
                     >

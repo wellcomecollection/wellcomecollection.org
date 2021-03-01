@@ -18,12 +18,12 @@ import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
 import {
-  SearchFiltersSharedProps,
   CheckboxFilter as CheckboxFilterType,
   DateRangeFilter as DateRangeFilterType,
   ColorFilter as ColorFilterType,
-} from '../SearchFilters/SearchFilters';
+} from '../../../services/catalogue/filters';
 import ButtonSolid, {
   ButtonTypes,
   SolidButton,
@@ -225,7 +225,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
           max="9999"
           placeholder={'Year'}
           value={from || ''}
-          onChange={(event) => {
+          onChange={event => {
             const val = `${event.currentTarget.value}`;
             setFrom(val);
             if (val.match(/^\d{4}$/)) {
@@ -241,7 +241,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
         max="9999"
         placeholder={'Year'}
         value={to || ''}
-        onChange={(event) => {
+        onChange={event => {
           const val = `${event.currentTarget.value}`;
           setTo(val);
           if (val.match(/^\d{4}$/)) {
@@ -304,16 +304,14 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
     if (isActive) {
       setPageScrollLock(true);
       focusables &&
-        focusables.forEach((focusable) =>
-          focusable.removeAttribute('tabIndex')
-        );
+        focusables.forEach(focusable => focusable.removeAttribute('tabIndex'));
       const firstFocusable = focusables && focusables[0];
 
       firstFocusable && firstFocusable.focus();
     } else {
       setPageScrollLock(false);
       focusables &&
-        focusables.forEach((focusable) =>
+        focusables.forEach(focusable =>
           focusable.setAttribute('tabIndex', '-1')
         );
 
@@ -336,9 +334,9 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   }
 
   const activeFiltersCount = filters
-    .map((f) => {
+    .map(f => {
       if (f.type === 'checkbox') {
-        return f.options.filter((option) => option.selected).length;
+        return f.options.filter(option => option.selected).length;
       }
 
       if (f.type === 'dateRange') {
@@ -391,7 +389,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
             </FiltersHeader>
 
             <FiltersBody>
-              {filters.map((f) => {
+              {filters.map(f => {
                 return (
                   <FilterSection key={f.id}>
                     {f.type === 'checkbox' && (

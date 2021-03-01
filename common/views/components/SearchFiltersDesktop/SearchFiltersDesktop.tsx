@@ -12,12 +12,12 @@ import DropdownButton from '@weco/common/views/components/DropdownButton/Dropdow
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import dynamic from 'next/dynamic';
+import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
 import {
-  SearchFiltersSharedProps,
   CheckboxFilter as CheckboxFilterType,
   DateRangeFilter as DateRangeFilterType,
   ColorFilter as ColorFilterType,
-} from '../SearchFilters/SearchFilters';
+} from '../../../services/catalogue/filters';
 import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
 import ButtonInline from '../ButtonInline/ButtonInline';
 import { searchFilterCheckBox } from '../../../text/arial-labels';

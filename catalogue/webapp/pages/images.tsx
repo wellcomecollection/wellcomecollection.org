@@ -109,7 +109,9 @@ const Images: NextPage<Props> = ({
     };
   }, []);
 
-  const filters = imagesFilters({ images, props: imagesRouteProps });
+  const filters = images
+    ? imagesFilters({ images, props: imagesRouteProps })
+    : [];
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {

@@ -12,7 +12,7 @@ import ButtonSolid, {
 import {
   Filter,
   CheckboxFilter as CheckboxFilterType,
-} from '../SearchFilters/SearchFilters';
+} from '../../../services/catalogue/filters';
 import { AppContext } from '../AppContext/AppContext';
 import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
 
@@ -36,7 +36,7 @@ const ModalInner = styled.div`
   flex-direction: column;
   min-width: 320px;
   max-width: 650px;
-  ${(props) => props.theme.media.large`
+  ${props => props.theme.media.large`
     width: 650px;
     top: 10px;
   `}
@@ -134,7 +134,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
 }: MoreFiltersProps) => {
   return (
     <>
-      {filters.map((f) => (
+      {filters.map(f => (
         <FilterSection key={f.id}>
           <h3 className="h3">{f.label}</h3>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>

@@ -91,7 +91,7 @@ const Works: NextPage<Props> = ({
     };
   }, []);
 
-  const filters = worksFilters({ works, props: worksRouteProps });
+  const filters = works ? worksFilters({ works, props: worksRouteProps }) : [];
 
   return (
     <Fragment>
