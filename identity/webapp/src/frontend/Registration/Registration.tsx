@@ -132,7 +132,7 @@ export function Registration(): JSX.Element {
               <CheckboxRadio
                 onChange={(e: React.FormEvent<HTMLInputElement>) => props.onChange(e.currentTarget.checked)}
                 checked={props.value}
-                role="checkbox"
+                type="checkbox"
                 text={
                   <span>
                     I have read and agree to the <Link href="#">Privacy and Terms</Link> for Wellcome
