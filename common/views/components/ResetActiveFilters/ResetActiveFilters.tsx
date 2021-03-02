@@ -65,6 +65,37 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
   filters,
   linkResolver,
 }: ResetActiveFilters) => {
+  // This is a haclk until we decide exactly what it is we want the
+  // reset filters to do
+  const filterStateMap = new Map<string, string[] | string>();
+  filters.forEach(filter => {
+    if (filter.type === 'checkbox') {
+      const values = filter.options
+        .filter(option => option.selected)
+        .map(option => option.value);
+
+      filterStateMap.set(filter.id, values);
+    }
+
+    if (filter.type === 'dateRange') {
+      if (filter.from.value) {
+        filterStateMap.set(filter.from.id, filter.from.value);
+      }
+
+      if (filter.to.value) {
+        filterStateMap.set(filter.from.id, filter.to.value);
+      }
+    }
+
+    if (filter.type === 'color') {
+      if (filter.color) {
+        filterStateMap.set(filter.id, [filter.color]);
+      }
+    }
+  });
+
+  const filterState = Object.fromEntries(filterStateMap);
+
   return (
     <Space
       v={{ size: 's', properties: ['padding-top'] }}
@@ -97,9 +128,10 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                       key={`cancel-${option.id}`}
                       passHref
                       {...linkResolver({
+                        ...filterState,
                         query,
                         page: '1',
-                        [f.key]: selectedOptions
+                        [f.id]: selectedOptions
                           .filter(
                             selectedOption =>
                               option.value !== selectedOption.value
@@ -123,9 +155,10 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                     <NextLink
                       passHref
                       {...linkResolver({
+                        ...filterState,
                         query,
                         page: '1',
-                        [f.from.key]: undefined,
+                        [f.from.id]: undefined,
                         source: `cancel_filter/${f.from.id}`,
                       })}
                     >
@@ -139,9 +172,10 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                     <NextLink
                       passHref
                       {...linkResolver({
+                        ...filterState,
                         query,
                         page: '1',
-                        [f.to.key]: undefined,
+                        [f.to.id]: undefined,
                         source: `cancel_filter/${f.to.id}`,
                       })}
                     >
@@ -159,9 +193,10 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                   <NextLink
                     passHref
                     {...linkResolver({
+                      ...filterState,
                       query,
                       page: '1',
-                      [f.key]: undefined,
+                      [f.id]: undefined,
                       source: `cancel_filter/${f.id}`,
                     })}
                   >

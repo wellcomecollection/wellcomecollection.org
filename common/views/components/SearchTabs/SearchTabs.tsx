@@ -1,3 +1,4 @@
+import { ParsedUrlQuery } from 'querystring';
 import BaseTabs, { TabType } from '../BaseTabs/BaseTabs';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
@@ -167,16 +168,22 @@ const SearchTabs: FunctionComponent<Props> = ({
             sort={sort}
             sortOrder={sortOrder}
             linkResolver={params => {
-              const query = propsToQuery(params);
+              const queryWithSource = propsToQuery(params);
               const { source = undefined, ...queryWithoutSource } = {
-                ...query,
+                ...queryWithSource,
               };
 
-              const link = {
+              const as = {
                 pathname: '/works',
-                queryWithoutSource,
+                query: queryWithoutSource as ParsedUrlQuery,
               };
-              return { href: { ...link, source }, as: link };
+
+              const href = {
+                pathname: '/works',
+                query: queryWithSource,
+              };
+
+              return { href, as };
             }}
             ariaDescribedBy={'library-catalogue-form-description'}
             isImageSearch={false}
@@ -251,17 +258,22 @@ const SearchTabs: FunctionComponent<Props> = ({
             sort={undefined}
             sortOrder={undefined}
             linkResolver={params => {
-              const query = propsToQuery(params);
+              const queryWithSource = propsToQuery(params);
               const { source = undefined, ...queryWithoutSource } = {
-                ...query,
+                ...queryWithSource,
               };
 
-              const link = {
+              const as = {
                 pathname: '/images',
-                queryWithoutSource,
+                query: queryWithoutSource as ParsedUrlQuery,
               };
 
-              return { href: { ...link, source }, as: link };
+              const href = {
+                pathname: '/images',
+                query: queryWithSource,
+              };
+
+              return { href, as };
             }}
             ariaDescribedBy="images-form-description"
             isImageSearch={true}
