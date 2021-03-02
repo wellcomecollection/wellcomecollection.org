@@ -31,6 +31,8 @@ function linkResolver(doc /* :Doc */) /* :string */ {
       return `/seasons/${doc.id}`;
     case 'projects':
       return `/projects/${doc.id}`;
+    case 'guides':
+      return `/guides/${doc.id}`;
     default:
       return '/';
   }

@@ -15,7 +15,7 @@ export const authCallback: RouteMiddleware = koaPassport.authenticate('auth0', {
   scope: 'openid profile email',
 });
 
-export const logoutAction: RouteMiddleware = (context) => {
+export const logoutAction: RouteMiddleware = context => {
   context.logout();
 
   const logoutUri = new URL(`https://${config.auth0.domain}/v2/logout`);

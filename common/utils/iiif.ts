@@ -104,6 +104,7 @@ export function getDownloadOptionsFromManifest(
                 label: `Download ${
                   element.format === 'application/pdf' ? 'PDF' : 'file'
                 }`,
+                width: element.width,
               };
             })
             .filter(Boolean)

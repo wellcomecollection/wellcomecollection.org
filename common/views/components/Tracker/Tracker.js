@@ -83,8 +83,8 @@ const track = (
       const key = parts[0] && parts[0].trim();
       const value = parts[1] && parts[1].trim();
 
-      if (key === 'analytics_debug' && value === 'true') {
-        debug = true;
+      if (key === 'search_analytics_debug' && value === 'true') {
+        debug = false;
       }
 
       if (key && key.match('toggle_')) {

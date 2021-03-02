@@ -7,7 +7,7 @@ type Props = { title?: string; tags: TagType[] };
 const WorkDetailsTags: FunctionComponent<Props> = ({ title, tags }: Props) => {
   return (
     <WorkDetailsProperty title={title}>
-      <Tags tags={tags} />
+      <Tags tags={tags} separator="" />
     </WorkDetailsProperty>
   );
 };

@@ -24,7 +24,7 @@ import PageHeader, {
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { articleLd } from '@weco/common/utils/json-ld';
-import { ContentFormatIds } from '@weco/common/model/content-format-id';
+import { ArticleFormatIds } from '@weco/common/model/content-format-id';
 // $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -100,7 +100,7 @@ export class ArticlePage extends Component<Props, State> {
     };
 
     const isPodcast =
-      article.format && article.format.id === ContentFormatIds.Podcast;
+      article.format && article.format.id === ArticleFormatIds.Podcast;
 
     // Check if the article is in a serial, and where
     const serial = article.series.find(series => series.schedule.length > 0);
@@ -204,8 +204,8 @@ export class ArticlePage extends Component<Props, State> {
       : null;
     const isImageGallery =
       article.format &&
-      (article.format.id === ContentFormatIds.ImageGallery ||
-        article.format.id === ContentFormatIds.Comic);
+      (article.format.id === ArticleFormatIds.ImageGallery ||
+        article.format.id === ArticleFormatIds.Comic);
 
     const Header = (
       <PageHeader

@@ -126,7 +126,7 @@ export const getSelectedFilterColor = (form: HTMLFormElement): string => {
     typeof imagesColorValue === 'string'
       ? imagesColorValue.replace('#', '')
       : imagesColorValue;
-  return imagesColor;
+  return imagesColor || '';
 };
 
 export const sortAggregationBucket = (

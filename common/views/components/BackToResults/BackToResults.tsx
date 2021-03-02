@@ -1,20 +1,14 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useContext } from 'react';
 import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
-import { worksLink } from '../../../services/catalogue/routes';
-import useSavedSearchState from '../../../hooks/useSavedSearchState';
+import SearchContext from '../SearchContext/SearchContext';
 
 const BackToResults: FunctionComponent = () => {
-  const [savedSearchState] = useSavedSearchState({});
-  const { query } = savedSearchState;
+  const { link } = useContext(SearchContext);
+  const query = link.href?.query?.query;
+  const page = link.href?.query?.page;
 
-  const link = worksLink(
-    {
-      ...savedSearchState,
-    },
-    'back_to_results'
-  );
   return (
     <NextLink {...link}>
       <a
@@ -22,8 +16,7 @@ const BackToResults: FunctionComponent = () => {
           trackEvent({
             category: 'BackToResults',
             action: 'follow link',
-            label: `${link.href.query.query} | page: ${link.href.query.page ||
-              1}`,
+            label: `${query} | page: ${page || 1}`,
           });
         }}
         className={classNames({

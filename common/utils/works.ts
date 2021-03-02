@@ -46,15 +46,17 @@ export function getDownloadOptionsFromImageUrl(
             ? `${imageDimensions.fullWidth}x${imageDimensions.fullHeight} pixels`
             : 'Full size'
         })`,
+        width: 'full',
       },
       {
-        '@id': convertImageUri(downloadImage.url, 760),
+        '@id': convertImageUri(downloadImage.url, smallImageWidth),
         format: 'image/jpeg',
         label: `This image (${
           imageDimensions.smallHeight
             ? `${imageDimensions.smallWidth}x${imageDimensions.smallHeight} pixels`
-            : '760px'
+            : `${smallImageWidth}px`
         })`,
+        width: smallImageWidth,
       },
     ];
   } else {

@@ -101,7 +101,7 @@ function trackPageview(
   track(conversion);
 }
 
-type EventName = 'open_more_filters';
+type EventName = 'download';
 function trackEvent(
   name: EventName,
   properties: { [key: string]: unknown }
