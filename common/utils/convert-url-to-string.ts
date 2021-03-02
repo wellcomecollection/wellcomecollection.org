@@ -1,4 +1,5 @@
 import { Url } from '../model/link-props';
+
 export default function convertUrlToString(url: Url): string {
   const { query = {} } = url;
   const queryVals = Object.keys(query)

@@ -13,40 +13,31 @@ import Icon from '../Icon/Icon';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import { classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
-import { inputValue, nodeListValueToArray } from '../../../utils/forms';
 import SearchFilters from '../SearchFilters/SearchFilters';
 import Select from '../Select/Select';
 import Space from '../styled/Space';
-import {
-  CatalogueAggregationBucket,
-  CatalogueAggregations,
-} from '../../../model/catalogue';
 import SelectUncontrolled from '../SelectUncontrolled/SelectUncontrolled';
-import {
-  WorksRouteProps,
-  ImagesRouteProps,
-  worksLink,
-  imagesLink,
-} from '../../../services/catalogue/ts_routes';
 import SearchFormSortByPortal from '../SearchFormSortByPortal/SearchFormSortByPortal';
 import { AppContext } from '../AppContext/AppContext';
 import {
   searchFormInputCatalogue,
   searchFormInputImage,
 } from '../../../text/arial-labels';
-import {
-  getFilterItemSelected,
-  getSelectedFilterColor,
-} from '@weco/common/utils/filters';
+import { ParsedUrlQuery } from 'querystring';
+import { LinkProps } from '../../../model/link-props';
+import { Filter } from '../../../services/catalogue/filters';
+import { formDataAsUrlQuery } from '../../../utils/forms';
 
 type Props = {
+  query: string;
+  sort?: string;
+  sortOrder?: string;
+  linkResolver: (params: ParsedUrlQuery) => LinkProps;
   ariaDescribedBy: string;
-  routeProps: WorksRouteProps | ImagesRouteProps;
-  workTypeAggregations: CatalogueAggregationBucket[];
-  aggregations?: CatalogueAggregations;
   isImageSearch: boolean;
   shouldShowFilters: boolean;
   showSortBy: boolean;
+  filters: Filter[];
 };
 
 const SearchInputWrapper = styled.div`
@@ -88,15 +79,16 @@ const SearchSortOrderWrapper = styled.div`
 `;
 
 const SearchForm: FunctionComponent<Props> = ({
+  query,
+  sort,
+  sortOrder,
+  linkResolver,
   ariaDescribedBy,
-  routeProps,
-  workTypeAggregations,
-  aggregations,
   isImageSearch,
   shouldShowFilters,
   showSortBy,
+  filters,
 }: Props): ReactElement<Props> => {
-  const { query } = routeProps;
   const { isEnhanced } = useContext(AppContext);
   const searchForm = useRef<HTMLFormElement>(null);
   // This is the query used by the input, that is then eventually passed to the
@@ -104,7 +96,8 @@ const SearchForm: FunctionComponent<Props> = ({
   const [inputQuery, setInputQuery] = useState(query);
   const searchInput = useRef<HTMLInputElement>(null);
   const [forceState, setForceState] = useState(false);
-  const [portalSortOrder, setPortalSortOrder] = useState(routeProps.sortOrder);
+  const [portalSortOrder, setPortalSortOrder] = useState(sortOrder);
+
   function submit() {
     searchForm.current &&
       searchForm.current.dispatchEvent(
@@ -134,72 +127,27 @@ const SearchForm: FunctionComponent<Props> = ({
   }, [query]);
 
   useEffect(() => {
-    if (portalSortOrder !== routeProps.sortOrder) {
+    if (portalSortOrder !== sortOrder) {
       submit();
     }
   }, [portalSortOrder]);
 
   function updateUrl(form: HTMLFormElement) {
-    const languages = getFilterItemSelected(form, 'languages');
-    const workType = getFilterItemSelected(form, 'workType');
-    const subjectsLabel = getFilterItemSelected(form, 'subjects.label');
-    const genresLabel = getFilterItemSelected(form, 'genres.label');
-    const contributorsAgentLabel = getFilterItemSelected(
-      form,
-      'contributors.agent.label'
-    );
-    const sortOrder = portalSortOrder;
+    const urlQuery = formDataAsUrlQuery(form);
+
+    // TODO: remove sortOrder
+    // We do this as the JS form uses a portal, due to the control being
+    // outside of the for to obtain this value.
     const sort =
-      sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
-    const search = inputValue(form['search']);
-    const imagesColor = getSelectedFilterColor(form);
+      sortOrder === 'asc' || sortOrder === 'desc'
+        ? 'production.dates'
+        : undefined;
 
-    const itemsLocationsLocationType =
-      form['items.locations.locationType'] instanceof window.HTMLInputElement
-        ? form['items.locations.locationType'].checked
-          ? form['items.locations.locationType'].value.split(',')
-          : []
-        : [];
-
-    // Location type
-    const itemsLocationsType = (
-      nodeListValueToArray(form['items.locations.type']) || []
-    )
-      .filter(checkbox => checkbox.checked)
-      .map(checkbox => checkbox.value);
-
-    const source = `search_form`;
-    const state = {
-      query: inputQuery,
-      workType,
-      page: 1,
-      productionDatesFrom: inputValue(form['production.dates.from']),
-      productionDatesTo: inputValue(form['production.dates.to']),
-      imagesColor,
-      sortOrder,
+    const link = linkResolver({
+      ...urlQuery,
+      sortOrder: portalSortOrder,
       sort,
-      search,
-      itemsLocationsLocationType,
-      itemsLocationsType,
-      source,
-      color: null,
-      languages,
-      subjectsLabel,
-      genresLabel,
-      contributorsAgentLabel,
-    };
-    const link = isImageSearch
-      ? imagesLink(
-          {
-            ...state,
-            color: imagesColor,
-            locationsLicense: null,
-            sortOrder: null,
-            sort: null,
-          },
-          source
-        )
-      : worksLink(state, source);
+    });
 
     return Router.push(link.href, link.as);
   }
@@ -267,24 +215,11 @@ const SearchForm: FunctionComponent<Props> = ({
       </Space>
       {query && shouldShowFilters && (
         <SearchFilters
+          query={query}
+          linkResolver={linkResolver}
           searchForm={searchForm}
-          worksRouteProps={routeProps}
-          workTypeAggregations={workTypeAggregations}
           changeHandler={submit}
-          aggregations={aggregations}
-          filtersToShow={
-            isImageSearch
-              ? ['colors']
-              : [
-                  'dates',
-                  'formats',
-                  'locations',
-                  'languages',
-                  'genres',
-                  'subjects',
-                  'contributors',
-                ]
-          }
+          filters={filters}
         />
       )}
       {!isImageSearch && isEnhanced && (
@@ -322,7 +257,7 @@ const SearchForm: FunctionComponent<Props> = ({
               <SelectUncontrolled
                 name="sort"
                 label="Sort by"
-                defaultValue={routeProps.sort || ''}
+                defaultValue={sort || ''}
                 options={[
                   {
                     value: '',
@@ -338,7 +273,7 @@ const SearchForm: FunctionComponent<Props> = ({
             <SelectUncontrolled
               name="sortOrder"
               label="Sort order"
-              defaultValue={routeProps.sortOrder || ''}
+              defaultValue={sortOrder || ''}
               options={[
                 {
                   value: 'asc',

@@ -47,25 +47,6 @@ const Work: FunctionComponent<Props> = ({
   globalContextData,
 }: Props): ReactElement<Props> => {
   const { link: searchLink } = useContext(SearchContext);
-  const query = searchLink.href?.query?.query?.toString() || '';
-  const emptyProps = {
-    page: 1,
-    source: 'work_page',
-    workType: [],
-    itemsLocationsLocationType: [],
-    itemsLocationsType: [],
-    sort: null,
-    sortOrder: null,
-    productionDatesFrom: null,
-    productionDatesTo: null,
-    imagesColor: null,
-    search: null,
-    languages: [],
-    subjectsLabel: [],
-    genresLabel: [],
-    contributorsAgentLabel: [],
-    color: null,
-  };
 
   const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
   const {
@@ -134,17 +115,13 @@ const Work: FunctionComponent<Props> = ({
           >
             <Space v={{ size: 'l', properties: ['margin-top'] }}>
               <SearchTabs
-                worksRouteProps={{ ...emptyProps, query }}
-                imagesRouteProps={{
-                  ...emptyProps,
-                  query,
-                  locationsLicense: null,
-                  color: null,
-                }}
-                workTypeAggregations={[]}
+                query={searchLink.as.query?.query?.toString() || ''}
+                sort={searchLink.as.query?.sort?.toString()}
+                sortOrder={searchLink.as.query?.sortOrder?.toString()}
+                worksFilters={[]}
+                imagesFilters={[]}
                 shouldShowDescription={false}
-                shouldShowFilters={false} // not display filters on the work detail page
-                activeTabIndex={searchLink.as.pathname === '/works' ? 0 : 1}
+                shouldShowFilters={false}
                 showSortBy={false}
               />
             </Space>

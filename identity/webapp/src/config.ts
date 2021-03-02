@@ -40,8 +40,8 @@ export const config = {
     // Session / cookie options.
   } as Partial<SessionOpts>,
 
-  logout : {
-    redirectUrl: process.env.LOGOUT_REDIRECT_URL
+  logout: {
+    redirectUrl: process.env.LOGOUT_REDIRECT_URL,
   },
 
   testUser: isProduction
@@ -54,5 +54,5 @@ export const config = {
   remoteApi: {
     baseUrl: process.env.API_BASE_URL,
     apiKey: process.env.API_KEY,
-  } as { baseUrl: string, apiKey: string }
+  } as { baseUrl: string; apiKey: string },
 };
