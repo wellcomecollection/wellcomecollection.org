@@ -11,14 +11,6 @@ import { removeEmptyProps } from '../../../utils/json';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import { Filter } from '../../../services/catalogue/filters';
 import BetaBar from '../BetaBar/BetaBar';
-import {
-  fromQuery as worksQuery,
-  toLink as worksLink,
-} from '../WorksLink/WorksLink';
-import {
-  fromQuery as imagesQuery,
-  toLink as imagesLink,
-} from '../ImagesLink/ImagesLink';
 import { propsToQuery } from '../../../utils/routes';
 
 const BetaBarContainer = styled.div`
@@ -175,7 +167,12 @@ const SearchTabs: FunctionComponent<Props> = ({
             sort={sort}
             sortOrder={sortOrder}
             linkResolver={params => {
-              return worksLink(worksQuery(propsToQuery(params)));
+              const query = propsToQuery(params);
+              const link = {
+                pathname: '/works',
+                query,
+              };
+              return { href: link, as: link };
             }}
             ariaDescribedBy={'library-catalogue-form-description'}
             isImageSearch={false}
@@ -250,7 +247,12 @@ const SearchTabs: FunctionComponent<Props> = ({
             sort={undefined}
             sortOrder={undefined}
             linkResolver={params => {
-              return imagesLink(imagesQuery(propsToQuery(params)));
+              const query = propsToQuery(params);
+              const link = {
+                pathname: '/images',
+                query,
+              };
+              return { href: link, as: link };
             }}
             ariaDescribedBy="images-form-description"
             isImageSearch={true}

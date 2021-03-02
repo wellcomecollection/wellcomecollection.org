@@ -47,7 +47,7 @@ export function formDataAsUrlQuery(form: HTMLFormElement): ParsedUrlQuery {
   // @ts-ignore
   const url = new URLSearchParams(formData);
 
-  return Array.from(url.entries()).reduce((acc, [key, value]) => {
+  const query = Array.from(url.entries()).reduce((acc, [key, value]) => {
     if (key in acc) {
       return {
         ...acc,
@@ -62,4 +62,6 @@ export function formDataAsUrlQuery(form: HTMLFormElement): ParsedUrlQuery {
       [key]: value,
     };
   }, {});
+
+  return query;
 }

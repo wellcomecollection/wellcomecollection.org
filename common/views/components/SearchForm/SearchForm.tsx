@@ -97,6 +97,7 @@ const SearchForm: FunctionComponent<Props> = ({
   const searchInput = useRef<HTMLInputElement>(null);
   const [forceState, setForceState] = useState(false);
   const [portalSortOrder, setPortalSortOrder] = useState(sortOrder);
+
   function submit() {
     searchForm.current &&
       searchForm.current.dispatchEvent(
@@ -134,7 +135,10 @@ const SearchForm: FunctionComponent<Props> = ({
   function updateUrl(form: HTMLFormElement) {
     const urlQuery = formDataAsUrlQuery(form);
 
-    const link = linkResolver(urlQuery);
+    // TODO: remove sortOrder
+    // We do this as the JS form uses a portal, due to the control being
+    // outside of the for to obtain this value.
+    const link = linkResolver({ ...urlQuery, sortOrder });
     return Router.push(link.href, link.as);
   }
 

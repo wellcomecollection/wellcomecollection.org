@@ -1,9 +1,10 @@
-import { useState, FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent, ReactElement } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import SearchFiltersDesktop from '../SearchFiltersDesktop/SearchFiltersDesktop';
 import SearchFiltersMobile from '../SearchFiltersMobile/SearchFiltersMobile';
 import { LinkProps } from '../../../model/link-props';
 import { Filter } from '../../../services/catalogue/filters';
+import useWindowSize from '../../../hooks/useWindowSize';
 
 type Props = {
   query: string;
@@ -22,7 +23,7 @@ const SearchFilters: FunctionComponent<Props> = ({
   filters,
   linkResolver,
 }: Props): ReactElement<Props> => {
-  const [isMobile] = useState(false);
+  const size = useWindowSize();
 
   const activeFiltersCount = filters
     .map(f => {
@@ -53,7 +54,7 @@ const SearchFilters: FunctionComponent<Props> = ({
 
   return (
     <>
-      {isMobile ? (
+      {size === 'small' ? (
         <SearchFiltersMobile {...sharedProps} />
       ) : (
         <>
