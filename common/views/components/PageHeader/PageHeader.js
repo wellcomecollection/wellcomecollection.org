@@ -156,11 +156,12 @@ const PageHeader = ({
   TitleTopper,
   noBackgroundLayout,
 }: Props) => {
-  const Heading = highlightHeading ? (
-    <HighlightedHeading text={title} />
-  ) : (
-    <h1 className="h1 inline-block no-margin">{title}</h1>
-  );
+  const Heading =
+    highlightHeading && !noBackgroundLayout ? (
+      <HighlightedHeading text={title} />
+    ) : (
+      <h1 className="h1 inline-block no-margin">{title}</h1>
+    );
 
   const hasMedia = FeaturedMedia || HeroPicture;
   return (
