@@ -18,7 +18,7 @@ import {
   Wrapper,
 } from './Registration.style';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { useRegisterUser } from './useRegisterUser';
+import { useRegisterUser, RegistrationError } from './useRegisterUser';
 
 type RegistrationInputs = {
   firstName: string;
@@ -33,7 +33,7 @@ const validPasswordPattern = /(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*/;
 
 export function Registration(): JSX.Element {
   const { register, control, handleSubmit, errors } = useForm<RegistrationInputs>();
-  const { registerUser, isSuccess, emailAlreadyExists, error: submissionError } = useRegisterUser();
+  const { registerUser, isSuccess, error: registrationError } = useRegisterUser();
 
   const createUser = (formData: RegistrationInputs) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -51,18 +51,18 @@ export function Registration(): JSX.Element {
         <Wrapper>
           <Title>Register for Wellcome</Title>
 
-          {emailAlreadyExists && (
+          {registrationError && (
             <>
               <ErrorMessage>
                 <Icon name="cross" />
-                That account already exists - you can try to <a href="#">login</a>
+                {registrationError === RegistrationError.EMAIL_ALREADY_EXISTS && (
+                  <>
+                    That account already exists - you can try to <a href="#">login</a>
+                  </>
+                )}
+                {registrationError === RegistrationError.PASSWORD_TOO_COMMON && <>Password is too common</>}
+                {registrationError === RegistrationError.UNKNOWN && <>An unknown error occurred</>}
               </ErrorMessage>
-              <SpacingComponent />
-            </>
-          )}
-          {submissionError && (
-            <>
-              <ErrorMessage>An unknown error occurred</ErrorMessage>
               <SpacingComponent />
             </>
           )}

@@ -195,6 +195,23 @@ describe('Registration', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent(/that account already exists - you can try to login/i);
   });
 
+  it('shows an error message when a common password is used', async () => {
+    server.use(
+      rest.post('/api/user/create', (req, res, ctx) => {
+        return res(ctx.status(422));
+      })
+    );
+    renderComponent();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
+    userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
+    userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
+    userEvent.type(screen.getByLabelText(/password/i), 'Superman1938');
+    userEvent.click(screen.getByRole('button', { name: /create account/i }));
+    userEvent.click(screen.getByRole('checkbox'));
+    expect(await screen.findByRole('alert')).toHaveTextContent(/password is too common/i);
+  });
+
   it('shows an error message when a server error occurs', async () => {
     server.use(
       rest.post('/api/user/create', (req, res, ctx) => {
