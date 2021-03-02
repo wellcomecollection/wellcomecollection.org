@@ -17,6 +17,7 @@ import {
   Title,
   Wrapper,
 } from './Registration.style';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import { useRegisterUser } from './useRegisterUser';
 
 type RegistrationInputs = {
@@ -49,15 +50,23 @@ export function Registration(): JSX.Element {
       <Container>
         <Wrapper>
           <Title>Register for Wellcome</Title>
+
           {emailAlreadyExists && (
             <>
               <ErrorMessage>
+                <Icon name="cross" />
                 That account already exists - you can try to <a href="#">login</a>
               </ErrorMessage>
               <SpacingComponent />
             </>
           )}
-          {submissionError && <ErrorMessage>An unknown error occurred</ErrorMessage>}
+          {submissionError && (
+            <>
+              <ErrorMessage>An unknown error occurred</ErrorMessage>
+              <SpacingComponent />
+            </>
+          )}
+
           <form onSubmit={handleSubmit(createUser)}>
             <Heading>Personal details</Heading>
 

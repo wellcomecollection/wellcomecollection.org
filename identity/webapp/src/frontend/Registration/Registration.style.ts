@@ -60,9 +60,25 @@ export const InvalidFieldAlert = styled.span.attrs({ role: 'alert', className: '
   color: #d1192c;
 `;
 
-export const ErrorMessage = styled.div.attrs({ role: 'alert', className: 'font-hnm' })`
+const AlertBox = styled.div.attrs({ role: 'alert', className: 'font-hnm font-size-5' })`
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    stroke: currentColor;
+    fill: currentColor;
+  }
+`;
+
+export const ErrorMessage = styled(AlertBox)`
   background-color: rgba(224, 27, 47, 0.1);
   color: #d1192c;
-  padding: 1em;
-  text-align: center;
+`;
+
+export const SuccessMessage = styled(AlertBox)`
+  background-color: rgba(0, 120, 108, 0.1);
+  color: #00786c;
 `;
