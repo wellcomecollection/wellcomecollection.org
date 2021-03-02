@@ -34,7 +34,7 @@ type Props = {
 
 const TitledTextList: FunctionComponent<Props> = ({ items }: Props) => {
   return (
-    <ul className="plain-list">
+    <ul className="plain-list no-padding">
       {items.map((item, i) => {
         return (
           <Space
