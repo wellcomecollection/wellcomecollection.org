@@ -194,6 +194,8 @@ export class Page extends Component<Props> {
               onThisPage={page.onThisPage}
               showOnThisPage={page.showOnThisPage}
               isLanding={isLanding}
+              minWidth={noBackgroundLayout && 12}
+              noBackgroundLayout={noBackgroundLayout}
             />
           }
           RelatedContent={[...Siblings, ...Children]}

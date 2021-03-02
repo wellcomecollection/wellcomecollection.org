@@ -16,6 +16,8 @@ import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
 import Layout10 from '../Layout10/Layout10';
 // $FlowFixMe (tsx)
 import Layout from '../Layout/Layout';
+// $FlowFixMe (tsx)
+import { gridSize12 } from '../Layout12/Layout12';
 // $FlowFixMe(tsx)
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 // $FlowFixMe(tsx)Layout
@@ -135,7 +137,6 @@ type Props = {|
 |};
 
 const customGridLayout = { s: 12, m: 10, l: 8, xl: 8 };
-const gridLayout12 = { s: 12, m: 12, l: 12, xl: 12 };
 const PageHeader = ({
   breadcrumbs,
   labels,
@@ -181,9 +182,7 @@ const PageHeader = ({
             </div>
           </Layout10>
         )}
-        <Layout
-          gridSizes={noBackgroundLayout ? gridLayout12 : customGridLayout}
-        >
+        <Layout gridSizes={noBackgroundLayout ? gridSize12 : customGridLayout}>
           <Space
             v={{
               size: 'l',
