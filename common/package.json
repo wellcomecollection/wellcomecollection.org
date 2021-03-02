@@ -21,6 +21,7 @@
     "@types/gtag.js": "^0.0.3",
     "@types/jest": "^26.0.17",
     "@types/lodash.debounce": "^4.0.6",
+    "@types/lodash.groupby": "^4.6.6",
     "@types/react-window": "^1.8.2",
     "@types/uuid": "^8.3.0",
     "@weco/next-plugin-transpile-modules": "^2.0.1",

@@ -1,5 +1,6 @@
 import NextLink, { LinkProps } from 'next/link';
 import { FunctionComponent, PropsWithChildren } from 'react';
+import { propsToQuery } from '../../../utils/routes';
 
 type ImageLinkSource = 'images_search_result';
 
@@ -24,16 +25,16 @@ export function imageLink({
   return {
     href: {
       pathname: `/image`,
-      query: {
+      query: propsToQuery({
         workId,
         source,
         resultPosition,
         ...params,
-      },
+      }),
     },
     as: {
       pathname: `/works/${workId}/images`,
-      query: { ...params },
+      query: propsToQuery({ ...params }),
     },
   };
 }

@@ -15,12 +15,6 @@ export default {
       defaultValue: false,
     },
     {
-      id: 'modalFiltersPrototype',
-      title: 'Use the modal filter prototype',
-      defaultValue: false,
-      description: 'Search filters will appear in a modal',
-    },
-    {
       id: 'paletteColorFilter',
       title: 'Palette-based colour filter',
       description:

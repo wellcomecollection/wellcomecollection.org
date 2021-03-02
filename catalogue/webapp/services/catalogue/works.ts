@@ -74,6 +74,7 @@ export async function getWorks({
   };
   const filterQueryString = queryString(extendedParams);
   const url = `${rootUris[apiOptions.env]}/v2/works${filterQueryString}`;
+
   try {
     const res = await fetch(url);
     const json = await res.json();
@@ -137,7 +138,7 @@ export async function getCanvasOcr(
   const textContent =
     canvas.otherContent &&
     canvas.otherContent.find(
-      content =>
+      (content) =>
         content['@type'] === 'sc:AnnotationList' &&
         content.label === 'Text of this page'
     );
@@ -149,10 +150,10 @@ export async function getCanvasOcr(
       const textJson = await fetch(textService);
       const text = await textJson.json();
       const textString = text.resources
-        .filter(resource => {
+        .filter((resource) => {
           return resource.resource['@type'] === 'cnt:ContentAsText';
         })
-        .map(resource => resource.resource.chars)
+        .map((resource) => resource.resource.chars)
         .join(' ');
       return textString.length > 0 ? textString : 'text unavailable';
     } catch (e) {
