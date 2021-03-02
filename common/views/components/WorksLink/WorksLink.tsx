@@ -59,6 +59,24 @@ const emptyWorksProps: WorksProps = {
   source: 'unknown',
 };
 
+// This is a hack for now until we stop using different keys
+const keyToQueryMap = {
+  query: 'query',
+  page: 'page',
+  workType: 'workType',
+  sort: 'sort',
+  sortOrder: 'sortOrder',
+  itemsLocationsLocationType: 'items.locations.locationType',
+  itemsLocationsType: 'items.locations.type',
+  languages: 'languages',
+  genresLabel: 'genres.label',
+  subjectsLabel: 'subjects.label',
+  contributorsAgentLabel: 'contributors.agent.label',
+  productionDatesFrom: 'production.dates.from',
+  productionDatesTo: 'production.dates.to',
+  source: 'source',
+};
+
 const fromQuery: QueryTo<WorksProps> = params => {
   return {
     query: toString(params.query, ''),
@@ -81,15 +99,24 @@ const fromQuery: QueryTo<WorksProps> = params => {
 function toLink(props: WorksProps): LinkProps {
   const pathname = '/works';
   const { source, ...propsWithoutSource } = props;
+  const remapped = Object.entries(propsWithoutSource).reduce(
+    (acc, [key, val]) => {
+      return {
+        ...acc,
+        [keyToQueryMap[key]]: val,
+      };
+    },
+    {}
+  );
 
   return {
     href: {
       pathname,
-      query: propsToQuery({ ...props }),
+      query: propsToQuery({ ...remapped, source }),
     },
     as: {
       pathname,
-      query: propsToQuery({ ...propsWithoutSource }),
+      query: propsToQuery({ ...remapped }),
     },
   };
 }
