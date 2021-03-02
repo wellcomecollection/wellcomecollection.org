@@ -37,6 +37,7 @@ import {
   WithPageview,
 } from '@weco/common/views/pages/_app';
 import { parseUrlParams } from '@weco/common/utils/serialise-url';
+import useHotjar from '@weco/common/hooks/useHotjar';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 
 type Props = {
@@ -55,6 +56,8 @@ const Works: NextPage<Props> = ({
   globalContextData,
 }: Props) => {
   const [loading, setLoading] = useState(false);
+
+  useHotjar(Boolean(works && works.results.length > 0));
 
   const {
     query,
