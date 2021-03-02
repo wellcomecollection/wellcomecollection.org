@@ -138,7 +138,17 @@ const SearchForm: FunctionComponent<Props> = ({
     // TODO: remove sortOrder
     // We do this as the JS form uses a portal, due to the control being
     // outside of the for to obtain this value.
-    const link = linkResolver({ ...urlQuery, sortOrder });
+    const sort =
+      sortOrder === 'asc' || sortOrder === 'desc'
+        ? 'production.dates'
+        : undefined;
+
+    const link = linkResolver({
+      ...urlQuery,
+      sortOrder: portalSortOrder,
+      sort,
+    });
+
     return Router.push(link.href, link.as);
   }
 
