@@ -7,6 +7,8 @@ import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 // $FlowFixMe (tsx)
 import Body from '@weco/common/views/components/Body/Body';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+// $FlowFixMe(tsx)
+import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 // $FlowFixMe(tsx)
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
@@ -20,7 +22,15 @@ import {
 import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page as PageType } from '@weco/common/model/pages';
 import type { SiblingsGroup } from '@weco/common/model/siblings-group';
-import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import {
+  headerBackgroundLs,
+  landingHeaderBackgroundLs,
+  // $FlowFixMe (ts)
+} from '@weco/common/utils/backgrounds';
+import {
+  prismicPageIds,
+  noBackgroundLayoutGrid12,
+} from '@weco/common/services/prismic/hardcoded-id';
 // $FlowFixMe (ts)
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -57,6 +67,9 @@ export class Page extends Component<Props> {
     );
     const isLanding =
       page.format && page.format.id === ContentFormatIds.Landing;
+    const backgroundTexture = isLanding
+      ? landingHeaderBackgroundLs
+      : headerBackgroundLs;
     const hasFeaturedMedia =
       page.body.length > 1 &&
       (page.body[0].type === 'picture' || page.body[0].type === 'videoEmbed');
@@ -79,6 +92,7 @@ export class Page extends Component<Props> {
       prismicPageIds.covidBookYourTicket,
     ];
 
+    const noBackgroundLayout = noBackgroundLayoutGrid12.includes(page.id);
     function getBreadcrumbText(siteSection: string, pageId: string): string {
       return hiddenBreadcrumbPages.includes(page.id) || isLanding
         ? '\u200b'
@@ -112,12 +126,23 @@ export class Page extends Component<Props> {
         labels={null}
         title={page.title}
         FeaturedMedia={FeaturedMedia}
-        Background={null}
+        Background={
+          FeaturedMedia &&
+          !noBackgroundLayout && (
+            <HeaderBackground
+              backgroundTexture={backgroundTexture}
+              hasWobblyEdge={!isLanding}
+            />
+          )
+        }
         ContentTypeInfo={DateInfo}
         HeroPicture={null}
-        backgroundTexture={null}
+        backgroundTexture={
+          !FeaturedMedia && !noBackgroundLayout ? backgroundTexture : null
+        }
         highlightHeading={true}
         isContentTypeInfoBeforeMedia={false}
+        noBackgroundLayout={noBackgroundLayout}
       />
     );
     const Siblings = siblings.map((siblingGroup, i) => {

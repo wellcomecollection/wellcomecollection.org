@@ -42,3 +42,9 @@ export const getNameFromCollectionVenue = (id: string) => {
     }
   }
 };
+
+export const noBackgroundLayoutGrid12 = [
+  prismicPageIds.visitUs,
+  prismicPageIds.whatWeDo,
+  prismicPageIds.collections,
+];

@@ -15,8 +15,6 @@ import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
 // $FlowFixMe (tsx)
 import Layout10 from '../Layout10/Layout10';
 // $FlowFixMe (tsx)
-import Layout12 from '../Layout12/Layout12';
-// $FlowFixMe (tsx)
 import Layout from '../Layout/Layout';
 // $FlowFixMe(tsx)
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
@@ -130,12 +128,14 @@ type Props = {|
   highlightHeading?: boolean,
   asyncBreadcrumbsRoute?: string,
   isContentTypeInfoBeforeMedia?: boolean,
-
+  noBackgroundLayout: boolean,
   // TODO: Don't overload this, it's just for putting things in till
   // we find a pattern
   TitleTopper?: Node,
 |};
 
+const customGridLayout = { s: 12, m: 10, l: 8, xl: 8 };
+const gridLayout12 = { s: 12, m: 12, l: 12, xl: 12 };
 const PageHeader = ({
   breadcrumbs,
   labels,
@@ -153,6 +153,7 @@ const PageHeader = ({
   highlightHeading,
   asyncBreadcrumbsRoute,
   TitleTopper,
+  noBackgroundLayout,
 }: Props) => {
   const Heading = highlightHeading ? (
     <HighlightedHeading text={title} />
@@ -161,9 +162,6 @@ const PageHeader = ({
   );
 
   const hasMedia = FeaturedMedia || HeroPicture;
-  console.log(hasMedia, 'hasMedia!!!!!');
-  console.log(isContentTypeInfoBeforeMedia, 'isContentTypeInfoBeforeMedia');
-
   return (
     <>
       <div
@@ -183,15 +181,16 @@ const PageHeader = ({
             </div>
           </Layout10>
         )}
-        {/* make this conditional based on landing page */}
-        <Layout12>
+        <Layout
+          gridSizes={noBackgroundLayout ? gridLayout12 : customGridLayout}
+        >
           <Space
             v={{
               size: 'l',
               properties:
-                isContentTypeInfoBeforeMedia || hasMedia
+                isContentTypeInfoBeforeMedia || hasMedia || noBackgroundLayout
                   ? ['margin-bottom']
-                  : ['margin-bottom'], // todo : check if needed
+                  : ['margin-bottom', 'padding-bottom'],
             }}
           >
             <Space
@@ -244,7 +243,7 @@ const PageHeader = ({
 
             {labels && labels.labels.length > 0 && <LabelsList {...labels} />}
           </Space>
-        </Layout12>
+        </Layout>
 
         {FeaturedMedia && (
           <Layout10>
@@ -277,7 +276,7 @@ const PageHeader = ({
       )}
 
       {!isContentTypeInfoBeforeMedia && ContentTypeInfo && (
-        <Layout gridSizes={{ s: 12, m: 10, l: 8, xl: 8 }}>
+        <Layout gridSizes={customGridLayout}>
           <Space
             v={{
               size: 'l',
