@@ -130,6 +130,12 @@ export function Registration(): JSX.Element {
               })}
               data-invalid={Boolean(errors.password)}
             />
+            <ul>
+              <li className="font-hnl font-size-6">One lowercase character</li>
+              <li className="font-hnl font-size-6">One uppercase character</li>
+              <li className="font-hnl font-size-6">One number</li>
+              <li className="font-hnl font-size-6">8 characters minimum</li>
+            </ul>
 
             <SpacingComponent />
 
