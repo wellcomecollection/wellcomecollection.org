@@ -35,6 +35,7 @@ import {
   toLink,
   WorksProps,
 } from '@weco/common/views/components/WorksLink/WorksLink';
+import useHotjar from '@weco/common/hooks/useHotjar';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { worksFilters } from '@weco/common/services/catalogue/filters';
 
@@ -54,6 +55,8 @@ const Works: NextPage<Props> = ({
   globalContextData,
 }: Props) => {
   const [loading, setLoading] = useState(false);
+
+  useHotjar(Boolean(works && works.results.length > 0));
 
   const {
     query,
