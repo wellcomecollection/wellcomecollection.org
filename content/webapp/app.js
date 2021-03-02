@@ -75,6 +75,9 @@ module.exports = app
       id: 'YBfeAhMAACEAqBTx',
     });
 
+    route('/guides', '/guides', router, app);
+    route('/guides/:id', '/page', router, app);
+
     pageVanityUrl(router, app, '/opening-times', 'WwQHTSAAANBfDYXU');
     pageVanityUrl(router, app, '/what-we-do', 'WwLGFCAAAPMiB_Ps');
     pageVanityUrl(router, app, '/press', 'WuxrKCIAAP9h3hmw');

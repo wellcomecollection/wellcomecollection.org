@@ -111,5 +111,7 @@ export const cardsFields = [
 export const pagesFormatsFields = [
   'page-formats.title',
   'page-formats.description',
+  'guide-formats.title',
+  'guide-formats.description',
 ];
 export const labelsFields = ['labels.title', 'labels.description'];
