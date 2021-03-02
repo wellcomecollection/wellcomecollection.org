@@ -94,12 +94,6 @@ export type IIIFSequence = {
   canvases: IIIFCanvas[];
   rendering: IIIFRendering[];
 };
-type IIIFStructure = {
-  '@id': string;
-  '@type': string;
-  label: string;
-  canvases: string[];
-};
 
 export type IIIFMetadata = {
   label: string;
@@ -115,7 +109,7 @@ export type AuthService = {
   service: {
     '@context': string;
     '@id': string;
-    profile: string
+    profile: string;
   }[];
 };
 
