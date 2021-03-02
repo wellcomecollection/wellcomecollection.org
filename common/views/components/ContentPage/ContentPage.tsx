@@ -17,7 +17,10 @@ import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import Space from '../styled/Space';
 import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
-import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import {
+  prismicPageIds,
+  noBackgroundLayoutGrid12,
+} from '@weco/common/services/prismic/hardcoded-id';
 import BannerCard from '../BannerCard/BannerCard';
 import Body from '../Body/Body';
 import { Season } from '../../../model/seasons';
@@ -96,7 +99,7 @@ const ContentPage = ({
   return (
     <PageBackgroundContext.Provider value={isCreamy ? 'cream' : 'white'}>
       <article data-wio-id={id}>
-        {Body.props?.isLanding ? Header : <SpacingSection>{Header}</SpacingSection>}
+        {noBackgroundLayoutGrid12.includes(id) ? Header : <SpacingSection>{Header}</SpacingSection>}
         <div
           className={classNames({
             'bg-cream': isCreamy,

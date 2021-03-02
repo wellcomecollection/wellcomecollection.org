@@ -20,7 +20,7 @@ import Layout from '../Layout/Layout';
 import { gridSize12 } from '../Layout12/Layout12';
 // $FlowFixMe(tsx)
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
-// $FlowFixMe(tsx)Layout
+// $FlowFixMe(tsx)
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
 // $FlowFixMe (ts)
 import { breakpoints } from '../../../utils/breakpoints';
