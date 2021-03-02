@@ -6,11 +6,11 @@ import WorksSearchResult from '../WorksSearchResult/WorksSearchResult';
 import { grid } from '@weco/common/utils/classnames';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/ts_api';
-import { WorksRouteProps } from '@weco/common/services/catalogue/ts_routes';
+import { WorksProps } from '@weco/common/views/components/WorksLink/WorksLink';
 
 type Props = {
   works: CatalogueResultsList<Work>;
-  worksRouteProps: WorksRouteProps;
+  worksRouteProps: WorksProps;
   apiProps: CatalogueWorksApiProps;
 };
 

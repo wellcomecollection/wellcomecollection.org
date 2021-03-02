@@ -150,7 +150,7 @@ const graphQuery = `{
           title
         }
         repeat {
-          contributor {
+          contibutor {
             ...on people {
               name
             }

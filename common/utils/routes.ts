@@ -1,6 +1,7 @@
 import { LinkProps } from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { PropsWithChildren } from 'react';
+import { parseCsv } from './csv';
 import { isInTuple } from './type-guards';
 import { OptionalToUndefined } from './utility-types';
 
@@ -39,6 +40,15 @@ export function toCsv(param: QueryParam): string[] {
   return paramParser(param, {
     empty: () => [],
     string: p => p.split(','),
+    array: p => p,
+    nodef: () => [],
+  });
+}
+
+export function toQuotedCsv(param: QueryParam): string[] {
+  return paramParser(param, {
+    empty: () => [],
+    string: p => parseCsv(p),
     array: p => p,
     nodef: () => [],
   });
@@ -89,4 +99,49 @@ export function toSource<T extends string>(
   if (val && isInTuple(val, sources)) {
     return val;
   }
+}
+
+export function propsToQuery(
+  props: Record<string, string | string[] | number | undefined>
+): ParsedUrlQuery {
+  return Object.keys(props).reduce((acc, key) => {
+    const val = props[key];
+
+    // We use this function as next represents arrays in JS
+    // as arrays in the URLs, unsurprisingly, and the csv
+    // is our own bespoke syntax.
+
+    // worksType = ['a', 'b', 'c']
+    // URL spec: workType=a&workType=b&workType=c
+    // weco: workType=a,b,c
+    if (Array.isArray(val)) {
+      if (val.length === 0) {
+        return {
+          ...acc,
+        };
+      } else {
+        return {
+          ...acc,
+          [key]: val.join(','),
+        };
+      }
+    }
+
+    // any empty values, we don't add
+    if (val === null || val === undefined || val === '') {
+      return { ...acc };
+    }
+
+    // As all our services default `page: undefined` to `page: 1` we remove it
+    const pageKeys = ['page', 'canvas', 'manifest'];
+
+    if (pageKeys.includes(key) && (val === '1' || val === 1)) {
+      return { ...acc };
+    }
+
+    return {
+      ...acc,
+      [key]: val.toString(),
+    };
+  }, {});
 }

@@ -1,8 +1,8 @@
 import { HTMLString } from '../services/prismic/types';
-import { ContentFormatId } from './content-format-id';
+import { ArticleFormatId } from './content-format-id';
 
 export type LabelField = {
-  id?: ContentFormatId;
+  id?: ArticleFormatId;
   title?: string;
   description?: HTMLString;
 };

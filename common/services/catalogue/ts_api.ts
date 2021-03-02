@@ -1,85 +1,85 @@
 import { quoteVal } from '../../utils/csv';
-import { WorksRouteProps } from './routes';
-import { ImagesRouteProps } from './ts_routes';
+import { ImagesProps } from '../../views/components/ImagesLink/ImagesLink';
+import { WorksProps } from '../../views/components/WorksLink/WorksLink';
 
 export type CatalogueImagesApiProps = {
-  query: string | null;
-  page: number | null;
-  'locations.license': string[] | null;
-  color: string | null;
+  query: string | undefined;
+  page: number | undefined;
+  'locations.license': string[] | undefined;
+  color: string | undefined;
 };
 
-function toIsoDateString(s: string | null): string | null {
-  if (s) {
-    try {
-      return new Date(s).toISOString().split('T')[0];
-    } catch (e) {
-      return null;
-    }
+function toIsoDateString(s: string): string {
+  try {
+    return new Date(s).toISOString().split('T')[0];
+  } catch (e) {
+    return s;
   }
-  return null;
 }
 
+type ItemsLocationsAccessConditionsStatus =
+  | 'open'
+  | 'open-with-advisory'
+  | 'restricted'
+  | 'closed'
+  | 'licensed-resources'
+  | 'unavailable'
+  | 'permission-required'
+  | '!open'
+  | '!open-with-advisory'
+  | '!restricted'
+  | '!closed'
+  | '!licensed-resources'
+  | '!unavailable'
+  | '!permission-required';
+
 export type CatalogueWorksApiProps = {
-  query: string | null;
-  page: number | null;
-  workType: string[] | null;
-  'items.locations.locationType': string[] | null;
-  'items.locations.accessConditions.status':
-    | (
-        | 'open'
-        | 'open-with-advisory'
-        | 'restricted'
-        | 'closed'
-        | 'licensed-resources'
-        | 'unavailable'
-        | 'permission-required'
-        | '!open'
-        | '!open-with-advisory'
-        | '!restricted'
-        | '!closed'
-        | '!licensed-resources'
-        | '!unavailable'
-        | '!permission-required'
-      )[]
-    | null;
-  'items.locations.type': string[] | null;
-  sort: string | null;
-  sortOrder: string | null;
-  'production.dates.from': string | null;
-  'production.dates.to': string | null;
-  _queryType: string | null;
-  aggregations: string[] | null;
+  query?: string;
+  page?: number;
+  workType?: string[];
+  'items.locations.locationType'?: string[];
+  'items.locations.accessConditions.status'?: ItemsLocationsAccessConditionsStatus;
+  'items.locations.type'?: string[];
+  sort?: string;
+  sortOrder?: string;
+  'production.dates.from'?: string;
+  'production.dates.to'?: string;
+  'genres.label'?: string[];
+  'subjects.label'?: string[];
+  'contributors.agent.label'?: string[];
+  languages?: string[];
+  _queryType?: string;
+  aggregations?: string[];
 };
 
 export function worksRouteToApiUrl(
-  worksRouteProps: WorksRouteProps,
-  overrides: Partial<WorksRouteProps>
+  worksProps: WorksProps,
+  overrides: Partial<CatalogueWorksApiProps>
 ): CatalogueWorksApiProps {
   return {
-    query: worksRouteProps.query,
-    page: worksRouteProps.page,
-    workType: worksRouteProps.workType,
-    'items.locations.locationType': worksRouteProps.itemsLocationsLocationType,
-    'items.locations.type': worksRouteProps.itemsLocationsType,
-    sort: worksRouteProps.sort,
-    sortOrder: worksRouteProps.sortOrder,
-    'production.dates.from': toIsoDateString(
-      worksRouteProps.productionDatesFrom
-    ),
-    'production.dates.to': toIsoDateString(worksRouteProps.productionDatesTo),
-    languages: worksRouteProps.languages,
-    'genres.label': worksRouteProps.genresLabel.map(quoteVal),
-    'subjects.label': worksRouteProps.subjectsLabel.map(quoteVal),
-    'contributors.agent.label': worksRouteProps.contributorsAgentLabel.map(
-      quoteVal
-    ),
+    query: worksProps.query,
+    page: worksProps.page,
+    workType: worksProps.workType,
+    'items.locations.locationType': worksProps.itemsLocationsLocationType,
+    'items.locations.type': worksProps.itemsLocationsType,
+    sort: worksProps.sort,
+    sortOrder: worksProps.sortOrder,
+    'production.dates.from': worksProps.productionDatesFrom
+      ? toIsoDateString(worksProps.productionDatesFrom)
+      : undefined,
+    'production.dates.to': worksProps.productionDatesTo
+      ? toIsoDateString(worksProps.productionDatesTo)
+      : undefined,
+    languages: worksProps.languages,
+    'genres.label': worksProps.genresLabel.map(quoteVal),
+    'subjects.label': worksProps.subjectsLabel.map(quoteVal),
+    'contributors.agent.label': worksProps.contributorsAgentLabel.map(quoteVal),
     ...overrides,
   };
 }
 
 export function imagesRouteToApiUrl(
-  imagesRouteProps: ImagesRouteProps
+  imagesRouteProps: ImagesProps
 ): CatalogueImagesApiProps {
   return {
     query: imagesRouteProps.query,
@@ -94,9 +94,9 @@ export function worksPropsToImagesProps(
   worksProps: CatalogueWorksApiProps
 ): CatalogueImagesApiProps {
   return {
-    query: worksProps.query,
-    page: worksProps.page,
-    'locations.license': null,
-    color: null,
+    query: worksProps.query ?? undefined,
+    page: worksProps.page ?? undefined,
+    'locations.license': undefined,
+    color: undefined,
   };
 }

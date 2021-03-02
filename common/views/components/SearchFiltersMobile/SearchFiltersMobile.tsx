@@ -11,13 +11,19 @@ import useFocusTrap from '../../../hooks/useFocusTrap';
 import { CSSTransition } from 'react-transition-group';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import NextLink from 'next/link';
-import { worksLink } from '../../../services/catalogue/routes';
+import { emptyWorksProps, toLink as worksLink } from '../WorksLink/WorksLink';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
+import {
+  CheckboxFilter as CheckboxFilterType,
+  DateRangeFilter as DateRangeFilterType,
+  ColorFilter as ColorFilterType,
+} from '../../../services/catalogue/filters';
 import ButtonSolid, {
   ButtonTypes,
   SolidButton,
@@ -26,21 +32,12 @@ import {
   searchFilterCheckBox,
   searchFilterCloseButton,
 } from '../../../text/arial-labels';
-import {
-  getAggregationContributors,
-  getAggregationFilterByName,
-  replaceSpaceWithHypen,
-} from '@weco/common/utils/filters';
-import {
-  CatalogueAggregationBucket,
-  CatalogueAggregationContributorsBucket,
-} from '@weco/common/model/catalogue';
-import { quoteVal } from '@weco/common/utils/csv';
 import TogglesContext from '../TogglesContext/TogglesContext';
-import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
+
 const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
   ssr: false,
 });
+
 const PaletteColorPicker = dynamic(
   import('../PaletteColorPicker/PaletteColorPicker')
 );
@@ -170,48 +167,121 @@ const FiltersFooter = styled(Space).attrs({
   height: 60px;
 `;
 
+type CheckboxFilterProps = {
+  f: CheckboxFilterType;
+  changeHandler: () => void;
+};
+const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
+  return (
+    <>
+      <h3 className="h3">{f.label}</h3>
+      <ul
+        className={classNames({
+          'no-margin no-padding plain-list': true,
+        })}
+      >
+        {f.options.map(({ id, label, value, count, selected }) => {
+          return (
+            (count > 0 || selected) && (
+              <Space
+                as="li"
+                v={{ size: 'l', properties: ['margin-bottom'] }}
+                key={`mobile-${id}`}
+              >
+                <CheckboxRadio
+                  id={`mobile-${id}`}
+                  type={`checkbox`}
+                  text={`${label} (${count})`}
+                  value={value}
+                  name={f.id}
+                  checked={selected}
+                  onChange={changeHandler}
+                  ariaLabel={searchFilterCheckBox(label)}
+                />
+              </Space>
+            )
+          );
+        })}
+      </ul>
+    </>
+  );
+};
+
+type DateRangeFilterProps = {
+  f: DateRangeFilterType;
+  changeHandler: () => void;
+};
+const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
+  const [from, setFrom] = useState(f.from.value);
+  const [to, setTo] = useState(f.to.value);
+
+  return (
+    <>
+      <h3 className="h3">{f.label}</h3>
+      <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+        <NumberInput
+          name={f.from.id}
+          label="From"
+          min="0"
+          max="9999"
+          placeholder={'Year'}
+          value={from || ''}
+          onChange={event => {
+            const val = `${event.currentTarget.value}`;
+            setFrom(val);
+            if (val.match(/^\d{4}$/)) {
+              changeHandler();
+            }
+          }}
+        />
+      </Space>
+      <NumberInput
+        name={f.to.id}
+        label="to"
+        min="0"
+        max="9999"
+        placeholder={'Year'}
+        value={to || ''}
+        onChange={event => {
+          const val = `${event.currentTarget.value}`;
+          setTo(val);
+          if (val.match(/^\d{4}$/)) {
+            changeHandler();
+          }
+        }}
+      />
+    </>
+  );
+};
+
+type ColorFilterProps = {
+  f: ColorFilterType;
+  changeHandler: () => void;
+};
+const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
+  const { paletteColorFilter } = useContext(TogglesContext);
+  const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
+
+  return (
+    <ColorPicker
+      color={f.color || undefined}
+      name={f.id}
+      onChangeColor={changeHandler}
+    />
+  );
+};
+
 const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
-  worksRouteProps,
+  query,
   changeHandler,
-  inputDateFrom,
-  inputDateTo,
-  setInputDateFrom,
-  setInputDateTo,
-  workTypeFilters,
-  productionDatesFrom,
-  productionDatesTo,
-  workTypeSelected,
-  locationsTypeSelected,
-  imagesColor,
-  aggregations,
-  filtersToShow,
-  languagesSelected,
-  subjectsSelected,
-  genresSelected,
-  contributorsSelected,
+  filters,
+  activeFiltersCount,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const openFiltersButtonRef = useRef<HTMLButtonElement>(null);
   const closeFiltersButtonRef = useRef<HTMLDivElement>(null);
   const okFiltersButtonRef = useRef<HTMLButtonElement>(null);
   const filtersModalRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(false);
-  const { searchMoreFilters } = useContext(TogglesContext);
-  const languagesFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
-    aggregations,
-    'languages'
-  );
-  const subjectsFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
-    aggregations,
-    'subjects'
-  );
-  const genresFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
-    aggregations,
-    'genres'
-  );
-
-  const contributorsFilter: CatalogueAggregationContributorsBucket[] = getAggregationContributors(
-    aggregations
-  );
 
   useFocusTrap(closeFiltersButtonRef, okFiltersButtonRef);
 
@@ -265,22 +335,6 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
       closeFiltersButtonRef.current.focus();
   }
 
-  const showWorkTypeFilters =
-    workTypeFilters.some(f => f.count > 0) || workTypeSelected.length > 0;
-  const activeFiltersCount =
-    locationsTypeSelected.length +
-    workTypeSelected.length +
-    (productionDatesFrom ? 1 : 0) +
-    (productionDatesTo ? 1 : 0) +
-    (imagesColor ? 1 : 0) +
-    languagesSelected.length +
-    subjectsSelected.length +
-    genresSelected.length +
-    contributorsSelected.length;
-
-  const { paletteColorFilter } = useContext(TogglesContext);
-  const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
-
   return (
     <Space
       v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
@@ -303,6 +357,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
           )}
         </SolidButton>
       </ShameButtonWrap>
+
       <CSSTransition in={isActive} classNames="fade" timeout={350}>
         <FiltersModal ref={filtersModalRef}>
           <FiltersScrollable>
@@ -318,368 +373,34 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
             </FiltersHeader>
 
             <FiltersBody>
-              {filtersToShow.includes('dates') && (
-                <FilterSection>
-                  <h3 className="h3">Dates</h3>
-                  <Space
-                    as="span"
-                    h={{ size: 'm', properties: ['margin-right'] }}
-                  >
-                    <NumberInput
-                      label="From"
-                      min="0"
-                      max="9999"
-                      placeholder={'Year'}
-                      name="production.dates.from"
-                      value={inputDateFrom || ''}
-                      onChange={event => {
-                        setInputDateFrom(`${event.currentTarget.value}`);
-                      }}
-                    />
-                  </Space>
-                  <NumberInput
-                    label="to"
-                    min="0"
-                    max="9999"
-                    placeholder={'Year'}
-                    name="production.dates.to"
-                    value={inputDateTo || ''}
-                    onChange={event => {
-                      setInputDateTo(`${event.currentTarget.value}`);
-                    }}
-                  />
-                </FilterSection>
-              )}
-              {showWorkTypeFilters &&
-                showWorkTypeFilters &&
-                filtersToShow.includes('formats') && (
-                  <FilterSection>
-                    <h3 className="h3">Formats</h3>
-                    <ul
-                      className={classNames({
-                        'no-margin no-padding plain-list': true,
-                      })}
-                    >
-                      {workTypeFilters.map(workType => {
-                        const isChecked = workTypeSelected.includes(
-                          workType.data.id
-                        );
+              {filters.map(f => {
+                return (
+                  <FilterSection key={f.id}>
+                    {f.type === 'checkbox' && (
+                      <CheckboxFilter f={f} changeHandler={changeHandler} />
+                    )}
 
-                        return (
-                          (workType.count > 0 || isChecked) && (
-                            <Space
-                              as="li"
-                              v={{ size: 'l', properties: ['margin-bottom'] }}
-                              key={`mobile-${workType.data.id}`}
-                            >
-                              <CheckboxRadio
-                                id={`mobile-${workType.data.id}`}
-                                type={`checkbox`}
-                                text={`${workType.data.label} (${workType.count})`}
-                                value={workType.data.id}
-                                name={`workType`}
-                                checked={isChecked}
-                                onChange={changeHandler}
-                                ariaLabel={searchFilterCheckBox(
-                                  workType.data.label
-                                )}
-                              />
-                            </Space>
-                          )
-                        );
-                      })}
-                    </ul>
-                  </FilterSection>
-                )}
-              {aggregations && aggregations.locationType && (
-                <FilterSection>
-                  <h3 className="h3">Locations</h3>
-                  <ul
-                    className={classNames({
-                      'no-margin no-padding plain-list': true,
-                    })}
-                  >
-                    {aggregations.locationType.buckets
-                      .sort((a, b) => b.data.label.localeCompare(a.data.label)) // Ensure 'Online' appears before 'In the library'
-                      .map(locationType => {
-                        const isChecked = worksRouteProps.itemsLocationsType.includes(
-                          locationType.data.type
-                        );
+                    {f.type === 'dateRange' && (
+                      <DateRangeFilter f={f} changeHandler={changeHandler} />
+                    )}
 
-                        return (
-                          (locationType.count > 0 || isChecked) && (
-                            <Space
-                              as="li"
-                              v={{ size: 'l', properties: ['margin-bottom'] }}
-                              key={`mobile-${locationType.data.type}`}
-                            >
-                              <CheckboxRadio
-                                id={locationType.data.type}
-                                type={`checkbox`}
-                                text={`${locationType.data.label} (${locationType.count})`}
-                                value={locationType.data.type}
-                                name={`items.locations.type`}
-                                checked={isChecked}
-                                onChange={changeHandler}
-                              />
-                            </Space>
-                          )
-                        );
-                      })}
-                  </ul>
-                </FilterSection>
-              )}
-              {filtersToShow.includes('colors') && (
-                <FilterSection>
-                  <h3 className="h3">Colour</h3>
-                  <Space
-                    as="span"
-                    h={{ size: 'm', properties: ['margin-right'] }}
-                  >
-                    <ColorPicker
-                      color={imagesColor || undefined}
-                      name="images.color"
-                      onChangeColor={changeHandler}
-                    />
-                  </Space>
-                </FilterSection>
-              )}
-              {searchMoreFilters &&
-                filtersToShow.includes('contributors') &&
-                contributorsFilter.length > 0 && (
-                  <FilterSection>
-                    <h3 className="h3">Contributors</h3>
-                    <Space
-                      as="span"
-                      h={{ size: 'm', properties: ['margin-right'] }}
-                    >
-                      {
-                        <ul
-                          className={classNames({
-                            'no-margin no-padding plain-list': true,
-                          })}
-                        >
-                          {contributorsFilter
-                            .map(contributor => {
-                              return {
-                                count: contributor.count,
-                                label: contributor.data.agent.label,
-                                value: quoteVal(contributor.data.agent.label),
-                              };
-                            })
-                            .map(({ count, label, value }) => {
-                              const isChecked = contributorsSelected.includes(
-                                label
-                              );
-                              return (
-                                (count > 0 || isChecked) && (
-                                  <Space
-                                    as="li"
-                                    v={{
-                                      size: 'l',
-                                      properties: ['margin-bottom'],
-                                    }}
-                                    key={`mobile-${label}`}
-                                  >
-                                    <CheckboxRadio
-                                      id={`mobile-${replaceSpaceWithHypen(
-                                        label
-                                      )}`}
-                                      type={`checkbox`}
-                                      text={`${label} (${count})`}
-                                      value={value}
-                                      name={`contributors.agent.label`}
-                                      checked={isChecked}
-                                      onChange={changeHandler}
-                                      ariaLabel={searchFilterCheckBox(label)}
-                                    />
-                                  </Space>
-                                )
-                              );
-                            })}
-                        </ul>
-                      }
-                    </Space>
+                    {f.type === 'color' && (
+                      <ColorFilter f={f} changeHandler={changeHandler} />
+                    )}
                   </FilterSection>
-                )}
-              {searchMoreFilters &&
-                filtersToShow.includes('subjects') &&
-                subjectsFilter.length > 0 && (
-                  <FilterSection>
-                    <h3 className="h3">Subjects</h3>
-                    <Space
-                      as="span"
-                      h={{ size: 'm', properties: ['margin-right'] }}
-                    >
-                      {
-                        <ul
-                          className={classNames({
-                            'no-margin no-padding plain-list': true,
-                          })}
-                        >
-                          {subjectsFilter
-                            .map(subject => {
-                              return {
-                                count: subject.count,
-                                label: subject.data.label,
-                                value: quoteVal(subject.data.label),
-                              };
-                            })
-                            .map(({ count, label, value }) => {
-                              const isChecked = subjectsSelected.includes(
-                                label
-                              );
-                              return (
-                                (count > 0 || isChecked) && (
-                                  <Space
-                                    as="li"
-                                    v={{
-                                      size: 'l',
-                                      properties: ['margin-bottom'],
-                                    }}
-                                    key={`mobile-${label}`}
-                                  >
-                                    <CheckboxRadio
-                                      id={`mobile-${replaceSpaceWithHypen(
-                                        label
-                                      )}`}
-                                      type={`checkbox`}
-                                      text={`${label} (${count})`}
-                                      value={value}
-                                      name={`subjects.label`}
-                                      checked={isChecked}
-                                      onChange={changeHandler}
-                                      ariaLabel={searchFilterCheckBox(label)}
-                                    />
-                                  </Space>
-                                )
-                              );
-                            })}
-                        </ul>
-                      }
-                    </Space>
-                  </FilterSection>
-                )}
-              {searchMoreFilters &&
-                filtersToShow.includes('genres') &&
-                genresFilter.length > 0 && (
-                  <FilterSection>
-                    <h3 className="h3">Genres</h3>
-                    <Space
-                      as="span"
-                      h={{ size: 'm', properties: ['margin-right'] }}
-                    >
-                      {
-                        <ul
-                          className={classNames({
-                            'no-margin no-padding plain-list': true,
-                          })}
-                        >
-                          {genresFilter
-                            .map(subject => {
-                              return {
-                                count: subject.count,
-                                label: subject.data.label,
-                                value: quoteVal(subject.data.label),
-                              };
-                            })
-                            .map(({ count, label, value }) => {
-                              const isChecked = genresSelected.includes(label);
-
-                              return (
-                                (count > 0 || isChecked) && (
-                                  <Space
-                                    as="li"
-                                    v={{
-                                      size: 'l',
-                                      properties: ['margin-bottom'],
-                                    }}
-                                    key={`mobile-${label}`}
-                                  >
-                                    <CheckboxRadio
-                                      id={`mobile-${replaceSpaceWithHypen(
-                                        label
-                                      )}`}
-                                      type={`checkbox`}
-                                      text={`${label} (${count})`}
-                                      value={value}
-                                      name={`genres.label`}
-                                      checked={isChecked}
-                                      onChange={changeHandler}
-                                      ariaLabel={searchFilterCheckBox(label)}
-                                    />
-                                  </Space>
-                                )
-                              );
-                            })}
-                        </ul>
-                      }
-                    </Space>
-                  </FilterSection>
-                )}
-              {searchMoreFilters &&
-                filtersToShow.includes('languages') &&
-                languagesFilter.length > 0 && (
-                  <FilterSection>
-                    <h3 className="h3">Languages</h3>
-                    <Space
-                      as="span"
-                      h={{ size: 'm', properties: ['margin-right'] }}
-                    >
-                      {
-                        <ul
-                          className={classNames({
-                            'no-margin no-padding plain-list': true,
-                          })}
-                        >
-                          {languagesFilter.map(language => {
-                            const isChecked = languagesSelected.includes(
-                              language.data.id
-                            );
-
-                            return (
-                              (language.count > 0 || isChecked) && (
-                                <Space
-                                  as="li"
-                                  v={{
-                                    size: 'l',
-                                    properties: ['margin-bottom'],
-                                  }}
-                                  key={`mobile-${language.data.id}`}
-                                >
-                                  <CheckboxRadio
-                                    id={`mobile-${language.data.id}`}
-                                    type={`checkbox`}
-                                    text={`${language.data.label} (${language.count})`}
-                                    value={language.data.id}
-                                    name={`languages`}
-                                    checked={isChecked}
-                                    onChange={changeHandler}
-                                    ariaLabel={searchFilterCheckBox(
-                                      language.data.label
-                                    )}
-                                  />
-                                </Space>
-                              )
-                            );
-                          })}
-                        </ul>
-                      }
-                    </Space>
-                  </FilterSection>
-                )}
+                );
+              })}
             </FiltersBody>
           </FiltersScrollable>
 
           <FiltersFooter>
             <NextLink
               passHref
-              {...worksLink(
-                {
-                  query: worksRouteProps.query,
-                },
-                'cancel_filter/all'
-              )}
+              {...worksLink({
+                ...emptyWorksProps,
+                query: query,
+                source: 'cancel_filter/all',
+              })}
             >
               <a>Reset filters</a>
             </NextLink>
