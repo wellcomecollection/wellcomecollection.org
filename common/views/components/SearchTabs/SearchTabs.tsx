@@ -168,11 +168,15 @@ const SearchTabs: FunctionComponent<Props> = ({
             sortOrder={sortOrder}
             linkResolver={params => {
               const query = propsToQuery(params);
+              const { source = undefined, ...queryWithoutSource } = {
+                ...query,
+              };
+
               const link = {
                 pathname: '/works',
-                query,
+                queryWithoutSource,
               };
-              return { href: link, as: link };
+              return { href: { ...link, source }, as: link };
             }}
             ariaDescribedBy={'library-catalogue-form-description'}
             isImageSearch={false}
@@ -248,11 +252,16 @@ const SearchTabs: FunctionComponent<Props> = ({
             sortOrder={undefined}
             linkResolver={params => {
               const query = propsToQuery(params);
+              const { source = undefined, ...queryWithoutSource } = {
+                ...query,
+              };
+
               const link = {
                 pathname: '/images',
-                query,
+                queryWithoutSource,
               };
-              return { href: link, as: link };
+
+              return { href: { ...link, source }, as: link };
             }}
             ariaDescribedBy="images-form-description"
             isImageSearch={true}
