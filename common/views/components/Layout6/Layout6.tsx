@@ -12,9 +12,9 @@ const Layout6: FunctionComponent<Props> = ({ children }: Props) => (
       m: 6,
       shiftM: 1,
       l: 6,
-      shiftL: 1,
+      shiftL: 2,
       xl: 6,
-      shiftXl: 1,
+      shiftXl: 2,
     }}
   >
     {children}
