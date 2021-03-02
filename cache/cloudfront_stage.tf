@@ -91,7 +91,7 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
 
       # The number of keys here is higher than the default limit of 10 -
       # AWS have increased this to 50 for us here.
-      query_string_cache_keys = [
+      query_string_cache_keys = sort([
         "_queryType",
         "canvas",
         "current",
@@ -104,9 +104,10 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
         "languages",
         "subjects.label",
         "genres.label",
+        "contributors.agent.label",
         "toggle",
         "workType",
-      ]
+      ])
 
       cookies {
         forward = "whitelist"
