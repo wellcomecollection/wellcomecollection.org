@@ -332,7 +332,11 @@ const Body: FunctionComponent<Props> = ({
               that width isn't an adequate means to illustrate a difference */}
                 {slice.type === 'picture' && slice.weight === 'body' && (
                   <Layout6>
-                    <CaptionedImage {...slice.value} sizesQueries={''} />
+                    <CaptionedImage
+                      {...slice.value}
+                      sizesQueries={''}
+                      extraClasses={'captioned-image--body'}
+                    />
                   </Layout6>
                 )}
                 {slice.type === 'picture' && slice.weight === 'default' && (
