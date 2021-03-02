@@ -107,7 +107,7 @@ export type WorksRouteProps = {
   source: string | null;
   workType: string[];
   itemsLocationsLocationType: string[];
-  itemsLocationsType: string[];
+  availabilities: string[];
   sort: string | null;
   sortOrder: string | null;
   productionDatesFrom: string | null;
@@ -132,7 +132,7 @@ export function imagesRoutePropsToWorksRouteProps(
     source: null,
     workType: [],
     itemsLocationsLocationType: [],
-    itemsLocationsType: [],
+    availabilities: [],
     sort: null,
     sortOrder: null,
     productionDatesFrom: null,
@@ -158,7 +158,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       itemsLocationsLocationType: stringToCsv(
         stringQ['items.locations.locationType']
       ),
-      itemsLocationsType: stringToCsv(stringQ['items.locations.type']),
+      availabilities: stringToCsv(stringQ['availabilities']),
       sort: maybeString(stringQ.sort),
       sortOrder: maybeString(stringQ.sortOrder),
       productionDatesFrom: maybeString(stringQ['production.dates.from']),
@@ -200,7 +200,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       page: params.page,
       workType: params.workType,
       'items.locations.locationType': params.itemsLocationsLocationType,
-      'items.locations.type': params.itemsLocationsType,
+      availabilities: params.availabilities,
       sort: params.sort,
       sortOrder: params.sortOrder,
       'production.dates.from': params.productionDatesFrom,
@@ -229,7 +229,7 @@ export const ImagesRoute: NextRoute<ImagesRouteProps> = {
       // This should be removed
       workType: [],
       itemsLocationsLocationType: [],
-      itemsLocationsType: [],
+      availabilities: [],
       sort: null,
       sortOrder: null,
       productionDatesFrom: null,

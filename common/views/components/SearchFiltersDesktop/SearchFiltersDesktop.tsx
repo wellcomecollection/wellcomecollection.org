@@ -155,12 +155,10 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   const [showMoreFiltersModal, setMoreFiltersModal] = useState(false);
   const openMoreFiltersButtonRef = useRef(null);
 
-  const locationsTypeFilter = filters.find(
-    ({ id }) => id === 'items.locations.type'
+  const availabilitiesFilter = filters.find(
+    ({ id }) => id === 'availabilities'
   );
-  const otherFilters = filters.filter(
-    ({ id }) => id !== 'items.locations.type'
-  );
+  const otherFilters = filters.filter(({ id }) => id !== 'availabilities');
   const visibleFilters = otherFilters.slice(0, 2);
   const modalFilters = otherFilters.slice(2);
 
@@ -259,7 +257,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
             )}
           </Space>
 
-          {locationsTypeFilter && locationsTypeFilter.type === 'checkbox' && (
+          {availabilitiesFilter && availabilitiesFilter.type === 'checkbox' && (
             <Space
               v={{ size: 'm', properties: ['margin-bottom'] }}
               className={classNames({
@@ -282,7 +280,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                     [font('hnl', 5)]: true,
                   })}
                 >
-                  {locationsTypeFilter.options
+                  {availabilitiesFilter.options
+                    .slice()
                     // Hack: Ensure 'Online' appears before 'In the library'
                     .sort(({ label: a }, { label: b }) => b.localeCompare(a))
                     .map(({ id, label, count, value, selected }) => {
@@ -300,7 +299,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                             type={`checkbox`}
                             text={`${label} (${count})`}
                             value={value}
-                            name={locationsTypeFilter.id}
+                            name={availabilitiesFilter.id}
                             checked={selected}
                             onChange={changeHandler}
                           />

@@ -39,7 +39,7 @@ export type CatalogueWorksApiProps = {
   workType?: string[];
   'items.locations.locationType'?: string[];
   'items.locations.accessConditions.status'?: ItemsLocationsAccessConditionsStatus;
-  'items.locations.type'?: string[];
+  availabilities?: string[];
   sort?: string;
   sortOrder?: string;
   'production.dates.from'?: string;
@@ -61,7 +61,7 @@ export function worksRouteToApiUrl(
     page: worksProps.page,
     workType: worksProps.workType,
     'items.locations.locationType': worksProps.itemsLocationsLocationType,
-    'items.locations.type': worksProps.itemsLocationsType,
+    availabilities: worksProps.availabilities,
     sort: worksProps.sort,
     sortOrder: worksProps.sortOrder,
     'production.dates.from': worksProps.productionDatesFrom

@@ -34,7 +34,7 @@ export type WorksProps = {
   page: number;
   workType: string[];
   itemsLocationsLocationType: string[];
-  itemsLocationsType: string[];
+  availabilities: string[];
   languages: string[];
   genresLabel: string[];
   subjectsLabel: string[];
@@ -51,7 +51,7 @@ const emptyWorksProps: WorksProps = {
   page: 1,
   workType: [],
   itemsLocationsLocationType: [],
-  itemsLocationsType: [],
+  availabilities: [],
   languages: [],
   genresLabel: [],
   subjectsLabel: [],
@@ -67,7 +67,7 @@ const keyToQueryMap = {
   sort: 'sort',
   sortOrder: 'sortOrder',
   itemsLocationsLocationType: 'items.locations.locationType',
-  itemsLocationsType: 'items.locations.type',
+  availabilities: 'availabilities',
   languages: 'languages',
   genresLabel: 'genres.label',
   subjectsLabel: 'subjects.label',
@@ -85,7 +85,7 @@ const fromQuery: QueryTo<WorksProps> = params => {
     sort: toMaybeString(params.sort),
     sortOrder: toMaybeString(params.sortOrder),
     itemsLocationsLocationType: toCsv(params['items.locations.locationType']),
-    itemsLocationsType: toCsv(params['items.locations.type']),
+    availabilities: toCsv(params['availabilities']),
     languages: toCsv(params.languages),
     genresLabel: toQuotedCsv(params['genres.label']),
     subjectsLabel: toQuotedCsv(params['subjects.label']),

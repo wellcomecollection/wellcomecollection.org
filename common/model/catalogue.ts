@@ -305,7 +305,7 @@ export type CatalogueAggregationNoId = {
 
 export type CatalogueAggregations = {
   workType: CatalogueAggregation;
-  locationType: CatalogueAggregation;
+  availabilities: CatalogueAggregation;
   languages?: CatalogueAggregation;
   genres?: CatalogueAggregationNoId;
   subjects?: CatalogueAggregationNoId;

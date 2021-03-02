@@ -290,7 +290,7 @@ export const getServerSideProps: GetServerSideProps<
   const props = fromQuery(context.query);
 
   const { searchMoreFilters } = globalContextData.toggles;
-  const defaultAggregations = ['workType', 'locationType'];
+  const defaultAggregations = ['workType', 'availabilities'];
   const moreFiltersAggregations = [
     'genres',
     'languages',
