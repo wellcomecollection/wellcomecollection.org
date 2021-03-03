@@ -33,8 +33,9 @@ export const Label = styled.label.attrs({ className: 'font-hnm font-size-4' })`
 
 export const TextInput = styled.input`
   width: 100%;
-  margin: 0.333em 0;
-  padding: 1em;
+  height: 55px;
+  margin: 0.333em 0 1em;
+  padding: 0.7em;
   border: solid 1px #8f8f8f;
 
   &[data-invalid='true'] {
