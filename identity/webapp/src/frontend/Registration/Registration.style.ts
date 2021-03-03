@@ -86,3 +86,7 @@ export const SuccessMessage = styled(AlertBox)`
   background-color: rgba(0, 120, 108, 0.1);
   color: #00786c;
 `;
+
+export const PasswordRulesList = styled.ul`
+  margin-top: -0.666em;
+`;

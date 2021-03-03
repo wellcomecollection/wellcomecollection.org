@@ -12,6 +12,7 @@ import {
   InvalidFieldAlert,
   Label,
   Link,
+  PasswordRulesList,
   SecondaryButton,
   TextInput,
   Title,
@@ -130,12 +131,12 @@ export function Registration(): JSX.Element {
               })}
               data-invalid={Boolean(errors.password)}
             />
-            <ul>
+            <PasswordRulesList>
               <li className="font-hnl font-size-6">One lowercase character</li>
               <li className="font-hnl font-size-6">One uppercase character</li>
               <li className="font-hnl font-size-6">One number</li>
               <li className="font-hnl font-size-6">8 characters minimum</li>
-            </ul>
+            </PasswordRulesList>
 
             <SpacingComponent />
 
@@ -145,7 +146,7 @@ export function Registration(): JSX.Element {
               control={control}
               defaultValue={false}
               rules={{ required: 'You must accept to proceed' }}
-              render={(props) => (
+              render={props => (
                 <CheckboxRadio
                   onChange={(e: React.FormEvent<HTMLInputElement>) => props.onChange(e.currentTarget.checked)}
                   checked={props.value}
