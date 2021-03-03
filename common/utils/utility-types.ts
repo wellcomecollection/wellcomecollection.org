@@ -32,14 +32,16 @@ export type OptionalToUndefined<T> = {
  * There might be a way to do this with conditional types,
  * I just couldn't find it.
  */
-type DefinableProps<T> = {
+type RequiredProp<T> = {
   [P in keyof T]: undefined extends T[P] ? never : P
 }[keyof T]
+// By undefinable we mean { prop: string | undefined }
+// as opposed to optional { prop?: string }
 type UndefinableProps<T> = {
   [P in keyof T]: undefined extends T[P] ? P : never
 }[keyof T]
 export type UndefinableToOptional<T> = Flatten<{
-  [P in DefinableProps<T>]: T[P]
+  [P in RequiredProp<T>]: T[P]
 } & {
   [P in UndefinableProps<T>]?: T[P]
 }>
