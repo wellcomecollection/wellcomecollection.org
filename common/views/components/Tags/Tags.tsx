@@ -3,13 +3,11 @@ import NextLink from 'next/link';
 import Space from '../styled/Space';
 import { InlineButton } from '@weco/common/views/components/ButtonInline/ButtonInline';
 import { FunctionComponent, ReactElement } from 'react';
+import { LinkProps } from '../../../model/link-props';
 
 export type TagType = {
   textParts: string[];
-  linkAttributes: {
-    href: { pathname: string; query: string };
-    as: { pathname: string; query: string };
-  };
+  linkAttributes: LinkProps;
 };
 
 type Props = {
