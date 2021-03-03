@@ -45,6 +45,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { FeaturedCardExhibition } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 import { getParseCollectionVenueById } from '@weco/common/services/prismic/opening-times';
 import { collectionVenueId } from '@weco/common/services/prismic/hardcoded-id';
+import styled from 'styled-components';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -149,7 +150,7 @@ const DateRange = ({
         }}
         as="p"
         className={classNames({
-          [font('hnm', 5)]: true,
+          [font('hnl', 5)]: true,
         })}
       >
         {period === 'today' && (
@@ -200,7 +201,11 @@ const DateRange = ({
     </Fragment>
   );
 };
-
+const Title = styled.h1.attrs(props => ({
+  className: 'h1 inline-block no-margin',
+}))`
+  font-size: 50px;
+`;
 type HeaderProps = {|
   activeId: string,
   openingTimes: any, // TODO
@@ -213,11 +218,10 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
     <Space
       v={{
         size: 'l',
-        properties: ['padding-top', 'padding-bottom'],
+        properties: ['padding-top'],
       }}
       className={classNames({
         row: true,
-        'bg-cream': true,
       })}
     >
       <div className="container">
@@ -225,7 +229,7 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
             <div className="flex flex--v-center flex--h-space-between flex--wrap">
               <div>
-                <h1 className="inline h1">What{`'`}s on</h1>
+                <Title>What{`'`}s on</Title>
               </div>
               <div className="flex flex--v-center flex--wrap">
                 {todayOpeningHours && (
@@ -282,7 +286,7 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
               properties: ['margin-top', 'margin-bottom'],
             }}
             className={classNames({
-              [grid({ s: 12, m: 10, l: 8, xl: 6 })]: true,
+              [grid({ s: 12, m: 10, l: 7, xl: 7 })]: true,
             })}
           >
             <SegmentedControl
@@ -408,18 +412,20 @@ export class WhatsOnPage extends Component<Props> {
           {openingTimes => (
             <Fragment>
               <Header activeId={period} openingTimes={openingTimes} />
+              <Layout12>
+                <DateRange
+                  dateRange={dateRange}
+                  period={period}
+                  cafePromo={eatShopPromos[0]}
+                  openingTimes={openingTimes}
+                />
+              </Layout12>
               <Space v={{ size: 'l', properties: ['margin-top'] }}>
                 {period === 'current-and-coming-up' && (
                   <Fragment>
                     <Space v={{ size: 'l', properties: ['padding-top'] }}>
                       <SpacingSection>
                         <Layout12>
-                          <DateRange
-                            dateRange={dateRange}
-                            period={period}
-                            cafePromo={eatShopPromos[0]}
-                            openingTimes={openingTimes}
-                          />
                           <div className="flex flex--v-center flex--h-space-between">
                             <h2 className="h1">Exhibitions</h2>
                             <span className={font('hnm', 5)}>
@@ -513,12 +519,6 @@ export class WhatsOnPage extends Component<Props> {
                       }}
                     >
                       <Layout12>
-                        <DateRange
-                          dateRange={dateRange}
-                          period={period}
-                          cafePromo={eatShopPromos[0]}
-                          openingTimes={openingTimes}
-                        />
                         <div className="flex flex--v-center flex--h-space-between">
                           <h2 className="h1">Exhibitions and Events</h2>
                           <span className={font('hnm', 4)}>Free admission</span>

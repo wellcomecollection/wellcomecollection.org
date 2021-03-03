@@ -5,7 +5,7 @@ import { getArticles } from '@weco/common/services/prismic/articles';
 import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { articleLd } from '@weco/common/utils/json-ld';
-import { classNames, grid, font } from '@weco/common/utils/classnames';
+import { classNames, grid } from '@weco/common/utils/classnames';
 import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 // $FlowFixMe (tsx)
 import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
@@ -24,6 +24,13 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import Space from '@weco/common/views/components/styled/Space';
 import { staticBooks } from '../content/static-books';
 import { FeaturedCardArticle } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
+import styled from 'styled-components';
+
+const Header = styled.h1.attrs(props => ({
+  className: 'h1 inline-block no-margin',
+}))`
+  font-size: 50px;
+`;
 
 type Props = {|
   articles: PaginatedResults<Article>,
@@ -126,7 +133,6 @@ export class StoriesPage extends Component<Props> {
             }}
             className={classNames({
               row: true,
-              'bg-cream': true,
             })}
           >
             <div className="container">
@@ -136,15 +142,7 @@ export class StoriesPage extends Component<Props> {
                     [grid({ s: 12, m: 12, l: 7, xl: 8 })]: true,
                   })}
                 >
-                  <h1
-                    className={classNames({
-                      'no-margin': true,
-                      [font('wb', 2)]: true,
-                    })}
-                  >
-                    Stories
-                  </h1>
-
+                  <Header>Stories</Header>
                   <Space
                     v={{
                       size: 'm',
