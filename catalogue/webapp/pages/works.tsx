@@ -61,8 +61,8 @@ const Works: NextPage<Props> = ({
   const {
     query,
     page,
-    productionDatesFrom,
-    productionDatesTo,
+    'production.dates.from': productionDatesFrom,
+    'production.dates.to': productionDatesTo,
   } = worksRouteProps;
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const Works: NextPage<Props> = ({
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
-    const link = toLink({ ...worksRouteProps, source: 'works_search_context' });
+    const link = toLink({ ...worksRouteProps }, 'works_search_context');
     setLink(link);
   }, [worksRouteProps]);
 
@@ -103,7 +103,8 @@ const Works: NextPage<Props> = ({
           <link
             rel="prev"
             href={convertUrlToString(
-              toLink({ ...worksRouteProps, page: (page || 1) - 1 }).as
+              toLink({ ...worksRouteProps, page: (page || 1) - 1 }, 'unknown')
+                .as
             )}
           />
         )}
@@ -111,7 +112,7 @@ const Works: NextPage<Props> = ({
           <link
             rel="next"
             href={convertUrlToString(
-              toLink({ ...worksRouteProps, page: page + 1 }).as
+              toLink({ ...worksRouteProps, page: page + 1 }, 'unknown').as
             )}
           />
         )}
@@ -120,7 +121,7 @@ const Works: NextPage<Props> = ({
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Catalogue search`}
         description="Search the Wellcome Collection catalogue"
-        url={toLink({ ...worksRouteProps }).as}
+        url={toLink({ ...worksRouteProps }, 'unknown').as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'collections'}
@@ -175,20 +176,24 @@ const Works: NextPage<Props> = ({
                           currentPage={page || 1}
                           pageSize={works.pageSize}
                           totalResults={works.totalResults}
-                          link={toLink({
-                            ...worksRouteProps,
-                            source: 'search/paginator',
-                          })}
+                          link={toLink(
+                            {
+                              ...worksRouteProps,
+                            },
+                            'search/paginator'
+                          )}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
                             const state = {
                               ...worksRouteProps,
                               page: newPage,
                             };
-                            const link = toLink({
-                              ...state,
-                              source: 'search/paginator',
-                            });
+                            const link = toLink(
+                              {
+                                ...state,
+                              },
+                              'search/paginator'
+                            );
 
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
@@ -240,10 +245,12 @@ const Works: NextPage<Props> = ({
                             currentPage={page || 1}
                             pageSize={works.pageSize}
                             totalResults={works.totalResults}
-                            link={toLink({
-                              ...worksRouteProps,
-                              source: 'search/paginator',
-                            })}
+                            link={toLink(
+                              {
+                                ...worksRouteProps,
+                              },
+                              'search/paginator'
+                            )}
                             onPageChange={async (event, newPage) => {
                               event.preventDefault();
                               const state = {
@@ -251,10 +258,12 @@ const Works: NextPage<Props> = ({
                                 page: newPage,
                               };
 
-                              const link = toLink({
-                                ...state,
-                                source: 'search/paginator',
-                              });
+                              const link = toLink(
+                                {
+                                  ...state,
+                                },
+                                'search/paginator'
+                              );
 
                               Router.push(link.href, link.as).then(() =>
                                 window.scrollTo(0, 0)

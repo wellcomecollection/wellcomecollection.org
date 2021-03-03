@@ -2,11 +2,11 @@ import { withPrefix } from '../utility/prefix';
 import { RouteMiddleware } from '../types/application';
 import { prefix } from '../utility/prefix';
 
-const unAuthenticatedPages: string[] = ['/register', '/register/old', '/validated', '/error'].map((route) => {
+const unAuthenticatedPages: string[] = ['/register', '/register/old', '/validated', '/error'].map(route => {
   return prefix ? prefix + route : route;
 });
 
-export const indexPage: RouteMiddleware = (context) => {
+export const indexPage: RouteMiddleware = context => {
   const bundle = context.routes.url('assets-bundles');
 
   if (context.isAuthenticated() || unAuthenticatedPages.includes(context.request.URL.pathname)) {
