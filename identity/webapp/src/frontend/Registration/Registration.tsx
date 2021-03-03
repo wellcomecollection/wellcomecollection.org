@@ -1,12 +1,13 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 import { AccountCreated } from './AccountCreated';
 import { PageWrapper } from './PageWrapper';
 import {
   Button,
   Checkbox,
   Container,
-  ErrorMessage,
+  ErrorAlert,
   Heading,
   InvalidFieldAlert,
   Label,
@@ -34,8 +35,18 @@ const validEmailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(
 const validPasswordPattern = /(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*/;
 
 export function Registration(): JSX.Element {
-  const { register, control, handleSubmit, errors } = useForm<RegistrationInputs>({ defaultValues: { password: '' } });
+  const { register, control, handleSubmit, formState } = useForm<RegistrationInputs>({
+    defaultValues: { password: '' },
+  });
   const { registerUser, isSuccess, error: registrationError } = useRegisterUser();
+
+  const FieldErrorMessage = ({ name }: { name: keyof RegistrationInputs }) => (
+    <ErrorMessage
+      errors={formState.errors}
+      name={name}
+      render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
+    />
+  );
 
   const createUser = (formData: RegistrationInputs) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -55,7 +66,7 @@ export function Registration(): JSX.Element {
 
           {registrationError && (
             <>
-              <ErrorMessage>
+              <ErrorAlert>
                 <Icon name="cross" />
                 {registrationError === RegistrationError.EMAIL_ALREADY_EXISTS && (
                   <>
@@ -67,42 +78,37 @@ export function Registration(): JSX.Element {
                 )}
                 {registrationError === RegistrationError.PASSWORD_TOO_COMMON && 'Password is too common'}
                 {registrationError === RegistrationError.UNKNOWN && 'An unknown error occurred'}
-              </ErrorMessage>
+              </ErrorAlert>
             </>
           )}
           <SpacingComponent />
 
           <form onSubmit={handleSubmit(createUser)}>
             <Heading>Personal details</Heading>
-
             <Label htmlFor="first-name">First name</Label>
-            {errors.firstName && <InvalidFieldAlert>{errors.firstName.message}</InvalidFieldAlert>}
+            <FieldErrorMessage name="firstName" />
             <TextInput
               id="first-name"
               name="firstName"
               placeholder="Forename"
               ref={register({ required: 'Missing first name' })}
-              data-invalid={Boolean(errors.firstName)}
+              invalid={formState.errors.firstName}
             />
-
             <Label htmlFor="last-name">Last name</Label>
-            {errors.lastName && <InvalidFieldAlert>{errors.lastName.message}</InvalidFieldAlert>}
+            <FieldErrorMessage name="lastName" />{' '}
             <TextInput
               id="last-name"
               name="lastName"
               placeholder="Surname"
               ref={register({ required: 'Missing last name' })}
-              data-invalid={Boolean(errors.lastName)}
+              invalid={formState.errors.lastName}
             />
-
             <SpacingComponent />
-
             <Heading>Login details</Heading>
-
             <Label htmlFor="email-address" className="font-hnm font-size-4">
               Email address
             </Label>
-            {errors.email && <InvalidFieldAlert>{errors.email.message}</InvalidFieldAlert>}
+            <FieldErrorMessage name="email" />
             <TextInput
               id="email-address"
               name="email"
@@ -115,13 +121,12 @@ export function Registration(): JSX.Element {
                   message: 'Invalid email address',
                 },
               })}
-              data-invalid={Boolean(errors.email)}
+              invalid={formState.errors.email}
             />
-
             <Label htmlFor="password" className="font-hnm font-size-4">
               Password
             </Label>
-            {errors.password && <InvalidFieldAlert>{errors.password.message}</InvalidFieldAlert>}
+            <FieldErrorMessage name="password" />
             <PasswordInput
               id="password"
               name="password"
@@ -140,10 +145,8 @@ export function Registration(): JSX.Element {
               <li className="font-hnl font-size-6">One number</li>
               <li className="font-hnl font-size-6">8 characters minimum</li>
             </PasswordRulesList>
-
             <SpacingComponent />
-
-            {errors.termsAndConditions && <InvalidFieldAlert>{errors.termsAndConditions.message}</InvalidFieldAlert>}
+            <FieldErrorMessage name="termsAndConditions" />
             <Controller
               name="termsAndConditions"
               control={control}
@@ -161,9 +164,7 @@ export function Registration(): JSX.Element {
                 />
               )}
             />
-
             <SpacingComponent />
-
             <Button type="submit">Create account</Button>
             <SpacingComponent />
             <SecondaryButton type="reset">Cancel</SecondaryButton>
