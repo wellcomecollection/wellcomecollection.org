@@ -158,7 +158,15 @@ export function Registration(): JSX.Element {
                   checked={props.value}
                   text={
                     <span>
-                      I have read and agree to the <Link href="#">Privacy and Terms</Link> for Wellcome
+                      I have read and agree to the{' '}
+                      <Link
+                        href="https://wellcome.org/about-us/governance/privacy-and-terms"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Privacy and Terms
+                      </Link>{' '}
+                      for Wellcome
                     </span>
                   }
                 />
