@@ -1,14 +1,16 @@
+import { ParsedUrlQuery } from 'querystring';
 import NextLink from 'next/link';
 import { LinkProps } from '../../../model/link-props';
 import { FunctionComponent } from 'react';
 import {
-  toCsv,
-  toMaybeString,
-  toString,
-  toNumber,
-  toSource,
-  QueryTo,
   LinkFrom,
+  maybeStringCodec,
+  stringCodec,
+  numberCodec,
+  csvCodec,
+  FromCodecMap,
+  encodeQuery,
+  decodeQuery,
 } from '../../../utils/routes';
 
 const imagesPropsSources = [
@@ -16,57 +18,64 @@ const imagesPropsSources = [
   'canonical_link',
   'images_search_context',
   'work_details/images',
+  'unknown',
 ] as const;
 type ImagesPropsSource = typeof imagesPropsSources[number];
 
-export type ImagesProps = {
-  query: string;
-  page: number;
-  locationsLicense: string[];
-  color: string | undefined;
-  source: ImagesPropsSource | 'unknown';
-};
+export type ImagesProps = FromCodecMap<typeof codecMap>;
 
 const emptyImagesProps: ImagesProps = {
   query: '',
   page: 1,
-  locationsLicense: [],
+  'locations.license': [],
   color: undefined,
-  source: 'unknown',
 };
 
-const fromQuery: QueryTo<ImagesProps> = params => {
-  return {
-    query: toString(params.query, ''),
-    page: toNumber(params.page, 1),
-    locationsLicense: toCsv(params['locations.license']),
-    color: toMaybeString(params.color),
-    source: toSource(params.source, imagesPropsSources) || 'unknown',
+const codecMap = {
+  query: stringCodec,
+  page: numberCodec,
+  'locations.license': csvCodec,
+  color: maybeStringCodec,
+};
+
+const fromQuery: (params: ParsedUrlQuery) => ImagesProps = params => {
+  return decodeQuery<ImagesProps>(params, codecMap);
+};
+
+const toQuery: (props: ImagesProps) => ParsedUrlQuery = props => {
+  return encodeQuery<ImagesProps>(props, codecMap);
+};
+
+function toLink(
+  partialProps: Partial<ImagesProps>,
+  source: ImagesPropsSource
+): LinkProps {
+  const pathname = '/works';
+  const props: ImagesProps = {
+    ...emptyImagesProps,
+    ...partialProps,
   };
-};
-
-function toLink(props: ImagesProps): LinkProps {
-  const pathname = '/images';
-  const { source, ...propsWithoutSource } = props;
+  const query = toQuery(props);
 
   return {
     href: {
       pathname,
-      query: { ...props },
+      query: { ...query, source },
     },
     as: {
       pathname,
-      query: { ...propsWithoutSource },
+      query: query,
     },
   };
 }
 
-type Props = LinkFrom<ImagesProps>;
+type Props = LinkFrom<ImagesProps> & { source: ImagesPropsSource };
 const ImagesLink: FunctionComponent<Props> = ({
   children,
+  source,
   ...props
 }: Props) => {
-  return <NextLink {...toLink(props)}>{children}</NextLink>;
+  return <NextLink {...toLink(props, source)}>{children}</NextLink>;
 };
 
 export default ImagesLink;

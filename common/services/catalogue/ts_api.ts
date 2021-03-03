@@ -87,7 +87,7 @@ export function imagesRouteToApiUrl(
     query: imagesRouteProps.query,
     page: imagesRouteProps.page,
     color: imagesRouteProps.color,
-    'locations.license': imagesRouteProps.locationsLicense,
+    'locations.license': imagesRouteProps['locations.license'],
   };
 }
 

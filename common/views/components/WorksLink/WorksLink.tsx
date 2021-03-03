@@ -85,7 +85,10 @@ function toLink(
     ...emptyWorksProps,
     ...partialProps,
   };
+  console.info(props);
   const query = toQuery(props);
+  console.info(query);
+  console.info('===================');
 
   return {
     href: {

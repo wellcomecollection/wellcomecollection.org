@@ -443,13 +443,12 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
                 ? `View ${work.images.length} images`
                 : 'View 1 image'
             }
-            link={imagesLink({
-              query: work.id,
-              page: 1,
-              source: 'work_details/images',
-              color: undefined,
-              locationsLicense: [],
-            })}
+            link={imagesLink(
+              {
+                query: work.id,
+              },
+              'work_details/images'
+            )}
           />
         </WorkDetailsSection>
       )}
