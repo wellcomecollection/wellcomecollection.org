@@ -60,20 +60,22 @@ export function worksRouteToApiUrl(
     query: worksProps.query,
     page: worksProps.page,
     workType: worksProps.workType,
-    'items.locations.locationType': worksProps.itemsLocationsLocationType,
-    'items.locations.type': worksProps.itemsLocationsType,
+    'items.locations.locationType': worksProps['items.locations.locationType'],
+    'items.locations.type': worksProps['items.locations.type'],
     sort: worksProps.sort,
     sortOrder: worksProps.sortOrder,
-    'production.dates.from': worksProps.productionDatesFrom
-      ? toIsoDateString(worksProps.productionDatesFrom)
+    'production.dates.from': worksProps['production.dates.from']
+      ? toIsoDateString(worksProps['production.dates.from'])
       : undefined,
-    'production.dates.to': worksProps.productionDatesTo
-      ? toIsoDateString(worksProps.productionDatesTo)
+    'production.dates.to': worksProps['production.dates.to']
+      ? toIsoDateString(worksProps['production.dates.to'])
       : undefined,
     languages: worksProps.languages,
-    'genres.label': worksProps.genresLabel.map(quoteVal),
-    'subjects.label': worksProps.subjectsLabel.map(quoteVal),
-    'contributors.agent.label': worksProps.contributorsAgentLabel.map(quoteVal),
+    'genres.label': worksProps['genres.label'].map(quoteVal),
+    'subjects.label': worksProps['subjects.label'].map(quoteVal),
+    'contributors.agent.label': worksProps['contributors.agent.label'].map(
+      quoteVal
+    ),
     ...overrides,
   };
 }

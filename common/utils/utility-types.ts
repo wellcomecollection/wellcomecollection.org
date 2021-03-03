@@ -14,6 +14,35 @@ export type OptionalToUndefined<T> = {
 };
 
 /**
+ * This allows us to take types such as:
+ * { a: string, b : string | undefined }
+ * and converts it into { a: string, b?: string | undefined }
+ * 
+ * There might be a way to do this with conditional types,
+ * I just couldn't find it.
+ */
+type DefinableProps<T> = {
+  [P in keyof T]: undefined extends T[P] ? never : P
+}[keyof T]
+type UndefinableProps<T> = {
+  [P in keyof T]: undefined extends T[P] ? P : never
+}[keyof T]
+export type UndefinableToOptional<T> = Flatten<{
+  [P in DefinableProps<T>]: T[P]
+} & {
+  [P in UndefinableProps<T>]?: T[P]
+}>
+
+/**
+ * Flattens / nornmalises types for easier readability in IDEs.
+ * e.g. Flatten<{ a: string } & { b: string }>
+ * { a: string, b: string }
+*/
+export type Flatten<T> = {
+  [P in keyof T]: T[P]
+}
+
+/**
  * This allows you to specify a ReactElement of a certain type, and have access to it's props.
  * This replicates something similar to the flow example:
  * https://flow.org/en/docs/react/types/#toc-react-element

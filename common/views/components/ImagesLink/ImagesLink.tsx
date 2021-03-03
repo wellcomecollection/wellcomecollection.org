@@ -15,6 +15,7 @@ const imagesPropsSources = [
   'search/paginator',
   'canonical_link',
   'images_search_context',
+  'work_details/images',
 ] as const;
 type ImagesPropsSource = typeof imagesPropsSources[number];
 

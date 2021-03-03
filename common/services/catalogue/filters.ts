@@ -9,21 +9,18 @@ export type DateRangeFilter = {
   id: string;
   label: string;
   to: {
-    key: keyof WorksProps;
-    id: string;
+    id: keyof WorksProps;
     value: string | undefined;
   };
   from: {
-    key: keyof WorksProps;
-    id: string;
+    id: keyof WorksProps;
     value: string | undefined;
   };
 };
 
 export type CheckboxFilter = {
   type: 'checkbox';
-  key: keyof WorksProps;
-  id: string;
+  id: keyof WorksProps;
   label: string;
   options: {
     id: string;
@@ -36,8 +33,7 @@ export type CheckboxFilter = {
 
 export type ColorFilter = {
   type: 'color';
-  key: keyof ImagesProps;
-  id: string;
+  id: keyof ImagesProps;
   label: string;
   color: string | undefined;
 };
@@ -61,14 +57,12 @@ const productionDatesFilter = ({
   id: 'production.dates',
   label: 'Dates',
   from: {
-    key: 'productionDatesFrom',
     id: 'production.dates.from',
-    value: props.productionDatesFrom,
+    value: props['production.dates.from'],
   },
   to: {
-    key: 'productionDatesTo',
     id: 'production.dates.to',
-    value: props.productionDatesTo,
+    value: props['production.dates.to'],
   },
 });
 
@@ -77,7 +71,6 @@ const workTypeFilter = ({
   props,
 }: WorksFilterProps): CheckboxFilter => ({
   type: 'checkbox',
-  key: 'workType',
   id: 'workType',
   label: 'Formats',
   options:
@@ -95,7 +88,6 @@ const subjectsFilter = ({
   props,
 }: WorksFilterProps): CheckboxFilter => ({
   type: 'checkbox',
-  key: 'subjectsLabel',
   id: 'subjects.label',
   label: 'Subjects',
   options:
@@ -104,13 +96,12 @@ const subjectsFilter = ({
       value: quoteVal(bucket.data.label),
       count: bucket.count,
       label: bucket.data.label,
-      selected: props.subjectsLabel.includes(bucket.data.label),
+      selected: props['subjects.label'].includes(bucket.data.label),
     })) || [],
 });
 
 const genresFilter = ({ works, props }: WorksFilterProps): CheckboxFilter => ({
   type: 'checkbox',
-  key: 'genresLabel',
   id: 'genres.label',
   label: 'Genres',
   options:
@@ -119,7 +110,7 @@ const genresFilter = ({ works, props }: WorksFilterProps): CheckboxFilter => ({
       value: quoteVal(bucket.data.label),
       count: bucket.count,
       label: bucket.data.label,
-      selected: props.genresLabel.includes(bucket.data.label),
+      selected: props['genres.label'].includes(bucket.data.label),
     })) || [],
 });
 
@@ -128,7 +119,6 @@ const contributorsFilter = ({
   props,
 }: WorksFilterProps): CheckboxFilter => ({
   type: 'checkbox',
-  key: 'contributorsAgentLabel',
   id: 'contributors.agent.label',
   label: 'Contributors',
   options:
@@ -137,7 +127,9 @@ const contributorsFilter = ({
       value: quoteVal(bucket.data.agent.label),
       count: bucket.count,
       label: bucket.data.agent.label,
-      selected: props.contributorsAgentLabel.includes(bucket.data.agent.label),
+      selected: props['contributors.agent.label'].includes(
+        bucket.data.agent.label
+      ),
     })) || [],
 });
 
@@ -146,7 +138,6 @@ const languagesFilter = ({
   props,
 }: WorksFilterProps): CheckboxFilter => ({
   type: 'checkbox',
-  key: 'languages',
   id: 'languages',
   label: 'Languages',
   options:
@@ -164,7 +155,6 @@ const locationsFilter = ({
   props,
 }: WorksFilterProps): CheckboxFilter => ({
   type: 'checkbox',
-  key: 'itemsLocationsType',
   id: 'items.locations.type',
   label: 'Locations',
   options:
@@ -173,13 +163,12 @@ const locationsFilter = ({
       value: bucket.data.type,
       count: bucket.count,
       label: bucket.data.label,
-      selected: props.itemsLocationsType.includes(bucket.data.type),
+      selected: props['items.locations.type'].includes(bucket.data.type),
     })) || [],
 });
 
 const colorFilter = ({ props }: ImagesFilterProps): ColorFilter => ({
   type: 'color',
-  key: 'color',
   id: 'color',
   label: 'Colours',
   color: props.color,

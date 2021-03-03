@@ -11,7 +11,7 @@ import useFocusTrap from '../../../hooks/useFocusTrap';
 import { CSSTransition } from 'react-transition-group';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import NextLink from 'next/link';
-import { emptyWorksProps, toLink as worksLink } from '../WorksLink/WorksLink';
+import { toLink as worksLink } from '../WorksLink/WorksLink';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
@@ -396,11 +396,12 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
           <FiltersFooter>
             <NextLink
               passHref
-              {...worksLink({
-                ...emptyWorksProps,
-                query: query,
-                source: 'cancel_filter/all',
-              })}
+              {...worksLink(
+                {
+                  query: query,
+                },
+                'cancel_filter/all'
+              )}
             >
               <a>Reset filters</a>
             </NextLink>
