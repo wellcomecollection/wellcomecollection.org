@@ -18,6 +18,17 @@ export type OptionalToUndefined<T> = {
  * { a: string, b : string | undefined }
  * and converts it into { a: string, b?: string | undefined }
  * 
+ * This is useful if you want a type where you don't have to specify
+ * that a field is undefined
+ * 
+ * type A = { a: undefined | string }
+ * const a = { a: undefined } // valid
+ * const aBoo = {  } // invalid
+ * 
+ * type B = { a?: string }
+ * const b = { a: undefined } // valid
+ * const bYay = {  } // valid
+ * 
  * There might be a way to do this with conditional types,
  * I just couldn't find it.
  */
