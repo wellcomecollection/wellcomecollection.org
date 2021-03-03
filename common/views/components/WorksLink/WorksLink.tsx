@@ -1,18 +1,20 @@
+import { ParsedUrlQuery } from 'querystring';
 import NextLink from 'next/link';
 import { LinkProps } from '../../../model/link-props';
 import { FunctionComponent } from 'react';
 import {
-  toCsv,
-  toMaybeString,
-  toString,
-  toNumber,
-  toSource,
-  QueryTo,
   LinkFrom,
-  toQuotedCsv,
-  propsToQuery,
+  stringCodec,
+  numberCodec,
+  csvCodec,
+  maybeStringCodec,
+  quotedCsvCodec,
+  FromCodecMap,
+  decodeQuery,
+  encodeQuery,
 } from '../../../utils/routes';
 import { Prefix } from '../../../utils/utility-types';
+import { removeUndefinedProps } from '../../../utils/json';
 
 const worksPropsSources = [
   'search_form',
@@ -20,6 +22,9 @@ const worksPropsSources = [
   'meta_link',
   'search/paginator',
   'works_search_context',
+  'work_details/contributors',
+  'work_details/genres',
+  'work_details/subjects',
 ] as const;
 // Currently we allow all strings as I can't get the Prefix to work
 // when compiling strings e.g. `cancel_filter/${value}`
@@ -27,103 +32,85 @@ const worksPropsSources = [
 type WorksPropsSource =
   | typeof worksPropsSources[number]
   | Prefix<'cancel_filter/'>
-  | string;
-
-export type WorksProps = {
-  query: string;
-  page: number;
-  workType: string[];
-  itemsLocationsLocationType: string[];
-  itemsLocationsType: string[];
-  languages: string[];
-  genresLabel: string[];
-  subjectsLabel: string[];
-  contributorsAgentLabel: string[];
-  sort?: string;
-  sortOrder?: string;
-  productionDatesFrom?: string;
-  productionDatesTo?: string;
-  source: WorksPropsSource | 'unknown';
-};
+  | 'unknown';
 
 const emptyWorksProps: WorksProps = {
   query: '',
   page: 1,
   workType: [],
-  itemsLocationsLocationType: [],
-  itemsLocationsType: [],
+  'items.locations.locationType': [],
+  'items.locations.type': [],
+  availabilities: [],
   languages: [],
-  genresLabel: [],
-  subjectsLabel: [],
-  contributorsAgentLabel: [],
-  source: 'unknown',
+  'genres.label': [],
+  'subjects.label': [],
+  'contributors.agent.label': [],
+  sort: undefined,
+  sortOrder: undefined,
+  'production.dates.from': undefined,
+  'production.dates.to': undefined,
 };
 
-// This is a hack for now until we stop using different keys
-const keyToQueryMap = {
-  query: 'query',
-  page: 'page',
-  workType: 'workType',
-  sort: 'sort',
-  sortOrder: 'sortOrder',
-  itemsLocationsLocationType: 'items.locations.locationType',
-  itemsLocationsType: 'items.locations.type',
-  languages: 'languages',
-  genresLabel: 'genres.label',
-  subjectsLabel: 'subjects.label',
-  contributorsAgentLabel: 'contributors.agent.label',
-  productionDatesFrom: 'production.dates.from',
-  productionDatesTo: 'production.dates.to',
-  source: 'source',
+const codecMap = {
+  query: stringCodec,
+  page: numberCodec,
+  workType: csvCodec,
+  'items.locations.locationType': csvCodec,
+  'items.locations.type': csvCodec,
+  availabilities: csvCodec,
+  languages: csvCodec,
+  'genres.label': quotedCsvCodec,
+  'subjects.label': quotedCsvCodec,
+  'contributors.agent.label': quotedCsvCodec,
+  sort: maybeStringCodec,
+  sortOrder: maybeStringCodec,
+  'production.dates.from': maybeStringCodec,
+  'production.dates.to': maybeStringCodec,
 };
 
-const fromQuery: QueryTo<WorksProps> = params => {
-  return {
-    query: toString(params.query, ''),
-    page: toNumber(params.page, 1),
-    workType: toCsv(params.workType),
-    sort: toMaybeString(params.sort),
-    sortOrder: toMaybeString(params.sortOrder),
-    itemsLocationsLocationType: toCsv(params['items.locations.locationType']),
-    itemsLocationsType: toCsv(params['items.locations.type']),
-    languages: toCsv(params.languages),
-    genresLabel: toQuotedCsv(params['genres.label']),
-    subjectsLabel: toQuotedCsv(params['subjects.label']),
-    contributorsAgentLabel: toQuotedCsv(params['contributors.agent.label']),
-    productionDatesFrom: toMaybeString(params['production.dates.from']),
-    productionDatesTo: toMaybeString(params['production.dates.to']),
-    source: toSource(params.source, worksPropsSources) || 'unknown',
-  };
+export type WorksProps = FromCodecMap<typeof codecMap>;
+
+const fromQuery: (params: ParsedUrlQuery) => WorksProps = params => {
+  return decodeQuery<WorksProps>(params, codecMap);
 };
 
-function toLink(props: WorksProps): LinkProps {
+const toQuery: (props: WorksProps) => ParsedUrlQuery = props => {
+  return encodeQuery<WorksProps>(props, codecMap);
+};
+
+function toLink(
+  partialProps: Partial<WorksProps>,
+  source: WorksPropsSource
+): LinkProps {
   const pathname = '/works';
-  const { source, ...propsWithoutSource } = props;
-  const remapped = Object.entries(propsWithoutSource).reduce(
-    (acc, [key, val]) => {
-      return {
-        ...acc,
-        [keyToQueryMap[key]]: val,
-      };
-    },
-    {}
-  );
+  const props: WorksProps = {
+    ...emptyWorksProps,
+    ...partialProps,
+  };
+  // It's a bit annoying that we have to `removeUndefinedProps`
+  // here, but if we don't they come through as
+  // urlProperty=&anotherUrlProperty=
+  const query = removeUndefinedProps(toQuery(props));
 
   return {
     href: {
       pathname,
-      query: propsToQuery({ ...remapped, source }),
+      query: { ...query, source },
     },
     as: {
       pathname,
-      query: propsToQuery({ ...remapped }),
+      query: query,
     },
   };
 }
 
-type Props = LinkFrom<WorksProps>;
-const WorksLink: FunctionComponent<Props> = ({ children, ...props }: Props) => {
-  return <NextLink {...toLink(props)}>{children}</NextLink>;
+type Props = LinkFrom<WorksProps> & { source: WorksPropsSource };
+const WorksLink: FunctionComponent<Props> = ({
+  children,
+  source,
+  ...props
+}: Props) => {
+  return <NextLink {...toLink(props, source)}>{children}</NextLink>;
 };
 
 export default WorksLink;

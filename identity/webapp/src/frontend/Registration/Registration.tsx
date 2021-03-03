@@ -145,7 +145,7 @@ export function Registration(): JSX.Element {
               control={control}
               defaultValue={false}
               rules={{ required: 'You must accept to proceed' }}
-              render={(props) => (
+              render={props => (
                 <CheckboxRadio
                   onChange={(e: React.FormEvent<HTMLInputElement>) => props.onChange(e.currentTarget.checked)}
                   checked={props.value}

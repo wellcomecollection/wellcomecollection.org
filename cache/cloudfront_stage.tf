@@ -93,17 +93,17 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
       # AWS have increased this to 50 for us here.
       query_string_cache_keys = [
         "_queryType",
+        "availabilities",
         "canvas",
         "current",
+        "genres.label",
         "items.locations.locationType",
-        "items.locations.type",
+        "languages",
         "manifest",
         "page",
         "query",
         "source",
-        "languages",
         "subjects.label",
-        "genres.label",
         "toggle",
         "workType",
       ]

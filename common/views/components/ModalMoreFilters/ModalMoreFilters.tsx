@@ -5,10 +5,8 @@ import styled from 'styled-components';
 import Space from '../styled/Space';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
 import NextLink from 'next/link';
-import { worksLink } from '../../../services/catalogue/routes';
-import ButtonSolid, {
-  ButtonTypes,
-} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import { toLink as worksLink } from '../WorksLink/WorksLink';
+import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import {
   Filter,
   CheckboxFilter as CheckboxFilterType,

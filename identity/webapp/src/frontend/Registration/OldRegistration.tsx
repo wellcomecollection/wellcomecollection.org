@@ -74,7 +74,7 @@ export const OldRegistration: React.FC = () => {
           .then(() => {
             setCreated(true);
           })
-          .catch((error) => {
+          .catch(error => {
             switch (error.response.status) {
               case 400:
               case 422:

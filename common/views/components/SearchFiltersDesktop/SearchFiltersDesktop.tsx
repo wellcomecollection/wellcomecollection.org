@@ -1,7 +1,6 @@
 import React, {
   FunctionComponent,
   ReactElement,
-  useContext,
   useRef,
   useState,
 } from 'react';
@@ -22,12 +21,7 @@ import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
 import ButtonInline from '../ButtonInline/ButtonInline';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
 import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
-
-const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
-  ssr: false,
-});
 
 const PaletteColorPicker = dynamic(
   import('../PaletteColorPicker/PaletteColorPicker')
@@ -129,14 +123,11 @@ type ColorFilterProps = {
   changeHandler: () => void;
 };
 const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
-  const { paletteColorFilter } = useContext(TogglesContext);
-  const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
-
   return (
     <DropdownButton label={'Colours'} isInline={true} id="images.color">
-      <ColorPicker
+      <PaletteColorPicker
         name={f.id}
-        color={f.color || undefined}
+        color={f.color}
         onChangeColor={changeHandler}
       />
     </DropdownButton>
@@ -150,17 +141,13 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   linkResolver,
   activeFiltersCount,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
-  const { searchMoreFilters } = useContext(TogglesContext);
-
   const [showMoreFiltersModal, setMoreFiltersModal] = useState(false);
   const openMoreFiltersButtonRef = useRef(null);
 
-  const locationsTypeFilter = filters.find(
-    ({ id }) => id === 'items.locations.type'
+  const availabilitiesFilter = filters.find(
+    ({ id }) => id === 'availabilities'
   );
-  const otherFilters = filters.filter(
-    ({ id }) => id !== 'items.locations.type'
-  );
+  const otherFilters = filters.filter(({ id }) => id !== 'availabilities');
   const visibleFilters = otherFilters.slice(0, 2);
   const modalFilters = otherFilters.slice(2);
 
@@ -230,7 +217,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
               );
             })}
 
-            {searchMoreFilters && modalFilters.length > 0 && (
+            {modalFilters.length > 0 && (
               <Space
                 className={classNames({
                   [font('hnl', 5)]: true,
@@ -259,7 +246,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
             )}
           </Space>
 
-          {locationsTypeFilter && locationsTypeFilter.type === 'checkbox' && (
+          {availabilitiesFilter && availabilitiesFilter.type === 'checkbox' && (
             <Space
               v={{ size: 'm', properties: ['margin-bottom'] }}
               className={classNames({
@@ -282,7 +269,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                     [font('hnl', 5)]: true,
                   })}
                 >
-                  {locationsTypeFilter.options
+                  {availabilitiesFilter.options
+                    .slice()
                     // Hack: Ensure 'Online' appears before 'In the library'
                     .sort(({ label: a }, { label: b }) => b.localeCompare(a))
                     .map(({ id, label, count, value, selected }) => {
@@ -300,7 +288,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                             type={`checkbox`}
                             text={`${label} (${count})`}
                             value={value}
-                            name={locationsTypeFilter.id}
+                            name={availabilitiesFilter.id}
                             checked={selected}
                             onChange={changeHandler}
                           />
