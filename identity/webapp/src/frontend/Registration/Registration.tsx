@@ -1,11 +1,10 @@
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { AccountCreated } from './AccountCreated';
 import { PageWrapper } from './PageWrapper';
 import {
   Button,
+  Checkbox,
   Container,
   ErrorMessage,
   Heading,
@@ -18,6 +17,7 @@ import {
   Title,
   Wrapper,
 } from './Registration.style';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { useRegisterUser, RegistrationError } from './useRegisterUser';
 
@@ -147,10 +147,9 @@ export function Registration(): JSX.Element {
               defaultValue={false}
               rules={{ required: 'You must accept to proceed' }}
               render={props => (
-                <CheckboxRadio
+                <Checkbox
                   onChange={(e: React.FormEvent<HTMLInputElement>) => props.onChange(e.currentTarget.checked)}
                   checked={props.value}
-                  type="checkbox"
                   text={
                     <span>
                       I have read and agree to the <Link href="#">Privacy and Terms</Link> for Wellcome

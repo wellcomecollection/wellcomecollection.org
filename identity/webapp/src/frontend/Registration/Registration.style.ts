@@ -1,5 +1,6 @@
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
@@ -89,4 +90,10 @@ export const SuccessMessage = styled(AlertBox)`
 
 export const PasswordRulesList = styled.ul`
   margin-top: -0.666em;
+`;
+
+export const Checkbox = styled(CheckboxRadio).attrs({ type: 'checkbox' })`
+  & > div {
+    margin-right: 0.666em;
+  }
 `;
