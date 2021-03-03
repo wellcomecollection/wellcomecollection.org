@@ -17,10 +17,11 @@ type Codec<T> = {
   encode: (v: T) => QueryParam;
 };
 type CodecMap = Record<string, Codec<unknown>>;
-type CodecOfType<T> = T extends Codec<infer R> ? R : T;
+// Gets the returns type of decode, and creates the type
+// { key: returnTypeOfDecode }
 export type FromCodecMap<Map extends CodecMap> = UndefinableToOptional<
   {
-    [K in keyof Map]: CodecOfType<Map[K]>;
+    [K in keyof Map]: ReturnType<Map[K]['decode']>;
   }
 >;
 
