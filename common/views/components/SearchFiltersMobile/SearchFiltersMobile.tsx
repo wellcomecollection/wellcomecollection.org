@@ -4,7 +4,6 @@ import React, {
   useEffect,
   FunctionComponent,
   ReactElement,
-  useContext,
 } from 'react';
 import dynamic from 'next/dynamic';
 import useFocusTrap from '../../../hooks/useFocusTrap';
@@ -32,11 +31,6 @@ import {
   searchFilterCheckBox,
   searchFilterCloseButton,
 } from '../../../text/arial-labels';
-import TogglesContext from '../TogglesContext/TogglesContext';
-
-const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
-  ssr: false,
-});
 
 const PaletteColorPicker = dynamic(
   import('../PaletteColorPicker/PaletteColorPicker')
@@ -259,12 +253,9 @@ type ColorFilterProps = {
   changeHandler: () => void;
 };
 const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
-  const { paletteColorFilter } = useContext(TogglesContext);
-  const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
-
   return (
-    <ColorPicker
-      color={f.color || undefined}
+    <PaletteColorPicker
+      color={f.color}
       name={f.id}
       onChangeColor={changeHandler}
     />

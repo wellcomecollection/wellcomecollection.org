@@ -1,7 +1,6 @@
 import React, {
   FunctionComponent,
   ReactElement,
-  useContext,
   useRef,
   useState,
 } from 'react';
@@ -22,12 +21,7 @@ import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
 import ButtonInline from '../ButtonInline/ButtonInline';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
 import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
-
-const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
-  ssr: false,
-});
 
 const PaletteColorPicker = dynamic(
   import('../PaletteColorPicker/PaletteColorPicker')
@@ -129,14 +123,11 @@ type ColorFilterProps = {
   changeHandler: () => void;
 };
 const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
-  const { paletteColorFilter } = useContext(TogglesContext);
-  const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
-
   return (
     <DropdownButton label={'Colours'} isInline={true} id="images.color">
-      <ColorPicker
+      <PaletteColorPicker
         name={f.id}
-        color={f.color || undefined}
+        color={f.color}
         onChangeColor={changeHandler}
       />
     </DropdownButton>
@@ -150,8 +141,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   linkResolver,
   activeFiltersCount,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
-  const { searchMoreFilters } = useContext(TogglesContext);
-
   const [showMoreFiltersModal, setMoreFiltersModal] = useState(false);
   const openMoreFiltersButtonRef = useRef(null);
 
@@ -228,7 +217,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
               );
             })}
 
-            {searchMoreFilters && modalFilters.length > 0 && (
+            {modalFilters.length > 0 && (
               <Space
                 className={classNames({
                   [font('hnl', 5)]: true,

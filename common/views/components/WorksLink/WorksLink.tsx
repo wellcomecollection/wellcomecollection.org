@@ -33,7 +33,6 @@ type WorksPropsSource =
   | typeof worksPropsSources[number]
   | Prefix<'cancel_filter/'>
   | 'unknown';
-// | string;
 
 const emptyWorksProps: WorksProps = {
   query: '',
