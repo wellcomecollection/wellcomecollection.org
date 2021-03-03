@@ -298,18 +298,14 @@ export const getServerSideProps: GetServerSideProps<
   const globalContextData = getGlobalContextData(context);
   const props = fromQuery(context.query);
 
-  const { searchMoreFilters } = globalContextData.toggles;
-  const defaultAggregations = ['workType', 'availabilities'];
-  const moreFiltersAggregations = [
+  const aggregations = [
+    'workType',
+    'availabilities',
     'genres',
     'languages',
     'subjects',
     'contributors',
   ];
-
-  const aggregations = searchMoreFilters
-    ? [...defaultAggregations, ...moreFiltersAggregations]
-    : defaultAggregations;
 
   const _queryType = cookies(context)._queryType;
 
