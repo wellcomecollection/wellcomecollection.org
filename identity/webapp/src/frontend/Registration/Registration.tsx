@@ -20,6 +20,7 @@ import {
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { useRegisterUser, RegistrationError } from './useRegisterUser';
+import { PasswordInput } from './PasswordInput';
 
 type RegistrationInputs = {
   firstName: string;
@@ -33,7 +34,7 @@ const validEmailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(
 const validPasswordPattern = /(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*/;
 
 export function Registration(): JSX.Element {
-  const { register, control, handleSubmit, errors } = useForm<RegistrationInputs>();
+  const { register, control, handleSubmit, errors } = useForm<RegistrationInputs>({ defaultValues: { password: '' } });
   const { registerUser, isSuccess, error: registrationError } = useRegisterUser();
 
   const createUser = (formData: RegistrationInputs) => {
@@ -121,18 +122,17 @@ export function Registration(): JSX.Element {
               Password
             </Label>
             {errors.password && <InvalidFieldAlert>{errors.password.message}</InvalidFieldAlert>}
-            <TextInput
+            <PasswordInput
               id="password"
               name="password"
-              type="password"
-              ref={register({
+              control={control}
+              rules={{
                 required: 'Missing password',
                 pattern: {
                   value: validPasswordPattern,
                   message: 'Invalid password',
                 },
-              })}
-              data-invalid={Boolean(errors.password)}
+              }}
             />
             <PasswordRulesList>
               <li className="font-hnl font-size-6">One lowercase character</li>

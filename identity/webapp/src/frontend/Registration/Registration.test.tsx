@@ -55,7 +55,7 @@ describe('Registration', () => {
 
   it('allows the user to enter a password', () => {
     renderComponent();
-    const passwordInput = screen.getByLabelText(/password/i);
+    const passwordInput = screen.getByLabelText(/^password$/i);
     expect(passwordInput).toBeInTheDocument();
     userEvent.type(passwordInput, 'dolphins');
     expect(passwordInput).toHaveValue('dolphins');
@@ -66,7 +66,7 @@ describe('Registration', () => {
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
     userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
-    userEvent.type(screen.getByLabelText(/password/i), 'Superman1938');
+    userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     await waitFor(() => {
@@ -79,7 +79,7 @@ describe('Registration', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
     userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
-    userEvent.type(screen.getByLabelText(/password/i), 'Superman1938');
+    userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     expect(await screen.findByRole('alert')).toHaveTextContent(/missing first name/i);
@@ -91,7 +91,7 @@ describe('Registration', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
-    userEvent.type(screen.getByLabelText(/password/i), 'Superman1938');
+    userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     expect(await screen.findByRole('alert')).toHaveTextContent(/missing last name/i);
@@ -105,7 +105,7 @@ describe('Registration', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
-    userEvent.type(screen.getByLabelText(/password/i), 'Superman1938');
+    userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(createAccountButton);
     expect(await screen.findByRole('alert')).toHaveTextContent(/missing email address/i);
@@ -132,7 +132,7 @@ describe('Registration', () => {
   it('does not submit with an empty or invalid password field', async () => {
     renderComponent();
     const createAccountButton = screen.getByRole('button', { name: /create account/i });
-    const passwordInput = screen.getByLabelText(/password/i);
+    const passwordInput = screen.getByLabelText(/^password$/i);
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
@@ -172,7 +172,7 @@ describe('Registration', () => {
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
     userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
-    userEvent.type(screen.getByLabelText(/password/i), 'Superman1938');
+    userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     expect(await screen.findByRole('alert')).toHaveTextContent(/you must accept to proceed/i);
     expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
@@ -189,7 +189,7 @@ describe('Registration', () => {
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
     userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
-    userEvent.type(screen.getByLabelText(/password/i), 'Superman1938');
+    userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     userEvent.click(screen.getByRole('checkbox'));
     expect(await screen.findByRole('alert')).toHaveTextContent(/that account already exists/i);
@@ -207,7 +207,7 @@ describe('Registration', () => {
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
     userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
-    userEvent.type(screen.getByLabelText(/password/i), 'Superman1938');
+    userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     userEvent.click(screen.getByRole('checkbox'));
     expect(await screen.findByRole('alert')).toHaveTextContent(/password is too common/i);
@@ -224,7 +224,7 @@ describe('Registration', () => {
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
     userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
-    userEvent.type(screen.getByLabelText(/password/i), 'Superman1938');
+    userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     userEvent.click(screen.getByRole('checkbox'));
     expect(await screen.findByRole('alert')).toHaveTextContent(/an unknown error occurred/i);
