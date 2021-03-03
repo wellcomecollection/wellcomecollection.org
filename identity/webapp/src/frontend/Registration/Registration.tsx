@@ -58,15 +58,18 @@ export function Registration(): JSX.Element {
                 <Icon name="cross" />
                 {registrationError === RegistrationError.EMAIL_ALREADY_EXISTS && (
                   <>
-                    That account already exists - you can try to <a href="#">login</a>
+                    <span>That account already exists</span>
+                    <span>
+                      You can try to <a href="#">login</a>
+                    </span>
                   </>
                 )}
-                {registrationError === RegistrationError.PASSWORD_TOO_COMMON && <>Password is too common</>}
-                {registrationError === RegistrationError.UNKNOWN && <>An unknown error occurred</>}
+                {registrationError === RegistrationError.PASSWORD_TOO_COMMON && 'Password is too common'}
+                {registrationError === RegistrationError.UNKNOWN && 'An unknown error occurred'}
               </ErrorMessage>
-              <SpacingComponent />
             </>
           )}
+          <SpacingComponent />
 
           <form onSubmit={handleSubmit(createUser)}>
             <Heading>Personal details</Heading>

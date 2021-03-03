@@ -192,7 +192,8 @@ describe('Registration', () => {
     userEvent.type(screen.getByLabelText(/password/i), 'Superman1938');
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     userEvent.click(screen.getByRole('checkbox'));
-    expect(await screen.findByRole('alert')).toHaveTextContent(/that account already exists - you can try to login/i);
+    expect(await screen.findByRole('alert')).toHaveTextContent(/that account already exists/i);
+    expect(await screen.findByRole('alert')).toHaveTextContent(/you can try to login/i);
   });
 
   it('shows an error message when a common password is used', async () => {
