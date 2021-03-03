@@ -108,7 +108,7 @@ export const getResetRouteProps = (
   return {
     ...worksRouteProps,
     itemsLocationsLocationType: [],
-    itemsLocationsType: [],
+    availabilities: [],
     workType: [],
     page: 1,
     productionDatesFrom: null,

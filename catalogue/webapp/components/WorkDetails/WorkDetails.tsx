@@ -453,7 +453,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
                 sort: null,
                 sortOrder: null,
                 itemsLocationsLocationType: [],
-                itemsLocationsType: [],
+                availabilities: [],
                 productionDatesFrom: null,
                 productionDatesTo: null,
                 imagesColor: null,
