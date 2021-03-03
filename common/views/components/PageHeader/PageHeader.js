@@ -54,6 +54,13 @@ const HeroPictureContainer = styled.div`
   `}
 `;
 
+// custom font size which is used for section pages which will likely to change later
+const Header = styled.h1.attrs(props => ({
+  className: 'h1 inline-block no-margin',
+}))`
+  ${props => props.noBackgroundLayout && 'font-size: 50px'};
+`;
+
 export type FeaturedMedia =
   | Element<typeof UiImage>
   | Element<typeof VideoEmbed>
@@ -160,7 +167,7 @@ const PageHeader = ({
     highlightHeading && !noBackgroundLayout ? (
       <HighlightedHeading text={title} />
     ) : (
-      <h1 className="h1 inline-block no-margin">{title}</h1>
+      <Header noBackgroundLayout={noBackgroundLayout}>{title}</Header>
     );
 
   const hasMedia = FeaturedMedia || HeroPicture;
