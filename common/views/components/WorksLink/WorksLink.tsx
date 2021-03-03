@@ -14,6 +14,7 @@ import {
   encodeQuery,
 } from '../../../utils/routes';
 import { Prefix } from '../../../utils/utility-types';
+import { removeUndefinedProps } from '../../../utils/json';
 
 const worksPropsSources = [
   'search_form',
@@ -87,10 +88,10 @@ function toLink(
     ...emptyWorksProps,
     ...partialProps,
   };
-  console.info(props);
-  const query = toQuery(props);
-  console.info(query);
-  console.info('===================');
+  // It's a bit annoying that we have to `removeUndefinedProps`
+  // here, but if we don't they come through as
+  // urlProperty=&anotherUrlProperty=
+  const query = removeUndefinedProps(toQuery(props));
 
   return {
     href: {

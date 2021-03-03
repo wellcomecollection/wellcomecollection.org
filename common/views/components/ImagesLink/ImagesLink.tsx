@@ -12,6 +12,7 @@ import {
   encodeQuery,
   decodeQuery,
 } from '../../../utils/routes';
+import { removeUndefinedProps } from '../../../utils/json';
 
 const imagesPropsSources = [
   'search/paginator',
@@ -55,7 +56,10 @@ function toLink(
     ...emptyImagesProps,
     ...partialProps,
   };
-  const query = toQuery(props);
+  // It's a bit annoying that we have to `removeUndefinedProps`
+  // here, but if we don't they come through as
+  // urlProperty=&anotherUrlProperty=
+  const query = removeUndefinedProps(toQuery(props));
 
   return {
     href: {
