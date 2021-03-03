@@ -77,7 +77,7 @@ export type WorksRouteProps = {|
   page: number,
   workType: string[],
   itemsLocationsLocationType: string[],
-  itemsLocationsType: string[],
+  availabilities: string[],
   sort: ?string,
   sortOrder: ?string,
   productionDatesFrom: ?string,
@@ -100,7 +100,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       itemsLocationsLocationType: stringToCsv(
         q['items.locations.locationType']
       ),
-      itemsLocationsType: stringToCsv(q['items.locations.type']),
+      availabilities: stringToCsv(q['availabilities']),
       sort: maybeString(q.sort),
       sortOrder: maybeString(q.sortOrder),
       productionDatesFrom: maybeString(q['production.dates.from']),
@@ -137,7 +137,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       page: params.page,
       workType: params.workType,
       'items.locations.locationType': params.itemsLocationsLocationType,
-      'items.locations.type': params.itemsLocationsType,
+      availabilities: params.availabilities,
       sort: params.sort,
       sortOrder: params.sortOrder,
       'production.dates.from': params.productionDatesFrom,
