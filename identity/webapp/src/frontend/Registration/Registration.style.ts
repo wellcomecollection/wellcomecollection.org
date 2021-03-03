@@ -22,10 +22,13 @@ export const Wrapper = styled.div`
 
 export const Title = styled.h1.attrs({ className: 'font-wb font-size-2' })``;
 
-export const Heading = styled.h2.attrs({ className: 'font-hnm font-size-3' })``;
+export const Heading = styled.h2.attrs({ className: 'font-hnm font-size-3' })`
+  font-weight: bold;
+`;
 
 export const Label = styled.label.attrs({ className: 'font-hnm font-size-4' })`
   display: block;
+  font-weight: bold;
 `;
 
 export const TextInput = styled.input`
