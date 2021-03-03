@@ -1,5 +1,5 @@
 {
-  "Article": {
+  "Guide": {
     "title": {
       "type": "StructuredText",
       "config": {
@@ -14,8 +14,14 @@
         "label": "Format",
         "select": "document",
         "customtypes": [
-          "article-formats"
+          "guide-formats"
         ]
+      }
+    },
+    "datePublished": {
+      "type": "Timestamp",
+      "config": {
+        "label": "Date published"
       }
     },
     "body": {
@@ -23,12 +29,20 @@
       "type": "Slices",
       "config": {
         "labels": {
+          "collectionVenue": [
+            {
+              "name": "featured",
+              "display": "Featured"
+            }
+          ],
+          "text": [
+            {
+              "name": "featured",
+              "display": "Featured"
+            }
+          ],
           "editorialImage": [
             {
-              "name": "featured",
-              "display": "Featured"
-            },
-            {
               "name": "supporting",
               "display": "Supporting"
             },
@@ -37,57 +51,7 @@
               "display": "Standalone"
             }
           ],
-          "gifVideo": [
-            {
-              "name": "supporting",
-              "display": "Supporting"
-            }
-          ],
-          "iframe": [
-            {
-              "name": "supporting",
-              "display": "Supporting"
-            },
-            {
-              "name": "standalone",
-              "display": "Standalone"
-            }
-          ],
-          "vimeoVideoEmbed": [
-            {
-              "name": "featured",
-              "display": "Featured"
-            },
-            {
-              "name": "supporting",
-              "display": "Supporting"
-            },
-            {
-              "name": "standalone",
-              "display": "Standalone"
-            }
-          ],
-          "youtubeVideoEmbed": [
-            {
-              "name": "featured",
-              "display": "Featured"
-            },
-            {
-              "name": "supporting",
-              "display": "Supporting"
-            },
-            {
-              "name": "standalone",
-              "display": "Standalone"
-            }
-          ],
-          "editorialImageGallery": [
-            {
-              "name": "standalone",
-              "display": "Standalone"
-            }
-          ],
-          "quoteV2": [
+          "quote": [
             {
               "name": "pull",
               "display": "Pull"
@@ -106,8 +70,8 @@
               "text": {
                 "type": "StructuredText",
                 "config": {
-                  "label": "Text",
-                  "multi": "heading2,heading3,paragraph,strong,em,hyperlink,strike,list-item,embed"
+                  "multi": "paragraph,hyperlink,strong,em,heading2,heading3,list-item",
+                  "label": "Text"
                 }
               }
             }
@@ -287,20 +251,7 @@
               }
             }
           },
-          "standfirst": {
-            "type": "Slice",
-            "fieldset": "Standfirst",
-            "non-repeat": {
-              "text": {
-                "type": "StructuredText",
-                "config": {
-                  "single": "strong, em, hyperlink",
-                  "label": "Standfirst"
-                }
-              }
-            }
-          },
-          "quoteV2": {
+          "quote": {
             "type": "Slice",
             "fieldset": "Quote",
             "non-repeat": {
@@ -320,40 +271,40 @@
               }
             }
           },
-          "excerpt": {
+          "standfirst": {
             "type": "Slice",
-            "fieldset": "Excerpt",
+            "fieldset": "Standfirst",
             "non-repeat": {
-              "title": {
+              "text": {
                 "type": "StructuredText",
                 "config": {
-                  "single": " ",
-                  "label": "Title"
+                  "single": "paragraph,hyperlink,strong,em",
+                  "label": "Standfirst"
+                }
+              }
+            }
+          },
+          "table": {
+            "type": "Slice",
+            "fieldset": "Table",
+            "non-repeat": {
+              "caption": {
+                "type": "Text",
+                "config": {
+                  "label": "Table caption (heading)"
                 }
               },
-              "content": {
-                "type": "StructuredText",
+              "tableData": {
+                "type": "Text",
                 "config": {
-                  "multi": "paragraph, heading2, hyperlink, strong, em, preformatted",
-                  "label": "Content"
+                  "label": "Pipe-delimeted csv"
                 }
               },
-              "source": {
-                "type": "Link",
+              "hasRowHeaders": {
+                "type": "Boolean",
                 "config": {
-                  "label": "Source",
-                  "select": "document",
-                  "customtypes": [
-                    "books"
-                  ],
-                  "placeholder": "Choose a book…"
-                }
-              },
-              "audio": {
-                "type": "Link",
-                "config": {
-                  "select": "media",
-                  "label": "Audio content"
+                  "default_value": false,
+                  "label": "Make first column bold (instead of first row)"
                 }
               }
             }
@@ -364,106 +315,89 @@
             "non-repeat": {
               "embed": {
                 "type": "Embed",
-                "fieldset": "Embed"
+                "config": {
+                  "label": "Embed (Youtube, Vimeo etc)"
+                }
               },
               "caption": {
                 "type": "StructuredText",
                 "config": {
-                  "label": "Caption",
-                  "single": "hyperlink, bold, em",
-                  "placeholder": "Caption"
+                  "single": "paragraph,hyperlink,strong,em",
+                  "label": "Caption"
                 }
               }
             }
           },
-          "soundcloudEmbed": {
+          "map": {
             "type": "Slice",
-            "fieldset": "SoundCloud embed",
-            "non-repeat": {
-              "iframeSrc": {
-                "type": "Text",
-                "config": {
-                  "label": "iframe src"
-                }
-              }
-            }
-          },
-          "vimeoVideoEmbed": {
-            "type": "Slice",
-            "fieldset": "Vimeo video",
-            "non-repeat": {
-              "embed": {
-                "type": "Embed",
-                "fieldset": "Vimeo embed"
-              }
-            }
-          },
-          "instagramEmbed": {
-            "type": "Slice",
-            "fieldset": "Instagram embed",
-            "non-repeat": {
-              "embed": {
-                "type": "Embed",
-                "fieldset": "Instagram embed"
-              }
-            }
-          },
-          "twitterEmbed": {
-            "type": "Slice",
-            "fieldset": "Twitter embed",
-            "non-repeat": {
-              "embed": {
-                "type": "Embed",
-                "fieldset": "Twitter embed"
-              }
-            }
-          },
-          "youtubeVideoEmbed": {
-            "type": "Slice",
-            "fieldset": "[Deprecated] YouTube video (please use embed)",
-            "non-repeat": {
-              "embed": {
-                "type": "Embed",
-                "fieldset": "YouTube embed"
-              },
-              "caption": {
-                "type": "StructuredText",
-                "config": {
-                  "label": "Caption",
-                  "single": "hyperlink, bold, em",
-                  "placeholder": "Caption"
-                }
-              }
-            }
-          },
-          "discussion": {
-            "type": "Slice",
-            "fieldset": "Discussion",
+            "fieldset": "Map",
             "non-repeat": {
               "title": {
                 "type": "StructuredText",
                 "config": {
                   "label": "Title",
-                  "single": "heading2"
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              },
+              "geolocation": {
+                "type": "GeoPoint",
+                "config": {
+                  "label": "Geo point"
                 }
               }
-            },
-            "repeat": {
-              "contibutor": {
+            }
+          },
+          "collectionVenue": {
+            "type": "Slice",
+            "fieldset": "Collection venue",
+            "non-repeat": {
+              "content": {
                 "type": "Link",
                 "config": {
-                  "label": "Contributor",
+                  "label": "Content item",
                   "select": "document",
                   "customtypes": [
-                    "people"
+                    "collection-venue"
                   ]
                 }
               },
-              "text": {
-                "type": "StructuredText",
+              "showClosingTimes": {
+                "type": "Select",
                 "config": {
-                  "multi": "paragraph,hyperlink,strong,em",
-                  "label": "Text"
+                  "label": "Show closing times",
+                  "options": [
+                    "yes"
+                  ]
+                }
+              }
+            }
+          },
+          "contact": {
+            "type": "Slice",
+            "fieldset": "Contact",
+            "non-repeat": {
+              "content": {
+                "type": "Link",
+                "config": {
+                  "label": "Content item",
+                  "select": "document",
+                  "customtypes": [
+                    "teams"
+                  ]
+                }
+              }
+            }
+          },
+          "inPageAnchor": {
+            "type": "Slice",
+            "fieldset": "In page anchor",
+            "non-repeat": {
+              "id": {
+                "type": "Text",
+                "config": {
+                  "label": "id",
+                  "placeholder": "unique identifier without spaces"
                 }
               }
             }
@@ -497,154 +431,175 @@
               }
             }
           },
-          "imageList": {
+          "infoBlock": {
             "type": "Slice",
-            "fieldset": "[Deprecated] Image list (please use captioned image or image gallery)",
+            "fieldset": "Info block",
             "non-repeat": {
-              "listStyle": {
-                "type": "Select",
-                "config": {
-                  "options": [
-                    "numeric"
-                  ],
-                  "label": "List style"
-                }
-              },
-              "description": {
+              "title": {
                 "type": "StructuredText",
                 "config": {
-                  "multi": "paragraph, hyperlink, bold, em",
-                  "label": "Description"
+                  "label": "Title",
+                  "single": "heading2"
+                }
+              },
+              "text": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,hyperlink,strong,em,heading3,list-item",
+                  "label": "Text"
+                }
+              },
+              "link": {
+                "type": "Link",
+                "config": {
+                  "label": "Button link",
+                  "select": "web",
+                  "customtypes": []
+                }
+              },
+              "linkText": {
+                "type": "Text",
+                "config": {
+                  "label": "Button text"
                 }
               }
-            },
+            }
+          },
+          "titledTextList": {
+            "type": "Slice",
+            "fieldset": "Titled text list",
             "repeat": {
               "title": {
                 "type": "StructuredText",
                 "config": {
                   "label": "Title",
-                  "single": "heading1"
+                  "single": "heading3"
                 }
               },
-              "subtitle": {
+              "text": {
                 "type": "StructuredText",
                 "config": {
-                  "single": "heading2",
-                  "label": "Subtitle"
+                  "multi": "paragraph,hyperlink,strong,em,heading4,list-item",
+                  "label": "Text"
+                }
+              },
+              "link": {
+                "type": "Link",
+                "config": {
+                  "label": "Link",
+                  "customtypes": []
+                }
+              },
+              "label": {
+                "type": "Link",
+                "config": {
+                  "label": "tag",
+                  "select": "document",
+                  "customtypes": [
+                    "labels"
+                  ]
+                }
+              }
+            }
+          },
+          "contentList": {
+            "type": "Slice",
+            "fieldset": "(β) Content list",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              }
+            },
+            "repeat": {
+              "content": {
+                "type": "Link",
+                "config": {
+                  "label": "Content item",
+                  "select": "document",
+                  "customtypes": [
+                    "pages",
+                    "event-series",
+                    "books",
+                    "events",
+                    "articles",
+                    "exhibitions",
+                    "card",
+                    "seasons"
+                  ]
+                }
+              }
+            }
+          },
+          "searchResults": {
+            "type": "Slice",
+            "fieldset": "(β) Search results",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              },
+              "query": {
+                "type": "Text",
+                "config": {
+                  "label": "Query"
+                }
+              }
+            }
+          },
+          "mediaObjectList": {
+            "type": "Slice",
+            "fieldset": "Media Object List",
+            "repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              },
+              "text": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,hyperlink,strong,em",
+                  "label": "Text"
                 }
               },
               "image": {
                 "type": "Image",
                 "config": {
-                  "label": "Image"
-                }
-              },
-              "caption": {
-                "type": "StructuredText",
-                "config": {
-                  "label": "Caption",
-                  "single": "strong, em, hyperlink"
-                }
-              },
-              "description": {
-                "type": "StructuredText",
-                "config": {
-                  "label": "Description",
-                  "multi": "paragraph, hyperlink, bold, em"
+                  "label": "Image",
+                  "thumbnails": [
+                    {
+                      "name": "32:15",
+                      "width": 3200,
+                      "height": 1500
+                    },
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
                 }
               }
             }
           }
         }
-      }
-    }
-  },
-  "Outro": {
-    "outroResearchItem": {
-      "type": "Link",
-      "config": {
-        "label": "Outro: Research item",
-        "customtypes": []
-      }
-    },
-    "outroResearchLinkText": {
-      "type": "StructuredText",
-      "config": {
-        "label": "Outro: Research link text",
-        "single": "paragraph"
-      }
-    },
-    "outroReadItem": {
-      "type": "Link",
-      "config": {
-        "label": "Outro: Read item",
-        "customtypes": []
-      }
-    },
-    "outroReadLinkText": {
-      "type": "StructuredText",
-      "config": {
-        "label": "Outro: Read link text",
-        "single": "paragraph"
-      }
-    },
-    "outroVisitItem": {
-      "type": "Link",
-      "config": {
-        "label": "Outro: Visit item",
-        "customtypes": []
-      }
-    },
-    "outroVisitLinkText": {
-      "type": "StructuredText",
-      "config": {
-        "label": "Outro: Visit link text",
-        "single": "paragraph"
-      }
-    }
-  },
-  "Contributors": {
-    "contributors": {
-      "type": "Group",
-      "fieldset": "Contributors",
-      "config": {
-        "fields": {
-          "role": {
-            "type": "Link",
-            "config": {
-              "label": "Role",
-              "select": "document",
-              "customtypes": [
-                "editorial-contributor-roles"
-              ]
-            }
-          },
-          "contributor": {
-            "type": "Link",
-            "config": {
-              "label": "Contributor",
-              "select": "document",
-              "customtypes": [
-                "people",
-                "organisations"
-              ]
-            }
-          },
-          "description": {
-            "type": "StructuredText",
-            "config": {
-              "multi": "paragraph,hyperlink,strong,em",
-              "label": "Contributor description override"
-            }
-          }
-        }
-      }
-    },
-    "contributorsTitle": {
-      "type": "StructuredText",
-      "config": {
-        "label": "Contributors heading override",
-        "single": "heading1"
       }
     }
   },
@@ -709,103 +664,6 @@
       "config": {
         "single": "paragraph,hyperlink,strong,em",
         "label": "Metadata description"
-      }
-    }
-  },
-  "Content relationships": {
-    "series": {
-      "type": "Group",
-      "fieldset": "Series",
-      "config": {
-        "fields": {
-          "series": {
-            "type": "Link",
-            "config": {
-              "label": "Series",
-              "select": "document",
-              "customtypes": [
-                "series"
-              ]
-            }
-          },
-          "positionInSeries": {
-            "type": "Number",
-            "config": {
-              "label": "Position in series"
-            }
-          }
-        }
-      }
-    },
-    "seasons": {
-      "type": "Group",
-      "fieldset": "Seasons",
-      "config": {
-        "fields": {
-          "season": {
-            "type": "Link",
-            "config": {
-              "label": "Season",
-              "select": "document",
-              "customtypes": [
-                "seasons"
-              ],
-              "placeholder": "Select a Season"
-            }
-          }
-        }
-      }
-    }
-  },
-  "Migration": {
-    "publishDate": {
-      "config": {
-        "label": "Override publish date"
-      },
-      "type": "Timestamp"
-    },
-    "wordpressSlug": {
-      "config": {
-        "label": "Wordpress slug"
-      },
-      "type": "Text"
-    },
-    "contributorsDeprecated": {
-      "type": "Slices",
-      "fieldset": "Contributors",
-      "config": {
-        "choices": {
-          "person": {
-            "type": "Slice",
-            "fieldset": "Person",
-            "non-repeat": {
-              "role": {
-                "type": "Link",
-                "config": {
-                  "label": "Role",
-                  "select": "document",
-                  "customtypes": [
-                    "editorial-contributor-roles"
-                  ],
-                  "tags": [
-                    "editorial"
-                  ]
-                }
-              },
-              "person": {
-                "type": "Link",
-                "config": {
-                  "label": "Person",
-                  "select": "document",
-                  "customtypes": [
-                    "people"
-                  ],
-                  "placeholder": "Select a person…"
-                }
-              }
-            }
-          }
-        }
       }
     }
   }

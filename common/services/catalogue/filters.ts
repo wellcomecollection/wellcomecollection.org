@@ -150,20 +150,21 @@ const languagesFilter = ({
     })) || [],
 });
 
-const locationsFilter = ({
+const availabilitiesFilter = ({
   works,
   props,
 }: WorksFilterProps): CheckboxFilter => ({
   type: 'checkbox',
-  id: 'items.locations.type',
+
+  id: 'availabilities',
   label: 'Locations',
   options:
-    works?.aggregations?.locationType?.buckets.map(bucket => ({
-      id: bucket.data.type,
-      value: bucket.data.type,
+    works?.aggregations?.availabilities?.buckets.map(bucket => ({
+      id: bucket.data.id,
+      value: bucket.data.id,
       count: bucket.count,
       label: bucket.data.label,
-      selected: props['items.locations.type'].includes(bucket.data.type),
+      selected: props.availabilities.includes(bucket.data.id),
     })) || [],
 });
 
@@ -181,7 +182,7 @@ const worksFilters: (props: WorksFilterProps) => Filter[] = props =>
   [
     productionDatesFilter,
     workTypeFilter,
-    locationsFilter,
+    availabilitiesFilter,
     contributorsFilter,
     subjectsFilter,
     genresFilter,
