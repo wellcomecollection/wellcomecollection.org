@@ -73,7 +73,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
         )}
         {item.format && (
           <div style={{ position: 'absolute', bottom: 0 }}>
-            <LabelsList labels={[{ url: null, text: item.format.title }]} />
+            <LabelsList labels={[{ text: item.format.title }]} />
           </div>
         )}
       </div>

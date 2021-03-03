@@ -23,7 +23,7 @@ const image = {
 };
 
 const headerProps = {
-  labels: { labels: [{ url: null, text: 'Article' }] },
+  labels: { labels: [{ text: 'Article' }] },
   title: 'What does it mean to be human, now?',
   start: '2021-01-05T00:00:00.000Z',
   end: '2021-01-26T00:00:00.000Z',

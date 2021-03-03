@@ -50,7 +50,7 @@ export function convertCardToFeaturedCardProps(
       sizesQueries: '',
       showTasl: false,
     },
-    labels: item.format ? [{ url: null, text: item.format.title }] : [],
+    labels: item.format ? [{ text: item.format.title }] : [],
     link: { url: item.link || '', text: item.title || '' },
   };
 }

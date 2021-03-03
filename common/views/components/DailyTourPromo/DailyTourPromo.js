@@ -55,7 +55,6 @@ export const data = {
   hasEarlyRegistration: false,
   labels: [
     {
-      url: null,
       text: 'Gallery tour',
     },
   ],

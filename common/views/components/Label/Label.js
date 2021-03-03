@@ -9,16 +9,11 @@ const LabelContainer = styled(Space).attrs(props => ({
   className: classNames({
     'nowrap line-height-1': true,
     [font('hnm', 6)]: true,
-    'plain-link font-white bg-green bg-hover-black': props.isLink,
   }),
 }))`
-  ${props => {
-    if (!props.isLink) {
-      return `color: ${props.theme.color(props.fontColor)};
-      background-color: ${props.theme.color(props.labelColor)};
-    `;
-    }
-  }}
+  color: ${props => props.theme.color(props.fontColor)};
+  background-color: ${props => props.theme.color(props.labelColor)};
+
   ${props => {
     if (props.labelColor === 'white' || props.labelColor === 'transparent') {
       return `border: 1px solid ${props.theme.color('silver')};`;
@@ -33,12 +28,7 @@ export type Props = {|
   labelColor?: LabelColor,
 |};
 
-function getFontColor(bgColor) {
-  return bgColor === 'black' ? 'yellow' : 'black';
-}
-
 const Label = ({ label, labelColor = 'yellow' }: Props) => {
-  const fontColor = getFontColor(labelColor);
   return (
     <LabelContainer
       v={{
@@ -46,11 +36,8 @@ const Label = ({ label, labelColor = 'yellow' }: Props) => {
         properties: ['padding-top', 'padding-bottom'],
       }}
       h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
-      as={label.url ? 'a' : 'div'}
-      href={label.url}
-      fontColor={fontColor}
+      fontColor={labelColor === 'black' ? 'yellow' : 'black'}
       labelColor={labelColor}
-      isLink={Boolean(label.url)}
     >
       {label.text}
     </LabelContainer>

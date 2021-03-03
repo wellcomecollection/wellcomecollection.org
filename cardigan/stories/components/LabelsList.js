@@ -7,10 +7,7 @@ stories.add(
   'LabelsList',
   () => (
     <LabelsList
-      labels={[
-        { url: null, text: 'Gallery tour' },
-        { url: null, text: 'Audio described' },
-      ]}
+      labels={[{ text: 'Gallery tour' }, { text: 'Audio described' }]}
     />
   ),
   { readme: { sidebar: Readme } }
