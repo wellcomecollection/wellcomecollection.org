@@ -5,6 +5,35 @@
 // import { User } from 'path/to/interfaces';
 
 export type User = {
-  id: number;
-  name: string;
+  userId: number;
+  barcode: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  email: string;
+  emailValidated: boolean;
+  locked: boolean;
+  creationDate: string;
+  lastLogin: string | null;
+  lastLoginIp: string | null;
+  totalLogins: number;
+  deleteRequested: string | null;
 };
+
+export type SearchResults = {
+  page: number;
+  pageSize: number;
+  pageCount: number;
+  totalResults: number;
+  sort: string;
+  sortDir: number;
+  query: string;
+  results: User[];
+};
+
+export enum SortField {
+  UserId = 'userId',
+  Name = 'name',
+  Email = 'email',
+  LastLogin = 'lastLogin',
+  Locked = 'locked',
+}
