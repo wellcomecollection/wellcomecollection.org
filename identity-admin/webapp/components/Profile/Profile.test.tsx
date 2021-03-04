@@ -3,8 +3,8 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import fetchMock from 'jest-fetch-mock';
 import { Profile } from './Profile';
-import { UserInfoProvider } from '../UserInfoContext';
-import { mockUser } from '../../../__mocks__/UserInfo.mock';
+import { UserInfoProvider } from '../../context/UserInfoContext';
+import { mockUser } from '../../__mocks__/UserInfo.mock';
 
 jest.mock('next/router', () => ({
   useRouter: () => {

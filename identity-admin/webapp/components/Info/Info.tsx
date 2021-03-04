@@ -1,6 +1,6 @@
 import React from 'react';
-import { UserInfo } from '../../../types/UserInfo';
-import { useUserInfo } from '../UserInfoContext';
+import { UserInfo } from '../../types/UserInfo';
+import { useUserInfo } from '../../context/UserInfoContext';
 import { StatusBox } from './Info.style';
 
 function UserStatus(props: Partial<UserInfo>) {

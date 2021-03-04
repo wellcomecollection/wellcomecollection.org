@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import User from './User';
-import { UserInfoProvider } from './UserInfoContext';
+import { EditProfile } from './EditProfile';
+import { UserInfoProvider } from '../../context/UserInfoContext';
 
 jest.mock('next/router', () => ({
   useRouter() {
@@ -14,11 +14,11 @@ jest.mock('next/router', () => ({
 const renderPage = () =>
   render(
     <UserInfoProvider>
-      <User />
+      <EditProfile />
     </UserInfoProvider>
   );
 
-describe('User', () => {
+describe('EditProfile', () => {
   it('shows a loading component', async () => {
     renderPage();
     expect(screen.getByText(/loading/i)).toBeInTheDocument();

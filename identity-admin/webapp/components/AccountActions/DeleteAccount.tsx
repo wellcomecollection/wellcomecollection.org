@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ReactModal from 'react-modal';
-import { DangerButton, Button } from '../../../components/Button';
-import { useDeleteAccount } from '../../../hooks/useDeleteAccount';
+import { DangerButton, Button } from '../Button';
+import { useDeleteAccount } from '../../hooks/useDeleteAccount';
 import styles from './DeleteAccount.module.css';
 
 ReactModal.setAppElement('#__next');

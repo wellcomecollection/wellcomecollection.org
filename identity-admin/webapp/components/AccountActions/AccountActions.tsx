@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { useUserInfo } from '../UserInfoContext';
+import { useUserInfo } from '../../context/UserInfoContext';
 import { DeleteAccount } from './DeleteAccount';
 import { Container } from './AccountActions.style';
-import { useResendActivationEmail } from '../../../hooks/useResendActivationEmail';
+import { useResendActivationEmail } from '../../hooks/useResendActivationEmail';
 import { AccountActionButton } from './AccountActionButton';
-import { useResetPassword } from '../../../hooks/useResetPassword';
-import { useBlockAccount } from '../../../hooks/useBlockAccount';
-import { useUnblockAccount } from '../../../hooks/useUnblockAccount';
-import { useReverseDeleteRequest } from '../../../hooks/useReverseDeleteRequest';
+import { useResetPassword } from '../../hooks/useResetPassword';
+import { useBlockAccount } from '../../hooks/useBlockAccount';
+import { useUnblockAccount } from '../../hooks/useUnblockAccount';
+import { useReverseDeleteRequest } from '../../hooks/useReverseDeleteRequest';
 
 type AccountActionState = {
   isSuccess: boolean;

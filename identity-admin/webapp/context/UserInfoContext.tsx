@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { UserInfo } from '../../types/UserInfo';
+import { UserInfo } from '../types/UserInfo';
 import axios from 'axios';
 
 export type UserInfoContextState = {

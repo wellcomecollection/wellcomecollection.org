@@ -1,6 +1,6 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { useUserInfo } from '../UserInfoContext';
+import { useUserInfo } from '../../context/UserInfoContext';
 import { Container, Name, Value } from './UsageData.style';
 
 const prettyDate = (date?: string) => {

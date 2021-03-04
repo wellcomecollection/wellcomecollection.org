@@ -1,9 +1,9 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Button } from '../../../components/Button';
-import { useUpdateUserInfo } from '../../../hooks/useUpdateUserInfo';
-import { EditedUserInfo } from '../../../types/UserInfo';
-import { useUserInfo } from '../UserInfoContext';
+import { Button } from '../Button';
+import { useUpdateUserInfo } from '../../hooks/useUpdateUserInfo';
+import { EditedUserInfo } from '../../types/UserInfo';
+import { useUserInfo } from '../../context/UserInfoContext';
 import { Form, Input, InvalidField, Label } from './Profile.style';
 
 const emailRegEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

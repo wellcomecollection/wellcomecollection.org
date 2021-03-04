@@ -1,15 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
-import { Info } from './Info';
+import { Info } from '../Info';
 import Layout from '../../components/Layout';
 import { Tab, Tabs, TabList, TabPanel } from '../../components/Tabs';
-import { Profile } from './Profile';
-import { UsageData } from './UsageData';
-import { AccountActions } from './AccountActions';
-import { useUserInfo } from './UserInfoContext';
-import { Title } from './User.style';
+import { Profile } from '../Profile';
+import { UsageData } from '../UsageData';
+import { AccountActions } from '../AccountActions';
+import { useUserInfo } from '../../context/UserInfoContext';
+import { Title } from './EditProfile.style';
 
-function User(): JSX.Element {
+export function EditProfile(): JSX.Element {
   const { isLoading, error } = useUserInfo();
 
   return (
@@ -48,5 +48,3 @@ function User(): JSX.Element {
     </Layout>
   );
 }
-
-export default User;

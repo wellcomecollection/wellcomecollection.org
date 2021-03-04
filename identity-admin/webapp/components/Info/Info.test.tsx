@@ -2,10 +2,10 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { rest } from 'msw';
 import { Info } from './Info';
-import { UserInfoProvider } from '../UserInfoContext';
-import { UserInfo } from '../../../types/UserInfo';
-import { mockUser } from '../../../__mocks__/UserInfo.mock';
-import { server } from '../../../__mocks__/server';
+import { UserInfoProvider } from '../../context/UserInfoContext';
+import { UserInfo } from '../../types/UserInfo';
+import { mockUser } from '../../__mocks__/UserInfo.mock';
+import { server } from '../../__mocks__/server';
 
 jest.mock('next/router', () => ({
   useRouter() {
