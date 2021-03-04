@@ -24,6 +24,10 @@ export default {
           name: 'standalone',
           display: 'Standalone',
         },
+        {
+          name: 'body',
+          display: 'Body',
+        },
       ],
       gifVideo: [
         {
