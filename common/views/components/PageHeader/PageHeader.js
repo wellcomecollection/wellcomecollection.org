@@ -54,11 +54,14 @@ const HeroPictureContainer = styled.div`
   `}
 `;
 
-// custom font size which is used for section pages which will likely to change later
+// Custom font size which is only used for section pages
 const Header = styled.h1.attrs(props => ({
   className: 'h1 inline-block no-margin',
 }))`
-  ${props => props.sectionLevelPage && 'font-size: 50px'};
+  ${props => props.sectionLevelPage && `font-size: 50px;`}
+  @media (max-width: ${props => props.theme.sizes.medium}px) {
+    ${props => props.sectionLevelPage && `font-size: 32px;`}
+  }
 `;
 
 export type FeaturedMedia =

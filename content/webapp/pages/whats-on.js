@@ -216,6 +216,9 @@ const Title = styled.h1.attrs(props => ({
   className: 'h1 inline-block no-margin',
 }))`
   font-size: 50px;
+  @media (max-width: ${props => props.theme.sizes.medium}px) {
+    font-size: 32px;
+  }
 `;
 type HeaderProps = {|
   activeId: string,
