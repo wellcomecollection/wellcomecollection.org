@@ -3,10 +3,11 @@ import { ImagesProps } from '../../views/components/ImagesLink/ImagesLink';
 import { WorksProps } from '../../views/components/WorksLink/WorksLink';
 
 export type CatalogueImagesApiProps = {
-  query: string | undefined;
-  page: number | undefined;
-  'locations.license': string[] | undefined;
-  color: string | undefined;
+  query?: string;
+  page?: number;
+  'locations.license'?: string[];
+  color?: string;
+  aggregations?: string[];
 };
 
 function toIsoDateString(s: string): string {
@@ -39,7 +40,7 @@ export type CatalogueWorksApiProps = {
   workType?: string[];
   'items.locations.locationType'?: string[];
   'items.locations.accessConditions.status'?: ItemsLocationsAccessConditionsStatus;
-  'items.locations.type'?: string[];
+  availabilities?: string[];
   sort?: string;
   sortOrder?: string;
   'production.dates.from'?: string;
@@ -60,32 +61,36 @@ export function worksRouteToApiUrl(
     query: worksProps.query,
     page: worksProps.page,
     workType: worksProps.workType,
-    'items.locations.locationType': worksProps.itemsLocationsLocationType,
-    'items.locations.type': worksProps.itemsLocationsType,
+    'items.locations.locationType': worksProps['items.locations.locationType'],
+    availabilities: worksProps.availabilities,
     sort: worksProps.sort,
     sortOrder: worksProps.sortOrder,
-    'production.dates.from': worksProps.productionDatesFrom
-      ? toIsoDateString(worksProps.productionDatesFrom)
+    'production.dates.from': worksProps['production.dates.from']
+      ? toIsoDateString(worksProps['production.dates.from'])
       : undefined,
-    'production.dates.to': worksProps.productionDatesTo
-      ? toIsoDateString(worksProps.productionDatesTo)
+    'production.dates.to': worksProps['production.dates.to']
+      ? toIsoDateString(worksProps['production.dates.to'])
       : undefined,
     languages: worksProps.languages,
-    'genres.label': worksProps.genresLabel.map(quoteVal),
-    'subjects.label': worksProps.subjectsLabel.map(quoteVal),
-    'contributors.agent.label': worksProps.contributorsAgentLabel.map(quoteVal),
+    'genres.label': worksProps['genres.label'].map(quoteVal),
+    'subjects.label': worksProps['subjects.label'].map(quoteVal),
+    'contributors.agent.label': worksProps['contributors.agent.label'].map(
+      quoteVal
+    ),
     ...overrides,
   };
 }
 
 export function imagesRouteToApiUrl(
-  imagesRouteProps: ImagesProps
+  imagesRouteProps: ImagesProps,
+  overrides: Partial<CatalogueImagesApiProps>
 ): CatalogueImagesApiProps {
   return {
     query: imagesRouteProps.query,
     page: imagesRouteProps.page,
     color: imagesRouteProps.color,
-    'locations.license': imagesRouteProps.locationsLicense,
+    'locations.license': imagesRouteProps['locations.license'],
+    ...overrides,
   };
 }
 

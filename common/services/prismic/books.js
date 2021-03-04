@@ -84,7 +84,6 @@ export async function getBook(
     const book = parseBook(document);
     const labels = [
       {
-        url: null,
         text: 'Book',
       },
     ];

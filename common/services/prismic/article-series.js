@@ -39,9 +39,7 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
           };
         })
     : [];
-  const labels = [
-    { url: null, text: schedule.length > 0 ? 'Serial' : 'Series' },
-  ];
+  const labels = [{ text: schedule.length > 0 ? 'Serial' : 'Series' }];
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
     return parseSeason(season);
   });

@@ -1,8 +1,6 @@
-import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import PageLayout, { Props as PageLayoutProps } from '../PageLayout/PageLayout';
 import InfoBanner from '../InfoBanner/InfoBanner';
-import SearchToolbar from '../SearchToolbar/SearchToolbar';
-import TogglesContext from '../TogglesContext/TogglesContext';
 
 type Props = {
   hideInfoBar?: boolean;
@@ -13,7 +11,6 @@ const CataloguePageLayout: FunctionComponent<Props> = ({
   children,
   ...props
 }: Props) => {
-  const { searchToolbar } = useContext(TogglesContext);
   const [isRedirectBannerVisible, setIsRedirectBannerVisible] = useState(false);
   useEffect(() => {
     if (window.location.search.match('wellcomeImagesUrl')) {
@@ -38,8 +35,6 @@ const CataloguePageLayout: FunctionComponent<Props> = ({
                 cookieName="WC_wellcomeImagesRedirect"
               />
             )}
-
-            {searchToolbar && <SearchToolbar />}
           </>
         )}
         {children}

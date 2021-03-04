@@ -139,7 +139,7 @@ const SearchForm: FunctionComponent<Props> = ({
     // We do this as the JS form uses a portal, due to the control being
     // outside of the for to obtain this value.
     const sort =
-      sortOrder === 'asc' || sortOrder === 'desc'
+      portalSortOrder === 'asc' || portalSortOrder === 'desc'
         ? 'production.dates'
         : undefined;
 

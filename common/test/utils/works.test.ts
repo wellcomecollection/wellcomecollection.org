@@ -68,6 +68,7 @@ describe('getArchiveAncestorArray', () => {
         alternativeTitles: [],
         referenceNumber: 'PP/CRI',
         availableOnline: false,
+        availabilities: [],
         totalDescendentParts: 2678,
         totalParts: 14,
         partOf: [],
@@ -79,10 +80,12 @@ describe('getArchiveAncestorArray', () => {
         alternativeTitles: [],
         referenceNumber: 'PP/CRI/A',
         availableOnline: false,
+        availabilities: [],
         partOf: [
           {
             alternativeTitles: [],
             availableOnline: false,
+            availabilities: [],
             id: 'hz43r7re',
             partOf: [],
             referenceNumber: 'PP/CRI',
@@ -102,15 +105,18 @@ describe('getArchiveAncestorArray', () => {
         alternativeTitles: [],
         referenceNumber: 'PP/CRI/A/1',
         availableOnline: false,
+        availabilities: [],
         partOf: [
           {
             alternativeTitles: [],
             availableOnline: false,
+            availabilities: [],
             id: 'gnfmdk33',
             partOf: [
               {
                 alternativeTitles: [],
                 availableOnline: false,
+                availabilities: [],
                 id: 'hz43r7re',
                 partOf: [],
                 referenceNumber: 'PP/CRI',
@@ -137,20 +143,24 @@ describe('getArchiveAncestorArray', () => {
         alternativeTitles: [],
         referenceNumber: 'PP/CRI/A/1/2',
         availableOnline: false,
+        availabilities: [],
         partOf: [
           {
             alternativeTitles: [],
             availableOnline: false,
+            availabilities: [],
             id: 'pwbpp7gj',
             partOf: [
               {
                 alternativeTitles: [],
                 availableOnline: false,
+                availabilities: [],
                 id: 'gnfmdk33',
                 partOf: [
                   {
                     alternativeTitles: [],
                     availableOnline: false,
+                    availabilities: [],
                     id: 'hz43r7re',
                     partOf: [],
                     referenceNumber: 'PP/CRI',

@@ -249,17 +249,15 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     ? [
         {
           text: 'Permanent exhibition',
-          url: null,
         },
       ]
     : exhibition.format
     ? [
         {
           text: exhibition.format.title,
-          url: null,
         },
       ]
-    : [{ url: null, text: 'Exhibition' }];
+    : [{ text: 'Exhibition' }];
 
   return { ...exhibition, labels };
 }

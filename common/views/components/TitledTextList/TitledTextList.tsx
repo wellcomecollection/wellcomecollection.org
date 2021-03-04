@@ -50,7 +50,7 @@ const TitledTextList: FunctionComponent<Props> = ({ items }: Props) => {
             </TextContainer>
             {item.label && (
               <LabelsList
-                labels={[{ url: null, text: item.label.title }]}
+                labels={[{ text: item.label.title }]}
                 defaultLabelColor="cream"
               />
             )}

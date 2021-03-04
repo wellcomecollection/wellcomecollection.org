@@ -369,15 +369,15 @@ function parseArticleDoc(document: PrismicDocument): Article {
     }),
   };
   const labels = [
-    article.format ? { url: null, text: article.format.title || '' } : null,
+    article.format ? { text: article.format.title || '' } : null,
     article.series.find(series => series.schedule.length > 0)
-      ? { url: null, text: 'Serial' }
+      ? { text: 'Serial' }
       : null,
   ].filter(Boolean);
 
   return {
     ...article,
-    labels: labels.length > 0 ? labels : [{ url: null, text: 'Story' }],
+    labels: labels.length > 0 ? labels : [{ text: 'Story' }],
     outroResearchLinkText: asText(data.outroResearchLinkText),
     outroResearchItem: parseContentLink(data.outroResearchItem),
     outroReadLinkText: asText(data.outroReadLinkText),
@@ -406,9 +406,9 @@ function parseWebcomicDoc(document: PrismicDocument): Article {
     seasons: [],
   };
   const labels = [
-    article.format ? { url: null, text: article.format.title || '' } : null,
+    article.format ? { text: article.format.title || '' } : null,
     article.series.find(series => series.schedule.length > 0)
-      ? { url: null, text: 'Serial' }
+      ? { text: 'Serial' }
       : null,
   ].filter(Boolean);
   const body = data.image
@@ -433,7 +433,7 @@ function parseWebcomicDoc(document: PrismicDocument): Article {
   return {
     ...article,
     body,
-    labels: labels.length > 0 ? labels : [{ url: null, text: 'Story' }],
+    labels: labels.length > 0 ? labels : [{ text: 'Story' }],
     outroResearchLinkText: null,
     outroResearchItem: null,
     outroReadLinkText: null,

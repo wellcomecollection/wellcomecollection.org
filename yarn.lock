@@ -2846,6 +2846,11 @@
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.1.0.tgz#6c9eafc78c1529248f8f4d92b0799a712b6052c6"
   integrity sha512-i9YbZPN3QgfighY/1X1Pu118VUz2Fmmhd6b2n0/O8YVgGGfw0FbUYoA97k7FkpGJ+pLCFEDLUmAPPV4D1kpeFw==
 
+"@hookform/error-message@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@hookform/error-message/-/error-message-0.0.5.tgz#606912b506513669980c440f383ff6c78a7aca3a"
+  integrity sha512-es7eLLFA3SXNYAT8aUjvf7Gok1eMHK+9DMILtJA7ZEwYZlCCCPifhpoZmY+5SOopEtF7e+qxFOjX+MJnI3jOcg==
+
 "@icons/material@^0.2.4":
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
@@ -18975,11 +18980,6 @@ react-color@^2.17.0:
     prop-types "^15.5.10"
     reactcss "^1.2.0"
     tinycolor2 "^1.4.1"
-
-react-colorful@^4.0.5:
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/react-colorful/-/react-colorful-4.4.2.tgz#b32c4458e3ae6447049cb1a8f17a2a5f6b0f5b1f"
-  integrity sha512-oQ4gG7RSpJt+C9ozmvObiZIh4E6MIgjkzjNXA1xx/Bel01Q2P6JalLODe1YlU8U44WaoCXrVXVv7d1sMWR7gvw==
 
 react-dev-utils@^10.0.0:
   version "10.2.1"

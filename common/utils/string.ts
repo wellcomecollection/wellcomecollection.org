@@ -1,3 +1,3 @@
 export function toHtmlId(s: string): string {
-  return s.replace(/\W/g, '-').toLocaleLowerCase();
+  return s.replace(/\W/g, '-');
 }

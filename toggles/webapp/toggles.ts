@@ -15,20 +15,6 @@ export default {
       defaultValue: false,
     },
     {
-      id: 'paletteColorFilter',
-      title: 'Palette-based colour filter',
-      description:
-        'Use a new colour filtering UI that provides a fixed palette and a hue slider',
-      defaultValue: false,
-    },
-    {
-      id: 'searchToolbar',
-      title: 'Search toolbar',
-      defaultValue: false,
-      description:
-        'Select from search query algorithms and other search functionality',
-    },
-    {
       id: 'stagingApi',
       title: 'Staging API',
       defaultValue: false,
@@ -53,12 +39,6 @@ export default {
       defaultValue: false,
       description:
         'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
-    },
-    {
-      id: 'searchMoreFilters',
-      title: 'More Filters',
-      defaultValue: true,
-      description: 'Enable more filters within the search results',
     },
   ] as const,
 };

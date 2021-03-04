@@ -10,9 +10,7 @@ export async function clickActionColourDropDown(): Promise<void> {
 }
 
 export async function clickActionColourPicker(): Promise<void> {
-  await page.click(colourSelector, {
-    position: { x: 100, y: 100 },
-  });
+  await page.click(colourSelector);
 }
 
 export async function clickActionClickViewExpandedImage(): Promise<void> {

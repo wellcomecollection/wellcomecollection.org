@@ -30,6 +30,7 @@ export type Work = {
   totalParts?: number;
   totalDescendentParts?: number;
   availableOnline: boolean;
+  availabilities: Availability[];
   '@context'?: string;
 };
 
@@ -39,6 +40,7 @@ type MinimalRelatedWorkFields =
   | 'alternativeTitles'
   | 'referenceNumber'
   | 'availableOnline'
+  | 'availabilities'
   | 'type';
 export type RelatedWork = Partial<Work> & Pick<Work, MinimalRelatedWorkFields>;
 
@@ -152,6 +154,12 @@ type AccessStatus = {
   id: string;
   label: string;
   type: 'AccessStatus';
+};
+
+type Availability = {
+  id: string;
+  label: string;
+  type: 'Availability';
 };
 
 export type Item = {
@@ -295,13 +303,17 @@ export type CatalogueAggregationNoId = {
   buckets: CatalogueAggregationBucketNoId[];
 };
 
-export type CatalogueAggregations = {
+export type WorkAggregations = {
   workType: CatalogueAggregation;
-  locationType: CatalogueAggregation;
+  availabilities: CatalogueAggregation;
   languages?: CatalogueAggregation;
   genres?: CatalogueAggregationNoId;
   subjects?: CatalogueAggregationNoId;
   contributors?: CatalogueAggregationContributor;
+};
+
+export type ImageAggregations = {
+  license?: CatalogueAggregation;
 };
 
 export type CatalogueResultsList<Result = Work> = {
@@ -311,5 +323,5 @@ export type CatalogueResultsList<Result = Work> = {
   pageSize: number;
   prevPage: string | null;
   nextPage: string | null;
-  aggregations?: CatalogueAggregations;
+  aggregations?: Result extends Work ? WorkAggregations : ImageAggregations;
 };

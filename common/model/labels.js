@@ -7,7 +7,6 @@ export type LabelColor =
   | 'white'
   | 'transparent';
 export type Label = {|
-  url: ?string,
   text: string,
   labelColor?: LabelColor,
 |};

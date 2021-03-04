@@ -31,6 +31,16 @@
   }
 }
 
+// Ensure image and caption are left-aligned
+.captioned-image--body {
+  text-align: left;
+
+  .caption {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
 /* stylelint-disable */
 .caption {
   text-align: left;

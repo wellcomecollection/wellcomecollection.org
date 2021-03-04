@@ -181,13 +181,10 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
   const body = hasFeaturedVideo
     ? event.body.slice(1, event.body.length)
     : event.body;
-  const eventFormat = event.format
-    ? [{ url: null, text: event.format.title }]
-    : [];
+  const eventFormat = event.format ? [{ text: event.format.title }] : [];
   const eventAudiences = event.audiences
     ? event.audiences.map(a => {
         return {
-          url: null,
           text: a.title,
         };
       })
@@ -195,7 +192,6 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
   const eventInterpretations = event.interpretations
     ? event.interpretations.map(i => {
         return {
-          url: null,
           text: i.interpretationType.title,
         };
       })
@@ -203,7 +199,6 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
   const relaxedPerformanceLabel = event.isRelaxedPerformance
     ? [
         {
-          url: null,
           text: 'Relaxed',
         },
       ]
