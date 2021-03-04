@@ -1,21 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { UserInfo } from '../../types/UserInfo';
-
-const mockApiCall = () =>
-  Promise.resolve({
-    status: 200,
-    data: {
-      firstName: 'Steve',
-      lastName: 'Rogers',
-      locked: false,
-      emailValidated: false,
-    },
-  });
+import axios from 'axios';
 
 export type UserInfoContextState = {
-  data?: UserInfo;
+  user?: UserInfo;
   isLoading: boolean;
-  error?: unknown;
+  error?: { message: string };
+  refetch?: () => void;
 };
 
 const UserInfoContext = React.createContext<UserInfoContextState | null>(null);
@@ -28,22 +20,27 @@ export function useUserInfo(): UserInfoContextState {
   return contextState;
 }
 
-export const UserInfoProvider: React.FC<{ id: string }> = ({
-  id,
-  children,
-}) => {
+export const UserInfoProvider: React.FC = ({ children }) => {
   const [state, setState] = useState<UserInfoContextState>({ isLoading: true });
+  const router = useRouter();
+  const { userId } = router.query;
+
+  const fetchUser = async (): Promise<void> => {
+    setState({ isLoading: true });
+    return axios
+      .get<UserInfo>(`/api/user/${userId}`)
+      .then(({ data }) => {
+        return setState({ isLoading: false, user: data });
+      })
+      .catch(error => setState({ isLoading: false, error }));
+  };
 
   useEffect(() => {
-    const fetchUser = async (): Promise<{ status: number; data: UserInfo }> => {
-      return mockApiCall();
-    };
-    setState({ isLoading: true });
-    fetchUser().then(({ data }) => setState({ isLoading: false, data }));
-  }, [id]);
+    fetchUser();
+  }, [userId]);
 
   return (
-    <UserInfoContext.Provider value={state}>
+    <UserInfoContext.Provider value={{ ...state, refetch: fetchUser }}>
       {children}
     </UserInfoContext.Provider>
   );
@@ -51,8 +48,10 @@ export const UserInfoProvider: React.FC<{ id: string }> = ({
 
 export const TestUserInfoProvider: React.FC<{
   value: UserInfoContextState;
-}> = props => (
-  <UserInfoContext.Provider value={props.value}>
-    {props.children}
-  </UserInfoContext.Provider>
-);
+}> = props => {
+  return (
+    <UserInfoContext.Provider value={props.value}>
+      {props.children}
+    </UserInfoContext.Provider>
+  );
+};

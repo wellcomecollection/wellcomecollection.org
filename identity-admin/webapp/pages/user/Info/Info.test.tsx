@@ -1,79 +1,73 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import { rest } from 'msw';
 import { Info } from './Info';
-import { TestUserInfoProvider, UserInfoContextState } from '../UserInfoContext';
+import { UserInfoProvider } from '../UserInfoContext';
+import { UserInfo } from '../../../types/UserInfo';
+import { mockUser } from '../../../__mocks__/UserInfo.mock';
+import { server } from '../../../__mocks__/server';
 
-const captainAmerica = {
-  firstName: 'Steve',
-  lastName: 'Rogers',
-  locked: false,
-  emailValidated: true,
-};
+jest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      query: { userId: '123' },
+    };
+  },
+}));
 
-const defaultContext: UserInfoContextState = {
-  isLoading: false,
-  data: captainAmerica,
-};
-
-const renderComponent = (context = defaultContext) =>
-  render(
-    <TestUserInfoProvider value={context}>
-      <Info />
-    </TestUserInfoProvider>
+const renderComponent = (userOverride: Partial<UserInfo> = {}) => {
+  server.use(
+    rest.get(new RegExp('/api/user/123'), (_req, res, ctx) => {
+      return res(ctx.json({ ...mockUser, ...userOverride }));
+    })
   );
+  return render(
+    <UserInfoProvider>
+      <Info />
+    </UserInfoProvider>
+  );
+};
 
 describe('Info', () => {
-  it('has a second-level heading with the name of the user profile being edited', () => {
+  it('has a second-level heading with the name of the user profile being edited', async () => {
     renderComponent();
-    const secondaryHeading = screen.getByRole('heading', { level: 2 });
+    const secondaryHeading = await screen.findByRole('heading', {
+      level: 2,
+      name: 'Edit user profile: Steve Rogers',
+    });
     expect(secondaryHeading).toBeInTheDocument();
-    expect(secondaryHeading).toHaveTextContent(
-      'Edit user profile: Steve Rogers'
-    );
   });
 
   describe('status', () => {
-    it('is not shown by default', () => {
+    it('is not shown by default', async () => {
       renderComponent();
+      await waitFor(expect(screen.getByText(/loading/i)).not.toBeInTheDocument);
       const userStatus = screen.queryByRole('complementary');
       expect(userStatus).not.toBeInTheDocument();
     });
 
-    it('shows that an account has been blocked', () => {
-      renderComponent({
-        ...defaultContext,
-        data: {
-          ...captainAmerica,
-          locked: true,
-        },
-      });
+    it('shows that an account has been blocked', async () => {
+      renderComponent({ locked: true });
+      await waitFor(expect(screen.getByText(/loading/i)).not.toBeInTheDocument);
       const userStatus = screen.getByRole('complementary');
       expect(userStatus).toBeInTheDocument();
       expect(userStatus).toHaveTextContent(/account blocked/i);
     });
 
-    it('shows that an account has requested deletion', () => {
+    it('shows that an account has requested deletion', async () => {
       renderComponent({
-        ...defaultContext,
-        data: {
-          ...captainAmerica,
-          locked: true,
-          deleteRequested: '2021-02-18T12:37:58.305Z',
-        },
+        locked: true,
+        deleteRequested: '2021-02-18T12:37:58.305Z',
       });
+      await waitFor(expect(screen.getByText(/loading/i)).not.toBeInTheDocument);
       const userStatus = screen.getByRole('complementary');
       expect(userStatus).toBeInTheDocument();
       expect(userStatus).toHaveTextContent(/user has requested delete/i);
     });
 
-    it("shows that an account's email is not validated", () => {
-      renderComponent({
-        ...defaultContext,
-        data: {
-          ...captainAmerica,
-          emailValidated: false,
-        },
-      });
+    it("shows that an account's email is not validated", async () => {
+      renderComponent({ emailValidated: false });
+      await waitFor(expect(screen.getByText(/loading/i)).not.toBeInTheDocument);
       const userStatus = screen.getByRole('complementary');
       expect(userStatus).toBeInTheDocument();
       expect(userStatus).toHaveTextContent(/waiting activation/i);

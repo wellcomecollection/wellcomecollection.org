@@ -1,11 +1,9 @@
 import React from 'react';
 import { UserInfo } from '../../../types/UserInfo';
 import { useUserInfo } from '../UserInfoContext';
+import { StatusBox } from './Info.style';
 
-function UserStatus(props: UserInfo) {
-  const StatusBox: React.FC<{ children: string }> = ({ children }) => (
-    <aside>{children}</aside>
-  );
+function UserStatus(props: Partial<UserInfo>) {
   if (props.deleteRequested) {
     return <StatusBox>User has requested delete</StatusBox>;
   }
@@ -19,20 +17,16 @@ function UserStatus(props: UserInfo) {
 }
 
 export function Info(): JSX.Element {
-  const { data, isLoading } = useUserInfo();
+  const { user, isLoading } = useUserInfo();
 
-  if (isLoading || !data) {
-    return <p>Loading...</p>;
-  }
-
-  const { firstName, lastName } = data;
-
-  return (
+  return isLoading ? (
+    <p>Loading...</p>
+  ) : (
     <>
       <h2>
-        Edit user profile: {firstName} {lastName}
+        Edit user profile: {user?.firstName} {user?.lastName}
       </h2>
-      <UserStatus {...data} />
+      <UserStatus {...user} />
     </>
   );
 }
