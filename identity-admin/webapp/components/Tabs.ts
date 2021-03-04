@@ -18,9 +18,7 @@ export const Tab = styled(_Tab)`
   }
 `;
 
-export const Tabs = styled(_Tabs)`
-  /* width: 50%; */
-`;
+export const Tabs = _Tabs;
 
 export const TabList = styled(_TabList)`
   list-style-type: none;
