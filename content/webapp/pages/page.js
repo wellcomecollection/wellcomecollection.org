@@ -119,21 +119,21 @@ export class Page extends Component<Props> {
       ],
     };
 
+    const displayBackground =
+      FeaturedMedia && !sectionLevelPage ? (
+        <HeaderBackground
+          backgroundTexture={backgroundTexture}
+          hasWobblyEdge={!isLanding}
+        />
+      ) : null;
+
     const Header = (
       <PageHeader
         breadcrumbs={breadcrumbs}
         labels={null}
         title={page.title}
         FeaturedMedia={FeaturedMedia}
-        Background={
-          FeaturedMedia &&
-          !sectionLevelPage && (
-            <HeaderBackground
-              backgroundTexture={backgroundTexture}
-              hasWobblyEdge={!isLanding}
-            />
-          )
-        }
+        Background={displayBackground}
         ContentTypeInfo={DateInfo}
         HeroPicture={null}
         backgroundTexture={

@@ -9,6 +9,10 @@ import { Component, Fragment } from 'react';
 import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import {
+  getPage,
+  getPageFeaturedText,
+} from '@weco/common/services/prismic/pages';
+import {
   getEvents,
   filterEventsForToday,
   filterEventsForWeekend,
@@ -44,8 +48,13 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
 import { FeaturedCardExhibition } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 import { getParseCollectionVenueById } from '@weco/common/services/prismic/opening-times';
-import { collectionVenueId } from '@weco/common/services/prismic/hardcoded-id';
+import {
+  collectionVenueId,
+  prismicPageIds,
+} from '@weco/common/services/prismic/hardcoded-id';
 import styled from 'styled-components';
+import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
+import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -55,6 +64,7 @@ type Props = {|
   dateRange: any[],
   tryTheseTooPromos: any[],
   eatShopPromos: any[],
+  featuredText: any, // todo add type
 |};
 
 function getListHeader(openingTimes: any) {
@@ -209,8 +219,9 @@ const Title = styled.h1.attrs(props => ({
 type HeaderProps = {|
   activeId: string,
   openingTimes: any, // TODO
+  featuredText: any,
 |};
-const Header = ({ activeId, openingTimes }: HeaderProps) => {
+const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
   const listHeader = getListHeader(openingTimes);
   const todayOpeningHours = listHeader.todayOpeningHours;
 
@@ -279,6 +290,12 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
                 </NextLink>
               </div>
             </div>
+            {featuredText && (
+              <FeaturedText
+                html={featuredText.value}
+                htmlSerializer={defaultSerializer}
+              />
+            )}
           </div>
           <Space
             v={{
@@ -324,6 +341,12 @@ export class WhatsOnPage extends Component<Props> {
     const period = ctx.query.period || 'current-and-coming-up';
     const { memoizedPrismic } = ctx.query;
 
+    // call prisimic for specific content for section page such as featured text
+    const whatsOnPagePromise = await getPage(
+      ctx.req,
+      prismicPageIds.whatsOn,
+      memoizedPrismic
+    );
     const exhibitionsPromise = getExhibitions(
       ctx.req,
       {
@@ -351,12 +374,19 @@ export class WhatsOnPage extends Component<Props> {
       memoizedPrismic
     );
 
-    const [exhibitions, events, availableOnlineEvents] = await Promise.all([
+    const [
+      exhibitions,
+      events,
+      availableOnlineEvents,
+      whatsOnPage,
+    ] = await Promise.all([
       exhibitionsPromise,
       eventsPromise,
       availableOnlineEventsPromise,
+      whatsOnPagePromise,
     ]);
     const dateRange = getMomentsForPeriod(period);
+    const featuredText = whatsOnPage ? getPageFeaturedText(whatsOnPage) : [];
 
     if (period && events && exhibitions) {
       return {
@@ -369,6 +399,7 @@ export class WhatsOnPage extends Component<Props> {
         eatShopPromos: [cafePromo],
         cafePromo,
         dailyTourPromo,
+        featuredText,
       };
     } else {
       return { statusCode: 404 };
@@ -376,7 +407,13 @@ export class WhatsOnPage extends Component<Props> {
   };
 
   render() {
-    const { period, dateRange, tryTheseTooPromos, eatShopPromos } = this.props;
+    const {
+      period,
+      dateRange,
+      tryTheseTooPromos,
+      eatShopPromos,
+      featuredText,
+    } = this.props;
 
     const events = this.props.events.results.map(convertJsonToDates);
     const availableOnlineEvents = this.props.availableOnlineEvents.results.map(
@@ -411,7 +448,11 @@ export class WhatsOnPage extends Component<Props> {
         <OpeningTimesContext.Consumer>
           {openingTimes => (
             <Fragment>
-              <Header activeId={period} openingTimes={openingTimes} />
+              <Header
+                activeId={period}
+                openingTimes={openingTimes}
+                featuredText={featuredText}
+              />
               <Layout12>
                 <DateRange
                   dateRange={dateRange}

@@ -137,7 +137,7 @@ type Props = {|
   highlightHeading?: boolean,
   asyncBreadcrumbsRoute?: string,
   isContentTypeInfoBeforeMedia?: boolean,
-  sectionLevelPage: boolean,
+  sectionLevelPage?: boolean,
   // TODO: Don't overload this, it's just for putting things in till
   // we find a pattern
   TitleTopper?: Node,

@@ -241,3 +241,14 @@ export async function getPageFromDrupalPath(
     return parsePage(pages.results[0]);
   }
 }
+
+// todo add return type
+export const getPageFeaturedText = (page: Page) => {
+  const filteredFeaturedText = page.body.filter(
+    slice => slice.weight === 'featured'
+  );
+  if (filteredFeaturedText.length) {
+    return filteredFeaturedText[0];
+  }
+  return [];
+};
