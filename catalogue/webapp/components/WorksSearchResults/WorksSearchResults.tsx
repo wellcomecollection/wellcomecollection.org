@@ -23,13 +23,9 @@ const WorkSearchResults: FunctionComponent<Props> = ({
   const { relevanceRating } = useContext(TogglesContext);
 
   return (
-    <ul className={'grid plain-list no-padding no-margin'} role="list">
+    <ul className={'grid plain-list no-padding no-margin'}>
       {works.results.map((result, i) => (
-        <li
-          key={result.id}
-          className={grid({ s: 12, m: 12, l: 12, xl: 12 })}
-          role="listitem"
-        >
+        <li key={result.id} className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
           <div
             onClick={() => {
               trackSearchResultSelected(apiProps, {

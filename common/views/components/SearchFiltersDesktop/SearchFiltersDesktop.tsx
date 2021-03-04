@@ -19,7 +19,6 @@ import {
 } from '../../../services/catalogue/filters';
 import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
 import ButtonInline from '../ButtonInline/ButtonInline';
-import { searchFilterCheckBox } from '../../../text/arial-labels';
 import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 
@@ -52,7 +51,6 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
                   name={f.id}
                   checked={selected}
                   onChange={changeHandler}
-                  ariaLabel={searchFilterCheckBox(label)}
                 />
               </li>
             )

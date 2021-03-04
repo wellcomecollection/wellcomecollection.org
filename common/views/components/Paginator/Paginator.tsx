@@ -22,7 +22,7 @@ type Props = {
 type PaginatorWrapperProps = {
   hideMobilePagination: boolean | undefined;
 };
-const PaginatorWrapper = styled.div.attrs<PaginatorWrapperProps>((props) => ({
+const PaginatorWrapper = styled.div.attrs<PaginatorWrapperProps>(props => ({
   className: classNames({
     'is-hidden-s': Boolean(props.hideMobilePagination),
     flex: true,
@@ -34,7 +34,7 @@ type TotalResultsWrapperProps = {
   hideMobileTotalResults: boolean | undefined;
 };
 const TotalResultsWrapper = styled.div.attrs<TotalResultsWrapperProps>(
-  (props) => ({
+  props => ({
     className: classNames({
       'is-hidden-s': Boolean(props.hideMobileTotalResults),
     }),
@@ -126,12 +126,16 @@ const Paginator: FunctionComponent<Props> = ({
         }}
       >
         {showPortal && <div id="sort-select-portal"></div>}
-        <PaginatorWrapper hideMobilePagination={hideMobilePagination}>
+        <PaginatorWrapper
+          hideMobilePagination={hideMobilePagination}
+          aria-label="Pagination navigation"
+          role="navigation"
+        >
           {prevLink && prev && (
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
               <Control
                 link={prevLink}
-                clickHandler={(event) => {
+                clickHandler={event => {
                   onPageChange(event, prev);
                 }}
                 colorScheme="light"
@@ -150,7 +154,7 @@ const Paginator: FunctionComponent<Props> = ({
             <Space as="span" h={{ size: 'm', properties: ['margin-left'] }}>
               <Control
                 link={nextLink}
-                clickHandler={(event) => {
+                clickHandler={event => {
                   onPageChange(event, next);
                 }}
                 colorScheme="light"
