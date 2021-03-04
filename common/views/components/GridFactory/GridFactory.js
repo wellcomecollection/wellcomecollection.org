@@ -6,7 +6,7 @@ type Props = {
   overrideGridSizes?: any,
 };
 
-export const customGridSizeMap = {
+export const sectionLevelPageGrid = {
   1: [{ s: 12, m: 12, l: 12, xl: 12 }],
   2: [
     { s: 12, m: 6, l: 5, xl: 5 },

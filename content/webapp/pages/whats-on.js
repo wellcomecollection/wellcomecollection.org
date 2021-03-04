@@ -53,8 +53,9 @@ import {
   prismicPageIds,
 } from '@weco/common/services/prismic/hardcoded-id';
 import styled from 'styled-components';
-import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
+import FeaturedTextTitle from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
+import { type FeaturedText } from '@weco/common/model/text';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -64,7 +65,7 @@ type Props = {|
   dateRange: any[],
   tryTheseTooPromos: any[],
   eatShopPromos: any[],
-  featuredText: any, // todo add type
+  featuredText: FeaturedText,
 |};
 
 function getListHeader(openingTimes: any) {
@@ -219,7 +220,7 @@ const Title = styled.h1.attrs(props => ({
 type HeaderProps = {|
   activeId: string,
   openingTimes: any, // TODO
-  featuredText: any,
+  featuredText: ?FeaturedText,
 |};
 const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
   const listHeader = getListHeader(openingTimes);
@@ -290,8 +291,8 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
                 </NextLink>
               </div>
             </div>
-            {featuredText && (
-              <FeaturedText
+            {featuredText && featuredText.value && (
+              <FeaturedTextTitle
                 html={featuredText.value}
                 htmlSerializer={defaultSerializer}
               />

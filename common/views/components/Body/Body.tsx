@@ -41,7 +41,7 @@ import Discussion from '../Discussion/Discussion';
 import WobblyEdgedContainer from '../WobblyEdgedContainer/WobblyEdgedContainer';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 
-import GridFactory, { customGridSizeMap } from '../GridFactory/GridFactory';
+import GridFactory, { sectionLevelPageGrid } from '../GridFactory/GridFactory';
 import Card from '../Card/Card';
 import FeaturedCard, {
   convertItemToFeaturedCardProps,
@@ -255,7 +255,7 @@ const Body: FunctionComponent<Props> = ({
                       <GridFactory
                         items={cards}
                         overrideGridSizes={
-                          sectionLevelPage && customGridSizeMap
+                          sectionLevelPage && sectionLevelPageGrid
                         }
                       />
                     )}
