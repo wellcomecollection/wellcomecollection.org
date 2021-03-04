@@ -5,7 +5,7 @@ import StatusDropdown from './StatusDropdown';
 import SearchInput from './SearchInput';
 import Sorter from './Sorter';
 import { useState } from 'react';
-import {useRouter} from "next/router";
+import { useRouter } from 'next/router';
 
 type Props = {
   items: User[] | undefined;
