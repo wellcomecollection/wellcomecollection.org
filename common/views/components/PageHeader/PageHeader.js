@@ -143,7 +143,7 @@ type Props = {|
   TitleTopper?: Node,
 |};
 
-const customGridLayout = { s: 12, m: 10, l: 8, xl: 8 };
+const sectionLevelPageGridLayout = { s: 12, m: 10, l: 8, xl: 8 };
 const PageHeader = ({
   breadcrumbs,
   labels,
@@ -190,7 +190,9 @@ const PageHeader = ({
             </div>
           </Layout10>
         )}
-        <Layout gridSizes={sectionLevelPage ? gridSize12 : customGridLayout}>
+        <Layout
+          gridSizes={sectionLevelPage ? gridSize12 : sectionLevelPageGridLayout}
+        >
           <Space
             v={{
               size: 'l',
@@ -283,7 +285,7 @@ const PageHeader = ({
       )}
 
       {!isContentTypeInfoBeforeMedia && ContentTypeInfo && (
-        <Layout gridSizes={customGridLayout}>
+        <Layout gridSizes={sectionLevelPageGridLayout}>
           <Space
             v={{
               size: 'l',

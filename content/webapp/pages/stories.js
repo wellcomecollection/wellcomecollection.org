@@ -25,12 +25,13 @@ import { staticBooks } from '../content/static-books';
 import { FeaturedCardArticle } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 import styled from 'styled-components';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
-import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
+import FeaturedTextTitle from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
 import {
   getPage,
   getPageFeaturedText,
 } from '@weco/common/services/prismic/pages';
+import { type FeaturedText } from '@weco/common/model/text';
 const Header = styled.h1.attrs(props => ({
   className: 'h1 inline-block no-margin',
 }))`
@@ -40,7 +41,7 @@ const Header = styled.h1.attrs(props => ({
 type Props = {|
   articles: PaginatedResults<Article>,
   series: ArticleSeries,
-  featuredText: any, // todo add type
+  featuredText: FeaturedText,
 |};
 
 const SerialisedSeries = ({ series }: any) => {
@@ -168,7 +169,7 @@ export class StoriesPage extends Component<Props> {
                     })}
                   >
                     {featuredText && featuredText.value && (
-                      <FeaturedText
+                      <FeaturedTextTitle
                         html={featuredText.value}
                         htmlSerializer={defaultSerializer}
                       />
