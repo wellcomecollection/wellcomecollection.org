@@ -22,6 +22,7 @@ export type CheckboxFilter = {
   type: 'checkbox';
   id: keyof WorksProps | keyof ImagesProps;
   label: string;
+  showEmptyBuckets?: boolean;
   options: {
     id: string;
     value: string;
@@ -181,6 +182,7 @@ const licenseFilter = ({
   type: 'checkbox',
   id: 'locations.license',
   label: 'License',
+  showEmptyBuckets: true,
   options:
     images.aggregations?.license?.buckets.map(bucket => ({
       id: bucket.data.id,
