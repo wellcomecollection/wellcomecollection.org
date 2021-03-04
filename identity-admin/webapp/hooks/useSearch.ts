@@ -24,7 +24,7 @@ export function useUserSearch(): UserSearchQuery {
     const params = buildSearchParams(page, status, name, email, sort, sortDir);
     let endpoint = '/api/users';
     if (params.length > 0) {
-      endpoint = endpoint + '?' + params.join('&');
+      endpoint = endpoint + '?' + params;
     }
     await callMiddlewareApi<SearchResults>(endpoint)
       .then(searchResults => {

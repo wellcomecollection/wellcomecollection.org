@@ -1,4 +1,5 @@
 import { SortField } from '../interfaces';
+import * as queryString from 'querystring';
 
 export function buildSearchParams(
   page: string | string[],
@@ -7,31 +8,31 @@ export function buildSearchParams(
   email: string | string[],
   sortField?: string | string[],
   sortDir?: string | string[]
-): string[] {
-  const params: string[] = [];
+): string {
+  let params = {};
   if (page) {
-    params.push('page=' + page);
+    params = { ...params, page: page };
   }
   if (status) {
-    params.push('status=' + status);
+    params = { ...params, status: status };
   }
   if (name) {
-    params.push('name=' + name);
+    params = { ...params, name: name };
   }
   if (email) {
-    params.push('email=' + email);
+    params = { ...params, email: email };
   }
   if (
     sortField &&
     typeof sortField === 'string' &&
     Object.values(SortField).includes(sortField as SortField)
   ) {
-    params.push('sort=' + sortField);
+    params = { ...params, sort: sortField };
   }
   if (sortDir && (sortDir === '1' || sortDir === '-1')) {
-    params.push('sortDir=' + sortDir);
+    params = { ...params, sortDir: sortDir };
   }
-  return params;
+  return queryString.stringify(params);
 }
 
 export function buildSearchUrl(
@@ -50,5 +51,5 @@ export function buildSearchUrl(
     sortField,
     sortDir
   );
-  return params.length > 0 ? '/?' + params.join('&') : '/';
+  return params.length > 0 ? '/?' + params : '/';
 }
