@@ -36,7 +36,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
       <div className="grid">
         <div
           className={classNames({
-            [grid({ s: 12, l: 6, xl: 6 })]: true,
+            [grid({ s: 12, l: 5, xl: 5 })]: true,
             [font('hnl', 4)]: true,
           })}
         >
@@ -44,7 +44,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
         </div>
         <div
           className={classNames({
-            [grid({ s: 12, l: 6, xl: 6 })]: true,
+            [grid({ s: 12, l: 5, xl: 5 })]: true,
             [font('hnl', 4)]: true,
           })}
         >

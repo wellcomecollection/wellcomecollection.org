@@ -64,7 +64,7 @@ type BodySlice = {
 export type BodyType = BodySlice[];
 
 type LayoutWidthProps = {
-  width: 8 | 10 | 12;
+  width: 8 | 10;
   children: ReactNode;
 };
 
@@ -73,8 +73,6 @@ const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
   children,
 }: LayoutWidthProps): ReactElement | null => {
   switch (true) {
-    case width === 12:
-      return <Layout12>{children}</Layout12>;
     case width === 10:
       return <Layout10>{children}</Layout10>;
     case width === 8:
@@ -90,7 +88,7 @@ type Props = {
   showOnThisPage?: boolean;
   isDropCapped?: boolean;
   pageId: string;
-  minWidth?: 10 | 8 | 12;
+  minWidth?: 10 | 8;
   isLanding?: boolean;
   sectionLevelPage?: boolean;
 };
@@ -291,7 +289,7 @@ const Body: FunctionComponent<Props> = ({
           {slice.type === 'inPageAnchor' && <span id={slice.value} />}
           {/* If the first slice is featured text we display it above inPageAnchors and any static content, i.e. <AdditionalContent /> */}
           {i === 0 && slice.type === 'text' && slice.weight === 'featured' && (
-            <LayoutWidth width={minWidth}>
+            <Layout8 shift={false}>
               <div className="body-text spaced-text">
                 <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                   <FeaturedText
@@ -300,7 +298,7 @@ const Body: FunctionComponent<Props> = ({
                   />
                 </Space>
               </div>
-            </LayoutWidth>
+            </Layout8>
           )}
 
           <AdditionalContent

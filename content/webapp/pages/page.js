@@ -193,7 +193,6 @@ export class Page extends Component<Props> {
               onThisPage={page.onThisPage}
               showOnThisPage={page.showOnThisPage}
               isLanding={isLanding}
-              minWidth={sectionLevelPage && 12}
               sectionLevelPage={sectionLevelPage}
             />
           }
