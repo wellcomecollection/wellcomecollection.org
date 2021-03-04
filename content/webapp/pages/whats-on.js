@@ -291,13 +291,23 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
                 </NextLink>
               </div>
             </div>
-            {featuredText && featuredText.value && (
+          </div>
+          {featuredText && featuredText.value && (
+            <Space
+              v={{
+                size: 'm',
+                properties: ['margin-top', 'margin-bottom'],
+              }}
+              className={classNames({
+                [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+              })}
+            >
               <FeaturedTextTitle
                 html={featuredText.value}
                 htmlSerializer={defaultSerializer}
               />
-            )}
-          </div>
+            </Space>
+          )}
           <Space
             v={{
               size: 'm',
