@@ -34,7 +34,7 @@ describe('works', () => {
     await page.goto(worksUrl);
   });
 
-  test('Submits the form correctly', async () => {
+  xtest('Submits the form correctly', async () => {
     const expectedValue = 'heArTs';
     await fillActionSearchInput(expectedValue);
     await pressActionEnterSearchInput();
