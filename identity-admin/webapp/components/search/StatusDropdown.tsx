@@ -15,7 +15,7 @@ const StatusDropdown = (): JSX.Element => {
 
   return (
     <select onChange={onChange} value={statusValue}>
-      <option value="">Select status</option>
+      <option hidden>Select status</option>
       <option value="any">Any</option>
       <option value="active">Active</option>
       <option value="locked">Blocked</option>
