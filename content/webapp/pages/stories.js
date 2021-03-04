@@ -14,7 +14,6 @@ import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 // $FlowFixMe (tsx)
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import type { Article } from '@weco/common/model/articles';
 import type { ArticleSeries } from '@weco/common/model/article-series';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
@@ -25,7 +24,13 @@ import Space from '@weco/common/views/components/styled/Space';
 import { staticBooks } from '../content/static-books';
 import { FeaturedCardArticle } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 import styled from 'styled-components';
-
+import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
+import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
+import {
+  getPage,
+  getPageFeaturedText,
+} from '@weco/common/services/prismic/pages';
 const Header = styled.h1.attrs(props => ({
   className: 'h1 inline-block no-margin',
 }))`
@@ -35,6 +40,7 @@ const Header = styled.h1.attrs(props => ({
 type Props = {|
   articles: PaginatedResults<Article>,
   series: ArticleSeries,
+  featuredText: any, // todo add type
 |};
 
 const SerialisedSeries = ({ series }: any) => {
@@ -86,16 +92,25 @@ export class StoriesPage extends Component<Props> {
       { id: 'X24JnhEAAMplRFYN' },
       memoizedPrismic
     );
-    const [articles, seriesAndArticles] = await Promise.all([
+
+    const storiesPagePromise = await getPage(
+      ctx.req,
+      prismicPageIds.stories,
+      memoizedPrismic
+    );
+
+    const [articles, seriesAndArticles, storiesPage] = await Promise.all([
       articlesPromise,
       seriesPromise,
+      storiesPagePromise,
     ]);
     const series = seriesAndArticles && seriesAndArticles.series;
-
+    const featuredText = storiesPage ? getPageFeaturedText(storiesPage) : [];
     if (articles && articles.results) {
       return {
         articles,
         series,
+        featuredText,
       };
     } else {
       return { statusCode: 404 };
@@ -106,7 +121,7 @@ export class StoriesPage extends Component<Props> {
     const series = this.props.series;
     const articles = this.props.articles.results;
     const firstArticle = articles[0];
-
+    const { featuredText } = this.props;
     return (
       <PageLayout
         title={'Stories'}
@@ -152,28 +167,12 @@ export class StoriesPage extends Component<Props> {
                       'first-para-no-margin body-text': true,
                     })}
                   >
-                    {/* Taken from Prismic, so I know it's right. But a bit rubbish. */}
-                    <PrismicHtmlBlock
-                      html={[
-                        {
-                          type: 'paragraph',
-                          text:
-                            "Our words and pictures explore the connections between science, medicine, life and art. Dive into a story no matter where in the world you are. (Want to write for us? Here's how.)",
-                          spans: [
-                            {
-                              start: 145,
-                              end: 177,
-                              type: 'hyperlink',
-                              data: {
-                                link_type: 'Web',
-                                url:
-                                  'https://wellcomecollection.org/pages/Wvl00yAAAB8A3y8p',
-                              },
-                            },
-                          ],
-                        },
-                      ]}
-                    />
+                    {featuredText && featuredText.value && (
+                      <FeaturedText
+                        html={featuredText.value}
+                        htmlSerializer={defaultSerializer}
+                      />
+                    )}
                   </Space>
                 </div>
               </div>
