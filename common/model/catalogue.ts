@@ -113,6 +113,8 @@ type Concept = {
 };
 
 export type DigitalLocation = {
+  title?: string;
+  linkText?: string;
   locationType: LocationType;
   url: string;
   credit?: string;
