@@ -4,12 +4,12 @@ import { SearchResults, User } from '../../interfaces';
 export default async (
   req: NextApiRequest,
   res: NextApiResponse<SearchResults>
-) => {
+): Promise<void> => {
   const {
-    query: { page, status, name, email },
+    query: { page = '1', status, name, email },
   } = req;
 
-  const p: number = page ? +page : 1;
+  const p: number = +page;
   res
     .status(200)
     .json(
