@@ -31,7 +31,7 @@ function dummyResults(
   return {
     page: page,
     pageSize: 3,
-    pageCount: 3,
+    pageCount: 20,
     totalResults: 9,
     sort: 'userId',
     sortDir: 1,

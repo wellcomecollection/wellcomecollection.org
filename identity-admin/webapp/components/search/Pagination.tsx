@@ -10,6 +10,7 @@ const firstLinkClassName = 'user-pagination__item user-pagination__item--first';
 const linkClassName = 'user-pagination__item';
 const lastLinkClassName = 'user-pagination__item user-pagination__item--last';
 const disabled = 'user-pagination__item--disabled';
+const ellipses = 'user-pagination__item user-pagination__item--ellipses';
 
 const Pagination = ({ currentPage, pageCount }: Props): JSX.Element => {
   const router = useRouter();
@@ -28,6 +29,17 @@ const Pagination = ({ currentPage, pageCount }: Props): JSX.Element => {
       ) : (
         <span className={firstLinkClassName + ' ' + disabled}>Previous</span>
       )}
+      {currentPage > 3 && (
+        <a href={pageUrl(1)} className={linkClassName}>
+          1
+        </a>
+      )}
+      {currentPage > 4 && <span className={ellipses}>...</span>}
+      {currentPage > 2 && (
+        <a href={pageUrl(currentPage - 2)} className={linkClassName}>
+          {currentPage - 2}
+        </a>
+      )}
       {currentPage > 1 && (
         <a href={pageUrl(currentPage - 1)} className={linkClassName}>
           {currentPage - 1}
@@ -37,6 +49,17 @@ const Pagination = ({ currentPage, pageCount }: Props): JSX.Element => {
       {currentPage < pageCount && (
         <a href={pageUrl(currentPage + 1)} className={linkClassName}>
           {currentPage + 1}
+        </a>
+      )}
+      {currentPage + 1 < pageCount && (
+        <a href={pageUrl(currentPage + 2)} className={linkClassName}>
+          {currentPage + 2}
+        </a>
+      )}
+      {currentPage + 3 < pageCount && <span className={ellipses}>...</span>}
+      {currentPage + 2 < pageCount && (
+        <a href={pageUrl(pageCount)} className={linkClassName}>
+          {pageCount}
         </a>
       )}
       {currentPage < pageCount ? (
