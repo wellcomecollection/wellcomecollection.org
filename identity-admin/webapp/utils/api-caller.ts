@@ -47,3 +47,8 @@ function getBearerToken(
     return result.accessToken ? 'Bearer ' + result.accessToken : undefined;
   });
 }
+
+export async function callMiddlewareApi<T>(url: string): Promise<T> {
+  const response = await fetch(url);
+  return response.json();
+}
