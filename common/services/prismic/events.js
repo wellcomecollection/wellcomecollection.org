@@ -322,27 +322,23 @@ export function parseEventDoc(
   const eventFormat = event.format
     ? [
         {
-          url: null,
           text: event.format.title,
         },
       ]
-    : [{ url: null, text: 'Event' }];
+    : [{ text: 'Event' }];
   const eventAudiences = event.audiences
     ? event.audiences.map(a => ({
-        url: null,
         text: a.title,
       }))
     : [];
   const eventInterpretations = event.interpretations
     ? event.interpretations.map(i => ({
-        url: null,
         text: i.interpretationType.title,
       }))
     : [];
   const relaxedPerformanceLabel = event.isRelaxedPerformance
     ? [
         {
-          url: null,
           text: 'Relaxed',
         },
       ]

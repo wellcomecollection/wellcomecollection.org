@@ -252,9 +252,9 @@ export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
 };
 
 export const getCardLabels = (work: Work): Label[] => {
-  const cardLabels = [{ url: null, text: work.workType.label }];
+  const cardLabels = [{ text: work.workType.label }];
   if (isAvailableOnline(work)) {
-    return [...cardLabels, { url: null, text: 'Online', labelColor: 'white' }];
+    return [...cardLabels, { text: 'Online', labelColor: 'white' }];
   } else {
     return cardLabels;
   }

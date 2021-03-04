@@ -103,7 +103,7 @@ const BookPromo: FunctionComponent<Props> = ({
                 properties: ['margin-top'],
               }}
             >
-              <LabelsList labels={[{ text: 'Book', url: null }]} />
+              <LabelsList labels={[{ text: 'Book' }]} />
             </Space>
           </Space>
           {title && (

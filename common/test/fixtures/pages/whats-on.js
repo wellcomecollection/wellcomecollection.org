@@ -1355,7 +1355,7 @@ const beingHuman = {
     crops: {},
   },
   metadataDescription: '',
-  labels: [{ text: 'Permanent exhibition', url: null }],
+  labels: [{ text: 'Permanent exhibition' }],
   type: 'exhibitions',
   shortTitle: 'Being Human',
   format: {

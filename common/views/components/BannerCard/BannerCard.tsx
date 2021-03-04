@@ -126,10 +126,7 @@ const BannerCard: FunctionComponent<Props> = ({
         h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
       >
         {type && (
-          <LabelsList
-            labels={[{ url: null, text: type }]}
-            defaultLabelColor={'orange'}
-          />
+          <LabelsList labels={[{ text: type }]} defaultLabelColor={'orange'} />
         )}
         <Space
           v={{
