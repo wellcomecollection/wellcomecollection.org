@@ -18,9 +18,9 @@ export type DateRangeFilter = {
   };
 };
 
-export type CheckboxFilter<Props = WorksProps> = {
+export type CheckboxFilter = {
   type: 'checkbox';
-  id: keyof Props;
+  id: keyof WorksProps | keyof ImagesProps;
   label: string;
   options: {
     id: string;
@@ -38,11 +38,7 @@ export type ColorFilter = {
   color: string | undefined;
 };
 
-export type Filter =
-  | CheckboxFilter<WorksProps>
-  | CheckboxFilter<ImagesProps>
-  | DateRangeFilter
-  | ColorFilter;
+export type Filter = CheckboxFilter | DateRangeFilter | ColorFilter;
 
 type WorksFilterProps = {
   works: CatalogueResultsList<Work>;
@@ -181,7 +177,7 @@ const colorFilter = ({ props }: ImagesFilterProps): ColorFilter => ({
 const licenseFilter = ({
   images,
   props,
-}: ImagesFilterProps): CheckboxFilter<ImagesProps> => ({
+}: ImagesFilterProps): CheckboxFilter => ({
   type: 'checkbox',
   id: 'locations.license',
   label: 'License',
