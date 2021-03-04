@@ -20,8 +20,9 @@ export type DateRangeFilter = {
 
 export type CheckboxFilter = {
   type: 'checkbox';
-  id: keyof WorksProps;
+  id: keyof WorksProps | keyof ImagesProps;
   label: string;
+  showEmptyBuckets?: boolean;
   options: {
     id: string;
     value: string;
@@ -155,7 +156,6 @@ const availabilitiesFilter = ({
   props,
 }: WorksFilterProps): CheckboxFilter => ({
   type: 'checkbox',
-
   id: 'availabilities',
   label: 'Locations',
   options:
@@ -175,8 +175,26 @@ const colorFilter = ({ props }: ImagesFilterProps): ColorFilter => ({
   color: props.color,
 });
 
+const licenseFilter = ({
+  images,
+  props,
+}: ImagesFilterProps): CheckboxFilter => ({
+  type: 'checkbox',
+  id: 'locations.license',
+  label: 'License',
+  showEmptyBuckets: true,
+  options:
+    images.aggregations?.license?.buckets.map(bucket => ({
+      id: bucket.data.id,
+      value: bucket.data.id,
+      count: bucket.count,
+      label: bucket.data.label,
+      selected: props['locations.license'].includes(bucket.data.id),
+    })) || [],
+});
+
 const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>
-  [colorFilter].map(f => f(props));
+  [colorFilter, licenseFilter].map(f => f(props));
 
 const worksFilters: (props: WorksFilterProps) => Filter[] = props =>
   [

@@ -42,7 +42,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
       >
         {f.options.map(({ id, label, value, count, selected }) => {
           return (
-            (count > 0 || selected) && (
+            (f.showEmptyBuckets || count > 0 || selected) && (
               <li key={`${f.id}-${id}`}>
                 <CheckboxRadio
                   id={id}
