@@ -11,6 +11,7 @@ const linkClassName = 'user-pagination__item';
 const lastLinkClassName = 'user-pagination__item user-pagination__item--last';
 const disabled = 'user-pagination__item--disabled';
 const ellipses = 'user-pagination__item user-pagination__item--ellipses';
+const maxPageLinks = 4;
 
 const Pagination = ({ currentPage, pageCount }: Props): JSX.Element => {
   const router = useRouter();
@@ -20,21 +21,28 @@ const Pagination = ({ currentPage, pageCount }: Props): JSX.Element => {
     return buildSearchUrl(String(page), status, name, email, sort, sortDir);
   };
 
+  const hasPrevious: boolean = currentPage > 1;
+  const hasNext: boolean = currentPage < pageCount;
+  const hasFirstPageLink: boolean = currentPage >= maxPageLinks;
+  const hasLastPageLink: boolean = currentPage < pageCount - maxPageLinks / 2;
+  const hasPrefixEllipses: boolean = currentPage > maxPageLinks;
+  const hasSuffixEllipses: boolean = currentPage <= pageCount - maxPageLinks;
+
   return (
     <div className="user-pagination">
-      {currentPage > 1 ? (
+      {hasPrevious ? (
         <a href={pageUrl(currentPage - 1)} className={firstLinkClassName}>
           Previous
         </a>
       ) : (
         <span className={firstLinkClassName + ' ' + disabled}>Previous</span>
       )}
-      {currentPage > 3 && (
+      {hasFirstPageLink && (
         <a href={pageUrl(1)} className={linkClassName}>
           1
         </a>
       )}
-      {currentPage > 4 && <span className={ellipses}>...</span>}
+      {hasPrefixEllipses && <span className={ellipses}>...</span>}
       {currentPage > 2 && (
         <a href={pageUrl(currentPage - 2)} className={linkClassName}>
           {currentPage - 2}
@@ -56,13 +64,13 @@ const Pagination = ({ currentPage, pageCount }: Props): JSX.Element => {
           {currentPage + 2}
         </a>
       )}
-      {currentPage + 3 < pageCount && <span className={ellipses}>...</span>}
-      {currentPage + 2 < pageCount && (
+      {hasSuffixEllipses && <span className={ellipses}>...</span>}
+      {hasLastPageLink && (
         <a href={pageUrl(pageCount)} className={linkClassName}>
           {pageCount}
         </a>
       )}
-      {currentPage < pageCount ? (
+      {hasNext ? (
         <a href={pageUrl(currentPage + 1)} className={lastLinkClassName}>
           Next
         </a>
