@@ -19,7 +19,7 @@ import Space from '../styled/Space';
 import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
 import {
   prismicPageIds,
-  noBackgroundLayoutGrid12,
+  sectionLevelPages,
 } from '@weco/common/services/prismic/hardcoded-id';
 import BannerCard from '../BannerCard/BannerCard';
 import Body from '../Body/Body';
@@ -99,7 +99,7 @@ const ContentPage = ({
   return (
     <PageBackgroundContext.Provider value={isCreamy ? 'cream' : 'white'}>
       <article data-wio-id={id}>
-        {noBackgroundLayoutGrid12.includes(id) ? Header : <SpacingSection>{Header}</SpacingSection>}
+        {sectionLevelPages.includes(id) ? Header : <SpacingSection>{Header}</SpacingSection>}
         <div
           className={classNames({
             'bg-cream': isCreamy,

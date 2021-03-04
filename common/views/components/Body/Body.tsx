@@ -92,7 +92,7 @@ type Props = {
   pageId: string;
   minWidth?: 10 | 8 | 12;
   isLanding?: boolean;
-  noBackgroundLayout?: boolean;
+  sectionLevelPage?: boolean;
 };
 
 const Body: FunctionComponent<Props> = ({
@@ -103,7 +103,7 @@ const Body: FunctionComponent<Props> = ({
   pageId,
   minWidth = 8,
   isLanding = false,
-  noBackgroundLayout = false,
+  sectionLevelPage = false,
 }: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
@@ -255,7 +255,7 @@ const Body: FunctionComponent<Props> = ({
                       <GridFactory
                         items={cards}
                         overrideGridSizes={
-                          noBackgroundLayout && customGridSizeMap
+                          sectionLevelPage && customGridSizeMap
                         }
                       />
                     )}

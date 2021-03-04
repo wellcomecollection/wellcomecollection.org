@@ -29,7 +29,7 @@ import {
 } from '@weco/common/utils/backgrounds';
 import {
   prismicPageIds,
-  noBackgroundLayoutGrid12,
+  sectionLevelPages,
 } from '@weco/common/services/prismic/hardcoded-id';
 // $FlowFixMe (ts)
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
@@ -91,7 +91,7 @@ export class Page extends Component<Props> {
       prismicPageIds.covidBookYourTicket,
     ];
 
-    const noBackgroundLayout = noBackgroundLayoutGrid12.includes(page.id);
+    const sectionLevelPage = sectionLevelPages.includes(page.id);
     function getBreadcrumbText(siteSection: string, pageId: string): string {
       return hiddenBreadcrumbPages.includes(page.id) || isLanding
         ? '\u200b'
@@ -127,7 +127,7 @@ export class Page extends Component<Props> {
         FeaturedMedia={FeaturedMedia}
         Background={
           FeaturedMedia &&
-          !noBackgroundLayout && (
+          !sectionLevelPage && (
             <HeaderBackground
               backgroundTexture={backgroundTexture}
               hasWobblyEdge={!isLanding}
@@ -137,11 +137,11 @@ export class Page extends Component<Props> {
         ContentTypeInfo={DateInfo}
         HeroPicture={null}
         backgroundTexture={
-          !FeaturedMedia && !noBackgroundLayout ? backgroundTexture : null
+          !FeaturedMedia && !sectionLevelPage ? backgroundTexture : null
         }
         highlightHeading={true}
         isContentTypeInfoBeforeMedia={false}
-        noBackgroundLayout={noBackgroundLayout}
+        sectionLevelPage={sectionLevelPage}
       />
     );
     const Siblings = siblings.map((siblingGroup, i) => {
@@ -193,8 +193,8 @@ export class Page extends Component<Props> {
               onThisPage={page.onThisPage}
               showOnThisPage={page.showOnThisPage}
               isLanding={isLanding}
-              minWidth={noBackgroundLayout && 12}
-              noBackgroundLayout={noBackgroundLayout}
+              minWidth={sectionLevelPage && 12}
+              sectionLevelPage={sectionLevelPage}
             />
           }
           RelatedContent={[...Siblings, ...Children]}

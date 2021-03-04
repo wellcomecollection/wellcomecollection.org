@@ -32,6 +32,9 @@ export const prismicPageIds = {
   whatWeDo: 'WwLGFCAAAPMiB_Ps',
   visitUs: 'X8ZTSBIAACQAiDzY',
   collections: 'YBfeAhMAACEAqBTx',
+  whatsOn: 'YD_IQxAAACUAK6HG',
+  getInvolved: 'YDaZmxMAACIAT9u8',
+  stories: 'YD_E-BAAACEAK5LX',
 };
 
 export const getNameFromCollectionVenue = (id: string) => {
@@ -43,8 +46,9 @@ export const getNameFromCollectionVenue = (id: string) => {
   }
 };
 
-export const noBackgroundLayoutGrid12 = [
+export const sectionLevelPages = [
   prismicPageIds.visitUs,
   prismicPageIds.whatWeDo,
   prismicPageIds.collections,
+  prismicPageIds.getInvolved,
 ];

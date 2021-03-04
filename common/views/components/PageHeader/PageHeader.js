@@ -58,7 +58,7 @@ const HeroPictureContainer = styled.div`
 const Header = styled.h1.attrs(props => ({
   className: 'h1 inline-block no-margin',
 }))`
-  ${props => props.noBackgroundLayout && 'font-size: 50px'};
+  ${props => props.sectionLevelPage && 'font-size: 50px'};
 `;
 
 export type FeaturedMedia =
@@ -137,7 +137,7 @@ type Props = {|
   highlightHeading?: boolean,
   asyncBreadcrumbsRoute?: string,
   isContentTypeInfoBeforeMedia?: boolean,
-  noBackgroundLayout: boolean,
+  sectionLevelPage: boolean,
   // TODO: Don't overload this, it's just for putting things in till
   // we find a pattern
   TitleTopper?: Node,
@@ -161,13 +161,13 @@ const PageHeader = ({
   highlightHeading,
   asyncBreadcrumbsRoute,
   TitleTopper,
-  noBackgroundLayout,
+  sectionLevelPage,
 }: Props) => {
   const Heading =
-    highlightHeading && !noBackgroundLayout ? (
+    highlightHeading && !sectionLevelPage ? (
       <HighlightedHeading text={title} />
     ) : (
-      <Header noBackgroundLayout={noBackgroundLayout}>{title}</Header>
+      <Header sectionLevelPage={sectionLevelPage}>{title}</Header>
     );
 
   const hasMedia = FeaturedMedia || HeroPicture;
@@ -190,12 +190,12 @@ const PageHeader = ({
             </div>
           </Layout10>
         )}
-        <Layout gridSizes={noBackgroundLayout ? gridSize12 : customGridLayout}>
+        <Layout gridSizes={sectionLevelPage ? gridSize12 : customGridLayout}>
           <Space
             v={{
               size: 'l',
               properties:
-                isContentTypeInfoBeforeMedia || hasMedia || noBackgroundLayout
+                isContentTypeInfoBeforeMedia || hasMedia || sectionLevelPage
                   ? ['margin-bottom']
                   : ['margin-bottom', 'padding-bottom'],
             }}
