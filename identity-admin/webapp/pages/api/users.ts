@@ -9,7 +9,7 @@ export default async (
     query: { page = '1', status, name, email },
   } = req;
 
-  const p: number = +page;
+  const p: number = parseInt(page as string);
   res
     .status(200)
     .json(
