@@ -3,10 +3,11 @@ import { ImagesProps } from '../../views/components/ImagesLink/ImagesLink';
 import { WorksProps } from '../../views/components/WorksLink/WorksLink';
 
 export type CatalogueImagesApiProps = {
-  query: string | undefined;
-  page: number | undefined;
-  'locations.license': string[] | undefined;
-  color: string | undefined;
+  query?: string;
+  page?: number;
+  'locations.license'?: string[];
+  color?: string;
+  aggregations?: string[];
 };
 
 function toIsoDateString(s: string): string {
@@ -81,13 +82,15 @@ export function worksRouteToApiUrl(
 }
 
 export function imagesRouteToApiUrl(
-  imagesRouteProps: ImagesProps
+  imagesRouteProps: ImagesProps,
+  overrides: Partial<CatalogueImagesApiProps>
 ): CatalogueImagesApiProps {
   return {
     query: imagesRouteProps.query,
     page: imagesRouteProps.page,
     color: imagesRouteProps.color,
     'locations.license': imagesRouteProps['locations.license'],
+    ...overrides,
   };
 }
 

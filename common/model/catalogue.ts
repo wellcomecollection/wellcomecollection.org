@@ -303,13 +303,17 @@ export type CatalogueAggregationNoId = {
   buckets: CatalogueAggregationBucketNoId[];
 };
 
-export type CatalogueAggregations = {
+export type WorkAggregations = {
   workType: CatalogueAggregation;
   availabilities: CatalogueAggregation;
   languages?: CatalogueAggregation;
   genres?: CatalogueAggregationNoId;
   subjects?: CatalogueAggregationNoId;
   contributors?: CatalogueAggregationContributor;
+};
+
+export type ImageAggregations = {
+  license?: CatalogueAggregation;
 };
 
 export type CatalogueResultsList<Result = Work> = {
@@ -319,5 +323,5 @@ export type CatalogueResultsList<Result = Work> = {
   pageSize: number;
   prevPage: string | null;
   nextPage: string | null;
-  aggregations?: CatalogueAggregations;
+  aggregations?: Result extends Work ? WorkAggregations : ImageAggregations;
 };

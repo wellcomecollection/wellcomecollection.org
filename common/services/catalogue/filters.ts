@@ -18,9 +18,9 @@ export type DateRangeFilter = {
   };
 };
 
-export type CheckboxFilter = {
+export type CheckboxFilter<Props = WorksProps> = {
   type: 'checkbox';
-  id: keyof WorksProps;
+  id: keyof Props;
   label: string;
   options: {
     id: string;
@@ -38,7 +38,11 @@ export type ColorFilter = {
   color: string | undefined;
 };
 
-export type Filter = CheckboxFilter | DateRangeFilter | ColorFilter;
+export type Filter =
+  | CheckboxFilter<WorksProps>
+  | CheckboxFilter<ImagesProps>
+  | DateRangeFilter
+  | ColorFilter;
 
 type WorksFilterProps = {
   works: CatalogueResultsList<Work>;
@@ -155,7 +159,6 @@ const availabilitiesFilter = ({
   props,
 }: WorksFilterProps): CheckboxFilter => ({
   type: 'checkbox',
-
   id: 'availabilities',
   label: 'Locations',
   options:
@@ -175,8 +178,25 @@ const colorFilter = ({ props }: ImagesFilterProps): ColorFilter => ({
   color: props.color,
 });
 
+const licenseFilter = ({
+  images,
+  props,
+}: ImagesFilterProps): CheckboxFilter<ImagesProps> => ({
+  type: 'checkbox',
+  id: 'locations.license',
+  label: 'License',
+  options:
+    images.aggregations?.license?.buckets.map(bucket => ({
+      id: bucket.data.id,
+      value: bucket.data.id,
+      count: bucket.count,
+      label: bucket.data.label,
+      selected: props['locations.license'].includes(bucket.data.id),
+    })) || [],
+});
+
 const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>
-  [colorFilter].map(f => f(props));
+  [colorFilter, licenseFilter].map(f => f(props));
 
 const worksFilters: (props: WorksFilterProps) => Filter[] = props =>
   [
