@@ -159,22 +159,24 @@ export class StoriesPage extends Component<Props> {
                   })}
                 >
                   <Header>Stories</Header>
-                  <Space
-                    v={{
-                      size: 'm',
-                      properties: ['margin-top'],
-                    }}
-                    className={classNames({
-                      'first-para-no-margin body-text': true,
-                    })}
-                  >
-                    {featuredText && featuredText.value && (
-                      <FeaturedTextTitle
-                        html={featuredText.value}
-                        htmlSerializer={defaultSerializer}
-                      />
-                    )}
-                  </Space>
+                  {featuredText && featuredText.value && (
+                    <Space
+                      v={{
+                        size: 'm',
+                        properties: ['margin-top'],
+                      }}
+                      className={classNames({
+                        'first-para-no-margin body-text': true,
+                      })}
+                    >
+                      {
+                        <FeaturedTextTitle
+                          html={featuredText.value}
+                          htmlSerializer={defaultSerializer}
+                        />
+                      }
+                    </Space>
+                  )}
                 </div>
               </div>
             </div>
