@@ -52,10 +52,11 @@ import {
   collectionVenueId,
   prismicPageIds,
 } from '@weco/common/services/prismic/hardcoded-id';
-import styled from 'styled-components';
 import FeaturedTextTitle from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
 import { type FeaturedText } from '@weco/common/model/text';
+// $FlowFixMe (tsx)
+import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -212,14 +213,6 @@ const DateRange = ({
     </Fragment>
   );
 };
-const Title = styled.h1.attrs(props => ({
-  className: 'h1 inline-block no-margin',
-}))`
-  font-size: 50px;
-  @media (max-width: ${props => props.theme.sizes.medium}px) {
-    font-size: 32px;
-  }
-`;
 type HeaderProps = {|
   activeId: string,
   openingTimes: any, // TODO
@@ -244,7 +237,9 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
             <div className="flex flex--v-center flex--h-space-between flex--wrap">
               <div>
-                <Title>What{`'`}s on</Title>
+                <SectionPageHeader sectionLevelPage={true}>
+                  What{`'`}s on
+                </SectionPageHeader>
               </div>
               <div className="flex flex--v-center flex--wrap">
                 {todayOpeningHours && (

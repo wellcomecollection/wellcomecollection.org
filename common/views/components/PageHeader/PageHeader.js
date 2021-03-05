@@ -29,6 +29,8 @@ import type { GenericContentFields } from '../../../model/generic-content-fields
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
+// $FlowFixMe (tsx)
+import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 
 const HeroPictureBackground = styled.div`
   height: 50%;
@@ -52,16 +54,6 @@ const HeroPictureContainer = styled.div`
     padding-left: 24px;
     padding-right: 24px;
   `}
-`;
-
-// Custom font size which is only used for section pages
-const Header = styled.h1.attrs(props => ({
-  className: 'h1 inline-block no-margin',
-}))`
-  ${props => props.sectionLevelPage && `font-size: 50px;`}
-  @media (max-width: ${props => props.theme.sizes.medium}px) {
-    ${props => props.sectionLevelPage && `font-size: 32px;`}
-  }
 `;
 
 export type FeaturedMedia =
@@ -170,7 +162,9 @@ const PageHeader = ({
     highlightHeading && !sectionLevelPage ? (
       <HighlightedHeading text={title} />
     ) : (
-      <Header sectionLevelPage={sectionLevelPage}>{title}</Header>
+      <SectionPageHeader sectionLevelPage={sectionLevelPage}>
+        {title}
+      </SectionPageHeader>
     );
 
   const hasMedia = FeaturedMedia || HeroPicture;

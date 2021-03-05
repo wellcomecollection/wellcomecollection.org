@@ -23,7 +23,6 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import Space from '@weco/common/views/components/styled/Space';
 import { staticBooks } from '../content/static-books';
 import { FeaturedCardArticle } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
-import styled from 'styled-components';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import FeaturedTextTitle from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
@@ -32,14 +31,8 @@ import {
   getPageFeaturedText,
 } from '@weco/common/services/prismic/pages';
 import { type FeaturedText } from '@weco/common/model/text';
-const Header = styled.h1.attrs(props => ({
-  className: 'h1 inline-block no-margin',
-}))`
-  font-size: 50px;
-  @media (max-width: ${props => props.theme.sizes.medium}px) {
-    font-size: 32px;
-  }
-`;
+// $FlowFixMe (tsx)
+import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 
 type Props = {|
   articles: PaginatedResults<Article>,
@@ -161,7 +154,9 @@ export class StoriesPage extends Component<Props> {
                     [grid({ s: 12, m: 12, l: 7, xl: 8 })]: true,
                   })}
                 >
-                  <Header>Stories</Header>
+                  <SectionPageHeader sectionLevelPage={true}>
+                    Stories
+                  </SectionPageHeader>
                   {featuredText && featuredText.value && (
                     <Space
                       v={{
