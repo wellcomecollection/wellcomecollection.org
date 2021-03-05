@@ -261,6 +261,7 @@ export default {
         },
         repeat: {
           contibutor: link('Contributor', 'document', ['people']),
+          contributor: link('Contributor', 'document', ['people']),
           text: structuredText('Text'),
         },
       }),
