@@ -290,7 +290,7 @@ const Body: FunctionComponent<Props> = ({
           {slice.type === 'inPageAnchor' && <span id={slice.value} />}
           {/* If the first slice is featured text we display it above inPageAnchors and any static content, i.e. <AdditionalContent /> */}
           {i === 0 && slice.type === 'text' && slice.weight === 'featured' && (
-            <Layout8 shift={false}>
+            <Layout8 shift={!sectionLevelPage && true}>
               <div className="body-text spaced-text">
                 <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                   <FeaturedText

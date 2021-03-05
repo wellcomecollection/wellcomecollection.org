@@ -48,7 +48,6 @@ export const getNameFromCollectionVenue = (id: string) => {
 
 export const sectionLevelPages = [
   prismicPageIds.visitUs,
-  prismicPageIds.whatWeDo,
   prismicPageIds.collections,
   prismicPageIds.getInvolved,
 ];
