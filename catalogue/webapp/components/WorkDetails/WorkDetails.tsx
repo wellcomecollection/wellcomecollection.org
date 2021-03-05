@@ -243,20 +243,29 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
         </Space>
       )}
 
+      {stacksRequestService && <ItemLocation work={work} />}
+    </WorkDetailsSection>
+  );
+
+  const Content = () => (
+    <>
       {onlineResourcesPrototype && onlineResources.length > 0 && (
-        <details>
-          <summary>
-            <h3
-              className={classNames({
-                inline: true,
-                [font('hnm', 5)]: true,
-              })}
-            >
-              Online resources
-            </h3>
-          </summary>
+        <WorkDetailsSection headingText="Available online">
+          <h3
+            className={classNames({
+              'no-margin': true,
+              [font('hnm', 5)]: true,
+            })}
+          >
+            Online resources
+          </h3>
           {onlineResources.map(item => (
-            <span key={item.location.url}>
+            <span
+              className={classNames({
+                [font('hnl', 5)]: true,
+              })}
+              key={item.location.url}
+            >
               {item.title ? (
                 <>
                   {item.title}: <a href={item.location.url}>view resource</a>
@@ -266,15 +275,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
               )}{' '}
             </span>
           ))}
-        </details>
+        </WorkDetailsSection>
       )}
 
-      {stacksRequestService && <ItemLocation work={work} />}
-    </WorkDetailsSection>
-  );
-
-  const Content = () => (
-    <>
       {digitalLocation && itemLinkState !== 'useNoLink' && (
         <WorkDetailsSection
           headingText="Available online"
@@ -473,7 +476,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
         </WorkDetailsSection>
       )}
 
-      {!digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
+      {!digitalLocation &&
+        !(onlineResourcesPrototype && onlineResources.length > 0) &&
+        (locationOfWork || encoreLink) && <WhereToFindIt />}
 
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection
