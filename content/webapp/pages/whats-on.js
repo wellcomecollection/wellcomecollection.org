@@ -400,7 +400,7 @@ export class WhatsOnPage extends Component<Props> {
       whatsOnPagePromise,
     ]);
     const dateRange = getMomentsForPeriod(period);
-    const featuredText = whatsOnPage ? getPageFeaturedText(whatsOnPage) : [];
+    const featuredText = whatsOnPage && getPageFeaturedText(whatsOnPage);
 
     if (period && events && exhibitions) {
       return {

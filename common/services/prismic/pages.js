@@ -243,12 +243,11 @@ export async function getPageFromDrupalPath(
   }
 }
 
-export const getPageFeaturedText = (page: Page): FeaturedText | [] => {
+export const getPageFeaturedText = (page: Page): ?FeaturedText => {
   const filteredFeaturedText = page.body.filter(
     slice => slice.weight === 'featured'
   );
   if (filteredFeaturedText.length) {
     return filteredFeaturedText[0];
   }
-  return [];
 };

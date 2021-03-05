@@ -44,7 +44,7 @@ const Header = styled.h1.attrs(props => ({
 type Props = {|
   articles: PaginatedResults<Article>,
   series: ArticleSeries,
-  featuredText: FeaturedText,
+  featuredText: ?FeaturedText,
 |};
 
 const SerialisedSeries = ({ series }: any) => {
@@ -109,7 +109,7 @@ export class StoriesPage extends Component<Props> {
       storiesPagePromise,
     ]);
     const series = seriesAndArticles && seriesAndArticles.series;
-    const featuredText = storiesPage ? getPageFeaturedText(storiesPage) : [];
+    const featuredText = storiesPage && getPageFeaturedText(storiesPage);
     if (articles && articles.results) {
       return {
         articles,
