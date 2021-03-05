@@ -292,7 +292,12 @@ const Body: FunctionComponent<Props> = ({
           {i === 0 && slice.type === 'text' && slice.weight === 'featured' && (
             <Layout8 shift={!sectionLevelPage && true}>
               <div className="body-text spaced-text">
-                <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
+                <Space
+                  v={{
+                    size: sectionLevelPage ? 'xl' : 'l',
+                    properties: ['margin-bottom'],
+                  }}
+                >
                   <FeaturedText
                     html={slice.value}
                     htmlSerializer={defaultSerializer}
