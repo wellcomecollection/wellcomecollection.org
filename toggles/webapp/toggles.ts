@@ -10,7 +10,7 @@ export default {
     {
       id: 'onlineResourcesPrototype',
       title: 'Online resources',
-      description: `Adds links to any third-party resources associated with items (inside 'Where to find it')`,
+      description: `Adds links to any third-party resources associated with items (inside 'Available online')`,
       defaultValue: false,
     },
     {
