@@ -260,7 +260,6 @@ export default {
           title: heading('Title', 2),
         },
         repeat: {
-          contibutor: link('Contributor', 'document', ['people']),
           contributor: link('Contributor', 'document', ['people']),
           text: structuredText('Text'),
         },

@@ -453,16 +453,6 @@
               }
             },
             "repeat": {
-              "contibutor": {
-                "type": "Link",
-                "config": {
-                  "label": "Contributor",
-                  "select": "document",
-                  "customtypes": [
-                    "people"
-                  ]
-                }
-              },
               "contributor": {
                 "type": "Link",
                 "config": {
