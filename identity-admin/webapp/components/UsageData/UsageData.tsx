@@ -1,11 +1,7 @@
 import React from 'react';
-import dayjs from 'dayjs';
 import { useUserInfo } from '../../context/UserInfoContext';
+import { prettyDate } from '../../utils/prettyDate';
 import { Container, Name, Value } from './UsageData.style';
-
-const prettyDate = (date?: string) => {
-  return dayjs(date).format('DD/MM/YYYY HH:mm:ss');
-};
 
 type FieldProps = {
   label: string;
