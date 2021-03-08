@@ -82,10 +82,10 @@ export const PasswordRulesList = styled.ul`
   margin-top: -0.666em;
 `;
 
-export const Checkbox = styled(CheckboxRadio).attrs({ type: 'checkbox' })`
-  & > div {
-    margin-right: 0.666em;
-  }
+export const Checkbox = styled(CheckboxRadio).attrs({ type: 'checkbox' })``;
+
+export const CheckboxLabel = styled.span`
+  margin-left: 0.333em;
 `;
 
 export const Cancel = styled(Link).attrs({ children: 'Cancel', to: '#cancel' })`

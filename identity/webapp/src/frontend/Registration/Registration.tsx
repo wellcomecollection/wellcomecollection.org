@@ -18,6 +18,7 @@ import {
   TextInput,
   Title,
   Wrapper,
+  CheckboxLabel,
 } from './Registration.style';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -180,7 +181,7 @@ export function Registration(): JSX.Element {
                   onChange={(e: React.FormEvent<HTMLInputElement>) => onChange(e.currentTarget.checked)}
                   checked={value}
                   text={
-                    <span>
+                    <CheckboxLabel>
                       I have read and agree to the{' '}
                       <ExternalLink
                         href="https://wellcome.org/about-us/governance/privacy-and-terms"
@@ -190,7 +191,7 @@ export function Registration(): JSX.Element {
                         Privacy and Terms
                       </ExternalLink>{' '}
                       for Wellcome
-                    </span>
+                    </CheckboxLabel>
                   }
                 />
               )}
