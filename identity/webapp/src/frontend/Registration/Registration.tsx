@@ -62,7 +62,14 @@ export function Registration(): JSX.Element {
     <PageWrapper>
       <Container>
         <Wrapper>
-          <Title>Register for Wellcome</Title>
+          <Title>Register for a library account</Title>
+          <p>
+            An account lets you order items from the library&apos;s closed stores and access our online subscription
+            collections.
+          </p>
+          <p>
+            The first time you come to the library, you&apos;ll need to complete your <a href="">library membership</a>.
+          </p>
 
           {registrationError && (
             <>
@@ -152,10 +159,10 @@ export function Registration(): JSX.Element {
               control={control}
               defaultValue={false}
               rules={{ required: 'You must accept to proceed' }}
-              render={(props) => (
+              render={({ value, onChange }) => (
                 <Checkbox
-                  onChange={(e: React.FormEvent<HTMLInputElement>) => props.onChange(e.currentTarget.checked)}
-                  checked={props.value}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) => onChange(e.currentTarget.checked)}
+                  checked={value}
                   text={
                     <span>
                       I have read and agree to the{' '}

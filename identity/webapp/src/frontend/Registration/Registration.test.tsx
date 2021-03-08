@@ -23,7 +23,7 @@ describe('Registration', () => {
     renderComponent();
     const heading = screen.getByRole('heading', { level: 1 });
     expect(heading).toBeInTheDocument();
-    expect(heading).toHaveTextContent(/register for wellcome/i);
+    expect(heading).toHaveTextContent(/register for a library account/i);
   });
 
   it('allows the user to enter their first name', () => {
