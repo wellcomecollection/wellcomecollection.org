@@ -22,6 +22,11 @@ describe('Registration', () => {
     jest.resetAllMocks();
   });
 
+  it('sets the document title', () => {
+    renderComponent();
+    expect(document.title).toEqual('Register for a library account | Wellcome Collection');
+  });
+
   it('shows a page title', () => {
     renderComponent();
     const heading = screen.getByRole('heading', { level: 1 });

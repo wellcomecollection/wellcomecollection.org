@@ -23,6 +23,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { useRegisterUser, RegistrationError } from './useRegisterUser';
 import { PasswordInput } from './PasswordInput';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 type RegistrationInputs = {
   firstName: string;
@@ -40,6 +41,8 @@ export function Registration(): JSX.Element {
     defaultValues: { password: '' },
   });
   const { registerUser, isSuccess, error: registrationError } = useRegisterUser();
+
+  usePageTitle('Register for a library account');
 
   useEffect(() => {
     if (registrationError === RegistrationError.EMAIL_ALREADY_EXISTS) {
