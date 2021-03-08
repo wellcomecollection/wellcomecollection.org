@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react';
 import { useForm, Controller, RegisterOptions } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { AccountCreated } from './AccountCreated';
 import { PageWrapper } from './PageWrapper';
 import {
   Button,
+  Cancel,
   Checkbox,
   Container,
   ErrorAlert,
   FieldMargin,
   InvalidFieldAlert,
   Label,
-  Link as ExternalLink,
+  ExternalLink,
   PasswordRulesList,
-  SecondaryButton,
   TextInput,
   Title,
   Wrapper,
@@ -41,6 +41,7 @@ export function Registration(): JSX.Element {
     defaultValues: { password: '' },
   });
   const { registerUser, isSuccess, error: registrationError } = useRegisterUser();
+  const { goBack } = useHistory();
 
   usePageTitle('Register for a library account');
 
@@ -202,7 +203,7 @@ export function Registration(): JSX.Element {
             <SpacingComponent />
             <Button type="submit">Create account</Button>
             <SpacingComponent />
-            <SecondaryButton type="reset">Cancel</SecondaryButton>
+            <Cancel onClick={goBack} />
           </form>
         </Wrapper>
       </Container>

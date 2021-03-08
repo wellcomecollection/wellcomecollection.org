@@ -1,8 +1,8 @@
-import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { FieldError } from 'react-hook-form';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   background-color: white;
@@ -42,21 +42,13 @@ export const TextInput = styled.input<{ invalid?: FieldError }>`
   border-radius: 6px;
 `;
 
-export const Link = styled.a`
+export const ExternalLink = styled.a`
   white-space: nowrap;
 `;
 
-const BaseButton = css`
+export const Button = styled(SolidButton)`
   width: 100%;
   justify-content: center;
-`;
-
-export const Button = styled(SolidButton)`
-  ${BaseButton}
-`;
-
-export const SecondaryButton = styled(OutlinedButton)`
-  ${BaseButton}
 `;
 
 export const InvalidFieldAlert = styled.span.attrs({ role: 'alert', className: 'font-hnm' })`
@@ -94,4 +86,10 @@ export const Checkbox = styled(CheckboxRadio).attrs({ type: 'checkbox' })`
   & > div {
     margin-right: 0.666em;
   }
+`;
+
+export const Cancel = styled(Link).attrs({ children: 'Cancel', to: '#cancel' })`
+  display: block;
+  width: 100%;
+  text-align: center;
 `;

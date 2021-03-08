@@ -1,19 +1,22 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { Registration } from './Registration';
 import userEvent from '@testing-library/user-event';
 import { server } from '../mocks/server';
 import { rest } from 'msw';
 import { ThemeProvider } from 'styled-components';
+import { createMemoryHistory } from 'history';
 import theme from '@weco/common/views/themes/default';
+
+const history = createMemoryHistory({ initialEntries: ['/'] });
 
 const renderComponent = () =>
   render(
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
+      <Router history={history}>
         <Registration />
-      </BrowserRouter>
+      </Router>
     </ThemeProvider>
   );
 
@@ -294,13 +297,10 @@ describe('Registration', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent(/an unknown error occurred/i);
   });
 
-  it('resets when Cancel button is clicked', () => {
+  it('takes user back when Cancel link is clicked', () => {
+    history.goBack = jest.fn();
     renderComponent();
-    const firstNameInput = screen.getByLabelText(/first name/i);
-    expect(firstNameInput).toHaveValue('');
-    userEvent.type(firstNameInput, 'Clark');
-    expect(firstNameInput).toHaveValue('Clark');
-    userEvent.click(screen.getByRole('button', { name: /cancel/i }));
-    expect(firstNameInput).toHaveValue('');
+    userEvent.click(screen.getByRole('link', { name: /cancel/i }));
+    expect(history.goBack).toBeCalled();
   });
 });
