@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm, Controller, RegisterOptions } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { AccountCreated } from './AccountCreated';
@@ -35,10 +35,16 @@ const validEmailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(
 const validPasswordPattern = /(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*/;
 
 export function Registration(): JSX.Element {
-  const { register, control, handleSubmit, formState } = useForm<RegistrationInputs>({
+  const { register, control, handleSubmit, formState, setError } = useForm<RegistrationInputs>({
     defaultValues: { password: '' },
   });
   const { registerUser, isSuccess, error: registrationError } = useRegisterUser();
+
+  useEffect(() => {
+    if (registrationError === RegistrationError.EMAIL_ALREADY_EXISTS) {
+      setError('email', { type: 'manual', message: 'Email address already in use.' });
+    }
+  }, [registrationError, setError]);
 
   if (isSuccess) {
     return <AccountCreated />;
@@ -65,7 +71,7 @@ export function Registration(): JSX.Element {
         <ErrorMessage
           errors={formState.errors}
           name={name}
-          render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
+          render={({ message }) => <InvalidFieldAlert aria-label={message}>{message}</InvalidFieldAlert>}
         />
       </FieldMargin>
     );
@@ -92,15 +98,10 @@ export function Registration(): JSX.Element {
 
           {registrationError && (
             <>
-              <ErrorAlert>
+              <ErrorAlert aria-labelledby="error-text">
                 <Icon name="cross" />
                 {registrationError === RegistrationError.EMAIL_ALREADY_EXISTS && (
-                  <>
-                    <span>That account already exists</span>
-                    <span>
-                      You can try to <a href="#">login</a>
-                    </span>
-                  </>
+                  <span id="error-text">An account with this email address already exists, please sign in.</span>
                 )}
                 {registrationError === RegistrationError.PASSWORD_TOO_COMMON && 'Password is too common'}
                 {registrationError === RegistrationError.UNKNOWN && 'An unknown error occurred'}
