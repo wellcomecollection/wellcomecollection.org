@@ -1,7 +1,7 @@
 import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { FieldError } from 'react-hook-form';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
@@ -90,8 +90,22 @@ export const CheckboxLabel = styled.span`
   margin-left: 0.333em;
 `;
 
-export const Cancel = styled(Link).attrs({ children: 'Cancel', to: '#cancel' })`
-  display: block;
+const FullWidthElementBase = css`
   width: 100%;
-  text-align: center;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const InProgress = styled.div.attrs({ role: 'progressbar' })`
+  ${FullWidthElementBase}
+  border-radius: 6px;
+  background-color: #333;
+  color: white;
+  user-select: none;
+`;
+
+export const Cancel = styled(Link).attrs({ children: 'Cancel', to: '#cancel' })`
+  ${FullWidthElementBase}
 `;

@@ -19,6 +19,7 @@ import {
   Title,
   Wrapper,
   CheckboxLabel,
+  InProgress,
 } from './Registration.style';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -41,7 +42,7 @@ export function Registration(): JSX.Element {
   const { register, control, handleSubmit, formState, setError } = useForm<RegistrationInputs>({
     defaultValues: { password: '' },
   });
-  const { registerUser, isSuccess, error: registrationError } = useRegisterUser();
+  const { registerUser, isLoading, isSuccess, error: registrationError } = useRegisterUser();
   const { goBack } = useHistory();
 
   usePageTitle('Register for a library account');
@@ -200,8 +201,7 @@ export function Registration(): JSX.Element {
               render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
             />
             <SpacingComponent />
-            <Button type="submit">Create account</Button>
-            <SpacingComponent />
+            {isLoading ? <InProgress>Registering...</InProgress> : <Button type="submit">Create account</Button>}
             <Cancel onClick={goBack} />
           </form>
         </Wrapper>

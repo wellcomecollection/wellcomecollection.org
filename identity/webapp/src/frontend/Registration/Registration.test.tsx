@@ -80,6 +80,7 @@ describe('Registration', () => {
     userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
+    expect(await screen.findByRole('progressbar')).toBeInTheDocument();
     await waitFor(() => {
       expect(screen.getByRole('heading', { name: /activate your library account/i, level: 1 })).toBeInTheDocument();
     });

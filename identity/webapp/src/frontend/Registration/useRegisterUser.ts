@@ -11,17 +11,23 @@ export enum RegistrationError { // eslint-disable-line no-shadow
 
 type UseRegisterUserMutation = {
   registerUser: (userDetails: RegisterUserSchema) => void;
+  isLoading: boolean;
   isSuccess: boolean;
   error?: RegistrationError;
 };
 
 export function useRegisterUser(): UseRegisterUserMutation {
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<RegistrationError>();
 
   const registerUser = (userDetails: RegisterUserSchema) => {
+    setIsLoading(true);
     callMiddlewareApi('POST', '/api/user/create', userDetails)
-      .then(() => setIsSuccess(true))
+      .then(() => {
+        setIsLoading(false);
+        setIsSuccess(true);
+      })
       .catch((err: AxiosError) => {
         switch (err.response?.status) {
           case 409: {
@@ -37,8 +43,9 @@ export function useRegisterUser(): UseRegisterUserMutation {
             break;
           }
         }
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
-  return { registerUser, isSuccess, error };
+  return { registerUser, isLoading, isSuccess, error };
 }
