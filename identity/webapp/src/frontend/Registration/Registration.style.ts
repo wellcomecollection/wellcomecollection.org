@@ -39,6 +39,7 @@ export const TextInput = styled.input<{ invalid?: FieldError }>`
   margin: 0.333em 0;
   padding: 0.7em;
   border: ${props => (props.invalid ? 'solid 2px #d1192c' : 'solid 1px #8f8f8f')};
+  border-radius: 6px;
 `;
 
 export const Link = styled.a`
