@@ -9,6 +9,7 @@ const IndexPage: React.FC = () => {
     return (
       <Layout title="Account administration">
         <h1>Hi {user.name}</h1>
+        <h2>This is the main page</h2>
         <a href="/api/auth/logout">Logout</a>
       </Layout>
     );
