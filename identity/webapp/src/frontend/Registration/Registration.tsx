@@ -83,7 +83,7 @@ export function Registration(): JSX.Element {
           )}
           <SpacingComponent />
 
-          <form onSubmit={handleSubmit(createUser)}>
+          <form onSubmit={handleSubmit(createUser)} noValidate>
             <Heading>Personal details</Heading>
             <Label htmlFor="first-name">First name</Label>
             <FieldErrorMessage name="firstName" />
@@ -152,7 +152,7 @@ export function Registration(): JSX.Element {
               control={control}
               defaultValue={false}
               rules={{ required: 'You must accept to proceed' }}
-              render={props => (
+              render={(props) => (
                 <Checkbox
                   onChange={(e: React.FormEvent<HTMLInputElement>) => props.onChange(e.currentTarget.checked)}
                   checked={props.value}
