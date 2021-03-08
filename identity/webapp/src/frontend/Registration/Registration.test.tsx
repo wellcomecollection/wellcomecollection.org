@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import { Registration } from './Registration';
 import userEvent from '@testing-library/user-event';
 import { server } from '../mocks/server';
@@ -10,7 +11,9 @@ import theme from '@weco/common/views/themes/default';
 const renderComponent = () =>
   render(
     <ThemeProvider theme={theme}>
-      <Registration />
+      <BrowserRouter>
+        <Registration />
+      </BrowserRouter>
     </ThemeProvider>
   );
 
@@ -247,7 +250,7 @@ describe('Registration', () => {
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     userEvent.click(screen.getByRole('checkbox'));
     expect(
-      await screen.findByRole('alert', { name: 'An account with this email address already exists, please sign in.' })
+      await screen.findByRole('alert', { name: /an account with this email address already exists, please sign in/i })
     ).toBeInTheDocument();
     expect(await screen.findByRole('alert', { name: 'Email address already in use.' })).toBeInTheDocument();
   });

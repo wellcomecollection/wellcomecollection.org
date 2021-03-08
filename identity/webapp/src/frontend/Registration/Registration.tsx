@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useForm, Controller, RegisterOptions } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import { Link } from 'react-router-dom';
 import { AccountCreated } from './AccountCreated';
 import { PageWrapper } from './PageWrapper';
 import {
@@ -11,7 +12,7 @@ import {
   FieldMargin,
   InvalidFieldAlert,
   Label,
-  Link,
+  Link as ExternalLink,
   PasswordRulesList,
   SecondaryButton,
   TextInput,
@@ -93,7 +94,9 @@ export function Registration(): JSX.Element {
               <ErrorAlert aria-labelledby="error-text">
                 <Icon name="info2" />
                 {registrationError === RegistrationError.EMAIL_ALREADY_EXISTS && (
-                  <span id="error-text">An account with this email address already exists, please sign in.</span>
+                  <span id="error-text">
+                    An account with this email address already exists, please <Link to="/">sign in</Link>.
+                  </span>
                 )}
                 {registrationError === RegistrationError.PASSWORD_TOO_COMMON && 'Password is too common'}
                 {registrationError === RegistrationError.UNKNOWN && 'An unknown error occurred'}
@@ -175,13 +178,13 @@ export function Registration(): JSX.Element {
                   text={
                     <span>
                       I have read and agree to the{' '}
-                      <Link
+                      <ExternalLink
                         href="https://wellcome.org/about-us/governance/privacy-and-terms"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         Privacy and Terms
-                      </Link>{' '}
+                      </ExternalLink>{' '}
                       for Wellcome
                     </span>
                   }
