@@ -16,7 +16,7 @@ const Border = styled.div<{ invalid: boolean }>`
   display: flex;
   width: 100%;
   border: ${props => (props.invalid ? 'solid 2px #d1192c' : 'solid 1px #8f8f8f')};
-  margin: 0.333em 0 1em;
+  margin: 0.333em 0;
 `;
 const Input = styled(TextInput)`
   height: 55px;

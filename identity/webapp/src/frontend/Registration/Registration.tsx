@@ -8,6 +8,7 @@ import {
   Checkbox,
   Container,
   ErrorAlert,
+  FieldMargin,
   InvalidFieldAlert,
   Label,
   Link,
@@ -51,13 +52,8 @@ export function Registration(): JSX.Element {
     rules: RegisterOptions;
   }> = ({ name, label, type = 'text', placeholder, rules }) => {
     return (
-      <>
+      <FieldMargin>
         <Label htmlFor={name}>{label}</Label>
-        <ErrorMessage
-          errors={formState.errors}
-          name={name}
-          render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
-        />
         <TextInput
           id={name}
           name={name}
@@ -66,7 +62,12 @@ export function Registration(): JSX.Element {
           ref={register(rules)}
           invalid={formState.errors[name]}
         />
-      </>
+        <ErrorMessage
+          errors={formState.errors}
+          name={name}
+          render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
+        />
+      </FieldMargin>
     );
   };
 
@@ -129,25 +130,27 @@ export function Registration(): JSX.Element {
                 },
               }}
             />
-            <Label htmlFor="password" className="font-hnm font-size-4">
-              Password
-            </Label>
-            <ErrorMessage
-              errors={formState.errors}
-              name="password"
-              render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
-            />
-            <PasswordInput
-              name="password"
-              control={control}
-              rules={{
-                required: 'Missing password',
-                pattern: {
-                  value: validPasswordPattern,
-                  message: 'Invalid password',
-                },
-              }}
-            />
+            <FieldMargin>
+              <Label htmlFor="password" className="font-hnm font-size-4">
+                Password
+              </Label>
+              <PasswordInput
+                name="password"
+                control={control}
+                rules={{
+                  required: 'Missing password',
+                  pattern: {
+                    value: validPasswordPattern,
+                    message: 'Invalid password',
+                  },
+                }}
+              />
+              <ErrorMessage
+                errors={formState.errors}
+                name="password"
+                render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
+              />
+            </FieldMargin>
             <PasswordRulesList>
               <li className="font-hnl font-size-6">One lowercase character</li>
               <li className="font-hnl font-size-6">One uppercase character</li>
@@ -155,11 +158,6 @@ export function Registration(): JSX.Element {
               <li className="font-hnl font-size-6">8 characters minimum</li>
             </PasswordRulesList>
             <SpacingComponent />
-            <ErrorMessage
-              errors={formState.errors}
-              name="termsAndConditions"
-              render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
-            />
             <Controller
               name="termsAndConditions"
               control={control}
@@ -184,6 +182,11 @@ export function Registration(): JSX.Element {
                   }
                 />
               )}
+            />
+            <ErrorMessage
+              errors={formState.errors}
+              name="termsAndConditions"
+              render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
             />
             <SpacingComponent />
             <Button type="submit">Create account</Button>

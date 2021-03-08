@@ -24,6 +24,10 @@ export const Wrapper = styled.div`
 
 export const Title = styled.h1.attrs({ className: 'font-wb font-size-2' })``;
 
+export const FieldMargin = styled.div`
+  margin-bottom: 1em;
+`;
+
 export const Label = styled.label.attrs({ className: 'font-hnm font-size-4' })`
   display: block;
   font-weight: bold;
@@ -32,7 +36,7 @@ export const Label = styled.label.attrs({ className: 'font-hnm font-size-4' })`
 export const TextInput = styled.input<{ invalid?: FieldError }>`
   width: 100%;
   height: 55px;
-  margin: 0.333em 0 1em;
+  margin: 0.333em 0;
   padding: 0.7em;
   border: ${props => (props.invalid ? 'solid 2px #d1192c' : 'solid 1px #8f8f8f')};
 `;
