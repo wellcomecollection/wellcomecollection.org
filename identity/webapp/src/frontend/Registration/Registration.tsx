@@ -114,19 +114,24 @@ export function Registration(): JSX.Element {
               name="firstName"
               label="First name"
               placeholder="Forename"
-              rules={{ required: 'Missing first name' }}
+              rules={{ required: 'Enter your first name.' }}
             />
-            <Field name="lastName" label="Last name" placeholder="Surname" rules={{ required: 'Missing last name' }} />
+            <Field
+              name="lastName"
+              label="Last name"
+              placeholder="Surname"
+              rules={{ required: 'Enter your last name.' }}
+            />
             <Field
               name="email"
               type="email"
               label="Email address"
               placeholder="myname@email.com"
               rules={{
-                required: 'Missing email address',
+                required: 'Enter an email address.',
                 pattern: {
                   value: validEmailPattern,
-                  message: 'Invalid email address',
+                  message: 'Enter a valid email address.',
                 },
               }}
             />
@@ -138,10 +143,10 @@ export function Registration(): JSX.Element {
                 name="password"
                 control={control}
                 rules={{
-                  required: 'Missing password',
+                  required: 'Enter a password.',
                   pattern: {
                     value: validPasswordPattern,
-                    message: 'Invalid password',
+                    message: 'Enter a valid password.',
                   },
                 }}
               />
@@ -162,7 +167,7 @@ export function Registration(): JSX.Element {
               name="termsAndConditions"
               control={control}
               defaultValue={false}
-              rules={{ required: 'You must accept to proceed' }}
+              rules={{ required: 'Accept the terms to continue.' }}
               render={({ value, onChange }) => (
                 <Checkbox
                   onChange={(e: React.FormEvent<HTMLInputElement>) => onChange(e.currentTarget.checked)}

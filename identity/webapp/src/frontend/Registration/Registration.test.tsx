@@ -82,7 +82,7 @@ describe('Registration', () => {
     userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
-    expect(await screen.findByRole('alert')).toHaveTextContent(/missing first name/i);
+    expect(await screen.findByRole('alert')).toHaveTextContent(/enter your first name/i);
     expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
@@ -94,7 +94,7 @@ describe('Registration', () => {
     userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
-    expect(await screen.findByRole('alert')).toHaveTextContent(/missing last name/i);
+    expect(await screen.findByRole('alert')).toHaveTextContent(/enter your last name/i);
     expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
@@ -107,7 +107,7 @@ describe('Registration', () => {
     userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(createAccountButton);
-    expect(await screen.findByRole('alert')).toHaveTextContent(/missing email address/i);
+    expect(await screen.findByRole('alert')).toHaveTextContent(/enter an email address/i);
     expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
@@ -123,7 +123,7 @@ describe('Registration', () => {
 
     userEvent.type(emailAddressInput, 'clarkkent.com'); // no @
     userEvent.click(createAccountButton);
-    expect(await screen.findByRole('alert')).toHaveTextContent(/invalid email address/i);
+    expect(await screen.findByRole('alert')).toHaveTextContent(/enter a valid email address/i);
     expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
@@ -139,7 +139,7 @@ describe('Registration', () => {
 
     userEvent.type(emailAddressInput, 'clarkkent@dailybugle'); // no dot
     userEvent.click(createAccountButton);
-    expect(await screen.findByRole('alert')).toHaveTextContent(/invalid email address/i);
+    expect(await screen.findByRole('alert')).toHaveTextContent(/enter a valid email address/i);
     expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
@@ -152,7 +152,7 @@ describe('Registration', () => {
     userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(createAccountButton);
-    expect(await screen.findByRole('alert')).toHaveTextContent(/missing password/i);
+    expect(await screen.findByRole('alert')).toHaveTextContent(/enter a password/i);
     expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
@@ -168,7 +168,7 @@ describe('Registration', () => {
 
     userEvent.type(passwordInput, 'Supes1'); // too short
     userEvent.click(createAccountButton);
-    expect(await screen.findByRole('alert')).toHaveTextContent(/invalid password/i);
+    expect(await screen.findByRole('alert')).toHaveTextContent(/enter a valid password/i);
     expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
@@ -184,7 +184,7 @@ describe('Registration', () => {
 
     userEvent.type(passwordInput, 'superman1'); // no capital
     userEvent.click(createAccountButton);
-    expect(await screen.findByRole('alert')).toHaveTextContent(/invalid password/i);
+    expect(await screen.findByRole('alert')).toHaveTextContent(/enter a valid password/i);
     expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
@@ -200,7 +200,7 @@ describe('Registration', () => {
 
     userEvent.type(passwordInput, 'SUPERMAN1'); // no lower case
     userEvent.click(createAccountButton);
-    expect(await screen.findByRole('alert')).toHaveTextContent(/invalid password/i);
+    expect(await screen.findByRole('alert')).toHaveTextContent(/enter a valid password/i);
     expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
@@ -216,7 +216,7 @@ describe('Registration', () => {
 
     userEvent.type(passwordInput, 'ManOfSteel'); // no number
     userEvent.click(createAccountButton);
-    expect(await screen.findByRole('alert')).toHaveTextContent(/invalid password/i);
+    expect(await screen.findByRole('alert')).toHaveTextContent(/enter a valid password/i);
     expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
@@ -228,7 +228,7 @@ describe('Registration', () => {
     userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
     userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
-    expect(await screen.findByRole('alert')).toHaveTextContent(/you must accept to proceed/i);
+    expect(await screen.findByRole('alert')).toHaveTextContent(/accept the terms to continue/i);
     expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
