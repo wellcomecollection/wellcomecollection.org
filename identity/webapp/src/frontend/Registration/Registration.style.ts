@@ -62,7 +62,7 @@ export const InvalidFieldAlert = styled.span.attrs({ role: 'alert', className: '
   color: #d1192c;
 `;
 
-const AlertBox = styled.div.attrs({ role: 'alert', className: 'font-hnm font-size-5' })`
+const AlertBox = styled.div.attrs({ role: 'alert', className: 'font-hnm' })`
   padding: 1em;
   display: flex;
   flex-direction: column;

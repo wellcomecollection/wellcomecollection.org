@@ -70,7 +70,7 @@ describe('Registration', () => {
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: /account created/i, level: 1 })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /activate your library account/i, level: 1 })).toBeInTheDocument();
     });
   });
 
