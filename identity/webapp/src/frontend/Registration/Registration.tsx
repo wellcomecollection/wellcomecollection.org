@@ -8,7 +8,6 @@ import {
   Checkbox,
   Container,
   ErrorAlert,
-  Heading,
   InvalidFieldAlert,
   Label,
   Link,
@@ -110,7 +109,6 @@ export function Registration(): JSX.Element {
           <SpacingComponent />
 
           <form onSubmit={handleSubmit(createUser)} noValidate>
-            <Heading>Personal details</Heading>
             <Field
               name="firstName"
               label="First name"
@@ -118,8 +116,6 @@ export function Registration(): JSX.Element {
               rules={{ required: 'Missing first name' }}
             />
             <Field name="lastName" label="Last name" placeholder="Surname" rules={{ required: 'Missing last name' }} />
-            <SpacingComponent />
-            <Heading>Login details</Heading>
             <Field
               name="email"
               type="email"
