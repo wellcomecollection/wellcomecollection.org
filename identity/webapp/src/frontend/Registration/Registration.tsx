@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, RegisterOptions } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { AccountCreated } from './AccountCreated';
 import { PageWrapper } from './PageWrapper';
@@ -40,23 +40,42 @@ export function Registration(): JSX.Element {
   });
   const { registerUser, isSuccess, error: registrationError } = useRegisterUser();
 
-  const FieldErrorMessage = ({ name }: { name: keyof RegistrationInputs }) => (
-    <ErrorMessage
-      errors={formState.errors}
-      name={name}
-      render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
-    />
-  );
+  if (isSuccess) {
+    return <AccountCreated />;
+  }
+
+  const Field: React.FC<{
+    name: keyof RegistrationInputs;
+    label: string;
+    type?: string;
+    placeholder?: string;
+    rules: RegisterOptions;
+  }> = ({ name, label, type = 'text', placeholder, rules }) => {
+    return (
+      <>
+        <Label htmlFor={name}>{label}</Label>
+        <ErrorMessage
+          errors={formState.errors}
+          name={name}
+          render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
+        />
+        <TextInput
+          id={name}
+          name={name}
+          type={type}
+          placeholder={placeholder}
+          ref={register(rules)}
+          invalid={formState.errors[name]}
+        />
+      </>
+    );
+  };
 
   const createUser = (formData: RegistrationInputs) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { termsAndConditions, ...userDetails } = formData;
     registerUser(userDetails);
   };
-
-  if (isSuccess) {
-    return <AccountCreated />;
-  }
 
   return (
     <PageWrapper>
@@ -92,50 +111,37 @@ export function Registration(): JSX.Element {
 
           <form onSubmit={handleSubmit(createUser)} noValidate>
             <Heading>Personal details</Heading>
-            <Label htmlFor="first-name">First name</Label>
-            <FieldErrorMessage name="firstName" />
-            <TextInput
-              id="first-name"
+            <Field
               name="firstName"
+              label="First name"
               placeholder="Forename"
-              ref={register({ required: 'Missing first name' })}
-              invalid={formState.errors.firstName}
+              rules={{ required: 'Missing first name' }}
             />
-            <Label htmlFor="last-name">Last name</Label>
-            <FieldErrorMessage name="lastName" />{' '}
-            <TextInput
-              id="last-name"
-              name="lastName"
-              placeholder="Surname"
-              ref={register({ required: 'Missing last name' })}
-              invalid={formState.errors.lastName}
-            />
+            <Field name="lastName" label="Last name" placeholder="Surname" rules={{ required: 'Missing last name' }} />
             <SpacingComponent />
             <Heading>Login details</Heading>
-            <Label htmlFor="email-address" className="font-hnm font-size-4">
-              Email address
-            </Label>
-            <FieldErrorMessage name="email" />
-            <TextInput
-              id="email-address"
+            <Field
               name="email"
               type="email"
+              label="Email address"
               placeholder="myname@email.com"
-              ref={register({
+              rules={{
                 required: 'Missing email address',
                 pattern: {
                   value: validEmailPattern,
                   message: 'Invalid email address',
                 },
-              })}
-              invalid={formState.errors.email}
+              }}
             />
             <Label htmlFor="password" className="font-hnm font-size-4">
               Password
             </Label>
-            <FieldErrorMessage name="password" />
+            <ErrorMessage
+              errors={formState.errors}
+              name="password"
+              render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
+            />
             <PasswordInput
-              id="password"
               name="password"
               control={control}
               rules={{
@@ -153,7 +159,11 @@ export function Registration(): JSX.Element {
               <li className="font-hnl font-size-6">8 characters minimum</li>
             </PasswordRulesList>
             <SpacingComponent />
-            <FieldErrorMessage name="termsAndConditions" />
+            <ErrorMessage
+              errors={formState.errors}
+              name="termsAndConditions"
+              render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
+            />
             <Controller
               name="termsAndConditions"
               control={control}

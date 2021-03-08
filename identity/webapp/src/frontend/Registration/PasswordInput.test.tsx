@@ -10,7 +10,7 @@ const renderComponent = (props: Partial<PasswordInputProps> = {}) => {
     return (
       <>
         <label htmlFor="password">Password</label>
-        <PasswordInput id="password" name="password" {...props} control={control} />
+        <PasswordInput name="password" {...props} control={control} />
       </>
     );
   };
