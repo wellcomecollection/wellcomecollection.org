@@ -17,7 +17,7 @@ export const Container = styled.div`
 `;
 
 export const Wrapper = styled.div`
-  max-width: 423px;
+  max-width: 32em;
   margin: 0 auto;
   padding: 1em;
 `;
