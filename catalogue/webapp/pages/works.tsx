@@ -128,6 +128,7 @@ const Works: NextPage<Props> = ({
         imageUrl={undefined}
         imageAltText={undefined}
         globalContextData={globalContextData}
+        excludeRoleMain={true}
       >
         <Space
           v={{
@@ -215,7 +216,7 @@ const Works: NextPage<Props> = ({
               }}
               style={{ opacity: loading ? 0 : 1 }}
             >
-              <div className="container">
+              <div className="container" role="main">
                 {works && (
                   <WorksSearchResults
                     works={works}
