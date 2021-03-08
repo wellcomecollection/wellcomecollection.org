@@ -88,6 +88,19 @@ export function Registration(): JSX.Element {
       <Container>
         <Wrapper>
           <Title>Register for a library account</Title>
+          {registrationError && (
+            <>
+              <ErrorAlert aria-labelledby="error-text">
+                <Icon name="info2" />
+                {registrationError === RegistrationError.EMAIL_ALREADY_EXISTS && (
+                  <span id="error-text">An account with this email address already exists, please sign in.</span>
+                )}
+                {registrationError === RegistrationError.PASSWORD_TOO_COMMON && 'Password is too common'}
+                {registrationError === RegistrationError.UNKNOWN && 'An unknown error occurred'}
+              </ErrorAlert>
+              <SpacingComponent />
+            </>
+          )}
           <p>
             An account lets you order items from the library&apos;s closed stores and access our online subscription
             collections.
@@ -95,20 +108,6 @@ export function Registration(): JSX.Element {
           <p>
             The first time you come to the library, you&apos;ll need to complete your <a href="">library membership</a>.
           </p>
-
-          {registrationError && (
-            <>
-              <ErrorAlert aria-labelledby="error-text">
-                <Icon name="cross" />
-                {registrationError === RegistrationError.EMAIL_ALREADY_EXISTS && (
-                  <span id="error-text">An account with this email address already exists, please sign in.</span>
-                )}
-                {registrationError === RegistrationError.PASSWORD_TOO_COMMON && 'Password is too common'}
-                {registrationError === RegistrationError.UNKNOWN && 'An unknown error occurred'}
-              </ErrorAlert>
-            </>
-          )}
-          <SpacingComponent />
 
           <form onSubmit={handleSubmit(createUser)} noValidate>
             <Field
