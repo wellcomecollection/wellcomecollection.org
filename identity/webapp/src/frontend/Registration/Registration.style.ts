@@ -28,7 +28,7 @@ export const FieldMargin = styled.div`
   margin-bottom: 1em;
 `;
 
-export const Label = styled.label.attrs({ className: 'font-hnm font-size-4' })`
+export const Label = styled.label.attrs({ className: 'font-hnl fonts-loaded font-size-4' })`
   display: block;
   font-weight: bold;
 `;
@@ -51,16 +51,18 @@ export const Button = styled(SolidButton)`
   justify-content: center;
 `;
 
-export const InvalidFieldAlert = styled.span.attrs({ role: 'alert', className: 'font-hnm' })`
+export const InvalidFieldAlert = styled.span.attrs({ role: 'alert', className: 'font-hnl' })`
   color: #d1192c;
+  font-weight: bold;
 `;
 
-const AlertBox = styled.div.attrs({ role: 'alert', className: 'font-hnm' })`
+const AlertBox = styled.div.attrs({ role: 'alert', className: 'font-hnl' })`
   padding: 1em;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-weight: bold;
 
   & svg {
     stroke: currentColor;

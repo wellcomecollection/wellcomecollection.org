@@ -21,7 +21,9 @@ export const AccountCreated: React.FC = () => {
             Please do this within the next 24 hours, before the link expires.
           </p>
           <p className="font-hnl">You won&apos;t be able to sign in until you have activated your account.</p>
-          <h2 className="font-hnm">Didn&apos;t receive an email?</h2>
+          <h2 className="font-hnl" style={{ fontWeight: 'bold' }}>
+            Didn&apos;t receive an email?
+          </h2>
           <p className="font-hnl">
             If you don&apos;t see an email from us within the next few minutes, please check the following:
           </p>
@@ -29,7 +31,7 @@ export const AccountCreated: React.FC = () => {
             <li className="font-hnl">Is the email is in your spam/junk folder?</li>
             <li className="font-hnl">Was the email address you entered correct?</li>
           </ul>
-          <p className="font-hnm">
+          <p className="font-hnl" style={{ fontWeight: 'bold' }}>
             If you still haven&apos;t received a verification email or need any other help with your account, please
             contact <a href="mailto:library@wellcomecollection.org">Library enquiries</a>.
           </p>

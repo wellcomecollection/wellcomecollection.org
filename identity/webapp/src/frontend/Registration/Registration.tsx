@@ -144,9 +144,7 @@ export function Registration(): JSX.Element {
               }}
             />
             <FieldMargin>
-              <Label htmlFor="password" className="font-hnm font-size-4">
-                Password
-              </Label>
+              <Label htmlFor="password">Password</Label>
               <PasswordInput
                 name="password"
                 control={control}
