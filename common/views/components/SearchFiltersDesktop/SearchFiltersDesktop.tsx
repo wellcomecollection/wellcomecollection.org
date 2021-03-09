@@ -41,19 +41,17 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
       >
         {f.options.map(({ id, label, value, count, selected }) => {
           return (
-            (f.showEmptyBuckets || count > 0 || selected) && (
-              <li key={`${f.id}-${id}`}>
-                <CheckboxRadio
-                  id={id}
-                  type={`checkbox`}
-                  text={`${label} (${count})`}
-                  value={value}
-                  name={f.id}
-                  checked={selected}
-                  onChange={changeHandler}
-                />
-              </li>
-            )
+            <li key={`${f.id}-${id}`}>
+              <CheckboxRadio
+                id={id}
+                type={`checkbox`}
+                text={`${label} (${count})`}
+                value={value}
+                name={f.id}
+                checked={selected}
+                onChange={changeHandler}
+              />
+            </li>
           );
         })}
       </ul>
