@@ -3,7 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { Link, useHistory } from 'react-router-dom';
 import { AccountCreated } from './AccountCreated';
-import { PageWrapper } from './PageWrapper';
+import { PageWrapper } from '../Shared/PageWrapper';
 import {
   Button,
   Cancel,
