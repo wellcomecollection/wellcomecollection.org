@@ -144,7 +144,7 @@ const genresFilter = ({ works, props }: WorksFilterProps): CheckboxFilter => ({
   ),
 });
 
-export const contributorsFilter = ({
+const contributorsFilter = ({
   works,
   props,
 }: WorksFilterProps): CheckboxFilter => {
