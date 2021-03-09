@@ -1,12 +1,10 @@
 import {
-  searchFormInputCatalogue,
   searchFormInputImage,
   searchFilterCloseButton,
 } from '../text/aria-labels';
 
 // input
 
-export const worksSearchCatalogueInputField = `input[aria-label="${searchFormInputCatalogue}"]`;
 export const worksSearchImagesInputField = `input[aria-label="${searchFormInputImage}"]`;
 
 // modal
