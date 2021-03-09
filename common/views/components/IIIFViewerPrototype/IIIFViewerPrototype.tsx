@@ -1,30 +1,47 @@
 import { FunctionComponent, useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import {
+  getDigitalLocationOfType,
+  getDownloadOptionsFromImageUrl,
+} from '@weco/common/utils/works';
+import {
+  getUiExtensions,
+  isUiEnabled,
+  getServiceId,
+  getDownloadOptionsFromManifest,
+} from '@weco/common/utils/iiif';
+import ViewerSidebarPrototype from '../ViewerSidebarPrototype/ViewerSidebarPrototype';
 import MainViewer from '../IIIFViewer/parts/MainViewer';
+import ViewerTopBarPrototype from '../ViewerTopBarPrototype/ViewerTopBarPrototype';
 import { IIIFViewerProps } from '../IIIFViewer/IIIFViewer';
+import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 
 const Grid = styled.div`
   display: grid;
   height: calc(100vh - 85px); // FIXME: use variable for header height
   overflow: hidden;
-  grid-template-columns: [left-edge] minmax(200px, 300px) [desktop-sidebar-end main-start desktop-toolbar-start] 1fr [right-edge];
-  grid-template-rows: [top-edge] min-content [desktop-main-start desktop-toolbar-end] 1fr [bottom-edge];
+  grid-template-columns: [left-edge] minmax(200px, 3fr) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
+  grid-template-rows: [top-edge] min-content [desktop-main-start desktop-topbar-end] 1fr [bottom-edge];
 `;
 
 const Sidebar = styled.div`
-  background: hotpink;
   grid-area: top-edge / left-edge / bottom-edge / desktop-sidebar-end;
+  background: ${props => props.theme.color('viewerBlack')};
+  color: ${props => props.theme.color('white')};
+  border-right: 1px solid ${props => props.theme.color('charcoal')};
+  overflow: auto;
 `;
 
-const Toolbar = styled.div`
-  background: dodgerblue;
-  grid-area: top-edge / desktop-toolbar-start / desktop-toolbar-end / right-edge;
+const Topbar = styled.div`
+  background: ${props => props.theme.color('charcoal')};
+  grid-area: top-edge / desktop-topbar-start / desktop-topbar-end / right-edge;
 `;
 
 const Main = styled.div`
-  background: grey;
+  background: ${props => props.theme.color('viewerBlack')};
+  color: ${props => props.theme.color('white')};
   grid-area: desktop-main-start / main-start / bottom-edge / right-edge;
-  overflow: scroll;
+  overflow: auto;
 `;
 
 const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
@@ -75,6 +92,46 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
       .map(i => canvases[i])
       .filter(Boolean);
 
+  const mainImageService = { '@id': getServiceId(currentCanvas) };
+
+  const iiifPresentationLocation =
+    work && getDigitalLocationOfType(work, 'iiif-presentation');
+  const digitalLocation = iiifImageLocation || iiifPresentationLocation;
+  const licenseInfo =
+    digitalLocation &&
+    digitalLocation.license &&
+    getAugmentedLicenseInfo(digitalLocation.license);
+
+  const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
+
+  const showDownloadOptions = manifest
+    ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
+    : true;
+
+  const imageDownloadOptions =
+    showDownloadOptions && iiifImageLocation
+      ? getDownloadOptionsFromImageUrl({
+          url: iiifImageLocation.url,
+          width: imageJson?.width,
+          height: imageJson?.height,
+        })
+      : [];
+  const imageDownloads =
+    mainImageService['@id'] &&
+    getDownloadOptionsFromImageUrl({
+      url: mainImageService['@id'],
+      width: currentCanvas && currentCanvas.width,
+      height: currentCanvas && currentCanvas.height,
+    });
+  const iiifPresentationDownloadOptions =
+    (showDownloadOptions &&
+      manifest &&
+      imageDownloads && [
+        ...imageDownloads,
+        ...getDownloadOptionsFromManifest(manifest),
+      ]) ||
+    [];
+
   useEffect(() => {
     function handleResize() {
       if (isFullscreen) {
@@ -94,8 +151,33 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
 
   return (
     <Grid>
-      <Sidebar>sidebar</Sidebar>
-      <Toolbar>toolbar</Toolbar>
+      <Sidebar>
+        <ViewerSidebarPrototype title={title} workId={workId} />
+      </Sidebar>
+      <Topbar>
+        <ViewerTopBarPrototype
+          canvases={canvases}
+          enhanced={enhanced}
+          gridVisible={gridVisible}
+          setGridVisible={setGridVisible}
+          workId={workId}
+          viewToggleRef={viewToggleRef}
+          currentManifestLabel={currentManifestLabel}
+          canvasIndex={activeIndex}
+          licenseInfo={licenseInfo}
+          iiifImageLocationCredit={iiifImageLocationCredit}
+          downloadOptions={
+            showDownloadOptions
+              ? [...imageDownloadOptions, ...iiifPresentationDownloadOptions]
+              : []
+          }
+          iiifPresentationDownloadOptions={iiifPresentationDownloadOptions}
+          parentManifest={parentManifest}
+          lang={lang}
+          viewerRef={viewerRef}
+          manifestIndex={manifestIndex}
+        />
+      </Topbar>
       <Main>
         <MainViewer
           listHeight={pageHeight}
