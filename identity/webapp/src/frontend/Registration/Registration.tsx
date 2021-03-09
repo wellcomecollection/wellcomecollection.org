@@ -1,27 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import { Link, useHistory } from 'react-router-dom';
 import { AccountCreated } from './AccountCreated';
 import { PageWrapper } from './PageWrapper';
 import {
   Button,
+  Cancel,
   Checkbox,
   Container,
   ErrorAlert,
-  Heading,
+  FieldMargin,
   InvalidFieldAlert,
   Label,
-  Link,
+  ExternalLink,
   PasswordRulesList,
-  SecondaryButton,
   TextInput,
   Title,
   Wrapper,
+  CheckboxLabel,
+  InProgress,
 } from './Registration.style';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { useRegisterUser, RegistrationError } from './useRegisterUser';
 import { PasswordInput } from './PasswordInput';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 type RegistrationInputs = {
   firstName: string;
@@ -35,18 +39,23 @@ const validEmailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(
 const validPasswordPattern = /(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*/;
 
 export function Registration(): JSX.Element {
-  const { register, control, handleSubmit, formState } = useForm<RegistrationInputs>({
+  const { register, control, handleSubmit, formState, setError } = useForm<RegistrationInputs>({
     defaultValues: { password: '' },
   });
-  const { registerUser, isSuccess, error: registrationError } = useRegisterUser();
+  const { registerUser, isLoading, isSuccess, error: registrationError } = useRegisterUser();
+  const { goBack } = useHistory();
 
-  const FieldErrorMessage = ({ name }: { name: keyof RegistrationInputs }) => (
-    <ErrorMessage
-      errors={formState.errors}
-      name={name}
-      render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
-    />
-  );
+  usePageTitle('Register for a library account');
+
+  useEffect(() => {
+    if (registrationError === RegistrationError.EMAIL_ALREADY_EXISTS) {
+      setError('email', { type: 'manual', message: 'Email address already in use.' });
+    }
+  }, [registrationError, setError]);
+
+  if (isSuccess) {
+    return <AccountCreated />;
+  }
 
   const createUser = (formData: RegistrationInputs) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -54,91 +63,105 @@ export function Registration(): JSX.Element {
     registerUser(userDetails);
   };
 
-  if (isSuccess) {
-    return <AccountCreated />;
-  }
-
   return (
     <PageWrapper>
       <Container>
         <Wrapper>
-          <Title>Register for Wellcome</Title>
-
+          <Title>Register for a library account</Title>
           {registrationError && (
             <>
-              <ErrorAlert>
-                <Icon name="cross" />
+              <ErrorAlert aria-labelledby="error-text">
+                <Icon name="info2" />
                 {registrationError === RegistrationError.EMAIL_ALREADY_EXISTS && (
-                  <>
-                    <span>That account already exists</span>
-                    <span>
-                      You can try to <a href="#">login</a>
-                    </span>
-                  </>
+                  <span id="error-text">
+                    An account with this email address already exists, please <Link to="/">sign in</Link>.
+                  </span>
                 )}
                 {registrationError === RegistrationError.PASSWORD_TOO_COMMON && 'Password is too common'}
                 {registrationError === RegistrationError.UNKNOWN && 'An unknown error occurred'}
               </ErrorAlert>
+              <SpacingComponent />
             </>
           )}
-          <SpacingComponent />
+          <p>
+            An account lets you order items from the library&apos;s closed stores and access our online subscription
+            collections.
+          </p>
+          <p>
+            The first time you come to the library, you&apos;ll need to complete your <a href="">library membership</a>.
+          </p>
 
-          <form onSubmit={handleSubmit(createUser)}>
-            <Heading>Personal details</Heading>
-            <Label htmlFor="first-name">First name</Label>
-            <FieldErrorMessage name="firstName" />
-            <TextInput
-              id="first-name"
-              name="firstName"
-              placeholder="Forename"
-              ref={register({ required: 'Missing first name' })}
-              invalid={formState.errors.firstName}
-            />
-            <Label htmlFor="last-name">Last name</Label>
-            <FieldErrorMessage name="lastName" />{' '}
-            <TextInput
-              id="last-name"
-              name="lastName"
-              placeholder="Surname"
-              ref={register({ required: 'Missing last name' })}
-              invalid={formState.errors.lastName}
-            />
-            <SpacingComponent />
-            <Heading>Login details</Heading>
-            <Label htmlFor="email-address" className="font-hnm font-size-4">
-              Email address
-            </Label>
-            <FieldErrorMessage name="email" />
-            <TextInput
-              id="email-address"
-              name="email"
-              type="email"
-              placeholder="myname@email.com"
-              ref={register({
-                required: 'Missing email address',
-                pattern: {
-                  value: validEmailPattern,
-                  message: 'Invalid email address',
-                },
-              })}
-              invalid={formState.errors.email}
-            />
-            <Label htmlFor="password" className="font-hnm font-size-4">
-              Password
-            </Label>
-            <FieldErrorMessage name="password" />
-            <PasswordInput
-              id="password"
-              name="password"
-              control={control}
-              rules={{
-                required: 'Missing password',
-                pattern: {
-                  value: validPasswordPattern,
-                  message: 'Invalid password',
-                },
-              }}
-            />
+          <form onSubmit={handleSubmit(createUser)} noValidate>
+            <FieldMargin>
+              <Label htmlFor="firstName">First name</Label>
+              <TextInput
+                id="firstName"
+                name="firstName"
+                placeholder="Forename"
+                ref={register({ required: 'Enter your first name.' })}
+                invalid={formState.errors.firstName}
+              />
+              <ErrorMessage
+                errors={formState.errors}
+                name="firstName"
+                render={({ message }) => <InvalidFieldAlert aria-label={message}>{message}</InvalidFieldAlert>}
+              />
+            </FieldMargin>
+            <FieldMargin>
+              <Label htmlFor="lastName">Last name</Label>
+              <TextInput
+                id="lastName"
+                name="lastName"
+                placeholder="Surname"
+                ref={register({ required: 'Enter your last name.' })}
+                invalid={formState.errors.lastName}
+              />
+              <ErrorMessage
+                errors={formState.errors}
+                name="lastName"
+                render={({ message }) => <InvalidFieldAlert aria-label={message}>{message}</InvalidFieldAlert>}
+              />
+            </FieldMargin>
+            <FieldMargin>
+              <Label htmlFor="email">Email address</Label>
+              <TextInput
+                id="email"
+                name="email"
+                placeholder="myname@email.com"
+                ref={register({
+                  required: 'Enter an email address.',
+                  pattern: {
+                    value: validEmailPattern,
+                    message: 'Enter a valid email address.',
+                  },
+                })}
+                invalid={formState.errors.email}
+              />
+              <ErrorMessage
+                errors={formState.errors}
+                name="email"
+                render={({ message }) => <InvalidFieldAlert aria-label={message}>{message}</InvalidFieldAlert>}
+              />
+            </FieldMargin>
+            <FieldMargin>
+              <Label htmlFor="password">Password</Label>
+              <PasswordInput
+                name="password"
+                control={control}
+                rules={{
+                  required: 'Enter a password.',
+                  pattern: {
+                    value: validPasswordPattern,
+                    message: 'Enter a valid password.',
+                  },
+                }}
+              />
+              <ErrorMessage
+                errors={formState.errors}
+                name="password"
+                render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
+              />
+            </FieldMargin>
             <PasswordRulesList>
               <li className="font-hnl font-size-6">One lowercase character</li>
               <li className="font-hnl font-size-6">One uppercase character</li>
@@ -146,36 +169,39 @@ export function Registration(): JSX.Element {
               <li className="font-hnl font-size-6">8 characters minimum</li>
             </PasswordRulesList>
             <SpacingComponent />
-            <FieldErrorMessage name="termsAndConditions" />
             <Controller
               name="termsAndConditions"
               control={control}
               defaultValue={false}
-              rules={{ required: 'You must accept to proceed' }}
-              render={props => (
+              rules={{ required: 'Accept the terms to continue.' }}
+              render={({ value, onChange }) => (
                 <Checkbox
-                  onChange={(e: React.FormEvent<HTMLInputElement>) => props.onChange(e.currentTarget.checked)}
-                  checked={props.value}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) => onChange(e.currentTarget.checked)}
+                  checked={value}
                   text={
-                    <span>
+                    <CheckboxLabel>
                       I have read and agree to the{' '}
-                      <Link
+                      <ExternalLink
                         href="https://wellcome.org/about-us/governance/privacy-and-terms"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         Privacy and Terms
-                      </Link>{' '}
+                      </ExternalLink>{' '}
                       for Wellcome
-                    </span>
+                    </CheckboxLabel>
                   }
                 />
               )}
             />
+            <ErrorMessage
+              errors={formState.errors}
+              name="termsAndConditions"
+              render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
+            />
             <SpacingComponent />
-            <Button type="submit">Create account</Button>
-            <SpacingComponent />
-            <SecondaryButton type="reset">Cancel</SecondaryButton>
+            {isLoading ? <InProgress>Registering...</InProgress> : <Button type="submit">Create account</Button>}
+            <Cancel onClick={goBack} />
           </form>
         </Wrapper>
       </Container>

@@ -29,7 +29,7 @@ if (root) {
       <style id="styleguide-sass"></style>
       <AppContextProvider>
         <GlobalStyles />
-        <BrowserRouter basename={prefix}>
+        <BrowserRouter basename={prefix || ''}>
           <Switch>
             <Route exact path="/register" component={Registration} />
             <Route exact path="/register/old" component={OldRegistration} />
