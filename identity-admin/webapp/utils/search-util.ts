@@ -1,5 +1,5 @@
 import { SortField } from '../interfaces';
-import * as queryString from 'querystring';
+import * as queryString from 'query-string';
 
 export function buildSearchParams(
   page: string | string[],
@@ -7,32 +7,12 @@ export function buildSearchParams(
   name: string | string[],
   email: string | string[],
   sortField?: string | string[],
-  sortDir?: string | string[]
+  sortDir?: string | string[],
 ): string {
-  let params = {};
-  if (page) {
-    params = { ...params, page: page };
-  }
-  if (status) {
-    params = { ...params, status: status };
-  }
-  if (name) {
-    params = { ...params, name: name };
-  }
-  if (email) {
-    params = { ...params, email: email };
-  }
-  if (
-    sortField &&
+  const sort = sortField &&
     typeof sortField === 'string' &&
-    Object.values(SortField).includes(sortField as SortField)
-  ) {
-    params = { ...params, sort: sortField };
-  }
-  if (sortDir && (sortDir === '1' || sortDir === '-1')) {
-    params = { ...params, sortDir: sortDir };
-  }
-  return queryString.stringify(params);
+    Object.values(SortField).includes(sortField as SortField) ? sortField : undefined;
+  return queryString.stringify({ page, status, name, email, sort, sortDir });
 }
 
 export function buildSearchUrl(
