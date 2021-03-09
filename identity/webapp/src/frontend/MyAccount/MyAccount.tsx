@@ -1,6 +1,9 @@
 import React from 'react';
 import { useUserInfo, withUserInfo } from './UserInfoContext';
 import { ChangeDetailsModal } from './ChangeDetailsModal';
+import { PageWrapper } from '../Shared/PageWrapper';
+import { Container, Title, Wrapper } from '../Shared/Layout.style';
+import { DetailWrapper, Grid, HorizontalRule, Label } from './MyAccount.style';
 
 const Loading: React.FC = () => (
   <label>
@@ -27,6 +30,13 @@ const DeleteAccount = () => (
   </div>
 );
 
+const Detail: React.FC<{ label: string; value?: string }> = ({ label, value }) => (
+  <DetailWrapper>
+    <Label>{label}</Label>
+    {value && <span>{value}</span>}
+  </DetailWrapper>
+);
+
 const Profile: React.FC = () => {
   const { user, isLoading } = useUserInfo();
 
@@ -35,31 +45,24 @@ const Profile: React.FC = () => {
   }
 
   return (
-    <>
-      <h1>My account</h1>
-      <dl>
-        <dt>Name</dt>
-        <dd>
-          {user?.firstName} {user?.lastName}
-        </dd>
-        <dt>Library card number</dt>
-        <dd>{user?.barcode}</dd>
-        <dt>Email address</dt>
-        <dd>{user?.email}</dd>
-        <dt>
-          <ChangeDetailsModal id="change-email" buttonText="Update Email" content={ChangeEmail} />
-        </dt>
-        <dt>Password</dt>
-        <dd>********</dd>
-        <dt>
-          <ChangeDetailsModal id="change-password" buttonText="Update password" content={ChangePassword} />
-        </dt>
-        <dt>Delete this account</dt>
-        <dt>
-          <ChangeDetailsModal id="delete-account" buttonText="Request deletion" content={DeleteAccount} />
-        </dt>
-      </dl>
-    </>
+    <PageWrapper>
+      <Container>
+        <Wrapper>
+          <Title>My account</Title>
+          <Grid>
+            <Detail label="Name" value={`${user?.firstName} ${user?.lastName}`} />
+            <Detail label="Library card number" value={user?.barcode} />
+            <Detail label="Email address" value={user?.email} />
+            <ChangeDetailsModal id="change-email" buttonText="Update Email" content={ChangeEmail} />
+            <Detail label="Password" value="********" />
+            <ChangeDetailsModal id="change-password" buttonText="Update password" content={ChangePassword} />
+            <HorizontalRule />
+            <Detail label="Delete this account" />
+            <ChangeDetailsModal id="delete-account" buttonText="Request deletion" isDangerous content={DeleteAccount} />
+          </Grid>
+        </Wrapper>
+      </Container>
+    </PageWrapper>
   );
 };
 

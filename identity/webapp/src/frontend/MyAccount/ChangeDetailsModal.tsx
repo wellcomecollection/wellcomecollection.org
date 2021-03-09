@@ -1,21 +1,28 @@
 import React, { useRef, useState } from 'react';
 import Modal from '@weco/common/views/components/Modal/Modal';
+import { Button } from './MyAccount.style';
 
 type ChangeDetailsModalProps = {
   id: string;
   buttonText: string;
   content: React.ComponentType;
+  isDangerous?: boolean;
 };
 
-export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({ id, buttonText, content: Content }) => {
+export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
+  id,
+  buttonText,
+  content: Content,
+  isDangerous = false,
+}) => {
   const [isActive, setIsActive] = useState(false);
   const openButton = useRef(null);
 
   return (
     <>
-      <button onClick={() => setIsActive(true)} ref={openButton}>
+      <Button isDangerous={isDangerous} onClick={() => setIsActive(true)} ref={openButton}>
         {buttonText}
-      </button>
+      </Button>
       <Modal id={id} isActive={isActive} setIsActive={setIsActive} openButtonRef={openButton}>
         <Content />
       </Modal>
