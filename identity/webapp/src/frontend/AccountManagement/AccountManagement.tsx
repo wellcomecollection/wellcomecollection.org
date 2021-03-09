@@ -6,7 +6,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import { ProfileForm } from './ProfileForm';
 import { PasswordForm } from './PasswordForm';
 import { LogoContainer } from '../Shared/LogoContainer';
-import { PageWrapper } from '../Shared/PageWrapper';
+import { OldPageWrapper } from '../Shared/OldPageWrapper';
 import { useUserInfo } from '../hooks/useUserInfo';
 
 // TODO: Update this to prod.
@@ -18,7 +18,7 @@ export const AccountManagement: React.FC = () => {
   const { data, isLoading, error, refetch } = useUserInfo();
 
   return (
-    <PageWrapper>
+    <OldPageWrapper>
       {isLoading && <h1>Loading...</h1>}
       {error && <h1 style={{ color: 'red' }}>{error}</h1>}
       {data && (
@@ -38,6 +38,6 @@ export const AccountManagement: React.FC = () => {
           {idx === 1 && <PasswordForm />}
         </>
       )}
-    </PageWrapper>
+    </OldPageWrapper>
   );
 };

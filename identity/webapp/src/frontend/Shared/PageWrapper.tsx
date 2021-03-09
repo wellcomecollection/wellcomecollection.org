@@ -1,8 +1,31 @@
+import React from 'react';
 import styled from 'styled-components';
+import { Logo } from './Logo';
 
-export const PageWrapper = styled.div`
-  width: 70%;
-  margin: auto;
-  background-color: #f0ede3;
-  padding: 42px;
+const Header = styled.header`
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85px;
+
+  & > img {
+    width: unset;
+  }
 `;
+
+export const PageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return (
+    <>
+      <Header>
+        <Logo />
+      </Header>
+      <div>{children}</div>
+    </>
+  );
+};

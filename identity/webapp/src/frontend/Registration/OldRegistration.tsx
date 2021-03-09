@@ -8,7 +8,7 @@ import { ErrorMessage } from '../Shared/ErrorMessage';
 import CheckboxRadio from '../WellcomeComponents/CheckBoxLabel';
 import { PasswordInput } from '../Shared/PasswordInput';
 import { LogoContainer } from '../Shared/LogoContainer';
-import { PageWrapper } from '../Shared/PageWrapper';
+import { OldPageWrapper } from '../Shared/OldPageWrapper';
 import { callMiddlewareApi } from '../../utility/middleware-api-client';
 
 // TODO: Update this to prod.
@@ -127,7 +127,7 @@ export const OldRegistration: React.FC = () => {
   };
 
   return (
-    <PageWrapper>
+    <OldPageWrapper>
       <LogoContainer>
         <img src={logo} alt="Wellcome Collection Logo" />
       </LogoContainer>
@@ -230,6 +230,6 @@ export const OldRegistration: React.FC = () => {
           </form>
         </>
       )}
-    </PageWrapper>
+    </OldPageWrapper>
   );
 };
