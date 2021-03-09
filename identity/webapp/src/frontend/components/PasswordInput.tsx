@@ -3,7 +3,7 @@ import { useController, UseControllerOptions } from 'react-hook-form';
 import OpenEye from '@weco/common/icons/components/Eye';
 import ClosedEye from '@weco/common/icons/components/A11yVisual';
 import styled from 'styled-components';
-import { TextInput } from './Registration.style';
+import { TextInput } from './Form.style';
 
 const ShowPasswordButton = styled.button.attrs({ type: 'button' })`
   height: 55px;
