@@ -137,7 +137,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   linkResolver,
   activeFiltersCount,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
-  const [showMoreFiltersModal, setMoreFiltersModal] = useState(false);
+  const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
   const openMoreFiltersButtonRef = useRef(null);
 
   const availabilitiesFilter = filters.find(
@@ -225,15 +225,15 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   text="More filters"
                   clickHandler={event => {
                     event.preventDefault();
-                    setMoreFiltersModal(true);
+                    setShowMoreFiltersModal(true);
                   }}
                   ref={openMoreFiltersButtonRef}
                 />
                 <ModalMoreFilters
                   query={query}
                   id="moreFilters"
-                  showMoreFiltersModal={showMoreFiltersModal}
-                  setMoreFiltersModal={setMoreFiltersModal}
+                  isActive={showMoreFiltersModal}
+                  setIsActive={setShowMoreFiltersModal}
                   openMoreFiltersButtonRef={openMoreFiltersButtonRef}
                   changeHandler={changeHandler}
                   filters={modalFilters}

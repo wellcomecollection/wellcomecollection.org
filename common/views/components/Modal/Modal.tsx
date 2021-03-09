@@ -54,8 +54,8 @@ const Overlay = styled.div`
 `;
 
 const CloseButton = styled(Space).attrs<CloseButtonProps>({
-  role: 'button',
   as: 'button',
+  type: 'button',
   v: { size: 'm', properties: ['top'] },
   h: { size: 'm', properties: ['left'] },
 })<CloseButtonProps>`
@@ -204,7 +204,7 @@ const Modal: FunctionComponent<Props> = ({
   }, [modalRef.current]);
 
   useEffect(() => {
-    if (isActive && closeButtonRef && closeButtonRef?.current) {
+    if (isActive) {
       closeButtonRef?.current?.focus();
     }
   }, [isActive]);

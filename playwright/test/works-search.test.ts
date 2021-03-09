@@ -13,7 +13,8 @@ import { URLSearchParams } from 'url';
 //   ]);
 // });
 
-async function searchFor(query: string) {
+export const worksSearchForm = '[aria-label="Search the catalogue"]';
+export async function searchFor(query: string) {
   console.info('searchFor', query);
   const searchInput = '[aria-label="Search the catalogue"]';
   await page.fill(searchInput, query);
