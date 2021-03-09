@@ -14,7 +14,7 @@ const FeaturedText = ({ html, htmlSerializer }: Props) => (
   <div
     className={classNames({
       'body-text': true,
-      [font('hnm', 3)]: true,
+      [font('hnl', 3)]: true,
     })}
   >
     <PrismicHtmlBlock html={html} htmlSerializer={htmlSerializer} />

@@ -1,5 +1,11 @@
+export type LabelColor =
+  | 'orange'
+  | 'yellow'
+  | 'black'
+  | 'cream'
+  | 'white'
+  | 'transparent';
 export type Label = {
-  url: string | null;
   text: string;
-  labelColor?: 'orange' | 'yellow' | 'black' | 'cream' | 'white';
+  labelColor?: LabelColor;
 };

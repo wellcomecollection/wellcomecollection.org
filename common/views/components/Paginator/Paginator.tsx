@@ -126,7 +126,11 @@ const Paginator: FunctionComponent<Props> = ({
         }}
       >
         {showPortal && <div id="sort-select-portal"></div>}
-        <PaginatorWrapper hideMobilePagination={hideMobilePagination}>
+        <PaginatorWrapper
+          hideMobilePagination={hideMobilePagination}
+          aria-label="Pagination navigation"
+          role="navigation"
+        >
           {prevLink && prev && (
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
               <Control

@@ -125,7 +125,6 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                     items={[
                       {
                         text: work.contributors[0].agent.label,
-                        url: null,
                       },
                     ]}
                   />

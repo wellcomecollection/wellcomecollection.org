@@ -64,7 +64,6 @@ const EventPromoExample = () => {
   const activeInterpretations = interpretations
     .map(i => {
       return {
-        url: null,
         text: i.interpretationType.title,
       };
     })
@@ -87,7 +86,6 @@ const EventPromoExample = () => {
         },
       ].map(i => {
         return {
-          url: null,
           text: i.title,
         };
       })
@@ -250,10 +248,10 @@ const EventPromoExample = () => {
       },
       crops: {},
     },
-    labels: [{ url: null, text: 'Seminar' }]
+    labels: [{ text: 'Seminar' }]
       .concat(activeAudiences)
       .concat(activeInterpretations),
-    primaryLabels: [{ url: null, text: 'Seminar' }].concat(activeAudiences),
+    primaryLabels: [{ text: 'Seminar' }].concat(activeAudiences),
     secondaryLabels: [...activeInterpretations],
     place: {
       id: 'WoLtUioAACkANrUM',

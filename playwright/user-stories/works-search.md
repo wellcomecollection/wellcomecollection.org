@@ -1,7 +1,7 @@
-## A user can complete a works search
+## A researcher can complete a works search
 
 > As a _researcher_
-> I need to _find things I am interested in_
+> I want to _find things I am interested in_
 > so I can _use them in my research_
 
 ### Scenario 1: The person is looking for an archive

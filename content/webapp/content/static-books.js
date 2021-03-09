@@ -303,7 +303,6 @@ export const staticBooks = [
     metadataDescription: '',
     labels: [
       {
-        url: null,
         text: 'Book',
       },
     ],
@@ -651,7 +650,6 @@ export const staticBooks = [
     metadataDescription: '',
     labels: [
       {
-        url: null,
         text: 'Book',
       },
     ],
@@ -1012,7 +1010,6 @@ export const staticBooks = [
     metadataDescription: '',
     labels: [
       {
-        url: null,
         text: 'Book',
       },
     ],

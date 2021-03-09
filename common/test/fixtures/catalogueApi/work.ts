@@ -292,6 +292,18 @@ export const workFixture: Work = {
     },
   ],
   availableOnline: true,
+  availabilities: [
+    {
+      id: 'in-library',
+      label: 'In the library',
+      type: 'Availability',
+    },
+    {
+      id: 'online',
+      label: 'Online',
+      type: 'Availability',
+    },
+  ],
   production: [
     {
       label:
@@ -481,6 +493,18 @@ export const workWithPartOf: Work = {
     },
   ],
   availableOnline: true,
+  availabilities: [
+    {
+      id: 'in-library',
+      label: 'In the library',
+      type: 'Availability',
+    },
+    {
+      id: 'online',
+      label: 'Online',
+      type: 'Availability',
+    },
+  ],
   production: [
     {
       label: '1952',
@@ -501,6 +525,7 @@ export const workWithPartOf: Work = {
       alternativeTitles: [],
       referenceNumber: 'PP/CRI/A/1/2',
       availableOnline: false,
+      availabilities: [],
       partOf: [
         {
           id: 'pwbpp7gj',
@@ -508,6 +533,7 @@ export const workWithPartOf: Work = {
           alternativeTitles: [],
           referenceNumber: 'PP/CRI/A/1',
           availableOnline: false,
+          availabilities: [],
           partOf: [
             {
               id: 'gnfmdk33',
@@ -515,6 +541,7 @@ export const workWithPartOf: Work = {
               alternativeTitles: [],
               referenceNumber: 'PP/CRI/A',
               availableOnline: false,
+              availabilities: [],
               partOf: [
                 {
                   id: 'hz43r7re',
@@ -522,6 +549,7 @@ export const workWithPartOf: Work = {
                   alternativeTitles: [],
                   referenceNumber: 'PP/CRI',
                   availableOnline: false,
+                  availabilities: [],
                   partOf: [],
                   totalParts: 14,
                   totalDescendentParts: 2678,
@@ -551,6 +579,7 @@ export const workWithPartOf: Work = {
       alternativeTitles: [],
       referenceNumber: 'PP/CRI/A/1/2/2',
       availableOnline: false,
+      availabilities: [],
       totalParts: 0,
       totalDescendentParts: 0,
       type: 'Work',
@@ -561,6 +590,7 @@ export const workWithPartOf: Work = {
       alternativeTitles: [],
       referenceNumber: 'PP/CRI/A/1/2/3',
       availableOnline: false,
+      availabilities: [],
       totalParts: 0,
       totalDescendentParts: 0,
       type: 'Work',
@@ -571,6 +601,7 @@ export const workWithPartOf: Work = {
       alternativeTitles: [],
       referenceNumber: 'PP/CRI/A/1/2/4',
       availableOnline: false,
+      availabilities: [],
       totalParts: 0,
       totalDescendentParts: 0,
       type: 'Work',
@@ -581,6 +612,7 @@ export const workWithPartOf: Work = {
       alternativeTitles: [],
       referenceNumber: 'PP/CRI/A/1/2/5',
       availableOnline: false,
+      availabilities: [],
       totalParts: 0,
       totalDescendentParts: 0,
       type: 'Work',
@@ -591,6 +623,7 @@ export const workWithPartOf: Work = {
       alternativeTitles: [],
       referenceNumber: 'PP/CRI/A/1/2/6',
       availableOnline: false,
+      availabilities: [],
       totalParts: 0,
       totalDescendentParts: 0,
       type: 'Work',
@@ -601,6 +634,7 @@ export const workWithPartOf: Work = {
       alternativeTitles: [],
       referenceNumber: 'PP/CRI/A/1/2/7',
       availableOnline: false,
+      availabilities: [],
       totalParts: 0,
       totalDescendentParts: 0,
       type: 'Work',
@@ -611,6 +645,7 @@ export const workWithPartOf: Work = {
       alternativeTitles: [],
       referenceNumber: 'PP/CRI/A/1/2/8',
       availableOnline: false,
+      availabilities: [],
       totalParts: 0,
       totalDescendentParts: 0,
       type: 'Work',
@@ -621,6 +656,7 @@ export const workWithPartOf: Work = {
       alternativeTitles: [],
       referenceNumber: 'PP/CRI/A/1/2/9',
       availableOnline: false,
+      availabilities: [],
       totalParts: 0,
       totalDescendentParts: 0,
       type: 'Work',

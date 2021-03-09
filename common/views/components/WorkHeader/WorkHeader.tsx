@@ -37,7 +37,7 @@ const WorkHeader: FunctionComponent<Props> = ({
     <WorkHeaderContainer>
       <Space
         v={{
-          size: 'xl',
+          size: 'm',
           properties: ['margin-bottom'],
         }}
         className={classNames([grid({ s: 12, m: 12, l: 10, xl: 10 })])}

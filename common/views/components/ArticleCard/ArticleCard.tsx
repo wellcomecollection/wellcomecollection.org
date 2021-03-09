@@ -2,10 +2,10 @@ import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import { Article } from '../../../model/articles';
 import { FunctionComponent } from 'react';
-import { ContentFormatIds } from '@weco/common/model/content-format-id';
+import { ArticleFormatIds } from '@weco/common/model/content-format-id';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import Space from '../styled/Space';
-import { WatchWrapper, WatchText } from '../styled/Watch';
+import WatchLabel from '../WatchLabel/WatchLabel';
 
 type Props = {
   article: Article;
@@ -32,7 +32,7 @@ const ArticleCard: FunctionComponent<Props> = ({
     : undefined;
 
   const isPodcast =
-    article.format && article.format.id === ContentFormatIds.Podcast;
+    article.format && article.format.id === ArticleFormatIds.Podcast;
 
   if (isPodcast) {
     return (
@@ -56,28 +56,14 @@ const ArticleCard: FunctionComponent<Props> = ({
         StatusIndicator={null}
         xOfY={xOfY}
         postTitleChildren={
-          <Space
-            as={WatchWrapper}
-            v={{
-              size: 's',
-              properties: ['margin-top'],
-            }}
-          >
-            <Space
-              as={WatchText}
-              h={{
-                size: 's',
-                properties: ['margin-left'],
-              }}
-              v={{
-                size: 'l',
-                properties: ['margin-bottom'],
-              }}
-            >
-              {article.datePublished && (
-                <HTMLDate date={new Date(article.datePublished)} />
-              )}
-            </Space>
+          <Space v={{ size: 's', properties: ['margin-top'] }}>
+            <WatchLabel
+              text={
+                article.datePublished && (
+                  <HTMLDate date={new Date(article.datePublished)} />
+                )
+              }
+            />
           </Space>
         }
       />

@@ -32,27 +32,30 @@ async function renderScript() {
   });
 }
 
-const heatMapTrigger = (): void => {
+const heatMapTrigger = (triggerName: string): void => {
   // Use triggers if page cannot be determinted by url. e.g archive page.
   // https://help.hotjar.com/hc/en-us/articles/115011867948
   try {
-    window.hj('trigger', 'archives_heatmap_trigger');
+    window.hj('trigger', triggerName);
   } catch (e) {}
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const useHotjar = (shouldRender: boolean) => {
+const useHotjar = (shouldRender: boolean, triggerName?: string) => {
   const [rendered, setRendered] = useState(false);
   useEffect(() => {
     if (shouldRender && !rendered) {
       renderScript().then(() => {
         setRendered(true);
-        heatMapTrigger(); // trigger this on first load
+
+        if (triggerName) {
+          heatMapTrigger(triggerName); // trigger this on first load
+        }
       });
     }
 
-    if (rendered) {
-      heatMapTrigger(); // trigger this if script has already been inserted.
+    if (rendered && triggerName) {
+      heatMapTrigger(triggerName); // trigger this if script has already been inserted.
     }
   }, []);
 };

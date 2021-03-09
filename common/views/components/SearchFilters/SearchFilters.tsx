@@ -1,153 +1,64 @@
-import {
-  useState,
-  useEffect,
-  useContext,
-  FunctionComponent,
-  ReactElement,
-} from 'react';
-import {
-  ImagesRouteProps,
-  WorksRouteProps,
-} from '../../../services/catalogue/ts_routes';
-import {
-  CatalogueAggregationBucket,
-  CatalogueAggregations,
-} from '../../../model/catalogue';
+import { FunctionComponent, ReactElement } from 'react';
+import { ParsedUrlQuery } from 'querystring';
 import SearchFiltersDesktop from '../SearchFiltersDesktop/SearchFiltersDesktop';
 import SearchFiltersMobile from '../SearchFiltersMobile/SearchFiltersMobile';
-import ModalFilters from '../ModalFilters/ModalFilters';
-import theme from '../../themes/default';
-import TogglesContext from '../TogglesContext/TogglesContext';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { LinkProps } from '../../../model/link-props';
+import { Filter } from '../../../services/catalogue/filters';
+import useWindowSize from '../../../hooks/useWindowSize';
+
 type Props = {
+  query: string;
   searchForm: { current: HTMLFormElement | null };
-  worksRouteProps: WorksRouteProps | ImagesRouteProps;
-  workTypeAggregations: CatalogueAggregationBucket[];
-  aggregations?: CatalogueAggregations;
   changeHandler: () => void;
-  filtersToShow: string[];
+  filters: Filter[];
+  linkResolver: (params: ParsedUrlQuery) => LinkProps;
 };
 
-export type SearchFiltersSharedProps = Props & {
-  inputDateFrom: string | null;
-  inputDateTo: string | null;
-  setInputDateFrom: (value: string) => void;
-  setInputDateTo: (value: string) => void;
-  workTypeFilters: CatalogueAggregationBucket[];
-  productionDatesFrom: string | null;
-  productionDatesTo: string | null;
-  workTypeSelected: string[];
-  locationsTypeSelected: string[];
-  imagesColor: string | null;
-  aggregations?: CatalogueAggregations;
-  languagesSelected: string[];
-  subjectsSelected: string[];
-  genresSelected: string[];
-  isEnhanced: boolean;
-  contributorsSelected: string[];
-};
+export type SearchFiltersSharedProps = Props & { activeFiltersCount: number };
 
 const SearchFilters: FunctionComponent<Props> = ({
+  query,
   searchForm,
-  worksRouteProps,
-  workTypeAggregations,
   changeHandler,
-  aggregations,
-  filtersToShow,
+  filters,
+  linkResolver,
 }: Props): ReactElement<Props> => {
-  const { productionDatesFrom, productionDatesTo, color } = worksRouteProps;
-  const languagesSelected: string[] = worksRouteProps?.languages || [];
-  const subjectsSelected: string[] = worksRouteProps?.subjectsLabel || [];
-  const genresSelected: string[] = worksRouteProps?.genresLabel || [];
-  const workTypeSelected = worksRouteProps.workType || [];
-  const locationsTypeSelected = worksRouteProps.itemsLocationsType || [];
-  const contributorsSelected: string[] =
-    worksRouteProps?.contributorsAgentLabel || [];
+  const size = useWindowSize();
 
-  const [isMobile, setIsMobile] = useState(false);
-  const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
-  const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
-  const { modalFiltersPrototype } = useContext(TogglesContext);
-  const { isEnhanced } = useContext(AppContext);
-  const workTypeFilters = workTypeAggregations;
+  const activeFiltersCount = filters
+    .map(f => {
+      if (f.type === 'checkbox') {
+        return f.options.filter(option => option.selected).length;
+      }
 
-  useEffect(() => {
-    function updateIsMobile() {
-      setIsMobile(window.innerWidth < theme.sizes.medium);
-    }
+      if (f.type === 'dateRange') {
+        if (f.from.value || f.to.value) {
+          return 1;
+        }
+      }
 
-    window.addEventListener('resize', updateIsMobile);
-
-    updateIsMobile();
-
-    return () => window.removeEventListener('resize', updateIsMobile);
-  }, []);
-
-  useEffect(() => {
-    if (productionDatesFrom !== inputDateFrom) {
-      setInputDateFrom(productionDatesFrom);
-    }
-
-    if (productionDatesTo !== inputDateTo) {
-      setInputDateTo(productionDatesTo);
-    }
-  }, [productionDatesFrom, productionDatesTo]);
-
-  useEffect(() => {
-    if (
-      productionDatesFrom !== inputDateFrom &&
-      (!inputDateFrom || (inputDateFrom && inputDateFrom.match(/^\d{4}$/)))
-    ) {
-      changeHandler();
-    }
-  }, [inputDateFrom]);
-
-  useEffect(() => {
-    if (
-      productionDatesTo !== inputDateTo &&
-      (!inputDateTo || (inputDateTo && inputDateTo.match(/^\d{4}$/)))
-    ) {
-      changeHandler();
-    }
-  }, [inputDateTo]);
+      return 0;
+    })
+    .reduce((acc, val) => {
+      return acc + val;
+    }, 0);
 
   const sharedProps: SearchFiltersSharedProps = {
+    query,
     searchForm,
-    filtersToShow,
-    worksRouteProps,
-    workTypeAggregations,
     changeHandler,
-    inputDateFrom,
-    inputDateTo,
-    setInputDateFrom,
-    setInputDateTo,
-    workTypeFilters,
-    productionDatesFrom,
-    productionDatesTo,
-    workTypeSelected,
-    locationsTypeSelected,
-    imagesColor: color,
-    aggregations,
-    languagesSelected,
-    subjectsSelected,
-    genresSelected,
-    isEnhanced,
-    contributorsSelected,
+    filters,
+    linkResolver,
+    activeFiltersCount,
   };
 
   return (
     <>
-      {modalFiltersPrototype ? (
-        <ModalFilters {...sharedProps} />
+      {size === 'small' ? (
+        <SearchFiltersMobile {...sharedProps} />
       ) : (
         <>
-          {isMobile ? (
-            <SearchFiltersMobile {...sharedProps} />
-          ) : (
-            <>
-              <SearchFiltersDesktop {...sharedProps} />
-            </>
-          )}
+          <SearchFiltersDesktop {...sharedProps} />
         </>
       )}
     </>

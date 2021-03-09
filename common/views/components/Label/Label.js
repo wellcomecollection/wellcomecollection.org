@@ -1,5 +1,5 @@
 // @flow
-import type { Label as LabelType } from '../../../model/labels';
+import type { Label as LabelType, LabelColor } from '../../../model/labels';
 import { font, classNames } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
@@ -8,21 +8,15 @@ import styled from 'styled-components';
 const LabelContainer = styled(Space).attrs(props => ({
   className: classNames({
     'nowrap line-height-1': true,
-    'rounded-diagonal': props.roundedDiagonal,
     [font('hnm', 6)]: true,
-    'plain-link font-white bg-green bg-hover-black': props.isLink,
   }),
 }))`
+  color: ${props => props.theme.color(props.fontColor)};
+  background-color: ${props => props.theme.color(props.labelColor)};
+
   ${props => {
-    if (!props.isLink) {
-      return `color: ${props.theme.color(props.fontColor)};
-      background-color: ${props.theme.color(props.labelColor)};
-    `;
-    }
-  }}
-  ${props => {
-    if (props.labelColor === 'white') {
-      return `border: 1px solid ${props.theme.color('pumice')};`;
+    if (props.labelColor === 'white' || props.labelColor === 'transparent') {
+      return `border: 1px solid ${props.theme.color('silver')};`;
     } else {
       return `border: 1px solid ${props.theme.color(props.labelColor)};`;
     }
@@ -31,27 +25,10 @@ const LabelContainer = styled(Space).attrs(props => ({
 
 export type Props = {|
   label: LabelType,
-  labelColor?: 'orange' | 'yellow' | 'black' | 'cream' | 'white',
-  roundedDiagonal?: boolean,
+  labelColor?: LabelColor,
 |};
 
-function getFontColor(bgColor) {
-  switch (true) {
-    case bgColor === 'black':
-      return 'yellow';
-    case bgColor === 'cream' || bgColor === 'white':
-      return 'charcoal';
-    default:
-      return 'black';
-  }
-}
-
-const Label = ({
-  label,
-  labelColor = 'yellow',
-  roundedDiagonal = false,
-}: Props) => {
-  const fontColor = getFontColor(labelColor);
+const Label = ({ label, labelColor = 'yellow' }: Props) => {
   return (
     <LabelContainer
       v={{
@@ -59,12 +36,8 @@ const Label = ({
         properties: ['padding-top', 'padding-bottom'],
       }}
       h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
-      as={label.url ? 'a' : 'div'}
-      href={label.url}
-      fontColor={fontColor}
+      fontColor={labelColor === 'black' ? 'yellow' : 'black'}
       labelColor={labelColor}
-      isLink={Boolean(label.url)}
-      roundedDiagonal={roundedDiagonal}
     >
       {label.text}
     </LabelContainer>

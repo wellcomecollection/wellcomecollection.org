@@ -5,8 +5,8 @@ import fetch from 'isomorphic-unfetch';
 import { NextLinkType } from '@weco/common/model/next-link-type';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
-import { worksLink } from '@weco/common/services/catalogue/routes';
-import { imagesLink } from '@weco/common/services/catalogue/ts_routes';
+import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';
+import { toLink as imagesLink } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
@@ -183,7 +183,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
   ];
 
   const remainingNotes = work.notes.filter(note => {
-    return !orderedNotes.some(n => n === note);
+    return ![...orderedNotes, locationOfWork].some(n => n === note);
   });
 
   const showDownloadOptions =
@@ -445,24 +445,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
             }
             link={imagesLink(
               {
-                search: 'images',
                 query: work.id,
-                page: 1,
-                source: 'work_details/images',
-                workType: [],
-                sort: null,
-                sortOrder: null,
-                itemsLocationsLocationType: [],
-                itemsLocationsType: [],
-                productionDatesFrom: null,
-                productionDatesTo: null,
-                imagesColor: null,
-                color: null,
-                locationsLicense: null,
-                languages: [],
-                subjectsLabel: null,
-                genresLabel: null,
-                contributorsAgentLabel: null,
               },
               'work_details/images'
             )}
@@ -625,19 +608,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
       </div>
     </div>
   ) : (
-    <Space
-      v={{
-        size: 'xl',
-        properties: ['padding-top', 'padding-bottom'],
-      }}
-      className={classNames({
-        row: true,
-      })}
-    >
-      <Layout12>
-        <Content />
-      </Layout12>
-    </Space>
+    <Layout12>
+      <Content />
+    </Layout12>
   );
 };
 

@@ -3,23 +3,23 @@ import NextLink from 'next/link';
 import Space from '../styled/Space';
 import { InlineButton } from '@weco/common/views/components/ButtonInline/ButtonInline';
 import { FunctionComponent, ReactElement } from 'react';
+import { LinkProps } from '../../../model/link-props';
 
 export type TagType = {
   textParts: string[];
-  linkAttributes: {
-    href: { pathname: string; query: string };
-    as: { pathname: string; query: string };
-  };
+  linkAttributes: LinkProps;
 };
 
 type Props = {
   tags: TagType[];
   isFirstPartBold?: boolean | null;
+  separator?: string;
 };
 
 const Tags: FunctionComponent<Props> = ({
   tags,
   isFirstPartBold = true,
+  separator = '–',
 }: Props): ReactElement<Props> => {
   return (
     <Space v={{ size: 's', negative: true, properties: ['margin-bottom'] }}>
@@ -66,14 +66,19 @@ const Tags: FunctionComponent<Props> = ({
                       {i !== arr.length - 1 && (
                         <Space
                           as="span"
-                          h={{ size: 's', properties: ['padding-left'] }}
+                          h={
+                            // If we are the first element, we always have a `|` separator
+                            i === 0 || separator !== ''
+                              ? { size: 's', properties: ['padding-left'] }
+                              : undefined
+                          }
                           className={classNames({
                             [font('hnl', 5)]: true,
                             'inline-block': true,
                           })}
                         >
                           {' '}
-                          {i === 0 ? '|' : '–'}
+                          {i === 0 ? '|' : separator}
                         </Space>
                       )}
                     </Space>

@@ -31,6 +31,7 @@ import {
   pagesFormatsFields,
 } from './fetch-links';
 
+import { type FeaturedText } from '@weco/common/model/text';
 export function parsePage(document: PrismicDocument): Page {
   const { data } = document;
   const genericFields = parseGenericFields(document);
@@ -241,3 +242,12 @@ export async function getPageFromDrupalPath(
     return parsePage(pages.results[0]);
   }
 }
+
+export const getPageFeaturedText = (page: Page): ?FeaturedText => {
+  const filteredFeaturedText = page.body.filter(
+    slice => slice.weight === 'featured'
+  );
+  if (filteredFeaturedText.length) {
+    return filteredFeaturedText[0];
+  }
+};

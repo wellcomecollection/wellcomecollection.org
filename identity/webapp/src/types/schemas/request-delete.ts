@@ -1,3 +1,3 @@
-export interface RequestDeleteSchema {
-  password: string;
-}
+import { AuthenticationSchema } from './auth';
+
+export type RequestDeleteSchema = AuthenticationSchema;

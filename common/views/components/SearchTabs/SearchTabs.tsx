@@ -1,3 +1,4 @@
+import { ParsedUrlQuery } from 'querystring';
 import BaseTabs, { TabType } from '../BaseTabs/BaseTabs';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
@@ -5,22 +6,16 @@ import Space from '../styled/Space';
 import { useContext, FunctionComponent, ReactElement } from 'react';
 import { AppContext } from '../AppContext/AppContext';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
-import {
-  WorksRouteProps,
-  ImagesRouteProps,
-} from '@weco/common/services/catalogue/ts_routes';
-import {
-  CatalogueAggregationBucket,
-  CatalogueAggregations,
-} from '@weco/common/model/catalogue';
 import { trackEvent } from '@weco/common/utils/ga';
 import NextLink from 'next/link';
 import { removeEmptyProps } from '../../../utils/json';
-import { useRouter } from 'next/router';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
-import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
+import { Filter } from '../../../services/catalogue/filters';
+import BetaBar from '../BetaBar/BetaBar';
+import { propsToQuery } from '../../../utils/routes';
 
 const BetaBarContainer = styled.div`
+  text-align: right;
   // on larger screens we shift the BetaBar to the right on the same level as the tabs
   ${props => props.theme.media.medium`
     position: absolute;
@@ -52,19 +47,15 @@ const Tab = styled(Space).attrs({
     [font('hnm', 5)]: true,
   }),
 })<TabProps>`
-  background: ${props => props.theme.color('pumice')};
-  border-left: 1px solid ${props => props.theme.color('cream')};
-  border-top: 1px solid ${props => props.theme.color('cream')};
-
-  ${props =>
-    props.isLast &&
-    `
-    border-right: 1px solid ${props.theme.color('cream')};
-  `}
+  background: ${props => props.theme.color('white')};
+  border-left: 1px solid ${props => props.theme.color('pumice')};
+  border-top: 1px solid ${props => props.theme.color('pumice')};
+  border-right: 1px solid ${props => props.theme.color('pumice')};
 
   ${props =>
     props.isActive &&
     `
+    border-color: ${props.theme.color('cream')};
     background: ${props.theme.color('cream')};
   `}
 
@@ -75,38 +66,46 @@ const Tab = styled(Space).attrs({
     position: relative;
     z-index: 1;
   `}
+
+  width: 100%;
+  text-align: center;
+  ${props => props.theme.media.medium`
+    width: auto;
+  `}
 `;
 
 const TabPanel = styled(Space)`
   background: ${props => props.theme.color('cream')};
 `;
+
 type Props = {
-  worksRouteProps: WorksRouteProps;
-  imagesRouteProps: ImagesRouteProps;
-  workTypeAggregations: CatalogueAggregationBucket[];
+  query: string;
+  sort?: string;
+  sortOrder?: string;
   shouldShowDescription: boolean;
   activeTabIndex?: number;
-  aggregations?: CatalogueAggregations;
   shouldShowFilters: boolean;
   showSortBy: boolean;
   disableLink?: boolean;
+  worksFilters: Filter[];
+  imagesFilters: Filter[];
 };
 
 const SearchTabs: FunctionComponent<Props> = ({
-  worksRouteProps,
-  imagesRouteProps,
-  workTypeAggregations,
-  aggregations,
+  query,
+  sort,
+  sortOrder,
   shouldShowDescription,
   activeTabIndex,
   shouldShowFilters,
   showSortBy,
   disableLink = false,
+  worksFilters,
+  imagesFilters,
 }: Props): ReactElement<Props> => {
-  const router = useRouter();
-  const { query } = router.query;
   const { isKeyboard, isEnhanced } = useContext(AppContext);
   const tabCondition = (!disableLink && isEnhanced) || !isEnhanced;
+
   const tabs: TabType[] = [
     {
       id: 'tab-library-catalogue',
@@ -168,13 +167,32 @@ const SearchTabs: FunctionComponent<Props> = ({
             online access.
           </Space>
           <SearchForm
+            query={query}
+            sort={sort}
+            sortOrder={sortOrder}
+            linkResolver={params => {
+              const queryWithSource = propsToQuery(params);
+              const { source = undefined, ...queryWithoutSource } = {
+                ...queryWithSource,
+              };
+
+              const as = {
+                pathname: '/works',
+                query: queryWithoutSource as ParsedUrlQuery,
+              };
+
+              const href = {
+                pathname: '/works',
+                query: queryWithSource,
+              };
+
+              return { href, as };
+            }}
             ariaDescribedBy={'library-catalogue-form-description'}
-            routeProps={worksRouteProps}
-            workTypeAggregations={workTypeAggregations}
             isImageSearch={false}
-            aggregations={aggregations}
             shouldShowFilters={shouldShowFilters}
             showSortBy={showSortBy}
+            filters={worksFilters}
           />
         </TabPanel>
       ),
@@ -239,13 +257,32 @@ const SearchTabs: FunctionComponent<Props> = ({
             more.
           </Space>
           <SearchForm
+            query={query}
+            sort={undefined}
+            sortOrder={undefined}
+            linkResolver={params => {
+              const queryWithSource = propsToQuery(params);
+              const { source = undefined, ...queryWithoutSource } = {
+                ...queryWithSource,
+              };
+
+              const as = {
+                pathname: '/images',
+                query: queryWithoutSource as ParsedUrlQuery,
+              };
+
+              const href = {
+                pathname: '/images',
+                query: queryWithSource,
+              };
+
+              return { href, as };
+            }}
             ariaDescribedBy="images-form-description"
-            routeProps={imagesRouteProps}
-            workTypeAggregations={workTypeAggregations}
             isImageSearch={true}
             shouldShowFilters={isEnhanced && shouldShowFilters} // non js images filters doesnt work hide for now\
-            aggregations={aggregations}
             showSortBy={showSortBy}
+            filters={imagesFilters}
           />
         </TabPanel>
       ),

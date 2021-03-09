@@ -28,21 +28,21 @@ import {
 import { regexImageGalleryUrl } from './helpers/regex';
 import { searchResultsContainer } from './selectors/search';
 
-describe('images', () => {
+describe('Image search', () => {
   beforeEach(async () => {
     await page.goto(imagesUrl);
   });
   test('Search by term, filter by colour, check results, view image details, view expanded image', async () => {
     const expectedValue = 'art of science';
-    await fillActionSearchInput(expectedValue, 'images');
-    await pressActionEnterSearchInput('images');
+    await fillActionSearchInput(expectedValue);
+    await pressActionEnterSearchInput();
     await page.waitForNavigation();
 
     if (isMobile()) {
-      await clickActionModalFilterButton('images');
+      await clickActionModalFilterButton();
       await elementIsVisible(mobileModalImageSearch);
       await clickActionColourPicker();
-      await clickActionCloseModalFilterButton('images');
+      await clickActionCloseModalFilterButton();
     } else {
       await clickActionColourDropDown();
       await clickActionColourPicker();
@@ -51,7 +51,7 @@ describe('images', () => {
     await expectItemIsVisible(searchResultsContainer);
     await expectItemsIsVisible(imagesResultsListItem, 1);
 
-    await clickActionClickSearchResultItem(1, 'images');
+    await clickActionClickSearchResultItem(1);
     await expectItemIsVisible(modalexpandedImageViewMoreButton);
 
     await clickActionClickViewExpandedImage();

@@ -7,7 +7,7 @@ type Mutation = (body: RequestDeleteSchema, onSuccess?: () => void, onFailure?: 
 
 export function useRequestDelete(): [Mutation] {
   const mutate: Mutation = async (body, onSuccess = () => null, onFailure = () => null) => {
-    await callMiddlewareApi('DELETE', '/api/users/me', body)
+    await callMiddlewareApi('PUT', '/api/users/me/deletion-request', body)
       .then(onSuccess)
       .catch((error: AxiosError) => {
         onFailure(error.response?.status);

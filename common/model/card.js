@@ -22,7 +22,7 @@ export function convertItemToCardProps(
 ): Card {
   return {
     type: 'card',
-    format: null,
+    format: item.format || null,
     title: item.title,
     description: item.promo && item.promo.caption,
     image: item.promo &&

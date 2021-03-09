@@ -1,7 +1,6 @@
 import React, {
   FunctionComponent,
   ReactElement,
-  useContext,
   useRef,
   useState,
 } from 'react';
@@ -11,74 +10,142 @@ import Icon from '../Icon/Icon';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-
 import dynamic from 'next/dynamic';
 import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
+import {
+  CheckboxFilter as CheckboxFilterType,
+  DateRangeFilter as DateRangeFilterType,
+  ColorFilter as ColorFilterType,
+} from '../../../services/catalogue/filters';
 import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
 import ButtonInline from '../ButtonInline/ButtonInline';
-import { searchFilterCheckBox } from '../../../text/arial-labels';
-import {
-  getResetImagesFiltersLink,
-  getResetRouteProps,
-  getResetWorksFiltersLink,
-} from '@weco/common/utils/filters';
 import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
-const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
-  ssr: false,
-});
+
 const PaletteColorPicker = dynamic(
   import('../PaletteColorPicker/PaletteColorPicker')
 );
 
-const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
-  filtersToShow,
-  worksRouteProps,
-  changeHandler,
-  inputDateFrom,
-  inputDateTo,
-  setInputDateFrom,
-  setInputDateTo,
-  workTypeFilters,
-  productionDatesFrom,
-  productionDatesTo,
-  workTypeSelected,
-  imagesColor,
-  aggregations,
-  languagesSelected,
-  subjectsSelected,
-  genresSelected,
-  isEnhanced,
-  contributorsSelected,
-}: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
-  const { paletteColorFilter } = useContext(TogglesContext);
-  const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
-  const showWorkTypeFilters =
-    workTypeFilters.some(f => f.count > 0) || workTypeSelected.length > 0;
-  const { searchMoreFilters } = useContext(TogglesContext);
-  const resetFiltersRoute = getResetRouteProps(worksRouteProps);
-  const resetFilters = imagesColor
-    ? getResetImagesFiltersLink(resetFiltersRoute)
-    : getResetWorksFiltersLink(resetFiltersRoute);
+type CheckboxFilterProps = {
+  f: CheckboxFilterType;
+  changeHandler: () => void;
+};
+const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
+  return (
+    <DropdownButton label={f.label} isInline={true} id={f.id}>
+      <ul
+        className={classNames({
+          'no-margin no-padding plain-list': true,
+          [font('hnl', 5)]: true,
+        })}
+      >
+        {f.options.map(({ id, label, value, count, selected }) => {
+          return (
+            <li key={`${f.id}-${id}`}>
+              <CheckboxRadio
+                id={id}
+                type={`checkbox`}
+                text={`${label} (${count})`}
+                value={value}
+                name={f.id}
+                checked={selected}
+                onChange={changeHandler}
+              />
+            </li>
+          );
+        })}
+      </ul>
+    </DropdownButton>
+  );
+};
 
+type DateRangeFilterProps = {
+  f: DateRangeFilterType;
+  changeHandler: () => void;
+};
+
+const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
+  const [from, setFrom] = useState(f.from.value);
+  const [to, setTo] = useState(f.to.value);
+
+  return (
+    <Space
+      className={classNames({
+        [font('hnl', 5)]: true,
+      })}
+    >
+      <DropdownButton label={f.label} isInline={true} id={f.id}>
+        <>
+          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+            <NumberInput
+              name={f.from.id}
+              label="From"
+              min="0"
+              max="9999"
+              placeholder={'Year'}
+              value={from || ''}
+              onChange={event => {
+                const val = `${event.currentTarget.value}`;
+                setFrom(val);
+                if (val.match(/^\d{4}$/)) {
+                  changeHandler();
+                }
+              }}
+            />
+          </Space>
+          <NumberInput
+            name={f.to.id}
+            label="to"
+            min="0"
+            max="9999"
+            placeholder={'Year'}
+            value={to || ''}
+            onChange={event => {
+              const val = `${event.currentTarget.value}`;
+              setTo(val);
+              if (val.match(/^\d{4}$/)) {
+                changeHandler();
+              }
+            }}
+          />
+        </>
+      </DropdownButton>
+    </Space>
+  );
+};
+
+type ColorFilterProps = {
+  f: ColorFilterType;
+  changeHandler: () => void;
+};
+const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
+  return (
+    <DropdownButton label={'Colours'} isInline={true} id="images.color">
+      <PaletteColorPicker
+        name={f.id}
+        color={f.color}
+        onChangeColor={changeHandler}
+      />
+    </DropdownButton>
+  );
+};
+
+const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
+  query,
+  changeHandler,
+  filters,
+  linkResolver,
+  activeFiltersCount,
+}: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const [showMoreFiltersModal, setMoreFiltersModal] = useState(false);
   const openMoreFiltersButtonRef = useRef(null);
-  function showActiveFilters() {
-    const imagesFilter = imagesColor;
-    const catalogueFilter =
-      ((productionDatesFrom ||
-        productionDatesTo ||
-        workTypeSelected.length > 0 ||
-        worksRouteProps?.itemsLocationsType?.length > 0) &&
-        workTypeFilters.length > 0) ||
-      languagesSelected.length > 0 ||
-      subjectsSelected.length > 0 ||
-      genresSelected.length > 0 ||
-      contributorsSelected.length > 0;
 
-    return imagesFilter || catalogueFilter;
-  }
+  const availabilitiesFilter = filters.find(
+    ({ id }) => id === 'availabilities'
+  );
+  const otherFilters = filters.filter(({ id }) => id !== 'availabilities');
+  const visibleFilters = otherFilters.slice(0, 2);
+  const modalFilters = otherFilters.slice(2);
 
   return (
     <>
@@ -121,104 +188,32 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
               </Space>
             </Space>
 
-            {showWorkTypeFilters && filtersToShow.includes('formats') && (
-              <Space h={{ size: 's', properties: ['margin-right'] }}>
-                <DropdownButton label={'Formats'} isInline={true} id="formats">
-                  <ul
-                    className={classNames({
-                      'no-margin no-padding plain-list': true,
-                      [font('hnl', 5)]: true,
-                    })}
-                  >
-                    {workTypeFilters.map(workType => {
-                      const isChecked = workTypeSelected.includes(
-                        workType.data.id
-                      );
-
-                      return (
-                        (workType.count > 0 || isChecked) && (
-                          <li key={workType.data.id}>
-                            <CheckboxRadio
-                              id={workType.data.id}
-                              type={`checkbox`}
-                              text={`${workType.data.label} (${workType.count})`}
-                              value={workType.data.id}
-                              name={`workType`}
-                              checked={isChecked}
-                              onChange={changeHandler}
-                              ariaLabel={searchFilterCheckBox(
-                                workType.data.label
-                              )}
-                            />
-                          </li>
-                        )
-                      );
-                    })}
-                  </ul>
-                </DropdownButton>
-              </Space>
-            )}
-
-            {filtersToShow.includes('dates') && (
-              <Space
-                className={classNames({
-                  [font('hnl', 5)]: true,
-                })}
-              >
-                <DropdownButton label={'Dates'} isInline={true} id="dates">
-                  <>
-                    <Space
-                      as="span"
-                      h={{ size: 'm', properties: ['margin-right'] }}
-                    >
-                      <NumberInput
-                        name="production.dates.from"
-                        label="From"
-                        min="0"
-                        max="9999"
-                        placeholder={'Year'}
-                        value={inputDateFrom || ''}
-                        onChange={event => {
-                          setInputDateFrom(`${event.currentTarget.value}`);
-                        }}
-                      />
-                    </Space>
-                    <NumberInput
-                      name="production.dates.to"
-                      label="to"
-                      min="0"
-                      max="9999"
-                      placeholder={'Year'}
-                      value={inputDateTo || ''}
-                      onChange={event => {
-                        setInputDateTo(`${event.currentTarget.value}`);
-                      }}
-                    />
-                  </>
-                </DropdownButton>
-              </Space>
-            )}
-
-            {filtersToShow.includes('colors') && (
-              <Space
-                className={classNames({
-                  [font('hnl', 5)]: true,
-                })}
-              >
-                <DropdownButton
-                  label={'Colours'}
-                  isInline={true}
-                  id="images.color"
+            {visibleFilters.map((f, i, arr) => {
+              return (
+                <Space
+                  key={f.id}
+                  h={
+                    i + 1 !== arr.length
+                      ? { size: 's', properties: ['margin-right'] }
+                      : undefined
+                  }
                 >
-                  <ColorPicker
-                    name="images.color"
-                    color={imagesColor || undefined}
-                    onChangeColor={changeHandler}
-                  />
-                </DropdownButton>
-              </Space>
-            )}
-            {searchMoreFilters && !filtersToShow.includes('colors') && (
+                  {f.type === 'checkbox' && (
+                    <CheckboxFilter f={f} changeHandler={changeHandler} />
+                  )}
+
+                  {f.type === 'dateRange' && (
+                    <DateRangeFilter f={f} changeHandler={changeHandler} />
+                  )}
+
+                  {f.type === 'color' && (
+                    <ColorFilter f={f} changeHandler={changeHandler} />
+                  )}
+                </Space>
+              );
+            })}
+
+            {modalFilters.length > 0 && (
               <Space
                 className={classNames({
                   [font('hnl', 5)]: true,
@@ -235,98 +230,80 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   ref={openMoreFiltersButtonRef}
                 />
                 <ModalMoreFilters
+                  query={query}
                   id="moreFilters"
                   showMoreFiltersModal={showMoreFiltersModal}
                   setMoreFiltersModal={setMoreFiltersModal}
                   openMoreFiltersButtonRef={openMoreFiltersButtonRef}
-                  filtersToShow={filtersToShow}
-                  aggregations={aggregations}
                   changeHandler={changeHandler}
-                  languagesSelected={languagesSelected}
-                  subjectsSelected={subjectsSelected}
-                  genresSelected={genresSelected}
-                  worksRouteProps={worksRouteProps}
-                  isEnhanced={isEnhanced}
-                  contributorsSelected={contributorsSelected}
+                  filters={modalFilters}
                 />
               </Space>
             )}
           </Space>
 
-          {filtersToShow.includes('locations') &&
-            aggregations &&
-            aggregations.locationType && (
+          {availabilitiesFilter && availabilitiesFilter.type === 'checkbox' && (
+            <Space
+              v={{ size: 'm', properties: ['margin-bottom'] }}
+              className={classNames({
+                'flex flex--v-center': true,
+              })}
+            >
+              <Icon name="eye" />
               <Space
-                v={{ size: 'm', properties: ['margin-bottom'] }}
+                h={{ size: 's', properties: ['margin-left'] }}
                 className={classNames({
-                  'flex flex--v-center': true,
+                  [font('hnm', 5)]: true,
                 })}
               >
-                <Icon name="eye" />
-                <Space
-                  h={{ size: 's', properties: ['margin-left'] }}
+                Show items available
+              </Space>
+              <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
+                <ul
                   className={classNames({
-                    [font('hnm', 5)]: true,
+                    'no-margin no-padding plain-list flex': true,
+                    [font('hnl', 5)]: true,
                   })}
                 >
-                  Show items available
-                </Space>
-                <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
-                  <ul
-                    className={classNames({
-                      'no-margin no-padding plain-list flex': true,
-                      [font('hnl', 5)]: true,
+                  {availabilitiesFilter.options
+                    .slice()
+                    // Hack: Ensure 'Online' appears before 'In the library'
+                    .sort(({ label: a }, { label: b }) => b.localeCompare(a))
+                    .map(({ id, label, count, value, selected }) => {
+                      return (
+                        <Space
+                          as="li"
+                          h={{ size: 's', properties: ['margin-left'] }}
+                          key={id}
+                          className={classNames({
+                            flex: true,
+                          })}
+                        >
+                          <CheckboxRadio
+                            id={id}
+                            type={`checkbox`}
+                            text={`${label} (${count})`}
+                            value={value}
+                            name={availabilitiesFilter.id}
+                            checked={selected}
+                            onChange={changeHandler}
+                          />
+                        </Space>
+                      );
                     })}
-                  >
-                    {aggregations.locationType.buckets
-                      .sort((a, b) => b.data.label.localeCompare(a.data.label)) // Ensure 'Online' appears before 'In the library'
-                      .map(locationType => {
-                        const isChecked = worksRouteProps.itemsLocationsType.includes(
-                          locationType.data.type
-                        );
-
-                        return (
-                          <Space
-                            as="li"
-                            h={{ size: 's', properties: ['margin-left'] }}
-                            key={locationType.data.type}
-                            className={classNames({
-                              flex: true,
-                            })}
-                          >
-                            <CheckboxRadio
-                              id={locationType.data.type}
-                              type={`checkbox`}
-                              text={`${locationType.data.label} (${locationType.count})`}
-                              value={locationType.data.type}
-                              name={`items.locations.type`}
-                              checked={isChecked}
-                              onChange={changeHandler}
-                            />
-                          </Space>
-                        );
-                      })}
-                  </ul>
-                </Space>
+                </ul>
               </Space>
-            )}
+            </Space>
+          )}
         </Space>
       </Space>
 
-      {showActiveFilters() && (
+      {activeFiltersCount > 0 && (
         <ResetActiveFilters
-          workTypeFilters={workTypeFilters}
-          productionDatesFrom={productionDatesFrom}
-          productionDatesTo={productionDatesTo}
-          worksRouteProps={worksRouteProps}
-          imagesColor={imagesColor}
-          workTypeSelected={workTypeSelected}
-          aggregations={aggregations}
-          resetFilters={resetFilters}
-          languagesSelected={languagesSelected}
-          subjectsSelected={subjectsSelected}
-          genresSelected={genresSelected}
-          contributorsSelected={contributorsSelected}
+          query={query}
+          linkResolver={linkResolver}
+          resetFilters={linkResolver({ query })}
+          filters={filters}
         />
       )}
     </>

@@ -4,7 +4,9 @@ type Keyable = { [key: string]: any };
 export function removeEmptyProps(obj: Record<string, unknown>): Keyable {
   return JSON.parse(
     JSON.stringify(obj, function(_, value) {
-      return value === null || value === undefined ? undefined : value;
+      return value === null || value === undefined || value === ''
+        ? undefined
+        : value;
     })
   );
 }

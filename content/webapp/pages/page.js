@@ -27,13 +27,16 @@ import {
   landingHeaderBackgroundLs,
   // $FlowFixMe (ts)
 } from '@weco/common/utils/backgrounds';
-import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import {
+  prismicPageIds,
+  sectionLevelPages,
+} from '@weco/common/services/prismic/hardcoded-id';
 // $FlowFixMe (ts)
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
-import { ContentFormatIds } from '@weco/common/model/content-format-id';
+import { PageFormatIds } from '@weco/common/model/content-format-id';
 
 type Props = {|
   page: PageType,
@@ -62,8 +65,7 @@ export class Page extends Component<Props> {
     const DateInfo = page.datePublished && (
       <HTMLDate date={new Date(page.datePublished)} />
     );
-    const isLanding =
-      page.format && page.format.id === ContentFormatIds.Landing;
+    const isLanding = page.format && page.format.id === PageFormatIds.Landing;
     const backgroundTexture = isLanding
       ? landingHeaderBackgroundLs
       : headerBackgroundLs;
@@ -89,6 +91,7 @@ export class Page extends Component<Props> {
       prismicPageIds.covidBookYourTicket,
     ];
 
+    const sectionLevelPage = sectionLevelPages.includes(page.id);
     function getBreadcrumbText(siteSection: string, pageId: string): string {
       return hiddenBreadcrumbPages.includes(page.id) || isLanding
         ? '\u200b'
@@ -116,25 +119,29 @@ export class Page extends Component<Props> {
       ],
     };
 
+    const displayBackground =
+      FeaturedMedia && !sectionLevelPage ? (
+        <HeaderBackground
+          backgroundTexture={backgroundTexture}
+          hasWobblyEdge={!isLanding}
+        />
+      ) : null;
+
     const Header = (
       <PageHeader
         breadcrumbs={breadcrumbs}
         labels={null}
         title={page.title}
         FeaturedMedia={FeaturedMedia}
-        Background={
-          FeaturedMedia && (
-            <HeaderBackground
-              backgroundTexture={backgroundTexture}
-              hasWobblyEdge={!isLanding}
-            />
-          )
-        }
+        Background={displayBackground}
         ContentTypeInfo={DateInfo}
         HeroPicture={null}
-        backgroundTexture={!FeaturedMedia ? backgroundTexture : null}
+        backgroundTexture={
+          !FeaturedMedia && !sectionLevelPage ? backgroundTexture : null
+        }
         highlightHeading={true}
         isContentTypeInfoBeforeMedia={false}
+        sectionLevelPage={sectionLevelPage}
       />
     );
     const Siblings = siblings.map((siblingGroup, i) => {
@@ -186,6 +193,7 @@ export class Page extends Component<Props> {
               onThisPage={page.onThisPage}
               showOnThisPage={page.showOnThisPage}
               isLanding={isLanding}
+              sectionLevelPage={sectionLevelPage}
             />
           }
           RelatedContent={[...Siblings, ...Children]}

@@ -56,7 +56,6 @@ describe('ProfileForm', () => {
 
     await waitFor(() => {
       expect(callMiddlewareApi).toBeCalledWith('PUT', '/api/users/me', {
-        email: defaultProps.email,
         newEmail: 'batman@justiceleague.com',
         password: 'D4rkKnight1',
       });

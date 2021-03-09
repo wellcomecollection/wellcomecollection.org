@@ -46,15 +46,17 @@ export function getDownloadOptionsFromImageUrl(
             ? `${imageDimensions.fullWidth}x${imageDimensions.fullHeight} pixels`
             : 'Full size'
         })`,
+        width: 'full',
       },
       {
-        '@id': convertImageUri(downloadImage.url, 760),
+        '@id': convertImageUri(downloadImage.url, smallImageWidth),
         format: 'image/jpeg',
         label: `This image (${
           imageDimensions.smallHeight
             ? `${imageDimensions.smallWidth}x${imageDimensions.smallHeight} pixels`
-            : '760px'
+            : `${smallImageWidth}px`
         })`,
+        width: smallImageWidth,
       },
     ];
   } else {
@@ -232,6 +234,9 @@ type ArchiveLabels = {
   partOf?: string;
 };
 
+export const isAvailableOnline = (work: Work): boolean =>
+  work.availabilities.some(({ id }) => id === 'online');
+
 const getArchiveRoot = (work: RelatedWork): RelatedWork =>
   work?.partOf?.[0] ? getArchiveRoot(work.partOf[0]) : work;
 
@@ -247,9 +252,9 @@ export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
 };
 
 export const getCardLabels = (work: Work): Label[] => {
-  const cardLabels = [{ url: null, text: work.workType.label }];
-  if (work.availableOnline) {
-    return [...cardLabels, { url: null, text: 'Online', labelColor: 'white' }];
+  const cardLabels = [{ text: work.workType.label }];
+  if (isAvailableOnline(work)) {
+    return [...cardLabels, { text: 'Online', labelColor: 'white' }];
   } else {
     return cardLabels;
   }

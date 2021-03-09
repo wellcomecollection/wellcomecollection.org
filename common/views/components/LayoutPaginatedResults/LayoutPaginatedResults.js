@@ -1,4 +1,5 @@
 // @flow
+import { type Node } from 'react';
 // $FlowFixMe (tsx)
 import CardGrid from '../CardGrid/CardGrid';
 // $FlowFixMe (tsx)
@@ -38,6 +39,7 @@ type Props = {|
   paginatedResults: PaginatedResultsTypes,
   period?: Period,
   showFreeAdmissionMessage: boolean,
+  children?: Node,
 |};
 
 const LayoutPaginatedResults = ({
@@ -47,6 +49,7 @@ const LayoutPaginatedResults = ({
   paginationRoot,
   period,
   showFreeAdmissionMessage,
+  children,
 }: Props) => (
   <>
     <SpacingSection>
@@ -63,7 +66,7 @@ const LayoutPaginatedResults = ({
         isContentTypeInfoBeforeMedia={false}
       />
     </SpacingSection>
-
+    {children}
     {paginatedResults.totalPages > 1 && (
       <Layout12>
         <Space
@@ -106,7 +109,13 @@ const LayoutPaginatedResults = ({
     )}
 
     <Space v={{ size: 'l', properties: ['margin-top'] }}>
-      <CardGrid items={paginatedResults.results} itemsPerRow={3} />
+      {paginatedResults.results.length > 0 ? (
+        <CardGrid items={paginatedResults.results} itemsPerRow={3} />
+      ) : (
+        <Layout12>
+          <p>There are no results.</p>
+        </Layout12>
+      )}
     </Space>
 
     {paginatedResults.totalPages > 1 && (

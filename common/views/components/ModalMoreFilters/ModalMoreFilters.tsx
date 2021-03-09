@@ -1,53 +1,33 @@
-import React, { FunctionComponent, RefObject } from 'react';
+import React, { FunctionComponent, RefObject, useContext } from 'react';
 import Modal from '../../components/Modal/Modal';
 import { classNames } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
-import {
-  CatalogueAggregations,
-  CatalogueAggregationBucket,
-  CatalogueAggregationContributorsBucket,
-} from '@weco/common/model/catalogue';
 import Space from '../styled/Space';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
-import {
-  getAggregationContributors,
-  getAggregationFilterByName,
-  replaceSpaceWithHypen,
-  sortAggregationBucket,
-} from '@weco/common/utils/filters';
 import NextLink from 'next/link';
-import { worksLink } from '../../../services/catalogue/routes';
-import ButtonSolid, {
-  ButtonTypes,
-} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import { WorksRouteProps } from '@weco/common/services/catalogue/ts_routes';
-import { quoteVal } from '@weco/common/utils/csv';
+import { toLink as worksLink } from '../WorksLink/WorksLink';
+import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
+import {
+  Filter,
+  CheckboxFilter as CheckboxFilterType,
+} from '../../../services/catalogue/filters';
+import { AppContext } from '../AppContext/AppContext';
 import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
-type SharedFiltersProps = {
-  changeHandler: () => void;
-  languagesSelected: string[];
-  genresSelected: string[];
-  subjectsSelected: string[];
-  filtersToShow: string[];
-  contributorsSelected: string[];
-};
+
 type ModalMoreFiltersProps = {
   id: string;
   showMoreFiltersModal: boolean;
   setMoreFiltersModal: (arg: boolean) => void;
   openMoreFiltersButtonRef: RefObject<HTMLInputElement>;
-  aggregations: CatalogueAggregations | undefined;
-  filtersToShow: string[];
-  worksRouteProps: WorksRouteProps;
-  isEnhanced: boolean;
-} & SharedFiltersProps;
+  query: string;
+  changeHandler: () => void;
+  filters: Filter[];
+};
 
 type MoreFiltersProps = {
-  genresFilter: CatalogueAggregationBucket[];
-  languagesFilter: CatalogueAggregationBucket[];
-  subjectsFilter: CatalogueAggregationBucket[];
-  contributorsFilter: CatalogueAggregationContributorsBucket[];
-} & SharedFiltersProps;
+  filters: Filter[];
+  changeHandler: () => void;
+};
 
 const ModalInner = styled.div`
   display: flex;
@@ -112,238 +92,80 @@ const FiltersHeader = styled(Space).attrs({
   width: 100%;
 `;
 
+type CheckboxFilterProps = {
+  f: CheckboxFilterType;
+  changeHandler: () => void;
+};
+const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
+  return (
+    <List>
+      {f.options.map(({ id, label, value, count, selected }) => {
+        return (
+          <Space
+            as="li"
+            v={{ size: 'm', properties: ['margin-bottom'] }}
+            h={{ size: 'l', properties: ['margin-right'] }}
+            key={`desktop-${id}`}
+          >
+            <CheckboxRadio
+              id={`desktop-${id}`}
+              type={`checkbox`}
+              text={`${label} (${count})`}
+              value={value}
+              name={f.id}
+              checked={selected}
+              onChange={changeHandler}
+              ariaLabel={searchFilterCheckBox(label)}
+            />
+          </Space>
+        );
+      })}
+    </List>
+  );
+};
+
 const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
-  filtersToShow,
-  subjectsFilter,
-  genresFilter,
-  languagesFilter,
   changeHandler,
-  subjectsSelected,
-  genresSelected,
-  languagesSelected,
-  contributorsFilter,
-  contributorsSelected,
+  filters,
 }: MoreFiltersProps) => {
   return (
     <>
-      {filtersToShow.includes('contributors') && contributorsFilter.length > 0 && (
-        <FilterSection>
-          <h3 className="h3">Contributors</h3>
-          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-            <List>
-              {contributorsFilter
-                .map(contributor => {
-                  return {
-                    count: contributor.count,
-                    label: contributor.data.agent.label,
-                    value: quoteVal(contributor.data.agent.label),
-                  };
-                })
-                .map(({ count, label, value }) => {
-                  const isChecked = contributorsSelected.includes(label);
-                  return (
-                    (count > 0 || isChecked) && (
-                      <Space
-                        as="li"
-                        v={{ size: 'm', properties: ['margin-bottom'] }}
-                        h={{ size: 'l', properties: ['margin-right'] }}
-                        key={`desktop-${label}`}
-                      >
-                        <CheckboxRadio
-                          id={`desktop-${replaceSpaceWithHypen(label)}`}
-                          type={`checkbox`}
-                          text={`${label} (${count})`}
-                          value={value}
-                          name={`contributors.agent.label`}
-                          checked={isChecked}
-                          onChange={changeHandler}
-                          ariaLabel={searchFilterCheckBox(label)}
-                        />
-                      </Space>
-                    )
-                  );
-                })}
-            </List>
-          </Space>
-        </FilterSection>
-      )}
-      {filtersToShow.includes('subjects') && subjectsFilter.length > 0 && (
-        <FilterSection>
-          <h3 className="h3">Subjects</h3>
+      {filters.map(f => (
+        <FilterSection key={f.id}>
+          <h3 className="h3">{f.label}</h3>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <div
               className={classNames({
                 'no-margin no-padding plain-list': true,
               })}
             >
-              <List>
-                {subjectsFilter
-                  .map(subject => {
-                    return {
-                      count: subject.count,
-                      label: subject.data.label,
-                      value: quoteVal(subject.data.label),
-                    };
-                  })
-                  .map(({ count, label, value }) => {
-                    const isChecked = subjectsSelected.includes(label);
-                    return (
-                      (count > 0 || isChecked) && (
-                        <Space
-                          as="li"
-                          v={{ size: 'm', properties: ['margin-bottom'] }}
-                          h={{ size: 'l', properties: ['margin-right'] }}
-                          key={`desktop-${replaceSpaceWithHypen(label)}`}
-                        >
-                          <CheckboxRadio
-                            id={`desktop-${replaceSpaceWithHypen(label)}`}
-                            type={`checkbox`}
-                            text={`${label} (${count})`}
-                            value={value}
-                            name={`subjects.label`}
-                            checked={isChecked}
-                            onChange={changeHandler}
-                            ariaLabel={searchFilterCheckBox(label)}
-                          />
-                        </Space>
-                      )
-                    );
-                  })}
-              </List>
+              {f.type === 'checkbox' && (
+                <CheckboxFilter f={f} changeHandler={changeHandler} />
+              )}
             </div>
           </Space>
         </FilterSection>
-      )}
-      {filtersToShow.includes('genres') && genresFilter.length > 0 && (
-        <FilterSection>
-          <h3 className="h3">Genres</h3>
-          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-            <List>
-              {genresFilter
-                .map(genre => {
-                  return {
-                    count: genre.count,
-                    label: genre.data.label,
-                    value: quoteVal(genre.data.label),
-                  };
-                })
-                .map(({ count, label, value }) => {
-                  const isChecked = genresSelected.includes(label);
-                  return (
-                    (count > 0 || isChecked) && (
-                      <Space
-                        as="li"
-                        v={{ size: 'm', properties: ['margin-bottom'] }}
-                        h={{ size: 'l', properties: ['margin-right'] }}
-                        key={`desktop-${replaceSpaceWithHypen(label)}`}
-                      >
-                        <CheckboxRadio
-                          id={`desktop-${replaceSpaceWithHypen(label)}`}
-                          type={`checkbox`}
-                          text={`${label} (${count})`}
-                          value={value}
-                          name={`genres.label`}
-                          checked={isChecked}
-                          onChange={changeHandler}
-                          ariaLabel={searchFilterCheckBox(label)}
-                        />
-                      </Space>
-                    )
-                  );
-                })}
-            </List>
-          </Space>
-        </FilterSection>
-      )}
-
-      {filtersToShow.includes('languages') && languagesFilter.length > 0 && (
-        <FilterSection>
-          <h3 className="h3">Languages</h3>
-          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-            <List>
-              {languagesFilter.map(language => {
-                const isChecked = languagesSelected.includes(language.data.id);
-                return (
-                  (language.count > 0 || isChecked) && (
-                    <Space
-                      as="li"
-                      v={{ size: 'm', properties: ['margin-bottom'] }}
-                      h={{ size: 'l', properties: ['margin-right'] }}
-                      key={`desktop-${language.data.id}`}
-                    >
-                      <CheckboxRadio
-                        id={`desktop-${replaceSpaceWithHypen(
-                          language.data.id
-                        )}`}
-                        type={`checkbox`}
-                        text={`${language.data.label} (${language.count})`}
-                        value={language.data.id}
-                        name={`languages`}
-                        checked={isChecked}
-                        onChange={changeHandler}
-                        ariaLabel={searchFilterCheckBox(language.data.label)}
-                      />
-                    </Space>
-                  )
-                );
-              })}
-            </List>
-          </Space>
-        </FilterSection>
-      )}
+      ))}
     </>
   );
 };
 
 const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
+  query,
   id,
   showMoreFiltersModal,
   setMoreFiltersModal,
   openMoreFiltersButtonRef,
-  filtersToShow,
-  aggregations,
   changeHandler,
-  languagesSelected,
-  genresSelected,
-  subjectsSelected,
-  worksRouteProps,
-  isEnhanced,
-  contributorsSelected,
+  filters,
 }: ModalMoreFiltersProps) => {
-  const languagesFilter: CatalogueAggregationBucket[] = sortAggregationBucket(
-    getAggregationFilterByName(aggregations, 'languages'),
-    'alphabetical'
-  );
-
-  const subjectsFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
-    aggregations,
-    'subjects'
-  );
-  const genresFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
-    aggregations,
-    'genres'
-  );
-
-  const contributorsFilter: CatalogueAggregationContributorsBucket[] = getAggregationContributors(
-    aggregations
-  );
+  const { isEnhanced } = useContext(AppContext);
 
   return (
     <>
       <noscript>
         <>
-          <MoreFilters
-            filtersToShow={filtersToShow}
-            subjectsFilter={subjectsFilter}
-            genresFilter={genresFilter}
-            languagesFilter={languagesFilter}
-            contributorsFilter={contributorsFilter}
-            changeHandler={changeHandler}
-            languagesSelected={languagesSelected}
-            genresSelected={genresSelected}
-            subjectsSelected={subjectsSelected}
-            contributorsSelected={contributorsSelected}
-          />
+          <MoreFilters changeHandler={changeHandler} filters={filters} />
         </>
       </noscript>
       <Modal
@@ -359,18 +181,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
 
         <ModalInner>
           {isEnhanced && (
-            <MoreFilters
-              filtersToShow={filtersToShow}
-              subjectsFilter={subjectsFilter}
-              genresFilter={genresFilter}
-              languagesFilter={languagesFilter}
-              changeHandler={changeHandler}
-              languagesSelected={languagesSelected}
-              genresSelected={genresSelected}
-              subjectsSelected={subjectsSelected}
-              contributorsSelected={contributorsSelected}
-              contributorsFilter={contributorsFilter}
-            />
+            <MoreFilters changeHandler={changeHandler} filters={filters} />
           )}
         </ModalInner>
         <FiltersFooter>
@@ -378,7 +189,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
             passHref
             {...worksLink(
               {
-                query: worksRouteProps.query,
+                query,
               },
               'cancel_filter/all'
             )}

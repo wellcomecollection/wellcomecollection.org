@@ -50,7 +50,7 @@ export const PasswordForm: React.FC = () => {
 
   const handleSubmission = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    updatePassword({ currentPassword, newPassword }, onSubmitSuccess, onSubmitFailure);
+    updatePassword({ password: currentPassword, newPassword }, onSubmitSuccess, onSubmitFailure);
   };
 
   const handleCurrentPasswordChange = (enteredValue: string) => {

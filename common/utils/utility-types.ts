@@ -14,6 +14,48 @@ export type OptionalToUndefined<T> = {
 };
 
 /**
+ * This allows us to take types such as:
+ * { a: string, b : string | undefined }
+ * and converts it into { a: string, b?: string | undefined }
+ * 
+ * This is useful if you want a type where you don't have to specify
+ * that a field is undefined
+ * 
+ * type A = { a: undefined | string }
+ * const a = { a: undefined } // valid
+ * const aBoo = {  } // invalid
+ * 
+ * type B = { a?: string }
+ * const b = { a: undefined } // valid
+ * const bYay = {  } // valid
+ * 
+ * There might be a way to do this with conditional types,
+ * I just couldn't find it.
+ */
+type RequiredProp<T> = {
+  [P in keyof T]: undefined extends T[P] ? never : P
+}[keyof T]
+// By undefinable we mean { prop: string | undefined }
+// as opposed to optional { prop?: string }
+type UndefinableProps<T> = {
+  [P in keyof T]: undefined extends T[P] ? P : never
+}[keyof T]
+export type UndefinableToOptional<T> = Flatten<{
+  [P in RequiredProp<T>]: T[P]
+} & {
+  [P in UndefinableProps<T>]?: T[P]
+}>
+
+/**
+ * Flattens / nornmalises types for easier readability in IDEs.
+ * e.g. Flatten<{ a: string } & { b: string }>
+ * { a: string, b: string }
+*/
+export type Flatten<T> = {
+  [P in keyof T]: T[P]
+}
+
+/**
  * This allows you to specify a ReactElement of a certain type, and have access to it's props.
  * This replicates something similar to the flow example:
  * https://flow.org/en/docs/react/types/#toc-react-element
@@ -24,3 +66,13 @@ export type OptionalToUndefined<T> = {
 export type ElementFromComponent<C extends FunctionComponent> = ReactElement<
   ComponentProps<C>
 >;
+
+/** Allows you to set a string type that requires a certain prefix
+ * e.g.
+ * ```
+ * type TMP = Prefix<'tmp/'>
+ * const inTmp: TMP = 'tmp/bingo' // <= valid
+ * const outTmp: TMP = 'tmpo/bongo' // <= error
+ * ```
+ */
+export type Prefix<S extends string> = `${S}${string}`;

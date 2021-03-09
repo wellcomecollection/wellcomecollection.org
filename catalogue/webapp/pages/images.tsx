@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { useEffect, useState, ReactElement } from 'react';
+import { useEffect, useState, ReactElement, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
@@ -8,19 +8,12 @@ import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import {
-  ImagesRouteProps,
-  imagesLink,
-  ImagesRoute,
-  imagesRoutePropsToWorksRouteProps,
-} from '@weco/common/services/catalogue/ts_routes';
-import {
   CatalogueImagesApiProps,
   imagesRouteToApiUrl,
 } from '@weco/common/services/catalogue/ts_api';
 import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import { getImages } from '../services/catalogue/images';
-import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 import {
@@ -34,10 +27,17 @@ import {
   AppErrorProps,
   WithPageview,
 } from '@weco/common/views/pages/_app';
+import {
+  fromQuery,
+  ImagesProps,
+  toLink,
+} from '@weco/common/views/components/ImagesLink/ImagesLink';
+import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
+import { imagesFilters } from '@weco/common/services/catalogue/filters';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
-  imagesRouteProps: ImagesRouteProps;
+  imagesRouteProps: ImagesProps;
   apiProps: CatalogueImagesApiProps;
 } & WithGlobalContextData &
   WithPageview;
@@ -46,8 +46,7 @@ type ImagesPaginationProps = {
   query?: string;
   page?: number;
   results: CatalogueResultsList<Image>;
-  imagesRouteProps: ImagesRouteProps;
-  setSavedSearchState: (state: ImagesRouteProps) => void;
+  imagesRouteProps: ImagesProps;
   hideMobilePagination?: boolean;
   hideMobileTotalResults?: boolean;
 };
@@ -57,7 +56,6 @@ const ImagesPagination = ({
   page,
   results,
   imagesRouteProps,
-  setSavedSearchState,
   hideMobilePagination,
   hideMobileTotalResults,
 }: ImagesPaginationProps) => (
@@ -68,7 +66,7 @@ const ImagesPagination = ({
       currentPage={page || 1}
       pageSize={results.pageSize}
       totalResults={results.totalResults}
-      link={imagesLink(
+      link={toLink(
         {
           ...imagesRouteProps,
         },
@@ -80,8 +78,7 @@ const ImagesPagination = ({
           ...imagesRouteProps,
           page: newPage,
         };
-        const link = imagesLink(state, 'search/paginator');
-        setSavedSearchState(state);
+        const link = toLink({ ...state }, 'search/paginator');
         Router.push(link.href, link.as).then(() => window.scrollTo(0, 0));
       }}
       hideMobilePagination={hideMobilePagination}
@@ -97,7 +94,6 @@ const Images: NextPage<Props> = ({
   globalContextData,
 }: Props): ReactElement<Props> => {
   const [loading, setLoading] = useState(false);
-  const [, setSavedSearchState] = useSavedSearchState(imagesRouteProps);
   const { query, page, color } = imagesRouteProps;
   useEffect(() => {
     function routeChangeStart() {
@@ -115,6 +111,21 @@ const Images: NextPage<Props> = ({
     };
   }, []);
 
+  const filters = images
+    ? imagesFilters({ images, props: imagesRouteProps })
+    : [];
+
+  const { setLink } = useContext(SearchContext);
+  useEffect(() => {
+    const link = toLink(
+      {
+        ...imagesRouteProps,
+      },
+      'images_search_context'
+    );
+    setLink(link);
+  }, [imagesRouteProps]);
+
   return (
     <>
       <Head>
@@ -122,10 +133,8 @@ const Images: NextPage<Props> = ({
           <link
             rel="prev"
             href={convertUrlToString(
-              imagesLink(
-                { ...imagesRouteProps, page: (page || 1) - 1 },
-                'meta_link'
-              ).as
+              toLink({ ...imagesRouteProps, page: (page || 1) - 1 }, 'unknown')
+                .as
             )}
           />
         )}
@@ -133,8 +142,7 @@ const Images: NextPage<Props> = ({
           <link
             rel="next"
             href={convertUrlToString(
-              imagesLink({ ...imagesRouteProps, page: page + 1 }, 'meta_link')
-                .as
+              toLink({ ...imagesRouteProps, page: page + 1 }, 'unknown').as
             )}
           />
         )}
@@ -144,7 +152,7 @@ const Images: NextPage<Props> = ({
         description="Search Wellcome Collection images"
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        url={imagesLink({ ...imagesRouteProps }, 'canonical_link').as}
+        url={toLink({ ...imagesRouteProps, source: 'canonical_link' }).as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'collections'}
@@ -166,15 +174,15 @@ const Images: NextPage<Props> = ({
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 <Space v={{ size: 'l', properties: ['margin-top'] }}>
                   <SearchTabs
-                    worksRouteProps={imagesRoutePropsToWorksRouteProps(
-                      imagesRouteProps
-                    )}
-                    imagesRouteProps={imagesRouteProps}
-                    workTypeAggregations={[]}
+                    query={imagesRouteProps.query}
+                    sort={undefined}
+                    sortOrder={undefined}
                     shouldShowDescription={query === ''}
                     activeTabIndex={1}
                     shouldShowFilters={true}
                     showSortBy={Boolean(images)}
+                    imagesFilters={filters}
+                    worksFilters={[]}
                   />
                 </Space>
               </div>
@@ -196,7 +204,6 @@ const Images: NextPage<Props> = ({
                       page={page}
                       results={images}
                       imagesRouteProps={imagesRouteProps}
-                      setSavedSearchState={setSavedSearchState}
                       hideMobilePagination={true}
                     />
                   </div>
@@ -238,7 +245,6 @@ const Images: NextPage<Props> = ({
                         page={page}
                         results={images}
                         imagesRouteProps={imagesRouteProps}
-                        setSavedSearchState={setSavedSearchState}
                         hideMobileTotalResults={true}
                       />
                     </div>
@@ -260,8 +266,9 @@ export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
   const globalContextData = getGlobalContextData(context);
-  const params = ImagesRoute.fromQuery(context.query);
-  const apiProps = imagesRouteToApiUrl(params);
+  const params = fromQuery(context.query);
+  const aggregations = ['locations.license'];
+  const apiProps = imagesRouteToApiUrl(params, { aggregations });
   const hasQuery = !!(params.query && params.query !== '');
   const images = hasQuery
     ? await getImages({

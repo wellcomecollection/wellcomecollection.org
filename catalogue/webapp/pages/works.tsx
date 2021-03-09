@@ -1,5 +1,4 @@
-// @flow
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
@@ -13,11 +12,6 @@ import {
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import {
-  WorksRouteProps,
-  worksLink,
-  WorksRoute,
-} from '@weco/common/services/catalogue/routes';
-import {
   CatalogueWorksApiProps,
   worksRouteToApiUrl,
 } from '@weco/common/services/catalogue/ts_api';
@@ -25,7 +19,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import { getWorks } from '../services/catalogue/works';
 import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
 import cookies from 'next-cookies';
-import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResults';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
@@ -37,11 +30,18 @@ import {
   AppErrorProps,
   WithPageview,
 } from '@weco/common/views/pages/_app';
-import { parseUrlParams } from '@weco/common/utils/serialise-url';
+import {
+  fromQuery,
+  toLink,
+  WorksProps,
+} from '@weco/common/views/components/WorksLink/WorksLink';
+import useHotjar from '@weco/common/hooks/useHotjar';
+import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
+import { worksFilters } from '@weco/common/services/catalogue/filters';
 
 type Props = {
   works?: CatalogueResultsList<Work>;
-  worksRouteProps: WorksRouteProps;
+  worksRouteProps: WorksProps;
   shouldGetWorks: boolean;
   apiProps: CatalogueWorksApiProps;
   globalContextData: GlobalContextData;
@@ -55,13 +55,14 @@ const Works: NextPage<Props> = ({
   globalContextData,
 }: Props) => {
   const [loading, setLoading] = useState(false);
-  const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
+
+  useHotjar(Boolean(works && works.results.length > 0));
 
   const {
     query,
     page,
-    productionDatesFrom,
-    productionDatesTo,
+    'production.dates.from': productionDatesFrom,
+    'production.dates.to': productionDatesTo,
   } = worksRouteProps;
 
   useEffect(() => {
@@ -69,6 +70,12 @@ const Works: NextPage<Props> = ({
       totalResults: works?.totalResults ?? 0,
       source: Router.query.source || 'unspecified',
     });
+  }, [worksRouteProps]);
+
+  const { setLink } = useContext(SearchContext);
+  useEffect(() => {
+    const link = toLink({ ...worksRouteProps }, 'works_search_context');
+    setLink(link);
   }, [worksRouteProps]);
 
   useEffect(() => {
@@ -87,6 +94,8 @@ const Works: NextPage<Props> = ({
     };
   }, []);
 
+  const filters = works ? worksFilters({ works, props: worksRouteProps }) : [];
+
   return (
     <Fragment>
       <Head>
@@ -94,10 +103,8 @@ const Works: NextPage<Props> = ({
           <link
             rel="prev"
             href={convertUrlToString(
-              worksLink(
-                { ...worksRouteProps, page: (page || 1) - 1 },
-                'meta_link'
-              ).as
+              toLink({ ...worksRouteProps, page: (page || 1) - 1 }, 'unknown')
+                .as
             )}
           />
         )}
@@ -105,7 +112,7 @@ const Works: NextPage<Props> = ({
           <link
             rel="next"
             href={convertUrlToString(
-              worksLink({ ...worksRouteProps, page: page + 1 }, 'meta_link').as
+              toLink({ ...worksRouteProps, page: page + 1 }, 'unknown').as
             )}
           />
         )}
@@ -114,13 +121,14 @@ const Works: NextPage<Props> = ({
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Catalogue search`}
         description="Search the Wellcome Collection catalogue"
-        url={worksLink({ ...worksRouteProps }, 'canonical_link').as}
+        url={toLink({ ...worksRouteProps }, 'unknown').as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'collections'}
         imageUrl={undefined}
         imageAltText={undefined}
         globalContextData={globalContextData}
+        excludeRoleMain={true}
       >
         <Space
           v={{
@@ -136,24 +144,13 @@ const Works: NextPage<Props> = ({
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 <Space v={{ size: 'l', properties: ['margin-top'] }}>
                   <SearchTabs
-                    worksRouteProps={worksRouteProps}
-                    imagesRouteProps={{
-                      ...worksRouteProps,
-                      locationsLicense: null,
-                      color: null,
-                    }}
-                    workTypeAggregations={
-                      works && works.aggregations
-                        ? works.aggregations.workType.buckets
-                        : []
-                    }
+                    query={worksRouteProps.query}
+                    sort={worksRouteProps.sort}
+                    sortOrder={worksRouteProps.sortOrder}
+                    worksFilters={filters}
+                    imagesFilters={[]}
                     shouldShowDescription={query === ''}
                     shouldShowFilters={true}
-                    aggregations={
-                      works && works.aggregations
-                        ? works.aggregations
-                        : undefined
-                    }
                     showSortBy={Boolean(works)}
                   />
                 </Space>
@@ -180,7 +177,7 @@ const Works: NextPage<Props> = ({
                           currentPage={page || 1}
                           pageSize={works.pageSize}
                           totalResults={works.totalResults}
-                          link={worksLink(
+                          link={toLink(
                             {
                               ...worksRouteProps,
                             },
@@ -192,8 +189,13 @@ const Works: NextPage<Props> = ({
                               ...worksRouteProps,
                               page: newPage,
                             };
-                            const link = worksLink(state, 'search/paginator');
-                            setSavedSearchState(state);
+                            const link = toLink(
+                              {
+                                ...state,
+                              },
+                              'search/paginator'
+                            );
+
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
                             );
@@ -214,7 +216,7 @@ const Works: NextPage<Props> = ({
               }}
               style={{ opacity: loading ? 0 : 1 }}
             >
-              <div className="container">
+              <div className="container" role="main">
                 {works && (
                   <WorksSearchResults
                     works={works}
@@ -244,7 +246,7 @@ const Works: NextPage<Props> = ({
                             currentPage={page || 1}
                             pageSize={works.pageSize}
                             totalResults={works.totalResults}
-                            link={worksLink(
+                            link={toLink(
                               {
                                 ...worksRouteProps,
                               },
@@ -256,8 +258,14 @@ const Works: NextPage<Props> = ({
                                 ...worksRouteProps,
                                 page: newPage,
                               };
-                              const link = worksLink(state, 'search/paginator');
-                              setSavedSearchState(state);
+
+                              const link = toLink(
+                                {
+                                  ...state,
+                                },
+                                'search/paginator'
+                              );
+
                               Router.push(link.href, link.as).then(() =>
                                 window.scrollTo(0, 0)
                               );
@@ -289,26 +297,26 @@ export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
   const globalContextData = getGlobalContextData(context);
-  const parsedParams = parseUrlParams(context.query);
-  const params = WorksRoute.fromQuery(parsedParams);
-  const { searchMoreFilters } = globalContextData.toggles;
-  const defaultAggregations = ['workType', 'locationType'];
-  const moreFiltersAggregations = [
+  const props = fromQuery(context.query);
+
+  const aggregations = [
+    'workType',
+    'availabilities',
     'genres',
     'languages',
     'subjects',
     'contributors',
   ];
-  const aggregations = searchMoreFilters
-    ? [...defaultAggregations, ...moreFiltersAggregations]
-    : defaultAggregations;
 
   const _queryType = cookies(context)._queryType;
-  const worksApiProps = worksRouteToApiUrl(params, {
+
+  const worksApiProps = worksRouteToApiUrl(props, {
     _queryType,
     aggregations,
   });
-  const shouldGetWorks = !!(params.query && params.query !== '');
+
+  const shouldGetWorks = !!props.query;
+
   const works = shouldGetWorks
     ? await getWorks({
         params: worksApiProps,
@@ -323,7 +331,7 @@ export const getServerSideProps: GetServerSideProps<
   return {
     props: removeUndefinedProps({
       works,
-      worksRouteProps: params,
+      worksRouteProps: props,
       shouldGetWorks,
       apiProps: worksApiProps,
       globalContextData,

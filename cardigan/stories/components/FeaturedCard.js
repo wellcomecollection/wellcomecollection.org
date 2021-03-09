@@ -21,7 +21,7 @@ const FeaturedCardExample = () => {
     <Layout12>
       <FeaturedCard
         image={imageWithoutTasl}
-        labels={[{ url: null, text: 'Essay' }]}
+        labels={[{ text: 'Essay' }]}
         title={`Remote diagnosis from wee to web`}
         link={{ url: '#', text: 'Remote diagnosis from wee to the web' }}
         background={background}

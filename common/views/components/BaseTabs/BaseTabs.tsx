@@ -34,6 +34,10 @@ const Tab = styled.button.attrs((props: TabProps) => ({
   &:focus {
     outline: 0;
   }
+  width: 50%;
+  ${props => props.theme.media.medium`
+    width: auto;
+  `}
 `;
 
 type TabPanelProps = {

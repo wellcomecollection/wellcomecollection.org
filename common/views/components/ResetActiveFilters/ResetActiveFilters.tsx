@@ -1,40 +1,18 @@
-import React, { FunctionComponent, ReactNode, useContext } from 'react';
+import React, { Fragment, FunctionComponent, ReactNode } from 'react';
+import { ParsedUrlQuery } from 'querystring';
 import { LinkProps } from '@weco/common/model/link-props';
-import {
-  CatalogueAggregationBucket,
-  CatalogueAggregationContributorsBucket,
-  CatalogueAggregations,
-} from '@weco/common/model/catalogue';
-import {
-  worksLink,
-  imagesLink,
-  WorksRouteProps,
-} from '../../../services/catalogue/ts_routes';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
 import styled from 'styled-components';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import {
-  getAggregationContributors,
-  getAggregationFilterByName,
-  replaceSpaceWithHypen,
-} from '../../../utils/filters';
+import { Filter } from '../../../services/catalogue/filters';
 
 type ResetActiveFilters = {
-  workTypeFilters: CatalogueAggregationBucket[];
-  productionDatesFrom: string | null;
-  productionDatesTo: string | null;
-  worksRouteProps: WorksRouteProps;
-  imagesColor: string | null;
-  workTypeSelected: string[];
-  aggregations?: CatalogueAggregations;
+  query: string;
   resetFilters: LinkProps;
-  languagesSelected: string[];
-  subjectsSelected: string[];
-  genresSelected: string[];
-  contributorsSelected: string[];
+  filters: Filter[];
+  linkResolver: (params: ParsedUrlQuery) => LinkProps;
 };
 
 const ColorSwatch = styled.span`
@@ -82,37 +60,42 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
 };
 
 export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
-  workTypeFilters,
-  productionDatesFrom,
-  productionDatesTo,
-  worksRouteProps,
-  imagesColor,
-  workTypeSelected,
-  aggregations,
+  query,
   resetFilters,
-  languagesSelected,
-  subjectsSelected,
-  genresSelected,
-  contributorsSelected,
+  filters,
+  linkResolver,
 }: ResetActiveFilters) => {
-  const languageFilters: CatalogueAggregationBucket[] = getAggregationFilterByName(
-    aggregations,
-    'languages'
-  );
-  const subjectsFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
-    aggregations,
-    'subjects'
-  );
-  const genresFilter: CatalogueAggregationBucket[] = getAggregationFilterByName(
-    aggregations,
-    'genres'
-  );
+  // This is a haclk until we decide exactly what it is we want the
+  // reset filters to do
+  const filterStateMap = new Map<string, string[] | string>();
+  filters.forEach(filter => {
+    if (filter.type === 'checkbox') {
+      const values = filter.options
+        .filter(option => option.selected)
+        .map(option => option.value);
 
-  const contributorsFilter: CatalogueAggregationContributorsBucket[] = getAggregationContributors(
-    aggregations
-  );
+      filterStateMap.set(filter.id, values);
+    }
 
-  const { searchMoreFilters } = useContext(TogglesContext);
+    if (filter.type === 'dateRange') {
+      if (filter.from.value) {
+        filterStateMap.set(filter.from.id, filter.from.value);
+      }
+
+      if (filter.to.value) {
+        filterStateMap.set(filter.from.id, filter.to.value);
+      }
+    }
+
+    if (filter.type === 'color') {
+      if (filter.color) {
+        filterStateMap.set(filter.id, [filter.color]);
+      }
+    }
+  });
+
+  const filterState = Object.fromEntries(filterStateMap);
+
   return (
     <Space
       v={{ size: 's', properties: ['padding-top'] }}
@@ -132,238 +115,103 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
               Active filters:
             </Space>
           </h2>
-          {productionDatesFrom && (
-            <NextLink
-              passHref
-              {...worksLink(
-                {
-                  ...worksRouteProps,
-                  page: 1,
-                  productionDatesFrom: null,
-                },
-                'cancel_filter/production_dates_from'
-              )}
-            >
-              <a>
-                <CancelFilter text={`From ${productionDatesFrom}`} />
-              </a>
-            </NextLink>
-          )}
-          {productionDatesTo && (
-            <NextLink
-              passHref
-              {...worksLink(
-                {
-                  ...worksRouteProps,
-                  page: 1,
-                  productionDatesTo: null,
-                },
-                'cancel_filter/production_dates_to'
-              )}
-            >
-              <a>
-                <CancelFilter text={`To ${productionDatesTo}`} />
-              </a>
-            </NextLink>
-          )}
-          {imagesColor && (
-            <NextLink
-              passHref
-              {...imagesLink(
-                {
-                  ...worksRouteProps,
-                  page: 1,
-                  color: null,
-                  locationsLicense: null,
-                },
-                'cancel_filter/images_color'
-              )}
-            >
-              <a>
-                <CancelFilter>
-                  Colour
-                  <ColorSwatch color={`#${imagesColor}`} />
-                </CancelFilter>
-              </a>
-            </NextLink>
-          )}
+          {filters.map(f => {
+            if (f.type === 'checkbox') {
+              const selectedOptions = f.options.filter(
+                option => option.selected
+              );
+              return selectedOptions
+                .filter(option => option.selected)
+                .map(option => {
+                  return (
+                    <NextLink
+                      key={`cancel-${option.id}`}
+                      passHref
+                      {...linkResolver({
+                        ...filterState,
+                        query,
+                        page: '1',
+                        [f.id]: selectedOptions
+                          .filter(
+                            selectedOption =>
+                              option.value !== selectedOption.value
+                          )
+                          .map(option => option.value),
+                        source: `cancel_filter/${f.id}`,
+                      })}
+                    >
+                      <a>
+                        <CancelFilter text={option.label} />
+                      </a>
+                    </NextLink>
+                  );
+                });
+            }
 
-          {workTypeSelected.map(id => {
-            const workTypeObject = workTypeFilters.find(({ data }) => {
-              return data.id === id;
-            });
-
-            return (
-              workTypeObject && (
-                <NextLink
-                  key={id}
-                  {...worksLink(
-                    {
-                      ...worksRouteProps,
-                      workType: worksRouteProps.workType.filter(
-                        w => w !== workTypeObject.data.id
-                      ),
-                      page: 1,
-                    },
-                    'cancel_filter/work_types'
+            if (f.type === 'dateRange') {
+              return (
+                <Fragment key={`cancel-${f.id}`}>
+                  {f.from.value && (
+                    <NextLink
+                      passHref
+                      {...linkResolver({
+                        ...filterState,
+                        query,
+                        page: '1',
+                        [f.from.id]: undefined,
+                        source: `cancel_filter/${f.from.id}`,
+                      })}
+                    >
+                      <a>
+                        <CancelFilter text={`From ${f.from.value}`} />
+                      </a>
+                    </NextLink>
                   )}
-                >
-                  <a>
-                    <CancelFilter text={workTypeObject.data.label} />
-                  </a>
-                </NextLink>
-              )
-            );
+
+                  {f.to.value && (
+                    <NextLink
+                      passHref
+                      {...linkResolver({
+                        ...filterState,
+                        query,
+                        page: '1',
+                        [f.to.id]: undefined,
+                        source: `cancel_filter/${f.to.id}`,
+                      })}
+                    >
+                      <a>
+                        <CancelFilter text={`To ${f.to.value}`} />
+                      </a>
+                    </NextLink>
+                  )}
+                </Fragment>
+              );
+            }
+            if (f.type === 'color') {
+              return (
+                <Fragment key={`cancel-${f.id}`}>
+                  <NextLink
+                    passHref
+                    {...linkResolver({
+                      ...filterState,
+                      query,
+                      page: '1',
+                      [f.id]: undefined,
+                      source: `cancel_filter/${f.id}`,
+                    })}
+                  >
+                    <a>
+                      <CancelFilter>
+                        {f.label}
+                        <ColorSwatch color={`#${f.color}`} />
+                      </CancelFilter>
+                    </a>
+                  </NextLink>
+                </Fragment>
+              );
+            }
           })}
 
-          {aggregations &&
-            aggregations.locationType.buckets
-              .filter(locationType =>
-                worksRouteProps.itemsLocationsType.includes(
-                  locationType.data.type
-                )
-              )
-              .map(locationType => (
-                <NextLink
-                  key={locationType.type}
-                  passHref
-                  {...worksLink(
-                    {
-                      ...worksRouteProps,
-                      itemsLocationsType: worksRouteProps.itemsLocationsType.filter(
-                        type => type !== locationType.data.type
-                      ),
-                      page: 1,
-                    },
-                    'cancel_filter/items_locations_type'
-                  )}
-                >
-                  <a>
-                    <CancelFilter text={locationType.data.label} />
-                  </a>
-                </NextLink>
-              ))}
-
-          {searchMoreFilters &&
-            languagesSelected.map(id => {
-              const language = languageFilters.find(({ data }) => {
-                return data.id === id;
-              });
-
-              return (
-                language && (
-                  <NextLink
-                    key={id}
-                    {...worksLink(
-                      {
-                        ...worksRouteProps,
-                        languages:
-                          worksRouteProps.languages &&
-                          worksRouteProps.languages.filter(
-                            w => w !== language.data.id
-                          ),
-                        page: 1,
-                      },
-                      'cancel_filter/languages'
-                    )}
-                  >
-                    <a>
-                      <CancelFilter text={language.data.label} />
-                    </a>
-                  </NextLink>
-                )
-              );
-            })}
-          {searchMoreFilters &&
-            subjectsSelected.map(subject => {
-              const subjectActive = subjectsFilter.find(({ data }) => {
-                return data.label === subject;
-              });
-              return (
-                subjectActive && (
-                  <NextLink
-                    key={replaceSpaceWithHypen(subjectActive.data.label)}
-                    {...worksLink(
-                      {
-                        ...worksRouteProps,
-                        subjectsLabel:
-                          worksRouteProps.subjectsLabel &&
-                          worksRouteProps.subjectsLabel.filter(
-                            w => w !== subjectActive.data.label
-                          ),
-                        page: 1,
-                      },
-                      'cancel_filter/subjects_label'
-                    )}
-                  >
-                    <a>
-                      <CancelFilter text={subjectActive.data.label} />
-                    </a>
-                  </NextLink>
-                )
-              );
-            })}
-          {searchMoreFilters &&
-            genresSelected.map(subject => {
-              const genreActive = genresFilter.find(({ data }) => {
-                return data.label === subject;
-              });
-              return (
-                genreActive && (
-                  <NextLink
-                    key={replaceSpaceWithHypen(genreActive.data.label)}
-                    {...worksLink(
-                      {
-                        ...worksRouteProps,
-                        genresLabel:
-                          worksRouteProps.genresLabel &&
-                          worksRouteProps.genresLabel.filter(
-                            w => w !== genreActive.data.label
-                          ),
-                        page: 1,
-                      },
-                      'cancel_filter/genres_label'
-                    )}
-                  >
-                    <a>
-                      <CancelFilter text={genreActive.data.label} />
-                    </a>
-                  </NextLink>
-                )
-              );
-            })}
-          {searchMoreFilters &&
-            contributorsSelected.map(contributor => {
-              const contributorActive = contributorsFilter.find(({ data }) => {
-                return data.agent.label === contributor;
-              });
-
-              return (
-                contributorActive && (
-                  <NextLink
-                    key={replaceSpaceWithHypen(
-                      contributorActive.data.agent.label
-                    )}
-                    {...worksLink(
-                      {
-                        ...worksRouteProps,
-                        contributorsAgentLabel:
-                          worksRouteProps.contributorsAgentLabel &&
-                          worksRouteProps.contributorsAgentLabel.filter(
-                            w => w !== contributorActive.data.agent.label
-                          ),
-                        page: 1,
-                      },
-                      'cancel_filter/contributors'
-                    )}
-                  >
-                    <a>
-                      <CancelFilter text={contributorActive.data.agent.label} />
-                    </a>
-                  </NextLink>
-                )
-              );
-            })}
           <NextLink passHref {...resetFilters}>
             <a>
               <CancelFilter text={'Reset filters'} />

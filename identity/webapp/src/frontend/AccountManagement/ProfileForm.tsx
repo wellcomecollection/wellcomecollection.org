@@ -85,7 +85,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ firstName, lastName, e
     event.preventDefault();
     setIsUpdateSuccessful(false);
     if (canSave) {
-      updateUserInfo({ email, password, newEmail }, onSaveSuccess, onSaveFailure);
+      updateUserInfo({ password, newEmail }, onSaveSuccess, onSaveFailure);
     }
   };
 

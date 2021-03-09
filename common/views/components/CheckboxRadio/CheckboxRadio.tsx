@@ -6,7 +6,7 @@ import Icon from '../Icon/Icon';
 
 const CheckboxRadioLabel = styled.label.attrs({
   className: classNames({
-    'flex-inline flex--v-center': true,
+    'flex-inline flex--v-start': true,
   }),
 })`
   cursor: pointer;
@@ -85,7 +85,7 @@ const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
   ...inputProps
 }: CheckboxRadioProps): ReactElement<CheckboxRadioProps> => {
   return (
-    <CheckboxRadioLabel htmlFor={id} aria-label={ariaLabel}>
+    <CheckboxRadioLabel htmlFor={id}>
       <CheckBoxWrapper>
         <CheckboxRadioInput id={id} type={type} {...inputProps} />
         <CheckboxRadioBox type={type}>

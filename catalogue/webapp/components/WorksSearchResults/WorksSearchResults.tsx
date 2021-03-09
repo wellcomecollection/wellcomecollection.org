@@ -6,11 +6,11 @@ import WorksSearchResult from '../WorksSearchResult/WorksSearchResult';
 import { grid } from '@weco/common/utils/classnames';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/ts_api';
-import { WorksRouteProps } from '@weco/common/services/catalogue/ts_routes';
+import { WorksProps } from '@weco/common/views/components/WorksLink/WorksLink';
 
 type Props = {
   works: CatalogueResultsList<Work>;
-  worksRouteProps: WorksRouteProps;
+  worksRouteProps: WorksProps;
   apiProps: CatalogueWorksApiProps;
 };
 
@@ -23,13 +23,9 @@ const WorkSearchResults: FunctionComponent<Props> = ({
   const { relevanceRating } = useContext(TogglesContext);
 
   return (
-    <ul className={'grid plain-list no-padding no-margin'} role="list">
+    <ul className={'grid plain-list no-padding no-margin'}>
       {works.results.map((result, i) => (
-        <li
-          key={result.id}
-          className={grid({ s: 12, m: 12, l: 12, xl: 12 })}
-          role="listitem"
-        >
+        <li key={result.id} className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
           <div
             onClick={() => {
               trackSearchResultSelected(apiProps, {

@@ -30,6 +30,7 @@ export type Work = {
   totalParts?: number;
   totalDescendentParts?: number;
   availableOnline: boolean;
+  availabilities: Availability[];
   '@context'?: string;
 };
 
@@ -39,6 +40,7 @@ type MinimalRelatedWorkFields =
   | 'alternativeTitles'
   | 'referenceNumber'
   | 'availableOnline'
+  | 'availabilities'
   | 'type';
 export type RelatedWork = Partial<Work> & Pick<Work, MinimalRelatedWorkFields>;
 
@@ -154,6 +156,12 @@ type AccessStatus = {
   type: 'AccessStatus';
 };
 
+type Availability = {
+  id: string;
+  label: string;
+  type: 'Availability';
+};
+
 export type Item = {
   id?: string;
   identifiers?: Identifier[];
@@ -263,6 +271,15 @@ export type CatalogueAggregationBucket = {
   type: 'AggregationBucket';
 };
 
+export type CatalogueAggregationBucketNoId = {
+  count: number;
+  data: {
+    label: string;
+    type: string;
+  };
+  type: 'AggregationBucket';
+};
+
 export type CatalogueAggregationContributorsBucket = {
   count: number;
   data: {
@@ -270,36 +287,49 @@ export type CatalogueAggregationContributorsBucket = {
       label: string;
       type: string;
     };
+    type: 'Contributor';
   };
   type: 'AggregationBucket';
 };
 
 export type CatalogueAggregationContributor = {
   buckets: CatalogueAggregationContributorsBucket[];
+  type: 'Aggregation';
 };
 
 export type CatalogueAggregation = {
   buckets: CatalogueAggregationBucket[];
+  type: 'Aggregation';
 };
 
-export type CatalogueAggregations = {
+export type CatalogueAggregationNoId = {
+  buckets: CatalogueAggregationBucketNoId[];
+  type: 'Aggregation';
+};
+
+export type WorkAggregations = {
   workType: CatalogueAggregation;
-  locationType: CatalogueAggregation;
+  availabilities: CatalogueAggregation;
   languages?: CatalogueAggregation;
-  genres?: CatalogueAggregation;
-  subjects?: CatalogueAggregation;
+  genres?: CatalogueAggregationNoId;
+  subjects?: CatalogueAggregationNoId;
   contributors?: CatalogueAggregationContributor;
+  type: 'Aggregations';
+};
+
+export type ImageAggregations = {
+  license?: CatalogueAggregation;
+  type: 'Aggregations';
 };
 
 export type CatalogueResultsList<Result = Work> = {
+  '@context': string;
   type: 'ResultList';
   totalResults: number;
+  totalPages: number;
   results: Result[];
   pageSize: number;
   prevPage: string | null;
   nextPage: string | null;
-  aggregations: {
-    workType: CatalogueAggregation;
-    locationType: CatalogueAggregation;
-  } | null;
+  aggregations?: Result extends Work ? WorkAggregations : ImageAggregations;
 };

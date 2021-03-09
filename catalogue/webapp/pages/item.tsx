@@ -344,6 +344,7 @@ const ItemPage: NextPage<Props> = ({
             pageIndex={pageIndex}
             pageSize={pageSize}
             canvasIndex={canvasIndex}
+            manifestIndex={manifestIndex}
             iiifImageLocation={iiifImageLocation}
             work={work}
             manifest={manifest}

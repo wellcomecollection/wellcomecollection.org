@@ -9,6 +9,10 @@ import { Component, Fragment } from 'react';
 import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import {
+  getPage,
+  getPageFeaturedText,
+} from '@weco/common/services/prismic/pages';
+import {
   getEvents,
   filterEventsForToday,
   filterEventsForWeekend,
@@ -44,7 +48,15 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
 import { FeaturedCardExhibition } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 import { getParseCollectionVenueById } from '@weco/common/services/prismic/opening-times';
-import { collectionVenueId } from '@weco/common/services/prismic/hardcoded-id';
+import {
+  collectionVenueId,
+  prismicPageIds,
+} from '@weco/common/services/prismic/hardcoded-id';
+import FeaturedTextTitle from '@weco/common/views/components/FeaturedText/FeaturedText';
+import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
+import { type FeaturedText } from '@weco/common/model/text';
+// $FlowFixMe (tsx)
+import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -54,6 +66,7 @@ type Props = {|
   dateRange: any[],
   tryTheseTooPromos: any[],
   eatShopPromos: any[],
+  featuredText: FeaturedText,
 |};
 
 function getListHeader(openingTimes: any) {
@@ -149,7 +162,7 @@ const DateRange = ({
         }}
         as="p"
         className={classNames({
-          [font('hnm', 5)]: true,
+          [font('hnl', 5)]: true,
         })}
       >
         {period === 'today' && (
@@ -200,12 +213,12 @@ const DateRange = ({
     </Fragment>
   );
 };
-
 type HeaderProps = {|
   activeId: string,
   openingTimes: any, // TODO
+  featuredText: ?FeaturedText,
 |};
-const Header = ({ activeId, openingTimes }: HeaderProps) => {
+const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
   const listHeader = getListHeader(openingTimes);
   const todayOpeningHours = listHeader.todayOpeningHours;
 
@@ -213,11 +226,10 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
     <Space
       v={{
         size: 'l',
-        properties: ['padding-top', 'padding-bottom'],
+        properties: ['padding-top'],
       }}
       className={classNames({
         row: true,
-        'bg-cream': true,
       })}
     >
       <div className="container">
@@ -225,7 +237,9 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
             <div className="flex flex--v-center flex--h-space-between flex--wrap">
               <div>
-                <h1 className="inline h1">What{`'`}s on</h1>
+                <SectionPageHeader sectionLevelPage={true}>
+                  What{`'`}s on
+                </SectionPageHeader>
               </div>
               <div className="flex flex--v-center flex--wrap">
                 {todayOpeningHours && (
@@ -276,13 +290,29 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
               </div>
             </div>
           </div>
+          {featuredText && featuredText.value && (
+            <Space
+              v={{
+                size: 'm',
+                properties: ['margin-top', 'margin-bottom'],
+              }}
+              className={classNames({
+                [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+              })}
+            >
+              <FeaturedTextTitle
+                html={featuredText.value}
+                htmlSerializer={defaultSerializer}
+              />
+            </Space>
+          )}
           <Space
             v={{
               size: 'm',
               properties: ['margin-top', 'margin-bottom'],
             }}
             className={classNames({
-              [grid({ s: 12, m: 10, l: 8, xl: 6 })]: true,
+              [grid({ s: 12, m: 10, l: 7, xl: 7 })]: true,
             })}
           >
             <SegmentedControl
@@ -320,6 +350,12 @@ export class WhatsOnPage extends Component<Props> {
     const period = ctx.query.period || 'current-and-coming-up';
     const { memoizedPrismic } = ctx.query;
 
+    // call prisimic for specific content for section page such as featured text
+    const whatsOnPagePromise = await getPage(
+      ctx.req,
+      prismicPageIds.whatsOn,
+      memoizedPrismic
+    );
     const exhibitionsPromise = getExhibitions(
       ctx.req,
       {
@@ -347,12 +383,19 @@ export class WhatsOnPage extends Component<Props> {
       memoizedPrismic
     );
 
-    const [exhibitions, events, availableOnlineEvents] = await Promise.all([
+    const [
+      exhibitions,
+      events,
+      availableOnlineEvents,
+      whatsOnPage,
+    ] = await Promise.all([
       exhibitionsPromise,
       eventsPromise,
       availableOnlineEventsPromise,
+      whatsOnPagePromise,
     ]);
     const dateRange = getMomentsForPeriod(period);
+    const featuredText = whatsOnPage && getPageFeaturedText(whatsOnPage);
 
     if (period && events && exhibitions) {
       return {
@@ -365,6 +408,7 @@ export class WhatsOnPage extends Component<Props> {
         eatShopPromos: [cafePromo],
         cafePromo,
         dailyTourPromo,
+        featuredText,
       };
     } else {
       return { statusCode: 404 };
@@ -372,7 +416,13 @@ export class WhatsOnPage extends Component<Props> {
   };
 
   render() {
-    const { period, dateRange, tryTheseTooPromos, eatShopPromos } = this.props;
+    const {
+      period,
+      dateRange,
+      tryTheseTooPromos,
+      eatShopPromos,
+      featuredText,
+    } = this.props;
 
     const events = this.props.events.results.map(convertJsonToDates);
     const availableOnlineEvents = this.props.availableOnlineEvents.results.map(
@@ -407,19 +457,25 @@ export class WhatsOnPage extends Component<Props> {
         <OpeningTimesContext.Consumer>
           {openingTimes => (
             <Fragment>
-              <Header activeId={period} openingTimes={openingTimes} />
+              <Header
+                activeId={period}
+                openingTimes={openingTimes}
+                featuredText={featuredText}
+              />
+              <Layout12>
+                <DateRange
+                  dateRange={dateRange}
+                  period={period}
+                  cafePromo={eatShopPromos[0]}
+                  openingTimes={openingTimes}
+                />
+              </Layout12>
               <Space v={{ size: 'l', properties: ['margin-top'] }}>
                 {period === 'current-and-coming-up' && (
                   <Fragment>
                     <Space v={{ size: 'l', properties: ['padding-top'] }}>
                       <SpacingSection>
                         <Layout12>
-                          <DateRange
-                            dateRange={dateRange}
-                            period={period}
-                            cafePromo={eatShopPromos[0]}
-                            openingTimes={openingTimes}
-                          />
                           <div className="flex flex--v-center flex--h-space-between">
                             <h2 className="h1">Exhibitions</h2>
                             <span className={font('hnm', 5)}>
@@ -513,12 +569,6 @@ export class WhatsOnPage extends Component<Props> {
                       }}
                     >
                       <Layout12>
-                        <DateRange
-                          dateRange={dateRange}
-                          period={period}
-                          cafePromo={eatShopPromos[0]}
-                          openingTimes={openingTimes}
-                        />
                         <div className="flex flex--v-center flex--h-space-between">
                           <h2 className="h1">Exhibitions and Events</h2>
                           <span className={font('hnm', 4)}>Free admission</span>

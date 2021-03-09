@@ -19,6 +19,7 @@ import Iframe from '../Iframe/Iframe';
 import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
 import Layout from '../Layout/Layout';
 import Layout8 from '../Layout8/Layout8';
+import Layout6 from '../Layout6/Layout6';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
 import VenueHours from '../VenueHours/VenueHours';
@@ -41,7 +42,7 @@ import Discussion from '../Discussion/Discussion';
 import WobblyEdgedContainer from '../WobblyEdgedContainer/WobblyEdgedContainer';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 
-import GridFactory from '../GridFactory/GridFactory';
+import GridFactory, { sectionLevelPageGrid } from '../GridFactory/GridFactory';
 import Card from '../Card/Card';
 import FeaturedCard, {
   convertItemToFeaturedCardProps,
@@ -90,6 +91,7 @@ type Props = {
   pageId: string;
   minWidth?: 10 | 8;
   isLanding?: boolean;
+  sectionLevelPage?: boolean;
 };
 
 const Body: FunctionComponent<Props> = ({
@@ -100,6 +102,7 @@ const Body: FunctionComponent<Props> = ({
   pageId,
   minWidth = 8,
   isLanding = false,
+  sectionLevelPage = false,
 }: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
@@ -247,7 +250,14 @@ const Body: FunctionComponent<Props> = ({
                         <Layout12>{featuredItem}</Layout12>
                       </Space>
                     )}
-                    {cards.length > 0 && <GridFactory items={cards} />}
+                    {cards.length > 0 && (
+                      <GridFactory
+                        items={cards}
+                        overrideGridSizes={
+                          sectionLevelPage && sectionLevelPageGrid
+                        }
+                      />
+                    )}
                   </Space>
 
                   {!isLast && <WobblyEdge background={'white'} isStatic />}
@@ -280,16 +290,21 @@ const Body: FunctionComponent<Props> = ({
           {slice.type === 'inPageAnchor' && <span id={slice.value} />}
           {/* If the first slice is featured text we display it above inPageAnchors and any static content, i.e. <AdditionalContent /> */}
           {i === 0 && slice.type === 'text' && slice.weight === 'featured' && (
-            <LayoutWidth width={minWidth}>
+            <Layout8 shift={!sectionLevelPage}>
               <div className="body-text spaced-text">
-                <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <Space
+                  v={{
+                    size: sectionLevelPage ? 'xl' : 'l',
+                    properties: ['margin-bottom'],
+                  }}
+                >
                   <FeaturedText
                     html={slice.value}
                     htmlSerializer={defaultSerializer}
                   />
                 </Space>
               </div>
-            </LayoutWidth>
+            </Layout8>
           )}
 
           <AdditionalContent
@@ -329,6 +344,15 @@ const Body: FunctionComponent<Props> = ({
 
                 {/* TODO: use one layout for all image weights if/when it's established
               that width isn't an adequate means to illustrate a difference */}
+                {slice.type === 'picture' && slice.weight === 'body' && (
+                  <Layout6>
+                    <CaptionedImage
+                      {...slice.value}
+                      sizesQueries={''}
+                      extraClasses={'captioned-image--body'}
+                    />
+                  </Layout6>
+                )}
                 {slice.type === 'picture' && slice.weight === 'default' && (
                   <Layout10>
                     <CaptionedImage {...slice.value} sizesQueries={''} />
