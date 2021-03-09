@@ -174,7 +174,7 @@ const ImageViewerControls = styled.div<{ showControls?: boolean }>`
   }
 `;
 
-type IIIFViewerProps = {
+export type IIIFViewerProps = {
   title: string;
   mainPaginatorProps: PaginatorPropsWithoutRenderFunction;
   thumbsPaginatorProps: PaginatorPropsWithoutRenderFunction;
