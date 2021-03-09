@@ -12,6 +12,7 @@ import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 import '@weco/common/styles/styleguide.scss';
 import { initaliseMiddlewareClient } from '../utility/middleware-api-client';
+import { MyAccount } from './MyAccount/MyAccount';
 
 const GlobalStyles = createGlobalStyle`
   body {
@@ -35,7 +36,8 @@ if (root) {
             <Route exact path="/register/old" component={OldRegistration} />
             <Route exact path="/validated" component={AccountValidated} />
             <Route exact path="/error" component={ErrorPage} />
-            <Route exact path="/" component={AccountManagement} />
+            <Route exact path="/" component={MyAccount} />
+            <Route exact path="/old" component={AccountManagement} />
           </Switch>
         </BrowserRouter>
       </AppContextProvider>
