@@ -201,7 +201,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
             ref={undefined}
             type={ButtonTypes.button}
             clickHandler={() => {
-              setMoreFiltersModal(false);
+              setIsActive(false);
             }}
             text="Show results"
           />
