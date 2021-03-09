@@ -101,25 +101,23 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
     <List>
       {f.options.map(({ id, label, value, count, selected }) => {
         return (
-          (count > 0 || selected) && (
-            <Space
-              as="li"
-              v={{ size: 'm', properties: ['margin-bottom'] }}
-              h={{ size: 'l', properties: ['margin-right'] }}
-              key={`desktop-${id}`}
-            >
-              <CheckboxRadio
-                id={`desktop-${id}`}
-                type={`checkbox`}
-                text={`${label} (${count})`}
-                value={value}
-                name={f.id}
-                checked={selected}
-                onChange={changeHandler}
-                ariaLabel={searchFilterCheckBox(label)}
-              />
-            </Space>
-          )
+          <Space
+            as="li"
+            v={{ size: 'm', properties: ['margin-bottom'] }}
+            h={{ size: 'l', properties: ['margin-right'] }}
+            key={`desktop-${id}`}
+          >
+            <CheckboxRadio
+              id={`desktop-${id}`}
+              type={`checkbox`}
+              text={`${label} (${count})`}
+              value={value}
+              name={f.id}
+              checked={selected}
+              onChange={changeHandler}
+              ariaLabel={searchFilterCheckBox(label)}
+            />
+          </Space>
         );
       })}
     </List>

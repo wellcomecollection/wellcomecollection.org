@@ -287,20 +287,24 @@ export type CatalogueAggregationContributorsBucket = {
       label: string;
       type: string;
     };
+    type: 'Contributor';
   };
   type: 'AggregationBucket';
 };
 
 export type CatalogueAggregationContributor = {
   buckets: CatalogueAggregationContributorsBucket[];
+  type: 'Aggregation';
 };
 
 export type CatalogueAggregation = {
   buckets: CatalogueAggregationBucket[];
+  type: 'Aggregation';
 };
 
 export type CatalogueAggregationNoId = {
   buckets: CatalogueAggregationBucketNoId[];
+  type: 'Aggregation';
 };
 
 export type WorkAggregations = {
@@ -310,15 +314,19 @@ export type WorkAggregations = {
   genres?: CatalogueAggregationNoId;
   subjects?: CatalogueAggregationNoId;
   contributors?: CatalogueAggregationContributor;
+  type: 'Aggregations';
 };
 
 export type ImageAggregations = {
   license?: CatalogueAggregation;
+  type: 'Aggregations';
 };
 
 export type CatalogueResultsList<Result = Work> = {
+  '@context': string;
   type: 'ResultList';
   totalResults: number;
+  totalPages: number;
   results: Result[];
   pageSize: number;
   prevPage: string | null;
