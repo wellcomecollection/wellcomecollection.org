@@ -29,20 +29,17 @@ describe('MyAccount', () => {
 
   it("shows the user's name", async () => {
     renderComponent();
-    expect(await screen.findByText(/^name$/i)).toBeInTheDocument();
-    expect(screen.getByText(`${mockUser.firstName} ${mockUser.lastName}`)).toBeInTheDocument();
+    expect(await screen.findByText(`${mockUser.firstName} ${mockUser.lastName}`)).toBeInTheDocument();
   });
 
   it("shows the user's library card number", async () => {
     renderComponent();
-    expect(await screen.findByText(/library card number/i)).toBeInTheDocument();
-    expect(screen.getByText(mockUser.barcode)).toBeInTheDocument();
+    expect(await screen.findByText(mockUser.barcode)).toBeInTheDocument();
   });
 
   it("shows the user's email address", async () => {
     renderComponent();
-    expect(await screen.findByText(/email address/i)).toBeInTheDocument();
-    expect(screen.getByText(mockUser.email)).toBeInTheDocument();
+    expect(await screen.findByText(mockUser.email)).toBeInTheDocument();
   });
 
   it('opens a modal where the user can update their email', async () => {

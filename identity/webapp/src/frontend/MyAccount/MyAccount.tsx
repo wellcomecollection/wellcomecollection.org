@@ -1,22 +1,11 @@
 import React from 'react';
 import { useUserInfo, withUserInfo } from './UserInfoContext';
 import { ChangeDetailsModal } from './ChangeDetailsModal';
-import { PageWrapper } from '../Shared/PageWrapper';
-import { Container, Title, Wrapper } from '../Shared/Layout.style';
+import { PageWrapper } from '../components/PageWrapper';
+import { Container, Title, Wrapper } from '../components/Layout.style';
 import { DetailWrapper, Grid, HorizontalRule, Label } from './MyAccount.style';
-
-const Loading: React.FC = () => (
-  <label>
-    Loading…
-    <progress></progress>
-  </label>
-);
-
-const ChangeEmail = () => (
-  <div>
-    <h2>Change email</h2>
-  </div>
-);
+import { ChangeEmail } from './ChangeEmail';
+import { Loading } from './Loading';
 
 const ChangePassword = () => (
   <div>

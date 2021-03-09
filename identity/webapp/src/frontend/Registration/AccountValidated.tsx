@@ -3,7 +3,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
-import { OldPageWrapper } from '../Shared/OldPageWrapper';
+import { PageWrapper } from '../components/PageWrapper';
 import { withPrefix } from '../../utility/prefix';
 
 // TODO: Update this to prod.
@@ -29,7 +29,7 @@ export const AccountValidated = (): JSX.Element => {
   };
 
   return (
-    <OldPageWrapper>
+    <PageWrapper>
       <PageContainer>
         <LogoContainer>
           <img src={logo} alt="Wellcome Collection Logo" />
@@ -41,6 +41,6 @@ export const AccountValidated = (): JSX.Element => {
         <SpacingComponent />
         <OutlinedButton onClick={redirectToLogin}>Continue to Sign in</OutlinedButton>
       </PageContainer>
-    </OldPageWrapper>
+    </PageWrapper>
   );
 };

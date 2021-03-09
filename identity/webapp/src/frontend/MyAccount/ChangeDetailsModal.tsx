@@ -2,10 +2,14 @@ import React, { useRef, useState } from 'react';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import { Button } from './MyAccount.style';
 
+export type ChangeDetailsModalContentProps = {
+  onComplete: () => void;
+};
+
 type ChangeDetailsModalProps = {
   id: string;
   buttonText: string;
-  content: React.ComponentType;
+  content: React.ComponentType<ChangeDetailsModalContentProps>;
   isDangerous?: boolean;
 };
 
@@ -24,7 +28,7 @@ export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
         {buttonText}
       </Button>
       <Modal id={id} isActive={isActive} setIsActive={setIsActive} openButtonRef={openButton}>
-        <Content />
+        <Content onComplete={() => setIsActive(false)} />
       </Modal>
     </>
   );

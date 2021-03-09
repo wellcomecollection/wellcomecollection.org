@@ -8,4 +8,7 @@ export const handlers = [
   rest.get('/api/users/me', (req, res, ctx) => {
     return res(ctx.json(mockUser));
   }),
+  rest.put('/api/users/me', (req, res, ctx) => {
+    return res(ctx.json(mockUser));
+  }),
 ];
