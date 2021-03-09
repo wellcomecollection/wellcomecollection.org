@@ -8,7 +8,6 @@ import {
   Button,
   Cancel,
   Checkbox,
-  Container,
   ErrorAlert,
   FieldMargin,
   InvalidFieldAlert,
@@ -16,11 +15,11 @@ import {
   ExternalLink,
   PasswordRulesList,
   TextInput,
-  Title,
-  Wrapper,
   CheckboxLabel,
   InProgress,
 } from './Registration.style';
+
+import { Container, Title, Wrapper } from '../Shared/Layout.style';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { useRegisterUser, RegistrationError } from './useRegisterUser';
