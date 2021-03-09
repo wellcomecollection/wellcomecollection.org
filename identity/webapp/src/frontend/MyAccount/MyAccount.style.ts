@@ -41,3 +41,11 @@ export const Button = styled(SolidButton)`
 
   ${props => props.isDangerous && DangerButtonModifier}
 `;
+
+export const ModalContainer = styled.aside`
+  @media screen and (min-width: 600px) {
+    width: 24em;
+  }
+`;
+
+export const ModalTitle = styled.h2.attrs({ className: 'font-wb font-size-3' })``;
