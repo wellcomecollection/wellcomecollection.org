@@ -28,6 +28,10 @@
   width: 18em;
 }
 
+.user-list__filter--status {
+  width: 10em;
+}
+
 .user-list__filter .user-list__filter-header {
   padding: 1em 0;
 }

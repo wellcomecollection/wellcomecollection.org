@@ -1,5 +1,7 @@
 import React from 'react';
 import { User } from '../../interfaces';
+import {prettyDate} from "../../utils/prettyDate";
+import dayjs from "dayjs";
 
 type Props = {
   data: User;
@@ -18,7 +20,7 @@ const UserListItem = ({ data }: Props): JSX.Element => {
       <td>{data.email}</td>
       <td>{data.barcode}</td>
       <td>{statusMessage(data)}</td>
-      <td>{data.lastLogin}</td>
+      <td>{data.lastLogin && prettyDate(dayjs(data.lastLogin))}</td>
       <td>
         <a href={userPageUrl}>Edit</a>
       </td>
