@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useForm, Controller, RegisterOptions } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { Link, useHistory } from 'react-router-dom';
 import { AccountCreated } from './AccountCreated';
@@ -57,33 +57,6 @@ export function Registration(): JSX.Element {
     return <AccountCreated />;
   }
 
-  const Field: React.FC<{
-    name: keyof RegistrationInputs;
-    label: string;
-    type?: string;
-    placeholder?: string;
-    rules: RegisterOptions;
-  }> = ({ name, label, type = 'text', placeholder, rules }) => {
-    return (
-      <FieldMargin>
-        <Label htmlFor={name}>{label}</Label>
-        <TextInput
-          id={name}
-          name={name}
-          type={type}
-          placeholder={placeholder}
-          ref={register(rules)}
-          invalid={formState.errors[name]}
-        />
-        <ErrorMessage
-          errors={formState.errors}
-          name={name}
-          render={({ message }) => <InvalidFieldAlert aria-label={message}>{message}</InvalidFieldAlert>}
-        />
-      </FieldMargin>
-    );
-  };
-
   const createUser = (formData: RegistrationInputs) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { termsAndConditions, ...userDetails } = formData;
@@ -119,31 +92,57 @@ export function Registration(): JSX.Element {
           </p>
 
           <form onSubmit={handleSubmit(createUser)} noValidate>
-            <Field
-              name="firstName"
-              label="First name"
-              placeholder="Forename"
-              rules={{ required: 'Enter your first name.' }}
-            />
-            <Field
-              name="lastName"
-              label="Last name"
-              placeholder="Surname"
-              rules={{ required: 'Enter your last name.' }}
-            />
-            <Field
-              name="email"
-              type="email"
-              label="Email address"
-              placeholder="myname@email.com"
-              rules={{
-                required: 'Enter an email address.',
-                pattern: {
-                  value: validEmailPattern,
-                  message: 'Enter a valid email address.',
-                },
-              }}
-            />
+            <FieldMargin>
+              <Label htmlFor="firstName">First name</Label>
+              <TextInput
+                id="firstName"
+                name="firstName"
+                placeholder="Forename"
+                ref={register({ required: 'Enter your first name.' })}
+                invalid={formState.errors.firstName}
+              />
+              <ErrorMessage
+                errors={formState.errors}
+                name="firstName"
+                render={({ message }) => <InvalidFieldAlert aria-label={message}>{message}</InvalidFieldAlert>}
+              />
+            </FieldMargin>
+            <FieldMargin>
+              <Label htmlFor="lastName">Last name</Label>
+              <TextInput
+                id="lastName"
+                name="lastName"
+                placeholder="Surname"
+                ref={register({ required: 'Enter your last name.' })}
+                invalid={formState.errors.lastName}
+              />
+              <ErrorMessage
+                errors={formState.errors}
+                name="lastName"
+                render={({ message }) => <InvalidFieldAlert aria-label={message}>{message}</InvalidFieldAlert>}
+              />
+            </FieldMargin>
+            <FieldMargin>
+              <Label htmlFor="email">Email address</Label>
+              <TextInput
+                id="email"
+                name="email"
+                placeholder="myname@email.com"
+                ref={register({
+                  required: 'Enter an email address.',
+                  pattern: {
+                    value: validEmailPattern,
+                    message: 'Enter a valid email address.',
+                  },
+                })}
+                invalid={formState.errors.email}
+              />
+              <ErrorMessage
+                errors={formState.errors}
+                name="email"
+                render={({ message }) => <InvalidFieldAlert aria-label={message}>{message}</InvalidFieldAlert>}
+              />
+            </FieldMargin>
             <FieldMargin>
               <Label htmlFor="password">Password</Label>
               <PasswordInput
