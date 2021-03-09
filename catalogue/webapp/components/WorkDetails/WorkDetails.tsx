@@ -51,11 +51,9 @@ function getItemLinkState({
   itemUrl,
   audio,
   video,
-  openWithAdvisoryPrototype,
 }): ItemLinkState | undefined {
   if (
-    ((accessCondition === 'open-with-advisory' && !openWithAdvisoryPrototype) ||
-      accessCondition === 'restricted' ||
+    (accessCondition === 'restricted' ||
       accessCondition === 'permission-required') &&
     sierraIdFromManifestUrl
   ) {
@@ -70,9 +68,7 @@ function getItemLinkState({
 }
 
 const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
-  const { stacksRequestService, openWithAdvisoryPrototype } = useContext(
-    TogglesContext
-  );
+  const { stacksRequestService } = useContext(TogglesContext);
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
@@ -195,7 +191,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
     itemUrl,
     audio,
     video,
-    openWithAdvisoryPrototype,
   });
 
   const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
