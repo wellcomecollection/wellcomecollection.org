@@ -319,6 +319,7 @@ export type WorkAggregations = {
 
 export type ImageAggregations = {
   license?: CatalogueAggregation;
+  type: 'Aggregations';
 };
 
 export type CatalogueResultsList<Result = Work> = {
