@@ -44,6 +44,13 @@ const Main = styled.div`
   overflow: auto;
 `;
 
+const Thumbnails = styled.div`
+  background: ${props => props.theme.color('charcoal')};
+  grid-area: desktop-main-start / main-start / bottom-edge / right-edge;
+  transform: translateY(${props => (props.isThumbnailsActive ? '0' : '100%')});
+  transition: transform 250ms ease;
+`;
+
 const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   title,
   mainPaginatorProps,
@@ -201,6 +208,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
           errorHandler={handleImageError}
         />
       </Main>
+      <Thumbnails isThumbnailsActive={true}>thumbs</Thumbnails>
     </Grid>
   );
 };
