@@ -13,6 +13,7 @@ import {
   getUiExtensions,
   isUiEnabled,
   getAuthService,
+  getTokenService,
 } from '@weco/common/utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
@@ -128,10 +129,7 @@ const ItemPage: NextPage<Props> = ({
     null;
 
   const authService = getAuthService(manifest);
-  const authServiceServices = authService?.service;
-  const tokenService = authServiceServices?.find(
-    service => service.profile === 'http://iiif.io/api/auth/0/token'
-  );
+  const tokenService = authService && getTokenService(authService);
 
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
