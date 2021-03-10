@@ -4,15 +4,7 @@ import { ErrorMessage } from '@hookform/error-message';
 import { Link, useHistory } from 'react-router-dom';
 import { AccountCreated } from './AccountCreated';
 import { PageWrapper } from '../components/PageWrapper';
-import {
-  Cancel,
-  Checkbox,
-  ErrorAlert,
-  ExternalLink,
-  PasswordRulesList,
-  CheckboxLabel,
-  InProgress,
-} from './Registration.style';
+import { Cancel, Checkbox, ErrorAlert, ExternalLink, CheckboxLabel, InProgress } from './Registration.style';
 import { FieldMargin, Label, TextInput, InvalidFieldAlert, Button } from '../components/Form.style';
 import { Container, Title, Wrapper } from '../components/Layout.style';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -139,6 +131,7 @@ export function Registration(): JSX.Element {
               <Label htmlFor="password">Password</Label>
               <PasswordInput
                 name="password"
+                showPolicy
                 control={control}
                 rules={{
                   required: 'Enter a password.',
@@ -154,12 +147,6 @@ export function Registration(): JSX.Element {
                 render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
               />
             </FieldMargin>
-            <PasswordRulesList>
-              <li className="font-hnl font-size-6">One lowercase character</li>
-              <li className="font-hnl font-size-6">One uppercase character</li>
-              <li className="font-hnl font-size-6">One number</li>
-              <li className="font-hnl font-size-6">8 characters minimum</li>
-            </PasswordRulesList>
             <SpacingComponent />
             <Controller
               name="termsAndConditions"
