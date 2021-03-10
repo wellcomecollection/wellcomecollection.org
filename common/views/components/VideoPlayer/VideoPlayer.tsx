@@ -13,6 +13,7 @@ import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
+import useShowClickthrough from '@weco/common/hooks/useShowClickthrough';
 
 // TODO make own thing and share
 const IframeAuthMessage = styled.iframe`
@@ -35,12 +36,12 @@ const VideoPlayer: FunctionComponent<Props> = ({
   video,
   showDownloadOptions,
 }: Props) => {
-  const [showViewingConditions, setShowViewingConditions] = useState(false);
   const [secondsPlayed, setSecondsPlayed] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const annotation: any = getAnnotationFromMediaElement(video);
   const authService = video && getVideoClickthroughService(video);
   const tokenService = authService && getTokenService(authService);
+  const showClickthrough = useShowClickthrough(authService, tokenService);
 
   function trackViewingTime() {
     trackEvent({
@@ -52,32 +53,6 @@ const VideoPlayer: FunctionComponent<Props> = ({
       label: 'Video',
     });
   }
-
-  // TODO make this something to share between here and item page
-  useEffect(() => {
-    function receiveMessage(event) {
-      const data = event.data;
-      const serviceOrigin = tokenService && new URL(tokenService['@id']);
-      if (
-        serviceOrigin &&
-        `${serviceOrigin.protocol}//${serviceOrigin.hostname}` === event.origin
-      ) {
-        if (data.hasOwnProperty('accessToken')) {
-          setShowViewingConditions(false);
-        } else {
-          setShowViewingConditions(true);
-        }
-      }
-    }
-
-    if (authService) {
-      setShowViewingConditions(true);
-      window.addEventListener('message', receiveMessage);
-      return () => window.removeEventListener('message', receiveMessage);
-    } else {
-      setShowViewingConditions(false);
-    }
-  }, []);
 
   useEffect(() => {
     Router.events.on('routeChangeStart', trackViewingTime);
@@ -114,7 +89,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
           src={`${tokenService['@id']}?messageId=1&origin=${origin}`}
         />
       )}
-      {showViewingConditions ? (
+      {showClickthrough ? (
         <div className={font('hnl', 5)}>
           {authService?.label && (
             <h2 className={font('hnm', 4)}>{authService?.label}</h2>
