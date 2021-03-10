@@ -23,6 +23,22 @@ describe('PasswordInput', () => {
     expect(screen.getByLabelText(/^password$/i)).toBeInTheDocument();
   });
 
+  it('optionally shows the policy rules', () => {
+    const rules = ['One lowercase character', 'One uppercase character', 'One number', '8 characters minimum'];
+    renderComponent({ showPolicy: true });
+    const listItems = screen.getAllByRole('listitem');
+    listItems.forEach((listItem, i) => {
+      expect(listItem).toHaveTextContent(rules[i]);
+    });
+    expect(screen.getByLabelText(/^password$/i)).toBeInTheDocument();
+  });
+
+  it('shows no policy rules by default', () => {
+    renderComponent();
+    const listItems = screen.queryByRole('listitem');
+    expect(listItems).not.toBeInTheDocument();
+  });
+
   it('lets a user enter a password', () => {
     renderComponent();
     const input = screen.getByLabelText(/^password$/i);

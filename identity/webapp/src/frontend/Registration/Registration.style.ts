@@ -30,10 +30,6 @@ export const SuccessMessage = styled(AlertBox)`
   color: #00786c;
 `;
 
-export const PasswordRulesList = styled.ul`
-  margin-top: -0.666em;
-`;
-
 export const Checkbox = styled(CheckboxRadio).attrs({ type: 'checkbox' })``;
 
 export const CheckboxLabel = styled.span`
