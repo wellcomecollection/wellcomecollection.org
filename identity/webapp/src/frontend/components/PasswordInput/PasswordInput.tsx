@@ -5,6 +5,7 @@ import ClosedEye from '@weco/common/icons/components/A11yVisual';
 import { Border, Input, RulesList, ShowPasswordButton } from './PasswordInput.style';
 
 export type PasswordInputProps = UseControllerOptions & {
+  id?: string;
   showPolicy?: boolean;
 };
 
@@ -18,7 +19,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = props => {
   return (
     <>
       <Border invalid={meta.invalid}>
-        <Input id={props.name} type={isVisible ? 'text' : 'password'} {...field} />
+        <Input id={props.id || props.name} type={isVisible ? 'text' : 'password'} {...field} />
         <ShowPasswordButton onClick={toggleVisibility} aria-label={isVisible ? 'Hide password' : 'Show password'}>
           {isVisible ? <ClosedEye /> : <OpenEye />}
         </ShowPasswordButton>

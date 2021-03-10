@@ -70,8 +70,13 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({ onComple
           />
         </FieldMargin>
         <FieldMargin>
-          <Label htmlFor="password">Confirm password</Label>
-          <PasswordInput name="password" control={control} rules={{ required: 'Enter your password.' }} />
+          <Label htmlFor="change-email-confirm-password">Confirm password</Label>
+          <PasswordInput
+            id="change-email-confirm-password"
+            name="password"
+            control={control}
+            rules={{ required: 'Enter your password.' }}
+          />
           <ErrorMessage
             errors={formState.errors}
             name="password"

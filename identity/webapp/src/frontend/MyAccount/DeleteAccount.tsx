@@ -35,8 +35,13 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({ onComp
       <p>To permanently delete your account please enter your password and confirm.</p>
       <form onSubmit={handleSubmit(requestDelete)}>
         <FieldMargin>
-          <Label htmlFor="password">Password</Label>
-          <PasswordInput name="password" control={control} rules={{ required: 'Enter your current password.' }} />
+          <Label htmlFor="delete-account-confirm-password">Password</Label>
+          <PasswordInput
+            id="delete-account-confirm-password"
+            name="password"
+            control={control}
+            rules={{ required: 'Enter your current password.' }}
+          />
           <ErrorMessage
             errors={formState.errors}
             name="password"

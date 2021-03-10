@@ -49,8 +49,13 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({ onCom
       <ModalTitle>Change password</ModalTitle>
       <form onSubmit={handleSubmit(updatePassword)}>
         <FieldMargin>
-          <Label htmlFor="password">Current password</Label>
-          <PasswordInput name="password" control={control} rules={{ required: 'Enter your current password.' }} />
+          <Label htmlFor="change-password-current">Current password</Label>
+          <PasswordInput
+            id="change-password-current"
+            name="password"
+            control={control}
+            rules={{ required: 'Enter your current password.' }}
+          />
           <ErrorMessage
             errors={formState.errors}
             name="password"
@@ -58,8 +63,9 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({ onCom
           />
         </FieldMargin>
         <FieldMargin>
-          <Label htmlFor="newPassword">New password</Label>
+          <Label htmlFor="change-password-new">New password</Label>
           <PasswordInput
+            id="change-password-new"
             name="newPassword"
             showPolicy
             control={control}
@@ -78,8 +84,9 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({ onCom
           />
         </FieldMargin>
         <FieldMargin>
-          <Label htmlFor="confirmation">Retype new password</Label>
+          <Label htmlFor="change-password-confirm">Retype new password</Label>
           <PasswordInput
+            id="change-password-confirm"
             name="confirmation"
             control={control}
             rules={{
