@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useState, useContext } from 'react';
 import WorkLink from '../WorkLink/WorkLink';
 import Icon from '../Icon/Icon';
 import styled from 'styled-components';
@@ -13,6 +13,7 @@ import {
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 import ViewerStructuresPrototype from '../ViewerStructuresPrototype/ViewerStructuresPrototype';
+import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -120,23 +121,10 @@ const AccordionItem = ({ title, children }) => {
   );
 };
 
-type Props = {
-  workId: string;
-  title: string;
-  work: any;
-  manifest: any;
-  setActiveIndex: any;
-  mainViewerRef: any;
-};
-
-const ViewerSidebarPrototype: FunctionComponent<Props> = ({
-  workId,
-  title,
-  work,
-  manifest,
-  setActiveIndex,
-  mainViewerRef,
-}: Props) => {
+const ViewerSidebarPrototype: FunctionComponent = () => {
+  const { work, manifest, setActiveIndex, mainViewerRef } = useContext(
+    ItemViewerContext
+  );
   const productionDates = getProductionDates(work);
   const [inputValue, setInputValue] = useState('');
   // Determine digital location
@@ -162,7 +150,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           [font('hnm', 5)]: true,
         })}
       >
-        <h1>{title}</h1>
+        <h1>{work.title}</h1>
 
         {work.contributors.length > 0 && (
           <Space h={{ size: 'm', properties: ['margin-right'] }}>
@@ -189,7 +177,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         )}
 
         <Space v={{ size: 'm', properties: ['margin-top'] }}>
-          <WorkLink id={workId} source="viewer_back_link">
+          <WorkLink id={work.id} source="viewer_back_link">
             <a
               className={classNames({
                 'flex flex--v-center': true,

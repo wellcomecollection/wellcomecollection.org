@@ -15,6 +15,7 @@ import MainViewer from '../IIIFViewer/parts/MainViewer';
 import ViewerTopBarPrototype from '../ViewerTopBarPrototype/ViewerTopBarPrototype';
 import { IIIFViewerProps } from '../IIIFViewer/IIIFViewer';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
+import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 
 const Grid = styled.div`
   display: grid;
@@ -82,7 +83,6 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const [pageWidth, setPageWidth] = useState(1000);
   const [showZoomed, setShowZoomed] = useState(false);
   const [zoomInfoUrl, setZoomInfoUrl] = useState<string | undefined>();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rotatedImages, setRotatedImages] = useState<any[]>([]);
   const [showControls, setShowControls] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -139,6 +139,10 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
       ]) ||
     [];
 
+  const downloadOptions = showDownloadOptions
+    ? [...imageDownloadOptions, ...iiifPresentationDownloadOptions]
+    : [];
+
   useEffect(() => {
     function handleResize() {
       if (isFullscreen) {
@@ -157,59 +161,83 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   }, [isFullscreen]);
 
   return (
-    <Grid>
-      <Sidebar>
-        <ViewerSidebarPrototype
-          title={title}
-          workId={workId}
-          work={work}
-          manifest={manifest}
-          setActiveIndex={setActiveIndex}
-          mainViewerRef={mainViewerRef}
-        />
-      </Sidebar>
-      <Topbar>
-        <ViewerTopBarPrototype
-          canvases={canvases}
-          enhanced={enhanced}
-          gridVisible={gridVisible}
-          setGridVisible={setGridVisible}
-          workId={workId}
-          viewToggleRef={viewToggleRef}
-          currentManifestLabel={currentManifestLabel}
-          canvasIndex={activeIndex}
-          licenseInfo={licenseInfo}
-          iiifImageLocationCredit={iiifImageLocationCredit}
-          downloadOptions={
-            showDownloadOptions
-              ? [...imageDownloadOptions, ...iiifPresentationDownloadOptions]
-              : []
-          }
-          iiifPresentationDownloadOptions={iiifPresentationDownloadOptions}
-          parentManifest={parentManifest}
-          lang={lang}
-          viewerRef={viewerRef}
-          manifestIndex={manifestIndex}
-        />
-      </Topbar>
-      <Main>
-        <MainViewer
-          listHeight={pageHeight}
-          mainViewerRef={mainViewerRef}
-          setActiveIndex={setActiveIndex}
-          pageWidth={pageWidth}
-          canvases={canvases}
-          canvasIndex={canvasIndex}
-          setShowZoomed={setShowZoomed}
-          setZoomInfoUrl={setZoomInfoUrl}
-          setIsLoading={setIsLoading}
-          rotatedImages={rotatedImages}
-          setShowControls={setShowControls}
-          errorHandler={handleImageError}
-        />
-      </Main>
-      <Thumbnails isThumbnailsActive={true}>thumbs</Thumbnails>
-    </Grid>
+    <ItemViewerContext.Provider
+      value={{
+        work: work,
+        manifest: manifest,
+        manifestIndex: manifestIndex,
+        setActiveIndex: setActiveIndex,
+        mainViewerRef: mainViewerRef,
+        viewerRef: viewerRef,
+        viewToggleRef: viewToggleRef,
+        canvases: canvases,
+        gridVisible: gridVisible,
+        setGridVisible: setGridVisible,
+        currentManifestLabel: currentManifestLabel,
+        canvasIndex: canvasIndex,
+        licenseInfo: licenseInfo,
+        iiifImageLocationCredit: iiifImageLocationCredit,
+        downloadOptions: downloadOptions,
+        iiifPresentationDownloadOptions: iiifPresentationDownloadOptions,
+        parentManifest: parentManifest,
+        lang: lang,
+        pageHeight: pageHeight,
+        pageWidth: pageWidth,
+        setShowZoomed: setShowZoomed,
+        setZoomInfoUrl: setZoomInfoUrl,
+        setIsLoading: setIsLoading,
+        rotatedImages: rotatedImages,
+        setShowControls: setShowControls,
+        errorHandler: handleImageError,
+      }}
+    >
+      <Grid>
+        <Sidebar>
+          <ViewerSidebarPrototype />
+        </Sidebar>
+        <Topbar>
+          <ViewerTopBarPrototype
+            canvases={canvases}
+            enhanced={enhanced}
+            gridVisible={gridVisible}
+            setGridVisible={setGridVisible}
+            workId={workId}
+            viewToggleRef={viewToggleRef}
+            currentManifestLabel={currentManifestLabel}
+            canvasIndex={activeIndex}
+            licenseInfo={licenseInfo}
+            iiifImageLocationCredit={iiifImageLocationCredit}
+            downloadOptions={
+              showDownloadOptions
+                ? [...imageDownloadOptions, ...iiifPresentationDownloadOptions]
+                : []
+            }
+            iiifPresentationDownloadOptions={iiifPresentationDownloadOptions}
+            parentManifest={parentManifest}
+            lang={lang}
+            viewerRef={viewerRef}
+            manifestIndex={manifestIndex}
+          />
+        </Topbar>
+        <Main>
+          <MainViewer
+            listHeight={pageHeight}
+            mainViewerRef={mainViewerRef}
+            setActiveIndex={setActiveIndex}
+            pageWidth={pageWidth}
+            canvases={canvases}
+            canvasIndex={canvasIndex}
+            setShowZoomed={setShowZoomed}
+            setZoomInfoUrl={setZoomInfoUrl}
+            setIsLoading={setIsLoading}
+            rotatedImages={rotatedImages}
+            setShowControls={setShowControls}
+            errorHandler={handleImageError}
+          />
+        </Main>
+        <Thumbnails isThumbnailsActive={false}>thumbs</Thumbnails>
+      </Grid>
+    </ItemViewerContext.Provider>
   );
 };
 
