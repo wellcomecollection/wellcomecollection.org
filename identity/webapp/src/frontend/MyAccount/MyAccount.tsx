@@ -4,14 +4,9 @@ import { ChangeDetailsModal } from './ChangeDetailsModal';
 import { PageWrapper } from '../components/PageWrapper';
 import { Container, Title, Wrapper } from '../components/Layout.style';
 import { DetailWrapper, Grid, HorizontalRule, Label } from './MyAccount.style';
-import { ChangeEmail } from './ChangeEmail';
 import { Loading } from './Loading';
-
-const ChangePassword = () => (
-  <div>
-    <h2>Change password</h2>
-  </div>
-);
+import { ChangeEmail } from './ChangeEmail';
+import { ChangePassword } from './ChangePassword';
 
 const DeleteAccount = () => (
   <div>

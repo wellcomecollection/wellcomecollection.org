@@ -11,4 +11,7 @@ export const handlers = [
   rest.put('/api/users/me', (req, res, ctx) => {
     return res(ctx.json(mockUser));
   }),
+  rest.put('/api/users/me/password', (req, res, ctx) => {
+    return res(ctx.status(200));
+  }),
 ];
