@@ -1,4 +1,3 @@
-import { SortField } from '../interfaces';
 import * as queryString from 'query-string';
 
 export function buildSearchParams(
@@ -7,12 +6,16 @@ export function buildSearchParams(
   name: string | string[],
   email: string | string[],
   sortField?: string | string[],
-  sortDir?: string | string[],
+  sortDir?: string | string[]
 ): string {
-  const sort = sortField &&
-    typeof sortField === 'string' &&
-    Object.values(SortField).includes(sortField as SortField) ? sortField : undefined;
-  return queryString.stringify({ page, status, name, email, sort, sortDir });
+  return queryString.stringify({
+    page,
+    status,
+    name,
+    email,
+    sortField,
+    sortDir,
+  });
 }
 
 export function buildSearchUrl(
