@@ -1,5 +1,5 @@
 import { FieldError } from 'react-hook-form';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
 export const FieldMargin = styled.div`
@@ -25,7 +25,25 @@ export const InvalidFieldAlert = styled.span.attrs({ role: 'alert', className: '
   font-weight: bold;
 `;
 
+export const DangerButtonModifier = css`
+  background-color: #d1192c;
+  border-color: #d1192c;
+
+  &:not([disabled]):hover {
+    background-color: #b80013;
+    border-color: #b80013;
+  }
+`;
+
 export const Button = styled(SolidButton)`
   width: 100%;
   justify-content: center;
+
+  ${props => props.isDangerous && DangerButtonModifier}
+`;
+
+export const Cancel = styled.a.attrs({ href: '#cancel' })`
+  display: block;
+  text-align: center;
+  padding-top: 1em;
 `;

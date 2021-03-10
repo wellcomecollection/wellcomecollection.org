@@ -7,12 +7,7 @@ import { DetailWrapper, Grid, HorizontalRule, Label } from './MyAccount.style';
 import { Loading } from './Loading';
 import { ChangeEmail } from './ChangeEmail';
 import { ChangePassword } from './ChangePassword';
-
-const DeleteAccount = () => (
-  <div>
-    <h2>Delete this account</h2>
-  </div>
-);
+import { DeleteAccount } from './DeleteAccount';
 
 const Detail: React.FC<{ label: string; value?: string }> = ({ label, value }) => (
   <DetailWrapper>

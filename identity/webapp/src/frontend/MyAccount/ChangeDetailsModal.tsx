@@ -4,6 +4,7 @@ import { Button } from './MyAccount.style';
 
 export type ChangeDetailsModalContentProps = {
   onComplete: () => void;
+  onCancel: () => void;
 };
 
 type ChangeDetailsModalProps = {
@@ -28,7 +29,7 @@ export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
         {buttonText}
       </Button>
       <Modal id={id} isActive={isActive} setIsActive={setIsActive} openButtonRef={openButton}>
-        <Content onComplete={() => setIsActive(false)} />
+        <Content onComplete={() => setIsActive(false)} onCancel={() => setIsActive(false)} />
       </Modal>
     </>
   );

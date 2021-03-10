@@ -1,5 +1,6 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import { DangerButtonModifier } from '../components/Form.style';
 
 export const Grid = styled.main`
   display: grid;
@@ -22,16 +23,6 @@ export const Label = styled.figcaption.attrs({ className: 'font-hnl fonts-loaded
 
 export const HorizontalRule = styled.hr`
   grid-column: 1 / -1;
-`;
-
-const DangerButtonModifier = css`
-  background-color: #d1192c;
-  border-color: #d1192c;
-
-  &:not([disabled]):hover {
-    background-color: #b80013;
-    border-color: #b80013;
-  }
 `;
 
 export const Button = styled(SolidButton)`

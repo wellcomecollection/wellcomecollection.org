@@ -14,4 +14,7 @@ export const handlers = [
   rest.put('/api/users/me/password', (req, res, ctx) => {
     return res(ctx.status(200));
   }),
+  rest.put('/api/users/me/deletion-request', (req, res, ctx) => {
+    return res(ctx.status(200));
+  }),
 ];
