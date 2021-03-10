@@ -3,6 +3,7 @@ import {
   IIIFRendering,
   IIIFMetadata,
   IIIFCanvas,
+  IIIFStructure,
   IIIFMediaElement,
   Service,
   AuthService,
@@ -123,6 +124,10 @@ export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
         sequence.compatibilityHint !== 'displayIfContentUnsupported'
     );
   return sequence ? sequence.canvases : [];
+}
+
+export function getStructures(iiifManifest: IIIFManifest): IIIFStructure[] {
+  return iiifManifest?.structures || [];
 }
 
 export function getVideo(

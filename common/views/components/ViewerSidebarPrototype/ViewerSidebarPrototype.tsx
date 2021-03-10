@@ -12,6 +12,7 @@ import {
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
+import ViewerStructuresPrototype from '../ViewerStructuresPrototype/ViewerStructuresPrototype';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -52,6 +53,10 @@ const AccordionInner = styled(Space).attrs({
     }
   }
 
+  p {
+    margin-bottom: 0.5em;
+  }
+
   ul {
     list-style: none;
     margin: 0 0 1em;
@@ -66,6 +71,10 @@ const AccordionInner = styled(Space).attrs({
 
 const Item = styled.div`
   border-bottom: 1px solid ${props => props.theme.color('charcoal')};
+
+  &:first-child {
+    border-top: 1px solid ${props => props.theme.color('charcoal')};
+  }
 `;
 
 const AccordionItem = ({ title, children }) => {
@@ -73,8 +82,17 @@ const AccordionItem = ({ title, children }) => {
 
   return (
     <Item>
-      <AccordionInner onClick={() => setIsActive(!isActive)}>
-        <button className={'plain-button no-margin no-padding'}>
+      <AccordionInner
+        onClick={() => setIsActive(!isActive)}
+        className={classNames({
+          'bg-charcoal': isActive,
+        })}
+      >
+        <button
+          className={classNames({
+            'plain-button no-margin no-padding': true,
+          })}
+        >
           <span>
             <h2
               className={classNames({
@@ -106,12 +124,18 @@ type Props = {
   workId: string;
   title: string;
   work: any;
+  manifest: any;
+  setActiveIndex: any;
+  mainViewerRef: any;
 };
 
 const ViewerSidebarPrototype: FunctionComponent<Props> = ({
   workId,
   title,
   work,
+  manifest,
+  setActiveIndex,
+  mainViewerRef,
 }: Props) => {
   const productionDates = getProductionDates(work);
   const [inputValue, setInputValue] = useState('');
@@ -164,8 +188,8 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           />
         )}
 
-        <WorkLink id={workId} source="viewer_back_link">
-          <Space v={{ size: 'm', properties: ['margin-top'] }}>
+        <Space v={{ size: 'm', properties: ['margin-top'] }}>
+          <WorkLink id={workId} source="viewer_back_link">
             <a
               className={classNames({
                 'flex flex--v-center': true,
@@ -173,51 +197,41 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
             >
               Back to full information
             </a>
-          </Space>
-        </WorkLink>
+          </WorkLink>
+        </Space>
       </Inner>
       <div>
         <AccordionItem title={'License and credit'}>
           <div className={font('hnl', 6)}>
-            <span>{license && [license.label]}</span>
-            {license.humanReadableText.length > 0 && (
-              <span>{license.humanReadableText}</span>
+            {license && license.label && (
+              <p>
+                <strong>License:</strong>{' '}
+                {license.url ? (
+                  <a href="{license.url}">{license.label}</a>
+                ) : (
+                  <span>{license.label}</span>
+                )}
+              </p>
             )}
-            `Credit: ${work.title.replace(/\.$/g, '')}.$ $
-            {credit
-              ? `Credit: <a href="https:wellcomecollection.org/works/${work.id}">${credit}</a>. `
-              : ` `}
-            $
-            {license.url
-              ? `<a href="${license.url}">${license.label}</a>`
-              : license.label}
-            `
+            <p>
+              <strong>Credit:</strong> {work.title.replace(/\.$/g, '')}.
+            </p>
+            {credit && (
+              <p>
+                <a href="https:wellcomecollection.org/works/{work.id}">
+                  {credit}
+                </a>
+                .
+              </p>
+            )}
           </div>
         </AccordionItem>
         <AccordionItem title={'Contents'}>
-          <ul className={font('hnm', 6)}>
-            <li>
-              <a href="#">Cover</a>
-            </li>
-            <li>
-              <a href="#">Title page</a>
-            </li>
-            <li>
-              <a href="#">Table of contents</a>
-            </li>
-            <li>
-              <a href="#">Date 1484</a>
-            </li>
-            <li>
-              <a href="#">Medical receipts</a>
-            </li>
-            <li>
-              <a href="#">Astrological and astronomical notes</a>
-            </li>
-            <li>
-              <a href="#">Cover</a>
-            </li>
-          </ul>
+          <ViewerStructuresPrototype
+            manifest={manifest}
+            setActiveIndex={setActiveIndex}
+            mainViewerRef={mainViewerRef}
+          />
         </AccordionItem>
         <AccordionItem title={'Search within this item'}>
           <Space v={{ size: 'm', properties: ['margin-bottom'] }}>

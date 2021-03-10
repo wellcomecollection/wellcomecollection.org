@@ -152,7 +152,14 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   return (
     <Grid>
       <Sidebar>
-        <ViewerSidebarPrototype title={title} workId={workId} work={work} />
+        <ViewerSidebarPrototype
+          title={title}
+          workId={workId}
+          work={work}
+          manifest={manifest}
+          setActiveIndex={setActiveIndex}
+          mainViewerRef={mainViewerRef}
+        />
       </Sidebar>
       <Topbar>
         <ViewerTopBarPrototype
