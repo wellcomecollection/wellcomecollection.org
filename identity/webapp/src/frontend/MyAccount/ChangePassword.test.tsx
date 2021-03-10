@@ -8,10 +8,15 @@ import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import { server } from '../mocks/server';
 import { rest } from 'msw';
 
+const defaultProps: ChangeDetailsModalContentProps = {
+  onComplete: () => null,
+  onCancel: () => null,
+};
+
 const renderComponent = (props: Partial<ChangeDetailsModalContentProps> = {}) =>
   render(
     <ThemeProvider theme={theme}>
-      <ChangePassword onComplete={() => null} {...props} />
+      <ChangePassword {...defaultProps} {...props} />
     </ThemeProvider>
   );
 

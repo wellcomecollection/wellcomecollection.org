@@ -9,11 +9,16 @@ import theme from '@weco/common/views/themes/default';
 import { server } from '../mocks/server';
 import { rest } from 'msw';
 
+const defaultProps: ChangeDetailsModalContentProps = {
+  onComplete: () => null,
+  onCancel: () => null,
+};
+
 const renderComponent = (props: Partial<ChangeDetailsModalContentProps> = {}) =>
   render(
     <ThemeProvider theme={theme}>
       <UserInfoProvider>
-        <ChangeEmail onComplete={() => null} {...props} />
+        <ChangeEmail {...defaultProps} {...props} />
       </UserInfoProvider>
     </ThemeProvider>
   );

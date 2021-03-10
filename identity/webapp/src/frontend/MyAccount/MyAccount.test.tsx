@@ -54,8 +54,7 @@ describe('MyAccount', () => {
 
   it("shows a mock of the user's password", async () => {
     renderComponent();
-    expect(await screen.findByText(/^password$/i)).toBeInTheDocument();
-    expect(screen.getByText('********')).toBeInTheDocument();
+    expect(await screen.findByText('********')).toBeInTheDocument();
   });
 
   it('opens a modal where the user can update their password', async () => {
