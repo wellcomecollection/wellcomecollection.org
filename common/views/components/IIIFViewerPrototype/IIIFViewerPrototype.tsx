@@ -152,7 +152,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   return (
     <Grid>
       <Sidebar>
-        <ViewerSidebarPrototype title={title} workId={workId} />
+        <ViewerSidebarPrototype title={title} workId={workId} work={work} />
       </Sidebar>
       <Topbar>
         <ViewerTopBarPrototype

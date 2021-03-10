@@ -3,12 +3,28 @@ import WorkLink from '../WorkLink/WorkLink';
 import Icon from '../Icon/Icon';
 import styled from 'styled-components';
 import Space from '../styled/Space';
+import TextInput from '../TextInput/TextInput';
 import { classNames, font } from '@weco/common/utils/classnames';
+import LinkLabels from '../LinkLabels/LinkLabels';
+import {
+  getProductionDates,
+  getDigitalLocationOfType,
+} from '@weco/common/utils/works';
+import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
+import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-})``;
+})`
+  h1 {
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 10;
+    overflow: hidden;
+  }
+`;
 
 const AccordionInner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -34,6 +50,17 @@ const AccordionInner = styled(Space).attrs({
       justify-content: space-between;
       align-items: center;
     }
+  }
+
+  ul {
+    list-style: none;
+    margin: 0 0 1em;
+    padding: 0;
+  }
+
+  li {
+    padding: 0;
+    margin: 0;
   }
 `;
 
@@ -78,12 +105,32 @@ const AccordionItem = ({ title, children }) => {
 type Props = {
   workId: string;
   title: string;
+  work: any;
 };
 
 const ViewerSidebarPrototype: FunctionComponent<Props> = ({
   workId,
   title,
+  work,
 }: Props) => {
+  const productionDates = getProductionDates(work);
+  const [inputValue, setInputValue] = useState('');
+  // Determine digital location
+  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
+  const digitalLocation: DigitalLocation | undefined =
+    iiifPresentationLocation || iiifImageLocation;
+
+  const license =
+    digitalLocation &&
+    digitalLocation.license &&
+    getAugmentedLicenseInfo(digitalLocation.license);
+  const { iiifCredit } = useIIIFManifestData(work);
+  const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
+
   return (
     <>
       <Inner
@@ -92,36 +139,98 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         })}
       >
         <h1>{title}</h1>
+
+        {work.contributors.length > 0 && (
+          <Space h={{ size: 'm', properties: ['margin-right'] }}>
+            <LinkLabels
+              items={[
+                {
+                  text: work.contributors[0].agent.label,
+                },
+              ]}
+            />
+          </Space>
+        )}
+
+        {productionDates.length > 0 && (
+          <LinkLabels
+            heading={'Date'}
+            items={[
+              {
+                text: productionDates[0],
+                url: null,
+              },
+            ]}
+          />
+        )}
+
         <WorkLink id={workId} source="viewer_back_link">
-          <a
-            className={classNames({
-              'flex flex--v-center': true,
-            })}
-          >
-            <Icon name={`chevron`} extraClasses={`icon--90 icon--white`} /> Back
-            to full information
-          </a>
+          <Space v={{ size: 'm', properties: ['margin-top'] }}>
+            <a
+              className={classNames({
+                'flex flex--v-center': true,
+              })}
+            >
+              Back to full information
+            </a>
+          </Space>
         </WorkLink>
       </Inner>
       <div>
         <AccordionItem title={'License and credit'}>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
-            nisi asperiores vel assumenda vero dicta, reiciendis dolore
-            voluptate eos illo. Quaerat itaque quia assumenda rem doloribus
-            temporibus cum praesentium asperiores?
-          </p>
+          <div className={font('hnl', 6)}>
+            <span>{license && [license.label]}</span>
+            {license.humanReadableText.length > 0 && (
+              <span>{license.humanReadableText}</span>
+            )}
+            `Credit: ${work.title.replace(/\.$/g, '')}.$ $
+            {credit
+              ? `Credit: <a href="https:wellcomecollection.org/works/${work.id}">${credit}</a>. `
+              : ` `}
+            $
+            {license.url
+              ? `<a href="${license.url}">${license.label}</a>`
+              : license.label}
+            `
+          </div>
         </AccordionItem>
         <AccordionItem title={'Contents'}>
-          <p>Cover</p>
-          <p>Title page</p>
-          <p>Table of contents</p>
-          <p>Date 1484</p>
-          <p>Medical receipts</p>
-          <p>Astrological and astronomical notes</p>
-          <p>Cover</p>
+          <ul className={font('hnm', 6)}>
+            <li>
+              <a href="#">Cover</a>
+            </li>
+            <li>
+              <a href="#">Title page</a>
+            </li>
+            <li>
+              <a href="#">Table of contents</a>
+            </li>
+            <li>
+              <a href="#">Date 1484</a>
+            </li>
+            <li>
+              <a href="#">Medical receipts</a>
+            </li>
+            <li>
+              <a href="#">Astrological and astronomical notes</a>
+            </li>
+            <li>
+              <a href="#">Cover</a>
+            </li>
+          </ul>
         </AccordionItem>
-        <AccordionItem title={'Search within this item'}></AccordionItem>
+        <AccordionItem title={'Search within this item'}>
+          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+            <TextInput
+              id={'newsletter-input'}
+              type={'text'}
+              name={'test'}
+              label={'enter search term'}
+              value={inputValue}
+              setValue={setInputValue}
+            />
+          </Space>
+        </AccordionItem>
       </div>
     </>
   );
