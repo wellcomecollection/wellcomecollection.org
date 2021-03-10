@@ -6,6 +6,7 @@ import {
   IIIFMediaElement,
   Service,
   AuthService,
+  AuthServiceService,
   IIIFAnnotationResource,
 } from '../model/iiif';
 
@@ -31,6 +32,34 @@ export function getAuthService(
       ? iiifManifest.service.find(service => !!service.authService)?.authService
       : iiifManifest.service.authService;
   }
+}
+
+export function getVideoClickthroughService(
+  video: any // TODO
+): AuthService | undefined {
+  if (video?.service) {
+    if (Array.isArray(video.service)) {
+      return video.service.find(
+        service =>
+          service.profile === 'http://iiif.io/api/auth/0/login/clickthrough'
+      );
+    } else {
+      if (
+        video.service.profile === 'http://iiif.io/api/auth/0/login/clickthrough'
+      ) {
+        return video.service;
+      }
+    }
+  }
+}
+
+export function getTokenService(
+  authService: AuthService
+): AuthServiceService | undefined {
+  const authServiceServices = authService?.service || [];
+  return authServiceServices.find(
+    service => service.profile === 'http://iiif.io/api/auth/0/token'
+  );
 }
 
 export function getImageAuthService(canvas?: IIIFCanvas) {
