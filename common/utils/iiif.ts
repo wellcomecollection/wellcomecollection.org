@@ -3,11 +3,11 @@ import {
   IIIFRendering,
   IIIFMetadata,
   IIIFCanvas,
-  IIIFMediaElement,
   Service,
   AuthService,
   AuthServiceService,
   IIIFAnnotationResource,
+  IIIFMediaElement,
 } from '../model/iiif';
 
 export function getServiceId(canvas?: IIIFCanvas): string | undefined {
@@ -35,7 +35,7 @@ export function getAuthService(
 }
 
 export function getVideoClickthroughService(
-  video: any // TODO
+  video: IIIFMediaElement
 ): AuthService | undefined {
   if (video?.service) {
     if (Array.isArray(video.service)) {
@@ -62,7 +62,7 @@ export function getTokenService(
   );
 }
 
-export function getImageAuthService(canvas?: IIIFCanvas) {
+export function getImageAuthService(canvas?: IIIFCanvas): AuthService {
   const serviceArray = canvas?.images?.[0]?.resource?.service?.[0]?.service;
   const authService =
     serviceArray &&

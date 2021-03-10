@@ -74,7 +74,9 @@ export type IIIFMediaElement = {
   height?: number;
   width?: number;
   resources?: IIIFAnnotationResource[];
+  service?: AuthService | AuthService[];
 };
+
 type IIIFMediaSequence = {
   '@id': string;
   '@type': string;
