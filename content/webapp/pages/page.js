@@ -175,7 +175,7 @@ export class Page extends Component<Props> {
         url={{ pathname: `/pages/${page.id}` }}
         jsonLd={contentLd(page)}
         openGraphType={'website'}
-        siteSection={page.siteSection}
+        siteSection={page.siteSection ?? null}
         imageUrl={page.image && convertImageUri(page.image.contentUrl, 800)}
         imageAltText={page.image && page.image.alt}
       >
