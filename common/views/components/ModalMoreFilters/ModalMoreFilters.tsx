@@ -16,8 +16,8 @@ import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
 
 type ModalMoreFiltersProps = {
   id: string;
-  showMoreFiltersModal: boolean;
-  setMoreFiltersModal: (arg: boolean) => void;
+  isActive: boolean;
+  setIsActive: (arg: boolean) => void;
   openMoreFiltersButtonRef: RefObject<HTMLInputElement>;
   query: string;
   changeHandler: () => void;
@@ -153,8 +153,8 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
 const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
   query,
   id,
-  showMoreFiltersModal,
-  setMoreFiltersModal,
+  isActive,
+  setIsActive,
   openMoreFiltersButtonRef,
   changeHandler,
   filters,
@@ -170,8 +170,8 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
       </noscript>
       <Modal
         id={id}
-        isActive={showMoreFiltersModal}
-        setIsActive={setMoreFiltersModal}
+        isActive={isActive}
+        setIsActive={setIsActive}
         openButtonRef={openMoreFiltersButtonRef}
         overrideDefaultModalStyle={true}
       >
@@ -201,7 +201,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
             ref={undefined}
             type={ButtonTypes.button}
             clickHandler={() => {
-              setMoreFiltersModal(false);
+              setIsActive(false);
             }}
             text="Show results"
           />

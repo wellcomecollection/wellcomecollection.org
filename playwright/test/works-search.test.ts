@@ -13,11 +13,11 @@ import { URLSearchParams } from 'url';
 //   ]);
 // });
 
-async function searchFor(query: string) {
+export const worksSearchForm = '[aria-label="Search the catalogue"]';
+export async function searchFor(query: string) {
   console.info('searchFor', query);
-  const searchInput = '[aria-label="Search the catalogue"]';
-  await page.fill(searchInput, query);
-  await page.press(searchInput, 'Enter');
+  await page.fill(worksSearchForm, query);
+  await page.press(worksSearchForm, 'Enter');
 }
 
 function expectSearchParam(expectedKey: string, expectedVal: string) {
