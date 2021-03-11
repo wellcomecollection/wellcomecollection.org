@@ -120,11 +120,14 @@ const AccordionItem = ({ title, children }) => {
     </Item>
   );
 };
+type Props = {
+  mainViewerRef: any;
+};
 
-const ViewerSidebarPrototype: FunctionComponent = () => {
-  const { work, manifest, setActiveIndex, mainViewerRef } = useContext(
-    ItemViewerContext
-  );
+const ViewerSidebarPrototype: FunctionComponent<Props> = ({
+  mainViewerRef,
+}: Props) => {
+  const { work, manifest, setActiveIndex } = useContext(ItemViewerContext);
   const productionDates = getProductionDates(work);
   const [inputValue, setInputValue] = useState('');
   // Determine digital location

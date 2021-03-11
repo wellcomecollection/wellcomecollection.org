@@ -1,9 +1,3 @@
-import {
-  IIIFManifest,
-  IIIFRendering,
-  IIIFCanvas,
-} from '@weco/common/model/iiif';
-import { LicenseData } from '@weco/common/utils/licenses';
 import { lighten } from 'polished';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -12,7 +6,9 @@ import Download from '@weco/catalogue/components/Download/Download';
 import MultipleManifestList from '@weco/catalogue/components/MultipleManifestList/MultipleManifestList';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { FunctionComponent, RefObject } from 'react';
+import { FunctionComponent, useContext } from 'react';
+import { AppContext } from '../AppContext/AppContext';
+import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs(() => ({
@@ -111,47 +107,34 @@ const TitleContainer = styled.div.attrs(() => ({
   width: ${props => (props.isEnhanced ? '80%' : '100%')};
   padding: ${props => `0 ${props.theme.spacingUnit * 2}px`};
 `;
-
 type Props = {
-  canvases: IIIFCanvas[];
-  enhanced: boolean;
-  gridVisible: boolean;
-  setGridVisible: (visible: boolean) => void;
-  workId: string;
-  viewToggleRef: RefObject<HTMLButtonElement>;
-  currentManifestLabel?: string;
-  canvasIndex: number;
-  licenseInfo?: LicenseData;
-  iiifImageLocationCredit?: string;
-  downloadOptions?: IIIFRendering[];
-  iiifPresentationDownloadOptions: IIIFRendering[];
-  parentManifest?: IIIFManifest;
-  lang: string;
-  viewerRef: RefObject<HTMLElement>;
-  manifestIndex?: number;
+  viewToggleRef: any;
+  viewerRef: any;
 };
 
 const ViewerTopBar: FunctionComponent<Props> = ({
-  canvases,
-  enhanced,
-  gridVisible,
-  setGridVisible,
-  workId,
   viewToggleRef,
-  currentManifestLabel,
-  canvasIndex,
-  licenseInfo,
-  iiifImageLocationCredit,
-  downloadOptions,
-  iiifPresentationDownloadOptions,
-  parentManifest,
-  lang,
   viewerRef,
-  manifestIndex,
 }: Props) => {
+  const { isEnhanced } = useContext(AppContext);
+  const {
+    canvases,
+    gridVisible,
+    setGridVisible,
+    work,
+    currentManifestLabel,
+    activeIndex,
+    licenseInfo,
+    iiifImageLocationCredit,
+    downloadOptions,
+    iiifPresentationDownloadOptions,
+    parentManifest,
+    lang,
+    manifestIndex,
+  } = useContext(ItemViewerContext);
   return (
     <TopBar className="flex">
-      {enhanced && canvases && canvases.length > 1 && (
+      {isEnhanced && canvases && canvases.length > 1 && (
         <ViewAllContainer>
           <ShameButton
             ref={viewToggleRef}
@@ -162,7 +145,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                 action: `clicked work viewer ${
                   gridVisible ? '"Detail view"' : '"View all"'
                 } button`,
-                label: `${workId}`,
+                label: `${work.id}`,
               });
             }}
           >
@@ -173,12 +156,14 @@ const ViewerTopBar: FunctionComponent<Props> = ({
           </ShameButton>
         </ViewAllContainer>
       )}
-      <TitleContainer isEnhanced={enhanced && canvases && canvases.length > 1}>
+      <TitleContainer
+        isEnhanced={isEnhanced && canvases && canvases.length > 1}
+      >
         {canvases && canvases.length > 1 && (
-          <>{`${canvasIndex + 1 || ''} / ${(canvases && canvases.length) ||
+          <>{`${activeIndex + 1 || ''} / ${(canvases && canvases.length) ||
             ''}`}</>
         )}
-        {enhanced && (
+        {isEnhanced && (
           <div className="flex flex--v-center">
             {document &&
               (document.fullscreenEnabled ||
@@ -217,8 +202,8 @@ const ViewerTopBar: FunctionComponent<Props> = ({
             <Space h={{ size: 'm', properties: ['margin-right'] }}>
               <Download
                 ariaControlsId="itemDownloads"
-                title={title}
-                workId={workId}
+                title={work.title}
+                workId={work.id}
                 license={licenseInfo}
                 iiifImageLocationCredit={iiifImageLocationCredit}
                 downloadOptions={
@@ -232,7 +217,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
               <MultipleManifestList
                 buttonText={currentManifestLabel || 'Choose'}
                 manifests={parentManifest.manifests}
-                workId={workId}
+                workId={work.id}
                 lang={lang}
                 manifestIndex={manifestIndex}
               />

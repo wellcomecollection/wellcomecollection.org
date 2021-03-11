@@ -11,11 +11,13 @@ import {
   getDownloadOptionsFromManifest,
 } from '@weco/common/utils/iiif';
 import ViewerSidebarPrototype from '../ViewerSidebarPrototype/ViewerSidebarPrototype';
-import MainViewer from '../IIIFViewer/parts/MainViewer';
+import MainViewerPrototype from '../MainViewerPrototype/MainViewerPrototype';
 import ViewerTopBarPrototype from '../ViewerTopBarPrototype/ViewerTopBarPrototype';
 import { IIIFViewerProps } from '../IIIFViewer/IIIFViewer';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import { FixedSizeList } from 'react-window';
+import { IIIFManifest } from '@weco/common/model/iiif';
 
 const Grid = styled.div`
   display: grid;
@@ -48,19 +50,17 @@ const Main = styled.div`
 const Thumbnails = styled.div`
   background: ${props => props.theme.color('charcoal')};
   grid-area: desktop-main-start / main-start / bottom-edge / right-edge;
-  transform: translateY(${props => (props.isThumbnailsActive ? '0' : '100%')});
+  transform: translateY(${props => (props.isActive ? '0' : '100%')});
   transition: transform 250ms ease;
 `;
 
 const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   title,
   mainPaginatorProps,
-  thumbsPaginatorProps,
   currentCanvas,
   lang,
   canvasOcr,
   canvases,
-  workId,
   pageIndex,
   pageSize,
   canvasIndex,
@@ -71,13 +71,16 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   handleImageError,
 }: IIIFViewerProps) => {
   const [gridVisible, setGridVisible] = useState(false);
-  const [enhanced, setEnhanced] = useState(false);
   const [parentManifest, setParentManifest] = useState<
     IIIFManifest | undefined
   >();
   const [currentManifestLabel, setCurrentManifestLabel] = useState<
     string | undefined
   >();
+  const viewToggleRef = useRef<HTMLButtonElement>(null);
+  const gridViewerRef = useRef<HTMLDivElement>(null);
+  const mainViewerRef = useRef<FixedSizeList>(null);
+  const viewerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [pageHeight, setPageHeight] = useState(500);
   const [pageWidth, setPageWidth] = useState(1000);
@@ -88,17 +91,6 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [imageJson, setImageJson] = useState<any>();
-  const viewToggleRef = useRef<HTMLButtonElement>(null);
-  const gridViewerRef = useRef<HTMLDivElement>(null);
-  const mainViewerRef = useRef<FixedSizeList>(null);
-  const viewerRef = useRef<HTMLDivElement>(null);
-  const navigationCanvases =
-    canvases &&
-    [...Array(pageSize)]
-      .map((_, i) => pageSize * pageIndex + i)
-      .map(i => canvases[i])
-      .filter(Boolean);
-
   const mainImageService = { '@id': getServiceId(currentCanvas) };
 
   const iiifPresentationLocation =
@@ -167,9 +159,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
         manifest: manifest,
         manifestIndex: manifestIndex,
         setActiveIndex: setActiveIndex,
-        mainViewerRef: mainViewerRef,
-        viewerRef: viewerRef,
-        viewToggleRef: viewToggleRef,
+        activeIndex: activeIndex,
         canvases: canvases,
         gridVisible: gridVisible,
         setGridVisible: setGridVisible,
@@ -184,58 +174,36 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
         pageHeight: pageHeight,
         pageWidth: pageWidth,
         setShowZoomed: setShowZoomed,
+        showZoomed: showZoomed,
+        setIsFullscreen: setIsFullscreen,
         setZoomInfoUrl: setZoomInfoUrl,
         setIsLoading: setIsLoading,
+        zoomInfoUrl: zoomInfoUrl,
         rotatedImages: rotatedImages,
         setShowControls: setShowControls,
         errorHandler: handleImageError,
+        setRotatedImages: setRotatedImages,
+        showControls: showControls,
+        isLoading: isLoading,
+        setImageJson: setImageJson,
+        setParentManifest: setParentManifest,
+        setCurrentManifestLabel: setCurrentManifestLabel,
       }}
     >
-      <Grid>
+      <Grid ref={viewerRef}>
         <Sidebar>
-          <ViewerSidebarPrototype />
+          <ViewerSidebarPrototype mainViewerRef={mainViewerRef} />
         </Sidebar>
         <Topbar>
           <ViewerTopBarPrototype
-            canvases={canvases}
-            enhanced={enhanced}
-            gridVisible={gridVisible}
-            setGridVisible={setGridVisible}
-            workId={workId}
             viewToggleRef={viewToggleRef}
-            currentManifestLabel={currentManifestLabel}
-            canvasIndex={activeIndex}
-            licenseInfo={licenseInfo}
-            iiifImageLocationCredit={iiifImageLocationCredit}
-            downloadOptions={
-              showDownloadOptions
-                ? [...imageDownloadOptions, ...iiifPresentationDownloadOptions]
-                : []
-            }
-            iiifPresentationDownloadOptions={iiifPresentationDownloadOptions}
-            parentManifest={parentManifest}
-            lang={lang}
             viewerRef={viewerRef}
-            manifestIndex={manifestIndex}
           />
         </Topbar>
         <Main>
-          <MainViewer
-            listHeight={pageHeight}
-            mainViewerRef={mainViewerRef}
-            setActiveIndex={setActiveIndex}
-            pageWidth={pageWidth}
-            canvases={canvases}
-            canvasIndex={canvasIndex}
-            setShowZoomed={setShowZoomed}
-            setZoomInfoUrl={setZoomInfoUrl}
-            setIsLoading={setIsLoading}
-            rotatedImages={rotatedImages}
-            setShowControls={setShowControls}
-            errorHandler={handleImageError}
-          />
+          <MainViewerPrototype mainViewerRef={mainViewerRef} />
         </Main>
-        <Thumbnails isThumbnailsActive={false}>thumbs</Thumbnails>
+        <Thumbnails isActive={gridVisible}>{/* TODO: thumbnails */}</Thumbnails>
       </Grid>
     </ItemViewerContext.Provider>
   );
