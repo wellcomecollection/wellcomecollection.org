@@ -217,17 +217,19 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
             )}
           </div>
         </AccordionItem>
-        <AccordionItem title={'Contents'}>
-          <ViewerStructuresPrototype
-            manifest={manifest}
-            setActiveIndex={setActiveIndex}
-            mainViewerRef={mainViewerRef}
-          />
-        </AccordionItem>
+        {manifest?.structures?.length > 0 && (
+          <AccordionItem title={'Contents'}>
+            <ViewerStructuresPrototype
+              manifest={manifest}
+              setActiveIndex={setActiveIndex}
+              mainViewerRef={mainViewerRef}
+            />
+          </AccordionItem>
+        )}
         <AccordionItem title={'Search within this item'}>
           <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
             <TextInput
-              id={'newsletter-input'}
+              id={'test'}
               type={'text'}
               name={'test'}
               label={'enter search term'}
