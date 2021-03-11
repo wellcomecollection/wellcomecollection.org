@@ -3,29 +3,16 @@ import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { Link, useHistory } from 'react-router-dom';
 import { AccountCreated } from './AccountCreated';
-import { PageWrapper } from './PageWrapper';
-import {
-  Button,
-  Cancel,
-  Checkbox,
-  Container,
-  ErrorAlert,
-  FieldMargin,
-  InvalidFieldAlert,
-  Label,
-  ExternalLink,
-  PasswordRulesList,
-  TextInput,
-  Title,
-  Wrapper,
-  CheckboxLabel,
-  InProgress,
-} from './Registration.style';
+import { PageWrapper } from '../components/PageWrapper';
+import { Cancel, Checkbox, ErrorAlert, ExternalLink, CheckboxLabel, InProgress } from './Registration.style';
+import { FieldMargin, Label, TextInput, InvalidFieldAlert, Button } from '../components/Form.style';
+import { Container, Title, Wrapper } from '../components/Layout.style';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { useRegisterUser, RegistrationError } from './useRegisterUser';
-import { PasswordInput } from './PasswordInput';
+import { PasswordInput } from '../components/PasswordInput';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { validEmailPattern, validPasswordPattern } from '../components/ValidationPatterns';
 
 type RegistrationInputs = {
   firstName: string;
@@ -34,9 +21,6 @@ type RegistrationInputs = {
   password: string;
   termsAndConditions: boolean;
 };
-
-const validEmailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const validPasswordPattern = /(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*/;
 
 export function Registration(): JSX.Element {
   const { register, control, handleSubmit, formState, setError } = useForm<RegistrationInputs>({
@@ -147,6 +131,7 @@ export function Registration(): JSX.Element {
               <Label htmlFor="password">Password</Label>
               <PasswordInput
                 name="password"
+                showPolicy
                 control={control}
                 rules={{
                   required: 'Enter a password.',
@@ -162,12 +147,6 @@ export function Registration(): JSX.Element {
                 render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
               />
             </FieldMargin>
-            <PasswordRulesList>
-              <li className="font-hnl font-size-6">One lowercase character</li>
-              <li className="font-hnl font-size-6">One uppercase character</li>
-              <li className="font-hnl font-size-6">One number</li>
-              <li className="font-hnl font-size-6">8 characters minimum</li>
-            </PasswordRulesList>
             <SpacingComponent />
             <Controller
               name="termsAndConditions"

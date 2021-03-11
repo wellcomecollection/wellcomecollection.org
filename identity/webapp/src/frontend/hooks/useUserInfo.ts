@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { callMiddlewareApi } from "../../utility/middleware-api-client";
+import { useState, useEffect, useCallback } from 'react';
+import { callMiddlewareApi } from '../../utility/middleware-api-client';
 
 export type UserInfo = {
   firstName: string;
@@ -20,26 +20,23 @@ export function useUserInfo(): UserInfoQuery {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
 
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     setIsLoading(true);
     setError(undefined);
-    await callMiddlewareApi('GET','/api/users/me')
-      .then(({ data: userData, status, statusText }) => {
-        if (status !== 200) {
-          throw Error(statusText);
-        }
-        setIsLoading(false);
+    await callMiddlewareApi('GET', '/api/users/me')
+      .then(({ data: userData }) => {
         setData(userData);
+        setIsLoading(false);
       })
-      .catch((fetchError) => {
+      .catch(fetchError => {
         setIsLoading(false);
         setError(fetchError.message);
       });
-  };
+  }, []);
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [fetchUser]);
 
   return { data, isLoading, error, refetch: fetchUser };
 }

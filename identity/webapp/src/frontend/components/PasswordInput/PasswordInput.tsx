@@ -2,47 +2,36 @@ import React, { useState } from 'react';
 import { useController, UseControllerOptions } from 'react-hook-form';
 import OpenEye from '@weco/common/icons/components/Eye';
 import ClosedEye from '@weco/common/icons/components/A11yVisual';
-import styled from 'styled-components';
-import { TextInput } from './Registration.style';
+import { Border, Input, RulesList, ShowPasswordButton } from './PasswordInput.style';
 
-const ShowPasswordButton = styled.button.attrs({ type: 'button' })`
-  height: 55px;
-  width: 55px;
-  background: none;
-  border: none;
-`;
-
-const Border = styled.div<{ invalid: boolean }>`
-  display: flex;
-  width: 100%;
-  border: ${props => (props.invalid ? 'solid 2px #d1192c' : 'solid 1px #8f8f8f')};
-  margin: 0.333em 0;
-  border-radius: 6px;
-`;
-const Input = styled(TextInput)`
-  height: 55px;
-  padding: 0.7em;
-  margin: 0;
-  border: none;
-  flex-grow: 2;
-`;
-
-export type PasswordInputProps = UseControllerOptions;
+export type PasswordInputProps = UseControllerOptions & {
+  id?: string;
+  showPolicy?: boolean;
+};
 
 export const PasswordInput: React.FC<PasswordInputProps> = props => {
   const [isVisible, setIsVisible] = useState(false);
   const { field, meta } = useController(props);
+  const { showPolicy = false } = props;
 
   const toggleVisibility = () => setIsVisible(currentlyVisible => !currentlyVisible);
 
   return (
     <>
       <Border invalid={meta.invalid}>
-        <Input id={props.name} type={isVisible ? 'text' : 'password'} {...field} />
+        <Input id={props.id || props.name} type={isVisible ? 'text' : 'password'} {...field} />
         <ShowPasswordButton onClick={toggleVisibility} aria-label={isVisible ? 'Hide password' : 'Show password'}>
           {isVisible ? <ClosedEye /> : <OpenEye />}
         </ShowPasswordButton>
       </Border>
+      {showPolicy && (
+        <RulesList>
+          <li className="font-hnl font-size-6">One lowercase character</li>
+          <li className="font-hnl font-size-6">One uppercase character</li>
+          <li className="font-hnl font-size-6">One number</li>
+          <li className="font-hnl font-size-6">8 characters minimum</li>
+        </RulesList>
+      )}
     </>
   );
 };
