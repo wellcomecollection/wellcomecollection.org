@@ -237,8 +237,8 @@ const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>
 
 const worksFilters: (props: WorksFilterProps) => Filter[] = props =>
   [
-    productionDatesFilter,
     workTypeFilter,
+    productionDatesFilter,
     availabilitiesFilter,
     contributorsFilter,
     subjectsFilter,
