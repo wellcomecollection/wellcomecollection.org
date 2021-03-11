@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import { mountWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
 
 const openModalButtonSelector = '[data-test-id="open-modal-button"]';
-const closeModalButtonSelector = '[role="button"]';
+const closeModalButtonSelector = '[data-test-id="close-modal-buttons"]';
 
 const ModalExample = () => {
   const [isActive, setIsActive] = useState(false);
@@ -40,7 +40,7 @@ describe('Modal', () => {
   it(`should focus the close button when opened`, () => {
     const component = mountWithTheme(<ModalExample />);
     const openButton = component.find(openModalButtonSelector);
-    const closeButton = component.find(closeModalButtonSelector);
+    const closeButton = component.find(closeModalButtonSelector).at(0);
 
     openButton.simulate('click');
 
@@ -50,7 +50,7 @@ describe('Modal', () => {
   it(`should focus the open button when closed`, () => {
     const component = mountWithTheme(<ModalExample />);
     const openButton = component.find(openModalButtonSelector);
-    const closeButton = component.find(closeModalButtonSelector);
+    const closeButton = component.find(closeModalButtonSelector).at(0);
 
     openButton.simulate('click');
     closeButton.simulate('click');

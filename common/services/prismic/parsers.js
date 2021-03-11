@@ -523,7 +523,12 @@ export function isWebLink(fragment: ?PrismicFragment): boolean {
   return Boolean(fragment && fragment.url);
 }
 
-export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
+export type Weight =
+  | 'default'
+  | 'featured'
+  | 'standalone'
+  | 'supporting'
+  | 'body';
 function getWeight(weight: ?string): Weight {
   switch (weight) {
     case 'featured':
@@ -531,6 +536,8 @@ function getWeight(weight: ?string): Weight {
     case 'standalone':
       return weight;
     case 'supporting':
+      return weight;
+    case 'body':
       return weight;
     default:
       return 'default';

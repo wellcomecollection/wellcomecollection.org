@@ -1,9 +1,9 @@
 import { LinkProps } from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { PropsWithChildren } from 'react';
-import { parseCsv } from './csv';
+import { parseCsv, quoteVal } from './csv';
 import { isInTuple } from './type-guards';
-import { OptionalToUndefined } from './utility-types';
+import { OptionalToUndefined, UndefinableToOptional } from './utility-types';
 
 export type QueryParam = ParsedUrlQuery[string];
 export type QueryTo<Props> = (
@@ -11,6 +11,19 @@ export type QueryTo<Props> = (
 ) => OptionalToUndefined<Props>;
 export type LinkFrom<Props> = PropsWithChildren<Props> &
   Omit<LinkProps, 'as' | 'href'>;
+
+type Codec<T> = {
+  decode: (p: QueryParam) => T;
+  encode: (v: T) => QueryParam;
+};
+type CodecMap = Record<string, Codec<unknown>>;
+// Gets the returns type of decode, and creates the type
+// { key: returnTypeOfDecode }
+export type FromCodecMap<Map extends CodecMap> = UndefinableToOptional<
+  {
+    [K in keyof Map]: ReturnType<Map[K]['decode']>;
+  }
+>;
 
 function paramParser<T>(
   param: QueryParam,
@@ -45,7 +58,7 @@ export function toCsv(param: QueryParam): string[] {
   });
 }
 
-export function toQuotedCsv(param: QueryParam): string[] {
+export function toCsvFromQuotedCsv(param: QueryParam): string[] {
   return paramParser(param, {
     empty: () => [],
     string: p => parseCsv(p),
@@ -99,6 +112,70 @@ export function toSource<T extends string>(
   if (val && isInTuple(val, sources)) {
     return val;
   }
+}
+
+function fromString(v: string): QueryParam {
+  return v === '' ? undefined : v;
+}
+
+function fromNumber(v: number): QueryParam {
+  return v === 1 ? undefined : v.toString();
+}
+
+function fromCsv(v: string[]): QueryParam {
+  return v.length === 0 ? undefined : v.join(',');
+}
+
+function fromQuotedCsv(v: string[]): QueryParam {
+  return v.length === 0 ? undefined : v.map(val => quoteVal(val)).join(',');
+}
+
+export const stringCodec: Codec<string> = {
+  decode: p => toString(p, ''),
+  encode: fromString,
+};
+
+export const maybeStringCodec: Codec<string | undefined> = {
+  decode: toMaybeString,
+  encode: fromString,
+};
+
+export const numberCodec: Codec<number> = {
+  decode: p => toNumber(p, 1),
+  encode: fromNumber,
+};
+
+export const maybeNumberCodec: Codec<number | undefined> = {
+  decode: toMaybeNumber,
+  encode: fromNumber,
+};
+
+export const csvCodec: Codec<string[]> = {
+  decode: toCsv,
+  encode: fromCsv,
+};
+
+export const quotedCsvCodec: Codec<string[]> = {
+  decode: toCsvFromQuotedCsv,
+  encode: fromQuotedCsv,
+};
+
+export function decodeQuery<R>(query: ParsedUrlQuery, codecMap: CodecMap): R {
+  const map = new Map();
+  for (const prop in codecMap) {
+    map.set(prop, codecMap[prop].decode(query[prop]));
+  }
+
+  return Object.fromEntries(map);
+}
+
+export function encodeQuery<T>(props: T, codecMap: CodecMap): ParsedUrlQuery {
+  const map = new Map();
+  for (const prop in codecMap) {
+    map.set(prop, codecMap[prop].encode(props[prop]));
+  }
+
+  return Object.fromEntries(map);
 }
 
 export function propsToQuery(

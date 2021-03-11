@@ -10,6 +10,8 @@ import {
 } from './parsers';
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
+// $FlowFixMe (tsx)
+import { links } from '../../views/components/Header/Header';
 import type { Page } from '../../model/pages';
 import type { SiblingsGroup } from '../../model/siblings-group';
 import type { PrismicDocument, PaginatedResults } from './types';
@@ -31,6 +33,7 @@ import {
   pagesFormatsFields,
 } from './fetch-links';
 
+import { type FeaturedText } from '@weco/common/model/text';
 export function parsePage(document: PrismicDocument): Page {
   const { data } = document;
   const genericFields = parseGenericFields(document);
@@ -44,9 +47,8 @@ export function parsePage(document: PrismicDocument): Page {
   );
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
   // strategy for this later
-  const siteSection = document.tags.find(tag =>
-    ['visit-us', 'what-we-do', 'collections'].includes(tag)
-  );
+  const siteSections = links.map(link => link.siteSection);
+  const siteSection = document.tags.find(tag => siteSections.includes(tag));
 
   // TODO: (drupal migration) Just deal with normal promo once we deprecate the
   // drupal stuff
@@ -241,3 +243,12 @@ export async function getPageFromDrupalPath(
     return parsePage(pages.results[0]);
   }
 }
+
+export const getPageFeaturedText = (page: Page): ?FeaturedText => {
+  const filteredFeaturedText = page.body.filter(
+    slice => slice.weight === 'featured'
+  );
+  if (filteredFeaturedText.length) {
+    return filteredFeaturedText[0];
+  }
+};

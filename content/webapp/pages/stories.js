@@ -5,7 +5,7 @@ import { getArticles } from '@weco/common/services/prismic/articles';
 import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { articleLd } from '@weco/common/utils/json-ld';
-import { classNames, grid, font } from '@weco/common/utils/classnames';
+import { classNames, grid } from '@weco/common/utils/classnames';
 import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 // $FlowFixMe (tsx)
 import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
@@ -14,7 +14,6 @@ import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 // $FlowFixMe (tsx)
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import type { Article } from '@weco/common/model/articles';
 import type { ArticleSeries } from '@weco/common/model/article-series';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
@@ -24,10 +23,21 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import Space from '@weco/common/views/components/styled/Space';
 import { staticBooks } from '../content/static-books';
 import { FeaturedCardArticle } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
+import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import FeaturedTextTitle from '@weco/common/views/components/FeaturedText/FeaturedText';
+import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
+import {
+  getPage,
+  getPageFeaturedText,
+} from '@weco/common/services/prismic/pages';
+import { type FeaturedText } from '@weco/common/model/text';
+// $FlowFixMe (tsx)
+import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 
 type Props = {|
   articles: PaginatedResults<Article>,
   series: ArticleSeries,
+  featuredText: ?FeaturedText,
 |};
 
 const SerialisedSeries = ({ series }: any) => {
@@ -79,16 +89,25 @@ export class StoriesPage extends Component<Props> {
       { id: 'X24JnhEAAMplRFYN' },
       memoizedPrismic
     );
-    const [articles, seriesAndArticles] = await Promise.all([
+
+    const storiesPagePromise = await getPage(
+      ctx.req,
+      prismicPageIds.stories,
+      memoizedPrismic
+    );
+
+    const [articles, seriesAndArticles, storiesPage] = await Promise.all([
       articlesPromise,
       seriesPromise,
+      storiesPagePromise,
     ]);
     const series = seriesAndArticles && seriesAndArticles.series;
-
+    const featuredText = storiesPage && getPageFeaturedText(storiesPage);
     if (articles && articles.results) {
       return {
         articles,
         series,
+        featuredText,
       };
     } else {
       return { statusCode: 404 };
@@ -99,7 +118,7 @@ export class StoriesPage extends Component<Props> {
     const series = this.props.series;
     const articles = this.props.articles.results;
     const firstArticle = articles[0];
-
+    const { featuredText } = this.props;
     return (
       <PageLayout
         title={'Stories'}
@@ -126,7 +145,6 @@ export class StoriesPage extends Component<Props> {
             }}
             className={classNames({
               row: true,
-              'bg-cream': true,
             })}
           >
             <div className="container">
@@ -136,47 +154,27 @@ export class StoriesPage extends Component<Props> {
                     [grid({ s: 12, m: 12, l: 7, xl: 8 })]: true,
                   })}
                 >
-                  <h1
-                    className={classNames({
-                      'no-margin': true,
-                      [font('wb', 2)]: true,
-                    })}
-                  >
+                  <SectionPageHeader sectionLevelPage={true}>
                     Stories
-                  </h1>
-
-                  <Space
-                    v={{
-                      size: 'm',
-                      properties: ['margin-top'],
-                    }}
-                    className={classNames({
-                      'first-para-no-margin body-text': true,
-                    })}
-                  >
-                    {/* Taken from Prismic, so I know it's right. But a bit rubbish. */}
-                    <PrismicHtmlBlock
-                      html={[
-                        {
-                          type: 'paragraph',
-                          text:
-                            "Our words and pictures explore the connections between science, medicine, life and art. Dive into a story no matter where in the world you are. (Want to write for us? Here's how.)",
-                          spans: [
-                            {
-                              start: 145,
-                              end: 177,
-                              type: 'hyperlink',
-                              data: {
-                                link_type: 'Web',
-                                url:
-                                  'https://wellcomecollection.org/pages/Wvl00yAAAB8A3y8p',
-                              },
-                            },
-                          ],
-                        },
-                      ]}
-                    />
-                  </Space>
+                  </SectionPageHeader>
+                  {featuredText && featuredText.value && (
+                    <Space
+                      v={{
+                        size: 'm',
+                        properties: ['margin-top'],
+                      }}
+                      className={classNames({
+                        'first-para-no-margin body-text': true,
+                      })}
+                    >
+                      {
+                        <FeaturedTextTitle
+                          html={featuredText.value}
+                          htmlSerializer={defaultSerializer}
+                        />
+                      }
+                    </Space>
+                  )}
                 </div>
               </div>
             </div>

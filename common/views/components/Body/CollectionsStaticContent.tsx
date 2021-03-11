@@ -8,9 +8,6 @@ const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
   return (
     <>
       <Layout12>
-        <h2 className="h2">Search the collections</h2>
-      </Layout12>
-      <Layout12>
         <SearchTabs
           query={query}
           sort={sort}

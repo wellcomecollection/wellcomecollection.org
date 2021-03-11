@@ -62,7 +62,6 @@ const ExhibitionPromo = ({
               format
                 ? [
                     {
-                      url: null,
                       text: `${
                         format.title === 'Permanent'
                           ? 'Permanent exhibition'
@@ -70,7 +69,7 @@ const ExhibitionPromo = ({
                       }`,
                     },
                   ]
-                : [{ url: null, text: 'Exhibition' }]
+                : [{ text: 'Exhibition' }]
             }
           />
         </div>

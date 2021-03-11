@@ -27,7 +27,10 @@ import {
   landingHeaderBackgroundLs,
   // $FlowFixMe (ts)
 } from '@weco/common/utils/backgrounds';
-import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import {
+  prismicPageIds,
+  sectionLevelPages,
+} from '@weco/common/services/prismic/hardcoded-id';
 // $FlowFixMe (ts)
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -88,6 +91,7 @@ export class Page extends Component<Props> {
       prismicPageIds.covidBookYourTicket,
     ];
 
+    const sectionLevelPage = sectionLevelPages.includes(page.id);
     function getBreadcrumbText(siteSection: string, pageId: string): string {
       return hiddenBreadcrumbPages.includes(page.id) || isLanding
         ? '\u200b'
@@ -115,25 +119,29 @@ export class Page extends Component<Props> {
       ],
     };
 
+    const displayBackground =
+      FeaturedMedia && !sectionLevelPage ? (
+        <HeaderBackground
+          backgroundTexture={backgroundTexture}
+          hasWobblyEdge={!isLanding}
+        />
+      ) : null;
+
     const Header = (
       <PageHeader
         breadcrumbs={breadcrumbs}
         labels={null}
         title={page.title}
         FeaturedMedia={FeaturedMedia}
-        Background={
-          FeaturedMedia && (
-            <HeaderBackground
-              backgroundTexture={backgroundTexture}
-              hasWobblyEdge={!isLanding}
-            />
-          )
-        }
+        Background={displayBackground}
         ContentTypeInfo={DateInfo}
         HeroPicture={null}
-        backgroundTexture={!FeaturedMedia ? backgroundTexture : null}
+        backgroundTexture={
+          !FeaturedMedia && !sectionLevelPage ? backgroundTexture : null
+        }
         highlightHeading={true}
         isContentTypeInfoBeforeMedia={false}
+        sectionLevelPage={sectionLevelPage}
       />
     );
     const Siblings = siblings.map((siblingGroup, i) => {
@@ -167,11 +175,7 @@ export class Page extends Component<Props> {
         url={{ pathname: `/pages/${page.id}` }}
         jsonLd={contentLd(page)}
         openGraphType={'website'}
-        siteSection={
-          page.siteSection === 'what-we-do' || page.siteSection === 'visit-us'
-            ? page.siteSection
-            : null
-        }
+        siteSection={page.siteSection ?? null}
         imageUrl={page.image && convertImageUri(page.image.contentUrl, 800)}
         imageAltText={page.image && page.image.alt}
       >
@@ -185,6 +189,7 @@ export class Page extends Component<Props> {
               onThisPage={page.onThisPage}
               showOnThisPage={page.showOnThisPage}
               isLanding={isLanding}
+              sectionLevelPage={sectionLevelPage}
             />
           }
           RelatedContent={[...Siblings, ...Children]}

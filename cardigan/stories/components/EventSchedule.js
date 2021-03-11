@@ -24,7 +24,6 @@ const schedule = [
       },
       labels: [
         {
-          url: null,
           text: 'Performance',
         },
       ],

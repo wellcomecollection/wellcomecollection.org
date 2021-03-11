@@ -34,7 +34,7 @@ type Props = {
 
 const TitledTextList: FunctionComponent<Props> = ({ items }: Props) => {
   return (
-    <ul className="plain-list">
+    <ul className="plain-list no-padding">
       {items.map((item, i) => {
         return (
           <Space
@@ -50,7 +50,7 @@ const TitledTextList: FunctionComponent<Props> = ({ items }: Props) => {
             </TextContainer>
             {item.label && (
               <LabelsList
-                labels={[{ url: null, text: item.label.title }]}
+                labels={[{ text: item.label.title }]}
                 defaultLabelColor="cream"
               />
             )}

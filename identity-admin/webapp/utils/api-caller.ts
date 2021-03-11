@@ -7,8 +7,8 @@ export async function callRemoteApi(
   res: NextApiResponse,
   method: string,
   url: string,
-  body?: any
-) {
+  body?: unknown
+): Promise<Response> {
   const headers = new Headers();
   headers.append('x-api-key', config.remoteApi.apiKey);
 
@@ -24,7 +24,7 @@ export async function callRemoteApi(
     headers.append('Content-Type', 'application/json');
     requestInit = {
       ...requestInit,
-      body: body,
+      body: JSON.stringify(body),
     };
   }
 

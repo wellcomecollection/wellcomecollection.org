@@ -12,7 +12,6 @@ export function parseEventSeries(document: PrismicDocument): EventSeries {
     document.data.backgroundTexture && document.data.backgroundTexture.data;
   const labels = [
     {
-      url: null,
       text: 'Event series',
     },
   ];

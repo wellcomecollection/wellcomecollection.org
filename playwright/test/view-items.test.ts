@@ -1,4 +1,4 @@
-import { multiVolumeItem } from '../contexts';
+import { multiVolumeItem } from './contexts';
 import { isMobile } from './actions/common';
 import { volumesNavigationLabel } from './text/aria-labels';
 

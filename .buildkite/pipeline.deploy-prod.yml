@@ -33,9 +33,3 @@ steps:
           env:
             - PLAYWRIGHT_BASE_URL=https://wellcomecollection.org
           command: ["yarn", "test:mobile"]
-
-notify:
-  - slack:
-      channels:
-        - "#wc-experience"
-      message: "Deployed to prod https://wellcomecollection.org"

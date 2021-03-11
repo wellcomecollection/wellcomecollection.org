@@ -3,6 +3,7 @@ import { Url } from '../../../model/link-props';
 import { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
+// $FlowFixMe (tsx)
 import Header from '../Header/Header';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import CookieNotice from '../CookieNotice/CookieNotice';
@@ -49,6 +50,7 @@ type ComponentProps = {
   children: ReactNode;
   hideNewsletterPromo?: boolean;
   hideFooter?: boolean;
+  excludeRoleMain?: boolean;
 };
 
 const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
@@ -65,6 +67,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
   children,
   hideNewsletterPromo = false,
   hideFooter = false,
+  excludeRoleMain = false,
 }: ComponentProps) => {
   const urlString = convertUrlToString(url);
   const fullTitle =
@@ -253,7 +256,11 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
 
         {popupDialog && popupDialog.isShown && <PopupDialog {...popupDialog} />}
 
-        <div id="main" className="main" role="main">
+        <div
+          id="main"
+          className="main"
+          role={excludeRoleMain ? undefined : 'main'}
+        >
           {children}
         </div>
         {!hideNewsletterPromo && (

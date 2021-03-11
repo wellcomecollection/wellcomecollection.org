@@ -6,7 +6,7 @@ import FindUs from '../FindUs/FindUs';
 import SpacingSection from '../SpacingSection/SpacingSection';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import Space from '../styled/Space';
-import Layout8 from '../Layout8/Layout8';
+import Layout12 from '../Layout12/Layout12';
 import FooterOpeningTimes from '../FooterOpeningTimes/FooterOpeningTimes';
 
 type ContainerProps = {
@@ -22,7 +22,7 @@ const Container: FunctionComponent<ContainerProps> = ({
           'body-part': true,
         })}
       >
-        <Layout8>{children}</Layout8>
+        <Layout12>{children}</Layout12>
       </div>
     </SpacingComponent>
   </SpacingSection>
@@ -36,7 +36,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
       <div className="grid">
         <div
           className={classNames({
-            [grid({ s: 12, l: 6, xl: 6 })]: true,
+            [grid({ s: 12, l: 5, xl: 5 })]: true,
             [font('hnl', 4)]: true,
           })}
         >
@@ -44,7 +44,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
         </div>
         <div
           className={classNames({
-            [grid({ s: 12, l: 6, xl: 6 })]: true,
+            [grid({ s: 12, l: 5, xl: 5 })]: true,
             [font('hnl', 4)]: true,
           })}
         >

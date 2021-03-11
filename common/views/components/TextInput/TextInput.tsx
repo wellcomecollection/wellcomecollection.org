@@ -79,11 +79,13 @@ const TextInputLabel = styled.label.attrs({
 
 type TextInputInputProps = {
   hasErrorBorder: boolean;
+  big: boolean;
 };
 const TextInputInput = styled.input.attrs(props => ({
   type: props.type || 'text',
 }))<TextInputInputProps>`
-  padding: 27px 40px 8px 15px;
+  padding: ${props =>
+    props.big ? '27px 130px 8px 15px' : '27px 40px 8px 15px'};
   appearance: none;
   border: 0;
   height: 100%;
@@ -227,6 +229,7 @@ const TextInput = forwardRef(
             type={type}
             autoFocus={autoFocus}
             aria-label={ariaLabel}
+            big={!!big}
           />
           {isValid && showValidity && (
             <TextInputCheckmark>

@@ -33,7 +33,7 @@ export type CatalogueWorksApiProps = {|
     | '!unavailable'
     | '!permission-required'
   )[]),
-  'items.locations.type': ?(string[]),
+  availabilities: ?(string[]),
   sort: ?string,
   sortOrder: ?string,
   'production.dates.from': ?string,
@@ -58,7 +58,7 @@ export function worksRouteToApiUrl(
     page: worksRouteProps.page,
     workType: worksRouteProps.workType,
     'items.locations.locationType': worksRouteProps.itemsLocationsLocationType,
-    'items.locations.type': worksRouteProps.itemsLocationsType,
+    availabilities: worksRouteProps.availabilities,
     sort: worksRouteProps.sort,
     sortOrder: worksRouteProps.sortOrder,
     'production.dates.from': toIsoDateString(

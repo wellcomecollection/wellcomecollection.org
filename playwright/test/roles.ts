@@ -1,3 +1,4 @@
 const researcher = {};
+const imageResearcher = {};
 
-export { researcher };
+export { researcher, imageResearcher };

@@ -49,9 +49,3 @@ steps:
         BUILDKITE_PULL_REQUEST: "${BUILDKITE_PULL_REQUEST}"
         BUILDKITE_PULL_REQUEST_BASE_BRANCH: "${BUILDKITE_PULL_REQUEST_BASE_BRANCH}"
         BUILDKITE_PULL_REQUEST_REPO: "${BUILDKITE_PULL_REQUEST_REPO}"
-
-notify:
-  - slack:
-      channels:
-        - "#wc-experience"
-      message: "Deployed to stage https://www-stage.wellcomecollection.org"

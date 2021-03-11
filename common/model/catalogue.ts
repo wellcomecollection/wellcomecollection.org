@@ -30,6 +30,7 @@ export type Work = {
   totalParts?: number;
   totalDescendentParts?: number;
   availableOnline: boolean;
+  availabilities: Availability[];
   '@context'?: string;
 };
 
@@ -39,6 +40,7 @@ type MinimalRelatedWorkFields =
   | 'alternativeTitles'
   | 'referenceNumber'
   | 'availableOnline'
+  | 'availabilities'
   | 'type';
 export type RelatedWork = Partial<Work> & Pick<Work, MinimalRelatedWorkFields>;
 
@@ -152,6 +154,12 @@ type AccessStatus = {
   id: string;
   label: string;
   type: 'AccessStatus';
+};
+
+type Availability = {
+  id: string;
+  label: string;
+  type: 'Availability';
 };
 
 export type Item = {
@@ -279,37 +287,49 @@ export type CatalogueAggregationContributorsBucket = {
       label: string;
       type: string;
     };
+    type: 'Contributor';
   };
   type: 'AggregationBucket';
 };
 
 export type CatalogueAggregationContributor = {
   buckets: CatalogueAggregationContributorsBucket[];
+  type: 'Aggregation';
 };
 
 export type CatalogueAggregation = {
   buckets: CatalogueAggregationBucket[];
+  type: 'Aggregation';
 };
 
 export type CatalogueAggregationNoId = {
   buckets: CatalogueAggregationBucketNoId[];
+  type: 'Aggregation';
 };
 
-export type CatalogueAggregations = {
+export type WorkAggregations = {
   workType: CatalogueAggregation;
-  locationType: CatalogueAggregation;
+  availabilities: CatalogueAggregation;
   languages?: CatalogueAggregation;
   genres?: CatalogueAggregationNoId;
   subjects?: CatalogueAggregationNoId;
   contributors?: CatalogueAggregationContributor;
+  type: 'Aggregations';
+};
+
+export type ImageAggregations = {
+  license?: CatalogueAggregation;
+  type: 'Aggregations';
 };
 
 export type CatalogueResultsList<Result = Work> = {
+  '@context': string;
   type: 'ResultList';
   totalResults: number;
+  totalPages: number;
   results: Result[];
   pageSize: number;
   prevPage: string | null;
   nextPage: string | null;
-  aggregations?: CatalogueAggregations;
+  aggregations?: Result extends Work ? WorkAggregations : ImageAggregations;
 };

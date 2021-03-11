@@ -5,10 +5,8 @@ import styled from 'styled-components';
 import Space from '../styled/Space';
 import { searchFilterCheckBox } from '../../../text/arial-labels';
 import NextLink from 'next/link';
-import { worksLink } from '../../../services/catalogue/routes';
-import ButtonSolid, {
-  ButtonTypes,
-} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import { toLink as worksLink } from '../WorksLink/WorksLink';
+import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import {
   Filter,
   CheckboxFilter as CheckboxFilterType,
@@ -18,8 +16,8 @@ import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
 
 type ModalMoreFiltersProps = {
   id: string;
-  showMoreFiltersModal: boolean;
-  setMoreFiltersModal: (arg: boolean) => void;
+  isActive: boolean;
+  setIsActive: (arg: boolean) => void;
   openMoreFiltersButtonRef: RefObject<HTMLInputElement>;
   query: string;
   changeHandler: () => void;
@@ -103,25 +101,23 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
     <List>
       {f.options.map(({ id, label, value, count, selected }) => {
         return (
-          (count > 0 || selected) && (
-            <Space
-              as="li"
-              v={{ size: 'm', properties: ['margin-bottom'] }}
-              h={{ size: 'l', properties: ['margin-right'] }}
-              key={`desktop-${id}`}
-            >
-              <CheckboxRadio
-                id={`desktop-${id}`}
-                type={`checkbox`}
-                text={`${label} (${count})`}
-                value={value}
-                name={f.id}
-                checked={selected}
-                onChange={changeHandler}
-                ariaLabel={searchFilterCheckBox(label)}
-              />
-            </Space>
-          )
+          <Space
+            as="li"
+            v={{ size: 'm', properties: ['margin-bottom'] }}
+            h={{ size: 'l', properties: ['margin-right'] }}
+            key={`desktop-${id}`}
+          >
+            <CheckboxRadio
+              id={`desktop-${id}`}
+              type={`checkbox`}
+              text={`${label} (${count})`}
+              value={value}
+              name={f.id}
+              checked={selected}
+              onChange={changeHandler}
+              ariaLabel={searchFilterCheckBox(label)}
+            />
+          </Space>
         );
       })}
     </List>
@@ -157,8 +153,8 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
 const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
   query,
   id,
-  showMoreFiltersModal,
-  setMoreFiltersModal,
+  isActive,
+  setIsActive,
   openMoreFiltersButtonRef,
   changeHandler,
   filters,
@@ -174,8 +170,8 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
       </noscript>
       <Modal
         id={id}
-        isActive={showMoreFiltersModal}
-        setIsActive={setMoreFiltersModal}
+        isActive={isActive}
+        setIsActive={setIsActive}
         openButtonRef={openMoreFiltersButtonRef}
         overrideDefaultModalStyle={true}
       >
@@ -205,7 +201,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
             ref={undefined}
             type={ButtonTypes.button}
             clickHandler={() => {
-              setMoreFiltersModal(false);
+              setIsActive(false);
             }}
             text="Show results"
           />

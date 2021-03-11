@@ -66,17 +66,19 @@ const ImagesPagination = ({
       currentPage={page || 1}
       pageSize={results.pageSize}
       totalResults={results.totalResults}
-      link={toLink({
-        ...imagesRouteProps,
-        source: 'search/paginator',
-      })}
+      link={toLink(
+        {
+          ...imagesRouteProps,
+        },
+        'search/paginator'
+      )}
       onPageChange={async (event, newPage) => {
         event.preventDefault();
         const state = {
           ...imagesRouteProps,
           page: newPage,
         };
-        const link = toLink({ ...state, source: 'search/paginator' });
+        const link = toLink({ ...state }, 'search/paginator');
         Router.push(link.href, link.as).then(() => window.scrollTo(0, 0));
       }}
       hideMobilePagination={hideMobilePagination}
@@ -115,10 +117,12 @@ const Images: NextPage<Props> = ({
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
-    const link = toLink({
-      ...imagesRouteProps,
-      source: 'images_search_context',
-    });
+    const link = toLink(
+      {
+        ...imagesRouteProps,
+      },
+      'images_search_context'
+    );
     setLink(link);
   }, [imagesRouteProps]);
 
@@ -129,7 +133,8 @@ const Images: NextPage<Props> = ({
           <link
             rel="prev"
             href={convertUrlToString(
-              toLink({ ...imagesRouteProps, page: (page || 1) - 1 }).as
+              toLink({ ...imagesRouteProps, page: (page || 1) - 1 }, 'unknown')
+                .as
             )}
           />
         )}
@@ -137,7 +142,7 @@ const Images: NextPage<Props> = ({
           <link
             rel="next"
             href={convertUrlToString(
-              toLink({ ...imagesRouteProps, page: page + 1 }).as
+              toLink({ ...imagesRouteProps, page: page + 1 }, 'unknown').as
             )}
           />
         )}
@@ -262,7 +267,8 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   const globalContextData = getGlobalContextData(context);
   const params = fromQuery(context.query);
-  const apiProps = imagesRouteToApiUrl(params);
+  const aggregations = ['locations.license'];
+  const apiProps = imagesRouteToApiUrl(params, { aggregations });
   const hasQuery = !!(params.query && params.query !== '');
   const images = hasQuery
     ? await getImages({

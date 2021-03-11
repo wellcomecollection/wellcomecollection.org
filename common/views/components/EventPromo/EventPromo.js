@@ -83,9 +83,7 @@ const EventPromo = ({
 
           {event.isOnline && !event.availableOnline && (
             <LabelsList
-              labels={[
-                { text: 'Online', labelColor: 'transparent', url: null },
-              ]}
+              labels={[{ text: 'Online', labelColor: 'transparent' }]}
             />
           )}
 

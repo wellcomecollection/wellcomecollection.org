@@ -24,6 +24,10 @@ export default {
           name: 'standalone',
           display: 'Standalone',
         },
+        {
+          name: 'body',
+          display: 'Body',
+        },
       ],
       gifVideo: [
         {
@@ -256,7 +260,7 @@ export default {
           title: heading('Title', 2),
         },
         repeat: {
-          contibutor: link('Contributor', 'document', ['people']),
+          contributor: link('Contributor', 'document', ['people']),
           text: structuredText('Text'),
         },
       }),

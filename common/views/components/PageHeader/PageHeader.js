@@ -14,7 +14,10 @@ import FreeSticker from '../FreeSticker/FreeSticker';
 import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
 // $FlowFixMe (tsx)
 import Layout10 from '../Layout10/Layout10';
+// $FlowFixMe (tsx)
 import Layout from '../Layout/Layout';
+// $FlowFixMe (tsx)
+import { gridSize12 } from '../Layout12/Layout12';
 // $FlowFixMe(tsx)
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 // $FlowFixMe(tsx)
@@ -26,6 +29,8 @@ import type { GenericContentFields } from '../../../model/generic-content-fields
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
+// $FlowFixMe (tsx)
+import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 
 const HeroPictureBackground = styled.div`
   height: 50%;
@@ -127,12 +132,13 @@ type Props = {|
   highlightHeading?: boolean,
   asyncBreadcrumbsRoute?: string,
   isContentTypeInfoBeforeMedia?: boolean,
-
+  sectionLevelPage?: boolean,
   // TODO: Don't overload this, it's just for putting things in till
   // we find a pattern
   TitleTopper?: Node,
 |};
 
+const sectionLevelPageGridLayout = { s: 12, m: 10, l: 8, xl: 8 };
 const PageHeader = ({
   breadcrumbs,
   labels,
@@ -150,15 +156,18 @@ const PageHeader = ({
   highlightHeading,
   asyncBreadcrumbsRoute,
   TitleTopper,
+  sectionLevelPage,
 }: Props) => {
-  const Heading = highlightHeading ? (
-    <HighlightedHeading text={title} />
-  ) : (
-    <h1 className="h1 inline-block no-margin">{title}</h1>
-  );
+  const Heading =
+    highlightHeading && !sectionLevelPage ? (
+      <HighlightedHeading text={title} />
+    ) : (
+      <SectionPageHeader sectionLevelPage={sectionLevelPage}>
+        {title}
+      </SectionPageHeader>
+    );
 
   const hasMedia = FeaturedMedia || HeroPicture;
-
   return (
     <>
       <div
@@ -179,20 +188,13 @@ const PageHeader = ({
           </Layout10>
         )}
         <Layout
-          gridSizes={{
-            s: 12,
-            m: 10,
-            l: 10,
-            shiftL: 1,
-            xl: 10,
-            shiftXL: 1,
-          }}
+          gridSizes={sectionLevelPage ? gridSize12 : sectionLevelPageGridLayout}
         >
           <Space
             v={{
               size: 'l',
               properties:
-                isContentTypeInfoBeforeMedia || hasMedia
+                isContentTypeInfoBeforeMedia || hasMedia || sectionLevelPage
                   ? ['margin-bottom']
                   : ['margin-bottom', 'padding-bottom'],
             }}
@@ -280,7 +282,7 @@ const PageHeader = ({
       )}
 
       {!isContentTypeInfoBeforeMedia && ContentTypeInfo && (
-        <Layout gridSizes={{ s: 12, m: 10, l: 8, xl: 8 }}>
+        <Layout gridSizes={sectionLevelPageGridLayout}>
           <Space
             v={{
               size: 'l',

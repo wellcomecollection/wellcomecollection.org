@@ -250,7 +250,7 @@ const PageHeaderExample = () => {
         <PageHeader
           title={'How the magician’s assistant creates the illusion'}
           breadcrumbs={{ items: breadcrumbItems }}
-          labels={{ labels: [{ url: null, text: 'Article' }] }}
+          labels={{ labels: [{ text: 'Article' }] }}
           HeroPicture={<Picture images={articlePictureImages} isFull={true} />}
           ContentTypeInfo={ContentTypeInfo}
           isContentTypeInfoBeforeMedia={true}
@@ -277,7 +277,7 @@ const PageHeaderExample = () => {
         <PageHeader
           title={'Being Human'}
           breadcrumbs={{ items: [{ text: 'Exhibitions', url: '#' }] }}
-          labels={{ labels: [{ url: null, text: 'Permanent exhibition' }] }}
+          labels={{ labels: [{ text: 'Permanent exhibition' }] }}
           HeroPicture={
             <Picture images={exhibitionPictureImages} isFull={true} />
           }

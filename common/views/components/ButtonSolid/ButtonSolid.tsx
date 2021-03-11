@@ -136,7 +136,7 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
   ${props =>
     props.isBig &&
     `
-    padding: 20px;
+    padding: 14px;
   `}
 
   &:not([disabled]):hover {

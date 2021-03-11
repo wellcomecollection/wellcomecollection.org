@@ -4,14 +4,13 @@ import React, {
   useEffect,
   FunctionComponent,
   ReactElement,
-  useContext,
 } from 'react';
 import dynamic from 'next/dynamic';
 import useFocusTrap from '../../../hooks/useFocusTrap';
 import { CSSTransition } from 'react-transition-group';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import NextLink from 'next/link';
-import { emptyWorksProps, toLink as worksLink } from '../WorksLink/WorksLink';
+import { toLink as worksLink } from '../WorksLink/WorksLink';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
@@ -32,11 +31,6 @@ import {
   searchFilterCheckBox,
   searchFilterCloseButton,
 } from '../../../text/arial-labels';
-import TogglesContext from '../TogglesContext/TogglesContext';
-
-const OldColorPicker = dynamic(import('../ColorPicker/ColorPicker'), {
-  ssr: false,
-});
 
 const PaletteColorPicker = dynamic(
   import('../PaletteColorPicker/PaletteColorPicker')
@@ -182,24 +176,22 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
       >
         {f.options.map(({ id, label, value, count, selected }) => {
           return (
-            (count > 0 || selected) && (
-              <Space
-                as="li"
-                v={{ size: 'l', properties: ['margin-bottom'] }}
-                key={`mobile-${id}`}
-              >
-                <CheckboxRadio
-                  id={`mobile-${id}`}
-                  type={`checkbox`}
-                  text={`${label} (${count})`}
-                  value={value}
-                  name={f.id}
-                  checked={selected}
-                  onChange={changeHandler}
-                  ariaLabel={searchFilterCheckBox(label)}
-                />
-              </Space>
-            )
+            <Space
+              as="li"
+              v={{ size: 'l', properties: ['margin-bottom'] }}
+              key={`mobile-${id}`}
+            >
+              <CheckboxRadio
+                id={`mobile-${id}`}
+                type={`checkbox`}
+                text={`${label} (${count})`}
+                value={value}
+                name={f.id}
+                checked={selected}
+                onChange={changeHandler}
+                ariaLabel={searchFilterCheckBox(label)}
+              />
+            </Space>
           );
         })}
       </ul>
@@ -259,12 +251,9 @@ type ColorFilterProps = {
   changeHandler: () => void;
 };
 const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
-  const { paletteColorFilter } = useContext(TogglesContext);
-  const ColorPicker = paletteColorFilter ? PaletteColorPicker : OldColorPicker;
-
   return (
-    <ColorPicker
-      color={f.color || undefined}
+    <PaletteColorPicker
+      color={f.color}
       name={f.id}
       onChangeColor={changeHandler}
     />
@@ -396,11 +385,12 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
           <FiltersFooter>
             <NextLink
               passHref
-              {...worksLink({
-                ...emptyWorksProps,
-                query: query,
-                source: 'cancel_filter/all',
-              })}
+              {...worksLink(
+                {
+                  query: query,
+                },
+                'cancel_filter/all'
+              )}
             >
               <a>Reset filters</a>
             </NextLink>
