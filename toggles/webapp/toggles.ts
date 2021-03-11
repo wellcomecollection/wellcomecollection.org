@@ -1,6 +1,13 @@
 export default {
   toggles: [
     {
+      id: 'showCanvasLabels',
+      title: 'Show canvas labels on viewer thumbnails',
+      description:
+        'Shows the canvas label on the viewer thumbnails above the image number',
+      defaultValue: false,
+    },
+    {
       id: 'openWithAdvisoryPrototype',
       title: 'Open with advisory',
       description:
