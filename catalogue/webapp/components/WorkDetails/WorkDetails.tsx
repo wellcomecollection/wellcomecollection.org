@@ -239,10 +239,19 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
           headingText="Available online"
           isInArchive={isInArchive}
         >
-          {/* // TODO conditional wraper */}
-          <IIIFClickthrough
-            authService={authService}
-            tokenService={tokenService}
+          <ConditionalWrapper
+            condition={Boolean(tokenService)}
+            wrapper={children =>
+              itemUrl && (
+                <IIIFClickthrough
+                  authService={authService}
+                  tokenService={tokenService}
+                  trackingId={work.id}
+                >
+                  {children}
+                </IIIFClickthrough>
+              )
+            }
           >
             {video && (
               <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -391,7 +400,8 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
                 )}
               </>
             )}
-          </IIIFClickthrough>
+          </ConditionalWrapper>
+
           {license && (
             <>
               <Space
