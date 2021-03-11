@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
+import { withPrefix } from '../../utility/prefix';
 
 export type UserInfo = {
   firstName: string;
@@ -32,7 +33,7 @@ export const UserInfoProvider: React.FC = ({ children }) => {
     const fetchUser = async (): Promise<void> => {
       setState({ isLoading: true });
       return axios
-        .get<UserInfo>('/api/users/me', { cancelToken: source.token })
+        .get<UserInfo>(withPrefix('/api/users/me'), { cancelToken: source.token })
         .then(({ data }) => setState({ isLoading: false, user: data }))
         .catch((error: AxiosError) => {
           if (!axios.isCancel(error)) {
