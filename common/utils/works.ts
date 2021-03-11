@@ -131,6 +131,15 @@ export function getItemsWithPhysicalLocation(
     );
 }
 
+export function getItemsByLocationType(
+  work: Work,
+  locationTypeId: string
+): Item[] {
+  return (work.items || []).filter(i =>
+    i?.locations.find(l => l.locationType.id === locationTypeId)
+  );
+}
+
 export function getDigitalLocationOfType(
   work: Work,
   locationType: string
