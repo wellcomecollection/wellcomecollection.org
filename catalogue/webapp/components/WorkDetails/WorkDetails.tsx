@@ -79,7 +79,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
-  type ItemWithDigitalLocation = Omit<Item, 'location'> & {
+  type ItemWithDigitalLocation = Omit<Item, 'locations'> & {
     location: DigitalLocation;
   };
   const onlineResources = getItemsByLocationType(work, 'online-resource').map(
