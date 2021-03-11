@@ -21,12 +21,14 @@ function reloadAuthIframe(document, id: string) {
 type Props = {
   authService: AuthService | undefined;
   tokenService: AuthServiceService | undefined;
+  trackingId: string;
   children: ReactNode;
 };
 
 const IIIFClickthrough: FunctionComponent<Props> = ({
   authService,
   tokenService,
+  trackingId,
   children,
 }: Props) => {
   const [origin, setOrigin] = useState<string>();
@@ -66,7 +68,7 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
                   trackEvent({
                     category: 'ButtonSolidLink',
                     action: 'follow link "Show the content"',
-                    label: `workId: `, // TODO ${workId}
+                    label: `workId: ${trackingId}`,
                   });
                   const authServiceWindow = window.open(
                     `${authService?.['@id'] || ''}?origin=${origin}`
