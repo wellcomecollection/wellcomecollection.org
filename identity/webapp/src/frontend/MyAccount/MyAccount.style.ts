@@ -1,6 +1,5 @@
-import styled from 'styled-components';
-import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import { DangerButtonModifier } from '../components/Form.style';
+import styled, { css } from 'styled-components';
+import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 
 export const Grid = styled.main`
   display: grid;
@@ -25,12 +24,22 @@ export const HorizontalRule = styled.hr`
   grid-column: 1 / -1;
 `;
 
-export const Button = styled(SolidButton)`
+const OutlinedDangerButtonModifier = css`
+  color: #d1192c;
+  border-color: #d1192c;
+
+  &:not([disabled]):hover {
+    color: #b80013;
+    border-color: #b80013;
+  }
+`;
+
+export const Button = styled(OutlinedButton)`
   width: 100%;
   justify-content: center;
   height: 55px;
 
-  ${props => props.isDangerous && DangerButtonModifier}
+  ${props => props.isDangerous && OutlinedDangerButtonModifier}
 `;
 
 export const ModalContainer = styled.aside`
