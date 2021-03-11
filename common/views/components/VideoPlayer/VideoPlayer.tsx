@@ -3,14 +3,9 @@ import { trackEvent } from '@weco/common/utils/ga';
 import { FunctionComponent, useEffect, useState } from 'react';
 import useInterval from '@weco/common/hooks/useInterval';
 import { IIIFMediaElement } from '@weco/common/model/iiif';
-import {
-  getAnnotationFromMediaElement,
-  getVideoClickthroughService,
-  getTokenService,
-} from '@weco/common/utils/iiif';
+import { getAnnotationFromMediaElement } from '@weco/common/utils/iiif';
 import Space from '@weco/common/views/components/styled/Space';
 import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
-import IIIFClickthrough from '@weco/common/views/components/IIIFClickthrough/IIIFClickthrough';
 
 type Props = {
   video: IIIFMediaElement;
@@ -24,8 +19,6 @@ const VideoPlayer: FunctionComponent<Props> = ({
   const [secondsPlayed, setSecondsPlayed] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const annotation: any = getAnnotationFromMediaElement(video);
-  const authService = video && getVideoClickthroughService(video);
-  const tokenService = authService && getTokenService(authService);
 
   function trackViewingTime() {
     trackEvent({
@@ -67,7 +60,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
   );
 
   return (
-    <IIIFClickthrough authService={authService} tokenService={tokenService}>
+    <>
       <video
         onPlay={() => {
           setIsPlaying(true);
@@ -111,7 +104,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
             />
           </Space>
         )}
-    </IIIFClickthrough>
+    </>
   );
 };
 
