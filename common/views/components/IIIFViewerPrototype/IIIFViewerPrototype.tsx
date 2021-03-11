@@ -20,6 +20,7 @@ import { FixedSizeList } from 'react-window';
 import { IIIFManifest } from '@weco/common/model/iiif';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import Router from 'next/router';
+import GridViewerPrototype from '../GridViewerPrototype/GridViewerPrototype';
 
 const Grid = styled.div`
   display: grid;
@@ -49,7 +50,7 @@ const Main = styled.div`
   overflow: auto;
 `;
 
-const Thumbnails = styled.div`
+const Thumbnails = styled.div<{ isActive: boolean }>`
   background: ${props => props.theme.color('charcoal')};
   grid-area: desktop-main-start / main-start / bottom-edge / right-edge;
   transform: translateY(${props => (props.isActive ? '0' : '100%')});
@@ -79,9 +80,8 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const gridViewerRef = useRef<HTMLDivElement>(null);
   const mainViewerRef = useRef<FixedSizeList>(null);
   const viewerRef = useRef<HTMLDivElement>(null);
+  const mainAreaRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [pageHeight, setPageHeight] = useState(500);
-  const [pageWidth, setPageWidth] = useState(1000);
   const [showZoomed, setShowZoomed] = useState(false);
   const [zoomInfoUrl, setZoomInfoUrl] = useState<string | undefined>();
   const [rotatedImages, setRotatedImages] = useState<any[]>([]);
@@ -90,6 +90,24 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [imageJson, setImageJson] = useState<any>();
   const mainImageService = { '@id': getServiceId(currentCanvas) };
+  const [mainAreaHeight, setMainAreaHeight] = useState(500);
+  const [mainAreaWidth, setMainAreaWidth] = useState(1000);
+
+  useEffect(() => {
+    function handleResize() {
+      if (mainAreaRef && mainAreaRef.current) {
+        const { width, height } = mainAreaRef.current.getBoundingClientRect();
+        setMainAreaWidth(width);
+        setMainAreaHeight(height);
+      }
+    }
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const iiifPresentationLocation =
     work && getDigitalLocationOfType(work, 'iiif-presentation');
@@ -133,23 +151,6 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     ? [...imageDownloadOptions, ...iiifPresentationDownloadOptions]
     : [];
 
-  useEffect(() => {
-    function handleResize() {
-      if (isFullscreen) {
-        setPageHeight(window.innerHeight);
-      } else {
-        setPageHeight(window.innerHeight - 85);
-      }
-      setPageWidth(window.innerWidth);
-    }
-
-    window.addEventListener('resize', handleResize);
-
-    handleResize();
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, [isFullscreen]);
-
   useSkipInitialEffect(() => {
     const canvasParams =
       canvases.length > 0 || currentCanvas
@@ -191,13 +192,14 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
         downloadOptions: downloadOptions,
         iiifPresentationDownloadOptions: iiifPresentationDownloadOptions,
         parentManifest: parentManifest,
-        pageHeight: pageHeight,
-        pageWidth: pageWidth,
+        mainAreaWidth: mainAreaWidth,
+        mainAreaHeight: mainAreaHeight,
         showZoomed: showZoomed,
         zoomInfoUrl: zoomInfoUrl,
         rotatedImages: rotatedImages,
         showControls: showControls,
         isLoading: isLoading,
+        isFullscreen: isFullscreen,
         setActiveIndex: setActiveIndex,
         setGridVisible: setGridVisible,
         setShowZoomed: setShowZoomed,
@@ -222,10 +224,16 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
             viewerRef={viewerRef}
           />
         </Topbar>
-        <Main>
+        <Main ref={mainAreaRef}>
           <MainViewerPrototype mainViewerRef={mainViewerRef} />
         </Main>
-        <Thumbnails isActive={gridVisible}>{/* TODO: thumbnails */}</Thumbnails>
+        <Thumbnails isActive={gridVisible}>
+          <GridViewerPrototype
+            mainViewerRef={mainViewerRef}
+            gridViewerRef={gridViewerRef}
+            viewerRef={viewerRef}
+          />
+        </Thumbnails>
       </Grid>
     </ItemViewerContext.Provider>
   );

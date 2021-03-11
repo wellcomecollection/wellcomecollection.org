@@ -16,8 +16,9 @@ type Props = {
   iiifPresentationDownloadOptions: any;
   parentManifest: any;
   lang: any;
-  pageHeight: any;
-  pageWidth: any;
+  mainAreaWidth: any;
+  mainAreaHeight: any;
+  isFullscreen: any;
   setShowZoomed: any;
   showZoomed: any;
   setZoomInfoUrl: any;

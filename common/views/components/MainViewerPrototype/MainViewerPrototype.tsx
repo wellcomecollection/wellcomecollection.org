@@ -187,9 +187,9 @@ type Props = {
 
 const MainViewer: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
   const {
-    pageHeight,
     setActiveIndex,
-    pageWidth,
+    mainAreaHeight,
+    mainAreaWidth,
     canvases,
     canvasIndex,
     setShowZoomed,
@@ -210,7 +210,6 @@ const MainViewer: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
     debounce(handleOnItemsRendered, 500)
   );
   const timer = useRef<number | undefined>();
-  const itemHeight = pageWidth * 0.8;
   function handleOnScroll({ scrollOffset, scrollUpdateWasRequested }) {
     clearTimeout(timer.current);
     setShowControls(false);
@@ -251,9 +250,9 @@ const MainViewer: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
 
   return (
     <FixedSizeList
-      width={itemHeight}
-      style={{ width: `${itemHeight}px`, margin: '0 auto' }}
-      height={pageHeight}
+      width={mainAreaWidth}
+      style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
+      height={mainAreaHeight}
       itemCount={canvases.length}
       itemData={{
         scrollVelocity,
@@ -268,7 +267,7 @@ const MainViewer: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
         mainViewerRef,
         errorHandler,
       }}
-      itemSize={itemHeight}
+      itemSize={mainAreaWidth}
       onItemsRendered={debounceHandleOnItemsRendered.current}
       onScroll={handleOnScroll}
       ref={mainViewerRef}
