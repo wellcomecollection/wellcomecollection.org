@@ -6,6 +6,7 @@ type Props = {
   activeIndex: any;
   setActiveIndex: any;
   canvases: any;
+  canvasIndex: any;
   gridVisible: any;
   setGridVisible: any;
   currentManifestLabel: any;

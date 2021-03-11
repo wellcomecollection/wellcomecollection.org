@@ -82,8 +82,6 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     setShowZoomed,
     setZoomInfoUrl,
     rotatedImages,
-    mainViewerRef,
-    setActiveIndex,
     setIsLoading,
     ocrText,
     errorHandler,
@@ -225,7 +223,6 @@ const MainViewer: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
   }
 
   function handleOnItemsRendered() {
-    setActiveIndex(canvasIndex);
     setIsProgrammaticScroll(false);
     let currentCanvas;
     if (firstRenderRef.current) {

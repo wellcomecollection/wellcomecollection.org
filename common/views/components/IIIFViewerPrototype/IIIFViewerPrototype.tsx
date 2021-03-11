@@ -18,6 +18,8 @@ import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
 import { IIIFManifest } from '@weco/common/model/iiif';
+import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
+import Router from 'next/router';
 
 const Grid = styled.div`
   display: grid;
@@ -55,14 +57,10 @@ const Thumbnails = styled.div`
 `;
 
 const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
-  title,
   mainPaginatorProps,
   currentCanvas,
   lang,
-  canvasOcr,
   canvases,
-  pageIndex,
-  pageSize,
   canvasIndex,
   iiifImageLocation,
   work,
@@ -152,6 +150,30 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, [isFullscreen]);
 
+  useSkipInitialEffect(() => {
+    const canvasParams =
+      canvases.length > 0 || currentCanvas
+        ? { canvas: `${activeIndex + 1}` }
+        : {};
+
+    const url = {
+      ...mainPaginatorProps.link.href,
+      query: {
+        ...mainPaginatorProps.link.href.query,
+        ...canvasParams,
+        source: 'viewer/paginator',
+      },
+    };
+    const as = {
+      ...mainPaginatorProps.link.as,
+      query: {
+        ...mainPaginatorProps.link.as.query,
+        ...canvasParams,
+      },
+    };
+    Router.replace(url, as);
+  }, [activeIndex]);
+
   return (
     <ItemViewerContext.Provider
       value={{
@@ -161,10 +183,10 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
         setActiveIndex: setActiveIndex,
         activeIndex: activeIndex,
         canvases: canvases,
+        canvasIndex: canvasIndex,
         gridVisible: gridVisible,
         setGridVisible: setGridVisible,
         currentManifestLabel: currentManifestLabel,
-        canvasIndex: canvasIndex,
         licenseInfo: licenseInfo,
         iiifImageLocationCredit: iiifImageLocationCredit,
         downloadOptions: downloadOptions,
