@@ -6,6 +6,7 @@ import type { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
 // $FlowFixMe (tsx)
 import convertUrlToString from '../../../utils/convert-url-to-string';
+// $FlowFixMe (tsx)
 import Header from '../Header/Header';
 // $FlowFixMe (tsx)
 import InfoBanner from '../InfoBanner/InfoBanner';
