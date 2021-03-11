@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
-import { withPrefix } from '../../utility/prefix';
 
 export type UserInfo = {
   firstName: string;
@@ -28,12 +27,17 @@ export function useUserInfo(): UserInfoContextState {
 export const UserInfoProvider: React.FC = ({ children }) => {
   const [state, setState] = useState<UserInfoContextState>({ isLoading: true });
 
+  const getPrefix = () => {
+    const root = typeof document !== 'undefined' ? document.getElementById('root') : undefined;
+    return (root && root.getAttribute('data-context-path')) || '';
+  };
+
   useEffect(() => {
     const source = axios.CancelToken.source();
     const fetchUser = async (): Promise<void> => {
       setState({ isLoading: true });
       return axios
-        .get<UserInfo>(withPrefix('/api/users/me'), { cancelToken: source.token })
+        .get<UserInfo>(getPrefix() + '/api/users/me', { cancelToken: source.token })
         .then(({ data }) => setState({ isLoading: false, user: data }))
         .catch((error: AxiosError) => {
           if (!axios.isCancel(error)) {
