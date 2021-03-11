@@ -258,6 +258,7 @@ export default {
       discussion: slice('Discussion', {
         nonRepeat: {
           title: heading('Title', 2),
+          text: structuredText('Text'),
         },
         repeat: {
           contributor: link('Contributor', 'document', ['people']),

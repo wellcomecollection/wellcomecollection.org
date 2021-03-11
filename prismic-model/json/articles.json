@@ -450,6 +450,13 @@
                   "label": "Title",
                   "single": "heading2"
                 }
+              },
+              "text": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,hyperlink,strong,em",
+                  "label": "Text"
+                }
               }
             },
             "repeat": {
