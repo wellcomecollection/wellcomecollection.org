@@ -94,19 +94,16 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
 
   useEffect(() => {
-    function handleResize() {
-      if (mainAreaRef && mainAreaRef.current) {
-        const { width, height } = mainAreaRef.current.getBoundingClientRect();
-        setMainAreaWidth(width);
-        setMainAreaHeight(height);
-      }
-    }
+    const mainAreaObserver = new ResizeObserver(([mainArea]) => {
+      setMainAreaWidth(mainArea.contentRect.width);
+      setMainAreaHeight(mainArea.contentRect.height);
+    });
 
-    handleResize();
+    mainAreaRef &&
+      mainAreaRef.current &&
+      mainAreaObserver.observe(mainAreaRef.current);
 
-    window.addEventListener('resize', handleResize);
-
-    return () => window.removeEventListener('resize', handleResize);
+    return () => mainAreaObserver.disconnect();
   }, []);
 
   const iiifPresentationLocation =
