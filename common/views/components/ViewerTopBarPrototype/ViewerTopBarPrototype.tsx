@@ -22,7 +22,7 @@ export const ShameButton = styled.button.attrs(() => ({
   ${props =>
     props.isDark &&
     `
-    border: none;
+    border: 2px solid ${props.theme.color('transparent')};
     color: ${props.theme.color('white')};
     background: transparent;
     outline: none;
@@ -36,11 +36,8 @@ export const ShameButton = styled.button.attrs(() => ({
       }
     }
 
-    &:not([disabled]):hover,
-    &:not([disabled]):focus {
-      border-color: ${props.theme.color('black')};
-      background: ${props.theme.color('yellow')};
-      color: ${props.theme.color('black')};
+    &:not([disabled]):hover {
+      border: 2px solid ${props.theme.color('white')};
     }
   `}
 
