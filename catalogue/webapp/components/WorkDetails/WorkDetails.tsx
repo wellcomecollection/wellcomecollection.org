@@ -2,7 +2,6 @@ import moment from 'moment';
 import NextLink from 'next/link';
 import { useEffect, useState, useContext, FunctionComponent } from 'react';
 import fetch from 'isomorphic-unfetch';
-import { NextLinkType } from '@weco/common/model/next-link-type';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';
@@ -31,6 +30,7 @@ import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
+import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -39,7 +39,6 @@ import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 
 type Props = {
   work: Work;
-  itemUrl?: NextLinkType;
 };
 
 // At the moment we aren't set up to cope with access conditions 'open-with-advisory, 'restricted',
@@ -70,12 +69,15 @@ function getItemLinkState({
   }
 }
 
-const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
+const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const {
     stacksRequestService,
     openWithAdvisoryPrototype,
     onlineResourcesPrototype,
   } = useContext(TogglesContext);
+
+  const itemUrl = itemLink({ workId: work.id }, 'work');
+
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
@@ -336,7 +338,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
                               trackEvent({
                                 category: 'WorkDetails',
                                 action: 'follow image link',
-                                label: itemUrl.href?.query?.workId?.toString(),
+                                label: work.id,
                               })
                             }
                           >
@@ -377,7 +379,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
                       trackingEvent={{
                         category: 'WorkDetails',
                         action: 'follow view link',
-                        label: itemUrl?.href?.query?.workId?.toString(),
+                        label: work.id,
                       }}
                       link={{ ...itemUrl }}
                     />

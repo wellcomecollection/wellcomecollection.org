@@ -1,65 +1,77 @@
-import NextLink, { LinkProps } from 'next/link';
-import { FunctionComponent, PropsWithChildren } from 'react';
-import { propsToQuery } from '../../../utils/routes';
+import NextLink from 'next/link';
+import { FunctionComponent } from 'react';
+import { ParsedUrlQuery } from 'querystring';
+import {
+  decodeQuery,
+  encodeQuery,
+  FromCodecMap,
+  LinkFrom,
+  maybeNumberCodec,
+  stringCodec,
+} from '../../../utils/routes';
+import { LinkProps } from '../../../model/link-props';
+import { removeUndefinedProps } from '../../../utils/json';
 
-type ImageLinkSource = 'images_search_result';
+const imagePropsSources = ['images_search_result', 'viewer/paginator'] as const;
+type ImagePropsSource = typeof imagePropsSources[number];
 
-export type ImageQueryParams = {
-  id: string;
-  workId: string;
-  langCode?: string;
-  resultPosition?: number;
-  source: ImageLinkSource;
+const emptyImageProps: ImageProps = {
+  id: '',
+  workId: '',
+  resultPosition: undefined,
 };
 
-// We remove `href` and `as` because we contruct those ourselves
-// in the component.
-type Props = ImageQueryParams & Omit<LinkProps, 'as' | 'href'>;
+const codecMap = {
+  id: stringCodec,
+  workId: stringCodec,
+  resultPosition: maybeNumberCodec,
+};
 
-export function imageLink({
-  workId,
-  source,
-  resultPosition,
-  ...params
-}: ImageQueryParams): LinkProps {
+export type ImageProps = FromCodecMap<typeof codecMap>;
+
+const fromQuery: (params: ParsedUrlQuery) => ImageProps = params => {
+  return decodeQuery<ImageProps>(params, codecMap);
+};
+
+const toQuery: (props: ImageProps) => ParsedUrlQuery = props => {
+  return encodeQuery<ImageProps>(props, codecMap);
+};
+
+function toLink(
+  partialProps: Partial<ImageProps>,
+  source: ImagePropsSource
+): LinkProps {
+  const pathname = '/works';
+  const props: ImageProps = {
+    ...emptyImageProps,
+    ...partialProps,
+  };
+  // It's a bit annoying that we have to `removeUndefinedProps`
+  // here, but if we don't they come through as
+  // urlProperty=&anotherUrlProperty=
+  const query = removeUndefinedProps(toQuery(props));
+
   return {
     href: {
-      pathname: `/image`,
-      query: propsToQuery({
-        workId,
-        source,
-        resultPosition,
-        ...params,
-      }),
+      pathname,
+      query: { ...query, source },
     },
     as: {
-      pathname: `/works/${workId}/images`,
-      query: propsToQuery({ ...params }),
+      pathname,
+      query: query,
     },
   };
 }
 
-const ImageLink: FunctionComponent<PropsWithChildren<Props>> = ({
-  id,
-  workId,
-  langCode,
-  source,
+type Props = LinkFrom<ImageProps> & { source: ImagePropsSource };
+
+const WorksLink: FunctionComponent<Props> = ({
   children,
-  ...linkProps
-}: PropsWithChildren<Props>) => {
-  return (
-    <NextLink
-      {...imageLink({
-        id,
-        workId,
-        langCode,
-        source,
-      })}
-      {...linkProps}
-    >
-      {children}
-    </NextLink>
-  );
+  source,
+  ...props
+}: Props) => {
+  return <NextLink {...toLink(props, source)}>{children}</NextLink>;
 };
 
-export default ImageLink;
+export default WorksLink;
+export { toLink, fromQuery, emptyImageProps };

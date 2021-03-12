@@ -1,95 +1,91 @@
-import NextLink, { LinkProps } from 'next/link';
+import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
+import { ParsedUrlQuery } from 'querystring';
 import {
+  booleanCodec,
+  decodeQuery,
+  encodeQuery,
+  FromCodecMap,
   LinkFrom,
-  QueryTo,
-  toMaybeNumber,
-  toMaybeString,
-  toSource,
-  toString,
+  maybeNumberCodec,
+  stringCodec,
 } from '../../../utils/routes';
+import { LinkProps } from '../../../model/link-props';
+import { removeUndefinedProps } from '../../../utils/json';
 
-const itemPropsSources = ['images_search_result', 'viewer/paginator'] as const;
+const itemPropsSources = [
+  'work',
+  'images_search_result',
+  'viewer/paginator',
+  'manifests_navigation',
+] as const;
 type ItemPropsSource = typeof itemPropsSources[number];
 
-export type ItemProps = {
-  workId: string;
-  canvas?: number;
-  page?: number;
-  pageSize?: number;
-  langCode?: string;
-  sierraId?: string;
-  isOverview?: boolean;
-  resultPosition?: number;
-  manifest?: number;
-  source: ItemPropsSource | 'unknown';
+const emptyItemProps: ItemProps = {
+  workId: '',
+  canvas: 1,
+  page: 1,
+  manifest: 1,
+  pageSize: undefined,
+  isOverview: false,
+  resultPosition: undefined,
 };
 
-const fromQuery: QueryTo<ItemProps> = params => {
-  return {
-    workId: toString(params.workId, ''),
-    canvas: toMaybeNumber(params.canvas),
-    page: toMaybeNumber(params.page),
-    pageSize: toMaybeNumber(params.pageSize),
-    langCode: toMaybeString(params.langCode),
-    sierraId: toMaybeString(params.sierraId),
-    isOverview: Boolean(params.isOverview),
-    resultPosition: toMaybeNumber(params.resultPosition),
-    manifest: toMaybeNumber(params.manifest),
-    source: toSource(params.source, itemPropsSources) || 'unknown',
+const codecMap = {
+  workId: stringCodec,
+  canvas: maybeNumberCodec,
+  page: maybeNumberCodec,
+  pageSize: maybeNumberCodec,
+  isOverview: booleanCodec,
+  resultPosition: maybeNumberCodec,
+  manifest: maybeNumberCodec,
+};
+
+export type ItemProps = FromCodecMap<typeof codecMap>;
+
+const fromQuery: (params: ParsedUrlQuery) => ItemProps = params => {
+  return decodeQuery<ItemProps>(params, codecMap);
+};
+
+const toQuery: (props: ItemProps) => ParsedUrlQuery = props => {
+  return encodeQuery<ItemProps>(props, codecMap);
+};
+
+function toLink(
+  partialProps: Partial<ItemProps>,
+  source: ItemPropsSource
+): LinkProps {
+  const pathname = '/works';
+  const props: ItemProps = {
+    ...emptyItemProps,
+    ...partialProps,
   };
-};
+  // It's a bit annoying that we have to `removeUndefinedProps`
+  // here, but if we don't they come through as
+  // urlProperty=&anotherUrlProperty=
+  const query = removeUndefinedProps(toQuery(props));
 
-function toLink({ workId, source, ...params }: ItemProps): LinkProps {
   return {
     href: {
-      pathname: `/item`,
-      query: {
-        workId,
-        source,
-        ...params,
-      },
+      pathname,
+      query: { ...query, source },
     },
     as: {
-      pathname: `/works/${workId}/items`,
-      query: { ...params },
+      pathname,
+      query: query,
     },
   };
 }
 
-type Props = LinkFrom<ItemProps>;
-const ItemLink: FunctionComponent<Props> = ({
-  workId,
-  sierraId,
-  langCode,
-  canvas = 1,
-  isOverview,
-  page = 1,
-  pageSize = 4,
-  resultPosition,
-  source,
+type Props = LinkFrom<ItemProps> & { source: ItemPropsSource };
+
+const WorksLink: FunctionComponent<Props> = ({
   children,
-  ...linkProps
+  source,
+  ...props
 }: Props) => {
-  return (
-    <NextLink
-      {...toLink({
-        workId,
-        source,
-        langCode,
-        canvas,
-        sierraId,
-        isOverview,
-        page,
-        pageSize,
-        resultPosition,
-      })}
-      {...linkProps}
-    >
-      {children}
-    </NextLink>
-  );
+  return <NextLink {...toLink(props, source)}>{children}</NextLink>;
 };
 
-export default ItemLink;
-export { toLink, fromQuery };
+export default WorksLink;
+export { toLink, fromQuery, emptyItemProps };
