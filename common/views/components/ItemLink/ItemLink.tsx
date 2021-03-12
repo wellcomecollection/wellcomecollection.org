@@ -72,7 +72,7 @@ function toLink(
       query: { ...query, source },
     },
     as: {
-      pathname: `/${props.workId}/items`,
+      pathname: `/works/${props.workId}/items`,
       query: {},
     },
   };

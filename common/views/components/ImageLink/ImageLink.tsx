@@ -58,7 +58,7 @@ function toLink(
       query: { ...query, source },
     },
     as: {
-      pathname: `/${props.workId}/${props.id}`,
+      pathname: `/works/${props.workId}/${props.id}`,
       query: {
         id: props.id,
       },
