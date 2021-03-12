@@ -148,13 +148,6 @@ const graphQuery = `{
       ...on discussion {
         non-repeat {
           title
-        }
-        repeat {
-          contributor {
-            ...on people {
-              name
-            }
-          }
           text
         }
       }
