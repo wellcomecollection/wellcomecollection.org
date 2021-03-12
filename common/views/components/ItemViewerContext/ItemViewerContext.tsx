@@ -20,6 +20,8 @@ type Props = {
   mainAreaHeight: any;
   isFullscreen: any;
   setShowZoomed: any;
+  isSidebarActive: any;
+  setIsSidebarActive: any;
   showZoomed: any;
   setZoomInfoUrl: any;
   setIsFullscreen: any;

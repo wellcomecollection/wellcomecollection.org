@@ -91,9 +91,6 @@ const ViewAllContainer = styled.div.attrs(() => ({
   }),
 }))`
   height: 64px;
-  width: 20%;
-  border-right: 1px solid
-    ${props => lighten(0.1, props.theme.color('viewerBlack'))};
 `;
 
 const TitleContainer = styled.div.attrs(() => ({
@@ -131,11 +128,27 @@ const ViewerTopBar: FunctionComponent<Props> = ({
     parentManifest,
     lang,
     manifestIndex,
+    setIsSidebarActive,
+    isSidebarActive,
   } = useContext(ItemViewerContext);
   return (
     <TopBar className="flex">
       {isEnhanced && canvases && canvases.length > 1 && (
         <ViewAllContainer>
+          <Space h={{ size: 's', properties: ['margin-right', 'margin-left'] }}>
+            <ShameButton
+              isDark
+              onClick={() => setIsSidebarActive(!isSidebarActive)}
+            >
+              <Icon
+                name={`chevron`}
+                extraClasses={isSidebarActive ? 'icon--90' : 'icon--270'}
+              />
+              <span className={`btn__text`}>
+                {isSidebarActive ? 'Info' : 'Info'}
+              </span>
+            </ShameButton>
+          </Space>
           <ShameButton
             isDark
             ref={viewToggleRef}

@@ -95,7 +95,8 @@ const Grid = styled.div`
   grid-template-rows: [top-edge] min-content [desktop-main-start desktop-topbar-end] 1fr [bottom-edge];
 `;
 
-const Sidebar = styled.div`
+const Sidebar = styled.div<{ isActive: boolean }>`
+  display: ${props => (props.isActive ? 'inherit' : 'none')};
   grid-area: top-edge / left-edge / bottom-edge / desktop-sidebar-end;
   background: ${props => props.theme.color('viewerBlack')};
   color: ${props => props.theme.color('white')};
@@ -103,21 +104,27 @@ const Sidebar = styled.div`
   overflow: auto;
 `;
 
-const Topbar = styled.div`
+const Topbar = styled.div<{ isSidebarActive: boolean }>`
   background: ${props => props.theme.color('charcoal')};
-  grid-area: top-edge / desktop-topbar-start / desktop-topbar-end / right-edge;
+  grid-area: top-edge /
+    ${props => (props.isSidebarActive ? 'desktop-topbar-start' : 'left-edge')} /
+    desktop-topbar-end / right-edge;
 `;
 
-const Main = styled.div`
+const Main = styled.div<{ isSidebarActive: boolean }>`
   background: ${props => props.theme.color('viewerBlack')};
   color: ${props => props.theme.color('white')};
-  grid-area: desktop-main-start / main-start / bottom-edge / right-edge;
+  grid-area: desktop-main-start /
+    ${props => (props.isSidebarActive ? 'main-start' : 'left-edge')} /
+    bottom-edge / right-edge;
   overflow: auto;
 `;
 
-const Thumbnails = styled.div<{ isActive: boolean }>`
+const Thumbnails = styled.div<{ isActive: boolean; isSidebarActive: boolean }>`
   background: ${props => props.theme.color('charcoal')};
-  grid-area: desktop-main-start / main-start / bottom-edge / right-edge;
+  grid-area: desktop-main-start /
+    ${props => (props.isSidebarActive ? 'main-start' : 'left-edge')} /
+    bottom-edge / right-edge;
   transform: translateY(${props => (props.isActive ? '0' : '100%')});
   transition: transform 250ms ease;
   z-index: 3;
@@ -147,6 +154,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const mainViewerRef = useRef<FixedSizeList>(null);
   const viewerRef = useRef<HTMLDivElement>(null);
   const mainAreaRef = useRef<HTMLDivElement>(null);
+  const [isSidebarActive, setIsSidebarActive] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
   const [showZoomed, setShowZoomed] = useState(false);
   const [zoomInfoUrl, setZoomInfoUrl] = useState<string | undefined>();
@@ -155,9 +163,9 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [imageJson, setImageJson] = useState<any>();
-  const mainImageService = { '@id': getServiceId(currentCanvas) };
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
+  const mainImageService = { '@id': getServiceId(currentCanvas) };
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
 
@@ -269,6 +277,8 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
         showControls: showControls,
         isLoading: isLoading,
         isFullscreen: isFullscreen,
+        isSidebarActive: isSidebarActive,
+        setIsSidebarActive: setIsSidebarActive,
         setActiveIndex: setActiveIndex,
         setGridVisible: setGridVisible,
         setShowZoomed: setShowZoomed,
@@ -284,16 +294,16 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
       }}
     >
       <Grid ref={viewerRef}>
-        <Sidebar>
+        <Sidebar isActive={isSidebarActive}>
           <ViewerSidebarPrototype mainViewerRef={mainViewerRef} />
         </Sidebar>
-        <Topbar>
+        <Topbar isSidebarActive={isSidebarActive}>
           <ViewerTopBarPrototype
             viewToggleRef={viewToggleRef}
             viewerRef={viewerRef}
           />
         </Topbar>
-        <Main ref={mainAreaRef}>
+        <Main isSidebarActive={isSidebarActive} ref={mainAreaRef}>
           {showZoomed && <ZoomedImagePrototype />}
           {!showZoomed && (
             <ImageViewerControls showControls={showControls || urlTemplate}>
@@ -345,7 +355,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
           )}
           <MainViewerPrototype mainViewerRef={mainViewerRef} />
         </Main>
-        <Thumbnails isActive={gridVisible}>
+        <Thumbnails isActive={gridVisible} isSidebarActive={isSidebarActive}>
           <GridViewerPrototype
             mainViewerRef={mainViewerRef}
             gridViewerRef={gridViewerRef}
