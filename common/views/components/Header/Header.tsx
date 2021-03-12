@@ -5,39 +5,40 @@ import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
 
 export const navHeight = 85;
 
-type Props = {|
-  siteSection: ?string,
-|};
+type Props = {
+  siteSection: string | null;
+};
+
+export const links = [
+  {
+    href: '/visit-us',
+    title: 'Visit us',
+    siteSection: 'visit-us',
+  },
+  {
+    href: '/whats-on',
+    title: "What's on",
+    siteSection: 'whats-on',
+  },
+  {
+    href: '/stories',
+    title: 'Stories',
+    siteSection: 'stories',
+  },
+  {
+    href: '/collections',
+    title: 'Collections',
+    siteSection: 'collections',
+  },
+  {
+    href: '/what-we-do',
+    title: 'What we do',
+    siteSection: 'what-we-do',
+  },
+];
 
 const Header = ({ siteSection }: Props) => {
   const [isActive, setIsActive] = useState(false);
-  const links = [
-    {
-      href: '/visit-us',
-      title: 'Visit us',
-      siteSection: 'visit-us',
-    },
-    {
-      href: '/whats-on',
-      title: "What's on",
-      siteSection: 'whats-on',
-    },
-    {
-      href: '/stories',
-      title: 'Stories',
-      siteSection: 'stories',
-    },
-    {
-      href: '/collections',
-      title: 'Collections',
-      siteSection: 'collections',
-    },
-    {
-      href: '/what-we-do',
-      title: 'What we do',
-      siteSection: 'what-we-do',
-    },
-  ];
 
   return (
     <div
