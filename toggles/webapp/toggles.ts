@@ -1,11 +1,24 @@
 export default {
   toggles: [
     {
+      id: 'showCanvasLabels',
+      title: 'Show canvas labels on viewer thumbnails',
+      description:
+        'Shows the canvas label on the viewer thumbnails above the image number',
+      defaultValue: false,
+    },
+    {
       id: 'openWithAdvisoryPrototype',
       title: 'Open with advisory',
       description:
         'Adds functionality for viewing digitised items with an access condition of open-with-advisory',
       defaultValue: true,
+    },
+    {
+      id: 'onlineResourcesPrototype',
+      title: 'Online resources',
+      description: `Adds links to any third-party resources associated with items (inside 'Available online')`,
+      defaultValue: false,
     },
     {
       id: 'buildingReopening',

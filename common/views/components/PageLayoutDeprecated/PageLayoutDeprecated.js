@@ -6,6 +6,7 @@ import type { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
 // $FlowFixMe (tsx)
 import convertUrlToString from '../../../utils/convert-url-to-string';
+// $FlowFixMe (tsx)
 import Header from '../Header/Header';
 // $FlowFixMe (tsx)
 import InfoBanner from '../InfoBanner/InfoBanner';
@@ -26,20 +27,13 @@ import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import GlobalInfoBarContext from '../GlobalInfoBarContext/GlobalInfoBarContext';
 
-type SiteSection =
-  | 'collections'
-  | 'what-we-do'
-  | 'visit-us'
-  | 'stories'
-  | 'whats-on';
-
 export type Props = {|
   title: string,
   description: string,
   url: Url,
   jsonLd: JsonLdObj | JsonLdObj[],
   openGraphType: 'website' | 'article' | 'book' | 'profile',
-  siteSection: ?SiteSection,
+  siteSection: ?string,
   imageUrl: ?string,
   imageAltText: ?string,
   oEmbedUrl?: string,

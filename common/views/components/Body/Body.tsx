@@ -1,5 +1,10 @@
 import dynamic from 'next/dynamic';
-import { ReactNode, ReactElement, FunctionComponent } from 'react';
+import React, {
+  ReactNode,
+  ReactElement,
+  FunctionComponent,
+  Fragment,
+} from 'react';
 import { classNames } from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import SearchResults from '../SearchResults/SearchResults';
@@ -286,7 +291,7 @@ const Body: FunctionComponent<Props> = ({
       )}
 
       {filteredBody.map((slice, i) => (
-        <>
+        <Fragment key={i}>
           {slice.type === 'inPageAnchor' && <span id={slice.value} />}
           {/* If the first slice is featured text we display it above inPageAnchors and any static content, i.e. <AdditionalContent /> */}
           {i === 0 && slice.type === 'text' && slice.weight === 'featured' && (
@@ -500,7 +505,7 @@ const Body: FunctionComponent<Props> = ({
                   <WobblyEdgedContainer>
                     <Discussion
                       title={slice.value.title}
-                      discussion={slice.value.discussion}
+                      text={slice.value.text}
                     />
                   </WobblyEdgedContainer>
                 )}
@@ -526,7 +531,7 @@ const Body: FunctionComponent<Props> = ({
               </div>
             </SpacingComponent>
           )}
-        </>
+        </Fragment>
       ))}
     </div>
   );

@@ -10,6 +10,7 @@ import { toLink as imagesLink } from '@weco/common/views/components/ImagesLink/I
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
+  getItemsByLocationType,
   getAccessConditionForDigitalLocation,
   getWorkIdentifiersWith,
   getEncoreLink,
@@ -33,7 +34,7 @@ import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/Expla
 import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import { DigitalLocation, Work } from '@weco/common/model/catalogue';
+import { DigitalLocation, Work, Item } from '@weco/common/model/catalogue';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 
 type Props = {
@@ -70,11 +71,27 @@ function getItemLinkState({
 }
 
 const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
-  const { stacksRequestService, openWithAdvisoryPrototype } = useContext(
-    TogglesContext
-  );
+  const {
+    stacksRequestService,
+    openWithAdvisoryPrototype,
+    onlineResourcesPrototype,
+  } = useContext(TogglesContext);
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+
+  type ItemWithDigitalLocation = Omit<Item, 'locations'> & {
+    location: DigitalLocation;
+  };
+  const onlineResources = getItemsByLocationType(work, 'online-resource').map(
+    i => {
+      const [location] = i.locations;
+      return {
+        title: i.title,
+        location,
+      };
+    }
+  ) as ItemWithDigitalLocation[]; // FIXME: I think this casting might be cheating?
+
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
     'iiif-presentation'
@@ -232,6 +249,35 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
 
   const Content = () => (
     <>
+      {onlineResourcesPrototype && onlineResources.length > 0 && (
+        <WorkDetailsSection headingText="Available online">
+          <h3
+            className={classNames({
+              'no-margin': true,
+              [font('hnm', 5)]: true,
+            })}
+          >
+            Online resources
+          </h3>
+          {onlineResources.map(item => (
+            <span
+              className={classNames({
+                [font('hnl', 5)]: true,
+              })}
+              key={item.location.url}
+            >
+              {item.title ? (
+                <>
+                  {item.title}: <a href={item.location.url}>view resource</a>
+                </>
+              ) : (
+                <a href={item.location.url}>{item.location.linkText}</a>
+              )}{' '}
+            </span>
+          ))}
+        </WorkDetailsSection>
+      )}
+
       {digitalLocation && itemLinkState !== 'useNoLink' && (
         <WorkDetailsSection
           headingText="Available online"
@@ -430,7 +476,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
         </WorkDetailsSection>
       )}
 
-      {!digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
+      {!digitalLocation &&
+        !(onlineResourcesPrototype && onlineResources.length > 0) &&
+        (locationOfWork || encoreLink) && <WhereToFindIt />}
 
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection
