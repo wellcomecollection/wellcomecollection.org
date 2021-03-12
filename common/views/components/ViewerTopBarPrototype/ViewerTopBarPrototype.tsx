@@ -137,6 +137,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
       {isEnhanced && canvases && canvases.length > 1 && (
         <ViewAllContainer>
           <ShameButton
+            isDark
             ref={viewToggleRef}
             onClick={() => {
               setGridVisible(!gridVisible);

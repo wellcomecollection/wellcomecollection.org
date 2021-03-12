@@ -120,6 +120,7 @@ const Thumbnails = styled.div<{ isActive: boolean }>`
   grid-area: desktop-main-start / main-start / bottom-edge / right-edge;
   transform: translateY(${props => (props.isActive ? '0' : '100%')});
   transition: transform 250ms ease;
+  z-index: 3;
 `;
 
 const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
@@ -293,53 +294,55 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
           />
         </Topbar>
         <Main ref={mainAreaRef}>
-          {showZoomed && window && <ZoomedImagePrototype />}
-          <ImageViewerControls showControls={showControls || urlTemplate}>
-            <Space
-              h={{ size: 's', properties: ['margin-left'] }}
-              v={{ size: 'l', properties: ['margin-bottom'] }}
-            >
-              <Control
-                colorScheme="black-on-white"
-                text="Zoom in"
-                icon="zoomIn"
-                clickHandler={() => {
-                  setShowZoomed(true);
-                }}
-              />
-            </Space>
-            <Space
-              h={{ size: 's', properties: ['margin-left'] }}
-              v={{ size: 'l', properties: ['margin-bottom'] }}
-            >
-              <Control
-                colorScheme="black-on-white"
-                text="Rotate"
-                icon="rotatePageRight"
-                clickHandler={() => {
-                  const matchingIndex = rotatedImages.findIndex(
-                    image => image.canvasIndex === activeIndex
-                  );
-                  if (matchingIndex >= 0) {
-                    rotatedImages[matchingIndex] = {
-                      canvasIndex: rotatedImages[matchingIndex].canvasIndex,
-                      rotation:
-                        rotatedImages[matchingIndex].rotation < 270
-                          ? rotatedImages[matchingIndex].rotation + 90
-                          : 0,
-                    };
-                  } else {
-                    rotatedImages.push({
-                      canvasIndex: activeIndex,
-                      rotation: 90,
-                    });
-                  }
-                  setRotatedImages([...rotatedImages]);
-                  setIsLoading(true);
-                }}
-              />
-            </Space>
-          </ImageViewerControls>
+          {showZoomed && <ZoomedImagePrototype />}
+          {!showZoomed && (
+            <ImageViewerControls showControls={showControls || urlTemplate}>
+              <Space
+                h={{ size: 's', properties: ['margin-left'] }}
+                v={{ size: 'l', properties: ['margin-bottom'] }}
+              >
+                <Control
+                  colorScheme="black-on-white"
+                  text="Zoom in"
+                  icon="zoomIn"
+                  clickHandler={() => {
+                    setShowZoomed(true);
+                  }}
+                />
+              </Space>
+              <Space
+                h={{ size: 's', properties: ['margin-left'] }}
+                v={{ size: 'l', properties: ['margin-bottom'] }}
+              >
+                <Control
+                  colorScheme="black-on-white"
+                  text="Rotate"
+                  icon="rotatePageRight"
+                  clickHandler={() => {
+                    const matchingIndex = rotatedImages.findIndex(
+                      image => image.canvasIndex === activeIndex
+                    );
+                    if (matchingIndex >= 0) {
+                      rotatedImages[matchingIndex] = {
+                        canvasIndex: rotatedImages[matchingIndex].canvasIndex,
+                        rotation:
+                          rotatedImages[matchingIndex].rotation < 270
+                            ? rotatedImages[matchingIndex].rotation + 90
+                            : 0,
+                      };
+                    } else {
+                      rotatedImages.push({
+                        canvasIndex: activeIndex,
+                        rotation: 90,
+                      });
+                    }
+                    setRotatedImages([...rotatedImages]);
+                    setIsLoading(true);
+                  }}
+                />
+              </Space>
+            </ImageViewerControls>
+          )}
           <MainViewerPrototype mainViewerRef={mainViewerRef} />
         </Main>
         <Thumbnails isActive={gridVisible}>
