@@ -15,7 +15,8 @@ import Space from '@weco/common/views/components/styled/Space';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 
 const ZoomedImageContainer = styled.div`
-  position: relative;
+  position: absolute;
+  z-index: 1;
   width: 100%;
   height: 100%;
   background: ${props => props.theme.color('black')};
