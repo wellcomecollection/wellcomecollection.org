@@ -131,6 +131,10 @@ function fromNumber(v: number): QueryParam {
   return v === 1 ? undefined : v.toString();
 }
 
+function fromMaybeNumber(v: number | undefined): QueryParam {
+  return v ? (v === 1 ? undefined : v.toString()) : undefined;
+}
+
 function fromCsv(v: string[]): QueryParam {
   return v.length === 0 ? undefined : v.join(',');
 }
@@ -160,7 +164,7 @@ export const numberCodec: Codec<number> = {
 
 export const maybeNumberCodec: Codec<number | undefined> = {
   decode: toMaybeNumber,
-  encode: fromNumber,
+  encode: fromMaybeNumber,
 };
 
 export const csvCodec: Codec<string[]> = {
