@@ -64,46 +64,37 @@ const TopBar = styled.div`
   z-index: 3;
   background: ${props => lighten(0.14, props.theme.color('viewerBlack'))};
   color: ${props => props.theme.color('white')};
-  .title {
-    max-width: 30%;
-    .icon {
-      width: 48px;
-    }
-  }
-  h1 {
-    margin: 0;
-  }
-  .part {
-    max-width: 100%;
-    display: block;
-    @media (min-width: ${props => props.theme.sizes.large}px) {
-      display: none;
-    }
-  }
-  .plain-link {
-    max-width: 100%;
-  }
-`;
-
-const ViewAllContainer = styled.div.attrs(() => ({
-  className: classNames({
-    'flex flex--v-center flex--h-center': true,
-  }),
-}))`
-  height: 64px;
-`;
-
-const TitleContainer = styled.div.attrs(() => ({
-  className: classNames({
-    'flex flex--v-center': true,
-    [font('hnl', 5)]: true,
-  }),
-}))<{ isEnhanced?: boolean }>`
+  display: flex;
   justify-content: space-between;
-  height: 64px;
-  width: ${props => (props.isEnhanced ? '80%' : '100%')};
-  padding: ${props => `0 ${props.theme.spacingUnit * 2}px`};
 `;
+
+const LeftZone = styled(Space).attrs({
+  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+})`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 30%;
+`;
+const MiddleZone = styled(Space).attrs({
+  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  className: classNames({
+    [font('hnm', 5)]: true,
+  }),
+})`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const RightZone = styled(Space).attrs({
+  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+})`
+  width: 30%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
 type Props = {
   viewToggleRef: any;
   viewerRef: any;
@@ -134,7 +125,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
   return (
     <TopBar className="flex">
       {isEnhanced && canvases && canvases.length > 1 && (
-        <ViewAllContainer>
+        <LeftZone>
           <Space h={{ size: 's', properties: ['margin-right', 'margin-left'] }}>
             <ShameButton
               isDark
@@ -168,11 +159,9 @@ const ViewerTopBar: FunctionComponent<Props> = ({
               {gridVisible ? 'Detail view' : 'View all'}
             </span>
           </ShameButton>
-        </ViewAllContainer>
+        </LeftZone>
       )}
-      <TitleContainer
-        isEnhanced={isEnhanced && canvases && canvases.length > 1}
-      >
+      <MiddleZone>
         {canvases && canvases.length > 1 && (
           <>
             {`${activeIndex + 1 || ''} / ${(canvases && canvases.length) ||
@@ -181,6 +170,8 @@ const ViewerTopBar: FunctionComponent<Props> = ({
               `(page ${canvases[activeIndex].label.trim()})`}
           </>
         )}
+      </MiddleZone>
+      <RightZone>
         {isEnhanced && (
           <div className="flex flex--v-center">
             {document &&
@@ -242,7 +233,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
             )}
           </div>
         )}
-      </TitleContainer>
+      </RightZone>
     </TopBar>
   );
 };
