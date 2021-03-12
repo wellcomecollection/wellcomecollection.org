@@ -55,11 +55,12 @@ function toLink(
   partialProps: Partial<ItemProps>,
   source: ItemPropsSource
 ): LinkProps {
-  const pathname = '/works';
+  const pathname = '/item';
   const props: ItemProps = {
     ...emptyItemProps,
     ...partialProps,
   };
+
   // It's a bit annoying that we have to `removeUndefinedProps`
   // here, but if we don't they come through as
   // urlProperty=&anotherUrlProperty=
@@ -71,8 +72,8 @@ function toLink(
       query: { ...query, source },
     },
     as: {
-      pathname,
-      query: query,
+      pathname: `/${props.workId}/items`,
+      query: {},
     },
   };
 }
