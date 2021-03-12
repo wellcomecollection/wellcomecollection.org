@@ -8,6 +8,7 @@ import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveIma
 import LL from '@weco/common/views/components/styled/LL';
 import { getImageAuthService } from '@weco/common/utils/iiif';
 import Padlock from '@weco/common/views/components/styled/Padlock';
+import Space from '@weco/common/views/components/styled/Space';
 
 type ViewerThumbProps = {
   isFocusable?: boolean;
@@ -106,6 +107,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
     thumbnailService.sizes
       .sort((a, b) => a.width - b.width)
       .find(dimensions => dimensions.width > 100);
+
   return (
     <IIIFViewerThumb
       onClick={clickHandler}
@@ -159,10 +161,18 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
           )}
         </ImageContainer>
         <div>
-          <IIIFViewerThumbNumber isActive={isActive}>
-            <span className="visually-hidden">image </span>
-            {thumbNumber}
-          </IIIFViewerThumbNumber>
+          {canvas.label.trim() !== '-' && (
+            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+              <IIIFViewerThumbNumber isActive={isActive}>
+                {canvas.label}
+              </IIIFViewerThumbNumber>
+            </Space>
+          )}
+          <div>
+            <IIIFViewerThumbNumber isActive={isActive}>
+              <span style={{ fontSize: '11px' }}>{`image ${thumbNumber}`}</span>
+            </IIIFViewerThumbNumber>
+          </div>
         </div>
       </IIIFViewerThumbInner>
     </IIIFViewerThumb>

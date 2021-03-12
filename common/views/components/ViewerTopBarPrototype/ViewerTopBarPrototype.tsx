@@ -174,8 +174,12 @@ const ViewerTopBar: FunctionComponent<Props> = ({
         isEnhanced={isEnhanced && canvases && canvases.length > 1}
       >
         {canvases && canvases.length > 1 && (
-          <>{`${activeIndex + 1 || ''} / ${(canvases && canvases.length) ||
-            ''}`}</>
+          <>
+            {`${activeIndex + 1 || ''} / ${(canvases && canvases.length) ||
+              ''}`}{' '}
+            {!(canvases[activeIndex].label.trim() === '-') &&
+              `(page ${canvases[activeIndex].label.trim()})`}
+          </>
         )}
         {isEnhanced && (
           <div className="flex flex--v-center">
