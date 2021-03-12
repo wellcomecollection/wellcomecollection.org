@@ -260,10 +260,6 @@ export default {
           title: heading('Title', 2),
           text: structuredText('Text'),
         },
-        repeat: {
-          contributor: link('Contributor', 'document', ['people']),
-          text: structuredText('Text'),
-        },
       }),
       tagList: slice('Tag List', {
         nonRepeat: {
