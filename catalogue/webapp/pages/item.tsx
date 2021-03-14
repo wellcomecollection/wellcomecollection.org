@@ -17,6 +17,7 @@ import {
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import IIIFViewerPrototype from '@weco/common/views/components/IIIFViewerPrototype/IIIFViewerPrototype';
 import IIIFViewer, {
   IIIFViewerBackground,
 } from '@weco/common/views/components/IIIFViewer/IIIFViewer';
@@ -331,7 +332,30 @@ const ItemPage: NextPage<Props> = ({
         </div>
       </Modal>
       {showViewer &&
-        ((mainImageService && currentCanvas) || iiifImageLocation) && (
+        ((mainImageService && currentCanvas) || iiifImageLocation) &&
+        (globalContextData.toggles.itemViewerPrototype ? (
+          <IIIFViewerPrototype
+            title={title}
+            mainPaginatorProps={mainPaginatorProps}
+            thumbsPaginatorProps={thumbsPaginatorProps}
+            currentCanvas={currentCanvas}
+            lang={langCode}
+            canvasOcr={canvasOcr}
+            canvases={canvases}
+            workId={workId}
+            pageIndex={pageIndex}
+            pageSize={pageSize}
+            canvasIndex={canvasIndex}
+            manifestIndex={manifestIndex}
+            iiifImageLocation={iiifImageLocation}
+            work={work}
+            manifest={manifest}
+            handleImageError={() => {
+              // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
+              reloadAuthIframe(document, iframeId);
+            }}
+          />
+        ) : (
           <IIIFViewer
             title={title}
             mainPaginatorProps={mainPaginatorProps}
@@ -353,7 +377,7 @@ const ItemPage: NextPage<Props> = ({
               reloadAuthIframe(document, iframeId);
             }}
           />
-        )}
+        ))}
     </CataloguePageLayout>
   );
 };

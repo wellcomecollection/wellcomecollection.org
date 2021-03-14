@@ -1,6 +1,13 @@
 export default {
   toggles: [
     {
+      id: 'itemViewerPrototype',
+      title: 'Show the prototype UI for the item viewer',
+      description:
+        'Adds a sidebar with structured metadata about the item being viewed',
+      defaultValue: false,
+    },
+    {
       id: 'showCanvasLabels',
       title: 'Show canvas labels on viewer thumbnails',
       description:
