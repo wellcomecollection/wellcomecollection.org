@@ -14,6 +14,8 @@ import { PasswordInput } from '../components/PasswordInput';
 import { usePageTitle } from '../hooks/usePageTitle';
 import { validEmailPattern, validPasswordPattern } from '../components/ValidationPatterns';
 
+const scrollToTop = () => window.scrollTo(0, 0);
+
 type RegistrationInputs = {
   firstName: string;
   lastName: string;
@@ -32,12 +34,14 @@ export function Registration(): JSX.Element {
   usePageTitle('Register for a library account');
 
   useEffect(() => {
+    scrollToTop();
     if (registrationError === RegistrationError.EMAIL_ALREADY_EXISTS) {
       setError('email', { type: 'manual', message: 'Email address already in use.' });
     }
   }, [registrationError, setError]);
 
   if (isSuccess) {
+    scrollToTop();
     return <AccountCreated />;
   }
 

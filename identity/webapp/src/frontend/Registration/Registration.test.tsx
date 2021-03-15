@@ -11,6 +11,8 @@ import theme from '@weco/common/views/themes/default';
 
 const history = createMemoryHistory({ initialEntries: ['/'] });
 
+window.scrollTo = jest.fn();
+
 const renderComponent = () =>
   render(
     <ThemeProvider theme={theme}>
