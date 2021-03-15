@@ -97,7 +97,8 @@ export class Page extends Component<Props> {
     function getBreadcrumbText(siteSection: string, pageId: string): string {
       return hiddenBreadcrumbPages.includes(page.id) || isLanding
         ? '\u200b'
-        : links.find(link => link.siteSection === siteSection)?.title;
+        : links.find(link => link.siteSection === siteSection)?.title ||
+            siteSection;
     }
 
     // TODO: This is not the way to do site sections
