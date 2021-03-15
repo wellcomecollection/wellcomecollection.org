@@ -8,7 +8,7 @@ import { Cancel, Checkbox, ErrorAlert, ExternalLink, CheckboxLabel, InProgress }
 import { FieldMargin, Label, TextInput, InvalidFieldAlert, Button } from '../components/Form.style';
 import { Container, Title, Wrapper } from '../components/Layout.style';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Info2 from '@weco/common/icons/components/Info2';
 import { useRegisterUser, RegistrationError } from './useRegisterUser';
 import { PasswordInput } from '../components/PasswordInput';
 import { usePageTitle } from '../hooks/usePageTitle';
@@ -55,7 +55,7 @@ export function Registration(): JSX.Element {
           {registrationError && (
             <>
               <ErrorAlert aria-labelledby="error-text">
-                <Icon name="info2" />
+                <Info2 />
                 {registrationError === RegistrationError.EMAIL_ALREADY_EXISTS && (
                   <span id="error-text">
                     An account with this email address already exists, please <Link to="/">sign in</Link>.
