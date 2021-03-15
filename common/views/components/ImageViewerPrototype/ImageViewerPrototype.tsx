@@ -4,6 +4,7 @@ import {
   useRef,
   useContext,
   FunctionComponent,
+  RefObject,
 } from 'react';
 import styled from 'styled-components';
 import { FixedSizeList } from 'react-window';
@@ -43,7 +44,7 @@ type ImageViewerProps = {
   urlTemplate: (v: IIIFUriProps) => () => undefined;
   rotation: number;
   loadHandler?: () => void;
-  mainViewerRef?: FixedSizeList;
+  mainViewerRef?: RefObject<FixedSizeList>;
   index?: number;
 };
 
@@ -65,9 +66,9 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     setZoomInfoUrl,
     setShowZoomed,
   } = useContext(ItemViewerContext);
-  const imageViewer = useRef();
+  const imageViewer = useRef(null);
   const isOnScreen = useOnScreen({
-    root: mainViewerRef && mainViewerRef._outerRef,
+    root: mainViewerRef?.current?._outerRef,
     ref: imageViewer,
     threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
   });

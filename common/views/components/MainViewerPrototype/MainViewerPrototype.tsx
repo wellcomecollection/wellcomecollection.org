@@ -85,6 +85,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     setIsLoading,
     ocrText,
     errorHandler,
+    mainViewerRef,
   } = data;
   const [mainLoaded, setMainLoaded] = useState(false);
   const [thumbLoaded, setThumbLoaded] = useState(false);
@@ -171,6 +172,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                 setIsLoading(false);
               }}
               errorHandler={errorHandler}
+              mainViewerRef={mainViewerRef}
             />
           )}
         </>
@@ -182,7 +184,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
 ItemRenderer.displayName = 'ItemRenderer';
 
 type Props = {
-  mainViewerRef: any;
+  mainViewerRef: RefObject<HTMLDivElement>;
 };
 
 const MainViewer: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {

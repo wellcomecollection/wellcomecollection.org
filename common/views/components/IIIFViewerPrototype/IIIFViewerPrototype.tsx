@@ -1,5 +1,7 @@
 import { FunctionComponent, useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { IIIFCanvas, IIIFManifest } from '@weco/common/model/iiif';
+import { DigitalLocation, Work } from '../../../model/catalogue';
 import {
   getDigitalLocationOfType,
   getDownloadOptionsFromImageUrl,
@@ -13,11 +15,9 @@ import {
 import ViewerSidebarPrototype from '../ViewerSidebarPrototype/ViewerSidebarPrototype';
 import MainViewerPrototype from '../MainViewerPrototype/MainViewerPrototype';
 import ViewerTopBarPrototype from '../ViewerTopBarPrototype/ViewerTopBarPrototype';
-import { IIIFViewerProps } from '../IIIFViewer/IIIFViewer';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
-import { IIIFManifest } from '@weco/common/model/iiif';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import Router from 'next/router';
 import GridViewerPrototype from '../GridViewerPrototype/GridViewerPrototype';
@@ -26,8 +26,27 @@ import Control from '../Buttons/Control/Control';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import dynamic from 'next/dynamic';
 import LL from '@weco/common/views/components/styled/LL';
+import { PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
 
-// TODO: Move this to somewhere nice
+type IIIFViewerProps = {
+  title: string;
+  currentCanvas?: IIIFCanvas;
+  mainPaginatorProps: PaginatorPropsWithoutRenderFunction;
+  thumbsPaginatorProps: PaginatorPropsWithoutRenderFunction;
+  lang: string;
+  canvasOcr?: string;
+  canvases: IIIFCanvas[];
+  workId: string;
+  pageIndex: number;
+  pageSize: number;
+  canvasIndex: number;
+  iiifImageLocation?: DigitalLocation;
+  work: Work;
+  manifest?: IIIFManifest;
+  manifestIndex?: number;
+  handleImageError?: () => void;
+};
+// TODO: Move this to somewhere better?
 const LoadingComponent = () => (
   <div
     style={{
