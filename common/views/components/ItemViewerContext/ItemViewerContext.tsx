@@ -1,76 +1,80 @@
 import { createContext } from 'react';
+import { Work } from '../../../model/catalogue';
+import { IIIFCanvas, IIIFManifest } from '../../../model/iiif';
+import { LicenseData } from '../../../utils/licenses';
+
 type Props = {
-  work: any;
-  manifest: any;
-  manifestIndex: any;
-  activeIndex: any;
-  setActiveIndex: any;
-  canvases: any;
-  canvasIndex: any;
-  gridVisible: any;
-  setGridVisible: any;
-  currentManifestLabel: any;
-  licenseInfo: any;
+  work: Work;
+  manifest: IIIFManifest;
+  manifestIndex: number | undefined;
+  activeIndex: number | undefined;
+  setActiveIndex: (i: number) => void;
+  canvases: IIIFCanvas[];
+  canvasIndex: number | undefined;
+  gridVisible: boolean;
+  setGridVisible: (v: boolean) => void;
+  currentManifestLabel?: string;
+  licenseInfo: LicenseData;
   iiifImageLocationCredit: any;
   downloadOptions: any;
   iiifPresentationDownloadOptions: any;
-  parentManifest: any;
-  lang: any;
-  mainAreaWidth: any;
-  mainAreaHeight: any;
-  isFullscreen: any;
-  setShowZoomed: any;
-  isSidebarActive: any;
-  setIsSidebarActive: any;
-  showZoomed: any;
+  parentManifest: IIIFManifest | undefined;
+  lang: string;
+  mainAreaWidth: number;
+  mainAreaHeight: number;
+  isFullscreen: boolean;
+  setShowZoomed: (v: boolean) => void;
+  isSidebarActive: boolean;
+  setIsSidebarActive: (v: boolean) => void;
+  showZoomed: boolean;
   setZoomInfoUrl: any;
-  setIsFullscreen: any;
+  setIsFullscreen: (v: boolean) => void;
   zoomInfoUrl: any;
   setRotatedImages: any;
-  showControls: any;
-  isLoading: any;
-  setIsLoading: any;
+  showControls: boolean;
+  isLoading: boolean;
+  setIsLoading: (v: boolean) => void;
   setImageJson: any;
-  setParentManifest: any;
+  setParentManifest: (v: IIIFManifest) => void;
   rotatedImages: any;
   setShowControls: any;
   errorHandler: any;
-  setCurrentManifestLabel: any;
+  setCurrentManifestLabel: (v: string) => void;
 };
 const ItemViewerContext = createContext<Props>({
   work: {},
   manifest: {},
   manifestIndex: undefined,
   activeIndex: undefined,
-  setActiveIndex: undefined,
   canvases: [],
   canvasIndex: undefined,
   gridVisible: false,
-  setGridVisible: () => false,
   currentManifestLabel: undefined,
   licenseInfo: undefined,
   iiifImageLocationCredit: undefined,
   downloadOptions: undefined,
   iiifPresentationDownloadOptions: undefined,
   parentManifest: undefined,
-  lang: undefined,
-  mainAreaWidth: undefined,
-  mainAreaHeight: undefined,
-  isFullscreen: undefined,
-  setShowZoomed: () => undefined,
+  lang: '',
+  mainAreaWidth: 1000,
+  mainAreaHeight: 500,
+  isFullscreen: false,
   isSidebarActive: false,
-  setIsSidebarActive: () => undefined,
   showZoomed: false,
   setZoomInfoUrl: undefined,
-  setIsFullscreen: false,
   zoomInfoUrl: undefined,
-  setRotatedImages: () => undefined,
   showControls: false,
   isLoading: false,
+  rotatedImages: [],
+  setActiveIndex: () => undefined,
+  setGridVisible: () => false,
+  setShowZoomed: () => undefined,
+  setIsSidebarActive: () => undefined,
+  setIsFullscreen: () => undefined,
+  setRotatedImages: () => undefined,
   setIsLoading: () => undefined,
   setImageJson: () => undefined,
   setParentManifest: () => undefined,
-  rotatedImages: [],
   setShowControls: () => undefined,
   errorHandler: () => undefined,
   setCurrentManifestLabel: () => undefined,
