@@ -42,7 +42,7 @@ type ImageViewerProps = {
   alt: string;
   urlTemplate: (v: IIIFUriProps) => () => undefined;
   rotation: number;
-  loadHandler?: () => undefined;
+  loadHandler?: () => void;
   mainViewerRef?: FixedSizeList;
   index?: number;
 };

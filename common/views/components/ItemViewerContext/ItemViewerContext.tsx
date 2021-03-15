@@ -38,7 +38,7 @@ type Props = {
   setParentManifest: (v: IIIFManifest) => void;
   rotatedImages: { canvasIndex: number }[];
   setShowControls: (v: boolean) => void;
-  errorHandler: () => undefined | undefined;
+  errorHandler?: () => void;
   setCurrentManifestLabel: (v: string) => void;
 };
 const ItemViewerContext = createContext<Props>({
