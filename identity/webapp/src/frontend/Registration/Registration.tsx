@@ -183,7 +183,7 @@ export function Registration(): JSX.Element {
               render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
             />
             <SpacingComponent />
-            {isLoading ? <InProgress>Registering...</InProgress> : <Button type="submit">Create account</Button>}
+            {isLoading ? <InProgress>Creating account…</InProgress> : <Button type="submit">Create account</Button>}
             <Cancel onClick={goBack} />
           </form>
         </Wrapper>
