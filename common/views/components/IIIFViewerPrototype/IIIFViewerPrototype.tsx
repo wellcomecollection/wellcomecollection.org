@@ -118,6 +118,7 @@ const Main = styled.div<{ isSidebarActive: boolean }>`
     ${props => (props.isSidebarActive ? 'main-start' : 'left-edge')} /
     bottom-edge / right-edge;
   overflow: auto;
+  position: relative;
 `;
 
 const Thumbnails = styled.div<{ isActive: boolean; isSidebarActive: boolean }>`
