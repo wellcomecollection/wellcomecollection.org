@@ -161,18 +161,18 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
           )}
         </ImageContainer>
         <div>
-          {canvas.label.trim() !== '-' && (
+          <>
             <Space v={{ size: 's', properties: ['margin-bottom'] }}>
               <IIIFViewerThumbNumber isActive={isActive}>
-                page {canvas.label}
+                {canvas.label.trim() !== '-' && 'page'} {canvas.label}
               </IIIFViewerThumbNumber>
             </Space>
-          )}
-          <div>
-            <IIIFViewerThumbNumber isActive={isActive}>
-              <span style={{ fontSize: '11px' }}>{`${thumbNumber}`}</span>
-            </IIIFViewerThumbNumber>
-          </div>
+            <div>
+              <IIIFViewerThumbNumber isActive={isActive}>
+                <span style={{ fontSize: '11px' }}>{`${thumbNumber}`}</span>
+              </IIIFViewerThumbNumber>
+            </div>
+          </>
         </div>
       </IIIFViewerThumbInner>
     </IIIFViewerThumb>
