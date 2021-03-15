@@ -62,7 +62,7 @@ type ItemRendererProps = {
     scrollVelocity: number;
     isProgrammaticScroll: boolean;
     setShowZoomed: (value: boolean) => void;
-    mainViewerRef: RefObject<FixedSizeList>;
+    mainAreaRef: RefObject<HTMLDivElement>;
     setActiveIndex: (i: number) => void;
     canvases: IIIFCanvas[];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -85,7 +85,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     setIsLoading,
     ocrText,
     errorHandler,
-    mainViewerRef,
+    mainAreaRef,
   } = data;
   const [mainLoaded, setMainLoaded] = useState(false);
   const [thumbLoaded, setThumbLoaded] = useState(false);
@@ -172,7 +172,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                 setIsLoading(false);
               }}
               errorHandler={errorHandler}
-              mainViewerRef={mainViewerRef}
+              mainAreaRef={mainAreaRef}
             />
           )}
         </>
@@ -184,10 +184,14 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
 ItemRenderer.displayName = 'ItemRenderer';
 
 type Props = {
-  mainViewerRef: RefObject<HTMLDivElement>;
+  mainViewerRef: RefObject<FixedSizeList>;
+  mainAreaRef: RefObject<HTMLDivElement>;
 };
 
-const MainViewer: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
+const MainViewer: FunctionComponent<Props> = ({
+  mainViewerRef,
+  mainAreaRef,
+}: Props) => {
   const {
     setActiveIndex,
     mainAreaHeight,
@@ -266,7 +270,7 @@ const MainViewer: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
         setActiveIndex,
         setIsLoading,
         ocrText,
-        mainViewerRef,
+        mainAreaRef,
         errorHandler,
       }}
       itemSize={mainAreaWidth}

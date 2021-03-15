@@ -378,7 +378,10 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
               </Space>
             </ImageViewerControls>
           )}
-          <MainViewerPrototype mainViewerRef={mainViewerRef} />
+          <MainViewerPrototype
+            mainViewerRef={mainViewerRef}
+            mainAreaRef={mainAreaRef}
+          />
         </Main>
         <Thumbnails isActive={gridVisible} isSidebarActive={!showZoomed}>
           <GridViewerPrototype
