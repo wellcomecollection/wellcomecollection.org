@@ -14,6 +14,7 @@ import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 import ViewerStructuresPrototype from '../ViewerStructuresPrototype/ViewerStructuresPrototype';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import { DigitalLocation } from '@weco/common/model/catalogue';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -217,7 +218,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
             )}
           </div>
         </AccordionItem>
-        {manifest?.structures?.length > 0 && (
+        {manifest && manifest.structures && manifest.structures.length > 0 && (
           <AccordionItem title={'Contents'}>
             <ViewerStructuresPrototype
               manifest={manifest}

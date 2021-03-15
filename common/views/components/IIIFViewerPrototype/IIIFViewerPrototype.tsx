@@ -190,8 +190,10 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     return () => mainAreaObserver.disconnect();
   }, []);
 
-  const iiifPresentationLocation =
-    work && getDigitalLocationOfType(work, 'iiif-presentation');
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
   const digitalLocation = iiifImageLocation || iiifPresentationLocation;
   const licenseInfo =
     digitalLocation &&
