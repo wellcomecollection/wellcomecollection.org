@@ -164,13 +164,13 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
           {canvas.label.trim() !== '-' && (
             <Space v={{ size: 's', properties: ['margin-bottom'] }}>
               <IIIFViewerThumbNumber isActive={isActive}>
-                {canvas.label}
+                page {canvas.label}
               </IIIFViewerThumbNumber>
             </Space>
           )}
           <div>
             <IIIFViewerThumbNumber isActive={isActive}>
-              <span style={{ fontSize: '11px' }}>{`image ${thumbNumber}`}</span>
+              <span style={{ fontSize: '11px' }}>{`${thumbNumber}`}</span>
             </IIIFViewerThumbNumber>
           </div>
         </div>
