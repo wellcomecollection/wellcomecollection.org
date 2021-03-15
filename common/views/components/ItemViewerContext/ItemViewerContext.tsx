@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 import { Work } from '../../../model/catalogue';
-import { IIIFCanvas, IIIFManifest } from '../../../model/iiif';
+import { IIIFCanvas, IIIFManifest, IIIFRendering } from '../../../model/iiif';
 import { LicenseData } from '../../../utils/licenses';
 
 type Props = {
@@ -15,9 +15,9 @@ type Props = {
   setGridVisible: (v: boolean) => void;
   currentManifestLabel?: string;
   licenseInfo: LicenseData;
-  iiifImageLocationCredit: any;
-  downloadOptions: any;
-  iiifPresentationDownloadOptions: any;
+  iiifImageLocationCredit: string;
+  downloadOptions: IIIFRendering[];
+  iiifPresentationDownloadOptions: IIIFRendering[];
   parentManifest: IIIFManifest | undefined;
   lang: string;
   mainAreaWidth: number;
@@ -27,9 +27,9 @@ type Props = {
   isSidebarActive: boolean;
   setIsSidebarActive: (v: boolean) => void;
   showZoomed: boolean;
-  setZoomInfoUrl: any;
+  setZoomInfoUrl: (v: string) => void;
   setIsFullscreen: (v: boolean) => void;
-  zoomInfoUrl: any;
+  zoomInfoUrl: string;
   setRotatedImages: (v: { canvasIndex: number }[]) => void;
   showControls: boolean;
   isLoading: boolean;
@@ -51,9 +51,9 @@ const ItemViewerContext = createContext<Props>({
   gridVisible: false,
   currentManifestLabel: undefined,
   licenseInfo: undefined,
-  iiifImageLocationCredit: undefined,
-  downloadOptions: undefined,
-  iiifPresentationDownloadOptions: undefined,
+  iiifImageLocationCredit: '',
+  downloadOptions: [],
+  iiifPresentationDownloadOptions: [],
   parentManifest: undefined,
   lang: '',
   mainAreaWidth: 1000,
@@ -61,11 +61,11 @@ const ItemViewerContext = createContext<Props>({
   isFullscreen: false,
   isSidebarActive: false,
   showZoomed: false,
-  setZoomInfoUrl: undefined,
-  zoomInfoUrl: undefined,
+  zoomInfoUrl: '',
   showControls: false,
   isLoading: false,
   rotatedImages: [],
+  setZoomInfoUrl: () => undefined,
   setActiveIndex: () => undefined,
   setGridVisible: () => false,
   setShowZoomed: () => undefined,
