@@ -4,18 +4,18 @@ import { IIIFCanvas, IIIFManifest, IIIFRendering } from '../../../model/iiif';
 import { LicenseData } from '../../../utils/licenses';
 
 type Props = {
-  work: Work | undefined;
+  work: Work;
   manifest: IIIFManifest | undefined;
   manifestIndex: number | undefined;
   activeIndex: number;
   setActiveIndex: (i: number) => void;
   canvases: IIIFCanvas[];
-  canvasIndex: number | undefined;
+  canvasIndex: number;
   gridVisible: boolean;
   setGridVisible: (v: boolean) => void;
   currentManifestLabel?: string;
   licenseInfo: LicenseData;
-  iiifImageLocationCredit: string;
+  iiifImageLocationCredit: string | undefined;
   downloadOptions: IIIFRendering[];
   iiifPresentationDownloadOptions: IIIFRendering[];
   parentManifest: IIIFManifest | undefined;
@@ -29,7 +29,7 @@ type Props = {
   showZoomed: boolean;
   setZoomInfoUrl: (v: string) => void;
   setIsFullscreen: (v: boolean) => void;
-  zoomInfoUrl: string;
+  zoomInfoUrl: string | undefined;
   setRotatedImages: (v: { canvasIndex: number }[]) => void;
   showControls: boolean;
   isLoading: boolean;
@@ -38,7 +38,7 @@ type Props = {
   setParentManifest: (v: IIIFManifest) => void;
   rotatedImages: { canvasIndex: number }[];
   setShowControls: (v: boolean) => void;
-  errorHandler: () => undefined;
+  errorHandler: () => undefined | undefined;
   setCurrentManifestLabel: (v: string) => void;
 };
 const ItemViewerContext = createContext<Props>({
