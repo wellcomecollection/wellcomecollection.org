@@ -171,6 +171,29 @@ const ViewerTopBar: FunctionComponent<Props> = ({
       <RightZone>
         {isEnhanced && (
           <div className="flex flex--v-center">
+            <Space h={{ size: 'm', properties: ['margin-right'] }}>
+              <Download
+                ariaControlsId="itemDownloads"
+                title={work.title}
+                workId={work.id}
+                license={licenseInfo}
+                iiifImageLocationCredit={iiifImageLocationCredit}
+                downloadOptions={
+                  downloadOptions || iiifPresentationDownloadOptions
+                }
+                useDarkControl={true}
+                isInline={true}
+              />
+            </Space>
+            {parentManifest && parentManifest.manifests && (
+              <MultipleManifestList
+                buttonText={currentManifestLabel || 'Choose'}
+                manifests={parentManifest.manifests}
+                workId={work.id}
+                lang={lang}
+                manifestIndex={manifestIndex}
+              />
+            )}
             {document &&
               (document.fullscreenEnabled ||
                 document['webkitFullscreenEnabled']) && (
@@ -205,29 +228,6 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                   </ShameButton>
                 </Space>
               )}
-            <Space h={{ size: 'm', properties: ['margin-right'] }}>
-              <Download
-                ariaControlsId="itemDownloads"
-                title={work.title}
-                workId={work.id}
-                license={licenseInfo}
-                iiifImageLocationCredit={iiifImageLocationCredit}
-                downloadOptions={
-                  downloadOptions || iiifPresentationDownloadOptions
-                }
-                useDarkControl={true}
-                isInline={true}
-              />
-            </Space>
-            {parentManifest && parentManifest.manifests && (
-              <MultipleManifestList
-                buttonText={currentManifestLabel || 'Choose'}
-                manifests={parentManifest.manifests}
-                workId={work.id}
-                lang={lang}
-                manifestIndex={manifestIndex}
-              />
-            )}
           </div>
         )}
       </RightZone>
