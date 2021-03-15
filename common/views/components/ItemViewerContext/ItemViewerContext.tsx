@@ -7,7 +7,7 @@ type Props = {
   work: Work;
   manifest: IIIFManifest | undefined;
   manifestIndex: number | undefined;
-  activeIndex: number | undefined;
+  activeIndex: number;
   setActiveIndex: (i: number) => void;
   canvases: IIIFCanvas[];
   canvasIndex: number;
@@ -38,16 +38,16 @@ type Props = {
   setParentManifest: (v: IIIFManifest) => void;
   rotatedImages: { canvasIndex: number }[];
   setShowControls: (v: boolean) => void;
-  errorHandler: () => undefined | undefined;
+  errorHandler?: () => void;
   setCurrentManifestLabel: (v: string) => void;
 };
 const ItemViewerContext = createContext<Props>({
   work: undefined,
   manifest: undefined,
   manifestIndex: undefined,
-  activeIndex: undefined,
+  activeIndex: 0,
   canvases: [],
-  canvasIndex: undefined,
+  canvasIndex: 0,
   gridVisible: false,
   currentManifestLabel: undefined,
   licenseInfo: undefined,
