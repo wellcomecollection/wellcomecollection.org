@@ -183,10 +183,6 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     return () => mainAreaObserver.disconnect();
   }, []);
 
-  useEffect(() => {
-    showZoomed && setShowZoomed(false); // Exit deep zoom if e.g. click a thumbnail or content section
-  }, [activeIndex]);
-
   const iiifPresentationLocation =
     work && getDigitalLocationOfType(work, 'iiif-presentation');
   const digitalLocation = iiifImageLocation || iiifPresentationLocation;
@@ -295,16 +291,16 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
       }}
     >
       <Grid ref={viewerRef}>
-        <Sidebar isActive={isSidebarActive}>
+        <Sidebar isActive={!showZoomed}>
           <ViewerSidebarPrototype mainViewerRef={mainViewerRef} />
         </Sidebar>
-        <Topbar isSidebarActive={isSidebarActive}>
+        <Topbar isSidebarActive={!showZoomed}>
           <ViewerTopBarPrototype
             viewToggleRef={viewToggleRef}
             viewerRef={viewerRef}
           />
         </Topbar>
-        <Main isSidebarActive={isSidebarActive} ref={mainAreaRef}>
+        <Main isSidebarActive={!showZoomed} ref={mainAreaRef}>
           {showZoomed && <ZoomedImagePrototype />}
           {!showZoomed && (
             <ImageViewerControls showControls={showControls || urlTemplate}>
@@ -356,7 +352,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
           )}
           <MainViewerPrototype mainViewerRef={mainViewerRef} />
         </Main>
-        <Thumbnails isActive={gridVisible} isSidebarActive={isSidebarActive}>
+        <Thumbnails isActive={gridVisible} isSidebarActive={!showZoomed}>
           <GridViewerPrototype
             mainViewerRef={mainViewerRef}
             gridViewerRef={gridViewerRef}

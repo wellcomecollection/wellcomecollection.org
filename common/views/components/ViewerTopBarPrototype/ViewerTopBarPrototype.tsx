@@ -118,48 +118,39 @@ const ViewerTopBar: FunctionComponent<Props> = ({
     manifestIndex,
     setIsSidebarActive,
     isSidebarActive,
+    showZoomed,
   } = useContext(ItemViewerContext);
   return (
     <TopBar className="flex">
       {isEnhanced && canvases && canvases.length > 1 && (
         <LeftZone>
-          <Space h={{ size: 's', properties: ['margin-right', 'margin-left'] }}>
-            <ShameButton
-              isDark
-              onClick={() => setIsSidebarActive(!isSidebarActive)}
-            >
-              <Icon
-                name={`chevron`}
-                extraClasses={isSidebarActive ? 'icon--90' : 'icon--270'}
-              />
-              <span className={`btn__text`}>
-                {isSidebarActive ? 'Info' : 'Info'}
-              </span>
-            </ShameButton>
-          </Space>
-          <ShameButton
-            isDark
-            ref={viewToggleRef}
-            onClick={() => {
-              setGridVisible(!gridVisible);
-              trackEvent({
-                category: 'Control',
-                action: `clicked work viewer ${
-                  gridVisible ? '"Detail view"' : '"View all"'
-                } button`,
-                label: `${work.id}`,
-              });
-            }}
-          >
-            <Icon name={gridVisible ? 'detailView' : 'gridView'} />
-            <span className={`btn__text`}>
-              {gridVisible ? 'Detail view' : 'View all'}
-            </span>
-          </ShameButton>
+          {!showZoomed && (
+            <Space h={{ size: 's', properties: ['margin-left'] }}>
+              <ShameButton
+                isDark
+                ref={viewToggleRef}
+                onClick={() => {
+                  setGridVisible(!gridVisible);
+                  trackEvent({
+                    category: 'Control',
+                    action: `clicked work viewer ${
+                      gridVisible ? '"Detail view"' : '"View all"'
+                    } button`,
+                    label: `${work.id}`,
+                  });
+                }}
+              >
+                <Icon name={gridVisible ? 'detailView' : 'gridView'} />
+                <span className={`btn__text`}>
+                  {gridVisible ? 'Detail view' : 'View all'}
+                </span>
+              </ShameButton>
+            </Space>
+          )}
         </LeftZone>
       )}
       <MiddleZone>
-        {canvases && canvases.length > 1 && (
+        {canvases && canvases.length > 1 && !showZoomed && (
           <>
             {`${activeIndex + 1 || ''} / ${(canvases && canvases.length) ||
               ''}`}{' '}
@@ -171,6 +162,33 @@ const ViewerTopBar: FunctionComponent<Props> = ({
       <RightZone>
         {isEnhanced && (
           <div className="flex flex--v-center">
+            {!showZoomed && (
+              <>
+                <Space h={{ size: 'm', properties: ['margin-right'] }}>
+                  <Download
+                    ariaControlsId="itemDownloads"
+                    title={work.title}
+                    workId={work.id}
+                    license={licenseInfo}
+                    iiifImageLocationCredit={iiifImageLocationCredit}
+                    downloadOptions={
+                      downloadOptions || iiifPresentationDownloadOptions
+                    }
+                    useDarkControl={true}
+                    isInline={true}
+                  />
+                </Space>
+                {parentManifest && parentManifest.manifests && (
+                  <MultipleManifestList
+                    buttonText={currentManifestLabel || 'Choose'}
+                    manifests={parentManifest.manifests}
+                    workId={work.id}
+                    lang={lang}
+                    manifestIndex={manifestIndex}
+                  />
+                )}
+              </>
+            )}
             {document &&
               (document.fullscreenEnabled ||
                 document['webkitFullscreenEnabled']) && (
@@ -205,29 +223,6 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                   </ShameButton>
                 </Space>
               )}
-            <Space h={{ size: 'm', properties: ['margin-right'] }}>
-              <Download
-                ariaControlsId="itemDownloads"
-                title={work.title}
-                workId={work.id}
-                license={licenseInfo}
-                iiifImageLocationCredit={iiifImageLocationCredit}
-                downloadOptions={
-                  downloadOptions || iiifPresentationDownloadOptions
-                }
-                useDarkControl={true}
-                isInline={true}
-              />
-            </Space>
-            {parentManifest && parentManifest.manifests && (
-              <MultipleManifestList
-                buttonText={currentManifestLabel || 'Choose'}
-                manifests={parentManifest.manifests}
-                workId={work.id}
-                lang={lang}
-                manifestIndex={manifestIndex}
-              />
-            )}
           </div>
         )}
       </RightZone>
