@@ -7,7 +7,7 @@ type Props = {
   work: Work | undefined;
   manifest: IIIFManifest | undefined;
   manifestIndex: number | undefined;
-  activeIndex: number | undefined;
+  activeIndex: number;
   setActiveIndex: (i: number) => void;
   canvases: IIIFCanvas[];
   canvasIndex: number | undefined;
@@ -45,7 +45,7 @@ const ItemViewerContext = createContext<Props>({
   work: undefined,
   manifest: undefined,
   manifestIndex: undefined,
-  activeIndex: undefined,
+  activeIndex: 0,
   canvases: [],
   canvasIndex: undefined,
   gridVisible: false,
