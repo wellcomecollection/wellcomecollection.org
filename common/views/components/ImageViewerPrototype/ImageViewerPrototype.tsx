@@ -36,6 +36,7 @@ const ImageWrapper = styled.div`
 `;
 
 type ImageViewerProps = {
+  id: string;
   width: number;
   height?: number;
   infoUrl: string;

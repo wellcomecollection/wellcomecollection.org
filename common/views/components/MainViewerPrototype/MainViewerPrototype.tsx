@@ -61,13 +61,11 @@ type ItemRendererProps = {
   data: {
     scrollVelocity: number;
     isProgrammaticScroll: boolean;
-    setShowZoomed: (value: boolean) => void;
     mainAreaRef: RefObject<HTMLDivElement>;
     setActiveIndex: (i: number) => void;
     canvases: IIIFCanvas[];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     rotatedImages: any[];
-    setZoomInfoUrl: (value: string) => void;
     setIsLoading: (value: boolean) => void;
     ocrText: string;
     errorHandler?: () => void;
@@ -79,12 +77,9 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     scrollVelocity,
     isProgrammaticScroll,
     canvases,
-    setShowZoomed,
-    setZoomInfoUrl,
     rotatedImages,
     setIsLoading,
     ocrText,
-    errorHandler,
     mainAreaRef,
   } = data;
   const [mainLoaded, setMainLoaded] = useState(false);
@@ -163,15 +158,12 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
               height={currentCanvas.height}
               alt={ocrText}
               urlTemplate={urlTemplateMain}
-              setShowZoomed={setShowZoomed}
-              setZoomInfoUrl={setZoomInfoUrl}
               rotation={rotation}
               index={index}
               loadHandler={() => {
                 setMainLoaded(true);
                 setIsLoading(false);
               }}
-              errorHandler={errorHandler}
               mainAreaRef={mainAreaRef}
             />
           )}
