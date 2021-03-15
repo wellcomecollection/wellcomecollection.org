@@ -27,6 +27,7 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import dynamic from 'next/dynamic';
 import LL from '@weco/common/views/components/styled/LL';
 
+// TODO: Move this to somewhere nice
 const LoadingComponent = () => (
   <div
     style={{
@@ -121,6 +122,7 @@ const Main = styled.div<{ isSidebarActive: boolean }>`
   position: relative;
 `;
 
+// TODO: check that we can't reach thumbnails by keyboard/screenreader
 const Thumbnails = styled.div<{ isActive: boolean; isSidebarActive: boolean }>`
   background: ${props => props.theme.color('charcoal')};
   grid-area: desktop-main-start /
@@ -170,7 +172,12 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
 
+  // TODO: check for intersectionObservers (previous version of isEnhanced)
+  // TODO: add testing and possibly fallbacks
   useEffect(() => {
+    // TODO: either polyfill ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const mainAreaObserver = new ResizeObserver(([mainArea]) => {
       setMainAreaWidth(mainArea.contentRect.width);
       setMainAreaHeight(mainArea.contentRect.height);
