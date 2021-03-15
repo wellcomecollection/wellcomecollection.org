@@ -21,7 +21,7 @@ import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveIma
 import { getCanvasOcr } from '@weco/catalogue/services/catalogue/works';
 import { getServiceId, getImageAuthService } from '@weco/common/utils/iiif';
 import { font } from '@weco/common/utils/classnames';
-import { IIIFCanvas } from '../../../../model/iiif';
+import { IIIFCanvas } from '../../../model/iiif';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import ImageViewerPrototype from '../ImageViewerPrototype/ImageViewerPrototype';
 
