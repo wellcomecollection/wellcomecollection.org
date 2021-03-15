@@ -1,5 +1,7 @@
 import { FunctionComponent, useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { IIIFCanvas, IIIFManifest } from '@weco/common/model/iiif';
+import { DigitalLocation, Work } from '../../../model/catalogue';
 import {
   getDigitalLocationOfType,
   getDownloadOptionsFromImageUrl,
@@ -13,11 +15,9 @@ import {
 import ViewerSidebarPrototype from '../ViewerSidebarPrototype/ViewerSidebarPrototype';
 import MainViewerPrototype from '../MainViewerPrototype/MainViewerPrototype';
 import ViewerTopBarPrototype from '../ViewerTopBarPrototype/ViewerTopBarPrototype';
-import { IIIFViewerProps } from '../IIIFViewer/IIIFViewer';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
-import { IIIFManifest } from '@weco/common/model/iiif';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import Router from 'next/router';
 import GridViewerPrototype from '../GridViewerPrototype/GridViewerPrototype';
@@ -26,7 +26,27 @@ import Control from '../Buttons/Control/Control';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import dynamic from 'next/dynamic';
 import LL from '@weco/common/views/components/styled/LL';
+import { PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
 
+type IIIFViewerProps = {
+  title: string;
+  currentCanvas?: IIIFCanvas;
+  mainPaginatorProps: PaginatorPropsWithoutRenderFunction;
+  thumbsPaginatorProps: PaginatorPropsWithoutRenderFunction;
+  lang: string;
+  canvasOcr?: string;
+  canvases: IIIFCanvas[];
+  workId: string;
+  pageIndex: number;
+  pageSize: number;
+  canvasIndex: number;
+  iiifImageLocation?: DigitalLocation;
+  work: Work;
+  manifest?: IIIFManifest;
+  manifestIndex?: number;
+  handleImageError?: () => void;
+};
+// TODO: Move this to somewhere better?
 const LoadingComponent = () => (
   <div
     style={{
@@ -121,6 +141,7 @@ const Main = styled.div<{ isSidebarActive: boolean }>`
   position: relative;
 `;
 
+// TODO: check that we can't reach thumbnails by keyboard/screenreader
 const Thumbnails = styled.div<{ isActive: boolean; isSidebarActive: boolean }>`
   background: ${props => props.theme.color('charcoal')};
   grid-area: desktop-main-start /
@@ -170,7 +191,12 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
 
+  // TODO: check for intersectionObservers (previous version of isEnhanced)
+  // TODO: add testing and possibly fallbacks
   useEffect(() => {
+    // TODO: either polyfill ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const mainAreaObserver = new ResizeObserver(([mainArea]) => {
       setMainAreaWidth(mainArea.contentRect.width);
       setMainAreaHeight(mainArea.contentRect.height);
@@ -183,8 +209,10 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     return () => mainAreaObserver.disconnect();
   }, []);
 
-  const iiifPresentationLocation =
-    work && getDigitalLocationOfType(work, 'iiif-presentation');
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
   const digitalLocation = iiifImageLocation || iiifPresentationLocation;
   const licenseInfo =
     digitalLocation &&
@@ -350,7 +378,10 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
               </Space>
             </ImageViewerControls>
           )}
-          <MainViewerPrototype mainViewerRef={mainViewerRef} />
+          <MainViewerPrototype
+            mainViewerRef={mainViewerRef}
+            mainAreaRef={mainAreaRef}
+          />
         </Main>
         <Thumbnails isActive={gridVisible} isSidebarActive={!showZoomed}>
           <GridViewerPrototype

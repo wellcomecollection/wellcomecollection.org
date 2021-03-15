@@ -21,7 +21,7 @@ import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveIma
 import { getCanvasOcr } from '@weco/catalogue/services/catalogue/works';
 import { getServiceId, getImageAuthService } from '@weco/common/utils/iiif';
 import { font } from '@weco/common/utils/classnames';
-import { IIIFCanvas } from '../../../../model/iiif';
+import { IIIFCanvas } from '../../../model/iiif';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import ImageViewerPrototype from '../ImageViewerPrototype/ImageViewerPrototype';
 
@@ -61,13 +61,11 @@ type ItemRendererProps = {
   data: {
     scrollVelocity: number;
     isProgrammaticScroll: boolean;
-    setShowZoomed: (value: boolean) => void;
-    mainViewerRef: RefObject<FixedSizeList>;
+    mainAreaRef: RefObject<HTMLDivElement>;
     setActiveIndex: (i: number) => void;
     canvases: IIIFCanvas[];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     rotatedImages: any[];
-    setZoomInfoUrl: (value: string) => void;
     setIsLoading: (value: boolean) => void;
     ocrText: string;
     errorHandler?: () => void;
@@ -79,12 +77,10 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     scrollVelocity,
     isProgrammaticScroll,
     canvases,
-    setShowZoomed,
-    setZoomInfoUrl,
     rotatedImages,
     setIsLoading,
     ocrText,
-    errorHandler,
+    mainAreaRef,
   } = data;
   const [mainLoaded, setMainLoaded] = useState(false);
   const [thumbLoaded, setThumbLoaded] = useState(false);
@@ -162,15 +158,13 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
               height={currentCanvas.height}
               alt={ocrText}
               urlTemplate={urlTemplateMain}
-              setShowZoomed={setShowZoomed}
-              setZoomInfoUrl={setZoomInfoUrl}
               rotation={rotation}
               index={index}
               loadHandler={() => {
                 setMainLoaded(true);
                 setIsLoading(false);
               }}
-              errorHandler={errorHandler}
+              mainAreaRef={mainAreaRef}
             />
           )}
         </>
@@ -182,10 +176,14 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
 ItemRenderer.displayName = 'ItemRenderer';
 
 type Props = {
-  mainViewerRef: any;
+  mainViewerRef: RefObject<FixedSizeList>;
+  mainAreaRef: RefObject<HTMLDivElement>;
 };
 
-const MainViewer: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
+const MainViewer: FunctionComponent<Props> = ({
+  mainViewerRef,
+  mainAreaRef,
+}: Props) => {
   const {
     setActiveIndex,
     mainAreaHeight,
@@ -264,7 +262,7 @@ const MainViewer: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
         setActiveIndex,
         setIsLoading,
         ocrText,
-        mainViewerRef,
+        mainAreaRef,
         errorHandler,
       }}
       itemSize={mainAreaWidth}

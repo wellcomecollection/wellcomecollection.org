@@ -1,7 +1,12 @@
-// @flow
-import { useState, useEffect, useRef, useContext } from 'react';
+import {
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+  FunctionComponent,
+  RefObject,
+} from 'react';
 import styled from 'styled-components';
-import { FixedSizeList } from 'react-window';
 import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '../../../utils/image-sizes';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
@@ -30,42 +35,40 @@ const ImageWrapper = styled.div`
   }
 `;
 
-// type ImageViewerProps = {|
-//   id: string,
-//   width: number,
-//   height?: number,
-//   infoUrl: string,
-//   lang?: ?string,
-//   alt: string,
-//   urlTemplate: IIIFUriProps => Function,
-//   setShowZoomed: boolean => void,
-//   setZoomInfoUrl?: string => void,
-//   setActiveIndex?: number => void,
-//   rotation: number,
-//   loadHandler?: Function,
-//   errorHandler?: Function,
-//   mainViewerRef?: FixedSizeList,
-//   index?: number,
-// |};
+type ImageViewerProps = {
+  id: string;
+  width: number;
+  height?: number;
+  infoUrl: string;
+  alt: string;
+  urlTemplate: (v: IIIFUriProps) => () => undefined;
+  rotation: number;
+  loadHandler?: () => void;
+  mainAreaRef?: RefObject<HTMLDivElement>;
+  index?: number;
+};
 
-const ImageViewer = ({
-  id,
+const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   width,
   height,
   alt,
   infoUrl,
   urlTemplate,
-  setShowZoomed,
-  setZoomInfoUrl,
   rotation,
   loadHandler,
-  errorHandler,
   index = 0,
-}) => {
-  const { lang, mainViewerRef, setActiveIndex } = useContext(ItemViewerContext);
-  const imageViewer = useRef();
+  mainAreaRef,
+}: ImageViewerProps) => {
+  const {
+    lang,
+    setActiveIndex,
+    errorHandler,
+    setZoomInfoUrl,
+    setShowZoomed,
+  } = useContext(ItemViewerContext);
+  const imageViewer = useRef(null);
   const isOnScreen = useOnScreen({
-    root: mainViewerRef && mainViewerRef._outerRef,
+    root: mainAreaRef?.current,
     ref: imageViewer,
     threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
   });
