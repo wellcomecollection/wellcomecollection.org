@@ -95,12 +95,6 @@ export type IIIFSequence = {
   canvases: IIIFCanvas[];
   rendering: IIIFRendering[];
 };
-type IIIFStructure = {
-  '@id': string;
-  '@type': string;
-  label: string;
-  canvases: string[];
-};
 
 export type IIIFMetadata = {
   label: string;
