@@ -37,5 +37,42 @@ type Props = {
   errorHandler: any;
   setCurrentManifestLabel: any;
 };
-const ItemViewerContext = createContext<Props | null>(null);
+const ItemViewerContext = createContext<Props>({
+  work: {},
+  manifest: {},
+  manifestIndex: undefined,
+  activeIndex: undefined,
+  setActiveIndex: undefined,
+  canvases: [],
+  canvasIndex: undefined,
+  gridVisible: false,
+  setGridVisible: () => false,
+  currentManifestLabel: undefined,
+  licenseInfo: undefined,
+  iiifImageLocationCredit: undefined,
+  downloadOptions: undefined,
+  iiifPresentationDownloadOptions: undefined,
+  parentManifest: undefined,
+  lang: undefined,
+  mainAreaWidth: undefined,
+  mainAreaHeight: undefined,
+  isFullscreen: undefined,
+  setShowZoomed: () => undefined,
+  isSidebarActive: false,
+  setIsSidebarActive: () => undefined,
+  showZoomed: false,
+  setZoomInfoUrl: undefined,
+  setIsFullscreen: false,
+  zoomInfoUrl: undefined,
+  setRotatedImages: () => undefined,
+  showControls: false,
+  isLoading: false,
+  setIsLoading: () => undefined,
+  setImageJson: () => undefined,
+  setParentManifest: () => undefined,
+  rotatedImages: [],
+  setShowControls: () => undefined,
+  errorHandler: () => undefined,
+  setCurrentManifestLabel: () => undefined,
+});
 export default ItemViewerContext;
