@@ -6,6 +6,12 @@ import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 
+// avoid rendering header SVG to help with debugging tests
+jest.mock('../components/PageWrapper', () => ({
+  __esModule: true,
+  PageWrapper: ({ children }) => <>{children}</>, // eslint-disable-line react/display-name
+}));
+
 const renderComponent = () =>
   render(
     <ThemeProvider theme={theme}>
@@ -46,10 +52,21 @@ describe('MyAccount', () => {
     renderComponent();
     await waitFor(() => expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument());
     expect(screen.queryByRole('heading', { name: /change email/i })).not.toBeInTheDocument();
-    userEvent.click(await screen.findByRole('button', { name: /update email/i }));
+    userEvent.click(await screen.findByRole('button', { name: /change email/i }));
     expect(screen.queryByRole('heading', { name: /change email/i })).toBeInTheDocument();
     userEvent.click(await screen.findByRole('button', { name: /close/i }));
     expect(screen.queryByRole('heading', { name: /change email/i })).not.toBeInTheDocument();
+  });
+
+  it('shows a status message after the user updates their email', async () => {
+    renderComponent();
+    userEvent.click(await screen.findByRole('button', { name: /change email/i }));
+    userEvent.clear(screen.getByLabelText(/email address/i));
+    userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
+    userEvent.type(screen.getByLabelText(/confirm password/i), 'Superman1938');
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.click(screen.getByRole('button', { name: /update email/i }));
+    expect(await screen.findByRole('alert')).toHaveTextContent(/email updated/i);
   });
 
   it("shows a mock of the user's password", async () => {
@@ -61,10 +78,21 @@ describe('MyAccount', () => {
     renderComponent();
     await waitFor(() => expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument());
     expect(screen.queryByRole('heading', { name: /change password/i })).not.toBeInTheDocument();
-    userEvent.click(await screen.findByRole('button', { name: /update password/i }));
+    userEvent.click(await screen.findByRole('button', { name: /change password/i }));
     expect(screen.queryByRole('heading', { name: /change password/i })).toBeInTheDocument();
     userEvent.click(await screen.findByRole('button', { name: /close/i }));
     expect(screen.queryByRole('heading', { name: /change password/i })).not.toBeInTheDocument();
+  });
+
+  it('shows a status message after the user updates their password', async () => {
+    renderComponent();
+    userEvent.click(await screen.findByRole('button', { name: /change password/i }));
+    userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
+    userEvent.type(screen.getByLabelText(/^new password/i), 'Superman1938');
+    userEvent.type(screen.getByLabelText(/retype new password/i), 'Superman1938');
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.click(screen.getByRole('button', { name: /update password/i }));
+    expect(await screen.findByRole('alert')).toHaveTextContent(/password updated/i);
   });
 
   it('opens a modal where the user can request their account be deleted', async () => {

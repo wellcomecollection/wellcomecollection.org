@@ -12,6 +12,7 @@ type ChangeDetailsModalProps = {
   buttonText: string;
   content: React.ComponentType<ChangeDetailsModalContentProps>;
   isDangerous?: boolean;
+  onSuccess?: () => void;
 };
 
 export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
@@ -19,9 +20,15 @@ export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
   buttonText,
   content: Content,
   isDangerous = false,
+  onSuccess = () => null,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const openButton = useRef(null);
+
+  const handleComplete = () => {
+    onSuccess();
+    setIsActive(false);
+  };
 
   return (
     <>
@@ -29,7 +36,7 @@ export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
         {buttonText}
       </Button>
       <Modal id={id} isActive={isActive} setIsActive={setIsActive} openButtonRef={openButton}>
-        <Content onComplete={() => setIsActive(false)} onCancel={() => setIsActive(false)} />
+        <Content onComplete={handleComplete} onCancel={() => setIsActive(false)} />
       </Modal>
     </>
   );

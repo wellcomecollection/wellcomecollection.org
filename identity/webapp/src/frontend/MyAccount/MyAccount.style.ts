@@ -49,3 +49,14 @@ export const ModalContainer = styled.aside`
 `;
 
 export const ModalTitle = styled.h2.attrs({ className: 'font-wb font-size-3' })``;
+
+export const StatusAlert = styled.div.attrs({ role: 'alert' })`
+  padding: 1em;
+  background-color: rgba(0, 120, 108, 0.1);
+  color: #00786c;
+  border-radius: 6px;
+  margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+`;

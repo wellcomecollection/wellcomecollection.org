@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Info2 from '@weco/common/icons/components/Info2';
+
 import { useUserInfo, withUserInfo } from './UserInfoContext';
 import { ChangeDetailsModal } from './ChangeDetailsModal';
 import { PageWrapper } from '../components/PageWrapper';
 import { Container, Title, Wrapper } from '../components/Layout.style';
-import { DetailWrapper, Grid, HorizontalRule, Label } from './MyAccount.style';
+import { DetailWrapper, Grid, HorizontalRule, Label, StatusAlert } from './MyAccount.style';
 import { Loading } from './Loading';
 import { ChangeEmail } from './ChangeEmail';
 import { ChangePassword } from './ChangePassword';
@@ -16,8 +18,19 @@ const Detail: React.FC<{ label: string; value?: string }> = ({ label, value }) =
   </DetailWrapper>
 );
 
+const AccountStatus: React.FC = ({ children }) => {
+  return (
+    <StatusAlert>
+      <Info2 height="32" width="32" fill="currentColor" />
+      {children}
+    </StatusAlert>
+  );
+};
+
 const Profile: React.FC = () => {
   const { user, isLoading } = useUserInfo();
+  const [isEmailUpdated, setIsEmailUpdated] = useState(false);
+  const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
 
   if (isLoading) {
     return <Loading />;
@@ -28,13 +41,25 @@ const Profile: React.FC = () => {
       <Container>
         <Wrapper>
           <Title>My account</Title>
+          {isEmailUpdated && <AccountStatus>Email updated</AccountStatus>}
+          {isPasswordUpdated && <AccountStatus>Password updated</AccountStatus>}
           <Grid>
             <Detail label="Name" value={`${user?.firstName} ${user?.lastName}`} />
             <Detail label="Library card number" value={user?.barcode} />
             <Detail label="Email address" value={user?.email} />
-            <ChangeDetailsModal id="change-email" buttonText="Update Email" content={ChangeEmail} />
+            <ChangeDetailsModal
+              id="change-email"
+              buttonText="Change Email"
+              content={ChangeEmail}
+              onSuccess={() => setIsEmailUpdated(true)}
+            />
             <Detail label="Password" value="********" />
-            <ChangeDetailsModal id="change-password" buttonText="Update password" content={ChangePassword} />
+            <ChangeDetailsModal
+              id="change-password"
+              buttonText="Change password"
+              content={ChangePassword}
+              onSuccess={() => setIsPasswordUpdated(true)}
+            />
             <HorizontalRule />
             <Detail label="Delete this account" />
             <ChangeDetailsModal id="delete-account" buttonText="Request deletion" isDangerous content={DeleteAccount} />
