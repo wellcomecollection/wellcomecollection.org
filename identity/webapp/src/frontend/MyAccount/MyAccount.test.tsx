@@ -67,6 +67,7 @@ describe('MyAccount', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     userEvent.click(screen.getByRole('button', { name: /update email/i }));
     expect(await screen.findByRole('alert')).toHaveTextContent(/email updated/i);
+    expect(screen.getByText('clarkkent@dailybugle.com')).toBeInTheDocument();
   });
 
   it("shows a mock of the user's password", async () => {

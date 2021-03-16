@@ -51,7 +51,9 @@ describe('ChangeEmail', () => {
     userEvent.type(await screen.findByLabelText(/confirm password/i), 'Superman1938');
     userEvent.click(await screen.findByRole('button', { name: /update email/i }));
     expect(await screen.findByRole('progressbar')).toBeInTheDocument();
-    await waitFor(() => expect(onComplete).toBeCalled());
+    await waitFor(() =>
+      expect(onComplete).toBeCalledWith(expect.objectContaining({ email: 'clarkkent@dailybugle.com' }))
+    );
   });
 
   describe('shows an error on submission', () => {

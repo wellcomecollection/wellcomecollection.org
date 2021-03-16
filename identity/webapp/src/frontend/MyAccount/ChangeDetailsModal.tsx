@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import { Button } from './MyAccount.style';
+import { UpdateUserSchema } from '../../types/schemas/update-user';
 
 export type ChangeDetailsModalContentProps = {
-  onComplete: () => void;
+  onComplete: (newDetails?: UpdateUserSchema) => void;
   onCancel: () => void;
 };
 
@@ -12,7 +13,7 @@ type ChangeDetailsModalProps = {
   buttonText: string;
   content: React.ComponentType<ChangeDetailsModalContentProps>;
   isDangerous?: boolean;
-  onSuccess?: () => void;
+  onSuccess?: (newDetails: UpdateUserSchema) => void;
 };
 
 export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
@@ -25,8 +26,8 @@ export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
   const [isActive, setIsActive] = useState(false);
   const openButton = useRef(null);
 
-  const handleComplete = () => {
-    onSuccess();
+  const handleComplete = newDetails => {
+    onSuccess(newDetails);
     setIsActive(false);
   };
 

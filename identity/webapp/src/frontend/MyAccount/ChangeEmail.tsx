@@ -17,16 +17,10 @@ type ChangeEmailInputs = {
 
 export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({ onComplete }) => {
   const { user, isLoading } = useUserInfo();
-  const { updateUser, isSuccess, isLoading: isUpdating, error } = useUpdateUser();
+  const { updateUser, isLoading: isUpdating, error } = useUpdateUser();
   const { register, control, formState, handleSubmit, setError } = useForm<ChangeEmailInputs>({
     defaultValues: { email: user?.email, password: '' },
   });
-
-  useEffect(() => {
-    if (isSuccess) {
-      onComplete();
-    }
-  }, [isSuccess, onComplete]);
 
   useEffect(() => {
     switch (error) {
@@ -48,7 +42,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({ onComple
   return (
     <ModalContainer>
       <ModalTitle>Change email</ModalTitle>
-      <form onSubmit={handleSubmit(updateUser)}>
+      <form onSubmit={handleSubmit(data => updateUser(data, onComplete))}>
         <FieldMargin>
           <Label htmlFor="email">Email address</Label>
           <TextInput
