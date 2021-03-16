@@ -132,3 +132,10 @@ export type IIIFManifest = {
   within?: string;
   service?: Service | Service[];
 };
+
+export type SearchService = {
+  '@context': string;
+  '@id': string;
+  profile: string;
+  label: string;
+};
