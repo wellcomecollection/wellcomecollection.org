@@ -128,7 +128,7 @@ type Props = {
 const ViewerSidebarPrototype: FunctionComponent<Props> = ({
   mainViewerRef,
 }: Props) => {
-  const { work, manifest, setActiveIndex } = useContext(ItemViewerContext);
+  const { work, manifest } = useContext(ItemViewerContext);
   const productionDates = getProductionDates(work);
   const [inputValue, setInputValue] = useState('');
   // Determine digital location
@@ -220,11 +220,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         </AccordionItem>
         {manifest && manifest.structures && manifest.structures.length > 0 && (
           <AccordionItem title={'Contents'}>
-            <ViewerStructuresPrototype
-              manifest={manifest}
-              setActiveIndex={setActiveIndex}
-              mainViewerRef={mainViewerRef}
-            />
+            <ViewerStructuresPrototype mainViewerRef={mainViewerRef} />
           </AccordionItem>
         )}
         <AccordionItem title={'Search within this item'}>

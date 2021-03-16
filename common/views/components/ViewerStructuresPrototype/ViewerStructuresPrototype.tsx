@@ -1,18 +1,18 @@
-import { IIIFManifest } from '@weco/common/model/iiif';
 import { getStructures, getCanvases } from '@weco/common/utils/iiif';
-import { FunctionComponent, RefObject } from 'react';
+import { useContext, FunctionComponent, RefObject } from 'react';
 import { FixedSizeList } from 'react-window';
+import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import { classNames } from '../../../utils/classnames';
 
 type Props = {
-  manifest: IIIFManifest | undefined;
-  setActiveIndex: (value: number) => void;
   mainViewerRef: RefObject<FixedSizeList>;
 };
 const ViewerStructuresPrototype: FunctionComponent<Props> = ({
-  manifest,
-  setActiveIndex,
   mainViewerRef,
 }: Props) => {
+  const { manifest, setActiveIndex, activeIndex } = useContext(
+    ItemViewerContext
+  );
   const structures = manifest ? getStructures(manifest) : [];
   const canvases = manifest ? getCanvases(manifest) : [];
 
@@ -26,7 +26,12 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
         return (
           <li key={i}>
             <a
-              style={{ cursor: 'pointer' }}
+              className={classNames({
+                'font-yellow': activeIndex === canvasIndex,
+              })}
+              style={{
+                cursor: 'pointer',
+              }}
               onClick={e => {
                 e.preventDefault();
                 mainViewerRef &&
