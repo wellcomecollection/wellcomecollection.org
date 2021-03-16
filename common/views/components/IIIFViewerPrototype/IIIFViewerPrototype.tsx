@@ -16,7 +16,9 @@ import ViewerSidebarPrototype from '../ViewerSidebarPrototype/ViewerSidebarProto
 import MainViewerPrototype from '../MainViewerPrototype/MainViewerPrototype';
 import ViewerTopBarPrototype from '../ViewerTopBarPrototype/ViewerTopBarPrototype';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import ItemViewerContext, {
+  results,
+} from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import Router from 'next/router';
@@ -187,26 +189,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const [imageJson, setImageJson] = useState<any>();
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
-  const [searchResults, setSearchResults] = useState({
-    '@context': '',
-    '@id': '',
-    '@type': 'sc:AnnotationList',
-    within: {
-      '@type': '',
-      total: 0,
-    },
-    startIndex: 0,
-    resources: [{ '@id': '', on: '' }],
-    hits: [
-      {
-        '@type': 'search:Hit',
-        annotations: [],
-        match: '',
-        before: '',
-        after: '',
-      },
-    ],
-  });
+  const [searchResults, setSearchResults] = useState(results);
   const mainImageService = { '@id': getServiceId(currentCanvas) };
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);

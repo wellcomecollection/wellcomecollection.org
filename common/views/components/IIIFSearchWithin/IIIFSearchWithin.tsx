@@ -105,31 +105,27 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
         <>
           <h2>{searchResults.within && searchResults.within.total} Matches</h2>
           <ul className="no-padding">
-            {searchResults.hits &&
-              searchResults.hits.map((hit, i) => {
-                const matchingResource = searchResults.resources.find(
-                  resource => resource['@id'] === hit.annotations[0]
-                );
-                const match = matchingResource?.on.match(/\/canvas\/c(\d+)#/);
-                const index = match && Number(match[1]);
-                return (
-                  <ListItem key={i}>
-                    <ListLink
-                      style={{ textDecoration: 'none', cursor: 'pointer' }}
-                      onClick={() => {
-                        setActiveIndex(index || 0);
-                        mainViewerRef &&
-                          mainViewerRef.current &&
-                          mainViewerRef.current.scrollToItem(
-                            index || 0,
-                            'start'
-                          );
-                      }}
-                    >
-                      {/* {matchingResource &&
+            {searchResults.hits.map((hit, i) => {
+              const matchingResource = searchResults.resources.find(
+                resource => resource['@id'] === hit.annotations[0]
+              );
+              const match = matchingResource?.on.match(/\/canvas\/c(\d+)#/);
+              const index = match && Number(match[1]);
+              return (
+                <ListItem key={i}>
+                  <ListLink
+                    style={{ textDecoration: 'none', cursor: 'pointer' }}
+                    onClick={() => {
+                      setActiveIndex(index || 0);
+                      mainViewerRef &&
+                        mainViewerRef.current &&
+                        mainViewerRef.current.scrollToItem(index || 0, 'start');
+                    }}
+                  >
+                    {/* {matchingResource &&
                   JSON.stringify(matchingResource.on.match('/canvas/c(d+)#'))} */}
-                      ...{hit.before}
-                      {/* <NextLink
+                    ...{hit.before}
+                    {/* <NextLink
                   {...itemLink({
                     workId: work.id,
                     langCode: work.language && work.language.id,
@@ -138,20 +134,20 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                   })}
                   passHref
                 > */}
-                      <span
-                        style={{
-                          background: '#944aa0',
-                          color: 'white',
-                        }}
-                      >
-                        {hit.match}
-                      </span>
-                      {/* </NextLink> */}
-                      {hit.after}...
-                    </ListLink>
-                  </ListItem>
-                );
-              })}
+                    <span
+                      style={{
+                        background: '#944aa0',
+                        color: 'white',
+                      }}
+                    >
+                      {hit.match}
+                    </span>
+                    {/* </NextLink> */}
+                    {hit.after}...
+                  </ListLink>
+                </ListItem>
+              );
+            })}
           </ul>
         </>
       )}
