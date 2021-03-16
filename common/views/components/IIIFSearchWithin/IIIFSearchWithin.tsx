@@ -70,7 +70,6 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
         const results = await (
           await fetch(`${searchService['@id']}?q=${value}`)
         ).json();
-        console.log(results);
         setSearchResults(results);
       } catch (e) {
         console.info(e);
