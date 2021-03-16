@@ -129,6 +129,7 @@ const Topbar = styled.div<{ isSidebarActive: boolean }>`
   grid-area: top-edge /
     ${props => (props.isSidebarActive ? 'desktop-topbar-start' : 'left-edge')} /
     desktop-topbar-end / right-edge;
+  z-index: 4;
 `;
 
 const Main = styled.div<{ isSidebarActive: boolean }>`
