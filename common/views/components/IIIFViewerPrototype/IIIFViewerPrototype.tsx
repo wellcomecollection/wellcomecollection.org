@@ -187,6 +187,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const [imageJson, setImageJson] = useState<any>();
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
+  const [searchResults, setSearchResults] = useState(null);
   const mainImageService = { '@id': getServiceId(currentCanvas) };
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
@@ -303,6 +304,8 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
         isLoading: isLoading,
         isFullscreen: isFullscreen,
         isSidebarActive: isSidebarActive,
+        searchResults: searchResults,
+        setSearchResults: setSearchResults,
         setIsSidebarActive: setIsSidebarActive,
         setActiveIndex: setActiveIndex,
         setGridVisible: setGridVisible,
