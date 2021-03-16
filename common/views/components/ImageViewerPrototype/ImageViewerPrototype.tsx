@@ -58,6 +58,8 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   loadHandler,
   index = 0,
   mainAreaRef,
+  setImageRect,
+  setImageContainerRect,
 }: ImageViewerProps) => {
   const {
     lang,
@@ -66,7 +68,8 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     setZoomInfoUrl,
     setShowZoomed,
   } = useContext(ItemViewerContext);
-  const imageViewer = useRef(null);
+  const imageViewer = useRef();
+  const imageRef = useRef();
   const isOnScreen = useOnScreen({
     root: mainAreaRef?.current,
     ref: imageViewer,
@@ -84,6 +87,25 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
       })
       .join(',')
   );
+
+  function updateImagePosition() {
+    const imageRect =
+      imageRef && imageRef.current && imageRef.current.getBoundingClientRect();
+    const imageContainerRect =
+      imageViewer &&
+      imageViewer.current &&
+      imageViewer.current.getBoundingClientRect();
+    setImageRect(imageRect);
+    setImageContainerRect(imageContainerRect);
+  }
+
+  useEffect(() => {
+    updateImagePosition();
+    window.addEventListener('resize', updateImagePosition);
+
+    return () => window.removeEventListener('resize', updateImagePosition);
+  }, []);
+
   useEffect(() => {
     if (setActiveIndex && isOnScreen) {
       setActiveIndex(index);
@@ -122,6 +144,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   return (
     <ImageWrapper onLoad={loadHandler} ref={imageViewer}>
       <IIIFResponsiveImage
+        ref={imageRef}
         tabIndex={0}
         width={width}
         height={height}
@@ -134,6 +157,9 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         clickHandler={() => {
           setZoomInfoUrl && setZoomInfoUrl(infoUrl);
           setShowZoomed(true);
+        }}
+        loadHandler={() => {
+          updateImagePosition();
         }}
         errorHandler={errorHandler}
       />
