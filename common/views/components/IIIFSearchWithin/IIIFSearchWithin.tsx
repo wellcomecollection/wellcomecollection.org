@@ -110,9 +110,8 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                 const matchingResource = searchResults.resources.find(
                   resource => resource['@id'] === hit.annotations[0]
                 );
-                const index =
-                  matchingResource &&
-                  Number(matchingResource.on.match(/\/canvas\/c(\d+)#/)[1]);
+                const match = matchingResource?.on.match(/\/canvas\/c(\d+)#/);
+                const index = match && Number(match[1]);
                 return (
                   <ListItem key={i}>
                     <ListLink

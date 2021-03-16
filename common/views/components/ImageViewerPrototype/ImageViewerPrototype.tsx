@@ -46,6 +46,8 @@ type ImageViewerProps = {
   loadHandler?: () => void;
   mainAreaRef?: RefObject<HTMLDivElement>;
   index?: number;
+  setImageRect: (v: ClientRect) => void;
+  setImageContainerRect: (v: ClientRect) => void;
 };
 
 const ImageViewer: FunctionComponent<ImageViewerProps> = ({
@@ -68,8 +70,8 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     setZoomInfoUrl,
     setShowZoomed,
   } = useContext(ItemViewerContext);
-  const imageViewer = useRef();
-  const imageRef = useRef();
+  const imageViewer = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
   const isOnScreen = useOnScreen({
     root: mainAreaRef?.current,
     ref: imageViewer,
@@ -89,14 +91,14 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   );
 
   function updateImagePosition() {
-    const imageRect =
-      imageRef && imageRef.current && imageRef.current.getBoundingClientRect();
-    const imageContainerRect =
-      imageViewer &&
-      imageViewer.current &&
-      imageViewer.current.getBoundingClientRect();
-    setImageRect(imageRect);
-    setImageContainerRect(imageContainerRect);
+    const imageRect = imageRef?.current?.getBoundingClientRect();
+    const imageContainerRect = imageViewer?.current?.getBoundingClientRect();
+    if (imageRect) {
+      setImageRect(imageRect);
+    }
+    if (imageContainerRect) {
+      setImageContainerRect(imageContainerRect);
+    }
   }
 
   useEffect(() => {

@@ -8,7 +8,6 @@ import {
   Service,
   AuthService,
   IIIFAnnotationResource,
-  SearchService,
 } from '../model/iiif';
 import cloneDeep from 'lodash.clonedeep';
 
@@ -235,12 +234,16 @@ export function getIIIFPresentationCredit(
   return attribution?.value.split('<br/>')[0];
 }
 
-export function getSearchService(manifest: IIIFManifest): SearchService | null {
-  return (
-    manifest.service &&
-    manifest.service.find(
+export function getSearchService(manifest: IIIFManifest): Service | undefined {
+  if (Array.isArray(manifest.service)) {
+    return manifest.service.find(
       service =>
         service['@context'] === 'http://iiif.io/api/search/0/context.json'
-    )
-  );
+    );
+  } else if (
+    manifest.service?.['@context'] ===
+    'http://iiif.io/api/search/0/context.json'
+  ) {
+    return manifest.service;
+  }
 }

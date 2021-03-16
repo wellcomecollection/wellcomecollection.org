@@ -25,7 +25,14 @@ import { IIIFCanvas } from '../../../model/iiif';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import ImageViewerPrototype from '../ImageViewerPrototype/ImageViewerPrototype';
 
-const SearchTermHighlight = styled.div`
+type SearchTermHighlightProps = {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+};
+
+const SearchTermHighlight = styled.div<SearchTermHighlightProps>`
   background: ${props => props.theme.color('purple')};
   opacity: 0.5;
   position: absolute;
@@ -83,6 +90,45 @@ type ItemRendererProps = {
   };
 };
 
+function getPositionData( // TODO typing
+  imageContainerRect,
+  imageRect,
+  currentCanvas,
+  searchResults
+) {
+  const imageContainerTop = imageContainerRect?.top || 0;
+  const imageTop = imageRect?.top || 0;
+  const imageContainerLeft = imageContainerRect?.left || 0;
+  const imageLeft = imageRect?.left || 0;
+  const overlayStartTop = imageTop - imageContainerTop;
+  const overlayStartLeft = imageLeft - imageContainerLeft;
+  const scale = imageRect ? imageRect.width / currentCanvas.width : 1;
+  const highlightsPositioningData =
+    searchResults &&
+    searchResults?.resources.map(resource => {
+      // on: "https://wellcomelibrary.org/iiif/b30330002/canvas/c55#xywh=2301,662,157,47"
+      const canvasMatch = resource.on.match(/\/canvas\/c(\d+)#/);
+      const canvasNumber = canvasMatch && canvasMatch[1];
+      const coordsMatch = resource.on.match(/(#xywh=)(.*)/);
+      const coords = coordsMatch && coordsMatch[2].split(',');
+      const x = coords && Math.round(Number(coords[0]) * scale);
+      const y = coords && Math.round(Number(coords[1]) * scale);
+      const w = coords && Math.round(Number(coords[2]) * scale);
+      const h = coords && Math.round(Number(coords[3]) * scale);
+      return {
+        canvasNumber: Number(canvasNumber),
+        overlayStartTop,
+        overlayStartLeft,
+        highlight: {
+          x,
+          y,
+          w,
+          h,
+        },
+      };
+    });
+  return highlightsPositioningData;
+}
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const {
     scrollVelocity,
@@ -118,51 +164,39 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     imageAuthService &&
     imageAuthService.profile === 'http://iiif.io/api/auth/0/login/restricted';
   const { searchResults } = useContext(ItemViewerContext);
-  const [imageRect, setImageRect] = useState(null);
-  const [imageContainerRect, setImageContainerRect] = useState(null);
-  const [overlayPositionData, setOverlayPositionData] = useState(null);
+  const [imageRect, setImageRect] = useState<ClientRect | undefined>();
+  const [imageContainerRect, setImageContainerRect] = useState<
+    ClientRect | undefined
+  >();
+  const [overlayPositionData, setOverlayPositionData] = useState([
+    {
+      canvasNumber: -1,
+      overlayStartTop: 0,
+      overlayStartLeft: 0,
+      highlight: {
+        x: 0,
+        y: 0,
+        w: 0,
+        h: 0,
+      },
+    },
+  ]);
 
   useEffect(() => {
     // The search hit dimensions and coordinates are given relative to the full size image.
     // We need to get the position of the image relative to the container and the display scale of the image relative to the full size
     // in order to display the highlights correctly over the search hits.
     // This needs to be recalculated whenever the image changes size for whatever reason.
-    const imageContainerTop =
-      (imageContainerRect && imageContainerRect.top) || 0;
-    const imageTop = (imageRect && imageRect.top) || 0;
-    const imageContainerLeft =
-      (imageContainerRect && imageContainerRect.left) || 0;
-    const imageLeft = (imageRect && imageRect.left) || 0;
-    const overlayStartTop = imageTop - imageContainerTop;
-    const overlayStartLeft = imageLeft - imageContainerLeft;
-    const scale = imageRect ? imageRect.width / currentCanvas.width : 1;
-    const highlightsPositioningData =
-      searchResults &&
-      searchResults.resources &&
-      searchResults.resources.map(resource => {
-        // on: "https://wellcomelibrary.org/iiif/b30330002/canvas/c55#xywh=2301,662,157,47"
-        const canvasNumber = resource.on.match(/\/canvas\/c(\d+)#/)[1];
-        const coords = resource.on.match(/(#xywh=)(.*)/)[2].split(',');
-        const x = Math.round(Number(coords[0]) * scale);
-        const y = Math.round(Number(coords[1]) * scale);
-        const w = Math.round(Number(coords[2]) * scale);
-        const h = Math.round(Number(coords[3]) * scale);
-        return {
-          canvasNumber,
-          overlayStartTop,
-          overlayStartLeft,
-          highlight: {
-            x,
-            y,
-            w,
-            h,
-          },
-        };
-      });
+    const highlightsPositioningData = getPositionData(
+      imageContainerRect,
+      imageRect,
+      currentCanvas,
+      searchResults
+    );
     setOverlayPositionData(
       highlightsPositioningData &&
         highlightsPositioningData.filter(item => {
-          return Number(item.canvasNumber) === index;
+          return item.canvasNumber === index;
         })
     );
   }, [imageRect, imageContainerRect, currentCanvas, searchResults]);
@@ -241,8 +275,6 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                 mainAreaRef={mainAreaRef}
                 setImageRect={setImageRect}
                 setImageContainerRect={setImageContainerRect}
-                imageRect={imageRect}
-                searchResults={searchResults}
               />
             </>
           )}

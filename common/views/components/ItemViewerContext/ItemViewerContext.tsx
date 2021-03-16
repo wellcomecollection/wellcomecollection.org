@@ -46,7 +46,7 @@ type Props = {
   errorHandler?: () => void;
   setCurrentManifestLabel: (v: string) => void;
   searchResults: SearchResults;
-  setSearchResults: (v: []) => void;
+  setSearchResults: (v: SearchResults) => void;
 };
 const ItemViewerContext = createContext<Props>({
   work: {
@@ -96,7 +96,18 @@ const ItemViewerContext = createContext<Props>({
   showControls: false,
   isLoading: false,
   rotatedImages: [],
-  searchResults: [],
+  searchResults: {
+    '@context': '',
+    '@id': '',
+    '@type': 'sc:AnnotationList',
+    within: {
+      '@type': '',
+      total: 0,
+    },
+    startIndex: 0,
+    resources: [],
+    hits: [],
+  },
   setZoomInfoUrl: () => undefined,
   setActiveIndex: () => undefined,
   setGridVisible: () => false,
@@ -110,6 +121,25 @@ const ItemViewerContext = createContext<Props>({
   setShowControls: () => undefined,
   errorHandler: () => undefined,
   setCurrentManifestLabel: () => undefined,
-  setSearchResults: () => [],
+  setSearchResults: () => ({
+    '@context': '',
+    '@id': '',
+    '@type': 'sc:AnnotationList',
+    within: {
+      '@type': '',
+      total: 0,
+    },
+    startIndex: 0,
+    resources: [],
+    hits: [
+      {
+        '@type': '',
+        annotations: [''],
+        match: '',
+        before: '',
+        after: '',
+      },
+    ],
+  }),
 });
 export default ItemViewerContext;

@@ -143,7 +143,7 @@ export type SearchService = {
 export type SearchResults = {
   '@context': string;
   '@id': string;
-  '@type': 'sc:AnnotationList';
+  '@type': string;
   within: {
     '@type': string;
     total: number;
@@ -154,10 +154,10 @@ export type SearchResults = {
     on: string;
   }[];
   hits: {
-    '@type': 'search:Hit';
+    '@type': string;
     annotations: string[];
     match: string;
     before: string;
-    after: string[];
+    after: string;
   }[];
 };

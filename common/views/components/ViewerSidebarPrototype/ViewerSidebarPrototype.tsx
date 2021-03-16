@@ -128,13 +128,7 @@ type Props = {
 const ViewerSidebarPrototype: FunctionComponent<Props> = ({
   mainViewerRef,
 }: Props) => {
-  const {
-    work,
-    manifest,
-    setActiveIndex,
-    searchResults,
-    setSearchResults,
-  } = useContext(ItemViewerContext);
+  const { work, manifest, setActiveIndex } = useContext(ItemViewerContext);
   const productionDates = getProductionDates(work);
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -235,12 +229,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         {/* // TODO only if search service available */}
         <AccordionItem title={'Search within this item'}>
           <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-            <IIIFSearchWithin
-              setActiveIndex={setActiveIndex}
-              mainViewerRef={mainViewerRef}
-              searchResults={searchResults}
-              setSearchResults={setSearchResults}
-            />
+            <IIIFSearchWithin mainViewerRef={mainViewerRef} />
           </Space>
         </AccordionItem>
       </div>

@@ -187,7 +187,26 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const [imageJson, setImageJson] = useState<any>();
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState({
+    '@context': '',
+    '@id': '',
+    '@type': 'sc:AnnotationList',
+    within: {
+      '@type': '',
+      total: 0,
+    },
+    startIndex: 0,
+    resources: [{ '@id': '', on: '' }],
+    hits: [
+      {
+        '@type': 'search:Hit',
+        annotations: [],
+        match: '',
+        before: '',
+        after: '',
+      },
+    ],
+  });
   const mainImageService = { '@id': getServiceId(currentCanvas) };
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
