@@ -47,6 +47,7 @@ export type CatalogueImagesApiProps = {|
   page: ?number,
   'locations.license': ?(string[]),
   'source.genres.label': ?(string[]),
+  'source.contributors.agent.label': ?(string[]),
   color: ?string,
 |};
 
@@ -79,6 +80,7 @@ export function worksPropsToImagesProps(
     page: worksProps.page,
     'locations.license': undefined,
     'source.genres.label': undefined,
+    'source.contributors.agent.label': undefined,
     color: undefined,
   };
 }

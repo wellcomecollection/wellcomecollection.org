@@ -31,6 +31,7 @@ const emptyImagesProps: ImagesProps = {
   page: 1,
   'locations.license': [],
   'source.genres.label': [],
+  'source.contributors.agent.label': [],
   color: undefined,
 };
 
@@ -39,6 +40,7 @@ const codecMap = {
   page: numberCodec,
   'locations.license': csvCodec,
   'source.genres.label': quotedCsvCodec,
+  'source.contributors.agent.label': quotedCsvCodec,
   color: maybeStringCodec,
 };
 

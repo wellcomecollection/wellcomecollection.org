@@ -180,6 +180,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "color",
         "locations.license",
         "source.genres.label",
+        "source.contributors.agent.label",
         "page",
         "query",
         "source",

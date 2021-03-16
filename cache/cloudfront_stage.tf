@@ -172,6 +172,7 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
         "color",
         "locations.license",
         "source.genres.label",
+        "source.contributors.agent.label",
         "page",
         "query",
         "source",
