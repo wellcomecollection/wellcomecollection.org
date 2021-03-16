@@ -44,6 +44,13 @@ export type IIIFCanvas = {
   otherContent: any[];
 };
 
+export type IIIFStructure = {
+  '@id': string;
+  '@type': string;
+  label: string;
+  canvases: string[];
+};
+
 export type IIIFRendering = {
   '@id': string;
   format: string;
@@ -89,12 +96,6 @@ export type IIIFSequence = {
   compatibilityHint: string;
   canvases: IIIFCanvas[];
   rendering: IIIFRendering[];
-};
-type IIIFStructure = {
-  '@id': string;
-  '@type': string;
-  label: string;
-  canvases: string[];
 };
 
 export type IIIFMetadata = {

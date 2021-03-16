@@ -3,11 +3,12 @@ import {
   IIIFRendering,
   IIIFMetadata,
   IIIFCanvas,
+  IIIFStructure,
+  IIIFMediaElement,
   Service,
   AuthService,
   AuthServiceService,
   IIIFAnnotationResource,
-  IIIFMediaElement,
 } from '../model/iiif';
 
 export function getServiceId(canvas?: IIIFCanvas): string | undefined {
@@ -152,6 +153,10 @@ export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
         sequence.compatibilityHint !== 'displayIfContentUnsupported'
     );
   return sequence ? sequence.canvases : [];
+}
+
+export function getStructures(iiifManifest: IIIFManifest): IIIFStructure[] {
+  return iiifManifest?.structures || [];
 }
 
 export function getVideo(
