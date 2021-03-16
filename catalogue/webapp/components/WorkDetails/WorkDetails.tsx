@@ -253,30 +253,28 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
     <>
       {onlineResourcesPrototype && onlineResources.length > 0 && (
         <WorkDetailsSection headingText="Available online">
-          <h3
+          <ul
             className={classNames({
-              'no-margin': true,
-              [font('hnm', 5)]: true,
+              'plain-list no-margin no-padding': true,
             })}
           >
-            Online resources
-          </h3>
-          {onlineResources.map(item => (
-            <span
-              className={classNames({
-                [font('hnl', 5)]: true,
-              })}
-              key={item.location.url}
-            >
-              {item.title ? (
-                <>
-                  {item.title}: <a href={item.location.url}>view resource</a>
-                </>
-              ) : (
-                <a href={item.location.url}>{item.location.linkText}</a>
-              )}{' '}
-            </span>
-          ))}
+            {onlineResources.map(item => (
+              <li
+                className={classNames({
+                  [font('hnl', 5)]: true,
+                })}
+                key={item.location.url}
+              >
+                {item.title ? (
+                  <>
+                    {item.title}: <a href={item.location.url}>View resource</a>
+                  </>
+                ) : (
+                  <a href={item.location.url}>{item.location.linkText}</a>
+                )}{' '}
+              </li>
+            ))}
+          </ul>
         </WorkDetailsSection>
       )}
 
