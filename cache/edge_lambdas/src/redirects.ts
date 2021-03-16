@@ -194,6 +194,8 @@ export const queryRedirects: Record<string, QueryRedirect> = {
       'query',
       'images.color',
       'locations.license',
+      'source.genres.label',
+      'source.contributors.agent.label',
       'page',
     ]),
     redirectPath: '/images',
