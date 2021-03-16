@@ -267,7 +267,7 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   const globalContextData = getGlobalContextData(context);
   const params = fromQuery(context.query);
-  const aggregations = ['locations.license'];
+  const aggregations = ['locations.license', 'source.genres.label'];
   const apiProps = imagesRouteToApiUrl(params, { aggregations });
   const hasQuery = !!(params.query && params.query !== '');
   const images = hasQuery

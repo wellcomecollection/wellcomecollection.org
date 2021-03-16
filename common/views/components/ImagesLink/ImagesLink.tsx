@@ -11,6 +11,7 @@ import {
   FromCodecMap,
   encodeQuery,
   decodeQuery,
+  quotedCsvCodec,
 } from '../../../utils/routes';
 import { removeUndefinedProps } from '../../../utils/json';
 
@@ -29,6 +30,7 @@ const emptyImagesProps: ImagesProps = {
   query: '',
   page: 1,
   'locations.license': [],
+  'source.genres.label': [],
   color: undefined,
 };
 
@@ -36,6 +38,7 @@ const codecMap = {
   query: stringCodec,
   page: numberCodec,
   'locations.license': csvCodec,
+  'source.genres.label': quotedCsvCodec,
   color: maybeStringCodec,
 };
 

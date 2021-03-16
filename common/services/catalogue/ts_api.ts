@@ -6,6 +6,7 @@ export type CatalogueImagesApiProps = {
   query?: string;
   page?: number;
   'locations.license'?: string[];
+  'source.genres.label'?: string[];
   color?: string;
   aggregations?: string[];
 };
@@ -90,6 +91,9 @@ export function imagesRouteToApiUrl(
     page: imagesRouteProps.page,
     color: imagesRouteProps.color,
     'locations.license': imagesRouteProps['locations.license'],
+    'source.genres.label': imagesRouteProps['source.genres.label'].map(
+      quoteVal
+    ),
     ...overrides,
   };
 }
@@ -102,6 +106,7 @@ export function worksPropsToImagesProps(
     query: worksProps.query ?? undefined,
     page: worksProps.page ?? undefined,
     'locations.license': undefined,
+    'source.genres.label': undefined,
     color: undefined,
   };
 }

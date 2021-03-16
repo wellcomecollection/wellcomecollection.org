@@ -321,6 +321,7 @@ export type WorkAggregations = {
 
 export type ImageAggregations = {
   license?: CatalogueAggregation;
+  'source.genres.label'?: CatalogueAggregation;
   type: 'Aggregations';
 };
 
