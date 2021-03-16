@@ -74,7 +74,9 @@ export type IIIFMediaElement = {
   height?: number;
   width?: number;
   resources?: IIIFAnnotationResource[];
+  service?: AuthService | AuthService[];
 };
+
 type IIIFMediaSequence = {
   '@id': string;
   '@type': string;
@@ -100,17 +102,19 @@ export type IIIFMetadata = {
   value: string;
 };
 
+export type AuthServiceService = {
+  '@context': string;
+  '@id': string;
+  profile: string;
+};
+
 export type AuthService = {
   '@context': string;
   '@id': string;
   description: string;
   label: string;
   profile: string;
-  service: {
-    '@context': string;
-    '@id': string;
-    profile: string;
-  }[];
+  service: AuthServiceService[];
 };
 
 export type Service = {
