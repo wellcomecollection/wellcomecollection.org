@@ -139,3 +139,25 @@ export type SearchService = {
   profile: string;
   label: string;
 };
+
+export type SearchResults = {
+  '@context': string;
+  '@id': string;
+  '@type': 'sc:AnnotationList';
+  within: {
+    '@type': string;
+    total: number;
+  };
+  startIndex: number;
+  resources: {
+    '@id': string;
+    on: string;
+  }[];
+  hits: {
+    '@type': 'search:Hit';
+    annotations: string[];
+    match: string;
+    before: string;
+    after: string[];
+  }[];
+};

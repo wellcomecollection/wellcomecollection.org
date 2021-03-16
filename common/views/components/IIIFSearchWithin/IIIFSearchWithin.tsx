@@ -1,6 +1,4 @@
-// @flow
-// TODO convert to typescript
-import { useState, useContext } from 'react';
+import { useState, useContext, FunctionComponent, RefObject } from 'react';
 import { getSearchService } from '../../../utils/iiif';
 // import NextLink from 'next/link'; //TODO
 import fetch from 'isomorphic-unfetch';
@@ -10,9 +8,11 @@ import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
-type Props = {|
-  mainViewerRef: { current: HTMLElement },
-|};
+import { FixedSizeList } from 'react-window';
+
+type Props = {
+  mainViewerRef: RefObject<FixedSizeList>;
+};
 
 const SearchForm = styled.form`
   position: relative;
@@ -53,7 +53,9 @@ const ListLink = styled.a.attrs({
   }
 `;
 
-const IIIFSearchWithin = ({ mainViewerRef }: Props) => {
+const IIIFSearchWithin: FunctionComponent<Props> = ({
+  mainViewerRef,
+}: Props) => {
   const [value, setValue] = useState('');
   const {
     setActiveIndex,
@@ -63,14 +65,16 @@ const IIIFSearchWithin = ({ mainViewerRef }: Props) => {
   } = useContext(ItemViewerContext);
   const searchService = manifest && getSearchService(manifest);
   async function getSearchResults() {
-    try {
-      const results = await (
-        await fetch(`${searchService['@id']}?q=${value}`)
-      ).json();
-      console.log(results);
-      setSearchResults(results);
-    } catch (e) {
-      console.info(e);
+    if (searchService) {
+      try {
+        const results = await (
+          await fetch(`${searchService['@id']}?q=${value}`)
+        ).json();
+        console.log(results);
+        setSearchResults(results);
+      } catch (e) {
+        console.info(e);
+      }
     }
   }
   return (
@@ -85,25 +89,20 @@ const IIIFSearchWithin = ({ mainViewerRef }: Props) => {
         {' '}
         <SearchInputWrapper className="relative">
           <TextInput
+            id={'searchWithin'}
             label={'Search within this item'}
             placeholder={'Search within this item'}
             name="query"
             value={value}
             setValue={setValue}
             required={true}
-            big={true}
           />
         </SearchInputWrapper>
         <SearchButtonWrapper>
-          <ButtonSolid
-            icon="search"
-            text="search"
-            isTextHidden={true}
-            isBig={true}
-          />
+          <ButtonSolid icon="search" text="search" isTextHidden={true} />
         </SearchButtonWrapper>
       </SearchForm>
-      {searchResults && (
+      {searchResults?.hits?.length > 0 && (
         <>
           <h2>{searchResults.within && searchResults.within.total} Matches</h2>
           <ul className="no-padding">
@@ -119,11 +118,14 @@ const IIIFSearchWithin = ({ mainViewerRef }: Props) => {
                   <ListItem key={i}>
                     <ListLink
                       style={{ textDecoration: 'none', cursor: 'pointer' }}
-                      onClick={event => {
-                        setActiveIndex(index);
+                      onClick={() => {
+                        setActiveIndex(index || 0);
                         mainViewerRef &&
                           mainViewerRef.current &&
-                          mainViewerRef.current.scrollToItem(index, 'start');
+                          mainViewerRef.current.scrollToItem(
+                            index || 0,
+                            'start'
+                          );
                       }}
                     >
                       {/* {matchingResource &&

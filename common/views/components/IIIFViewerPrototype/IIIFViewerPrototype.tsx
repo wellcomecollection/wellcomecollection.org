@@ -187,7 +187,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const [imageJson, setImageJson] = useState<any>();
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
-  const [searchResults, setSearchResults] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
   const mainImageService = { '@id': getServiceId(currentCanvas) };
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);

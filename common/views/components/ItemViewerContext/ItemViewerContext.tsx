@@ -1,6 +1,11 @@
 import { createContext } from 'react';
 import { Work } from '../../../model/catalogue';
-import { IIIFCanvas, IIIFManifest, IIIFRendering } from '../../../model/iiif';
+import {
+  IIIFCanvas,
+  IIIFManifest,
+  IIIFRendering,
+  SearchResults,
+} from '../../../model/iiif';
 import { LicenseData } from '../../../utils/licenses';
 
 type Props = {
@@ -40,6 +45,8 @@ type Props = {
   setShowControls: (v: boolean) => void;
   errorHandler?: () => void;
   setCurrentManifestLabel: (v: string) => void;
+  searchResults: SearchResults;
+  setSearchResults: (v: []) => void;
 };
 const ItemViewerContext = createContext<Props>({
   work: {
@@ -89,6 +96,7 @@ const ItemViewerContext = createContext<Props>({
   showControls: false,
   isLoading: false,
   rotatedImages: [],
+  searchResults: [],
   setZoomInfoUrl: () => undefined,
   setActiveIndex: () => undefined,
   setGridVisible: () => false,
@@ -102,5 +110,6 @@ const ItemViewerContext = createContext<Props>({
   setShowControls: () => undefined,
   errorHandler: () => undefined,
   setCurrentManifestLabel: () => undefined,
+  setSearchResults: () => [],
 });
 export default ItemViewerContext;
