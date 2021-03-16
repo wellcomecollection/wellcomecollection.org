@@ -278,6 +278,18 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     Router.replace(url, as);
   }, [activeIndex]);
 
+  const parentManifestUrl = manifest && manifest.within;
+
+  useEffect(() => {
+    const fetchParentManifest = async () => {
+      const parentManifest =
+        parentManifestUrl && (await (await fetch(parentManifestUrl)).json());
+      parentManifest && setParentManifest(parentManifest);
+    };
+
+    fetchParentManifest();
+  }, []);
+
   return (
     <ItemViewerContext.Provider
       value={{
