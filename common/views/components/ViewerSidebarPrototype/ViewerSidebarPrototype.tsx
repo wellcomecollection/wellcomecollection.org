@@ -3,7 +3,6 @@ import WorkLink from '../WorkLink/WorkLink';
 import Icon from '../Icon/Icon';
 import styled from 'styled-components';
 import Space from '../styled/Space';
-import TextInput from '../TextInput/TextInput';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import {
@@ -15,6 +14,7 @@ import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 import ViewerStructuresPrototype from '../ViewerStructuresPrototype/ViewerStructuresPrototype';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
+import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -128,9 +128,14 @@ type Props = {
 const ViewerSidebarPrototype: FunctionComponent<Props> = ({
   mainViewerRef,
 }: Props) => {
-  const { work, manifest, setActiveIndex } = useContext(ItemViewerContext);
+  const {
+    work,
+    manifest,
+    setActiveIndex,
+    searchResults,
+    setSearchResults,
+  } = useContext(ItemViewerContext);
   const productionDates = getProductionDates(work);
-  const [inputValue, setInputValue] = useState('');
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
@@ -227,15 +232,14 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
             />
           </AccordionItem>
         )}
+        {/* // TODO only if search service available */}
         <AccordionItem title={'Search within this item'}>
           <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-            <TextInput
-              id={'test'}
-              type={'text'}
-              name={'test'}
-              label={'enter search term'}
-              value={inputValue}
-              setValue={setInputValue}
+            <IIIFSearchWithin
+              setActiveIndex={setActiveIndex}
+              mainViewerRef={mainViewerRef}
+              searchResults={searchResults}
+              setSearchResults={setSearchResults}
             />
           </Space>
         </AccordionItem>
