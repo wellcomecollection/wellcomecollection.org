@@ -210,6 +210,17 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     return () => mainAreaObserver.disconnect();
   }, []);
 
+  useEffect(() => {
+    const matchingManifest =
+      parentManifest &&
+      parentManifest.manifests &&
+      parentManifest.manifests.find((childManifest: IIIFManifest) => {
+        return !manifest ? false : childManifest['@id'] === manifest['@id'];
+      });
+
+    matchingManifest && setCurrentManifestLabel(matchingManifest.label);
+  });
+
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
     'iiif-presentation'
