@@ -33,6 +33,10 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({ onCom
 
   useEffect(() => {
     switch (error) {
+      case UpdatePasswordError.INCORRECT_PASSWORD: {
+        setError('password', { type: 'manual', message: 'Incorrect password.' });
+        break;
+      }
       case UpdatePasswordError.DID_NOT_MEET_POLICY: {
         setError('newPassword', { type: 'manual', message: 'Password does not meet the policy.' });
         break;

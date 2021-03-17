@@ -4,6 +4,7 @@ import { UpdatePasswordSchema } from '../../types/schemas/update-password';
 import { callMiddlewareApi } from '../../utility/middleware-api-client';
 
 export enum UpdatePasswordError { // eslint-disable-line no-shadow
+  INCORRECT_PASSWORD,
   DID_NOT_MEET_POLICY,
   UNKNOWN,
 }
@@ -28,6 +29,10 @@ export function useUpdatePassword(): UseUpdatePasswordMutation {
       })
       .catch((err: AxiosError) => {
         switch (err.response?.status) {
+          case 401: {
+            setError(UpdatePasswordError.INCORRECT_PASSWORD);
+            break;
+          }
           case 422: {
             setError(UpdatePasswordError.DID_NOT_MEET_POLICY);
             break;
