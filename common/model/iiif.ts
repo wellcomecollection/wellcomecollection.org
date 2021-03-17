@@ -146,7 +146,7 @@ export type SearchResults = {
   '@type': string;
   within: {
     '@type': string;
-    total: number;
+    total: number | null;
   };
   startIndex: number;
   resources: {

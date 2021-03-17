@@ -55,7 +55,7 @@ export const results = {
   '@type': 'sc:AnnotationList',
   within: {
     '@type': '',
-    total: 0,
+    total: null,
   },
   startIndex: 0,
   resources: [],
