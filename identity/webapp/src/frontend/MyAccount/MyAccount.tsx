@@ -4,8 +4,8 @@ import Info2 from '@weco/common/icons/components/Info2';
 import { useUserInfo, withUserInfo } from './UserInfoContext';
 import { ChangeDetailsModal } from './ChangeDetailsModal';
 import { PageWrapper } from '../components/PageWrapper';
-import { Container, Title, Wrapper } from '../components/Layout.style';
-import { DetailWrapper, Grid, HorizontalRule, Label, StatusAlert } from './MyAccount.style';
+import { Container, Title } from '../components/Layout.style';
+import { Wrapper, DetailWrapper, Label, Section, SectionHeading, StatusAlert } from './MyAccount.style';
 import { Loading } from './Loading';
 import { ChangeEmail } from './ChangeEmail';
 import { ChangePassword } from './ChangePassword';
@@ -43,7 +43,8 @@ const Profile: React.FC = () => {
           <Title>My account</Title>
           {updatedEmail && <AccountStatus>Email updated</AccountStatus>}
           {isPasswordUpdated && <AccountStatus>Password updated</AccountStatus>}
-          <Grid>
+          <Section>
+            <SectionHeading>My details</SectionHeading>
             <Detail label="Name" value={`${user?.firstName} ${user?.lastName}`} />
             <Detail label="Library card number" value={user?.barcode} />
             <Detail label="Email address" value={updatedEmail || user?.email} />
@@ -53,17 +54,24 @@ const Profile: React.FC = () => {
               content={ChangeEmail}
               onSuccess={({ email }) => setUpdatedEmail(email)}
             />
-            <Detail label="Password" value="********" />
+          </Section>
+
+          <Section>
+            <SectionHeading>Password</SectionHeading>
+            <span>Update your password</span>
             <ChangeDetailsModal
               id="change-password"
               buttonText="Change password"
               content={ChangePassword}
               onSuccess={() => setIsPasswordUpdated(true)}
             />
-            <HorizontalRule />
-            <Detail label="Delete this account" />
+          </Section>
+
+          <Section>
+            <SectionHeading>Delete library account</SectionHeading>
+            <span>Request a deletion of your account</span>
             <ChangeDetailsModal id="delete-account" buttonText="Request deletion" isDangerous content={DeleteAccount} />
-          </Grid>
+          </Section>
         </Wrapper>
       </Container>
     </PageWrapper>

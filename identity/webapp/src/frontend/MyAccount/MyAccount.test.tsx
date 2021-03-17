@@ -70,11 +70,6 @@ describe('MyAccount', () => {
     expect(screen.getByText('clarkkent@dailybugle.com')).toBeInTheDocument();
   });
 
-  it("shows a mock of the user's password", async () => {
-    renderComponent();
-    expect(await screen.findByText('********')).toBeInTheDocument();
-  });
-
   it('opens a modal where the user can update their password', async () => {
     renderComponent();
     await waitFor(() => expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument());

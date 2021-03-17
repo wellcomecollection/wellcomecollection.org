@@ -1,13 +1,13 @@
 import styled, { css } from 'styled-components';
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 
-export const Grid = styled.main`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 1em;
+export const Wrapper = styled.div`
+  max-width: 48em;
+  margin: 0 auto;
+  padding: 1em;
 
   @media screen and (min-width: 600px) {
-    grid-template-columns: 1fr 1fr;
+    padding: 1em 2em;
   }
 `;
 
@@ -18,10 +18,6 @@ export const DetailWrapper = styled.figure`
 export const Label = styled.figcaption.attrs({ className: 'font-hnl fonts-loaded font-size-4' })`
   display: block;
   font-weight: bold;
-`;
-
-export const HorizontalRule = styled.hr`
-  grid-column: 1 / -1;
 `;
 
 const OutlinedDangerButtonModifier = css`
@@ -59,4 +55,25 @@ export const StatusAlert = styled.div.attrs({ role: 'alert' })`
   display: flex;
   align-items: center;
   gap: 0.5em;
+`;
+
+export const Section = styled.section.attrs({ className: 'border-top-width-1 border-color-pumice' })`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1em;
+  align-items: center;
+  padding: 1em 0;
+
+  @media screen and (min-width: 600px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  & > h2 {
+    grid-column: 1 / -1;
+  }
+`;
+
+export const SectionHeading = styled.h2.attrs({ className: 'font-hnl fonts-loaded font-size-3' })`
+  font-weight: bold;
+  margin: 0;
 `;
