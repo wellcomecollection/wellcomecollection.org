@@ -7,6 +7,7 @@ import {
   IIIFMediaElement,
   Service,
   AuthService,
+  AuthServiceService,
   IIIFAnnotationResource,
 } from '../model/iiif';
 import cloneDeep from 'lodash.clonedeep';
@@ -35,7 +36,35 @@ export function getAuthService(
   }
 }
 
-export function getImageAuthService(canvas?: IIIFCanvas) {
+export function getVideoClickthroughService(
+  video: IIIFMediaElement
+): AuthService | undefined {
+  if (video?.service) {
+    if (Array.isArray(video.service)) {
+      return video.service.find(
+        service =>
+          service.profile === 'http://iiif.io/api/auth/0/login/clickthrough'
+      );
+    } else {
+      if (
+        video.service.profile === 'http://iiif.io/api/auth/0/login/clickthrough'
+      ) {
+        return video.service;
+      }
+    }
+  }
+}
+
+export function getTokenService(
+  authService: AuthService
+): AuthServiceService | undefined {
+  const authServiceServices = authService?.service || [];
+  return authServiceServices.find(
+    service => service.profile === 'http://iiif.io/api/auth/0/token'
+  );
+}
+
+export function getImageAuthService(canvas?: IIIFCanvas): AuthService {
   const serviceArray = canvas?.images?.[0]?.resource?.service?.[0]?.service;
   const authService =
     serviceArray &&

@@ -171,6 +171,8 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
       query_string_cache_keys = [
         "color",
         "locations.license",
+        "source.genres.label",
+        "source.contributors.agent.label",
         "page",
         "query",
         "source",
