@@ -35,7 +35,11 @@ const Sorter = ({ fieldName }: Props): JSX.Element => {
     return '▾';
   };
 
-  return <a href={buildSortUrl()}>{sortSymbol()}</a>;
+  return (
+    <a className="user-list__sorter" href={buildSortUrl()}>
+      {sortSymbol()}
+    </a>
+  );
 };
 
 export default Sorter;

@@ -23,7 +23,7 @@ const IndexPage: React.FC = () => {
       {error && <div>{error}</div>}
       {data && (
         <div>
-          <UserList items={data?.results} />
+          <UserList items={data?.results} totalResults={data?.totalResults} />
           <Pagination
             currentPage={data?.page || 1}
             pageCount={data?.pageCount || 1}

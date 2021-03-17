@@ -27,7 +27,7 @@ const SearchInput = (): JSX.Element => {
 
   return (
     <>
-      <td className="user-list__filter-header">
+      <td className="user-list__filter-header user-list__first">
         <form onSubmit={onChangeName} className="user-list__search-form">
           <input
             type="text"

@@ -4,29 +4,33 @@ import { SortField, User } from '../../interfaces';
 import StatusDropdown from './StatusDropdown';
 import SearchInput from './SearchInput';
 import Sorter from './Sorter';
-import { useState } from 'react';
-import { useRouter } from 'next/router';
 
 type Props = {
   items: User[] | undefined;
+  totalResults: number;
 };
 
-const UserList = ({ items }: Props): JSX.Element => {
-  const router = useRouter();
-  const { status, name, email } = router.query;
-  const [showFilters, setShowFilters] = useState<boolean>(
-    !!name || !!email || !!status
-  );
-
-  const onToggleFilterBar = () => {
-    setShowFilters(!showFilters);
-  };
-
+const UserList = ({ items, totalResults }: Props): JSX.Element => {
   return (
     <table className="user-list">
       <thead className="user-list__head">
+        <tr className="user-list__filter user-list__filter--labels">
+          <td className="user-list__first">Search by:</td>
+          <td />
+          <td />
+          <td>Filter by status:</td>
+          <td />
+        </tr>
+        <tr className="user-list__filter">
+          <SearchInput />
+          <td />
+          <td className="user-list__filter--status">
+            <StatusDropdown />
+          </td>
+          <td>{totalResults} Results</td>
+        </tr>
         <tr>
-          <td className="user-list__filter-header">
+          <td className="user-list__filter-header user-list__first">
             Name <Sorter fieldName={SortField.Name} />
           </td>
           <td className="user-list__filter-header">
@@ -41,21 +45,7 @@ const UserList = ({ items }: Props): JSX.Element => {
           <td>
             Last Login <Sorter fieldName={SortField.LastLogin} />
           </td>
-          <td>
-            <button onClick={onToggleFilterBar}>Filter</button>
-          </td>
         </tr>
-        {showFilters && (
-          <tr className="user-list__filter">
-            <SearchInput />
-            <td />
-            <td className="user-list__filter--status">
-              <StatusDropdown />
-            </td>
-            <td />
-            <td />
-          </tr>
-        )}
       </thead>
       <tbody className="user-list__body">
         {items &&

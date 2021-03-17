@@ -8,21 +8,19 @@ type Props = {
 
 const UserListItem = ({ data }: Props): JSX.Element => {
   const userPageUrl = '/user/' + data.userId;
+  const redirectToUser = () => {
+    window.location.href = userPageUrl;
+  };
 
   return (
-    <tr>
-      <td>
-        <a href={userPageUrl}>
-          {data.firstName} {data.lastName}
-        </a>
+    <tr onClick={redirectToUser}>
+      <td className="user-list__first">
+        {data.firstName} {data.lastName}
       </td>
       <td>{data.email}</td>
       <td>{data.barcode}</td>
       <td>{statusMessage(data)}</td>
       <td>{data.lastLogin && prettyDate(data.lastLogin)}</td>
-      <td>
-        <a href={userPageUrl}>Edit</a>
-      </td>
     </tr>
   );
 };
