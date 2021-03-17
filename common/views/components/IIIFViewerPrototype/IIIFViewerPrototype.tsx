@@ -289,6 +289,11 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     Router.replace(url, as);
   }, [activeIndex]);
 
+  useEffect(() => {
+    // FIXME: is this really necessary? Why doesn't setting canvas to 1 in the NextLink handle it?
+    mainViewerRef?.current?.scrollToItem(0);
+  }, [manifestIndex]);
+
   const parentManifestUrl = manifest && manifest.within;
 
   useEffect(() => {
