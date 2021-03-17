@@ -3,6 +3,7 @@ import WorkLink from '../WorkLink/WorkLink';
 import Icon from '../Icon/Icon';
 import styled from 'styled-components';
 import Space from '../styled/Space';
+import TextInput from '../TextInput/TextInput';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import {
@@ -15,6 +16,7 @@ import ViewerStructuresPrototype from '../ViewerStructuresPrototype/ViewerStruct
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -81,7 +83,6 @@ const Item = styled.div`
 
 const AccordionItem = ({ title, children }) => {
   const [isActive, setIsActive] = useState(false);
-
   return (
     <Item>
       <AccordionInner
@@ -130,6 +131,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
 }: Props) => {
   const { work, manifest, setActiveIndex } = useContext(ItemViewerContext);
   const productionDates = getProductionDates(work);
+  const [inputValue, setInputValue] = useState('');
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
@@ -145,7 +147,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
     getAugmentedLicenseInfo(digitalLocation.license);
   const { iiifCredit } = useIIIFManifestData(work);
   const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
-
+  const { itemViewerPrototypeWithSearch } = useContext(TogglesContext);
   return (
     <>
       <Inner
@@ -229,7 +231,20 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         {/* // TODO only if search service available */}
         <AccordionItem title={'Search within this item'}>
           <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-            <IIIFSearchWithin mainViewerRef={mainViewerRef} />
+            {itemViewerPrototypeWithSearch ? (
+              <IIIFSearchWithin mainViewerRef={mainViewerRef} />
+            ) : (
+              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                <TextInput
+                  id={'test'}
+                  type={'text'}
+                  name={'test'}
+                  label={'enter search term'}
+                  value={inputValue}
+                  setValue={setInputValue}
+                />
+              </Space>
+            )}
           </Space>
         </AccordionItem>
       </div>
