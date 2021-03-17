@@ -27,6 +27,7 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import dynamic from 'next/dynamic';
 import LL from '@weco/common/views/components/styled/LL';
 import { PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
+import ImageViewer from '../ImageViewer/ImageViewer';
 
 type IIIFViewerProps = {
   title: string;
@@ -111,7 +112,7 @@ const Grid = styled.div`
   display: grid;
   height: calc(100vh - 85px); // FIXME: use variable for header height
   overflow: hidden;
-  grid-template-columns: [left-edge] minmax(200px, 3fr) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
+  grid-template-columns: [left-edge] minmax(200px, 330px) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
   grid-template-rows: [top-edge] min-content [desktop-main-start desktop-topbar-end] 1fr [bottom-edge];
 `;
 
@@ -191,6 +192,11 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const mainImageService = { '@id': getServiceId(currentCanvas) };
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
+  const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
+  const firstRotatedImage = rotatedImages.find(
+    image => image.canvasIndex === 0
+  );
+  const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
 
   // TODO: check for intersectionObservers (previous version of isEnhanced)
   // TODO: add testing and possibly fallbacks
@@ -221,7 +227,6 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     getAugmentedLicenseInfo(digitalLocation.license);
 
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
-
   const showDownloadOptions = manifest
     ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
     : true;
@@ -379,10 +384,27 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
               </Space>
             </ImageViewerControls>
           )}
-          <MainViewerPrototype
-            mainViewerRef={mainViewerRef}
-            mainAreaRef={mainAreaRef}
-          />
+          {urlTemplate && imageUrl && iiifImageLocation && (
+            <ImageViewer
+              infoUrl={iiifImageLocation.url}
+              id={imageUrl}
+              width={800}
+              alt={work?.description || work?.title || ''}
+              urlTemplate={urlTemplate}
+              setShowZoomed={setShowZoomed}
+              rotation={firstRotation}
+              loadHandler={() => {
+                setZoomInfoUrl(iiifImageLocation.url);
+                setIsLoading(false);
+              }}
+            />
+          )}
+          {mainImageService['@id'] && currentCanvas && (
+            <MainViewerPrototype
+              mainViewerRef={mainViewerRef}
+              mainAreaRef={mainAreaRef}
+            />
+          )}
         </Main>
         <Thumbnails isActive={gridVisible} isSidebarActive={!showZoomed}>
           <GridViewerPrototype
