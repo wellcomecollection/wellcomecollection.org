@@ -102,7 +102,11 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
         </SearchButtonWrapper>
       </SearchForm>
       {searchResults.within.total !== null && (
-        <h2>{searchResults.within.total} matches</h2>
+        <h2>
+          {searchResults.within.total}{' '}
+          {searchResults.within.total === 1 ? 'result' : 'results'}
+        </h2>
+        // to do singular match if required
       )}
       <ul className="no-padding">
         {searchResults.hits.map((hit, i) => {
