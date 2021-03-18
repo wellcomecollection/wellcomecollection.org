@@ -102,12 +102,12 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
   const isRestricted =
     imageAuthService &&
     imageAuthService.profile === 'http://iiif.io/api/auth/0/login/restricted';
-  console.log(thumbnailService);
-  const smallestWidthImageDimensions =
+  const preferredMinThumbnailHeight = 400;
+  const preferredThumbnail =
     thumbnailService &&
     thumbnailService.sizes
       .sort((a, b) => a.height - b.height)
-      .find(dimensions => dimensions.height >= 400);
+      .find(dimensions => dimensions.height >= preferredMinThumbnailHeight);
 
   return (
     <IIIFViewerThumb
@@ -130,28 +130,18 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
             </>
           ) : (
             <IIIFResponsiveImage
-              width={
-                smallestWidthImageDimensions
-                  ? smallestWidthImageDimensions.width
-                  : 30
-              }
+              width={preferredThumbnail ? preferredThumbnail.width : 30}
               src={
                 urlTemplate
                   ? urlTemplate({
                       size: `${
-                        smallestWidthImageDimensions
-                          ? smallestWidthImageDimensions.width
-                          : '!100'
+                        preferredThumbnail ? preferredThumbnail.width : '!100'
                       },`,
                     })
                   : null
               }
               srcSet={''}
-              sizes={`${
-                smallestWidthImageDimensions
-                  ? smallestWidthImageDimensions.width
-                  : 30
-              }px`}
+              sizes={`${preferredThumbnail ? preferredThumbnail.width : 30}px`}
               alt={''}
               lang={lang}
               isLazy={false}
