@@ -1,5 +1,10 @@
 import styled, { css } from 'styled-components';
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import { Container as LayoutContainer } from '../components/Layout.style';
+
+export const Container = styled(LayoutContainer)`
+  max-width: 1024px;
+`;
 
 export const Wrapper = styled.div`
   max-width: 48em;
@@ -68,7 +73,7 @@ export const Section = styled.section.attrs({ className: 'border-top-width-1 bor
   padding: 1em 0;
 
   @media screen and (min-width: 600px) {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 3fr 2fr;
   }
 
   & > h2 {
