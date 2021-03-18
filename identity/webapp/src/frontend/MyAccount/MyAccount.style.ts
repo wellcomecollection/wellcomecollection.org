@@ -13,6 +13,9 @@ export const Wrapper = styled.div`
 
 export const DetailWrapper = styled.figure`
   margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export const Label = styled.figcaption.attrs({ className: 'font-hnl fonts-loaded font-size-4' })`
