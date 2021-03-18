@@ -28,8 +28,8 @@ const AccountStatus: React.FC = ({ children }) => {
 };
 
 const Profile: React.FC = () => {
-  const { user, isLoading } = useUserInfo();
-  const [updatedEmail, setUpdatedEmail] = useState('');
+  const { user, isLoading, update } = useUserInfo();
+  const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
 
   if (isLoading) {
@@ -41,18 +41,21 @@ const Profile: React.FC = () => {
       <Container>
         <Wrapper>
           <Title>My account</Title>
-          {updatedEmail && <AccountStatus>Email updated</AccountStatus>}
+          {isEmailUpdated && <AccountStatus>Email updated</AccountStatus>}
           {isPasswordUpdated && <AccountStatus>Password updated</AccountStatus>}
           <Section>
             <SectionHeading>My details</SectionHeading>
             <Detail label="Name" value={`${user?.firstName} ${user?.lastName}`} />
             <Detail label="Library card number" value={user?.barcode} />
-            <Detail label="Email address" value={updatedEmail || user?.email} />
+            <Detail label="Email address" value={user?.email} />
             <ChangeDetailsModal
               id="change-email"
               buttonText="Change Email"
               content={ChangeEmail}
-              onSuccess={({ email }) => setUpdatedEmail(email)}
+              onSuccess={({ email }) => {
+                update({ email });
+                setIsEmailUpdated(true);
+              }}
             />
           </Section>
 

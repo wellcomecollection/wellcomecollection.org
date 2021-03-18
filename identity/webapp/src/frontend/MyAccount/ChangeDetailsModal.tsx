@@ -5,7 +5,7 @@ import { UpdateUserSchema } from '../../types/schemas/update-user';
 
 export type ChangeDetailsModalContentProps = {
   onComplete: (newDetails?: UpdateUserSchema) => void;
-  onCancel: () => void;
+  onCancel?: () => void;
 };
 
 type ChangeDetailsModalProps = {
