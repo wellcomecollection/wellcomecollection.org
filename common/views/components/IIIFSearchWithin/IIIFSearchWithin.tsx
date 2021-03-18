@@ -9,6 +9,7 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
@@ -17,6 +18,7 @@ type Props = {
 const SearchForm = styled.form`
   position: relative;
 `;
+
 const SearchInputWrapper = styled.div`
   font-size: 20px;
   background: ${props => props.theme.color('white')};
@@ -33,6 +35,14 @@ const SearchButtonWrapper = styled.div.attrs({
 })`
   top: 0;
   right: 0;
+`;
+
+const ResultsHeader = styled(Space).attrs({
+  as: 'h3',
+  v: { size: 'm', properties: ['margin-top'] },
+})`
+  border-bottom: 1px solid ${props => props.theme.color('silver')};
+  padding-bottom: ${props => `${props.theme.spacingUnit}px`};
 `;
 
 const ListItem = styled.li`
@@ -53,6 +63,17 @@ const ListLink = styled.a.attrs({
   }
 `;
 
+const HitData = styled(Space).attrs({
+  as: 'span',
+  className: classNames({
+    [font('hnm', 6)]: true,
+  }),
+})`
+  display: block;
+  background: ${props => props.theme.color('charcoal')};
+  padding: ${props => `0 ${props.theme.spacingUnit}px`};
+`;
+
 const IIIFSearchWithin: FunctionComponent<Props> = ({
   mainViewerRef,
 }: Props) => {
@@ -62,6 +83,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
     manifest,
     searchResults,
     setSearchResults,
+    canvases,
   } = useContext(ItemViewerContext);
   const searchService = manifest && getSearchService(manifest);
   async function getSearchResults() {
@@ -102,10 +124,10 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
         </SearchButtonWrapper>
       </SearchForm>
       {searchResults.within.total !== null && (
-        <h2>
+        <ResultsHeader>
           {searchResults.within.total}{' '}
           {searchResults.within.total === 1 ? 'result' : 'results'}
-        </h2>
+        </ResultsHeader>
         // to do singular match if required
       )}
       <ul className="no-padding">
@@ -119,6 +141,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
           // get the index of the canvas the hits appear on
           const match = matchingResources?.[0]?.on.match(/\/canvas\/c(\d+)#/);
           const index = match && Number(match[1]);
+          // get matching canvas for canvas.label
           return (
             <ListItem key={i}>
               <ListLink
@@ -130,6 +153,13 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                     mainViewerRef.current.scrollToItem(index || 0, 'start');
                 }}
               >
+                <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
+                  {`${hit.annotations.length} ${
+                    hit.annotations.length === 1 ? 'instance' : 'instances'
+                  } found on image ${index + 1} / ${canvases &&
+                    canvases.length} `}
+                  {/* (page Z) */}
+                </HitData>
                 {/* {matchingResource &&
                   JSON.stringify(matchingResource.on.match('/canvas/c(d+)#'))} */}
                 ...{hit.before}
@@ -154,7 +184,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                     >
                       {resource?.resource?.chars}
                     </span>
-                    {matchingResources[i + 1] ? '...' : ''}
+                    {matchingResources[i + 1] ? ' ... ' : ''}
                   </>
                 ))}
                 {/* </NextLink> */}
