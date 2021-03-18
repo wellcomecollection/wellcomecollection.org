@@ -141,7 +141,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
           // get the index of the canvas the hits appear on
           const match = matchingResources?.[0]?.on.match(/\/canvas\/c(\d+)#/);
           const index = match && Number(match[1]);
-          // get matching canvas for canvas.label
+          const matchingCanvas = canvases[index];
           return (
             <ListItem key={i}>
               <ListLink
@@ -157,8 +157,11 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                   {`${hit.annotations.length} ${
                     hit.annotations.length === 1 ? 'instance' : 'instances'
                   } found on image ${index + 1} / ${canvases &&
-                    canvases.length} `}
-                  {/* (page Z) */}
+                    canvases.length}${
+                    matchingCanvas.label.trim() !== '-'
+                      ? ` (page ${matchingCanvas.label})`
+                      : ''
+                  }`}
                 </HitData>
                 {/* {matchingResource &&
                   JSON.stringify(matchingResource.on.match('/canvas/c(d+)#'))} */}
