@@ -2,7 +2,7 @@ import { createContext } from 'react';
 import { Work } from '../../../model/catalogue';
 import { IIIFCanvas, IIIFManifest, IIIFRendering } from '../../../model/iiif';
 import { LicenseData } from '../../../utils/licenses';
-
+import { UrlTemplate } from 'url-template';
 type Props = {
   work: Work;
   manifest: IIIFManifest | undefined;
@@ -23,6 +23,7 @@ type Props = {
   mainAreaWidth: number;
   mainAreaHeight: number;
   isFullscreen: boolean;
+  urlTemplate?: UrlTemplate;
   setShowZoomed: (v: boolean) => void;
   isSidebarActive: boolean;
   setIsSidebarActive: (v: boolean) => void;
@@ -89,6 +90,7 @@ const ItemViewerContext = createContext<Props>({
   showControls: false,
   isLoading: false,
   rotatedImages: [],
+  urlTemplate: undefined,
   setZoomInfoUrl: () => undefined,
   setActiveIndex: () => undefined,
   setGridVisible: () => false,

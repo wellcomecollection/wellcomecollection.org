@@ -21,13 +21,12 @@ import { FixedSizeList } from 'react-window';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import Router from 'next/router';
 import GridViewerPrototype from '../GridViewerPrototype/GridViewerPrototype';
-import Space from '../styled/Space';
-import Control from '../Buttons/Control/Control';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import dynamic from 'next/dynamic';
 import LL from '@weco/common/views/components/styled/LL';
 import { PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
 import ImageViewer from '../ImageViewer/ImageViewer';
+import ImageViewerControlsPrototype from './ImageViewerControlsPrototype';
 
 type IIIFViewerProps = {
   title: string;
@@ -70,43 +69,6 @@ const ZoomedImagePrototype = dynamic(
     loading: LoadingComponent,
   }
 );
-
-const ImageViewerControls = styled.div<{ showControls?: boolean }>`
-  position: fixed;
-  bottom: 0;
-  left: 73%;
-  z-index: 1;
-  opacity: ${props => (props.showControls ? 1 : 0)};
-  transition: opacity 300ms ease;
-  display: flex;
-  /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
-    for a less heavy handed solution to Openseadragon breaking on touch events */
-  &,
-  button,
-  a {
-    touch-action: none;
-  }
-
-  button {
-    display: block;
-  }
-
-  .icon {
-    margin: 0;
-  }
-
-  .btn__text {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-    white-space: nowrap;
-  }
-`;
 
 const Grid = styled.div`
   display: grid;
@@ -309,6 +271,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
         isLoading: isLoading,
         isFullscreen: isFullscreen,
         isSidebarActive: isSidebarActive,
+        urlTemplate: urlTemplate,
         setIsSidebarActive: setIsSidebarActive,
         setActiveIndex: setActiveIndex,
         setGridVisible: setGridVisible,
@@ -336,54 +299,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
         </Topbar>
         <Main isSidebarActive={!showZoomed} ref={mainAreaRef}>
           {showZoomed && <ZoomedImagePrototype />}
-          {!showZoomed && (
-            <ImageViewerControls showControls={showControls || urlTemplate}>
-              <Space
-                h={{ size: 's', properties: ['margin-left'] }}
-                v={{ size: 'l', properties: ['margin-bottom'] }}
-              >
-                <Control
-                  colorScheme="black-on-white"
-                  text="Zoom in"
-                  icon="zoomIn"
-                  clickHandler={() => {
-                    setShowZoomed(true);
-                  }}
-                />
-              </Space>
-              <Space
-                h={{ size: 's', properties: ['margin-left'] }}
-                v={{ size: 'l', properties: ['margin-bottom'] }}
-              >
-                <Control
-                  colorScheme="black-on-white"
-                  text="Rotate"
-                  icon="rotatePageRight"
-                  clickHandler={() => {
-                    const matchingIndex = rotatedImages.findIndex(
-                      image => image.canvasIndex === activeIndex
-                    );
-                    if (matchingIndex >= 0) {
-                      rotatedImages[matchingIndex] = {
-                        canvasIndex: rotatedImages[matchingIndex].canvasIndex,
-                        rotation:
-                          rotatedImages[matchingIndex].rotation < 270
-                            ? rotatedImages[matchingIndex].rotation + 90
-                            : 0,
-                      };
-                    } else {
-                      rotatedImages.push({
-                        canvasIndex: activeIndex,
-                        rotation: 90,
-                      });
-                    }
-                    setRotatedImages([...rotatedImages]);
-                    setIsLoading(true);
-                  }}
-                />
-              </Space>
-            </ImageViewerControls>
-          )}
+          {!showZoomed && <ImageViewerControlsPrototype />}
           {urlTemplate && imageUrl && iiifImageLocation && (
             <ImageViewer
               infoUrl={iiifImageLocation.url}
