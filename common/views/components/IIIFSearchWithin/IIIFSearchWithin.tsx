@@ -106,10 +106,14 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
       )}
       <ul className="no-padding">
         {searchResults.hits.map((hit, i) => {
-          const matchingResource = searchResults.resources.find(
-            resource => resource['@id'] === hit.annotations[0]
-          );
-          const match = matchingResource?.on.match(/\/canvas\/c(\d+)#/);
+          // we need the matching resource for each hit annotation in order to get the matching characters for each individual hit and also the canvas it appears on
+          const matchingResources = hit.annotations.map(annotation => {
+            return searchResults.resources.find(
+              resource => resource['@id'] === annotation
+            );
+          });
+          // get the index of the canvas the hits appear on
+          const match = matchingResources?.[0]?.on.match(/\/canvas\/c(\d+)#/);
           const index = match && Number(match[1]);
           return (
             <ListItem key={i}>
@@ -134,14 +138,21 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                   })}
                   passHref
                 > */}
-                <span
-                  style={{
-                    background: '#944aa0',
-                    color: 'white',
-                  }}
-                >
-                  {hit.match}
-                </span>
+                {/* use the resource.chars to display the matches individually, rather than hit.match which groups them as a single string */}
+                {matchingResources.map((resource, i) => (
+                  <>
+                    <span
+                      style={{
+                        background: '#944aa0',
+                        color: 'white',
+                      }}
+                      key={i}
+                    >
+                      {resource?.resource?.chars}
+                    </span>
+                    {matchingResources[i + 1] ? '...' : ''}
+                  </>
+                ))}
                 {/* </NextLink> */}
                 {hit.after}...
               </ListLink>
