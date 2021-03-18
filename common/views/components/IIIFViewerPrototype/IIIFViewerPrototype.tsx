@@ -20,7 +20,7 @@ import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import Router from 'next/router';
-import GridViewerPrototype from '../GridViewerPrototype/GridViewerPrototype';
+import GridViewerPrototype from './GridViewerPrototype';
 import Space from '../styled/Space';
 import Control from '../Buttons/Control/Control';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
