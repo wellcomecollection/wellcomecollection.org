@@ -16,16 +16,20 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const DetailWrapper = styled.figure`
+export const DetailWrapper = styled.dl`
   margin: 0;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 `;
 
-export const Label = styled.figcaption.attrs({ className: 'font-hnl fonts-loaded font-size-4' })`
+export const DetailLabel = styled.dt.attrs({ className: 'font-hnl fonts-loaded font-size-4' })`
   display: block;
   font-weight: bold;
+`;
+
+export const DetailValue = styled.dd`
+  margin: 0;
 `;
 
 const OutlinedDangerButtonModifier = css`

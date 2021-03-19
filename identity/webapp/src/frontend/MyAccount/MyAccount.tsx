@@ -5,7 +5,16 @@ import { useUserInfo, withUserInfo } from './UserInfoContext';
 import { ChangeDetailsModal } from './ChangeDetailsModal';
 import { PageWrapper } from '../components/PageWrapper';
 import { Title } from '../components/Layout.style';
-import { Container, Wrapper, DetailWrapper, Label, Section, SectionHeading, StatusAlert } from './MyAccount.style';
+import {
+  Container,
+  DetailLabel,
+  DetailValue,
+  DetailWrapper,
+  Section,
+  SectionHeading,
+  StatusAlert,
+  Wrapper,
+} from './MyAccount.style';
 import { Loading } from './Loading';
 import { ChangeEmail } from './ChangeEmail';
 import { ChangePassword } from './ChangePassword';
@@ -13,8 +22,8 @@ import { DeleteAccount } from './DeleteAccount';
 
 const Detail: React.FC<{ label: string; value?: string }> = ({ label, value }) => (
   <DetailWrapper>
-    <Label>{label}</Label>
-    {value && <span>{value}</span>}
+    <DetailLabel>{label}</DetailLabel>
+    {value && <DetailValue>{value}</DetailValue>}
   </DetailWrapper>
 );
 
