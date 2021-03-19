@@ -23,10 +23,13 @@ type Props = {
   mainAreaWidth: number;
   mainAreaHeight: number;
   isFullscreen: boolean;
+  isMobile: boolean;
   urlTemplate?: UrlTemplate;
   setShowZoomed: (v: boolean) => void;
-  isSidebarActive: boolean;
-  setIsSidebarActive: (v: boolean) => void;
+  isDesktopSidebarActive: boolean;
+  setIsDesktopSidebarActive: (v: boolean) => void;
+  isMobileSidebarActive: boolean;
+  setIsMobileSidebarActive: (v: boolean) => void;
   showZoomed: boolean;
   setZoomInfoUrl: (v: string) => void;
   setIsFullscreen: (v: boolean) => void;
@@ -84,18 +87,21 @@ const ItemViewerContext = createContext<Props>({
   mainAreaWidth: 1000,
   mainAreaHeight: 500,
   isFullscreen: false,
-  isSidebarActive: false,
+  isDesktopSidebarActive: true,
+  isMobileSidebarActive: false,
   showZoomed: false,
   zoomInfoUrl: '',
   showControls: false,
   isLoading: false,
   rotatedImages: [],
   urlTemplate: undefined,
+  isMobile: false,
   setZoomInfoUrl: () => undefined,
   setActiveIndex: () => undefined,
   setGridVisible: () => false,
   setShowZoomed: () => undefined,
-  setIsSidebarActive: () => undefined,
+  setIsDesktopSidebarActive: () => undefined,
+  setIsMobileSidebarActive: () => undefined,
   setIsFullscreen: () => undefined,
   setRotatedImages: () => undefined,
   setIsLoading: () => undefined,
