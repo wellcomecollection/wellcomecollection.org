@@ -12,7 +12,7 @@ import {
   getServiceId,
   getDownloadOptionsFromManifest,
 } from '@weco/common/utils/iiif';
-import ViewerSidebarPrototype from '../ViewerSidebarPrototype/ViewerSidebarPrototype';
+import ViewerSidebarPrototype from './ViewerSidebarPrototype';
 import MainViewerPrototype from '../MainViewerPrototype/MainViewerPrototype';
 import ViewerTopBarPrototype from './ViewerTopBarPrototype';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
@@ -161,15 +161,13 @@ const Thumbnails = styled.div<{
   ${props =>
     props.isMobile &&
     `
-    grid-area: main-start / left-edge / bottom-edge / right-edge;
+    grid-area: desktop-main-start / left-edge / bottom-edge / right-edge;
   `}
 
   ${props =>
     !props.isMobile &&
     `
-    grid-area: desktop-main-start / ${
-      props.isDesktopSidebarActive ? 'main-start' : 'left-edge'
-    } / bottom-edge / right-edge;
+    grid-area: desktop-main-start / desktop-sidebar-end / bottom-edge / right-edge;
     `}
 `;
 
@@ -222,7 +220,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
 
   useEffect(() => {
     console.log(isMobile);
-    setIsMobile(windowSize === 'small');
+    setIsMobile(windowSize === 'medium');
   }, [windowSize]);
 
   useEffect(() => {
