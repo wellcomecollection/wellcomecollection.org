@@ -23,8 +23,7 @@ services:
   identity-admin:
     image: uk.ac.wellcome/identity-admin_webapp:${CONTAINER_TAG:-test}
     build:
-      context: .
-      dockerfile: identity-admin/Dockerfile
+      context: ./identity-admin/webapp
   cardigan:
     build:
       context: .
