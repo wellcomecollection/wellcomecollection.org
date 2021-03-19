@@ -125,18 +125,23 @@ const ViewerTopBar: FunctionComponent<Props> = ({
     <TopBar className="flex">
       {isEnhanced && canvases && canvases.length > 1 && (
         <LeftZone>
-          {isMobile && (
-            <ShameButton
-              isDark
-              onClick={() => {
-                setIsMobileSidebarActive(!isMobileSidebarActive);
-              }}
-            >
-              item infomation
-            </ShameButton>
-          )}
           {!showZoomed && (
-            <Space h={{ size: 's', properties: ['margin-left'] }}>
+            <Space
+              h={{ size: 's', properties: ['margin-left'] }}
+              className={classNames({
+                'flex flex--v-center flex--h-center': true,
+              })}
+            >
+              {isMobile && (
+                <ShameButton
+                  isDark
+                  onClick={() => {
+                    setIsMobileSidebarActive(!isMobileSidebarActive);
+                  }}
+                >
+                  item infomation
+                </ShameButton>
+              )}
               <ShameButton
                 isDark
                 ref={viewToggleRef}
