@@ -1,5 +1,8 @@
 import '@testing-library/jest-dom';
+import { configure } from '@testing-library/react';
 import { server } from './mocks/server';
+
+configure({ testIdAttribute: 'data-test-id' });
 
 // Establish API mocking before all tests.
 beforeAll(() => server.listen({ onUnhandledRequest: 'warn' }));

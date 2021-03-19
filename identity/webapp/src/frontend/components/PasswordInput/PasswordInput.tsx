@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useController, UseControllerOptions } from 'react-hook-form';
 import OpenEye from '@weco/common/icons/components/Eye';
 import ClosedEye from '@weco/common/icons/components/A11yVisual';
-import { Border, Input, RulesList, ShowPasswordButton } from './PasswordInput.style';
+import { Border, Input, ShowPasswordButton } from './PasswordInput.style';
+import { PasswordRules } from './PasswordRules';
 
 export type PasswordInputProps = UseControllerOptions & {
   id?: string;
@@ -24,14 +25,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = props => {
           {isVisible ? <ClosedEye /> : <OpenEye />}
         </ShowPasswordButton>
       </Border>
-      {showPolicy && (
-        <RulesList>
-          <li className="font-hnl font-size-6">One lowercase character</li>
-          <li className="font-hnl font-size-6">One uppercase character</li>
-          <li className="font-hnl font-size-6">One number</li>
-          <li className="font-hnl font-size-6">8 characters minimum</li>
-        </RulesList>
-      )}
+      {showPolicy && <PasswordRules />}
     </>
   );
 };

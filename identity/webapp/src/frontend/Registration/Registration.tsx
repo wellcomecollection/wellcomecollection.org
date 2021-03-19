@@ -5,14 +5,16 @@ import { Link, useHistory } from 'react-router-dom';
 import { AccountCreated } from './AccountCreated';
 import { PageWrapper } from '../components/PageWrapper';
 import { Cancel, Checkbox, ErrorAlert, ExternalLink, CheckboxLabel, InProgress } from './Registration.style';
-import { FieldMargin, Label, TextInput, InvalidFieldAlert, Button } from '../components/Form.style';
+import { InvalidFieldAlert, Button } from '../components/Form.style';
 import { Container, Title, Wrapper } from '../components/Layout.style';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import WellcomeTextInput from '@weco/common/views/components/TextInput/TextInput';
 import Info2 from '@weco/common/icons/components/Info2';
 import { useRegisterUser, RegistrationError } from './useRegisterUser';
-import { PasswordInput } from '../components/PasswordInput';
 import { usePageTitle } from '../hooks/usePageTitle';
 import { validEmailPattern, validPasswordPattern } from '../components/ValidationPatterns';
+import { PasswordRules } from '../components/PasswordInput';
+import { PasswordInput } from './PasswordInput';
 
 const scrollToTop = () => window.scrollTo(0, 0);
 
@@ -25,7 +27,7 @@ type RegistrationInputs = {
 };
 
 export function Registration(): JSX.Element {
-  const { register, control, handleSubmit, formState, setError } = useForm<RegistrationInputs>({
+  const { control, trigger, handleSubmit, formState, setError } = useForm<RegistrationInputs>({
     defaultValues: { password: '' },
   });
   const { registerUser, isLoading, isSuccess, error: registrationError } = useRegisterUser();
@@ -80,78 +82,106 @@ export function Registration(): JSX.Element {
           </p>
 
           <form onSubmit={handleSubmit(createUser)} noValidate>
-            <FieldMargin>
-              <Label htmlFor="firstName">First name</Label>
-              <TextInput
-                id="firstName"
-                name="firstName"
-                placeholder="Forename"
-                ref={register({ required: 'Enter your first name.' })}
-                invalid={formState.errors.firstName}
-              />
-              <ErrorMessage
-                errors={formState.errors}
-                name="firstName"
-                render={({ message }) => <InvalidFieldAlert aria-label={message}>{message}</InvalidFieldAlert>}
-              />
-            </FieldMargin>
-            <FieldMargin>
-              <Label htmlFor="lastName">Last name</Label>
-              <TextInput
-                id="lastName"
-                name="lastName"
-                placeholder="Surname"
-                ref={register({ required: 'Enter your last name.' })}
-                invalid={formState.errors.lastName}
-              />
-              <ErrorMessage
-                errors={formState.errors}
-                name="lastName"
-                render={({ message }) => <InvalidFieldAlert aria-label={message}>{message}</InvalidFieldAlert>}
-              />
-            </FieldMargin>
-            <FieldMargin>
-              <Label htmlFor="email">Email address</Label>
-              <TextInput
-                id="email"
-                name="email"
-                placeholder="myname@email.com"
-                ref={register({
-                  required: 'Enter an email address.',
-                  pattern: {
-                    value: validEmailPattern,
-                    message: 'Enter a valid email address.',
-                  },
-                })}
-                invalid={formState.errors.email}
-              />
-              <ErrorMessage
-                errors={formState.errors}
-                name="email"
-                render={({ message }) => <InvalidFieldAlert aria-label={message}>{message}</InvalidFieldAlert>}
-              />
-            </FieldMargin>
-            <FieldMargin>
-              <Label htmlFor="password">Password</Label>
-              <PasswordInput
-                name="password"
-                showPolicy
-                control={control}
-                rules={{
-                  required: 'Enter a password.',
-                  pattern: {
-                    value: validPasswordPattern,
-                    message: 'Enter a valid password.',
-                  },
-                }}
-              />
-              <ErrorMessage
-                errors={formState.errors}
-                name="password"
-                render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
-              />
-            </FieldMargin>
+            <Controller
+              name="firstName"
+              control={control}
+              defaultValue=""
+              rules={{ required: 'Enter your first name.' }}
+              render={({ onChange, value, name }, { invalid, isDirty }) => (
+                <WellcomeTextInput
+                  required
+                  id={name}
+                  label="First name"
+                  value={value}
+                  setValue={onChange}
+                  isValid={!invalid}
+                  setIsValid={() => trigger('firstName')}
+                  showValidity={isDirty || formState.isSubmitted}
+                  errorMessage={formState.errors.firstName?.message}
+                />
+              )}
+            />
             <SpacingComponent />
+
+            <Controller
+              name="lastName"
+              control={control}
+              defaultValue=""
+              rules={{ required: 'Enter your last name.' }}
+              render={({ onChange, value, name }, { invalid, isDirty }) => (
+                <WellcomeTextInput
+                  required
+                  id={name}
+                  label="Last name"
+                  value={value}
+                  setValue={onChange}
+                  isValid={!invalid}
+                  setIsValid={() => trigger('lastName')}
+                  showValidity={isDirty || formState.isSubmitted}
+                  errorMessage={formState.errors.lastName?.message}
+                />
+              )}
+            />
+            <SpacingComponent />
+
+            <Controller
+              name="email"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: 'Enter an email address.',
+                pattern: {
+                  value: validEmailPattern,
+                  message: 'Enter a valid email address.',
+                },
+              }}
+              render={({ onChange, value, name }, { invalid, isDirty }) => (
+                <WellcomeTextInput
+                  required
+                  id={name}
+                  label="Email address"
+                  value={value}
+                  setValue={onChange}
+                  isValid={!invalid}
+                  setIsValid={() => trigger('email')}
+                  showValidity={isDirty || formState.isSubmitted}
+                  errorMessage={formState.errors.email?.message}
+                />
+              )}
+            />
+            <SpacingComponent />
+
+            <Controller
+              name="password"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: 'Enter a password.',
+                pattern: {
+                  value: validPasswordPattern,
+                  message: 'Enter a valid password.',
+                },
+              }}
+              render={({ onChange, value, name }, { invalid, isDirty }) => {
+                return (
+                  <PasswordInput
+                    required
+                    id={name}
+                    type="password"
+                    label="Password"
+                    value={value}
+                    setValue={onChange}
+                    isValid={!invalid}
+                    setIsValid={() => trigger('password')}
+                    showValidity={isDirty || formState.isSubmitted}
+                    errorMessage={formState.errors.password?.message}
+                  />
+                );
+              }}
+            />
+            <PasswordRules />
+            <SpacingComponent />
+
             <Controller
               name="termsAndConditions"
               control={control}
