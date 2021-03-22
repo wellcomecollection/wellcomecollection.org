@@ -177,18 +177,17 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                 > */}
                 {/* use the resource.chars to display the matches individually, rather than hit.match which groups them as a single string */}
                 {matchingResources.map((resource, i) => (
-                  <>
+                  <span key={i}>
                     <span
                       style={{
                         background: '#944aa0',
                         color: 'white',
                       }}
-                      key={i}
                     >
                       {resource?.resource?.chars}
                     </span>
                     {matchingResources[i + 1] ? ' ... ' : ''}
-                  </>
+                  </span>
                 ))}
                 {/* </NextLink> */}
                 {hit.after}...
