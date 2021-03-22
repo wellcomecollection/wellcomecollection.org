@@ -382,10 +382,12 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
           isMobileSidebarActive={isMobileSidebarActive}
           isDesktopSidebarActive={isDesktopSidebarActive}
         >
-          <ViewerTopBarPrototype
-            viewToggleRef={viewToggleRef}
-            viewerRef={viewerRef}
-          />
+          {!(isMobile && showZoomed) && (
+            <ViewerTopBarPrototype
+              viewToggleRef={viewToggleRef}
+              viewerRef={viewerRef}
+            />
+          )}
         </Topbar>
         <Main
           isMobile={isMobile}
