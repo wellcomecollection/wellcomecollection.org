@@ -19,7 +19,7 @@ export function useMutation<T = unknown>(
           headers: {
             'Content-Type': 'application/json',
           },
-          body: data,
+          data,
         }
       : {};
     return axios({ url, method, ...config }).then(() => setIsLoading(false));
