@@ -27,6 +27,10 @@ export function Info(): JSX.Element {
         Edit user profile: {user?.firstName} {user?.lastName}
       </h2>
       <UserStatus {...user} />
+      <h3>Library card number</h3>
+      <p>{user?.barcode}</p>
+      <h3>Patron record number</h3>
+      <p>{user?.patronId}</p>
     </>
   );
 }

@@ -4,13 +4,13 @@ import { Button } from '../Button';
 import { useUpdateUserInfo } from '../../hooks/useUpdateUserInfo';
 import { EditedUserInfo } from '../../types/UserInfo';
 import { useUserInfo } from '../../context/UserInfoContext';
-import { Form, Input, InvalidField, Label } from './Profile.style';
+import { Form, Input, InvalidField, Label } from './PersonalDetails.style';
 
 const emailRegEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 type EditProfileInputs = EditedUserInfo;
 
-export function Profile(): JSX.Element {
+export function PersonalDetails(): JSX.Element {
   const { user, isLoading, refetch } = useUserInfo();
   const { register, handleSubmit, errors, clearErrors } = useForm<
     EditProfileInputs
@@ -32,10 +32,6 @@ export function Profile(): JSX.Element {
 
   return (
     <>
-      <h3>Library card number</h3>
-      <p>{user?.barcode}</p>
-      <h3>Patron record number</h3>
-      <p>{user?.patronId}</p>
       <h3>Personal details</h3>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Label htmlFor="first-name">First name</Label>
