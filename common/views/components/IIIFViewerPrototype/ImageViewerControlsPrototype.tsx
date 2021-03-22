@@ -5,7 +5,7 @@ import Control from '@weco/common/views/components/Buttons/Control/Control';
 import styled from 'styled-components';
 
 const ImageViewerControlsEl = styled.div<{ showControls?: boolean }>`
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 73%;
   z-index: 1;
