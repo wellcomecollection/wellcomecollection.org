@@ -1,4 +1,9 @@
-import { getStructures, getCanvases } from '@weco/common/utils/iiif';
+import { IIIFManifest } from '@weco/common/model/iiif';
+import {
+  getStructures,
+  groupStructures,
+  getCanvases,
+} from '@weco/common/utils/iiif';
 import { useContext, FunctionComponent, RefObject } from 'react';
 import { FixedSizeList } from 'react-window';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
@@ -15,10 +20,11 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
   );
   const structures = manifest ? getStructures(manifest) : [];
   const canvases = manifest ? getCanvases(manifest) : [];
+  const groupedStructures = groupStructures(canvases, structures);
 
-  return structures.length > 0 ? (
+  return groupedStructures.length > 0 ? (
     <ul>
-      {structures.map((structure, i) => {
+      {groupedStructures.map((structure, i) => {
         const firstCanvasInRange = structure.canvases[0];
         const canvasIndex = canvases.findIndex(
           canvas => canvas['@id'] === firstCanvasInRange
