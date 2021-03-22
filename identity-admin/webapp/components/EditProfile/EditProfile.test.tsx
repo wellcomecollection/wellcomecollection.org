@@ -109,7 +109,7 @@ describe('EditProfile', () => {
   it("shows the user's patron record number", async () => {
     renderPage();
     await waitForPageToLoad();
-    expect(screen.getByText(mockUser.patronId)).toBeInTheDocument();
+    expect(screen.getByText(mockUser.userId)).toBeInTheDocument();
   });
 
   it("lets the admin edit the user's name and email", async () => {

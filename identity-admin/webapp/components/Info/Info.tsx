@@ -30,7 +30,7 @@ export function Info(): JSX.Element {
       <h3>Library card number</h3>
       <p>{user?.barcode}</p>
       <h3>Patron record number</h3>
-      <p>{user?.patronId}</p>
+      <p>{user?.userId}</p>
     </>
   );
 }
