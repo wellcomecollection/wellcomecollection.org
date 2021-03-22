@@ -29,3 +29,16 @@ identity:
         - id: identity_webapp
   name: Experience identity
   role_arn: arn:aws:iam::130871440101:role/experience-ci
+
+identity-admin:
+  environments:
+    - id: stage
+      name: Staging
+    - id: prod
+      name: Production
+  image_repositories:
+    - id: identity-admin_webapp
+      services:
+        - id: identity-admin_webapp
+  name: Experience identity admin
+  role_arn: arn:aws:iam::770700576653:role/identity-ci
