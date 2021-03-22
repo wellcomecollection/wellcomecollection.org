@@ -15,7 +15,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnailPrototype';
 import Space from '@weco/common/views/components/styled/Space';
 import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
-import { IIIFCanvas } from '@weco/common/model/iiif';
+import { IIIFCanvas, SearchResults } from '@weco/common/model/iiif';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 
 const Defs = styled.svg`
@@ -64,6 +64,14 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
   } = data;
   const itemIndex = rowIndex * columnCount + columnIndex;
   const currentCanvas = canvases[itemIndex];
+  const hasSearchResults = Boolean(
+    searchResults.resources.find(
+      resource =>
+        currentCanvas &&
+        new URL(currentCanvas['@id']).pathname === new URL(resource.on).pathname
+    )
+  );
+
   return (
     <div style={style}>
       {scrollVelocity > 1 ? (
@@ -85,6 +93,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
               isActive={activeIndex === itemIndex}
               thumbNumber={itemIndex + 1}
               isFocusable={gridVisible}
+              filterId={hasSearchResults ? 'purpleFilter' : null}
             />
           </ThumbnailSpacer>
         )
