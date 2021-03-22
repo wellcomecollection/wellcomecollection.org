@@ -1,5 +1,5 @@
 module "content-service-17092020" {
-  source = "../../../infrastructure/terraform/modules/service"
+  source = "../../../infrastructure/modules/service"
 
   namespace = "content-17092020-${var.env_suffix}"
 
@@ -37,7 +37,7 @@ locals {
 }
 
 module "path_listener" {
-  source = "../../../infrastructure/terraform/modules/alb_listener_rule"
+  source = "../../../infrastructure/modules/alb_listener_rule"
 
   alb_listener_https_arn = var.alb_listener_https_arn
   alb_listener_http_arn  = var.alb_listener_http_arn
@@ -50,7 +50,7 @@ module "path_listener" {
 # This is used for the static assets served from _next with multiple next apps
 # See: https://github.com/zeit/next.js#multi-zones
 module "subdomain_listener" {
-  source = "../../../infrastructure/terraform/modules/alb_listener_rule"
+  source = "../../../infrastructure/modules/alb_listener_rule"
 
   alb_listener_https_arn = var.alb_listener_https_arn
   alb_listener_http_arn  = var.alb_listener_http_arn
