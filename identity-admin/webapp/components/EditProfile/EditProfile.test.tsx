@@ -59,7 +59,7 @@ describe('EditProfile', () => {
     renderPage();
     const secondaryHeading = await screen.findByRole('heading', {
       level: 2,
-      name: 'Edit user profile: Steve Rogers',
+      name: new RegExp(`${mockUser.firstName} ${mockUser.lastName}`),
     });
     expect(secondaryHeading).toBeInTheDocument();
   });

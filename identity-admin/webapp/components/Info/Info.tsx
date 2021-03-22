@@ -1,7 +1,15 @@
 import React from 'react';
 import { UserInfo } from '../../types/UserInfo';
 import { useUserInfo } from '../../context/UserInfoContext';
-import { StatusBox } from './Info.style';
+import {
+  AccountDetailsList,
+  AccountDetailsLabel,
+  StatusBox,
+  AccountDetail,
+  AccountDetailsValue,
+  TitleContainer,
+} from './Info.style';
+import { User } from '../Icons/User';
 
 function UserStatus(props: Partial<UserInfo>) {
   if (props.deleteRequested) {
@@ -22,15 +30,25 @@ export function Info(): JSX.Element {
   return isLoading ? (
     <p>Loading...</p>
   ) : (
-    <>
-      <h2>
-        Edit user profile: {user?.firstName} {user?.lastName}
-      </h2>
+    <section>
+      <TitleContainer>
+        <User height="32" width="32" />
+        <h2>
+          {user?.firstName} {user?.lastName}
+        </h2>
+      </TitleContainer>
+      <AccountDetailsList>
+        <AccountDetail>
+          <AccountDetailsLabel>Library card number</AccountDetailsLabel>
+          <AccountDetailsValue>{user?.barcode}</AccountDetailsValue>
+        </AccountDetail>
+        <AccountDetail>
+          <AccountDetailsLabel>Patron record number</AccountDetailsLabel>
+          <AccountDetailsValue>{user?.userId}</AccountDetailsValue>
+        </AccountDetail>
+      </AccountDetailsList>
+
       <UserStatus {...user} />
-      <h3>Library card number</h3>
-      <p>{user?.barcode}</p>
-      <h3>Patron record number</h3>
-      <p>{user?.userId}</p>
-    </>
+    </section>
   );
 }
