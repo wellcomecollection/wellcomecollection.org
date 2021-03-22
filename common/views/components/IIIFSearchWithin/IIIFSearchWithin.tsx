@@ -141,24 +141,27 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
           // get the index of the canvas the hits appear on
           const match = matchingResources?.[0]?.on.match(/\/canvas\/c(\d+)#/);
           const index = match && Number(match[1]);
-          const matchingCanvas = canvases[index];
+          const matchingCanvas = index && canvases[index];
           return (
             <ListItem key={i}>
               <ListLink
                 style={{ textDecoration: 'none', cursor: 'pointer' }}
                 onClick={() => {
-                  setActiveIndex(index || 0);
-                  mainViewerRef &&
-                    mainViewerRef.current &&
-                    mainViewerRef.current.scrollToItem(index || 0, 'start');
+                  if (index) {
+                    setActiveIndex(index || 0);
+                    mainViewerRef &&
+                      mainViewerRef.current &&
+                      mainViewerRef.current.scrollToItem(index || 0, 'start');
+                  }
                 }}
               >
                 <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
                   {`${hit.annotations.length} ${
                     hit.annotations.length === 1 ? 'instance' : 'instances'
-                  } found on image ${index + 1} / ${canvases &&
-                    canvases.length}${
-                    matchingCanvas.label.trim() !== '-'
+                  } ${index &&
+                    `found on image ${index + 1} / ${canvases &&
+                      canvases.length}`} ${
+                    matchingCanvas && matchingCanvas.label.trim() !== '-'
                       ? ` (page ${matchingCanvas.label})`
                       : ''
                   }`}

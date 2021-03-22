@@ -1,9 +1,4 @@
-import { IIIFManifest } from '@weco/common/model/iiif';
-import {
-  getStructures,
-  groupStructures,
-  getCanvases,
-} from '@weco/common/utils/iiif';
+import { getStructures, getCanvases } from '@weco/common/utils/iiif';
 import { useContext, FunctionComponent, RefObject } from 'react';
 import { FixedSizeList } from 'react-window';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
