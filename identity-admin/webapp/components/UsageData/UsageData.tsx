@@ -1,19 +1,7 @@
 import React from 'react';
 import { useUserInfo } from '../../context/UserInfoContext';
 import { prettyDate } from '../../utils/prettyDate';
-import { Container, Name, Value } from './UsageData.style';
-
-type FieldProps = {
-  label: string;
-  value?: string | number;
-};
-
-const Field: React.FC<FieldProps> = ({ label, value }) => (
-  <>
-    <Name>{label}</Name>
-    <Value>{value}</Value>
-  </>
-);
+import { UsageDetail, UsageDetailsList, Label, Value } from './UsageData.style';
 
 export function UsageData(): JSX.Element {
   const { user, isLoading } = useUserInfo();
@@ -23,12 +11,30 @@ export function UsageData(): JSX.Element {
   }
 
   return (
-    <Container>
-      <Field label="Creation date" value={prettyDate(user?.creationDate)} />
-      <Field label="Last update" value={prettyDate(user?.updatedDate)} />
-      <Field label="Last login" value={prettyDate(user?.lastLoginDate)} />
-      <Field label="Last login IP" value={user?.lastLoginIp} />
-      <Field label="Total logins" value={user?.totalLogins} />
-    </Container>
+    <>
+      <h3>Account data</h3>
+      <UsageDetailsList>
+        <UsageDetail>
+          <Label>Last login</Label>
+          <Value>{prettyDate(user?.lastLoginDate)}</Value>
+        </UsageDetail>
+        <UsageDetail>
+          <Label>Creation date</Label>
+          <Value>{prettyDate(user?.creationDate)}</Value>
+        </UsageDetail>
+        <UsageDetail>
+          <Label>Last login IP</Label>
+          <Value>{user?.lastLoginIp}</Value>
+        </UsageDetail>
+        <UsageDetail>
+          <Label>Last update</Label>
+          <Value>{prettyDate(user?.updatedDate)}</Value>
+        </UsageDetail>
+        <UsageDetail>
+          <Label>Total logins</Label>
+          <Value>{user?.totalLogins}</Value>
+        </UsageDetail>
+      </UsageDetailsList>
+    </>
   );
 }
