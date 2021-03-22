@@ -27,6 +27,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import { PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
 import ImageViewer from '../ImageViewer/ImageViewer';
 import ImageViewerControlsPrototype from './ImageViewerControlsPrototype';
+import ViewerBottomBarPrototype from './ViewerBottomBarPrototype';
 import useWindowSize from '@weco/common/hooks/useWindowSize';
 
 type IIIFViewerProps = {
@@ -76,7 +77,7 @@ const Grid = styled.div`
   height: calc(100vh - 85px); // FIXME: use variable for header height
   overflow: hidden;
   grid-template-columns: [left-edge] minmax(200px, 330px) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
-  grid-template-rows: [top-edge] min-content [desktop-main-start desktop-topbar-end] 1fr [bottom-edge];
+  grid-template-rows: [top-edge] min-content [desktop-main-start desktop-topbar-end] 1fr [mobile-bottombar-start mobile-main-end] min-content [bottom-edge];
 `;
 
 const Sidebar = styled.div<{
@@ -104,11 +105,12 @@ const Topbar = styled.div<{
   isMobile: boolean;
 }>`
   background: ${props => props.theme.color('charcoal')};
-  z-index: 4;
+  z-index: 5;
 
   ${props =>
     props.isMobile &&
     `
+    z-index: 4; // TODO: this is to let downloads sit above sidebar on desktop but not have the topbar above the sidebar on mobile. If we move the downloads, this can be simplified
     grid-area: top-edge / left-edge / desktop-topbar-end / right-edge;
   `}
 
@@ -134,7 +136,7 @@ const Main = styled.div<{
   ${props =>
     props.isMobile &&
     `
-    grid-area: desktop-main-start / left-edge / bottom-edge / right-edge;
+    grid-area: desktop-main-start / left-edge / mobile-main-end / right-edge;
   `}
 
   ${props =>
@@ -144,6 +146,17 @@ const Main = styled.div<{
       props.isDesktopSidebarActive ? 'main-start' : 'left-edge'
     } / bottom-edge / right-edge;
   `}
+`;
+
+const BottomBar = styled.div<{
+  isMobile: boolean;
+  isMobileSidebarActive: boolean;
+}>`
+  display: ${props =>
+    props.isMobile && !props.isMobileSidebarActive ? 'inherit' : 'none'};
+  grid-area: mobile-bottombar-start / left-edge / bottom-edge / right-edge;
+  background: hotpink;
+  z-index: 6;
 `;
 
 // TODO: check that we can't reach thumbnails by keyboard/screenreader
@@ -219,8 +232,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
 
   useEffect(() => {
-    console.log(isMobile);
-    setIsMobile(windowSize === 'medium');
+    setIsMobile(windowSize === 'medium' || windowSize === 'small');
   }, [windowSize]);
 
   useEffect(() => {
@@ -405,6 +417,15 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
             />
           )}
         </Main>
+        <BottomBar
+          isMobile={isMobile}
+          isMobileSidebarActive={isMobileSidebarActive}
+        >
+          <ViewerBottomBarPrototype
+            viewToggleRef={viewToggleRef}
+            viewerRef={viewerRef}
+          />
+        </BottomBar>
         <Thumbnails
           isActive={gridVisible}
           isMobile={isMobile}

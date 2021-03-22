@@ -2,8 +2,6 @@ import { lighten } from 'polished';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import Download from '@weco/catalogue/components/Download/Download';
-import MultipleManifestList from '@weco/catalogue/components/MultipleManifestList/MultipleManifestList';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent, useContext } from 'react';
@@ -56,7 +54,7 @@ export const ShameButton = styled.button.attrs(() => ({
   `}
 `;
 
-const TopBar = styled.div`
+const BottomBar = styled.div`
   position: relative;
   z-index: 3;
   background: ${props => lighten(0.14, props.theme.color('viewerBlack'))};
@@ -71,22 +69,11 @@ const LeftZone = styled(Space).attrs({
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 30%;
 `;
-const MiddleZone = styled(Space).attrs({
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  className: classNames({
-    [font('hnm', 5)]: true,
-  }),
-})`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+
 const RightZone = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
-  width: 30%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -97,7 +84,7 @@ type Props = {
   viewerRef: any;
 };
 
-const ViewerTopBar: FunctionComponent<Props> = ({
+const ViewerBottomBar: FunctionComponent<Props> = ({
   viewToggleRef,
   viewerRef,
 }: Props) => {
@@ -107,22 +94,10 @@ const ViewerTopBar: FunctionComponent<Props> = ({
     gridVisible,
     setGridVisible,
     work,
-    currentManifestLabel,
-    activeIndex,
-    licenseInfo,
-    iiifImageLocationCredit,
-    downloadOptions,
-    iiifPresentationDownloadOptions,
-    parentManifest,
-    lang,
-    manifestIndex,
-    setIsMobileSidebarActive,
-    isMobileSidebarActive,
-    isMobile,
     showZoomed,
   } = useContext(ItemViewerContext);
   return (
-    <TopBar className="flex">
+    <BottomBar className="flex">
       {isEnhanced && canvases && canvases.length > 1 && (
         <LeftZone>
           {!showZoomed && (
@@ -132,84 +107,34 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                 'flex flex--v-center flex--h-center': true,
               })}
             >
-              {isMobile && (
-                <ShameButton
-                  isDark
-                  onClick={() => {
-                    setIsMobileSidebarActive(!isMobileSidebarActive);
-                  }}
-                >
-                  item infomation
-                </ShameButton>
-              )}
-
-              {!isMobile && (
-                <ShameButton
-                  isDark
-                  ref={viewToggleRef}
-                  onClick={() => {
-                    setGridVisible(!gridVisible);
-                    trackEvent({
-                      category: 'Control',
-                      action: `clicked work viewer ${
-                        gridVisible ? '"Detail view"' : '"View all"'
-                      } button`,
-                      label: `${work.id}`,
-                    });
-                  }}
-                >
-                  <Icon name={gridVisible ? 'detailView' : 'gridView'} />
-                  <span className={`btn__text`}>
-                    {gridVisible ? 'Detail view' : 'View all'}
-                  </span>
-                </ShameButton>
-              )}
+              <ShameButton
+                isDark
+                ref={viewToggleRef}
+                onClick={() => {
+                  setGridVisible(!gridVisible);
+                  trackEvent({
+                    category: 'Control',
+                    action: `clicked work viewer ${
+                      gridVisible ? '"Detail view"' : '"View all"'
+                    } button`,
+                    label: `${work.id}`,
+                  });
+                }}
+              >
+                <Icon name={gridVisible ? 'detailView' : 'gridView'} />
+                <span className={`btn__text`}>
+                  {gridVisible ? 'Detail view' : 'View all'}
+                </span>
+              </ShameButton>
             </Space>
           )}
         </LeftZone>
       )}
-      <MiddleZone>
-        {canvases && canvases.length > 1 && !showZoomed && (
-          <>
-            {`${activeIndex + 1 || ''} / ${(canvases && canvases.length) ||
-              ''}`}{' '}
-            {!(canvases[activeIndex].label.trim() === '-') &&
-              `(page ${canvases[activeIndex].label.trim()})`}
-          </>
-        )}
-      </MiddleZone>
+
       <RightZone>
         {isEnhanced && (
           <div className="flex flex--v-center">
-            {!showZoomed && (
-              <>
-                <Space h={{ size: 'm', properties: ['margin-right'] }}>
-                  <Download
-                    ariaControlsId="itemDownloads"
-                    title={work.title}
-                    workId={work.id}
-                    license={licenseInfo}
-                    iiifImageLocationCredit={iiifImageLocationCredit}
-                    downloadOptions={
-                      downloadOptions || iiifPresentationDownloadOptions
-                    }
-                    useDarkControl={true}
-                    isInline={true}
-                  />
-                </Space>
-                {parentManifest && parentManifest.manifests && (
-                  <MultipleManifestList
-                    buttonText={currentManifestLabel || 'Choose'}
-                    manifests={parentManifest.manifests}
-                    workId={work.id}
-                    lang={lang}
-                    manifestIndex={manifestIndex}
-                  />
-                )}
-              </>
-            )}
             {document &&
-              !isMobile &&
               (document.fullscreenEnabled ||
                 document['webkitFullscreenEnabled']) && (
                 <Space h={{ size: 'm', properties: ['margin-right'] }}>
@@ -246,8 +171,8 @@ const ViewerTopBar: FunctionComponent<Props> = ({
           </div>
         )}
       </RightZone>
-    </TopBar>
+    </BottomBar>
   );
 };
 
-export default ViewerTopBar;
+export default ViewerBottomBar;

@@ -157,8 +157,15 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         })}
       >
         {isMobile && (
-          <button onClick={() => setIsMobileSidebarActive(false)}>
-            hide information
+          <button
+            className={classNames({
+              'plain-button no-marin no-padding font-white': true,
+              [font('hnm', 4)]: true,
+            })}
+            onClick={() => setIsMobileSidebarActive(false)}
+          >
+            <span className="visually-hidden">close item information</span>
+            <Icon name={'cross'} extraClasses="icon--white" />
           </button>
         )}
         <h1>{work.title}</h1>
