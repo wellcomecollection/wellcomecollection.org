@@ -1,30 +1,29 @@
-// @flow
 import Raven from 'raven-js';
 import { classNames } from '../../../utils/classnames';
 import { forwardRef } from 'react';
 import styled from 'styled-components';
 
-const Image = styled.img`
+const Image = styled.img<{ filterId: string | null }>`
   ${props => (props.filterId ? `filter: url(#${props.filterId})` : '')};
 `;
 
-type Props = {|
-  width: number,
-  height?: number,
-  src: ?string,
-  srcSet: ?string,
-  sizes: ?string,
-  alt: string,
-  extraClasses?: string,
-  lang: ?string,
-  isLazy: boolean,
-  clickHandler?: () => void | Promise<void>,
-  loadHandler?: () => void | Promise<void>,
-  errorHandler?: () => void | Promise<void>,
-  presentationOnly?: boolean,
-  tabIndex?: number,
-  filterId: ?string,
-|};
+type Props = {
+  width: number;
+  height?: number;
+  src: string | undefined;
+  srcSet: string | undefined;
+  sizes: string | undefined;
+  alt: string;
+  extraClasses?: string;
+  lang: string | undefined;
+  isLazy: boolean;
+  clickHandler?: () => void | Promise<void>;
+  loadHandler?: () => void | Promise<void>;
+  errorHandler?: () => void | Promise<void>;
+  presentationOnly?: boolean;
+  tabIndex?: number;
+  filterId: string | null;
+};
 
 const IIIFResponsiveImage = (
   {
@@ -68,7 +67,7 @@ ref // eslint-disable-line
           clickHandler && clickHandler();
         }
       }}
-      onError={event => {
+      onError={() => {
         errorHandler && errorHandler();
         Raven.captureException(new Error('IIIF image loading error'), {
           tags: {
@@ -82,7 +81,7 @@ ref // eslint-disable-line
       data-srcset={isLazy ? srcSet : undefined}
       sizes={sizes}
       alt={alt}
-      role={presentationOnly ? 'presentation' : null}
+      role={presentationOnly ? 'presentation' : undefined}
     />
   );
 };
