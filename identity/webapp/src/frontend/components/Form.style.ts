@@ -23,6 +23,7 @@ export const TextInput = styled.input<{ invalid?: FieldError }>`
 export const InvalidFieldAlert = styled.span.attrs({ role: 'alert', className: 'font-hnl' })`
   color: #d1192c;
   font-weight: bold;
+  font-size: 14px;
 `;
 
 export const DangerButtonModifier = css`

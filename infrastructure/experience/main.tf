@@ -5,7 +5,7 @@ module "prod" {
 
   vpc_id   = local.vpc_id
   subnets  = local.public_subnets
-  cert_arn = local.wc_org_cert_arn
+  cert_arn = module.wellcomecollection_cert.arn
 }
 
 module "stage" {
@@ -15,5 +15,5 @@ module "stage" {
 
   vpc_id   = local.vpc_id
   subnets  = local.public_subnets
-  cert_arn = local.wc_org_cert_arn
+  cert_arn = module.wellcomecollection_cert.arn
 }

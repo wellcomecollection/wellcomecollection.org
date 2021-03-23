@@ -458,25 +458,6 @@
                   "label": "Text"
                 }
               }
-            },
-            "repeat": {
-              "contributor": {
-                "type": "Link",
-                "config": {
-                  "label": "Contributor",
-                  "select": "document",
-                  "customtypes": [
-                    "people"
-                  ]
-                }
-              },
-              "text": {
-                "type": "StructuredText",
-                "config": {
-                  "multi": "paragraph,hyperlink,strong,em",
-                  "label": "Text"
-                }
-              }
             }
           },
           "tagList": {

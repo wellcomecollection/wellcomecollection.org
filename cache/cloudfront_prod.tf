@@ -179,6 +179,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
       query_string_cache_keys = [
         "color",
         "locations.license",
+        "source.genres.label",
+        "source.contributors.agent.label",
         "page",
         "query",
         "source",

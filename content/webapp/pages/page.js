@@ -37,6 +37,8 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import { PageFormatIds } from '@weco/common/model/content-format-id';
+// $FlowFixMe (tsx)
+import { links } from '@weco/common/views/components/Header/Header';
 
 type Props = {|
   page: PageType,
@@ -95,10 +97,10 @@ export class Page extends Component<Props> {
     function getBreadcrumbText(siteSection: string, pageId: string): string {
       return hiddenBreadcrumbPages.includes(page.id) || isLanding
         ? '\u200b'
-        : siteSection === 'visit-us'
-        ? 'Visit us'
-        : 'What we do';
+        : links.find(link => link.siteSection === siteSection)?.title ||
+            siteSection;
     }
+
     // TODO: This is not the way to do site sections
     const sectionItem = page.siteSection
       ? [
@@ -108,6 +110,7 @@ export class Page extends Component<Props> {
           },
         ]
       : [];
+
     const breadcrumbs = {
       items: [
         ...sectionItem,

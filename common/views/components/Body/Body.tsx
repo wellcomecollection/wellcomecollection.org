@@ -505,7 +505,7 @@ const Body: FunctionComponent<Props> = ({
                   <WobblyEdgedContainer>
                     <Discussion
                       title={slice.value.title}
-                      discussion={slice.value.discussion}
+                      text={slice.value.text}
                     />
                   </WobblyEdgedContainer>
                 )}

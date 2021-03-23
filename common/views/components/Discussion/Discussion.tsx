@@ -1,6 +1,5 @@
 import { FunctionComponent, useState, useEffect, useContext } from 'react';
 import { HTMLString } from '../../../services/prismic/types';
-import { Person } from '../../../model/people';
 import { AppContext } from '../AppContext/AppContext';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
@@ -24,85 +23,56 @@ const ButtonContainer = styled.div<ContainerProps>`
 
 type Props = {
   title: string | null;
-  discussion: {
-    contributor: Person | null;
-    text: HTMLString | null;
-  }[];
+  text: HTMLString;
 };
 
-const Discussion: FunctionComponent<Props> = ({ title, discussion }: Props) => {
+const Discussion: FunctionComponent<Props> = ({ title, text }: Props) => {
   const { isEnhanced } = useContext(AppContext);
-  const textWithContributorNameAdded = discussion.map(section => {
-    const contributor = `${section?.contributor?.name}:`;
-    return (
-      section.text &&
-      section.text.map((text, i) => {
-        if (i === 0 && section.contributor) {
-          return {
-            type: text.type,
-            text: `${contributor} ${text.text}`,
-            spans: [
-              {
-                start: 0,
-                end: contributor.length,
-                type: 'strong',
-              },
-              ...text.spans,
-            ],
-          };
-        } else {
-          return text;
-        }
-      })
-    );
-  });
-
-  const [firstPartofDiscussion] = textWithContributorNameAdded;
   const [isActive, setIsActive] = useState(true);
-  const [itemsToShow, setItemsToShow] = useState(textWithContributorNameAdded);
+  const [textToShow, setTextToShow] = useState(text);
   const lowercaseTitle = title?.toLowerCase();
-
+  const firstPartOfText = text?.slice(0, 2);
   useEffect(() => {
     setIsActive(false);
   }, []);
 
   useEffect(() => {
     if (isActive) {
-      setItemsToShow(textWithContributorNameAdded);
+      setTextToShow(text);
     } else {
-      setItemsToShow([firstPartofDiscussion]);
+      setTextToShow(firstPartOfText);
     }
   }, [isActive]);
 
   return (
     <>
       {title && <h2 className="h2">{title}</h2>}
-      <Container
-        isActive={isActive}
-        id="discussion-container"
-        aria-live="polite"
-      >
-        {itemsToShow.map((section, i) => (
-          <PrismicHtmlBlock key={i} html={section} />
-        ))}
-        {isEnhanced && (
-          <ButtonContainer isActive={isActive}>
-            <ButtonSolid
-              ariaControls={'discussion-container'}
-              ariaExpanded={isActive}
-              icon="plus"
-              clickHandler={() => {
-                setIsActive(!isActive);
-              }}
-              text={
-                isActive
-                  ? `Hide full ${lowercaseTitle}`
-                  : `Read full ${lowercaseTitle}`
-              }
-            />
-          </ButtonContainer>
-        )}
-      </Container>
+      {textToShow && (
+        <Container
+          isActive={isActive}
+          id="discussion-container"
+          aria-live="polite"
+        >
+          <PrismicHtmlBlock html={textToShow} />
+          {isEnhanced && (
+            <ButtonContainer isActive={isActive}>
+              <ButtonSolid
+                ariaControls={'discussion-container'}
+                ariaExpanded={isActive}
+                icon="plus"
+                clickHandler={() => {
+                  setIsActive(!isActive);
+                }}
+                text={
+                  isActive
+                    ? `Hide ${lowercaseTitle}`
+                    : `Read full ${lowercaseTitle}`
+                }
+              />
+            </ButtonContainer>
+          )}
+        </Container>
+      )}
     </>
   );
 };

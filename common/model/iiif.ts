@@ -44,6 +44,13 @@ export type IIIFCanvas = {
   otherContent: any[];
 };
 
+export type IIIFStructure = {
+  '@id': string;
+  '@type': string;
+  label: string;
+  canvases: string[];
+};
+
 export type IIIFRendering = {
   '@id': string;
   format: string;
@@ -74,7 +81,9 @@ export type IIIFMediaElement = {
   height?: number;
   width?: number;
   resources?: IIIFAnnotationResource[];
+  service?: AuthService | AuthService[];
 };
+
 type IIIFMediaSequence = {
   '@id': string;
   '@type': string;
@@ -88,16 +97,16 @@ export type IIIFSequence = {
   canvases: IIIFCanvas[];
   rendering: IIIFRendering[];
 };
-type IIIFStructure = {
-  '@id': string;
-  '@type': string;
-  label: string;
-  canvases: string[];
-};
 
 export type IIIFMetadata = {
   label: string;
   value: string;
+};
+
+export type AuthServiceService = {
+  '@context': string;
+  '@id': string;
+  profile: string;
 };
 
 export type AuthService = {
@@ -106,11 +115,7 @@ export type AuthService = {
   description: string;
   label: string;
   profile: string;
-  service: {
-    '@context': string;
-    '@id': string;
-    profile: string;
-  }[];
+  service: AuthServiceService[];
 };
 
 export type Service = {
@@ -130,4 +135,39 @@ export type IIIFManifest = {
   license: string;
   within?: string;
   service?: Service | Service[];
+};
+
+export type SearchService = {
+  '@context': string;
+  '@id': string;
+  profile: string;
+  label: string;
+};
+
+export type SearchResults = {
+  '@context': string;
+  '@id': string;
+  '@type': string;
+  within: {
+    '@type': string;
+    total: number | null;
+  };
+  startIndex: number;
+  resources: {
+    '@id': string;
+    '@type': 'oa:Annotation';
+    motivation: string;
+    resource: {
+      '@type': string;
+      chars: string;
+    };
+    on: string;
+  }[];
+  hits: {
+    '@type': string;
+    annotations: string[];
+    match: string;
+    before: string;
+    after: string;
+  }[];
 };

@@ -9,12 +9,15 @@ import { toLink as imagesLink } from '@weco/common/views/components/ImagesLink/I
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
-  getItemsByLocationType,
   getAccessConditionForDigitalLocation,
   getWorkIdentifiersWith,
   getEncoreLink,
   sierraIdFromPresentationManifestUrl,
 } from '@weco/common/utils/works';
+import {
+  getVideoClickthroughService,
+  getTokenService,
+} from '@weco/common/utils/iiif';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
@@ -34,9 +37,10 @@ import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemL
 import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import { DigitalLocation, Work, Item } from '@weco/common/model/catalogue';
+import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
-
+import IIIFClickthrough from '@weco/common/views/components/IIIFClickthrough/IIIFClickthrough';
+import OnlineResources from './OnlineResources';
 type Props = {
   work: Work;
 };
@@ -51,11 +55,9 @@ function getItemLinkState({
   itemUrl,
   audio,
   video,
-  openWithAdvisoryPrototype,
 }): ItemLinkState | undefined {
   if (
-    ((accessCondition === 'open-with-advisory' && !openWithAdvisoryPrototype) ||
-      accessCondition === 'restricted' ||
+    (accessCondition === 'restricted' ||
       accessCondition === 'permission-required') &&
     sierraIdFromManifestUrl
   ) {
@@ -70,30 +72,14 @@ function getItemLinkState({
 }
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
-  const {
-    stacksRequestService,
-    openWithAdvisoryPrototype,
-    onlineResourcesPrototype,
-  } = useContext(TogglesContext);
+  const { stacksRequestService, onlineResourcesPrototype } = useContext(
+    TogglesContext
+  );
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
 
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
-
-  type ItemWithDigitalLocation = Omit<Item, 'locations'> & {
-    location: DigitalLocation;
-  };
-  const onlineResources = getItemsByLocationType(work, 'online-resource').map(
-    i => {
-      const [location] = i.locations;
-      return {
-        title: i.title,
-        location,
-      };
-    }
-  ) as ItemWithDigitalLocation[]; // FIXME: I think this casting might be cheating?
-
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
     'iiif-presentation'
@@ -129,6 +115,8 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     iiifPresentationDownloadOptions = [],
     iiifDownloadEnabled,
   } = useIIIFManifestData(work);
+  const authService = video && getVideoClickthroughService(video);
+  const tokenService = authService && getTokenService(authService);
 
   // 'Available online' data
   const license =
@@ -214,7 +202,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     itemUrl,
     audio,
     video,
-    openWithAdvisoryPrototype,
   });
 
   const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
@@ -251,185 +238,176 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   const Content = () => (
     <>
-      {onlineResourcesPrototype && onlineResources.length > 0 && (
-        <WorkDetailsSection headingText="Available online">
-          <h3
-            className={classNames({
-              'no-margin': true,
-              [font('hnm', 5)]: true,
-            })}
-          >
-            Online resources
-          </h3>
-          {onlineResources.map(item => (
-            <span
-              className={classNames({
-                [font('hnl', 5)]: true,
-              })}
-              key={item.location.url}
-            >
-              {item.title ? (
-                <>
-                  {item.title}: <a href={item.location.url}>view resource</a>
-                </>
-              ) : (
-                <a href={item.location.url}>{item.location.linkText}</a>
-              )}{' '}
-            </span>
-          ))}
-        </WorkDetailsSection>
-      )}
+      {onlineResourcesPrototype && <OnlineResources work={work} />}
 
       {digitalLocation && itemLinkState !== 'useNoLink' && (
         <WorkDetailsSection
           headingText="Available online"
           isInArchive={isInArchive}
         >
-          {video && (
-            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-              <VideoPlayer
-                video={video}
-                showDownloadOptions={showDownloadOptions}
-              />
-            </Space>
-          )}
-          {audio && (
-            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-              <AudioPlayer audio={audio} />
-            </Space>
-          )}
-          {itemLinkState === 'useLibraryLink' && (
-            <Space
-              as="span"
-              h={{
-                size: 'm',
-                properties: ['margin-right'],
-              }}
-            >
-              <ButtonSolidLink
-                icon="eye"
-                text="View"
-                trackingEvent={{
-                  category: 'WorkDetails',
-                  action: 'follow view link',
-                  label: work.id,
-                }}
-                link={`https://wellcomelibrary.org/item/${sierraIdFromManifestUrl ||
-                  ''}`}
-              />
-            </Space>
-          )}
-          {itemLinkState === 'useItemLink' && (
-            <>
-              {work.thumbnail && (
-                <Space
-                  v={{
-                    size: 's',
-                    properties: ['margin-bottom'],
-                  }}
+          <ConditionalWrapper
+            condition={Boolean(tokenService)}
+            wrapper={children =>
+              itemUrl && (
+                <IIIFClickthrough
+                  authService={authService}
+                  tokenService={tokenService}
+                  trackingId={work.id}
                 >
-                  <ConditionalWrapper
-                    condition={Boolean(itemUrl)}
-                    wrapper={children =>
-                      itemUrl && (
-                        <NextLink href={itemUrl.href} as={itemUrl.as}>
-                          <a
-                            onClick={() =>
-                              trackEvent({
-                                category: 'WorkDetails',
-                                action: 'follow image link',
-                                label: work.id,
-                              })
-                            }
-                          >
-                            {children}
-                          </a>
-                        </NextLink>
-                      )
-                    }
-                  >
-                    <img
-                      style={{
-                        width: 'auto',
-                        height: 'auto',
-                      }}
-                      alt={`view ${work.title}`}
-                      src={work.thumbnail.url}
-                    />
-                  </ConditionalWrapper>
-                </Space>
-              )}
-
-              <div
-                className={classNames({
-                  'flex flex-h-center': true,
-                })}
+                  {children}
+                </IIIFClickthrough>
+              )
+            }
+          >
+            {video && (
+              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <VideoPlayer
+                  video={video}
+                  showDownloadOptions={showDownloadOptions}
+                />
+              </Space>
+            )}
+            {audio && (
+              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <AudioPlayer audio={audio} />
+              </Space>
+            )}
+            {itemLinkState === 'useLibraryLink' && (
+              <Space
+                as="span"
+                h={{
+                  size: 'm',
+                  properties: ['margin-right'],
+                }}
               >
-                {itemUrl && (
+                <ButtonSolidLink
+                  icon="eye"
+                  text="View"
+                  trackingEvent={{
+                    category: 'WorkDetails',
+                    action: 'follow view link',
+                    label: work.id,
+                  }}
+                  link={`https://wellcomelibrary.org/item/${sierraIdFromManifestUrl ||
+                    ''}`}
+                />
+              </Space>
+            )}
+            {itemLinkState === 'useItemLink' && (
+              <>
+                {work.thumbnail && (
                   <Space
-                    as="span"
-                    h={{
-                      size: 'm',
-                      properties: ['margin-right'],
+                    v={{
+                      size: 's',
+                      properties: ['margin-bottom'],
                     }}
                   >
-                    <ButtonSolidLink
-                      icon="eye"
-                      text="View"
-                      trackingEvent={{
-                        category: 'WorkDetails',
-                        action: 'follow view link',
-                        label: work.id,
-                      }}
-                      link={{ ...itemUrl }}
-                    />
+                    <ConditionalWrapper
+                      condition={Boolean(itemUrl)}
+                      wrapper={children =>
+                        itemUrl && (
+                          <NextLink href={itemUrl.href} as={itemUrl.as}>
+                            <a
+                              onClick={() =>
+                                trackEvent({
+                                  category: 'WorkDetails',
+                                  action: 'follow image link',
+                                  label: work.id,
+                                })
+                              }
+                            >
+                              {children}
+                            </a>
+                          </NextLink>
+                        )
+                      }
+                    >
+                      <img
+                        style={{
+                          width: 'auto',
+                          height: 'auto',
+                        }}
+                        alt={`view ${work.title}`}
+                        src={work.thumbnail.url}
+                      />
+                    </ConditionalWrapper>
                   </Space>
                 )}
 
-                {showDownloadOptions && (
-                  <Download
-                    ariaControlsId="itemDownloads"
-                    workId={work.id}
-                    downloadOptions={downloadOptions}
-                  />
-                )}
-              </div>
-              {!(downloadOptions.length > 0) &&
-                sierraIdFromManifestUrl &&
-                childManifestsCount === 0 && (
-                  <NextLink
-                    {...downloadUrl({
-                      workId: work.id,
-                      sierraId: sierraIdFromManifestUrl,
-                    })}
-                  >
-                    <a>Download options</a>
-                  </NextLink>
-                )}
-              {(childManifestsCount > 0 || imageCount > 0) && (
-                <Space
-                  v={{
-                    size: 'm',
-                    properties: ['margin-top'],
-                  }}
+                <div
+                  className={classNames({
+                    'flex flex-h-center': true,
+                  })}
                 >
-                  <p
-                    className={classNames({
-                      'no-margin': true,
-                      [font('lr', 6)]: true,
-                    })}
+                  {itemUrl && (
+                    <Space
+                      as="span"
+                      h={{
+                        size: 'm',
+                        properties: ['margin-right'],
+                      }}
+                    >
+                      <ButtonSolidLink
+                        icon="eye"
+                        text="View"
+                        trackingEvent={{
+                          category: 'WorkDetails',
+                          action: 'follow view link',
+                          label: itemUrl?.href?.query?.workId?.toString(),
+                        }}
+                        link={{ ...itemUrl }}
+                      />
+                    </Space>
+                  )}
+
+                  {showDownloadOptions && (
+                    <Download
+                      ariaControlsId="itemDownloads"
+                      workId={work.id}
+                      downloadOptions={downloadOptions}
+                    />
+                  )}
+                </div>
+                {!(downloadOptions.length > 0) &&
+                  sierraIdFromManifestUrl &&
+                  childManifestsCount === 0 && (
+                    <NextLink
+                      {...downloadUrl({
+                        workId: work.id,
+                        sierraId: sierraIdFromManifestUrl,
+                      })}
+                    >
+                      <a>Download options</a>
+                    </NextLink>
+                  )}
+                {(childManifestsCount > 0 || imageCount > 0) && (
+                  <Space
+                    v={{
+                      size: 'm',
+                      properties: ['margin-top'],
+                    }}
                   >
-                    Contains:{' '}
-                    {childManifestsCount > 0
-                      ? `${childManifestsCount} volumes`
-                      : imageCount > 0
-                      ? `${imageCount} ${imageCount === 1 ? 'image' : 'images'}`
-                      : ''}
-                  </p>
-                </Space>
-              )}
-            </>
-          )}
+                    <p
+                      className={classNames({
+                        'no-margin': true,
+                        [font('lr', 6)]: true,
+                      })}
+                    >
+                      Contains:{' '}
+                      {childManifestsCount > 0
+                        ? `${childManifestsCount} volumes`
+                        : imageCount > 0
+                        ? `${imageCount} ${
+                            imageCount === 1 ? 'image' : 'images'
+                          }`
+                        : ''}
+                    </p>
+                  </Space>
+                )}
+              </>
+            )}
+          </ConditionalWrapper>
+
           {license && (
             <>
               <Space
@@ -479,7 +457,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       )}
 
       {!digitalLocation &&
-        !(onlineResourcesPrototype && onlineResources.length > 0) &&
+        !onlineResourcesPrototype &&
         (locationOfWork || encoreLink) && <WhereToFindIt />}
 
       {work.images && work.images.length > 0 && (

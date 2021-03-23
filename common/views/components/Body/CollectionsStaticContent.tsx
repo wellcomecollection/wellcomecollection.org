@@ -17,6 +17,7 @@ const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
           shouldShowDescription={false}
           shouldShowFilters={false}
           showSortBy={false}
+          disableLink={true}
         />
       </Layout12>
     </>
