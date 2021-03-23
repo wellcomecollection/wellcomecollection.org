@@ -17,6 +17,7 @@ import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import { getSearchService } from '../../../utils/iiif';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -148,6 +149,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
   const { iiifCredit } = useIIIFManifestData(work);
   const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
   const { itemViewerPrototypeWithSearch } = useContext(TogglesContext);
+  const searchService = manifest && getSearchService(manifest);
   return (
     <>
       <Inner
@@ -224,25 +226,26 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
             <ViewerStructuresPrototype mainViewerRef={mainViewerRef} />
           </AccordionItem>
         )}
-        {/* // TODO only if search service available */}
-        <AccordionItem title={'Search within this item'}>
-          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-            {itemViewerPrototypeWithSearch ? (
-              <IIIFSearchWithin mainViewerRef={mainViewerRef} />
-            ) : (
-              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                <TextInput
-                  id={'test'}
-                  type={'text'}
-                  name={'test'}
-                  label={'enter search term'}
-                  value={inputValue}
-                  setValue={setInputValue}
-                />
-              </Space>
-            )}
-          </Space>
-        </AccordionItem>
+        {searchService && (
+          <AccordionItem title={'Search within this item'}>
+            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+              {itemViewerPrototypeWithSearch ? (
+                <IIIFSearchWithin mainViewerRef={mainViewerRef} />
+              ) : (
+                <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                  <TextInput
+                    id={'test'}
+                    type={'text'}
+                    name={'test'}
+                    label={'enter search term'}
+                    value={inputValue}
+                    setValue={setInputValue}
+                  />
+                </Space>
+              )}
+            </Space>
+          </AccordionItem>
+        )}
       </div>
     </>
   );
