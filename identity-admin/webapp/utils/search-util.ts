@@ -5,7 +5,7 @@ export function buildSearchParams(
   status: string | string[],
   name: string | string[],
   email: string | string[],
-  sortField?: string | string[],
+  sort?: string | string[],
   sortDir?: string | string[]
 ): string {
   return queryString.stringify({
@@ -13,7 +13,7 @@ export function buildSearchParams(
     status,
     name,
     email,
-    sortField,
+    sort,
     sortDir,
   });
 }
