@@ -266,4 +266,44 @@ describe('EditProfile', () => {
     expect(screen.getByText(/total logins/i)).toBeInTheDocument();
     expect(screen.getByText('138')).toBeInTheDocument();
   });
+
+  it('displays account actions in a menu', async () => {
+    renderPage();
+    await waitForPageToLoad();
+    expect(
+      screen.queryByText(/resend activation email/i)
+    ).not.toBeInTheDocument();
+    userEvent.click(screen.getByRole('button', { name: /account actions/i }));
+    expect(screen.getByText(/resend activation email/i)).toBeInTheDocument();
+  });
+
+  it("can resend a user's activation email", async () => {
+    renderPage();
+    await waitForPageToLoad();
+    userEvent.click(screen.getByRole('button', { name: /account actions/i }));
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.click(screen.getByText(/resend activation email/i));
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'Activation email resent'
+    );
+  });
+
+  it("shows an error when resending a user's activation email fails", async () => {
+    server.use(
+      rest.put(
+        new RegExp('/api/resend-activation-email/123'),
+        (_req, res, ctx) => {
+          return res(ctx.status(400));
+        }
+      )
+    );
+    renderPage();
+    await waitForPageToLoad();
+    userEvent.click(screen.getByRole('button', { name: /account actions/i }));
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.click(screen.getByText(/resend activation email/i));
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'Failed to send activation email'
+    );
+  });
 });

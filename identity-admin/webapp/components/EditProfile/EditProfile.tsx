@@ -4,7 +4,6 @@ import { Info } from '../Info';
 import Layout from '../../components/Layout';
 import { PersonalDetails } from '../PersonalDetails';
 import { UsageData } from '../UsageData';
-import { AccountActions } from '../AccountActions';
 import { useUserInfo } from '../../context/UserInfoContext';
 import { Title } from './EditProfile.style';
 
@@ -27,8 +26,6 @@ export function EditProfile(): JSX.Element {
           <PersonalDetails />
           <hr />
           <UsageData />
-          <hr />
-          <AccountActions />
         </>
       )}
     </Layout>

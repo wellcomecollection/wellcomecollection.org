@@ -1,31 +1,22 @@
-import React from 'react';
-import { UserInfo } from '../../types/UserInfo';
+import React, { useState } from 'react';
 import { useUserInfo } from '../../context/UserInfoContext';
 import {
   AccountDetailsList,
   AccountDetailsLabel,
-  StatusBox,
   AccountDetail,
   AccountDetailsValue,
   TitleContainer,
 } from './Info.style';
 import { User } from '../Icons/User';
-
-function UserStatus(props: Partial<UserInfo>) {
-  if (props.deleteRequested) {
-    return <StatusBox>User has requested delete</StatusBox>;
-  }
-  if (props.locked) {
-    return <StatusBox>Account blocked</StatusBox>;
-  }
-  if (!props.emailValidated) {
-    return <StatusBox>Waiting activation</StatusBox>;
-  }
-  return null;
-}
+import { AccountActions } from '../AccountActions';
+import { UserStatus } from './UserStatus';
+import { AccountActionStatus, AccountActionState } from './AccountActionStatus';
 
 export function Info(): JSX.Element {
   const { user, isLoading } = useUserInfo();
+  const [actionStatus, setActionStatus] = useState<AccountActionState | null>(
+    null
+  );
 
   return isLoading ? (
     <p>Loading...</p>
@@ -36,6 +27,7 @@ export function Info(): JSX.Element {
         <h2>
           {user?.firstName} {user?.lastName}
         </h2>
+        <AccountActions onComplete={setActionStatus} />
       </TitleContainer>
       <AccountDetailsList>
         <AccountDetail>
@@ -47,8 +39,8 @@ export function Info(): JSX.Element {
           <AccountDetailsValue>{user?.userId}</AccountDetailsValue>
         </AccountDetail>
       </AccountDetailsList>
-
       <UserStatus {...user} />
+      {actionStatus && <AccountActionStatus {...actionStatus} />}
     </section>
   );
 }

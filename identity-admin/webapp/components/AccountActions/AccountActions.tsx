@@ -1,36 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useUserInfo } from '../../context/UserInfoContext';
 import { DeleteAccount } from './DeleteAccount';
-import { Container } from './AccountActions.style';
+import { AccountAction } from './AccountAction';
 import { useResendActivationEmail } from '../../hooks/useResendActivationEmail';
-import { AccountActionButton } from './AccountActionButton';
 import { useResetPassword } from '../../hooks/useResetPassword';
 import { useBlockAccount } from '../../hooks/useBlockAccount';
 import { useUnblockAccount } from '../../hooks/useUnblockAccount';
 import { useReverseDeleteRequest } from '../../hooks/useReverseDeleteRequest';
+import { DropdownMenu } from './DropdownMenu';
+import { AccountActionState } from '../Info/AccountActionStatus';
 
-type AccountActionState = {
-  isSuccess: boolean;
-  message?: string;
+type AccountActionsProps = {
+  onComplete: (actionState: AccountActionState) => void;
 };
 
-export function AccountActions(): JSX.Element {
+export function AccountActions({
+  onComplete,
+}: AccountActionsProps): JSX.Element {
   const { user, isLoading } = useUserInfo();
   const { resendActivationEmail } = useResendActivationEmail();
   const { resetPassword } = useResetPassword();
   const { blockAccount } = useBlockAccount();
   const { unblockAccount } = useUnblockAccount();
   const { reverseDeleteRequest } = useReverseDeleteRequest();
-  const [status, setStatus] = useState<AccountActionState>({
-    isSuccess: false,
-  });
 
   const handleSuccess = (message: string) => {
-    setStatus({ isSuccess: true, message });
+    onComplete({ isSuccess: true, message });
   };
 
   const handleFailure = (message: string) => {
-    setStatus({ isSuccess: false, message });
+    onComplete({ isSuccess: false, message });
   };
 
   if (isLoading) {
@@ -38,44 +37,46 @@ export function AccountActions(): JSX.Element {
   }
 
   return (
-    <Container>
-      {status.message && <div role="alert">{status.message}</div>}
-      <AccountActionButton
-        label="Resend activation email"
-        onClick={resendActivationEmail}
-        onSuccess={() => handleSuccess('Activation email resent')}
-        onFailure={() => handleFailure('Failed to send activation email')}
-      />
-      {user?.locked ? (
-        <AccountActionButton
-          label="Unblock online account"
-          onClick={unblockAccount}
-          onSuccess={() => handleSuccess('User has been unblocked')}
-          onFailure={() => handleFailure('Failed to unblock user')}
+    <DropdownMenu>
+      <ul>
+        <AccountAction
+          label="Resend activation email"
+          onClick={resendActivationEmail}
+          onSuccess={() => handleSuccess('Activation email resent')}
+          onFailure={() => handleFailure('Failed to send activation email')}
         />
-      ) : (
-        <AccountActionButton
-          label="Block online account"
-          onClick={blockAccount}
-          onSuccess={() => handleSuccess('User has been blocked')}
-          onFailure={() => handleFailure('Failed to block user')}
+        {user?.locked ? (
+          <AccountAction
+            label="Unblock online account"
+            onClick={unblockAccount}
+            onSuccess={() => handleSuccess('User has been unblocked')}
+            onFailure={() => handleFailure('Failed to unblock user')}
+          />
+        ) : (
+          <AccountAction
+            label="Block online account"
+            onClick={blockAccount}
+            onSuccess={() => handleSuccess('User has been blocked')}
+            onFailure={() => handleFailure('Failed to block user')}
+          />
+        )}
+        {user?.deleteRequested && (
+          <AccountAction
+            label="Reverse user's deletion request"
+            onClick={reverseDeleteRequest}
+            onSuccess={() => handleSuccess('Delete request reversed')}
+            onFailure={() => handleFailure('Failed to reverse delete request')}
+          />
+        )}
+        <AccountAction
+          label="Reset password"
+          onClick={resetPassword}
+          onSuccess={() => handleSuccess('Password reset')}
+          onFailure={() => handleFailure('Failed to reset password')}
         />
-      )}
-      <DeleteAccount />
-      {user?.deleteRequested && (
-        <AccountActionButton
-          label="Reverse user's deletion request"
-          onClick={reverseDeleteRequest}
-          onSuccess={() => handleSuccess('Delete request reversed')}
-          onFailure={() => handleFailure('Failed to reverse delete request')}
-        />
-      )}
-      <AccountActionButton
-        label="Reset password"
-        onClick={resetPassword}
-        onSuccess={() => handleSuccess('Password reset')}
-        onFailure={() => handleFailure('Failed to reset password')}
-      />
-    </Container>
+        <hr />
+        <DeleteAccount />
+      </ul>
+    </DropdownMenu>
   );
 }
