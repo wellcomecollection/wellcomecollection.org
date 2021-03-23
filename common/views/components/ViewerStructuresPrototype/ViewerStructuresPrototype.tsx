@@ -45,7 +45,7 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
                 e.preventDefault();
                 mainViewerRef &&
                   mainViewerRef.current &&
-                  mainViewerRef.current.scrollToItem(canvasIndex);
+                  mainViewerRef.current.scrollToItem(canvasIndex, 'start');
                 setActiveIndex(canvasIndex);
                 isMobile && setIsMobileSidebarActive(false);
               }}

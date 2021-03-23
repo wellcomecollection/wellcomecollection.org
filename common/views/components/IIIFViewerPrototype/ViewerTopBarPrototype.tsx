@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/Download';
-import MultipleManifestList from '@weco/catalogue/components/MultipleManifestList/MultipleManifestList';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent, useContext } from 'react';
@@ -107,15 +106,11 @@ const ViewerTopBar: FunctionComponent<Props> = ({
     gridVisible,
     setGridVisible,
     work,
-    currentManifestLabel,
     activeIndex,
     licenseInfo,
     iiifImageLocationCredit,
     downloadOptions,
     iiifPresentationDownloadOptions,
-    parentManifest,
-    lang,
-    manifestIndex,
     setIsMobileSidebarActive,
     isMobileSidebarActive,
     isMobile,
@@ -197,15 +192,6 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                     isInline={true}
                   />
                 </Space>
-                {parentManifest && parentManifest.manifests && (
-                  <MultipleManifestList
-                    buttonText={currentManifestLabel || 'Choose'}
-                    manifests={parentManifest.manifests}
-                    workId={work.id}
-                    lang={lang}
-                    manifestIndex={manifestIndex}
-                  />
-                )}
               </>
             )}
             {document &&
