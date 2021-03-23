@@ -64,7 +64,7 @@ output "stage_namespace_id" {
 
 output "identity_admin_base_url_param_name" {
   value = {
-    stage = aws_ssm_parameter.identity_admin_prod_base_url.name
-    prod  = aws_ssm_parameter.identity_admin_stage_base_url.name
+    stage = aws_ssm_parameter.identity_admin_stage_base_url.name
+    prod  = aws_ssm_parameter.identity_admin_prod_base_url.name
   }
 }
