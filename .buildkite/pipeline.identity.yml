@@ -13,14 +13,14 @@
 - label: ":docker: Build identity-admin"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
+        role: "arn:aws:iam::770700576653:role/identity-ci"
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
         build-parallel: true
         build:
           - identity-admin
-        image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
+        image-repository: 770700576653.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
 - wait
 
@@ -40,17 +40,17 @@
   branches: "master"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
+        role: "arn:aws:iam::770700576653:role/identity-ci"
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
         push:
-          - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity-admin_webapp:ref.${BUILDKITE_COMMIT}
-          - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity-admin_webapp:latest
+          - identity-admin:770700576653.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity-admin_webapp:ref.${BUILDKITE_COMMIT}
+          - identity-admin:770700576653.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity-admin_webapp:latest
 
 - wait
 
-- label: "deploy to stage"
+- label: "deploy identity to stage"
   branches: "master"
   concurrency: 1
   concurrency_group: "experience-identity-deploy"
@@ -68,4 +68,21 @@
             "--description", $BUILDKITE_BUILD_URL,
             "--confirmation-wait-for", 3540] # Session times out at 3600s / 1 hour
 
+- label: "deploy identity admin to stage"
+  branches: "master"
+  concurrency: 1
+  concurrency_group: "experience-identity-deploy"
+  plugins:
+    - docker#v3.5.0:
+        image: 760097843905.dkr.ecr.eu-west-1.amazonaws.com/wellcome/weco-deploy:5.6.16
+        workdir: /repo
+        mount-ssh-agent: true
+        command: [
+            "--confirm",
+            "--project-id", "identity-admin",
+            "release-deploy",
+            "--from-label", "ref.$BUILDKITE_COMMIT",
+            "--environment-id", "stage",
+            "--description", $BUILDKITE_BUILD_URL,
+            "--confirmation-wait-for", 3540] # Session times out at 3600s / 1 hour
 

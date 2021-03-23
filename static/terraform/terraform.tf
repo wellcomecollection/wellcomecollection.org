@@ -34,7 +34,7 @@ locals {
 }
 
 module "static" {
-  source              = "../../infrastructure/terraform/modules/s3_website"
+  source              = "../../infrastructure/modules/s3_website"
   website_uri         = "static.wellcomecollection.org"
   acm_certificate_arn = local.wellcome_cdn_cert_arn
 }

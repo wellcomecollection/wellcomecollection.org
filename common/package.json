@@ -41,6 +41,7 @@
     "jest": "^24.9.0",
     "koa-compose": "^4.1.0",
     "lazysizes": "^5.2.1",
+    "lodash.clonedeep": "^4.5.0",
     "lodash.debounce": "^4.0.8",
     "lodash.flattendeep": "^4.4.0",
     "lodash.groupby": "^4.6.0",
