@@ -38,7 +38,7 @@ const IIIFResponsiveImage = forwardRef(
       presentationOnly,
       tabIndex,
     }: Props,
-ref // eslint-disable-line
+    ref // eslint-disable-line
   ) => {
     return (
       <img
@@ -80,5 +80,7 @@ ref // eslint-disable-line
     );
   }
 );
+
+IIIFResponsiveImage.displayName = 'IIIFResponsiveImage';
 
 export default IIIFResponsiveImage;

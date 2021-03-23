@@ -1,4 +1,3 @@
-import { IIIFManifest } from '@weco/common/model/iiif';
 import {
   getStructures,
   groupStructures,
@@ -42,7 +41,7 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
                 e.preventDefault();
                 mainViewerRef &&
                   mainViewerRef.current &&
-                  mainViewerRef.current.scrollToItem(canvasIndex);
+                  mainViewerRef.current.scrollToItem(canvasIndex, 'start');
                 setActiveIndex(canvasIndex);
               }}
             >
