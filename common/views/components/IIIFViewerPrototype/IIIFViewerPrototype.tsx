@@ -219,6 +219,17 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     return () => mainAreaObserver.disconnect();
   }, []);
 
+  useEffect(() => {
+    const matchingManifest =
+      parentManifest &&
+      parentManifest.manifests &&
+      parentManifest.manifests.find((childManifest: IIIFManifest) => {
+        return !manifest ? false : childManifest['@id'] === manifest['@id'];
+      });
+
+    matchingManifest && setCurrentManifestLabel(matchingManifest.label);
+  });
+
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
     'iiif-presentation'
@@ -285,6 +296,23 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     };
     Router.replace(url, as);
   }, [activeIndex]);
+
+  useEffect(() => {
+    // FIXME: is this really necessary? Why doesn't setting canvas to 1 in the NextLink handle it?
+    mainViewerRef?.current?.scrollToItem(0);
+  }, [manifestIndex]);
+
+  const parentManifestUrl = manifest && manifest.within;
+
+  useEffect(() => {
+    const fetchParentManifest = async () => {
+      const parentManifest =
+        parentManifestUrl && (await (await fetch(parentManifestUrl)).json());
+      parentManifest && setParentManifest(parentManifest);
+    };
+
+    fetchParentManifest();
+  }, []);
 
   return (
     <ItemViewerContext.Provider

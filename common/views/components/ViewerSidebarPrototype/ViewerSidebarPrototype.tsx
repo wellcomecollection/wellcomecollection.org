@@ -15,6 +15,7 @@ import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 import ViewerStructuresPrototype from '../ViewerStructuresPrototype/ViewerStructuresPrototype';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
+import MultipleManifestListPrototype from '../MultipleManifestListPrototype/MultipleManifestListPrototype';
 import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
@@ -129,7 +130,9 @@ type Props = {
 const ViewerSidebarPrototype: FunctionComponent<Props> = ({
   mainViewerRef,
 }: Props) => {
-  const { work, manifest } = useContext(ItemViewerContext);
+  const { work, manifest, parentManifest, currentManifestLabel } = useContext(
+    ItemViewerContext
+  );
   const productionDates = getProductionDates(work);
   const [inputValue, setInputValue] = useState('');
   // Determine digital location
@@ -155,6 +158,15 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           [font('hnm', 5)]: true,
         })}
       >
+        {currentManifestLabel && (
+          <span
+            className={classNames({
+              [font('hnl', 5)]: true,
+            })}
+          >
+            {currentManifestLabel}
+          </span>
+        )}
         <h1>{work.title}</h1>
 
         {work.contributors.length > 0 && (
@@ -185,7 +197,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           <WorkLink id={work.id} source="viewer_back_link">
             <a
               className={classNames({
-                'flex flex--v-center': true,
+                'flex flex--v-center font-yellow': true,
               })}
             >
               Back to full information
@@ -222,6 +234,11 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         {manifest && manifest.structures && manifest.structures.length > 0 && (
           <AccordionItem title={'Contents'}>
             <ViewerStructuresPrototype mainViewerRef={mainViewerRef} />
+          </AccordionItem>
+        )}
+        {parentManifest && parentManifest.manifests && (
+          <AccordionItem title={'Volumes'}>
+            <MultipleManifestListPrototype />
           </AccordionItem>
         )}
         {/* // TODO only if search service available */}
