@@ -1,6 +1,11 @@
 import { createContext } from 'react';
 import { Work } from '../../../model/catalogue';
-import { IIIFCanvas, IIIFManifest, IIIFRendering } from '../../../model/iiif';
+import {
+  IIIFCanvas,
+  IIIFManifest,
+  IIIFRendering,
+  SearchResults,
+} from '../../../model/iiif';
 import { LicenseData } from '../../../utils/licenses';
 
 type Props = {
@@ -40,7 +45,23 @@ type Props = {
   setShowControls: (v: boolean) => void;
   errorHandler?: () => void;
   setCurrentManifestLabel: (v: string) => void;
+  searchResults: SearchResults;
+  setSearchResults: (v) => void;
 };
+
+export const results = {
+  '@context': '',
+  '@id': '',
+  '@type': 'sc:AnnotationList',
+  within: {
+    '@type': '',
+    total: null,
+  },
+  startIndex: 0,
+  resources: [],
+  hits: [],
+};
+
 const ItemViewerContext = createContext<Props>({
   work: {
     type: 'Work',
@@ -89,6 +110,7 @@ const ItemViewerContext = createContext<Props>({
   showControls: false,
   isLoading: false,
   rotatedImages: [],
+  searchResults: results,
   setZoomInfoUrl: () => undefined,
   setActiveIndex: () => undefined,
   setGridVisible: () => false,
@@ -102,5 +124,6 @@ const ItemViewerContext = createContext<Props>({
   setShowControls: () => undefined,
   errorHandler: () => undefined,
   setCurrentManifestLabel: () => undefined,
+  setSearchResults: () => results,
 });
 export default ItemViewerContext;

@@ -16,6 +16,8 @@ import ViewerStructuresPrototype from '../ViewerStructuresPrototype/ViewerStruct
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import MultipleManifestListPrototype from '../MultipleManifestListPrototype/MultipleManifestListPrototype';
+import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -82,7 +84,6 @@ const Item = styled.div`
 
 const AccordionItem = ({ title, children }) => {
   const [isActive, setIsActive] = useState(false);
-
   return (
     <Item>
       <AccordionInner
@@ -149,7 +150,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
     getAugmentedLicenseInfo(digitalLocation.license);
   const { iiifCredit } = useIIIFManifestData(work);
   const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
-
+  const { itemViewerPrototypeWithSearch } = useContext(TogglesContext);
   return (
     <>
       <Inner
@@ -240,16 +241,23 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
             <MultipleManifestListPrototype />
           </AccordionItem>
         )}
+        {/* // TODO only if search service available */}
         <AccordionItem title={'Search within this item'}>
           <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-            <TextInput
-              id={'test'}
-              type={'text'}
-              name={'test'}
-              label={'enter search term'}
-              value={inputValue}
-              setValue={setInputValue}
-            />
+            {itemViewerPrototypeWithSearch ? (
+              <IIIFSearchWithin mainViewerRef={mainViewerRef} />
+            ) : (
+              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                <TextInput
+                  id={'test'}
+                  type={'text'}
+                  name={'test'}
+                  label={'enter search term'}
+                  value={inputValue}
+                  setValue={setInputValue}
+                />
+              </Space>
+            )}
           </Space>
         </AccordionItem>
       </div>

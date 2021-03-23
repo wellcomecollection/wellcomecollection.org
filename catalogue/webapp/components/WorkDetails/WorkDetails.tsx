@@ -10,7 +10,6 @@ import { toLink as imagesLink } from '@weco/common/views/components/ImagesLink/I
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
-  getItemsByLocationType,
   getAccessConditionForDigitalLocation,
   getWorkIdentifiersWith,
   getEncoreLink,
@@ -38,10 +37,10 @@ import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/Expla
 import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import { DigitalLocation, Work, Item } from '@weco/common/model/catalogue';
+import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 import IIIFClickthrough from '@weco/common/views/components/IIIFClickthrough/IIIFClickthrough';
-
+import OnlineResources from './OnlineResources';
 type Props = {
   work: Work;
   itemUrl?: NextLinkType;
@@ -79,20 +78,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
   );
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
-
-  type ItemWithDigitalLocation = Omit<Item, 'locations'> & {
-    location: DigitalLocation;
-  };
-  const onlineResources = getItemsByLocationType(work, 'online-resource').map(
-    i => {
-      const [location] = i.locations;
-      return {
-        title: i.title,
-        location,
-      };
-    }
-  ) as ItemWithDigitalLocation[]; // FIXME: I think this casting might be cheating?
-
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
     'iiif-presentation'
@@ -251,32 +236,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
 
   const Content = () => (
     <>
-      {onlineResourcesPrototype && onlineResources.length > 0 && (
-        <WorkDetailsSection headingText="Available online">
-          <ul
-            className={classNames({
-              'plain-list no-margin no-padding': true,
-            })}
-          >
-            {onlineResources.map(item => (
-              <li
-                className={classNames({
-                  [font('hnl', 5)]: true,
-                })}
-                key={item.location.url}
-              >
-                {item.title ? (
-                  <>
-                    {item.title}: <a href={item.location.url}>View resource</a>
-                  </>
-                ) : (
-                  <a href={item.location.url}>{item.location.linkText}</a>
-                )}{' '}
-              </li>
-            ))}
-          </ul>
-        </WorkDetailsSection>
-      )}
+      {onlineResourcesPrototype && <OnlineResources work={work} />}
 
       {digitalLocation && itemLinkState !== 'useNoLink' && (
         <WorkDetailsSection
@@ -495,7 +455,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
       )}
 
       {!digitalLocation &&
-        !(onlineResourcesPrototype && onlineResources.length > 0) &&
+        !onlineResourcesPrototype &&
         (locationOfWork || encoreLink) && <WhereToFindIt />}
 
       {work.images && work.images.length > 0 && (

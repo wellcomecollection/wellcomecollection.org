@@ -331,7 +331,8 @@ const ItemPage: NextPage<Props> = ({
       </Modal>
       {showViewer &&
         ((mainImageService && currentCanvas) || iiifImageLocation) &&
-        (globalContextData.toggles.itemViewerPrototype ? (
+        (globalContextData.toggles.itemViewerPrototype ||
+        globalContextData.toggles.itemViewerPrototypeWithSearch ? (
           <IIIFViewerPrototype
             title={title}
             mainPaginatorProps={mainPaginatorProps}

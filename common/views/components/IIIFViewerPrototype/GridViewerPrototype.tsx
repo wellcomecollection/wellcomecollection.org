@@ -12,7 +12,7 @@ import {
 import { FixedSizeGrid, FixedSizeList, areEqual } from 'react-window';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
-import IIIFCanvasThumbnail from '../IIIFCanvasThumbnailPrototype/IIIFCanvasThumbnailPrototype';
+import IIIFCanvasThumbnail from './IIIFCanvasThumbnailPrototype';
 import Space from '@weco/common/views/components/styled/Space';
 import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
 import { IIIFCanvas } from '@weco/common/model/iiif';
@@ -21,7 +21,7 @@ import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 const ThumbnailSpacer = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
-  height: 200px;
+  height: 400px;
 `;
 
 type CellProps = {
@@ -126,7 +126,7 @@ const GridViewer: FunctionComponent<Props> = ({
   } = useContext(ItemViewerContext);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
-  const itemWidth = 250;
+  const itemWidth = 350;
   const columnCount = Math.round(mainAreaWidth / itemWidth);
   const columnWidth = mainAreaWidth / columnCount;
   const grid = useRef<FixedSizeGrid>(null);
@@ -171,7 +171,7 @@ const GridViewer: FunctionComponent<Props> = ({
         columnWidth={columnWidth}
         height={mainAreaHeight}
         rowCount={canvases.length / columnCount + 1}
-        rowHeight={230}
+        rowHeight={450}
         width={mainAreaWidth}
         itemData={{
           columnCount,

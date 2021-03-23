@@ -10,6 +10,7 @@ import {
   AuthServiceService,
   IIIFAnnotationResource,
 } from '../model/iiif';
+import cloneDeep from 'lodash.clonedeep';
 
 export function getServiceId(canvas?: IIIFCanvas): string | undefined {
   const serviceSrc = canvas?.images[0]?.resource?.service;
@@ -93,7 +94,10 @@ export function getUiExtensions(
   }
 }
 
-export function isUiEnabled(uiExtensions: Service | undefined, uiName: string) {
+export function isUiEnabled(
+  uiExtensions: Service | undefined,
+  uiName: string
+): boolean {
   const disableUI = uiExtensions && uiExtensions.disableUI;
   if (disableUI) {
     return !(
@@ -159,6 +163,46 @@ export function getStructures(iiifManifest: IIIFManifest): IIIFStructure[] {
   return iiifManifest?.structures || [];
 }
 
+// When lots of the works were digitised, structures with multiple pages such as table of contents
+// were created individually, rather than as a single structure with a range of pages.
+// This means we will often display repetitive links to the essentially the same thing.
+// Until we can improve the data at source, this function groups structures that have the same label attached to consecutive pages into a single structure.
+export function groupStructures(
+  canvases: IIIFCanvas[],
+  structures: IIIFStructure[]
+): IIIFStructure[] {
+  const clonedStructures = cloneDeep(structures);
+  return clonedStructures.reduce(
+    (acc, structure) => {
+      const [lastCanvasInRange] = structure.canvases.slice(-1);
+      const [firstCanvasInRange] = structure.canvases;
+      const firstCanvasIndex = canvases.findIndex(
+        canvas => canvas['@id'] === firstCanvasInRange
+      );
+      if (
+        acc.previousLabel === structure.label &&
+        firstCanvasIndex === acc.previousLastCanvasIndex + 1
+      ) {
+        acc.groupedArray[acc.groupedArray.length - 1].canvases.push(
+          lastCanvasInRange
+        );
+      } else {
+        acc.groupedArray.push(structure);
+      }
+      acc.previousLabel = structure.label;
+      acc.previousLastCanvasIndex = canvases.findIndex(
+        canvas => canvas['@id'] === lastCanvasInRange
+      );
+      return acc;
+    },
+    {
+      previousLastCanvasIndex: null,
+      previousLabel: null,
+      groupedArray: [],
+    }
+  ).groupedArray;
+}
+
 export function getVideo(
   iiifManifest: IIIFManifest
 ): IIIFMediaElement | undefined {
@@ -217,4 +261,18 @@ export function getIIIFPresentationCredit(
 ): string | undefined {
   const attribution = getIIIFMetadata(manifest, 'Attribution');
   return attribution?.value.split('<br/>')[0];
+}
+
+export function getSearchService(manifest: IIIFManifest): Service | undefined {
+  if (Array.isArray(manifest.service)) {
+    return manifest.service.find(
+      service =>
+        service['@context'] === 'http://iiif.io/api/search/0/context.json'
+    );
+  } else if (
+    manifest.service?.['@context'] ===
+    'http://iiif.io/api/search/0/context.json'
+  ) {
+    return manifest.service;
+  }
 }

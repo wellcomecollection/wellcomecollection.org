@@ -60,6 +60,7 @@
     "catalogue/webapp",
     "content/webapp",
     "identity/webapp",
+    "identity-admin/webapp",
     "toggles/webapp"
   ],
   "lint-staged": {
