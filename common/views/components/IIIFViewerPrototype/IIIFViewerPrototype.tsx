@@ -200,14 +200,41 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     image => image.canvasIndex === 0
   );
   const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
+  const activeIndexRef = useRef(activeIndex);
+
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
 
   // TODO: check for intersectionObservers (previous version of isEnhanced)
   // TODO: add testing and possibly fallbacks
   useEffect(() => {
+    let timer;
+    let previousActiveIndex;
+
     // TODO: either polyfill ts-ignore
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const mainAreaObserver = new ResizeObserver(([mainArea]) => {
+      clearTimeout(timer);
+
+      // Store a reference to where we were
+      if (!previousActiveIndex) {
+        previousActiveIndex = activeIndexRef.current;
+      }
+
+      timer = setTimeout(() => {
+        // If we've changed index as a result of the
+        // mainArea changing size, reset it to what
+        // it was before and scroll to the right place.
+        if (previousActiveIndex !== activeIndex) {
+          setActiveIndex(previousActiveIndex);
+          mainViewerRef?.current?.scrollToItem(previousActiveIndex);
+        }
+
+        previousActiveIndex = undefined;
+      }, 1000); // Debounce
+
       setMainAreaWidth(mainArea.contentRect.width);
       setMainAreaHeight(mainArea.contentRect.height);
     });
