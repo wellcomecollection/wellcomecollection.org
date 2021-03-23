@@ -191,6 +191,9 @@ const ItemPage: NextPage<Props> = ({
     }
   }, []);
 
+  // We only send a langCode if it's unambiguous -- better to send no language
+  // than the wrong one.
+  const lang = (work.languages.length === 1 && work?.languages[0]?.id) || '';
   return (
     <CataloguePageLayout
       title={title}
@@ -340,7 +343,7 @@ const ItemPage: NextPage<Props> = ({
             mainPaginatorProps={mainPaginatorProps}
             thumbsPaginatorProps={thumbsPaginatorProps}
             currentCanvas={currentCanvas}
-            lang={langCode}
+            lang={lang}
             canvasOcr={canvasOcr}
             canvases={canvases}
             workId={workId}
@@ -362,9 +365,7 @@ const ItemPage: NextPage<Props> = ({
             mainPaginatorProps={mainPaginatorProps}
             thumbsPaginatorProps={thumbsPaginatorProps}
             currentCanvas={currentCanvas}
-            // We only send a langCode if it's unambiguous -- better to send no language
-            // than the wrong one.
-            lang={(work.languages.length === 1 && work?.languages[0]?.id) || ''}
+            lang={lang}
             canvasOcr={canvasOcr}
             canvases={canvases}
             workId={workId}
