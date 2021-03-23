@@ -15,8 +15,16 @@ import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnailPrototype';
 import Space from '@weco/common/views/components/styled/Space';
 import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
-import { IIIFCanvas } from '@weco/common/model/iiif';
+import { IIIFCanvas, SearchResults } from '@weco/common/model/iiif';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+
+const Defs = styled.svg`
+  position: absolute;
+  height: 0;
+  width: 0;
+  overflow: none;
+  left: -100%;
+`;
 
 const ThumbnailSpacer = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
@@ -38,6 +46,7 @@ type CellProps = {
     activeIndex: number;
     setActiveIndex: (i: number) => void;
     canvases: IIIFCanvas[];
+    searchResults: SearchResults;
   };
 };
 
@@ -51,9 +60,18 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
     activeIndex,
     setActiveIndex,
     canvases,
+    searchResults,
   } = data;
   const itemIndex = rowIndex * columnCount + columnIndex;
   const currentCanvas = canvases[itemIndex];
+  const hasSearchResults = Boolean(
+    searchResults.resources.find(
+      resource =>
+        currentCanvas &&
+        new URL(currentCanvas['@id']).pathname === new URL(resource.on).pathname
+    )
+  );
+
   return (
     <div style={style}>
       {scrollVelocity > 1 ? (
@@ -75,6 +93,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
               isActive={activeIndex === itemIndex}
               thumbNumber={itemIndex + 1}
               isFocusable={gridVisible}
+              filterId={hasSearchResults ? 'purpleFilter' : null}
             />
           </ThumbnailSpacer>
         )
@@ -131,6 +150,7 @@ const GridViewer: FunctionComponent<Props> = ({
   const columnWidth = mainAreaWidth / columnCount;
   const grid = useRef<FixedSizeGrid>(null);
   const { isVisible } = useContext(GlobalInfoBarContext);
+  const { searchResults } = useContext(ItemViewerContext);
 
   useEffect(() => {
     const rowIndex = Math.floor(activeIndex / columnCount);
@@ -158,37 +178,60 @@ const GridViewer: FunctionComponent<Props> = ({
   }, []);
 
   return (
-    <GridViewerEl
-      isVisible={gridVisible}
-      isFullscreen={isFullscreen}
-      ref={gridViewerRef}
-      viewerRef={viewerRef}
-      tabIndex={0}
-      infoBarIsVisible={isVisible}
-    >
-      <FixedSizeGrid
-        columnCount={columnCount}
-        columnWidth={columnWidth}
-        height={mainAreaHeight}
-        rowCount={canvases.length / columnCount + 1}
-        rowHeight={450}
-        width={mainAreaWidth}
-        itemData={{
-          columnCount,
-          mainViewerRef,
-          gridVisible,
-          setGridVisible,
-          scrollVelocity,
-          activeIndex,
-          setActiveIndex,
-          canvases,
-        }}
-        onScroll={({ scrollTop }) => setNewScrollOffset(scrollTop)}
-        ref={grid}
+    <>
+      {searchResults.resources.length > 0 && (
+        <Defs>
+          <filter
+            id="purpleFilter"
+            colorInterpolationFilters="sRGB"
+            x="0"
+            y="0"
+            height="100%"
+            width="100%"
+          >
+            <feColorMatrix
+              type="matrix"
+              values="0.48 0 0 0 0
+            0 0.29 0 0 0
+            0 0 0.7 0 0
+            0 0 0 1 0"
+            />
+          </filter>
+        </Defs>
+      )}
+      <GridViewerEl
+        isVisible={gridVisible}
+        isFullscreen={isFullscreen}
+        ref={gridViewerRef}
+        viewerRef={viewerRef}
+        tabIndex={0}
+        infoBarIsVisible={isVisible}
       >
-        {Cell}
-      </FixedSizeGrid>
-    </GridViewerEl>
+        <FixedSizeGrid
+          columnCount={columnCount}
+          columnWidth={columnWidth}
+          height={mainAreaHeight}
+          rowCount={canvases.length / columnCount + 1}
+          rowHeight={450}
+          width={mainAreaWidth}
+          itemData={{
+            columnCount,
+            mainViewerRef,
+            gridVisible,
+            setGridVisible,
+            scrollVelocity,
+            activeIndex,
+            setActiveIndex,
+            canvases,
+            searchResults,
+          }}
+          onScroll={({ scrollTop }) => setNewScrollOffset(scrollTop)}
+          ref={grid}
+        >
+          {Cell}
+        </FixedSizeGrid>
+      </GridViewerEl>
+    </>
   );
 };
 

@@ -155,6 +155,12 @@ export type SearchResults = {
   startIndex: number;
   resources: {
     '@id': string;
+    '@type': 'oa:Annotation';
+    motivation: string;
+    resource: {
+      '@type': string;
+      chars: string;
+    };
     on: string;
   }[];
   hits: {
