@@ -4,6 +4,7 @@ export const User = (
   props: React.ComponentPropsWithoutRef<'svg'>
 ): JSX.Element => (
   <svg viewBox="0 0 24 24" {...props}>
+    <title>User icon</title>
     <path
       className="icon__shape"
       fillRule="nonzero"
