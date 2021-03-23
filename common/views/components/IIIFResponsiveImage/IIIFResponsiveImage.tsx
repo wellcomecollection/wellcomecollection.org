@@ -3,7 +3,7 @@ import { classNames } from '../../../utils/classnames';
 import { forwardRef } from 'react';
 import styled from 'styled-components';
 
-const Image = styled.img<{ filterId: string | null }>`
+const Image = styled.img<{ filterId?: string | null }>`
   ${props => (props.filterId ? `filter: url(#${props.filterId})` : '')};
 `;
 
@@ -22,7 +22,7 @@ type Props = {
   errorHandler?: () => void | Promise<void>;
   presentationOnly?: boolean;
   tabIndex?: number;
-  filterId: string | null;
+  filterId?: string | null;
 };
 
 const IIIFResponsiveImage = (
