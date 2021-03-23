@@ -136,3 +136,32 @@ export type IIIFManifest = {
   within?: string;
   service?: Service | Service[];
 };
+
+export type SearchService = {
+  '@context': string;
+  '@id': string;
+  profile: string;
+  label: string;
+};
+
+export type SearchResults = {
+  '@context': string;
+  '@id': string;
+  '@type': string;
+  within: {
+    '@type': string;
+    total: number | null;
+  };
+  startIndex: number;
+  resources: {
+    '@id': string;
+    on: string;
+  }[];
+  hits: {
+    '@type': string;
+    annotations: string[];
+    match: string;
+    before: string;
+    after: string;
+  }[];
+};

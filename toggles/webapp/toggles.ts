@@ -8,6 +8,14 @@ export default {
       defaultValue: false,
     },
     {
+      id: 'itemViewerPrototypeWithSearch',
+      title:
+        'Show the prototype UI for the item viewer with search within functionality',
+      description:
+        'Adds a sidebar with structured metadata about the item being viewed and the ability to search within the item',
+      defaultValue: false,
+    },
+    {
       id: 'showCanvasLabels',
       title: 'Show canvas labels on viewer thumbnails',
       description:

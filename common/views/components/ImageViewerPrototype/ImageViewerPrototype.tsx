@@ -46,6 +46,8 @@ type ImageViewerProps = {
   loadHandler?: () => void;
   mainAreaRef?: RefObject<HTMLDivElement>;
   index?: number;
+  setImageRect: (v: ClientRect) => void;
+  setImageContainerRect: (v: ClientRect) => void;
 };
 
 const ImageViewer: FunctionComponent<ImageViewerProps> = ({
@@ -58,6 +60,8 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   loadHandler,
   index = 0,
   mainAreaRef,
+  setImageRect,
+  setImageContainerRect,
 }: ImageViewerProps) => {
   const {
     lang,
@@ -66,7 +70,8 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     setZoomInfoUrl,
     setShowZoomed,
   } = useContext(ItemViewerContext);
-  const imageViewer = useRef(null);
+  const imageViewer = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
   const isOnScreen = useOnScreen({
     root: mainAreaRef?.current,
     ref: imageViewer,
@@ -84,6 +89,25 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
       })
       .join(',')
   );
+
+  function updateImagePosition() {
+    const imageRect = imageRef?.current?.getBoundingClientRect();
+    const imageContainerRect = imageViewer?.current?.getBoundingClientRect();
+    if (imageRect) {
+      setImageRect(imageRect);
+    }
+    if (imageContainerRect) {
+      setImageContainerRect(imageContainerRect);
+    }
+  }
+
+  useEffect(() => {
+    updateImagePosition();
+    window.addEventListener('resize', updateImagePosition);
+
+    return () => window.removeEventListener('resize', updateImagePosition);
+  }, []);
+
   useEffect(() => {
     if (setActiveIndex && isOnScreen) {
       setActiveIndex(index);
@@ -122,6 +146,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   return (
     <ImageWrapper onLoad={loadHandler} ref={imageViewer}>
       <IIIFResponsiveImage
+        ref={imageRef}
         tabIndex={0}
         width={width}
         height={height}
@@ -134,6 +159,9 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         clickHandler={() => {
           setZoomInfoUrl && setZoomInfoUrl(infoUrl);
           setShowZoomed(true);
+        }}
+        loadHandler={() => {
+          updateImagePosition();
         }}
         errorHandler={errorHandler}
       />
