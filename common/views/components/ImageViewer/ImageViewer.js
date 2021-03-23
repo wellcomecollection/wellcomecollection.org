@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { FixedSizeList } from 'react-window';
 import { type IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '../../../utils/image-sizes';
+// $FlowFixMe (tsx)
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import useOnScreen from '@weco/common/hooks/useOnScreen';
 
