@@ -16,7 +16,7 @@ type ChangePasswordInputs = {
 };
 
 export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({ onComplete }) => {
-  const { updatePassword, isLoading, isSuccess, error } = useUpdatePassword();
+  const { updatePassword, isLoading, error } = useUpdatePassword();
   const { control, getValues, setError, formState, handleSubmit } = useForm<ChangePasswordInputs>({
     defaultValues: {
       password: '',
@@ -24,12 +24,6 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({ onCom
       confirmation: '',
     },
   });
-
-  useEffect(() => {
-    if (isSuccess) {
-      onComplete();
-    }
-  }, [isSuccess, onComplete]);
 
   useEffect(() => {
     switch (error) {
@@ -51,7 +45,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({ onCom
   return (
     <ModalContainer>
       <ModalTitle>Change password</ModalTitle>
-      <form onSubmit={handleSubmit(updatePassword)}>
+      <form onSubmit={handleSubmit(data => updatePassword(data, onComplete))}>
         <FieldMargin>
           <Label htmlFor="change-password-current">Current password</Label>
           <PasswordInput

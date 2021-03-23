@@ -3,31 +3,32 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 import { Button } from './MyAccount.style';
 import { UpdateUserSchema } from '../../types/schemas/update-user';
 
-export type ChangeDetailsModalContentProps = {
-  onComplete: (newDetails?: UpdateUserSchema) => void;
-  onCancel?: () => void;
-};
+export type ChangeDetailsModalContentProps =
+  | Record<string, never>
+  | {
+      onCancel: () => void;
+      onComplete: () => void;
+    };
 
 type ChangeDetailsModalProps = {
   id: string;
   buttonText: string;
-  content: React.ComponentType<ChangeDetailsModalContentProps>;
   isDangerous?: boolean;
-  onSuccess?: (newDetails: UpdateUserSchema) => void;
+  onComplete: (newDetails?: UpdateUserSchema) => void;
 };
 
 export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
   id,
   buttonText,
-  content: Content,
   isDangerous = false,
-  onSuccess = () => null,
+  onComplete,
+  children,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const openButton = useRef(null);
 
-  const handleComplete = newDetails => {
-    onSuccess(newDetails);
+  const handleComplete = (newDetails?: UpdateUserSchema) => {
+    onComplete(newDetails);
     setIsActive(false);
   };
 
@@ -37,7 +38,11 @@ export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
         {buttonText}
       </Button>
       <Modal id={id} isActive={isActive} setIsActive={setIsActive} openButtonRef={openButton}>
-        <Content onComplete={handleComplete} onCancel={() => setIsActive(false)} />
+        {React.Children.map(children, child => {
+          if (React.isValidElement(child)) {
+            return React.cloneElement(child, { onComplete: handleComplete });
+          }
+        })}
       </Modal>
     </>
   );

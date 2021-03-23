@@ -10,7 +10,7 @@ export enum UpdatePasswordError { // eslint-disable-line no-shadow
 }
 
 type UseUpdatePasswordMutation = {
-  updatePassword: (userDetails: UpdatePasswordSchema) => void;
+  updatePassword: (userDetails: UpdatePasswordSchema, onComplete: () => void) => void;
   isLoading: boolean;
   isSuccess: boolean;
   error?: UpdatePasswordError;
@@ -21,11 +21,12 @@ export function useUpdatePassword(): UseUpdatePasswordMutation {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<UpdatePasswordError>();
 
-  const updatePassword = (updatePasswordBody: UpdatePasswordSchema) => {
+  const updatePassword: UseUpdatePasswordMutation['updatePassword'] = (updatePasswordBody, onComplete) => {
     setIsLoading(true);
     callMiddlewareApi('PUT', '/api/users/me/password', updatePasswordBody)
       .then(() => {
         setIsSuccess(true);
+        onComplete();
       })
       .catch((err: AxiosError) => {
         switch (err.response?.status) {

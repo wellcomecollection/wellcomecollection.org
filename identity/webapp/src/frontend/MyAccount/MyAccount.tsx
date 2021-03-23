@@ -19,6 +19,7 @@ import { Loading } from './Loading';
 import { ChangeEmail } from './ChangeEmail';
 import { ChangePassword } from './ChangePassword';
 import { DeleteAccount } from './DeleteAccount';
+import { UpdateUserSchema } from '../../types/schemas/update-user';
 
 const Detail: React.FC<{ label: string; value?: string }> = ({ label, value }) => (
   <DetailWrapper>
@@ -60,12 +61,13 @@ const Profile: React.FC = () => {
             <ChangeDetailsModal
               id="change-email"
               buttonText="Change Email"
-              content={ChangeEmail}
-              onSuccess={({ email }) => {
-                update({ email });
+              onComplete={(newUserInfo?: UpdateUserSchema) => {
+                if (newUserInfo) update(newUserInfo);
                 setIsEmailUpdated(true);
               }}
-            />
+            >
+              <ChangeEmail />
+            </ChangeDetailsModal>
           </Section>
 
           <Section>
@@ -74,15 +76,20 @@ const Profile: React.FC = () => {
             <ChangeDetailsModal
               id="change-password"
               buttonText="Change password"
-              content={ChangePassword}
-              onSuccess={() => setIsPasswordUpdated(true)}
-            />
+              onComplete={() => {
+                setIsPasswordUpdated(true);
+              }}
+            >
+              <ChangePassword />
+            </ChangeDetailsModal>
           </Section>
 
           <Section>
             <SectionHeading>Delete library account</SectionHeading>
             <span>Request a deletion of your account</span>
-            <ChangeDetailsModal id="delete-account" buttonText="Request deletion" isDangerous content={DeleteAccount} />
+            <ChangeDetailsModal id="delete-account" buttonText="Request deletion" isDangerous onComplete={() => null}>
+              <DeleteAccount />
+            </ChangeDetailsModal>
           </Section>
         </Wrapper>
       </Container>
