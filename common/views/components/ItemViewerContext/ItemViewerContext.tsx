@@ -1,6 +1,11 @@
 import { createContext } from 'react';
 import { Work } from '../../../model/catalogue';
-import { IIIFCanvas, IIIFManifest, IIIFRendering } from '../../../model/iiif';
+import {
+  IIIFCanvas,
+  IIIFManifest,
+  IIIFRendering,
+  SearchResults,
+} from '../../../model/iiif';
 import { LicenseData } from '../../../utils/licenses';
 import { UrlTemplate } from 'url-template';
 type Props = {
@@ -34,17 +39,33 @@ type Props = {
   setZoomInfoUrl: (v: string) => void;
   setIsFullscreen: (v: boolean) => void;
   zoomInfoUrl: string | undefined;
-  setRotatedImages: (v: { canvasIndex: number }[]) => void;
+  setRotatedImages: (v: { canvasIndex: number; rotation: number }[]) => void;
   showControls: boolean;
   isLoading: boolean;
   setIsLoading: (v: boolean) => void;
   setImageJson: (v: boolean) => void;
   setParentManifest: (v: IIIFManifest) => void;
-  rotatedImages: { canvasIndex: number }[];
+  rotatedImages: { canvasIndex: number; rotation: number }[];
   setShowControls: (v: boolean) => void;
   errorHandler?: () => void;
   setCurrentManifestLabel: (v: string) => void;
+  searchResults: SearchResults;
+  setSearchResults: (v) => void;
 };
+
+export const results = {
+  '@context': '',
+  '@id': '',
+  '@type': 'sc:AnnotationList',
+  within: {
+    '@type': '',
+    total: null,
+  },
+  startIndex: 0,
+  resources: [],
+  hits: [],
+};
+
 const ItemViewerContext = createContext<Props>({
   work: {
     type: 'Work',
@@ -96,6 +117,7 @@ const ItemViewerContext = createContext<Props>({
   rotatedImages: [],
   urlTemplate: undefined,
   isMobile: false,
+  searchResults: results,
   setZoomInfoUrl: () => undefined,
   setActiveIndex: () => undefined,
   setGridVisible: () => false,
@@ -110,5 +132,6 @@ const ItemViewerContext = createContext<Props>({
   setShowControls: () => undefined,
   errorHandler: () => undefined,
   setCurrentManifestLabel: () => undefined,
+  setSearchResults: () => undefined,
 });
 export default ItemViewerContext;

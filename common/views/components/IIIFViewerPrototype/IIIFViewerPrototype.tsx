@@ -16,7 +16,9 @@ import ViewerSidebarPrototype from './ViewerSidebarPrototype';
 import MainViewerPrototype from '../MainViewerPrototype/MainViewerPrototype';
 import ViewerTopBarPrototype from './ViewerTopBarPrototype';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import ItemViewerContext, {
+  results,
+} from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import Router from 'next/router';
@@ -222,6 +224,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const [isMobile, setIsMobile] = useState(false);
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
+  const [searchResults, setSearchResults] = useState(results);
   const mainImageService = { '@id': getServiceId(currentCanvas) };
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
@@ -353,6 +356,8 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
         urlTemplate: urlTemplate,
         isMobile: isMobile,
         isMobileSidebarActive: isMobileSidebarActive,
+        searchResults: searchResults,
+        setSearchResults: setSearchResults,
         setIsMobileSidebarActive: setisMobileSidebarActive,
         setIsDesktopSidebarActive: setIsDesktopSidebarActive,
         setActiveIndex: setActiveIndex,

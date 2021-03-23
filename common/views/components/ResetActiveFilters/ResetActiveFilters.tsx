@@ -65,7 +65,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
   filters,
   linkResolver,
 }: ResetActiveFilters) => {
-  // This is a haclk until we decide exactly what it is we want the
+  // This is a hack until we decide exactly what it is we want the
   // reset filters to do
   const filterStateMap = new Map<string, string[] | string>();
   filters.forEach(filter => {
@@ -187,7 +187,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                 </Fragment>
               );
             }
-            if (f.type === 'color') {
+            if (f.type === 'color' && f.color) {
               return (
                 <Fragment key={`cancel-${f.id}`}>
                   <NextLink

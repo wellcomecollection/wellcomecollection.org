@@ -24,5 +24,5 @@ export const Input = styled(TextInput)`
 `;
 
 export const RulesList = styled.ul`
-  margin-top: -0.1em;
+  margin-top: 0.5em;
 `;

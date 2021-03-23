@@ -278,8 +278,8 @@ const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>
   [
     colorFilter,
     licenseFilter,
-    sourceContributorAgentsFilter,
     sourceGenresFilter,
+    sourceContributorAgentsFilter,
   ].map(f => f(props));
 
 const worksFilters: (props: WorksFilterProps) => Filter[] = props =>
@@ -287,9 +287,9 @@ const worksFilters: (props: WorksFilterProps) => Filter[] = props =>
     workTypeFilter,
     productionDatesFilter,
     availabilitiesFilter,
-    contributorsFilter,
     subjectsFilter,
     genresFilter,
+    contributorsFilter,
     languagesFilter,
   ].map(f => f(props));
 

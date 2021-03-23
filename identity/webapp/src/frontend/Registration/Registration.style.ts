@@ -7,16 +7,20 @@ export const ExternalLink = styled.a`
 `;
 
 const AlertBox = styled.div.attrs({ role: 'alert', className: 'font-hnl' })`
-  padding: 1em;
+  padding: 1em 2em;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   font-weight: bold;
+  text-align: center;
+  gap: 0.5em;
 
   & svg {
     stroke: currentColor;
     fill: currentColor;
+    height: 32px;
+    width: 32px;
   }
 `;
 
