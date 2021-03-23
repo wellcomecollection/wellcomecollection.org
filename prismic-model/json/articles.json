@@ -450,18 +450,6 @@
                   "label": "Title",
                   "single": "heading2"
                 }
-              }
-            },
-            "repeat": {
-              "contributor": {
-                "type": "Link",
-                "config": {
-                  "label": "Contributor",
-                  "select": "document",
-                  "customtypes": [
-                    "people"
-                  ]
-                }
               },
               "text": {
                 "type": "StructuredText",

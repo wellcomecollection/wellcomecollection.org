@@ -113,6 +113,8 @@ type Concept = {
 };
 
 export type DigitalLocation = {
+  title?: string;
+  linkText?: string;
   locationType: LocationType;
   url: string;
   credit?: string;
@@ -319,6 +321,8 @@ export type WorkAggregations = {
 
 export type ImageAggregations = {
   license?: CatalogueAggregation;
+  'source.genres.label'?: CatalogueAggregation;
+  'source.contributors.agent.label'?: CatalogueAggregation;
   type: 'Aggregations';
 };
 

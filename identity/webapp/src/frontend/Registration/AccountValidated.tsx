@@ -3,7 +3,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
-import { PageWrapper } from '../Shared/PageWrapper';
+import { PageWrapper } from '../components/PageWrapper';
 import { withPrefix } from '../../utility/prefix';
 
 // TODO: Update this to prod.

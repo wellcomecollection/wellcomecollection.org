@@ -19,6 +19,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
   const [secondsPlayed, setSecondsPlayed] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const annotation: any = getAnnotationFromMediaElement(video);
+
   function trackViewingTime() {
     trackEvent({
       category: 'Engagement',
@@ -57,6 +58,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
     },
     isPlaying ? 1000 : null
   );
+
   return (
     <>
       <video

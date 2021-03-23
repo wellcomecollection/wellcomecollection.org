@@ -1,11 +1,32 @@
 export default {
   toggles: [
     {
-      id: 'openWithAdvisoryPrototype',
-      title: 'Open with advisory',
+      id: 'itemViewerPrototype',
+      title: 'Show the prototype UI for the item viewer',
       description:
-        'Adds functionality for viewing digitised items with an access condition of open-with-advisory',
-      defaultValue: true,
+        'Adds a sidebar with structured metadata about the item being viewed',
+      defaultValue: false,
+    },
+    {
+      id: 'itemViewerPrototypeWithSearch',
+      title:
+        'Show the prototype UI for the item viewer with search within functionality',
+      description:
+        'Adds a sidebar with structured metadata about the item being viewed and the ability to search within the item',
+      defaultValue: false,
+    },
+    {
+      id: 'showCanvasLabels',
+      title: 'Show canvas labels on viewer thumbnails',
+      description:
+        'Shows the canvas label on the viewer thumbnails above the image number',
+      defaultValue: false,
+    },
+    {
+      id: 'onlineResourcesPrototype',
+      title: 'Online resources',
+      description: `Adds links to any third-party resources associated with items (inside 'Available online')`,
+      defaultValue: false,
     },
     {
       id: 'buildingReopening',

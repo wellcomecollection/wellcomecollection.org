@@ -1,8 +1,9 @@
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import React from 'react';
-import { PageWrapper } from './PageWrapper';
-import { Container, SuccessMessage, Wrapper } from './Registration.style';
+import { PageWrapper } from '../components/PageWrapper';
+import { SuccessMessage } from './Registration.style';
+import { Container, Wrapper } from '../components/Layout.style';
 
 export const AccountCreated: React.FC = () => {
   return (

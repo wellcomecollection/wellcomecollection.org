@@ -232,13 +232,60 @@ const licenseFilter = ({
   ),
 });
 
+const sourceGenresFilter = ({
+  images,
+  props,
+}: ImagesFilterProps): CheckboxFilter => ({
+  type: 'checkbox',
+  id: 'source.genres.label',
+  label: 'Genres',
+  options: filterOptionsWithNonAggregates(
+    images?.aggregations?.['source.genres.label']?.buckets.map(bucket => ({
+      id: toHtmlId(bucket.data.label),
+      value: quoteVal(bucket.data.label),
+      count: bucket.count,
+      label: bucket.data.label,
+      selected: props['source.genres.label'].includes(bucket.data.label),
+    })) || [],
+    props['source.genres.label'].map(quoteVal)
+  ),
+});
+
+const sourceContributorAgentsFilter = ({
+  images,
+  props,
+}: ImagesFilterProps): CheckboxFilter => ({
+  type: 'checkbox',
+  id: 'source.contributors.agent.label',
+  label: 'Contributors',
+  options: filterOptionsWithNonAggregates(
+    images?.aggregations?.['source.contributors.agent.label']?.buckets.map(
+      bucket => ({
+        id: toHtmlId(bucket.data.label),
+        value: quoteVal(bucket.data.label),
+        count: bucket.count,
+        label: bucket.data.label,
+        selected: props['source.contributors.agent.label'].includes(
+          bucket.data.label
+        ),
+      })
+    ) || [],
+    props['source.contributors.agent.label'].map(quoteVal)
+  ),
+});
+
 const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>
-  [colorFilter, licenseFilter].map(f => f(props));
+  [
+    colorFilter,
+    licenseFilter,
+    sourceContributorAgentsFilter,
+    sourceGenresFilter,
+  ].map(f => f(props));
 
 const worksFilters: (props: WorksFilterProps) => Filter[] = props =>
   [
-    productionDatesFilter,
     workTypeFilter,
+    productionDatesFilter,
     availabilitiesFilter,
     contributorsFilter,
     subjectsFilter,
