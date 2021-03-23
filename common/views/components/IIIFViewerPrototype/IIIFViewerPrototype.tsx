@@ -135,22 +135,22 @@ const Topbar = styled.div<{ isSidebarActive: boolean }>`
   z-index: 4;
 `;
 
-const Main = styled.div<{ isSidebarActive: boolean }>`
+const Main = styled.div`
   background: ${props => props.theme.color('viewerBlack')};
   color: ${props => props.theme.color('white')};
-  grid-area: desktop-main-start /
-    ${props => (props.isSidebarActive ? 'main-start' : 'left-edge')} /
-    bottom-edge / right-edge;
+  grid-area: desktop-main-start / main-start / bottom-edge / right-edge;
   overflow: auto;
   position: relative;
 `;
 
+const Zoom = styled.div`
+  grid-area: desktop-main-start / left-edge / bottom-edge / right-edge;
+`;
+
 // TODO: check that we can't reach thumbnails by keyboard/screenreader
-const Thumbnails = styled.div<{ isActive: boolean; isSidebarActive: boolean }>`
+const Thumbnails = styled.div<{ isActive: boolean }>`
   background: ${props => props.theme.color('charcoal')};
-  grid-area: desktop-main-start /
-    ${props => (props.isSidebarActive ? 'main-start' : 'left-edge')} /
-    bottom-edge / right-edge;
+  grid-area: desktop-main-start / main-start / bottom-edge / right-edge;
   transform: translateY(${props => (props.isActive ? '0' : '100%')});
   transition: transform 250ms ease;
   z-index: 3;
@@ -394,8 +394,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
             viewerRef={viewerRef}
           />
         </Topbar>
-        <Main isSidebarActive={!showZoomed} ref={mainAreaRef}>
-          {showZoomed && <ZoomedImagePrototype />}
+        <Main ref={mainAreaRef}>
           {!showZoomed && (
             <ImageViewerControls showControls={showControls || urlTemplate}>
               <Space
@@ -466,7 +465,12 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
             />
           )}
         </Main>
-        <Thumbnails isActive={gridVisible} isSidebarActive={!showZoomed}>
+        {showZoomed && (
+          <Zoom>
+            <ZoomedImagePrototype />
+          </Zoom>
+        )}
+        <Thumbnails isActive={gridVisible}>
           <GridViewerPrototype
             mainViewerRef={mainViewerRef}
             gridViewerRef={gridViewerRef}
