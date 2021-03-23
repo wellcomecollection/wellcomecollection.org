@@ -238,7 +238,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                 sizes={''}
                 alt={''}
                 isLazy={false}
-                lang={null}
+                lang={undefined}
                 loadHandler={() => {
                   setThumbLoaded(true);
                 }}
