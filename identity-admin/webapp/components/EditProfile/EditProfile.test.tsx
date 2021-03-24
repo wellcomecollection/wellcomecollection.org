@@ -236,21 +236,21 @@ describe('EditProfile', () => {
     renderPage({ creationDate: '2021-01-11T15:40:00.000Z' });
     await waitForPageToLoad();
     expect(screen.getByText(/creation date/i)).toBeInTheDocument();
-    expect(screen.getByText('11/01/2021 15:40:00')).toBeInTheDocument();
+    expect(screen.getByText(/11\/01\/2021 15:40:00/)).toBeInTheDocument();
   });
 
   it("displays the date the user's account was last updated", async () => {
     renderPage({ updatedDate: '2021-02-14T10:35:28.583Z' });
     await waitForPageToLoad();
     expect(screen.getByText(/last update/i)).toBeInTheDocument();
-    expect(screen.getByText('14/02/2021 10:35:28')).toBeInTheDocument();
+    expect(screen.getByText(/14\/02\/2021 10:35:28/)).toBeInTheDocument();
   });
 
   it('displays the date the user last logged in', async () => {
     renderPage({ lastLoginDate: '2021-02-23T09:20:32.507Z' });
     await waitForPageToLoad();
     expect(screen.getByText(/last login$/i)).toBeInTheDocument();
-    expect(screen.getByText('23/02/2021 09:20:32')).toBeInTheDocument();
+    expect(screen.getByText(/23\/02\/2021 09:20:32/)).toBeInTheDocument();
   });
 
   it('displays the IP the user last logged in from', async () => {

@@ -1,7 +1,20 @@
 import React from 'react';
 import { useUserInfo } from '../../context/UserInfoContext';
+import { humanDate } from '../../utils/humanDate';
 import { prettyDate } from '../../utils/prettyDate';
 import { UsageDetail, UsageDetailsList, Label, Value } from './UsageData.style';
+
+function TimeBasedDetail(props: { label: string; date?: string }) {
+  if (!props.date) return null;
+  return (
+    <UsageDetail>
+      <Label>{props.label}</Label>
+      <Value>
+        {prettyDate(props.date)} [UTC] ({humanDate(props.date)})
+      </Value>
+    </UsageDetail>
+  );
+}
 
 export function UsageData(): JSX.Element {
   const { user, isLoading } = useUserInfo();
@@ -14,22 +27,13 @@ export function UsageData(): JSX.Element {
     <>
       <h3>Account data</h3>
       <UsageDetailsList>
-        <UsageDetail>
-          <Label>Last login</Label>
-          <Value>{prettyDate(user?.lastLoginDate)}</Value>
-        </UsageDetail>
-        <UsageDetail>
-          <Label>Creation date</Label>
-          <Value>{prettyDate(user?.creationDate)}</Value>
-        </UsageDetail>
+        <TimeBasedDetail label="Last login" date={user?.lastLoginDate} />
+        <TimeBasedDetail label="Creation date" date={user?.creationDate} />
         <UsageDetail>
           <Label>Last login IP</Label>
           <Value>{user?.lastLoginIp}</Value>
         </UsageDetail>
-        <UsageDetail>
-          <Label>Last update</Label>
-          <Value>{prettyDate(user?.updatedDate)}</Value>
-        </UsageDetail>
+        <TimeBasedDetail label="Last update" date={user?.updatedDate} />
         <UsageDetail>
           <Label>Total logins</Label>
           <Value>{user?.totalLogins}</Value>
