@@ -349,7 +349,7 @@ const MainViewer: FunctionComponent<Props> = ({
           ((viewer?.props.itemSize || 0) - renderedHeight) / 2;
         viewer?.scrollTo(distanceToScroll);
       } else {
-        viewer && viewer.scrollToItem(canvasIndex, 'start');
+        viewer?.scrollToItem(canvasIndex, 'start');
       }
       setFirstRender(false);
       const mainImageService = {
