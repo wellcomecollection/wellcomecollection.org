@@ -339,15 +339,17 @@ const MainViewer: FunctionComponent<Props> = ({
       const viewer = mainViewerRef?.current;
       const isLandscape = currentCanvas.width > currentCanvas.height;
 
-      if (isLandscape && canvasIndex === 0) {
+      if (isLandscape) {
         const ratio = currentCanvas.height / currentCanvas.width;
         const renderedHeight = mainAreaWidth * ratio * 0.8;
+        const heightOfPreviousItems =
+          canvasIndex * (viewer?.props.itemSize || 0);
         const distanceToScroll =
+          heightOfPreviousItems +
           ((viewer?.props.itemSize || 0) - renderedHeight) / 2;
         viewer?.scrollTo(distanceToScroll);
       } else {
-        viewer &&
-          viewer.scrollToItem(canvasIndex, isLandscape ? 'center' : 'start');
+        viewer && viewer.scrollToItem(canvasIndex, 'start');
       }
       setFirstRender(false);
       const mainImageService = {
