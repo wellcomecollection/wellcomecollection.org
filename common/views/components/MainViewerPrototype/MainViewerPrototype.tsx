@@ -330,6 +330,15 @@ const MainViewer: FunctionComponent<Props> = ({
     }, 500);
   }
 
+  // Vertically center the first canvas if it's landscape
+  useEffect(() => {
+    const currentCanvas = canvases[canvasIndex];
+
+    if (currentCanvas.width > currentCanvas.height) {
+      mainViewerRef?.current?.scrollToItem(canvasIndex, 'center');
+    }
+  }, []);
+
   function handleOnItemsRendered() {
     setIsProgrammaticScroll(false);
     let currentCanvas;
