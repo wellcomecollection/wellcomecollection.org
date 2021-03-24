@@ -330,25 +330,26 @@ const MainViewer: FunctionComponent<Props> = ({
     }, 500);
   }
 
-  // Vertically center the first canvas if it's landscape
-  useEffect(() => {
-    const currentCanvas = canvases[canvasIndex];
-
-    if (currentCanvas.width > currentCanvas.height) {
-      mainViewerRef?.current?.scrollToItem(canvasIndex, 'center');
-    }
-  }, []);
-
   function handleOnItemsRendered() {
     setIsProgrammaticScroll(false);
     let currentCanvas;
     if (firstRenderRef.current) {
       setActiveIndex(canvasIndex);
-      mainViewerRef &&
-        mainViewerRef.current &&
-        mainViewerRef.current.scrollToItem(canvasIndex, 'start');
-      setFirstRender(false);
       currentCanvas = canvases && canvases[canvasIndex];
+      const viewer = mainViewerRef?.current;
+      const isLandscape = currentCanvas.width > currentCanvas.height;
+
+      if (isLandscape && canvasIndex === 0) {
+        const ratio = currentCanvas.height / currentCanvas.width;
+        const renderedHeight = mainAreaWidth * ratio * 0.8;
+        const distanceToScroll =
+          ((viewer?.props.itemSize || 0) - renderedHeight) / 2;
+        viewer?.scrollTo(distanceToScroll);
+      } else {
+        viewer &&
+          viewer.scrollToItem(canvasIndex, isLandscape ? 'center' : 'start');
+      }
+      setFirstRender(false);
       const mainImageService = {
         '@id': currentCanvas
           ? currentCanvas.images[0].resource.service['@id']
