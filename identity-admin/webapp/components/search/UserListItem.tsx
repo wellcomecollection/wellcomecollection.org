@@ -13,7 +13,7 @@ const UserListItem = ({ data }: Props): JSX.Element => {
   };
 
   return (
-    <tr onClick={redirectToUser}>
+    <tr className="user-list__item" onClick={redirectToUser}>
       <td className="user-list__first">
         {data.firstName} {data.lastName}
       </td>

@@ -107,6 +107,32 @@ a.status-dropdown__option:hover {
 
 .user-list__body tr {
   border-width: 1px;
+  border-style: dashed none none none;
+}
+
+.user-list__item {
+  cursor: pointer;
+}
+
+tr.user-list__item:first-child {
+  border-style: none;
+}
+
+tr.user-list__item:last-child {
+  border-style: dashed none;
+}
+
+tr.user-list__item:hover {
+  color: #fff;
+  background-color: #007868;
+  border-style: none;
+}
+
+.user-list__item:hover + .user-list__item {
+  border-style: none;
+}
+
+.user-list__item:hover + .user-list__item:last-child {
   border-style: none none dashed none;
 }
 
