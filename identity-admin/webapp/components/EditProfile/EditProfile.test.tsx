@@ -44,15 +44,21 @@ describe('EditProfile', () => {
     );
   });
 
-  it('has a top-level heading which links to the main screen', async () => {
+  it('has a top-level heading', async () => {
     renderPage();
-    await waitFor(() =>
-      expect(screen.queryByText(/loading/i)).not.toBeInTheDocument()
+    await waitForPageToLoad();
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      /account administration/i
     );
-    const heading = screen.getByRole('heading', { level: 1 });
-    expect(heading).toBeInTheDocument();
-    expect(heading).toHaveTextContent(/account administration/i);
-    expect(heading.firstChild).toHaveAttribute('href', '/');
+  });
+
+  it('has a link to the main screen', async () => {
+    renderPage();
+    await waitForPageToLoad();
+    expect(screen.getByRole('link', { name: /main screen/i })).toHaveAttribute(
+      'href',
+      '/'
+    );
   });
 
   it('has a second-level heading with the name of the user profile being edited', async () => {

@@ -5,16 +5,26 @@ import Layout from '../../components/Layout';
 import { PersonalDetails } from '../PersonalDetails';
 import { UsageData } from '../UsageData';
 import { useUserInfo } from '../../context/UserInfoContext';
-import { Title } from './EditProfile.style';
+import { MainScreenLink } from './EditProfile.style';
+import { Arrow } from '../Icons/Arrow';
 
 export function EditProfile(): JSX.Element {
   const { isLoading, error } = useUserInfo();
 
   return (
     <Layout title="Account administration">
-      <Title>
-        <Link href="/">Account administration</Link>
-      </Title>
+      <h1>Account administration</h1>
+      <Link href="/" passHref>
+        <MainScreenLink>
+          <Arrow
+            height="24"
+            width="24"
+            fill="currentColor"
+            style={{ transform: 'rotate(180deg)' }}
+          />
+          Main screen
+        </MainScreenLink>
+      </Link>
       {isLoading ? (
         <p>Loading...</p>
       ) : error ? (
