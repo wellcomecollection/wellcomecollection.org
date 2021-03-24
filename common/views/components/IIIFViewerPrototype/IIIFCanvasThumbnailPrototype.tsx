@@ -138,8 +138,10 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
                 urlTemplate
                   ? urlTemplate({
                       size: `${
-                        preferredThumbnail ? preferredThumbnail.width : '!100'
-                      },`,
+                        preferredThumbnail
+                          ? `${preferredThumbnail.width},`
+                          : 'max'
+                      }`,
                     })
                   : null
               }
