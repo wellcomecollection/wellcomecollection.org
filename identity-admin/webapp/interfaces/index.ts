@@ -35,5 +35,4 @@ export enum SortField {
   Name = 'name',
   Email = 'email',
   LastLogin = 'lastLogin',
-  Locked = 'locked',
 }

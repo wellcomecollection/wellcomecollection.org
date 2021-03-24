@@ -39,9 +39,7 @@ const UserList = ({ items, totalResults }: Props): JSX.Element => {
           <td>
             Patron record number <Sorter fieldName={SortField.UserId} />
           </td>
-          <td className="user-list__filter--status">
-            Status <Sorter fieldName={SortField.Locked} />
-          </td>
+          <td className="user-list__filter--status">Status</td>
           <td>
             Last Login <Sorter fieldName={SortField.LastLogin} />
           </td>
