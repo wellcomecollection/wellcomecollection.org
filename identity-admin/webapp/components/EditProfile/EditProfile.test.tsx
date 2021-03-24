@@ -61,6 +61,15 @@ describe('EditProfile', () => {
     );
   });
 
+  it('has a link to log out', async () => {
+    renderPage();
+    await waitForPageToLoad();
+    expect(screen.getByRole('link', { name: /logout/i })).toHaveAttribute(
+      'href',
+      '/api/auth/logout'
+    );
+  });
+
   it('has a second-level heading with the name of the user profile being edited', async () => {
     renderPage();
     const secondaryHeading = await screen.findByRole('heading', {

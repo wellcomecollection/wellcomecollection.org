@@ -5,7 +5,11 @@ import Layout from '../../components/Layout';
 import { PersonalDetails } from '../PersonalDetails';
 import { UsageData } from '../UsageData';
 import { useUserInfo } from '../../context/UserInfoContext';
-import { MainScreenLink } from './EditProfile.style';
+import {
+  LogoutLink,
+  MainScreenLink,
+  TitleContainer,
+} from './EditProfile.style';
 import { Arrow } from '../Icons/Arrow';
 
 export function EditProfile(): JSX.Element {
@@ -13,7 +17,10 @@ export function EditProfile(): JSX.Element {
 
   return (
     <Layout title="Account administration">
-      <h1>Account administration</h1>
+      <TitleContainer>
+        <h1>Account administration</h1>
+        <LogoutLink />
+      </TitleContainer>
       <Link href="/" passHref>
         <MainScreenLink>
           <Arrow
