@@ -12,6 +12,7 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
+import IIIFViewerPrototype from '@weco/common/views/components/IIIFViewerPrototype/IIIFViewerPrototype';
 import {
   GlobalContextData,
   getGlobalContextData,
@@ -78,19 +79,38 @@ const ImagePage: FunctionComponent<Props> = ({
       globalContextData={globalContextData}
     >
       {iiifImageLocation ? (
-        <IIIFViewer
-          title={title}
-          mainPaginatorProps={mainPaginatorProps}
-          thumbsPaginatorProps={thumbsPaginatorProps}
-          lang={langCode}
-          canvases={[]}
-          workId={sourceWork.id}
-          pageIndex={0}
-          pageSize={1}
-          canvasIndex={0}
-          iiifImageLocation={iiifImageLocation}
-          work={sourceWork}
-        />
+        <>
+          {globalContextData.toggles.itemViewerPrototype ||
+          globalContextData.toggles.itemViewerPrototypeWithSearch ? (
+            <IIIFViewerPrototype
+              title={title}
+              mainPaginatorProps={mainPaginatorProps}
+              thumbsPaginatorProps={thumbsPaginatorProps}
+              lang={langCode}
+              canvases={[]}
+              workId={sourceWork.id}
+              pageIndex={0}
+              pageSize={1}
+              canvasIndex={0}
+              iiifImageLocation={iiifImageLocation}
+              work={sourceWork}
+            />
+          ) : (
+            <IIIFViewer
+              title={title}
+              mainPaginatorProps={mainPaginatorProps}
+              thumbsPaginatorProps={thumbsPaginatorProps}
+              lang={langCode}
+              canvases={[]}
+              workId={sourceWork.id}
+              pageIndex={0}
+              pageSize={1}
+              canvasIndex={0}
+              iiifImageLocation={iiifImageLocation}
+              work={sourceWork}
+            />
+          )}
+        </>
       ) : (
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
