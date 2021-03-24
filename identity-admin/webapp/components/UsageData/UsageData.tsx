@@ -9,9 +9,8 @@ function TimeBasedDetail(props: { label: string; date?: string }) {
   return (
     <UsageDetail>
       <Label>{props.label}</Label>
-      <Value>
-        {prettyDate(props.date)} [UTC] ({humanDate(props.date)})
-      </Value>
+      <Value>{humanDate(props.date)}</Value>
+      <Value minor>{prettyDate(props.date)} UTC</Value>
     </UsageDetail>
   );
 }
