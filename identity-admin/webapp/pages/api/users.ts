@@ -1,67 +1,37 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { SearchResults, User } from '../../interfaces';
+import { SortField } from '../../interfaces';
+import { callRemoteApi } from '../../utils/api-caller';
+import * as queryString from 'query-string';
+
+const pageSize = 20;
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse<SearchResults>
+  res: NextApiResponse
 ): Promise<void> => {
   const {
-    query: { page = '1', status, name, email },
+    query: {
+      page = '1',
+      status,
+      name,
+      email,
+      sort = SortField.Name,
+      sortDir = '1',
+    },
   } = req;
 
-  const p: number = parseInt(page as string);
-  res
-    .status(200)
-    .json(
-      dummyResults(
-        p,
-        typeof status === 'string' ? status : 'active',
-        typeof name === 'string' ? name : 'Joe',
-        typeof email === 'string' ? email : 'test@example.com'
-      )
-    );
+  const p: number = parseInt(page as string) - 1;
+  const statusFilterValue = status !== 'any' ? status : undefined;
+  const queryParams = queryString.stringify({
+    page: p,
+    pageSize,
+    sort,
+    sortDir,
+    name,
+    email,
+    status: statusFilterValue,
+  });
+  const searchUrl = '/users?' + queryParams;
+  const apiResponse = await callRemoteApi(req, res, 'GET', searchUrl);
+  res.status(apiResponse.status).json(apiResponse.body);
 };
-
-function dummyResults(
-  page: number,
-  status: string,
-  name: string,
-  email: string
-): SearchResults {
-  return {
-    page: page,
-    pageSize: 3,
-    pageCount: 20,
-    totalResults: 9,
-    sort: 'userId',
-    sortDir: 1,
-    query: '',
-    results: [
-      dummyUser(3 * (page - 1) + 1, status, name, email),
-      dummyUser(3 * (page - 1) + 2, status, name, email),
-      dummyUser(3 * (page - 1) + 3, status, name, email),
-    ],
-  };
-}
-
-function dummyUser(
-  userId: number,
-  status: string,
-  name: string,
-  email: string
-): User {
-  return {
-    userId: userId,
-    barcode: '' + userId,
-    firstName: name,
-    lastName: 'Bloggs',
-    email: email,
-    emailValidated: true,
-    locked: status === 'locked',
-    creationDate: '2000-01-01T00:00:00.000Z',
-    lastLogin: '2000-01-01T00:00:00.000Z',
-    lastLoginIp: '127.0.0.1',
-    totalLogins: 17,
-    deleteRequested: status === 'deletePending' ? status : null,
-  };
-}

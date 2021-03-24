@@ -18,9 +18,9 @@ const UserListItem = ({ data }: Props): JSX.Element => {
         {data.firstName} {data.lastName}
       </td>
       <td>{data.email}</td>
-      <td>{data.barcode}</td>
+      <td>{data.userId}</td>
       <td>{statusMessage(data)}</td>
-      <td>{data.lastLogin && prettyDate(data.lastLogin)}</td>
+      <td>{data.lastLoginDate && prettyDate(data.lastLoginDate)}</td>
     </tr>
   );
 };

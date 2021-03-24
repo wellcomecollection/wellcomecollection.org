@@ -13,7 +13,7 @@ export type User = {
   emailValidated: boolean;
   locked: boolean;
   creationDate: string;
-  lastLogin: string | null;
+  lastLoginDate: string | null;
   lastLoginIp: string | null;
   totalLogins: number;
   deleteRequested: string | null;

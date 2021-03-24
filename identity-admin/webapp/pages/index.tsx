@@ -25,7 +25,7 @@ const IndexPage: React.FC = () => {
         <div>
           <UserList items={data?.results} totalResults={data?.totalResults} />
           <Pagination
-            currentPage={data?.page || 1}
+            currentPage={data?.page + 1 || 1}
             pageCount={data?.pageCount || 1}
           />
         </div>
