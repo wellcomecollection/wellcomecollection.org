@@ -19,11 +19,8 @@ const SearchForm = styled.form`
 `;
 
 const SearchInputWrapper = styled.div`
-  font-size: 20px;
-  background: ${props => props.theme.color('white')};
-  margin-right: 80px;
-  .search-query {
-    height: ${props => 10 * props.theme.spacingUnit}px;
+  input {
+    padding-right: 70px;
   }
 `;
 
@@ -32,8 +29,9 @@ const SearchButtonWrapper = styled.div.attrs({
     absolute: true,
   }),
 })`
-  top: 0;
-  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 4px;
 `;
 
 const ResultsHeader = styled(Space).attrs({
@@ -126,8 +124,8 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
         <SearchInputWrapper className="relative">
           <TextInput
             id={'searchWithin'}
-            label={'Search within this item'}
-            placeholder={'Search within this item'}
+            label={'Enter keyword'}
+            placeholder={'Enter keyword'}
             name="query"
             value={value}
             setValue={setValue}
@@ -135,7 +133,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
           />
         </SearchInputWrapper>
         <SearchButtonWrapper>
-          <ButtonSolid icon="search" text="search" isTextHidden={true} />
+          <ButtonSolid isBig icon="search" text="search" isTextHidden={true} />
         </SearchButtonWrapper>
       </SearchForm>
       <div aria-live="polite">
