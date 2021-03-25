@@ -13,6 +13,7 @@ export type Props = {
   title: string;
   text: HTMLString | null;
   image: ImageType;
+  sizesQueries?: string;
 };
 
 type ImageWrapperProp = {
@@ -54,9 +55,10 @@ export const MediaObject: FunctionComponent<Props> = ({
   title,
   text,
   image,
+  sizesQueries,
 }: Props): ReactElement<Props> => {
   const ImageComponent = image?.crops?.square && (
-    <Image {...image.crops.square} />
+    <Image {...image.crops.square} sizesQueries={sizesQueries} />
   );
 
   const description = text && <PrismicHtmlBlock html={text} />;
