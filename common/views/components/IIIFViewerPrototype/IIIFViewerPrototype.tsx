@@ -78,8 +78,12 @@ const Grid = styled.div`
   display: grid;
   height: calc(100vh - 85px); // FIXME: use variable for header height
   overflow: hidden;
-  grid-template-columns: [left-edge] minmax(200px, 330px) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
+  grid-template-columns: [left-edge] minmax(200px, 3fr) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
   grid-template-rows: [top-edge] min-content [desktop-main-start desktop-topbar-end] 1fr [mobile-bottombar-start mobile-main-end] min-content [bottom-edge];
+
+  ${props => props.theme.media.xlarge`
+    grid-template-columns: [left-edge] minmax(200px, 330px) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
+  `}
 `;
 
 const Sidebar = styled.div<{
