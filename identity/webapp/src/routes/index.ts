@@ -23,16 +23,36 @@ export const indexPage: RouteMiddleware = context => {
         <body>
           <noscript>
             <style>
-              .container {
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                left: 0;
-                right: 0;
+              html,
+              body {
+                height: 100vh;
+                margin: 0;
+              }
+
+              body {
                 display: grid;
                 place-items: center;
                 font-family: 'Helvetica Neue Light Web', HelveticaNeue-Light, 'Helvetica Neue Light', 'Helvetica Neue',
                   Helvetica, Arial, sans-serif;
+                font-size: 24px;
+              }
+
+              @media screen and (min-width: 600px) {
+                body {
+                  background-color: #f0ede3;
+                }
+              }
+
+              .container {
+                background-color: white;
+              }
+
+              @media screen and (min-width: 600px) {
+                .container {
+                  border-radius: 10px;
+                  max-width: 40em;
+                  padding: 3em 0;
+                }
               }
 
               .wrapper {
