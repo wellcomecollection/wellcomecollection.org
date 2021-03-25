@@ -135,12 +135,17 @@ const Topbar = styled.div<{ isSidebarActive: boolean }>`
   z-index: 4;
 `;
 
-const Main = styled.div`
+const Main = styled.div<{ isResizing: boolean }>`
   background: ${props => props.theme.color('viewerBlack')};
   color: ${props => props.theme.color('white')};
   grid-area: desktop-main-start / main-start / bottom-edge / right-edge;
   overflow: auto;
   position: relative;
+
+  img {
+    transition: filter ${props => props.theme.transitionProperties};
+    filter: blur(${props => (props.isResizing ? '5px' : '0')});
+  }
 `;
 
 const Zoom = styled.div`
@@ -192,6 +197,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [searchResults, setSearchResults] = useState(results);
+  const [isResizing, setIsResizing] = useState(false);
   const mainImageService = { '@id': getServiceId(currentCanvas) };
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
@@ -218,6 +224,10 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     const mainAreaObserver = new ResizeObserver(([mainArea]) => {
       clearTimeout(timer);
 
+      if (!isResizing) {
+        setIsResizing(true);
+      }
+
       // Store a reference to where we were
       if (!previousActiveIndex) {
         previousActiveIndex = activeIndexRef.current;
@@ -229,11 +239,12 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
         // it was before and scroll to the right place.
         if (previousActiveIndex !== activeIndex) {
           setActiveIndex(previousActiveIndex);
-          mainViewerRef?.current?.scrollToItem(previousActiveIndex);
+          mainViewerRef?.current?.scrollToItem(previousActiveIndex, 'start');
         }
 
         previousActiveIndex = undefined;
-      }, 1000); // Debounce
+        setIsResizing(false);
+      }, 500); // Debounce
 
       setMainAreaWidth(mainArea.contentRect.width);
       setMainAreaHeight(mainArea.contentRect.height);
@@ -368,6 +379,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
         isFullscreen: isFullscreen,
         isSidebarActive: isSidebarActive,
         searchResults: searchResults,
+        isResizing: isResizing,
         setSearchResults: setSearchResults,
         setIsSidebarActive: setIsSidebarActive,
         setActiveIndex: setActiveIndex,
@@ -394,7 +406,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
             viewerRef={viewerRef}
           />
         </Topbar>
-        <Main ref={mainAreaRef}>
+        <Main ref={mainAreaRef} isResizing={isResizing}>
           {!showZoomed && (
             <ImageViewerControls showControls={showControls || urlTemplate}>
               <Space

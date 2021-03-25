@@ -112,6 +112,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
     downloadOptions,
     iiifPresentationDownloadOptions,
     showZoomed,
+    isResizing,
   } = useContext(ItemViewerContext);
   return (
     <TopBar className="flex">
@@ -143,7 +144,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
         </LeftZone>
       )}
       <MiddleZone>
-        {canvases && canvases.length > 1 && !showZoomed && (
+        {canvases && canvases.length > 1 && !showZoomed && !isResizing && (
           <>
             {`${activeIndex + 1 || ''} / ${(canvases && canvases.length) ||
               ''}`}{' '}

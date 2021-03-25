@@ -28,6 +28,7 @@ type Props = {
   mainAreaWidth: number;
   mainAreaHeight: number;
   isFullscreen: boolean;
+  isResizing: boolean;
   setShowZoomed: (v: boolean) => void;
   isSidebarActive: boolean;
   setIsSidebarActive: (v: boolean) => void;
@@ -111,6 +112,7 @@ const ItemViewerContext = createContext<Props>({
   isLoading: false,
   rotatedImages: [],
   searchResults: results,
+  isResizing: false,
   setZoomInfoUrl: () => undefined,
   setActiveIndex: () => undefined,
   setGridVisible: () => false,
