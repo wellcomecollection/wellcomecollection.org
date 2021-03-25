@@ -63,7 +63,7 @@ function reloadAuthIframe(document, id: string) {
   const authMessageIframe: HTMLIFrameElement = document.getElementById(id);
   // assigning the iframe src to itself reloads the iframe and refires the window.message event
   // eslint-disable-next-line no-self-assign
-  authMessageIframe.src = authMessageIframe.src;
+  if (authMessageIframe) authMessageIframe.src = authMessageIframe.src;
 }
 
 type Audio = {

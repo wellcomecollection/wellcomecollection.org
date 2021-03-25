@@ -84,6 +84,7 @@ type IIIFCanvasThumbnailProps = {
   thumbNumber: number;
   clickHandler?: () => void;
   isFocusable?: boolean;
+  filterId: string | null;
 };
 
 const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
@@ -93,6 +94,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
   isActive,
   thumbNumber,
   isFocusable,
+  filterId,
 }: IIIFCanvasThumbnailProps) => {
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
   const thumbnailService = canvas?.thumbnail?.service;
@@ -130,13 +132,16 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
             </>
           ) : (
             <IIIFResponsiveImage
+              filterId={filterId}
               width={preferredThumbnail ? preferredThumbnail.width : 30}
               src={
                 urlTemplate
                   ? urlTemplate({
                       size: `${
-                        preferredThumbnail ? preferredThumbnail.width : '!100'
-                      },`,
+                        preferredThumbnail
+                          ? `${preferredThumbnail.width},`
+                          : 'max'
+                      }`,
                     })
                   : null
               }

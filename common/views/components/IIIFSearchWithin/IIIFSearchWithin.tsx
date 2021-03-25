@@ -1,14 +1,14 @@
 import { useState, useContext, FunctionComponent, RefObject } from 'react';
 import { getSearchService } from '../../../utils/iiif';
-// import NextLink from 'next/link'; //TODO
 import fetch from 'isomorphic-unfetch';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
-// import { itemLink } from '@weco/common/services/catalogue/routes'; //TODO
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
+import Space from '@weco/common/views/components/styled/Space';
+import LL from '@weco/common/views/components/styled/LL';
 
 type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
@@ -17,6 +17,7 @@ type Props = {
 const SearchForm = styled.form`
   position: relative;
 `;
+
 const SearchInputWrapper = styled.div`
   font-size: 20px;
   background: ${props => props.theme.color('white')};
@@ -33,6 +34,14 @@ const SearchButtonWrapper = styled.div.attrs({
 })`
   top: 0;
   right: 0;
+`;
+
+const ResultsHeader = styled(Space).attrs({
+  as: 'h3',
+  v: { size: 'm', properties: ['margin-top'] },
+})`
+  border-bottom: 1px solid ${props => props.theme.color('silver')};
+  padding-bottom: ${props => `${props.theme.spacingUnit}px`};
 `;
 
 const ListItem = styled.li`
@@ -53,23 +62,51 @@ const ListLink = styled.a.attrs({
   }
 `;
 
+const HitData = styled(Space).attrs({
+  as: 'span',
+  className: classNames({
+    [font('hnm', 6)]: true,
+  }),
+})`
+  display: block;
+  background: ${props => props.theme.color('charcoal')};
+  padding: ${props => `0 ${props.theme.spacingUnit}px`};
+`;
+
+const Loading = () => (
+  <div
+    style={{
+      position: 'relative',
+      width: '100%',
+      height: '80px',
+    }}
+  >
+    <LL small={true} lighten={true} />
+    <span className="visually-hidden">Loading</span>
+  </div>
+);
+
 const IIIFSearchWithin: FunctionComponent<Props> = ({
   mainViewerRef,
 }: Props) => {
   const [value, setValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const {
     setActiveIndex,
     manifest,
     searchResults,
     setSearchResults,
+    canvases,
   } = useContext(ItemViewerContext);
   const searchService = manifest && getSearchService(manifest);
   async function getSearchResults() {
     if (searchService) {
+      setIsLoading(true);
       try {
         const results = await (
           await fetch(`${searchService['@id']}?q=${value}`)
         ).json();
+        setIsLoading(false);
         setSearchResults(results);
       } catch (e) {
         console.info(e);
@@ -101,54 +138,72 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
           <ButtonSolid icon="search" text="search" isTextHidden={true} />
         </SearchButtonWrapper>
       </SearchForm>
-      {searchResults.within.total !== null && (
-        <h2>{searchResults.within.total} matches</h2>
-      )}
-      <ul className="no-padding">
-        {searchResults.hits.map((hit, i) => {
-          const matchingResource = searchResults.resources.find(
-            resource => resource['@id'] === hit.annotations[0]
-          );
-          const match = matchingResource?.on.match(/\/canvas\/c(\d+)#/);
-          const index = match && Number(match[1]);
-          return (
-            <ListItem key={i}>
-              <ListLink
-                style={{ textDecoration: 'none', cursor: 'pointer' }}
-                onClick={() => {
-                  setActiveIndex(index || 0);
-                  mainViewerRef &&
-                    mainViewerRef.current &&
-                    mainViewerRef.current.scrollToItem(index || 0, 'start');
-                }}
-              >
-                {/* {matchingResource &&
-                  JSON.stringify(matchingResource.on.match('/canvas/c(d+)#'))} */}
-                ...{hit.before}
-                {/* <NextLink
-                  {...itemLink({
-                    workId: work.id,
-                    langCode: work.language && work.language.id,
-                    canvas: canvas,
-                    // sierraId: sierraId,
-                  })}
-                  passHref
-                > */}
-                <span
-                  style={{
-                    background: '#944aa0',
-                    color: 'white',
+      <div aria-live="polite">
+        {isLoading && <Loading />}
+        {searchResults.within.total !== null && (
+          <ResultsHeader>
+            {searchResults.within.total}{' '}
+            {searchResults.within.total === 1 ? 'result' : 'results'}
+          </ResultsHeader>
+        )}
+        <ul className="no-padding">
+          {searchResults.hits.map((hit, i) => {
+            // We need the matching resource for each hit annotation in order to get the matching characters for each individual hit and also the canvas it appears on
+            const matchingResources = hit.annotations.map(annotation => {
+              return searchResults.resources.find(
+                resource => resource['@id'] === annotation
+              );
+            });
+            // Get the index of the canvas the hits appear on
+            const match = matchingResources?.[0]?.on.match(/\/canvas\/c(\d+)#/);
+            const index = match && Number(match[1]);
+            const matchingCanvas = index && canvases[index];
+            return (
+              <ListItem key={i}>
+                <ListLink
+                  style={{ textDecoration: 'none', cursor: 'pointer' }}
+                  onClick={() => {
+                    if (index) {
+                      setActiveIndex(index || 0);
+                      mainViewerRef &&
+                        mainViewerRef.current &&
+                        mainViewerRef.current.scrollToItem(index || 0, 'start');
+                    }
                   }}
                 >
-                  {hit.match}
-                </span>
-                {/* </NextLink> */}
-                {hit.after}...
-              </ListLink>
-            </ListItem>
-          );
-        })}
-      </ul>
+                  <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
+                    {`${hit.annotations.length} ${
+                      hit.annotations.length === 1 ? 'instance' : 'instances'
+                    } ${index &&
+                      `found on image ${index + 1} / ${canvases &&
+                        canvases.length}`} ${
+                      matchingCanvas && matchingCanvas.label.trim() !== '-'
+                        ? ` (page ${matchingCanvas.label})`
+                        : ''
+                    }`}
+                  </HitData>
+                  ...{hit.before}
+                  {/* Use the resource.chars to display the matches individually, rather than hit.match which groups them as a single string */}
+                  {matchingResources.map((resource, i) => (
+                    <span key={i}>
+                      <span
+                        style={{
+                          background: '#944aa0',
+                          color: 'white',
+                        }}
+                      >
+                        {resource?.resource?.chars}
+                      </span>
+                      {matchingResources[i + 1] ? ' ... ' : ''}
+                    </span>
+                  ))}
+                  {hit.after}...
+                </ListLink>
+              </ListItem>
+            );
+          })}
+        </ul>
+      </div>
     </>
   );
 };
