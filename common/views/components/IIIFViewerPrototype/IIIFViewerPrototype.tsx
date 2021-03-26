@@ -28,7 +28,7 @@ import dynamic from 'next/dynamic';
 import LL from '@weco/common/views/components/styled/LL';
 import { PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
 import ImageViewer from '../ImageViewer/ImageViewer';
-import ImageViewerControlsPrototype from './ImageViewerControlsPrototype';
+import ImageViewerControls from './ImageViewerControls';
 import ViewerBottomBarPrototype from './ViewerBottomBarPrototype';
 import useWindowSize from '@weco/common/hooks/useWindowSize';
 
@@ -130,7 +130,6 @@ const Topbar = styled.div<{
 `;
 
 const Main = styled.div<{
-  isMobileSidebarActive: boolean; // TODO: required here?
   isDesktopSidebarActive: boolean;
   isMobile: boolean;
 }>`
@@ -168,7 +167,6 @@ const BottomBar = styled.div<{
 // TODO: check that we can't reach thumbnails by keyboard/screenreader
 const Thumbnails = styled.div<{
   isActive: boolean;
-  isMobileSidebarActive: boolean; // TODO: required?
   isDesktopSidebarActive: boolean;
   isMobile: boolean;
 }>`
@@ -428,12 +426,11 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
         </Topbar>
         <Main
           isMobile={isMobile}
-          isMobileSidebarActive={isMobileSidebarActive}
           isDesktopSidebarActive={isDesktopSidebarActive}
           ref={mainAreaRef}
         >
           {showZoomed && <ZoomedImagePrototype />}
-          {!showZoomed && <ImageViewerControlsPrototype />}
+          {!showZoomed && <ImageViewerControls />}
           {urlTemplate && imageUrl && iiifImageLocation && (
             <ImageViewer
               infoUrl={iiifImageLocation.url}
@@ -468,7 +465,6 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
         <Thumbnails
           isActive={gridVisible}
           isMobile={isMobile}
-          isMobileSidebarActive={isMobileSidebarActive}
           isDesktopSidebarActive={isDesktopSidebarActive}
         >
           <GridViewerPrototype
