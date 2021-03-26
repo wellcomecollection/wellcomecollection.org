@@ -1,5 +1,5 @@
 import { CatalogueApiError } from '@weco/common/model/catalogue';
-import { serialiseUrl } from '@weco/common/services/catalogue/routes';
+import { propsToQuery } from '@weco/common/utils/routes';
 import { Toggles } from '@weco/toggles';
 
 export const rootUris = {
@@ -18,7 +18,7 @@ export const globalApiOptions = (toggles?: Toggles): GlobalApiOptions => ({
 });
 
 export const queryString = (params: { [key: string]: any }): string => {
-  const strings = Object.keys(serialiseUrl(params)).map(key => {
+  const strings = Object.keys(propsToQuery(params)).map(key => {
     const val = params[key];
     return `${key}=${encodeURIComponent(val)}`;
   });
