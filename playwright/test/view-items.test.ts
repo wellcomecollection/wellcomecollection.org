@@ -1,8 +1,28 @@
 import { multiVolumeItem } from './contexts';
 import { isMobile } from './actions/common';
 import { volumesNavigationLabel } from './text/aria-labels';
+import { zoomInButton, openseadragonCanvas } from './selectors/item';
+// let page: import('playwright').Page;
 
-describe('Scenario 1: Item has multiple volumes', () => {
+jest.setTimeout(30000);
+describe('Scenario 1: A user wants a large-scale view of an item', () => {
+  test('the images are scalable', async () => {
+    console.log('here');
+    await multiVolumeItem();
+    console.log('oo');
+    await page.waitForSelector(zoomInButton);
+    console.log(zoomInButton);
+    await page.click(zoomInButton);
+    console.log('clicked');
+    await page.waitForSelector(openseadragonCanvas);
+    // expect(openseadragonCanvas).toBeTruthy();
+
+    // presence of fullscreen
+    // click fullscreen opens fullscreen
+  });
+});
+
+describe('Scenario 6: Item has multiple volumes', () => {
   test('the volumes should be browsable', async () => {
     if (!isMobile()) {
       await multiVolumeItem();

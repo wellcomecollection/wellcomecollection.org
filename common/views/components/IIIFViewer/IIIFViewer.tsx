@@ -482,6 +482,7 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
           <>
             <ImageViewerControls showControls={showControls || urlTemplate}>
               <Space
+                data-test-id="zoom-in-button"
                 h={{ size: 's', properties: ['margin-left'] }}
                 v={{ size: 'l', properties: ['margin-bottom'] }}
               >
