@@ -339,6 +339,12 @@ const MainViewer: FunctionComponent<Props> = ({
       const viewer = mainViewerRef?.current;
       const isLandscape = currentCanvas.width > currentCanvas.height;
 
+      // If an image is landscape, it will tend to appear too low in the viewport
+      // on account of the FixedSizedList necessarily being comprised of square items.
+      // To circumvent this, if the image is landscape
+      // 1. We calculate the rendered height of the image
+      // 2. We half the difference between that and the square item it sits inside
+      // 3. We scroll that distance, putting the top of the image at the top of the viewport
       if (isLandscape) {
         const ratio = currentCanvas.height / currentCanvas.width;
         const renderedHeight = mainAreaWidth * ratio * 0.8; // TODO: 0.8 = 80% max-width image in container. Variable.
