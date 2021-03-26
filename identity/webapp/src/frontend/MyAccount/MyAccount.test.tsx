@@ -5,6 +5,8 @@ import { mockUser } from '../mocks/user';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
+import { server } from '../mocks/server';
+import { rest } from 'msw';
 
 // avoid rendering header SVG to help with debugging tests
 jest.mock('../components/PageWrapper', () => ({
@@ -31,6 +33,22 @@ describe('MyAccount', () => {
     const heading = await screen.findByRole('heading', { level: 1 });
     expect(heading).toBeInTheDocument();
     expect(heading).toHaveTextContent(/my account/i);
+  });
+
+  it('informs the user when their email has not been validated', async () => {
+    server.use(
+      rest.get('/api/users/me', (req, res, ctx) => {
+        return res(ctx.json({ ...mockUser, emailValidated: false }));
+      })
+    );
+    renderComponent();
+    expect(await screen.findByText(/you have not yet validated your email address/i)).toBeInTheDocument();
+  });
+
+  it('does not show an email validation warning by default', async () => {
+    renderComponent();
+    await waitFor(() => expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument());
+    expect(screen.queryByText(/you have not yet validated your email address/i)).not.toBeInTheDocument();
   });
 
   it("shows the user's name", async () => {
