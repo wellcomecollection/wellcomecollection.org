@@ -244,13 +244,6 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
       </div>
       {searchService && itemViewerPrototypeWithSearch && (
         <Inner>
-          <span
-            className={classNames({
-              [font('hnm', 5)]: true,
-            })}
-          >
-            Search within this item
-          </span>
           <IIIFSearchWithin mainViewerRef={mainViewerRef} />
         </Inner>
       )}

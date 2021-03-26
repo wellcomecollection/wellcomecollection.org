@@ -120,21 +120,32 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
           getSearchResults();
         }}
       >
-        {' '}
+        <span
+          className={classNames({
+            [font('hnm', 5)]: true,
+          })}
+        >
+          Search within this item
+        </span>
         <SearchInputWrapper className="relative">
           <TextInput
             id={'searchWithin'}
             label={'Enter keyword'}
-            placeholder={'Enter keyword'}
             name="query"
             value={value}
             setValue={setValue}
             required={true}
+            aria-label={`Search within this item`}
           />
+          <SearchButtonWrapper>
+            <ButtonSolid
+              isBig
+              icon="search"
+              text="search"
+              isTextHidden={true}
+            />
+          </SearchButtonWrapper>
         </SearchInputWrapper>
-        <SearchButtonWrapper>
-          <ButtonSolid isBig icon="search" text="search" isTextHidden={true} />
-        </SearchButtonWrapper>
       </SearchForm>
       <div aria-live="polite">
         {isLoading && <Loading />}
