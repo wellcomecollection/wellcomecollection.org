@@ -456,9 +456,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         </WorkDetailsSection>
       )}
 
-      {!digitalLocation &&
-        !onlineResourcesPrototype &&
-        (locationOfWork || encoreLink) && <WhereToFindIt />}
+      {!digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
 
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection
