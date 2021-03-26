@@ -4,16 +4,13 @@ import { volumesNavigationLabel } from './text/aria-labels';
 import { zoomInButton, openseadragonCanvas } from './selectors/item';
 // let page: import('playwright').Page;
 
-jest.setTimeout(30000);
 describe('Scenario 1: A user wants a large-scale view of an item', () => {
   test('the images are scalable', async () => {
-    console.log('here');
     await multiVolumeItem();
-    console.log('oo');
+    await page.waitForSelector('.cookie-notification__close');
+    await page.click('.cookie-notification__close');
     await page.waitForSelector(zoomInButton);
-    console.log(zoomInButton);
     await page.click(zoomInButton);
-    console.log('clicked');
     await page.waitForSelector(openseadragonCanvas);
     // expect(openseadragonCanvas).toBeTruthy();
 
