@@ -1,19 +1,19 @@
 import { FunctionComponent, useState, useContext } from 'react';
-import WorkLink from '../WorkLink/WorkLink';
-import Icon from '../Icon/Icon';
+import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import styled from 'styled-components';
-import Space from '../styled/Space';
-import TextInput from '../TextInput/TextInput';
+import Space from '@weco/common/views/components/styled/Space';
+import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import { classNames, font } from '@weco/common/utils/classnames';
-import LinkLabels from '../LinkLabels/LinkLabels';
+import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import {
   getProductionDates,
   getDigitalLocationOfType,
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
-import ViewerStructuresPrototype from '../ViewerStructuresPrototype/ViewerStructuresPrototype';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import ViewerStructuresPrototype from '@weco/common/views/components/ViewerStructuresPrototype/ViewerStructuresPrototype';
+import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import MultipleManifestListPrototype from '../MultipleManifestListPrototype/MultipleManifestListPrototype';
 import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
@@ -131,9 +131,14 @@ type Props = {
 const ViewerSidebarPrototype: FunctionComponent<Props> = ({
   mainViewerRef,
 }: Props) => {
-  const { work, manifest, parentManifest, currentManifestLabel } = useContext(
-    ItemViewerContext
-  );
+  const {
+    work,
+    manifest,
+    parentManifest,
+    currentManifestLabel,
+    isMobile,
+    setIsMobileSidebarActive,
+  } = useContext(ItemViewerContext);
   const productionDates = getProductionDates(work);
   const [inputValue, setInputValue] = useState('');
   // Determine digital location
@@ -160,6 +165,18 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           [font('hnm', 5)]: true,
         })}
       >
+        {isMobile && (
+          <button
+            className={classNames({
+              'plain-button no-marin no-padding font-white': true,
+              [font('hnm', 4)]: true,
+            })}
+            onClick={() => setIsMobileSidebarActive(false)}
+          >
+            <span className="visually-hidden">close item information</span>
+            <Icon name={'cross'} extraClasses="icon--white" />
+          </button>
+        )}
         {currentManifestLabel && (
           <span
             className={classNames({

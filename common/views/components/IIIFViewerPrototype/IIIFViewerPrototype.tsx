@@ -12,9 +12,9 @@ import {
   getServiceId,
   getDownloadOptionsFromManifest,
 } from '@weco/common/utils/iiif';
-import ViewerSidebarPrototype from '../ViewerSidebarPrototype/ViewerSidebarPrototype';
+import ViewerSidebarPrototype from './ViewerSidebarPrototype';
 import MainViewerPrototype from '../MainViewerPrototype/MainViewerPrototype';
-import ViewerTopBarPrototype from '../ViewerTopBarPrototype/ViewerTopBarPrototype';
+import ViewerTopBarPrototype from './ViewerTopBarPrototype';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import ItemViewerContext, {
   results,
@@ -23,13 +23,14 @@ import { FixedSizeList } from 'react-window';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import Router from 'next/router';
 import GridViewerPrototype from './GridViewerPrototype';
-import Space from '../styled/Space';
-import Control from '../Buttons/Control/Control';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import dynamic from 'next/dynamic';
 import LL from '@weco/common/views/components/styled/LL';
 import { PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
 import ImageViewer from '../ImageViewer/ImageViewer';
+import ImageViewerControls from './ImageViewerControls';
+import ViewerBottomBarPrototype from './ViewerBottomBarPrototype';
+import useWindowSize from '@weco/common/hooks/useWindowSize';
 
 type IIIFViewerProps = {
   title: string;
@@ -73,87 +74,118 @@ const ZoomedImagePrototype = dynamic(
   }
 );
 
-const ImageViewerControls = styled.div<{ showControls?: boolean }>`
-  position: fixed;
-  bottom: 0;
-  left: 73%;
-  z-index: 1;
-  opacity: ${props => (props.showControls ? 1 : 0)};
-  transition: opacity 300ms ease;
-  display: flex;
-  /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
-    for a less heavy handed solution to Openseadragon breaking on touch events */
-  &,
-  button,
-  a {
-    touch-action: none;
-  }
-
-  button {
-    display: block;
-  }
-
-  .icon {
-    margin: 0;
-  }
-
-  .btn__text {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-    white-space: nowrap;
-  }
-`;
-
 const Grid = styled.div`
   display: grid;
   height: calc(100vh - 85px); // FIXME: use variable for header height
   overflow: hidden;
-  grid-template-columns: [left-edge] minmax(200px, 330px) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
-  grid-template-rows: [top-edge] min-content [desktop-main-start desktop-topbar-end] 1fr [bottom-edge];
+  grid-template-columns: [left-edge] minmax(200px, 3fr) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
+  grid-template-rows: [top-edge] min-content [desktop-main-start desktop-topbar-end] 1fr [mobile-bottombar-start mobile-main-end] min-content [bottom-edge];
+
+  ${props => props.theme.media.xlarge`
+    grid-template-columns: [left-edge] minmax(200px, 330px) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
+  `}
 `;
 
-const Sidebar = styled.div<{ isActive: boolean }>`
-  display: ${props => (props.isActive ? 'inherit' : 'none')};
-  grid-area: top-edge / left-edge / bottom-edge / desktop-sidebar-end;
+const Sidebar = styled.div<{
+  isActiveMobile: boolean;
+  isActiveDesktop: boolean;
+  isMobile: boolean;
+}>`
+  display: ${props =>
+    (props.isActiveMobile && props.isMobile) ||
+    (props.isActiveDesktop && !props.isMobile)
+      ? 'inherit'
+      : 'none'};
+  grid-area: top-edge / left-edge / bottom-edge /
+    ${props => (props.isMobile ? ' right-edge ' : 'desktop-sidebar-end')};
   background: ${props => props.theme.color('viewerBlack')};
   color: ${props => props.theme.color('white')};
   border-right: 1px solid ${props => props.theme.color('charcoal')};
   overflow: auto;
+  z-index: 5;
 `;
 
-const Topbar = styled.div<{ isSidebarActive: boolean }>`
+const Topbar = styled.div<{
+  isMobileSidebarActive: boolean; // TODO: required here?
+  isDesktopSidebarActive: boolean;
+  isMobile: boolean;
+}>`
   background: ${props => props.theme.color('charcoal')};
-  grid-area: top-edge /
-    ${props => (props.isSidebarActive ? 'desktop-topbar-start' : 'left-edge')} /
-    desktop-topbar-end / right-edge;
-  z-index: 4;
+  z-index: 5;
+
+  ${props =>
+    props.isMobile &&
+    `
+    z-index: 4; // TODO: this is to let downloads sit above sidebar on desktop but not have the topbar above the sidebar on mobile. If we move the downloads, this can be simplified
+    grid-area: top-edge / left-edge / desktop-topbar-end / right-edge;
+  `}
+
+  ${props =>
+    !props.isMobile &&
+    `
+    grid-area: top-edge / ${
+      props.isDesktopSidebarActive ? 'desktop-topbar-start' : 'left-edge'
+    } / desktop-topbar-end / right-edge;
+  `}
 `;
 
-const Main = styled.div<{ isSidebarActive: boolean }>`
+const Main = styled.div<{
+  isDesktopSidebarActive: boolean;
+  isMobile: boolean;
+}>`
   background: ${props => props.theme.color('viewerBlack')};
   color: ${props => props.theme.color('white')};
-  grid-area: desktop-main-start /
-    ${props => (props.isSidebarActive ? 'main-start' : 'left-edge')} /
-    bottom-edge / right-edge;
   overflow: auto;
   position: relative;
+
+  ${props =>
+    props.isMobile &&
+    `
+    grid-area: desktop-main-start / left-edge / mobile-main-end / right-edge;
+  `}
+
+  ${props =>
+    !props.isMobile &&
+    `
+    grid-area: desktop-main-start / ${
+      props.isDesktopSidebarActive ? 'main-start' : 'left-edge'
+    } / bottom-edge / right-edge;
+  `}
+`;
+
+const BottomBar = styled.div<{
+  isMobile: boolean;
+  isMobileSidebarActive: boolean;
+}>`
+  display: ${props =>
+    props.isMobile && !props.isMobileSidebarActive ? 'inherit' : 'none'};
+  grid-area: mobile-bottombar-start / left-edge / bottom-edge / right-edge;
+  background: hotpink;
+  z-index: 6;
 `;
 
 // TODO: check that we can't reach thumbnails by keyboard/screenreader
-const Thumbnails = styled.div<{ isActive: boolean; isSidebarActive: boolean }>`
+const Thumbnails = styled.div<{
+  isActive: boolean;
+  isDesktopSidebarActive: boolean;
+  isMobile: boolean;
+}>`
   background: ${props => props.theme.color('charcoal')};
-  grid-area: desktop-main-start /
-    ${props => (props.isSidebarActive ? 'main-start' : 'left-edge')} /
-    bottom-edge / right-edge;
   transform: translateY(${props => (props.isActive ? '0' : '100%')});
   transition: transform 250ms ease;
   z-index: 3;
+
+  ${props =>
+    props.isMobile &&
+    `
+    grid-area: desktop-main-start / left-edge / bottom-edge / right-edge;
+  `}
+
+  ${props =>
+    !props.isMobile &&
+    `
+    grid-area: desktop-main-start / desktop-sidebar-end / bottom-edge / right-edge;
+    `}
 `;
 
 const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
@@ -168,6 +200,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   manifestIndex,
   handleImageError,
 }: IIIFViewerProps) => {
+  const windowSize = useWindowSize();
   const [gridVisible, setGridVisible] = useState(false);
   const [parentManifest, setParentManifest] = useState<
     IIIFManifest | undefined
@@ -180,7 +213,8 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const mainViewerRef = useRef<FixedSizeList>(null);
   const viewerRef = useRef<HTMLDivElement>(null);
   const mainAreaRef = useRef<HTMLDivElement>(null);
-  const [isSidebarActive, setIsSidebarActive] = useState(true);
+  const [isDesktopSidebarActive, setIsDesktopSidebarActive] = useState(true);
+  const [isMobileSidebarActive, setisMobileSidebarActive] = useState(false); // don't show sidebar by default on mobile
   const [activeIndex, setActiveIndex] = useState(0);
   const [showZoomed, setShowZoomed] = useState(false);
   const [zoomInfoUrl, setZoomInfoUrl] = useState<string | undefined>();
@@ -189,6 +223,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [imageJson, setImageJson] = useState<any>();
+  const [isMobile, setIsMobile] = useState(false);
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [searchResults, setSearchResults] = useState(results);
@@ -200,6 +235,14 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     image => image.canvasIndex === 0
   );
   const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
+
+  useEffect(() => {
+    setIsMobile(windowSize === 'medium' || windowSize === 'small');
+  }, [windowSize]);
+
+  useEffect(() => {
+    setIsDesktopSidebarActive(!showZoomed);
+  }, [showZoomed]);
 
   // TODO: check for intersectionObservers (previous version of isEnhanced)
   // TODO: add testing and possibly fallbacks
@@ -339,10 +382,14 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
         showControls: showControls,
         isLoading: isLoading,
         isFullscreen: isFullscreen,
-        isSidebarActive: isSidebarActive,
+        isDesktopSidebarActive: isDesktopSidebarActive,
+        urlTemplate: urlTemplate,
+        isMobile: isMobile,
+        isMobileSidebarActive: isMobileSidebarActive,
         searchResults: searchResults,
         setSearchResults: setSearchResults,
-        setIsSidebarActive: setIsSidebarActive,
+        setIsMobileSidebarActive: setisMobileSidebarActive,
+        setIsDesktopSidebarActive: setIsDesktopSidebarActive,
         setActiveIndex: setActiveIndex,
         setGridVisible: setGridVisible,
         setShowZoomed: setShowZoomed,
@@ -358,65 +405,32 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
       }}
     >
       <Grid ref={viewerRef}>
-        <Sidebar isActive={!showZoomed}>
+        <Sidebar
+          isMobile={isMobile}
+          isActiveMobile={isMobileSidebarActive}
+          isActiveDesktop={isDesktopSidebarActive}
+        >
           <ViewerSidebarPrototype mainViewerRef={mainViewerRef} />
         </Sidebar>
-        <Topbar isSidebarActive={!showZoomed}>
-          <ViewerTopBarPrototype
-            viewToggleRef={viewToggleRef}
-            viewerRef={viewerRef}
-          />
-        </Topbar>
-        <Main isSidebarActive={!showZoomed} ref={mainAreaRef}>
-          {showZoomed && <ZoomedImagePrototype />}
-          {!showZoomed && (
-            <ImageViewerControls showControls={showControls || urlTemplate}>
-              <Space
-                h={{ size: 's', properties: ['margin-left'] }}
-                v={{ size: 'l', properties: ['margin-bottom'] }}
-              >
-                <Control
-                  colorScheme="black-on-white"
-                  text="Zoom in"
-                  icon="zoomIn"
-                  clickHandler={() => {
-                    setShowZoomed(true);
-                  }}
-                />
-              </Space>
-              <Space
-                h={{ size: 's', properties: ['margin-left'] }}
-                v={{ size: 'l', properties: ['margin-bottom'] }}
-              >
-                <Control
-                  colorScheme="black-on-white"
-                  text="Rotate"
-                  icon="rotatePageRight"
-                  clickHandler={() => {
-                    const matchingIndex = rotatedImages.findIndex(
-                      image => image.canvasIndex === activeIndex
-                    );
-                    if (matchingIndex >= 0) {
-                      rotatedImages[matchingIndex] = {
-                        canvasIndex: rotatedImages[matchingIndex].canvasIndex,
-                        rotation:
-                          rotatedImages[matchingIndex].rotation < 270
-                            ? rotatedImages[matchingIndex].rotation + 90
-                            : 0,
-                      };
-                    } else {
-                      rotatedImages.push({
-                        canvasIndex: activeIndex,
-                        rotation: 90,
-                      });
-                    }
-                    setRotatedImages([...rotatedImages]);
-                    setIsLoading(true);
-                  }}
-                />
-              </Space>
-            </ImageViewerControls>
+        <Topbar
+          isMobile={isMobile}
+          isMobileSidebarActive={isMobileSidebarActive}
+          isDesktopSidebarActive={isDesktopSidebarActive}
+        >
+          {!(isMobile && showZoomed) && (
+            <ViewerTopBarPrototype
+              viewToggleRef={viewToggleRef}
+              viewerRef={viewerRef}
+            />
           )}
+        </Topbar>
+        <Main
+          isMobile={isMobile}
+          isDesktopSidebarActive={isDesktopSidebarActive}
+          ref={mainAreaRef}
+        >
+          {showZoomed && <ZoomedImagePrototype />}
+          {!showZoomed && <ImageViewerControls />}
           {urlTemplate && imageUrl && iiifImageLocation && (
             <ImageViewer
               infoUrl={iiifImageLocation.url}
@@ -439,7 +453,20 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
             />
           )}
         </Main>
-        <Thumbnails isActive={gridVisible} isSidebarActive={!showZoomed}>
+        <BottomBar
+          isMobile={isMobile}
+          isMobileSidebarActive={isMobileSidebarActive}
+        >
+          <ViewerBottomBarPrototype
+            viewToggleRef={viewToggleRef}
+            viewerRef={viewerRef}
+          />
+        </BottomBar>
+        <Thumbnails
+          isActive={gridVisible}
+          isMobile={isMobile}
+          isDesktopSidebarActive={isDesktopSidebarActive}
+        >
           <GridViewerPrototype
             mainViewerRef={mainViewerRef}
             gridViewerRef={gridViewerRef}

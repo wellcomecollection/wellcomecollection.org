@@ -6,8 +6,8 @@ import Download from '@weco/catalogue/components/Download/Download';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent, useContext } from 'react';
-import { AppContext } from '../AppContext/AppContext';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs(() => ({
@@ -111,6 +111,9 @@ const ViewerTopBar: FunctionComponent<Props> = ({
     iiifImageLocationCredit,
     downloadOptions,
     iiifPresentationDownloadOptions,
+    setIsMobileSidebarActive,
+    isMobileSidebarActive,
+    isMobile,
     showZoomed,
   } = useContext(ItemViewerContext);
   return (
@@ -118,26 +121,44 @@ const ViewerTopBar: FunctionComponent<Props> = ({
       {isEnhanced && canvases && canvases.length > 1 && (
         <LeftZone>
           {!showZoomed && (
-            <Space h={{ size: 's', properties: ['margin-left'] }}>
-              <ShameButton
-                isDark
-                ref={viewToggleRef}
-                onClick={() => {
-                  setGridVisible(!gridVisible);
-                  trackEvent({
-                    category: 'Control',
-                    action: `clicked work viewer ${
-                      gridVisible ? '"Detail view"' : '"View all"'
-                    } button`,
-                    label: `${work.id}`,
-                  });
-                }}
-              >
-                <Icon name={gridVisible ? 'detailView' : 'gridView'} />
-                <span className={`btn__text`}>
-                  {gridVisible ? 'Detail view' : 'View all'}
-                </span>
-              </ShameButton>
+            <Space
+              h={{ size: 's', properties: ['margin-left'] }}
+              className={classNames({
+                'flex flex--v-center flex--h-center': true,
+              })}
+            >
+              {isMobile && (
+                <ShameButton
+                  isDark
+                  onClick={() => {
+                    setIsMobileSidebarActive(!isMobileSidebarActive);
+                  }}
+                >
+                  item infomation
+                </ShameButton>
+              )}
+
+              {!isMobile && (
+                <ShameButton
+                  isDark
+                  ref={viewToggleRef}
+                  onClick={() => {
+                    setGridVisible(!gridVisible);
+                    trackEvent({
+                      category: 'Control',
+                      action: `clicked work viewer ${
+                        gridVisible ? '"Detail view"' : '"View all"'
+                      } button`,
+                      label: `${work.id}`,
+                    });
+                  }}
+                >
+                  <Icon name={gridVisible ? 'detailView' : 'gridView'} />
+                  <span className={`btn__text`}>
+                    {gridVisible ? 'Detail view' : 'View all'}
+                  </span>
+                </ShameButton>
+              )}
             </Space>
           )}
         </LeftZone>
@@ -174,6 +195,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
               </>
             )}
             {document &&
+              !isMobile &&
               (document.fullscreenEnabled ||
                 document['webkitFullscreenEnabled']) && (
                 <Space h={{ size: 'm', properties: ['margin-right'] }}>
