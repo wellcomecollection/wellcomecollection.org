@@ -5,8 +5,6 @@ import { AccountValidated } from './AccountValidated';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 
-// https://www-stage.wellcomecollection.org/account/validated?supportSignUp=false&supportForgotPassword=false&message=Your%20email%20was%20verified.%20You%20can%20continue%20using%20the%20application.&success=true&code=success#
-
 // avoid rendering header SVG to help with debugging tests
 jest.mock('../components/PageWrapper', () => ({
   __esModule: true,
