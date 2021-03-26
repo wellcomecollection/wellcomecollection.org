@@ -12,6 +12,7 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
+import IIIFViewerPrototype from '@weco/common/views/components/IIIFViewerPrototype/IIIFViewerPrototype';
 import {
   GlobalContextData,
   getGlobalContextData,
@@ -59,6 +60,11 @@ const ImagePage: FunctionComponent<Props> = ({
     ...sharedPaginatorProps,
   };
 
+  // We only send a langCode if it's unambiguous -- better to send no language
+  // than the wrong one.
+  const lang =
+    (sourceWork.languages.length === 1 && sourceWork?.languages[0]?.id) || '';
+
   return (
     <CataloguePageLayout
       title={title}
@@ -78,25 +84,38 @@ const ImagePage: FunctionComponent<Props> = ({
       globalContextData={globalContextData}
     >
       {iiifImageLocation ? (
-        <IIIFViewer
-          title={title}
-          mainPaginatorProps={mainPaginatorProps}
-          thumbsPaginatorProps={thumbsPaginatorProps}
-          // We only send a langCode if it's unambiguous -- better to send no language
-          // than the wrong one.
-          lang={
-            (sourceWork.languages.length === 1 &&
-              sourceWork?.languages[0]?.id) ||
-            ''
-          }
-          canvases={[]}
-          workId={sourceWork.id}
-          pageIndex={0}
-          pageSize={1}
-          canvasIndex={0}
-          iiifImageLocation={iiifImageLocation}
-          work={sourceWork}
-        />
+        <>
+          {globalContextData.toggles.itemViewerPrototype ||
+          globalContextData.toggles.itemViewerPrototypeWithSearch ? (
+            <IIIFViewerPrototype
+              title={title}
+              mainPaginatorProps={mainPaginatorProps}
+              thumbsPaginatorProps={thumbsPaginatorProps}
+              lang={lang}
+              canvases={[]}
+              workId={sourceWork.id}
+              pageIndex={0}
+              pageSize={1}
+              canvasIndex={0}
+              iiifImageLocation={iiifImageLocation}
+              work={sourceWork}
+            />
+          ) : (
+            <IIIFViewer
+              title={title}
+              mainPaginatorProps={mainPaginatorProps}
+              thumbsPaginatorProps={thumbsPaginatorProps}
+              lang={lang}
+              canvases={[]}
+              workId={sourceWork.id}
+              pageIndex={0}
+              pageSize={1}
+              canvasIndex={0}
+              iiifImageLocation={iiifImageLocation}
+              work={sourceWork}
+            />
+          )}
+        </>
       ) : (
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
