@@ -2,20 +2,23 @@ import { multiVolumeItem } from './contexts';
 import { isMobile } from './actions/common';
 import { volumesNavigationLabel } from './text/aria-labels';
 import { zoomInButton, openseadragonCanvas } from './selectors/item';
-// let page: import('playwright').Page;
+import { baseUrl } from './helpers/urls';
+
+const domain = new URL(baseUrl).host;
+
+beforeAll(async () => {
+  await context.addCookies([
+    { name: 'WC_cookiesAccepted', value: 'true', domain: domain, path: '/' },
+  ]);
+});
 
 describe('Scenario 1: A user wants a large-scale view of an item', () => {
   test('the images are scalable', async () => {
     await multiVolumeItem();
-    await page.waitForSelector('.cookie-notification__close');
-    await page.click('.cookie-notification__close');
     await page.waitForSelector(zoomInButton);
     await page.click(zoomInButton);
     await page.waitForSelector(openseadragonCanvas);
     // expect(openseadragonCanvas).toBeTruthy();
-
-    // presence of fullscreen
-    // click fullscreen opens fullscreen
   });
 });
 
