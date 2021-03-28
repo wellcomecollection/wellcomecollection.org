@@ -1,7 +1,11 @@
 import { multiVolumeItem } from './contexts';
 import { isMobile } from './actions/common';
 import { volumesNavigationLabel } from './text/aria-labels';
-import { zoomInButton, openseadragonCanvas } from './selectors/item';
+import {
+  zoomInButton,
+  openseadragonCanvas,
+  fullscreenButton,
+} from './selectors/item';
 import { baseUrl } from './helpers/urls';
 
 const domain = new URL(baseUrl).host;
@@ -15,6 +19,9 @@ beforeAll(async () => {
 describe('Scenario 1: A user wants a large-scale view of an item', () => {
   test('the images are scalable', async () => {
     await multiVolumeItem();
+    await page.waitForSelector(fullscreenButton);
+    await page.click(fullscreenButton);
+    // check full screen
     await page.waitForSelector(zoomInButton);
     await page.click(zoomInButton);
     await page.waitForSelector(openseadragonCanvas);
