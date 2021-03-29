@@ -268,8 +268,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           </AccordionItem>
         )}
       </div>
-      {/* {searchService && itemViewerPrototypeWithSearch && ( */}
-      {true && (
+      {searchService && itemViewerPrototypeWithSearch && (
         <Inner>
           <IIIFSearchWithin mainViewerRef={mainViewerRef} />
         </Inner>
