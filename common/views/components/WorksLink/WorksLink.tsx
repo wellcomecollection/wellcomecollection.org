@@ -26,9 +26,7 @@ const worksPropsSources = [
   'work_details/genres',
   'work_details/subjects',
 ] as const;
-// Currently we allow all strings as I can't get the Prefix to work
-// when compiling strings e.g. `cancel_filter/${value}`
-// TODO make this work
+
 type WorksPropsSource =
   | typeof worksPropsSources[number]
   | Prefix<'cancel_filter/'>

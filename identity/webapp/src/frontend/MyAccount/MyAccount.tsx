@@ -28,9 +28,9 @@ const Detail: React.FC<{ label: string; value?: string }> = ({ label, value }) =
   </DetailWrapper>
 );
 
-const AccountStatus: React.FC = ({ children }) => {
+const AccountStatus: React.FC<React.ComponentProps<typeof StatusAlert>> = ({ type, children }) => {
   return (
-    <StatusAlert>
+    <StatusAlert type={type}>
       <Info2 height="32" width="32" fill="currentColor" />
       {children}
     </StatusAlert>
@@ -51,8 +51,11 @@ const Profile: React.FC = () => {
       <Container>
         <Wrapper>
           <Title>My account</Title>
-          {isEmailUpdated && <AccountStatus>Email updated</AccountStatus>}
-          {isPasswordUpdated && <AccountStatus>Password updated</AccountStatus>}
+          {!user?.emailValidated && (
+            <AccountStatus type="info">You have not yet validated your email address</AccountStatus>
+          )}
+          {isEmailUpdated && <AccountStatus type="success">Email updated</AccountStatus>}
+          {isPasswordUpdated && <AccountStatus type="success">Password updated</AccountStatus>}
           <Section>
             <SectionHeading>My details</SectionHeading>
             <Detail label="Name" value={`${user?.firstName} ${user?.lastName}`} />
