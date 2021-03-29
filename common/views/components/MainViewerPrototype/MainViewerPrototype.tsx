@@ -358,31 +358,33 @@ const MainViewer: FunctionComponent<Props> = ({
   }, [canvasIndex]);
 
   return (
-    <FixedSizeList
-      width={mainAreaWidth}
-      style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
-      height={mainAreaHeight}
-      itemCount={canvases.length}
-      itemData={{
-        scrollVelocity,
-        isProgrammaticScroll,
-        canvases,
-        setShowZoomed,
-        setZoomInfoUrl,
-        rotatedImages,
-        setActiveIndex,
-        setIsLoading,
-        ocrText,
-        mainAreaRef,
-        errorHandler,
-      }}
-      itemSize={mainAreaWidth}
-      onItemsRendered={debounceHandleOnItemsRendered.current}
-      onScroll={handleOnScroll}
-      ref={mainViewerRef}
-    >
-      {ItemRenderer}
-    </FixedSizeList>
+    <div data-test-id="main-viewer">
+      <FixedSizeList
+        width={mainAreaWidth}
+        style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
+        height={mainAreaHeight}
+        itemCount={canvases.length}
+        itemData={{
+          scrollVelocity,
+          isProgrammaticScroll,
+          canvases,
+          setShowZoomed,
+          setZoomInfoUrl,
+          rotatedImages,
+          setActiveIndex,
+          setIsLoading,
+          ocrText,
+          mainAreaRef,
+          errorHandler,
+        }}
+        itemSize={mainAreaWidth}
+        onItemsRendered={debounceHandleOnItemsRendered.current}
+        onScroll={handleOnScroll}
+        ref={mainViewerRef}
+      >
+        {ItemRenderer}
+      </FixedSizeList>
+    </div>
   );
 };
 

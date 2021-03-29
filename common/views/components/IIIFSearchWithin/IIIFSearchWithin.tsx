@@ -150,7 +150,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
       <div aria-live="polite">
         {isLoading && <Loading />}
         {searchResults.within.total !== null && (
-          <ResultsHeader>
+          <ResultsHeader data-test-id="results-header">
             {searchResults.within.total}{' '}
             {searchResults.within.total === 1 ? 'result' : 'results'}
           </ResultsHeader>

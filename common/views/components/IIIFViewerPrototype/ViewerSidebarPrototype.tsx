@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, useContext } from 'react';
+import { FunctionComponent, useState, useContext, ReactNode } from 'react';
 import WorkLink from '../WorkLink/WorkLink';
 import Icon from '../Icon/Icon';
 import styled from 'styled-components';
@@ -82,10 +82,18 @@ const Item = styled.div`
   }
 `;
 
-const AccordionItem = ({ title, children }) => {
+const AccordionItem = ({
+  title,
+  children,
+  testId,
+}: {
+  title: string;
+  children: ReactNode;
+  testId?: string;
+}) => {
   const [isActive, setIsActive] = useState(false);
   return (
-    <Item>
+    <Item data-test-id={testId}>
       <AccordionInner
         onClick={() => setIsActive(!isActive)}
         className={classNames({
@@ -177,6 +185,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         )}
         {currentManifestLabel && (
           <span
+            data-test-id="current-manifest"
             className={classNames({
               [font('hnl', 5)]: true,
             })}
@@ -249,17 +258,18 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           </div>
         </AccordionItem>
         {manifest && manifest.structures && manifest.structures.length > 0 && (
-          <AccordionItem title={'Contents'}>
+          <AccordionItem title={'Contents'} testId="accordion-item-contents">
             <ViewerStructuresPrototype mainViewerRef={mainViewerRef} />
           </AccordionItem>
         )}
         {parentManifest && parentManifest.manifests && (
-          <AccordionItem title={'Volumes'}>
+          <AccordionItem title={'Volumes'} testId="accordion-item-volumes">
             <MultipleManifestListPrototype />
           </AccordionItem>
         )}
       </div>
-      {searchService && itemViewerPrototypeWithSearch && (
+      {/* {searchService && itemViewerPrototypeWithSearch && ( */}
+      {true && (
         <Inner>
           <IIIFSearchWithin mainViewerRef={mainViewerRef} />
         </Inner>
