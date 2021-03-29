@@ -4,6 +4,10 @@ const multiVolumeItem = async (): Promise<void> => {
   await page.goto(`${baseUrl}/works/mg56yqa4/items`);
 };
 
+const itemWithSearchAndStructures = async (): Promise<void> => {
+  await page.goto(`${baseUrl}/works/re9cyhkt/items`);
+};
+
 const worksSearch = async (): Promise<void> => {
   // This is because the cookie notice actually hides interface.
   // It should also not live here, but I was battling on getting it to
@@ -22,4 +26,4 @@ const worksSearch = async (): Promise<void> => {
 
 export const isMobile = Boolean(deviceName);
 
-export { multiVolumeItem, worksSearch };
+export { multiVolumeItem, worksSearch, itemWithSearchAndStructures };
