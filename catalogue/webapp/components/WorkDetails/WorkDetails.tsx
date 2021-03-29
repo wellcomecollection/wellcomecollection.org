@@ -525,6 +525,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 'work_details/contributors'
               ),
             }))}
+            separator=""
           />
         )}
 
