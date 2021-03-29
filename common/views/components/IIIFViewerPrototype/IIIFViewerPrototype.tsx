@@ -30,7 +30,6 @@ import { PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } fro
 import ImageViewer from '../ImageViewer/ImageViewer';
 import ImageViewerControls from './ImageViewerControls';
 import ViewerBottomBarPrototype from './ViewerBottomBarPrototype';
-import useWindowSize from '@weco/common/hooks/useWindowSize';
 
 type IIIFViewerProps = {
   title: string;
@@ -197,7 +196,6 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   manifestIndex,
   handleImageError,
 }: IIIFViewerProps) => {
-  const windowSize = useWindowSize();
   const [gridVisible, setGridVisible] = useState(false);
   const [parentManifest, setParentManifest] = useState<
     IIIFManifest | undefined
@@ -220,7 +218,6 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [imageJson, setImageJson] = useState<any>();
-  const [isMobile, setIsMobile] = useState(false);
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [searchResults, setSearchResults] = useState(results);
@@ -232,10 +229,6 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     image => image.canvasIndex === 0
   );
   const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
-
-  useEffect(() => {
-    setIsMobile(windowSize === 'medium' || windowSize === 'small');
-  }, [windowSize]);
 
   useEffect(() => {
     setIsDesktopSidebarActive(!showZoomed);
@@ -381,7 +374,6 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
         isFullscreen: isFullscreen,
         isDesktopSidebarActive: isDesktopSidebarActive,
         urlTemplate: urlTemplate,
-        isMobile: isMobile,
         isMobileSidebarActive: isMobileSidebarActive,
         searchResults: searchResults,
         setSearchResults: setSearchResults,
@@ -409,12 +401,10 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
           <ViewerSidebarPrototype mainViewerRef={mainViewerRef} />
         </Sidebar>
         <Topbar isDesktopSidebarActive={isDesktopSidebarActive}>
-          {!(isMobile && showZoomed) && (
-            <ViewerTopBarPrototype
-              viewToggleRef={viewToggleRef}
-              viewerRef={viewerRef}
-            />
-          )}
+          <ViewerTopBarPrototype
+            viewToggleRef={viewToggleRef}
+            viewerRef={viewerRef}
+          />
         </Topbar>
         <Main isDesktopSidebarActive={isDesktopSidebarActive} ref={mainAreaRef}>
           {showZoomed && <ZoomedImagePrototype />}

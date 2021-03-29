@@ -55,13 +55,17 @@ export const ShameButton = styled.button.attrs(() => ({
   `}
 `;
 
-const TopBar = styled.div`
+const TopBar = styled.div<{ isZooming: boolean }>`
   position: relative;
   z-index: 3;
   background: ${props => lighten(0.14, props.theme.color('viewerBlack'))};
   color: ${props => props.theme.color('white')};
-  display: flex;
   justify-content: space-between;
+  display: ${props => (props.isZooming ? 'none' : 'flex')};
+
+  ${props => props.theme.media.medium`
+    display: flex;
+  `}
 `;
 
 const LeftZone = styled(Space).attrs({
@@ -116,7 +120,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
     showZoomed,
   } = useContext(ItemViewerContext);
   return (
-    <TopBar className="flex">
+    <TopBar className="flex" isZooming={showZoomed}>
       {isEnhanced && canvases && canvases.length > 1 && (
         <LeftZone>
           {!showZoomed && (
