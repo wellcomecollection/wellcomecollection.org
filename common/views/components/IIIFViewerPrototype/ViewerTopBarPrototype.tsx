@@ -113,7 +113,6 @@ const ViewerTopBar: FunctionComponent<Props> = ({
     iiifPresentationDownloadOptions,
     setIsMobileSidebarActive,
     isMobileSidebarActive,
-    isMobile,
     showZoomed,
   } = useContext(ItemViewerContext);
   return (
@@ -127,38 +126,36 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                 'flex flex--v-center flex--h-center': true,
               })}
             >
-              {isMobile && (
-                <ShameButton
-                  isDark
-                  onClick={() => {
-                    setIsMobileSidebarActive(!isMobileSidebarActive);
-                  }}
-                >
-                  item infomation
-                </ShameButton>
-              )}
+              <ShameButton
+                className={`viewer-mobile`}
+                isDark
+                onClick={() => {
+                  setIsMobileSidebarActive(!isMobileSidebarActive);
+                }}
+              >
+                item infomation
+              </ShameButton>
 
-              {!isMobile && (
-                <ShameButton
-                  isDark
-                  ref={viewToggleRef}
-                  onClick={() => {
-                    setGridVisible(!gridVisible);
-                    trackEvent({
-                      category: 'Control',
-                      action: `clicked work viewer ${
-                        gridVisible ? '"Detail view"' : '"View all"'
-                      } button`,
-                      label: `${work.id}`,
-                    });
-                  }}
-                >
-                  <Icon name={gridVisible ? 'detailView' : 'gridView'} />
-                  <span className={`btn__text`}>
-                    {gridVisible ? 'Detail view' : 'View all'}
-                  </span>
-                </ShameButton>
-              )}
+              <ShameButton
+                className={`viewer-desktop`}
+                isDark
+                ref={viewToggleRef}
+                onClick={() => {
+                  setGridVisible(!gridVisible);
+                  trackEvent({
+                    category: 'Control',
+                    action: `clicked work viewer ${
+                      gridVisible ? '"Detail view"' : '"View all"'
+                    } button`,
+                    label: `${work.id}`,
+                  });
+                }}
+              >
+                <Icon name={gridVisible ? 'detailView' : 'gridView'} />
+                <span className={`btn__text`}>
+                  {gridVisible ? 'Detail view' : 'View all'}
+                </span>
+              </ShameButton>
             </Space>
           )}
         </LeftZone>
@@ -195,10 +192,12 @@ const ViewerTopBar: FunctionComponent<Props> = ({
               </>
             )}
             {document &&
-              !isMobile &&
               (document.fullscreenEnabled ||
                 document['webkitFullscreenEnabled']) && (
-                <Space h={{ size: 'm', properties: ['margin-right'] }}>
+                <Space
+                  h={{ size: 'm', properties: ['margin-right'] }}
+                  className={`viewer-desktop`}
+                >
                   <ShameButton
                     isDark
                     onClick={() => {

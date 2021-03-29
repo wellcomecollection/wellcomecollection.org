@@ -136,7 +136,6 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
     manifest,
     parentManifest,
     currentManifestLabel,
-    isMobile,
     setIsMobileSidebarActive,
   } = useContext(ItemViewerContext);
   const productionDates = getProductionDates(work);
@@ -165,18 +164,16 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           [font('hnm', 5)]: true,
         })}
       >
-        {isMobile && (
-          <button
-            className={classNames({
-              'plain-button no-marin no-padding font-white': true,
-              [font('hnm', 4)]: true,
-            })}
-            onClick={() => setIsMobileSidebarActive(false)}
-          >
-            <span className="visually-hidden">close item information</span>
-            <Icon name={'cross'} extraClasses="icon--white" />
-          </button>
-        )}
+        <button
+          className={classNames({
+            'plain-button no-marin no-padding font-white viewer-mobile': true,
+            [font('hnm', 4)]: true,
+          })}
+          onClick={() => setIsMobileSidebarActive(false)}
+        >
+          <span className="visually-hidden">close item information</span>
+          <Icon name={'cross'} extraClasses="icon--white" />
+        </button>
         {currentManifestLabel && (
           <span
             className={classNames({
