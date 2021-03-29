@@ -9,6 +9,7 @@ import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
 import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
+import { searchWithinLabel } from '@weco/common/text/aria-labels';
 
 type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
@@ -135,7 +136,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
             value={value}
             setValue={setValue}
             required={true}
-            aria-label={`Search within this item`}
+            aria-label={searchWithinLabel}
           />
           <SearchButtonWrapper>
             <ButtonSolid

@@ -32,7 +32,7 @@ import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import VisuallySimilarImagesFromApi from '../VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
-import { expandedViewImageButton } from '@weco/common/text/arial-labels';
+import { expandedViewImageButton } from '@weco/common/text/aria-labels';
 import * as ItemProps from '@weco/common/views/components/ItemLink/ItemLink';
 import { imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
 
