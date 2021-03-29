@@ -238,8 +238,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   const Content = () => (
     <>
-      {onlineResourcesPrototype && <OnlineResources work={work} />}
-
       {digitalLocation && itemLinkState !== 'useNoLink' && (
         <WorkDetailsSection
           headingText="Available online"
@@ -455,6 +453,8 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           )}
         </WorkDetailsSection>
       )}
+
+      {onlineResourcesPrototype && <OnlineResources work={work} />}
 
       {!digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
 

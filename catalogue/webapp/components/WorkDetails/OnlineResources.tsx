@@ -53,7 +53,7 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
   }, [isShowingRemainingOnlineResources]);
 
   return onlineResources.length > 0 ? (
-    <WorkDetailsSection headingText="Available online">
+    <WorkDetailsSection headingText="Online resources">
       <ul
         className={classNames({
           'plain-list no-margin no-padding': true,
