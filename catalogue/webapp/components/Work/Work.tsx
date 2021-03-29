@@ -1,11 +1,7 @@
 import { Work as WorkType } from '@weco/common/model/catalogue';
 import { useContext, useEffect, FunctionComponent, ReactElement } from 'react';
 import { grid, classNames, font } from '@weco/common/utils/classnames';
-import {
-  getDigitalLocationOfType,
-  sierraIdFromPresentationManifestUrl,
-} from '@weco/common/utils/works';
-import { itemLink } from '@weco/common/services/catalogue/routes';
+import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import { workLd } from '@weco/common/utils/json-ld';
@@ -49,14 +45,7 @@ const Work: FunctionComponent<Props> = ({
   const { link: searchLink } = useContext(SearchContext);
 
   const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
-  const {
-    childManifestsCount,
-    firstChildManifestLocation,
-  } = useIIIFManifestData(work);
-  const iiifPresentationLocation = getDigitalLocationOfType(
-    work,
-    'iiif-presentation'
-  );
+  const { childManifestsCount } = useIIIFManifestData(work);
 
   const workData = {
     workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),
@@ -76,21 +65,6 @@ const Work: FunctionComponent<Props> = ({
     iiifImageLocation && iiifImageLocation.url
       ? iiifImageTemplate(iiifImageLocation.url)({ size: `800,` })
       : null;
-
-  const itemUrlObject = itemLink({
-    workId: work.id,
-    sierraId:
-      (firstChildManifestLocation &&
-        sierraIdFromPresentationManifestUrl(firstChildManifestLocation)) ||
-      (iiifPresentationLocation &&
-        sierraIdFromPresentationManifestUrl(iiifPresentationLocation.url)) ||
-      null,
-    // We only send a langCode if it's unambiguous -- better to send no language
-    // than the wrong one.
-    langCode: work?.languages?.length === 1 && work?.languages[0]?.id,
-    canvas: 1,
-    page: 1,
-  });
 
   return (
     <CataloguePageLayout
@@ -174,7 +148,7 @@ const Work: FunctionComponent<Props> = ({
             <ArchiveDetailsContainer>
               <ArchiveTree work={work} />
               <Space v={{ size: 'l', properties: ['padding-top'] }}>
-                <WorkDetails work={work} itemUrl={itemUrlObject} />
+                <WorkDetails work={work} />
               </Space>
             </ArchiveDetailsContainer>
           </div>
@@ -189,7 +163,7 @@ const Work: FunctionComponent<Props> = ({
               />
             </div>
           </div>
-          <WorkDetails work={work} itemUrl={itemUrlObject} />
+          <WorkDetails work={work} />
         </>
       )}
 

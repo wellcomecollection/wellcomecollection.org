@@ -86,7 +86,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
               clickHandler={() => {
                 mainViewerRef &&
                   mainViewerRef.current &&
-                  mainViewerRef.current.scrollToItem(itemIndex);
+                  mainViewerRef.current.scrollToItem(itemIndex, 'start');
                 setActiveIndex(itemIndex);
                 setGridVisible(false);
               }}

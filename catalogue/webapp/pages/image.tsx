@@ -6,7 +6,7 @@ import {
   WithPageview,
 } from '@weco/common/views/pages/_app';
 import { Work, Image } from '@weco/common/model/catalogue';
-import { imageLink } from '@weco/common/services/catalogue/routes';
+import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
@@ -24,14 +24,12 @@ import { getImage } from '../services/catalogue/images';
 type Props = {
   image: Image;
   sourceWork: Work;
-  langCode: string;
   globalContextData: GlobalContextData;
 } & WithPageview;
 
 const ImagePage: FunctionComponent<Props> = ({
   image,
   sourceWork,
-  langCode,
   globalContextData,
 }: Props) => {
   const title = sourceWork.title || '';
@@ -39,11 +37,13 @@ const ImagePage: FunctionComponent<Props> = ({
 
   const sharedPaginatorProps = {
     totalResults: 1,
-    link: imageLink({
-      workId: sourceWork.id,
-      id: image.id,
-      langCode,
-    }),
+    link: imageLink(
+      {
+        workId: sourceWork.id,
+        id: image.id,
+      },
+      'viewer/paginator'
+    ),
   };
 
   const mainPaginatorProps = {
@@ -59,6 +59,11 @@ const ImagePage: FunctionComponent<Props> = ({
     linkKey: 'page',
     ...sharedPaginatorProps,
   };
+
+  // We only send a langCode if it's unambiguous -- better to send no language
+  // than the wrong one.
+  const lang =
+    (sourceWork.languages.length === 1 && sourceWork?.languages[0]?.id) || '';
 
   return (
     <CataloguePageLayout
@@ -86,7 +91,7 @@ const ImagePage: FunctionComponent<Props> = ({
               title={title}
               mainPaginatorProps={mainPaginatorProps}
               thumbsPaginatorProps={thumbsPaginatorProps}
-              lang={langCode}
+              lang={lang}
               canvases={[]}
               workId={sourceWork.id}
               pageIndex={0}
@@ -100,7 +105,7 @@ const ImagePage: FunctionComponent<Props> = ({
               title={title}
               mainPaginatorProps={mainPaginatorProps}
               thumbsPaginatorProps={thumbsPaginatorProps}
-              lang={langCode}
+              lang={lang}
               canvases={[]}
               workId={sourceWork.id}
               pageIndex={0}
@@ -128,7 +133,7 @@ export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
   const globalContextData = getGlobalContextData(context);
-  const { id, workId, langCode = 'en' } = context.query;
+  const { id, workId } = context.query;
 
   if (typeof id !== 'string') {
     return { notFound: true };
@@ -177,7 +182,6 @@ export const getServerSideProps: GetServerSideProps<
   return {
     props: removeUndefinedProps({
       image,
-      langCode: langCode.toString(),
       sourceWork: work,
       pageview: {
         name: 'image',

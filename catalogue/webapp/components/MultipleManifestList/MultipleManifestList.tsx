@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, FunctionComponent } from 'react';
 import NextLink from 'next/link';
 import { IIIFManifest } from '@weco/common/model/iiif';
-import { itemLink } from '@weco/common/services/catalogue/routes';
+import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -51,7 +51,6 @@ type Props = {
   buttonText: string;
   manifests: IIIFManifest[];
   workId: string;
-  lang: string;
   manifestIndex: number | undefined;
 };
 
@@ -59,7 +58,6 @@ const MultipleManifestList: FunctionComponent<Props> = ({
   buttonText,
   manifests,
   workId,
-  lang,
   manifestIndex,
 }: Props) => {
   const [showHidden, setShowHidden] = useState(false);
@@ -107,11 +105,13 @@ const MultipleManifestList: FunctionComponent<Props> = ({
             {manifests.map((manifest, i) => (
               <li key={manifest['@id']}>
                 <NextLink
-                  {...itemLink({
-                    workId,
-                    langCode: lang,
-                    manifest: i + 1,
-                  })}
+                  {...itemLink(
+                    {
+                      workId,
+                      manifest: i + 1,
+                    },
+                    'manifests_navigation'
+                  )}
                 >
                   <a aria-current={i === manifestIndex ? 'page' : undefined}>
                     {manifest.label}

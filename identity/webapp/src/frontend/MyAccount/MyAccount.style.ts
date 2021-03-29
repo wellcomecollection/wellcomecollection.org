@@ -58,10 +58,27 @@ export const ModalContainer = styled.aside`
 
 export const ModalTitle = styled.h2.attrs({ className: 'font-wb font-size-3' })``;
 
-export const StatusAlert = styled.div.attrs({ role: 'alert' })`
+const colours = {
+  success: css`
+    background-color: rgba(0, 120, 108, 0.1);
+    border: 1px solid rgba(0, 120, 108, 0.3);
+    color: #00786c;
+  `,
+  failure: css`
+    background-color: rgba(224, 27, 47, 0.1);
+    border: 1px solid rgba(224, 27, 47, 0.3);
+    color: #d1192c;
+  `,
+  info: css`
+    background-color: rgba(255, 206, 60, 0.2);
+    border: 1px solid rgba(255, 206, 60, 0.4);
+    color: #705400;
+  `,
+};
+
+export const StatusAlert = styled.div.attrs({ role: 'alert' })<{ type: keyof typeof colours }>`
+  ${props => colours[props.type]}
   padding: 1em;
-  background-color: rgba(0, 120, 108, 0.1);
-  color: #00786c;
   border-radius: 6px;
   margin-bottom: 1em;
   display: flex;
