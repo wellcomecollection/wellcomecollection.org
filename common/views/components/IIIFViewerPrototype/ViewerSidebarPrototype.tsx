@@ -1,19 +1,18 @@
 import { FunctionComponent, useState, useContext } from 'react';
-import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import WorkLink from '../WorkLink/WorkLink';
+import Icon from '../Icon/Icon';
 import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
-import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import Space from '../styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
-import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
+import LinkLabels from '../LinkLabels/LinkLabels';
 import {
   getProductionDates,
   getDigitalLocationOfType,
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
-import ViewerStructuresPrototype from '@weco/common/views/components/ViewerStructuresPrototype/ViewerStructuresPrototype';
-import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
+import ViewerStructuresPrototype from '../ViewerStructuresPrototype/ViewerStructuresPrototype';
+import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import MultipleManifestListPrototype from '../MultipleManifestListPrototype/MultipleManifestListPrototype';
 import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
@@ -140,7 +139,6 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
     setIsMobileSidebarActive,
   } = useContext(ItemViewerContext);
   const productionDates = getProductionDates(work);
-  const [inputValue, setInputValue] = useState('');
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
@@ -219,7 +217,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
                 'flex flex--v-center font-yellow': true,
               })}
             >
-              Back to full information
+              Additional information
             </a>
           </WorkLink>
         </Space>
@@ -260,27 +258,12 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
             <MultipleManifestListPrototype />
           </AccordionItem>
         )}
-        {searchService && (
-          <AccordionItem title={'Search within this item'}>
-            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-              {itemViewerPrototypeWithSearch ? (
-                <IIIFSearchWithin mainViewerRef={mainViewerRef} />
-              ) : (
-                <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                  <TextInput
-                    id={'test'}
-                    type={'text'}
-                    name={'test'}
-                    label={'enter search term'}
-                    value={inputValue}
-                    setValue={setInputValue}
-                  />
-                </Space>
-              )}
-            </Space>
-          </AccordionItem>
-        )}
       </div>
+      {searchService && itemViewerPrototypeWithSearch && (
+        <Inner>
+          <IIIFSearchWithin mainViewerRef={mainViewerRef} />
+        </Inner>
+      )}
     </>
   );
 };
