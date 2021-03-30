@@ -9,6 +9,8 @@ import {
   itemDownloadsModal,
   smallImageDownload,
   fullItemDownload,
+  workContributors,
+  workDates,
 } from './selectors/item';
 import { baseUrl } from './helpers/urls';
 
@@ -38,7 +40,7 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
   });
 });
 
-describe.only('Scenario 2: A user wants to use the content offline', () => {
+describe('Scenario 2: A user wants to use the content offline', () => {
   beforeEach(async () => {
     await multiVolumeItem();
     await page.waitForSelector(downloadsButton);
@@ -68,6 +70,29 @@ describe.only('Scenario 2: A user wants to use the content offline', () => {
     await newPage.waitForLoadState();
     const url = newPage.url();
     expect(url).toBe('https://dlcs.io/pdf/wellcome/pdf-item/b10326947/0');
+  });
+});
+
+describe('Scenario 3: A user wants information about the item they are viewing', () => {
+  beforeAll(async () => {
+    await multiVolumeItem();
+  });
+
+  test('the item has a title', async () => {
+    const title = await page.textContent('h1');
+    expect(title).toBe('Practica seu Lilium medicinae / [Bernard de Gordon].');
+  });
+
+  test('the item has contributor information', async () => {
+    const contributors = await page.textContent(workContributors);
+    expect(contributors).toBe(
+      'Bernard, de Gordon, approximately 1260-approximately 1318.'
+    );
+  });
+
+  test('the item has date information', async () => {
+    const dates = await page.textContent(workDates);
+    expect(dates).toBe('Date 1497');
   });
 });
 

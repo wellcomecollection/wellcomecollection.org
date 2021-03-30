@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, useContext } from 'react';
+import { FunctionComponent, ReactNode, useState, useContext } from 'react';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import styled from 'styled-components';
@@ -82,11 +82,19 @@ const Item = styled.div`
     border-top: 1px solid ${props => props.theme.color('charcoal')};
   }
 `;
-
-const AccordionItem = ({ title, children }) => {
+type AccordionItemProps = {
+  title: string;
+  testId?: string;
+  children: ReactNode;
+};
+const AccordionItem: FunctionComponent<AccordionItemProps> = ({
+  title,
+  testId,
+  children,
+}: AccordionItemProps) => {
   const [isActive, setIsActive] = useState(false);
   return (
-    <Item>
+    <Item data-test-id={testId}>
       <AccordionInner
         onClick={() => setIsActive(!isActive)}
         className={classNames({
@@ -189,7 +197,10 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         <h1>{work.title}</h1>
 
         {work.contributors.length > 0 && (
-          <Space h={{ size: 'm', properties: ['margin-right'] }}>
+          <Space
+            h={{ size: 'm', properties: ['margin-right'] }}
+            data-test-id="work-contributors"
+          >
             <LinkLabels
               items={[
                 {
@@ -201,15 +212,17 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         )}
 
         {productionDates.length > 0 && (
-          <LinkLabels
-            heading={'Date'}
-            items={[
-              {
-                text: productionDates[0],
-                url: null,
-              },
-            ]}
-          />
+          <div data-test-id="work-dates">
+            <LinkLabels
+              heading={'Date'}
+              items={[
+                {
+                  text: productionDates[0],
+                  url: null,
+                },
+              ]}
+            />
+          </div>
         )}
 
         <Space v={{ size: 'm', properties: ['margin-top'] }}>
@@ -225,7 +238,10 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         </Space>
       </Inner>
       <div>
-        <AccordionItem title={'License and credit'}>
+        <AccordionItem
+          title={'License and credit'}
+          testId={'license-and-credit'}
+        >
           <div className={font('hnl', 6)}>
             {license && license.label && (
               <p>
