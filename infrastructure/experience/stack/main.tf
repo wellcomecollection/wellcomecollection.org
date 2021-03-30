@@ -12,7 +12,7 @@ data "aws_vpc" "vpc" {
 }
 
 module "alb" {
-  source = "../modules/alb"
+  source = "../../modules/alb"
 
   name = var.namespace
 

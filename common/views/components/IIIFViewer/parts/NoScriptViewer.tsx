@@ -1,7 +1,6 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
-import { itemLink } from '@weco/common/services/catalogue/routes';
 import { getServiceId } from '@weco/common/utils/iiif';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -21,6 +20,7 @@ import {
   IIIFViewerImageWrapper,
 } from '../IIIFViewer';
 import { FunctionComponent } from 'react';
+import { toLink as itemLink } from '../../ItemLink/ItemLink';
 
 const StaticThumbnailsContainer = styled.div.attrs(() => ({
   className: classNames({
@@ -242,12 +242,14 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
                   {...thumbsPaginatorProps}
                   render={() => (
                     <NextLink
-                      {...itemLink({
-                        workId,
-                        page: pageIndex + 1,
-                        langCode: lang,
-                        canvas: canvasNumber,
-                      })}
+                      {...itemLink(
+                        {
+                          workId,
+                          page: pageIndex + 1,
+                          canvas: canvasNumber,
+                        },
+                        'viewer/paginator'
+                      )}
                       scroll={false}
                       replace
                       passHref

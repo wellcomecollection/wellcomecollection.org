@@ -103,6 +103,15 @@ export function toMaybeString(param: QueryParam): undefined | string {
   });
 }
 
+export function toBoolean(param: QueryParam): boolean {
+  return paramParser(param, {
+    empty: () => false,
+    string: p => p === 'true',
+    array: () => false,
+    nodef: () => false,
+  });
+}
+
 export function toSource<T extends string>(
   param: QueryParam,
   sources: readonly T[]
@@ -122,12 +131,20 @@ function fromNumber(v: number): QueryParam {
   return v === 1 ? undefined : v.toString();
 }
 
+function fromMaybeNumber(v: number | undefined): QueryParam {
+  return v ? (v === 1 ? undefined : v.toString()) : undefined;
+}
+
 function fromCsv(v: string[]): QueryParam {
   return v.length === 0 ? undefined : v.join(',');
 }
 
 function fromQuotedCsv(v: string[]): QueryParam {
   return v.length === 0 ? undefined : v.map(val => quoteVal(val)).join(',');
+}
+
+function fromBoolean(v: boolean): QueryParam {
+  return v === true ? 'true' : undefined;
 }
 
 export const stringCodec: Codec<string> = {
@@ -147,7 +164,7 @@ export const numberCodec: Codec<number> = {
 
 export const maybeNumberCodec: Codec<number | undefined> = {
   decode: toMaybeNumber,
-  encode: fromNumber,
+  encode: fromMaybeNumber,
 };
 
 export const csvCodec: Codec<string[]> = {
@@ -158,6 +175,11 @@ export const csvCodec: Codec<string[]> = {
 export const quotedCsvCodec: Codec<string[]> = {
   decode: toCsvFromQuotedCsv,
   encode: fromQuotedCsv,
+};
+
+export const booleanCodec: Codec<boolean> = {
+  decode: toBoolean,
+  encode: fromBoolean,
 };
 
 export function decodeQuery<R>(query: ParsedUrlQuery, codecMap: CodecMap): R {

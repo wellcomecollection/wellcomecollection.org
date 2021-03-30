@@ -10,7 +10,7 @@ export enum UpdateUserError { // eslint-disable-line no-shadow
 }
 
 type UseUpdateUserMutation = {
-  updateUser: (userDetails: UpdateUserSchema) => void;
+  updateUser: (userDetails: UpdateUserSchema, onComplete: (newUserDetails: UpdateUserSchema) => void) => void;
   isLoading: boolean;
   isSuccess: boolean;
   error?: UpdateUserError;
@@ -21,12 +21,16 @@ export function useUpdateUser(): UseUpdateUserMutation {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<UpdateUserError>();
 
-  const updateUser = (userDetails: UpdateUserSchema) => {
+  const updateUser = (
+    userDetails: UpdateUserSchema,
+    onComplete: (newUserDetails: UpdateUserSchema) => void = () => null
+  ) => {
     setIsLoading(true);
     callMiddlewareApi('PUT', '/api/users/me', userDetails)
       .then(() => {
         setIsLoading(false);
         setIsSuccess(true);
+        onComplete(userDetails);
       })
       .catch((err: AxiosError) => {
         switch (err.response?.status) {

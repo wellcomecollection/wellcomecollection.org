@@ -330,11 +330,29 @@ const MainViewer: FunctionComponent<Props> = ({
     let currentCanvas;
     if (firstRenderRef.current) {
       setActiveIndex(canvasIndex);
-      mainViewerRef &&
-        mainViewerRef.current &&
-        mainViewerRef.current.scrollToItem(canvasIndex, 'start');
-      setFirstRender(false);
       currentCanvas = canvases && canvases[canvasIndex];
+      const viewer = mainViewerRef?.current;
+      const isLandscape = currentCanvas.width > currentCanvas.height;
+
+      // If an image is landscape, it will tend to appear too low in the viewport
+      // on account of the FixedSizedList necessarily being comprised of square items.
+      // To circumvent this, if the image is landscape
+      // 1. We calculate the rendered height of the image
+      // 2. We half the difference between that and the square item it sits inside
+      // 3. We scroll that distance, putting the top of the image at the top of the viewport
+      if (isLandscape) {
+        const ratio = currentCanvas.height / currentCanvas.width;
+        const renderedHeight = mainAreaWidth * ratio * 0.8; // TODO: 0.8 = 80% max-width image in container. Variable.
+        const heightOfPreviousItems =
+          canvasIndex * (viewer?.props.itemSize || 0);
+        const distanceToScroll =
+          heightOfPreviousItems +
+          ((viewer?.props.itemSize || 0) - renderedHeight) / 2;
+        viewer?.scrollTo(distanceToScroll);
+      } else {
+        viewer?.scrollToItem(canvasIndex, 'start');
+      }
+      setFirstRender(false);
       const mainImageService = {
         '@id': currentCanvas
           ? currentCanvas.images[0].resource.service['@id']

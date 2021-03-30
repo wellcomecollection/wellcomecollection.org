@@ -200,7 +200,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
                 'flex flex--v-center font-yellow': true,
               })}
             >
-              Back to full information
+              Additional information
             </a>
           </WorkLink>
         </Space>
@@ -241,14 +241,12 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
             <MultipleManifestListPrototype />
           </AccordionItem>
         )}
-        {searchService && itemViewerPrototypeWithSearch && (
-          <AccordionItem title={'Search within this item'}>
-            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-              <IIIFSearchWithin mainViewerRef={mainViewerRef} />
-            </Space>
-          </AccordionItem>
-        )}
       </div>
+      {searchService && itemViewerPrototypeWithSearch && (
+        <Inner>
+          <IIIFSearchWithin mainViewerRef={mainViewerRef} />
+        </Inner>
+      )}
     </>
   );
 };

@@ -13,7 +13,7 @@ module.exports = {
     },
     {
       displayName: 'client',
-      testMatch: ['<rootDir>/src/frontend/**/*.test.ts[x?]'],
+      testMatch: ['<rootDir>/src/frontend/**/*.test.ts*'],
       setupFilesAfterEnv: ['<rootDir>/src/frontend/jest-setup.ts'],
     },
   ],

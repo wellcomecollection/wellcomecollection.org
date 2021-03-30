@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import IIIFViewer from '../../../common/views/components/IIIFViewer/IIIFViewer';
 import Readme from '../../../common/views/components/IIIFViewer/README.md';
-import { itemLink } from '@weco/common/services/catalogue/routes';
+import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import manifest from '../../../common/__mocks__/iiif-manifest';
 import Router from 'next/router';
 
