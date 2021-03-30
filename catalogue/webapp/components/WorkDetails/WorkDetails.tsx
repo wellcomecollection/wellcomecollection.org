@@ -72,9 +72,7 @@ function getItemLinkState({
 }
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
-  const { stacksRequestService, onlineResourcesPrototype } = useContext(
-    TogglesContext
-  );
+  const { stacksRequestService } = useContext(TogglesContext);
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
 
@@ -454,7 +452,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         </WorkDetailsSection>
       )}
 
-      {onlineResourcesPrototype && <OnlineResources work={work} />}
+      <OnlineResources work={work} />
 
       {!digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
 
