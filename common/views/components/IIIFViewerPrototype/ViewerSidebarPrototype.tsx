@@ -247,18 +247,16 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
                 )}
               </p>
             )}
+            <p>
+              <strong>Credit:</strong> {work.title.replace(/\.$/g, '')}.
+            </p>
             {credit && (
-              <>
-                <p>
-                  <strong>Credit:</strong> {work.title.replace(/\.$/g, '')}.
-                </p>
-                <p>
-                  <a href="https:wellcomecollection.org/works/{work.id}">
-                    {credit}
-                  </a>
-                  .
-                </p>
-              </>
+              <p>
+                <a href="https:wellcomecollection.org/works/{work.id}">
+                  {credit}
+                </a>
+                .
+              </p>
             )}
           </div>
         </AccordionItem>
