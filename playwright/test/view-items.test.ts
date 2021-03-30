@@ -13,6 +13,12 @@ const domain = new URL(baseUrl).host;
 beforeAll(async () => {
   await context.addCookies([
     { name: 'WC_cookiesAccepted', value: 'true', domain: domain, path: '/' },
+    {
+      name: 'toggle_itemViewerPrototypeWithSearch',
+      value: 'true',
+      domain: domain,
+      path: '/',
+    },
   ]);
 });
 
