@@ -5,6 +5,10 @@ import {
   zoomInButton,
   openseadragonCanvas,
   fullscreenButton,
+  downloadsButton,
+  itemDownloadsModal,
+  smallImageDownload,
+  fullItemDownload,
 } from './selectors/item';
 import { baseUrl } from './helpers/urls';
 
@@ -25,6 +29,39 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
     await page.waitForSelector(zoomInButton);
     await page.click(zoomInButton);
     await page.waitForSelector(openseadragonCanvas);
+  });
+});
+
+describe.only('Scenario 2: A user wants to use the content offline', () => {
+  beforeEach(async () => {
+    await multiVolumeItem();
+    await page.waitForSelector(downloadsButton);
+    await page.click(downloadsButton);
+    await page.waitForSelector(itemDownloadsModal);
+  });
+
+  test('downloading an image of the current canvas', async () => {
+    const [newPage] = await Promise.all([
+      context.waitForEvent('page'),
+      page.click(smallImageDownload),
+    ]);
+
+    await newPage.waitForLoadState();
+    const url = newPage.url();
+    expect(url).toBe(
+      'https://dlcs.io/iiif-img/wellcome/5/b10326947_hin-wel-all-00012266_0001.jp2/full/full/0/default.jpg'
+    );
+  });
+
+  test('downloading the entire item', async () => {
+    const [newPage] = await Promise.all([
+      context.waitForEvent('page'),
+      page.click(fullItemDownload),
+    ]);
+
+    await newPage.waitForLoadState();
+    const url = newPage.url();
+    expect(url).toBe('https://dlcs.io/pdf/wellcome/pdf-item/b10326947/0');
   });
 });
 
