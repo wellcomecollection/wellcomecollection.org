@@ -45,7 +45,7 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
   });
 });
 
-describe.only('Scenario 6: Item has multiple volumes', () => {
+describe('Scenario 6: Item has multiple volumes', () => {
   test('the volumes should be browsable', async () => {
     if (!isMobile()) {
       await multiVolumeItem();
