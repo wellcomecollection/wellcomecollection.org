@@ -30,7 +30,7 @@ import ButtonSolid, {
 import {
   searchFilterCheckBox,
   searchFilterCloseButton,
-} from '../../../text/arial-labels';
+} from '../../../text/aria-labels';
 
 const PaletteColorPicker = dynamic(
   import('../PaletteColorPicker/PaletteColorPicker')
