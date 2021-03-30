@@ -496,6 +496,7 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
                 />
               </Space>
               <Space
+                data-test-id="rotate-button"
                 h={{ size: 's', properties: ['margin-left'] }}
                 v={{ size: 'l', properties: ['margin-bottom'] }}
               >

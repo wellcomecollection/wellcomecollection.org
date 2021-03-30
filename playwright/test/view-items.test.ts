@@ -3,6 +3,7 @@ import { isMobile } from './actions/common';
 import { volumesNavigationLabel } from './text/aria-labels';
 import {
   zoomInButton,
+  rotateButton,
   openseadragonCanvas,
   fullscreenButton,
   searchWithinResultsHeader,
@@ -45,7 +46,21 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
   });
 });
 
-describe.only('Scenario 6: Item has multiple volumes', () => {
+describe('Scenario 5: Changing image orientation', () => {
+  test('the image should rotate', async () => {
+    await itemWithSearchAndStructures();
+    await page.waitForSelector(rotateButton);
+    await page.click(rotateButton);
+    const currentIndex = await page.textContent('[data-test-id=active-index]');
+    const currentImageSrc = await page.getAttribute(
+      `[data-test-id=canvas-${Number(currentIndex) - 1}] img`,
+      'src'
+    );
+    expect(currentImageSrc).toContain('/90/default.jpg');
+  });
+});
+
+describe('Scenario 6: Item has multiple volumes', () => {
   test('the volumes should be browsable', async () => {
     if (!isMobile()) {
       await multiVolumeItem();
@@ -85,7 +100,7 @@ describe('Scenario 7: Item has structured parts', () => {
     await itemWithSearchAndStructures();
     await page.click(`${accordionItemContents} button`);
     await page.click(`${accordionItemContents} li:nth-of-type(2) a`);
-    await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`); // TODO get 5 from somewhere?
+    await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
   });
 });
 
@@ -99,7 +114,7 @@ describe('Scenario 8: Viewing all the images', () => {
   test('the main viewer can be scrolled', async () => {
     await itemWithSearchAndStructures();
     await scrollToBottom(page, mainViewer);
-    await page.waitForSelector(`css=[data-test-id=active-index] >> text="68"`); // TODO get 68 from somewhere?
+    await page.waitForSelector(`css=[data-test-id=active-index] >> text="68"`);
   });
 });
 
@@ -109,6 +124,6 @@ describe('Scenario 9: Item has a search service', () => {
     await searchWithin('darwin');
     await page.waitForSelector(searchWithinResultsHeader);
     await page.click(`${searchWithinResultsHeader} + ul li:first-of-type a`);
-    await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`); // TODO get 68 from somewhere?
+    await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
   });
 });
