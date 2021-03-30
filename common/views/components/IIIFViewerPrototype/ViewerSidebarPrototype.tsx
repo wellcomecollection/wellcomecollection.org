@@ -197,7 +197,10 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         <h1>{work.title}</h1>
 
         {work.contributors.length > 0 && (
-          <Space h={{ size: 'm', properties: ['margin-right'] }}>
+          <Space
+            h={{ size: 'm', properties: ['margin-right'] }}
+            data-test-id="work-contributors"
+          >
             <LinkLabels
               items={[
                 {
@@ -209,15 +212,17 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         )}
 
         {productionDates.length > 0 && (
-          <LinkLabels
-            heading={'Date'}
-            items={[
-              {
-                text: productionDates[0],
-                url: null,
-              },
-            ]}
-          />
+          <div data-test-id="work-dates">
+            <LinkLabels
+              heading={'Date'}
+              items={[
+                {
+                  text: productionDates[0],
+                  url: null,
+                },
+              ]}
+            />
+          </div>
         )}
 
         <Space v={{ size: 'm', properties: ['margin-top'] }}>
