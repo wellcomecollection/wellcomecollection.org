@@ -200,7 +200,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
                 'flex flex--v-center font-yellow': true,
               })}
             >
-              Additional information
+              More about this work
             </a>
           </WorkLink>
         </Space>
@@ -212,7 +212,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
               <p>
                 <strong>License:</strong>{' '}
                 {license.url ? (
-                  <a href="{license.url}">{license.label}</a>
+                  <a href={license.url}>{license.label}</a>
                 ) : (
                   <span>{license.label}</span>
                 )}
