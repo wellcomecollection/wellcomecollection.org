@@ -14,7 +14,7 @@ const style = `
     font-size: 24px;
   }
 
-  @media screen and (min-width: 600px) {
+  @media only screen and (min-width: 600px) {
     body {
       background-color: #f0ede3;
     }
@@ -24,7 +24,7 @@ const style = `
     background-color: white;
   }
 
-  @media screen and (min-width: 600px) {
+  @media only screen and (min-width: 600px) {
     .container {
       border-radius: 10px;
       max-width: 40em;
@@ -51,7 +51,7 @@ const style = `
     place-items: center;
   }
 
-  @media screen and (min-width: 600px) {
+  @media only screen and (min-width: 600px) {
     .logo {
       border-right: 1px solid gainsboro;
     }
