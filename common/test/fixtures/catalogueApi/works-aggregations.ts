@@ -168,7 +168,7 @@ const aggregations: CatalogueResultsList<Work> = {
       ],
       type: 'Aggregation',
     },
-    genres: {
+    'genres.label': {
       buckets: [
         {
           data: {
@@ -333,7 +333,7 @@ const aggregations: CatalogueResultsList<Work> = {
       ],
       type: 'Aggregation',
     },
-    subjects: {
+    'subjects.label': {
       buckets: [
         {
           data: {
@@ -498,224 +498,164 @@ const aggregations: CatalogueResultsList<Work> = {
       ],
       type: 'Aggregation',
     },
-    contributors: {
+    'contributors.agent.label': {
       buckets: [
         {
           data: {
-            agent: {
-              label: 'Augustus Long Health Sciences Library',
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: 'Augustus Long Health Sciences Library',
+            type: 'Organisation',
           },
           count: 2630,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: 'Health Education Council',
-              type: 'Agent',
-            },
-            type: 'Contributor',
+            label: 'Health Education Council',
+            type: 'Agent',
           },
           count: 1978,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: 'World Health Organization.',
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: 'World Health Organization.',
+            type: 'Organisation',
           },
           count: 813,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: 'Royal College of Surgeons of England',
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: 'Royal College of Surgeons of England',
+            type: 'Organisation',
           },
           count: 798,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: 'Great Britain. Department of Health.',
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: 'Great Britain. Department of Health.',
+            type: 'Organisation',
           },
           count: 730,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: 'Feminist Library (London, England)',
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: 'Feminist Library (London, England)',
+            type: 'Organisation',
           },
           count: 479,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: "Women's Health (Organization)",
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: "Women's Health (Organization)",
+            type: 'Organisation',
           },
           count: 472,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: 'National Library of Medicine (U.S.)',
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: 'National Library of Medicine (U.S.)',
+            type: 'Organisation',
           },
           count: 420,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: 'University of Glasgow. Library',
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: 'University of Glasgow. Library',
+            type: 'Organisation',
           },
           count: 405,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: 'London School of Hygiene and Tropical Medicine',
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: 'London School of Hygiene and Tropical Medicine',
+            type: 'Organisation',
           },
           count: 392,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: 'Royal College of Physicians of Edinburgh',
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: 'Royal College of Physicians of Edinburgh',
+            type: 'Organisation',
           },
           count: 367,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: 'Great Britain. Ministry of Health.',
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: 'Great Britain. Ministry of Health.',
+            type: 'Organisation',
           },
           count: 360,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: 'Great Britain. General Board of Health.',
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: 'Great Britain. General Board of Health.',
+            type: 'Organisation',
           },
           count: 349,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: 'Health Education Authority (Great Britain)',
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: 'Health Education Authority (Great Britain)',
+            type: 'Organisation',
           },
           count: 317,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: 'Harvey Cushing/John Hay Whitney Medical Library',
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: 'Harvey Cushing/John Hay Whitney Medical Library',
+            type: 'Organisation',
           },
           count: 311,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: 'Francis A. Countway Library of Medicine',
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: 'Francis A. Countway Library of Medicine',
+            type: 'Organisation',
           },
           count: 300,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: 'Royal College of Physicians of London',
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: 'Royal College of Physicians of London',
+            type: 'Organisation',
           },
           count: 230,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: 'Great Britain. Department of Health and Social Security.',
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: 'Great Britain. Department of Health and Social Security.',
+            type: 'Organisation',
           },
           count: 211,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: 'Great Britain. Colonial Office.',
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: 'Great Britain. Colonial Office.',
+            type: 'Organisation',
           },
           count: 208,
           type: 'AggregationBucket',
         },
         {
           data: {
-            agent: {
-              label: 'Great Britain. National Health Service.',
-              type: 'Organisation',
-            },
-            type: 'Contributor',
+            label: 'Great Britain. National Health Service.',
+            type: 'Organisation',
           },
           count: 206,
           type: 'AggregationBucket',
