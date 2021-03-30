@@ -1,14 +1,24 @@
-import { multiVolumeItem } from './contexts';
+import { multiVolumeItem, itemWithSearchAndStructures } from './contexts';
 import { isMobile } from './actions/common';
 import { volumesNavigationLabel } from './text/aria-labels';
 import {
   zoomInButton,
   openseadragonCanvas,
   fullscreenButton,
+  searchWithinResultsHeader,
+  mainViewer,
+  accordionItemVolumes,
+  accordionItemContents,
 } from './selectors/item';
 import { baseUrl } from './helpers/urls';
 
 const domain = new URL(baseUrl).host;
+
+const searchWithinForm = '#searchWithin';
+async function searchWithin(query: string) {
+  await page.fill(searchWithinForm, query);
+  await page.press(searchWithinForm, 'Enter');
+}
 
 beforeAll(async () => {
   await context.addCookies([
@@ -35,11 +45,11 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
   });
 });
 
-describe('Scenario 6: Item has multiple volumes', () => {
+describe.only('Scenario 6: Item has multiple volumes', () => {
   test('the volumes should be browsable', async () => {
     if (!isMobile()) {
       await multiVolumeItem();
-
+      await page.click(`${accordionItemVolumes} button`);
       const navigationSelector = `[role="navigation"][aria-label="${volumesNavigationLabel}"]`;
       await page.waitForSelector(navigationSelector);
 
@@ -56,8 +66,6 @@ describe('Scenario 6: Item has multiple volumes', () => {
 
       expect(currentManifestLinkLabel).toEqual(currentManifestLabel);
 
-      await page.click('[aria-controls=MultipleManifestListHiddenContent]');
-
       const nextManifestLinkSelector = `${navigationSelector} a:not([aria-current="page"])`;
       const nextManifestLinkLabel = await page.textContent(
         nextManifestLinkSelector
@@ -69,5 +77,38 @@ describe('Scenario 6: Item has multiple volumes', () => {
         `css=[data-test-id=current-manifest] >> text="${nextManifestLinkLabel}"`
       );
     }
+  });
+});
+
+describe('Scenario 7: Item has structured parts', () => {
+  test('the main viewer can be scrolled', async () => {
+    await itemWithSearchAndStructures();
+    await page.click(`${accordionItemContents} button`);
+    await page.click(`${accordionItemContents} li:nth-of-type(2) a`);
+    await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
+  });
+});
+
+async function scrollToBottom(page, selector) {
+  await page.$eval(selector, element => {
+    element.scrollTo(0, element.scrollHeight);
+  });
+}
+
+describe('Scenario 8: Viewing all the images', () => {
+  test('the main viewer can be scrolled', async () => {
+    await itemWithSearchAndStructures();
+    await scrollToBottom(page, mainViewer);
+    await page.waitForSelector(`css=[data-test-id=active-index] >> text="68"`);
+  });
+});
+
+describe('Scenario 9: Item has a search service', () => {
+  test('the item should be searchable', async () => {
+    await itemWithSearchAndStructures();
+    await searchWithin('darwin');
+    await page.waitForSelector(searchWithinResultsHeader);
+    await page.click(`${searchWithinResultsHeader} + ul li:first-of-type a`);
+    await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
   });
 });
