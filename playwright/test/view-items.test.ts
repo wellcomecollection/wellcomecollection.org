@@ -47,6 +47,19 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
   });
 });
 
+describe('Scenario 4: A user wants to know how they can make use of an item', () => {
+  test('license information should be available', async () => {
+    await itemWithSearchAndStructures();
+    await page.click(`${accordionItemLicense} button`);
+    await page.waitForSelector(
+      `css=${accordionItemLicense} strong >> text="License:"`
+    );
+    await page.waitForSelector(
+      `css=${accordionItemLicense} strong >> text="Credit:"`
+    );
+  });
+});
+
 describe('Scenario 5: A user wants to view an item in a different orientation', () => {
   test('the image should rotate', async () => {
     await itemWithSearchAndStructures();
