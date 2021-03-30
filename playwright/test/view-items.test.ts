@@ -21,11 +21,10 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
     await multiVolumeItem();
     await page.waitForSelector(fullscreenButton);
     await page.click(fullscreenButton);
-    // check full screen
+    // TODO: e.g. test for existence of document.fullscreenElement (can't figure out how to do this with Playwright)
     await page.waitForSelector(zoomInButton);
     await page.click(zoomInButton);
     await page.waitForSelector(openseadragonCanvas);
-    // expect(openseadragonCanvas).toBeTruthy();
   });
 });
 
