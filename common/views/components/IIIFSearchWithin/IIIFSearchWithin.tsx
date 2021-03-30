@@ -9,6 +9,7 @@ import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
 import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
+import Raven from 'raven-js';
 import { searchWithinLabel } from '@weco/common/text/aria-labels';
 
 type Props = {
@@ -107,8 +108,8 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
         ).json();
         setIsLoading(false);
         setSearchResults(results);
-      } catch (e) {
-        console.info(e);
+      } catch (error) {
+        Raven.captureException(new Error(`IIIF search error: ${error}`));
       }
     }
   }

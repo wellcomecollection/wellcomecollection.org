@@ -78,7 +78,6 @@ type ItemRendererProps = {
   index: number;
   data: {
     scrollVelocity: number;
-    isProgrammaticScroll: boolean;
     mainAreaRef: RefObject<HTMLDivElement>;
     setActiveIndex: (i: number) => void;
     canvases: IIIFCanvas[];
@@ -132,7 +131,6 @@ function getPositionData( // TODO typing
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const {
     scrollVelocity,
-    isProgrammaticScroll,
     canvases,
     rotatedImages,
     setIsLoading,
@@ -203,7 +201,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
 
   return (
     <div style={style}>
-      {scrollVelocity === 3 || isProgrammaticScroll ? (
+      {scrollVelocity === 3 ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <LL lighten={true} />
         </div>
@@ -308,7 +306,6 @@ const MainViewer: FunctionComponent<Props> = ({
     setShowControls,
     errorHandler,
   } = useContext(ItemViewerContext);
-  const [isProgrammaticScroll, setIsProgrammaticScroll] = useState(false);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const [firstRender, setFirstRender] = useState(true);
   const [ocrText, setOcrText] = useState('');
@@ -319,11 +316,10 @@ const MainViewer: FunctionComponent<Props> = ({
     debounce(handleOnItemsRendered, 500)
   );
   const timer = useRef<number | undefined>();
-  function handleOnScroll({ scrollOffset, scrollUpdateWasRequested }) {
+  function handleOnScroll({ scrollOffset }) {
     clearTimeout(timer.current);
     setShowControls(false);
     setNewScrollOffset(scrollOffset);
-    setIsProgrammaticScroll(scrollUpdateWasRequested);
 
     timer.current = setTimeout(() => {
       setShowControls(true);
@@ -331,7 +327,6 @@ const MainViewer: FunctionComponent<Props> = ({
   }
 
   function handleOnItemsRendered() {
-    setIsProgrammaticScroll(false);
     let currentCanvas;
     if (firstRenderRef.current) {
       setActiveIndex(canvasIndex);
@@ -383,7 +378,6 @@ const MainViewer: FunctionComponent<Props> = ({
       itemCount={canvases.length}
       itemData={{
         scrollVelocity,
-        isProgrammaticScroll,
         canvases,
         setShowZoomed,
         setZoomInfoUrl,
