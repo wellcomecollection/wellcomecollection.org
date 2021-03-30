@@ -5,6 +5,7 @@ import {
   zoomInButton,
   openseadragonCanvas,
   fullscreenButton,
+  licenseAndCreditAccordionItem,
 } from './selectors/item';
 import { baseUrl } from './helpers/urls';
 
@@ -31,6 +32,24 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
     await page.waitForSelector(zoomInButton);
     await page.click(zoomInButton);
     await page.waitForSelector(openseadragonCanvas);
+  });
+});
+
+describe('Scenario 3: A user wants information about the item they are viewing', () => {
+  beforeAll(async () => {
+    await multiVolumeItem();
+  });
+
+  test('the item has a title', async () => {
+    const title = await page.waitForSelector('h1');
+    expect(title).toBeTruthy();
+  });
+
+  test.only('the item has license and credit information', async () => {
+    await page.waitForSelector(licenseAndCreditAccordionItem);
+    await page.click(licenseAndCreditAccordionItem);
+    await page.waitForSelector(`strong:has-text('License:')`);
+    await page.waitForSelector(`strong:has-text('Credit:')`);
   });
 });
 
