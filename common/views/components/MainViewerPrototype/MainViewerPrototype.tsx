@@ -259,23 +259,25 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                     />
                   );
                 })}
-              <ImageViewerPrototype
-                id="item-page"
-                infoUrl={infoUrl}
-                width={currentCanvas.width}
-                height={currentCanvas.height}
-                alt={ocrText}
-                urlTemplate={urlTemplateMain}
-                rotation={rotation}
-                index={index}
-                loadHandler={() => {
-                  setMainLoaded(true);
-                  setIsLoading(false);
-                }}
-                mainAreaRef={mainAreaRef}
-                setImageRect={setImageRect}
-                setImageContainerRect={setImageContainerRect}
-              />
+              <div data-test-id={`canvas-${index}`}>
+                <ImageViewerPrototype
+                  id="item-page"
+                  infoUrl={infoUrl}
+                  width={currentCanvas.width}
+                  height={currentCanvas.height}
+                  alt={ocrText}
+                  urlTemplate={urlTemplateMain}
+                  rotation={rotation}
+                  index={index}
+                  loadHandler={() => {
+                    setMainLoaded(true);
+                    setIsLoading(false);
+                  }}
+                  mainAreaRef={mainAreaRef}
+                  setImageRect={setImageRect}
+                  setImageContainerRect={setImageContainerRect}
+                />
+              </div>
             </>
           )}
         </>
