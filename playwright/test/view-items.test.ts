@@ -8,6 +8,7 @@ import {
   fullscreenButton,
   searchWithinResultsHeader,
   mainViewer,
+  accordionItemLicense,
   accordionItemVolumes,
   accordionItemContents,
 } from './selectors/item';
@@ -46,7 +47,7 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
   });
 });
 
-describe('Scenario 5: Changing image orientation', () => {
+describe('Scenario 5: A user wants to view an item in a different orientation', () => {
   test('the image should rotate', async () => {
     await itemWithSearchAndStructures();
     await page.waitForSelector(rotateButton);
@@ -95,8 +96,8 @@ describe('Scenario 6: Item has multiple volumes', () => {
   });
 });
 
-describe('Scenario 7: Item has structured parts', () => {
-  test('the main viewer can be scrolled', async () => {
+describe('Scenario 7: A user wants to navigate an item by its parts', () => {
+  test('the structured parts should be browseable', async () => {
     await itemWithSearchAndStructures();
     await page.click(`${accordionItemContents} button`);
     await page.click(`${accordionItemContents} li:nth-of-type(2) a`);
@@ -110,7 +111,7 @@ async function scrollToBottom(page, selector) {
   });
 }
 
-describe('Scenario 8: Viewing all the images', () => {
+describe('Scenario 8: A user wants to be able to see all the images for an item', () => {
   test('the main viewer can be scrolled', async () => {
     await itemWithSearchAndStructures();
     await scrollToBottom(page, mainViewer);
@@ -118,7 +119,7 @@ describe('Scenario 8: Viewing all the images', () => {
   });
 });
 
-describe('Scenario 9: Item has a search service', () => {
+describe("Scenario 9: A user wants to be able to search inside an item's text", () => {
   test('the item should be searchable', async () => {
     await itemWithSearchAndStructures();
     await searchWithin('darwin');
