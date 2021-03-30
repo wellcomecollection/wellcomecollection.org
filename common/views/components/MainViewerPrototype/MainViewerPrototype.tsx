@@ -245,7 +245,8 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
           )}
           {(imageType === 'main' || mainLoaded) && urlTemplateMain && infoUrl && (
             <>
-              {overlayPositionData &&
+              {rotation === 0 &&
+                overlayPositionData &&
                 overlayPositionData.map((item, i) => {
                   return (
                     <SearchTermHighlight
