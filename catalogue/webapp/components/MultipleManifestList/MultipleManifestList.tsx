@@ -7,7 +7,7 @@ import { font, classNames } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { ShameButton } from '@weco/common/views/components/ViewerTopBar/ViewerTopBar';
-import { volumesNavigationLabel } from '@weco/common/text/arial-labels';
+import { volumesNavigationLabel } from '@weco/common/text/aria-labels';
 
 const HiddenContent = styled.div.attrs(() => ({
   className: classNames({

@@ -22,7 +22,7 @@ import { AppContext } from '../AppContext/AppContext';
 import {
   searchFormInputCatalogue,
   searchFormInputImage,
-} from '../../../text/arial-labels';
+} from '../../../text/aria-labels';
 import { ParsedUrlQuery } from 'querystring';
 import { LinkProps } from '../../../model/link-props';
 import { Filter } from '../../../services/catalogue/filters';
