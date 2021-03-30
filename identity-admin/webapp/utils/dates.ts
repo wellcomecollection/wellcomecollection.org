@@ -9,3 +9,7 @@ export const humanDate = (date: DayJSDate = 'Invalid Date'): string => {
 
   return dayJSDate.isValid() ? dayJSDate.fromNow() : 'Invalid Date';
 };
+
+export const prettyDate = (date: DayJSDate = 'Invalid Date'): string => {
+  return dayjs(date).format('DD/MM/YYYY HH:mm:ss');
+};

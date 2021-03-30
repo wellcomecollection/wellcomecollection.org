@@ -1,7 +1,6 @@
 import React from 'react';
 import { useUserInfo } from '../../context/UserInfoContext';
-import { humanDate } from '../../utils/humanDate';
-import { prettyDate } from '../../utils/prettyDate';
+import { humanDate, prettyDate } from '../../utils/dates';
 import { UsageDetail, UsageDetailsList, Label, Value } from './UsageData.style';
 
 function TimeBasedDetail(props: { label: string; date?: string }) {
