@@ -1,6 +1,5 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import StatusDropdown from './StatusDropdown';
-import { buildSearchUrl } from '../../utils/search-util';
 
 jest.mock('next/router', () => ({
   useRouter: () => {
@@ -17,34 +16,23 @@ jest.mock('next/router', () => ({
 }));
 
 const renderComponent = () => render(<StatusDropdown />);
-const getOptions = (container: HTMLElement) =>
-  container.getElementsByClassName('status-dropdown__option');
-const clickToggle = (container: HTMLElement) => {
-  const label = container.querySelector('.status-dropdown__label');
-  if (label) {
-    fireEvent.click(label);
-  } else {
-    fail('Unable to find label');
-  }
-};
-const getLabelArrow = (container: HTMLElement) =>
-  container.getElementsByClassName('status-dropdown__label-arrow');
+const getOptions = () => screen.getAllByRole('link');
+const clickToggle = () => fireEvent.click(screen.getByRole('dropdown'));
+const getLabelArrow = () => screen.getAllByRole('label')[1];
 const expectedUrl = (statusValue: string) =>
-  buildSearchUrl('1', statusValue, 'Bob', 'bob@email.com');
+  '/?email=bob%40email.com&name=Bob&page=1&status=' + statusValue;
 
 describe('Status dropdown', () => {
   it('is initially collapsed', () => {
-    const { container } = renderComponent();
-    const options = getOptions(container);
-    expect(options.length).toBe(0);
-    const labelArrow = getLabelArrow(container)[0];
-    expect(labelArrow).toHaveTextContent('▾');
+    renderComponent();
+    expect(screen.queryByRole('link')).not.toBeInTheDocument();
+    expect(getLabelArrow()).toHaveTextContent('▾');
   });
 
   it('expands on initial click', () => {
-    const { container } = renderComponent();
-    clickToggle(container);
-    const options = getOptions(container);
+    renderComponent();
+    clickToggle();
+    const options = getOptions();
     expect(options.length).toBe(4);
     expect(options[0]).toHaveTextContent('Any');
     expect(options[0]).toHaveAttribute('href', expectedUrl('any'));
@@ -54,17 +42,14 @@ describe('Status dropdown', () => {
     expect(options[2]).toHaveAttribute('href', expectedUrl('locked'));
     expect(options[3]).toHaveTextContent('Pending delete');
     expect(options[3]).toHaveAttribute('href', expectedUrl('deletePending'));
-    const labelArrow = getLabelArrow(container)[0];
-    expect(labelArrow).toHaveTextContent('▴');
+    expect(getLabelArrow()).toHaveTextContent('▴');
   });
 
   it('collapses on second click', () => {
-    const { container } = renderComponent();
-    clickToggle(container);
-    clickToggle(container);
-    const options = getOptions(container);
-    expect(options.length).toBe(0);
-    const labelArrow = getLabelArrow(container)[0];
-    expect(labelArrow).toHaveTextContent('▾');
+    renderComponent();
+    clickToggle();
+    clickToggle();
+    expect(screen.queryByRole('link')).not.toBeInTheDocument();
+    expect(getLabelArrow()).toHaveTextContent('▾');
   });
 });

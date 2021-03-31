@@ -44,22 +44,26 @@ const StatusDropdown = (): JSX.Element => {
 
   return (
     <div className="status-dropdown">
-      <div className="status-dropdown__label" onClick={toggleExpansion}>
-        <span>{statusLabel()}</span>
-        <span className="status-dropdown__label-arrow">
+      <div
+        role="dropdown"
+        className="status-dropdown__label"
+        onClick={toggleExpansion}
+      >
+        <span role="label">{statusLabel()}</span>
+        <span role="label" className="status-dropdown__label-arrow">
           {isExpanded ? '▴' : '▾'}
         </span>
       </div>
       {isExpanded && (
         <div className="status-dropdown__options">
-          {statuses.map((s, i) => {
+          {statuses.map((statusEntry, i) => {
             return (
               <a
                 className="status-dropdown__option"
                 key={i}
-                href={buildSearchUrl('1', s.key, name, email)}
+                href={buildSearchUrl('1', statusEntry.key, name, email)}
               >
-                {s.value}
+                {statusEntry.value}
               </a>
             );
           })}
