@@ -1,4 +1,5 @@
-import { FunctionComponent, useState, useContext } from 'react';
+import { FunctionComponent, useState, useContext, RefObject } from 'react';
+import { FixedSizeList } from 'react-window';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import styled from 'styled-components';
@@ -124,7 +125,7 @@ const AccordionItem = ({ title, children }) => {
   );
 };
 type Props = {
-  mainViewerRef: any;
+  mainViewerRef: RefObject<FixedSizeList>;
 };
 
 const ViewerSidebarPrototype: FunctionComponent<Props> = ({
