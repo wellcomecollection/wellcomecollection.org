@@ -22,7 +22,13 @@ export function useMutation<T = unknown>(
           data,
         }
       : {};
-    return axios({ url, method, ...config }).then(() => setIsLoading(false));
+    return axios({
+      url,
+      method,
+      ...config,
+      validateStatus: status =>
+        (status >= 200 && status < 300) || status === 304,
+    }).then(() => setIsLoading(false));
   };
 
   return { mutate, isLoading };
