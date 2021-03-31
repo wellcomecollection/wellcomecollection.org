@@ -321,4 +321,34 @@ describe('EditProfile', () => {
       'Failed to send activation email'
     );
   });
+
+  it('can block a user', async () => {
+    renderPage();
+    await waitForPageToLoad();
+    userEvent.click(screen.getByRole('button', { name: /account actions/i }));
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.click(screen.getByText(/^block online account/i));
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'User has been blocked'
+    );
+    expect(
+      screen.queryByText(/^block online account/i)
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/unblock online account/i)).toBeInTheDocument();
+  });
+
+  it('can unblock a user', async () => {
+    renderPage({ locked: true });
+    await waitForPageToLoad();
+    userEvent.click(screen.getByRole('button', { name: /account actions/i }));
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.click(screen.getByText(/unblock online account/i));
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'User has been unblocked'
+    );
+    expect(
+      screen.queryByText(/unblock online account/i)
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/^block online account/i)).toBeInTheDocument();
+  });
 });

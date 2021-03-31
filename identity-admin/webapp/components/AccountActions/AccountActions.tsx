@@ -49,14 +49,20 @@ export function AccountActions({
           <AccountAction
             label="Unblock online account"
             onClick={unblockAccount}
-            onSuccess={() => handleSuccess('User has been unblocked')}
+            onSuccess={() => {
+              user.locked = false;
+              handleSuccess('User has been unblocked');
+            }}
             onFailure={() => handleFailure('Failed to unblock user')}
           />
         ) : (
           <AccountAction
             label="Block online account"
             onClick={blockAccount}
-            onSuccess={() => handleSuccess('User has been blocked')}
+            onSuccess={() => {
+              user && (user.locked = true);
+              handleSuccess('User has been blocked');
+            }}
             onFailure={() => handleFailure('Failed to block user')}
           />
         )}
