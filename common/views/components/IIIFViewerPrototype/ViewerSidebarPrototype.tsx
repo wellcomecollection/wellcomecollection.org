@@ -263,7 +263,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           </AccordionItem>
         )}
         {parentManifest && parentManifest.manifests && (
-          <AccordionItem title={'Volumes'} testId="accordion-item-volumes">
+          <AccordionItem title={'Volumes'}>
             <MultipleManifestListPrototype />
           </AccordionItem>
         )}

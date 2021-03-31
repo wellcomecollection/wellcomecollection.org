@@ -11,7 +11,6 @@ import {
   fullscreenButton,
   searchWithinResultsHeader,
   mainViewer,
-  accordionItemVolumes,
   accordionItemContents,
 } from './selectors/item';
 import { baseUrl } from './helpers/urls';
@@ -72,11 +71,12 @@ describe('Scenario 5: A user wants to view an item in a different orientation', 
   });
 });
 
-describe('Scenario 6: Item has multiple volumes', () => {
+describe.only('Scenario 6: Item has multiple volumes', () => {
   test('the volumes should be browsable', async () => {
     if (!isMobile()) {
       await multiVolumeItem();
-      await page.click(`${accordionItemVolumes} button`);
+      await page.waitForSelector(`css=body >> text="Volumes"`);
+      await page.click('text="Volumes"');
       const navigationSelector = `[role="navigation"][aria-label="${volumesNavigationLabel}"]`;
       await page.waitForSelector(navigationSelector);
 
