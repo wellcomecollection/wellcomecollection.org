@@ -5,7 +5,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/Download';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent, useContext, RefObject } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
@@ -97,8 +97,8 @@ const RightZone = styled(Space).attrs({
 `;
 
 type Props = {
-  viewToggleRef: any;
-  viewerRef: any;
+  viewToggleRef: RefObject<HTMLButtonElement>;
+  viewerRef: RefObject<HTMLDivElement>;
 };
 
 const ViewerTopBar: FunctionComponent<Props> = ({
