@@ -14,50 +14,60 @@ import Paginator, {
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import { IIIFCanvas } from '@weco/common/model/iiif';
-import {
-  IIIFViewer,
-  IIIFViewerMain,
-  IIIFViewerImageWrapper,
-} from '../IIIFViewer';
 import { FunctionComponent } from 'react';
 import { toLink as itemLink } from '../../ItemLink/ItemLink';
 
-const StaticThumbnailsContainer = styled.div.attrs(() => ({
-  className: classNames({
-    'bg-viewerBlack flex relative': true,
-  }),
-}))`
-  width: 100%;
-  height: 20%;
-  border-top: 1px solid ${props => props.theme.color('pewter')};
-  padding-left: 20%;
-  @media (min-width: ${props => props.theme.sizes.medium}px) {
-    padding-left: 0;
-    flex-direction: column;
-    height: 100%;
-    width: 25%;
-    border-top: none;
-    border-right: 1px solid ${props => props.theme.color('pewter')};
+const NoScriptViewerEl = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  height: calc(100vh - 85px);
+`;
+
+const NoScriptViewerMain = styled.div`
+  position: relative;
+  color: ${props => props.theme.color('white')};
+  height: 100%;
+  width: 75%;
+`;
+
+const NoScriptViewerImageWrapper = styled.div`
+  position: absolute;
+  top: ${props => `${props.theme.spacingUnit * 2}px`};
+  right: 0;
+  bottom: ${props => `${props.theme.spacingUnit * 2}px`};
+  left: 0;
+
+  img {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
   }
+`;
+
+const StaticThumbnailsContainer = styled.div`
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  height: 100%;
+  width: 25%;
+  border-top: none;
+  border-right: 1px solid ${props => props.theme.color('pewter')};
 `;
 
 const ThumbnailLink = styled.a`
   display: block;
   text-decoration: none;
-  height: 100%;
+  height: 25%;
   padding: 12px;
-  width: 25%;
-  @media (min-width: ${props => props.theme.sizes.medium}px) {
-    height: 25%;
-    width: auto;
-  }
+  width: auto;
 `;
 
-export const IIIFViewerPaginatorButtons = styled.div.attrs(() => ({
-  className: classNames({
-    absolute: true,
-  }),
-}))`
+export const NoScriptViewerPaginatorButtons = styled.div`
+  position: absolute;
   left: 12px;
   top: 12px;
 `;
@@ -84,7 +94,7 @@ export const PaginatorButtons = (
               scroll={false}
               replace={true}
               link={prevLink}
-              type="black-on-white"
+              colorScheme="light"
               icon="arrow"
               text="Previous page"
               tabIndex={isTabbable ? 0 : -1}
@@ -107,7 +117,7 @@ export const PaginatorButtons = (
               scroll={false}
               replace={true}
               link={nextLink}
-              type="black-on-white"
+              colorScheme="light"
               icon="arrow"
               text="Next page"
               tabIndex={isTabbable ? 0 : -1}
@@ -181,13 +191,9 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
       .join(',');
 
   return (
-    <IIIFViewer>
-      <IIIFViewerMain
-        noScript={true}
-        h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
-        fullWidth={!thumbnailsRequired}
-      >
-        <IIIFViewerImageWrapper>
+    <NoScriptViewerEl className="bg-charcoal">
+      <NoScriptViewerMain>
+        <NoScriptViewerImageWrapper>
           {iiifImageLocation && imageUrl && (
             <IIIFResponsiveImage
               width={800}
@@ -222,14 +228,14 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
               isLazy={false}
             />
           )}
-        </IIIFViewerImageWrapper>
-        <IIIFViewerPaginatorButtons>
+        </NoScriptViewerImageWrapper>
+        <NoScriptViewerPaginatorButtons>
           <Paginator
             {...mainPaginatorProps}
             render={PaginatorButtons(true, workId)}
           />
-        </IIIFViewerPaginatorButtons>
-      </IIIFViewerMain>
+        </NoScriptViewerPaginatorButtons>
+      </NoScriptViewerMain>
 
       {thumbnailsRequired && (
         <StaticThumbnailsContainer>
@@ -267,15 +273,15 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
                 />
               );
             })}
-          <IIIFViewerPaginatorButtons>
+          <NoScriptViewerPaginatorButtons>
             <Paginator
               {...thumbsPaginatorProps}
               render={PaginatorButtons(true, workId)}
             />
-          </IIIFViewerPaginatorButtons>
+          </NoScriptViewerPaginatorButtons>
         </StaticThumbnailsContainer>
       )}
-    </IIIFViewer>
+    </NoScriptViewerEl>
   );
 };
 

@@ -10,11 +10,13 @@ import {
 type AppContextProps = {
   isEnhanced: boolean;
   isKeyboard: boolean;
+  isFullSupportBrowser: boolean;
 };
 
 const appContextDefaults = {
   isEnhanced: false,
   isKeyboard: true,
+  isFullSupportBrowser: false,
 };
 
 export const AppContext = createContext<AppContextProps>(appContextDefaults);
@@ -28,9 +30,13 @@ export const AppContextProvider: FunctionComponent<AppContextProviderProps> = ({
 }: AppContextProviderProps): ReactElement<AppContextProviderProps> => {
   const [isEnhanced, setIsEnhanced] = useState(appContextDefaults.isEnhanced);
   const [isKeyboard, setIsKeyboard] = useState(appContextDefaults.isKeyboard);
+  const [isFullSupportBrowser, setIsFullSupportBrowser] = useState(
+    appContextDefaults.isFullSupportBrowser
+  );
 
   useEffect(() => {
     setIsEnhanced(true);
+    setIsFullSupportBrowser('IntersectionObserver' in window);
 
     document.addEventListener('mousedown', setIsKeyboardFalse);
     document.addEventListener('keydown', setIsKeyboardTrue);
@@ -56,7 +62,9 @@ export const AppContextProvider: FunctionComponent<AppContextProviderProps> = ({
   }
 
   return (
-    <AppContext.Provider value={{ isEnhanced, isKeyboard }}>
+    <AppContext.Provider
+      value={{ isEnhanced, isKeyboard, isFullSupportBrowser }}
+    >
       {children}
     </AppContext.Provider>
   );
