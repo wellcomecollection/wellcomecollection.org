@@ -10,9 +10,9 @@ export type TagType = {
   linkAttributes: LinkProps;
 };
 
-type Props = {
+export type Props = {
   tags: TagType[];
-  isFirstPartBold?: boolean | null;
+  isFirstPartBold?: boolean;
   separator?: string;
 };
 

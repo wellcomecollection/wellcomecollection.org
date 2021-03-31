@@ -23,12 +23,6 @@ export default {
       defaultValue: false,
     },
     {
-      id: 'onlineResourcesPrototype',
-      title: 'Online resources',
-      description: `Adds links to any third-party resources associated with items (inside 'Available online')`,
-      defaultValue: false,
-    },
-    {
       id: 'buildingReopening',
       title: 'Wellcome Collection reopening UI changes',
       description:

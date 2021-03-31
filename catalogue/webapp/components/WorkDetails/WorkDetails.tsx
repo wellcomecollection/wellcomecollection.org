@@ -2,7 +2,6 @@ import moment from 'moment';
 import NextLink from 'next/link';
 import { useEffect, useState, useContext, FunctionComponent } from 'react';
 import fetch from 'isomorphic-unfetch';
-import { NextLinkType } from '@weco/common/model/next-link-type';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';
@@ -34,6 +33,7 @@ import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
+import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -43,7 +43,6 @@ import IIIFClickthrough from '@weco/common/views/components/IIIFClickthrough/III
 import OnlineResources from './OnlineResources';
 type Props = {
   work: Work;
-  itemUrl?: NextLinkType;
 };
 
 // At the moment we aren't set up to cope with access conditions 'open-with-advisory, 'restricted',
@@ -72,10 +71,11 @@ function getItemLinkState({
   }
 }
 
-const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
-  const { stacksRequestService, onlineResourcesPrototype } = useContext(
-    TogglesContext
-  );
+const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
+  const { stacksRequestService } = useContext(TogglesContext);
+
+  const itemUrl = itemLink({ workId: work.id }, 'work');
+
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
@@ -236,8 +236,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
 
   const Content = () => (
     <>
-      {onlineResourcesPrototype && <OnlineResources work={work} />}
-
       {digitalLocation && itemLinkState !== 'useNoLink' && (
         <WorkDetailsSection
           headingText="Available online"
@@ -310,7 +308,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
                                 trackEvent({
                                   category: 'WorkDetails',
                                   action: 'follow image link',
-                                  label: itemUrl.href?.query?.workId?.toString(),
+                                  label: work.id,
                                 })
                               }
                             >
@@ -454,9 +452,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
         </WorkDetailsSection>
       )}
 
-      {!digitalLocation &&
-        !onlineResourcesPrototype &&
-        (locationOfWork || encoreLink) && <WhereToFindIt />}
+      <OnlineResources work={work} />
+
+      {!digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
 
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection
@@ -523,6 +521,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
                 'work_details/contributors'
               ),
             }))}
+            separator=""
           />
         )}
 

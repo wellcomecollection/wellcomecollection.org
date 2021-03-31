@@ -7,7 +7,7 @@ import {
   SearchResults,
 } from '../../../model/iiif';
 import { LicenseData } from '../../../utils/licenses';
-
+import { UrlTemplate } from 'url-template';
 type Props = {
   work: Work;
   manifest: IIIFManifest | undefined;
@@ -29,20 +29,23 @@ type Props = {
   mainAreaHeight: number;
   isFullscreen: boolean;
   isResizing: boolean;
+  urlTemplate?: UrlTemplate;
   setShowZoomed: (v: boolean) => void;
-  isSidebarActive: boolean;
-  setIsSidebarActive: (v: boolean) => void;
+  isDesktopSidebarActive: boolean;
+  setIsDesktopSidebarActive: (v: boolean) => void;
+  isMobileSidebarActive: boolean;
+  setIsMobileSidebarActive: (v: boolean) => void;
   showZoomed: boolean;
   setZoomInfoUrl: (v: string) => void;
   setIsFullscreen: (v: boolean) => void;
   zoomInfoUrl: string | undefined;
-  setRotatedImages: (v: { canvasIndex: number }[]) => void;
+  setRotatedImages: (v: { canvasIndex: number; rotation: number }[]) => void;
   showControls: boolean;
   isLoading: boolean;
   setIsLoading: (v: boolean) => void;
   setImageJson: (v: boolean) => void;
   setParentManifest: (v: IIIFManifest) => void;
-  rotatedImages: { canvasIndex: number }[];
+  rotatedImages: { canvasIndex: number; rotation: number }[];
   setShowControls: (v: boolean) => void;
   errorHandler?: () => void;
   setCurrentManifestLabel: (v: string) => void;
@@ -105,19 +108,22 @@ const ItemViewerContext = createContext<Props>({
   mainAreaWidth: 1000,
   mainAreaHeight: 500,
   isFullscreen: false,
-  isSidebarActive: false,
+  isDesktopSidebarActive: true,
+  isMobileSidebarActive: false,
   showZoomed: false,
   zoomInfoUrl: '',
   showControls: false,
   isLoading: false,
   rotatedImages: [],
+  urlTemplate: undefined,
   searchResults: results,
   isResizing: false,
   setZoomInfoUrl: () => undefined,
   setActiveIndex: () => undefined,
   setGridVisible: () => false,
   setShowZoomed: () => undefined,
-  setIsSidebarActive: () => undefined,
+  setIsDesktopSidebarActive: () => undefined,
+  setIsMobileSidebarActive: () => undefined,
   setIsFullscreen: () => undefined,
   setRotatedImages: () => undefined,
   setIsLoading: () => undefined,
@@ -126,6 +132,6 @@ const ItemViewerContext = createContext<Props>({
   setShowControls: () => undefined,
   errorHandler: () => undefined,
   setCurrentManifestLabel: () => undefined,
-  setSearchResults: () => results,
+  setSearchResults: () => undefined,
 });
 export default ItemViewerContext;
