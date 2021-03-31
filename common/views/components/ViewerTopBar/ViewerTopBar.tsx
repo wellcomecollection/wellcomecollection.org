@@ -129,7 +129,6 @@ type Props = {
   downloadOptions?: IIIFRendering[];
   iiifPresentationDownloadOptions: IIIFRendering[];
   parentManifest?: IIIFManifest;
-  lang: string;
   viewerRef: RefObject<HTMLElement>;
   manifestIndex?: number;
 };
@@ -149,7 +148,6 @@ const ViewerTopBar: FunctionComponent<Props> = ({
   downloadOptions,
   iiifPresentationDownloadOptions,
   parentManifest,
-  lang,
   viewerRef,
   manifestIndex,
 }: Props) => {
@@ -256,7 +254,6 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                 buttonText={currentManifestLabel || 'Choose'}
                 manifests={parentManifest.manifests}
                 workId={workId}
-                lang={lang}
                 manifestIndex={manifestIndex}
               />
             )}

@@ -1,8 +1,16 @@
-import { FunctionComponent, useState, useContext, ReactNode } from 'react';
+import {
+  FunctionComponent,
+  useState,
+  useContext,
+  RefObject,
+  ReactNode,
+} from 'react';
+import { FixedSizeList } from 'react-window';
 import WorkLink from '../WorkLink/WorkLink';
 import Icon from '../Icon/Icon';
 import styled from 'styled-components';
 import Space from '../styled/Space';
+
 import { classNames, font } from '@weco/common/utils/classnames';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import {
@@ -130,7 +138,7 @@ const AccordionItem = ({
   );
 };
 type Props = {
-  mainViewerRef: any;
+  mainViewerRef: RefObject<FixedSizeList>;
 };
 
 const ViewerSidebarPrototype: FunctionComponent<Props> = ({
@@ -141,7 +149,6 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
     manifest,
     parentManifest,
     currentManifestLabel,
-    isMobile,
     setIsMobileSidebarActive,
   } = useContext(ItemViewerContext);
   const productionDates = getProductionDates(work);
@@ -169,18 +176,16 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           [font('hnm', 5)]: true,
         })}
       >
-        {isMobile && (
-          <button
-            className={classNames({
-              'plain-button no-marin no-padding font-white': true,
-              [font('hnm', 4)]: true,
-            })}
-            onClick={() => setIsMobileSidebarActive(false)}
-          >
-            <span className="visually-hidden">close item information</span>
-            <Icon name={'cross'} extraClasses="icon--white" />
-          </button>
-        )}
+        <button
+          className={classNames({
+            'plain-button no-marin no-padding font-white viewer-mobile': true,
+            [font('hnm', 4)]: true,
+          })}
+          onClick={() => setIsMobileSidebarActive(false)}
+        >
+          <span className="visually-hidden">close item information</span>
+          <Icon name={'cross'} extraClasses="icon--white" />
+        </button>
         {currentManifestLabel && (
           <span
             data-test-id="current-manifest"
@@ -224,7 +229,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
                 'flex flex--v-center font-yellow': true,
               })}
             >
-              Additional information
+              More about this work
             </a>
           </WorkLink>
         </Space>
@@ -236,7 +241,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
               <p>
                 <strong>License:</strong>{' '}
                 {license.url ? (
-                  <a href="{license.url}">{license.label}</a>
+                  <a href={license.url}>{license.label}</a>
                 ) : (
                   <span>{license.label}</span>
                 )}

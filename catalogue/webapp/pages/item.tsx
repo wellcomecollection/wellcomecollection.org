@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import { IIIFCanvas, IIIFManifest } from '@weco/common/model/iiif';
-import { itemLink } from '@weco/common/services/catalogue/routes';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import { fetchJson } from '@weco/common/utils/http';
 import {
@@ -41,7 +40,10 @@ import {
   AppErrorProps,
   WithPageview,
 } from '@weco/common/views/pages/_app';
-import * as ItemProps from '@weco/common/views/components/ItemLink/ItemLink';
+import {
+  toLink as itemLink,
+  fromQuery,
+} from '@weco/common/views/components/ItemLink/ItemLink';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 
 const IframeAuthMessage = styled.iframe`
@@ -76,7 +78,6 @@ type Video = {
 };
 
 type Props = {
-  langCode: string;
   manifest?: IIIFManifest;
   manifestIndex?: number;
   work: Work;
@@ -93,7 +94,6 @@ type Props = {
   WithPageview;
 
 const ItemPage: NextPage<Props> = ({
-  langCode,
   manifest,
   manifestIndex,
   work,
@@ -134,13 +134,15 @@ const ItemPage: NextPage<Props> = ({
 
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
-    link: itemLink({
-      workId,
-      page: pageIndex + 1,
-      canvas: canvasIndex + 1,
-      manifest: manifestIndex ? manifestIndex + 1 : undefined,
-      langCode,
-    }),
+    link: itemLink(
+      {
+        workId,
+        page: pageIndex + 1,
+        canvas: canvasIndex + 1,
+        manifest: manifestIndex ? manifestIndex + 1 : undefined,
+      },
+      'viewer/paginator'
+    ),
   };
 
   const mainPaginatorProps = {
@@ -189,6 +191,9 @@ const ItemPage: NextPage<Props> = ({
     }
   }, []);
 
+  // We only send a langCode if it's unambiguous -- better to send no language
+  // than the wrong one.
+  const lang = (work.languages.length === 1 && work?.languages[0]?.id) || '';
   return (
     <CataloguePageLayout
       title={title}
@@ -338,7 +343,7 @@ const ItemPage: NextPage<Props> = ({
             mainPaginatorProps={mainPaginatorProps}
             thumbsPaginatorProps={thumbsPaginatorProps}
             currentCanvas={currentCanvas}
-            lang={langCode}
+            lang={lang}
             canvasOcr={canvasOcr}
             canvases={canvases}
             workId={workId}
@@ -360,7 +365,7 @@ const ItemPage: NextPage<Props> = ({
             mainPaginatorProps={mainPaginatorProps}
             thumbsPaginatorProps={thumbsPaginatorProps}
             currentCanvas={currentCanvas}
-            lang={langCode}
+            lang={lang}
             canvasOcr={canvasOcr}
             canvases={canvases}
             workId={workId}
@@ -387,12 +392,11 @@ export const getServerSideProps: GetServerSideProps<
   const globalContextData = getGlobalContextData(context);
   const {
     workId,
-    langCode = 'en',
     page = 1,
     pageSize = 4,
     canvas = 1,
     manifest: manifestParam = 1,
-  } = ItemProps.fromQuery(context.query);
+  } = fromQuery(context.query);
 
   const pageview = {
     name: 'item',
@@ -463,7 +467,6 @@ export const getServerSideProps: GetServerSideProps<
 
     return {
       props: removeUndefinedProps({
-        langCode,
         manifest,
         manifestIndex,
         pageSize,
@@ -485,7 +488,6 @@ export const getServerSideProps: GetServerSideProps<
   if (iiifImageLocation) {
     return {
       props: removeUndefinedProps({
-        langCode,
         pageSize,
         pageIndex,
         canvasIndex,

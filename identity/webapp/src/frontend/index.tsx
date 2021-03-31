@@ -27,7 +27,7 @@ if (root) {
       <style id="styleguide-sass"></style>
       <AppContextProvider>
         <GlobalStyles />
-        <BrowserRouter basename={prefix || ''}>
+        <BrowserRouter basename={prefix || ''} forceRefresh>
           <Switch>
             <Route exact path="/register" component={Registration} />
             <Route exact path="/validated" component={AccountValidated} />

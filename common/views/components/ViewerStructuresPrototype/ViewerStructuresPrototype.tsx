@@ -18,7 +18,6 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
     manifest,
     setActiveIndex,
     activeIndex,
-    isMobile,
     setIsMobileSidebarActive,
   } = useContext(ItemViewerContext);
   const structures = manifest ? getStructures(manifest) : [];
@@ -47,7 +46,7 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
                   mainViewerRef.current &&
                   mainViewerRef.current.scrollToItem(canvasIndex, 'start');
                 setActiveIndex(canvasIndex);
-                isMobile && setIsMobileSidebarActive(false);
+                setIsMobileSidebarActive(false);
               }}
             >
               {structure.label}

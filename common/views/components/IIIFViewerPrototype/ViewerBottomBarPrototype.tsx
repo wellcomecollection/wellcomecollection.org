@@ -4,10 +4,10 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent, useContext, RefObject } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
-
+import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs(() => ({
   className: classNames({
@@ -80,8 +80,8 @@ const RightZone = styled(Space).attrs({
 `;
 
 type Props = {
-  viewToggleRef: any;
-  viewerRef: any;
+  viewToggleRef: RefObject<HTMLButtonElement>;
+  viewerRef: RefObject<HTMLDivElement>;
 };
 
 const ViewerBottomBar: FunctionComponent<Props> = ({
@@ -89,6 +89,8 @@ const ViewerBottomBar: FunctionComponent<Props> = ({
   viewerRef,
 }: Props) => {
   const { isEnhanced } = useContext(AppContext);
+  const isFullscreenEnabled = useIsFullscreenEnabled();
+
   const {
     canvases,
     gridVisible,
@@ -132,42 +134,36 @@ const ViewerBottomBar: FunctionComponent<Props> = ({
       )}
 
       <RightZone>
-        {isEnhanced && (
+        {isEnhanced && isFullscreenEnabled && (
           <div className="flex flex--v-center">
-            {document &&
-              (document.fullscreenEnabled ||
-                document['webkitFullscreenEnabled']) && (
-                <Space h={{ size: 'm', properties: ['margin-right'] }}>
-                  <ShameButton
-                    isDark
-                    onClick={() => {
-                      if (viewerRef && viewerRef.current) {
-                        if (
-                          !document.fullscreenElement &&
-                          !document['webkitFullscreenElement']
-                        ) {
-                          if (viewerRef.current.requestFullscreen) {
-                            viewerRef.current.requestFullscreen();
-                          } else if (
-                            viewerRef.current['webkitRequestFullscreen']
-                          ) {
-                            viewerRef.current['webkitRequestFullscreen']();
-                          }
-                        } else {
-                          if (document.exitFullscreen) {
-                            document.exitFullscreen();
-                          } else if (document['webkitExitFullscreen']) {
-                            document['webkitExitFullscreen']();
-                          }
-                        }
+            <Space h={{ size: 'm', properties: ['margin-right'] }}>
+              <ShameButton
+                isDark
+                onClick={() => {
+                  if (viewerRef && viewerRef.current) {
+                    if (
+                      !document.fullscreenElement &&
+                      !document['webkitFullscreenElement']
+                    ) {
+                      if (viewerRef.current.requestFullscreen) {
+                        viewerRef.current.requestFullscreen();
+                      } else if (viewerRef.current['webkitRequestFullscreen']) {
+                        viewerRef.current['webkitRequestFullscreen']();
                       }
-                    }}
-                  >
-                    <Icon name="expand" />
-                    <span className={`btn__text`}>Full screen</span>
-                  </ShameButton>
-                </Space>
-              )}
+                    } else {
+                      if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                      } else if (document['webkitExitFullscreen']) {
+                        document['webkitExitFullscreen']();
+                      }
+                    }
+                  }
+                }}
+              >
+                <Icon name="expand" />
+                <span className={`btn__text`}>Full screen</span>
+              </ShameButton>
+            </Space>
           </div>
         )}
       </RightZone>

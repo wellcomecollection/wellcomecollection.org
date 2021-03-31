@@ -444,7 +444,6 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
         }
         iiifPresentationDownloadOptions={iiifPresentationDownloadOptions}
         parentManifest={parentManifest}
-        lang={lang}
         viewerRef={viewerRef}
         manifestIndex={manifestIndex}
       />
