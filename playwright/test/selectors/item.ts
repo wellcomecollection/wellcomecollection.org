@@ -1,4 +1,4 @@
-export const zoomInButton = `[data-test-id="zoom-in-button"] button`;
+export const zoomInButton = 'css=button >> text="Zoom in"';
 export const rotateButton = 'css=button >> text="Rotate"';
 export const openseadragonCanvas = `.openseadragon-canvas`;
 export const fullscreenButton = `[data-test-id="fullscreen-button"] button`;
