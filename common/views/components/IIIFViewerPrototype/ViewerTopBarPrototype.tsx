@@ -8,6 +8,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent, useContext } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
+import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs(() => ({
@@ -105,6 +106,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
   viewerRef,
 }: Props) => {
   const { isEnhanced } = useContext(AppContext);
+  const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
     canvases,
     gridVisible,
@@ -195,43 +197,41 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                 </Space>
               </>
             )}
-            {document &&
-              (document.fullscreenEnabled ||
-                document['webkitFullscreenEnabled']) && (
-                <Space
-                  h={{ size: 'm', properties: ['margin-right'] }}
-                  className={`viewer-desktop`}
-                >
-                  <ShameButton
-                    isDark
-                    onClick={() => {
-                      if (viewerRef && viewerRef.current) {
-                        if (
-                          !document.fullscreenElement &&
-                          !document['webkitFullscreenElement']
+            {isFullscreenEnabled && (
+              <Space
+                h={{ size: 'm', properties: ['margin-right'] }}
+                className={`viewer-desktop`}
+              >
+                <ShameButton
+                  isDark
+                  onClick={() => {
+                    if (viewerRef && viewerRef.current) {
+                      if (
+                        !document.fullscreenElement &&
+                        !document['webkitFullscreenElement']
+                      ) {
+                        if (viewerRef.current.requestFullscreen) {
+                          viewerRef.current.requestFullscreen();
+                        } else if (
+                          viewerRef.current['webkitRequestFullscreen']
                         ) {
-                          if (viewerRef.current.requestFullscreen) {
-                            viewerRef.current.requestFullscreen();
-                          } else if (
-                            viewerRef.current['webkitRequestFullscreen']
-                          ) {
-                            viewerRef.current['webkitRequestFullscreen']();
-                          }
-                        } else {
-                          if (document.exitFullscreen) {
-                            document.exitFullscreen();
-                          } else if (document['webkitExitFullscreen']) {
-                            document['webkitExitFullscreen']();
-                          }
+                          viewerRef.current['webkitRequestFullscreen']();
+                        }
+                      } else {
+                        if (document.exitFullscreen) {
+                          document.exitFullscreen();
+                        } else if (document['webkitExitFullscreen']) {
+                          document['webkitExitFullscreen']();
                         }
                       }
-                    }}
-                  >
-                    <Icon name="expand" />
-                    <span className={`btn__text`}>Full screen</span>
-                  </ShameButton>
-                </Space>
-              )}
+                    }
+                  }}
+                >
+                  <Icon name="expand" />
+                  <span className={`btn__text`}>Full screen</span>
+                </ShameButton>
+              </Space>
+            )}
           </div>
         )}
       </RightZone>
