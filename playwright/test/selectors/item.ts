@@ -1,5 +1,5 @@
 export const zoomInButton = `[data-test-id="zoom-in-button"] button`;
-export const rotateButton = `[data-test-id="rotate-button"] button`;
+export const rotateButton = 'css=button >> text="Rotate"';
 export const openseadragonCanvas = `.openseadragon-canvas`;
 export const fullscreenButton = `[data-test-id="fullscreen-button"] button`;
 export const searchWithinResultsHeader = `[data-test-id="results-header"]`;
