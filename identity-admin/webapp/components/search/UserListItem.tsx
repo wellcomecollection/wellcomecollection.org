@@ -1,27 +1,25 @@
 import React from 'react';
 import { User } from '../../interfaces';
 import { prettyDate } from '../../utils/prettyDate';
+import Link from 'next/link';
 
 type Props = {
   data: User;
 };
 
 const UserListItem = ({ data }: Props): JSX.Element => {
-  const userPageUrl = '/user/' + data.userId;
-  const redirectToUser = () => {
-    window.location.href = userPageUrl;
-  };
-
   return (
-    <tr className="user-list__item" onClick={redirectToUser}>
-      <td className="user-list__first">
-        {data.firstName} {data.lastName}
-      </td>
-      <td>{data.email}</td>
-      <td>{data.userId}</td>
-      <td>{statusMessage(data)}</td>
-      <td>{data.lastLoginDate && prettyDate(data.lastLoginDate)}</td>
-    </tr>
+    <Link href={'/user/' + data.userId}>
+      <tr className="user-list__item">
+        <td className="user-list__first">
+          {data.firstName} {data.lastName}
+        </td>
+        <td>{data.email}</td>
+        <td>{data.userId}</td>
+        <td>{statusMessage(data)}</td>
+        <td>{data.lastLoginDate && prettyDate(data.lastLoginDate)}</td>
+      </tr>
+    </Link>
   );
 };
 
