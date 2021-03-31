@@ -232,10 +232,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         </Space>
       </Inner>
       <div>
-        <AccordionItem
-          title={'License and credit'}
-          testId="accordion-item-license"
-        >
+        <AccordionItem title={'License and credit'}>
           <div className={font('hnl', 6)} data-test-id="license-and-credit">
             {license && license.label && (
               <p>
