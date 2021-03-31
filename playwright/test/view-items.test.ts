@@ -106,7 +106,7 @@ describe('Scenario 6: Item has multiple volumes', () => {
   });
 });
 
-describe.only('Scenario 7: A user wants to navigate an item by its parts', () => {
+describe('Scenario 7: A user wants to navigate an item by its parts', () => {
   test('the structured parts should be browseable', async () => {
     await itemWithSearchAndStructures();
     await page.click('css=body >> text="Contents"');
