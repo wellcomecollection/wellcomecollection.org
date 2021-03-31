@@ -79,7 +79,6 @@ describe('Pagination', () => {
     const next = allLinks[allLinks.length - 2];
     expect(next).not.toHaveClass('user-pagination__item--disabled');
     expect(next).toHaveAttribute('href', expectedLinkUrl('5'));
-    console.log('Link: ' + expectedLinkUrl('5'));
   });
 
   it('shows two numbered next page links on page T-2', () => {
