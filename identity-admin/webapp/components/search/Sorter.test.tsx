@@ -1,8 +1,7 @@
 import Sorter from './Sorter';
 import { SortField } from '../../interfaces';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { useRouter } from 'next/router';
-import { buildSearchUrl } from '../../utils/search-util';
 
 const mockedRouter = useRouter as jest.Mock;
 
@@ -12,49 +11,49 @@ const renderComponent = (sort: SortField) => {
   return render(<Sorter fieldName={sort} />);
 };
 
-const mockQueryParams = (sortDir: string | undefined, sort: SortField) => {
+const mockQueryParams = (params: { sortDir?: string; sort: SortField }) => {
   mockedRouter.mockImplementation(() => {
     return {
       query: {
         status: 'active',
         name: 'Bob',
         email: 'bob@email.com',
-        sort: sort,
-        sortDir: sortDir,
+        ...params,
       },
     };
   });
 };
 
 const expectedUrl = (sort: SortField, sortDir: string) =>
-  buildSearchUrl('1', 'active', 'Bob', 'bob@email.com', sort, sortDir);
+  '/?email=bob%40email.com&name=Bob&page=1&sort=' +
+  sort +
+  '&sortDir=' +
+  sortDir +
+  '&status=active';
 
 describe('Sorter', () => {
   it('shows down arrow if sort is applied to a different field', async () => {
-    mockQueryParams('1', SortField.Email);
-    const { container } = renderComponent(SortField.Name);
-    expect(container).toHaveTextContent('▾');
-    expect(container.firstChild).toHaveAttribute(
+    mockQueryParams({ sortDir: '1', sort: SortField.Email });
+    renderComponent(SortField.Name);
+    expect(screen.getByText('▾')).toHaveAttribute(
       'href',
       expectedUrl(SortField.Name, '1')
     );
   });
 
   it('shows down arrow if sort direction is asc', async () => {
-    mockQueryParams('1', SortField.Name);
-    const { container } = renderComponent(SortField.Name);
-    expect(container).toHaveTextContent('▾');
-    expect(container.firstChild).toHaveAttribute(
+    mockQueryParams({ sortDir: '1', sort: SortField.Name });
+    renderComponent(SortField.Name);
+    expect(screen.getByText('▾')).toHaveAttribute(
       'href',
       expectedUrl(SortField.Name, '-1')
     );
   });
 
   it('shows up arrow if sort dir is desc', async () => {
-    mockQueryParams('-1', SortField.Name);
-    const { container } = renderComponent(SortField.Name);
-    expect(container).toHaveTextContent('▴');
-    expect(container.firstChild).toHaveAttribute(
+    mockQueryParams({ sortDir: '-1', sort: SortField.Name });
+    renderComponent(SortField.Name);
+    expect(screen.getByText('▴')).toHaveAttribute(
       'href',
       expectedUrl(SortField.Name, '1')
     );
