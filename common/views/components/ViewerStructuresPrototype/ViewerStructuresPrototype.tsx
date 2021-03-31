@@ -14,9 +14,12 @@ type Props = {
 const ViewerStructuresPrototype: FunctionComponent<Props> = ({
   mainViewerRef,
 }: Props) => {
-  const { manifest, setActiveIndex, activeIndex } = useContext(
-    ItemViewerContext
-  );
+  const {
+    manifest,
+    setActiveIndex,
+    activeIndex,
+    setIsMobileSidebarActive,
+  } = useContext(ItemViewerContext);
   const structures = manifest ? getStructures(manifest) : [];
   const canvases = manifest ? getCanvases(manifest) : [];
   const groupedStructures = groupStructures(canvases, structures);
@@ -43,6 +46,7 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
                   mainViewerRef.current &&
                   mainViewerRef.current.scrollToItem(canvasIndex, 'start');
                 setActiveIndex(canvasIndex);
+                setIsMobileSidebarActive(false);
               }}
             >
               {structure.label}
