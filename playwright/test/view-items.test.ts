@@ -1,6 +1,9 @@
 import { multiVolumeItem, itemWithSearchAndStructures } from './contexts';
 import { isMobile } from './actions/common';
-import { volumesNavigationLabel } from './text/aria-labels';
+import {
+  volumesNavigationLabel,
+  searchWithinItemLabel,
+} from './text/aria-labels';
 import {
   zoomInButton,
   rotateButton,
@@ -16,7 +19,7 @@ import { baseUrl } from './helpers/urls';
 
 const domain = new URL(baseUrl).host;
 
-const searchWithinTextInput = '#searchWithin';
+const searchWithinTextInput = `[aria-label="${searchWithinItemLabel}"]`;
 async function searchWithin(query: string) {
   await page.fill(searchWithinTextInput, query);
   await page.press(searchWithinTextInput, 'Enter');

@@ -6,3 +6,4 @@ export const searchFormInputCatalogue = 'Search the catalogue';
 export const searchFormInputImage = 'Search for Images';
 export const searchFilterCloseButton = 'Close Filter';
 export const volumesNavigationLabel = 'Volumes navigation';
+export const searchWithinItemLabel = 'Search within this item';
