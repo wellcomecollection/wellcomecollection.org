@@ -35,14 +35,23 @@ const Pagination = ({ currentPage, pageCount }: Props): JSX.Element => {
           Previous
         </a>
       ) : (
-        <span className={firstLinkClassName + ' ' + disabled}>Previous</span>
+        <span role="label" className={firstLinkClassName + ' ' + disabled}>
+          Previous
+        </span>
       )}
       {hasFirstPageLink && (
         <a href={pageUrl(1)} className={linkClassName}>
           1
         </a>
       )}
-      {hasPrefixEllipses && <span className={ellipses}>...</span>}
+      {hasPrefixEllipses && (
+        <span
+          role="label"
+          className={ellipses + ' user-pagination__item--prefix-ellipses'}
+        >
+          ...
+        </span>
+      )}
       {currentPage > 2 && (
         <a href={pageUrl(currentPage - 2)} className={linkClassName}>
           {currentPage - 2}
@@ -53,7 +62,9 @@ const Pagination = ({ currentPage, pageCount }: Props): JSX.Element => {
           {currentPage - 1}
         </a>
       )}
-      <span className={linkClassName + ' ' + disabled}>{currentPage}</span>
+      <span role="label" className={linkClassName + ' ' + disabled}>
+        {currentPage}
+      </span>
       {currentPage < pageCount && (
         <a href={pageUrl(currentPage + 1)} className={linkClassName}>
           {currentPage + 1}
@@ -64,7 +75,14 @@ const Pagination = ({ currentPage, pageCount }: Props): JSX.Element => {
           {currentPage + 2}
         </a>
       )}
-      {hasSuffixEllipses && <span className={ellipses}>...</span>}
+      {hasSuffixEllipses && (
+        <span
+          role="label"
+          className={ellipses + ' user-pagination__item--suffix-ellipses'}
+        >
+          ...
+        </span>
+      )}
       {hasLastPageLink && (
         <a href={pageUrl(pageCount)} className={linkClassName}>
           {pageCount}
@@ -75,7 +93,9 @@ const Pagination = ({ currentPage, pageCount }: Props): JSX.Element => {
           Next
         </a>
       ) : (
-        <span className={lastLinkClassName + ' ' + disabled}>Next</span>
+        <span role="label" className={lastLinkClassName + ' ' + disabled}>
+          Next
+        </span>
       )}
     </div>
   );
