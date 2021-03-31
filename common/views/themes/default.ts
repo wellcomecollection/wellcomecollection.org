@@ -3,6 +3,7 @@ import {
   CSSObject,
   keyframes,
   SimpleInterpolation,
+  createGlobalStyle,
 } from 'styled-components';
 import { SpaceOverrides } from '../components/styled/Space';
 
@@ -185,4 +186,32 @@ const theme = {
   makeSpacePropertyValues,
 };
 
+const GlobalStyle = createGlobalStyle`
+  ${css`
+    .block {
+      display: block;
+    }
+    .none {
+      display: none;
+    }
+  `}
+  ${css`
+    ${Object.keys(themeValues.sizes).map(
+      size => css`
+        .${size}-none {
+          ${props => props.theme.media[size]`
+          display: none;
+        `}
+        }
+        .${size}-block {
+          ${props => props.theme.media[size]`
+          display: block;
+        `}
+        }
+      `
+    )}
+  `}
+`;
+
 export default theme;
+export { GlobalStyle };
