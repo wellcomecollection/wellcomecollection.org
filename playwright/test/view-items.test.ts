@@ -11,7 +11,6 @@ import {
   fullscreenButton,
   searchWithinResultsHeader,
   mainViewer,
-  accordionItemContents,
 } from './selectors/item';
 import { baseUrl } from './helpers/urls';
 
@@ -71,7 +70,7 @@ describe('Scenario 5: A user wants to view an item in a different orientation', 
   });
 });
 
-describe.only('Scenario 6: Item has multiple volumes', () => {
+describe('Scenario 6: Item has multiple volumes', () => {
   test('the volumes should be browsable', async () => {
     if (!isMobile()) {
       await multiVolumeItem();
@@ -107,11 +106,12 @@ describe.only('Scenario 6: Item has multiple volumes', () => {
   });
 });
 
-describe('Scenario 7: A user wants to navigate an item by its parts', () => {
+describe.only('Scenario 7: A user wants to navigate an item by its parts', () => {
   test('the structured parts should be browseable', async () => {
     await itemWithSearchAndStructures();
-    await page.click(`${accordionItemContents} button`);
-    await page.click(`${accordionItemContents} li:nth-of-type(2) a`);
+    await page.click('css=body >> text="Contents"');
+    await page.waitForSelector('css=body >> text="Title Page"');
+    await page.click('text="Title Page"');
     await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
   });
 });

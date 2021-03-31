@@ -85,15 +85,13 @@ const Item = styled.div`
 const AccordionItem = ({
   title,
   children,
-  testId,
 }: {
   title: string;
   children: ReactNode;
-  testId?: string;
 }) => {
   const [isActive, setIsActive] = useState(false);
   return (
-    <Item data-test-id={testId}>
+    <Item>
       <AccordionInner
         onClick={() => setIsActive(!isActive)}
         className={classNames({
@@ -258,7 +256,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           </div>
         </AccordionItem>
         {manifest && manifest.structures && manifest.structures.length > 0 && (
-          <AccordionItem title={'Contents'} testId="accordion-item-contents">
+          <AccordionItem title={'Contents'}>
             <ViewerStructuresPrototype mainViewerRef={mainViewerRef} />
           </AccordionItem>
         )}
