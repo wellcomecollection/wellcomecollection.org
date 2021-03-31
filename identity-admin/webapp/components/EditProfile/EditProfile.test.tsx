@@ -167,16 +167,12 @@ describe('EditProfile', () => {
 
     userEvent.click(screen.getByRole('button', { name: /update details/i }));
 
-    await waitFor(() => {
-      expect(screen.getByText(/updating/i)).toBeInTheDocument();
-    });
-    expect(firstNameInput).not.toBeInTheDocument();
-    expect(lastNameInput).not.toBeInTheDocument();
-    expect(emailInput).not.toBeInTheDocument();
+    expect(await screen.findByText(/updating/i)).toBeInTheDocument();
+    expect(firstNameInput).toBeDisabled();
+    expect(lastNameInput).toBeDisabled();
+    expect(emailInput).toBeDisabled();
 
-    await waitFor(() => {
-      expect(screen.getByText(/loading/i)).toBeInTheDocument();
-    });
+    expect(await screen.findByText(/loading/i)).toBeInTheDocument();
     expect(firstNameInput).not.toBeInTheDocument();
     expect(lastNameInput).not.toBeInTheDocument();
     expect(emailInput).not.toBeInTheDocument();

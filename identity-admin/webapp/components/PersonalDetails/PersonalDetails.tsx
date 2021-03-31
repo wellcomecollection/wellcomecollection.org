@@ -34,14 +34,6 @@ export function PersonalDetails(): JSX.Element {
     );
   }
 
-  if (isUpdating) {
-    return (
-      <Section>
-        <Loading>Updating...</Loading>
-      </Section>
-    );
-  }
-
   const onSubmit = async (formData: EditProfileInputs) => {
     clearErrors();
     await updateUserInfo(formData).then(refetch);
@@ -57,6 +49,7 @@ export function PersonalDetails(): JSX.Element {
             id="first-name"
             name="firstName"
             defaultValue={user?.firstName}
+            disabled={isUpdating}
             ref={register({ required: 'First name cannot be blank' })}
           />
           <ErrorMessage
@@ -71,6 +64,7 @@ export function PersonalDetails(): JSX.Element {
             id="last-name"
             name="lastName"
             defaultValue={user?.lastName}
+            disabled={isUpdating}
             ref={register({ required: 'Last name cannot be blank' })}
           />
           <ErrorMessage
@@ -85,6 +79,7 @@ export function PersonalDetails(): JSX.Element {
             id="email"
             name="email"
             defaultValue={user?.email}
+            disabled={isUpdating}
             ref={register({
               required: 'Email address cannot be blank',
               pattern: {
@@ -100,7 +95,9 @@ export function PersonalDetails(): JSX.Element {
           />
         </Field>
         <Field>
-          <Button type="submit">Update details</Button>
+          <Button type="submit" disabled={isUpdating}>
+            {isUpdating ? 'Updating...' : 'Update details'}
+          </Button>
         </Field>
       </Form>
     </Section>

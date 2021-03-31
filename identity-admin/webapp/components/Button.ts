@@ -9,6 +9,10 @@ export const Button = styled.button`
   width: 100%;
   height: 43px;
   font-size: 1.2em;
+
+  &:disabled {
+    background-color: #bbbbbb;
+  }
 `;
 
 export const DangerButton = styled(Button)`
