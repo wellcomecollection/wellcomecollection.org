@@ -206,10 +206,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
             {document &&
               (document.fullscreenEnabled ||
                 document['webkitFullscreenEnabled']) && (
-                <Space
-                  h={{ size: 'm', properties: ['margin-right'] }}
-                  data-test-id="fullscreen-button"
-                >
+                <Space h={{ size: 'm', properties: ['margin-right'] }}>
                   <ShameButton
                     isDark
                     onClick={() => {
