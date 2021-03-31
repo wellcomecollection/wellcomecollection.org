@@ -39,12 +39,14 @@ export function AccountActions({
   return (
     <DropdownMenu>
       <ul>
-        <AccountAction
-          label="Resend activation email"
-          onClick={resendActivationEmail}
-          onSuccess={() => handleSuccess('Activation email resent')}
-          onFailure={() => handleFailure('Failed to send activation email')}
-        />
+        {!user?.emailValidated && (
+          <AccountAction
+            label="Resend activation email"
+            onClick={resendActivationEmail}
+            onSuccess={() => handleSuccess('Activation email resent')}
+            onFailure={() => handleFailure('Failed to send activation email')}
+          />
+        )}
         {user?.locked ? (
           <AccountAction
             label="Unblock online account"

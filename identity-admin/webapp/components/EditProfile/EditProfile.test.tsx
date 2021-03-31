@@ -285,15 +285,13 @@ describe('EditProfile', () => {
   it('displays account actions in a menu', async () => {
     renderPage();
     await waitForPageToLoad();
-    expect(
-      screen.queryByText(/resend activation email/i)
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/reset password/i)).not.toBeInTheDocument();
     userEvent.click(screen.getByRole('button', { name: /account actions/i }));
-    expect(screen.getByText(/resend activation email/i)).toBeInTheDocument();
+    expect(screen.getByText(/reset password/i)).toBeInTheDocument();
   });
 
   it("can resend a user's activation email", async () => {
-    renderPage();
+    renderPage({ emailValidated: false });
     await waitForPageToLoad();
     userEvent.click(screen.getByRole('button', { name: /account actions/i }));
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
@@ -301,6 +299,15 @@ describe('EditProfile', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent(
       'Activation email resent'
     );
+  });
+
+  it("does not display the activation email option when user's email is already activated", async () => {
+    renderPage({ emailValidated: true });
+    await waitForPageToLoad();
+    userEvent.click(screen.getByRole('button', { name: /account actions/i }));
+    expect(
+      screen.queryByText(/resend activation email/i)
+    ).not.toBeInTheDocument();
   });
 
   it("shows an error when resending a user's activation email fails", async () => {
@@ -312,7 +319,7 @@ describe('EditProfile', () => {
         }
       )
     );
-    renderPage();
+    renderPage({ emailValidated: false });
     await waitForPageToLoad();
     userEvent.click(screen.getByRole('button', { name: /account actions/i }));
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
