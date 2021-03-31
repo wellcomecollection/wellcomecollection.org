@@ -31,3 +31,12 @@ variable "alb_listener_https_arn" {
 variable "alb_listener_http_arn" {
   type = string
 }
+variable "env_vars" {
+  type = map(string)
+  default = {}
+}
+
+variable "secret_env_vars" {
+  type = map(string)
+  default = {}
+}

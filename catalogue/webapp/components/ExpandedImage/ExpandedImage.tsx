@@ -32,9 +32,9 @@ import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import VisuallySimilarImagesFromApi from '../VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
-import { expandedViewImageButton } from '@weco/common/text/arial-labels';
-import * as ItemProps from '@weco/common/views/components/ItemLink/ItemLink';
-import { imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
+import { expandedViewImageButton } from '@weco/common/text/aria-labels';
+import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
+import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
 
 type Props = {
   image: ImageType;
@@ -294,25 +294,23 @@ const ExpandedImage: FunctionComponent<Props> = ({
 
   const expandedImageLink =
     image && !canvasDeeplink
-      ? imageLink({
-          workId,
-          id: image.id,
-          resultPosition,
-          source: trackingSource,
-        })
+      ? imageLink(
+          {
+            workId,
+            id: image.id,
+            resultPosition,
+          },
+          trackingSource
+        )
       : detailedWork &&
-        ItemProps.toLink({
-          workId,
-          // We only send a langCode if it's unambiguous -- better to send
-          // no language than the wrong one.
-          langCode:
-            detailedWork?.languages.length === 1
-              ? detailedWork?.languages[0].id
-              : undefined,
-          resultPosition: resultPosition,
-          source: trackingSource,
-          ...(canvasDeeplink || {}),
-        });
+        itemLink(
+          {
+            workId,
+            resultPosition: resultPosition,
+            ...(canvasDeeplink || {}),
+          },
+          trackingSource
+        );
 
   return (
     <div role="dialog" id={id} aria-modal={true}>

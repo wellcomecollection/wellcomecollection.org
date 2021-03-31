@@ -1,46 +1,58 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import queryString from 'query-string';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
-import styled from 'styled-components';
-import { useHistory } from 'react-router-dom';
+import Info2 from '@weco/common/icons/components/Info2';
 import { PageWrapper } from '../components/PageWrapper';
-import { withPrefix } from '../../utility/prefix';
-
-// TODO: Update this to prod.
-const logo = 'https://identity-public-assets-stage.s3.eu-west-1.amazonaws.com/images/wellcomecollections-150x50.png';
-
-const LogoContainer = styled.div`
-  margin: auto;
-  padding: 42px;
-  width: 200px;
-`;
-
-const PageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+import { Container, Title, Wrapper } from '../components/Layout.style';
+import { ErrorAlert, SuccessMessage } from './Registration.style';
 
 export const AccountValidated = (): JSX.Element => {
-  const history = useHistory();
+  const { search } = useLocation();
 
-  const redirectToLogin = () => {
-    history.push(withPrefix('/'));
-  };
+  const { success, message } = queryString.parse(search, {
+    parseBooleans: true,
+  });
 
   return (
     <PageWrapper>
-      <PageContainer>
-        <LogoContainer>
-          <img src={logo} alt="Wellcome Collection Logo" />
-        </LogoContainer>
-        <SpacingComponent />
-        <h1 className="font-wb font-size-1">Email verified</h1>
-        <SpacingComponent />
-        <p className="font-wb font-size-5">Thank you for verifying your email.</p>
-        <SpacingComponent />
-        <OutlinedButton onClick={redirectToLogin}>Continue to Sign in</OutlinedButton>
-      </PageContainer>
+      <Container>
+        <Wrapper>
+          {success ? (
+            <>
+              <Title>Email verified</Title>
+              <SpacingComponent />
+              <SuccessMessage>
+                <Info2 />
+                {message}
+              </SuccessMessage>
+              <SpacingComponent />
+              <Link to="/">Continue to Sign in</Link>
+            </>
+          ) : (
+            <>
+              <Title>Failed to verify email</Title>
+              <SpacingComponent />
+              <ErrorAlert>
+                <Info2 />
+                {message}
+              </ErrorAlert>
+              <SpacingComponent />
+              <div>
+                If you need help, please{' '}
+                <a
+                  href="https://wellcomelibrary.org/using-the-library/services-and-facilities/contact-us/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  contact us
+                </a>
+              </div>
+            </>
+          )}
+          <SpacingComponent />
+        </Wrapper>
+      </Container>
     </PageWrapper>
   );
 };

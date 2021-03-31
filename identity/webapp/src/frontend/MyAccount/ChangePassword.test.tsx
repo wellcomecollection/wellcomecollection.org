@@ -140,6 +140,21 @@ describe('ChangePassword', () => {
   });
 
   describe('shows an error after submission', () => {
+    it('when the current password is incorrect', async () => {
+      server.use(
+        rest.put('/api/users/me/password', (req, res, ctx) => {
+          return res(ctx.status(401));
+        })
+      );
+      renderComponent();
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+      userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
+      userEvent.type(screen.getByLabelText(/^new password/i), 'Superman1938');
+      userEvent.type(screen.getByLabelText(/retype new password/i), 'Superman1938');
+      userEvent.click(screen.getByRole('button', { name: /update password/i }));
+      expect(await screen.findByRole('alert')).toHaveTextContent(/incorrect password/i);
+    });
+
     it('when the new password does not meet the Auth0 policy requirements', async () => {
       server.use(
         rest.put('/api/users/me/password', (req, res, ctx) => {

@@ -16,14 +16,16 @@ module "identity-admin-service" {
     var.service_egress_security_group_id
   ]
 
-  env_vars = {
+  env_vars = merge({
     PROD_SUBDOMAIN = var.subdomain
-  }
+  }, var.env_vars)
+
+  secret_env_vars = merge({}, var.secret_env_vars)
 
   vpc_id  = var.vpc_id
   subnets = var.private_subnets
 
-  deployment_service_name = "catalogue_webapp"
+  deployment_service_name = "identity-admin_webapp"
   deployment_service_env  = var.env_suffix
 }
 

@@ -1,22 +1,24 @@
-import { FunctionComponent, useState, useContext } from 'react';
-import WorkLink from '../WorkLink/WorkLink';
-import Icon from '../Icon/Icon';
+import { FunctionComponent, useState, useContext, RefObject } from 'react';
+import { FixedSizeList } from 'react-window';
+import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import styled from 'styled-components';
-import Space from '../styled/Space';
-import TextInput from '../TextInput/TextInput';
+import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
-import LinkLabels from '../LinkLabels/LinkLabels';
+import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import {
   getProductionDates,
   getDigitalLocationOfType,
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
-import ViewerStructuresPrototype from '../ViewerStructuresPrototype/ViewerStructuresPrototype';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import ViewerStructuresPrototype from '@weco/common/views/components/ViewerStructuresPrototype/ViewerStructuresPrototype';
+import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
+import MultipleManifestListPrototype from '../MultipleManifestListPrototype/MultipleManifestListPrototype';
 import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import { getSearchService } from '../../../utils/iiif';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -123,15 +125,20 @@ const AccordionItem = ({ title, children }) => {
   );
 };
 type Props = {
-  mainViewerRef: any;
+  mainViewerRef: RefObject<FixedSizeList>;
 };
 
 const ViewerSidebarPrototype: FunctionComponent<Props> = ({
   mainViewerRef,
 }: Props) => {
-  const { work, manifest } = useContext(ItemViewerContext);
+  const {
+    work,
+    manifest,
+    parentManifest,
+    currentManifestLabel,
+    setIsMobileSidebarActive,
+  } = useContext(ItemViewerContext);
   const productionDates = getProductionDates(work);
-  const [inputValue, setInputValue] = useState('');
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
@@ -148,6 +155,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
   const { iiifCredit } = useIIIFManifestData(work);
   const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
   const { itemViewerPrototypeWithSearch } = useContext(TogglesContext);
+  const searchService = manifest && getSearchService(manifest);
   return (
     <>
       <Inner
@@ -155,6 +163,25 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           [font('hnm', 5)]: true,
         })}
       >
+        <button
+          className={classNames({
+            'plain-button no-marin no-padding font-white viewer-mobile': true,
+            [font('hnm', 4)]: true,
+          })}
+          onClick={() => setIsMobileSidebarActive(false)}
+        >
+          <span className="visually-hidden">close item information</span>
+          <Icon name={'cross'} extraClasses="icon--white" />
+        </button>
+        {currentManifestLabel && (
+          <span
+            className={classNames({
+              [font('hnl', 5)]: true,
+            })}
+          >
+            {currentManifestLabel}
+          </span>
+        )}
         <h1>{work.title}</h1>
 
         {work.contributors.length > 0 && (
@@ -185,10 +212,10 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           <WorkLink id={work.id} source="viewer_back_link">
             <a
               className={classNames({
-                'flex flex--v-center': true,
+                'flex flex--v-center font-yellow': true,
               })}
             >
-              Back to full information
+              More about this work
             </a>
           </WorkLink>
         </Space>
@@ -200,7 +227,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
               <p>
                 <strong>License:</strong>{' '}
                 {license.url ? (
-                  <a href="{license.url}">{license.label}</a>
+                  <a href={license.url}>{license.label}</a>
                 ) : (
                   <span>{license.label}</span>
                 )}
@@ -224,26 +251,17 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
             <ViewerStructuresPrototype mainViewerRef={mainViewerRef} />
           </AccordionItem>
         )}
-        {/* // TODO only if search service available */}
-        <AccordionItem title={'Search within this item'}>
-          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-            {itemViewerPrototypeWithSearch ? (
-              <IIIFSearchWithin mainViewerRef={mainViewerRef} />
-            ) : (
-              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                <TextInput
-                  id={'test'}
-                  type={'text'}
-                  name={'test'}
-                  label={'enter search term'}
-                  value={inputValue}
-                  setValue={setInputValue}
-                />
-              </Space>
-            )}
-          </Space>
-        </AccordionItem>
+        {parentManifest && parentManifest.manifests && (
+          <AccordionItem title={'Volumes'}>
+            <MultipleManifestListPrototype />
+          </AccordionItem>
+        )}
       </div>
+      {searchService && itemViewerPrototypeWithSearch && (
+        <Inner>
+          <IIIFSearchWithin mainViewerRef={mainViewerRef} />
+        </Inner>
+      )}
     </>
   );
 };

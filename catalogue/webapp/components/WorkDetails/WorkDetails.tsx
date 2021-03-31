@@ -2,7 +2,6 @@ import moment from 'moment';
 import NextLink from 'next/link';
 import { useEffect, useState, useContext, FunctionComponent } from 'react';
 import fetch from 'isomorphic-unfetch';
-import { NextLinkType } from '@weco/common/model/next-link-type';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';
@@ -10,7 +9,6 @@ import { toLink as imagesLink } from '@weco/common/views/components/ImagesLink/I
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
-  getItemsByLocationType,
   getAccessConditionForDigitalLocation,
   getWorkIdentifiersWith,
   getEncoreLink,
@@ -35,16 +33,16 @@ import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
+import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import { DigitalLocation, Work, Item } from '@weco/common/model/catalogue';
+import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 import IIIFClickthrough from '@weco/common/views/components/IIIFClickthrough/IIIFClickthrough';
-
+import OnlineResources from './OnlineResources';
 type Props = {
   work: Work;
-  itemUrl?: NextLinkType;
 };
 
 // At the moment we aren't set up to cope with access conditions 'open-with-advisory, 'restricted',
@@ -73,26 +71,13 @@ function getItemLinkState({
   }
 }
 
-const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
-  const { stacksRequestService, onlineResourcesPrototype } = useContext(
-    TogglesContext
-  );
+const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
+  const { stacksRequestService } = useContext(TogglesContext);
+
+  const itemUrl = itemLink({ workId: work.id }, 'work');
+
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
-
-  type ItemWithDigitalLocation = Omit<Item, 'locations'> & {
-    location: DigitalLocation;
-  };
-  const onlineResources = getItemsByLocationType(work, 'online-resource').map(
-    i => {
-      const [location] = i.locations;
-      return {
-        title: i.title,
-        location,
-      };
-    }
-  ) as ItemWithDigitalLocation[]; // FIXME: I think this casting might be cheating?
-
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
     'iiif-presentation'
@@ -251,33 +236,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
 
   const Content = () => (
     <>
-      {onlineResourcesPrototype && onlineResources.length > 0 && (
-        <WorkDetailsSection headingText="Available online">
-          <ul
-            className={classNames({
-              'plain-list no-margin no-padding': true,
-            })}
-          >
-            {onlineResources.map(item => (
-              <li
-                className={classNames({
-                  [font('hnl', 5)]: true,
-                })}
-                key={item.location.url}
-              >
-                {item.title ? (
-                  <>
-                    {item.title}: <a href={item.location.url}>View resource</a>
-                  </>
-                ) : (
-                  <a href={item.location.url}>{item.location.linkText}</a>
-                )}{' '}
-              </li>
-            ))}
-          </ul>
-        </WorkDetailsSection>
-      )}
-
       {digitalLocation && itemLinkState !== 'useNoLink' && (
         <WorkDetailsSection
           headingText="Available online"
@@ -350,7 +308,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
                                 trackEvent({
                                   category: 'WorkDetails',
                                   action: 'follow image link',
-                                  label: itemUrl.href?.query?.workId?.toString(),
+                                  label: work.id,
                                 })
                               }
                             >
@@ -494,9 +452,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
         </WorkDetailsSection>
       )}
 
-      {!digitalLocation &&
-        !(onlineResourcesPrototype && onlineResources.length > 0) &&
-        (locationOfWork || encoreLink) && <WhereToFindIt />}
+      <OnlineResources work={work} />
+
+      {!digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
 
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection
@@ -563,6 +521,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work, itemUrl }: Props) => {
                 'work_details/contributors'
               ),
             }))}
+            separator=""
           />
         )}
 

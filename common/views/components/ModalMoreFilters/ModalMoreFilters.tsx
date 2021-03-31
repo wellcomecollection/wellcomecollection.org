@@ -3,7 +3,7 @@ import Modal from '../../components/Modal/Modal';
 import { classNames } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Space from '../styled/Space';
-import { searchFilterCheckBox } from '../../../text/arial-labels';
+import { searchFilterCheckBox } from '../../../text/aria-labels';
 import NextLink from 'next/link';
 import { toLink as worksLink } from '../WorksLink/WorksLink';
 import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';

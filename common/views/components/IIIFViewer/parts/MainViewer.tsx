@@ -58,7 +58,6 @@ type ItemRendererProps = {
   index: number;
   data: {
     scrollVelocity: number;
-    isProgrammaticScroll: boolean;
     setShowZoomed: (value: boolean) => void;
     mainViewerRef: RefObject<FixedSizeList>;
     setActiveIndex: (i: number) => void;
@@ -75,7 +74,6 @@ type ItemRendererProps = {
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const {
     scrollVelocity,
-    isProgrammaticScroll,
     canvases,
     setShowZoomed,
     setZoomInfoUrl,
@@ -112,7 +110,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     imageAuthService.profile === 'http://iiif.io/api/auth/0/login/restricted';
   return (
     <div style={style}>
-      {scrollVelocity === 3 || isProgrammaticScroll ? (
+      {scrollVelocity === 3 ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <LL lighten={true} />
         </div>
@@ -147,7 +145,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                 sizes={''}
                 alt={''}
                 isLazy={false}
-                lang={null}
+                lang={undefined}
                 loadHandler={() => {
                   setThumbLoaded(true);
                 }}
@@ -217,7 +215,6 @@ const MainViewer: FunctionComponent<Props> = ({
   setIsLoading,
   errorHandler,
 }: Props) => {
-  const [isProgrammaticScroll, setIsProgrammaticScroll] = useState(false);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const [firstRender, setFirstRender] = useState(true);
   const [ocrText, setOcrText] = useState('');
@@ -229,11 +226,10 @@ const MainViewer: FunctionComponent<Props> = ({
   );
   const timer = useRef<number | undefined>();
   const itemHeight = pageWidth * 0.8;
-  function handleOnScroll({ scrollOffset, scrollUpdateWasRequested }) {
+  function handleOnScroll({ scrollOffset }) {
     clearTimeout(timer.current);
     setShowControls(false);
     setNewScrollOffset(scrollOffset);
-    setIsProgrammaticScroll(scrollUpdateWasRequested);
 
     timer.current = setTimeout(() => {
       setShowControls(true);
@@ -241,7 +237,6 @@ const MainViewer: FunctionComponent<Props> = ({
   }
 
   function handleOnItemsRendered() {
-    setIsProgrammaticScroll(false);
     let currentCanvas;
     if (firstRenderRef.current) {
       setActiveIndex(canvasIndex);
@@ -275,7 +270,6 @@ const MainViewer: FunctionComponent<Props> = ({
       itemCount={canvases.length}
       itemData={{
         scrollVelocity,
-        isProgrammaticScroll,
         canvases,
         setShowZoomed,
         setZoomInfoUrl,
