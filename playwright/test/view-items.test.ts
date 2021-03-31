@@ -16,10 +16,10 @@ import { baseUrl } from './helpers/urls';
 
 const domain = new URL(baseUrl).host;
 
-const searchWithinForm = '#searchWithin';
+const searchWithinTextInput = '#searchWithin';
 async function searchWithin(query: string) {
-  await page.fill(searchWithinForm, query);
-  await page.press(searchWithinForm, 'Enter');
+  await page.fill(searchWithinTextInput, query);
+  await page.press(searchWithinTextInput, 'Enter');
 }
 
 beforeAll(async () => {
