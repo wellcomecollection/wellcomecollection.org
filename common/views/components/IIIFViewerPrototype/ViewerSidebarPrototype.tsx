@@ -6,8 +6,8 @@ import {
   ReactNode,
 } from 'react';
 import NextLink from 'next/link';
+import WorkLink from '@weco/common/views/components/WorkLink';
 import { FixedSizeList } from 'react-window';
-import WorkLink from '../WorkLink/WorkLink';
 import Icon from '../Icon/Icon';
 import styled from 'styled-components';
 import Space from '../styled/Space';
@@ -255,9 +255,9 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
             </p>
             {credit && (
               <p>
-                <NextLink href={`/works/${work.id}`}>
+                <WorkLink id={work.id} source={'viewer_credit'}>
                   <a>{credit}</a>
-                </NextLink>
+                </WorkLink>
                 .
               </p>
             )}
