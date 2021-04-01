@@ -93,9 +93,11 @@ const Item = styled.div`
 const AccordionItem = ({
   title,
   children,
+  testId,
 }: {
   title: string;
   children: ReactNode;
+  testId?: string;
 }) => {
   const [isActive, setIsActive] = useState(false);
   return (

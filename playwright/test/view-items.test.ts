@@ -63,9 +63,7 @@ describe('Scenario 2: A user wants to use the content offline', () => {
       page.click(smallImageDownload),
     ]);
 
-    await newPage.waitForLoadState();
-    const url = newPage.url();
-    expect(url).toBe(
+    expect(newPage.url()).toBe(
       'https://dlcs.io/iiif-img/wellcome/5/b10326947_hin-wel-all-00012266_0001.jp2/full/full/0/default.jpg'
     );
   });
@@ -76,9 +74,9 @@ describe('Scenario 2: A user wants to use the content offline', () => {
       page.click(fullItemDownload),
     ]);
 
-    await newPage.waitForLoadState();
-    const url = newPage.url();
-    expect(url).toBe('https://dlcs.io/pdf/wellcome/pdf-item/b10326947/0');
+    expect(newPage.url()).toBe(
+      'https://dlcs.io/pdf/wellcome/pdf-item/b10326947/0'
+    );
   });
 });
 
@@ -101,7 +99,7 @@ describe('Scenario 3: A user wants information about the item they are viewing',
 
   test('the item has date information', async () => {
     const dates = await page.textContent(workDates);
-    expect(dates).toBe('Date 1497');
+    expect(dates).toBe('Date1497');
   });
 });
 
