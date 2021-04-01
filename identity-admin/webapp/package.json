@@ -13,6 +13,7 @@
     "axios": "^0.21.1",
     "dayjs": "^1.10.4",
     "next": "latest",
+    "query-string": "^6.14.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-hook-form": "^6.15.2",
@@ -22,6 +23,7 @@
     "tslib": "2.1.0"
   },
   "devDependencies": {
+    "@babel/runtime": "^7.13.10",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.1",
