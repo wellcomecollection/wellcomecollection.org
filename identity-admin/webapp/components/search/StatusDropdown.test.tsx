@@ -17,8 +17,8 @@ jest.mock('next/router', () => ({
 
 const renderComponent = () => render(<StatusDropdown />);
 const getOptions = () => screen.getAllByRole('link');
-const clickToggle = () => fireEvent.click(screen.getByRole('dropdown'));
-const getLabelArrow = () => screen.getAllByRole('label')[1];
+const clickToggle = (arrowText: string) =>
+  fireEvent.click(screen.getByText(arrowText));
 const expectedUrl = (statusValue: string) =>
   '/?email=bob%40email.com&name=Bob&page=1&status=' + statusValue;
 
@@ -26,12 +26,11 @@ describe('Status dropdown', () => {
   it('is initially collapsed', () => {
     renderComponent();
     expect(screen.queryByRole('link')).not.toBeInTheDocument();
-    expect(getLabelArrow()).toHaveTextContent('▾');
   });
 
   it('expands on initial click', () => {
     renderComponent();
-    clickToggle();
+    clickToggle('▾');
     const options = getOptions();
     expect(options.length).toBe(4);
     expect(options[0]).toHaveTextContent('Any');
@@ -42,14 +41,12 @@ describe('Status dropdown', () => {
     expect(options[2]).toHaveAttribute('href', expectedUrl('locked'));
     expect(options[3]).toHaveTextContent('Pending delete');
     expect(options[3]).toHaveAttribute('href', expectedUrl('deletePending'));
-    expect(getLabelArrow()).toHaveTextContent('▴');
   });
 
   it('collapses on second click', () => {
     renderComponent();
-    clickToggle();
-    clickToggle();
+    clickToggle('▾');
+    clickToggle('▴');
     expect(screen.queryByRole('link')).not.toBeInTheDocument();
-    expect(getLabelArrow()).toHaveTextContent('▾');
   });
 });

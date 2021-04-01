@@ -65,7 +65,7 @@ describe('Pagination', () => {
 
   it('shows ellipses between first page link and link n-2 on fifth page', () => {
     renderComponent(5, 10);
-    const prefixEllipses = screen.getAllByRole('label')[0];
+    const prefixEllipses = screen.getAllByText('...')[0];
     expect(prefixEllipses).not.toHaveAttribute('href');
     expect(prefixEllipses).toHaveTextContent('...');
     expect(prefixEllipses).toHaveClass(
@@ -102,7 +102,7 @@ describe('Pagination', () => {
 
   it('shows ellipses between last page link and link n+2 on page T-4', () => {
     renderComponent(5, 10);
-    const postfixEllipses = screen.getAllByRole('label')[2];
+    const postfixEllipses = screen.getAllByText('...')[1];
     expect(postfixEllipses).not.toHaveAttribute('href');
     expect(postfixEllipses).toHaveTextContent('...');
     expect(postfixEllipses).toHaveClass(

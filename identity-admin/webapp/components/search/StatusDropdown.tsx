@@ -44,13 +44,9 @@ const StatusDropdown = (): JSX.Element => {
 
   return (
     <div className="status-dropdown">
-      <div
-        role="dropdown"
-        className="status-dropdown__label"
-        onClick={toggleExpansion}
-      >
-        <span role="label">{statusLabel()}</span>
-        <span role="label" className="status-dropdown__label-arrow">
+      <div className="status-dropdown__label" onClick={toggleExpansion}>
+        <span>{statusLabel()}</span>
+        <span className="status-dropdown__label-arrow">
           {isExpanded ? '▴' : '▾'}
         </span>
       </div>

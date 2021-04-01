@@ -35,9 +35,7 @@ const Pagination = ({ currentPage, pageCount }: Props): JSX.Element => {
           Previous
         </a>
       ) : (
-        <span role="label" className={firstLinkClassName + ' ' + disabled}>
-          Previous
-        </span>
+        <span className={firstLinkClassName + ' ' + disabled}>Previous</span>
       )}
       {hasFirstPageLink && (
         <a href={pageUrl(1)} className={linkClassName}>
@@ -45,10 +43,7 @@ const Pagination = ({ currentPage, pageCount }: Props): JSX.Element => {
         </a>
       )}
       {hasPrefixEllipses && (
-        <span
-          role="label"
-          className={ellipses + ' user-pagination__item--prefix-ellipses'}
-        >
+        <span className={ellipses + ' user-pagination__item--prefix-ellipses'}>
           ...
         </span>
       )}
@@ -62,9 +57,7 @@ const Pagination = ({ currentPage, pageCount }: Props): JSX.Element => {
           {currentPage - 1}
         </a>
       )}
-      <span role="label" className={linkClassName + ' ' + disabled}>
-        {currentPage}
-      </span>
+      <span className={linkClassName + ' ' + disabled}>{currentPage}</span>
       {currentPage < pageCount && (
         <a href={pageUrl(currentPage + 1)} className={linkClassName}>
           {currentPage + 1}
@@ -76,10 +69,7 @@ const Pagination = ({ currentPage, pageCount }: Props): JSX.Element => {
         </a>
       )}
       {hasSuffixEllipses && (
-        <span
-          role="label"
-          className={ellipses + ' user-pagination__item--suffix-ellipses'}
-        >
+        <span className={ellipses + ' user-pagination__item--suffix-ellipses'}>
           ...
         </span>
       )}
@@ -93,9 +83,7 @@ const Pagination = ({ currentPage, pageCount }: Props): JSX.Element => {
           Next
         </a>
       ) : (
-        <span role="label" className={lastLinkClassName + ' ' + disabled}>
-          Next
-        </span>
+        <span className={lastLinkClassName + ' ' + disabled}>Next</span>
       )}
     </div>
   );
