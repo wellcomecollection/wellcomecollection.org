@@ -97,6 +97,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
     searchResults,
     setSearchResults,
     canvases,
+    setIsMobileSidebarActive,
   } = useContext(ItemViewerContext);
   const searchService = manifest && getSearchService(manifest);
   async function getSearchResults() {
@@ -175,6 +176,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                   style={{ textDecoration: 'none', cursor: 'pointer' }}
                   onClick={() => {
                     if (index) {
+                      setIsMobileSidebarActive(false);
                       setActiveIndex(index || 0);
                       mainViewerRef &&
                         mainViewerRef.current &&
