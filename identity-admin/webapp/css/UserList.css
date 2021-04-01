@@ -9,7 +9,8 @@
   text-decoration: none;
 }
 
-.user-list td {
+.user-list td,
+.user-list th {
   padding: 1em 0.5em;
 }
 
@@ -18,13 +19,14 @@
   border-spacing: 0;
   border-collapse: collapse;
   font-weight: bold;
+  text-align: left;
 }
 
 .user-list__filter {
   background-color: #F0EDE3;
 }
 
-.user-list__filter.user-list__filter--labels td {
+.user-list__filter.user-list__filter--labels th {
   padding: 1em 0.5em 0 0.5em;
 }
 
@@ -40,7 +42,8 @@
   padding: 1em 0;
 }
 
-.user-list td.user-list__first {
+.user-list td.user-list__first,
+.user-list th.user-list__first {
   padding-left: 2em;
 }
 

@@ -27,28 +27,30 @@ const SearchInput = (): JSX.Element => {
 
   return (
     <>
-      <td className="user-list__filter-header user-list__first">
+      <th className="user-list__filter-header user-list__first">
         <form onSubmit={onChangeName} className="user-list__search-form">
           <input
             type="text"
             name="nameField"
             placeholder="Enter name"
+            aria-label="Enter name"
             defaultValue={name}
           />
           <button type="submit">Search</button>
         </form>
-      </td>
-      <td className="user-list__filter-header">
+      </th>
+      <th className="user-list__filter-header">
         <form onSubmit={onChangeEmail} className="user-list__search-form">
           <input
             type="text"
             name="emailField"
             placeholder="Enter email"
+            aria-label="Enter email"
             defaultValue={email}
           />
           <button type="submit">Search</button>
         </form>
-      </td>
+      </th>
     </>
   );
 };

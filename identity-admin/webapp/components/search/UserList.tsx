@@ -15,34 +15,34 @@ const UserList = ({ items, totalResults }: Props): JSX.Element => {
     <table className="user-list">
       <thead className="user-list__head">
         <tr className="user-list__filter user-list__filter--labels">
-          <td className="user-list__first">Search by:</td>
-          <td />
-          <td />
-          <td>Filter by status:</td>
-          <td />
+          <th className="user-list__first">Search by:</th>
+          <th />
+          <th />
+          <th>Filter by status:</th>
+          <th />
         </tr>
         <tr className="user-list__filter">
           <SearchInput />
-          <td />
-          <td className="user-list__filter--status">
+          <th />
+          <th className="user-list__filter--status">
             <StatusDropdown />
-          </td>
-          <td>{totalResults} Results</td>
+          </th>
+          <th>{totalResults} Results</th>
         </tr>
         <tr>
-          <td className="user-list__filter-header user-list__first">
+          <th className="user-list__filter-header user-list__first">
             Name <Sorter fieldName={SortField.Name} />
-          </td>
-          <td className="user-list__filter-header">
+          </th>
+          <th className="user-list__filter-header">
             Email <Sorter fieldName={SortField.Email} />
-          </td>
-          <td>
+          </th>
+          <th>
             Patron record number <Sorter fieldName={SortField.UserId} />
-          </td>
-          <td className="user-list__filter--status">Status</td>
-          <td>
+          </th>
+          <th className="user-list__filter--status">Status</th>
+          <th>
             Last Login <Sorter fieldName={SortField.LastLogin} />
-          </td>
+          </th>
         </tr>
       </thead>
       <tbody className="user-list__body">
