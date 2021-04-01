@@ -93,13 +93,15 @@ const Item = styled.div`
 const AccordionItem = ({
   title,
   children,
+  testId,
 }: {
   title: string;
   children: ReactNode;
+  testId?: string;
 }) => {
   const [isActive, setIsActive] = useState(false);
   return (
-    <Item>
+    <Item data-test-id={testId}>
       <AccordionInner
         onClick={() => setIsActive(!isActive)}
         className={classNames({
@@ -199,7 +201,10 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         <h1>{work.title}</h1>
 
         {work.contributors.length > 0 && (
-          <Space h={{ size: 'm', properties: ['margin-right'] }}>
+          <Space
+            h={{ size: 'm', properties: ['margin-right'] }}
+            data-test-id="work-contributors"
+          >
             <LinkLabels
               items={[
                 {
@@ -211,15 +216,17 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         )}
 
         {productionDates.length > 0 && (
-          <LinkLabels
-            heading={'Date'}
-            items={[
-              {
-                text: productionDates[0],
-                url: null,
-              },
-            ]}
-          />
+          <div data-test-id="work-dates">
+            <LinkLabels
+              heading={'Date'}
+              items={[
+                {
+                  text: productionDates[0],
+                  url: null,
+                },
+              ]}
+            />
+          </div>
         )}
 
         <Space v={{ size: 'm', properties: ['margin-top'] }}>
@@ -235,7 +242,10 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         </Space>
       </Inner>
       <div>
-        <AccordionItem title={'License and credit'}>
+        <AccordionItem
+          title={'License and credit'}
+          testId={'license-and-credit'}
+        >
           <div className={font('hnl', 6)}>
             {license && license.label && (
               <p>
