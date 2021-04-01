@@ -214,6 +214,23 @@ const colorFilter = ({ props }: ImagesFilterProps): ColorFilter => ({
   color: props.color,
 });
 
+// We want to customise the license labels for our UI as the API
+// ones are, whilst correct, very verbose
+// https://github.com/wellcomecollection/wellcomecollection.org/issues/6188
+const licenseLabels = {
+  'cc-by': 'Creative Commons CC-BY',
+  'cc-by-nc': 'Creative Commons CC-BY-NC',
+  'cc-by-nc-nd': 'Creative Commons CC-BY-NC-ND',
+  'cc-0': 'Creative Commons CC0',
+  'cc-by-nd': 'Creative Commons CC-BY-ND',
+  'cc-by-sa': 'Creative Commons CC-BY-SA',
+  'cc-by-nc-sa': 'Creative Commons CC-BY-NC-SA',
+  pdm: 'Public Domain Mark',
+  ogl: 'Open Government License',
+  opl: 'Open Parliament License',
+  inc: 'In copyright',
+};
+
 const licenseFilter = ({
   images,
   props,
@@ -226,7 +243,7 @@ const licenseFilter = ({
       id: bucket.data.id,
       value: bucket.data.id,
       count: bucket.count,
-      label: bucket.data.label,
+      label: licenseLabels[bucket.data.id] || bucket.data.label,
       selected: props['locations.license'].includes(bucket.data.id),
     })) || [],
     props['locations.license'],
