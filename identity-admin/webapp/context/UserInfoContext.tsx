@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { UserInfo } from '../types/UserInfo';
+import { User } from '../interfaces';
 import axios from 'axios';
 
 export type UserInfoContextState = {
-  user?: UserInfo;
+  user?: User;
   isLoading: boolean;
   error?: { message: string };
   refetch?: () => void;
@@ -28,7 +28,7 @@ export const UserInfoProvider: React.FC = ({ children }) => {
   const fetchUser = async (): Promise<void> => {
     setState({ isLoading: true });
     return axios
-      .get<UserInfo>(`/api/user/${userId}`)
+      .get<User>(`/api/user/${userId}`)
       .then(({ data }) => {
         return setState({ isLoading: false, user: data });
       })

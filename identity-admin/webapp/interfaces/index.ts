@@ -6,19 +6,21 @@
 
 export type User = {
   userId: number;
-  barcode: string | null;
-  firstName: string | null;
-  lastName: string | null;
+  barcode?: string;
+  firstName?: string;
+  lastName?: string;
   email: string;
   emailValidated: boolean;
   locked: boolean;
   creationDate: string;
   updatedDate: string;
-  lastLoginDate: string | null;
-  lastLoginIp: string | null;
+  lastLoginDate?: string;
+  lastLoginIp?: string;
   totalLogins: number;
-  deleteRequested: string | null;
+  deleteRequested?: string;
 };
+
+export type EditedUser = Pick<User, 'firstName' | 'lastName' | 'email'>;
 
 export type SearchResults = {
   page: number;

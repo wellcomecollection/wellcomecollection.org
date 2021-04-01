@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { rest } from 'msw';
 import { UserInfoProvider } from '../../context/UserInfoContext';
-import { UserInfo } from '../../types/UserInfo';
+import { User } from '../../interfaces';
 import { mockUser } from '../../__mocks__/UserInfo.mock';
 import { server } from '../../__mocks__/server';
 import { EditProfile } from './EditProfile';
@@ -16,7 +16,7 @@ jest.mock('next/router', () => ({
   },
 }));
 
-const renderPage = (userOverride: Partial<UserInfo> = {}) => {
+const renderPage = (userOverride: Partial<User> = {}) => {
   server.use(
     rest.get(new RegExp('/api/user/123'), (_req, res, ctx) => {
       return res(ctx.json({ ...mockUser, ...userOverride }));
@@ -116,9 +116,9 @@ describe('EditProfile', () => {
   });
 
   it("shows the user's library card number", async () => {
-    renderPage();
+    renderPage({ barcode: '11235813' });
     await waitForPageToLoad();
-    expect(screen.getByText(mockUser.barcode)).toBeInTheDocument();
+    expect(screen.getByText('11235813')).toBeInTheDocument();
   });
 
   it("shows the user's patron record number", async () => {

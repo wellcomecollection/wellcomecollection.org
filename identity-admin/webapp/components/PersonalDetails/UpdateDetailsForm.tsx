@@ -1,7 +1,7 @@
 import { ErrorMessage } from '@hookform/error-message';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { EditedUserInfo, UserInfo } from '../../types/UserInfo';
+import { EditedUser, User } from '../../interfaces';
 import { Button } from '../Button';
 import {
   Field,
@@ -14,9 +14,9 @@ import {
 const emailRegEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 type UpdateDetailsFormProps = {
-  user?: UserInfo;
+  user?: User;
   isUpdating: boolean;
-  onSubmit: (formData: EditedUserInfo) => void;
+  onSubmit: (formData: EditedUser) => void;
 };
 
 export const UpdateDetailsForm: React.FC<UpdateDetailsFormProps> = ({
@@ -25,14 +25,14 @@ export const UpdateDetailsForm: React.FC<UpdateDetailsFormProps> = ({
   onSubmit: propOnSubmit,
 }) => {
   const { register, handleSubmit, errors, clearErrors, reset } = useForm<
-    EditedUserInfo
+    EditedUser
   >({ defaultValues: user });
 
   useEffect(() => {
     reset(user);
   }, [user]);
 
-  const onSubmit = (formData: EditedUserInfo) => {
+  const onSubmit = (formData: EditedUser) => {
     clearErrors();
     propOnSubmit(formData);
   };

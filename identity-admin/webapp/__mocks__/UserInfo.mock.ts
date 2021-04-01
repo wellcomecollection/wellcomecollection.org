@@ -1,6 +1,6 @@
-import { UserInfo } from '../types/UserInfo';
+import { User } from '../interfaces';
 
-export const mockUser: UserInfo = {
+export const mockUser: User = {
   firstName: 'Steve',
   lastName: 'Rogers',
   locked: false,
