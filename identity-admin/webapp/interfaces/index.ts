@@ -13,6 +13,7 @@ export type User = {
   emailValidated: boolean;
   locked: boolean;
   creationDate: string;
+  updatedDate: string;
   lastLoginDate: string | null;
   lastLoginIp: string | null;
   totalLogins: number;
