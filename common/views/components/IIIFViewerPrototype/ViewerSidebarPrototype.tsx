@@ -6,7 +6,7 @@ import {
   ReactNode,
 } from 'react';
 import NextLink from 'next/link';
-import WorkLink from '@weco/common/views/components/WorkLink';
+import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import { FixedSizeList } from 'react-window';
 import Icon from '../Icon/Icon';
 import styled from 'styled-components';
