@@ -3,6 +3,7 @@ import {
   CSSObject,
   keyframes,
   SimpleInterpolation,
+  createGlobalStyle,
 } from 'styled-components';
 import { SpaceOverrides } from '../components/styled/Space';
 
@@ -164,7 +165,7 @@ function makeSpacePropertyValues(
 // https://github.com/styled-components/styled-components/blob/master/docs/tips-and-tricks.md#media-templates
 // using min-width because of
 // https://zellwk.com/blog/how-to-write-mobile-first-css/
-type Sizes = keyof typeof themeValues.sizes;
+type Size = keyof typeof themeValues.sizes;
 type MediaMethodArgs = [
   TemplateStringsArray | CSSObject,
   SimpleInterpolation[]
@@ -177,7 +178,7 @@ const media = Object.keys(themeValues.sizes).reduce((acc, label) => {
     }
   `;
   return acc;
-}, {} as Record<Sizes, (...args: MediaMethodArgs) => string>);
+}, {} as Record<Size, (...args: MediaMethodArgs) => string>);
 
 const theme = {
   ...themeValues,
@@ -185,4 +186,66 @@ const theme = {
   makeSpacePropertyValues,
 };
 
+type Classes = typeof classes;
+const classes = {
+  displayNone: 'display-none',
+  displayBlock: 'display-block',
+};
+type SizedClasses = {
+  small: Classes;
+  medium: Classes;
+  large: Classes;
+  xlarge: Classes;
+};
+
+const sizesClasses = Object.keys(themeValues.sizes).reduce((acc, size) => {
+  const o = Object.entries(classes).reduce((acc, [key, val]) => {
+    return {
+      ...acc,
+      [key]: `${size}-${val}`,
+    };
+  }, {});
+
+  return {
+    ...acc,
+    [size]: o,
+  };
+}, {});
+
+// I know this is the case, but typescript and `.keys` and `.reduce` doesn't play all that nice
+// TODO: Make sure the implementation meets these types
+// see: https://fettblog.eu/typescript-better-object-keys/
+const cls = ({
+  ...classes,
+  ...sizesClasses,
+} as any) as Classes & SizedClasses;
+
+const GlobalStyle = createGlobalStyle`
+  ${css`
+    .${cls.displayBlock} {
+      display: block;
+    }
+    .${cls.displayNone} {
+      display: none;
+    }
+  `}
+  ${css`
+    ${Object.keys(themeValues.sizes).map(
+      size => css`
+        .${cls[size as Size].displayNone} {
+          ${props => props.theme.media[size]`
+          display: none;
+        `}
+        }
+        .${cls[size as Size].displayBlock} {
+          ${props => props.theme.media[size]`
+          display: block;
+        `}
+        }
+      `
+    )}
+  `}
+`;
+
 export default theme;
+export { GlobalStyle, cls };

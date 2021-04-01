@@ -4,7 +4,7 @@ import SearchFiltersDesktop from '../SearchFiltersDesktop/SearchFiltersDesktop';
 import SearchFiltersMobile from '../SearchFiltersMobile/SearchFiltersMobile';
 import { LinkProps } from '../../../model/link-props';
 import { Filter } from '../../../services/catalogue/filters';
-import useWindowSize from '../../../hooks/useWindowSize';
+import { cls } from '../../../views/themes/default';
 
 type Props = {
   query: string;
@@ -23,8 +23,6 @@ const SearchFilters: FunctionComponent<Props> = ({
   filters,
   linkResolver,
 }: Props): ReactElement<Props> => {
-  const size = useWindowSize();
-
   const activeFiltersCount = filters
     .map(f => {
       if (f.type === 'checkbox') {
@@ -54,13 +52,12 @@ const SearchFilters: FunctionComponent<Props> = ({
 
   return (
     <>
-      {size === 'small' ? (
+      <div className={cls.medium.displayNone}>
         <SearchFiltersMobile {...sharedProps} />
-      ) : (
-        <>
-          <SearchFiltersDesktop {...sharedProps} />
-        </>
-      )}
+      </div>
+      <div className={`${cls.displayNone} ${cls.medium.displayBlock}`}>
+        <SearchFiltersDesktop {...sharedProps} />
+      </div>
     </>
   );
 };
