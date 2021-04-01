@@ -282,23 +282,6 @@ export type CatalogueAggregationBucketNoId = {
   type: 'AggregationBucket';
 };
 
-export type CatalogueAggregationContributorsBucket = {
-  count: number;
-  data: {
-    agent: {
-      label: string;
-      type: string;
-    };
-    type: 'Contributor';
-  };
-  type: 'AggregationBucket';
-};
-
-export type CatalogueAggregationContributor = {
-  buckets: CatalogueAggregationContributorsBucket[];
-  type: 'Aggregation';
-};
-
 export type CatalogueAggregation = {
   buckets: CatalogueAggregationBucket[];
   type: 'Aggregation';
@@ -313,9 +296,9 @@ export type WorkAggregations = {
   workType: CatalogueAggregation;
   availabilities: CatalogueAggregation;
   languages?: CatalogueAggregation;
-  genres?: CatalogueAggregationNoId;
-  subjects?: CatalogueAggregationNoId;
-  contributors?: CatalogueAggregationContributor;
+  'genres.label'?: CatalogueAggregationNoId;
+  'subjects.label'?: CatalogueAggregationNoId;
+  'contributors.agent.label'?: CatalogueAggregationNoId;
   type: 'Aggregations';
 };
 

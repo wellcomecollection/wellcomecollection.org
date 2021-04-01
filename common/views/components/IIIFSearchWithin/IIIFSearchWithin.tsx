@@ -4,11 +4,13 @@ import fetch from 'isomorphic-unfetch';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
 import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
+import Raven from 'raven-js';
+import { searchWithinLabel } from '@weco/common/text/aria-labels';
 
 type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
@@ -19,11 +21,8 @@ const SearchForm = styled.form`
 `;
 
 const SearchInputWrapper = styled.div`
-  font-size: 20px;
-  background: ${props => props.theme.color('white')};
-  margin-right: 80px;
-  .search-query {
-    height: ${props => 10 * props.theme.spacingUnit}px;
+  input {
+    padding-right: 70px;
   }
 `;
 
@@ -32,8 +31,9 @@ const SearchButtonWrapper = styled.div.attrs({
     absolute: true,
   }),
 })`
-  top: 0;
-  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 4px;
 `;
 
 const ResultsHeader = styled(Space).attrs({
@@ -108,8 +108,8 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
         ).json();
         setIsLoading(false);
         setSearchResults(results);
-      } catch (e) {
-        console.info(e);
+      } catch (error) {
+        Raven.captureException(new Error(`IIIF search error: ${error}`));
       }
     }
   }
@@ -122,26 +122,37 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
           getSearchResults();
         }}
       >
-        {' '}
+        <span
+          className={classNames({
+            [font('hnm', 5)]: true,
+          })}
+        >
+          Search within this item
+        </span>
         <SearchInputWrapper className="relative">
           <TextInput
             id={'searchWithin'}
-            label={'Search within this item'}
-            placeholder={'Search within this item'}
+            label={'Enter keyword'}
             name="query"
             value={value}
             setValue={setValue}
             required={true}
+            ariaLabel={searchWithinLabel}
           />
+          <SearchButtonWrapper>
+            <ButtonSolid
+              isBig
+              icon="search"
+              text="search"
+              isTextHidden={true}
+            />
+          </SearchButtonWrapper>
         </SearchInputWrapper>
-        <SearchButtonWrapper>
-          <ButtonSolid icon="search" text="search" isTextHidden={true} />
-        </SearchButtonWrapper>
       </SearchForm>
       <div aria-live="polite">
         {isLoading && <Loading />}
         {searchResults.within.total !== null && (
-          <ResultsHeader>
+          <ResultsHeader data-test-id="results-header">
             {searchResults.within.total}{' '}
             {searchResults.within.total === 1 ? 'result' : 'results'}
           </ResultsHeader>
