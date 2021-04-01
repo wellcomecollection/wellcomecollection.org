@@ -16,7 +16,9 @@ export function DeleteAccount(): JSX.Element {
 
   return (
     <>
-      <DangerButton onClick={openModal}>Delete account</DangerButton>
+      <li style={{ color: 'firebrick' }} onClick={openModal}>
+        Delete account
+      </li>
       <ReactModal
         isOpen={isModalOpen}
         onRequestClose={closeModal}

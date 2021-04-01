@@ -6,7 +6,7 @@ export interface UserInfo {
   email: string;
   emailValidated: boolean;
   barcode: string;
-  patronId: number;
+  userId: number;
   creationDate: string;
   updatedDate: string;
   lastLoginDate: string;

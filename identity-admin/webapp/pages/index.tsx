@@ -1,23 +1,35 @@
 import Layout from '../components/Layout';
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0';
 import React from 'react';
+import UserList from '../components/search/UserList';
+import { useUserSearch } from '../hooks/useSearch';
+import Pagination from '../components/search/Pagination';
 
 const IndexPage: React.FC = () => {
   const { user } = useUser();
-
-  if (user) {
-    return (
-      <Layout title="Account administration">
-        <h1>Hi {user.name}</h1>
-        <h2>This is the main page</h2>
-        <a href="/api/auth/logout">Logout</a>
-      </Layout>
-    );
-  }
+  const { data, isLoading, error } = useUserSearch();
 
   return (
     <Layout title="Account administration">
-      <a href="/api/auth/login">Login</a>
+      {user && (
+        <div className="header">
+          <h1 className="header__title">Account Administration</h1>
+          <div className="header__logout">
+            {user.name} | <a href="/api/auth/logout">Logout</a>
+          </div>
+        </div>
+      )}
+      {isLoading && <div>Loading...</div>}
+      {error && <div>{error}</div>}
+      {data && (
+        <div>
+          <UserList items={data?.results} totalResults={data?.totalResults} />
+          <Pagination
+            currentPage={data?.page + 1 || 1}
+            pageCount={data?.pageCount || 1}
+          />
+        </div>
+      )}
     </Layout>
   );
 };
