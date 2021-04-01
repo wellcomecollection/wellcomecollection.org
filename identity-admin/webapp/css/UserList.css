@@ -162,8 +162,8 @@ tr.user-list__item:hover {
 
 .user-pagination__item--disabled,
 .user-pagination__item.user-pagination__item--disabled:hover {
-  background-color: rgb(233, 236, 239);
-  color: grey;
+  background-color: #E9ECEF;
+  color: #696969;
 }
 
 .user-pagination__item.user-pagination__item--ellipses {
