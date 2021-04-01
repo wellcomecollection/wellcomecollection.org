@@ -36,6 +36,8 @@ export const AppContextProvider: FunctionComponent<AppContextProviderProps> = ({
 
   useEffect(() => {
     setIsEnhanced(true);
+    // The presence of IntersectionObserver is a useful proxy for browsers that we
+    // want to support in full: https://caniuse.com/intersectionobserver
     setIsFullSupportBrowser('IntersectionObserver' in window);
 
     document.addEventListener('mousedown', setIsKeyboardFalse);
