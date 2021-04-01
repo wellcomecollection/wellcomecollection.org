@@ -165,7 +165,7 @@ function makeSpacePropertyValues(
 // https://github.com/styled-components/styled-components/blob/master/docs/tips-and-tricks.md#media-templates
 // using min-width because of
 // https://zellwk.com/blog/how-to-write-mobile-first-css/
-type Size = keyof typeof themeValues.sizes;
+export type Size = keyof typeof themeValues.sizes;
 type MediaMethodArgs = [
   TemplateStringsArray | CSSObject,
   SimpleInterpolation[]

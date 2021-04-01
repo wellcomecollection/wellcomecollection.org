@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import theme from '../views/themes/default';
+import theme, { Size } from '../views/themes/default';
 
-type ScreenSize = 'small' | 'medium' | 'large' | 'xlarge';
-export function getScreenSize(): ScreenSize {
+export function getScreenSize(): Size {
   switch (true) {
     case window.innerWidth < theme.sizes.medium:
       return 'small';
@@ -14,8 +13,10 @@ export function getScreenSize(): ScreenSize {
       return 'xlarge';
   }
 }
-export default function useWindowSize(): string {
-  const [size, setSize] = useState('small');
+export default function useWindowSize(
+  initialSize: Size | undefined = 'small'
+): string {
+  const [size, setSize] = useState<Size>(initialSize);
   useEffect(() => {
     function updateSize() {
       setSize(getScreenSize());
