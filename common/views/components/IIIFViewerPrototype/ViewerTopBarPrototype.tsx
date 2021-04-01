@@ -139,7 +139,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                   setIsMobileSidebarActive(!isMobileSidebarActive);
                 }}
               >
-                item infomation
+                Item info
               </ShameButton>
 
               <ShameButton
@@ -169,8 +169,9 @@ const ViewerTopBar: FunctionComponent<Props> = ({
       <MiddleZone>
         {canvases && canvases.length > 1 && !showZoomed && (
           <>
-            {`${activeIndex + 1 || ''} / ${(canvases && canvases.length) ||
-              ''}`}{' '}
+            <span data-test-id="active-index">{`${activeIndex + 1 ||
+              ''}`}</span>
+            {` / ${(canvases && canvases.length) || ''}`}{' '}
             {!(canvases[activeIndex].label.trim() === '-') &&
               `(page ${canvases[activeIndex].label.trim()})`}
           </>

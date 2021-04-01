@@ -4,7 +4,7 @@ import fetch from 'isomorphic-unfetch';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
 import Space from '@weco/common/views/components/styled/Space';
@@ -137,7 +137,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
             value={value}
             setValue={setValue}
             required={true}
-            aria-label={searchWithinLabel}
+            ariaLabel={searchWithinLabel}
           />
           <SearchButtonWrapper>
             <ButtonSolid
@@ -152,7 +152,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
       <div aria-live="polite">
         {isLoading && <Loading />}
         {searchResults.within.total !== null && (
-          <ResultsHeader>
+          <ResultsHeader data-test-id="results-header">
             {searchResults.within.total}{' '}
             {searchResults.within.total === 1 ? 'result' : 'results'}
           </ResultsHeader>

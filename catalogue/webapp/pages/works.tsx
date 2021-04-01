@@ -302,10 +302,10 @@ export const getServerSideProps: GetServerSideProps<
   const aggregations = [
     'workType',
     'availabilities',
-    'genres',
+    'genres.label',
     'languages',
-    'subjects',
-    'contributors',
+    'subjects.label',
+    'contributors.agent.label',
   ];
 
   const _queryType = cookies(context)._queryType;

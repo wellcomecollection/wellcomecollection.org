@@ -1,20 +1,27 @@
-import { FunctionComponent, useState, useContext, RefObject } from 'react';
+import {
+  FunctionComponent,
+  useState,
+  useContext,
+  RefObject,
+  ReactNode,
+} from 'react';
 import NextLink from 'next/link';
 import { FixedSizeList } from 'react-window';
-import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import WorkLink from '../WorkLink/WorkLink';
+import Icon from '../Icon/Icon';
 import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
+import Space from '../styled/Space';
+
 import { classNames, font } from '@weco/common/utils/classnames';
-import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
+import LinkLabels from '../LinkLabels/LinkLabels';
 import {
   getProductionDates,
   getDigitalLocationOfType,
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
-import ViewerStructuresPrototype from '@weco/common/views/components/ViewerStructuresPrototype/ViewerStructuresPrototype';
-import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
+import ViewerStructuresPrototype from '../ViewerStructuresPrototype/ViewerStructuresPrototype';
+import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import MultipleManifestListPrototype from '../MultipleManifestListPrototype/MultipleManifestListPrototype';
 import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
@@ -84,7 +91,13 @@ const Item = styled.div`
   }
 `;
 
-const AccordionItem = ({ title, children }) => {
+const AccordionItem = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) => {
   const [isActive, setIsActive] = useState(false);
   return (
     <Item>
@@ -176,6 +189,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         </button>
         {currentManifestLabel && (
           <span
+            data-test-id="current-manifest"
             className={classNames({
               [font('hnl', 5)]: true,
             })}
