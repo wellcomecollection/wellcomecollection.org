@@ -139,7 +139,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                   setIsMobileSidebarActive(!isMobileSidebarActive);
                 }}
               >
-                item infomation
+                Item info
               </ShameButton>
 
               <ShameButton
