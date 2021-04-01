@@ -1,6 +1,6 @@
 import React from 'react';
 import { User } from '../../interfaces';
-import { StatusBox } from './Info.style';
+import { StatusBox } from '../StatusBox';
 
 export function UserStatus(props: Partial<User>): JSX.Element | null {
   if (props.deleteRequested) {

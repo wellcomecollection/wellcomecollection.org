@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBox } from './Info.style';
+import { StatusBox } from '../StatusBox';
 
 export type AccountActionState = {
   isSuccess: boolean;

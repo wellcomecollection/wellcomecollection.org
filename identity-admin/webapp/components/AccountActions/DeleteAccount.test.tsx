@@ -1,17 +1,14 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { DeleteAccount } from './DeleteAccount';
 import userEvent from '@testing-library/user-event';
+import { useRouter } from 'next/router';
 
 jest.mock('next/router', () => ({
-  useRouter: () => {
-    return {
-      query: { userId: '3141592' },
-    };
-  },
+  useRouter: jest.fn(),
 }));
 
-const renderComponent = () => render(<DeleteAccount />);
+const renderComponent = () => render(<DeleteAccount userId={123} />);
 
 describe('DeleteAccount', () => {
   it('renders correctly', () => {
@@ -36,7 +33,20 @@ describe('DeleteAccount', () => {
     ).not.toBeInTheDocument();
   });
 
-  it("requests the deletion of the user's account", async () => {
-    // TODO: redirect to root, show success banner
+  it("deletes the user's account", async () => {
+    const push = jest.fn();
+    (useRouter as jest.Mock).mockImplementation(() => ({ push }));
+
+    renderComponent();
+    userEvent.click(screen.getByRole('listitem'));
+    userEvent.click(
+      screen.getByRole('button', { name: /yes, delete account/i })
+    );
+    await waitFor(() => {
+      expect(push).toBeCalledWith({
+        pathname: '/',
+        query: { deletedUser: 123 },
+      });
+    });
   });
 });

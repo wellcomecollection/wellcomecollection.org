@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { User } from '../interfaces';
 import { useMutation } from './useMutation';
 
 type DeleteAccountMutation = {
@@ -6,9 +6,9 @@ type DeleteAccountMutation = {
   deleteAccount: () => Promise<void>;
 };
 
-export function useDeleteAccount(): DeleteAccountMutation {
-  const router = useRouter();
-  const { userId } = router.query;
+export function useDeleteAccount(
+  userId: User['userId']
+): DeleteAccountMutation {
   const { mutate, isLoading } = useMutation(`/api/delete-account/${userId}`);
 
   return { deleteAccount: mutate, isLoading };
