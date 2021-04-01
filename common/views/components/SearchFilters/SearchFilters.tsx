@@ -4,6 +4,7 @@ import SearchFiltersDesktop from '../SearchFiltersDesktop/SearchFiltersDesktop';
 import SearchFiltersMobile from '../SearchFiltersMobile/SearchFiltersMobile';
 import { LinkProps } from '../../../model/link-props';
 import { Filter } from '../../../services/catalogue/filters';
+import { cs } from '../../../views/themes/default';
 
 type Props = {
   query: string;
@@ -51,10 +52,10 @@ const SearchFilters: FunctionComponent<Props> = ({
 
   return (
     <>
-      <div className="medium-none">
+      <div className={cs.medium.displayNone}>
         <SearchFiltersMobile {...sharedProps} />
       </div>
-      <div className="none medium-block">
+      <div className={`${cs.displayNone} ${cs.medium.displayBlock}`}>
         <SearchFiltersDesktop {...sharedProps} />
       </div>
     </>

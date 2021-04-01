@@ -165,7 +165,7 @@ function makeSpacePropertyValues(
 // https://github.com/styled-components/styled-components/blob/master/docs/tips-and-tricks.md#media-templates
 // using min-width because of
 // https://zellwk.com/blog/how-to-write-mobile-first-css/
-type Sizes = keyof typeof themeValues.sizes;
+type Size = keyof typeof themeValues.sizes;
 type MediaMethodArgs = [
   TemplateStringsArray | CSSObject,
   SimpleInterpolation[]
@@ -178,7 +178,7 @@ const media = Object.keys(themeValues.sizes).reduce((acc, label) => {
     }
   `;
   return acc;
-}, {} as Record<Sizes, (...args: MediaMethodArgs) => string>);
+}, {} as Record<Size, (...args: MediaMethodArgs) => string>);
 
 const theme = {
   ...themeValues,
@@ -186,24 +186,58 @@ const theme = {
   makeSpacePropertyValues,
 };
 
+type Classes = typeof classes;
+const classes = {
+  displayNone: 'display-none',
+  displayBlock: 'display-block',
+};
+type SizedClasses = {
+  small: Classes;
+  medium: Classes;
+  large: Classes;
+  xlarge: Classes;
+};
+
+const sizesClasses = Object.keys(themeValues.sizes).reduce((acc, size) => {
+  const o = Object.entries(classes).reduce((acc, [key, val]) => {
+    return {
+      ...acc,
+      [key]: `${size}-${val}`,
+    };
+  }, {});
+
+  return {
+    ...acc,
+    [size]: o,
+  };
+}, {});
+
+// I know this is the case, but typescript and `.keys` and `.reduce` doesn't play all that nice
+// TODO: Make sure the implementation meets these types
+// see: https://fettblog.eu/typescript-better-object-keys/
+const cs = ({
+  ...classes,
+  ...sizesClasses,
+} as any) as Classes & SizedClasses;
+
 const GlobalStyle = createGlobalStyle`
   ${css`
-    .block {
+    .${cs.displayBlock} {
       display: block;
     }
-    .none {
+    .${cs.displayNone} {
       display: none;
     }
   `}
   ${css`
     ${Object.keys(themeValues.sizes).map(
       size => css`
-        .${size}-none {
+        .${cs[size as Size].displayNone} {
           ${props => props.theme.media[size]`
           display: none;
         `}
         }
-        .${size}-block {
+        .${cs[size as Size].displayBlock} {
           ${props => props.theme.media[size]`
           display: block;
         `}
@@ -214,4 +248,4 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 export default theme;
-export { GlobalStyle };
+export { GlobalStyle, cs };
