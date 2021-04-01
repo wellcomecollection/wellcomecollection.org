@@ -215,29 +215,29 @@ const sizesClasses = Object.keys(themeValues.sizes).reduce((acc, size) => {
 // I know this is the case, but typescript and `.keys` and `.reduce` doesn't play all that nice
 // TODO: Make sure the implementation meets these types
 // see: https://fettblog.eu/typescript-better-object-keys/
-const cs = ({
+const cls = ({
   ...classes,
   ...sizesClasses,
 } as any) as Classes & SizedClasses;
 
 const GlobalStyle = createGlobalStyle`
   ${css`
-    .${cs.displayBlock} {
+    .${cls.displayBlock} {
       display: block;
     }
-    .${cs.displayNone} {
+    .${cls.displayNone} {
       display: none;
     }
   `}
   ${css`
     ${Object.keys(themeValues.sizes).map(
       size => css`
-        .${cs[size as Size].displayNone} {
+        .${cls[size as Size].displayNone} {
           ${props => props.theme.media[size]`
           display: none;
         `}
         }
-        .${cs[size as Size].displayBlock} {
+        .${cls[size as Size].displayBlock} {
           ${props => props.theme.media[size]`
           display: block;
         `}
@@ -248,4 +248,4 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 export default theme;
-export { GlobalStyle, cs };
+export { GlobalStyle, cls };
