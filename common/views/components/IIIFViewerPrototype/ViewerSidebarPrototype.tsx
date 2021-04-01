@@ -238,7 +238,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
             </p>
             {credit && (
               <p>
-                <a href="https:wellcomecollection.org/works/{work.id}">
+                <a href={`https://wellcomecollection.org/works/${work.id}`}>
                   {credit}
                 </a>
                 .
