@@ -257,23 +257,25 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                     />
                   );
                 })}
-              <ImageViewerPrototype
-                id="item-page"
-                infoUrl={infoUrl}
-                width={currentCanvas.width}
-                height={currentCanvas.height}
-                alt={ocrText}
-                urlTemplate={urlTemplateMain}
-                rotation={rotation}
-                index={index}
-                loadHandler={() => {
-                  setMainLoaded(true);
-                  setIsLoading(false);
-                }}
-                mainAreaRef={mainAreaRef}
-                setImageRect={setImageRect}
-                setImageContainerRect={setImageContainerRect}
-              />
+              <div data-test-id={`canvas-${index}`}>
+                <ImageViewerPrototype
+                  id="item-page"
+                  infoUrl={infoUrl}
+                  width={currentCanvas.width}
+                  height={currentCanvas.height}
+                  alt={ocrText}
+                  urlTemplate={urlTemplateMain}
+                  rotation={rotation}
+                  index={index}
+                  loadHandler={() => {
+                    setMainLoaded(true);
+                    setIsLoading(false);
+                  }}
+                  mainAreaRef={mainAreaRef}
+                  setImageRect={setImageRect}
+                  setImageContainerRect={setImageContainerRect}
+                />
+              </div>
             </>
           )}
         </>
@@ -371,30 +373,32 @@ const MainViewer: FunctionComponent<Props> = ({
   }, [canvasIndex]);
 
   return (
-    <FixedSizeList
-      width={mainAreaWidth}
-      style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
-      height={mainAreaHeight}
-      itemCount={canvases.length}
-      itemData={{
-        scrollVelocity,
-        canvases,
-        setShowZoomed,
-        setZoomInfoUrl,
-        rotatedImages,
-        setActiveIndex,
-        setIsLoading,
-        ocrText,
-        mainAreaRef,
-        errorHandler,
-      }}
-      itemSize={mainAreaWidth}
-      onItemsRendered={debounceHandleOnItemsRendered.current}
-      onScroll={handleOnScroll}
-      ref={mainViewerRef}
-    >
-      {ItemRenderer}
-    </FixedSizeList>
+    <div data-test-id="main-viewer">
+      <FixedSizeList
+        width={mainAreaWidth}
+        style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
+        height={mainAreaHeight}
+        itemCount={canvases.length}
+        itemData={{
+          scrollVelocity,
+          canvases,
+          setShowZoomed,
+          setZoomInfoUrl,
+          rotatedImages,
+          setActiveIndex,
+          setIsLoading,
+          ocrText,
+          mainAreaRef,
+          errorHandler,
+        }}
+        itemSize={mainAreaWidth}
+        onItemsRendered={debounceHandleOnItemsRendered.current}
+        onScroll={handleOnScroll}
+        ref={mainViewerRef}
+      >
+        {ItemRenderer}
+      </FixedSizeList>
+    </div>
   );
 };
 
