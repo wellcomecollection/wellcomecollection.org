@@ -1,4 +1,10 @@
-import { FunctionComponent, useState, useRef, useEffect } from 'react';
+import {
+  FunctionComponent,
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+} from 'react';
 import styled from 'styled-components';
 import { IIIFCanvas, IIIFManifest } from '@weco/common/model/iiif';
 import { DigitalLocation, Work } from '../../../model/catalogue';
@@ -30,6 +36,8 @@ import { PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } fro
 import ImageViewer from '../ImageViewer/ImageViewer';
 import ImageViewerControls from './ImageViewerControls';
 import ViewerBottomBarPrototype from './ViewerBottomBarPrototype';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import NoScriptViewer from '../IIIFViewer/parts/NoScriptViewer';
 
 type IIIFViewerProps = {
   title: string;
@@ -194,6 +202,10 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   work,
   manifest,
   manifestIndex,
+  pageSize,
+  pageIndex,
+  canvasOcr,
+  thumbsPaginatorProps,
   handleImageError,
 }: IIIFViewerProps) => {
   const [gridVisible, setGridVisible] = useState(false);
@@ -203,6 +215,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const [currentManifestLabel, setCurrentManifestLabel] = useState<
     string | undefined
   >();
+  const { isFullSupportBrowser } = useContext(AppContext);
   const viewToggleRef = useRef<HTMLButtonElement>(null);
   const gridViewerRef = useRef<HTMLDivElement>(null);
   const mainViewerRef = useRef<FixedSizeList>(null);
@@ -229,6 +242,13 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     image => image.canvasIndex === 0
   );
   const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
+
+  const navigationCanvases =
+    canvases &&
+    [...Array(pageSize)]
+      .map((_, i) => pageSize * pageIndex + i)
+      .map(i => canvases[i])
+      .filter(Boolean);
 
   useEffect(() => {
     setIsDesktopSidebarActive(!showZoomed);
@@ -347,7 +367,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     fetchParentManifest();
   }, []);
 
-  return (
+  return isFullSupportBrowser ? (
     <ItemViewerContext.Provider
       value={{
         work: work,
@@ -449,6 +469,22 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
         </Thumbnails>
       </Grid>
     </ItemViewerContext.Provider>
+  ) : (
+    <NoScriptViewer
+      thumbnailsRequired={Boolean(navigationCanvases?.length)}
+      imageUrl={imageUrl}
+      iiifImageLocation={iiifImageLocation}
+      currentCanvas={currentCanvas}
+      canvasOcr={canvasOcr}
+      lang={lang}
+      mainPaginatorProps={mainPaginatorProps}
+      thumbsPaginatorProps={thumbsPaginatorProps}
+      workId={work.id}
+      canvases={canvases}
+      canvasIndex={canvasIndex}
+      pageIndex={pageIndex}
+      pageSize={pageSize}
+    />
   );
 };
 
