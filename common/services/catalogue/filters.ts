@@ -117,7 +117,7 @@ const subjectsFilter = ({
   id: 'subjects.label',
   label: 'Subjects',
   options: filterOptionsWithNonAggregates(
-    works?.aggregations?.subjects?.buckets.map(bucket => ({
+    works?.aggregations?.['subjects.label']?.buckets.map(bucket => ({
       id: toHtmlId(bucket.data.label),
       value: quoteVal(bucket.data.label),
       count: bucket.count,
@@ -133,7 +133,7 @@ const genresFilter = ({ works, props }: WorksFilterProps): CheckboxFilter => ({
   id: 'genres.label',
   label: 'Genres',
   options: filterOptionsWithNonAggregates(
-    works?.aggregations?.genres?.buckets.map(bucket => ({
+    works?.aggregations?.['genres.label']?.buckets.map(bucket => ({
       id: toHtmlId(bucket.data.label),
       value: quoteVal(bucket.data.label),
       count: bucket.count,
@@ -144,7 +144,7 @@ const genresFilter = ({ works, props }: WorksFilterProps): CheckboxFilter => ({
   ),
 });
 
-const contributorsFilter = ({
+const contributorsAgentFilter = ({
   works,
   props,
 }: WorksFilterProps): CheckboxFilter => {
@@ -153,15 +153,17 @@ const contributorsFilter = ({
     id: 'contributors.agent.label',
     label: 'Contributors',
     options: filterOptionsWithNonAggregates(
-      works?.aggregations?.contributors?.buckets.map(bucket => ({
-        id: toHtmlId(bucket.data.agent.label),
-        value: quoteVal(bucket.data.agent.label),
-        count: bucket.count,
-        label: bucket.data.agent.label,
-        selected: props['contributors.agent.label'].includes(
-          bucket.data.agent.label
-        ),
-      })) || [],
+      works?.aggregations?.['contributors.agent.label']?.buckets.map(
+        bucket => ({
+          id: toHtmlId(bucket.data.label),
+          value: quoteVal(bucket.data.label),
+          count: bucket.count,
+          label: bucket.data.label,
+          selected: props['contributors.agent.label'].includes(
+            bucket.data.label
+          ),
+        })
+      ) || [],
       props['contributors.agent.label'].map(quoteVal)
     ),
   };
@@ -289,7 +291,7 @@ const worksFilters: (props: WorksFilterProps) => Filter[] = props =>
     availabilitiesFilter,
     subjectsFilter,
     genresFilter,
-    contributorsFilter,
+    contributorsAgentFilter,
     languagesFilter,
   ].map(f => f(props));
 
