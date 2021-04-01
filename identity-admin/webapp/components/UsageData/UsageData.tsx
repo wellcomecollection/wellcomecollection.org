@@ -1,19 +1,18 @@
 import React from 'react';
 import { useUserInfo } from '../../context/UserInfoContext';
-import { prettyDate } from '../../utils/prettyDate';
-import { Container, Name, Value } from './UsageData.style';
+import { humanDate, prettyDate } from '../../utils/dates';
+import { UsageDetail, UsageDetailsList, Label, Value } from './UsageData.style';
 
-type FieldProps = {
-  label: string;
-  value?: string | number;
-};
-
-const Field: React.FC<FieldProps> = ({ label, value }) => (
-  <>
-    <Name>{label}</Name>
-    <Value>{value}</Value>
-  </>
-);
+function TimeBasedDetail(props: { label: string; date?: string }) {
+  if (!props.date) return null;
+  return (
+    <UsageDetail>
+      <Label>{props.label}</Label>
+      <Value>{humanDate(props.date)}</Value>
+      <Value minor>{prettyDate(props.date)} UTC</Value>
+    </UsageDetail>
+  );
+}
 
 export function UsageData(): JSX.Element {
   const { user, isLoading } = useUserInfo();
@@ -23,12 +22,21 @@ export function UsageData(): JSX.Element {
   }
 
   return (
-    <Container>
-      <Field label="Creation date" value={prettyDate(user?.creationDate)} />
-      <Field label="Last update" value={prettyDate(user?.updatedDate)} />
-      <Field label="Last login" value={prettyDate(user?.lastLoginDate)} />
-      <Field label="Last login IP" value={user?.lastLoginIp} />
-      <Field label="Total logins" value={user?.totalLogins} />
-    </Container>
+    <>
+      <h3>Account data</h3>
+      <UsageDetailsList>
+        <TimeBasedDetail label="Last login" date={user?.lastLoginDate} />
+        <TimeBasedDetail label="Creation date" date={user?.creationDate} />
+        <UsageDetail>
+          <Label>Last login IP</Label>
+          <Value>{user?.lastLoginIp}</Value>
+        </UsageDetail>
+        <TimeBasedDetail label="Last update" date={user?.updatedDate} />
+        <UsageDetail>
+          <Label>Total logins</Label>
+          <Value>{user?.totalLogins}</Value>
+        </UsageDetail>
+      </UsageDetailsList>
+    </>
   );
 }

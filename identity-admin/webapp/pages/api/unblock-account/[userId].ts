@@ -12,8 +12,8 @@ async function unblockAccount(
   const { body, status } = await callRemoteApi(
     req,
     res,
-    'PUT',
-    `/users/${userId}/unlock`
+    'DELETE',
+    `/users/${userId}/lock`
   );
   res.status(status).json(body);
 }

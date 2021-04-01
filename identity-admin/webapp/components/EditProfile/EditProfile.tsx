@@ -2,21 +2,36 @@ import React from 'react';
 import Link from 'next/link';
 import { Info } from '../Info';
 import Layout from '../../components/Layout';
-import { Tab, Tabs, TabList, TabPanel } from '../../components/Tabs';
-import { Profile } from '../Profile';
+import { PersonalDetails } from '../PersonalDetails';
 import { UsageData } from '../UsageData';
-import { AccountActions } from '../AccountActions';
 import { useUserInfo } from '../../context/UserInfoContext';
-import { Title } from './EditProfile.style';
+import {
+  LogoutLink,
+  MainScreenLink,
+  TitleContainer,
+} from './EditProfile.style';
+import { Arrow } from '../Icons/Arrow';
 
 export function EditProfile(): JSX.Element {
   const { isLoading, error } = useUserInfo();
 
   return (
     <Layout title="Account administration">
-      <Title>
-        <Link href="/">Account administration</Link>
-      </Title>
+      <TitleContainer>
+        <h1>Account administration</h1>
+        <LogoutLink />
+      </TitleContainer>
+      <Link href="/" passHref>
+        <MainScreenLink>
+          <Arrow
+            height="24"
+            width="24"
+            fill="currentColor"
+            style={{ transform: 'rotate(180deg)' }}
+          />
+          Main screen
+        </MainScreenLink>
+      </Link>
       {isLoading ? (
         <p>Loading...</p>
       ) : error ? (
@@ -24,25 +39,10 @@ export function EditProfile(): JSX.Element {
       ) : (
         <>
           <Info />
-          <Tabs
-            selectedTabClassName="is-selected"
-            selectedTabPanelClassName="is-selected"
-          >
-            <TabList>
-              <Tab>Profile</Tab>
-              <Tab>Usage data</Tab>
-              <Tab>Account actions</Tab>
-            </TabList>
-            <TabPanel>
-              <Profile />
-            </TabPanel>
-            <TabPanel>
-              <UsageData />
-            </TabPanel>
-            <TabPanel>
-              <AccountActions />
-            </TabPanel>
-          </Tabs>
+          <hr />
+          <PersonalDetails />
+          <hr />
+          <UsageData />
         </>
       )}
     </Layout>
