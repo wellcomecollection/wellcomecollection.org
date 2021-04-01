@@ -4,7 +4,7 @@ import SearchFiltersDesktop from '../SearchFiltersDesktop/SearchFiltersDesktop';
 import SearchFiltersMobile from '../SearchFiltersMobile/SearchFiltersMobile';
 import { LinkProps } from '../../../model/link-props';
 import { Filter } from '../../../services/catalogue/filters';
-import { cls } from '../../../views/themes/default';
+import useWindowSize from '../../../hooks/useWindowSize';
 
 type Props = {
   query: string;
@@ -23,6 +23,10 @@ const SearchFilters: FunctionComponent<Props> = ({
   filters,
   linkResolver,
 }: Props): ReactElement<Props> => {
+  // We set this as xlarge as the jank is more noticable on desktop,
+  // so we're living with the jank on mobile for now.
+  const size = useWindowSize('xlarge');
+
   const activeFiltersCount = filters
     .map(f => {
       if (f.type === 'checkbox') {
@@ -52,12 +56,11 @@ const SearchFilters: FunctionComponent<Props> = ({
 
   return (
     <>
-      <div className={cls.medium.displayNone}>
+      {size === 'small' ? (
         <SearchFiltersMobile {...sharedProps} />
-      </div>
-      <div className={`${cls.displayNone} ${cls.medium.displayBlock}`}>
+      ) : (
         <SearchFiltersDesktop {...sharedProps} />
-      </div>
+      )}
     </>
   );
 };
