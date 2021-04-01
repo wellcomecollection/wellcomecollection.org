@@ -237,7 +237,7 @@ const licenseFilter = ({
 }: ImagesFilterProps): CheckboxFilter => ({
   type: 'checkbox',
   id: 'locations.license',
-  label: 'License',
+  label: 'Licence',
   options: filterOptionsWithNonAggregates(
     images.aggregations?.license?.buckets.map(bucket => ({
       id: bucket.data.id,
