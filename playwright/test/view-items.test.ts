@@ -40,19 +40,21 @@ beforeAll(async () => {
 describe('Scenario 1: A user wants a large-scale view of an item', () => {
   test('the images are scalable', async () => {
     await multiVolumeItem();
-    await page.waitForSelector(fullscreenButton);
     await page.click(fullscreenButton);
     // TODO: e.g. test for existence of document.fullscreenElement (can't figure out how to do this with Playwright)
-    await page.waitForSelector(zoomInButton);
     await page.click(zoomInButton);
     await page.waitForSelector(openseadragonCanvas);
   });
 });
 
-describe('Scenario 2: A user wants to use the content offline', () => {
+describe.skip('Scenario 2: A user wants to use the content offline', () => {
+  const smallImageDownloadUrl =
+    'https://dlcs.io/iiif-img/wellcome/5/b10326947_hin-wel-all-00012266_0001.jp2/full/full/0/default.jpg';
+  const fullItemDownloadUrl =
+    'https://dlcs.io/pdf/wellcome/pdf-item/b10326947/0';
+
   beforeEach(async () => {
     await multiVolumeItem();
-    await page.waitForSelector(downloadsButton);
     await page.click(downloadsButton);
     await page.waitForSelector(itemDownloadsModal);
   });
@@ -63,9 +65,7 @@ describe('Scenario 2: A user wants to use the content offline', () => {
       page.click(smallImageDownload),
     ]);
 
-    expect(newPage.url()).toBe(
-      'https://dlcs.io/iiif-img/wellcome/5/b10326947_hin-wel-all-00012266_0001.jp2/full/full/0/default.jpg'
-    );
+    expect(newPage.url()).toBe(smallImageDownloadUrl);
   });
 
   test('downloading the entire item', async () => {
@@ -74,9 +74,7 @@ describe('Scenario 2: A user wants to use the content offline', () => {
       page.click(fullItemDownload),
     ]);
 
-    expect(newPage.url()).toBe(
-      'https://dlcs.io/pdf/wellcome/pdf-item/b10326947/0'
-    );
+    expect(newPage.url()).toBe(fullItemDownloadUrl);
   });
 });
 
