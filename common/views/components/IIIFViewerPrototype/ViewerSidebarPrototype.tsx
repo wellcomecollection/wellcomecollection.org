@@ -1,4 +1,5 @@
 import { FunctionComponent, useState, useContext, RefObject } from 'react';
+import NextLink from 'next/link';
 import { FixedSizeList } from 'react-window';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -227,7 +228,9 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
               <p>
                 <strong>License:</strong>{' '}
                 {license.url ? (
-                  <a href={license.url}>{license.label}</a>
+                  <NextLink href={license.url}>
+                    <a>{license.label}</a>
+                  </NextLink>
                 ) : (
                   <span>{license.label}</span>
                 )}
@@ -238,9 +241,9 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
             </p>
             {credit && (
               <p>
-                <a href={`https://wellcomecollection.org/works/${work.id}`}>
-                  {credit}
-                </a>
+                <NextLink href={`/works/${work.id}`}>
+                  <a>{credit}</a>
+                </NextLink>
                 .
               </p>
             )}
