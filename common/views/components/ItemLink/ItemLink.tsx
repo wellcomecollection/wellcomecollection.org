@@ -18,6 +18,7 @@ const itemPropsSources = [
   'images_search_result',
   'viewer/paginator',
   'manifests_navigation',
+  'searchWithin_result',
 ] as const;
 type ItemPropsSource = typeof itemPropsSources[number];
 
