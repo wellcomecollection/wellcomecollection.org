@@ -222,7 +222,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                         >
                           {resource?.resource?.chars}
                         </span>
-                        {matchingResources[i + 1] ? ' ... ' : ''}
+                        {matchingResources[i + 1] ? ' … ' : ''}
                       </span>
                     ))}
                     <span role="presentation">{hit.after}...</span>
