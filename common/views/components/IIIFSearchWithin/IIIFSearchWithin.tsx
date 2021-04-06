@@ -210,7 +210,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                           : ''
                       }`}
                     </HitData>
-                    <span role="presentation">...{hit.before}</span>
+                    <span role="presentation">…{hit.before}</span>
                     {/* Use the resource.chars to display the matches individually, rather than hit.match which groups them as a single string */}
                     {matchingResources.map((resource, i) => (
                       <span key={i}>
