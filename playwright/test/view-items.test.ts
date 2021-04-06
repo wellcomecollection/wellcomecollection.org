@@ -38,7 +38,7 @@ beforeAll(async () => {
 });
 
 describe('Scenario 1: A user wants a large-scale view of an item', () => {
-  test.only('the images are scalable', async () => {
+  test('the images are scalable', async () => {
     await multiVolumeItem();
     if (!isMobile()) {
       // TODO work out why this is causing issues on mobile
