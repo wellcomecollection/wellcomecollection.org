@@ -165,11 +165,15 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
         <ul className="no-padding">
           {searchResults.hits.map((hit, i) => {
             // We need the matching resource for each hit annotation in order to get the matching characters for each individual hit and also the canvas it appears on
-            const matchingResources = hit.annotations.map(annotation => {
-              return searchResults.resources.find(
-                resource => resource['@id'] === annotation
-              );
-            });
+            const matchingResources = hit.annotations
+              .map(annotation => {
+                return searchResults.resources.find(
+                  resource => resource['@id'] === annotation
+                );
+              })
+              .filter(Boolean)
+              .filter(resource => resource?.resource?.chars);
+
             // Get the index of the canvas the hits appear on
             const match = matchingResources?.[0]?.on.match(/\/canvas\/c(\d+)#/);
             const index = match && Number(match[1]);
@@ -213,19 +217,23 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                     </HitData>
                     <span role="presentation">…{hit.before}</span>
                     {/* Use the resource.chars to display the matches individually, rather than hit.match which groups them as a single string */}
-                    {matchingResources.map((resource, i) => (
-                      <span key={i}>
-                        <span
-                          style={{
-                            background: '#944aa0',
-                            color: 'white',
-                          }}
-                        >
-                          {resource?.resource?.chars}
-                        </span>
-                        {matchingResources[i + 1] ? ' … ' : ''}
-                      </span>
-                    ))}
+                    {matchingResources.map((resource, i) => {
+                      return (
+                        resource && (
+                          <span key={i}>
+                            <span
+                              style={{
+                                background: '#944aa0',
+                                color: 'white',
+                              }}
+                            >
+                              {resource.resource.chars}
+                            </span>
+                            {matchingResources[i + 1] ? ' … ' : ''}
+                          </span>
+                        )
+                      );
+                    })}
                     <span role="presentation">{hit.after}...</span>
                   </ListLink>
                 </NextLink>
