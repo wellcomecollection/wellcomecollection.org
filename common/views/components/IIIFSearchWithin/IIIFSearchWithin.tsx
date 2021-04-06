@@ -51,13 +51,15 @@ const ListItem = styled.li`
   border-bottom: 1px solid ${props => props.theme.color('silver')};
 `;
 
-const ListLink = styled.a.attrs({
+const ListLink = styled.button.attrs({
   className: classNames({
     [font('hnl', 6)]: true,
+    'plain-button': true,
   }),
 })`
   display: block;
   padding: ${props => `${props.theme.spacingUnit * 2}px 0`};
+  color: ${props => props.theme.color('white')};
   background: ${props => props.theme.color('transparent')};
   &:hover {
     background: ${props => props.theme.color('black')};
@@ -183,7 +185,6 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                   )}
                 >
                   <ListLink
-                    href="/"
                     style={{ textDecoration: 'none', cursor: 'pointer' }}
                     onClick={e => {
                       e.preventDefault();
