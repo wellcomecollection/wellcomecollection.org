@@ -1,6 +1,6 @@
 import React from 'react';
 import { User } from '../../interfaces';
-import { prettyDate } from '../../utils/prettyDate';
+import { prettyDate } from '../../utils/dates';
 import Link from 'next/link';
 
 type Props = {
