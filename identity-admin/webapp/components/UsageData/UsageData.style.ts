@@ -1,21 +1,25 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  padding-top: 1em;
+export const UsageDetailsList = styled.dl`
   display: grid;
-  grid-template-columns: [labels] auto [values] 1fr;
-  grid-auto-flow: row;
+  grid-template-columns: 1fr 1fr;
   grid-gap: 1em;
 `;
 
-export const Name = styled.span`
-  grid-column: labels;
-  grid-row: auto;
-  font-weight: bold;
-  text-align: right;
+export const UsageDetail = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: auto;
+  grid-gap: 0.333em;
 `;
 
-export const Value = styled.span`
-  grid-column: values;
-  grid-row: auto;
+export const Label = styled.dt`
+  font-weight: bold;
+  grid-row: 1 / auto;
+`;
+
+export const Value = styled.dd<{ minor?: boolean }>`
+  grid-column-start: 2;
+  margin: 0;
+  ${props => props.minor && 'font-size: 0.9em;'}
 `;

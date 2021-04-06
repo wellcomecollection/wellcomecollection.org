@@ -1,8 +1,17 @@
-import { FunctionComponent, useState, useContext } from 'react';
-import WorkLink from '../WorkLink/WorkLink';
+import {
+  FunctionComponent,
+  useState,
+  useContext,
+  RefObject,
+  ReactNode,
+} from 'react';
+import NextLink from 'next/link';
+import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
+import { FixedSizeList } from 'react-window';
 import Icon from '../Icon/Icon';
 import styled from 'styled-components';
 import Space from '../styled/Space';
+
 import { classNames, font } from '@weco/common/utils/classnames';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import {
@@ -82,10 +91,18 @@ const Item = styled.div`
   }
 `;
 
-const AccordionItem = ({ title, children }) => {
+const AccordionItem = ({
+  title,
+  children,
+  testId,
+}: {
+  title: string;
+  children: ReactNode;
+  testId?: string;
+}) => {
   const [isActive, setIsActive] = useState(false);
   return (
-    <Item>
+    <Item data-test-id={testId}>
       <AccordionInner
         onClick={() => setIsActive(!isActive)}
         className={classNames({
@@ -124,15 +141,19 @@ const AccordionItem = ({ title, children }) => {
   );
 };
 type Props = {
-  mainViewerRef: any;
+  mainViewerRef: RefObject<FixedSizeList>;
 };
 
 const ViewerSidebarPrototype: FunctionComponent<Props> = ({
   mainViewerRef,
 }: Props) => {
-  const { work, manifest, parentManifest, currentManifestLabel } = useContext(
-    ItemViewerContext
-  );
+  const {
+    work,
+    manifest,
+    parentManifest,
+    currentManifestLabel,
+    setIsMobileSidebarActive,
+  } = useContext(ItemViewerContext);
   const productionDates = getProductionDates(work);
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -158,8 +179,19 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           [font('hnm', 5)]: true,
         })}
       >
+        <button
+          className={classNames({
+            'plain-button no-marin no-padding font-white viewer-mobile': true,
+            [font('hnm', 4)]: true,
+          })}
+          onClick={() => setIsMobileSidebarActive(false)}
+        >
+          <span className="visually-hidden">close item information</span>
+          <Icon name={'cross'} extraClasses="icon--white" />
+        </button>
         {currentManifestLabel && (
           <span
+            data-test-id="current-manifest"
             className={classNames({
               [font('hnl', 5)]: true,
             })}
@@ -170,7 +202,10 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         <h1>{work.title}</h1>
 
         {work.contributors.length > 0 && (
-          <Space h={{ size: 'm', properties: ['margin-right'] }}>
+          <Space
+            h={{ size: 'm', properties: ['margin-right'] }}
+            data-test-id="work-contributors"
+          >
             <LinkLabels
               items={[
                 {
@@ -182,15 +217,17 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         )}
 
         {productionDates.length > 0 && (
-          <LinkLabels
-            heading={'Date'}
-            items={[
-              {
-                text: productionDates[0],
-                url: null,
-              },
-            ]}
-          />
+          <div data-test-id="work-dates">
+            <LinkLabels
+              heading={'Date'}
+              items={[
+                {
+                  text: productionDates[0],
+                  url: null,
+                },
+              ]}
+            />
+          </div>
         )}
 
         <Space v={{ size: 'm', properties: ['margin-top'] }}>
@@ -200,19 +237,24 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
                 'flex flex--v-center font-yellow': true,
               })}
             >
-              Additional information
+              More about this work
             </a>
           </WorkLink>
         </Space>
       </Inner>
       <div>
-        <AccordionItem title={'License and credit'}>
+        <AccordionItem
+          title={'License and credit'}
+          testId={'license-and-credit'}
+        >
           <div className={font('hnl', 6)}>
             {license && license.label && (
               <p>
                 <strong>License:</strong>{' '}
                 {license.url ? (
-                  <a href="{license.url}">{license.label}</a>
+                  <NextLink href={license.url}>
+                    <a>{license.label}</a>
+                  </NextLink>
                 ) : (
                   <span>{license.label}</span>
                 )}
@@ -223,9 +265,9 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
             </p>
             {credit && (
               <p>
-                <a href="https:wellcomecollection.org/works/{work.id}">
-                  {credit}
-                </a>
+                <WorkLink id={work.id} source={'viewer_credit'}>
+                  <a>{credit}</a>
+                </WorkLink>
                 .
               </p>
             )}

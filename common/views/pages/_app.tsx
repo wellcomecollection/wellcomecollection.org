@@ -3,7 +3,7 @@ import Router from 'next/router';
 import ReactGA from 'react-ga';
 import React, { useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
-import theme from '../../views/themes/default';
+import theme, { GlobalStyle } from '../../views/themes/default';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
 import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
 import { trackEvent } from '../../utils/ga';
@@ -306,6 +306,7 @@ function WecoApp({ Component, pageProps }: AppProps) {
     <>
       <AppContextProvider>
         <ThemeProvider theme={theme}>
+          <GlobalStyle />
           <OutboundLinkTracker>
             <LoadingIndicator />
             {!pageProps.err && <Component {...pageProps} />}

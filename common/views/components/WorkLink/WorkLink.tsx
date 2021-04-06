@@ -6,7 +6,8 @@ type WorkLinkSource =
   | 'images_search_result'
   | 'item_auth_modal_back_to_work_link'
   | 'archive_tree'
-  | 'viewer_back_link';
+  | 'viewer_back_link'
+  | 'viewer_credit';
 
 // We remove `href` and `as` because we contruct those ourselves
 // in the component.

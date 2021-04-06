@@ -23,7 +23,9 @@ const SearchFilters: FunctionComponent<Props> = ({
   filters,
   linkResolver,
 }: Props): ReactElement<Props> => {
-  const size = useWindowSize();
+  // We set this as xlarge as the jank is more noticable on desktop,
+  // so we're living with the jank on mobile for now.
+  const size = useWindowSize('xlarge');
 
   const activeFiltersCount = filters
     .map(f => {
@@ -57,9 +59,7 @@ const SearchFilters: FunctionComponent<Props> = ({
       {size === 'small' ? (
         <SearchFiltersMobile {...sharedProps} />
       ) : (
-        <>
-          <SearchFiltersDesktop {...sharedProps} />
-        </>
+        <SearchFiltersDesktop {...sharedProps} />
       )}
     </>
   );

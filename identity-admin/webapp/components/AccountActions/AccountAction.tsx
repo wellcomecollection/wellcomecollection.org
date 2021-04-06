@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from '../Button';
 
 type AccountActionButtonProps = {
   label: string;
@@ -8,7 +7,7 @@ type AccountActionButtonProps = {
   onFailure: () => void;
 };
 
-export function AccountActionButton({
+export function AccountAction({
   label,
   onClick,
   onSuccess,
@@ -18,5 +17,5 @@ export function AccountActionButton({
     onClick()
       .then(onSuccess)
       .catch(onFailure);
-  return <Button onClick={handleClick}>{label}</Button>;
+  return <li onClick={handleClick}>{label}</li>;
 }

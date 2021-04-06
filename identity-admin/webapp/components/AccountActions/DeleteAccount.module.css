@@ -15,6 +15,7 @@
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 3;
   background-color: rgba(0, 0, 0, 0.4);
   display: grid;
   place-items: center;

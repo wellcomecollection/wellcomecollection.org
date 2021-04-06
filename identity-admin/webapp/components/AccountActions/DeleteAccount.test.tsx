@@ -16,9 +16,7 @@ const renderComponent = () => render(<DeleteAccount />);
 describe('DeleteAccount', () => {
   it('renders correctly', () => {
     renderComponent();
-    expect(
-      screen.getByRole('button', { name: /delete account/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('listitem')).toHaveTextContent(/delete account/i);
   });
 
   it('opens a modal to confirm deletion', () => {
@@ -26,7 +24,7 @@ describe('DeleteAccount', () => {
     expect(
       screen.queryByText(/are you sure you want to delete this account/i)
     ).not.toBeInTheDocument();
-    userEvent.click(screen.getByRole('button', { name: /delete account/i }));
+    userEvent.click(screen.getByRole('listitem'));
     expect(
       screen.queryByText(/are you sure you want to delete this account/i)
     ).toBeInTheDocument();

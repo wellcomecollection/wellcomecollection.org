@@ -5,3 +5,4 @@ export const searchFilterCheckBox = (label: string): string => {
 export const searchFormInputImage = 'Search for Images';
 export const searchFilterCloseButton = 'Close Filter';
 export const volumesNavigationLabel = 'Volumes navigation';
+export const searchWithinLabel = 'Search within this item';
