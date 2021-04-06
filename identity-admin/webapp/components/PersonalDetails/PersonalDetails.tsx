@@ -2,7 +2,7 @@ import React from 'react';
 import { useUpdateUserInfo } from '../../hooks/useUpdateUserInfo';
 import { useUserInfo } from '../../context/UserInfoContext';
 import { Loading, Section } from './PersonalDetails.style';
-import { EditedUserInfo } from '../../types/UserInfo';
+import { EditedUser } from '../../interfaces';
 import { UpdateDetailsForm } from './UpdateDetailsForm';
 
 export function PersonalDetails(): JSX.Element {
@@ -10,7 +10,7 @@ export function PersonalDetails(): JSX.Element {
 
   const { updateUserInfo, isLoading: isUpdating } = useUpdateUserInfo();
 
-  const onSubmit = async (formData: EditedUserInfo) => {
+  const onSubmit = async (formData: EditedUser) => {
     await updateUserInfo(formData).then(refetch);
   };
 

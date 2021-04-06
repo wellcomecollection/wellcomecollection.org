@@ -23,4 +23,7 @@ export const handlers = [
   rest.put(new RegExp('/api/reverse-delete-request/123'), (_req, res, ctx) => {
     return res(ctx.status(200));
   }),
+  rest.put(new RegExp('/api/delete-account/123'), (_req, res, ctx) => {
+    return res(ctx.status(204));
+  }),
 ];

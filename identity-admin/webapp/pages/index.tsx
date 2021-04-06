@@ -4,10 +4,17 @@ import React from 'react';
 import UserList from '../components/search/UserList';
 import { useUserSearch } from '../hooks/useSearch';
 import Pagination from '../components/search/Pagination';
+import { useRouter } from 'next/router';
+import { StatusBox } from '../components/StatusBox';
 
 const IndexPage: React.FC = () => {
+  const router = useRouter();
   const { user } = useUser();
   const { data, isLoading, error } = useUserSearch();
+
+  const { deletedUser } = router.query;
+
+  console.log({ deletedUser });
 
   return (
     <Layout title="Account administration">
@@ -23,6 +30,9 @@ const IndexPage: React.FC = () => {
       {error && <div>{error}</div>}
       {data && (
         <div>
+          {deletedUser && (
+            <StatusBox type="success">Deleted user: {deletedUser}</StatusBox>
+          )}
           <UserList items={data?.results} totalResults={data?.totalResults} />
           <Pagination
             currentPage={data?.page + 1 || 1}

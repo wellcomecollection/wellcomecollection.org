@@ -3,13 +3,28 @@ import ReactModal from 'react-modal';
 import { DangerButton, Button } from '../Button';
 import { useDeleteAccount } from '../../hooks/useDeleteAccount';
 import styles from './DeleteAccount.module.css';
+import { useRouter } from 'next/router';
+import { User } from '../../interfaces';
 
 ReactModal.setAppElement('#__next');
 
-export function DeleteAccount(): JSX.Element {
+type DeleteAccountProps = Pick<User, 'userId'>;
+
+export function DeleteAccount({ userId }: DeleteAccountProps): JSX.Element {
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { deleteAccount } = useDeleteAccount();
-  const handleConfirm = () => deleteAccount();
+  const { deleteAccount } = useDeleteAccount(userId);
+
+  const handleConfirm = () => {
+    deleteAccount().then(() =>
+      router.push({
+        pathname: '/',
+        query: {
+          deletedUser: userId,
+        },
+      })
+    );
+  };
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);

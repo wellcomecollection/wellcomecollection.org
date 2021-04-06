@@ -1,8 +1,8 @@
 import React from 'react';
-import { UserInfo } from '../../types/UserInfo';
-import { StatusBox } from './Info.style';
+import { User } from '../../interfaces';
+import { StatusBox } from '../StatusBox';
 
-export function UserStatus(props: Partial<UserInfo>): JSX.Element | null {
+export function UserStatus(props: Partial<User>): JSX.Element | null {
   if (props.deleteRequested) {
     return <StatusBox type="info">User has requested delete</StatusBox>;
   }

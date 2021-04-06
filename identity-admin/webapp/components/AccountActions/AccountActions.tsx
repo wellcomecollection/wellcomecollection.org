@@ -83,7 +83,7 @@ export function AccountActions({
           onFailure={() => handleFailure('Failed to reset password')}
         />
         <hr />
-        <DeleteAccount />
+        {user && <DeleteAccount userId={user.userId} />}
       </ul>
     </DropdownMenu>
   );
