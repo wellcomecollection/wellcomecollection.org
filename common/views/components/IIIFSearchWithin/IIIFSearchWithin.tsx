@@ -179,7 +179,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                     {
                       canvas: index || 0,
                     },
-                    'searchWithin_result'
+                    'search_within_result'
                   )}
                 >
                   <ListLink
