@@ -245,7 +245,8 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
           )}
           {(imageType === 'main' || mainLoaded) && urlTemplateMain && infoUrl && (
             <>
-              {overlayPositionData &&
+              {rotation === 0 &&
+                overlayPositionData &&
                 overlayPositionData.map((item, i) => {
                   return (
                     <SearchTermHighlight
@@ -373,7 +374,7 @@ const MainViewer: FunctionComponent<Props> = ({
   }, [canvasIndex]);
 
   return (
-    <div data-test-id="main-viewer">
+    <div aria-live="assertive" data-test-id="main-viewer">
       <FixedSizeList
         width={mainAreaWidth}
         style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}

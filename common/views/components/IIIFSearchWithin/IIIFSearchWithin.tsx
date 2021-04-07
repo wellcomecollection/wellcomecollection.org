@@ -1,5 +1,6 @@
 import { useState, useContext, FunctionComponent, RefObject } from 'react';
 import { getSearchService } from '../../../utils/iiif';
+import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import styled from 'styled-components';
@@ -11,6 +12,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
 import Raven from 'raven-js';
 import { searchWithinLabel } from '@weco/common/text/aria-labels';
+import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 
 type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
@@ -49,13 +51,15 @@ const ListItem = styled.li`
   border-bottom: 1px solid ${props => props.theme.color('silver')};
 `;
 
-const ListLink = styled.a.attrs({
+const ListLink = styled.button.attrs({
   className: classNames({
     [font('hnl', 6)]: true,
+    'plain-button': true,
   }),
 })`
   display: block;
   padding: ${props => `${props.theme.spacingUnit * 2}px 0`};
+  color: ${props => props.theme.color('white')};
   background: ${props => props.theme.color('transparent')};
   &:hover {
     background: ${props => props.theme.color('black')};
@@ -161,57 +165,78 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
         <ul className="no-padding">
           {searchResults.hits.map((hit, i) => {
             // We need the matching resource for each hit annotation in order to get the matching characters for each individual hit and also the canvas it appears on
-            const matchingResources = hit.annotations.map(annotation => {
-              return searchResults.resources.find(
-                resource => resource['@id'] === annotation
-              );
-            });
+            const matchingResources = hit.annotations
+              .map(annotation => {
+                return searchResults.resources.find(
+                  resource => resource['@id'] === annotation
+                );
+              })
+              .filter(Boolean)
+              .filter(resource => resource?.resource?.chars);
+
             // Get the index of the canvas the hits appear on
             const match = matchingResources?.[0]?.on.match(/\/canvas\/c(\d+)#/);
             const index = match && Number(match[1]);
             const matchingCanvas = index && canvases[index];
             return (
               <ListItem key={i}>
-                <ListLink
-                  style={{ textDecoration: 'none', cursor: 'pointer' }}
-                  onClick={() => {
-                    if (index) {
-                      setIsMobileSidebarActive(false);
-                      setActiveIndex(index || 0);
-                      mainViewerRef &&
-                        mainViewerRef.current &&
-                        mainViewerRef.current.scrollToItem(index || 0, 'start');
-                    }
-                  }}
+                <NextLink
+                  {...itemLink(
+                    {
+                      canvas: index || 0,
+                    },
+                    'search_within_result'
+                  )}
                 >
-                  <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
-                    {`${hit.annotations.length} ${
-                      hit.annotations.length === 1 ? 'instance' : 'instances'
-                    } ${index &&
-                      `found on image ${index + 1} / ${canvases &&
-                        canvases.length}`} ${
-                      matchingCanvas && matchingCanvas.label.trim() !== '-'
-                        ? ` (page ${matchingCanvas.label})`
-                        : ''
-                    }`}
-                  </HitData>
-                  ...{hit.before}
-                  {/* Use the resource.chars to display the matches individually, rather than hit.match which groups them as a single string */}
-                  {matchingResources.map((resource, i) => (
-                    <span key={i}>
-                      <span
-                        style={{
-                          background: '#944aa0',
-                          color: 'white',
-                        }}
-                      >
-                        {resource?.resource?.chars}
-                      </span>
-                      {matchingResources[i + 1] ? ' ... ' : ''}
-                    </span>
-                  ))}
-                  {hit.after}...
-                </ListLink>
+                  <ListLink
+                    style={{ textDecoration: 'none', cursor: 'pointer' }}
+                    onClick={e => {
+                      e.preventDefault();
+                      if (index) {
+                        setIsMobileSidebarActive(false);
+                        setActiveIndex(index || 0);
+                        mainViewerRef &&
+                          mainViewerRef.current &&
+                          mainViewerRef.current.scrollToItem(
+                            index || 0,
+                            'start'
+                          );
+                      }
+                    }}
+                  >
+                    <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
+                      {`${hit.annotations.length} ${
+                        hit.annotations.length === 1 ? 'instance' : 'instances'
+                      } ${index &&
+                        `found on image ${index + 1} / ${canvases &&
+                          canvases.length}`} ${
+                        matchingCanvas && matchingCanvas.label.trim() !== '-'
+                          ? ` (page ${matchingCanvas.label})`
+                          : ''
+                      }`}
+                    </HitData>
+                    <span role="presentation">…{hit.before}</span>
+                    {/* Use the resource.chars to display the matches individually, rather than hit.match which groups them as a single string */}
+                    {matchingResources.map((resource, i) => {
+                      return (
+                        resource && (
+                          <span key={i}>
+                            <span
+                              style={{
+                                background: '#944aa0',
+                                color: 'white',
+                              }}
+                            >
+                              {resource.resource.chars}
+                            </span>
+                            {matchingResources[i + 1] ? ' … ' : ''}
+                          </span>
+                        )
+                      );
+                    })}
+                    <span role="presentation">{hit.after}...</span>
+                  </ListLink>
+                </NextLink>
               </ListItem>
             );
           })}
