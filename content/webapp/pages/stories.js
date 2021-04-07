@@ -160,7 +160,7 @@ export class StoriesPage extends Component<Props> {
                   {featuredText && featuredText.value && (
                     <Space
                       v={{
-                        size: 'm',
+                        size: 's',
                         properties: ['margin-top'],
                       }}
                       className={classNames({
