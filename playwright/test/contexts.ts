@@ -8,6 +8,18 @@ const itemWithSearchAndStructures = async (): Promise<void> => {
   await page.goto(`${baseUrl}/works/re9cyhkt/items`);
 };
 
+const workWithPhysicalAndDigitalLocation = async (): Promise<void> => {
+  await page.goto(`${baseUrl}/works/a235xn8e`);
+};
+
+const workWithPhysicalLocationOnly = async (): Promise<void> => {
+  await page.goto(`${baseUrl}/works/ffd3zeq3`);
+};
+
+const workWithDigitalLocationOnly = async (): Promise<void> => {
+  await page.goto(`${baseUrl}/works/m54uwqgm`);
+};
+
 const worksSearch = async (): Promise<void> => {
   // This is because the cookie notice actually hides interface.
   // It should also not live here, but I was battling on getting it to
@@ -26,4 +38,11 @@ const worksSearch = async (): Promise<void> => {
 
 export const isMobile = Boolean(deviceName);
 
-export { multiVolumeItem, worksSearch, itemWithSearchAndStructures };
+export {
+  multiVolumeItem,
+  worksSearch,
+  itemWithSearchAndStructures,
+  workWithPhysicalAndDigitalLocation,
+  workWithPhysicalLocationOnly,
+  workWithDigitalLocationOnly,
+};

@@ -12,6 +12,7 @@ import {
   getAccessConditionForDigitalLocation,
   getWorkIdentifiersWith,
   getEncoreLink,
+  getItemsWithPhysicalLocation,
   sierraIdFromPresentationManifestUrl,
 } from '@weco/common/utils/works';
 import {
@@ -164,6 +165,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   const encoreLink = sierraWorkId && getEncoreLink(sierraWorkId);
 
+  const physicalLocations = getItemsWithPhysicalLocation(work);
+  const showEncoreLink = encoreLink && physicalLocations.length > 0;
+
   const locationOfWork = work.notes.find(
     note => note.noteType.id === 'location-of-original'
   );
@@ -215,7 +219,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         />
       )}
 
-      {!stacksRequestService && encoreLink && (
+      {!stacksRequestService && showEncoreLink && (
         <Space
           v={{
             size: 'l',
@@ -454,7 +458,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
       <OnlineResources work={work} />
 
-      {!digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
+      {!digitalLocation && (locationOfWork || showEncoreLink) && (
+        <WhereToFindIt />
+      )}
 
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection
@@ -593,7 +599,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         </WorkDetailsSection>
       )}
 
-      {digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
+      {digitalLocation && (locationOfWork || showEncoreLink) && (
+        <WhereToFindIt />
+      )}
 
       <WorkDetailsSection
         headingText="Permanent link"
