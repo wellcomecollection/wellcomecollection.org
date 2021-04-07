@@ -120,6 +120,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
     setIsMobileSidebarActive,
     isMobileSidebarActive,
     showZoomed,
+    isResizing,
   } = useContext(ItemViewerContext);
   return (
     <TopBar className="flex" isZooming={showZoomed}>
@@ -167,7 +168,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
         </LeftZone>
       )}
       <MiddleZone>
-        {canvases && canvases.length > 1 && !showZoomed && (
+        {canvases && canvases.length > 1 && !showZoomed && !isResizing && (
           <>
             <span data-test-id="active-index">{`${activeIndex + 1 ||
               ''}`}</span>

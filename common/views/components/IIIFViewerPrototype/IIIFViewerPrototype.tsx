@@ -147,12 +147,19 @@ const Topbar = styled.div<{
 `;
 
 const Main = styled.div<{
+  isResizing: boolean;
   isDesktopSidebarActive: boolean;
 }>`
   background: ${props => props.theme.color('viewerBlack')};
   color: ${props => props.theme.color('white')};
   overflow: auto;
   position: relative;
+
+  img {
+    transition: filter ${props => props.theme.transitionProperties};
+    filter: blur(${props => (props.isResizing ? '5px' : '0')});
+  }
+
   grid-area: desktop-main-start / left-edge / mobile-main-end / right-edge;
 
   ${props => props.theme.media.medium`
@@ -160,6 +167,10 @@ const Main = styled.div<{
     props.isDesktopSidebarActive ? 'main-start' : 'left-edge'
   } / bottom-edge / right-edge;
   `}
+`;
+
+const Zoom = styled.div`
+  grid-area: desktop-main-start / left-edge / bottom-edge / right-edge;
 `;
 
 const BottomBar = styled.div<{
@@ -234,6 +245,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [searchResults, setSearchResults] = useState(results);
+  const [isResizing, setIsResizing] = useState(false);
   const mainImageService = { '@id': getServiceId(currentCanvas) };
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
@@ -242,6 +254,11 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     image => image.canvasIndex === 0
   );
   const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
+  const activeIndexRef = useRef(activeIndex);
+
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
 
   const navigationCanvases =
     canvases &&
@@ -257,10 +274,37 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   // TODO: check for intersectionObservers (previous version of isEnhanced)
   // TODO: add testing and possibly fallbacks
   useEffect(() => {
+    let timer;
+    let previousActiveIndex;
+
     // TODO: either polyfill ts-ignore
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const mainAreaObserver = new ResizeObserver(([mainArea]) => {
+      clearTimeout(timer);
+
+      if (!isResizing) {
+        setIsResizing(true);
+      }
+
+      // Store a reference to where we were
+      if (!previousActiveIndex) {
+        previousActiveIndex = activeIndexRef.current;
+      }
+
+      timer = setTimeout(() => {
+        // If we've changed index as a result of the
+        // mainArea changing size, reset it to what
+        // it was before and scroll to the right place.
+        if (previousActiveIndex !== activeIndex) {
+          setActiveIndex(previousActiveIndex);
+          mainViewerRef?.current?.scrollToItem(previousActiveIndex, 'start');
+        }
+
+        previousActiveIndex = undefined;
+        setIsResizing(false);
+      }, 500); // Debounce
+
       setMainAreaWidth(mainArea.contentRect.width);
       setMainAreaHeight(mainArea.contentRect.height);
     });
@@ -396,6 +440,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
         urlTemplate: urlTemplate,
         isMobileSidebarActive: isMobileSidebarActive,
         searchResults: searchResults,
+        isResizing: isResizing,
         setSearchResults: setSearchResults,
         setIsMobileSidebarActive: setisMobileSidebarActive,
         setIsDesktopSidebarActive: setIsDesktopSidebarActive,
@@ -426,7 +471,11 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
             viewerRef={viewerRef}
           />
         </Topbar>
-        <Main isDesktopSidebarActive={isDesktopSidebarActive} ref={mainAreaRef}>
+        <Main
+          isDesktopSidebarActive={isDesktopSidebarActive}
+          isResizing={isResizing}
+          ref={mainAreaRef}
+        >
           {showZoomed && <ZoomedImagePrototype />}
           {!showZoomed && <ImageViewerControls />}
           {urlTemplate && imageUrl && iiifImageLocation && (
@@ -451,6 +500,11 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
             />
           )}
         </Main>
+        {showZoomed && (
+          <Zoom>
+            <ZoomedImagePrototype />
+          </Zoom>
+        )}
         <BottomBar isMobileSidebarActive={isMobileSidebarActive}>
           <ViewerBottomBarPrototype
             viewToggleRef={viewToggleRef}
