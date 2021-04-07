@@ -1,6 +1,5 @@
 import { useState, useContext, FunctionComponent, RefObject } from 'react';
 import { getSearchService } from '../../../utils/iiif';
-import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import styled from 'styled-components';
@@ -12,7 +11,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
 import Raven from 'raven-js';
 import { searchWithinLabel } from '@weco/common/text/aria-labels';
-import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 
 type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
@@ -57,6 +55,7 @@ const ListLink = styled.button.attrs({
     'plain-button': true,
   }),
 })`
+  cursor: 'pointer';
   display: block;
   padding: ${props => `${props.theme.spacingUnit * 2}px 0`};
   color: ${props => props.theme.color('white')};
@@ -180,63 +179,50 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
             const matchingCanvas = index && canvases[index];
             return (
               <ListItem key={i}>
-                <NextLink
-                  {...itemLink(
-                    {
-                      canvas: index || 0,
-                    },
-                    'search_within_result'
-                  )}
+                <ListLink
+                  onClick={e => {
+                    e.preventDefault();
+                    if (index) {
+                      setIsMobileSidebarActive(false);
+                      setActiveIndex(index || 0);
+                      mainViewerRef &&
+                        mainViewerRef.current &&
+                        mainViewerRef.current.scrollToItem(index || 0, 'start');
+                    }
+                  }}
                 >
-                  <ListLink
-                    style={{ textDecoration: 'none', cursor: 'pointer' }}
-                    onClick={e => {
-                      e.preventDefault();
-                      if (index) {
-                        setIsMobileSidebarActive(false);
-                        setActiveIndex(index || 0);
-                        mainViewerRef &&
-                          mainViewerRef.current &&
-                          mainViewerRef.current.scrollToItem(
-                            index || 0,
-                            'start'
-                          );
-                      }
-                    }}
-                  >
-                    <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
-                      {`${hit.annotations.length} ${
-                        hit.annotations.length === 1 ? 'instance' : 'instances'
-                      } ${index &&
-                        `found on image ${index + 1} / ${canvases &&
-                          canvases.length}`} ${
-                        matchingCanvas && matchingCanvas.label.trim() !== '-'
-                          ? ` (page ${matchingCanvas.label})`
-                          : ''
-                      }`}
-                    </HitData>
-                    <span role="presentation">…{hit.before}</span>
-                    {/* Use the resource.chars to display the matches individually, rather than hit.match which groups them as a single string */}
-                    {matchingResources.map((resource, i) => {
-                      return (
-                        resource && (
-                          <span key={i}>
-                            <span
-                              style={{
-                                background: '#944aa0',
-                                color: 'white',
-                              }}
-                            >
-                              {resource.resource.chars}
-                            </span>
-                            {matchingResources[i + 1] ? ' … ' : ''}
+                  <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
+                    {`${hit.annotations.length} ${
+                      hit.annotations.length === 1 ? 'instance' : 'instances'
+                    } ${index &&
+                      `found on image ${index + 1} / ${canvases &&
+                        canvases.length}`} ${
+                      matchingCanvas && matchingCanvas.label.trim() !== '-'
+                        ? ` (page ${matchingCanvas.label})`
+                        : ''
+                    }`}
+                  </HitData>
+                  <span role="presentation">…{hit.before}</span>
+                  {/* Use the resource.chars to display the matches individually, rather than hit.match which groups them as a single string */}
+                  {matchingResources.map((resource, i) => {
+                    return (
+                      resource && (
+                        <span key={i}>
+                          <span
+                            style={{
+                              background: '#944aa0',
+                              color: 'white',
+                            }}
+                          >
+                            {resource.resource.chars}
                           </span>
-                        )
-                      );
-                    })}
-                    <span role="presentation">{hit.after}...</span>
-                  </ListLink>
-                </NextLink>
+                          {matchingResources[i + 1] ? ' … ' : ''}
+                        </span>
+                      )
+                    );
+                  })}
+                  <span role="presentation">{hit.after}...</span>
+                </ListLink>
               </ListItem>
             );
           })}
