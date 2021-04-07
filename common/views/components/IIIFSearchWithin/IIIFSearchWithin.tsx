@@ -49,13 +49,13 @@ const ListItem = styled.li`
   border-bottom: 1px solid ${props => props.theme.color('silver')};
 `;
 
-const ListLink = styled.button.attrs({
+const SearchResult = styled.button.attrs({
   className: classNames({
     [font('hnl', 6)]: true,
     'plain-button': true,
   }),
 })`
-  cursor: 'pointer';
+  cursor: pointer;
   display: block;
   padding: ${props => `${props.theme.spacingUnit * 2}px 0`};
   color: ${props => props.theme.color('white')};
@@ -179,9 +179,8 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
             const matchingCanvas = index && canvases[index];
             return (
               <ListItem key={i}>
-                <ListLink
-                  onClick={e => {
-                    e.preventDefault();
+                <SearchResult
+                  onClick={() => {
                     if (index) {
                       setIsMobileSidebarActive(false);
                       setActiveIndex(index || 0);
@@ -222,7 +221,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                     );
                   })}
                   <span role="presentation">{hit.after}...</span>
-                </ListLink>
+                </SearchResult>
               </ListItem>
             );
           })}
