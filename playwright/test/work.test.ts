@@ -15,7 +15,7 @@ async function getWhereToFindItAndEncoreLink() {
     encoreLink,
   };
 }
-describe('Scenario: a user sees relevant information about a work they are viewing', () => {
+describe(`Scenario 1: a user wants to see relevant information about where a work's items are located`, () => {
   test(`works with a physical location item only display a 'where to find it' section with a link`, async () => {
     await workWithPhysicalLocationOnly();
 
