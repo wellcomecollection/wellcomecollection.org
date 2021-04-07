@@ -271,15 +271,10 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
     setIsDesktopSidebarActive(!showZoomed);
   }, [showZoomed]);
 
-  // TODO: check for intersectionObservers (previous version of isEnhanced)
-  // TODO: add testing and possibly fallbacks
   useEffect(() => {
     let timer;
     let previousActiveIndex;
 
-    // TODO: either polyfill ts-ignore
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     const mainAreaObserver = new ResizeObserver(([mainArea]) => {
       clearTimeout(timer);
 

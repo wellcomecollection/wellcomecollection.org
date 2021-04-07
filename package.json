@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/wellcomecollection/wellcomecollection.org#readme",
   "devDependencies": {
+    "@types/resize-observer-browser": "^0.1.5",
     "@types/styled-components": "^5.1.2",
     "@typescript-eslint/eslint-plugin": "^4.15.1",
     "@typescript-eslint/parser": "^4.15.1",
