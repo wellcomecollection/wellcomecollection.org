@@ -24,20 +24,20 @@ import Space from '@weco/common/views/components/styled/Space';
 import { staticBooks } from '../content/static-books';
 import { FeaturedCardArticle } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
-import FeaturedTextTitle from '@weco/common/views/components/FeaturedText/FeaturedText';
+import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
 import {
   getPage,
   getPageFeaturedText,
 } from '@weco/common/services/prismic/pages';
-import { type FeaturedText } from '@weco/common/model/text';
+import { type FeaturedText as FeaturedTextType } from '@weco/common/model/text';
 // $FlowFixMe (tsx)
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 
 type Props = {|
   articles: PaginatedResults<Article>,
   series: ArticleSeries,
-  featuredText: ?FeaturedText,
+  featuredText: ?FeaturedTextType,
 |};
 
 const SerialisedSeries = ({ series }: any) => {
@@ -168,7 +168,7 @@ export class StoriesPage extends Component<Props> {
                       })}
                     >
                       {
-                        <FeaturedTextTitle
+                        <FeaturedText
                           html={featuredText.value}
                           htmlSerializer={defaultSerializer}
                         />
