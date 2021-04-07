@@ -19,7 +19,7 @@ Given a user wants information about an item
 When they are on the item's page
 Then they are able to access relevant information about the item
 
-### Scenario 4: A user wants to know how they can make use of an item
+### Scenario 4: A user wants to know the usage rights of an item
 Given a user wants to know how they can make use of an item
 When they are on the item's page
 Then they are able to find relevant license information about the item
