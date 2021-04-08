@@ -1,13 +1,13 @@
 import React from 'react';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
-import { useLocationQuery } from '../../hooks/use-location-query';
+import { useLocationQuery } from '../../hooks/useLocationQuery';
 import { PageWrapper } from '../PageWrapper';
 import { Container, Wrapper } from '../Layout.style';
 
 type ErrorParams = {
-  error?: string;
-  error_description?: string;
+  error: string;
+  error_description: string;
 };
 
 export const ErrorPage = (): JSX.Element => {
