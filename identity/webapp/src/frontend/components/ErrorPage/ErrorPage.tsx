@@ -1,9 +1,7 @@
 import React from 'react';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-// @ts-ignore
-import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
-import { useLocationQuery } from '../hooks/use-location-query';
+import { useLocationQuery } from '../../hooks/use-location-query';
 
 import styled from 'styled-components';
 
@@ -12,7 +10,7 @@ const logo = 'https://identity-public-assets-stage.s3.eu-west-1.amazonaws.com/im
 
 const LogoContainer = styled.div`
   margin: auto;
-  padding:  0 0 42px 0;
+  padding: 0 0 42px 0;
   width: 200px;
   border-bottom: 0.2px solid grey;
 `;
@@ -46,7 +44,7 @@ type ErrorParams = {
   error_description: string | undefined;
 };
 
-export const ErrorPage = () => {
+export const ErrorPage = (): JSX.Element => {
   const { error_description } = useLocationQuery<ErrorParams>();
   return (
     <PageContainer>
