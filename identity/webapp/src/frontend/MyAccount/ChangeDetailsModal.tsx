@@ -32,6 +32,8 @@ export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
     setIsActive(false);
   };
 
+  const close = () => setIsActive(false);
+
   return (
     <>
       <Button isDangerous={isDangerous} onClick={() => setIsActive(true)} ref={openButton}>
@@ -40,7 +42,7 @@ export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
       <Modal id={id} isActive={isActive} setIsActive={setIsActive} openButtonRef={openButton}>
         {React.Children.map(children, child => {
           if (React.isValidElement(child)) {
-            return React.cloneElement(child, { onComplete: handleComplete });
+            return React.cloneElement(child, { onComplete: handleComplete, onCancel: close });
           }
         })}
       </Modal>
