@@ -31,6 +31,8 @@ import Space from '../styled/Space';
 import styled from 'styled-components';
 // $FlowFixMe (tsx)
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
+// $FlowFixMe (tsx);
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
 const HeroPictureBackground = styled.div`
   height: 50%;
@@ -192,49 +194,58 @@ const PageHeader = ({
         >
           <Space
             v={{
-              size: 'l',
+              size: 's',
               properties:
                 isContentTypeInfoBeforeMedia || hasMedia || sectionLevelPage
                   ? ['margin-bottom']
                   : ['margin-bottom', 'padding-bottom'],
             }}
           >
-            <Space
-              v={{
-                size: 's',
-                properties: ['margin-top', 'margin-bottom'],
-              }}
-            >
-              {breadcrumbs.items.length > 0 ? (
-                <>
-                  {!asyncBreadcrumbsRoute && <Breadcrumb {...breadcrumbs} />}
-                  {asyncBreadcrumbsRoute && (
-                    <div
-                      data-component="AsyncBreadcrumb"
-                      className="async-content breadcrumb-placeholder"
-                      data-endpoint={asyncBreadcrumbsRoute}
-                      data-prefix-endpoint="false"
-                      data-modifiers=""
-                    >
-                      <Breadcrumb {...breadcrumbs} />
-                    </div>
-                  )}
-                </>
-              ) : (
-                <span
-                  className={classNames({
-                    [font('hnl', 5)]: true,
-                    flex: true,
-                  })}
-                >
-                  &nbsp;
-                </span>
+            {!sectionLevelPage && (
+              <Space
+                v={{
+                  size: 's',
+                  properties: ['margin-top', 'margin-bottom'],
+                }}
+              >
+                {breadcrumbs.items.length > 0 ? (
+                  <>
+                    {!asyncBreadcrumbsRoute && <Breadcrumb {...breadcrumbs} />}
+                    {asyncBreadcrumbsRoute && (
+                      <div
+                        data-component="AsyncBreadcrumb"
+                        className="async-content breadcrumb-placeholder"
+                        data-endpoint={asyncBreadcrumbsRoute}
+                        data-prefix-endpoint="false"
+                        data-modifiers=""
+                      >
+                        <Breadcrumb {...breadcrumbs} />
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <span
+                    className={classNames({
+                      [font('hnl', 5)]: true,
+                      flex: true,
+                    })}
+                  >
+                    &nbsp;
+                  </span>
+                )}
+              </Space>
+            )}
+            <ConditionalWrapper
+              condition={sectionLevelPage}
+              wrapper={children => (
+                <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                  {children}
+                </Space>
               )}
-            </Space>
-            <Space v={{ size: 'xs', properties: ['margin-bottom'] }}>
+            >
               {TitleTopper}
               {Heading}
-            </Space>
+            </ConditionalWrapper>
 
             {isContentTypeInfoBeforeMedia && ContentTypeInfo && (
               <Space
@@ -276,11 +287,9 @@ const PageHeader = ({
           </div>
         )}
       </div>
-
-      {!hasMedia && !isContentTypeInfoBeforeMedia && (
+      {!hasMedia && !isContentTypeInfoBeforeMedia && !sectionLevelPage && (
         <WobblyEdge background={'white'} />
       )}
-
       {!isContentTypeInfoBeforeMedia && ContentTypeInfo && (
         <Layout gridSizes={sectionLevelPageGridLayout}>
           <Space

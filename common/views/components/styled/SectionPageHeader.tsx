@@ -1,13 +1,13 @@
 import styled from 'styled-components';
+import { classNames, font } from '@weco/common/utils/classnames';
 
-type SectionPageHeader = {
+type Props = {
   sectionLevelPage: boolean;
 };
-export const SectionPageHeader = styled.h1.attrs<SectionPageHeader>(() => ({
-  className: 'h1 inline-block no-margin',
-}))<SectionPageHeader>`
-  ${props => props.sectionLevelPage && `font-size: 50px;`}
-  @media (max-width: ${props => props.theme.sizes.medium}px) {
-    ${props => props.sectionLevelPage && `font-size: 32px;`}
-  }
-`;
+
+export const SectionPageHeader = styled.h1.attrs<Props>(props => ({
+  className: classNames({
+    'inline-block no-margin': true,
+    [font('wb', props.sectionLevelPage ? 0 : 2)]: true,
+  }),
+}))``;

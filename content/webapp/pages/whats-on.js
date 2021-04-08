@@ -52,9 +52,9 @@ import {
   collectionVenueId,
   prismicPageIds,
 } from '@weco/common/services/prismic/hardcoded-id';
-import FeaturedTextTitle from '@weco/common/views/components/FeaturedText/FeaturedText';
+import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
-import { type FeaturedText } from '@weco/common/model/text';
+import { type FeaturedText as FeaturedTextType } from '@weco/common/model/text';
 // $FlowFixMe (tsx)
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 
@@ -66,7 +66,7 @@ type Props = {|
   dateRange: any[],
   tryTheseTooPromos: any[],
   eatShopPromos: any[],
-  featuredText: FeaturedText,
+  featuredText: FeaturedTextType,
 |};
 
 function getListHeader(openingTimes: any) {
@@ -216,7 +216,7 @@ const DateRange = ({
 type HeaderProps = {|
   activeId: string,
   openingTimes: any, // TODO
-  featuredText: ?FeaturedText,
+  featuredText: ?FeaturedTextType,
 |};
 const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
   const listHeader = getListHeader(openingTimes);
@@ -236,11 +236,9 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
             <div className="flex flex--v-center flex--h-space-between flex--wrap">
-              <div>
-                <SectionPageHeader sectionLevelPage={true}>
-                  What{`'`}s on
-                </SectionPageHeader>
-              </div>
+              <SectionPageHeader sectionLevelPage={true}>
+                What{`'`}s on
+              </SectionPageHeader>
               <div className="flex flex--v-center flex--wrap">
                 {todayOpeningHours && (
                   <div className="flex flex--v-center">
@@ -293,14 +291,14 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
           {featuredText && featuredText.value && (
             <Space
               v={{
-                size: 'm',
+                size: 's',
                 properties: ['margin-top', 'margin-bottom'],
               }}
               className={classNames({
                 [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
               })}
             >
-              <FeaturedTextTitle
+              <FeaturedText
                 html={featuredText.value}
                 htmlSerializer={defaultSerializer}
               />

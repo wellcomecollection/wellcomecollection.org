@@ -13,9 +13,11 @@ $font-sizes-all: (
   8: 28px,
   9: 32px,
   10: 40px,
+  11: 50px,
 );
 $font-sizes-at-breakpoints: (
   'small': (
+    0: map-get($font-sizes-all, 9),
     1: map-get($font-sizes-all, 8),
     2: map-get($font-sizes-all, 7),
     3: map-get($font-sizes-all, 6),
@@ -24,6 +26,7 @@ $font-sizes-at-breakpoints: (
     6: map-get($font-sizes-all, 1),
   ),
   'medium': (
+    0: map-get($font-sizes-all, 10),
     1: map-get($font-sizes-all, 9),
     2: map-get($font-sizes-all, 8),
     3: map-get($font-sizes-all, 6),
@@ -32,6 +35,7 @@ $font-sizes-at-breakpoints: (
     6: map-get($font-sizes-all, 1),
   ),
   'large': (
+    0: map-get($font-sizes-all, 11),
     1: map-get($font-sizes-all, 10),
     2: map-get($font-sizes-all, 9),
     3: map-get($font-sizes-all, 7),
