@@ -471,7 +471,6 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
           isResizing={isResizing}
           ref={mainAreaRef}
         >
-          {showZoomed && <ZoomedImagePrototype />}
           {!showZoomed && <ImageViewerControls />}
           {urlTemplate && imageUrl && iiifImageLocation && (
             <ImageViewer
