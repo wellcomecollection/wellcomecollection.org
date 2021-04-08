@@ -4,7 +4,7 @@ import Label from '../../components/Label/Label';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
-type Props = {|
+export type Props = {|
   labels: {|
     ...LabelType,
     labelColor?: LabelColor,
