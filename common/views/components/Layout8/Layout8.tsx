@@ -14,7 +14,7 @@ const Layout8: FunctionComponent<Props> = ({
     gridSizes={{
       s: 12,
       m: 10,
-      shiftM: 1,
+      shiftM: shift ? 1 : 0,
       l: 8,
       shiftL: shift ? 2 : 0,
       xl: 8,
