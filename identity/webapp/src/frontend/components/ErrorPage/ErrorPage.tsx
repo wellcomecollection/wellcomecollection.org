@@ -1,44 +1,11 @@
 import React from 'react';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import { Auth0StyleErrorBox, ErrorMessage, LogoContainer, PageContainer } from './ErrorPage.style';
 import { useLocationQuery } from '../../hooks/use-location-query';
-
-import styled from 'styled-components';
 
 // TODO: Update this to prod.
 const logo = 'https://identity-public-assets-stage.s3.eu-west-1.amazonaws.com/images/wellcomecollections-150x50.png';
-
-const LogoContainer = styled.div`
-  margin: auto;
-  padding: 0 0 42px 0;
-  width: 200px;
-  border-bottom: 0.2px solid grey;
-`;
-
-const Auth0StyleErrorBox = styled.div`
-  background-color: white;
-  padding: 42px;
-  margin: auto;
-  border-radius: 5px;
-  height: 400px;
-  width: 300px;
-  justify-content: space-between;
-  display: flex;
-  flex-direction: column;
-`;
-
-const PageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #f0ede3;
-  padding: auto;
-  height: 100%;
-`;
-
-const ErrorMessage = styled.p`
-  text-align: center;
-`;
 
 type ErrorParams = {
   error_description: string | undefined;
