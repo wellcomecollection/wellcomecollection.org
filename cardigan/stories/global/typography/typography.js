@@ -4,7 +4,7 @@ import Readme from './README.md';
 
 const stories = storiesOf('Global', module);
 
-const sizes = [1, 2, 3, 4, 5, 6];
+const sizes = [0, 1, 2, 3, 4, 5, 6];
 const families = ['wb', 'hnm', 'hnl', 'lr'];
 
 const Typography = () => {
