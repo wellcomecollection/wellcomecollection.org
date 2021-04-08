@@ -15,6 +15,11 @@ const renderComponent = (url: string) =>
   );
 
 describe('ErrorPage', () => {
+  it('displays the error from the URL', () => {
+    renderComponent(`/error?error=bad_juju`);
+    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('bad_juju');
+  });
+
   it('displays the error description from the URL', () => {
     renderComponent(`/error?error_description=${encodeURI("Uh-oh, spaghetti-O's!")}`);
     expect(screen.getByText("Uh-oh, spaghetti-O's!")).toBeInTheDocument();
