@@ -47,6 +47,8 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
     // check full screen
     await page.click(zoomInButton);
     await page.waitForSelector(openseadragonCanvas);
+    // make sure we can actually see deep zoom
+    expect(page.isVisible(openseadragonCanvas)).toBeTruthy();
   });
 });
 
@@ -205,7 +207,9 @@ describe("Scenario 9: A user wants to be able to search inside an item's text", 
     }
     await searchWithin('darwin');
     await page.waitForSelector(searchWithinResultsHeader);
-    await page.click(`${searchWithinResultsHeader} + ul li:first-of-type a`);
+    await page.click(
+      `${searchWithinResultsHeader} + ul li:first-of-type button`
+    );
     await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
   });
 });

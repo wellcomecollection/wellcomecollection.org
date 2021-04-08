@@ -13,7 +13,11 @@ import { MyAccount } from './MyAccount/MyAccount';
 
 const GlobalStyles = createGlobalStyle`
   body {
-    background-color: #f0ede3;
+    background-color: #fff;
+
+    @media screen and (min-width: 600px) {
+      background-color: #f0ede3;
+    }
   }
 `;
 
