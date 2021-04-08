@@ -4,7 +4,7 @@ import { RequestDeleteSchema } from '../../types/schemas/request-delete';
 import { callMiddlewareApi } from '../../utility/middleware-api-client';
 
 export enum RequestDeleteError { // eslint-disable-line no-shadow
-  DID_NOT_MEET_POLICY,
+  INCORRECT_PASSWORD,
   UNKNOWN,
 }
 
@@ -28,8 +28,8 @@ export function useRequestDelete(): UseRequestDeleteMutation {
       })
       .catch((err: AxiosError) => {
         switch (err.response?.status) {
-          case 422: {
-            setError(RequestDeleteError.DID_NOT_MEET_POLICY);
+          case 401: {
+            setError(RequestDeleteError.INCORRECT_PASSWORD);
             break;
           }
           default: {
