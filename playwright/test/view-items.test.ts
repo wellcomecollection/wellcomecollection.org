@@ -48,7 +48,8 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
     await page.click(zoomInButton);
     await page.waitForSelector(openseadragonCanvas);
     // make sure we can actually see deep zoom
-    expect(page.isVisible(openseadragonCanvas)).toBeTruthy();
+    const isVisible = await page.isVisible(openseadragonCanvas);
+    expect(isVisible).toBeTruthy();
   });
 });
 
