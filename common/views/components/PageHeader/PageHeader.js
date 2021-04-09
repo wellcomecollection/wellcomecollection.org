@@ -3,6 +3,7 @@
 import { font, classNames } from '../../../utils/classnames';
 // $FlowFixMe(tsx)
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
+// $FlowFixMe (tsx)
 import LabelsList from '../LabelsList/LabelsList';
 import { UiImage } from '../Images/Images';
 // $FlowFixMe(tsx)

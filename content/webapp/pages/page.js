@@ -39,6 +39,7 @@ import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHe
 import { PageFormatIds } from '@weco/common/model/content-format-id';
 // $FlowFixMe (tsx)
 import { links } from '@weco/common/views/components/Header/Header';
+// $FlowFixMe (tsx)
 import { type Props as LabelsListProps } from '@weco/common/views/components/LabelsList/LabelsList';
 
 type Props = {|
