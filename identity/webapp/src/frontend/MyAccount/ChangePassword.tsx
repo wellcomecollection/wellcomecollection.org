@@ -17,7 +17,7 @@ type ChangePasswordInputs = {
 
 export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({ onComplete }) => {
   const { updatePassword, isLoading, error } = useUpdatePassword();
-  const { control, getValues, setError, formState, handleSubmit } = useForm<ChangePasswordInputs>({
+  const { control, getValues, setError, formState, handleSubmit, trigger } = useForm<ChangePasswordInputs>({
     defaultValues: {
       password: '',
       newPassword: '',
@@ -89,7 +89,13 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({ onCom
             control={control}
             rules={{
               required: 'Confirm your new password.',
-              validate: value => value === getValues('newPassword') || 'Passwords do not match',
+              validate: async value => {
+                const isNewPasswordValid = await trigger('newPassword');
+                if (isNewPasswordValid) {
+                  return value === getValues('newPassword') || 'Passwords do not match';
+                }
+                return true;
+              },
             }}
           />
           <ErrorMessage

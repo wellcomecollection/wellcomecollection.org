@@ -74,9 +74,17 @@ describe('ChangePassword', () => {
       userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
       userEvent.type(screen.getByLabelText(/retype new password/i), 'Superman1938');
       userEvent.click(screen.getByRole('button', { name: /update password/i }));
-      const alerts = await screen.findAllByRole('alert');
-      expect(alerts[0]).toHaveTextContent(/enter your new password/i);
-      expect(alerts[1]).toHaveTextContent(/passwords do not match/i);
+      expect(await screen.findByRole('alert')).toHaveTextContent(/enter your new password/i);
+    });
+
+    it('with an invalid new password field', async () => {
+      renderComponent();
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+      userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
+      userEvent.type(screen.getByLabelText(/^new password/i), 'superman');
+      userEvent.type(screen.getByLabelText(/retype new password/i), 'Superman2021');
+      userEvent.click(screen.getByRole('button', { name: /update password/i }));
+      expect(await screen.findByRole('alert')).toHaveTextContent(/enter a valid password/i);
     });
 
     it('with an empty confirmation field', async () => {
