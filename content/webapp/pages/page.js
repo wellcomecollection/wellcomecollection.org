@@ -75,7 +75,8 @@ export class Page extends Component<Props> {
       <HTMLDate date={new Date(page.datePublished)} />
     );
     const isLanding = page.format && page.format.id === PageFormatIds.Landing;
-    const labels = isLanding ? null : makeLabels(page.format?.title);
+    const labels =
+      !isLanding && page.format?.title ? makeLabels(page.format?.title) : null;
 
     const backgroundTexture = isLanding
       ? landingHeaderBackgroundLs
