@@ -13,7 +13,7 @@ export default {
         'Show the prototype UI for the item viewer with search within functionality',
       description:
         'Adds a sidebar with structured metadata about the item being viewed and the ability to search within the item',
-      defaultValue: false,
+      defaultValue: true,
     },
     {
       id: 'showCanvasLabels',
