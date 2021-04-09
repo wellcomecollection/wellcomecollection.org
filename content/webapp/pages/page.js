@@ -39,6 +39,7 @@ import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHe
 import { PageFormatIds } from '@weco/common/model/content-format-id';
 // $FlowFixMe (tsx)
 import { links } from '@weco/common/views/components/Header/Header';
+import { type Props as LabelsListProps } from '@weco/common/views/components/LabelsList/LabelsList';
 
 type Props = {|
   page: PageType,
@@ -63,11 +64,20 @@ export class Page extends Component<Props> {
   };
 
   render() {
+    function makeLabels(title?: string): ?LabelsListProps {
+      if (!title) return null;
+
+      return { labels: [{ text: title }] };
+    }
+
     const { page, siblings, children } = this.props;
     const DateInfo = page.datePublished && (
       <HTMLDate date={new Date(page.datePublished)} />
     );
     const isLanding = page.format && page.format.id === PageFormatIds.Landing;
+    const labels =
+      !isLanding && page.format?.title ? makeLabels(page.format?.title) : null;
+
     const backgroundTexture = isLanding
       ? landingHeaderBackgroundLs
       : headerBackgroundLs;
@@ -133,7 +143,7 @@ export class Page extends Component<Props> {
     const Header = (
       <PageHeader
         breadcrumbs={breadcrumbs}
-        labels={null}
+        labels={labels}
         title={page.title}
         FeaturedMedia={FeaturedMedia}
         Background={displayBackground}

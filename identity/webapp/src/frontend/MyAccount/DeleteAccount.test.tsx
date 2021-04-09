@@ -5,6 +5,8 @@ import { DeleteAccount } from './DeleteAccount';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
+import { server } from '../mocks/server';
+import { rest } from 'msw';
 
 const renderComponent = (props: Partial<ChangeDetailsModalContentProps> = {}) =>
   render(
@@ -48,6 +50,21 @@ describe('DeleteAccount', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.click(screen.getByRole('button', { name: /yes, delete my account/i }));
       expect(await screen.findByRole('alert')).toHaveTextContent(/enter your current password/i);
+    });
+  });
+
+  describe('shows an error after submission', () => {
+    it('with an incorrect current password', async () => {
+      server.use(
+        rest.put('/api/users/me/deletion-request', (req, res, ctx) => {
+          return res(ctx.status(401));
+        })
+      );
+      renderComponent();
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+      userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
+      userEvent.click(screen.getByRole('button', { name: /yes, delete my account/i }));
+      expect(await screen.findByRole('alert')).toHaveTextContent(/incorrect password/i);
     });
   });
 });
