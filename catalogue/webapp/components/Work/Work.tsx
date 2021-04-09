@@ -1,6 +1,6 @@
 import { Work as WorkType } from '@weco/common/model/catalogue';
 import { useContext, useEffect, FunctionComponent, ReactElement } from 'react';
-import { grid, classNames, font } from '@weco/common/utils/classnames';
+import { grid, classNames } from '@weco/common/utils/classnames';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
@@ -10,9 +10,6 @@ import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkDetails from '../WorkDetails/WorkDetails';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import ArchiveTree from '@weco/common/views/components/ArchiveTree/ArchiveTree';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import Divider from '@weco/common/views/components/Divider/Divider';
@@ -166,18 +163,6 @@ const Work: FunctionComponent<Props> = ({
           <WorkDetails work={work} />
         </>
       )}
-
-      <Layout12>
-        <WorkDetailsSection>
-          <div className="flex flex--v-center">
-            <Icon name="underConstruction" extraClasses="margin-right-s2" />
-            <p className={`${font('hnl', 5)} no-margin`}>
-              We’re improving the information on this page.{' '}
-              <a href="/works/progress">Find out more</a>.
-            </p>
-          </div>
-        </WorkDetailsSection>
-      </Layout12>
     </CataloguePageLayout>
   );
 };
