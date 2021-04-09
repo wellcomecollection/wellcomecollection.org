@@ -1,5 +1,4 @@
 import {
-  ComponentProps,
   ComponentType,
   FunctionComponent,
   ReactElement,
@@ -9,7 +8,7 @@ import { trackEvent } from '../../../utils/ga';
 import DateRange from '../DateRange/DateRange';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
-import LabelsList from '../LabelsList/LabelsList';
+import { Label } from '@weco/common/model/labels';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import ImageType from '../Image/Image';
 import { ColorSelection } from '../../../model/color-selections';
@@ -20,8 +19,8 @@ import MediaObjectBase, {
 type Props = {
   url: string | null;
   title: string;
-  primaryLabels: ComponentProps<typeof LabelsList>;
-  secondaryLabels: ComponentProps<typeof LabelsList>;
+  primaryLabels: Label[];
+  secondaryLabels: Label[];
   description: string | ReactElement | null;
   urlOverride: string | null;
   extraClasses?: string;
