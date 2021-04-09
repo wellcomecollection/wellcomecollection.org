@@ -292,14 +292,18 @@ const ItemPage: NextPage<Props> = ({
             <h2 className={font('hnm', 4)}>{authService?.label}</h2>
           )}
           {authService?.description && (
-            <p
+            <div
               dangerouslySetInnerHTML={{
                 __html: authService?.description,
               }}
             />
           )}
           {authService?.['@id'] && origin && (
-            <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+            <Space
+              className={'flex flex-inline'}
+              h={{ size: 'm', properties: ['margin-right'] }}
+              v={{ size: 'm', properties: ['margin-top'] }}
+            >
               <ButtonSolid
                 text="Show the content"
                 clickHandler={() => {
