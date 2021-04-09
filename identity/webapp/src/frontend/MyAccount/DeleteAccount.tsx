@@ -5,7 +5,7 @@ import { FieldMargin, Label, InvalidFieldAlert, Button, Cancel } from '../compon
 import { ModalContainer, ModalTitle } from './MyAccount.style';
 import { PasswordInput } from '../components/PasswordInput';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
-import { useRequestDelete } from '../hooks/useRequestDelete';
+import { RequestDeleteError, useRequestDelete } from '../hooks/useRequestDelete';
 import { Loading } from './Loading';
 
 type DeleteAccountInputs = {
@@ -13,8 +13,8 @@ type DeleteAccountInputs = {
 };
 
 export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({ onComplete, onCancel }) => {
-  const { requestDelete, isLoading, isSuccess } = useRequestDelete();
-  const { control, formState, handleSubmit } = useForm<DeleteAccountInputs>({
+  const { requestDelete, isLoading, isSuccess, error } = useRequestDelete();
+  const { control, formState, handleSubmit, setError } = useForm<DeleteAccountInputs>({
     defaultValues: { password: '' },
   });
 
@@ -23,6 +23,15 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({ onComp
       onComplete();
     }
   }, [isSuccess, onComplete]);
+
+  useEffect(() => {
+    switch (error) {
+      case RequestDeleteError.INCORRECT_PASSWORD: {
+        setError('password', { type: 'manual', message: 'Incorrect password.' });
+        break;
+      }
+    }
+  }, [error, setError]);
 
   if (isLoading) {
     return <Loading />;
