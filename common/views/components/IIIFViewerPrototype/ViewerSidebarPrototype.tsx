@@ -25,8 +25,6 @@ import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import MultipleManifestListPrototype from '../MultipleManifestListPrototype/MultipleManifestListPrototype';
 import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import { getSearchService } from '../../../utils/iiif';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -170,8 +168,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
     getAugmentedLicenseInfo(digitalLocation.license);
   const { iiifCredit } = useIIIFManifestData(work);
   const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
-  const { itemViewerPrototypeWithSearch } = useContext(TogglesContext);
-  const searchService = manifest && getSearchService(manifest);
+
   return (
     <>
       <Inner
@@ -284,11 +281,10 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           </AccordionItem>
         )}
       </div>
-      {searchService && itemViewerPrototypeWithSearch && (
-        <Inner>
-          <IIIFSearchWithin mainViewerRef={mainViewerRef} />
-        </Inner>
-      )}
+
+      <Inner>
+        <IIIFSearchWithin mainViewerRef={mainViewerRef} />
+      </Inner>
     </>
   );
 };

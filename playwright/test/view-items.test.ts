@@ -29,7 +29,7 @@ beforeAll(async () => {
   await context.addCookies([
     { name: 'WC_cookiesAccepted', value: 'true', domain: domain, path: '/' },
     {
-      name: 'toggle_itemViewerPrototypeWithSearch',
+      name: 'toggle_itemViewerPrototype',
       value: 'true',
       domain: domain,
       path: '/',

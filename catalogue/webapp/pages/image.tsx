@@ -85,8 +85,7 @@ const ImagePage: FunctionComponent<Props> = ({
     >
       {iiifImageLocation ? (
         <>
-          {globalContextData.toggles.itemViewerPrototype ||
-          globalContextData.toggles.itemViewerPrototypeWithSearch ? (
+          {globalContextData.toggles.itemViewerPrototype ? (
             <IIIFViewerPrototype
               title={title}
               mainPaginatorProps={mainPaginatorProps}
