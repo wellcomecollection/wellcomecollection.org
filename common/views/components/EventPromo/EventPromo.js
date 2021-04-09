@@ -2,6 +2,7 @@
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';
+// $FlowFixMe (tsx)
 import LabelsList from '../LabelsList/LabelsList';
 // $FlowFixMe (tsx)
 import Dot from '../Dot/Dot';

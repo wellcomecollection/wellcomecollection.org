@@ -14,6 +14,7 @@ import { grid, classNames, font } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
+// $FlowFixMe (tsx)
 import LabelsList from '../LabelsList/LabelsList';
 import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
 import { formatDate } from '../../../../common/utils/format-date';

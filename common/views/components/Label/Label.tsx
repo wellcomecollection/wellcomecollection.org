@@ -1,16 +1,20 @@
-// @flow
-import type { Label as LabelType, LabelColor } from '../../../model/labels';
+import { FunctionComponent } from 'react';
+import { Label as LabelType, LabelColor } from '../../../model/labels';
 import { font, classNames } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
 
-const LabelContainer = styled(Space).attrs(props => ({
+type LabelContainerProps = {
+  fontColor: string;
+  labelColor: string;
+};
+
+const LabelContainer = styled(Space).attrs({
   className: classNames({
     'nowrap line-height-1': true,
     [font('hnm', 6)]: true,
   }),
-}))`
+})<LabelContainerProps>`
   color: ${props => props.theme.color(props.fontColor)};
   background-color: ${props => props.theme.color(props.labelColor)};
 
@@ -23,12 +27,15 @@ const LabelContainer = styled(Space).attrs(props => ({
   }}
 `;
 
-export type Props = {|
-  label: LabelType,
-  labelColor?: LabelColor,
-|};
+export type Props = {
+  label: LabelType;
+  labelColor?: LabelColor;
+};
 
-const Label = ({ label, labelColor = 'yellow' }: Props) => {
+const Label: FunctionComponent<Props> = ({
+  label,
+  labelColor = 'yellow',
+}: Props) => {
   return (
     <LabelContainer
       v={{

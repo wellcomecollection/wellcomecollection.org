@@ -4,6 +4,7 @@ import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { formatDate } from '../../../utils/format-date';
 import { UiImage } from '../Images/Images';
+// $FlowFixMe (tsx)
 import LabelsList from '../LabelsList/LabelsList';
 import { type ExhibitionPromo as ExhibitionPromoProps } from '../../../model/exhibitions';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';

@@ -1,18 +1,17 @@
-// @flow
-import type { Label as LabelType, LabelColor } from '../../../model/labels';
+import { FunctionComponent } from 'react';
+import { Label as LabelType, LabelColor } from '../../../model/labels';
 import Label from '../../components/Label/Label';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
-export type Props = {|
-  labels: {|
-    ...LabelType,
-    labelColor?: LabelColor,
-  |}[],
-  defaultLabelColor?: LabelColor,
-|};
+export type Props = {
+  labels: LabelType[];
+  defaultLabelColor?: LabelColor;
+};
 
-const LabelsList = ({ labels, defaultLabelColor = 'yellow' }: Props) => (
+const LabelsList: FunctionComponent<Props> = ({
+  labels,
+  defaultLabelColor = 'yellow',
+}: Props) => (
   <Space
     v={{
       size: 'xs',

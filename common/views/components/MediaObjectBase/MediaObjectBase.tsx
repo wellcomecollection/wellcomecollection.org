@@ -1,5 +1,4 @@
 import {
-  ComponentProps,
   ComponentType,
   FunctionComponent,
   ReactElement,
@@ -20,13 +19,14 @@ import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import ImageType from '../Image/Image';
 import { ColorSelection } from '../../../model/color-selections';
 import Space, { VerticalSpaceProperty } from '../styled/Space';
+import { Label } from '@weco/common/model/labels';
 import styled from 'styled-components';
 
 type Props = {
   url: string | null;
   title: string;
-  primaryLabels: ComponentProps<typeof LabelsList>;
-  secondaryLabels: ComponentProps<typeof LabelsList>;
+  primaryLabels: Label[];
+  secondaryLabels: Label[];
   description: string | ReactElement | null;
   urlOverride: string | null;
   extraClasses?: string;
