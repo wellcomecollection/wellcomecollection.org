@@ -5,7 +5,7 @@ import { parsePage } from './pages';
 import { Page } from '../../model/pages';
 import { PaginatedResults } from './types';
 import { IncomingMessage } from 'http';
-import { pagesFormatsFields } from '@weco/common/services/prismic/fetch-links';
+import { pagesFormatsFields } from './fetch-links';
 
 type GetProjectsProps = {
   predicates?: string[];
