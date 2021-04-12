@@ -167,6 +167,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
     digitalLocation.license &&
     getAugmentedLicenseInfo(digitalLocation.license);
   const { iiifCredit } = useIIIFManifestData(work);
+  const searchService = manifest && getSearchService(manifest);
   const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
 
   return (
@@ -282,9 +283,11 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         )}
       </div>
 
-      <Inner>
-        <IIIFSearchWithin mainViewerRef={mainViewerRef} />
-      </Inner>
+      {searchService && (
+        <Inner>
+          <IIIFSearchWithin mainViewerRef={mainViewerRef} />
+        </Inner>
+      )}
     </>
   );
 };
