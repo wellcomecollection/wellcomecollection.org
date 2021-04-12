@@ -26,7 +26,7 @@ data "terraform_remote_state" "router" {
     bucket   = "wellcomecollection-infra"
     key      = "build-state/router.tfstate"
     region   = "eu-west-1"
-    role_arn = "arn:aws:iam::130871440101:role/experience-developer"
+    role_arn = "arn:aws:iam::130871440101:role/experience-read_only"
   }
 }
 
@@ -34,7 +34,7 @@ data "terraform_remote_state" "experience" {
   backend = "s3"
 
   config = {
-    role_arn = "arn:aws:iam::130871440101:role/experience-developer"
+    role_arn = "arn:aws:iam::130871440101:role/experience-read_only"
     bucket   = "wellcomecollection-experience-infra"
     key      = "terraform/experience.tfstate"
     region   = "eu-west-1"
@@ -48,7 +48,7 @@ data "terraform_remote_state" "assets" {
     bucket   = "wellcomecollection-infra"
     key      = "build-state/router.tfstate"
     region   = "eu-west-1"
-    role_arn = "arn:aws:iam::130871440101:role/experience-developer"
+    role_arn = "arn:aws:iam::130871440101:role/experience-read_only"
   }
 }
 
