@@ -257,6 +257,19 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   const activeIndexRef = useRef(activeIndex);
 
   useEffect(() => {
+    const fetchImageJson = async () => {
+      try {
+        if (iiifImageLocation) {
+          const image = await fetch(iiifImageLocation.url);
+          const json = await image.json();
+          setImageJson(json);
+        }
+      } catch (e) {}
+    };
+    fetchImageJson();
+  }, []);
+
+  useEffect(() => {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
 
