@@ -9,6 +9,7 @@ import {
   AuthService,
   AuthServiceService,
   IIIFAnnotationResource,
+  IIIFThumbnailService,
 } from '../model/iiif';
 import cloneDeep from 'lodash.clonedeep';
 
@@ -274,6 +275,17 @@ export function getSearchService(manifest: IIIFManifest): Service | undefined {
     'http://iiif.io/api/search/0/context.json'
   ) {
     return manifest.service;
+  }
+}
+
+export function getThumbnailService(
+  canvas: IIIFCanvas
+): IIIFThumbnailService | undefined {
+  const service = canvas?.thumbnail?.service;
+  if (Array.isArray(service)) {
+    return service[0];
+  } else {
+    return service;
   }
 }
 
