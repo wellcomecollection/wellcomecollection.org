@@ -1,8 +1,5 @@
 import CardGrid from './CardGrid';
-import {
-  shallowWithTheme,
-  mountWithTheme,
-} from '../../../test/fixtures/enzyme-helpers';
+import { mountWithTheme } from '../../../test/fixtures/enzyme-helpers';
 import MoreLink from '../MoreLink/MoreLink';
 
 describe('CardGrid', () => {
@@ -131,14 +128,6 @@ describe('CardGrid', () => {
       relatedIds: ['XYt51BAAACIAYa4e', 'XYofFREAACQAp-Vl'],
     },
   ];
-
-  it('Should be able to render CardGrid', () => {
-    const component = shallowWithTheme(
-      <CardGrid itemsPerRow={3} items={mockItems} />
-    );
-
-    expect(component.html()).toMatchSnapshot();
-  });
 
   describe('Links inside CardGrid', () => {
     it('Should be able to render multiple links within CardGrid component', () => {

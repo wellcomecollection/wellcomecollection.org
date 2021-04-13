@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`FooterOpeningTimes Should match snapshot of FooterOpeningTimes 1`] = `"<ul class=\\"plain-list no-padding no-margin\\"><li class=\\"Space-sc-1ntp1c3-0 dTNJWJ\\">Galleries <time>10:00</time>—<time>18:00</time></li><li class=\\"Space-sc-1ntp1c3-0 dTNJWJ\\">Library <time>10:00</time>—<time>18:00</time></li><li class=\\"Space-sc-1ntp1c3-0 dTNJWJ\\">Kitchen <time>10:00</time>—<time>18:00</time></li><li class=\\"Space-sc-1ntp1c3-0 dTNJWJ\\">Café <time>10:00</time>—<time>18:00</time></li><li class=\\"Space-sc-1ntp1c3-0 dTNJWJ\\">Shop <time>10:00</time>—<time>18:00</time></li></ul>"`;
