@@ -13,6 +13,7 @@ import {
   isUiEnabled,
   getAuthService,
   getTokenService,
+  convertPresentationUrlToStage,
 } from '@weco/common/utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
@@ -439,9 +440,18 @@ export const getServerSideProps: GetServerSideProps<
   )?.url;
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
-  const manifestOrCollection = iiifPresentationUrl
-    ? await fetchJson(iiifPresentationUrl)
-    : undefined;
+  let manifestOrCollection;
+  if (globalContextData.toggles.switchIIIFManifestSource) {
+    const iiifPresentationUrlOnStage =
+      iiifPresentationUrl && convertPresentationUrlToStage(iiifPresentationUrl);
+    manifestOrCollection = iiifPresentationUrlOnStage
+      ? await fetchJson(iiifPresentationUrlOnStage)
+      : undefined;
+  } else {
+    manifestOrCollection = iiifPresentationUrl
+      ? await fetchJson(iiifPresentationUrl)
+      : undefined;
+  }
 
   if (manifestOrCollection) {
     // This happens when the main manifest is actually a Collection (manifest of manifest).

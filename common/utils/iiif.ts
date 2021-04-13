@@ -281,7 +281,7 @@ export function getSearchService(manifest: IIIFManifest): Service | undefined {
 // e.g. converts http://wellcomelibrary.org/iiif/b28047345/manifest
 // to http://stage.wellcomelibrary.org/iiif/b28047345/manifest
 // which gets redirected to https://iiif.wellcomecollection.org/presentation/v2/b28047345
-export function createIIIFPresentationStageUrl(originalUrl: string): string {
+export function convertPresentationUrlToStage(originalUrl: string): string {
   const originalUrlObject = new URL(originalUrl);
   if (originalUrlObject.hostname === 'wellcomelibrary.org') {
     const stageUrlObject = new URL(

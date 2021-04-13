@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import {
   getAudio,
   getCanvases,
@@ -8,10 +8,12 @@ import {
   getUiExtensions,
   getVideo,
   isUiEnabled,
+  convertPresentationUrlToStage,
 } from '../utils/iiif';
 import { Work } from '../model/catalogue';
 import { IIIFManifest, IIIFMediaElement, IIIFRendering } from '../model/iiif';
 import { getDigitalLocationOfType } from '../utils/works';
+import TogglesContext from '../views/components/TogglesContext/TogglesContext';
 
 type IIIFManifestData = {
   imageCount: number;
@@ -40,7 +42,6 @@ function parseManifest(manifest: IIIFManifest): IIIFManifestData {
     'mediaDownload'
   );
   const firstChildManifestLocation = getFirstChildManifestLocation(manifest);
-
   return {
     imageCount,
     childManifestsCount,
@@ -61,6 +62,7 @@ const useIIIFManifestData = (work: Work): IIIFManifestData => {
     imageCount: 0,
     childManifestsCount: 0,
   });
+  const toggles = useContext(TogglesContext);
 
   useEffect(() => {
     const fetchIIIFPresentationManifest = async (work: Work) => {
@@ -71,14 +73,23 @@ const useIIIFManifestData = (work: Work): IIIFManifestData => {
           'iiif-presentation'
         );
 
-        const iiifManifestResp =
-          iiifPresentationLocation &&
-          (await fetch(iiifPresentationLocation.url));
+        let iiifManifestResp;
+        if (toggles.switchIIIFManifestSource) {
+          const iiifPresentationUrlOnStage =
+            iiifPresentationLocation &&
+            convertPresentationUrlToStage(iiifPresentationLocation.url);
+          iiifManifestResp = iiifPresentationUrlOnStage
+            ? await fetch(iiifPresentationUrlOnStage)
+            : undefined;
+        } else {
+          iiifManifestResp = iiifPresentationLocation
+            ? await fetch(iiifPresentationLocation.url)
+            : undefined;
+        }
 
         if (iiifManifestResp) {
           const iiifManifest = await iiifManifestResp.json();
           const data = parseManifest(iiifManifest);
-
           cachedManifestData.set(work.id, data);
           setManifestData(data);
         }
