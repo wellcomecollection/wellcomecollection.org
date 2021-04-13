@@ -119,7 +119,9 @@ const Works: NextPage<Props> = ({
       </Head>
 
       <CataloguePageLayout
-        title={`${query ? `${query} | ` : ''}Catalogue search`}
+        title={`${
+          query ? `Search results for ${query} | ` : ''
+        }Catalogue search`}
         description="Search the Wellcome Collection catalogue"
         url={toLink({ ...worksRouteProps }, 'unknown').as}
         openGraphType={'website'}
