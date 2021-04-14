@@ -131,7 +131,7 @@ const subjectsFilter = ({
 const genresFilter = ({ works, props }: WorksFilterProps): CheckboxFilter => ({
   type: 'checkbox',
   id: 'genres.label',
-  label: 'Genres',
+  label: 'Type/Technique',
   options: filterOptionsWithNonAggregates(
     works?.aggregations?.['genres.label']?.buckets.map(bucket => ({
       id: toHtmlId(bucket.data.label),
