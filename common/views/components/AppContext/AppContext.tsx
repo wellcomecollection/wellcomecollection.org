@@ -1,3 +1,4 @@
+import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
 import {
   createContext,
   useState,
@@ -6,17 +7,20 @@ import {
   FunctionComponent,
   ReactNode,
 } from 'react';
+import theme, { Size } from '../../../views/themes/default';
 
 type AppContextProps = {
   isEnhanced: boolean;
   isKeyboard: boolean;
   isFullSupportBrowser: boolean;
+  windowSize: Size;
 };
 
 const appContextDefaults = {
   isEnhanced: false,
   isKeyboard: true,
   isFullSupportBrowser: false,
+  windowSize: 'small' as Size,
 };
 
 export const AppContext = createContext<AppContextProps>(appContextDefaults);
@@ -24,6 +28,19 @@ export const AppContext = createContext<AppContextProps>(appContextDefaults);
 type AppContextProviderProps = {
   children: ReactNode;
 };
+
+function getWindowSize(): Size {
+  switch (true) {
+    case window.innerWidth < theme.sizes.medium:
+      return 'small';
+    case window.innerWidth < theme.sizes.large:
+      return 'medium';
+    case window.innerWidth < theme.sizes.xlarge:
+      return 'large';
+    default:
+      return 'xlarge';
+  }
+}
 
 export const AppContextProvider: FunctionComponent<AppContextProviderProps> = ({
   children,
@@ -33,6 +50,23 @@ export const AppContextProvider: FunctionComponent<AppContextProviderProps> = ({
   const [isFullSupportBrowser, setIsFullSupportBrowser] = useState(
     appContextDefaults.isFullSupportBrowser
   );
+  const [windowSize, setWindowSize] = useState<Size>(
+    appContextDefaults.windowSize
+  );
+
+  // We need the initial state to be set before rendering to avoid
+  // flashing of content, so use `useLayoutEffect` for the initial
+  // setting of `windowSize`
+  function updateWindowSize() {
+    setWindowSize(getWindowSize());
+  }
+  useEffect(() => {
+    window.addEventListener('resize', updateWindowSize);
+    return () => window.removeEventListener('resize', updateWindowSize);
+  }, []);
+  useIsomorphicLayoutEffect(() => {
+    updateWindowSize();
+  }, []);
 
   useEffect(() => {
     setIsEnhanced(true);
@@ -65,7 +99,12 @@ export const AppContextProvider: FunctionComponent<AppContextProviderProps> = ({
 
   return (
     <AppContext.Provider
-      value={{ isEnhanced, isKeyboard, isFullSupportBrowser }}
+      value={{
+        isEnhanced,
+        isKeyboard,
+        isFullSupportBrowser,
+        windowSize,
+      }}
     >
       {children}
     </AppContext.Provider>

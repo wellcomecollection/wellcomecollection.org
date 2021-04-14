@@ -18,7 +18,6 @@ import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { getArchiveAncestorArray } from '@weco/common/utils/works';
 import { RelatedWork, Work } from '@weco/common/model/catalogue';
-import useWindowSize from '@weco/common/hooks/useWindowSize';
 import Modal, { ModalContext } from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { Toggles } from '@weco/toggles';
@@ -836,9 +835,8 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
 }: {
   work: Work;
 }) => {
-  const windowSize = useWindowSize();
   const toggles = useContext(TogglesContext);
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced, windowSize } = useContext(AppContext);
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const initialLoad = useRef(true);
   const [showArchiveTree, setShowArchiveTree] = useState(false);
