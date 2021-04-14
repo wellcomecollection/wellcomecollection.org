@@ -11,6 +11,7 @@ import {
   IIIFAnnotationResource,
   IIIFThumbnailService,
 } from '../model/iiif';
+import { fetchJson } from '../utils/http';
 import cloneDeep from 'lodash.clonedeep';
 
 export function getServiceId(canvas?: IIIFCanvas): string | undefined {
@@ -293,7 +294,7 @@ export function getThumbnailService(
 // e.g. converts http://wellcomelibrary.org/iiif/b28047345/manifest
 // to http://stage.wellcomelibrary.org/iiif/b28047345/manifest
 // which gets redirected to https://iiif.wellcomecollection.org/presentation/v2/b28047345
-export function convertPresentationUrlToStage(originalUrl: string): string {
+function convertPresentationUrlToStage(originalUrl: string): string {
   const originalUrlObject = new URL(originalUrl);
   if (originalUrlObject.hostname === 'wellcomelibrary.org') {
     const stageUrlObject = new URL(
@@ -303,5 +304,19 @@ export function convertPresentationUrlToStage(originalUrl: string): string {
     return stageUrlObject.href;
   } else {
     return originalUrl;
+  }
+}
+
+export async function getToggleDeterminedIIIFManifest(
+  toggle: boolean,
+  url: string
+): Promise<IIIFManifest> {
+  if (toggle) {
+    const iiifPresentationUrlOnStage = convertPresentationUrlToStage(url);
+    const manifest = await fetchJson(iiifPresentationUrlOnStage);
+    return manifest;
+  } else {
+    const manifest = await fetchJson(url);
+    return manifest;
   }
 }
