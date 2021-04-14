@@ -148,7 +148,7 @@ const Images: NextPage<Props> = ({
         )}
       </Head>
       <CataloguePageLayout
-        title={`${query ? `Search results for ${query} | ` : ''}Image search`}
+        title={`${query ? `${query} | ` : ''}Image search`}
         description="Search Wellcome Collection images"
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
