@@ -94,9 +94,6 @@ describe('MediaObjectBase', () => {
     />
   );
 
-  it('should match snapshots', () => {
-    expect(componentWithImage.html()).toMatchSnapshot();
-  });
   it('should render image', () => {
     expect(componentWithImage.find('Image')).toBeTruthy();
   });
