@@ -56,29 +56,76 @@ export const ShameButton = styled.button.attrs(() => ({
   `}
 `;
 
-const TopBar = styled.div<{ isZooming: boolean }>`
+const TopBar = styled.div<{
+  isZooming: boolean;
+  isDesktopSidebarActive: boolean;
+}>`
   position: relative;
   z-index: 3;
   background: ${props => lighten(0.14, props.theme.color('viewerBlack'))};
   color: ${props => props.theme.color('white')};
   justify-content: space-between;
-  display: ${props => (props.isZooming ? 'none' : 'flex')};
+  display: ${props => (props.isZooming ? 'none' : 'grid')};
+  grid-template-columns: [left-edge] minmax(200px, 3fr) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
+
+  ${props => props.theme.media.medium`
+    display: grid;
+  `}
+
+  ${props =>
+    props.theme.media.xlarge`
+      grid-template-columns: [left-edge] minmax(200px, 330px) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
+  `}
+
+  ${props =>
+    !props.isDesktopSidebarActive &&
+    `
+      grid-template-columns: [left-edge] min-content [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
+  `}
+
+  ${props =>
+    !props.isDesktopSidebarActive &&
+    props.theme.media.xlarge`
+      grid-template-columns: [left-edge] min-content [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
+  `}
+`;
+
+const Sidebar = styled(Space).attrs({
+  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 's', properties: ['padding-left', 'padding-right'] },
+})`
+  grid-column-start: left-edge;
+  grid-column-end: desktop-sidebar-end;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  ${props => props.theme.media.medium`
+    border-right: 1px solid ${props => props.theme.color('viewerBlack')};
+  `}
+`;
+
+const Main = styled(Space).attrs({
+  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 's', properties: ['padding-left', 'padding-right'] },
+})`
+  grid-column-start: desktop-sidebar-end;
+  grid-column-end: right-edge;
+  display: none;
+  justify-content: space-between;
 
   ${props => props.theme.media.medium`
     display: flex;
   `}
 `;
 
-const LeftZone = styled(Space).attrs({
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-})`
+const LeftZone = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 30%;
 `;
-const MiddleZone = styled(Space).attrs({
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+
+const MiddleZone = styled.div.attrs({
   className: classNames({
     [font('hnm', 5)]: true,
   }),
@@ -87,10 +134,8 @@ const MiddleZone = styled(Space).attrs({
   justify-content: center;
   align-items: center;
 `;
-const RightZone = styled(Space).attrs({
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-})`
-  width: 30%;
+
+const RightZone = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -118,21 +163,31 @@ const ViewerTopBar: FunctionComponent<Props> = ({
     downloadOptions,
     iiifPresentationDownloadOptions,
     setIsMobileSidebarActive,
+    setIsDesktopSidebarActive,
     isMobileSidebarActive,
+    isDesktopSidebarActive,
     showZoomed,
     isResizing,
   } = useContext(ItemViewerContext);
   return (
-    <TopBar className="flex" isZooming={showZoomed}>
+    <TopBar
+      className="flex"
+      isZooming={showZoomed}
+      isDesktopSidebarActive={isDesktopSidebarActive}
+    >
       {isEnhanced && canvases && canvases.length > 1 && (
-        <LeftZone>
+        <Sidebar>
           {!showZoomed && (
-            <Space
-              h={{ size: 's', properties: ['margin-left'] }}
-              className={classNames({
-                'flex flex--v-center flex--h-center': true,
-              })}
-            >
+            <>
+              <ShameButton
+                className={`viewer-desktop`}
+                isDark
+                onClick={() => {
+                  setIsDesktopSidebarActive(!isDesktopSidebarActive);
+                }}
+              >
+                yo
+              </ShameButton>
               <ShameButton
                 className={`viewer-mobile`}
                 isDark
@@ -142,48 +197,49 @@ const ViewerTopBar: FunctionComponent<Props> = ({
               >
                 Item info
               </ShameButton>
-
-              <ShameButton
-                className={`viewer-desktop`}
-                isDark
-                ref={viewToggleRef}
-                onClick={() => {
-                  setGridVisible(!gridVisible);
-                  trackEvent({
-                    category: 'Control',
-                    action: `clicked work viewer ${
-                      gridVisible ? '"Detail view"' : '"View all"'
-                    } button`,
-                    label: `${work.id}`,
-                  });
-                }}
-              >
-                <Icon name={gridVisible ? 'detailView' : 'gridView'} />
-                <span className={`btn__text`}>
-                  {gridVisible ? 'Detail view' : 'View all'}
-                </span>
-              </ShameButton>
-            </Space>
+            </>
           )}
-        </LeftZone>
+        </Sidebar>
       )}
-      <MiddleZone>
-        {canvases && canvases.length > 1 && !showZoomed && !isResizing && (
-          <>
-            <span data-test-id="active-index">{`${activeIndex + 1 ||
-              ''}`}</span>
-            {` / ${(canvases && canvases.length) || ''}`}{' '}
-            {!(canvases[activeIndex].label.trim() === '-') &&
-              `(page ${canvases[activeIndex].label.trim()})`}
-          </>
-        )}
-      </MiddleZone>
-      <RightZone>
-        {isEnhanced && (
-          <div className="flex flex--v-center">
-            {!showZoomed && (
-              <>
-                <Space h={{ size: 'm', properties: ['margin-right'] }}>
+      <Main>
+        <LeftZone>
+          <ShameButton
+            className={`viewer-desktop`}
+            isDark
+            ref={viewToggleRef}
+            onClick={() => {
+              setGridVisible(!gridVisible);
+              trackEvent({
+                category: 'Control',
+                action: `clicked work viewer ${
+                  gridVisible ? '"Detail view"' : '"View all"'
+                } button`,
+                label: `${work.id}`,
+              });
+            }}
+          >
+            <Icon name={gridVisible ? 'detailView' : 'gridView'} />
+            <span className={`btn__text`}>
+              {gridVisible ? 'Detail view' : 'View all'}
+            </span>
+          </ShameButton>
+        </LeftZone>
+        <MiddleZone>
+          {canvases && canvases.length > 1 && !showZoomed && !isResizing && (
+            <>
+              <span data-test-id="active-index">{`${activeIndex + 1 ||
+                ''}`}</span>
+              {` / ${(canvases && canvases.length) || ''}`}{' '}
+              {!(canvases[activeIndex].label.trim() === '-') &&
+                `(page ${canvases[activeIndex].label.trim()})`}
+            </>
+          )}
+        </MiddleZone>
+        <RightZone>
+          {isEnhanced && (
+            <div className="flex flex--v-center">
+              {!showZoomed && (
+                <Space h={{ size: 's', properties: ['margin-right'] }}>
                   <Download
                     ariaControlsId="itemDownloads"
                     title={work.title}
@@ -197,13 +253,8 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                     isInline={true}
                   />
                 </Space>
-              </>
-            )}
-            {isFullscreenEnabled && (
-              <Space
-                h={{ size: 'm', properties: ['margin-right'] }}
-                className={`viewer-desktop`}
-              >
+              )}
+              {isFullscreenEnabled && (
                 <ShameButton
                   isDark
                   onClick={() => {
@@ -232,11 +283,11 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                   <Icon name="expand" />
                   <span className={`btn__text`}>Full screen</span>
                 </ShameButton>
-              </Space>
-            )}
-          </div>
-        )}
-      </RightZone>
+              )}
+            </div>
+          )}
+        </RightZone>
+      </Main>
     </TopBar>
   );
 };
