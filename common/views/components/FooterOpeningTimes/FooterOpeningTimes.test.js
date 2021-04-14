@@ -15,15 +15,7 @@ describe('FooterOpeningTimes', () => {
   spyOnGetTodaysVenueHours.mockImplementation(() => {
     return { dayOfWeek: 'Wednesday', opens: '10:00', closes: '18:00' };
   });
-  it('Should match snapshot of FooterOpeningTimes', () => {
-    const component = shallowWithTheme(
-      <FooterOpeningTimes
-        collectionOpeningTimes={openingTimes.collectionOpeningTimes}
-      />
-    );
-    expect(component.html()).toMatchSnapshot();
-    expect(spyOnGetTodaysVenueHours).toHaveBeenCalled();
-  });
+
   it('Should display opening times name restaurant as Kitchen', () => {
     const component = shallowWithTheme(
       <FooterOpeningTimes

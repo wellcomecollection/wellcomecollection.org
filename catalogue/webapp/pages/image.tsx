@@ -85,8 +85,7 @@ const ImagePage: FunctionComponent<Props> = ({
     >
       {iiifImageLocation ? (
         <>
-          {globalContextData.toggles.itemViewerPrototype ||
-          globalContextData.toggles.itemViewerPrototypeWithSearch ? (
+          {globalContextData.toggles.itemViewerPrototype ? (
             <IIIFViewerPrototype
               title={title}
               mainPaginatorProps={mainPaginatorProps}
@@ -148,7 +147,7 @@ export const getServerSideProps: GetServerSideProps<
     if (image.httpStatus === 404) {
       return { notFound: true };
     }
-    return appError(context, image.httpStatus, 'Images API error');
+    return appError(context, image.httpStatus, image.description);
   }
 
   // This is to avoid exposing a URL that has a valid `imageId` in it

@@ -186,7 +186,7 @@ export function groupStructures(
         acc.groupedArray[acc.groupedArray.length - 1].canvases.push(
           lastCanvasInRange
         );
-      } else {
+      } else if (structure.canvases.length > 0) {
         acc.groupedArray.push(structure);
       }
       acc.previousLabel = structure.label;

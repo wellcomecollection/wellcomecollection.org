@@ -5,11 +5,14 @@ import { parsePage } from './pages';
 import { Page } from '../../model/pages';
 import { PaginatedResults } from './types';
 import { IncomingMessage } from 'http';
+import { pagesFormatsFields } from './fetch-links';
 
 type GetProjectsProps = {
   predicates?: string[];
   page?: number;
 };
+
+const fetchLinks = [pagesFormatsFields];
 
 export async function getProjects(
   req: IncomingMessage | undefined,
@@ -20,6 +23,7 @@ export async function getProjects(
     req,
     [Prismic.Predicates.any('document.type', ['projects'])].concat(predicates),
     {
+      fetchLinks,
       page,
     },
     memoizedPrismic

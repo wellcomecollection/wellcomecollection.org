@@ -26,10 +26,6 @@ describe('CompactCard', () => {
     />
   );
 
-  it('should match snapshots', () => {
-    expect(componentWithImage.html()).toMatchSnapshot();
-  });
-
   it('should expect ga trackEvent tobe called ', () => {
     const spyOnTrackEvent = jest.spyOn(ga, 'trackEvent');
     componentWithImage.simulate('click');
