@@ -8,7 +8,7 @@ import {
   getUiExtensions,
   getVideo,
   isUiEnabled,
-  convertPresentationUrlToStage,
+  getToggleDeterminedIIIFManifest,
 } from '../utils/iiif';
 import { Work } from '../model/catalogue';
 import { IIIFManifest, IIIFMediaElement, IIIFRendering } from '../model/iiif';
@@ -73,22 +73,14 @@ const useIIIFManifestData = (work: Work): IIIFManifestData => {
           'iiif-presentation'
         );
 
-        let iiifManifestResp;
-        if (toggles.switchIIIFManifestSource) {
-          const iiifPresentationUrlOnStage =
-            iiifPresentationLocation &&
-            convertPresentationUrlToStage(iiifPresentationLocation.url);
-          iiifManifestResp = iiifPresentationUrlOnStage
-            ? await fetch(iiifPresentationUrlOnStage)
-            : undefined;
-        } else {
-          iiifManifestResp = iiifPresentationLocation
-            ? await fetch(iiifPresentationLocation.url)
-            : undefined;
-        }
+        const iiifManifest =
+          iiifPresentationLocation &&
+          (await getToggleDeterminedIIIFManifest(
+            toggles.switchIIIFManifestSource,
+            iiifPresentationLocation.url
+          ));
 
-        if (iiifManifestResp) {
-          const iiifManifest = await iiifManifestResp.json();
+        if (iiifManifest) {
           const data = parseManifest(iiifManifest);
           cachedManifestData.set(work.id, data);
           setManifestData(data);
