@@ -279,6 +279,10 @@ export function getSearchService(manifest: IIIFManifest): Service | undefined {
   }
 }
 
+// This is necessary while we are in the process of switching the source of the iiif presentation manifests
+// There is a slight (temporary) difference between the manifest served from wellcomelibrary.org
+// and the one served from iiif.wellcomecollection.org
+// In the former canvas.thumbnail.service is an object and in the latter it is an array.
 export function getThumbnailService(
   canvas: IIIFCanvas
 ): IIIFThumbnailService | undefined {
@@ -289,11 +293,6 @@ export function getThumbnailService(
     return service;
   }
 }
-
-// Allows us to test with the iiif manifests served from iiif.wellcomecollection.org
-// e.g. converts http://wellcomelibrary.org/iiif/b28047345/manifest
-// to http://stage.wellcomelibrary.org/iiif/b28047345/manifest
-// which gets redirected to https://iiif.wellcomecollection.org/presentation/v2/b28047345
 function convertPresentationUrlToStage(originalUrl: string): string {
   const originalUrlObject = new URL(originalUrl);
   if (originalUrlObject.hostname === 'wellcomelibrary.org') {
@@ -307,6 +306,10 @@ function convertPresentationUrlToStage(originalUrl: string): string {
   }
 }
 
+// Allows us to test with iiif manifests served from iiif.wellcomecollection.org rather than wellcomelibrary.org
+// e.g. converts http://wellcomelibrary.org/iiif/b28047345/manifest
+// to http://stage.wellcomelibrary.org/iiif/b28047345/manifest
+// which gets redirected to https://iiif.wellcomecollection.org/presentation/v2/b28047345
 export async function getToggleDeterminedIIIFManifest(
   toggle: boolean,
   url: string
