@@ -6,7 +6,10 @@ import { lighten } from 'polished';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import LL from '@weco/common/views/components/styled/LL';
-import { getImageAuthService } from '@weco/common/utils/iiif';
+import {
+  getImageAuthService,
+  getThumbnailService,
+} from '@weco/common/utils/iiif';
 import Padlock from '@weco/common/views/components/styled/Padlock';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Space from '@weco/common/views/components/styled/Space';
@@ -96,7 +99,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
   isFocusable,
 }: IIIFCanvasThumbnailProps) => {
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
-  const thumbnailService = canvas?.thumbnail?.service;
+  const thumbnailService = getThumbnailService(canvas);
   const urlTemplate =
     thumbnailService && iiifImageTemplate(thumbnailService['@id']);
   const imageAuthService = getImageAuthService(canvas);
