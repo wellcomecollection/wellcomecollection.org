@@ -4,6 +4,7 @@ import {
   PhysicalLocation,
   RelatedWork,
   Work,
+  Holding,
 } from '../model/catalogue';
 import { IIIFRendering } from '../model/iiif';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -114,6 +115,10 @@ export type PhysicalItemAugmented = {
   requested?: boolean;
   requestSucceeded?: boolean;
 };
+
+export function getHoldings(work: Work): Holding[] {
+  return work?.holdings || [];
+}
 
 export function getItemsWithPhysicalLocation(
   work: Work

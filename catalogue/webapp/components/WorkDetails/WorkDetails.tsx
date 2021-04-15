@@ -14,6 +14,7 @@ import {
   getEncoreLink,
   getItemsWithPhysicalLocation,
   sierraIdFromPresentationManifestUrl,
+  getHoldings,
 } from '@weco/common/utils/works';
 import {
   getVideoClickthroughService,
@@ -207,6 +208,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   });
 
   const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
+
+  const holdings = getHoldings(work);
+
   const WhereToFindIt = () => (
     <WorkDetailsSection
       headingText="Where to find it"
@@ -240,6 +244,14 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   const Content = () => (
     <>
+      {holdings.length > 0 && (
+        <WorkDetailsSection headingText="Holdings" isInArchive={isInArchive}>
+          {holdings.map((holding, i) => (
+            <p key={i}>{holding.type}</p>
+          ))}
+        </WorkDetailsSection>
+      )}
+
       {digitalLocation && itemLinkState !== 'useNoLink' && (
         <WorkDetailsSection
           headingText="Available online"

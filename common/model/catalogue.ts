@@ -32,6 +32,23 @@ export type Work = {
   availableOnline: boolean;
   availabilities: Availability[];
   '@context'?: string;
+  holdings?: Holding[];
+};
+
+export type Holding = {
+  // TODO
+  enumeration: ['Current copy on Quick Ref.  Superseded copy discarded.'];
+  location: {
+    locationType: {
+      id: 'open-shelves';
+      label: 'Open shelves';
+      type: 'LocationType';
+    };
+    label: 'Open shelves';
+    accessConditions: [];
+    type: 'PhysicalLocation';
+  };
+  type: 'Holdings';
 };
 
 type MinimalRelatedWorkFields =
