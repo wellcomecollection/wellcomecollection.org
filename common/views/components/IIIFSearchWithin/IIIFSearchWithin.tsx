@@ -19,6 +19,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import Raven from 'raven-js';
 import { searchWithinLabel } from '@weco/common/text/aria-labels';
 import { trackEvent } from '../../../utils/ga';
+import ClearSearch from '../ClearSearch/ClearSearch';
 
 type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
@@ -32,12 +33,6 @@ const SearchInputWrapper = styled.div`
   input {
     padding-right: 70px;
   }
-`;
-
-const ClearSearch = styled.button.attrs({
-  className: 'absolute line-height-1 plain-button v-center no-padding',
-})`
-  right: 68px;
 `;
 
 const SearchButtonWrapper = styled.div.attrs({
@@ -161,20 +156,15 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
           />
           {value !== '' && (
             <ClearSearch
-              onClick={() => {
-                trackEvent({
-                  category: 'IIIFViewer',
-                  action: 'clear search',
-                  label: 'item-search-within',
-                });
-
-                setValue('');
-                inputRef?.current?.focus();
+              inputRef={inputRef}
+              gaEvent={{
+                category: 'IIIFViewer',
+                action: 'clear search',
+                label: 'item-search-within',
               }}
-              type="button"
-            >
-              <Icon name="clear" title="Clear" />
-            </ClearSearch>
+              setValue={setValue}
+              right={68}
+            />
           )}
           <SearchButtonWrapper>
             <ButtonSolid
