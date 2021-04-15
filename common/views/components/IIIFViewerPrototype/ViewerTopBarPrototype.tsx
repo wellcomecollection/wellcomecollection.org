@@ -93,14 +93,16 @@ const TopBar = styled.div<{
 const Sidebar = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 's', properties: ['padding-left', 'padding-right'] },
-})`
+})<{ isZooming: boolean }>`
   grid-column-start: left-edge;
   grid-column-end: desktop-sidebar-end;
   display: flex;
   justify-content: flex-start;
   align-items: center;
 
-  ${props => props.theme.media.medium`
+  ${props =>
+    !props.isZooming &&
+    props.theme.media.medium`
     border-right: 1px solid ${props => props.theme.color('viewerBlack')};
   `}
 `;
@@ -176,7 +178,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
       isDesktopSidebarActive={isDesktopSidebarActive}
     >
       {isEnhanced && canvases && canvases.length > 1 && (
-        <Sidebar>
+        <Sidebar isZooming={showZoomed}>
           {!showZoomed && (
             <>
               <ShameButton
@@ -186,7 +188,8 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                   setIsDesktopSidebarActive(!isDesktopSidebarActive);
                 }}
               >
-                yo
+                {isDesktopSidebarActive ? 'hide' : 'show'}
+                {' info'}
               </ShameButton>
               <ShameButton
                 className={`viewer-mobile`}
@@ -203,26 +206,28 @@ const ViewerTopBar: FunctionComponent<Props> = ({
       )}
       <Main>
         <LeftZone>
-          <ShameButton
-            className={`viewer-desktop`}
-            isDark
-            ref={viewToggleRef}
-            onClick={() => {
-              setGridVisible(!gridVisible);
-              trackEvent({
-                category: 'Control',
-                action: `clicked work viewer ${
-                  gridVisible ? '"Detail view"' : '"View all"'
-                } button`,
-                label: `${work.id}`,
-              });
-            }}
-          >
-            <Icon name={gridVisible ? 'detailView' : 'gridView'} />
-            <span className={`btn__text`}>
-              {gridVisible ? 'Detail view' : 'View all'}
-            </span>
-          </ShameButton>
+          {!showZoomed && (
+            <ShameButton
+              className={`viewer-desktop`}
+              isDark
+              ref={viewToggleRef}
+              onClick={() => {
+                setGridVisible(!gridVisible);
+                trackEvent({
+                  category: 'Control',
+                  action: `clicked work viewer ${
+                    gridVisible ? '"Detail view"' : '"View all"'
+                  } button`,
+                  label: `${work.id}`,
+                });
+              }}
+            >
+              <Icon name={gridVisible ? 'detailView' : 'gridView'} />
+              <span className={`btn__text`}>
+                {gridVisible ? 'Detail view' : 'View all'}
+              </span>
+            </ShameButton>
+          )}
         </LeftZone>
         <MiddleZone>
           {canvases && canvases.length > 1 && !showZoomed && !isResizing && (
