@@ -1,4 +1,3 @@
-/// <reference types="styled-components/cssprop" />
 import { FunctionComponent, RefObject, Dispatch, SetStateAction } from 'react';
 import { trackEvent, GaEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
