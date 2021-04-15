@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useUserInfo } from '../../context/UserInfoContext';
 import { DeleteAccount } from './DeleteAccount';
 import { AccountAction } from './AccountAction';
@@ -14,22 +14,23 @@ type AccountActionsProps = {
   onComplete: (actionState: AccountActionState) => void;
 };
 
-export function AccountActions({
-  onComplete,
-}: AccountActionsProps): JSX.Element {
+export const AccountActions: React.FC<{
+  props: AccountActionsProps;
+}> = ({ props }) => {
   const { user, isLoading } = useUserInfo();
   const { resendActivationEmail } = useResendActivationEmail();
   const { resetPassword } = useResetPassword();
   const { blockAccount } = useBlockAccount();
   const { unblockAccount } = useUnblockAccount();
   const { reverseDeleteRequest } = useReverseDeleteRequest();
+  const deleteModalRef = useRef<HTMLDivElement>(null);
 
   const handleSuccess = (message: string) => {
-    onComplete({ isSuccess: true, message });
+    props.onComplete({ isSuccess: true, message });
   };
 
   const handleFailure = (message: string) => {
-    onComplete({ isSuccess: false, message });
+    props.onComplete({ isSuccess: false, message });
   };
 
   if (isLoading) {
@@ -37,7 +38,7 @@ export function AccountActions({
   }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu props={{ deleteModalRef: () => deleteModalRef }}>
       <ul>
         {!user?.emailValidated && (
           <AccountAction
@@ -83,8 +84,10 @@ export function AccountActions({
           onFailure={() => handleFailure('Failed to reset password')}
         />
         <hr />
-        {user && <DeleteAccount userId={user.userId} />}
+        {user && (
+          <DeleteAccount userId={user.userId} modalRef={deleteModalRef} />
+        )}
       </ul>
     </DropdownMenu>
   );
-}
+};

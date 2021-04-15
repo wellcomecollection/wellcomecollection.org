@@ -27,7 +27,7 @@ export function Info(): JSX.Element {
         <h2>
           {user?.firstName} {user?.lastName}
         </h2>
-        <AccountActions onComplete={setActionStatus} />
+        <AccountActions props={{ onComplete: setActionStatus }} />
       </TitleContainer>
       <AccountDetailsList>
         <AccountDetail>
