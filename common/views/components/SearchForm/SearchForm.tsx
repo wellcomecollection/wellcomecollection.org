@@ -18,6 +18,7 @@ import Select from '../Select/Select';
 import Space from '../styled/Space';
 import SelectUncontrolled from '../SelectUncontrolled/SelectUncontrolled';
 import SearchFormSortByPortal from '../SearchFormSortByPortal/SearchFormSortByPortal';
+import ClearSearch from '../ClearSearch/ClearSearch';
 import { AppContext } from '../AppContext/AppContext';
 import {
   searchFormInputCatalogue,
@@ -67,10 +68,6 @@ const SearchButtonWrapper = styled.div.attrs({
     top: ${props.theme.spacingUnits['5'] + 6}px;
     right: ${props.theme.spacingUnits['8'] + 6}px;
   `}
-`;
-
-const ClearSearch = styled.button`
-  right: 102px;
 `;
 
 const SearchSortOrderWrapper = styled.div`
@@ -194,21 +191,15 @@ const SearchForm: FunctionComponent<Props> = ({
 
           {inputQuery && (
             <ClearSearch
-              className="absolute line-height-1 plain-button v-center no-padding"
-              onClick={() => {
-                trackEvent({
-                  category: 'SearchForm',
-                  action: 'clear search',
-                  label: 'works-search',
-                });
-
-                setInputQuery('');
-                searchInput?.current?.focus();
+              inputRef={searchInput}
+              setValue={setInputQuery}
+              gaEvent={{
+                category: 'SearchForm',
+                action: 'clear search',
+                label: 'works-search',
               }}
-              type="button"
-            >
-              <Icon name="clear" title="Clear" />
-            </ClearSearch>
+              right={102}
+            />
           )}
         </SearchInputWrapper>
       </Space>
