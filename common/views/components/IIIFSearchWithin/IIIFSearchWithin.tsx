@@ -11,14 +11,12 @@ import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
-import Icon from '../Icon/Icon';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
 import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
 import Raven from 'raven-js';
 import { searchWithinLabel } from '@weco/common/text/aria-labels';
-import { trackEvent } from '../../../utils/ga';
 import ClearSearch from '../ClearSearch/ClearSearch';
 
 type Props = {

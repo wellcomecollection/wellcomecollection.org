@@ -9,7 +9,6 @@ import {
 import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '../TextInput/TextInput';
-import Icon from '../Icon/Icon';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import { classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
