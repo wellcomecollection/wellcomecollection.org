@@ -9,7 +9,9 @@ import {
   AuthService,
   AuthServiceService,
   IIIFAnnotationResource,
+  IIIFThumbnailService,
 } from '../model/iiif';
+import { fetchJson } from '../utils/http';
 import cloneDeep from 'lodash.clonedeep';
 
 export function getServiceId(canvas?: IIIFCanvas): string | undefined {
@@ -274,5 +276,50 @@ export function getSearchService(manifest: IIIFManifest): Service | undefined {
     'http://iiif.io/api/search/0/context.json'
   ) {
     return manifest.service;
+  }
+}
+
+// This is necessary while we are in the process of switching the source of the iiif presentation manifests
+// There is a slight (temporary) difference between the manifest served from wellcomelibrary.org
+// and the one served from iiif.wellcomecollection.org
+// In the former canvas.thumbnail.service is an object and in the latter it is an array.
+export function getThumbnailService(
+  canvas: IIIFCanvas
+): IIIFThumbnailService | undefined {
+  const service = canvas?.thumbnail?.service;
+  if (Array.isArray(service)) {
+    return service[0];
+  } else {
+    return service;
+  }
+}
+function convertPresentationUrlToStage(originalUrl: string): string {
+  const originalUrlObject = new URL(originalUrl);
+  if (originalUrlObject.hostname === 'wellcomelibrary.org') {
+    const stageUrlObject = new URL(
+      originalUrlObject.pathname,
+      `${originalUrlObject.protocol}//stage.wellcomelibrary.org`
+    );
+    return stageUrlObject.href;
+  } else {
+    return originalUrl;
+  }
+}
+
+// Allows us to test with iiif manifests served from iiif.wellcomecollection.org rather than wellcomelibrary.org
+// e.g. converts http://wellcomelibrary.org/iiif/b28047345/manifest
+// to http://stage.wellcomelibrary.org/iiif/b28047345/manifest
+// which gets redirected to https://iiif.wellcomecollection.org/presentation/v2/b28047345
+export async function getToggleDeterminedIIIFManifest(
+  toggle: boolean,
+  url: string
+): Promise<IIIFManifest> {
+  if (toggle) {
+    const iiifPresentationUrlOnStage = convertPresentationUrlToStage(url);
+    const manifest = await fetchJson(iiifPresentationUrlOnStage);
+    return manifest;
+  } else {
+    const manifest = await fetchJson(url);
+    return manifest;
   }
 }

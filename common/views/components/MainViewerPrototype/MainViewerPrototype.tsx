@@ -19,7 +19,11 @@ import {
 } from '@weco/common/utils/convert-image-uri';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { getCanvasOcr } from '@weco/catalogue/services/catalogue/works';
-import { getServiceId, getImageAuthService } from '@weco/common/utils/iiif';
+import {
+  getServiceId,
+  getImageAuthService,
+  getThumbnailService,
+} from '@weco/common/utils/iiif';
 import { font } from '@weco/common/utils/classnames';
 import { IIIFCanvas } from '../../../model/iiif';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
@@ -128,6 +132,7 @@ function getPositionData( // TODO typing
     });
   return highlightsPositioningData;
 }
+
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const {
     scrollVelocity,
@@ -144,7 +149,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const urlTemplateMain = mainImageService['@id']
     ? iiifImageTemplate(mainImageService['@id'])
     : null;
-  const thumbnailService = currentCanvas?.thumbnail?.service;
+  const thumbnailService = getThumbnailService(currentCanvas);
   const urlTemplateThumbnail =
     thumbnailService && iiifImageTemplate(thumbnailService['@id']);
   const smallestWidthImageDimensions =

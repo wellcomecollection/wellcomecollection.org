@@ -46,5 +46,12 @@ export default {
       description:
         'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
     },
+    {
+      id: 'switchIIIFManifestSource',
+      title: 'Switch IIIF manifest source',
+      defaultValue: false,
+      description:
+        'Switches the manifest sources from wellcomelibrary.org to iiif.wellcomecollection.org for testing.',
+    },
   ] as const,
 };

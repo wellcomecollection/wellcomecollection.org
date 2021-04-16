@@ -1,4 +1,10 @@
-import { useState, useContext, FunctionComponent, RefObject } from 'react';
+import {
+  useState,
+  useContext,
+  FunctionComponent,
+  RefObject,
+  useRef,
+} from 'react';
 import { getSearchService } from '../../../utils/iiif';
 import fetch from 'isomorphic-unfetch';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
@@ -11,6 +17,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
 import Raven from 'raven-js';
 import { searchWithinLabel } from '@weco/common/text/aria-labels';
+import ClearSearch from '../ClearSearch/ClearSearch';
 
 type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
@@ -92,6 +99,7 @@ const Loading = () => (
 const IIIFSearchWithin: FunctionComponent<Props> = ({
   mainViewerRef,
 }: Props) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -142,7 +150,20 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
             setValue={setValue}
             required={true}
             ariaLabel={searchWithinLabel}
+            ref={inputRef}
           />
+          {value !== '' && (
+            <ClearSearch
+              inputRef={inputRef}
+              gaEvent={{
+                category: 'IIIFViewer',
+                action: 'clear search',
+                label: 'item-search-within',
+              }}
+              setValue={setValue}
+              right={68}
+            />
+          )}
           <SearchButtonWrapper>
             <ButtonSolid
               isBig
