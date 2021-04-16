@@ -43,7 +43,6 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
     }),
   })<{ isActive: boolean }>`
     position: relative;
-    cursor: pointer;
 
     ${props =>
       props.isActive &&
@@ -60,6 +59,10 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
           background: ${props.theme.color('yellow')};
         }
       `}
+
+    button {
+      cursor: pointer;
+    }
   `;
 
   return groupedStructures.length > 0 ? (
@@ -71,9 +74,10 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
         );
         return (
           <Item key={i} isActive={activeIndex === canvasIndex}>
-            <a
-              onClick={e => {
-                e.preventDefault();
+            <button
+              className={'plain-button'}
+              type="button"
+              onClick={() => {
                 mainViewerRef &&
                   mainViewerRef.current &&
                   mainViewerRef.current.scrollToItem(canvasIndex, 'start');
@@ -82,7 +86,7 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
               }}
             >
               {structure.label}
-            </a>
+            </button>
           </Item>
         );
       })}
