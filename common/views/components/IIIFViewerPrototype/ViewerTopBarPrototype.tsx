@@ -188,6 +188,13 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                   setIsDesktopSidebarActive(!isDesktopSidebarActive);
                 }}
               >
+                <Icon
+                  name={`chevrons`}
+                  extraClasses={classNames({
+                    'icon--white': true,
+                    'icon--180': !isDesktopSidebarActive,
+                  })}
+                />
                 {isDesktopSidebarActive ? 'hide' : 'show'}
                 {' info'}
               </ShameButton>
