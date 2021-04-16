@@ -36,18 +36,9 @@ export type Work = {
 };
 
 export type Holding = {
-  // TODO
-  enumeration: ['Current copy on Quick Ref.  Superseded copy discarded.'];
-  location: {
-    locationType: {
-      id: 'open-shelves';
-      label: 'Open shelves';
-      type: 'LocationType';
-    };
-    label: 'Open shelves';
-    accessConditions: [];
-    type: 'PhysicalLocation';
-  };
+  note?: string;
+  enumeration: string[];
+  location?: Location;
   type: 'Holdings';
 };
 
