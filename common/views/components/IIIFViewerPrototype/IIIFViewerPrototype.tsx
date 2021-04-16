@@ -125,9 +125,8 @@ const Sidebar = styled.div<{
     grid-area: top-edge / left-edge / bottom-edge / desktop-sidebar-end;
   `}
 
-  background: ${props => props.theme.color('viewerBlack')};
+  background: ${props => props.theme.color('charcoal', 'dark')};
   color: ${props => props.theme.color('white')};
-  border-right: 1px solid ${props => props.theme.color('charcoal')};
   overflow: auto;
   z-index: 5;
 `;

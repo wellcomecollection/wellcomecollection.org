@@ -82,11 +82,11 @@ const AccordionInner = styled(Space).attrs({
   }
 `;
 
-const Item = styled.div`
-  border-bottom: 1px solid ${props => props.theme.color('charcoal')};
+const Item = styled(Space).attrs({})`
+  border-bottom: 1px solid ${props => props.theme.color('pewter')};
 
   &:first-child {
-    border-top: 1px solid ${props => props.theme.color('charcoal')};
+    border-top: 1px solid ${props => props.theme.color('pewter')};
   }
 `;
 
@@ -102,12 +102,7 @@ const AccordionItem = ({
   const [isActive, setIsActive] = useState(false);
   return (
     <Item data-test-id={testId}>
-      <AccordionInner
-        onClick={() => setIsActive(!isActive)}
-        className={classNames({
-          'bg-charcoal': isActive,
-        })}
-      >
+      <AccordionInner onClick={() => setIsActive(!isActive)}>
         <button
           className={classNames({
             'plain-button no-margin no-padding': true,
@@ -233,7 +228,8 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           <WorkLink id={work.id} source="viewer_back_link">
             <a
               className={classNames({
-                'flex flex--v-center font-yellow': true,
+                [font('hnl', 5)]: true,
+                'flex flex--v-center': true,
               })}
             >
               More about this work
