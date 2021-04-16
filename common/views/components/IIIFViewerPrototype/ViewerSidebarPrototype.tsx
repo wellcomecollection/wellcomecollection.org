@@ -231,7 +231,16 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
                 'flex flex--v-center': true,
               })}
             >
-              More about this work
+              Catalogue details
+              <Space
+                h={{ size: 's', properties: ['margin-left'] }}
+                className="flex flex--v-center"
+              >
+                <Icon
+                  name={`arrow`}
+                  extraClasses={`icon--match-text icon--white`}
+                />
+              </Space>
             </a>
           </WorkLink>
         </Space>
