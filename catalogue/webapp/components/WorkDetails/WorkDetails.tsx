@@ -73,7 +73,9 @@ function getItemLinkState({
 }
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
-  const { stacksRequestService } = useContext(TogglesContext);
+  const { stacksRequestService, showHoldingsOnWork } = useContext(
+    TogglesContext
+  );
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
 
@@ -237,7 +239,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   const Content = () => (
     <>
-      {holdings.length > 0 && (
+      {showHoldingsOnWork && holdings.length > 0 && (
         <WorkDetailsSection headingText="Holdings" isInArchive={isInArchive}>
           {holdings.map((holding, i) => (
             <div key={i}>
