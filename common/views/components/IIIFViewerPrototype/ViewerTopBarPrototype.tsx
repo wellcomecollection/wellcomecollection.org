@@ -195,7 +195,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                     'icon--180': !isDesktopSidebarActive,
                   })}
                 />
-                {isDesktopSidebarActive ? 'hide' : 'show'}
+                {isDesktopSidebarActive ? 'Hide' : 'Show'}
                 {' info'}
               </ShameButton>
               <ShameButton
