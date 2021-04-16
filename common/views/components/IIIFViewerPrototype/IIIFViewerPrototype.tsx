@@ -113,6 +113,7 @@ const Sidebar = styled.div<{
 }>`
 
   display: ${props => (props.isActiveMobile ? 'inherit' : 'none')};
+  align-content: start;
 
   ${props => props.theme.media.medium`
     display: ${props => (props.isActiveDesktop ? 'inherit' : 'none')};
