@@ -134,6 +134,7 @@ export type DigitalLocation = {
 export type PhysicalLocation = {
   locationType: LocationType;
   label: string;
+  shelfmark?: string;
   accessConditions: AccessCondition[];
   type: 'PhysicalLocation';
 };

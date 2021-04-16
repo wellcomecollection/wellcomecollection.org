@@ -7,8 +7,9 @@ import {
   Holding,
 } from '../model/catalogue';
 import { IIIFRendering } from '../model/iiif';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+import { convertImageUri } from '../utils/convert-image-uri';
 import { Label } from '../model/labels';
+import getAugmentedLicenseInfo, { LicenseData } from '../utils/licenses';
 
 export function getProductionDates(work: Work): string[] {
   return work.production
@@ -284,4 +285,20 @@ function makeArchiveAncestorArray(partOfArray, nextPart) {
 
 export function getArchiveAncestorArray(work: Work): RelatedWork[] {
   return makeArchiveAncestorArray([], work?.partOf?.[0]).reverse();
+}
+
+type DigitalLocationInfo = {
+  accessCondition: string | undefined;
+  license: LicenseData | undefined;
+};
+
+export function getDigitalLocationInfo(
+  digitalLocation: DigitalLocation
+): DigitalLocationInfo {
+  return {
+    accessCondition: getAccessConditionForDigitalLocation(digitalLocation),
+    license:
+      digitalLocation?.license &&
+      getAugmentedLicenseInfo(digitalLocation.license),
+  };
 }
