@@ -81,7 +81,7 @@ const AccordionInner = styled(Space).attrs({
   }
 `;
 
-const Item = styled(Space).attrs({})`
+const Item = styled.div`
   border-bottom: 1px solid ${props => props.theme.color('pewter')};
 
   &:first-child {
