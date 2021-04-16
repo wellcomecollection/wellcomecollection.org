@@ -123,6 +123,7 @@ const Sidebar = styled.div<{
 
   ${props => props.theme.media.medium`
     grid-area: top-edge / left-edge / bottom-edge / desktop-sidebar-end;
+    border-right: 1px solid ${props.theme.color('viewerBlack')};
   `}
 
   background: ${props => props.theme.color('charcoal', 'dark')};
