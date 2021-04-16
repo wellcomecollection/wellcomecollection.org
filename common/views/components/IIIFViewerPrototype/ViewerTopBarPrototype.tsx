@@ -205,7 +205,8 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                   setIsMobileSidebarActive(!isMobileSidebarActive);
                 }}
               >
-                Item info
+                {isMobileSidebarActive ? 'Hide' : 'Show'}
+                {' info'}
               </ShameButton>
             </>
           )}
