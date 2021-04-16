@@ -41,7 +41,6 @@ const Inner = styled(Space).attrs({
 `;
 
 const AccordionInner = styled(Space).attrs({
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
     [font('hnm', 5)]: true,
@@ -237,7 +236,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           </WorkLink>
         </Space>
       </Inner>
-      <div>
+      <Inner>
         <AccordionItem
           title={'License and credit'}
           testId={'license-and-credit'}
@@ -278,7 +277,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
             <MultipleManifestListPrototype />
           </AccordionItem>
         )}
-      </div>
+      </Inner>
 
       {searchService && (
         <Inner>
