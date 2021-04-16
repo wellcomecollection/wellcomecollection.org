@@ -48,7 +48,7 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
     ${props =>
       props.isActive &&
       `
-        background: #2e2e2e; // FIXME: we don't have a shade between dark-charcoal and black in the palette (light-black?)
+        background: #222; // FIXME: we don't have a shade between dark-charcoal and black in the palette (light-black?)
 
         &:before {
           content: '';
