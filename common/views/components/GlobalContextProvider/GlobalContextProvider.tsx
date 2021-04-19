@@ -25,7 +25,7 @@ type Props = {
   children?: ReactNode;
 };
 
-const defaultValue = {
+export const defaultValue = {
   toggles: {} as Toggles,
   globalAlert: null,
   popupDialog: null,
