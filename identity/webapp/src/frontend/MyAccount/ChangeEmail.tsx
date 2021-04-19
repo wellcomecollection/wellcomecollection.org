@@ -43,10 +43,12 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({ onComple
     return <Loading />;
   }
 
+  const onSubmit = (data: ChangeEmailInputs): void => updateUser(data, onComplete);
+
   return (
     <ModalContainer>
       <ModalTitle>Change email</ModalTitle>
-      <form onSubmit={handleSubmit(data => updateUser(data, onComplete))}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <FieldMargin>
           <Label htmlFor="email">Email address</Label>
           <TextInput
@@ -57,6 +59,13 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({ onComple
               pattern: {
                 value: validEmailPattern,
                 message: 'Enter a valid email address.',
+              },
+              validate: {
+                hasChanged: newValue => {
+                  return (
+                    newValue !== user?.email || 'You must enter a new email address to update your library account'
+                  );
+                },
               },
             })}
             invalid={formState.errors.email}

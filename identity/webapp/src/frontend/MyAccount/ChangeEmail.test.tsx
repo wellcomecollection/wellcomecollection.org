@@ -97,6 +97,29 @@ describe('ChangeEmail', () => {
       expect(await screen.findByRole('alert')).toHaveTextContent(/enter a valid email address/i);
     });
 
+    it("when the email hasn't changed", async () => {
+      renderComponent();
+      userEvent.type(await screen.findByLabelText(/confirm password/i), 'Superman1938');
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+      userEvent.click(screen.getByRole('button', { name: /update email/i }));
+      expect(await screen.findByRole('alert')).toHaveTextContent(
+        /you must enter a new email address to update your library account/i
+      );
+    });
+
+    it('when the user re-enters their current email', async () => {
+      renderComponent();
+      const emailAddressInput = await screen.findByLabelText(/email address/i);
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+      userEvent.clear(emailAddressInput);
+      userEvent.type(emailAddressInput, mockUser.email);
+      userEvent.type(screen.getByLabelText(/confirm password/i), 'Superman1938');
+      userEvent.click(screen.getByRole('button', { name: /update email/i }));
+      expect(await screen.findByRole('alert')).toHaveTextContent(
+        /you must enter a new email address to update your library account/i
+      );
+    });
+
     it('with an empty password field', async () => {
       renderComponent();
       const emailAddressInput = await screen.findByLabelText(/email address/i);
