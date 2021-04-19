@@ -163,5 +163,21 @@ describe('ChangeEmail', () => {
       userEvent.click(screen.getByRole('button', { name: /update email/i }));
       expect(await screen.findByRole('alert')).toHaveTextContent(/email address already in use/i);
     });
+
+    it('when another error occurs', async () => {
+      server.use(
+        rest.put('/api/users/me', (req, res, ctx) => {
+          return res(ctx.status(418));
+        })
+      );
+      renderComponent();
+      const emailAddressInput = await screen.findByLabelText(/email address/i);
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+      userEvent.clear(emailAddressInput);
+      userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
+      userEvent.type(screen.getByLabelText(/confirm password/i), 'Superman1938');
+      userEvent.click(screen.getByRole('button', { name: /update email/i }));
+      expect(await screen.findByRole('alert')).toHaveTextContent(/an unknown error occurred/i);
+    });
   });
 });

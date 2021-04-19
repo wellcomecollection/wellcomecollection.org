@@ -36,6 +36,9 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({ onComple
         setError('password', { type: 'manual', message: 'Incorrect password.' });
         break;
       }
+      case UpdateUserError.UNKNOWN: {
+        setError('email', { type: 'manual', message: 'An unknown error occurred.' });
+      }
     }
   }, [error, setError]);
 
