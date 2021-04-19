@@ -28,13 +28,6 @@ export default {
       description: 'Use the staging catalogue API',
     },
     {
-      id: 'relevanceRating',
-      title: 'Rate search result relevance',
-      defaultValue: false,
-      description:
-        'Give your search results a rating of 1 to 4 stars to help us improve search relevance',
-    },
-    {
       id: 'stacksRequestService',
       title: 'Items status and requesting',
       defaultValue: false,
