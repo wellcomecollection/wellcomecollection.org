@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import getCookies from 'next-cookies';
 import fetch from 'isomorphic-unfetch';
 import Header from '../components/Header';
+import toggleConfig from '@weco/toggles/toggles';
+
 const fontFamily = 'Gadget, sans-serif';
 
 const Button = styled.button`
@@ -67,7 +69,7 @@ type AbTest = {|
   description: string,
 |};
 
-const abTests: AbTest[] = [];
+const abTests: AbTest[] = toggleConfig.tests;
 const IndexPage = () => {
   const [toggleStates, setToggleStates] = useState<ToggleStates>({});
   const [toggles, setToggles] = useState<Toggle[]>([]);

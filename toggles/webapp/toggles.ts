@@ -48,4 +48,14 @@ export default {
         'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
     },
   ] as const,
+  tests: [
+    {
+      id: 'showSidebarToggleLabel',
+      title: 'Sidebar show/hide toggle label visibility',
+      range: [0, 100],
+      defaultValue: true,
+      description:
+        'Testing whether the presence of a label alongside the chevrons to show/hide the sidebar will impact on button usage',
+    },
+  ] as const,
 };
