@@ -118,10 +118,10 @@ const Sidebar = styled.div<{
     display: ${props => (props.isActiveDesktop ? 'inherit' : 'none')};
   `}
 
-  grid-area: top-edge / left-edge / bottom-edge /right-edge;
+  grid-area: desktop-main-start / left-edge / bottom-edge /right-edge;
 
   ${props => props.theme.media.medium`
-    grid-area: top-edge / left-edge / bottom-edge / desktop-sidebar-end;
+    grid-area: desktop-main-start / left-edge / bottom-edge / desktop-sidebar-end;
   `}
 
   background: ${props => props.theme.color('viewerBlack')};
@@ -139,9 +139,6 @@ const Topbar = styled.div<{
   z-index: 4; // TODO: this is to let downloads sit above sidebar on desktop but not have the topbar above the sidebar on mobile. If we move the downloads, this can be simplified
 
   ${props => props.theme.media.medium`
-  grid-area: top-edge / ${
-    props.isDesktopSidebarActive ? 'desktop-topbar-start' : 'left-edge'
-  } / desktop-topbar-end / right-edge;
     z-index: 5;
   `}
 `;
@@ -200,6 +197,12 @@ const Thumbnails = styled.div<{
 
   ${props => props.theme.media.medium`
     grid-area: desktop-main-start / desktop-sidebar-end / bottom-edge / right-edge;
+  `}
+
+  ${props =>
+    !props.isDesktopSidebarActive &&
+    props.theme.media.medium`
+    grid-area: desktop-main-start / left-edge / bottom-edge / right-edge;
   `}
 `;
 
@@ -279,10 +282,6 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
       .map((_, i) => pageSize * pageIndex + i)
       .map(i => canvases[i])
       .filter(Boolean);
-
-  useEffect(() => {
-    setIsDesktopSidebarActive(!showZoomed);
-  }, [showZoomed]);
 
   useEffect(() => {
     let timer;

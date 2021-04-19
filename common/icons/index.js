@@ -23,6 +23,7 @@ import ccZero from './components/CcZero';
 import chat from './components/Chat';
 import check from './components/Check';
 import chevron from './components/Chevron';
+import chevrons from './components/Chevrons';
 import citation from './components/Citation';
 import clear from './components/Clear';
 import clock from './components/Clock';
@@ -130,11 +131,12 @@ export {
   ccNc,
   ccNd,
   ccPdm,
-  ccZero,
   ccSa,
+  ccZero,
   chat,
   check,
   chevron,
+  chevrons,
   citation,
   clear,
   clock,
