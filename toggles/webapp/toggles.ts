@@ -9,7 +9,7 @@ export default {
     },
     {
       id: 'showHoldingsOnWork',
-      title: 'Shows holdings on the work page',
+      title: 'Show holdings on the work page',
       description: 'Shows the holding information for a work',
       defaultValue: false,
     },
