@@ -922,7 +922,9 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
         </>
       ) : (
         <TreeContainer>
-          <Space v={{ size: 'l', properties: ['padding-top'] }}>
+          <Space
+            v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+          >
             <h2
               className={classNames({
                 [font('wb', 4)]: true,
