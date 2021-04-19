@@ -24,7 +24,7 @@ export let tests: Test[] = [
     id: 'showSidebarToggleLabel',
     title: 'Sidebar show/hide toggle label visibility',
     range: [0, 100],
-    when: request => request.uri.match(/^\/works\/.*\/items/),
+    when: request => Boolean(request.uri.match(/^\/works\/.*\/items/)),
   },
 ];
 export const setTests = function(newTests: Test[]): void {
