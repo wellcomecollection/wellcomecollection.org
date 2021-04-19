@@ -172,16 +172,6 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           [font('hnm', 5)]: true,
         })}
       >
-        <button
-          className={classNames({
-            'plain-button no-marin no-padding font-white viewer-mobile': true,
-            [font('hnm', 4)]: true,
-          })}
-          onClick={() => setIsMobileSidebarActive(false)}
-        >
-          <span className="visually-hidden">close item information</span>
-          <Icon name={'cross'} extraClasses="icon--white" />
-        </button>
         {currentManifestLabel && (
           <span
             data-test-id="current-manifest"
