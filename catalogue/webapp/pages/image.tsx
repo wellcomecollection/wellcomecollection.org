@@ -172,7 +172,7 @@ export const getServerSideProps: GetServerSideProps<
   } else if (work.type === 'Redirect') {
     return {
       redirect: {
-        destination: `/works/${work.redirectToId}/images`,
+        destination: `/works/${work.redirectToId}`,
         permanent: work.status === 301,
       },
     };
