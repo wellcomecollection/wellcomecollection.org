@@ -292,8 +292,20 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                     }
                   }}
                 >
-                  <Icon name="expand" />
-                  <span className={`btn__text`}>Full screen</span>
+                  <Icon
+                    name={
+                      document.fullscreenElement ||
+                      document['webkitFullscreenElement']
+                        ? 'collapse'
+                        : 'expand'
+                    }
+                  />
+                  <span className={`btn__text`}>
+                    {document.fullscreenElement ||
+                    document['webkitFullscreenElement']
+                      ? 'Exit full screen'
+                      : 'Full screen'}
+                  </span>
                 </ShameButton>
               )}
             </div>
