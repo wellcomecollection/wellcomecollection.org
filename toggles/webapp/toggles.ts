@@ -8,10 +8,9 @@ export default {
       defaultValue: true,
     },
     {
-      id: 'showCanvasLabels',
-      title: 'Show canvas labels on viewer thumbnails',
-      description:
-        'Shows the canvas label on the viewer thumbnails above the image number',
+      id: 'showHoldingsOnWork',
+      title: 'Show holdings on the work page',
+      description: 'Shows the holding information for a work',
       defaultValue: false,
     },
     {

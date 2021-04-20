@@ -32,6 +32,14 @@ export type Work = {
   availableOnline: boolean;
   availabilities: Availability[];
   '@context'?: string;
+  holdings: Holding[];
+};
+
+export type Holding = {
+  note?: string;
+  enumeration: string[];
+  location?: Location;
+  type: 'Holdings';
 };
 
 type MinimalRelatedWorkFields =
@@ -126,6 +134,7 @@ export type DigitalLocation = {
 export type PhysicalLocation = {
   locationType: LocationType;
   label: string;
+  shelfmark?: string;
   accessConditions: AccessCondition[];
   type: 'PhysicalLocation';
 };
