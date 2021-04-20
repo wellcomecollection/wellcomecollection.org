@@ -8,7 +8,10 @@ jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }));
 
-const renderComponent = () => render(<DeleteAccount userId={123} />);
+const renderComponent = () => {
+  const mockRef = React.createRef<HTMLDivElement>();
+  render(<DeleteAccount userId={123} modalRef={mockRef} />);
+};
 
 describe('DeleteAccount', () => {
   it('renders correctly', () => {
