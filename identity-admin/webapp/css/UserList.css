@@ -75,7 +75,7 @@
 
 .user-list__clear-search {
   position: absolute;
-  margin: 0 0 0 -1.5em;
+  margin-left: -1.5em;
   padding: 0.4em;
   cursor: pointer;
 }
@@ -117,7 +117,7 @@ a.status-dropdown__option:hover {
 
 .user-list__body tr {
   border-width: 1px;
-  border-style: dashed none none none;
+  border-top-style: dashed;
 }
 
 .user-list__item {
@@ -136,7 +136,7 @@ tr.user-list__item:last-child {
 tr.user-list__item:hover {
   color: #fff;
   background-color: #007868;
-  border-style: solid none none none;
+  border-top-style: solid;
 }
 
 tr.user-list__item:first-child:hover {
@@ -144,15 +144,17 @@ tr.user-list__item:first-child:hover {
 }
 
 tr.user-list__item:last-child:hover {
-  border-style: solid none;
+  border-top-style: solid;
+  border-bottom-style: solid;
 }
 
 .user-list__item:hover + .user-list__item {
-  border-style: solid none none none;
+  border-top-style: solid;
 }
 
 .user-list__item:hover + .user-list__item:last-child {
-  border-style: solid none dashed none;
+  border-top-style: solid;
+  border-bottom-style: dashed;
 }
 
 .user-pagination {

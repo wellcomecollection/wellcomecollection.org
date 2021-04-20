@@ -3,13 +3,14 @@ import { Chevron } from '../Icons/Chevron';
 import { Container, Menu, MenuButton } from './DropdownMenu.style';
 
 type DropdownMenuProps = {
-  deleteModalRef: () => MutableRefObject<HTMLDivElement | null>;
+  deleteModalRef: MutableRefObject<HTMLDivElement | null>;
+  children: React.ReactNode;
 };
 
-export const DropdownMenu: React.FC<{
-  children: React.ReactNode;
-  props: DropdownMenuProps;
-}> = ({ children, props }) => {
+export const DropdownMenu: React.FC<DropdownMenuProps> = ({
+  deleteModalRef,
+  children,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -20,7 +21,7 @@ export const DropdownMenu: React.FC<{
       isOpen &&
       target instanceof Node &&
       !dropdownRef.current?.contains(target) &&
-      !props.deleteModalRef().current?.contains(target)
+      !deleteModalRef.current?.contains(target)
     ) {
       setIsOpen(false);
     }

@@ -18,9 +18,7 @@ export const MainScreenLink = styled.a`
 
 export const Separator = styled.div`
   width: 100%;
-  border-style: solid none none none;
-  border-width: 1px;
-  border-color: #d9d6ce;
+  border-top: 1px solid #d9d6ce;
 `;
 
 export const LogoutLink = styled.a.attrs({

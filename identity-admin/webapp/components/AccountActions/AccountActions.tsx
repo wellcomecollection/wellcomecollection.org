@@ -14,9 +14,9 @@ type AccountActionsProps = {
   onComplete: (actionState: AccountActionState) => void;
 };
 
-export const AccountActions: React.FC<{
-  props: AccountActionsProps;
-}> = ({ props }) => {
+export function AccountActions({
+  onComplete,
+}: AccountActionsProps): JSX.Element {
   const { user, isLoading } = useUserInfo();
   const { resendActivationEmail } = useResendActivationEmail();
   const { resetPassword } = useResetPassword();
@@ -26,11 +26,11 @@ export const AccountActions: React.FC<{
   const deleteModalRef = useRef<HTMLDivElement>(null);
 
   const handleSuccess = (message: string) => {
-    props.onComplete({ isSuccess: true, message });
+    onComplete({ isSuccess: true, message });
   };
 
   const handleFailure = (message: string) => {
-    props.onComplete({ isSuccess: false, message });
+    onComplete({ isSuccess: false, message });
   };
 
   if (isLoading) {
@@ -38,7 +38,7 @@ export const AccountActions: React.FC<{
   }
 
   return (
-    <DropdownMenu props={{ deleteModalRef: () => deleteModalRef }}>
+    <DropdownMenu deleteModalRef={deleteModalRef}>
       <ul>
         {!user?.emailValidated && (
           <AccountAction
@@ -90,4 +90,4 @@ export const AccountActions: React.FC<{
       </ul>
     </DropdownMenu>
   );
-};
+}
