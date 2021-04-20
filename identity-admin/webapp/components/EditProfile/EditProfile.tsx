@@ -8,6 +8,7 @@ import { useUserInfo } from '../../context/UserInfoContext';
 import {
   LogoutLink,
   MainScreenLink,
+  Separator,
   TitleContainer,
 } from './EditProfile.style';
 import { Arrow } from '../Icons/Arrow';
@@ -39,9 +40,9 @@ export function EditProfile(): JSX.Element {
       ) : (
         <>
           <Info />
-          <hr />
+          <Separator />
           <PersonalDetails />
-          <hr />
+          <Separator />
           <UsageData />
         </>
       )}

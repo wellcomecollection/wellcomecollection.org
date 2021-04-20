@@ -11,10 +11,7 @@ const IndexPage: React.FC = () => {
   const router = useRouter();
   const { user } = useUser();
   const { data, isLoading, error } = useUserSearch();
-
   const { deletedUser } = router.query;
-
-  console.log({ deletedUser });
 
   return (
     <Layout title="Account administration">

@@ -73,6 +73,13 @@
   width: 4.3em;
 }
 
+.user-list__clear-search {
+  position: absolute;
+  margin-left: -1.5em;
+  padding: 0.4em;
+  cursor: pointer;
+}
+
 .status-dropdown {
   width: 10em;
   font-weight: 400;
@@ -110,11 +117,12 @@ a.status-dropdown__option:hover {
 
 .user-list__body tr {
   border-width: 1px;
-  border-style: dashed none none none;
+  border-top-style: dashed;
 }
 
 .user-list__item {
   cursor: pointer;
+  border-color: #007868;
 }
 
 tr.user-list__item:first-child {
@@ -128,15 +136,25 @@ tr.user-list__item:last-child {
 tr.user-list__item:hover {
   color: #fff;
   background-color: #007868;
+  border-top-style: solid;
+}
+
+tr.user-list__item:first-child:hover {
   border-style: none;
+}
+
+tr.user-list__item:last-child:hover {
+  border-top-style: solid;
+  border-bottom-style: solid;
 }
 
 .user-list__item:hover + .user-list__item {
-  border-style: none;
+  border-top-style: solid;
 }
 
 .user-list__item:hover + .user-list__item:last-child {
-  border-style: none none dashed none;
+  border-top-style: solid;
+  border-bottom-style: dashed;
 }
 
 .user-pagination {

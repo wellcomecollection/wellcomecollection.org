@@ -21,5 +21,10 @@ export const Label = styled.dt`
 export const Value = styled.dd<{ minor?: boolean }>`
   grid-column-start: 2;
   margin: 0;
-  ${props => props.minor && 'font-size: 0.9em;'}
+  ${props =>
+    props.minor &&
+    `
+    font-size: 0.8em;
+    color: #666;
+  `}
 `;
