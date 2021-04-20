@@ -103,6 +103,7 @@ describe('Scenario 3: A user wants information about the item they are viewing',
 
   test('the item has date information', async () => {
     const dates = await page.textContent(workDates);
+    // TODO: this text isn't very explanitory and should probably be updated in the DOM
     expect(dates).toBe('Date1496[7]');
   });
 });
