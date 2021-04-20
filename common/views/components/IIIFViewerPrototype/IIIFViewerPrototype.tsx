@@ -113,6 +113,7 @@ const Sidebar = styled.div<{
 }>`
 
   display: ${props => (props.isActiveMobile ? 'inherit' : 'none')};
+  align-content: start;
 
   ${props => props.theme.media.medium`
     display: ${props => (props.isActiveDesktop ? 'inherit' : 'none')};
@@ -122,11 +123,11 @@ const Sidebar = styled.div<{
 
   ${props => props.theme.media.medium`
     grid-area: desktop-main-start / left-edge / bottom-edge / desktop-sidebar-end;
+    border-right: 1px solid ${props.theme.color('viewerBlack')};
   `}
 
-  background: ${props => props.theme.color('viewerBlack')};
+  background: ${props => props.theme.color('charcoal', 'dark')};
   color: ${props => props.theme.color('white')};
-  border-right: 1px solid ${props => props.theme.color('charcoal')};
   overflow: auto;
   z-index: 5;
 `;

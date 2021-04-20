@@ -16,7 +16,6 @@ import { FixedSizeList } from 'react-window';
 import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
 import Raven from 'raven-js';
-import { searchWithinLabel } from '@weco/common/text/aria-labels';
 import ClearSearch from '../ClearSearch/ClearSearch';
 
 type Props = {
@@ -134,22 +133,14 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
           getSearchResults();
         }}
       >
-        <span
-          className={classNames({
-            [font('hnm', 5)]: true,
-          })}
-        >
-          Search within this item
-        </span>
         <SearchInputWrapper className="relative">
           <TextInput
             id={'searchWithin'}
-            label={'Enter keyword'}
+            label={'Search within this item'}
             name="query"
             value={value}
             setValue={setValue}
             required={true}
-            ariaLabel={searchWithinLabel}
             ref={inputRef}
           />
           {value !== '' && (
