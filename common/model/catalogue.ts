@@ -32,7 +32,7 @@ export type Work = {
   availableOnline: boolean;
   availabilities: Availability[];
   '@context'?: string;
-  holdings?: Holding[];
+  holdings: Holding[];
 };
 
 export type Holding = {
