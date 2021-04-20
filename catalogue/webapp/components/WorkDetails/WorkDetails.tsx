@@ -502,10 +502,10 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                   controlText="Can I use this?"
                 >
                   <>
-                    {digitalLocationInfo?.license.humanReadableText.length >
+                    {digitalLocationInfo.license.humanReadableText.length >
                       0 && (
                       <WorkDetailsText
-                        text={digitalLocationInfo?.license.humanReadableText}
+                        text={digitalLocationInfo.license.humanReadableText}
                       />
                     )}
 
@@ -518,9 +518,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 : ` `
             }
           ${
-            digitalLocationInfo?.license.url
-              ? `<a href="${digitalLocationInfo?.license.url}">${digitalLocationInfo?.license.label}</a>`
-              : digitalLocationInfo?.license.label
+            digitalLocationInfo.license.url
+              ? `<a href="${digitalLocationInfo.license.url}">${digitalLocationInfo.license.label}</a>`
+              : digitalLocationInfo.license.label
           }`,
                       ]}
                     />
