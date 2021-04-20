@@ -88,6 +88,7 @@ module.exports = app
     pageVanityUrl(router, app, '/covid-welcome-back', 'X5amzBIAAB0Aq6Gm');
     pageVanityUrl(router, app, '/covid-book-your-ticket', 'X5aomxIAAB8Aq6n5');
     pageVanityUrl(router, app, '/visit-us', 'X8ZTSBIAACQAiDzY', '/page');
+    pageVanityUrl(router, app, '/about-us', 'Wuw2MSIAACtd3Stq');
 
     router.post('/newsletter-signup', handleNewsletterSignup);
 

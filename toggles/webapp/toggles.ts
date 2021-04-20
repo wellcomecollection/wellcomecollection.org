@@ -54,5 +54,12 @@ export default {
       description:
         'Switches the manifest sources from wellcomelibrary.org to iiif.wellcomecollection.org for testing.',
     },
+    {
+      id: 'newSiteSections',
+      title: 'New site sections - Get Involved and About us',
+      defaultValue: false,
+      description:
+        'The new site section Get Involved, and newly promoted About us section',
+    },
   ] as const,
 };
