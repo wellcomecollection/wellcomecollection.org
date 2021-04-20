@@ -16,10 +16,9 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
 
   const toggleOpen = () => setIsOpen(wasOpen => !wasOpen);
   const handleClickOutside = (event: MouseEvent) => {
-    const target = event.target;
+    const target = event.target as Node;
     if (
       isOpen &&
-      target instanceof Node &&
       !dropdownRef.current?.contains(target) &&
       !deleteModalRef.current?.contains(target)
     ) {
