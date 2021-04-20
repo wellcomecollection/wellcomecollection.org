@@ -13,8 +13,7 @@ const SearchInput = (): JSX.Element => {
     window.location.href = buildSearchUrl(
       '1',
       status,
-      event.currentTarget.nameField.value,
-      email
+      event.currentTarget.nameField.value
     );
   };
 
@@ -23,7 +22,7 @@ const SearchInput = (): JSX.Element => {
     window.location.href = buildSearchUrl(
       '1',
       status,
-      name,
+      undefined,
       event.currentTarget.emailField.value
     );
   };

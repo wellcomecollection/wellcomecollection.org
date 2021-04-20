@@ -3,8 +3,8 @@ import * as queryString from 'query-string';
 export function buildSearchParams(
   page: string | string[],
   status: string | string[],
-  name: string | string[],
-  email: string | string[],
+  name?: string | string[],
+  email?: string | string[],
   sort?: string | string[],
   sortDir?: string | string[]
 ): string {
@@ -21,8 +21,8 @@ export function buildSearchParams(
 export function buildSearchUrl(
   page: string | string[],
   status: string | string[],
-  name: string | string[],
-  email: string | string[],
+  name?: string | string[],
+  email?: string | string[],
   sortField?: string | string[],
   sortDir?: string | string[]
 ): string {
