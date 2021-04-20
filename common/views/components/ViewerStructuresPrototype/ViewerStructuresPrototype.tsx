@@ -6,7 +6,9 @@ import {
 import { useContext, FunctionComponent, RefObject } from 'react';
 import { FixedSizeList } from 'react-window';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
-import { classNames } from '../../../utils/classnames';
+import { classNames, font } from '../../../utils/classnames';
+import Space from '../styled/Space';
+import styled from 'styled-components';
 
 type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
@@ -24,24 +26,58 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
   const canvases = manifest ? getCanvases(manifest) : [];
   const groupedStructures = groupStructures(canvases, structures);
 
+  const List = styled.ul.attrs({
+    className: classNames({
+      'plain-list no-margin no-padding': true,
+    }),
+  })`
+    border-left: 1px solid ${props => props.theme.color('pewter')};
+  `;
+
+  const Item = styled(Space).attrs({
+    as: 'li',
+    v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+    h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+    className: classNames({
+      [font('hnl', 5)]: true,
+    }),
+  })<{ isActive: boolean }>`
+    position: relative;
+
+    ${props =>
+      props.isActive &&
+      `
+        background: #222; // FIXME: we don't have a shade between dark-charcoal and black in the palette (light-black?)
+
+        &:before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -1px;
+          bottom: 0;
+          width: 4px;
+          background: ${props.theme.color('yellow')};
+        }
+      `}
+
+    button {
+      cursor: pointer;
+    }
+  `;
+
   return groupedStructures.length > 0 ? (
-    <ul>
+    <List>
       {groupedStructures.map((structure, i) => {
         const firstCanvasInRange = structure.canvases[0];
         const canvasIndex = canvases.findIndex(
           canvas => canvas['@id'] === firstCanvasInRange
         );
         return (
-          <li key={i}>
-            <a
-              className={classNames({
-                'font-yellow': activeIndex === canvasIndex,
-              })}
-              style={{
-                cursor: 'pointer',
-              }}
-              onClick={e => {
-                e.preventDefault();
+          <Item key={i} isActive={activeIndex === canvasIndex}>
+            <button
+              className={'plain-button'}
+              type="button"
+              onClick={() => {
                 mainViewerRef &&
                   mainViewerRef.current &&
                   mainViewerRef.current.scrollToItem(canvasIndex, 'start');
@@ -50,11 +86,11 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
               }}
             >
               {structure.label}
-            </a>
-          </li>
+            </button>
+          </Item>
         );
       })}
-    </ul>
+    </List>
   ) : null;
 };
 

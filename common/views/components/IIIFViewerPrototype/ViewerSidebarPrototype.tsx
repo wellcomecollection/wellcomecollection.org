@@ -68,17 +68,6 @@ const AccordionInner = styled(Space).attrs({
   p {
     margin-bottom: 0.5em;
   }
-
-  ul {
-    list-style: none;
-    margin: 0 0 1em;
-    padding: 0;
-  }
-
-  li {
-    padding: 0;
-    margin: 0;
-  }
 `;
 
 const Item = styled.div`
