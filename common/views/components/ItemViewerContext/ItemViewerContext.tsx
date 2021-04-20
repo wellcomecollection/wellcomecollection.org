@@ -91,6 +91,7 @@ const ItemViewerContext = createContext<Props>({
     succeededBy: [],
     availabilities: [],
     availableOnline: false,
+    holdings: [],
   },
   manifest: undefined,
   manifestIndex: undefined,
