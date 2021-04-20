@@ -1,6 +1,7 @@
 import { Work } from '../../../model/catalogue';
 
 export const workFixture: Work = {
+  holdings: [],
   id: 'cnkv77md',
   title:
     'The sun rising with a yellow condom instead of the sun; representing protection against AIDS. Colour lithograph after M. Kolvenbach and G. Meyer, 199-.',
@@ -371,6 +372,7 @@ export const workFixture: Work = {
 };
 
 export const workWithPartOf: Work = {
+  holdings: [],
   id: 'pbtyx2xx',
   title: 'Physics Research Students, Cavendish Laboratory',
   alternativeTitles: [],
