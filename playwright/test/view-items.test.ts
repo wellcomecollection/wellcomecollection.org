@@ -103,7 +103,7 @@ describe('Scenario 3: A user wants information about the item they are viewing',
 
   test('the item has date information', async () => {
     const dates = await page.textContent(workDates);
-    expect(dates).toBe('Date1497');
+    expect(dates).toBe('Date1496[7]');
   });
 });
 
@@ -111,7 +111,7 @@ describe('Scenario 4: A user wants to know how they can make use of an item', ()
   test('license information should be available', async () => {
     await itemWithSearchAndStructures();
     if (isMobile()) {
-      page.click('text="Item info"');
+      page.click('text="Show info"');
     }
     await page.click('text="License and credit"');
     await page.waitForSelector(`css=body >> text="License:"`);
@@ -177,12 +177,14 @@ describe('Scenario 7: A user wants to navigate an item by its parts', () => {
   test('the structured parts should be browseable', async () => {
     await itemWithSearchAndStructures();
     if (isMobile()) {
-      page.click('text="Item info"');
+      page.click('text="Show info"');
     }
     await page.click('css=body >> text="Contents"');
     await page.waitForSelector('css=body >> text="Title Page"');
     await page.click('text="Title Page"');
-    await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
+    if (!isMobile()) {
+      await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
+    }
   });
 });
 
@@ -196,7 +198,11 @@ describe('Scenario 8: A user wants to be able to see all the images for an item'
   test('the main viewer can be scrolled', async () => {
     await itemWithSearchAndStructures();
     await scrollToBottom(page, mainViewer);
-    await page.waitForSelector(`css=[data-test-id=active-index] >> text="68"`);
+    if (!isMobile()) {
+      await page.waitForSelector(
+        `css=[data-test-id=active-index] >> text="68"`
+      );
+    }
   });
 });
 
@@ -204,13 +210,15 @@ describe("Scenario 9: A user wants to be able to search inside an item's text", 
   test('the item should be searchable', async () => {
     await itemWithSearchAndStructures();
     if (isMobile()) {
-      page.click('text="Item info"');
+      page.click('text="Show info"');
     }
     await searchWithin('darwin');
     await page.waitForSelector(searchWithinResultsHeader);
     await page.click(
       `${searchWithinResultsHeader} + ul li:first-of-type button`
     );
-    await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
+    if (!isMobile()) {
+      await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
+    }
   });
 });
