@@ -17,8 +17,8 @@ module "identity-admin-prod" {
 
   subdomain = "account-admin"
 
-//  env_vars        = local.service_env["prod"]["env_vars"]
-//  secret_env_vars = local.service_env["prod"]["secret_env_vars"]
+  env_vars        = local.service_env["prod"]["env_vars"]
+  secret_env_vars = local.service_env["prod"]["secret_env_vars"]
 
   private_subnets = local.private_subnets
   vpc_id          = local.vpc_id
