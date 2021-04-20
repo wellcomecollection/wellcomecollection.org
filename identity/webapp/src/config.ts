@@ -38,7 +38,6 @@ export const config = {
 
   session: {
     // Session / cookie options.
-    secure: process.env.NODE_ENV === 'production',
   } as Partial<SessionOpts>,
 
   logout: {
