@@ -11,8 +11,11 @@ import { configureLocalAuth } from './utility/configure-local-auth';
 import { config } from './config';
 import { configureAuth0 } from './utility/configure-auth0';
 
-export async function createApp(router: TypedRouter<any, any>) {
+export async function createApp(router: TypedRouter<any, any>): Promise<Koa> {
   const app = new Koa();
+
+  // when true proxy header fields will be trusted
+  app.proxy = true;
 
   app.context.routes = router;
 
