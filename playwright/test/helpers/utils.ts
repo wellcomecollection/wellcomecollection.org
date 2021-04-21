@@ -1,5 +1,5 @@
 import { baseUrl } from './urls';
-import toggleConfig from '@weco/toggles/toggles';
+import axios from 'axios';
 
 export type CookieType = {
   name: string;
@@ -15,8 +15,15 @@ export type CookieType = {
 
 const togglePrefix = 'toggle_';
 
-export function makeDefaultToggleAndTestCookies(domain: string): CookieType[] {
-  return [...toggleConfig.toggles, ...toggleConfig.tests].map(t => {
+export async function makeDefaultToggleAndTestCookies(
+  domain: string
+): Promise<CookieType[]> {
+  const { data } = await axios.get(
+    'https://toggles.wellcomecollection.org/toggles.json'
+  );
+  const { toggles, tests } = data;
+
+  return [...toggles, ...tests].map(t => {
     return {
       name: `${togglePrefix}${t.id}`,
       value: t.defaultValue.toString(),
