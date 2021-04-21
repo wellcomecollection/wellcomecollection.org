@@ -3,7 +3,7 @@ import { SortField } from '../../interfaces';
 import { callRemoteApi } from '../../utils/api-caller';
 import * as queryString from 'query-string';
 
-const pageSize = 20;
+const pageSize = 25;
 
 export default async (
   req: NextApiRequest,
@@ -15,8 +15,8 @@ export default async (
       status,
       name,
       email,
-      sort = SortField.Name,
-      sortDir = '1',
+      sort = SortField.LastLogin,
+      sortDir = '-1',
     },
   } = req;
 

@@ -1,4 +1,3 @@
-import { lighten } from 'polished';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -64,7 +63,7 @@ const TopBar = styled.div<{
 }>`
   position: relative;
   z-index: 3;
-  background: ${props => lighten(0.14, props.theme.color('viewerBlack'))};
+  background: ${props => props.theme.color('charcoal')};
   color: ${props => props.theme.color('white')};
   justify-content: space-between;
   display: ${props => (props.isZooming ? 'none' : 'grid')};
@@ -303,8 +302,18 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                     }
                   }}
                 >
-                  <Icon name="expand" />
-                  <span className={`btn__text`}>Full screen</span>
+                  {document.fullscreenElement ||
+                  document['webkitFullscreenElement'] ? (
+                    <>
+                      <Icon name={'collapse'} />
+                      <span className={`btn__text`}>Exit full screen</span>
+                    </>
+                  ) : (
+                    <>
+                      <Icon name={'expand'} />
+                      <span className={`btn__text`}>Full screen</span>
+                    </>
+                  )}
                 </ShameButton>
               )}
             </div>

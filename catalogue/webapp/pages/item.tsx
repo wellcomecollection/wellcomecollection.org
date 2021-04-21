@@ -13,6 +13,7 @@ import {
   isUiEnabled,
   getAuthService,
   getTokenService,
+  getToggleDeterminedIIIFManifest,
 } from '@weco/common/utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
@@ -438,9 +439,12 @@ export const getServerSideProps: GetServerSideProps<
   )?.url;
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
-  const manifestOrCollection = iiifPresentationUrl
-    ? await fetchJson(iiifPresentationUrl)
-    : undefined;
+  const manifestOrCollection =
+    iiifPresentationUrl &&
+    (await getToggleDeterminedIIIFManifest(
+      globalContextData.toggles.switchIIIFManifestSource,
+      iiifPresentationUrl
+    ));
 
   if (manifestOrCollection) {
     // This happens when the main manifest is actually a Collection (manifest of manifest).

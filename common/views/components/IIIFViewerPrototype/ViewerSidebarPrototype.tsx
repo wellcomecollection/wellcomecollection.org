@@ -41,7 +41,6 @@ const Inner = styled(Space).attrs({
 `;
 
 const AccordionInner = styled(Space).attrs({
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
     [font('hnm', 5)]: true,
@@ -69,24 +68,13 @@ const AccordionInner = styled(Space).attrs({
   p {
     margin-bottom: 0.5em;
   }
-
-  ul {
-    list-style: none;
-    margin: 0 0 1em;
-    padding: 0;
-  }
-
-  li {
-    padding: 0;
-    margin: 0;
-  }
 `;
 
 const Item = styled.div`
-  border-bottom: 1px solid ${props => props.theme.color('charcoal')};
+  border-bottom: 1px solid ${props => props.theme.color('pewter')};
 
   &:first-child {
-    border-top: 1px solid ${props => props.theme.color('charcoal')};
+    border-top: 1px solid ${props => props.theme.color('pewter')};
   }
 `;
 
@@ -102,12 +90,7 @@ const AccordionItem = ({
   const [isActive, setIsActive] = useState(false);
   return (
     <Item data-test-id={testId}>
-      <AccordionInner
-        onClick={() => setIsActive(!isActive)}
-        className={classNames({
-          'bg-charcoal': isActive,
-        })}
-      >
+      <AccordionInner onClick={() => setIsActive(!isActive)}>
         <button
           className={classNames({
             'plain-button no-margin no-padding': true,
@@ -223,15 +206,25 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
           <WorkLink id={work.id} source="viewer_back_link">
             <a
               className={classNames({
-                'flex flex--v-center font-yellow': true,
+                [font('hnl', 5)]: true,
+                'flex flex--v-center': true,
               })}
             >
-              More about this work
+              Catalogue details
+              <Space
+                h={{ size: 's', properties: ['margin-left'] }}
+                className="flex flex--v-center"
+              >
+                <Icon
+                  name={`arrow`}
+                  extraClasses={`icon--match-text icon--white`}
+                />
+              </Space>
             </a>
           </WorkLink>
         </Space>
       </Inner>
-      <div>
+      <Inner>
         <AccordionItem
           title={'License and credit'}
           testId={'license-and-credit'}
@@ -272,7 +265,7 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
             <MultipleManifestListPrototype />
           </AccordionItem>
         )}
-      </div>
+      </Inner>
 
       {searchService && (
         <Inner>

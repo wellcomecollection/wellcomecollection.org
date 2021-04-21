@@ -41,8 +41,13 @@ const Label: FunctionComponent<Props> = ({
       v={{
         size: 's',
         properties: ['padding-top', 'padding-bottom'],
+        overrides: { large: 2 },
       }}
-      h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
+      h={{
+        size: 's',
+        properties: ['padding-left', 'padding-right'],
+        overrides: { large: 2 },
+      }}
       fontColor={labelColor === 'black' ? 'yellow' : 'black'}
       labelColor={labelColor}
     >

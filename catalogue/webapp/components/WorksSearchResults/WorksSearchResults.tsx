@@ -1,27 +1,19 @@
-import { FunctionComponent, useContext } from 'react';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
+import { FunctionComponent } from 'react';
 import { trackSearchResultSelected } from '@weco/common/views/components/Tracker/Tracker';
 import WorksSearchResult from '../WorksSearchResult/WorksSearchResult';
 import { grid } from '@weco/common/utils/classnames';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/ts_api';
-import { WorksProps } from '@weco/common/views/components/WorksLink/WorksLink';
 
 type Props = {
   works: CatalogueResultsList<Work>;
-  worksRouteProps: WorksProps;
   apiProps: CatalogueWorksApiProps;
 };
 
 const WorkSearchResults: FunctionComponent<Props> = ({
   works,
-  worksRouteProps,
   apiProps,
 }: Props) => {
-  const { query, workType, page } = worksRouteProps;
-  const { relevanceRating } = useContext(TogglesContext);
-
   return (
     <ul className={'grid plain-list no-padding no-margin'}>
       {works.results.map((result, i) => (
@@ -43,17 +35,6 @@ const WorkSearchResults: FunctionComponent<Props> = ({
           >
             <WorksSearchResult work={result} resultPosition={i} />
           </div>
-
-          {relevanceRating && (
-            <RelevanceRater
-              id={result.id}
-              position={i}
-              query={query}
-              page={page}
-              workType={workType}
-              apiProps={apiProps}
-            />
-          )}
         </li>
       ))}
     </ul>

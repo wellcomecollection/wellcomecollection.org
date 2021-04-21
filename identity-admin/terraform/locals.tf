@@ -26,7 +26,7 @@ locals {
   private_subnets = data.terraform_remote_state.infra_shared.outputs.identity_vpc_private_subnets
   public_subnets  = data.terraform_remote_state.infra_shared.outputs.identity_vpc_public_subnets
 
-  service_env_names = ["stage"]
+  service_env_names = ["stage", "prod"]
 
   service_env = {for env_name in local.service_env_names : env_name => {
     env_vars = {

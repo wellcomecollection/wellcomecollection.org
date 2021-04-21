@@ -1,48 +1,33 @@
 // @flow
 import Router from 'next/router';
 import {
-  type CatalogueWorksApiProps,
-  type CatalogueImagesApiProps,
-} from '../../../services/catalogue/api';
+  CatalogueWorksApiProps,
+  CatalogueImagesApiProps,
+} from '../../../services/catalogue/ts_api';
 
-type RelevanceRatingData = {|
-  position: number,
-  id: string,
-  rating: number,
-  query: string,
-  page: number,
-  workType: ?(string[]),
-|};
+type ServiceName = 'search_relevance_implicit';
 
-type ServiceName = 'search_relevance_implicit' | 'search_relevance_explicit';
-
-const trackRelevanceRating = (
-  params: CatalogueWorksApiProps,
-  data: RelevanceRatingData
-) => {
-  track(params, 'Relevance rating', 'search_relevance_explicit', data);
+type SearchResultSelectedData = {
+  source: string;
+  id: string;
+  position: number;
+  resultWorkType: string;
+  resultIdentifiers?: string[];
+  resultSubjects?: string[];
 };
 
-type SearchResultSelectedData = {|
-  source: string,
-  id: string,
-  position: number,
-  resultWorkType: string,
-  resultIdentifiers: ?string,
-  resultSubjects: ?string,
-|};
 const trackSearchResultSelected = (
   params: CatalogueWorksApiProps | CatalogueImagesApiProps,
   data: SearchResultSelectedData
-) => {
+): void => {
   track(params, 'Search result selected', 'search_relevance_implicit', data);
 };
 
-type SearchData = {| source: string, totalResults: number |};
+type SearchData = { source: string; totalResults: number };
 const trackSearch = (
   params: CatalogueWorksApiProps | CatalogueImagesApiProps,
   data: SearchData
-) => {
+): void => {
   const query = params.query;
   if (query && query !== '') {
     track(params, 'Search', 'search_relevance_implicit', data);
@@ -51,29 +36,28 @@ const trackSearch = (
   }
 };
 
-type SearchImageExpandedData = {|
-  source: string,
-  id: string,
-|};
+type SearchImageExpandedData = {
+  source: string;
+  id: string;
+};
 const trackSearchImageExpanded = (
   params: CatalogueWorksApiProps | CatalogueImagesApiProps,
   data: SearchImageExpandedData
-) => {
+): void => {
   track(params, 'Search image expanded', 'search_relevance_implicit', data);
 };
 
 type TrackingEventData =
   | SearchResultSelectedData
-  | RelevanceRatingData
   | SearchData
   | SearchImageExpandedData;
 
-const track = (
+function track(
   params: CatalogueWorksApiProps | CatalogueImagesApiProps,
   eventName: string,
   serviceName: ServiceName,
-  data: ?TrackingEventData
-) => {
+  data?: TrackingEventData
+) {
   // returns `["withNotes:true", "testb:false"]`
   let debug = false;
   const toggles = document.cookie
@@ -107,11 +91,6 @@ const track = (
   }
 
   window.analytics && window.analytics.track(eventName, event);
-};
+}
 
-export {
-  trackRelevanceRating,
-  trackSearch,
-  trackSearchResultSelected,
-  trackSearchImageExpanded,
-};
+export { trackSearch, trackSearchResultSelected, trackSearchImageExpanded };
