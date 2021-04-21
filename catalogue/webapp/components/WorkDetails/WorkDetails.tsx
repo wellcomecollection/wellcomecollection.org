@@ -42,6 +42,7 @@ import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 import IIIFClickthrough from '@weco/common/views/components/IIIFClickthrough/IIIFClickthrough';
 import OnlineResources from './OnlineResources';
+import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
 type Props = {
   work: Work;
 };
@@ -241,12 +242,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
             <div key={i}>
               {holding.enumeration.length > 0 && (
                 <>
-                  <h3>Enumeration</h3>
-                  <ul>
-                    {holding.enumeration.map((e, i) => (
-                      <li key={i}>{e}</li>
-                    ))}
-                  </ul>
+                  <ExpandableList listItems={holding.enumeration} />
                 </>
               )}
 
