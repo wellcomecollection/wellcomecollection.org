@@ -16,6 +16,7 @@ import {
   mainViewer,
 } from './selectors/item';
 import { baseUrl } from './helpers/urls';
+import { makeDefaultToggleAndTestCookies } from './helpers/utils';
 
 const domain = new URL(baseUrl).host;
 
@@ -24,15 +25,12 @@ async function searchWithin(query: string) {
   await page.press(`text=${searchWithinLabel}`, 'Enter');
 }
 
+const defaultToggleAndTestCookies = makeDefaultToggleAndTestCookies(domain);
+
 beforeAll(async () => {
   await context.addCookies([
     { name: 'WC_cookiesAccepted', value: 'true', domain: domain, path: '/' },
-    {
-      name: 'toggle_itemViewerPrototype',
-      value: 'true',
-      domain: domain,
-      path: '/',
-    },
+    ...defaultToggleAndTestCookies,
   ]);
 });
 

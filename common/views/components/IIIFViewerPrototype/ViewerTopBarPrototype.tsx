@@ -6,8 +6,10 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent, useContext, RefObject } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs(() => ({
@@ -152,6 +154,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
   viewerRef,
 }: Props) => {
   const { isEnhanced } = useContext(AppContext);
+  const { showSidebarToggleLabel } = useContext(TogglesContext);
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
     canvases,
@@ -185,6 +188,11 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                 isDark
                 onClick={() => {
                   setIsDesktopSidebarActive(!isDesktopSidebarActive);
+                  trackEvent({
+                    category: 'Control',
+                    action: 'Toggle item viewer sidebar',
+                    label: `${work.id}`,
+                  });
                 }}
               >
                 <Icon
@@ -194,8 +202,15 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                     'icon--180': !isDesktopSidebarActive,
                   })}
                 />
-                {isDesktopSidebarActive ? 'Hide' : 'Show'}
-                {' info'}
+                <ConditionalWrapper
+                  condition={!showSidebarToggleLabel}
+                  wrapper={children => (
+                    <span className={`visually-hidden`}>{children}</span>
+                  )}
+                >
+                  {isDesktopSidebarActive ? 'Hide' : 'Show'}
+                  {' info'}
+                </ConditionalWrapper>
               </ShameButton>
               <ShameButton
                 className={`viewer-mobile`}
@@ -204,8 +219,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                   setIsMobileSidebarActive(!isMobileSidebarActive);
                 }}
               >
-                {isMobileSidebarActive ? 'Hide' : 'Show'}
-                {' info'}
+                {isMobileSidebarActive ? 'Hide info' : 'Show info'}
               </ShameButton>
             </>
           )}
