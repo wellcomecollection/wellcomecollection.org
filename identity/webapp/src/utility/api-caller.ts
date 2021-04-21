@@ -44,7 +44,11 @@ export async function callRemoteApi(
       data: body,
     };
   }
+
+  console.log({ request });
+
   return identityInstance.request(request).catch(function (error) {
+    console.error(error);
     return error.response;
   });
 }
