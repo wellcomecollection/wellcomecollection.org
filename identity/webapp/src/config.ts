@@ -38,7 +38,6 @@ export const config = {
 
   session: {
     // Session / cookie options.
-    secure: false,
   } as Partial<SessionOpts>,
 
   logout: {
