@@ -188,6 +188,11 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                 isDark
                 onClick={() => {
                   setIsDesktopSidebarActive(!isDesktopSidebarActive);
+                  trackEvent({
+                    category: 'Control',
+                    action: 'Toggle item viewer sidebar',
+                    label: `${work.id}`,
+                  });
                 }}
               >
                 <Icon
