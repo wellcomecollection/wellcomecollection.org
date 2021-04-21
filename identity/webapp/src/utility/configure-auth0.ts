@@ -5,7 +5,6 @@ import { callRemoteApi } from './api-caller';
 
 export function configureAuth0(): void {
   const strategy = new Auth0Strategy(config.auth0, function (accessToken, refreshToken, extraParams, profile, done) {
-    console.log({ accessToken, refreshToken, extraParams, profile });
     return done(null, {
       accessToken,
       profile: {
@@ -17,15 +16,13 @@ export function configureAuth0(): void {
   koaPassport.use(strategy);
 
   koaPassport.serializeUser(function (user, done) {
-    console.log({ user });
     done(null, user);
   });
 
   koaPassport.deserializeUser(async function (user: any, done) {
     const accessToken: string = user?.accessToken;
     try {
-      const { status, data } = await callRemoteApi('GET', '/users/me', { user: { accessToken } });
-      console.log({ status, data });
+      await callRemoteApi('GET', '/users/me', { user: { accessToken } });
       done(null, user);
     } catch (e) {
       console.error(e);

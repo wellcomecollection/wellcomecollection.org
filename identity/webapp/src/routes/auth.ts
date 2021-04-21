@@ -10,9 +10,7 @@ export const loginAction: RouteMiddleware = koaPassport.authenticate('auth0', {
 });
 
 export const authCallback: RouteMiddleware = (ctx, next) => {
-  console.log({ ctx });
   return koaPassport.authenticate('auth0', (err, user, info) => {
-    console.log({ err, user, info });
     if (err) {
       ctx.status = err.status || 500;
       ctx.body = err.message;
