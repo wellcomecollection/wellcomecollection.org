@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import getCookies from 'next-cookies';
 import fetch from 'isomorphic-unfetch';
 import Header from '../components/Header';
-import toggleConfig from '@weco/toggles/toggles';
 
 const fontFamily = 'Gadget, sans-serif';
 
@@ -69,17 +68,20 @@ type AbTest = {|
   description: string,
 |};
 
-const abTests: AbTest[] = toggleConfig.tests;
 const IndexPage = () => {
   const [toggleStates, setToggleStates] = useState<ToggleStates>({});
   const [toggles, setToggles] = useState<Toggle[]>([]);
+  const [abTests, setAbTests] = useState<AbTest[]>([]);
 
   // We use this over getInitialProps as it's ineffectual when an app is
   // exported.
   useEffect(() => {
     fetch('https://toggles.wellcomecollection.org/toggles.json')
       .then(resp => resp.json())
-      .then(json => setToggles(json.toggles));
+      .then(json => {
+        setToggles(json.toggles);
+        setAbTests(json.tests);
+      });
 
     const cookies = getCookies({});
     const initialToggles = Object.keys(cookies).reduce((acc, key) => {
