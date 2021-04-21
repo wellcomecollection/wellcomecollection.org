@@ -49,7 +49,7 @@ locals {
 data "aws_ssm_parameter" "auth0_client_id"{
   for_each = toset(local.service_env_names)
 
-  name = "/identity/stage/account_admin_system/auth0_client_id"
+  name = "/identity/${each.key}/account_admin_system/auth0_client_id"
 }
 
 data "aws_ssm_parameter" "api_base_url"{
