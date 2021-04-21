@@ -233,9 +233,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     </WorkDetailsSection>
   );
 
-  const Content = () => (
+  const Holdings = () => (
     <>
-      {showHoldingsOnWork && holdings.length > 0 && (
+      {true && holdings.length > 0 ? ( // TODO put toggle back
         <WorkDetailsSection headingText="Holdings" isInArchive={isInArchive}>
           {holdings.map((holding, i) => (
             <div key={i}>
@@ -268,13 +268,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                       borderRadius: '6px',
                     }}
                   >
-                    {JSON.stringify(
-                      holding.location.type === 'DigitalLocation'
-                        ? getDigitalLocationInfo(holding.location)
-                        : holding.location,
-                      null,
-                      1
-                    )}
+                    {JSON.stringify(holding.location, null, 1)}
                   </code>
                 </pre>
               )}
@@ -304,8 +298,12 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
             </div>
           ))}
         </WorkDetailsSection>
-      )}
+      ) : null}
+    </>
+  );
 
+  const Content = () => (
+    <>
       {digitalLocation && itemLinkState !== 'useNoLink' && (
         <WorkDetailsSection
           headingText="Available online"
@@ -534,6 +532,8 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         <WhereToFindIt />
       )}
 
+      {!digitalLocation && <Holdings />}
+
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection
           headingText="Selected images from this work"
@@ -674,6 +674,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       {digitalLocation && (locationOfWork || showEncoreLink) && (
         <WhereToFindIt />
       )}
+      {digitalLocation && <Holdings />}
 
       <WorkDetailsSection
         headingText="Permanent link"
