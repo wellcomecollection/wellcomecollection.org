@@ -25,9 +25,10 @@ async function searchWithin(query: string) {
   await page.press(`text=${searchWithinLabel}`, 'Enter');
 }
 
-const defaultToggleAndTestCookies = makeDefaultToggleAndTestCookies(domain);
-
 beforeAll(async () => {
+  const defaultToggleAndTestCookies = await makeDefaultToggleAndTestCookies(
+    domain
+  );
   await context.addCookies([
     { name: 'WC_cookiesAccepted', value: 'true', domain: domain, path: '/' },
     ...defaultToggleAndTestCookies,
