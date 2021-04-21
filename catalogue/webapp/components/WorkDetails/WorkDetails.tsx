@@ -57,11 +57,7 @@ function getItemLinkState({
   audio,
   video,
 }): ItemLinkState | undefined {
-  if (
-    (accessCondition === 'restricted' ||
-      accessCondition === 'permission-required') &&
-    sierraIdFromManifestUrl
-  ) {
+  if (accessCondition === 'permission-required' && sierraIdFromManifestUrl) {
     return 'useLibraryLink';
   }
   if (accessCondition === 'closed') {
