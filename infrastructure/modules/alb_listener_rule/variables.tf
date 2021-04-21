@@ -1,5 +1,8 @@
 variable "alb_listener_https_arn" {}
-variable "alb_listener_http_arn" {}
+variable "alb_listener_http_arn" {
+  type = string
+  default = ""
+}
 variable "target_group_arn" {}
 variable "priority" {}
 

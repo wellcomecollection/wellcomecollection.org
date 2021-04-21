@@ -37,7 +37,7 @@ module "path_listener" {
   source = "../../../infrastructure/modules/alb_listener_rule"
 
   alb_listener_https_arn = var.alb_listener_https_arn
-  alb_listener_http_arn  = var.alb_listener_http_arn
+  #alb_listener_http_arn  = var.alb_listener_http_arn
   target_group_arn       = local.target_group_arn
 
   path_patterns = ["*"]
