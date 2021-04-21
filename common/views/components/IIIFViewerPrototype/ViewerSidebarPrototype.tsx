@@ -129,13 +129,9 @@ type Props = {
 const ViewerSidebarPrototype: FunctionComponent<Props> = ({
   mainViewerRef,
 }: Props) => {
-  const {
-    work,
-    manifest,
-    parentManifest,
-    currentManifestLabel,
-    setIsMobileSidebarActive,
-  } = useContext(ItemViewerContext);
+  const { work, manifest, parentManifest, currentManifestLabel } = useContext(
+    ItemViewerContext
+  );
   const productionDates = getProductionDates(work);
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -226,13 +222,13 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
       </Inner>
       <Inner>
         <AccordionItem
-          title={'License and credit'}
+          title={'Licence and credit'}
           testId={'license-and-credit'}
         >
           <div className={font('hnl', 6)}>
             {license && license.label && (
               <p>
-                <strong>License:</strong>{' '}
+                <strong>Licence:</strong>{' '}
                 {license.url ? (
                   <NextLink href={license.url}>
                     <a>{license.label}</a>
