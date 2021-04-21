@@ -483,7 +483,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 }}
               >
                 <WorkDetailsText
-                  title="License"
+                  title="Licence"
                   text={[digitalLocationInfo.license.label]}
                 />
               </Space>
