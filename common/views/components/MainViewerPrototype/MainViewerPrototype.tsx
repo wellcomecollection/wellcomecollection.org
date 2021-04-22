@@ -94,11 +94,12 @@ type ItemRendererProps = {
   };
 };
 
-function getPositionData( // TODO typing
+function getPositionData(
   imageContainerRect,
   imageRect,
   currentCanvas,
-  searchResults
+  searchResults,
+  canvases
 ) {
   const imageContainerTop = imageContainerRect?.top || 0;
   const imageTop = imageRect?.top || 0;
@@ -111,8 +112,13 @@ function getPositionData( // TODO typing
     searchResults &&
     searchResults?.resources.map(resource => {
       // on: "https://wellcomelibrary.org/iiif/b30330002/canvas/c55#xywh=2301,662,157,47"
-      const canvasMatch = resource.on.match(/\/canvas\/c(\d+)#/);
-      const canvasNumber = canvasMatch && canvasMatch[1];
+      // OR
+      // on: https://iiif.wellcomecollection.org/presentation/b29338062/canvases/b29338062_0031.jp2#xywh=148,2277,259,59"
+      const canvasNumber = canvases.findIndex(canvas => {
+        return (
+          new URL(resource.on).pathname === new URL(canvas['@id']).pathname
+        );
+      });
       const coordsMatch = resource.on.match(/(#xywh=)(.*)/);
       const coords = coordsMatch && coordsMatch[2].split(',');
       const x = coords && Math.round(Number(coords[0]) * scale);
@@ -193,7 +199,8 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
       imageContainerRect,
       imageRect,
       currentCanvas,
-      searchResults
+      searchResults,
+      canvases
     );
     setOverlayPositionData(
       highlightsPositioningData &&
