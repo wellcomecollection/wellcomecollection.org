@@ -20,6 +20,8 @@ import { ChangeEmail } from './ChangeEmail';
 import { ChangePassword } from './ChangePassword';
 import { DeleteAccount } from './DeleteAccount';
 import { UpdateUserSchema } from '../../types/schemas/update-user';
+import { useHistory } from 'react-router';
+import { usePrefix } from '../hooks/usePrefix';
 
 const Detail: React.FC<{ label: string; value?: string }> = ({ label, value }) => (
   <DetailWrapper>
@@ -38,6 +40,8 @@ const AccountStatus: React.FC<React.ComponentProps<typeof StatusAlert>> = ({ typ
 };
 
 const Profile: React.FC = () => {
+  const history = useHistory();
+  const prefix = usePrefix();
   const { user, isLoading, update } = useUserInfo();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
@@ -45,6 +49,10 @@ const Profile: React.FC = () => {
   if (isLoading) {
     return <Loading />;
   }
+
+  const logoutOnDeletionRequest = () => {
+    history.replace(`${prefix}/logout?returnTo=${encodeURIComponent('/delete-requested')}`);
+  };
 
   return (
     <PageWrapper>
@@ -90,7 +98,12 @@ const Profile: React.FC = () => {
           <Section>
             <SectionHeading>Delete library account</SectionHeading>
             <span>Request a deletion of your account</span>
-            <ChangeDetailsModal id="delete-account" buttonText="Request deletion" isDangerous onComplete={() => null}>
+            <ChangeDetailsModal
+              id="delete-account"
+              buttonText="Request deletion"
+              isDangerous
+              onComplete={logoutOnDeletionRequest}
+            >
               <DeleteAccount />
             </ChangeDetailsModal>
           </Section>
