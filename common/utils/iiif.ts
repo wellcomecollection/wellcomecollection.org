@@ -45,11 +45,14 @@ export function getVideoClickthroughService(
     if (Array.isArray(video.service)) {
       return video.service.find(
         service =>
-          service.profile === 'http://iiif.io/api/auth/0/login/clickthrough'
+          service.profile === 'http://iiif.io/api/auth/0/login/clickthrough' ||
+          service.profile === 'http://iiif.io/api/auth/1/clickthrough'
       );
     } else {
       if (
-        video.service.profile === 'http://iiif.io/api/auth/0/login/clickthrough'
+        video.service.profile ===
+          'http://iiif.io/api/auth/0/login/clickthrough' ||
+        video.service.profile === 'http://iiif.io/api/auth/1/clickthrough'
       ) {
         return video.service;
       }
@@ -62,7 +65,9 @@ export function getTokenService(
 ): AuthServiceService | undefined {
   const authServiceServices = authService?.service || [];
   return authServiceServices.find(
-    service => service.profile === 'http://iiif.io/api/auth/0/token'
+    service =>
+      service.profile === 'http://iiif.io/api/auth/0/token' ||
+      service.profile === 'http://iiif.io/api/auth/1/token'
   );
 }
 
