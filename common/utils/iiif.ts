@@ -66,7 +66,7 @@ export function getTokenService(
   );
 }
 
-export function getImageAuthService(canvas?: IIIFCanvas): AuthService {
+export function getImageAuthService(canvas: IIIFCanvas): AuthService | null {
   const serviceArray = canvas?.images?.[0]?.resource?.service?.[0]?.service;
   const authService =
     serviceArray &&
@@ -75,6 +75,14 @@ export function getImageAuthService(canvas?: IIIFCanvas): AuthService {
         service['@context'] === 'http://iiif.io/api/auth/0/context.json'
     );
   return authService || null;
+}
+
+export function isImageRestricted(canvas: IIIFCanvas): boolean {
+  const imageAuthService = getImageAuthService(canvas);
+  return Boolean(
+    imageAuthService &&
+      imageAuthService.profile === 'http://iiif.io/api/auth/0/login/restricted'
+  );
 }
 
 export function getUiExtensions(
