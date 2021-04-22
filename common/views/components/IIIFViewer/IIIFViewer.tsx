@@ -33,6 +33,7 @@ import dynamic from 'next/dynamic';
 import { DigitalLocation, Work } from '../../../model/catalogue';
 import { FixedSizeList } from 'react-window';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
+import { fetchJson } from '@weco/common/utils/http';
 
 const LoadingComponent = () => (
   <div
@@ -377,7 +378,7 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
   useEffect(() => {
     const fetchParentManifest = async () => {
       const parentManifest =
-        parentManifestUrl && (await (await fetch(parentManifestUrl)).json());
+        parentManifestUrl && (await fetchJson(parentManifestUrl));
       parentManifest && setParentManifest(parentManifest);
     };
 
