@@ -1,15 +1,16 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Registration } from './Registration/Registration';
-import { AccountValidated } from './Registration/AccountValidated';
-import { ErrorPage } from './components/ErrorPage';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
+import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
 import theme from '@weco/common/views/themes/default';
 import '@weco/common/styles/styleguide.scss';
 import { initaliseMiddlewareClient } from '../utility/middleware-api-client';
+import { Registration } from './Registration/Registration';
+import { AccountValidated } from './Registration/AccountValidated';
+import { ErrorPage } from './components/ErrorPage';
 import { MyAccount } from './MyAccount/MyAccount';
+import { DeleteRequested } from './MyAccount/DeleteRequested';
 
 const GlobalStyles = createGlobalStyle`
   body {
@@ -35,6 +36,7 @@ if (root) {
           <Switch>
             <Route exact path="/register" component={Registration} />
             <Route exact path="/validated" component={AccountValidated} />
+            <Route exact path="/delete-requested" component={DeleteRequested} />
             <Route exact path="/error" component={ErrorPage} />
             <Route exact path="/" component={MyAccount} />
           </Switch>
