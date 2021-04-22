@@ -11,7 +11,7 @@ const List = styled.ul.attrs({
   }),
 })`
   border: 2px solid ${props => props.theme.color('pewter')};
-  border-radius: 3px;
+  border-radius: 5px;
 
   button {
     border-right: 2px solid ${props => props.theme.color('pewter')};

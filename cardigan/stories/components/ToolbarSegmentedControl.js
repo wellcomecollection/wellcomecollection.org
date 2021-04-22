@@ -9,24 +9,26 @@ const ToolbarSegmentedControlExample = () => {
   const hideLabels = boolean('Hide labels?', false);
 
   return (
-    <ToolbarSegmentedControl
-      activeId={activeId}
-      hideLabels={hideLabels}
-      items={[
-        {
-          id: 1,
-          icon: 'digitalImage',
-          label: 'Page',
-          clickHandler: () => setActiveId(1),
-        },
-        {
-          id: 2,
-          icon: 'gridView',
-          label: 'Grid',
-          clickHandler: () => setActiveId(2),
-        },
-      ]}
-    />
+    <div style={{ padding: '50px', background: '#333' }}>
+      <ToolbarSegmentedControl
+        activeId={activeId}
+        hideLabels={hideLabels}
+        items={[
+          {
+            id: 1,
+            icon: 'digitalImage',
+            label: 'Page',
+            clickHandler: () => setActiveId(1),
+          },
+          {
+            id: 2,
+            icon: 'gridView',
+            label: 'Grid',
+            clickHandler: () => setActiveId(2),
+          },
+        ]}
+      />
+    </div>
   );
 };
 
