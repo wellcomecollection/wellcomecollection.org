@@ -10,6 +10,7 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import ToolbarSegmentedControl from '../ToolbarSegmentedControl/ToolbarSegmentedControl';
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs(() => ({
@@ -149,10 +150,7 @@ type Props = {
   viewerRef: RefObject<HTMLDivElement>;
 };
 
-const ViewerTopBar: FunctionComponent<Props> = ({
-  viewToggleRef,
-  viewerRef,
-}: Props) => {
+const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
   const { isEnhanced } = useContext(AppContext);
   const { showSidebarToggleLabel } = useContext(TogglesContext);
   const isFullscreenEnabled = useIsFullscreenEnabled();
@@ -228,26 +226,38 @@ const ViewerTopBar: FunctionComponent<Props> = ({
       <Main>
         <LeftZone>
           {!showZoomed && (
-            <ShameButton
-              className={`viewer-desktop`}
-              isDark
-              ref={viewToggleRef}
-              onClick={() => {
-                setGridVisible(!gridVisible);
-                trackEvent({
-                  category: 'Control',
-                  action: `clicked work viewer ${
-                    gridVisible ? '"Detail view"' : '"View all"'
-                  } button`,
-                  label: `${work.id}`,
-                });
-              }}
-            >
-              <Icon name={gridVisible ? 'detailView' : 'gridView'} />
-              <span className={`btn__text`}>
-                {gridVisible ? 'Detail view' : 'View all'}
-              </span>
-            </ShameButton>
+            <ToolbarSegmentedControl
+              hideLabels={true}
+              items={[
+                {
+                  id: '1',
+                  label: 'Page',
+                  icon: 'singlePage',
+                  clickHandler() {
+                    setGridVisible(false);
+                    trackEvent({
+                      category: 'Control',
+                      action: `clicked work viewer Detail view button`,
+                      label: `${work.id}`,
+                    });
+                  },
+                },
+                {
+                  id: '2',
+                  label: 'Grid',
+                  icon: 'gridView',
+                  clickHandler() {
+                    setGridVisible(true);
+                    trackEvent({
+                      category: 'Control',
+                      action: `clicked work viewer Grid view button`,
+                      label: `${work.id}`,
+                    });
+                  },
+                },
+              ]}
+              activeId={gridVisible ? '2' : '1'}
+            />
           )}
         </LeftZone>
         <MiddleZone>

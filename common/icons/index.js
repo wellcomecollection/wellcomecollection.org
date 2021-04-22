@@ -85,6 +85,7 @@ import saveTo from './components/SaveTo';
 import scroll from './components/Scroll';
 import search from './components/Search';
 import share from './components/Share';
+import singlePage from './components/SinglePage';
 import smartphone from './components/Smartphone';
 import snowflake from './components/Snowflake';
 import sort from './components/Sort';
@@ -199,6 +200,7 @@ export {
   scroll,
   search,
   share,
+  singlePage,
   smartphone,
   snowflake,
   sort,
