@@ -12,10 +12,6 @@ const List = styled.ul.attrs({
 })`
   border: 2px solid ${props => props.theme.color('pewter')};
   border-radius: 5px;
-
-  button {
-    border-right: 2px solid ${props => props.theme.color('pewter')};
-  }
 `;
 
 const Item = styled.li<{ isActive: boolean }>`
@@ -24,10 +20,6 @@ const Item = styled.li<{ isActive: boolean }>`
     `
     background: ${props.theme.color('pewter')};
   `}
-
-  &:last-child button {
-    border-right: none;
-  }
 `;
 
 const Button = styled.button.attrs({
