@@ -10,11 +10,11 @@ const List = styled.ul.attrs({
     'flex-inline flex--v-center flex--h-center': true,
   }),
 })`
-  border: 2px solid ${props => props.theme.color('charcoal')};
+  border: 2px solid ${props => props.theme.color('pewter')};
   border-radius: 3px;
 
   button {
-    border-right: 2px solid ${props => props.theme.color('charcoal')};
+    border-right: 2px solid ${props => props.theme.color('pewter')};
   }
 `;
 
@@ -22,7 +22,7 @@ const Item = styled.li<{ isActive: boolean }>`
   ${props =>
     props.isActive &&
     `
-    background: ${props.theme.color('charcoal')};
+    background: ${props.theme.color('pewter')};
   `}
 
   &:last-child button {
@@ -39,13 +39,20 @@ const Button = styled.button.attrs({
 
 const ButtonInner = styled(Space).attrs({
   as: 'span',
-  h: { size: 's', properties: ['padding-right', 'padding-left'] },
+  h: {
+    size: 'xs',
+    properties: ['padding-right', 'padding-left'],
+  },
+  v: {
+    size: 'xs',
+    properties: ['padding-top', 'padding-bottom'],
+  },
   className: classNames({
     'flex flex--v-center flex--h-center': true,
     [font('hnm', 5)]: true,
   }),
 })<{ isActive: boolean }>`
-  color: ${props => props.theme.color(props.isActive ? 'yellow' : 'pewter')};
+  color: ${props => props.theme.color('white')};
 `;
 
 type Props = {
@@ -70,10 +77,25 @@ const ToolbarSegmentedControl: FunctionComponent<Props> = ({
         <Item isActive={activeId === item.id} key={item.id}>
           <Button onClick={item.clickHandler}>
             <ButtonInner isActive={activeId === item.id}>
-              <Icon name={item.icon} extraClasses={'icon--currentColor'} />
-              <span className={hideLabels ? 'visually-hidden' : undefined}>
+              <Icon
+                name={item.icon}
+                extraClasses={
+                  activeId === item.id ? 'icon--yellow' : 'icon--pewter'
+                }
+              />
+              <Space
+                h={
+                  hideLabels
+                    ? undefined
+                    : {
+                        size: 'xs',
+                        properties: ['padding-left', 'padding-right'],
+                      }
+                }
+                className={hideLabels ? 'visually-hidden' : undefined}
+              >
                 {item.label}
-              </span>
+              </Space>
             </ButtonInner>
           </Button>
         </Item>
