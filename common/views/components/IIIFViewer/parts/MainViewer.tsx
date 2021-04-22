@@ -22,6 +22,7 @@ import { getCanvasOcr } from '@weco/catalogue/services/catalogue/works';
 import {
   getServiceId,
   getImageAuthService,
+  isImageRestricted,
   getThumbnailService,
 } from '@weco/common/utils/iiif';
 import { font } from '@weco/common/utils/classnames';
@@ -109,9 +110,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const rotation = matching ? matching.rotation : 0;
   const imageType = scrollVelocity >= 1 ? 'thumbnail' : 'main';
   const imageAuthService = getImageAuthService(currentCanvas);
-  const isRestricted =
-    imageAuthService &&
-    imageAuthService.profile === 'http://iiif.io/api/auth/0/login/restricted';
+  const isRestricted = isImageRestricted(currentCanvas);
   return (
     <div style={style}>
       {scrollVelocity === 3 ? (
@@ -126,7 +125,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
           <p
             className={font('hnl', 5)}
             dangerouslySetInnerHTML={{
-              __html: imageAuthService && imageAuthService.description,
+              __html: imageAuthService ? imageAuthService.description : '',
             }}
           />
         </MessageContainer>
