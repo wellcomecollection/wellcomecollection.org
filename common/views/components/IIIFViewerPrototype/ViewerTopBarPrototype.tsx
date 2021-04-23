@@ -230,7 +230,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
               hideLabels={true}
               items={[
                 {
-                  id: '1',
+                  id: 'pageView',
                   label: 'Page',
                   icon: 'singlePage',
                   clickHandler() {
@@ -243,7 +243,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                   },
                 },
                 {
-                  id: '2',
+                  id: 'gridView',
                   label: 'Grid',
                   icon: 'gridView',
                   clickHandler() {
@@ -256,7 +256,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                   },
                 },
               ]}
-              activeId={gridVisible ? '2' : '1'}
+              activeId={gridVisible ? 'gridView' : 'pageView'}
             />
           )}
         </LeftZone>
