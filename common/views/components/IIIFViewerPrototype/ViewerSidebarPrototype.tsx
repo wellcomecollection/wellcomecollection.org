@@ -26,6 +26,7 @@ import { DigitalLocation } from '@weco/common/model/catalogue';
 import MultipleManifestListPrototype from '../MultipleManifestListPrototype/MultipleManifestListPrototype';
 import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import { getSearchService } from '../../../utils/iiif';
+import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -167,7 +168,9 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
             {currentManifestLabel}
           </span>
         )}
-        <h1>{work.title}</h1>
+        <h1>
+          <WorkTitle title={work.title} />
+        </h1>
 
         {work.contributors.length > 0 && (
           <Space

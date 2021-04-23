@@ -177,7 +177,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
       isZooming={showZoomed}
       isDesktopSidebarActive={isDesktopSidebarActive}
     >
-      {isEnhanced && canvases && canvases.length > 1 && (
+      {isEnhanced && (
         <Sidebar isZooming={showZoomed}>
           {!showZoomed && (
             <>
@@ -225,7 +225,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
       )}
       <Main>
         <LeftZone>
-          {!showZoomed && (
+          {!showZoomed && canvases && canvases.length > 1 && (
             <ToolbarSegmentedControl
               hideLabels={true}
               items={[
