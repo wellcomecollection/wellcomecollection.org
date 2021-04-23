@@ -17,6 +17,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
 import { IIIFCanvas, SearchResults } from '@weco/common/model/iiif';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 const Defs = styled.svg`
   position: absolute;
@@ -143,9 +144,10 @@ const GridViewer: FunctionComponent<Props> = ({
     canvases,
     isFullscreen,
   } = useContext(ItemViewerContext);
+  const { windowSize } = useContext(AppContext);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
-  const itemWidth = 350;
+  const itemWidth = windowSize === 'small' ? 250 : 350;
   const columnCount = Math.round(mainAreaWidth / itemWidth);
   const columnWidth = mainAreaWidth / columnCount;
   const grid = useRef<FixedSizeGrid>(null);
