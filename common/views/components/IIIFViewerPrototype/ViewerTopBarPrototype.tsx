@@ -179,7 +179,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
       isZooming={showZoomed}
       isDesktopSidebarActive={isDesktopSidebarActive}
     >
-      {isEnhanced && canvases && canvases.length > 1 && (
+      {isEnhanced && (
         <Sidebar isZooming={showZoomed}>
           {!showZoomed && (
             <>
@@ -227,7 +227,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
       )}
       <Main>
         <LeftZone>
-          {!showZoomed && (
+          {!showZoomed && canvases && canvases.length > 1 && (
             <ShameButton
               className={`viewer-desktop`}
               isDark
