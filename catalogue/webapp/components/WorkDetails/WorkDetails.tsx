@@ -9,17 +9,17 @@ import { toLink as imagesLink } from '@weco/common/views/components/ImagesLink/I
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
-  getAccessConditionForDigitalLocation,
   getWorkIdentifiersWith,
   getEncoreLink,
   getItemsWithPhysicalLocation,
   sierraIdFromPresentationManifestUrl,
+  getHoldings,
+  getDigitalLocationInfo,
 } from '@weco/common/utils/works';
 import {
   getVideoClickthroughService,
   getTokenService,
 } from '@weco/common/utils/iiif';
-import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
@@ -57,11 +57,7 @@ function getItemLinkState({
   audio,
   video,
 }): ItemLinkState | undefined {
-  if (
-    (accessCondition === 'restricted' ||
-      accessCondition === 'permission-required') &&
-    sierraIdFromManifestUrl
-  ) {
+  if (accessCondition === 'permission-required' && sierraIdFromManifestUrl) {
     return 'useLibraryLink';
   }
   if (accessCondition === 'closed') {
@@ -73,7 +69,9 @@ function getItemLinkState({
 }
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
-  const { stacksRequestService } = useContext(TogglesContext);
+  const { stacksRequestService, showHoldingsOnWork } = useContext(
+    TogglesContext
+  );
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
 
@@ -102,8 +100,8 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     fetchImageJson();
   }, []);
 
-  // Determine access conditions of digital location
-  const accessCondition = getAccessConditionForDigitalLocation(digitalLocation);
+  const digitalLocationInfo =
+    digitalLocation && getDigitalLocationInfo(digitalLocation);
 
   const {
     imageCount,
@@ -116,12 +114,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   } = useIIIFManifestData(work);
   const authService = video && getVideoClickthroughService(video);
   const tokenService = authService && getTokenService(authService);
-
-  // 'Available online' data
-  const license =
-    digitalLocation &&
-    digitalLocation.license &&
-    getAugmentedLicenseInfo(digitalLocation.license);
 
   // iiif-presentation locations don't have credit info in the work API currently, so we try and get it from the manifest
   const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
@@ -199,7 +191,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     iiifDownloadEnabled !== undefined ? iiifDownloadEnabled : true;
 
   const itemLinkState = getItemLinkState({
-    accessCondition,
+    accessCondition: digitalLocationInfo?.accessCondition,
     sierraIdFromManifestUrl,
     itemUrl,
     audio,
@@ -207,6 +199,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   });
 
   const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
+
+  const holdings = getHoldings(work);
+
   const WhereToFindIt = () => (
     <WorkDetailsSection
       headingText="Where to find it"
@@ -240,6 +235,77 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   const Content = () => (
     <>
+      {showHoldingsOnWork && holdings.length > 0 && (
+        <WorkDetailsSection headingText="Holdings" isInArchive={isInArchive}>
+          {holdings.map((holding, i) => (
+            <div key={i}>
+              {holding.enumeration.length > 0 && (
+                <>
+                  <h3>Enumeration</h3>
+                  <ul>
+                    {holding.enumeration.map((e, i) => (
+                      <li key={i}>{e}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
+              {holding.location && (
+                <pre
+                  style={{
+                    maxWidth: '600px',
+                    margin: '0 auto 24px',
+                    fontSize: '14px',
+                  }}
+                >
+                  <code
+                    style={{
+                      display: 'block',
+                      padding: '24px',
+                      backgroundColor: '#EFE1AA',
+                      color: '#000',
+                      border: '4px solid #000',
+                      borderRadius: '6px',
+                    }}
+                  >
+                    {JSON.stringify(
+                      holding.location.type === 'DigitalLocation'
+                        ? getDigitalLocationInfo(holding.location)
+                        : holding.location,
+                      null,
+                      1
+                    )}
+                  </code>
+                </pre>
+              )}
+
+              {holding.note && (
+                <pre
+                  style={{
+                    maxWidth: '600px',
+                    margin: '0 auto 24px',
+                    fontSize: '14px',
+                  }}
+                >
+                  <code
+                    style={{
+                      display: 'block',
+                      padding: '24px',
+                      backgroundColor: '#EFE1AA',
+                      color: '#000',
+                      border: '4px solid #000',
+                      borderRadius: '6px',
+                    }}
+                  >
+                    {JSON.stringify(holding.note, null, 1)}
+                  </code>
+                </pre>
+              )}
+            </div>
+          ))}
+        </WorkDetailsSection>
+      )}
+
       {digitalLocation && itemLinkState !== 'useNoLink' && (
         <WorkDetailsSection
           headingText="Available online"
@@ -408,7 +474,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
             )}
           </ConditionalWrapper>
 
-          {license && (
+          {digitalLocationInfo?.license && (
             <>
               <Space
                 v={{
@@ -416,7 +482,10 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                   properties: ['margin-top'],
                 }}
               >
-                <WorkDetailsText title="License" text={[license.label]} />
+                <WorkDetailsText
+                  title="Licence"
+                  text={[digitalLocationInfo.license.label]}
+                />
               </Space>
               <Space
                 v={{
@@ -429,8 +498,11 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                   controlText="Can I use this?"
                 >
                   <>
-                    {license.humanReadableText.length > 0 && (
-                      <WorkDetailsText text={license.humanReadableText} />
+                    {digitalLocationInfo.license.humanReadableText.length >
+                      0 && (
+                      <WorkDetailsText
+                        text={digitalLocationInfo.license.humanReadableText}
+                      />
                     )}
 
                     <WorkDetailsText
@@ -442,9 +514,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 : ` `
             }
           ${
-            license.url
-              ? `<a href="${license.url}">${license.label}</a>`
-              : license.label
+            digitalLocationInfo.license.url
+              ? `<a href="${digitalLocationInfo.license.url}">${digitalLocationInfo.license.label}</a>`
+              : digitalLocationInfo.license.label
           }`,
                       ]}
                     />

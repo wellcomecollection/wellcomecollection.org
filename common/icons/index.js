@@ -29,6 +29,7 @@ import clear from './components/Clear';
 import clock from './components/Clock';
 import closedCaptioning from './components/ClosedCaptioning';
 import code from './components/Code';
+import collapse from './components/Collapse';
 import comments from './components/Comments';
 import cookies from './components/Cookies';
 import copyEmail from './components/CopyEmail';
@@ -142,6 +143,7 @@ export {
   clock,
   closedCaptioning,
   code,
+  collapse,
   comments,
   cookies,
   copyEmail,

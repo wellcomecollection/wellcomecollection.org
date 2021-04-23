@@ -21,7 +21,6 @@ const ImageWrapper = styled.div`
   right: 0;
   padding: 0;
   img {
-    cursor: pointer;
     margin: auto;
     position: relative;
     top: 50%;

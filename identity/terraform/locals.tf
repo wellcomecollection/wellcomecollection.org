@@ -22,7 +22,7 @@ locals {
 
   nginx_image = "760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/nginx_experience:78090f62ee23a39a1b4e929f25417bfa128c2aa8"
 
-  service_env_names = ["stage"]
+  service_env_names = ["stage","prod"]
 
   service_env = {for env_name in local.service_env_names : env_name => {
     env_vars = {

@@ -7,7 +7,7 @@ import {
 } from 'styled-components';
 import { SpaceOverrides } from '../components/styled/Space';
 
-type ColorVarient = 'base' | 'light' | 'dark';
+type ColorVariant = 'base' | 'light' | 'dark';
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 type SpaceProperty =
   | 'margin-bottom'
@@ -66,7 +66,7 @@ const themeValues = {
     brown: { base: '#815e48', dark: '', light: '' },
     cream: { base: '#f0ede3', dark: '', light: '' },
     green: { base: '#00786c', dark: '#146a5c', light: '' },
-    charcoal: { base: '#323232', dark: '', light: '' },
+    charcoal: { base: '#323232', dark: '#2e2e2e', light: '' },
     pewter: { base: '#6b6b6b', dark: '', light: '' },
     silver: { base: '#8f8f8f', dark: '', light: '' },
     marble: { base: '#bcbab5', dark: '', light: '' },
@@ -133,7 +133,7 @@ const themeValues = {
       xl: spacingUnits['10'],
     },
   },
-  color(name: string, variant: ColorVarient = 'base'): string {
+  color(name: string, variant: ColorVariant = 'base'): string {
     return this.colors[name][variant];
   },
 };

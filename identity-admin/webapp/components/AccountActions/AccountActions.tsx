@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useUserInfo } from '../../context/UserInfoContext';
 import { DeleteAccount } from './DeleteAccount';
 import { AccountAction } from './AccountAction';
@@ -23,6 +23,7 @@ export function AccountActions({
   const { blockAccount } = useBlockAccount();
   const { unblockAccount } = useUnblockAccount();
   const { reverseDeleteRequest } = useReverseDeleteRequest();
+  const deleteModalRef = useRef<HTMLDivElement>(null);
 
   const handleSuccess = (message: string) => {
     onComplete({ isSuccess: true, message });
@@ -37,7 +38,7 @@ export function AccountActions({
   }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu deleteModalRef={deleteModalRef}>
       <ul>
         {!user?.emailValidated && (
           <AccountAction
@@ -83,7 +84,9 @@ export function AccountActions({
           onFailure={() => handleFailure('Failed to reset password')}
         />
         <hr />
-        {user && <DeleteAccount userId={user.userId} />}
+        {user && (
+          <DeleteAccount userId={user.userId} modalRef={deleteModalRef} />
+        )}
       </ul>
     </DropdownMenu>
   );

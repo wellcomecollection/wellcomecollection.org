@@ -8,6 +8,14 @@
   padding: 1em;
   box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.4);
 }
+.ModalWrapper {
+  width: 40em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+  padding: 1em;
+}
 
 .Overlay {
   position: fixed;

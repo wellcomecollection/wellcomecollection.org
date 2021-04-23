@@ -132,7 +132,7 @@ const Download: NextPage<Props> = ({
                     <div>
                       {license.humanReadableText.length > 0 && (
                         <WorkDetailsText
-                          title="License information"
+                          title="Licence information"
                           text={license.humanReadableText}
                         />
                       )}

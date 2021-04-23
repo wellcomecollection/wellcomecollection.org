@@ -68,7 +68,7 @@ const Works: NextPage<Props> = ({
   useEffect(() => {
     trackSearch(apiProps, {
       totalResults: works?.totalResults ?? 0,
-      source: Router.query.source || 'unspecified',
+      source: (Router.query.source || 'unspecified').toString(),
     });
   }, [worksRouteProps]);
 
@@ -218,11 +218,7 @@ const Works: NextPage<Props> = ({
             >
               <div className="container" role="main">
                 {works && (
-                  <WorksSearchResults
-                    works={works}
-                    worksRouteProps={worksRouteProps}
-                    apiProps={apiProps}
-                  />
+                  <WorksSearchResults works={works} apiProps={apiProps} />
                 )}
               </div>
 

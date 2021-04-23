@@ -8,10 +8,9 @@ export default {
       defaultValue: true,
     },
     {
-      id: 'showCanvasLabels',
-      title: 'Show canvas labels on viewer thumbnails',
-      description:
-        'Shows the canvas label on the viewer thumbnails above the image number',
+      id: 'showHoldingsOnWork',
+      title: 'Show holdings on the work page',
+      description: 'Shows the holding information for a work',
       defaultValue: false,
     },
     {
@@ -26,13 +25,6 @@ export default {
       title: 'Staging API',
       defaultValue: false,
       description: 'Use the staging catalogue API',
-    },
-    {
-      id: 'relevanceRating',
-      title: 'Rate search result relevance',
-      defaultValue: false,
-      description:
-        'Give your search results a rating of 1 to 4 stars to help us improve search relevance',
     },
     {
       id: 'stacksRequestService',
@@ -60,6 +52,16 @@ export default {
       defaultValue: false,
       description:
         'The new site section Get Involved, and newly promoted About us section',
+    },
+  ] as const,
+  tests: [
+    {
+      id: 'showSidebarToggleLabel',
+      title: 'Sidebar show/hide toggle label visibility',
+      range: [0, 100],
+      defaultValue: true,
+      description:
+        'Testing whether the presence of a label alongside the chevrons to show/hide the sidebar will impact on button usage',
     },
   ] as const,
 };

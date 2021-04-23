@@ -15,8 +15,8 @@ const UserList = ({ items, totalResults }: Props): JSX.Element => {
     <table className="user-list">
       <thead className="user-list__head">
         <tr className="user-list__filter user-list__filter--labels">
-          <th className="user-list__first">Search by:</th>
-          <th />
+          <th className="user-list__first">Search by name:</th>
+          <th>Search by email address:</th>
           <th />
           <th>Filter by status:</th>
           <th />

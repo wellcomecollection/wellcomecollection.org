@@ -1,17 +1,19 @@
 import { useRouter } from 'next/router';
 import { buildSearchUrl } from '../../utils/search-util';
+import { useState } from 'react';
 
 const SearchInput = (): JSX.Element => {
   const router = useRouter();
   const { status, name, email } = router.query;
+  const [nameInput, setNameInput] = useState<string>();
+  const [emailInput, setEmailInput] = useState<string>();
 
   const onChangeName = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     window.location.href = buildSearchUrl(
       '1',
       status,
-      event.currentTarget.nameField.value,
-      email
+      event.currentTarget.nameField.value
     );
   };
 
@@ -20,7 +22,7 @@ const SearchInput = (): JSX.Element => {
     window.location.href = buildSearchUrl(
       '1',
       status,
-      name,
+      undefined,
       event.currentTarget.emailField.value
     );
   };
@@ -34,8 +36,16 @@ const SearchInput = (): JSX.Element => {
             name="nameField"
             placeholder="Enter name"
             aria-label="Enter name"
+            value={nameInput}
             defaultValue={name}
+            onChange={event => setNameInput(event.target.value)}
           />
+          <span
+            className="user-list__clear-search"
+            onClick={() => setNameInput('')}
+          >
+            x
+          </span>
           <button type="submit">Search</button>
         </form>
       </th>
@@ -46,8 +56,16 @@ const SearchInput = (): JSX.Element => {
             name="emailField"
             placeholder="Enter email"
             aria-label="Enter email"
+            value={emailInput}
             defaultValue={email}
+            onChange={event => setEmailInput(event.target.value)}
           />
+          <span
+            className="user-list__clear-search"
+            onClick={() => setEmailInput('')}
+          >
+            x
+          </span>
           <button type="submit">Search</button>
         </form>
       </th>

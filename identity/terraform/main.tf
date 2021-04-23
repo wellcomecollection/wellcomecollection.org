@@ -16,6 +16,9 @@ module "identity-prod" {
   interservice_security_group_id   = local.prod_interservice_security_group_id
   service_egress_security_group_id = local.prod_service_egress_security_group_id
 
+  env_vars = local.service_env["prod"]["env_vars"]
+  secret_env_vars = local.service_env["prod"]["secret_env_vars"]
+
   subdomain = "identity.www"
 }
 
