@@ -15,7 +15,7 @@ type ChangeEmailInputs = {
   password: string;
 };
 
-export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({ onComplete }) => {
+export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({ onComplete, isActive }) => {
   const { user, isLoading } = useUserInfo();
   const { updateUser, isLoading: isUpdating, error } = useUpdateUser();
   const { register, control, reset, formState, handleSubmit, setError } = useForm<ChangeEmailInputs>({
@@ -24,7 +24,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({ onComple
 
   useEffect(() => {
     reset({ email: user?.email, password: '' });
-  }, [reset, user?.email]);
+  }, [reset, user?.email, isActive]);
 
   useEffect(() => {
     switch (error) {

@@ -8,6 +8,7 @@ export type ChangeDetailsModalContentProps =
   | {
       onCancel: () => void;
       onComplete: () => void;
+      isActive: boolean;
     };
 
 type ChangeDetailsModalProps = {
@@ -42,7 +43,8 @@ export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
       <Modal id={id} isActive={isActive} setIsActive={setIsActive} openButtonRef={openButton}>
         {React.Children.map(children, child => {
           if (React.isValidElement(child)) {
-            return React.cloneElement(child, { onComplete: handleComplete, onCancel: close });
+            const props: ChangeDetailsModalContentProps = { onComplete: handleComplete, onCancel: close, isActive };
+            return React.cloneElement(child, props);
           }
         })}
       </Modal>

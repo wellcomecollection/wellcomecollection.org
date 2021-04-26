@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { ErrorMessage } from '@hookform/error-message';
 import { PasswordInput } from '../components/PasswordInput';
 import { FieldMargin, Label, InvalidFieldAlert, Button } from '../components/Form.style';
@@ -15,15 +15,23 @@ type ChangePasswordInputs = {
   confirmation: string;
 };
 
-export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({ onComplete }) => {
-  const { updatePassword, isLoading, error } = useUpdatePassword();
-  const { control, getValues, setError, formState, handleSubmit, trigger } = useForm<ChangePasswordInputs>({
-    defaultValues: {
+export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({ onComplete, isActive }) => {
+  const defaultValues: ChangePasswordInputs = useMemo(
+    () => ({
       password: '',
       newPassword: '',
       confirmation: '',
-    },
+    }),
+    []
+  );
+  const { updatePassword, isLoading, error } = useUpdatePassword();
+  const { control, getValues, setError, formState, handleSubmit, trigger, reset } = useForm<ChangePasswordInputs>({
+    defaultValues,
   });
+
+  useEffect(() => {
+    reset(defaultValues);
+  }, [reset, defaultValues, isActive]);
 
   useEffect(() => {
     switch (error) {
