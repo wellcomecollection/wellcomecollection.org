@@ -7,9 +7,9 @@ module.exports = {
     '../stories/docs/*.js',
   ],
   addons: [
-    'storybook-readme/register',
-    '@storybook/addon-knobs/register',
-    '@storybook/addon-a11y/register',
+    'storybook-readme',
+    '@storybook/addon-knobs',
+    '@storybook/addon-a11y',
   ],
   webpackFinal: async (config, { configType }) => {
     config.module.rules.push({
