@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/react';
 import InfoBox from '../../../common/views/components/InfoBox/InfoBox';
-import { boolean, text } from '@storybook/addon-knobs/react';
+import { boolean, text } from '@storybook/addon-knobs';
 import Readme from '../../../common/views/components/InfoBox/README.md';
 import { font } from '../../../common/utils/classnames';
 

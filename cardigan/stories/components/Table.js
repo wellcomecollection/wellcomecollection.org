@@ -1,7 +1,7 @@
 import Table from '../../../common/views/components/Table/Table';
 import Readme from '../../../common/views/components/Table/README.md';
 import { storiesOf } from '@storybook/react';
-import { boolean } from '@storybook/addon-knobs/react';
+import { boolean } from '@storybook/addon-knobs';
 
 const TableExample = () => {
   const hasRowHeaders = boolean('Has row headers?', false);

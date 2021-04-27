@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import ToolbarSegmentedControl from '../../../common/views/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
 import Readme from '../../../common/views/components/ToolbarSegmentedControl/README.md';
-import { boolean } from '@storybook/addon-knobs/react';
+import { boolean } from '@storybook/addon-knobs';
 import { useState } from 'react';
 
 const ToolbarSegmentedControlExample = () => {

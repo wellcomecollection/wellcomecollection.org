@@ -5,7 +5,7 @@ import Readme from '../../../common/views/components/VenueHours/README.md';
 import { openingTimes } from '../content';
 // $FlowFixMe (tsx)
 import OpeningTimesContext from '../../../common/views/components/OpeningTimesContext/OpeningTimesContext';
-import { select, boolean } from '@storybook/addon-knobs/react';
+import { select, boolean } from '@storybook/addon-knobs';
 
 const venueMap = {
   Galleries: 0,

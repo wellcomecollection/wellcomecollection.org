@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import BannerCard from '../../../common/views/components/BannerCard/BannerCard';
 import Readme from '../../../common/views/components/BannerCard/README.md';
-import { boolean } from '@storybook/addon-knobs/react';
+import { boolean } from '@storybook/addon-knobs';
 
 const item = {
   title: 'What does it mean to be human, now?',

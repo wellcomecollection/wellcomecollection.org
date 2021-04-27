@@ -35,27 +35,6 @@ module.exports = {
     });
 
     config.module.rules.push({
-      test: /\.(ts|tsx)$/,
-      exclude: /node_modules/,
-      include: [
-        path.resolve(__dirname, '../../common'),
-        path.resolve(__dirname, '../stories'),
-        path.resolve(__dirname, '../../catalogue/webapp'),
-      ],
-      loader: require.resolve('babel-loader'),
-      options: {
-        presets: [['react-app', { flow: false, typescript: true }]],
-        plugins: [
-          'babel-plugin-react-require',
-          '@babel/plugin-proposal-class-properties',
-          '@babel/plugin-proposal-optional-chaining',
-          '@babel/plugin-syntax-dynamic-import',
-        ],
-      },
-    });
-    config.resolve.extensions.push('.ts', '.tsx');
-
-    config.module.rules.push({
       test: /\.scss$/,
       include: [path.resolve(__dirname, '../../common/styles')],
       use: [

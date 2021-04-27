@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/react';
-import { text } from '@storybook/addon-knobs/react';
+import { text } from '@storybook/addon-knobs';
 import Readme from './README.md';
 
 const stories = storiesOf('Global', module);

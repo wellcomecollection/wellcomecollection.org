@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/react';
 import ImageGallery from '../../../common/views/components/ImageGallery/ImageGallery';
 import { captionedImage } from '../content';
 import Readme from '../../../common/views/components/ImageGallery/README.md';
-import { boolean } from '@storybook/addon-knobs/react';
+import { boolean } from '@storybook/addon-knobs';
 
 const ImageGalleryExample = () => {
   const images = [...new Array(5)].map(i => captionedImage());

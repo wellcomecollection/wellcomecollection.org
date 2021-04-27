@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/react';
-import { text } from '@storybook/addon-knobs/react';
+import { text } from '@storybook/addon-knobs';
 import { url, image, singleLineOfText } from '../content';
 import Readme from '../../../common/views/components/BookPromo/README.md';
 import BookPromo from '../../../common/views/components/BookPromo/BookPromo';

@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import Control from '../../../common/views/components/Buttons/Control/Control';
 import Readme from '../../../common/views/components/Buttons/Control/README.md';
-import { select } from '@storybook/addon-knobs/react';
+import { select } from '@storybook/addon-knobs';
 
 const ControlExample = () => {
   const type = select('Type', ['light', 'dark'], 'light');

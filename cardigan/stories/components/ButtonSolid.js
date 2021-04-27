@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/react';
 import ButtonSolid from '../../../common/views/components/ButtonSolid/ButtonSolid';
 import ButtonSolidLink from '../../../common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Readme from '../../../common/views/components/ButtonSolid/README.md';
-import { boolean, text } from '@storybook/addon-knobs/react';
+import { boolean, text } from '@storybook/addon-knobs';
 
 const ButtonExample = () => {
   const buttonText = text('Button text', 'Click me');

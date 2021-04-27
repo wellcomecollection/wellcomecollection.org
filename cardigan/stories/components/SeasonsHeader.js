@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/react';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import SeasonsHeader from '../../../common/views/components/SeasonsHeader/SeasonsHeader';
 import Readme from '../../../common/views/components/SeasonsHeader/README.md';
-import { boolean } from '@storybook/addon-knobs/react';
+import { boolean } from '@storybook/addon-knobs';
 
 const image = {
   contentUrl:

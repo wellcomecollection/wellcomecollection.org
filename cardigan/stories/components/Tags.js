@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/react';
-import { boolean } from '@storybook/addon-knobs/react';
+import { boolean } from '@storybook/addon-knobs';
 import Tags from '../../../common/views/components/Tags/Tags';
 import Readme from '../../../common/views/components/Tags/README.md';
 

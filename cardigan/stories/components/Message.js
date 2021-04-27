@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/react';
 import Message from '../../../common/views/components/Message/Message';
-import { text } from '@storybook/addon-knobs/react';
+import { text } from '@storybook/addon-knobs';
 import Readme from '../../../common/views/components/Message/README.md';
 
 const MessageExample = () => {

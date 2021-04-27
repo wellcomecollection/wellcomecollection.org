@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import moment from 'moment';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, date } from '@storybook/addon-knobs/react';
+import { withKnobs, date } from '@storybook/addon-knobs';
 import EventDateRange from '../../../common/views/components/EventDateRange/EventDateRange';
 import Readme from '../../../common/views/components/EventDateRange/README.md';
 
