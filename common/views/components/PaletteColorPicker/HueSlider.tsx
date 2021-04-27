@@ -114,7 +114,7 @@ const HueSlider: FunctionComponent<Props> = ({
   );
 
   const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent) => {
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
       const keyCode = parseInt(event.key, 10) || event.which || event.keyCode;
       if (keyCode === 39 /* right */ || keyCode === 37 /* left */) {
         event.preventDefault();

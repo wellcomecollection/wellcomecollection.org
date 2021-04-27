@@ -37,21 +37,21 @@ type SearchTermHighlightProps = {
 };
 
 const SearchTermHighlight = styled.div<SearchTermHighlightProps>`
-  background: ${props => props.theme.color('purple')};
+  background: ${(props) => props.theme.color('purple')};
   opacity: 0.5;
   position: absolute;
   z-index: 1;
-  top: ${props => `${props.top}px`};
-  left: ${props => `${props.left}px`};
-  width: ${props => `${props.width}px`};
-  height: ${props => `${props.height}px`};
+  top: ${(props) => `${props.top}px`};
+  left: ${(props) => `${props.left}px`};
+  width: ${(props) => `${props.width}px`};
+  height: ${(props) => `${props.height}px`};
 `;
 
 const MessageContainer = styled.div`
   min-width: 360px;
   max-width: 60%;
   margin: 0 auto;
-  border: 1px solid ${props => props.theme.color('pewter')};
+  border: 1px solid ${(props) => props.theme.color('pewter')};
   height: 80%;
   margin-top: 50%;
   transform: translateY(-50%);
@@ -59,7 +59,7 @@ const MessageContainer = styled.div`
 `;
 
 const ThumbnailWrapper = styled.div<{ imageLoaded?: boolean }>`
-  opacity: ${props => (props.imageLoaded ? 1 : 0)};
+  opacity: ${(props) => (props.imageLoaded ? 1 : 0)};
   transition: opacity 500ms ease;
   position: absolute;
   width: 100%;
@@ -108,7 +108,7 @@ function getPositionData( // TODO typing
   const scale = imageRect ? imageRect.width / currentCanvas.width : 1;
   const highlightsPositioningData =
     searchResults &&
-    searchResults?.resources.map(resource => {
+    searchResults?.resources.map((resource) => {
       // on: "https://wellcomelibrary.org/iiif/b30330002/canvas/c55#xywh=2301,662,157,47"
       const canvasMatch = resource.on.match(/\/canvas\/c(\d+)#/);
       const canvasNumber = canvasMatch && canvasMatch[1];
@@ -156,10 +156,10 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     thumbnailService &&
     thumbnailService.sizes
       .sort((a, b) => a.width - b.width)
-      .find(dimensions => dimensions.width > 100);
+      .find((dimensions) => dimensions.width > 100);
   const infoUrl =
     mainImageService['@id'] && convertIiifUriToInfoUri(mainImageService['@id']);
-  const matching = rotatedImages.find(canvas => canvas.canvasIndex === index);
+  const matching = rotatedImages.find((canvas) => canvas.canvasIndex === index);
   const rotation = matching ? matching.rotation : 0;
   const imageType = scrollVelocity >= 1 ? 'thumbnail' : 'main';
   const imageAuthService = getImageAuthService(currentCanvas);
@@ -198,7 +198,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     );
     setOverlayPositionData(
       highlightsPositioningData &&
-        highlightsPositioningData.filter(item => {
+        highlightsPositioningData.filter((item) => {
           return item.canvasNumber === index;
         })
     );
@@ -323,9 +323,9 @@ const MainViewer: FunctionComponent<Props> = ({
   const debounceHandleOnItemsRendered = useRef(
     debounce(handleOnItemsRendered, 500)
   );
-  const timer = useRef<number | undefined>();
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
   function handleOnScroll({ scrollOffset }) {
-    clearTimeout(timer.current);
+    timer.current && clearTimeout(timer.current);
     setShowControls(false);
     setNewScrollOffset(scrollOffset);
 
@@ -375,7 +375,7 @@ const MainViewer: FunctionComponent<Props> = ({
   }
 
   useEffect(() => {
-    getCanvasOcr(canvases[canvasIndex]).then(t => setOcrText(t || ''));
+    getCanvasOcr(canvases[canvasIndex]).then((t) => setOcrText(t || ''));
   }, [canvasIndex]);
 
   return (
