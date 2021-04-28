@@ -26,7 +26,7 @@ import {
   getThumbnailService,
 } from '@weco/common/utils/iiif';
 import { font } from '@weco/common/utils/classnames';
-import { IIIFCanvas } from '../../../model/iiif';
+import { IIIFCanvas, SearchResults } from '../../../model/iiif';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import ImageViewerPrototype from '../ImageViewerPrototype/ImageViewerPrototype';
 
@@ -95,11 +95,11 @@ type ItemRendererProps = {
 };
 
 function getPositionData(
-  imageContainerRect,
-  imageRect,
-  currentCanvas,
-  searchResults,
-  canvases
+  imageContainerRect: ClientRect,
+  imageRect: ClientRect,
+  currentCanvas: IIIFCanvas,
+  searchResults: SearchResults,
+  canvases: IIIFCanvas[]
 ) {
   const imageContainerTop = imageContainerRect?.top || 0;
   const imageTop = imageRect?.top || 0;
@@ -121,10 +121,10 @@ function getPositionData(
       });
       const coordsMatch = resource.on.match(/(#xywh=)(.*)/);
       const coords = coordsMatch && coordsMatch[2].split(',');
-      const x = coords && Math.round(Number(coords[0]) * scale);
-      const y = coords && Math.round(Number(coords[1]) * scale);
-      const w = coords && Math.round(Number(coords[2]) * scale);
-      const h = coords && Math.round(Number(coords[3]) * scale);
+      const x = coords ? Math.round(Number(coords[0]) * scale) : 0;
+      const y = coords ? Math.round(Number(coords[1]) * scale) : 0;
+      const w = coords ? Math.round(Number(coords[2]) * scale) : 0;
+      const h = coords ? Math.round(Number(coords[3]) * scale) : 0;
       return {
         canvasNumber: Number(canvasNumber),
         overlayStartTop,
@@ -176,38 +176,45 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const [imageContainerRect, setImageContainerRect] = useState<
     ClientRect | undefined
   >();
-  const [overlayPositionData, setOverlayPositionData] = useState([
-    {
-      canvasNumber: -1,
-      overlayStartTop: 0,
-      overlayStartLeft: 0,
-      highlight: {
-        x: 0,
-        y: 0,
-        w: 0,
-        h: 0,
-      },
-    },
-  ]);
+
+  type OverlayPositionData = {
+    canvasNumber: number;
+    overlayStartTop: number;
+    overlayStartLeft: number;
+    highlight: {
+      x: number;
+      y: number;
+      w: number;
+      h: number;
+    };
+  };
+
+  const [overlayPositionData, setOverlayPositionData] = useState<
+    OverlayPositionData[]
+  >([]);
 
   useEffect(() => {
     // The search hit dimensions and coordinates are given relative to the full size image.
     // We need to get the position of the image relative to the container and the display scale of the image relative to the full size
     // in order to display the highlights correctly over the search hits.
     // This needs to be recalculated whenever the image changes size for whatever reason.
-    const highlightsPositioningData = getPositionData(
-      imageContainerRect,
-      imageRect,
-      currentCanvas,
-      searchResults,
-      canvases
-    );
-    setOverlayPositionData(
-      highlightsPositioningData &&
+    const highlightsPositioningData =
+      imageContainerRect &&
+      imageRect &&
+      getPositionData(
+        imageContainerRect,
+        imageRect,
+        currentCanvas,
+        searchResults,
+        canvases
+      );
+    if (highlightsPositioningData) {
+      setOverlayPositionData(
         highlightsPositioningData.filter(item => {
           return item.canvasNumber === index;
         })
-    );
+      );
+    }
   }, [imageRect, imageContainerRect, currentCanvas, searchResults]);
 
   return (
