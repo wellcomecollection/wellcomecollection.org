@@ -38,6 +38,7 @@ import ImageViewerControls from './ImageViewerControls';
 import ViewerBottomBarPrototype from './ViewerBottomBarPrototype';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import NoScriptViewer from '../IIIFViewer/parts/NoScriptViewer';
+import { fetchJson } from '@weco/common/utils/http';
 
 type IIIFViewerProps = {
   title: string;
@@ -412,7 +413,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   useEffect(() => {
     const fetchParentManifest = async () => {
       const parentManifest =
-        parentManifestUrl && (await (await fetch(parentManifestUrl)).json());
+        parentManifestUrl && (await fetchJson(parentManifestUrl));
       parentManifest && setParentManifest(parentManifest);
     };
 
