@@ -17,6 +17,7 @@ import {
   getDigitalLocationInfo,
   getLocationLabel,
   getLocationShelfmark,
+  getLocationLink,
 } from '@weco/common/utils/works';
 import {
   getVideoClickthroughService,
@@ -246,6 +247,8 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 holding.location && getLocationLabel(holding.location);
               const locationShelfmark =
                 holding.location && getLocationShelfmark(holding.location);
+              const locationLink =
+                holding.location && getLocationLink(holding.location);
               return (
                 <div key={i}>
                   {holding.enumeration.length > 0 && (
@@ -254,10 +257,15 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     </Space>
                   )}
                   {holding.location?.locationType.label && (
-                    <WorkDetailsText
-                      title="Location"
-                      text={[holding.location.locationType.label]}
-                    />
+                    <>
+                      <WorkDetailsText
+                        title="Location"
+                        text={[holding.location.locationType.label]}
+                      />
+                      {locationLink && (
+                        <a href={locationLink.url}>{locationLink.linkText}</a>
+                      )}
+                    </>
                   )}
                   {locationShelfmark && (
                     <WorkDetailsText
