@@ -271,13 +271,16 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                       <ExpandableList listItems={holding.enumeration} />
                     </Space>
                   )}
-                  {locationLabel && (
-                    <WorkDetailsText title="Location" text={[locationLabel]} />
+                  {holding.location?.locationType.label && (
+                    <WorkDetailsText
+                      title="Location"
+                      text={[holding.location.locationType.label]}
+                    />
                   )}
                   {locationShelfmark && (
                     <WorkDetailsText
                       title="Shelfmark"
-                      text={[locationShelfmark]}
+                      text={[`${locationLabel}${locationShelfmark}`]}
                     />
                   )}
 
