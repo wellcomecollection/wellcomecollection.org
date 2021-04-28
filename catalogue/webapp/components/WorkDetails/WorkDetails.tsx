@@ -38,7 +38,11 @@ import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemL
 import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import { DigitalLocation, Work } from '@weco/common/model/catalogue';
+import {
+  DigitalLocation,
+  PhysicalLocation,
+  Work,
+} from '@weco/common/model/catalogue';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 import IIIFClickthrough from '@weco/common/views/components/IIIFClickthrough/IIIFClickthrough';
 import OnlineResources from './OnlineResources';
@@ -234,69 +238,88 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     </WorkDetailsSection>
   );
 
-  const Holdings = () => (
-    <>
-      {true && holdings.length > 0 ? ( // TODO put toggle back
-        <WorkDetailsSection headingText="Holdings" isInArchive={isInArchive}>
-          {holdings.map((holding, i) => (
-            <div key={i}>
-              {holding.enumeration.length > 0 && (
-                <>
-                  <ExpandableList listItems={holding.enumeration} />
-                </>
-              )}
+  function getLocationLabel(
+    location: PhysicalLocation | DigitalLocation
+  ): string | undefined {
+    if ((location as PhysicalLocation).label) {
+      return (location as PhysicalLocation).label;
+    }
+  }
+  const Holdings = () => {
+    return (
+      <>
+        {true && holdings.length > 0 ? ( // TODO put toggle back showHoldingsOnWork
+          <WorkDetailsSection headingText="Holdings" isInArchive={isInArchive}>
+            {holdings.map((holding, i) => {
+              const locationLabel =
+                holding.location && getLocationLabel(holding.location);
+              return (
+                <div key={i}>
+                  {holding.enumeration.length > 0 && (
+                    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                      <ExpandableList listItems={holding.enumeration} />
+                    </Space>
+                  )}
+                  {locationLabel && (
+                    <WorkDetailsText
+                      title="Location"
+                      text={[locationLabel || '']}
+                    />
+                  )}
 
-              {holding.location && (
-                <pre
-                  style={{
-                    maxWidth: '600px',
-                    margin: '0 auto 24px',
-                    fontSize: '14px',
-                  }}
-                >
-                  <code
-                    style={{
-                      display: 'block',
-                      padding: '24px',
-                      backgroundColor: '#EFE1AA',
-                      color: '#000',
-                      border: '4px solid #000',
-                      borderRadius: '6px',
-                    }}
-                  >
-                    {JSON.stringify(holding.location, null, 1)}
-                  </code>
-                </pre>
-              )}
+                  {holding && (
+                    <pre
+                      style={{
+                        maxWidth: '600px',
+                        margin: '0 auto 24px',
+                        fontSize: '14px',
+                      }}
+                    >
+                      <code
+                        style={{
+                          display: 'block',
+                          padding: '24px',
+                          backgroundColor: '#EFE1AA',
+                          color: '#000',
+                          border: '4px solid #000',
+                          borderRadius: '6px',
+                        }}
+                      >
+                        {JSON.stringify(holding, null, 1)}
+                      </code>
+                    </pre>
+                  )}
 
-              {holding.note && (
-                <pre
-                  style={{
-                    maxWidth: '600px',
-                    margin: '0 auto 24px',
-                    fontSize: '14px',
-                  }}
-                >
-                  <code
-                    style={{
-                      display: 'block',
-                      padding: '24px',
-                      backgroundColor: '#EFE1AA',
-                      color: '#000',
-                      border: '4px solid #000',
-                      borderRadius: '6px',
-                    }}
-                  >
-                    {JSON.stringify(holding.note, null, 1)}
-                  </code>
-                </pre>
-              )}
-            </div>
-          ))}
-        </WorkDetailsSection>
-      ) : null}
-    </>
-  );
+                  {holding.note && (
+                    <pre
+                      style={{
+                        maxWidth: '600px',
+                        margin: '0 auto 24px',
+                        fontSize: '14px',
+                      }}
+                    >
+                      <code
+                        style={{
+                          display: 'block',
+                          padding: '24px',
+                          backgroundColor: '#EFE1AA',
+                          color: '#000',
+                          border: '4px solid #000',
+                          borderRadius: '6px',
+                        }}
+                      >
+                        {JSON.stringify(holding.note, null, 1)}
+                      </code>
+                    </pre>
+                  )}
+                </div>
+              );
+            })}
+          </WorkDetailsSection>
+        ) : null}
+      </>
+    );
+  };
 
   const Content = () => (
     <>
