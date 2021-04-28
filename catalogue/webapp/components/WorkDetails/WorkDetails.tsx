@@ -274,29 +274,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     />
                   )}
 
-                  {holding && (
-                    <pre
-                      style={{
-                        maxWidth: '600px',
-                        margin: '0 auto 24px',
-                        fontSize: '14px',
-                      }}
-                    >
-                      <code
-                        style={{
-                          display: 'block',
-                          padding: '24px',
-                          backgroundColor: '#EFE1AA',
-                          color: '#000',
-                          border: '4px solid #000',
-                          borderRadius: '6px',
-                        }}
-                      >
-                        {JSON.stringify(holding, null, 1)}
-                      </code>
-                    </pre>
-                  )}
-
                   {holding.note && (
                     <pre
                       style={{
