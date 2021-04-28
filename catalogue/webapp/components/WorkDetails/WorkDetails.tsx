@@ -250,11 +250,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               const locationLink =
                 holding.location && getLocationLink(holding.location);
               return (
-                <div key={i}>
+                <Space key={i} v={{ size: 'l', properties: ['margin-bottom'] }}>
                   {holding.enumeration.length > 0 && (
-                    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                      <ExpandableList listItems={holding.enumeration} />
-                    </Space>
+                    <ExpandableList listItems={holding.enumeration} />
                   )}
 
                   {holding.location?.locationType.label && (
@@ -264,7 +262,14 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                         text={[holding.location.locationType.label]}
                       />
                       {locationLink && (
-                        <a href={locationLink.url}>{locationLink.linkText}</a>
+                        <a
+                          className={classNames({
+                            [font('hnl', 5)]: true,
+                          })}
+                          href={locationLink.url}
+                        >
+                          {locationLink.linkText}
+                        </a>
                       )}
                     </>
                   )}
@@ -279,7 +284,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                   {holding.note && (
                     <WorkDetailsText title="Note" text={[holding.note]} />
                   )}
-                </div>
+                </Space>
               );
             })}
           </WorkDetailsSection>
