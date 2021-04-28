@@ -12,7 +12,7 @@ import {
 import { FixedSizeGrid, FixedSizeList, areEqual } from 'react-window';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
-import IIIFCanvasThumbnail from './IIIFCanvasThumbnailPrototype';
+import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';
 import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
 import { IIIFCanvas, SearchResults } from '@weco/common/model/iiif';

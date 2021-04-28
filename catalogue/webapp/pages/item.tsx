@@ -18,8 +18,7 @@ import {
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import IIIFViewerPrototype from '@weco/common/views/components/IIIFViewerPrototype/IIIFViewerPrototype';
-import { IIIFViewerBackground } from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
 import Space, {
@@ -275,9 +274,6 @@ const ItemPage: NextPage<Props> = ({
           src={pdfRendering['@id']}
         />
       )}
-      {showModal && (
-        <IIIFViewerBackground headerHeight={85}> </IIIFViewerBackground>
-      )}
 
       <Modal
         id="auth-modal"
@@ -339,7 +335,7 @@ const ItemPage: NextPage<Props> = ({
       </Modal>
       {showViewer &&
         ((mainImageService && currentCanvas) || iiifImageLocation) && (
-          <IIIFViewerPrototype
+          <IIIFViewer
             title={title}
             mainPaginatorProps={mainPaginatorProps}
             thumbsPaginatorProps={thumbsPaginatorProps}

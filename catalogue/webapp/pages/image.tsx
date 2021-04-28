@@ -11,7 +11,7 @@ import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayo
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
-import IIIFViewerPrototype from '@weco/common/views/components/IIIFViewerPrototype/IIIFViewerPrototype';
+import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import {
   GlobalContextData,
   getGlobalContextData,
@@ -84,7 +84,7 @@ const ImagePage: FunctionComponent<Props> = ({
     >
       {iiifImageLocation ? (
         <>
-          <IIIFViewerPrototype
+          <IIIFViewer
             title={title}
             mainPaginatorProps={mainPaginatorProps}
             thumbsPaginatorProps={thumbsPaginatorProps}

@@ -18,9 +18,9 @@ import {
   getServiceId,
   getDownloadOptionsFromManifest,
 } from '@weco/common/utils/iiif';
-import ViewerSidebarPrototype from './ViewerSidebarPrototype';
-import MainViewerPrototype from '../MainViewerPrototype/MainViewerPrototype';
-import ViewerTopBarPrototype from './ViewerTopBarPrototype';
+import ViewerSidebar from './ViewerSidebar';
+import MainViewer from './MainViewer';
+import ViewerTopBar from './ViewerTopBar';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import ItemViewerContext, {
   results,
@@ -28,16 +28,16 @@ import ItemViewerContext, {
 import { FixedSizeList } from 'react-window';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import Router from 'next/router';
-import GridViewerPrototype from './GridViewerPrototype';
+import GridViewer from './GridViewer';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import dynamic from 'next/dynamic';
 import LL from '@weco/common/views/components/styled/LL';
 import { PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
-import ImageViewer from '../ImageViewer/ImageViewer';
+import ImageViewer from './ImageViewer';
 import ImageViewerControls from './ImageViewerControls';
-import ViewerBottomBarPrototype from './ViewerBottomBarPrototype';
+import ViewerBottomBar from './ViewerBottomBar';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import NoScriptViewer from '../IIIFViewer/parts/NoScriptViewer';
+import NoScriptViewer from './NoScriptViewer';
 
 type IIIFViewerProps = {
   title: string;
@@ -70,16 +70,10 @@ const LoadingComponent = () => (
     <LL />
   </div>
 );
-const ZoomedImagePrototype = dynamic(
-  () =>
-    import(
-      '@weco/common/views/components/ZoomedImagePrototype/ZoomedImagePrototype'
-    ),
-  {
-    ssr: false,
-    loading: LoadingComponent,
-  }
-);
+const ZoomedImage = dynamic(() => import('./ZoomedImage'), {
+  ssr: false,
+  loading: LoadingComponent,
+});
 
 const Grid = styled.div`
   display: grid;
@@ -207,7 +201,7 @@ const Thumbnails = styled.div<{
   `}
 `;
 
-const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
+const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   mainPaginatorProps,
   currentCanvas,
   lang,
@@ -471,13 +465,10 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
           isActiveMobile={isMobileSidebarActive}
           isActiveDesktop={isDesktopSidebarActive}
         >
-          <ViewerSidebarPrototype mainViewerRef={mainViewerRef} />
+          <ViewerSidebar mainViewerRef={mainViewerRef} />
         </Sidebar>
         <Topbar isDesktopSidebarActive={isDesktopSidebarActive}>
-          <ViewerTopBarPrototype
-            viewToggleRef={viewToggleRef}
-            viewerRef={viewerRef}
-          />
+          <ViewerTopBar viewToggleRef={viewToggleRef} viewerRef={viewerRef} />
         </Topbar>
         <Main
           isDesktopSidebarActive={isDesktopSidebarActive}
@@ -492,16 +483,17 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
               width={800}
               alt={work?.description || work?.title || ''}
               urlTemplate={urlTemplate}
-              setShowZoomed={setShowZoomed}
               rotation={firstRotation}
               loadHandler={() => {
                 setZoomInfoUrl(iiifImageLocation.url);
                 setIsLoading(false);
               }}
+              setImageRect={() => undefined}
+              setImageContainerRect={() => undefined}
             />
           )}
           {mainImageService['@id'] && currentCanvas && (
-            <MainViewerPrototype
+            <MainViewer
               mainViewerRef={mainViewerRef}
               mainAreaRef={mainAreaRef}
             />
@@ -509,11 +501,11 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
         </Main>
         {showZoomed && (
           <Zoom>
-            <ZoomedImagePrototype />
+            <ZoomedImage />
           </Zoom>
         )}
         <BottomBar isMobileSidebarActive={isMobileSidebarActive}>
-          <ViewerBottomBarPrototype
+          <ViewerBottomBar
             viewToggleRef={viewToggleRef}
             viewerRef={viewerRef}
           />
@@ -522,7 +514,7 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
           isActive={gridVisible}
           isDesktopSidebarActive={isDesktopSidebarActive}
         >
-          <GridViewerPrototype
+          <GridViewer
             mainViewerRef={mainViewerRef}
             gridViewerRef={gridViewerRef}
             viewerRef={viewerRef}
@@ -549,4 +541,4 @@ const IIIFViewerPrototype: FunctionComponent<IIIFViewerProps> = ({
   );
 };
 
-export default IIIFViewerPrototype;
+export default IIIFViewer;
