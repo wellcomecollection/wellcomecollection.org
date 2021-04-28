@@ -161,14 +161,14 @@ const defaultLicenseMap = {
   },
   ogl: {
     id: 'ogl',
-    label: 'Open Government License',
+    label: 'Open Government Licence',
     url:
       'http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/',
     type: 'License',
   },
   opl: {
     id: 'opl',
-    label: 'Open Parliament License',
+    label: 'Open Parliament Licence',
     url:
       'https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence',
     type: 'License',

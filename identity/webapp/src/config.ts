@@ -38,7 +38,6 @@ export const config = {
 
   session: {
     // Session / cookie options.
-    secure: isProduction,
   } as Partial<SessionOpts>,
 
   logout: {

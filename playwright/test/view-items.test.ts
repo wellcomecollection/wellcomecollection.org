@@ -16,6 +16,7 @@ import {
   mainViewer,
 } from './selectors/item';
 import { baseUrl } from './helpers/urls';
+import { makeDefaultToggleAndTestCookies } from './helpers/utils';
 
 const domain = new URL(baseUrl).host;
 
@@ -25,14 +26,12 @@ async function searchWithin(query: string) {
 }
 
 beforeAll(async () => {
+  const defaultToggleAndTestCookies = await makeDefaultToggleAndTestCookies(
+    domain
+  );
   await context.addCookies([
     { name: 'WC_cookiesAccepted', value: 'true', domain: domain, path: '/' },
-    {
-      name: 'toggle_itemViewerPrototype',
-      value: 'true',
-      domain: domain,
-      path: '/',
-    },
+    ...defaultToggleAndTestCookies,
   ]);
 });
 
@@ -108,13 +107,13 @@ describe('Scenario 3: A user wants information about the item they are viewing',
 });
 
 describe('Scenario 4: A user wants to know how they can make use of an item', () => {
-  test('license information should be available', async () => {
+  test('licence information should be available', async () => {
     await itemWithSearchAndStructures();
     if (isMobile()) {
       page.click('text="Show info"');
     }
-    await page.click('text="License and credit"');
-    await page.waitForSelector(`css=body >> text="License:"`);
+    await page.click('text="Licence and credit"');
+    await page.waitForSelector(`css=body >> text="Licence:"`);
     await page.waitForSelector(`css=body >> text="Credit:"`);
   });
 });

@@ -283,7 +283,10 @@ describe('EditProfile', () => {
     await waitForPageToLoad();
     expect(screen.queryByText(/reset password/i)).not.toBeInTheDocument();
     userEvent.click(screen.getByRole('button', { name: /account actions/i }));
-    expect(screen.getByText(/reset password/i)).toBeInTheDocument();
+    const resetPassword = screen.getByText(/reset password/i);
+    expect(resetPassword).toBeInTheDocument();
+    userEvent.click(screen.getByText(/reset password/i));
+    await waitFor(() => expect(resetPassword).not.toBeInTheDocument());
   });
 
   it("can resend a user's activation email", async () => {
@@ -327,13 +330,16 @@ describe('EditProfile', () => {
 
   it('can block a user', async () => {
     renderPage();
-    await waitForPageToLoad();
-    userEvent.click(screen.getByRole('button', { name: /account actions/i }));
+    const accountActionsMenuButton = await screen.findByRole('button', {
+      name: /account actions/i,
+    });
+    userEvent.click(accountActionsMenuButton);
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     userEvent.click(screen.getByText(/^block online account/i));
     expect(await screen.findByRole('alert')).toHaveTextContent(
       'User has been blocked'
     );
+    userEvent.click(accountActionsMenuButton);
     expect(
       screen.queryByText(/^block online account/i)
     ).not.toBeInTheDocument();
@@ -342,13 +348,16 @@ describe('EditProfile', () => {
 
   it('can unblock a user', async () => {
     renderPage({ locked: true });
-    await waitForPageToLoad();
-    userEvent.click(screen.getByRole('button', { name: /account actions/i }));
+    const accountActionsMenuButton = await screen.findByRole('button', {
+      name: /account actions/i,
+    });
+    userEvent.click(accountActionsMenuButton);
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     userEvent.click(screen.getByText(/unblock online account/i));
     expect(await screen.findByRole('alert')).toHaveTextContent(
       'User has been unblocked'
     );
+    userEvent.click(accountActionsMenuButton);
     expect(
       screen.queryByText(/unblock online account/i)
     ).not.toBeInTheDocument();

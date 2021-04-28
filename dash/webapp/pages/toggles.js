@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import getCookies from 'next-cookies';
 import fetch from 'isomorphic-unfetch';
 import Header from '../components/Header';
+
 const fontFamily = 'Gadget, sans-serif';
 
 const Button = styled.button`
@@ -67,17 +68,20 @@ type AbTest = {|
   description: string,
 |};
 
-const abTests: AbTest[] = [];
 const IndexPage = () => {
   const [toggleStates, setToggleStates] = useState<ToggleStates>({});
   const [toggles, setToggles] = useState<Toggle[]>([]);
+  const [abTests, setAbTests] = useState<AbTest[]>([]);
 
   // We use this over getInitialProps as it's ineffectual when an app is
   // exported.
   useEffect(() => {
     fetch('https://toggles.wellcomecollection.org/toggles.json')
       .then(resp => resp.json())
-      .then(json => setToggles(json.toggles));
+      .then(json => {
+        setToggles(json.toggles);
+        setAbTests(json.tests);
+      });
 
     const cookies = getCookies({});
     const initialToggles = Object.keys(cookies).reduce((acc, key) => {

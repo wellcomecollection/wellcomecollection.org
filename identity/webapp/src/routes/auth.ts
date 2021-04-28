@@ -10,9 +10,7 @@ export const loginAction: RouteMiddleware = koaPassport.authenticate('auth0', {
 });
 
 export const authCallback: RouteMiddleware = (ctx, next) => {
-  console.log({ ctx });
   return koaPassport.authenticate('auth0', (err, user, info) => {
-    console.log({ err, user, info });
     if (err) {
       ctx.status = err.status || 500;
       ctx.body = err.message;
@@ -36,14 +34,15 @@ export const authCallback: RouteMiddleware = (ctx, next) => {
 };
 
 export const logoutAction: RouteMiddleware = context => {
+  const { returnTo } = context.request.query;
+
   context.logout();
 
   const logoutUri = new URL(`https://${config.auth0.domain}/v2/logout`);
-  const returnTo = config.logout.redirectUrl;
 
   logoutUri.search = querystring.stringify({
     client_id: config.auth0.clientID,
-    returnTo,
+    returnTo: `${config.logout.redirectUrl || ''}${returnTo || ''}`,
   });
 
   context.redirect(logoutUri.toString());

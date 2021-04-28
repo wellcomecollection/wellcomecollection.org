@@ -1,7 +1,7 @@
-export const literalRedirects: Record<string, string> = {
+const contentRedirects: Record<string, string> = {
   '/event-series/Wo1YeCoAACoAZFoN': '/events/Wqkd1yUAAB8sW4By',
   '/explore': '/stories',
-  '/eventspaces': '/pages/Wuw2MSIAACtd3SsC',
+  '/eventspaces': '/venue-hire',
   '/info/opening-times': '/opening-times',
   '/info/opening-hours': '/opening-times',
   '/visit': '/visit-us',
@@ -57,7 +57,6 @@ export const literalRedirects: Record<string, string> = {
   '/exhibitions/medicine-now': '/exhibitions/WeobUyQAAKdwjbEO',
   '/somewhere-in-between': '/exhibitions/WhvoAykAACgAlDoo',
   '/exhibitions/bobby-bakers-diary-drawings': '/exhibitions/W309HSkAACcAPsep',
-  '/pages/WwQHTSAAANBfDYXU': '/opening-times',
   '/visit-us/accessibility': '/access',
   '/what-we-do/proposing-online-article': '/pages/Wvl00yAAAB8A3y8p',
   '/press/‘forensics-anatomy-crime’-opens-wellcome-collection':
@@ -98,7 +97,6 @@ export const literalRedirects: Record<string, string> = {
   '/visit-us/wellcome-kitchen': '/pages/Wuw19yIAAK1Z3Snk',
   '/visit-us/wellcome-café': '/pages/Wvl1wiAAADMJ3zNe',
   '/visit-us/events-tickets': '/pages/Wuw19yIAAK1Z3Sng',
-  '/pages/WwQHTSAAANBfDYXU&': '/opening-times',
   '/readingroom': '/pages/Wvlk4yAAAB8A3ufp',
   '/visit-us/photography': '/pages/Wuw19yIAAK1Z3Smw',
   '/articles/the-ladies-of-llangollen': '/articles/WqewRSUAAB8sVaKN',
@@ -142,7 +140,7 @@ export const literalRedirects: Record<string, string> = {
   '/young-people': '/pages/Wuw2MSIAACtd3Ssg',
   '/openplatform': '/pages/WvljzSAAAB4E3uMF',
   '/the-hub': '/pages/Wuw2MSIAACtd3SsU',
-  '/rawminds': '/pages/Wuw2MSIAACtd3Sts',
+  '/rawminds': '/schools',
   '/medieval-bodies': '/books/Ww0QpiUAAFQXohEZ',
   '/touring': '/pages/Wuw2MSIAACtd3Sty',
   '/installations/W7T-FxAAADRy0mu0': '/exhibitions/XFximBAAAPkAioWx',
@@ -161,8 +159,6 @@ export const literalRedirects: Record<string, string> = {
   '/installations/WqwC1iAAAB8AJgFB': '/exhibitions/XFximBAAAPkAioWn',
   '/installations/Wrynhx8AAAjk9XX-': '/exhibitions/XFximBAAAPkAioW1',
   '/articles/xksu0xiaadlrl4-h': '/articles/XKsU0xIAADlrL4-h',
-  '/pages/X5amzBIAAB0Aq6Gm': '/covid-welcome-back',
-  '/pages/X5aomxIAAB8Aq6n5': '/covid-book-your-ticket',
   '/series/X8D9qxIAACIAcKSf': '/series/X76JKBMAACIAqtZ2',
   '/articles/X61xYhMAACAAX_z1': '/articles/X8dTWhIAACQAjJ5S',
   '/articles/X6P6_xMAACEANfQB': '/articles/X8dRxhIAACQAjJdL',
@@ -170,8 +166,30 @@ export const literalRedirects: Record<string, string> = {
   '/articles/X7bJORMAACEAiRPo': '/articles/X8dU2BIAACMAjKT-',
   '/articles/X8Ay3hIAACMAbSL2': '/articles/X8dV8xIAACIAjKn6',
   '/articles/X_dsXREAACMASftU': '/articles/X_g6ohEAACQATYJF',
+};
+
+/**
+ * These are URLs that we expect to be served from a human-readable path
+ * Redirecting the prismic path ensures we aren't serving the same content
+ * from two paths, losing Google juice
+ **/
+const vanityUrls: Record<string, string> = {
+  '/pages/WwQHTSAAANBfDYXU': '/opening-times',
+  '/pages/WwLGFCAAAPMiB_Ps': '/what-we-do',
+  '/pages/WuxrKCIAAP9h3hmw': '/press',
+  '/pages/Wuw2MSIAACtd3SsC': '/venue-hire',
+  '/pages/Wvm2uiAAAIYQ4FHP': '/access',
+  '/pages/Wuw2MSIAACtd3Ste': '/youth',
+  '/pages/Wuw2MSIAACtd3StS': '/schools',
+  '/pages/X5amzBIAAB0Aq6Gm': '/covid-welcome-back',
+  '/pages/X5aomxIAAB8Aq6n5': '/covid-book-your-ticket',
+  '/pages/X8ZTSBIAACQAiDzY§': '/visit-us',
+  '/pages/Wuw2MSIAACtd3Stq': '/about-us',
+  '/pages/YDaZmxMAACIAT9u8': '/get-involved',
   '/pages/YH17kRAAACoAyWTB': '/user-panel',
 };
+
+export const literalRedirects = { ...contentRedirects, ...vanityUrls };
 
 // Query redirects have the form:
 // {

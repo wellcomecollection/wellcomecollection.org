@@ -1,7 +1,7 @@
 import { AppProps } from 'next/app';
 import Router from 'next/router';
 import ReactGA from 'react-ga';
-import React, { useEffect } from 'react';
+import React, { useEffect, FunctionComponent } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '../../views/themes/default';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
@@ -118,7 +118,10 @@ function makeSurePageIsTallEnough() {
   });
 }
 
-function WecoApp({ Component, pageProps }: AppProps) {
+const WecoApp: FunctionComponent<AppProps> = ({
+  Component,
+  pageProps,
+}: AppProps) => {
   // enhanced
   useEffect(() => {
     makeSurePageIsTallEnough();
@@ -144,8 +147,9 @@ function WecoApp({ Component, pageProps }: AppProps) {
         titleCase: false,
       },
     ]);
-    // TODO: Add this back
-    // ReactGA.set({ dimension5: JSON.stringify(toggles) });
+    ReactGA.set({
+      dimension5: JSON.stringify(pageProps.globalContextData.toggles),
+    });
     trackPageview();
     Router.events.on('routeChangeComplete', trackPageview);
     return () => {
@@ -322,6 +326,6 @@ function WecoApp({ Component, pageProps }: AppProps) {
       </AppContextProvider>
     </>
   );
-}
+};
 
 export default WecoApp;

@@ -26,6 +26,7 @@ import { DigitalLocation } from '@weco/common/model/catalogue';
 import MultipleManifestListPrototype from '../MultipleManifestListPrototype/MultipleManifestListPrototype';
 import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import { getSearchService } from '../../../utils/iiif';
+import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -129,13 +130,9 @@ type Props = {
 const ViewerSidebarPrototype: FunctionComponent<Props> = ({
   mainViewerRef,
 }: Props) => {
-  const {
-    work,
-    manifest,
-    parentManifest,
-    currentManifestLabel,
-    setIsMobileSidebarActive,
-  } = useContext(ItemViewerContext);
+  const { work, manifest, parentManifest, currentManifestLabel } = useContext(
+    ItemViewerContext
+  );
   const productionDates = getProductionDates(work);
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -171,7 +168,9 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
             {currentManifestLabel}
           </span>
         )}
-        <h1>{work.title}</h1>
+        <h1>
+          <WorkTitle title={work.title} />
+        </h1>
 
         {work.contributors.length > 0 && (
           <Space
@@ -226,13 +225,13 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
       </Inner>
       <Inner>
         <AccordionItem
-          title={'License and credit'}
+          title={'Licence and credit'}
           testId={'license-and-credit'}
         >
           <div className={font('hnl', 6)}>
             {license && license.label && (
               <p>
-                <strong>License:</strong>{' '}
+                <strong>Licence:</strong>{' '}
                 {license.url ? (
                   <NextLink href={license.url}>
                     <a>{license.label}</a>

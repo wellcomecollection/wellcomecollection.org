@@ -477,7 +477,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 }}
               >
                 <WorkDetailsText
-                  title="License"
+                  title="Licence"
                   text={[digitalLocationInfo.license.label]}
                 />
               </Space>
@@ -498,20 +498,18 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                         text={digitalLocationInfo.license.humanReadableText}
                       />
                     )}
-
                     <WorkDetailsText
                       text={[
-                        `Credit: ${work.title.replace(/\.$/g, '')}.${' '}
-            ${
-              credit
-                ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
-                : ` `
-            }
-          ${
-            digitalLocationInfo.license.url
-              ? `<a href="${digitalLocationInfo.license.url}">${digitalLocationInfo.license.label}</a>`
-              : digitalLocationInfo.license.label
-          }`,
+                        [
+                          `Credit: ${work.title.replace(/\.$/g, '')}.`,
+                          credit &&
+                            `<a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>.`,
+                          digitalLocationInfo.license.url
+                            ? `<a href="${digitalLocationInfo.license.url}">${digitalLocationInfo.license.label}</a>`
+                            : digitalLocationInfo.license.label,
+                        ]
+                          .filter(Boolean)
+                          .join(' '),
                       ]}
                     />
                   </>

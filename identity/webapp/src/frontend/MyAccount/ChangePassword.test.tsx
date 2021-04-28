@@ -11,6 +11,7 @@ import { rest } from 'msw';
 const defaultProps: ChangeDetailsModalContentProps = {
   onComplete: () => null,
   onCancel: () => null,
+  isActive: true,
 };
 
 const renderComponent = (props: Partial<ChangeDetailsModalContentProps> = {}) =>
@@ -56,6 +57,29 @@ describe('ChangePassword', () => {
     userEvent.click(screen.getByRole('button', { name: /update password/i }));
     expect(await screen.findByRole('progressbar')).toBeInTheDocument();
     await waitFor(() => expect(onComplete).toBeCalled());
+  });
+
+  it('resets when modal closes', async () => {
+    const { rerender } = renderComponent();
+    const currentPasswordInput = screen.getByLabelText(/current password/i);
+    const newPasswordInput = screen.getByLabelText(/^new password/i);
+    const confirmPasswordInput = screen.getByLabelText(/retype new password/i);
+    userEvent.type(currentPasswordInput, 'hunter2');
+    userEvent.type(newPasswordInput, 'Superman1938');
+    userEvent.type(confirmPasswordInput, 'Superman1938');
+    rerender(
+      <ThemeProvider theme={theme}>
+        <ChangePassword {...defaultProps} isActive={false} />
+      </ThemeProvider>
+    );
+    rerender(
+      <ThemeProvider theme={theme}>
+        <ChangePassword {...defaultProps} isActive={true} />
+      </ThemeProvider>
+    );
+    expect(currentPasswordInput).toHaveValue('');
+    expect(newPasswordInput).toHaveValue('');
+    expect(confirmPasswordInput).toHaveValue('');
   });
 
   describe('shows an error on submission', () => {

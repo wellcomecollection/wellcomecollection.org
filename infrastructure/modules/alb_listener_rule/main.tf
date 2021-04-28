@@ -25,6 +25,8 @@ resource "aws_alb_listener_rule" "https" {
 }
 
 resource "aws_alb_listener_rule" "http" {
+  count = var.alb_listener_http_arn == "" ? 0 : 1
+
   listener_arn = var.alb_listener_http_arn
   priority     = var.priority
 

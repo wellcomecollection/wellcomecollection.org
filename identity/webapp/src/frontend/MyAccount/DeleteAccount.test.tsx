@@ -8,10 +8,16 @@ import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import { server } from '../mocks/server';
 import { rest } from 'msw';
 
+const defaultProps: ChangeDetailsModalContentProps = {
+  onComplete: () => null,
+  onCancel: () => null,
+  isActive: true,
+};
+
 const renderComponent = (props: Partial<ChangeDetailsModalContentProps> = {}) =>
   render(
     <ThemeProvider theme={theme}>
-      <DeleteAccount onComplete={() => null} onCancel={() => null} {...props} />
+      <DeleteAccount {...defaultProps} {...props} />
     </ThemeProvider>
   );
 
@@ -42,6 +48,23 @@ describe('DeleteAccount', () => {
     renderComponent({ onCancel });
     userEvent.click(screen.getByRole('link', { name: /no, take me back to my account/i }));
     expect(onCancel).toHaveBeenCalled();
+  });
+
+  it('resets when modal closes', async () => {
+    const { rerender } = renderComponent();
+    const passwordInput = screen.getByLabelText(/^password$/i);
+    userEvent.type(passwordInput, 'hunter2');
+    rerender(
+      <ThemeProvider theme={theme}>
+        <DeleteAccount {...defaultProps} isActive={false} />
+      </ThemeProvider>
+    );
+    rerender(
+      <ThemeProvider theme={theme}>
+        <DeleteAccount {...defaultProps} isActive={true} />
+      </ThemeProvider>
+    );
+    expect(passwordInput).toHaveValue('');
   });
 
   describe('shows an error on submission', () => {

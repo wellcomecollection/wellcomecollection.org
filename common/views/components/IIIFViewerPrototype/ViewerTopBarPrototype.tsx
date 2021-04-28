@@ -6,8 +6,11 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent, useContext, RefObject } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import ToolbarSegmentedControl from '../ToolbarSegmentedControl/ToolbarSegmentedControl';
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs(() => ({
@@ -147,11 +150,9 @@ type Props = {
   viewerRef: RefObject<HTMLDivElement>;
 };
 
-const ViewerTopBar: FunctionComponent<Props> = ({
-  viewToggleRef,
-  viewerRef,
-}: Props) => {
+const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
   const { isEnhanced } = useContext(AppContext);
+  const { showSidebarToggleLabel } = useContext(TogglesContext);
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
     canvases,
@@ -176,7 +177,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
       isZooming={showZoomed}
       isDesktopSidebarActive={isDesktopSidebarActive}
     >
-      {isEnhanced && canvases && canvases.length > 1 && (
+      {isEnhanced && (
         <Sidebar isZooming={showZoomed}>
           {!showZoomed && (
             <>
@@ -185,6 +186,11 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                 isDark
                 onClick={() => {
                   setIsDesktopSidebarActive(!isDesktopSidebarActive);
+                  trackEvent({
+                    category: 'Control',
+                    action: 'Toggle item viewer sidebar',
+                    label: `${work.id}`,
+                  });
                 }}
               >
                 <Icon
@@ -194,8 +200,15 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                     'icon--180': !isDesktopSidebarActive,
                   })}
                 />
-                {isDesktopSidebarActive ? 'Hide' : 'Show'}
-                {' info'}
+                <ConditionalWrapper
+                  condition={!showSidebarToggleLabel}
+                  wrapper={children => (
+                    <span className={`visually-hidden`}>{children}</span>
+                  )}
+                >
+                  {isDesktopSidebarActive ? 'Hide' : 'Show'}
+                  {' info'}
+                </ConditionalWrapper>
               </ShameButton>
               <ShameButton
                 className={`viewer-mobile`}
@@ -204,8 +217,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
                   setIsMobileSidebarActive(!isMobileSidebarActive);
                 }}
               >
-                {isMobileSidebarActive ? 'Hide' : 'Show'}
-                {' info'}
+                {isMobileSidebarActive ? 'Hide info' : 'Show info'}
               </ShameButton>
             </>
           )}
@@ -213,27 +225,39 @@ const ViewerTopBar: FunctionComponent<Props> = ({
       )}
       <Main>
         <LeftZone>
-          {!showZoomed && (
-            <ShameButton
-              className={`viewer-desktop`}
-              isDark
-              ref={viewToggleRef}
-              onClick={() => {
-                setGridVisible(!gridVisible);
-                trackEvent({
-                  category: 'Control',
-                  action: `clicked work viewer ${
-                    gridVisible ? '"Detail view"' : '"View all"'
-                  } button`,
-                  label: `${work.id}`,
-                });
-              }}
-            >
-              <Icon name={gridVisible ? 'detailView' : 'gridView'} />
-              <span className={`btn__text`}>
-                {gridVisible ? 'Detail view' : 'View all'}
-              </span>
-            </ShameButton>
+          {!showZoomed && canvases && canvases.length > 1 && (
+            <ToolbarSegmentedControl
+              hideLabels={true}
+              items={[
+                {
+                  id: 'pageView',
+                  label: 'Page',
+                  icon: 'singlePage',
+                  clickHandler() {
+                    setGridVisible(false);
+                    trackEvent({
+                      category: 'Control',
+                      action: `clicked work viewer Detail view button`,
+                      label: `${work.id}`,
+                    });
+                  },
+                },
+                {
+                  id: 'gridView',
+                  label: 'Grid',
+                  icon: 'gridView',
+                  clickHandler() {
+                    setGridVisible(true);
+                    trackEvent({
+                      category: 'Control',
+                      action: `clicked work viewer Grid view button`,
+                      label: `${work.id}`,
+                    });
+                  },
+                },
+              ]}
+              activeId={gridVisible ? 'gridView' : 'pageView'}
+            />
           )}
         </LeftZone>
         <MiddleZone>

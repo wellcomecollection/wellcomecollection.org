@@ -7,7 +7,7 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import LL from '@weco/common/views/components/styled/LL';
 import {
-  getImageAuthService,
+  isImageRestricted,
   getThumbnailService,
 } from '@weco/common/utils/iiif';
 import Padlock from '@weco/common/views/components/styled/Padlock';
@@ -103,10 +103,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
   const thumbnailService = getThumbnailService(canvas);
   const urlTemplate =
     thumbnailService && iiifImageTemplate(thumbnailService['@id']);
-  const imageAuthService = getImageAuthService(canvas);
-  const isRestricted =
-    imageAuthService &&
-    imageAuthService.profile === 'http://iiif.io/api/auth/0/login/restricted';
+  const isRestricted = isImageRestricted(canvas);
   const preferredMinThumbnailHeight = 400;
   const preferredThumbnail =
     thumbnailService &&

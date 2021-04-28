@@ -39,55 +39,68 @@ export function AccountActions({
 
   return (
     <DropdownMenu deleteModalRef={deleteModalRef}>
-      <ul>
-        {!user?.emailValidated && (
-          <AccountAction
-            label="Resend activation email"
-            onClick={resendActivationEmail}
-            onSuccess={() => handleSuccess('Activation email resent')}
-            onFailure={() => handleFailure('Failed to send activation email')}
-          />
-        )}
-        {user?.locked ? (
-          <AccountAction
-            label="Unblock online account"
-            onClick={unblockAccount}
-            onSuccess={() => {
-              user.locked = false;
-              handleSuccess('User has been unblocked');
-            }}
-            onFailure={() => handleFailure('Failed to unblock user')}
-          />
-        ) : (
-          <AccountAction
-            label="Block online account"
-            onClick={blockAccount}
-            onSuccess={() => {
-              user && (user.locked = true);
-              handleSuccess('User has been blocked');
-            }}
-            onFailure={() => handleFailure('Failed to block user')}
-          />
-        )}
-        {user?.deleteRequested && (
-          <AccountAction
-            label="Reverse user's deletion request"
-            onClick={reverseDeleteRequest}
-            onSuccess={() => handleSuccess('Delete request reversed')}
-            onFailure={() => handleFailure('Failed to reverse delete request')}
-          />
-        )}
-        <AccountAction
-          label="Reset password"
-          onClick={resetPassword}
-          onSuccess={() => handleSuccess('Password reset')}
-          onFailure={() => handleFailure('Failed to reset password')}
-        />
-        <hr />
-        {user && (
-          <DeleteAccount userId={user.userId} modalRef={deleteModalRef} />
-        )}
-      </ul>
+      {close => {
+        const handleClickThenClose = (
+          onClick: () => Promise<void>
+        ) => async () => {
+          await onClick().then(close);
+        };
+        return (
+          <ul>
+            {!user?.emailValidated && (
+              <AccountAction
+                label="Resend activation email"
+                onClick={handleClickThenClose(resendActivationEmail)}
+                onSuccess={() => handleSuccess('Activation email resent')}
+                onFailure={() =>
+                  handleFailure('Failed to send activation email')
+                }
+              />
+            )}
+            {user?.locked ? (
+              <AccountAction
+                label="Unblock online account"
+                onClick={handleClickThenClose(unblockAccount)}
+                onSuccess={() => {
+                  user.locked = false;
+                  handleSuccess('User has been unblocked');
+                }}
+                onFailure={() => handleFailure('Failed to unblock user')}
+              />
+            ) : (
+              <AccountAction
+                label="Block online account"
+                onClick={handleClickThenClose(blockAccount)}
+                onSuccess={() => {
+                  user && (user.locked = true);
+                  handleSuccess('User has been blocked');
+                }}
+                onFailure={() => handleFailure('Failed to block user')}
+              />
+            )}
+            {user?.deleteRequested && (
+              <AccountAction
+                label="Reverse user's deletion request"
+                onClick={handleClickThenClose(reverseDeleteRequest)}
+                onSuccess={() => handleSuccess('Delete request reversed')}
+                onFailure={() =>
+                  handleFailure('Failed to reverse delete request')
+                }
+              />
+            )}
+            <AccountAction
+              label="Reset password"
+              onClick={handleClickThenClose(resetPassword)}
+              onSuccess={() => handleSuccess('Password reset')}
+              onFailure={() => handleFailure('Failed to reset password')}
+            />
+            <hr />
+            {user && (
+              <DeleteAccount userId={user.userId} modalRef={deleteModalRef} />
+            )}
+          </ul>
+        );
+      }}
     </DropdownMenu>
   );
 }
