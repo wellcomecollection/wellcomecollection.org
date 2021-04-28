@@ -245,6 +245,15 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       return (location as PhysicalLocation).label;
     }
   }
+
+  function getLocationShelfmark(
+    location: PhysicalLocation | DigitalLocation
+  ): string | undefined {
+    if ((location as PhysicalLocation).shelfmark) {
+      return (location as PhysicalLocation).shelfmark;
+    }
+  }
+
   const Holdings = () => {
     return (
       <>
@@ -253,6 +262,8 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
             {holdings.map((holding, i) => {
               const locationLabel =
                 holding.location && getLocationLabel(holding.location);
+              const locationShelfmark =
+                holding.location && getLocationShelfmark(holding.location);
               return (
                 <div key={i}>
                   {holding.enumeration.length > 0 && (
@@ -261,9 +272,12 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     </Space>
                   )}
                   {locationLabel && (
+                    <WorkDetailsText title="Location" text={[locationLabel]} />
+                  )}
+                  {locationShelfmark && (
                     <WorkDetailsText
-                      title="Location"
-                      text={[locationLabel || '']}
+                      title="Shelfmark"
+                      text={[locationShelfmark]}
                     />
                   )}
 
