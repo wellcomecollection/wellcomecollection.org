@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import {
   getGlobalContextData,
   GlobalContextData,
@@ -6,7 +6,7 @@ import {
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 
 type Props = {
-  statusCode: number;
+  statusCode?: number;
   message: string;
   globalContextData: GlobalContextData;
 };
@@ -25,16 +25,13 @@ const Page: NextPage<Props> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async context => {
+Page.getInitialProps = async context => {
   const globalContextData = getGlobalContextData(context);
 
   return {
-    props: {
-      message:
-        'Something unexpected happened. Our team will be looking into it.',
-      statusCode: context.res.statusCode,
-      globalContextData,
-    },
+    message: 'Something unexpected happened. Our team will be looking into it.',
+    statusCode: context?.res?.statusCode,
+    globalContextData,
   };
 };
 

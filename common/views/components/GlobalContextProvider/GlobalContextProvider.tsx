@@ -1,4 +1,4 @@
-import { GetServerSidePropsContext } from 'next';
+import { GetServerSidePropsContext, NextPageContext } from 'next';
 import { createContext, FunctionComponent, ReactNode } from 'react';
 import OpeningTimesContext, {
   OpeningTimes,
@@ -87,7 +87,7 @@ const GlobalContextProvider: FunctionComponent<Props> = ({
 };
 
 export function getGlobalContextData(
-  context: GetServerSidePropsContext
+  context: GetServerSidePropsContext | NextPageContext
 ): GlobalContextData {
   return {
     // NextJS types do not yet allow a parametrised `query` :(
