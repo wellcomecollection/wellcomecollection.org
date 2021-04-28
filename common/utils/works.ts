@@ -302,3 +302,19 @@ export function getDigitalLocationInfo(
       getAugmentedLicenseInfo(digitalLocation.license),
   };
 }
+
+export function getLocationLabel(
+  location: PhysicalLocation | DigitalLocation
+): string | undefined {
+  if ((location as PhysicalLocation).label) {
+    return (location as PhysicalLocation).label;
+  }
+}
+
+export function getLocationShelfmark(
+  location: PhysicalLocation | DigitalLocation
+): string | undefined {
+  if ((location as PhysicalLocation).shelfmark) {
+    return (location as PhysicalLocation).shelfmark;
+  }
+}

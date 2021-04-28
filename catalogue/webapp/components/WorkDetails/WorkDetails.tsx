@@ -15,6 +15,8 @@ import {
   sierraIdFromPresentationManifestUrl,
   getHoldings,
   getDigitalLocationInfo,
+  getLocationLabel,
+  getLocationShelfmark,
 } from '@weco/common/utils/works';
 import {
   getVideoClickthroughService,
@@ -38,11 +40,7 @@ import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemL
 import { trackEvent } from '@weco/common/utils/ga';
 import ItemLocation from '../RequestLocation/RequestLocation';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import {
-  DigitalLocation,
-  PhysicalLocation,
-  Work,
-} from '@weco/common/model/catalogue';
+import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 import IIIFClickthrough from '@weco/common/views/components/IIIFClickthrough/IIIFClickthrough';
 import OnlineResources from './OnlineResources';
@@ -237,22 +235,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       {stacksRequestService && <ItemLocation work={work} />}
     </WorkDetailsSection>
   );
-
-  function getLocationLabel(
-    location: PhysicalLocation | DigitalLocation
-  ): string | undefined {
-    if ((location as PhysicalLocation).label) {
-      return (location as PhysicalLocation).label;
-    }
-  }
-
-  function getLocationShelfmark(
-    location: PhysicalLocation | DigitalLocation
-  ): string | undefined {
-    if ((location as PhysicalLocation).shelfmark) {
-      return (location as PhysicalLocation).shelfmark;
-    }
-  }
 
   const Holdings = () => {
     return (
