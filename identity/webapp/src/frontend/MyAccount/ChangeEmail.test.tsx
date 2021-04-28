@@ -13,6 +13,7 @@ import { mockUser } from '../mocks/user';
 const defaultProps: ChangeDetailsModalContentProps = {
   onComplete: () => null,
   onCancel: () => null,
+  isActive: true,
 };
 
 const renderComponent = (props: Partial<ChangeDetailsModalContentProps> = {}) =>
@@ -63,6 +64,28 @@ describe('ChangeEmail', () => {
     await waitFor(() =>
       expect(onComplete).toBeCalledWith(expect.objectContaining({ email: 'clarkkent@dailybugle.com' }))
     );
+  });
+
+  it('resets when modal closes', async () => {
+    const { rerender } = renderComponent();
+    const emailAddressInput = await screen.findByLabelText(/email address/i);
+    userEvent.clear(emailAddressInput);
+    userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
+    rerender(
+      <ThemeProvider theme={theme}>
+        <UserInfoProvider>
+          <ChangeEmail {...defaultProps} isActive={false} />
+        </UserInfoProvider>
+      </ThemeProvider>
+    );
+    rerender(
+      <ThemeProvider theme={theme}>
+        <UserInfoProvider>
+          <ChangeEmail {...defaultProps} isActive={true} />
+        </UserInfoProvider>
+      </ThemeProvider>
+    );
+    expect(emailAddressInput).toHaveValue(mockUser.email);
   });
 
   describe('shows an error on submission', () => {
