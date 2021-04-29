@@ -302,3 +302,32 @@ export function getDigitalLocationInfo(
       getAugmentedLicenseInfo(digitalLocation.license),
   };
 }
+
+export function getLocationLabel(
+  location: PhysicalLocation | DigitalLocation
+): string | undefined {
+  if ((location as PhysicalLocation).label) {
+    return (location as PhysicalLocation).label;
+  }
+}
+
+export function getLocationShelfmark(
+  location: PhysicalLocation | DigitalLocation
+): string | undefined {
+  if ((location as PhysicalLocation).shelfmark) {
+    return (location as PhysicalLocation).shelfmark;
+  }
+}
+
+export function getLocationLink(
+  location: PhysicalLocation | DigitalLocation
+): { url: string; linkText: string } | undefined {
+  if ((location as DigitalLocation).url) {
+    return {
+      url: (location as DigitalLocation).url,
+      linkText:
+        (location as DigitalLocation)?.linkText ||
+        (location as DigitalLocation).url,
+    };
+  }
+}

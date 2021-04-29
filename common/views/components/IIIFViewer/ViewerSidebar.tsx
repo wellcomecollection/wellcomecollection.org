@@ -20,10 +20,10 @@ import {
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
-import ViewerStructuresPrototype from '../ViewerStructuresPrototype/ViewerStructuresPrototype';
+import ViewerStructures from './ViewerStructures';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import MultipleManifestListPrototype from '../MultipleManifestListPrototype/MultipleManifestListPrototype';
+import MultipleManifestList from './MultipleManifestList';
 import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import { getSearchService } from '../../../utils/iiif';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
@@ -127,9 +127,7 @@ type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
 };
 
-const ViewerSidebarPrototype: FunctionComponent<Props> = ({
-  mainViewerRef,
-}: Props) => {
+const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
   const { work, manifest, parentManifest, currentManifestLabel } = useContext(
     ItemViewerContext
   );
@@ -256,12 +254,12 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
         </AccordionItem>
         {manifest && manifest.structures && manifest.structures.length > 0 && (
           <AccordionItem title={'Contents'}>
-            <ViewerStructuresPrototype mainViewerRef={mainViewerRef} />
+            <ViewerStructures mainViewerRef={mainViewerRef} />
           </AccordionItem>
         )}
         {parentManifest && parentManifest.manifests && (
           <AccordionItem title={'Volumes'}>
-            <MultipleManifestListPrototype />
+            <MultipleManifestList />
           </AccordionItem>
         )}
       </Inner>
@@ -275,4 +273,4 @@ const ViewerSidebarPrototype: FunctionComponent<Props> = ({
   );
 };
 
-export default ViewerSidebarPrototype;
+export default ViewerSidebar;

@@ -4,7 +4,7 @@ import { Container, Menu, MenuButton } from './DropdownMenu.style';
 
 type DropdownMenuProps = {
   deleteModalRef: MutableRefObject<HTMLDivElement | null>;
-  children: React.ReactNode;
+  children: (close: () => void) => JSX.Element;
 };
 
 export const DropdownMenu: React.FC<DropdownMenuProps> = ({
@@ -15,6 +15,8 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleOpen = () => setIsOpen(wasOpen => !wasOpen);
+  const close = () => setIsOpen(false);
+
   const handleClickOutside = (event: MouseEvent) => {
     const target = event.target as Node;
     if (
@@ -22,7 +24,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
       !dropdownRef.current?.contains(target) &&
       !deleteModalRef.current?.contains(target)
     ) {
-      setIsOpen(false);
+      close();
     }
   };
 
@@ -31,7 +33,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
     return () => {
       document.removeEventListener('click', handleClickOutside, true);
     };
-  });
+  }, []);
 
   return (
     <Container ref={dropdownRef}>
@@ -46,7 +48,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
           }}
         />
       </MenuButton>
-      {isOpen && <Menu>{children}</Menu>}
+      {isOpen && <Menu>{children(close)}</Menu>}
     </Container>
   );
 };

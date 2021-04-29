@@ -4,9 +4,9 @@ import { classNames } from '@weco/common/utils/classnames';
 import { getServiceId } from '@weco/common/utils/iiif';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { imageSizes } from '../../../../utils/image-sizes';
+import { imageSizes } from '../../../utils/image-sizes';
 import { trackEvent } from '@weco/common/utils/ga';
-import Space from '../../styled/Space';
+import Space from '../styled/Space';
 import Paginator, {
   PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction,
   PaginatorRenderFunctionProps,
@@ -15,7 +15,7 @@ import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import { IIIFCanvas } from '@weco/common/model/iiif';
 import { FunctionComponent } from 'react';
-import { toLink as itemLink } from '../../ItemLink/ItemLink';
+import { toLink as itemLink } from '../ItemLink/ItemLink';
 
 const NoScriptViewerEl = styled.div`
   display: flex;
@@ -262,6 +262,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
                     >
                       <ThumbnailLink>
                         <IIIFCanvasThumbnail
+                          filterId={null}
                           canvas={canvas}
                           lang={lang}
                           isActive={canvasNumber === canvasIndex + 1}

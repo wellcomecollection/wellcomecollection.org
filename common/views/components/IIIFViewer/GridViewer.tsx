@@ -14,17 +14,23 @@ import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';
-import {
-  headerHeight,
-  topBarHeight,
-} from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
-import { IIIFCanvas } from '../../../../model/iiif';
+import { IIIFCanvas, SearchResults } from '@weco/common/model/iiif';
+import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+
+const Defs = styled.svg`
+  position: absolute;
+  height: 0;
+  width: 0;
+  overflow: none;
+  left: -100%;
+`;
 
 const ThumbnailSpacer = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
-  height: 200px;
+  height: 400px;
 `;
 
 type CellProps = {
@@ -41,6 +47,7 @@ type CellProps = {
     activeIndex: number;
     setActiveIndex: (i: number) => void;
     canvases: IIIFCanvas[];
+    searchResults: SearchResults;
   };
 };
 
@@ -54,9 +61,18 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
     activeIndex,
     setActiveIndex,
     canvases,
+    searchResults,
   } = data;
   const itemIndex = rowIndex * columnCount + columnIndex;
   const currentCanvas = canvases[itemIndex];
+  const hasSearchResults = Boolean(
+    searchResults.resources.find(
+      resource =>
+        currentCanvas &&
+        new URL(currentCanvas['@id']).pathname === new URL(resource.on).pathname
+    )
+  );
+
   return (
     <div style={style}>
       {scrollVelocity > 1 ? (
@@ -71,13 +87,14 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
               clickHandler={() => {
                 mainViewerRef &&
                   mainViewerRef.current &&
-                  mainViewerRef.current.scrollToItem(itemIndex);
+                  mainViewerRef.current.scrollToItem(itemIndex, 'start');
                 setActiveIndex(itemIndex);
                 setGridVisible(false);
               }}
               isActive={activeIndex === itemIndex}
               thumbNumber={itemIndex + 1}
               isFocusable={gridVisible}
+              filterId={hasSearchResults ? 'purpleFilter' : null}
             />
           </ThumbnailSpacer>
         )
@@ -98,63 +115,44 @@ type GridViewerElProps = {
 const GridViewerEl = styled.div<GridViewerElProps>`
   outline: none;
   position: fixed;
-  top: ${props => {
-    const viewerOffset = props?.viewerRef?.current?.offsetTop || 0;
-
-    if (props.isVisible && props.isFullscreen) {
-      return `${topBarHeight}px`;
-    } else if (props.isVisible && !props.isFullscreen) {
-      if (props.infoBarIsVisible) {
-        return `${viewerOffset + topBarHeight}px`;
-      } else {
-        return `${headerHeight}px`;
-      }
-    } else {
-      return `100vh`;
-    }
-  }};
+  top: 0;
   left: 0;
   bottom: 0;
-  width: 100vw;
   z-index: 1;
   background: ${props => props.theme.color('viewerBlack')};
   transition: top 500ms ease;
 `;
 
 type Props = {
-  gridHeight: number;
-  gridWidth: number;
-  gridVisible: boolean;
   gridViewerRef: RefObject<HTMLDivElement>;
   mainViewerRef: RefObject<FixedSizeList>;
-  setGridVisible: (visible: boolean) => void;
-  activeIndex: number;
-  setActiveIndex: (i: number) => void;
-  canvases: IIIFCanvas[];
-  isFullscreen: boolean;
   viewerRef: RefObject<HTMLElement>;
 };
 
 const GridViewer: FunctionComponent<Props> = ({
-  gridHeight,
-  gridWidth,
-  gridVisible,
   gridViewerRef,
   mainViewerRef,
-  setGridVisible,
-  activeIndex,
-  setActiveIndex,
-  canvases,
-  isFullscreen,
   viewerRef,
 }: Props) => {
+  const {
+    mainAreaHeight,
+    mainAreaWidth,
+    gridVisible,
+    setGridVisible,
+    setActiveIndex,
+    activeIndex,
+    canvases,
+    isFullscreen,
+  } = useContext(ItemViewerContext);
+  const { windowSize } = useContext(AppContext);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
-  const itemWidth = 250;
-  const columnCount = Math.round(gridWidth / itemWidth);
-  const columnWidth = gridWidth / columnCount;
+  const itemWidth = windowSize === 'small' ? 250 : 350;
+  const columnCount = Math.round(mainAreaWidth / itemWidth);
+  const columnWidth = mainAreaWidth / columnCount;
   const grid = useRef<FixedSizeGrid>(null);
   const { isVisible } = useContext(GlobalInfoBarContext);
+  const { searchResults } = useContext(ItemViewerContext);
 
   useEffect(() => {
     const rowIndex = Math.floor(activeIndex / columnCount);
@@ -182,37 +180,60 @@ const GridViewer: FunctionComponent<Props> = ({
   }, []);
 
   return (
-    <GridViewerEl
-      isVisible={gridVisible}
-      isFullscreen={isFullscreen}
-      ref={gridViewerRef}
-      viewerRef={viewerRef}
-      tabIndex={0}
-      infoBarIsVisible={isVisible}
-    >
-      <FixedSizeGrid
-        columnCount={columnCount}
-        columnWidth={columnWidth}
-        height={gridHeight}
-        rowCount={canvases.length / columnCount + 1}
-        rowHeight={230}
-        width={gridWidth}
-        itemData={{
-          columnCount,
-          mainViewerRef,
-          gridVisible,
-          setGridVisible,
-          scrollVelocity,
-          activeIndex,
-          setActiveIndex,
-          canvases,
-        }}
-        onScroll={({ scrollTop }) => setNewScrollOffset(scrollTop)}
-        ref={grid}
+    <>
+      {searchResults.resources.length > 0 && (
+        <Defs>
+          <filter
+            id="purpleFilter"
+            colorInterpolationFilters="sRGB"
+            x="0"
+            y="0"
+            height="100%"
+            width="100%"
+          >
+            <feColorMatrix
+              type="matrix"
+              values="0.48 0 0 0 0
+            0 0.29 0 0 0
+            0 0 0.7 0 0
+            0 0 0 1 0"
+            />
+          </filter>
+        </Defs>
+      )}
+      <GridViewerEl
+        isVisible={gridVisible}
+        isFullscreen={isFullscreen}
+        ref={gridViewerRef}
+        viewerRef={viewerRef}
+        tabIndex={0}
+        infoBarIsVisible={isVisible}
       >
-        {Cell}
-      </FixedSizeGrid>
-    </GridViewerEl>
+        <FixedSizeGrid
+          columnCount={columnCount}
+          columnWidth={columnWidth}
+          height={mainAreaHeight}
+          rowCount={canvases.length / columnCount + 1}
+          rowHeight={450}
+          width={mainAreaWidth}
+          itemData={{
+            columnCount,
+            mainViewerRef,
+            gridVisible,
+            setGridVisible,
+            scrollVelocity,
+            activeIndex,
+            setActiveIndex,
+            canvases,
+            searchResults,
+          }}
+          onScroll={({ scrollTop }) => setNewScrollOffset(scrollTop)}
+          ref={grid}
+        >
+          {Cell}
+        </FixedSizeGrid>
+      </GridViewerEl>
+    </>
   );
 };
 

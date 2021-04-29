@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { FieldMargin, Label, InvalidFieldAlert, Button, Cancel } from '../components/Form.style';
@@ -12,11 +12,16 @@ type DeleteAccountInputs = {
   password: string;
 };
 
-export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({ onComplete, onCancel }) => {
+export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({ onComplete, onCancel, isActive }) => {
+  const defaultValues: DeleteAccountInputs = useMemo(() => ({ password: '' }), []);
   const { requestDelete, isLoading, isSuccess, error } = useRequestDelete();
-  const { control, formState, handleSubmit, setError } = useForm<DeleteAccountInputs>({
-    defaultValues: { password: '' },
+  const { control, formState, handleSubmit, setError, reset } = useForm<DeleteAccountInputs>({
+    defaultValues,
   });
+
+  useEffect(() => {
+    reset(defaultValues);
+  }, [reset, defaultValues, isActive]);
 
   useEffect(() => {
     if (isSuccess) {
