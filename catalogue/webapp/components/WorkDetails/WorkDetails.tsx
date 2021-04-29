@@ -240,7 +240,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const Holdings = () => {
     return (
       <>
-        {true && holdings.length > 0 ? ( // TODO put toggle back showHoldingsOnWork
+        {showHoldingsOnWork && holdings.length > 0 ? (
           <WorkDetailsSection headingText="Holdings" isInArchive={isInArchive}>
             {holdings.map((holding, i) => {
               const locationLabel =
