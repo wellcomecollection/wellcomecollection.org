@@ -11,7 +11,6 @@ import {
   getThumbnailService,
 } from '@weco/common/utils/iiif';
 import Padlock from '@weco/common/views/components/styled/Padlock';
-import Space from '@weco/common/views/components/styled/Space';
 
 type ViewerThumbProps = {
   isFocusable?: boolean;
@@ -28,7 +27,7 @@ const IIIFViewerThumb = styled.button.attrs<ViewerThumbProps>(props => ({
   border: 0;
   display: block;
   height: 100%;
-  width: 300px;
+  width: 130px;
   max-width: 90%;
   border-radius: 8px;
   background: ${props =>
@@ -87,7 +86,6 @@ type IIIFCanvasThumbnailProps = {
   thumbNumber: number;
   clickHandler?: () => void;
   isFocusable?: boolean;
-  filterId: string | null;
 };
 
 const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
@@ -97,20 +95,17 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
   isActive,
   thumbNumber,
   isFocusable,
-  filterId,
 }: IIIFCanvasThumbnailProps) => {
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
   const thumbnailService = getThumbnailService(canvas);
   const urlTemplate =
     thumbnailService && iiifImageTemplate(thumbnailService['@id']);
   const isRestricted = isImageRestricted(canvas);
-  const preferredMinThumbnailHeight = 400;
-  const preferredThumbnail =
+  const smallestWidthImageDimensions =
     thumbnailService &&
     thumbnailService.sizes
-      .sort((a, b) => a.height - b.height)
-      .find(dimensions => dimensions.height >= preferredMinThumbnailHeight);
-
+      .sort((a, b) => a.width - b.width)
+      .find(dimensions => dimensions.width > 100);
   return (
     <IIIFViewerThumb
       onClick={clickHandler}
@@ -132,21 +127,28 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
             </>
           ) : (
             <IIIFResponsiveImage
-              filterId={filterId}
-              width={preferredThumbnail ? preferredThumbnail.width : 30}
+              width={
+                smallestWidthImageDimensions
+                  ? smallestWidthImageDimensions.width
+                  : 30
+              }
               src={
                 urlTemplate
                   ? urlTemplate({
                       size: `${
-                        preferredThumbnail
-                          ? `${preferredThumbnail.width},`
-                          : 'max'
-                      }`,
+                        smallestWidthImageDimensions
+                          ? smallestWidthImageDimensions.width
+                          : '!100'
+                      },`,
                     })
                   : null
               }
               srcSet={''}
-              sizes={`${preferredThumbnail ? preferredThumbnail.width : 30}px`}
+              sizes={`${
+                smallestWidthImageDimensions
+                  ? smallestWidthImageDimensions.width
+                  : 30
+              }px`}
               alt={''}
               lang={lang}
               isLazy={false}
@@ -157,18 +159,10 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
           )}
         </ImageContainer>
         <div>
-          <>
-            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-              <IIIFViewerThumbNumber isActive={isActive}>
-                {canvas.label.trim() !== '-' && 'page'} {canvas.label}
-              </IIIFViewerThumbNumber>
-            </Space>
-            <div>
-              <IIIFViewerThumbNumber isActive={isActive}>
-                <span style={{ fontSize: '11px' }}>{`${thumbNumber}`}</span>
-              </IIIFViewerThumbNumber>
-            </div>
-          </>
+          <IIIFViewerThumbNumber isActive={isActive}>
+            <span className="visually-hidden">image </span>
+            {thumbNumber}
+          </IIIFViewerThumbNumber>
         </div>
       </IIIFViewerThumbInner>
     </IIIFViewerThumb>

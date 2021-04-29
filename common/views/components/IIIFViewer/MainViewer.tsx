@@ -22,10 +22,11 @@ import { getCanvasOcr } from '@weco/catalogue/services/catalogue/works';
 import {
   getServiceId,
   getImageAuthService,
+  isImageRestricted,
   getThumbnailService,
 } from '@weco/common/utils/iiif';
 import { font } from '@weco/common/utils/classnames';
-import { IIIFCanvas } from '../../../model/iiif';
+import { IIIFCanvas, SearchResults } from '../../../model/iiif';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import ImageViewer from './ImageViewer';
 
@@ -93,11 +94,12 @@ type ItemRendererProps = {
   };
 };
 
-function getPositionData( // TODO typing
-  imageContainerRect,
-  imageRect,
-  currentCanvas,
-  searchResults
+function getPositionData(
+  imageContainerRect: ClientRect,
+  imageRect: ClientRect,
+  currentCanvas: IIIFCanvas,
+  searchResults: SearchResults,
+  canvases: IIIFCanvas[]
 ) {
   const imageContainerTop = imageContainerRect?.top || 0;
   const imageTop = imageRect?.top || 0;
@@ -110,14 +112,19 @@ function getPositionData( // TODO typing
     searchResults &&
     searchResults?.resources.map(resource => {
       // on: "https://wellcomelibrary.org/iiif/b30330002/canvas/c55#xywh=2301,662,157,47"
-      const canvasMatch = resource.on.match(/\/canvas\/c(\d+)#/);
-      const canvasNumber = canvasMatch && canvasMatch[1];
+      // OR
+      // on: https://iiif.wellcomecollection.org/presentation/b29338062/canvases/b29338062_0031.jp2#xywh=148,2277,259,59"
+      const canvasNumber = canvases.findIndex(canvas => {
+        return (
+          new URL(resource.on).pathname === new URL(canvas['@id']).pathname
+        );
+      });
       const coordsMatch = resource.on.match(/(#xywh=)(.*)/);
       const coords = coordsMatch && coordsMatch[2].split(',');
-      const x = coords && Math.round(Number(coords[0]) * scale);
-      const y = coords && Math.round(Number(coords[1]) * scale);
-      const w = coords && Math.round(Number(coords[2]) * scale);
-      const h = coords && Math.round(Number(coords[3]) * scale);
+      const x = coords ? Math.round(Number(coords[0]) * scale) : 0;
+      const y = coords ? Math.round(Number(coords[1]) * scale) : 0;
+      const w = coords ? Math.round(Number(coords[2]) * scale) : 0;
+      const h = coords ? Math.round(Number(coords[3]) * scale) : 0;
       return {
         canvasNumber: Number(canvasNumber),
         overlayStartTop,
@@ -163,45 +170,51 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const rotation = matching ? matching.rotation : 0;
   const imageType = scrollVelocity >= 1 ? 'thumbnail' : 'main';
   const imageAuthService = getImageAuthService(currentCanvas);
-  const isRestricted =
-    imageAuthService &&
-    imageAuthService.profile === 'http://iiif.io/api/auth/0/login/restricted';
+  const isRestricted = isImageRestricted(currentCanvas);
   const { searchResults } = useContext(ItemViewerContext);
   const [imageRect, setImageRect] = useState<ClientRect | undefined>();
   const [imageContainerRect, setImageContainerRect] = useState<
     ClientRect | undefined
   >();
-  const [overlayPositionData, setOverlayPositionData] = useState([
-    {
-      canvasNumber: -1,
-      overlayStartTop: 0,
-      overlayStartLeft: 0,
-      highlight: {
-        x: 0,
-        y: 0,
-        w: 0,
-        h: 0,
-      },
-    },
-  ]);
+
+  type OverlayPositionData = {
+    canvasNumber: number;
+    overlayStartTop: number;
+    overlayStartLeft: number;
+    highlight: {
+      x: number;
+      y: number;
+      w: number;
+      h: number;
+    };
+  };
+
+  const [overlayPositionData, setOverlayPositionData] = useState<
+    OverlayPositionData[]
+  >([]);
 
   useEffect(() => {
     // The search hit dimensions and coordinates are given relative to the full size image.
     // We need to get the position of the image relative to the container and the display scale of the image relative to the full size
     // in order to display the highlights correctly over the search hits.
     // This needs to be recalculated whenever the image changes size for whatever reason.
-    const highlightsPositioningData = getPositionData(
-      imageContainerRect,
-      imageRect,
-      currentCanvas,
-      searchResults
-    );
-    setOverlayPositionData(
-      highlightsPositioningData &&
+    const highlightsPositioningData =
+      imageContainerRect &&
+      imageRect &&
+      getPositionData(
+        imageContainerRect,
+        imageRect,
+        currentCanvas,
+        searchResults,
+        canvases
+      );
+    if (highlightsPositioningData) {
+      setOverlayPositionData(
         highlightsPositioningData.filter(item => {
           return item.canvasNumber === index;
         })
-    );
+      );
+    }
   }, [imageRect, imageContainerRect, currentCanvas, searchResults]);
 
   return (
@@ -218,7 +231,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
           <p
             className={font('hnl', 5)}
             dangerouslySetInnerHTML={{
-              __html: imageAuthService && imageAuthService.description,
+              __html: imageAuthService ? imageAuthService.description : '',
             }}
           />
         </MessageContainer>
