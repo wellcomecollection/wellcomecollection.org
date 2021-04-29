@@ -15,6 +15,9 @@ import {
   sierraIdFromPresentationManifestUrl,
   getHoldings,
   getDigitalLocationInfo,
+  getLocationLabel,
+  getLocationShelfmark,
+  getLocationLink,
 } from '@weco/common/utils/works';
 import {
   getVideoClickthroughService,
@@ -42,6 +45,7 @@ import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 import IIIFClickthrough from '@weco/common/views/components/IIIFClickthrough/IIIFClickthrough';
 import OnlineResources from './OnlineResources';
+import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
 type Props = {
   work: Work;
 };
@@ -233,79 +237,64 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     </WorkDetailsSection>
   );
 
+  const Holdings = () => {
+    return (
+      <>
+        {true && holdings.length > 0 ? ( // TODO put toggle back showHoldingsOnWork
+          <WorkDetailsSection headingText="Holdings" isInArchive={isInArchive}>
+            {holdings.map((holding, i) => {
+              const locationLabel =
+                holding.location && getLocationLabel(holding.location);
+              const locationShelfmark =
+                holding.location && getLocationShelfmark(holding.location);
+              const locationLink =
+                holding.location && getLocationLink(holding.location);
+              return (
+                <Space key={i} v={{ size: 'l', properties: ['margin-bottom'] }}>
+                  {holding.enumeration.length > 0 && (
+                    <ExpandableList listItems={holding.enumeration} />
+                  )}
+
+                  {holding.location?.locationType.label && (
+                    <>
+                      <WorkDetailsText
+                        title="Location"
+                        text={[holding.location.locationType.label]}
+                      />
+                      {locationLink && (
+                        <a
+                          className={classNames({
+                            [font('hnl', 5)]: true,
+                          })}
+                          href={locationLink.url}
+                        >
+                          {locationLink.linkText}
+                        </a>
+                      )}
+                    </>
+                  )}
+
+                  {locationShelfmark && (
+                    <WorkDetailsText
+                      title="Shelfmark"
+                      text={[`${locationLabel}${locationShelfmark}`]}
+                    />
+                  )}
+
+                  {holding.note && (
+                    <WorkDetailsText title="Note" text={[holding.note]} />
+                  )}
+                </Space>
+              );
+            })}
+          </WorkDetailsSection>
+        ) : null}
+      </>
+    );
+  };
+
   const Content = () => (
     <>
-      {showHoldingsOnWork && holdings.length > 0 && (
-        <WorkDetailsSection headingText="Holdings" isInArchive={isInArchive}>
-          {holdings.map((holding, i) => (
-            <div key={i}>
-              {holding.enumeration.length > 0 && (
-                <>
-                  <h3>Enumeration</h3>
-                  <ul>
-                    {holding.enumeration.map((e, i) => (
-                      <li key={i}>{e}</li>
-                    ))}
-                  </ul>
-                </>
-              )}
-
-              {holding.location && (
-                <pre
-                  style={{
-                    maxWidth: '600px',
-                    margin: '0 auto 24px',
-                    fontSize: '14px',
-                  }}
-                >
-                  <code
-                    style={{
-                      display: 'block',
-                      padding: '24px',
-                      backgroundColor: '#EFE1AA',
-                      color: '#000',
-                      border: '4px solid #000',
-                      borderRadius: '6px',
-                    }}
-                  >
-                    {JSON.stringify(
-                      holding.location.type === 'DigitalLocation'
-                        ? getDigitalLocationInfo(holding.location)
-                        : holding.location,
-                      null,
-                      1
-                    )}
-                  </code>
-                </pre>
-              )}
-
-              {holding.note && (
-                <pre
-                  style={{
-                    maxWidth: '600px',
-                    margin: '0 auto 24px',
-                    fontSize: '14px',
-                  }}
-                >
-                  <code
-                    style={{
-                      display: 'block',
-                      padding: '24px',
-                      backgroundColor: '#EFE1AA',
-                      color: '#000',
-                      border: '4px solid #000',
-                      borderRadius: '6px',
-                    }}
-                  >
-                    {JSON.stringify(holding.note, null, 1)}
-                  </code>
-                </pre>
-              )}
-            </div>
-          ))}
-        </WorkDetailsSection>
-      )}
-
       {digitalLocation && itemLinkState !== 'useNoLink' && (
         <WorkDetailsSection
           headingText="Available online"
@@ -532,6 +521,8 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         <WhereToFindIt />
       )}
 
+      {!digitalLocation && <Holdings />}
+
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection
           headingText="Selected images from this work"
@@ -672,6 +663,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       {digitalLocation && (locationOfWork || showEncoreLink) && (
         <WhereToFindIt />
       )}
+      {digitalLocation && <Holdings />}
 
       <WorkDetailsSection
         headingText="Permanent link"
