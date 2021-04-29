@@ -45,7 +45,6 @@ type ComponentProps = {
   siteSection: SiteSection | null;
   imageUrl: string | undefined;
   imageAltText: string | undefined;
-  oEmbedUrl?: string;
   rssUrl?: string;
   children: ReactNode;
   hideNewsletterPromo?: boolean;
@@ -62,7 +61,6 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
   siteSection,
   imageUrl,
   imageAltText,
-  oEmbedUrl,
   rssUrl,
   children,
   hideNewsletterPromo = false,
@@ -114,14 +112,6 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
         <meta name="description" content={description || ''} />
         <link rel="canonical" href={absoluteUrl} />
         {imageUrl && <meta property="og:image" content={imageUrl} />}
-        {oEmbedUrl && (
-          <link
-            rel="alternate"
-            type="application/json+oembed"
-            href={oEmbedUrl}
-            title={title}
-          />
-        )}
         {/* meta elements need to be contained as direct children of the Head element, so don't componentise the following */}
         <meta property="og:site_name" content="Wellcome Collection" />
         <meta property="og:type" content={openGraphType} />

@@ -48,7 +48,6 @@ module.exports = app
     });
 
     // Next routing
-    route('/oembed/works/:id', '/embed', router, app);
     route('/works/progress', '/progress', router, app);
     route('/works/:id', '/work', router, app);
     route('/works', '/works', router, app);

@@ -36,7 +36,6 @@ export type Props = {|
   siteSection: ?string,
   imageUrl: ?string,
   imageAltText: ?string,
-  oEmbedUrl?: string,
   rssUrl?: string,
   children: Node,
   hideNewsletterPromo?: boolean,
@@ -52,7 +51,6 @@ const PageLayout = ({
   siteSection,
   imageUrl,
   imageAltText,
-  oEmbedUrl,
   rssUrl,
   children,
   hideNewsletterPromo = false,
@@ -73,14 +71,6 @@ const PageLayout = ({
         <meta name="description" content={description || ''} />
         <link rel="canonical" href={absoluteUrl} />
         {imageUrl && <meta property="og:image" content={imageUrl} />}
-        {oEmbedUrl && (
-          <link
-            rel="alternate"
-            type="application/json+oembed"
-            href={oEmbedUrl}
-            title={title}
-          />
-        )}
         {/* meta elements need to be contained as direct children of the Head element, so don't componentise the following */}
         <meta property="og:site_name" content="Wellcome Collection" />
         <meta property="og:type" content={openGraphType} />
