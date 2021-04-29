@@ -28,7 +28,7 @@ import {
 import { font } from '@weco/common/utils/classnames';
 import { IIIFCanvas, SearchResults } from '../../../model/iiif';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
-import ImageViewerPrototype from '../ImageViewerPrototype/ImageViewerPrototype';
+import ImageViewer from './ImageViewer';
 
 type SearchTermHighlightProps = {
   top: number;
@@ -277,7 +277,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                   );
                 })}
               <div data-test-id={`canvas-${index}`}>
-                <ImageViewerPrototype
+                <ImageViewer
                   id="item-page"
                   infoUrl={infoUrl}
                   width={currentCanvas.width}

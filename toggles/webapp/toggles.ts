@@ -1,13 +1,6 @@
 export default {
   toggles: [
     {
-      id: 'itemViewerPrototype',
-      title: 'Show the prototype UI for the item viewer',
-      description:
-        'Adds a sidebar with structured metadata about the item being viewed',
-      defaultValue: true,
-    },
-    {
       id: 'showHoldingsOnWork',
       title: 'Show holdings on the work page',
       description: 'Shows the holding information for a work',

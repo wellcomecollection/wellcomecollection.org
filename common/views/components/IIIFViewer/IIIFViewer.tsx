@@ -1,40 +1,64 @@
+import {
+  FunctionComponent,
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+} from 'react';
+import styled from 'styled-components';
 import { IIIFCanvas, IIIFManifest } from '@weco/common/model/iiif';
-import fetch from 'isomorphic-unfetch';
+import { DigitalLocation, Work } from '../../../model/catalogue';
 import {
   getDigitalLocationOfType,
   getDownloadOptionsFromImageUrl,
 } from '@weco/common/utils/works';
-import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
-  getDownloadOptionsFromManifest,
-  getServiceId,
   getUiExtensions,
   isUiEnabled,
+  getServiceId,
+  getDownloadOptionsFromManifest,
 } from '@weco/common/utils/iiif';
-import styled from 'styled-components';
-import { useState, useEffect, useRef, FunctionComponent } from 'react';
-import { classNames } from '@weco/common/utils/classnames';
-import Router from 'next/router';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
-import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
-import LL from '@weco/common/views/components/styled/LL';
-import Space from '../styled/Space';
-import ViewerTopBar from '@weco/common/views/components/ViewerTopBar/ViewerTopBar';
-import NoScriptViewer from './parts/NoScriptViewer';
-import MainViewer from './parts/MainViewer';
-import ThumbsViewer from './parts/ThumbsViewer';
-import GridViewer from './parts/GridViewer';
-import Control from '../Buttons/Control/Control';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-
-import Download from '@weco/catalogue/components/Download/Download';
-import dynamic from 'next/dynamic';
-import { DigitalLocation, Work } from '../../../model/catalogue';
+import ViewerSidebar from './ViewerSidebar';
+import MainViewer from './MainViewer';
+import ViewerTopBar from './ViewerTopBar';
+import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
+import ItemViewerContext, {
+  results,
+} from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
+import Router from 'next/router';
+import GridViewer from './GridViewer';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import dynamic from 'next/dynamic';
+import LL from '@weco/common/views/components/styled/LL';
+import { PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
+import ImageViewer from './ImageViewer';
+import ImageViewerControls from './ImageViewerControls';
+import ViewerBottomBar from './ViewerBottomBar';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import NoScriptViewer from './NoScriptViewer';
 import { fetchJson } from '@weco/common/utils/http';
 
+type IIIFViewerProps = {
+  title: string;
+  currentCanvas?: IIIFCanvas;
+  mainPaginatorProps: PaginatorPropsWithoutRenderFunction;
+  thumbsPaginatorProps: PaginatorPropsWithoutRenderFunction;
+  lang: string;
+  canvasOcr?: string;
+  canvases: IIIFCanvas[];
+  workId: string;
+  pageIndex: number;
+  pageSize: number;
+  canvasIndex: number;
+  iiifImageLocation?: DigitalLocation;
+  work: Work;
+  manifest?: IIIFManifest;
+  manifestIndex?: number;
+  handleImageError?: () => void;
+};
+// TODO: Move this to somewhere better?
 const LoadingComponent = () => (
   <div
     style={{
@@ -47,202 +71,189 @@ const LoadingComponent = () => (
     <LL />
   </div>
 );
+const ZoomedImage = dynamic(() => import('./ZoomedImage'), {
+  ssr: false,
+  loading: LoadingComponent,
+});
 
-const ZoomedImage = dynamic(
-  () => import('@weco/common/views/components/ZoomedImage/ZoomedImage'),
-  {
-    ssr: false,
-    loading: LoadingComponent,
+const Grid = styled.div`
+  display: grid;
+  height: calc(100vh - 85px); // FIXME: use variable for header height
+  overflow: hidden;
+  grid-template-columns: [left-edge] minmax(200px, 3fr) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
+  grid-template-rows: [top-edge] min-content [desktop-main-start desktop-topbar-end] 1fr [mobile-bottombar-start mobile-main-end] min-content [bottom-edge];
+
+  .viewer-desktop {
+    display: none;
+
+    ${props => props.theme.media.medium`
+      display: inherit;
+    `}
   }
-);
 
-export const headerHeight = 149;
-export const topBarHeight = 64;
+  .viewer-mobile {
+    ${props => props.theme.media.medium`
+      display: none;
+    `}
+  }
 
-export const IIIFViewerBackground = styled.div<{
-  isFullscreen?: boolean;
-  headerHeight: number;
-}>`
-  position: relative;
-  background: ${props => props.theme.color('viewerBlack')};
-  height: ${props =>
-    props.isFullscreen ? '100vh' : `calc(100vh - ${props.headerHeight}px)`};
-  color: ${props => props.theme.color('white')};
+  ${props => props.theme.media.xlarge`
+    grid-template-columns: [left-edge] minmax(200px, 330px) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
+  `}
 `;
 
-export const IIIFViewerImageWrapper = styled.div.attrs(() => ({
-  className: classNames({
-    absolute: true,
-  }),
-}))`
-  top: ${props => `${props.theme.spacingUnit * 2}px`};
-  right: 0;
-  bottom: ${props => `${props.theme.spacingUnit * 2}px`};
-  left: 0;
+const Sidebar = styled.div<{
+  isActiveMobile: boolean;
+  isActiveDesktop: boolean;
+}>`
+
+  display: ${props => (props.isActiveMobile ? 'inherit' : 'none')};
+  align-content: start;
+
+  ${props => props.theme.media.medium`
+    display: ${props => (props.isActiveDesktop ? 'inherit' : 'none')};
+  `}
+
+  grid-area: desktop-main-start / left-edge / bottom-edge /right-edge;
+
+  ${props => props.theme.media.medium`
+    grid-area: desktop-main-start / left-edge / bottom-edge / desktop-sidebar-end;
+    border-right: 1px solid ${props.theme.color('viewerBlack')};
+  `}
+
+  background: ${props => props.theme.color('charcoal', 'dark')};
+  color: ${props => props.theme.color('white')};
+  overflow: auto;
+  z-index: 5;
+`;
+
+const Topbar = styled.div<{
+  isDesktopSidebarActive: boolean;
+}>`
+  background: ${props => props.theme.color('charcoal')};
+  grid-area: top-edge / left-edge / desktop-topbar-end / right-edge;
+  z-index: 4; // TODO: this is to let downloads sit above sidebar on desktop but not have the topbar above the sidebar on mobile. If we move the downloads, this can be simplified
+
+  ${props => props.theme.media.medium`
+    z-index: 5;
+  `}
+`;
+
+const Main = styled.div<{
+  isResizing: boolean;
+  isDesktopSidebarActive: boolean;
+}>`
+  background: ${props => props.theme.color('viewerBlack')};
+  color: ${props => props.theme.color('white')};
+  overflow: auto;
+  position: relative;
 
   img {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
+    transition: filter ${props => props.theme.transitionProperties};
+    filter: blur(${props => (props.isResizing ? '5px' : '0')});
   }
+
+  grid-area: desktop-main-start / left-edge / mobile-main-end / right-edge;
+
+  ${props => props.theme.media.medium`
+  grid-area: desktop-main-start / ${
+    props.isDesktopSidebarActive ? 'main-start' : 'left-edge'
+  } / bottom-edge / right-edge;
+  `}
 `;
 
-export const IIIFViewer = styled.div.attrs(() => ({
-  className: classNames({
-    'flex flex--wrap': true,
-  }),
-}))`
-  height: 100%;
-  width: 100%;
-  flex-direction: row-reverse;
+const Zoom = styled.div`
+  grid-area: desktop-main-start / left-edge / bottom-edge / right-edge;
 `;
 
-type IIIFViewerMainProps = {
-  noScript: boolean;
-  fullWidth?: boolean;
-};
-export const IIIFViewerMain = styled(Space).attrs(() => ({
-  className: classNames({
-    'relative bg-viewerBlack font-white': true,
-  }),
-}))<IIIFViewerMainProps>`
-  ${props => {
-    if (props.noScript) {
-      return `height: 80%;
-      @media (min-width: ${props.theme.sizes.medium}px) {
-        height: 100%;
-      }`;
-    }
-  }}
-  width: 100%;
+const BottomBar = styled.div<{
+  isMobileSidebarActive: boolean;
+}>`
+  display: inherit;
 
-  @media (min-width: ${props => props.theme.sizes.medium}px) {
-    height: 100%;
-    width: ${props => (props.fullWidth ? '100%' : '75%')};
-  }
+  ${props => props.theme.media.medium`
+    display: none;
+  `}
+
+  grid-area: mobile-bottombar-start / left-edge / bottom-edge / right-edge;
+  background: hotpink;
+  z-index: 6;
 `;
 
-const ViewerLayout = styled.div<{ isFullscreen?: boolean }>`
-  display: grid;
-  grid-template-columns: 1fr;
-  height: ${props =>
-    props.isFullscreen ? '100vh' : `calc(100vh - ${headerHeight}px)`};
-  position: relative;
+// TODO: check that we can't reach thumbnails by keyboard/screenreader
+const Thumbnails = styled.div<{
+  isActive: boolean;
+  isDesktopSidebarActive: boolean;
+}>`
+  background: ${props => props.theme.color('charcoal')};
+  transform: translateY(${props => (props.isActive ? '0' : '100%')});
+  transition: transform 250ms ease;
+  z-index: 3;
+  grid-area: desktop-main-start / left-edge / bottom-edge / right-edge;
 
-  @media (min-width: 600px) {
-    grid-template-columns: 1fr 4fr;
-  }
+  ${props => props.theme.media.medium`
+    grid-area: desktop-main-start / desktop-sidebar-end / bottom-edge / right-edge;
+  `}
+
+  ${props =>
+    !props.isDesktopSidebarActive &&
+    props.theme.media.medium`
+    grid-area: desktop-main-start / left-edge / bottom-edge / right-edge;
+  `}
 `;
 
-const ImageViewerControls = styled.div<{ showControls?: boolean }>`
-  position: fixed;
-  bottom: 0;
-  left: 73%;
-  z-index: 1;
-  opacity: ${props => (props.showControls ? 1 : 0)};
-  transition: opacity 300ms ease;
-  display: flex;
-  /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
-    for a less heavy handed solution to Openseadragon breaking on touch events */
-  &,
-  button,
-  a {
-    touch-action: none;
-  }
-
-  button {
-    display: block;
-  }
-
-  .icon {
-    margin: 0;
-  }
-
-  .btn__text {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-    white-space: nowrap;
-  }
-`;
-
-export type IIIFViewerProps = {
-  title: string;
-  mainPaginatorProps: PaginatorPropsWithoutRenderFunction;
-  thumbsPaginatorProps: PaginatorPropsWithoutRenderFunction;
-  currentCanvas?: IIIFCanvas;
-  lang: string;
-  canvasOcr?: string;
-  canvases: IIIFCanvas[];
-  workId: string;
-  pageIndex: number;
-  pageSize: number;
-  canvasIndex: number;
-  iiifImageLocation?: DigitalLocation;
-  work?: Work;
-  manifest?: IIIFManifest;
-  manifestIndex?: number;
-  handleImageError?: () => void;
-};
-
-const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
-  title,
+const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   mainPaginatorProps,
-  thumbsPaginatorProps,
   currentCanvas,
   lang,
-  canvasOcr,
   canvases,
-  workId,
-  pageIndex,
-  pageSize,
   canvasIndex,
   iiifImageLocation,
   work,
   manifest,
   manifestIndex,
+  pageSize,
+  pageIndex,
+  canvasOcr,
+  thumbsPaginatorProps,
   handleImageError,
 }: IIIFViewerProps) => {
   const [gridVisible, setGridVisible] = useState(false);
-  const [enhanced, setEnhanced] = useState(false);
   const [parentManifest, setParentManifest] = useState<
     IIIFManifest | undefined
   >();
   const [currentManifestLabel, setCurrentManifestLabel] = useState<
     string | undefined
   >();
+  const { isFullSupportBrowser } = useContext(AppContext);
+  const viewToggleRef = useRef<HTMLButtonElement>(null);
+  const gridViewerRef = useRef<HTMLDivElement>(null);
+  const mainViewerRef = useRef<FixedSizeList>(null);
+  const viewerRef = useRef<HTMLDivElement>(null);
+  const mainAreaRef = useRef<HTMLDivElement>(null);
+  const [isDesktopSidebarActive, setIsDesktopSidebarActive] = useState(true);
+  const [isMobileSidebarActive, setisMobileSidebarActive] = useState(false); // don't show sidebar by default on mobile
   const [activeIndex, setActiveIndex] = useState(0);
-  const [pageHeight, setPageHeight] = useState(500);
-  const [pageWidth, setPageWidth] = useState(1000);
   const [showZoomed, setShowZoomed] = useState(false);
   const [zoomInfoUrl, setZoomInfoUrl] = useState<string | undefined>();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rotatedImages, setRotatedImages] = useState<any[]>([]);
   const [showControls, setShowControls] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [imageJson, setImageJson] = useState<any>();
-  const viewToggleRef = useRef<HTMLButtonElement>(null);
-  const gridViewerRef = useRef<HTMLDivElement>(null);
-  const mainViewerRef = useRef<FixedSizeList>(null);
-  const viewerRef = useRef<HTMLDivElement>(null);
-  const navigationCanvases =
-    canvases &&
-    [...Array(pageSize)]
-      .map((_, i) => pageSize * pageIndex + i)
-      .map(i => canvases[i])
-      .filter(Boolean);
-
+  const [mainAreaHeight, setMainAreaHeight] = useState(500);
+  const [mainAreaWidth, setMainAreaWidth] = useState(1000);
+  const [searchResults, setSearchResults] = useState(results);
+  const [isResizing, setIsResizing] = useState(false);
   const mainImageService = { '@id': getServiceId(currentCanvas) };
+  const urlTemplate =
+    iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
+  const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
+  const firstRotatedImage = rotatedImages.find(
+    image => image.canvasIndex === 0
+  );
+  const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
+  const activeIndexRef = useRef(activeIndex);
 
   useEffect(() => {
     const fetchImageJson = async () => {
@@ -257,6 +268,79 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
     fetchImageJson();
   }, []);
 
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
+
+  const navigationCanvases =
+    canvases &&
+    [...Array(pageSize)]
+      .map((_, i) => pageSize * pageIndex + i)
+      .map(i => canvases[i])
+      .filter(Boolean);
+
+  useEffect(() => {
+    let timer;
+    let previousActiveIndex;
+
+    const mainAreaObserver = new ResizeObserver(([mainArea]) => {
+      clearTimeout(timer);
+
+      if (!isResizing) {
+        setIsResizing(true);
+      }
+
+      // Store a reference to where we were
+      if (!previousActiveIndex) {
+        previousActiveIndex = activeIndexRef.current;
+      }
+
+      timer = setTimeout(() => {
+        // If we've changed index as a result of the
+        // mainArea changing size, reset it to what
+        // it was before and scroll to the right place.
+        if (previousActiveIndex !== activeIndex) {
+          setActiveIndex(previousActiveIndex);
+          mainViewerRef?.current?.scrollToItem(previousActiveIndex, 'start');
+        }
+
+        previousActiveIndex = undefined;
+        setIsResizing(false);
+      }, 500); // Debounce
+
+      setMainAreaWidth(mainArea.contentRect.width);
+      setMainAreaHeight(mainArea.contentRect.height);
+    });
+
+    mainAreaRef &&
+      mainAreaRef.current &&
+      mainAreaObserver.observe(mainAreaRef.current);
+
+    return () => mainAreaObserver.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const matchingManifest =
+      parentManifest &&
+      parentManifest.manifests &&
+      parentManifest.manifests.find((childManifest: IIIFManifest) => {
+        return !manifest ? false : childManifest['@id'] === manifest['@id'];
+      });
+
+    matchingManifest && setCurrentManifestLabel(matchingManifest.label);
+  });
+
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
+  const digitalLocation = iiifImageLocation || iiifPresentationLocation;
+  const licenseInfo =
+    digitalLocation &&
+    digitalLocation.license &&
+    getAugmentedLicenseInfo(digitalLocation.license);
+
+  const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
   const showDownloadOptions = manifest
     ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
     : true;
@@ -269,58 +353,6 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
           height: imageJson?.height,
         })
       : [];
-
-  function setFullScreen() {
-    if (
-      window.document.fullscreenElement ||
-      window.document['webkitFullscreenElement']
-    ) {
-      setIsFullscreen(true);
-    } else {
-      setIsFullscreen(false);
-    }
-  }
-
-  useEffect(() => {
-    setGridVisible(!!Router.query.isOverview);
-  }, []);
-
-  useEffect(() => {
-    window.document.addEventListener('fullscreenchange', setFullScreen, false);
-    window.document.addEventListener(
-      'webkitfullscreenchange',
-      setFullScreen,
-      false
-    );
-    return () => {
-      window.document.removeEventListener(
-        'fullscreenchange',
-        setFullScreen,
-        false
-      );
-      window.document.removeEventListener(
-        'webkitfullscreenchange',
-        setFullScreen,
-        false
-      );
-    };
-  }, []);
-  const urlTemplate =
-    iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
-  const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
-  const iiifPresentationLocation =
-    work && getDigitalLocationOfType(work, 'iiif-presentation');
-  const digitalLocation = iiifImageLocation || iiifPresentationLocation;
-  const licenseInfo =
-    digitalLocation &&
-    digitalLocation.license &&
-    getAugmentedLicenseInfo(digitalLocation.license);
-
-  const thumbnailsRequired =
-    navigationCanvases && navigationCanvases.length > 1;
-
-  const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
-  // Download info from manifest
   const imageDownloads =
     mainImageService['@id'] &&
     getDownloadOptionsFromImageUrl({
@@ -337,19 +369,9 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
       ]) ||
     [];
 
-  const parentManifestUrl = manifest && manifest.within;
-
-  const firstRotatedImage = rotatedImages.find(
-    image => image.canvasIndex === 0
-  );
-
-  const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
-
-  useEffect(() => {
-    if ('IntersectionObserver' in window) {
-      setEnhanced(true);
-    }
-  }, []);
+  const downloadOptions = showDownloadOptions
+    ? [...imageDownloadOptions, ...iiifPresentationDownloadOptions]
+    : [];
 
   useSkipInitialEffect(() => {
     const canvasParams =
@@ -376,6 +398,13 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
   }, [activeIndex]);
 
   useEffect(() => {
+    // FIXME: is this really necessary? Why doesn't setting canvas to 1 in the NextLink handle it?
+    mainViewerRef?.current?.scrollToItem(0);
+  }, [manifestIndex]);
+
+  const parentManifestUrl = manifest && manifest.within;
+
+  useEffect(() => {
     const fetchParentManifest = async () => {
       const parentManifest =
         parentManifestUrl && (await fetchJson(parentManifestUrl));
@@ -385,231 +414,132 @@ const IIIFViewerComponent: FunctionComponent<IIIFViewerProps> = ({
     fetchParentManifest();
   }, []);
 
-  useEffect(() => {
-    const matchingManifest =
-      parentManifest &&
-      parentManifest.manifests &&
-      parentManifest.manifests.find((childManifest: IIIFManifest) => {
-        return !manifest ? false : childManifest['@id'] === manifest['@id'];
-      });
-
-    matchingManifest && setCurrentManifestLabel(matchingManifest.label);
-  });
-
-  useEffect(() => {
-    if (gridVisible) {
-      const thumb = gridViewerRef.current?.getElementsByClassName(
-        'activeThumbnail'
-      )?.[0] as HTMLButtonElement | undefined;
-      thumb?.focus();
-    } else {
-      viewToggleRef.current?.focus();
-    }
-  }, [gridVisible]);
-
-  useEffect(() => {
-    function handleResize() {
-      if (isFullscreen) {
-        setPageHeight(window.innerHeight);
-      } else {
-        setPageHeight(window.innerHeight - headerHeight);
-      }
-      setPageWidth(window.innerWidth);
-    }
-
-    window.addEventListener('resize', handleResize);
-
-    handleResize();
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, [isFullscreen]);
-
-  return (
-    <div ref={viewerRef}>
-      <ViewerTopBar
-        canvases={canvases}
-        enhanced={enhanced}
-        gridVisible={gridVisible}
-        setGridVisible={setGridVisible}
-        workId={workId}
-        viewToggleRef={viewToggleRef}
-        currentManifestLabel={currentManifestLabel}
-        canvasIndex={activeIndex}
-        title={title}
-        licenseInfo={licenseInfo}
-        iiifImageLocationCredit={iiifImageLocationCredit}
-        downloadOptions={
-          showDownloadOptions
-            ? [...imageDownloadOptions, ...iiifPresentationDownloadOptions]
-            : []
-        }
-        iiifPresentationDownloadOptions={iiifPresentationDownloadOptions}
-        parentManifest={parentManifest}
-        viewerRef={viewerRef}
-        manifestIndex={manifestIndex}
-      />
-      <IIIFViewerBackground
-        isFullscreen={isFullscreen}
-        headerHeight={headerHeight}
-      >
-        {isLoading && <LoadingComponent />}
-        {showZoomed && (
-          <ZoomedImage
-            id={`zoomedImage`}
-            infoUrl={zoomInfoUrl ?? ''}
-            setShowViewer={setShowZoomed}
-            isFullscreen={isFullscreen}
-          />
-        )}
-        {!enhanced && (
-          <NoScriptViewer
-            thumbnailsRequired={thumbnailsRequired || false}
-            imageUrl={imageUrl}
-            iiifImageLocation={iiifImageLocation}
-            currentCanvas={currentCanvas}
-            canvasOcr={canvasOcr}
-            lang={lang}
-            mainPaginatorProps={mainPaginatorProps}
-            thumbsPaginatorProps={thumbsPaginatorProps}
-            workId={workId}
-            canvases={canvases}
-            canvasIndex={canvasIndex}
-            pageIndex={pageIndex}
-            pageSize={pageSize}
-          />
-        )}
-        {enhanced && (
-          <>
-            <ImageViewerControls showControls={showControls || urlTemplate}>
-              <Space
-                h={{ size: 's', properties: ['margin-left'] }}
-                v={{ size: 'l', properties: ['margin-bottom'] }}
-              >
-                <Control
-                  colorScheme="black-on-white"
-                  text="Zoom in"
-                  icon="zoomIn"
-                  clickHandler={() => {
-                    setShowZoomed(true);
-                  }}
-                />
-              </Space>
-              <Space
-                h={{ size: 's', properties: ['margin-left'] }}
-                v={{ size: 'l', properties: ['margin-bottom'] }}
-              >
-                <Control
-                  colorScheme="black-on-white"
-                  text="Rotate"
-                  icon="rotatePageRight"
-                  clickHandler={() => {
-                    const matchingIndex = rotatedImages.findIndex(
-                      image => image.canvasIndex === activeIndex
-                    );
-                    if (matchingIndex >= 0) {
-                      rotatedImages[matchingIndex] = {
-                        canvasIndex: rotatedImages[matchingIndex].canvasIndex,
-                        rotation:
-                          rotatedImages[matchingIndex].rotation < 270
-                            ? rotatedImages[matchingIndex].rotation + 90
-                            : 0,
-                      };
-                    } else {
-                      rotatedImages.push({
-                        canvasIndex: activeIndex,
-                        rotation: 90,
-                      });
-                    }
-                    setRotatedImages([...rotatedImages]);
-                    setIsLoading(true);
-                  }}
-                />
-              </Space>
-            </ImageViewerControls>
-            {urlTemplate && imageUrl && iiifImageLocation && (
-              <IIIFViewerImageWrapper>
-                <ImageViewer
-                  infoUrl={iiifImageLocation.url}
-                  id={imageUrl}
-                  width={800}
-                  alt={work?.description || work?.title || ''}
-                  urlTemplate={urlTemplate}
-                  setShowZoomed={setShowZoomed}
-                  rotation={firstRotation}
-                  loadHandler={() => {
-                    setZoomInfoUrl(iiifImageLocation.url);
-                    setIsLoading(false);
-                  }}
-                />
-              </IIIFViewerImageWrapper>
-            )}
-            {mainImageService['@id'] && currentCanvas && (
-              <ViewerLayout isFullscreen={isFullscreen}>
-                <GridViewer
-                  gridHeight={pageHeight}
-                  gridWidth={pageWidth}
-                  mainViewerRef={mainViewerRef}
-                  gridVisible={gridVisible}
-                  setGridVisible={setGridVisible}
-                  activeIndex={activeIndex}
-                  setActiveIndex={setActiveIndex}
-                  canvases={canvases}
-                  gridViewerRef={gridViewerRef}
-                  isFullscreen={isFullscreen}
-                  viewerRef={viewerRef}
-                />
-                {pageWidth >= 600 && (
-                  <ThumbsViewer
-                    canvases={canvases}
-                    listHeight={pageHeight}
-                    mainViewerRef={mainViewerRef}
-                    activeIndex={activeIndex}
-                    setActiveIndex={setActiveIndex}
-                  />
-                )}
-                <div style={{ position: 'relative' }} lang={lang}>
-                  {/* aria-live="polite" TODO need to test this with people using screen readers */}
-                  <MainViewer
-                    listHeight={pageHeight}
-                    mainViewerRef={mainViewerRef}
-                    setActiveIndex={setActiveIndex}
-                    pageWidth={pageWidth}
-                    canvases={canvases}
-                    canvasIndex={canvasIndex}
-                    setShowZoomed={setShowZoomed}
-                    setZoomInfoUrl={setZoomInfoUrl}
-                    setIsLoading={setIsLoading}
-                    rotatedImages={rotatedImages}
-                    setShowControls={setShowControls}
-                    errorHandler={handleImageError}
-                  />
-                </div>
-              </ViewerLayout>
-            )}
-          </>
-        )}
-      </IIIFViewerBackground>
-      {!enhanced && (
-        <Layout12>
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <Download
-              ariaControlsId="itemDownloads"
-              title={title}
-              workId={workId}
-              license={licenseInfo}
-              iiifImageLocationCredit={iiifImageLocationCredit}
-              downloadOptions={[
-                ...imageDownloadOptions,
-                ...iiifPresentationDownloadOptions,
-              ]}
-              useDarkControl={true}
-              isInline={true}
+  return isFullSupportBrowser ? (
+    <ItemViewerContext.Provider
+      value={{
+        work: work,
+        manifest: manifest,
+        manifestIndex: manifestIndex,
+        lang: lang,
+        canvases: canvases,
+        canvasIndex: canvasIndex,
+        activeIndex: activeIndex,
+        gridVisible: gridVisible,
+        currentManifestLabel: currentManifestLabel,
+        licenseInfo: licenseInfo,
+        iiifImageLocationCredit: iiifImageLocationCredit,
+        downloadOptions: downloadOptions,
+        iiifPresentationDownloadOptions: iiifPresentationDownloadOptions,
+        parentManifest: parentManifest,
+        mainAreaWidth: mainAreaWidth,
+        mainAreaHeight: mainAreaHeight,
+        showZoomed: showZoomed,
+        zoomInfoUrl: zoomInfoUrl,
+        rotatedImages: rotatedImages,
+        showControls: showControls,
+        isLoading: isLoading,
+        isFullscreen: isFullscreen,
+        isDesktopSidebarActive: isDesktopSidebarActive,
+        urlTemplate: urlTemplate,
+        isMobileSidebarActive: isMobileSidebarActive,
+        searchResults: searchResults,
+        isResizing: isResizing,
+        setSearchResults: setSearchResults,
+        setIsMobileSidebarActive: setisMobileSidebarActive,
+        setIsDesktopSidebarActive: setIsDesktopSidebarActive,
+        setActiveIndex: setActiveIndex,
+        setGridVisible: setGridVisible,
+        setShowZoomed: setShowZoomed,
+        setIsFullscreen: setIsFullscreen,
+        setZoomInfoUrl: setZoomInfoUrl,
+        setIsLoading: setIsLoading,
+        setShowControls: setShowControls,
+        errorHandler: handleImageError,
+        setRotatedImages: setRotatedImages,
+        setImageJson: setImageJson,
+        setParentManifest: setParentManifest,
+        setCurrentManifestLabel: setCurrentManifestLabel,
+      }}
+    >
+      <Grid ref={viewerRef}>
+        <Sidebar
+          isActiveMobile={isMobileSidebarActive}
+          isActiveDesktop={isDesktopSidebarActive}
+        >
+          <ViewerSidebar mainViewerRef={mainViewerRef} />
+        </Sidebar>
+        <Topbar isDesktopSidebarActive={isDesktopSidebarActive}>
+          <ViewerTopBar viewToggleRef={viewToggleRef} viewerRef={viewerRef} />
+        </Topbar>
+        <Main
+          isDesktopSidebarActive={isDesktopSidebarActive}
+          isResizing={isResizing}
+          ref={mainAreaRef}
+        >
+          {!showZoomed && <ImageViewerControls />}
+          {urlTemplate && imageUrl && iiifImageLocation && (
+            <ImageViewer
+              infoUrl={iiifImageLocation.url}
+              id={imageUrl}
+              width={800}
+              alt={work?.description || work?.title || ''}
+              urlTemplate={urlTemplate}
+              rotation={firstRotation}
+              loadHandler={() => {
+                setZoomInfoUrl(iiifImageLocation.url);
+                setIsLoading(false);
+              }}
+              setImageRect={() => undefined}
+              setImageContainerRect={() => undefined}
             />
-          </Space>
-        </Layout12>
-      )}
-    </div>
+          )}
+          {mainImageService['@id'] && currentCanvas && (
+            <MainViewer
+              mainViewerRef={mainViewerRef}
+              mainAreaRef={mainAreaRef}
+            />
+          )}
+        </Main>
+        {showZoomed && (
+          <Zoom>
+            <ZoomedImage />
+          </Zoom>
+        )}
+        <BottomBar isMobileSidebarActive={isMobileSidebarActive}>
+          <ViewerBottomBar
+            viewToggleRef={viewToggleRef}
+            viewerRef={viewerRef}
+          />
+        </BottomBar>
+        <Thumbnails
+          isActive={gridVisible}
+          isDesktopSidebarActive={isDesktopSidebarActive}
+        >
+          <GridViewer
+            mainViewerRef={mainViewerRef}
+            gridViewerRef={gridViewerRef}
+            viewerRef={viewerRef}
+          />
+        </Thumbnails>
+      </Grid>
+    </ItemViewerContext.Provider>
+  ) : (
+    <NoScriptViewer
+      thumbnailsRequired={Boolean(navigationCanvases?.length)}
+      imageUrl={imageUrl}
+      iiifImageLocation={iiifImageLocation}
+      currentCanvas={currentCanvas}
+      canvasOcr={canvasOcr}
+      lang={lang}
+      mainPaginatorProps={mainPaginatorProps}
+      thumbsPaginatorProps={thumbsPaginatorProps}
+      workId={work.id}
+      canvases={canvases}
+      canvasIndex={canvasIndex}
+      pageIndex={pageIndex}
+      pageSize={pageSize}
+    />
   );
 };
 
-export default IIIFViewerComponent;
+export default IIIFViewer;

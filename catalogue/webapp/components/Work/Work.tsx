@@ -71,7 +71,6 @@ const Work: FunctionComponent<Props> = ({
       openGraphType={'website'}
       jsonLd={workLd(work)}
       siteSection={'collections'}
-      oEmbedUrl={`https://wellcomecollection.org/oembed/works/${work.id}`}
       imageUrl={imageUrl}
       imageAltText={work.title}
       hideNewsletterPromo={true}

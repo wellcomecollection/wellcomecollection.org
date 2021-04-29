@@ -9,10 +9,9 @@ import { Work, Image } from '@weco/common/model/catalogue';
 import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
-import IIIFViewerPrototype from '@weco/common/views/components/IIIFViewerPrototype/IIIFViewerPrototype';
+import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import {
   GlobalContextData,
   getGlobalContextData,
@@ -85,35 +84,19 @@ const ImagePage: FunctionComponent<Props> = ({
     >
       {iiifImageLocation ? (
         <>
-          {globalContextData.toggles.itemViewerPrototype ? (
-            <IIIFViewerPrototype
-              title={title}
-              mainPaginatorProps={mainPaginatorProps}
-              thumbsPaginatorProps={thumbsPaginatorProps}
-              lang={lang}
-              canvases={[]}
-              workId={sourceWork.id}
-              pageIndex={0}
-              pageSize={1}
-              canvasIndex={0}
-              iiifImageLocation={iiifImageLocation}
-              work={sourceWork}
-            />
-          ) : (
-            <IIIFViewer
-              title={title}
-              mainPaginatorProps={mainPaginatorProps}
-              thumbsPaginatorProps={thumbsPaginatorProps}
-              lang={lang}
-              canvases={[]}
-              workId={sourceWork.id}
-              pageIndex={0}
-              pageSize={1}
-              canvasIndex={0}
-              iiifImageLocation={iiifImageLocation}
-              work={sourceWork}
-            />
-          )}
+          <IIIFViewer
+            title={title}
+            mainPaginatorProps={mainPaginatorProps}
+            thumbsPaginatorProps={thumbsPaginatorProps}
+            lang={lang}
+            canvases={[]}
+            workId={sourceWork.id}
+            pageIndex={0}
+            pageSize={1}
+            canvasIndex={0}
+            iiifImageLocation={iiifImageLocation}
+            work={sourceWork}
+          />
         </>
       ) : (
         <Layout12>
