@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import TruncatedText from '../../../common/views/components/TruncatedText/TruncatedText';
 import Readme from '../../../common/views/components/TruncatedText/README.md';
-import { text } from '@storybook/addon-knobs/react';
+import { text } from '@storybook/addon-knobs';
 
 const stories = storiesOf('Components', module);
 

@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import {
   getGlobalContextData,
   GlobalContextData,
@@ -6,7 +6,7 @@ import {
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 
 type Props = {
-  statusCode: number;
+  statusCode?: number;
   message: string;
   globalContextData: GlobalContextData;
 };
@@ -25,16 +25,17 @@ const Page: NextPage<Props> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async context => {
+// FIXME: this is not a method Next recommend anymore, although it is currently
+// the best option for getting server data for the _error page (which is otherwise statically exported).
+// It also means that we have had to add `NextPageContext` as a possible type to `getGlobalContextData`'s
+// `context` argument.
+Page.getInitialProps = async context => {
   const globalContextData = getGlobalContextData(context);
 
   return {
-    props: {
-      message:
-        'Something unexpected happened. Our team will be looking into it.',
-      statusCode: context.res.statusCode,
-      globalContextData,
-    },
+    message: 'Something unexpected happened. Our team will be looking into it.',
+    statusCode: context?.res?.statusCode,
+    globalContextData,
   };
 };
 

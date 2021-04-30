@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/react';
 import BackToResults from '../../../common/views/components/BackToResults/BackToResults';
-import { text } from '@storybook/addon-knobs/react';
+import { text } from '@storybook/addon-knobs';
 import Readme from '../../../common/views/components/BackToResults/README.md';
 import Router from 'next/router';
 

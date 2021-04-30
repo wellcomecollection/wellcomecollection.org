@@ -3,7 +3,7 @@ import ButtonInline from '../../../common/views/components/ButtonInline/ButtonIn
 import ButtonInlineLink from '../../../common/views/components/ButtonInlineLink/ButtonInlineLink';
 import Readme from '../../../common/views/components/ButtonInline/README.md';
 import { classNames } from '../../../common/utils/classnames';
-import { boolean, text } from '@storybook/addon-knobs/react';
+import { boolean, text } from '@storybook/addon-knobs';
 
 const ButtonExample = () => {
   const buttonText = text('Button text', 'Click me');

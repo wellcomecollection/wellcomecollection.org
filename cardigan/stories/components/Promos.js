@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/react';
-import { text, boolean, select } from '@storybook/addon-knobs/react';
+import { text, boolean, select } from '@storybook/addon-knobs';
 import { id, url, eventSeries, eventSchedule, image } from '../content';
 import moment from 'moment';
 import EventPromoReadme from '../../../common/views/components/EventPromo/README.md';

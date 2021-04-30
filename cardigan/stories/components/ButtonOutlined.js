@@ -3,7 +3,7 @@ import ButtonOutlined from '../../../common/views/components/ButtonOutlined/Butt
 import ButtonOutlinedLink from '../../../common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import Readme from '../../../common/views/components/ButtonOutlined/README.md';
 import { classNames } from '../../../common/utils/classnames';
-import { boolean, text } from '@storybook/addon-knobs/react';
+import { boolean, text } from '@storybook/addon-knobs';
 
 const ButtonExample = () => {
   const buttonText = text('Button text', 'Click me');

@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/react';
-import { boolean } from '@storybook/addon-knobs/react';
+import { boolean } from '@storybook/addon-knobs';
 import DropdownButton from '../../../common/views/components/DropdownButton/DropdownButton';
 import CheckboxRadio from '../../../common/views/components/CheckboxRadio/CheckboxRadio';
 import Readme from '../../../common/views/components/DropdownButton/README.md';

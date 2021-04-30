@@ -1,6 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import IIIFViewer from '../../../common/views/components/IIIFViewer/IIIFViewer';
 import Readme from '../../../common/views/components/IIIFViewer/README.md';
+import { workFixture } from '../../../common/test/fixtures/catalogueApi/work';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import manifest from '../../../common/__mocks__/iiif-manifest';
 import Router from 'next/router';
@@ -20,7 +21,6 @@ const IIIFViewerExample = () => {
 
   Router.router = mockedRouter;
 
-  const workId = 'pxc98cnk';
   const sierraId = 'b21538906';
   const langCode = 'eng';
   const pageSize = 4;
@@ -31,7 +31,7 @@ const IIIFViewerExample = () => {
   const sharedPaginatorProps = {
     totalResults: canvases.length,
     link: itemLink({
-      workId,
+      workId: workFixture.id,
       query: null,
       page: pageIndex + 1,
       canvas: canvasIndex + 1,
@@ -55,11 +55,6 @@ const IIIFViewerExample = () => {
     ...sharedPaginatorProps,
   };
 
-  const navigationCanvases = [...Array(pageSize)]
-    .map((_, i) => pageSize * pageIndex + i)
-    .map(i => canvases[i])
-    .filter(Boolean);
-
   return (
     <IIIFViewer
       mainPaginatorProps={mainPaginatorProps}
@@ -67,13 +62,8 @@ const IIIFViewerExample = () => {
       currentCanvas={currentCanvas}
       lang={langCode}
       canvasOcr={null}
-      navigationCanvases={navigationCanvases}
-      workId={workId}
-      query={null}
-      workType={null}
-      itemsLocationsLocationType={null}
+      work={workFixture}
       pageIndex={pageIndex}
-      sierraId={sierraId}
       pageSize={pageSize}
       canvasIndex={canvasIndex}
       canvases={canvases}
@@ -81,7 +71,7 @@ const IIIFViewerExample = () => {
   );
 };
 
-const stories = storiesOf('Components/WIP', module);
+const stories = storiesOf('Components', module);
 
 stories.add('IIIFViewer', IIIFViewerExample, {
   readme: { sidebar: Readme },

@@ -336,9 +336,9 @@ const MainViewer: FunctionComponent<Props> = ({
   const debounceHandleOnItemsRendered = useRef(
     debounce(handleOnItemsRendered, 500)
   );
-  const timer = useRef<number | undefined>();
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
   function handleOnScroll({ scrollOffset }) {
-    clearTimeout(timer.current);
+    timer.current && clearTimeout(timer.current);
     setShowControls(false);
     setNewScrollOffset(scrollOffset);
 

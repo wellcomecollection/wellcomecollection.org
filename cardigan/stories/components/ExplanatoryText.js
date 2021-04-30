@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/react';
 import Readme from '../../../common/views/components/ExplanatoryText/README.md';
 import ExplanatoryText from '../../../common/views/components/ExplanatoryText/ExplanatoryText';
 import { AppContextProvider } from '../../../common/views/components/AppContext/AppContext';
-import { text } from '@storybook/addon-knobs/react';
+import { text } from '@storybook/addon-knobs';
 import { singleLineOfText } from '../content';
 
 const ExplanatoryTextExample = () => {

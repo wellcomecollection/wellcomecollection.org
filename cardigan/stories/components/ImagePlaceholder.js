@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import ImagePlaceholder from '../../../common/views/components/ImagePlaceholder/ImagePlaceholder';
 import Readme from '../../../common/views/components/ImagePlaceholder/README.md';
-import { select } from '@storybook/addon-knobs/react';
+import { select } from '@storybook/addon-knobs';
 
 const ImagePlaceholderExample = () => {
   return (

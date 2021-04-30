@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/react';
-import { select } from '@storybook/addon-knobs/react';
+import { select } from '@storybook/addon-knobs';
 import { classNames, font } from '../../../common/utils/classnames';
 import PageHeader from '../../../common/views/components/PageHeader/PageHeader';
 import PageHeaderStandfirst from '../../../common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';

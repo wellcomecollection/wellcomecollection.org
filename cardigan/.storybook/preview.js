@@ -1,7 +1,6 @@
 import { default as React, Fragment } from 'react';
 import { configure, addDecorator, addParameters } from '@storybook/react';
-import { checkA11y } from '@storybook/addon-a11y';
-import { withKnobs } from '@storybook/addon-knobs/react';
+import { withKnobs } from '@storybook/addon-knobs';
 import styleguideSass from '../../common/styles/styleguide.scss';
 import { ThemeProvider } from 'styled-components';
 import theme from '../../common/views/themes/default';
@@ -17,7 +16,6 @@ addParameters({
 });
 addDecorator(addReadme);
 addDecorator(withKnobs);
-addDecorator(checkA11y);
 
 const CenterDecorator = (storyFn, { parameters }) => {
   const story = storyFn();

@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/react';
 import moment from 'moment';
 import StatusIndicator from '../../../common/views/components/StatusIndicator/StatusIndicator';
 import Readme from '../../../common/views/components/StatusIndicator/README.md';
-import { text, select } from '@storybook/addon-knobs/react';
+import { text, select } from '@storybook/addon-knobs';
 
 const stories = storiesOf('Components', module);
 

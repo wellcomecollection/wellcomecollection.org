@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import Divider from '../../../common/views/components/Divider/Divider';
 import Readme from '../../../common/views/components/Divider/README.md';
-import { select } from '@storybook/addon-knobs/react';
+import { select } from '@storybook/addon-knobs';
 
 const DividerExample = () => {
   const type = select('Type', ['keyline', 'stub', 'thin', 'dashed'], 'keyline');

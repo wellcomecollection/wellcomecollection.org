@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import Pagination from '../../../common/views/components/Pagination/Pagination';
 import Readme from '../../../common/views/components/Pagination/README.md';
-import { boolean } from '@storybook/addon-knobs/react';
+import { boolean } from '@storybook/addon-knobs';
 
 const PaginationExample = () => {
   const isOnFirstPage = boolean('Is on first page?', false);
