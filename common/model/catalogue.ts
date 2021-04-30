@@ -181,6 +181,10 @@ export type Item = {
   type: 'Item';
 };
 
+export type PhysicalItem = Omit<Item, 'locations'> & {
+  locations: PhysicalLocation[];
+};
+
 type Date = {
   label: string;
   type: 'Period';
