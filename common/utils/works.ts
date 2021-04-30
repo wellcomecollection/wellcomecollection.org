@@ -5,6 +5,7 @@ import {
   RelatedWork,
   Work,
   Holding,
+  PhysicalItem,
 } from '../model/catalogue';
 import { IIIFRendering } from '../model/iiif';
 import { convertImageUri } from '../utils/convert-image-uri';
@@ -121,20 +122,16 @@ export function getHoldings(work: Work): Holding[] {
   return work?.holdings || [];
 }
 
-export function getItemsWithPhysicalLocation(
-  work: Work
-): PhysicalItemAugmented[] {
+export function getItemsWithPhysicalLocation(work: Work): PhysicalItem[] {
   return (work.items ?? [])
     .map(item => {
       if (
         item.locations.find(location => location.type === 'PhysicalLocation')
       ) {
-        return item as PhysicalItemAugmented;
+        return item as PhysicalItem;
       }
     })
-    .filter((item?: PhysicalItemAugmented): item is PhysicalItemAugmented =>
-      Boolean(item)
-    );
+    .filter((item?: PhysicalItem): item is PhysicalItem => Boolean(item));
 }
 
 export function getItemsByLocationType(
