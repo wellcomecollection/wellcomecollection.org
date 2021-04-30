@@ -25,6 +25,10 @@ const Page: NextPage<Props> = ({
   );
 };
 
+// FIXME: this is not a method Next recommend anymore, although it is currently
+// the best option for getting server data for the _error page (which is otherwise statically exported).
+// It also means that we have had to add `NextPageContext` as a possible type to `getGlobalContextData`'s
+// `context` argument.
 Page.getInitialProps = async context => {
   const globalContextData = getGlobalContextData(context);
 
