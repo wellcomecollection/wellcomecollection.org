@@ -20,10 +20,10 @@ export default {
       description: 'Use the staging catalogue API',
     },
     {
-      id: 'stacksRequestService',
-      title: 'Items status and requesting',
+      id: 'showPhysicalItems',
+      title: 'Show physical items on the work page',
       defaultValue: false,
-      description: 'Get the status of items and request them from the stacks',
+      description: 'Shows physical items and their locations on the work page',
     },
     {
       id: 'helveticaRegular',
