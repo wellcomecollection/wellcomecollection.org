@@ -73,7 +73,7 @@ function getItemLinkState({
 }
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
-  const { showHoldingsOnWork } = useContext(TogglesContext);
+  const { showPhysicalItems, showHoldingsOnWork } = useContext(TogglesContext);
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
 
@@ -229,8 +229,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           />
         </Space>
       )}
-      {/* TODO wrap in toggle */}
-      {physicalItems && <PhysicalItems items={physicalItems} />}
+      {showPhysicalItems && physicalItems && (
+        <PhysicalItems items={physicalItems} />
+      )}
     </WorkDetailsSection>
   );
 
