@@ -1,19 +1,14 @@
-import { useContext, FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { font } from '../../../utils/classnames';
 import Space from '../styled/Space';
-import TogglesContext from '../TogglesContext/TogglesContext';
-import { links, siteSectionsWithGetInvolvedAndAboutUs } from '../Header/Header';
+import { links } from '../Header/Header';
 
 const FooterNav: FunctionComponent = () => {
-  const { newSiteSections } = useContext(TogglesContext);
-  const siteSections = newSiteSections
-    ? siteSectionsWithGetInvolvedAndAboutUs
-    : links;
   return (
     <div className="footer-nav">
       <nav className="footer-nav__nav">
         <ul className={`plain-list footer-nav__list no-margin no-padding`}>
-          {siteSections.map((link, i) => (
+          {links.map((link, i) => (
             <li key={link.title} className="footer-nav__item">
               <Space
                 v={{
