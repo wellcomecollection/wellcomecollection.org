@@ -1,8 +1,7 @@
 // @flow
-import { FunctionComponent, useContext, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
-import TogglesContext from '../TogglesContext/TogglesContext';
 
 export const navHeight = 85;
 
@@ -11,34 +10,6 @@ type Props = {
 };
 
 export const links = [
-  {
-    href: '/visit-us',
-    title: 'Visit us',
-    siteSection: 'visit-us',
-  },
-  {
-    href: '/whats-on',
-    title: "What's on",
-    siteSection: 'whats-on',
-  },
-  {
-    href: '/stories',
-    title: 'Stories',
-    siteSection: 'stories',
-  },
-  {
-    href: '/collections',
-    title: 'Collections',
-    siteSection: 'collections',
-  },
-  {
-    href: '/what-we-do',
-    title: 'What we do',
-    siteSection: 'what-we-do',
-  },
-];
-
-export const siteSectionsWithGetInvolvedAndAboutUs = [
   {
     href: '/visit-us',
     title: 'Visit us',
@@ -73,10 +44,6 @@ export const siteSectionsWithGetInvolvedAndAboutUs = [
 
 const Header: FunctionComponent<Props> = ({ siteSection }) => {
   const [isActive, setIsActive] = useState(false);
-  const { newSiteSections } = useContext(TogglesContext);
-  const siteSections = newSiteSections
-    ? siteSectionsWithGetInvolvedAndAboutUs
-    : links;
 
   return (
     <div
@@ -123,7 +90,7 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
                 5
               )} no-margin no-padding`}
             >
-              {siteSections.map((link, i) => (
+              {links.map((link, i) => (
                 <li
                   className={`header__item ${
                     link.siteSection === siteSection
