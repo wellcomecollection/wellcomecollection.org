@@ -16,7 +16,7 @@ const PhysicalItems: FunctionComponent<Props> = ({ items }: Props) => {
     );
     const locationText = physicalLocations
       .map(location => {
-        return `${location.locationType.label ?? ''}`;
+        return location.locationType.label ?? '';
       })
       .join(', ');
     const shelfmark = physicalLocations
