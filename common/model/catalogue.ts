@@ -14,7 +14,7 @@ export type Work = {
   subjects: Subject[];
   genres: Genre[];
   thumbnail?: DigitalLocation;
-  items?: Item[];
+  items?: Item<Location>[];
   production: Production[];
   languages: Language[];
   edition?: string;
@@ -173,17 +173,15 @@ type Availability = {
   type: 'Availability';
 };
 
-export type Item = {
+export type Item<LocationType> = {
   id?: string;
   identifiers?: Identifier[];
   title?: string;
-  locations: Location[];
+  locations: LocationType[];
   type: 'Item';
 };
 
-export type PhysicalItem = Omit<Item, 'locations'> & {
-  locations: PhysicalLocation[];
-};
+export type PhysicalItem = Item<PhysicalLocation>;
 
 type Date = {
   label: string;
