@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { FieldMargin, Label, InvalidFieldAlert, Button, Cancel } from '../components/Form.style';
-import { ModalContainer, ModalTitle } from './MyAccount.style';
+import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
 import { PasswordInput } from '../components/PasswordInput';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import { RequestDeleteError, useRequestDelete } from '../hooks/useRequestDelete';
@@ -18,6 +18,7 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({ onComp
   const { control, formState, handleSubmit, setError, reset } = useForm<DeleteAccountInputs>({
     defaultValues,
   });
+  const [submissionErrorMessage, setSubmissionErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     reset(defaultValues);
@@ -36,7 +37,7 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({ onComp
         break;
       }
       case RequestDeleteError.UNKNOWN: {
-        setError('password', { type: 'manual', message: 'An unknown error occurred.' });
+        setSubmissionErrorMessage('An unknown error occurred.');
         break;
       }
     }
@@ -49,6 +50,7 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({ onComp
   return (
     <ModalContainer>
       <ModalTitle>Delete this account</ModalTitle>
+      {submissionErrorMessage && <StatusAlert type="failure">{submissionErrorMessage}</StatusAlert>}
       <p>Are you sure you want to delete your account?</p>
       <p>To permanently delete your account please enter your password and confirm.</p>
       <form onSubmit={handleSubmit(requestDelete)}>
