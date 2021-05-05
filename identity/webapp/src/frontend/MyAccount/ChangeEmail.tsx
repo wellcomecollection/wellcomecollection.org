@@ -39,6 +39,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({ onComple
       }
       case UpdateUserError.UNKNOWN: {
         setSubmissionErrorMessage('An unknown error occurred.');
+        break;
       }
     }
   }, [error, setError]);
