@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { FieldMargin, Label, TextInput, InvalidFieldAlert, Button } from '../components/Form.style';
@@ -8,7 +8,7 @@ import { useUserInfo } from './UserInfoContext';
 import { Loading } from './Loading';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import { UpdateUserError, useUpdateUser } from '../hooks/useUpdateUser';
-import { ModalContainer, ModalTitle } from './MyAccount.style';
+import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
 
 type ChangeEmailInputs = {
   email: string;
@@ -21,6 +21,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({ onComple
   const { register, control, reset, formState, handleSubmit, setError } = useForm<ChangeEmailInputs>({
     defaultValues: { email: user?.email, password: '' },
   });
+  const [submissionErrorMessage, setSubmissionErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     reset({ email: user?.email, password: '' });
@@ -37,7 +38,8 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({ onComple
         break;
       }
       case UpdateUserError.UNKNOWN: {
-        setError('email', { type: 'manual', message: 'An unknown error occurred.' });
+        setSubmissionErrorMessage('An unknown error occurred.');
+        break;
       }
     }
   }, [error, setError]);
@@ -51,6 +53,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({ onComple
   return (
     <ModalContainer>
       <ModalTitle>Change email</ModalTitle>
+      {submissionErrorMessage && <StatusAlert type="failure">{submissionErrorMessage}</StatusAlert>}
       <form onSubmit={handleSubmit(onSubmit)}>
         <FieldMargin>
           <Label htmlFor="email">Email address</Label>

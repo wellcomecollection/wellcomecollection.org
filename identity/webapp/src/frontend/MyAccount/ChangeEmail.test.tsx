@@ -190,7 +190,7 @@ describe('ChangeEmail', () => {
     it('when another error occurs', async () => {
       server.use(
         rest.put('/api/users/me', (req, res, ctx) => {
-          return res(ctx.status(418));
+          return res(ctx.status(500));
         })
       );
       renderComponent();
