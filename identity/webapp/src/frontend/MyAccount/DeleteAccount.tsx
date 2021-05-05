@@ -35,6 +35,10 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({ onComp
         setError('password', { type: 'manual', message: 'Incorrect password.' });
         break;
       }
+      case RequestDeleteError.UNKNOWN: {
+        setError('password', { type: 'manual', message: 'An unknown error occurred.' });
+        break;
+      }
     }
   }, [error, setError]);
 

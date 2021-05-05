@@ -43,6 +43,10 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({ onCom
         setError('newPassword', { type: 'manual', message: 'Password does not meet the policy.' });
         break;
       }
+      case UpdatePasswordError.UNKNOWN: {
+        setError('newPassword', { type: 'manual', message: 'An unknown error occurred.' });
+        break;
+      }
     }
   }, [error, setError]);
 
