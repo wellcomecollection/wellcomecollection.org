@@ -306,7 +306,7 @@ describe('Registration', () => {
   it('takes user back when Cancel link is clicked', () => {
     history.goBack = jest.fn();
     renderComponent();
-    userEvent.click(screen.getByRole('link', { name: /cancel/i }));
+    userEvent.click(screen.getByRole('button', { name: /cancel/i }));
     expect(history.goBack).toBeCalled();
   });
 });

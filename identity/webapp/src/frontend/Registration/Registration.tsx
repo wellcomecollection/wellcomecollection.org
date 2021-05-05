@@ -31,7 +31,7 @@ export function Registration(): JSX.Element {
     defaultValues: { password: '' },
   });
   const { registerUser, isLoading, isSuccess, error: registrationError } = useRegisterUser();
-  const { goBack } = useHistory();
+  const history = useHistory();
 
   usePageTitle('Register for a library account');
 
@@ -214,7 +214,7 @@ export function Registration(): JSX.Element {
             />
             <SpacingComponent />
             {isLoading ? <InProgress>Creating account…</InProgress> : <Button type="submit">Create account</Button>}
-            <Cancel onClick={goBack} />
+            <Cancel onClick={history.goBack} />
           </form>
         </Wrapper>
       </Container>

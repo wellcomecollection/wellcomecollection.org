@@ -1,6 +1,5 @@
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import styled, { css } from 'styled-components';
-import { Link } from 'react-router-dom';
 
 export const ExternalLink = styled.a`
   white-space: nowrap;
@@ -56,6 +55,16 @@ export const InProgress = styled.div.attrs({ role: 'progressbar' })`
   user-select: none;
 `;
 
-export const Cancel = styled(Link).attrs({ children: 'Cancel', to: '#cancel' })`
+export const Cancel = styled.button.attrs({ type: 'button', children: 'Cancel' })`
   ${FullWidthElementBase}
+  width: fit-content;
+  margin: 0 auto;
+  background: none;
+  border: none;
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+    cursor: pointer;
+  }
 `;
