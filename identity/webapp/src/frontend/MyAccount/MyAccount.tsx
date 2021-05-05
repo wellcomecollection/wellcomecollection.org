@@ -21,7 +21,6 @@ import { ChangePassword } from './ChangePassword';
 import { DeleteAccount } from './DeleteAccount';
 import { UpdateUserSchema } from '../../types/schemas/update-user';
 import { useHistory } from 'react-router';
-import { usePrefix } from '../hooks/usePrefix';
 
 const Detail: React.FC<{ label: string; value?: string }> = ({ label, value }) => (
   <DetailWrapper>
@@ -41,7 +40,6 @@ const AccountStatus: React.FC<React.ComponentProps<typeof StatusAlert>> = ({ typ
 
 const Profile: React.FC = () => {
   const history = useHistory();
-  const prefix = usePrefix();
   const { user, isLoading, update } = useUserInfo();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
@@ -51,7 +49,7 @@ const Profile: React.FC = () => {
   }
 
   const logoutOnDeletionRequest = () => {
-    history.replace(`${prefix}/logout?returnTo=${encodeURIComponent('/delete-requested')}`);
+    history.replace(`/logout?returnTo=${encodeURIComponent('/delete-requested')}`);
   };
 
   return (
