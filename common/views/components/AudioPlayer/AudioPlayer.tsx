@@ -3,6 +3,8 @@ import { trackEvent } from '../../../utils/ga';
 import { useEffect, useState, ReactElement, FunctionComponent } from 'react';
 import useInterval from '../../../../common/hooks/useInterval';
 import { IIIFMediaElement } from '../../../model/iiif';
+import MediaAnnotations from '../MediaAnnotations/MediaAnnotations';
+
 type Props = {
   audio: IIIFMediaElement;
 };
@@ -51,24 +53,27 @@ const AudioPlayer: FunctionComponent<Props> = ({
     isPlaying ? 1000 : null
   );
   return (
-    <audio
-      onPlay={() => {
-        setIsPlaying(true);
+    <>
+      <audio
+        onPlay={() => {
+          setIsPlaying(true);
 
-        trackEvent({
-          category: 'Audio',
-          action: 'play audio',
-          label: audio['@id'],
-        });
-      }}
-      onPause={() => {
-        setIsPlaying(false);
-      }}
-      controls
-      src={audio['@id']}
-    >
-      {`Sorry, your browser doesn't support embedded audio.`}
-    </audio>
+          trackEvent({
+            category: 'Audio',
+            action: 'play audio',
+            label: audio['@id'],
+          });
+        }}
+        onPause={() => {
+          setIsPlaying(false);
+        }}
+        controls
+        src={audio['@id']}
+      >
+        {`Sorry, your browser doesn't support embedded audio.`}
+      </audio>
+      <MediaAnnotations media={audio} />
+    </>
   );
 };
 
