@@ -40,11 +40,10 @@ export default {
         'Switches the manifest sources from wellcomelibrary.org to iiif.wellcomecollection.org for testing.',
     },
     {
-      id: 'newSiteSections',
-      title: 'New site sections - Get Involved and About us',
+      id: 'apiToolbar',
+      title: 'API toolbar',
       defaultValue: false,
-      description:
-        'The new site section Get Involved, and newly promoted About us section',
+      description: 'A toolbar to help us navigate the secret depths of the API',
     },
   ] as const,
   tests: [

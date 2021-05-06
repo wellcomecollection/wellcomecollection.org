@@ -27,6 +27,8 @@ import GlobalContextProvider, {
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
+import TogglesContext from '../TogglesContext/TogglesContext';
+import ApiToolbar from '../ApiToolbar/ApiToolbar';
 
 type SiteSection =
   | 'collections'
@@ -67,6 +69,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
   hideFooter = false,
   excludeRoleMain = false,
 }: ComponentProps) => {
+  const { apiToolbar } = useContext(TogglesContext);
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''
@@ -225,12 +228,12 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
       </Head>
 
       <div>
+        {apiToolbar && <ApiToolbar />}
         <CookieNotice />
         <a className="skip-link" href="#main">
           Skip to main content
         </a>
         <Header siteSection={siteSection} />
-
         {globalAlert &&
           globalAlert.isShown === 'show' &&
           (!globalAlert.routeRegex ||
@@ -243,9 +246,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
               }}
             />
           )}
-
         {popupDialog && popupDialog.isShown && <PopupDialog {...popupDialog} />}
-
         <div
           id="main"
           className="main"
@@ -263,7 +264,6 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
             <NewsletterPromo />
           </Space>
         )}
-
         <Footer
           hide={hideFooter}
           openingTimes={openingTimes}
