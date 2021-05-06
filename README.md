@@ -2,7 +2,7 @@
 
 Wellcome Collection web applications.
 
-[![Join the chat at https://gitter.im/wellcomecollection/wellcomecollection.org](https://badges.gitter.im/wellcomecollection/wellcomecollection.org.svg)](https://gitter.im/wellcomecollection/wellcomecollection.org?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)  [![Build status](https://badge.buildkite.com/b8986815014884f68d6d831ceaf5b8712e0e581df767a7f6bf.svg?branch=master)](https://buildkite.com/wellcomecollection/experience)
+[![Join the chat at https://gitter.im/wellcomecollection/wellcomecollection.org](https://badges.gitter.im/wellcomecollection/wellcomecollection.org.svg)](https://gitter.im/wellcomecollection/wellcomecollection.org?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)  [![Build status](https://badge.buildkite.com/b8986815014884f68d6d831ceaf5b8712e0e581df767a7f6bf.svg?branch=main)](https://buildkite.com/wellcomecollection/experience)
 
 We all work in the **open** and **open source** where we can and where it makes sense
 
@@ -45,7 +45,7 @@ To get a login, ask a friendly experience team member near you.
 
 We use [Yarn](https://yarnpkg.com/lang/en/) to manage our external dependencies.
 
-We then use [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) to manage our [local, common dependencies](https://github.com/wellcomecollection/wellcomecollection.org/tree/master/common).
+We then use [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) to manage our [local, common dependencies](https://github.com/wellcomecollection/wellcomecollection.org/tree/main/common).
 
 To run a project, from the root directory:
 ```bash
@@ -94,7 +94,7 @@ If in [`pipeline.yml`](.buildkite/pipeline.yml) you have:
 
 ```yaml
 - label: "deploy edge_lambdas"
-  if: build.branch == "master"
+  if: build.branch == "main"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
