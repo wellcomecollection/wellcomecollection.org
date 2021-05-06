@@ -3,9 +3,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import { FunctionComponent, useEffect, useState } from 'react';
 import useInterval from '@weco/common/hooks/useInterval';
 import { IIIFMediaElement } from '@weco/common/model/iiif';
-import { getAnnotationFromMediaElement } from '@weco/common/utils/iiif';
-import Space from '@weco/common/views/components/styled/Space';
-import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
+import MediaAnnotations from '../MediaAnnotations/MediaAnnotations';
 
 type Props = {
   video: IIIFMediaElement;
@@ -18,7 +16,6 @@ const VideoPlayer: FunctionComponent<Props> = ({
 }: Props) => {
   const [secondsPlayed, setSecondsPlayed] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const annotation: any = getAnnotationFromMediaElement(video);
 
   function trackViewingTime() {
     trackEvent({
@@ -86,24 +83,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
         <source src={video['@id']} type={video.format} />
         {`Sorry, your browser doesn't support embedded video.`}
       </video>
-      {annotation &&
-        annotation.resource &&
-        annotation.resource.format === 'application/pdf' && (
-          <Space v={{ size: 's', properties: ['margin-top'] }}>
-            <DownloadLink
-              href={annotation.resource['@id']}
-              linkText={`Transcript of ${annotation.resource.label} video`}
-              format={'PDF'}
-              trackingEvent={{
-                category: 'Download link',
-                action: 'follow video annotation link',
-                label: video['@id'],
-              }}
-              mimeType={annotation.resource.format}
-              trackingTags={['annotation']}
-            />
-          </Space>
-        )}
+      <MediaAnnotations media={video} />
     </>
   );
 };
