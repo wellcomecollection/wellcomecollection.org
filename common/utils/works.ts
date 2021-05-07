@@ -5,6 +5,7 @@ import {
   RelatedWork,
   Work,
   Holding,
+  PhysicalItem,
 } from '../model/catalogue';
 import { IIIFRendering } from '../model/iiif';
 import { convertImageUri } from '../utils/convert-image-uri';
@@ -121,26 +122,22 @@ export function getHoldings(work: Work): Holding[] {
   return work?.holdings || [];
 }
 
-export function getItemsWithPhysicalLocation(
-  work: Work
-): PhysicalItemAugmented[] {
+export function getItemsWithPhysicalLocation(work: Work): PhysicalItem[] {
   return (work.items ?? [])
     .map(item => {
       if (
         item.locations.find(location => location.type === 'PhysicalLocation')
       ) {
-        return item as PhysicalItemAugmented;
+        return item as PhysicalItem;
       }
     })
-    .filter((item?: PhysicalItemAugmented): item is PhysicalItemAugmented =>
-      Boolean(item)
-    );
+    .filter((item?: PhysicalItem): item is PhysicalItem => Boolean(item));
 }
 
 export function getItemsByLocationType(
   work: Work,
   locationTypeId: string
-): Item[] {
+): Item<PhysicalLocation | DigitalLocation>[] {
   return (work.items || []).filter(i =>
     i?.locations.find(l => l.locationType.id === locationTypeId)
   );
@@ -174,7 +171,10 @@ export function getAccessConditionForDigitalLocation(
   }
 }
 
-function itemIdentifierWithId(item: Item, id: string): boolean {
+function itemIdentifierWithId(
+  item: Item<PhysicalLocation | DigitalLocation>,
+  id: string
+): boolean {
   const matchedIdentifiers =
     item.identifiers?.filter(
       identifier => identifier && identifier.identifierType.id === id
@@ -183,7 +183,10 @@ function itemIdentifierWithId(item: Item, id: string): boolean {
   return matchedIdentifiers.length >= 1;
 }
 
-function itemLocationWithType(item: Item, locationType: string): boolean {
+function itemLocationWithType(
+  item: Item<PhysicalLocation | DigitalLocation>,
+  locationType: string
+): boolean {
   const matchedIdentifiers = item.locations.filter(
     location => location.type === locationType
   );
@@ -199,7 +202,7 @@ type ItemProps = {
 export function getItemsWith(
   work: Work,
   { identifierId, locationType }: ItemProps
-): Item[] {
+): Item<PhysicalLocation | DigitalLocation>[] {
   return (
     work.items
       ?.filter(item => itemIdentifierWithId(item, identifierId))
@@ -227,21 +230,27 @@ export function getItemIdentifiersWith(
   { identifierId, locationType }: ItemProps,
   identifierType: string
 ): string[] {
-  const items: Item[] = getItemsWith(work, { identifierId, locationType });
+  const items: Item<PhysicalLocation | DigitalLocation>[] = getItemsWith(work, {
+    identifierId,
+    locationType,
+  });
 
-  return items.reduce((acc: string[], item: Item) => {
-    const matching = item.identifiers?.find(
-      identifier => identifier.identifierType.id === identifierType
-    );
+  return items.reduce(
+    (acc: string[], item: Item<PhysicalLocation | DigitalLocation>) => {
+      const matching = item.identifiers?.find(
+        identifier => identifier.identifierType.id === identifierType
+      );
 
-    const matchingValue = matching?.value;
+      const matchingValue = matching?.value;
 
-    if (matchingValue) {
-      acc.push(matchingValue);
-    }
+      if (matchingValue) {
+        acc.push(matchingValue);
+      }
 
-    return acc;
-  }, []);
+      return acc;
+    },
+    []
+  );
 }
 
 type ArchiveLabels = {

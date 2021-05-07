@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, FunctionComponent } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { getItemsByLocationType } from '@weco/common/utils/works';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
-import { DigitalLocation, Work, Item } from '@weco/common/model/catalogue';
+import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import styled from 'styled-components';
 
 const ShowHideButton = styled.button.attrs({
@@ -21,10 +21,6 @@ type Props = {
   work: Work;
 };
 const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
-  type ItemWithDigitalLocation = Omit<Item, 'locations'> & {
-    location: DigitalLocation;
-  };
-
   const onlineResources = getItemsByLocationType(work, 'online-resource').map(
     i => {
       const [location] = i.locations;
@@ -33,7 +29,7 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
         location,
       };
     }
-  ) as ItemWithDigitalLocation[]; // FIXME: I think this casting might be cheating?
+  ) as { title: string; location: DigitalLocation }[];
 
   const firstThreeOnlineResources = onlineResources.slice(0, 3);
   const remainingOnlineResources = onlineResources.slice(3);
