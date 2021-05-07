@@ -21,7 +21,6 @@ import {
 } from '@weco/common/services/prismic/pages';
 import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page as PageType, ParentPage } from '@weco/common/model/pages';
-import type { Exhibition } from '@weco/common/model/exhibitions';
 import type { SiblingsGroup } from '@weco/common/model/siblings-group';
 import {
   headerBackgroundLs,
@@ -53,31 +52,29 @@ type Props = {|
 export class Page extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { id, memoizedPrismic } = ctx.query;
-    const page = await getPage(ctx.req, id, memoizedPrismic);
-    if (page) {
-      const siblings = await getPageSiblings(page, ctx.req, memoizedPrismic);
-      const ordersInParents =
-        page.parentPages && Array.isArray(page.parentPages)
-          ? page.parentPages.map<ParentPage | Exhibition>(p => {
-              return {
-                type: p.type,
-                parentId: p.id,
-                title: p.title,
-                order: p.type === 'pages' ? p.order : null,
-              };
-            }) || []
-          : [];
-      console.log(ordersInParents);
-      const children = await getChildren(page, ctx.req, memoizedPrismic);
-      return {
-        page,
-        siblings,
-        children,
-        ordersInParents,
-      };
-    } else {
-      return { statusCode: 404 };
-    }
+    getPage(ctx.req, id, memoizedPrismic).then(async page => {
+      if (page) {
+        const siblings = await getPageSiblings(page, ctx.req, memoizedPrismic);
+        const ordersInParents =
+          page.parentPages && Array.isArray(page.parentPages)
+            ? page.parentPages.map<ParentPage>(p => {
+                return {
+                  parentId: p.id,
+                  title: p.title,
+                  order: p.order,
+                };
+              }) || []
+            : [];
+        console.log(typeof page);
+        const children = await getChildren(page, ctx.req, memoizedPrismic);
+        return {
+          page,
+          siblings,
+          children,
+          ordersInParents,
+        };
+      }
+    });
   };
 
   render() {
@@ -142,7 +139,7 @@ export class Page extends Component<Props> {
       items: [
         ...sectionItem,
         ...ordersInParents.map(siblingGroup => ({
-          url: `/${siblingGroup.type}/${siblingGroup.parentId}`,
+          url: `/pages/${siblingGroup.parentId}`,
           text: siblingGroup.title || '',
           prefix: `Part ${siblingGroup.order || ''} of`,
         })),

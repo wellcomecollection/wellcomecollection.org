@@ -34,7 +34,6 @@ import {
 } from './fetch-links';
 
 import { type FeaturedText } from '@weco/common/model/text';
-import { parseExhibitionDoc } from './exhibitions';
 export function parsePage(document: PrismicDocument): Page {
   const { data } = document;
   const genericFields = parseGenericFields(document);
@@ -43,12 +42,7 @@ export function parsePage(document: PrismicDocument): Page {
   });
   const parentPages = parseSingleLevelGroup(data.parents, 'parent').map(
     (page, index) => {
-      return {
-        ...(page.type === 'exhibitions'
-          ? parseExhibitionDoc(page)
-          : parsePage(page)),
-        order: data.parents[index].order,
-      };
+      return { ...parsePage(page), order: data.parents[index].order };
     }
   );
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
