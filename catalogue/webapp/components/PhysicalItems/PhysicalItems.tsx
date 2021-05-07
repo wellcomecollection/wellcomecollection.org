@@ -6,27 +6,36 @@ import {
   getLocationLabel,
   getLocationShelfmark,
 } from '@weco/common/utils/works';
+import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 
-type Props = { items: PhysicalItem[] };
-const PhysicalItems: FunctionComponent<Props> = ({ items }: Props) => {
-  const headerRow = ['Title', 'Location', 'Shelfmark'];
+type Props = { items: PhysicalItem[]; encoreLink?: string };
+const PhysicalItems: FunctionComponent<Props> = ({
+  items,
+  encoreLink,
+}: Props) => {
+  const headerRow = ['Title', 'Location', 'Shelfmark', 'Access'];
   const bodyRows = items.map(item => {
-    const physicalLocations = item.locations.filter(
+    const physicalLocation = item.locations.find(
+      // in practice we only expect one physical location per item
       location => location.type === 'PhysicalLocation'
     );
-    const locationText = physicalLocations
-      .map(location => {
-        return location.locationType.label ?? '';
-      })
-      .join(', ');
-    const shelfmark = physicalLocations
-      .map(location => {
-        const locationLabel = getLocationLabel(location);
-        const locationShelfmark = getLocationShelfmark(location);
-        return `${locationLabel ?? ''} ${locationShelfmark ?? ''}`;
-      })
-      .join(', ');
-    return [item.title || 'unknown', locationText, shelfmark];
+    const locationText = physicalLocation?.locationType.label ?? '';
+    const locationLabel =
+      physicalLocation && getLocationLabel(physicalLocation);
+    const locationShelfmark =
+      physicalLocation && getLocationShelfmark(physicalLocation);
+    const shelfmark = `${locationLabel ?? ''} ${locationShelfmark ?? ''}`;
+
+    return [
+      item.title || 'unknown',
+      locationText,
+      shelfmark,
+      locationText !== 'Open shelves' && encoreLink ? (
+        <ButtonOutlinedLink text="Request this item" link={encoreLink} />
+      ) : (
+        'Open shelves'
+      ),
+    ];
   });
 
   return (
