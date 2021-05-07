@@ -45,13 +45,12 @@ export function getVideoClickthroughService(
     if (Array.isArray(video.service)) {
       return video.service.find(
         service =>
-          service.profile === 'http://iiif.io/api/auth/0/login/clickthrough' ||
+          service.profile === 'http://iiif.io/api/auth/0/clickthrough' ||
           service.profile === 'http://iiif.io/api/auth/1/clickthrough'
       );
     } else {
       if (
-        video.service.profile ===
-          'http://iiif.io/api/auth/0/login/clickthrough' ||
+        video.service.profile === 'http://iiif.io/api/auth/0/clickthrough' ||
         video.service.profile === 'http://iiif.io/api/auth/1/clickthrough'
       ) {
         return video.service;

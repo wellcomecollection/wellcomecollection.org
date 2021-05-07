@@ -7,5 +7,5 @@ See all exhibitions
 All past events
 
 
-[Edit this on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/master/common/views/components/MoreLink/README.md)
+[Edit this on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/main/common/views/components/MoreLink/README.md)
 
