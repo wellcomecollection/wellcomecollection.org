@@ -20,7 +20,7 @@ import {
   getChildren,
 } from '@weco/common/services/prismic/pages';
 import { contentLd } from '@weco/common/utils/json-ld';
-import type { Page as PageType, ParentPage } from '@weco/common/model/pages';
+import type { Page as PageType } from '@weco/common/model/pages';
 import type { SiblingsGroup } from '@weco/common/model/siblings-group';
 import {
   headerBackgroundLs,
@@ -56,16 +56,17 @@ export class Page extends Component<Props> {
       if (page) {
         const siblings = await getPageSiblings(page, ctx.req, memoizedPrismic);
         const ordersInParents =
-          page.parentPages && Array.isArray(page.parentPages)
-            ? page.parentPages.map<ParentPage>(p => {
-                return {
-                  parentId: p.id,
-                  title: p.title,
-                  order: p.order,
-                };
-              }) || []
-            : [];
-        console.log(typeof page);
+          page.parentPages.map<{
+            parentId: string,
+            title: string,
+            order: number,
+          }>(p => {
+            return {
+              parentId: p.id,
+              title: p.title,
+              order: p.order,
+            };
+          }) || [];
         const children = await getChildren(page, ctx.req, memoizedPrismic);
         return {
           page,
