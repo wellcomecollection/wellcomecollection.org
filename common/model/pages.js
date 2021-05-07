@@ -21,4 +21,5 @@ export type Page = {|
   drupalNid: ?string,
   drupalPath: ?string,
   showOnThisPage: boolean,
+  order: ?number,
 |};

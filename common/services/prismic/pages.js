@@ -41,8 +41,8 @@ export function parsePage(document: PrismicDocument): Page {
     return parseSeason(season);
   });
   const parentPages = parseSingleLevelGroup(data.parents, 'parent').map(
-    page => {
-      return parsePage(page);
+    (page, index) => {
+      return { ...parsePage(page), order: data.parents[index].order };
     }
   );
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
@@ -195,6 +195,7 @@ export async function getPageSiblings(
       id: page.parentPages[i].id,
       title: page.parentPages[i].title,
       siblings: results.results.filter(sibling => sibling.id !== page.id),
+      collection: results.results,
     };
   });
   return siblingsWithLandingTitle;

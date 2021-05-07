@@ -46,6 +46,7 @@ type Props = {|
   page: PageType,
   siblings: SiblingsGroup[],
   children: SiblingsGroup,
+  ordersInParents: any[],
 |};
 export class Page extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
@@ -53,11 +54,20 @@ export class Page extends Component<Props> {
     const page = await getPage(ctx.req, id, memoizedPrismic);
     if (page) {
       const siblings = await getPageSiblings(page, ctx.req, memoizedPrismic);
+      const ordersInParents =
+        page.parentPages.map<PageType>(p => {
+          return {
+            parentId: p.id,
+            title: p.title,
+            order: p.order,
+          };
+        }) || [];
       const children = await getChildren(page, ctx.req, memoizedPrismic);
       return {
         page,
         siblings,
         children,
+        ordersInParents,
       };
     } else {
       return { statusCode: 404 };
@@ -71,7 +81,7 @@ export class Page extends Component<Props> {
       return { labels: [{ text: title }] };
     }
 
-    const { page, siblings, children } = this.props;
+    const { page, siblings, children, ordersInParents } = this.props;
     const DateInfo = page.datePublished && (
       <HTMLDate date={new Date(page.datePublished)} />
     );
@@ -125,10 +135,10 @@ export class Page extends Component<Props> {
     const breadcrumbs = {
       items: [
         ...sectionItem,
-        ...siblings.map(siblingGroup => ({
-          url: `/pages/${siblingGroup.id}`,
+        ...ordersInParents.map(siblingGroup => ({
+          url: `/pages/${siblingGroup.parentId}`,
           text: siblingGroup.title || '',
-          prefix: `Part of`,
+          prefix: `Part ${siblingGroup.order || ''} of`,
         })),
       ],
     };
@@ -158,6 +168,29 @@ export class Page extends Component<Props> {
         sectionLevelPage={sectionLevelPage}
       />
     );
+
+    // Find the items that have an 'order' property, and sort by those first,
+    // Then any remaining will be added to the end in the order they
+    // come from Prismic (date created)
+    function orderItems(group) {
+      const groupWithOrder = group.siblings.map(sibling => {
+        const parent = sibling.parentPages.find(p => p.id === group.id);
+        const order = parent.order;
+
+        return {
+          ...sibling,
+          order,
+        };
+      });
+
+      const orderedItems = groupWithOrder
+        .filter(s => s.order)
+        .sort((a, b) => a.order - b.order);
+      const unorderedItems = groupWithOrder.filter(s => !s.order);
+
+      return [...orderedItems, ...unorderedItems];
+    }
+
     const Siblings = siblings.map((siblingGroup, i) => {
       if (siblingGroup.siblings.length > 0) {
         return (
@@ -166,18 +199,19 @@ export class Page extends Component<Props> {
               <SectionHeader title={`More from ${siblingGroup.title}`} />
             </SpacingComponent>
             <SpacingComponent>
-              <CardGrid items={siblingGroup.siblings} itemsPerRow={3} />
+              <CardGrid items={orderItems(siblingGroup)} itemsPerRow={3} />
             </SpacingComponent>
           </SpacingSection>
         );
       }
     });
+
     const Children =
       children.siblings.length > 0
         ? [
             <SpacingSection key={1}>
               <SpacingComponent>
-                <CardGrid items={children.siblings} itemsPerRow={3} />
+                <CardGrid items={orderItems(children)} itemsPerRow={3} />
               </SpacingComponent>
             </SpacingSection>,
           ]

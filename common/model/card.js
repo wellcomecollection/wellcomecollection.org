@@ -15,6 +15,7 @@ export type Card = {|
   description: ?string,
   image: ?ImageType,
   link: ?string,
+  order: ?number,
 |};
 
 export function convertItemToCardProps(
@@ -24,6 +25,7 @@ export function convertItemToCardProps(
     type: 'card',
     format: item.format || null,
     title: item.title,
+    order: item.type === 'pages' ? item?.order : null,
     description: item.promo && item.promo.caption,
     image: item.promo &&
       item.promo.image && {
