@@ -3,13 +3,20 @@ import type { GenericContentFields } from './generic-content-fields';
 import type { Link } from './link';
 import type { Season } from './seasons';
 import { Format } from './format';
+import type { Exhibition } from './exhibitions';
 
+export type ParentPage = {
+  ...Page,
+  order: number,
+};
+
+// type ParentContent = ParentPage | Exhibition;
 export type Page = {|
   type: 'pages',
   format: ?Format,
   ...GenericContentFields,
   seasons: Season[],
-  parentPages: Page[],
+  parentPages: Array<ParentPage | Exhibition>,
   onThisPage: Link[],
   datePublished: ?Date,
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
@@ -21,5 +28,4 @@ export type Page = {|
   drupalNid: ?string,
   drupalPath: ?string,
   showOnThisPage: boolean,
-  order: ?number,
 |};

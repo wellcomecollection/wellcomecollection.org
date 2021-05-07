@@ -496,6 +496,7 @@ function parseCard(fragment: PrismicFragment): Card {
     description: asText(description) || null,
     image: image ? checkAndParseImage(image) : null,
     link: parseLink(link),
+    order: null,
   };
 }
 

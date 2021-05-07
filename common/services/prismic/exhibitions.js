@@ -112,9 +112,14 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const events = data.events ? data.events.map(i => i.item.id) : [];
   const articles = data.articles ? data.articles.map(i => i.item.id) : [];
   const books = data.books ? data.books.map(i => i.item.id) : [];
-  const relatedIds = [...exhibits, ...events, ...articles, ...books].filter(
-    Boolean
-  );
+  const pages = data.pages ? data.pages.map(i => i.item.id) : [];
+  const relatedIds = [
+    ...exhibits,
+    ...events,
+    ...articles,
+    ...books,
+    ...pages,
+  ].filter(Boolean);
   const promoThin =
     promo && parseImagePromo(promo, '32:15', breakpoints.medium);
   const promoSquare =
@@ -417,7 +422,7 @@ export async function getExhibitionRelatedContent(
     exhibitionFields,
     articlesFields,
   ];
-  const types = ['exhibitions', 'events', 'articles', 'books'];
+  const types = ['exhibitions', 'events', 'articles', 'books', 'pages'];
   const extraContent = await getTypeByIds(req, types, ids, { fetchLinks });
   const parsedContent = parseMultiContent(extraContent.results).filter(doc => {
     return !(doc.type === 'events' && doc.isPast);
@@ -425,7 +430,10 @@ export async function getExhibitionRelatedContent(
 
   return {
     exhibitionOfs: parsedContent.filter(
-      doc => doc.type === 'exhibitions' || doc.type === 'events'
+      doc =>
+        doc.type === 'exhibitions' ||
+        doc.type === 'events' ||
+        doc.type === 'pages'
     ),
     exhibitionAbouts: parsedContent.filter(
       doc => doc.type === 'books' || doc.type === 'articles'

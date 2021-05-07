@@ -31,7 +31,7 @@ const Page = {
       parent: link(
         'Parent page',
         'document',
-        ['pages'],
+        ['pages', 'exhibitions'],
         'Select a parent page'
       ),
     }),

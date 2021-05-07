@@ -20,7 +20,8 @@ import {
   getChildren,
 } from '@weco/common/services/prismic/pages';
 import { contentLd } from '@weco/common/utils/json-ld';
-import type { Page as PageType } from '@weco/common/model/pages';
+import type { Page as PageType, ParentPage } from '@weco/common/model/pages';
+import type { Exhibition } from '@weco/common/model/exhibitions';
 import type { SiblingsGroup } from '@weco/common/model/siblings-group';
 import {
   headerBackgroundLs,
@@ -48,6 +49,7 @@ type Props = {|
   children: SiblingsGroup,
   ordersInParents: any[],
 |};
+
 export class Page extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { id, memoizedPrismic } = ctx.query;
@@ -55,13 +57,17 @@ export class Page extends Component<Props> {
     if (page) {
       const siblings = await getPageSiblings(page, ctx.req, memoizedPrismic);
       const ordersInParents =
-        page.parentPages.map<PageType>(p => {
-          return {
-            parentId: p.id,
-            title: p.title,
-            order: p.order,
-          };
-        }) || [];
+        page.parentPages && Array.isArray(page.parentPages)
+          ? page.parentPages.map<ParentPage | Exhibition>(p => {
+              return {
+                type: p.type,
+                parentId: p.id,
+                title: p.title,
+                order: p.type === 'pages' ? p.order : null,
+              };
+            }) || []
+          : [];
+      console.log(ordersInParents);
       const children = await getChildren(page, ctx.req, memoizedPrismic);
       return {
         page,
@@ -136,7 +142,7 @@ export class Page extends Component<Props> {
       items: [
         ...sectionItem,
         ...ordersInParents.map(siblingGroup => ({
-          url: `/pages/${siblingGroup.parentId}`,
+          url: `/${siblingGroup.type}/${siblingGroup.parentId}`,
           text: siblingGroup.title || '',
           prefix: `Part ${siblingGroup.order || ''} of`,
         })),
