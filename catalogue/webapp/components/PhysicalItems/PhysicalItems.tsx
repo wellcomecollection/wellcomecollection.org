@@ -9,7 +9,6 @@ import {
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 
-// TODO question: are there other circumstances where something isn't requestable? // isRequestableByAccessCondition? yedqmmxp
 function isRequestableByLocation(id: string): boolean {
   return Boolean(id !== 'on-exhibition' && id !== 'open-shelves');
 }
@@ -41,19 +40,17 @@ const PhysicalItems: FunctionComponent<Props> = ({
       const accessLabel =
         physicalLocation?.accessConditions[0]?.status?.label ?? '';
 
-      // TODO clarify difference between locationLabel and locationText and which we should be using
       if (locationId !== 'on-order') {
         return [
-          // We don't want to display on order items in a table, we just show the label
+          // We don't want to display items that are on order in a table, we just show the location label
           /* status, TODO status requires item API */
           shelfmark,
-          // TODO use ids not labels
           isRequestableByLocation(locationId) &&
           isRequestableByAccessCondition(accessId) &&
           encoreLink ? (
             <ButtonOutlinedLink text="Request item" link={encoreLink} />
           ) : (
-            accessLabel // TODO or something else?
+            accessLabel
           ),
           item.title || 'n/a',
         ];
@@ -65,10 +62,8 @@ const PhysicalItems: FunctionComponent<Props> = ({
 
   const accessCondtionsTerms = items
     .map(item => {
-      // TODO question: we're displaying accessConditions below the table, as per design, but need to check how this will work if we have multiple items with access conditions - design only really works for one such item.
-
       const physicalLocation = getFirstPhysicalLocation(item);
-      return physicalLocation?.accessConditions[0]?.terms ?? null; // TODO question: in practice we only expect one access condition per item, is this true?
+      return physicalLocation?.accessConditions[0]?.terms ?? null;
     })
     .filter(Boolean);
 
