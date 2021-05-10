@@ -703,24 +703,6 @@
           }
         }
       }
-    },
-    "pages": {
-      "type": "Group",
-      "fieldset": "Pages",
-      "config": {
-        "fields": {
-          "item": {
-            "type": "Link",
-            "config": {
-              "label": "Page",
-              "select": "document",
-              "customtypes": [
-                "pages"
-              ]
-            }
-          }
-        }
-      }
     }
   },
   "About this exhibition": {

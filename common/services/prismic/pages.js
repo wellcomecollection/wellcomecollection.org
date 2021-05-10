@@ -44,8 +44,8 @@ export function parsePage(document: PrismicDocument): Page {
     (page, index) => {
       return {
         ...parsePage(page),
-        order: data.parents[index].order,
-        parentType: data.parents[index].parent.type,
+        order: page.order,
+        parentType: page.parent.type,
       };
     }
   );
