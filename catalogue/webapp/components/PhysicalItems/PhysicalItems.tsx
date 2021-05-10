@@ -33,7 +33,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
       locationText !== 'Open shelves' && encoreLink ? (
         <ButtonOutlinedLink text="Request this item" link={encoreLink} />
       ) : (
-        'Open shelves'
+        locationText
       ),
     ];
   });
