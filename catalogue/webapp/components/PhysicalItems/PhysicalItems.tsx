@@ -57,6 +57,8 @@ const PhysicalItems: FunctionComponent<Props> = ({
           ),
           item.title || 'n/a',
         ];
+      } else {
+        return [];
       }
     })
     .filter(Boolean);
