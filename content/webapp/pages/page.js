@@ -20,7 +20,7 @@ import {
   getChildren,
 } from '@weco/common/services/prismic/pages';
 import { contentLd } from '@weco/common/utils/json-ld';
-import type { Page as PageType } from '@weco/common/model/pages';
+import type { Page as PageType, ParentPage } from '@weco/common/model/pages';
 import type { SiblingsGroup } from '@weco/common/model/siblings-group';
 import {
   headerBackgroundLs,
@@ -180,7 +180,7 @@ export class Page extends Component<Props> {
     // Find the items that have an 'order' property, and sort by those first,
     // Then any remaining will be added to the end in the order they
     // come from Prismic (date created)
-    function orderItems(group) {
+    function orderItems(group: SiblingsGroup): ParentPage {
       const groupWithOrder = group.siblings.map(sibling => {
         const parent = sibling.parentPages.find(p => p.id === group.id);
         const order = parent.order;
