@@ -45,7 +45,7 @@ export function parsePage(document: PrismicDocument): Page {
       return {
         ...parsePage(page),
         order: page.order,
-        parentType: page.parent.type,
+        parentType: page.type,
       };
     }
   );
