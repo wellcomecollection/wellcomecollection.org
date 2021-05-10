@@ -728,7 +728,8 @@
               "label": "Parent page",
               "select": "document",
               "customtypes": [
-                "pages"
+                "pages",
+                "exhibitions"
               ],
               "placeholder": "Select a parent page"
             }

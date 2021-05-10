@@ -32,6 +32,9 @@ const Exhibitions = {
     events: list('Gallery tours', {
       item: link('Gallery tour', 'document', ['events']),
     }),
+    pages: list('Pages', {
+      item: link('Page', 'document', ['pages']),
+    }),
   },
   'About this exhibition': {
     articles: list('Articles', {
