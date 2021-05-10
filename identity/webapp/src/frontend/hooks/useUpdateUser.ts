@@ -6,6 +6,7 @@ import { callMiddlewareApi } from '../../utility/middleware-api-client';
 export enum UpdateUserError { // eslint-disable-line no-shadow
   EMAIL_ALREADY_EXISTS = 'EMAIL_ALREADY_EXISTS',
   INCORRECT_PASSWORD = 'INCORRECT_PASSWORD',
+  BRUTE_FORCE_BLOCKED = 'BRUTE_FORCE_BLOCKED',
   UNKNOWN = 'UNKNOWN',
 }
 

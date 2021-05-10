@@ -36,6 +36,10 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({ onComp
         setError('password', { type: 'manual', message: 'Incorrect password.' });
         break;
       }
+      case RequestDeleteError.BRUTE_FORCE_BLOCKED: {
+        setError('password', { type: 'manual', message: 'Your account has been blocked after multiple consecutive login attempts.' });
+        break;
+      }
       case RequestDeleteError.UNKNOWN: {
         setSubmissionErrorMessage('An unknown error occurred.');
         break;

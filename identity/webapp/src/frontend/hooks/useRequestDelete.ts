@@ -5,6 +5,7 @@ import { callMiddlewareApi } from '../../utility/middleware-api-client';
 
 export enum RequestDeleteError { // eslint-disable-line no-shadow
   INCORRECT_PASSWORD,
+  BRUTE_FORCE_BLOCKED,
   UNKNOWN,
 }
 

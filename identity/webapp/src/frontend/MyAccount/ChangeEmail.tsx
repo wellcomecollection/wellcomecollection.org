@@ -9,6 +9,7 @@ import { Loading } from './Loading';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import { UpdateUserError, useUpdateUser } from '../hooks/useUpdateUser';
 import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
+import {RequestDeleteError} from "../hooks/useRequestDelete";
 
 type ChangeEmailInputs = {
   email: string;
@@ -35,6 +36,10 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({ onComple
       }
       case UpdateUserError.INCORRECT_PASSWORD: {
         setError('password', { type: 'manual', message: 'Incorrect password.' });
+        break;
+      }
+      case RequestDeleteError.BRUTE_FORCE_BLOCKED: {
+        setError('password', { type: 'manual', message: 'Your account has been blocked after multiple consecutive login attempts.' });
         break;
       }
       case UpdateUserError.UNKNOWN: {
