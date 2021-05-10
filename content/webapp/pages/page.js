@@ -52,30 +52,31 @@ type Props = {|
 export class Page extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { id, memoizedPrismic } = ctx.query;
-    getPage(ctx.req, id, memoizedPrismic).then(async page => {
-      if (page) {
-        const siblings = await getPageSiblings(page, ctx.req, memoizedPrismic);
-        const ordersInParents =
-          page.parentPages.map<{
-            parentId: string,
-            title: string,
-            order: number,
-          }>(p => {
-            return {
-              parentId: p.id,
-              title: p.title,
-              order: p.order,
-            };
-          }) || [];
-        const children = await getChildren(page, ctx.req, memoizedPrismic);
-        return {
-          page,
-          siblings,
-          children,
-          ordersInParents,
-        };
-      }
-    });
+    const page = await getPage(ctx.req, id, memoizedPrismic);
+    if (page) {
+      const siblings = await getPageSiblings(page, ctx.req, memoizedPrismic);
+      const ordersInParents =
+        page.parentPages.map<{
+          parentId: string,
+          title: string,
+          order: number,
+        }>(p => {
+          return {
+            parentId: p.id,
+            title: p.title,
+            order: p.order,
+          };
+        }) || [];
+      const children = await getChildren(page, ctx.req, memoizedPrismic);
+      return {
+        page,
+        siblings,
+        children,
+        ordersInParents,
+      };
+    } else {
+      return { statusCode: 404 };
+    }
   };
 
   render() {
