@@ -57,16 +57,16 @@ export class Page extends Component<Props> {
       const siblings = await getPageSiblings(page, ctx.req, memoizedPrismic);
       const ordersInParents =
         page.parentPages.map<{
-          parentId: string,
+          id: string,
           title: string,
           order: number,
-          parentType: 'pages' | 'exhibitions',
+          type: 'pages' | 'exhibitions',
         }>(p => {
           return {
-            parentId: p.id,
+            id: p.id,
             title: p.title,
             order: p.order,
-            parentType: p.parentType,
+            type: p.type,
           };
         }) || [];
 
@@ -144,7 +144,7 @@ export class Page extends Component<Props> {
       items: [
         ...sectionItem,
         ...ordersInParents.map(siblingGroup => ({
-          url: `/${siblingGroup.parentType}/${siblingGroup.parentId}`,
+          url: `/${siblingGroup.type}/${siblingGroup.id}`,
           text: siblingGroup.title || '',
           prefix: `Part ${siblingGroup.order || ''} of`,
         })),

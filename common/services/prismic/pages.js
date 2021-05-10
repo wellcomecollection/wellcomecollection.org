@@ -41,11 +41,11 @@ export function parsePage(document: PrismicDocument): Page {
     return parseSeason(season);
   });
   const parentPages = parseSingleLevelGroup(data.parents, 'parent').map(
-    (page, index) => {
+    (parent, index) => {
       return {
-        ...parsePage(page),
-        order: page.order,
-        parentType: page.type,
+        ...parsePage(parent),
+        order: data.parents[index].order,
+        type: parent.type,
       };
     }
   );
