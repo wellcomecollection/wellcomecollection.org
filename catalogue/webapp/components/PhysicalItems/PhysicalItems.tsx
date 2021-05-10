@@ -19,44 +19,63 @@ const PhysicalItems: FunctionComponent<Props> = ({
   encoreLink,
 }: Props) => {
   const headerRow = [/* 'Status', */ 'Location/Shelfmark', 'Access', 'Title']; // TODO status requires item API
-  const bodyRows = items.map(item => {
-    const physicalLocation = getFirstPhysicalLocation(item);
-    const locationText = physicalLocation?.locationType.label ?? '';
-    const locationLabel =
-      physicalLocation && getLocationLabel(physicalLocation);
-    const locationShelfmark =
-      physicalLocation && getLocationShelfmark(physicalLocation);
-    const shelfmark = `${locationLabel ?? ''} ${locationShelfmark ?? ''}`;
-    const accessLabel =
-      physicalLocation?.accessConditions[0].status.label ?? '';
+  const bodyRows = items
+    .map(item => {
+      const physicalLocation = getFirstPhysicalLocation(item);
+      const locationText = physicalLocation?.locationType.label ?? '';
+      const locationId = physicalLocation?.locationType.id;
+      const locationLabel =
+        physicalLocation && getLocationLabel(physicalLocation);
+      const locationShelfmark =
+        physicalLocation && getLocationShelfmark(physicalLocation);
+      const shelfmark = `${locationLabel ?? ''} ${locationShelfmark ?? ''}`;
+      const accessLabel =
+        physicalLocation?.accessConditions[0]?.status.label ?? '';
 
-    // TODO clarify difference between locationLabel and locationText and which we should be using
-    return [
-      /* status, TODO status requires item API */
-      shelfmark,
-      locationText !== 'Open shelves' &&
-      accessLabel !== 'By appointment' && // TODO question: are there other circumstances where we don't want the encore link?
-      encoreLink ? (
-        <ButtonOutlinedLink text="Request this item" link={encoreLink} />
-      ) : (
-        accessLabel
-      ),
-      item.title || 'unknown',
-    ];
-  });
+      // TODO clarify difference between locationLabel and locationText and which we should be using
+      if (locationId !== 'on-order') {
+        return [
+          // We don't want to display on order items in a table, we just show the label
+          /* status, TODO status requires item API */
+          shelfmark,
+          // TODO use ids not labels
+          locationText !== 'Open shelves' &&
+          accessLabel !== 'By appointment' && // TODO question: are there other circumstances where we don't want the encore link?
+          encoreLink ? (
+            <ButtonOutlinedLink text="Request item" link={encoreLink} />
+          ) : (
+            accessLabel
+          ),
+          item.title || 'n/a',
+        ];
+      }
+    })
+    .filter(Boolean);
 
   const accessCondtionsTerms = items
     .map(item => {
       // TODO question: we're displaying accessConditions below the table, as per design, but need to check how this will work if we have multiple items with access conditions - design only really works for one such item.
 
       const physicalLocation = getFirstPhysicalLocation(item);
-      return physicalLocation?.accessConditions[0].terms ?? null; // TODO question: in practice we only expect one access condition per item, is this true?
+      return physicalLocation?.accessConditions[0]?.terms ?? null; // TODO question: in practice we only expect one access condition per item, is this true?
+    })
+    .filter(Boolean);
+
+  const itemsOnOrder = items
+    .map(item => {
+      const physicalLocation = getFirstPhysicalLocation(item);
+      const locationId = physicalLocation?.locationType.id;
+      if (locationId === 'on-order') {
+        return physicalLocation && getLocationLabel(physicalLocation);
+      }
     })
     .filter(Boolean);
 
   return (
     <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-      <Table hasRowHeaders={false} rows={[headerRow, ...bodyRows]} />
+      {bodyRows[0] && (
+        <Table hasRowHeaders={false} rows={[headerRow, ...bodyRows]} />
+      )}
       {accessCondtionsTerms[0] && (
         <Space
           v={{
@@ -68,6 +87,16 @@ const PhysicalItems: FunctionComponent<Props> = ({
             title="Access conditions"
             text={accessCondtionsTerms}
           />
+        </Space>
+      )}
+      {itemsOnOrder[0] && (
+        <Space
+          v={{
+            size: 'l',
+            properties: ['margin-top'],
+          }}
+        >
+          <WorkDetailsText text={itemsOnOrder} />
         </Space>
       )}
     </Space>
