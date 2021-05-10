@@ -39,7 +39,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({ onComple
         break;
       }
       case RequestDeleteError.BRUTE_FORCE_BLOCKED: {
-        setError('password', { type: 'manual', message: 'Your account has been blocked after multiple consecutive login attempts.' });
+        setSubmissionErrorMessage('Your account has been blocked after multiple consecutive login attempts.');
         break;
       }
       case UpdateUserError.UNKNOWN: {
