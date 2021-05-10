@@ -84,7 +84,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
 
   return (
     <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-      {bodyRows[0] && (
+      {bodyRows[0][0] && (
         <Table hasRowHeaders={false} rows={[headerRow, ...bodyRows]} />
       )}
       {accessCondtionsTerms[0] && (
