@@ -13,7 +13,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
   items,
   encoreLink,
 }: Props) => {
-  const headerRow = ['Title', 'Location', 'Shelfmark', 'Access'];
+  const headerRow = [/* 'Status', */ 'Location/Shelfmark', 'Access', 'Title']; // TODO status requires item API
   const bodyRows = items.map(item => {
     const physicalLocation = item.locations.find(
       // in practice we only expect one physical location per item
@@ -25,16 +25,16 @@ const PhysicalItems: FunctionComponent<Props> = ({
     const locationShelfmark =
       physicalLocation && getLocationShelfmark(physicalLocation);
     const shelfmark = `${locationLabel ?? ''} ${locationShelfmark ?? ''}`;
-
+    // TODO clarify difference between locationLabel and locationText and which we should be using
     return [
-      item.title || 'unknown',
-      locationText,
+      /* status, TODO status requires item API */
       shelfmark,
       locationText !== 'Open shelves' && encoreLink ? (
         <ButtonOutlinedLink text="Request this item" link={encoreLink} />
       ) : (
         locationText
       ),
+      item.title || 'unknown',
     ];
   });
 
