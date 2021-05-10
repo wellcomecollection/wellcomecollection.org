@@ -4,7 +4,7 @@ import { ServerError } from '../utility/errors/server-error';
 import { ConflictError } from '../utility/errors/conflict';
 import { ApiError } from '../utility/errors/api-error';
 import { NotFound } from '../utility/errors/not-found';
-import {BruteForceBlocked} from "../utility/errors/rate-limit";
+import {BruteForceBlocked} from '../utility/errors/rate-limit';
 
 export const errorHandler: Middleware = async (context, next) => {
   try {
@@ -25,10 +25,10 @@ export const errorHandler: Middleware = async (context, next) => {
       context.response.body = { error: err.message };
     } else if (err instanceof ApiError) {
       context.response.status = 400;
-      context.response.body = {error: err.message};
+      context.response.body = { error: err.message };
     } else if (err instanceof BruteForceBlocked) {
       context.response.status = 429;
-      context.response.body = {error: err.message};
+      context.response.body = { error: err.message };
     } else {
       console.log('Unhandled error');
       console.log(err);
