@@ -9,6 +9,15 @@ import {
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 
+// TODO question: are there other circumstances where something isn't requestable? // isRequestableByAccessCondition? yedqmmxp
+function isRequestableByLocation(id: string): boolean {
+  return Boolean(id !== 'on-exhibition' && id !== 'open-shelves');
+}
+
+function isRequestableByAccessCondition(id: string): boolean {
+  return Boolean(id !== 'by-appointment' && id !== 'restricted');
+}
+
 function getFirstPhysicalLocation(item) {
   // In practice we only expect one physical location per item
   return item.locations.find(location => location.type === 'PhysicalLocation');
@@ -22,15 +31,15 @@ const PhysicalItems: FunctionComponent<Props> = ({
   const bodyRows = items
     .map(item => {
       const physicalLocation = getFirstPhysicalLocation(item);
-      const locationText = physicalLocation?.locationType.label ?? '';
       const locationId = physicalLocation?.locationType.id;
       const locationLabel =
         physicalLocation && getLocationLabel(physicalLocation);
       const locationShelfmark =
         physicalLocation && getLocationShelfmark(physicalLocation);
       const shelfmark = `${locationLabel ?? ''} ${locationShelfmark ?? ''}`;
+      const accessId = physicalLocation?.accessConditions[0]?.status?.id ?? '';
       const accessLabel =
-        physicalLocation?.accessConditions[0]?.status.label ?? '';
+        physicalLocation?.accessConditions[0]?.status?.label ?? '';
 
       // TODO clarify difference between locationLabel and locationText and which we should be using
       if (locationId !== 'on-order') {
@@ -39,12 +48,12 @@ const PhysicalItems: FunctionComponent<Props> = ({
           /* status, TODO status requires item API */
           shelfmark,
           // TODO use ids not labels
-          locationText !== 'Open shelves' &&
-          accessLabel !== 'By appointment' && // TODO question: are there other circumstances where we don't want the encore link?
+          isRequestableByLocation(locationId) &&
+          isRequestableByAccessCondition(accessId) &&
           encoreLink ? (
             <ButtonOutlinedLink text="Request item" link={encoreLink} />
           ) : (
-            accessLabel
+            accessLabel // TODO or something else?
           ),
           item.title || 'n/a',
         ];
