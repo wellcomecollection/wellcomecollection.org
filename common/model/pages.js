@@ -5,8 +5,10 @@ import type { Season } from './seasons';
 import { Format } from './format';
 
 export type ParentPage = {
+  /* eslint-disable-next-line no-use-before-define */
   ...Page,
   order: number,
+  parentType: 'pages' | 'exhibitions',
 };
 
 // type ParentContent = ParentPage | Exhibition;

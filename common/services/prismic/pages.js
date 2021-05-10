@@ -42,7 +42,11 @@ export function parsePage(document: PrismicDocument): Page {
   });
   const parentPages = parseSingleLevelGroup(data.parents, 'parent').map(
     (page, index) => {
-      return { ...parsePage(page), order: data.parents[index].order };
+      return {
+        ...parsePage(page),
+        order: data.parents[index].order,
+        parentType: data.parents[index].parent.type,
+      };
     }
   );
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
