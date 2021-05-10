@@ -8,7 +8,6 @@ import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import { UpdatePasswordError, useUpdatePassword } from '../hooks/useUpdatePassword';
 import { Loading } from './Loading';
 import { validPasswordPattern } from '../components/ValidationPatterns';
-import {RequestDeleteError} from "../hooks/useRequestDelete";
 
 type ChangePasswordInputs = {
   password: string;
@@ -41,8 +40,8 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({ onCom
         setError('password', { type: 'manual', message: 'Incorrect password.' });
         break;
       }
-      case RequestDeleteError.BRUTE_FORCE_BLOCKED: {
-        setError('password', { type: 'manual', message: 'Your account has been blocked after multiple consecutive login attempts.' });
+      case UpdatePasswordError.BRUTE_FORCE_BLOCKED: {
+        setSubmissionErrorMessage('Your account has been blocked after multiple consecutive login attempts.');
         break;
       }
       case UpdatePasswordError.DID_NOT_MEET_POLICY: {
