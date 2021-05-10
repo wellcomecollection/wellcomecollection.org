@@ -8,7 +8,7 @@ export type ParentPage = {
   /* eslint-disable-next-line no-use-before-define */
   ...Page,
   order: number,
-  parentType: 'pages' | 'exhibitions',
+  type: 'pages' | 'exhibitions',
 };
 
 // type ParentContent = ParentPage | Exhibition;
