@@ -56,9 +56,9 @@ export async function getDocuments(
       ? memoizedPrismic
       : await getPrismicApi(req);
   const docs: PrismicApiSearchResponse = await prismicApi.query(
-    // predicates.concat([Prismic.Predicates.not('document.tags', ['delist'])]),
+    predicates.concat([Prismic.Predicates.not('document.tags', ['delist'])]),
     // uncomment this and comment out the line above to show delisted content
-    predicates,
+    // predicates,
     opts
   );
   const paginatedResults = {
