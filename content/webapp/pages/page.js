@@ -49,6 +49,13 @@ type Props = {|
   ordersInParents: any[],
 |};
 
+type OrderInParent = {|
+  id: string,
+  title: string,
+  order: number,
+  type: 'pages' | 'exhibitions',
+|};
+
 export class Page extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { id, memoizedPrismic } = ctx.query;
@@ -56,12 +63,7 @@ export class Page extends Component<Props> {
     if (page) {
       const siblings = await getPageSiblings(page, ctx.req, memoizedPrismic);
       const ordersInParents =
-        page.parentPages.map<{
-          id: string,
-          title: string,
-          order: number,
-          type: 'pages' | 'exhibitions',
-        }>(p => {
+        page.parentPages.map<OrderInParent>(p => {
           return {
             id: p.id,
             title: p.title,
