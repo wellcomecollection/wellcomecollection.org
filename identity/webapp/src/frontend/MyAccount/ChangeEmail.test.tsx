@@ -171,6 +171,22 @@ describe('ChangeEmail', () => {
       expect(await screen.findByRole('alert')).toHaveTextContent(/incorrect password/i);
     });
 
+    it('when the users account is brute force restricted', async () => {
+      server.use(
+        rest.put('/api/users/me', (req, res, ctx) => {
+          return res(ctx.status(429));
+        })
+      );
+      renderComponent();
+      const emailAddressInput = await screen.findByLabelText(/email address/i);
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+      userEvent.clear(emailAddressInput);
+      userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
+      userEvent.type(screen.getByLabelText(/confirm password/i), 'Superman1938');
+      userEvent.click(screen.getByRole('button', { name: /update email/i }));
+      expect(await screen.findByRole('alert')).toHaveTextContent(/your account has been blocked/i);
+    });
+
     it('when the email address is in use', async () => {
       server.use(
         rest.put('/api/users/me', (req, res, ctx) => {

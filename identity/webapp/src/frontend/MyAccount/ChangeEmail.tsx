@@ -37,6 +37,10 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({ onComple
         setError('password', { type: 'manual', message: 'Incorrect password.' });
         break;
       }
+      case UpdateUserError.BRUTE_FORCE_BLOCKED: {
+        setSubmissionErrorMessage('Your account has been blocked after multiple consecutive login attempts.');
+        break;
+      }
       case UpdateUserError.UNKNOWN: {
         setSubmissionErrorMessage('An unknown error occurred.');
         break;

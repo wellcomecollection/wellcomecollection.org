@@ -40,6 +40,10 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({ onCom
         setError('password', { type: 'manual', message: 'Incorrect password.' });
         break;
       }
+      case UpdatePasswordError.BRUTE_FORCE_BLOCKED: {
+        setSubmissionErrorMessage('Your account has been blocked after multiple consecutive login attempts.');
+        break;
+      }
       case UpdatePasswordError.DID_NOT_MEET_POLICY: {
         setError('newPassword', { type: 'manual', message: 'Password does not meet the policy.' });
         break;
