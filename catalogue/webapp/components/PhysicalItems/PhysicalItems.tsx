@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState, useEffect, useRef } from 'react';
 import { PhysicalItem } from '@weco/common/model/catalogue';
 import Table from '@weco/common/views/components/Table/Table';
 import Space from '@weco/common/views/components/styled/Space';
@@ -8,6 +8,16 @@ import {
 } from '@weco/common/utils/works';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
+
+async function fetchWork({ workId }) {
+  const baseUrl =
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3000'
+      : 'https://wellcomecollection.org';
+  const items = await fetch(`${baseUrl}/api/items?id=${workId}/`);
+  const itemsJson = await items.json();
+  return itemsJson;
+}
 
 function isRequestableByLocation(id: string): boolean {
   return Boolean(id !== 'on-exhibition' && id !== 'open-shelves');
@@ -19,15 +29,26 @@ function isRequestableByAccessCondition(id: string): boolean {
 
 function getFirstPhysicalLocation(item) {
   // In practice we only expect one physical location per item
-  return item.locations.find(location => location.type === 'PhysicalLocation');
+  return item.locations?.find(location => location.type === 'PhysicalLocation');
 }
-type Props = { items: PhysicalItem[]; encoreLink?: string };
+
+type Props = { workId: string; items: PhysicalItem[]; encoreLink: string };
 const PhysicalItems: FunctionComponent<Props> = ({
+  workId,
   items,
   encoreLink,
 }: Props) => {
-  const headerRow = [/* 'Status', */ 'Location/Shelfmark', 'Access', 'Title']; // TODO status requires item API
-  const bodyRows = items
+  const [physicalItems, setPhysicalItems] = useState(items);
+  const itemsRef = useRef(physicalItems);
+  itemsRef.current = physicalItems;
+  const hasStatus = itemsRef.current.find(item => item.status);
+  const headerRow = [
+    hasStatus && 'Status',
+    'Title',
+    'Location',
+    'Shelfmark',
+  ].filter(Boolean);
+  const bodyRows = itemsRef.current
     .map(item => {
       const physicalLocation = getFirstPhysicalLocation(item);
       const locationId = physicalLocation?.locationType.id;
@@ -40,10 +61,10 @@ const PhysicalItems: FunctionComponent<Props> = ({
       const accessLabel =
         physicalLocation?.accessConditions[0]?.status?.label ?? '';
 
+      // We don't want to display items that are on order in a table, we just show the location label
       if (locationId !== 'on-order') {
         return [
-          // We don't want to display items that are on order in a table, we just show the location label
-          /* status, TODO status requires item API */
+          item.status?.label,
           shelfmark,
           isRequestableByLocation(locationId) &&
           isRequestableByAccessCondition(accessId) &&
@@ -53,7 +74,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
             accessLabel || physicalLocation?.locationType.label
           ),
           item.title || 'n/a',
-        ];
+        ].filter(Boolean);
       } else {
         return [];
       }
@@ -76,6 +97,24 @@ const PhysicalItems: FunctionComponent<Props> = ({
       }
     })
     .filter(Boolean);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      const work = await fetchWork({ workId: workId });
+      const mergedItems = itemsRef.current.map(currentItem => {
+        const matchingItem = work.items.find(
+          item => item.id === currentItem.id
+        );
+        return {
+          ...currentItem,
+          ...matchingItem,
+        };
+      });
+      setPhysicalItems(mergedItems);
+    };
+
+    fetchItems();
+  }, []);
 
   return (
     <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
