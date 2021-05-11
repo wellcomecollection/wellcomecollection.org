@@ -4,7 +4,7 @@ import { ServerError } from '../utility/errors/server-error';
 import { ConflictError } from '../utility/errors/conflict';
 import { ApiError } from '../utility/errors/api-error';
 import { NotFound } from '../utility/errors/not-found';
-import {BruteForceBlocked} from '../utility/errors/rate-limit';
+import { BruteForceBlocked } from '../utility/errors/brute-force-blocked';
 
 export const errorHandler: Middleware = async (context, next) => {
   try {
