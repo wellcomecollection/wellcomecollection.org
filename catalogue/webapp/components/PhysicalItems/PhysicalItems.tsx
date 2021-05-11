@@ -50,7 +50,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
           encoreLink ? (
             <ButtonOutlinedLink text="Request item" link={encoreLink} />
           ) : (
-            accessLabel
+            accessLabel || physicalLocation?.locationType.label
           ),
           item.title || 'n/a',
         ];
