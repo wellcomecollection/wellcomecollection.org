@@ -181,7 +181,13 @@ export type Item<LocationType> = {
   type: 'Item';
 };
 
-export type PhysicalItem = Item<PhysicalLocation>;
+export type PhysicalItem = Item<PhysicalLocation> & {
+  status?: {
+    id: string;
+    label: string;
+    type: string;
+  };
+};
 
 type Date = {
   label: string;
