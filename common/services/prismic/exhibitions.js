@@ -422,7 +422,7 @@ export async function getExhibitionRelatedContent(
     exhibitionFields,
     articlesFields,
   ];
-  const types = ['exhibitions', 'events', 'articles', 'books', 'pages'];
+  const types = ['exhibitions', 'events', 'articles', 'books'];
   const extraContent = await getTypeByIds(req, types, ids, { fetchLinks });
   const parsedContent = parseMultiContent(extraContent.results).filter(doc => {
     return !(doc.type === 'events' && doc.isPast);
