@@ -5,7 +5,7 @@ import { Format } from './format';
 
 export type ParentPage = Page & {
   order: number;
-  parentType: 'pages' | 'exhibitions';
+  type: 'pages' | 'exhibitions';
 };
 
 export type Page = GenericContentFields & {
