@@ -155,7 +155,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     identifierId: 'sierra-system-number',
   });
 
-  const sierraWorkId = sierraWorkIds.length >= 1 ? sierraWorkIds[0] : null;
+  const sierraWorkId = sierraWorkIds[0];
 
   const encoreLink = sierraWorkId && getEncoreLink(sierraWorkId);
 
@@ -215,7 +215,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           text={locationOfWork.contents}
         />
       )}
-      {showEncoreLink && (
+      {showEncoreLink && !showPhysicalItems && (
         <Space
           v={{
             size: 'l',
@@ -230,7 +230,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         </Space>
       )}
       {showPhysicalItems && physicalItems && (
-        <PhysicalItems items={physicalItems} />
+        <PhysicalItems items={physicalItems} encoreLink={encoreLink} />
       )}
     </WorkDetailsSection>
   );
