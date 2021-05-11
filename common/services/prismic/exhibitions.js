@@ -430,10 +430,7 @@ export async function getExhibitionRelatedContent(
 
   return {
     exhibitionOfs: parsedContent.filter(
-      doc =>
-        doc.type === 'exhibitions' ||
-        doc.type === 'events' ||
-        doc.type === 'pages'
+      doc => doc.type === 'exhibitions' || doc.type === 'events'
     ),
     exhibitionAbouts: parsedContent.filter(
       doc => doc.type === 'books' || doc.type === 'articles'
