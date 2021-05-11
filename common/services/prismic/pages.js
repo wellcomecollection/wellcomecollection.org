@@ -199,7 +199,6 @@ export async function getPageSiblings(
       id: page.parentPages[i].id,
       title: page.parentPages[i].title,
       siblings: results.results.filter(sibling => sibling.id !== page.id),
-      collection: results.results,
     };
   });
   return siblingsWithLandingTitle;
