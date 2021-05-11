@@ -7,6 +7,7 @@ import LabelsList from '../LabelsList/LabelsList';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import { FunctionComponent } from 'react';
+import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 
 type Props = {
   item: CardType;
@@ -80,6 +81,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
 
       <CardBody>
         <div>
+          {item.order && <PartNumberIndicator number={item.order} />}
           {item.title && (
             <Space
               v={{

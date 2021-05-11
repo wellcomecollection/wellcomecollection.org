@@ -402,6 +402,26 @@
               }
             }
           },
+          "discussion": {
+            "type": "Slice",
+            "fieldset": "Discussion",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading2"
+                }
+              },
+              "text": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,hyperlink,strong,em",
+                  "label": "Text"
+                }
+              }
+            }
+          },
           "tagList": {
             "type": "Slice",
             "fieldset": "Tag List",

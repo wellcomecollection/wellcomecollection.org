@@ -4,7 +4,7 @@ import { type Format } from '@weco/common/model/format';
 import type { UiEvent } from '@weco/common/model/events';
 import type { Article } from '@weco/common/model/articles';
 import type { Season } from '@weco/common/model/seasons';
-import type { Page } from '@weco/common/model/pages';
+import type { Page, ParentPage } from '@weco/common/model/pages';
 import type { ArticleSeries } from '@weco/common/model/article-series';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 
@@ -15,15 +15,17 @@ export type Card = {|
   description: ?string,
   image: ?ImageType,
   link: ?string,
+  order: ?number,
 |};
 
 export function convertItemToCardProps(
-  item: Article | UiEvent | Season | Page | ArticleSeries
+  item: Article | UiEvent | Season | Page | ArticleSeries | ParentPage
 ): Card {
   return {
     type: 'card',
     format: item.format || null,
     title: item.title,
+    order: item.type === 'pages' && item.order ? item.order : null,
     description: item.promo && item.promo.caption,
     image: item.promo &&
       item.promo.image && {

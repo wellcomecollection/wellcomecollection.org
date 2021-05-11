@@ -112,9 +112,14 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const events = data.events ? data.events.map(i => i.item.id) : [];
   const articles = data.articles ? data.articles.map(i => i.item.id) : [];
   const books = data.books ? data.books.map(i => i.item.id) : [];
-  const relatedIds = [...exhibits, ...events, ...articles, ...books].filter(
-    Boolean
-  );
+  const pages = data.pages ? data.pages.map(i => i.item.id) : [];
+  const relatedIds = [
+    ...exhibits,
+    ...events,
+    ...articles,
+    ...books,
+    ...pages,
+  ].filter(Boolean);
   const promoThin =
     promo && parseImagePromo(promo, '32:15', breakpoints.medium);
   const promoSquare =

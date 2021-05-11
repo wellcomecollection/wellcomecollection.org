@@ -7,6 +7,7 @@ import list from './parts/list';
 import text from './parts/text';
 import timestamp from './parts/timestamp';
 import structuredText from './parts/structured-text';
+import number from './parts/number';
 
 const Page = {
   Page: {
@@ -26,10 +27,11 @@ const Page = {
       season: link('Season', 'document', ['seasons'], 'Select a Season'),
     }),
     parents: list('Parent pages', {
+      order: number('Order'),
       parent: link(
         'Parent page',
         'document',
-        ['pages'],
+        ['pages', 'exhibitions'],
         'Select a parent page'
       ),
     }),

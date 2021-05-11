@@ -82,4 +82,5 @@ export type DocumentType =
   | 'webcomics'
   | 'events'
   | 'exhibitions'
-  | 'books';
+  | 'books'
+  | 'pages';

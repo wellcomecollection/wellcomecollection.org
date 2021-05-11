@@ -20,7 +20,7 @@ import {
   getChildren,
 } from '@weco/common/services/prismic/pages';
 import { contentLd } from '@weco/common/utils/json-ld';
-import type { Page as PageType } from '@weco/common/model/pages';
+import type { Page as PageType, ParentPage } from '@weco/common/model/pages';
 import type { SiblingsGroup } from '@weco/common/model/siblings-group';
 import {
   headerBackgroundLs,
@@ -46,18 +46,38 @@ type Props = {|
   page: PageType,
   siblings: SiblingsGroup[],
   children: SiblingsGroup,
+  ordersInParents: any[],
 |};
+
+type OrderInParent = {|
+  id: string,
+  title: string,
+  order: number,
+  type: 'pages' | 'exhibitions',
+|};
+
 export class Page extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { id, memoizedPrismic } = ctx.query;
     const page = await getPage(ctx.req, id, memoizedPrismic);
     if (page) {
       const siblings = await getPageSiblings(page, ctx.req, memoizedPrismic);
+      const ordersInParents =
+        page.parentPages.map<OrderInParent>(p => {
+          return {
+            id: p.id,
+            title: p.title,
+            order: p.order,
+            type: p.type,
+          };
+        }) || [];
+
       const children = await getChildren(page, ctx.req, memoizedPrismic);
       return {
         page,
         siblings,
         children,
+        ordersInParents,
       };
     } else {
       return { statusCode: 404 };
@@ -71,7 +91,7 @@ export class Page extends Component<Props> {
       return { labels: [{ text: title }] };
     }
 
-    const { page, siblings, children } = this.props;
+    const { page, siblings, children, ordersInParents } = this.props;
     const DateInfo = page.datePublished && (
       <HTMLDate date={new Date(page.datePublished)} />
     );
@@ -125,10 +145,10 @@ export class Page extends Component<Props> {
     const breadcrumbs = {
       items: [
         ...sectionItem,
-        ...siblings.map(siblingGroup => ({
-          url: `/pages/${siblingGroup.id}`,
+        ...ordersInParents.map(siblingGroup => ({
+          url: `/${siblingGroup.type}/${siblingGroup.id}`,
           text: siblingGroup.title || '',
-          prefix: `Part of`,
+          prefix: `Part ${siblingGroup.order || ''} of`,
         })),
       ],
     };
@@ -158,6 +178,29 @@ export class Page extends Component<Props> {
         sectionLevelPage={sectionLevelPage}
       />
     );
+
+    // Find the items that have an 'order' property, and sort by those first,
+    // Then any remaining will be added to the end in the order they
+    // come from Prismic (date created)
+    function orderItems(group: SiblingsGroup): ParentPage {
+      const groupWithOrder = group.siblings.map(sibling => {
+        const parent = sibling.parentPages.find(p => p.id === group.id);
+        const order = parent.order;
+
+        return {
+          ...sibling,
+          order,
+        };
+      });
+
+      const orderedItems = groupWithOrder
+        .filter(s => s.order)
+        .sort((a, b) => a.order - b.order);
+      const unorderedItems = groupWithOrder.filter(s => !s.order);
+
+      return [...orderedItems, ...unorderedItems];
+    }
+
     const Siblings = siblings.map((siblingGroup, i) => {
       if (siblingGroup.siblings.length > 0) {
         return (
@@ -166,18 +209,19 @@ export class Page extends Component<Props> {
               <SectionHeader title={`More from ${siblingGroup.title}`} />
             </SpacingComponent>
             <SpacingComponent>
-              <CardGrid items={siblingGroup.siblings} itemsPerRow={3} />
+              <CardGrid items={orderItems(siblingGroup)} itemsPerRow={3} />
             </SpacingComponent>
           </SpacingSection>
         );
       }
     });
+
     const Children =
       children.siblings.length > 0
         ? [
             <SpacingSection key={1}>
               <SpacingComponent>
-                <CardGrid items={children.siblings} itemsPerRow={3} />
+                <CardGrid items={orderItems(children)} itemsPerRow={3} />
               </SpacingComponent>
             </SpacingSection>,
           ]
