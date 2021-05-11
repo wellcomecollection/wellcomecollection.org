@@ -187,6 +187,21 @@ describe('ChangePassword', () => {
       expect(await screen.findByRole('alert')).toHaveTextContent(/incorrect password/i);
     });
 
+    it('when the users account is brute force restricted', async () => {
+      server.use(
+        rest.put('/api/users/me/password', (req, res, ctx) => {
+          return res(ctx.status(429));
+        })
+      );
+      renderComponent();
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+      userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
+      userEvent.type(screen.getByLabelText(/^new password/i), 'Superman1938');
+      userEvent.type(screen.getByLabelText(/retype new password/i), 'Superman1938');
+      userEvent.click(screen.getByRole('button', { name: /update password/i }));
+      expect(await screen.findByRole('alert')).toHaveTextContent(/your account has been blocked/i);
+    });
+
     it('when the new password does not meet the Auth0 policy requirements', async () => {
       server.use(
         rest.put('/api/users/me/password', (req, res, ctx) => {

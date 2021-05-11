@@ -43,6 +43,10 @@ export function useUpdateUser(): UseUpdateUserMutation {
             setError(UpdateUserError.EMAIL_ALREADY_EXISTS);
             break;
           }
+          case 429: {
+            setError(UpdateUserError.BRUTE_FORCE_BLOCKED);
+            break;
+          }
           default: {
             setError(UpdateUserError.UNKNOWN);
             break;

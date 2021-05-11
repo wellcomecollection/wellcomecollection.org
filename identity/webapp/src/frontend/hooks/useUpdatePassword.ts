@@ -39,6 +39,10 @@ export function useUpdatePassword(): UseUpdatePasswordMutation {
             setError(UpdatePasswordError.DID_NOT_MEET_POLICY);
             break;
           }
+          case 429: {
+            setError(UpdatePasswordError.BRUTE_FORCE_BLOCKED);
+            break;
+          }
           default: {
             setError(UpdatePasswordError.UNKNOWN);
             break;

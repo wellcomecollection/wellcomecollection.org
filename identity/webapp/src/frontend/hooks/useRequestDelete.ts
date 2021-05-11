@@ -33,6 +33,10 @@ export function useRequestDelete(): UseRequestDeleteMutation {
             setError(RequestDeleteError.INCORRECT_PASSWORD);
             break;
           }
+          case 429: {
+            setError(RequestDeleteError.BRUTE_FORCE_BLOCKED);
+            break;
+          }
           default: {
             setError(RequestDeleteError.UNKNOWN);
             break;
