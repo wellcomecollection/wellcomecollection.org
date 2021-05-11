@@ -230,7 +230,11 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         </Space>
       )}
       {showPhysicalItems && physicalItems && (
-        <PhysicalItems items={physicalItems} encoreLink={encoreLink} />
+        <PhysicalItems
+          workId={work.id}
+          items={physicalItems}
+          encoreLink={encoreLink}
+        />
       )}
     </WorkDetailsSection>
   );
