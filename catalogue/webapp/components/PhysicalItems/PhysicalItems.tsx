@@ -10,11 +10,7 @@ import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 
 async function fetchWork({ workId }) {
-  const baseUrl =
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:3000'
-      : 'https://wellcomecollection.org';
-  const items = await fetch(`${baseUrl}/api/items?id=${workId}/`);
+  const items = await fetch(`/api/items?id=${workId}`);
   const itemsJson = await items.json();
   return itemsJson;
 }
