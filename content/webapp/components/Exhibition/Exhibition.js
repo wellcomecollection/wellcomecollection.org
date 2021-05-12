@@ -1,6 +1,5 @@
 // @flow
-import { Fragment, useState, useEffect } from 'react';
-import { getExhibitionRelatedContent } from '@weco/common/services/prismic/exhibitions';
+import { Fragment } from 'react';
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
@@ -26,9 +25,23 @@ import { font, grid } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { UiExhibition } from '@weco/common/model/exhibitions';
 import { type Page } from '@weco/common/model/pages';
+import { type Event } from '@weco/common/model/events';
+import { type Article } from '@weco/common/model/articles';
+import { type Book } from '@weco/common/model/book';
 
 // $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
+
+export type Props = {|
+  exhibition: UiExhibition,
+  relatedContent: {
+    pages: Page[],
+    events: Event[],
+    articles: Article[],
+    books: Book[],
+    exhibitions: UiExhibition[],
+  },
+|};
 
 function getUpcomingExhibitionObject(exhibition) {
   return isFuture(exhibition.start)
@@ -157,24 +170,14 @@ export function getInfoItems(exhibition: UiExhibition) {
   ].filter(Boolean);
 }
 
-type Props = {|
-  exhibition: UiExhibition,
-  pages: Page[],
-|};
-
-const Exhibition = ({ exhibition, pages }: Props) => {
-  const [exhibitionOfs, setExhibitionOfs] = useState([]);
-  const [exhibitionAbouts, setExhibitionAbouts] = useState([]);
-
-  useEffect(() => {
-    const ids = exhibition.relatedIds;
-    getExhibitionRelatedContent(null, ids).then(
-      ({ exhibitionOfs, exhibitionAbouts }) => {
-        setExhibitionOfs(exhibitionOfs);
-        setExhibitionAbouts(exhibitionAbouts);
-      }
-    );
-  }, []);
+const Exhibition = ({ exhibition, relatedContent }: Props) => {
+  const { pages, events, books, exhibitions, articles } = relatedContent;
+  const exhibitionOfs = [
+    ...pages,
+    ...events.filter(e => !e.isPast),
+    ...exhibitions,
+  ];
+  const exhibitionAbouts = [...articles, ...books];
 
   const breadcrumbs = {
     items: [
@@ -273,11 +276,8 @@ const Exhibition = ({ exhibition, pages }: Props) => {
             contributors={exhibition.contributors}
           />
         )}
-        {(exhibitionOfs.length > 0 || pages.length > 0) && (
-          <SearchResults
-            items={[...exhibitionOfs, ...pages]}
-            title={`In this exhibition`}
-          />
+        {exhibitionOfs.length > 0 && (
+          <SearchResults items={exhibitionOfs} title={`In this exhibition`} />
         )}
 
         {exhibition.end && !isPast(exhibition.end) && (

@@ -1,23 +1,18 @@
 // @flow
 import Prismic from 'prismic-javascript';
-import { getDocument, getDocuments, getTypeByIds } from './api';
-import { parseMultiContent } from './multi-content';
+import { getDocument, getDocuments } from './api';
+import { getArticles } from './articles';
+import { getBooks } from './books';
+import { getEvents, parseEventDoc } from './events';
+
 import {
   exhibitionFields,
   exhibitionResourcesFields,
-  eventAccessOptionsFields,
-  teamsFields,
-  eventFormatsFields,
   placesFields,
-  interpretationTypesFields,
-  audiencesFields,
   eventSeriesFields,
   organisationsFields,
   peopleFields,
   contributorsFields,
-  eventPoliciesFields,
-  articleSeriesFields,
-  articleFormatsFields,
   articlesFields,
   eventsFields,
   seasonsFields,
@@ -56,7 +51,6 @@ import type {
   UiExhibit,
   ExhibitionFormat,
 } from '../../model/exhibitions';
-import type { MultiContent } from '../../model/multi-content';
 import { getPages } from './pages';
 
 const startField = 'my.exhibitions.start';
@@ -413,58 +407,58 @@ export async function getExhibitionWithRelatedContent({
     },
     memoizedPrismic
   );
+  const eventsPromise = await getEvents(
+    request,
+    {
+      predicates: [Prismic.Predicates.at('my.events.parents.parent', id)],
+    },
+    memoizedPrismic
+  );
+  // const articlesPromise = await getArticles(
+  //   request,
+  //   {
+  //     predicates: [Prismic.Predicates.at('my.articles.parents.parent', id)],
+  //   },
+  //   memoizedPrismic
+  // );
+  // const booksPromise = await getBooks(
+  //   request,
+  //   {
+  //     predicates: [Prismic.Predicates.at('my.books.parents.parent', id)],
+  //   },
+  //   memoizedPrismic
+  // );
+  // const exhibitionsPromise = await getExhibitions(
+  //   request,
+  //   {
+  //     predicates: [Prismic.Predicates.at('my.exhibitions.parents.parent', id)],
+  //   },
+  //   memoizedPrismic
+  // );
 
-  const [exhibition, pages] = await Promise.all([
+  const [
+    exhibition,
+    pages,
+    events,
+    // articles,
+    // books,
+    // exhibitions,
+  ] = await Promise.all([
     exhibitionPromise,
     pagesPromise,
+    eventsPromise,
+    // articlesPromise,
+    // booksPromise,
+    // exhibitionsPromise,
   ]);
 
   return {
     exhibition,
     pages,
-  };
-}
-
-type ExhibitionRelatedContent = {|
-  exhibitionOfs: MultiContent[],
-  exhibitionAbouts: MultiContent[],
-|};
-
-export async function getExhibitionRelatedContent(
-  req: ?Request,
-  ids: string[]
-): Promise<ExhibitionRelatedContent> {
-  const fetchLinks = [
-    eventAccessOptionsFields,
-    teamsFields,
-    eventFormatsFields,
-    placesFields,
-    interpretationTypesFields,
-    audiencesFields,
-    organisationsFields,
-    peopleFields,
-    contributorsFields,
-    eventSeriesFields,
-    eventPoliciesFields,
-    contributorsFields,
-    articleSeriesFields,
-    articleFormatsFields,
-    exhibitionFields,
-    articlesFields,
-  ];
-  const types = ['exhibitions', 'events', 'articles', 'books'];
-  const extraContent = await getTypeByIds(req, types, ids, { fetchLinks });
-  const parsedContent = parseMultiContent(extraContent.results).filter(doc => {
-    return !(doc.type === 'events' && doc.isPast);
-  });
-
-  return {
-    exhibitionOfs: parsedContent.filter(
-      doc => doc.type === 'exhibitions' || doc.type === 'events'
-    ),
-    exhibitionAbouts: parsedContent.filter(
-      doc => doc.type === 'books' || doc.type === 'articles'
-    ),
+    events,
+    // articles,
+    // books,
+    // exhibitions,
   };
 }
 
