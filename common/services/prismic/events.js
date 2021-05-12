@@ -253,13 +253,16 @@ export function parseEventDoc(
       data.times
         // Annoyingly prismic puts blanks in here
         .filter(frag => frag.startDateTime && frag.endDateTime)
-        .map(frag => ({
-          range: {
-            startDateTime: parseTimestamp(frag.startDateTime),
-            endDateTime: parseTimestamp(frag.endDateTime),
-          },
-          isFullyBooked: parseBoolean(frag.isFullyBooked),
-        }))) ||
+        .map(frag => {
+          console.log({ frag });
+          return {
+            range: {
+              startDateTime: parseTimestamp(frag.startDateTime),
+              endDateTime: parseTimestamp(frag.endDateTime),
+            },
+            isFullyBooked: parseBoolean(frag.isFullyBooked),
+          };
+        })) ||
     [];
 
   const displayTime = determineDisplayTime(times);

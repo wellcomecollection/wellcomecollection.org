@@ -102,7 +102,6 @@ export function parseDescription(description: HTMLString): HTMLString {
 }
 
 export function parseTimestamp(frag: PrismicFragment): Date {
-  console.log(frag);
   return PrismicDate(frag);
 }
 
