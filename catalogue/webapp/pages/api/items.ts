@@ -11,7 +11,7 @@ export default async (
     {
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': process.env.ITEMS_API_KEY,
+        'x-api-key': process.env.items_api_key || '',
       },
     }
   ).then(resp => resp.json());

@@ -20,6 +20,10 @@ module "catalogue-service-17092020" {
     PROD_SUBDOMAIN = var.subdomain
   }
 
+   secret_env_vars = {
+    items_api_key = "catalogue_api/items/prod/api_key"
+  }
+
   vpc_id  = local.vpc_id
   subnets = local.private_subnets
 
