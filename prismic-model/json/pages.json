@@ -713,7 +713,7 @@
     },
     "parents": {
       "type": "Group",
-      "fieldset": "Parent pages",
+      "fieldset": "Parents",
       "config": {
         "fields": {
           "order": {
@@ -725,13 +725,13 @@
           "parent": {
             "type": "Link",
             "config": {
-              "label": "Parent page",
+              "label": "Parent",
               "select": "document",
               "customtypes": [
                 "pages",
                 "exhibitions"
               ],
-              "placeholder": "Select a parent page"
+              "placeholder": "Select a parent"
             }
           }
         }

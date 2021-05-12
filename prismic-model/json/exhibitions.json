@@ -873,6 +873,31 @@
           }
         }
       }
+    },
+    "parents": {
+      "type": "Group",
+      "fieldset": "Parents",
+      "config": {
+        "fields": {
+          "order": {
+            "type": "Number",
+            "config": {
+              "label": "Order"
+            }
+          },
+          "parent": {
+            "type": "Link",
+            "config": {
+              "label": "Parent",
+              "select": "document",
+              "customtypes": [
+                "exhibitions"
+              ],
+              "placeholder": "Select a parent"
+            }
+          }
+        }
+      }
     }
   },
   "Migration": {

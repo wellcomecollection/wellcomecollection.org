@@ -26,13 +26,13 @@ const Page = {
     seasons: list('Seasons', {
       season: link('Season', 'document', ['seasons'], 'Select a Season'),
     }),
-    parents: list('Parent pages', {
+    parents: list('Parents', {
       order: number('Order'),
       parent: link(
-        'Parent page',
+        'Parent',
         'document',
         ['pages', 'exhibitions'],
-        'Select a parent page'
+        'Select a parent'
       ),
     }),
   },
