@@ -1,5 +1,9 @@
 import { FunctionComponent, useState, useEffect, useRef } from 'react';
-import { PhysicalItem } from '@weco/common/model/catalogue';
+import {
+  PhysicalItem,
+  ItemsWork,
+  CatalogueApiError,
+} from '@weco/common/model/catalogue';
 import Table from '@weco/common/views/components/Table/Table';
 import Space from '@weco/common/views/components/styled/Space';
 import {
@@ -8,8 +12,11 @@ import {
 } from '@weco/common/utils/works';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
+import { isCatalogueApiError } from '../../pages/api/items';
 
-async function fetchWorkItems({ workId }) {
+async function fetchWorkItems(
+  workId: string
+): Promise<ItemsWork | CatalogueApiError> {
   const items = await fetch(`/api/items?id=${workId}`);
   const itemsJson = await items.json();
   return itemsJson;
@@ -96,19 +103,23 @@ const PhysicalItems: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const addStatusToItems = async () => {
-      const work = await fetchWorkItems({ workId: workId });
-      const mergedItems = itemsRef.current.map(currentItem => {
-        const matchingItem = work.items?.find(
-          item => item.id === currentItem.id
-        );
-        return {
-          ...matchingItem,
-          ...currentItem,
-        };
-      });
-      setPhysicalItems(mergedItems);
+      const work = await fetchWorkItems(workId);
+      if (!isCatalogueApiError(work)) {
+        const mergedItems = itemsRef.current.map(currentItem => {
+          const matchingItem = work.items?.find(
+            item => item.id === currentItem.id
+          );
+          return {
+            ...matchingItem,
+            ...currentItem,
+          };
+        });
+        setPhysicalItems(mergedItems);
+      }
+      // else {
+      // tell the user something about not being able to retrieve the status of the item(s)
+      // }
     };
-
     addStatusToItems();
   }, []);
 
