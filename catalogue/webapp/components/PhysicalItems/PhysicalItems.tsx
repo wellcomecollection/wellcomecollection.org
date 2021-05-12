@@ -9,7 +9,7 @@ import {
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 
-async function fetchWork({ workId }) {
+async function fetchWorkItems({ workId }) {
   const items = await fetch(`/api/items?id=${workId}`);
   const itemsJson = await items.json();
   return itemsJson;
@@ -95,8 +95,8 @@ const PhysicalItems: FunctionComponent<Props> = ({
     .filter(Boolean);
 
   useEffect(() => {
-    const fetchItems = async () => {
-      const work = await fetchWork({ workId: workId });
+    const addStatusToItems = async () => {
+      const work = await fetchWorkItems({ workId: workId });
       const mergedItems = itemsRef.current.map(currentItem => {
         const matchingItem = work.items?.find(
           item => item.id === currentItem.id
@@ -109,7 +109,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
       setPhysicalItems(mergedItems);
     };
 
-    fetchItems();
+    addStatusToItems();
   }, []);
 
   return (
