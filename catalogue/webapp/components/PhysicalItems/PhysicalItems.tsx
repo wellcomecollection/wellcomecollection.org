@@ -102,8 +102,8 @@ const PhysicalItems: FunctionComponent<Props> = ({
           item => item.id === currentItem.id
         );
         return {
-          ...currentItem,
           ...matchingItem,
+          ...currentItem,
         };
       });
       setPhysicalItems(mergedItems);
