@@ -98,7 +98,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
     const fetchItems = async () => {
       const work = await fetchWork({ workId: workId });
       const mergedItems = itemsRef.current.map(currentItem => {
-        const matchingItem = work.items.find(
+        const matchingItem = work.items?.find(
           item => item.id === currentItem.id
         );
         return {
