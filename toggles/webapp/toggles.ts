@@ -18,7 +18,7 @@ export default {
       title: 'Wellcome Collection reopening UI changes',
       description:
         'Show additions/amendments made in preparation for the reopening of the Wellcome Collection building',
-      defaultValue: false,
+      defaultValue: true,
     },
     {
       id: 'stagingApi',
