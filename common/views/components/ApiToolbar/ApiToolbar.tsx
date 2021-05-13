@@ -7,20 +7,43 @@ import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect'
 type Prop = {
   id: string;
   label: string;
-  value: string;
+  value?: string;
+  link?: string;
 };
+const includes = [
+  'identifiers',
+  'images',
+  'items',
+  'subjects',
+  'genres',
+  'contributors',
+  'production',
+  'notes',
+  'parts',
+  'partOf',
+  'precededBy',
+  'succeededBy',
+  'holdings',
+];
 const routeProps = {
   '/work': async (query: ParsedUrlQuery): Promise<Prop[]> => {
     const { id } = query;
-    const work = await fetch(
-      `https://api.wellcomecollection.org/catalogue/v2/works/${id}?include=identifiers`
-    ).then(res => res.json());
+    const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/works/${id}?include=${includes}`;
+    const work = await fetch(apiUrl).then(res => res.json());
 
-    return work.identifiers.map(id => ({
-      id: id.value,
-      label: id.identifierType.label,
-      value: id.value,
-    }));
+    const apiLink = {
+      id: 'json',
+      label: 'JSON',
+      link: apiUrl,
+    };
+    return [
+      apiLink,
+      ...work.identifiers.map(id => ({
+        id: id.value,
+        label: id.identifierType.label,
+        value: id.value,
+      })),
+    ];
   },
 };
 
@@ -38,6 +61,9 @@ const ApiToolbar: FunctionComponent = () => {
       fn(router.query).then(setProps);
     }
   }, []);
+  const propValue = (prop: Prop) => {
+    return `${prop.label}${prop.value ? ` : ${prop.value}` : ''}`;
+  };
 
   return (
     <div
@@ -67,10 +93,13 @@ const ApiToolbar: FunctionComponent = () => {
                 <li
                   key={prop.id}
                   style={{
-                    marginRight: '10px',
+                    paddingRight: '10px',
+                    paddingLeft: '10px',
+                    borderLeft: '1px solid #bcbab5',
                   }}
                 >
-                  {prop.label}: {prop.value}
+                  {prop.link && <a href={prop.link}>{propValue(prop)}</a>}
+                  {!prop.link && propValue(prop)}
                 </li>
               ))}
             </ul>
