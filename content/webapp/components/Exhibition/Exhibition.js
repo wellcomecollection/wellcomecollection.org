@@ -34,13 +34,11 @@ import Space from '@weco/common/views/components/styled/Space';
 
 export type Props = {|
   exhibition: UiExhibition,
-  relatedContent: {
-    pages: Page[],
-    events: Event[],
-    articles: Article[],
-    books: Book[],
-    exhibitions: UiExhibition[],
-  },
+  pages: Page[],
+  events: Event[],
+  articles: Article[],
+  books: Book[],
+  exhibitions: UiExhibition[],
 |};
 
 function getUpcomingExhibitionObject(exhibition) {
@@ -170,8 +168,14 @@ export function getInfoItems(exhibition: UiExhibition) {
   ].filter(Boolean);
 }
 
-const Exhibition = ({ exhibition, relatedContent }: Props) => {
-  const { pages, events, books, exhibitions, articles } = relatedContent;
+const Exhibition = ({
+  exhibition,
+  pages,
+  events,
+  exhibitions,
+  articles,
+  books,
+}: Props) => {
   const exhibitionOfs = [
     ...pages,
     ...events.filter(e => !e.isPast),

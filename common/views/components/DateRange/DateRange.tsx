@@ -8,15 +8,11 @@ type DateProps = {
 };
 
 const HTMLDayDate = ({ date }: DateProps) => (
-  <time dateTime={date.toISOString ? date.toISOString() : undefined}>
-    {formatDayDate(date)}
-  </time>
+  <time dateTime={date.toISOString()}>{formatDayDate(date)}</time>
 );
 
 const HTMLTime = ({ date }: DateProps) => (
-  <time dateTime={date.toISOString ? date.toISOString() : undefined}>
-    {formatTime(date)}
-  </time>
+  <time dateTime={date.toISOString()}>{formatTime(date)}</time>
 );
 
 const TimeRange = ({ start, end }: DateRangeProps) => (
