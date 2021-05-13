@@ -6,10 +6,8 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent, useContext, RefObject } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import ToolbarSegmentedControl from '../ToolbarSegmentedControl/ToolbarSegmentedControl';
 
 // TODO: update this with a more considered button from our system
@@ -99,7 +97,7 @@ const Sidebar = styled(Space).attrs({
   grid-column-start: left-edge;
   grid-column-end: desktop-sidebar-end;
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
 
   ${props =>
@@ -152,7 +150,6 @@ type Props = {
 
 const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
   const { isEnhanced } = useContext(AppContext);
-  const { showSidebarToggleLabel } = useContext(TogglesContext);
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
     canvases,
@@ -200,15 +197,9 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                     'icon--180': !isDesktopSidebarActive,
                   })}
                 />
-                <ConditionalWrapper
-                  condition={!showSidebarToggleLabel}
-                  wrapper={children => (
-                    <span className={`visually-hidden`}>{children}</span>
-                  )}
-                >
-                  {isDesktopSidebarActive ? 'Hide' : 'Show'}
-                  {' info'}
-                </ConditionalWrapper>
+                <span className={`visually-hidden`}>
+                  {isDesktopSidebarActive ? 'Hide info' : 'Show info'}
+                </span>
               </ShameButton>
               <ShameButton
                 className={`viewer-mobile`}

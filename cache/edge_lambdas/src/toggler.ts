@@ -19,14 +19,7 @@ type Test = {
 };
 
 // This is mutable for testing
-export let tests: Test[] = [
-  {
-    id: 'showSidebarToggleLabel',
-    title: 'Sidebar show/hide toggle label visibility',
-    range: [0, 100],
-    when: request => Boolean(request.uri.match(/^\/works\/.*\/items/)),
-  },
-];
+export let tests: Test[] = [];
 export const setTests = function(newTests: Test[]): void {
   tests = newTests;
 };

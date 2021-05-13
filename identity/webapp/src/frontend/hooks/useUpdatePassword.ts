@@ -5,6 +5,7 @@ import { callMiddlewareApi } from '../../utility/middleware-api-client';
 
 export enum UpdatePasswordError { // eslint-disable-line no-shadow
   INCORRECT_PASSWORD,
+  BRUTE_FORCE_BLOCKED,
   DID_NOT_MEET_POLICY,
   UNKNOWN,
 }
@@ -36,6 +37,10 @@ export function useUpdatePassword(): UseUpdatePasswordMutation {
           }
           case 422: {
             setError(UpdatePasswordError.DID_NOT_MEET_POLICY);
+            break;
+          }
+          case 429: {
+            setError(UpdatePasswordError.BRUTE_FORCE_BLOCKED);
             break;
           }
           default: {

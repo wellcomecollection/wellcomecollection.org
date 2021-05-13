@@ -1,0 +1,18 @@
+steps:
+  - label: "e2e test:desktop"
+    plugins:
+      - docker-compose#v3.5.0:
+          run: e2e
+          env:
+            - PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL
+            - USE_STAGE_APIS=$USE_STAGE_APIS
+          command: ["yarn", "test"]
+
+  - label: "e2e test:mobile"
+    plugins:
+      - docker-compose#v3.5.0:
+          run: e2e
+          env:
+            - PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL
+            - USE_STAGE_APIS=$USE_STAGE_APIS
+          command: ["yarn", "test:mobile"]

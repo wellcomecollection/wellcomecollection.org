@@ -89,5 +89,31 @@ describe('DeleteAccount', () => {
       userEvent.click(screen.getByRole('button', { name: /yes, delete my account/i }));
       expect(await screen.findByRole('alert')).toHaveTextContent(/incorrect password/i);
     });
+
+    it('when the users account is brute force restricted', async () => {
+      server.use(
+        rest.put('/api/users/me/deletion-request', (req, res, ctx) => {
+          return res(ctx.status(429));
+        })
+      );
+      renderComponent();
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+      userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
+      userEvent.click(screen.getByRole('button', { name: /yes, delete my account/i }));
+      expect(await screen.findByRole('alert')).toHaveTextContent(/your account has been blocked/i);
+    });
+
+    it('when another error occurs', async () => {
+      server.use(
+        rest.put('/api/users/me/deletion-request', (req, res, ctx) => {
+          return res(ctx.status(500));
+        })
+      );
+      renderComponent();
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+      userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
+      userEvent.click(screen.getByRole('button', { name: /yes, delete my account/i }));
+      expect(await screen.findByRole('alert')).toHaveTextContent(/an unknown error occurred/i);
+    });
   });
 });

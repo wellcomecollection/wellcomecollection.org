@@ -1,3 +1,10 @@
+type ABTest = {
+  id: string;
+  title: string;
+  range: [number, number];
+  description: string;
+  defaultValue: boolean;
+};
 export default {
   toggles: [
     {
@@ -20,10 +27,10 @@ export default {
       description: 'Use the staging catalogue API',
     },
     {
-      id: 'stacksRequestService',
-      title: 'Items status and requesting',
+      id: 'showPhysicalItems',
+      title: 'Show physical items on the work page',
       defaultValue: false,
-      description: 'Get the status of items and request them from the stacks',
+      description: 'Shows physical items and their locations on the work page',
     },
     {
       id: 'helveticaRegular',
@@ -33,28 +40,11 @@ export default {
         'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
     },
     {
-      id: 'switchIIIFManifestSource',
-      title: 'Switch IIIF manifest source',
+      id: 'apiToolbar',
+      title: 'API toolbar',
       defaultValue: false,
-      description:
-        'Switches the manifest sources from wellcomelibrary.org to iiif.wellcomecollection.org for testing.',
-    },
-    {
-      id: 'newSiteSections',
-      title: 'New site sections - Get Involved and About us',
-      defaultValue: false,
-      description:
-        'The new site section Get Involved, and newly promoted About us section',
+      description: 'A toolbar to help us navigate the secret depths of the API',
     },
   ] as const,
-  tests: [
-    {
-      id: 'showSidebarToggleLabel',
-      title: 'Sidebar show/hide toggle label visibility',
-      range: [0, 100],
-      defaultValue: true,
-      description:
-        'Testing whether the presence of a label alongside the chevrons to show/hide the sidebar will impact on button usage',
-    },
-  ] as const,
+  tests: [] as ABTest[],
 };

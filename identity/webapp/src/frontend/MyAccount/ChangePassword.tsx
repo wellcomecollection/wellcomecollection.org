@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ErrorMessage } from '@hookform/error-message';
 import { PasswordInput } from '../components/PasswordInput';
 import { FieldMargin, Label, InvalidFieldAlert, Button } from '../components/Form.style';
 import { useForm } from 'react-hook-form';
-import { ModalContainer, ModalTitle } from './MyAccount.style';
+import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import { UpdatePasswordError, useUpdatePassword } from '../hooks/useUpdatePassword';
 import { Loading } from './Loading';
@@ -28,6 +28,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({ onCom
   const { control, getValues, setError, formState, handleSubmit, trigger, reset } = useForm<ChangePasswordInputs>({
     defaultValues,
   });
+  const [submissionErrorMessage, setSubmissionErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     reset(defaultValues);
@@ -39,8 +40,16 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({ onCom
         setError('password', { type: 'manual', message: 'Incorrect password.' });
         break;
       }
+      case UpdatePasswordError.BRUTE_FORCE_BLOCKED: {
+        setSubmissionErrorMessage('Your account has been blocked after multiple consecutive login attempts.');
+        break;
+      }
       case UpdatePasswordError.DID_NOT_MEET_POLICY: {
         setError('newPassword', { type: 'manual', message: 'Password does not meet the policy.' });
+        break;
+      }
+      case UpdatePasswordError.UNKNOWN: {
+        setSubmissionErrorMessage('An unknown error occurred.');
         break;
       }
     }
@@ -53,6 +62,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({ onCom
   return (
     <ModalContainer>
       <ModalTitle>Change password</ModalTitle>
+      {submissionErrorMessage && <StatusAlert type="failure">{submissionErrorMessage}</StatusAlert>}
       <form onSubmit={handleSubmit(data => updatePassword(data, onComplete))}>
         <FieldMargin>
           <Label htmlFor="change-password-current">Current password</Label>

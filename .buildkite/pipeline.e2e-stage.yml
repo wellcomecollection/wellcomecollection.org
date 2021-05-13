@@ -1,0 +1,16 @@
+steps:
+  - label: "e2e test:desktop [stage]"
+    plugins:
+      - docker-compose#v3.5.0:
+          run: e2e
+          env:
+            - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
+          command: ["yarn", "test"]
+
+  - label: "e2e test:mobile [stage]"
+    plugins:
+      - docker-compose#v3.5.0:
+          run: e2e
+          env:
+            - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
+          command: ["yarn", "test:mobile"]

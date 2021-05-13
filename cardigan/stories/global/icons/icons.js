@@ -9,8 +9,8 @@ const Icons = () => (
   <div>
     {Object.keys(icons).map(key => (
       <div key={key} className="styleguide__icon">
-        <p className="styleguide__icon__id">{key}</p>
         <Icon name={key} />
+        <p className="styleguide__icon__id">{key}</p>
       </div>
     ))}
   </div>

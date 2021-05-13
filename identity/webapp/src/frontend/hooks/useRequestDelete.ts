@@ -5,6 +5,7 @@ import { callMiddlewareApi } from '../../utility/middleware-api-client';
 
 export enum RequestDeleteError { // eslint-disable-line no-shadow
   INCORRECT_PASSWORD,
+  BRUTE_FORCE_BLOCKED,
   UNKNOWN,
 }
 
@@ -30,6 +31,10 @@ export function useRequestDelete(): UseRequestDeleteMutation {
         switch (err.response?.status) {
           case 401: {
             setError(RequestDeleteError.INCORRECT_PASSWORD);
+            break;
+          }
+          case 429: {
+            setError(RequestDeleteError.BRUTE_FORCE_BLOCKED);
             break;
           }
           default: {

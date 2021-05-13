@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import {
   getAudio,
   getCanvases,
@@ -8,12 +8,11 @@ import {
   getUiExtensions,
   getVideo,
   isUiEnabled,
-  getToggleDeterminedIIIFManifest,
+  getIIIFManifest,
 } from '../utils/iiif';
 import { Work } from '../model/catalogue';
 import { IIIFManifest, IIIFMediaElement, IIIFRendering } from '../model/iiif';
 import { getDigitalLocationOfType } from '../utils/works';
-import TogglesContext from '../views/components/TogglesContext/TogglesContext';
 
 type IIIFManifestData = {
   imageCount: number;
@@ -62,7 +61,6 @@ const useIIIFManifestData = (work: Work): IIIFManifestData => {
     imageCount: 0,
     childManifestsCount: 0,
   });
-  const toggles = useContext(TogglesContext);
 
   useEffect(() => {
     const fetchIIIFPresentationManifest = async (work: Work) => {
@@ -75,10 +73,7 @@ const useIIIFManifestData = (work: Work): IIIFManifestData => {
 
         const iiifManifest =
           iiifPresentationLocation &&
-          (await getToggleDeterminedIIIFManifest(
-            toggles.switchIIIFManifestSource,
-            iiifPresentationLocation.url
-          ));
+          (await getIIIFManifest(iiifPresentationLocation.url));
 
         if (iiifManifest) {
           const data = parseManifest(iiifManifest);

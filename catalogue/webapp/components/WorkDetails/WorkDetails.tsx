@@ -39,7 +39,7 @@ import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink
 import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { trackEvent } from '@weco/common/utils/ga';
-import ItemLocation from '../RequestLocation/RequestLocation';
+import PhysicalItems from '../PhysicalItems/PhysicalItems';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
@@ -73,9 +73,7 @@ function getItemLinkState({
 }
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
-  const { stacksRequestService, showHoldingsOnWork } = useContext(
-    TogglesContext
-  );
+  const { showPhysicalItems, showHoldingsOnWork } = useContext(TogglesContext);
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
 
@@ -157,12 +155,12 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     identifierId: 'sierra-system-number',
   });
 
-  const sierraWorkId = sierraWorkIds.length >= 1 ? sierraWorkIds[0] : null;
+  const sierraWorkId = sierraWorkIds[0];
 
   const encoreLink = sierraWorkId && getEncoreLink(sierraWorkId);
 
-  const physicalLocations = getItemsWithPhysicalLocation(work);
-  const showEncoreLink = encoreLink && physicalLocations.length > 0;
+  const physicalItems = getItemsWithPhysicalLocation(work);
+  const showEncoreLink = encoreLink && physicalItems.length > 0;
 
   const locationOfWork = work.notes.find(
     note => note.noteType.id === 'location-of-original'
@@ -217,8 +215,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           text={locationOfWork.contents}
         />
       )}
-
-      {!stacksRequestService && showEncoreLink && (
+      {showEncoreLink && !showPhysicalItems && (
         <Space
           v={{
             size: 'l',
@@ -232,8 +229,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           />
         </Space>
       )}
-
-      {stacksRequestService && <ItemLocation work={work} />}
+      {showPhysicalItems && physicalItems && (
+        <PhysicalItems items={physicalItems} encoreLink={encoreLink} />
+      )}
     </WorkDetailsSection>
   );
 
