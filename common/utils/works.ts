@@ -126,7 +126,7 @@ export function getItemsWithPhysicalLocation(work: Work): PhysicalItem[] {
   return (work.items ?? [])
     .map(item => {
       if (
-        item.locations.find(location => location.type === 'PhysicalLocation')
+        item.locations.some(location => location.type === 'PhysicalLocation')
       ) {
         return item as PhysicalItem;
       }
