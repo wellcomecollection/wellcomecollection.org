@@ -44,7 +44,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
   const [physicalItems, setPhysicalItems] = useState(items);
   const itemsRef = useRef(physicalItems);
   itemsRef.current = physicalItems;
-  const hasStatus = itemsRef.current.find(item => item.status);
+  const hasStatus = itemsRef.current.some(item => item.status);
   const headerRow = [
     hasStatus && 'Status',
     'Title',
