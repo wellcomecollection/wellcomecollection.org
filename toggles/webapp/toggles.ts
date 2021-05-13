@@ -1,3 +1,10 @@
+type ABTest = {
+  id: string;
+  title: string;
+  range: [number, number];
+  description: string;
+  defaultValue: boolean;
+};
 export default {
   toggles: [
     {
@@ -39,14 +46,5 @@ export default {
       description: 'A toolbar to help us navigate the secret depths of the API',
     },
   ] as const,
-  tests: [
-    {
-      id: 'showSidebarToggleLabel',
-      title: 'Sidebar show/hide toggle label visibility',
-      range: [0, 100],
-      defaultValue: true,
-      description:
-        'Testing whether the presence of a label alongside the chevrons to show/hide the sidebar will impact on button usage',
-    },
-  ] as const,
+  tests: [] as ABTest[],
 };
