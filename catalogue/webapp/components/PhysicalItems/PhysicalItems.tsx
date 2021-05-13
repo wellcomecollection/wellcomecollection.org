@@ -58,7 +58,7 @@ function createBodyRow(
   if (locationId !== 'on-order') {
     return [
       // We don't want to display items that are on order in a table, we just show the location label
-      /* status, TODO status requires item API */
+      item.status?.label,
       shelfmark,
       isRequestableByLocation(locationId) &&
       isRequestableByAccessCondition(accessId) &&
@@ -68,7 +68,7 @@ function createBodyRow(
         accessLabel || physicalLocation?.locationType.label
       ),
       item.title || 'n/a',
-    ];
+    ].filter(Boolean);
   }
 }
 
@@ -93,11 +93,11 @@ const PhysicalItems: FunctionComponent<Props> = ({
   const hasStatus = itemsRef.current.some(item => item.status);
   const headerRow = [
     hasStatus && 'Status',
+    'Location/Shelfmark',
+    'Access',
     'Title',
-    'Location',
-    'Shelfmark',
   ].filter(Boolean);
-  const bodyRows = createBodyRows(items, encoreLink);
+  const bodyRows = createBodyRows(itemsRef.current, encoreLink);
 
   const accessCondtionsTerms = items
     .map(item => {
