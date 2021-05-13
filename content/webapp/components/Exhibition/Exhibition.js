@@ -273,6 +273,8 @@ const Exhibition = ({ exhibition, pages }: Props) => {
             contributors={exhibition.contributors}
           />
         )}
+        {/* TODO: This probably isn't going to be the final resting place for related `pages`, but it's
+        a reasonable starting place. Update this once the UX has shaken out. */}
         {(exhibitionOfs.length > 0 || pages.length > 0) && (
           <SearchResults
             items={[...exhibitionOfs, ...pages]}
