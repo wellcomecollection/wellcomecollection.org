@@ -1,10 +1,4 @@
-import {
-  FunctionComponent,
-  ReactElement,
-  useState,
-  useEffect,
-  useRef,
-} from 'react';
+import { FunctionComponent, ReactElement, useState, useEffect } from 'react';
 import {
   PhysicalItem,
   ItemsWork,
@@ -88,16 +82,14 @@ const PhysicalItems: FunctionComponent<Props> = ({
   encoreLink,
 }: Props) => {
   const [physicalItems, setPhysicalItems] = useState(items);
-  const itemsRef = useRef(physicalItems);
-  itemsRef.current = physicalItems;
-  const hasStatus = itemsRef.current.some(item => item.status);
+  const hasStatus = physicalItems.some(item => item.status);
   const headerRow = [
     hasStatus && 'Status',
     'Location/Shelfmark',
     'Access',
     'Title',
   ].filter(Boolean);
-  const bodyRows = createBodyRows(itemsRef.current, encoreLink);
+  const bodyRows = createBodyRows(physicalItems, encoreLink);
 
   const accessCondtionsTerms = items
     .map(item => {
@@ -120,7 +112,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
     const addStatusToItems = async () => {
       const work = await fetchWorkItems(workId);
       if (!isCatalogueApiError(work)) {
-        const mergedItems = itemsRef.current.map(currentItem => {
+        const mergedItems = physicalItems.map(currentItem => {
           const matchingItem = work.items?.find(
             item => item.id === currentItem.id
           );
