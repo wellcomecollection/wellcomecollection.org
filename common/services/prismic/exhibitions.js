@@ -428,13 +428,14 @@ export async function getExhibitionWithRelatedContent({
     },
     memoizedPrismic
   );
-  // const exhibitionsPromise = await getExhibitions(
-  //   request,
-  //   {
-  //     predicates: [Prismic.Predicates.at('my.exhibitions.parents.parent', id)],
-  //   },
-  //   memoizedPrismic
-  // );
+
+  const exhibitionsPromise = await getExhibitions(
+    request,
+    {
+      predicates: [Prismic.Predicates.at('my.exhibitions.parents.parent', id)],
+    },
+    memoizedPrismic
+  );
 
   const [
     exhibition,
@@ -442,14 +443,14 @@ export async function getExhibitionWithRelatedContent({
     events,
     articles,
     books,
-    // exhibitions,
+    exhibitions,
   ] = await Promise.all([
     exhibitionPromise,
     pagesPromise,
     eventsPromise,
     articlesPromise,
     booksPromise,
-    // exhibitionsPromise,
+    exhibitionsPromise,
   ]);
 
   return {
@@ -458,7 +459,7 @@ export async function getExhibitionWithRelatedContent({
     events,
     articles,
     books,
-    // exhibitions,
+    exhibitions,
   };
 }
 
