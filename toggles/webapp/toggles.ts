@@ -1,3 +1,10 @@
+type ABTest = {
+  id: string;
+  title: string;
+  range: [number, number];
+  description: string;
+  defaultValue: boolean;
+};
 export default {
   toggles: [
     {
@@ -39,5 +46,5 @@ export default {
       description: 'A toolbar to help us navigate the secret depths of the API',
     },
   ] as const,
-  tests: [] as const,
+  tests: [] as ABTest[],
 };
