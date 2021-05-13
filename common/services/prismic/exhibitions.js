@@ -57,6 +57,7 @@ import type {
   ExhibitionFormat,
 } from '../../model/exhibitions';
 import type { MultiContent } from '../../model/multi-content';
+import { getPages } from './pages';
 
 const startField = 'my.exhibitions.start';
 const endField = 'my.exhibitions.end';
@@ -393,6 +394,35 @@ export async function getExhibition(
     const exhibition = parseExhibitionDoc(document);
     return exhibition;
   }
+}
+
+export async function getExhibitionWithRelatedContent({
+  request,
+  id,
+  memoizedPrismic,
+}: {
+  request: ?Request,
+  memoizedPrismic: ?Object,
+  id: string,
+}) {
+  const exhibitionPromise = await getExhibition(request, id, memoizedPrismic);
+  const pagesPromise = await getPages(
+    request,
+    {
+      predicates: [Prismic.Predicates.at('my.pages.parents.parent', id)],
+    },
+    memoizedPrismic
+  );
+
+  const [exhibition, pages] = await Promise.all([
+    exhibitionPromise,
+    pagesPromise,
+  ]);
+
+  return {
+    exhibition,
+    pages,
+  };
 }
 
 type ExhibitionRelatedContent = {|
