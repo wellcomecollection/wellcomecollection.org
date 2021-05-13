@@ -140,22 +140,24 @@ const TableTd = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 's', properties: ['padding-left', 'padding-right'] },
 })`
-  vertical-align: top;
+  vertical-align: ${props => props.vAlign};
   white-space: nowrap;
 `;
 
 type TableRow = {
   items: (string | ReactElement)[];
   hasHeader: boolean;
+  vAlign: 'top' | 'middle' | 'bottom';
 };
 
 type Props = {
   rows: (string | ReactElement)[][];
   hasRowHeaders: boolean;
   caption?: string;
+  vAlign?: 'top' | 'middle' | 'bottom';
 };
 
-const TableRow = ({ items, hasHeader }: TableRow) => {
+const TableRow = ({ items, hasHeader, vAlign }: TableRow) => {
   return (
     <TableTr>
       {items.map((item, index) => (
@@ -167,9 +169,12 @@ const TableRow = ({ items, hasHeader }: TableRow) => {
               <TableTh scope="row" dangerouslySetInnerHTML={{ __html: item }} />
             )
           ) : isValidElement(item) ? (
-            <TableTd>{item}</TableTd>
+            <TableTd vAlign={vAlign}>{item}</TableTd>
           ) : (
-            <TableTd dangerouslySetInnerHTML={{ __html: item }} />
+            <TableTd
+              vAlign={vAlign}
+              dangerouslySetInnerHTML={{ __html: item }}
+            />
           )}
         </Fragment>
       ))}
@@ -181,6 +186,7 @@ const Table: FunctionComponent<Props> = ({
   rows,
   hasRowHeaders,
   caption,
+  vAlign = 'top',
 }: Props): ReactElement<Props> => {
   const leftButtonRef = useRef(null);
   const rightButtonRef = useRef(null);
@@ -323,7 +329,12 @@ const Table: FunctionComponent<Props> = ({
               })}
             >
               {bodyRows.map((row, index) => (
-                <TableRow key={index} items={row} hasHeader={hasRowHeaders} />
+                <TableRow
+                  key={index}
+                  items={row}
+                  hasHeader={hasRowHeaders}
+                  vAlign={vAlign}
+                />
               ))}
             </TableTbody>
           </TableTable>

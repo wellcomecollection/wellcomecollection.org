@@ -86,7 +86,11 @@ const PhysicalItems: FunctionComponent<Props> = ({
     <>
       {Boolean(bodyRows.length) && (
         <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-          <Table hasRowHeaders={false} rows={[headerRow, ...bodyRows]} />
+          <Table
+            hasRowHeaders={false}
+            rows={[headerRow, ...bodyRows]}
+            vAlign="middle"
+          />
         </Space>
       )}
       {accessCondtionsTerms[0] && (
