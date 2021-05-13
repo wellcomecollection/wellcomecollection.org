@@ -254,7 +254,6 @@ export function parseEventDoc(
         // Annoyingly prismic puts blanks in here
         .filter(frag => frag.startDateTime && frag.endDateTime)
         .map(frag => {
-          console.log({ frag });
           return {
             range: {
               startDateTime: parseTimestamp(frag.startDateTime),

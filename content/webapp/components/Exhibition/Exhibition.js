@@ -27,7 +27,7 @@ import type { UiExhibition } from '@weco/common/model/exhibitions';
 import { type Page } from '@weco/common/model/pages';
 import { type Event } from '@weco/common/model/events';
 import { type Article } from '@weco/common/model/articles';
-import { type Book } from '@weco/common/model/book';
+import { type Book } from '@weco/common/model/books';
 
 // $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';

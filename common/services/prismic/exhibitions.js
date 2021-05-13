@@ -2,7 +2,7 @@
 import Prismic from 'prismic-javascript';
 import { getDocument, getDocuments } from './api';
 import { getArticles } from './articles';
-// import { getBooks } from './books';
+import { getBooks } from './books';
 import { getEvents } from './events';
 
 import {
@@ -421,13 +421,13 @@ export async function getExhibitionWithRelatedContent({
     },
     memoizedPrismic
   );
-  // const booksPromise = await getBooks(
-  //   request,
-  //   {
-  //     predicates: [Prismic.Predicates.at('my.books.parents.parent', id)],
-  //   },
-  //   memoizedPrismic
-  // );
+  const booksPromise = await getBooks(
+    request,
+    {
+      predicates: [Prismic.Predicates.at('my.books.parents.parent', id)],
+    },
+    memoizedPrismic
+  );
   // const exhibitionsPromise = await getExhibitions(
   //   request,
   //   {
@@ -441,14 +441,14 @@ export async function getExhibitionWithRelatedContent({
     pages,
     events,
     articles,
-    // books,
+    books,
     // exhibitions,
   ] = await Promise.all([
     exhibitionPromise,
     pagesPromise,
     eventsPromise,
     articlesPromise,
-    // booksPromise,
+    booksPromise,
     // exhibitionsPromise,
   ]);
 
@@ -457,7 +457,7 @@ export async function getExhibitionWithRelatedContent({
     pages,
     events,
     articles,
-    // books,
+    books,
     // exhibitions,
   };
 }
