@@ -97,8 +97,12 @@ const Sidebar = styled(Space).attrs({
   grid-column-start: left-edge;
   grid-column-end: desktop-sidebar-end;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
+
+  ${props => props.theme.media.medium`
+    justify-content: flex-end;
+  `}
 
   ${props =>
     !props.isZooming &&
