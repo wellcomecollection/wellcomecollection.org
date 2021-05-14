@@ -8,6 +8,8 @@ import { FunctionComponent, useContext, RefObject } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
+import ToolbarSegmentedControl from '../ToolbarSegmentedControl/ToolbarSegmentedControl';
+
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs(() => ({
   className: classNames({
@@ -65,6 +67,7 @@ const BottomBar = styled.div`
 
 const LeftZone = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 'm', properties: ['padding-left'] },
 })`
   display: flex;
   justify-content: flex-start;
@@ -84,10 +87,7 @@ type Props = {
   viewerRef: RefObject<HTMLDivElement>;
 };
 
-const ViewerBottomBar: FunctionComponent<Props> = ({
-  viewToggleRef,
-  viewerRef,
-}: Props) => {
+const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
   const { isEnhanced } = useContext(AppContext);
   const isFullscreenEnabled = useIsFullscreenEnabled();
 
@@ -97,41 +97,49 @@ const ViewerBottomBar: FunctionComponent<Props> = ({
     setGridVisible,
     work,
     showZoomed,
+    isMobileSidebarActive,
   } = useContext(ItemViewerContext);
   return (
     <BottomBar className="flex">
-      {isEnhanced && canvases && canvases.length > 1 && (
-        <LeftZone>
-          {!showZoomed && (
-            <Space
-              h={{ size: 's', properties: ['margin-left'] }}
-              className={classNames({
-                'flex flex--v-center flex--h-center': true,
-              })}
-            >
-              <ShameButton
-                isDark
-                ref={viewToggleRef}
-                onClick={() => {
-                  setGridVisible(!gridVisible);
-                  trackEvent({
-                    category: 'Control',
-                    action: `clicked work viewer ${
-                      gridVisible ? '"Detail view"' : '"View all"'
-                    } button`,
-                    label: `${work.id}`,
-                  });
-                }}
-              >
-                <Icon name={gridVisible ? 'detailView' : 'gridView'} />
-                <span className={`btn__text`}>
-                  {gridVisible ? 'Detail view' : 'View all'}
-                </span>
-              </ShameButton>
-            </Space>
+      <LeftZone>
+        {!showZoomed &&
+          canvases &&
+          canvases.length > 1 &&
+          !isMobileSidebarActive && (
+            <ToolbarSegmentedControl
+              hideLabels={true}
+              items={[
+                {
+                  id: 'pageView',
+                  label: 'Page',
+                  icon: 'singlePage',
+                  clickHandler() {
+                    setGridVisible(false);
+                    trackEvent({
+                      category: 'Control',
+                      action: `clicked work viewer Detail view button`,
+                      label: `${work.id}`,
+                    });
+                  },
+                },
+                {
+                  id: 'gridView',
+                  label: 'Grid',
+                  icon: 'gridView',
+                  clickHandler() {
+                    setGridVisible(true);
+                    trackEvent({
+                      category: 'Control',
+                      action: `clicked work viewer Grid view button`,
+                      label: `${work.id}`,
+                    });
+                  },
+                },
+              ]}
+              activeId={gridVisible ? 'gridView' : 'pageView'}
+            />
           )}
-        </LeftZone>
-      )}
+      </LeftZone>
 
       <RightZone>
         {isEnhanced && isFullscreenEnabled && (
