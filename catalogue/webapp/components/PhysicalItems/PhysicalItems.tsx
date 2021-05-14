@@ -125,6 +125,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
       }
       // else {
       // tell the user something about not being able to retrieve the status of the item(s)
+      // we may find we run into 429s from our rate limiting, so worth bearing in mind that we might want to handle that as a separate case
       // }
     };
     addStatusToItems();
