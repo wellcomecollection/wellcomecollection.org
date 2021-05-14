@@ -1,5 +1,6 @@
 import {
   workWithPhysicalAndDigitalLocation,
+  workWithRequestablePhysicalItem,
   workWithPhysicalLocationOnly,
   workWithDigitalLocationOnly,
 } from './contexts';
@@ -49,7 +50,7 @@ async function getWhereToFindItAndEncoreLink() {
   };
 }
 
-describe.only(`Scenario 1: a user wants to see relevant information about where a work's items are located and the access status of those items`, () => {
+describe(`Scenario 1: a user wants to see relevant information about where a work's items are located and the access status of those items where applicable`, () => {
   test(`works with a physical location item only display a 'where to find it' section with a link`, async () => {
     await workWithPhysicalLocationOnly();
     const { whereToFindIt, encoreLink } = await getWhereToFindItAndEncoreLink();
@@ -57,6 +58,13 @@ describe.only(`Scenario 1: a user wants to see relevant information about where 
     expect(encoreLink).toBeTruthy();
   });
 
+  test.only(`works with a physical location item available to request display an access status`, async () => {
+    await workWithRequestablePhysicalItem();
+    const status = await page.waitForSelector('th:has-text("Status")');
+    expect(status).toBeTruthy();
+  });
+
+  // Not sure this is actually what we want
   test(`works with a physical and digital location item display a 'where to find it' section without a link`, async () => {
     await workWithPhysicalAndDigitalLocation();
     const { whereToFindIt, encoreLink } = await getWhereToFindItAndEncoreLink();

@@ -9,7 +9,11 @@ const itemWithSearchAndStructures = async (): Promise<void> => {
 };
 
 const workWithPhysicalAndDigitalLocation = async (): Promise<void> => {
-  await page.goto(`${baseUrl}/works/a235xn8e`);
+  await page.goto(`${baseUrl}/works/a235xn8e`); /// works/r9kpkq8e
+};
+
+const workWithRequestablePhysicalItem = async (): Promise<void> => {
+  await page.goto(`${baseUrl}/works/r9kpkq8e`);
 };
 
 const workWithPhysicalLocationOnly = async (): Promise<void> => {
@@ -43,6 +47,7 @@ export {
   worksSearch,
   itemWithSearchAndStructures,
   workWithPhysicalAndDigitalLocation,
+  workWithRequestablePhysicalItem,
   workWithPhysicalLocationOnly,
   workWithDigitalLocationOnly,
 };
