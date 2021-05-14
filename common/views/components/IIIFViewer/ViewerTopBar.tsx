@@ -183,6 +183,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
           {!showZoomed && (
             <>
               <ShameButton
+                data-test-id="toggle-info-desktop"
                 className={`viewer-desktop`}
                 isDark
                 onClick={() => {
@@ -206,6 +207,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                 </span>
               </ShameButton>
               <ShameButton
+                data-test-id="toggle-info-mobile"
                 className={`viewer-mobile`}
                 isDark
                 onClick={() => {

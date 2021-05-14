@@ -101,7 +101,7 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
   } = useContext(ItemViewerContext);
   return (
     <BottomBar className="flex">
-      <LeftZone>
+      <LeftZone data-test-id="page-grid-buttons">
         {!showZoomed &&
           canvases &&
           canvases.length > 1 &&

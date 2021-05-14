@@ -14,6 +14,10 @@ import {
   workDates,
   searchWithinResultsHeader,
   mainViewer,
+  viewerSidebar,
+  mobilePageGridButtons,
+  toggleInfoDesktop,
+  toggleInfoMobile,
 } from './selectors/item';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleAndTestCookies } from './helpers/utils';
@@ -48,6 +52,40 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
     // make sure we can actually see deep zoom
     const isVisible = await page.isVisible(openseadragonCanvas);
     expect(isVisible).toBeTruthy();
+  });
+
+  test.only('the info panel visibility can be toggled', async () => {
+    await multiVolumeItem();
+    if (!isMobile()) {
+      const isVisibleBefore = await page.isVisible(viewerSidebar);
+      expect(isVisibleBefore).toBeTruthy();
+      await page.click(toggleInfoDesktop);
+      const isVisibleAfter = await page.isVisible(viewerSidebar);
+      expect(isVisibleAfter).toBeFalsy();
+    }
+
+    // Info is hidden by default on mobile. It covers the viewing
+    // area on mobile, so we want to ensure things that control
+    // the viewing area are also hidden when it is visible
+    if (isMobile()) {
+      // await page.waitForSelector(viewerSidebar);
+      const isSidebarVisibleBefore = await page.isVisible(viewerSidebar);
+      const isMobilePageGridButtonVisibleBefore = await page.isVisible(
+        mobilePageGridButtons
+      );
+
+      expect(isSidebarVisibleBefore).toBeFalsy();
+      expect(isMobilePageGridButtonVisibleBefore).toBeTruthy();
+
+      await page.click(toggleInfoMobile);
+      const isSidebarVisibleAfter = await page.isVisible(viewerSidebar);
+      const isMobilePageGridButtonVisibleAfter = await page.isVisible(
+        mobilePageGridButtons
+      );
+
+      expect(isSidebarVisibleAfter).toBeTruthy();
+      expect(isMobilePageGridButtonVisibleAfter).toBeFalsy();
+    }
   });
 });
 
