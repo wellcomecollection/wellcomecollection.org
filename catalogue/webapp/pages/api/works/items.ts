@@ -29,7 +29,7 @@ async function fetchWorkItems(
   }
 }
 
-export default async (
+const ItemsApi = async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
@@ -45,3 +45,5 @@ export default async (
   }
   res.json(response);
 };
+
+export default ItemsApi;
