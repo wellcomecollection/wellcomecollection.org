@@ -2,13 +2,7 @@ import fetch from 'isomorphic-unfetch';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ItemsWork, CatalogueApiError } from '@weco/common/model/catalogue';
 import { catalogueApiError } from '../../../services/catalogue/common';
-
-function hasOwnProperty<
-  X extends Record<string, unknown>,
-  Y extends PropertyKey
->(obj: X, prop: Y): obj is X & Record<Y, unknown> {
-  return obj.hasOwnProperty(prop);
-}
+import hasOwnProperty from '@weco/common/utils/has-own-property';
 
 export function isCatalogueApiError(
   response: ItemsWork | CatalogueApiError
