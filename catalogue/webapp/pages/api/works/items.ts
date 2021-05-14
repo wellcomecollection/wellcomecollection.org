@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-unfetch';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ItemsWork, CatalogueApiError } from '@weco/common/model/catalogue';
-import { catalogueApiError } from '../../services/catalogue/common';
+import { catalogueApiError } from '../../../services/catalogue/common';
 
 function hasOwnProperty<
   X extends Record<string, unknown>,
@@ -39,9 +39,9 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
-  const { id } = req.query;
-  const workId = Array.isArray(id) ? id[0] : id;
-  const response = await fetchWorkItems(workId);
+  const { workId } = req.query;
+  const id = Array.isArray(workId) ? workId[0] : workId;
+  const response = await fetchWorkItems(id);
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Origin', '*');
   if (isCatalogueApiError(response)) {

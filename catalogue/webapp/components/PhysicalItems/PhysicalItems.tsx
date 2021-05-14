@@ -12,12 +12,12 @@ import {
 } from '@weco/common/utils/works';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
-import { isCatalogueApiError } from '../../pages/api/items';
+import { isCatalogueApiError } from '../../pages/api/works/items';
 
 async function fetchWorkItems(
   workId: string
 ): Promise<ItemsWork | CatalogueApiError> {
-  const items = await fetch(`/api/items?id=${workId}`);
+  const items = await fetch(`/api/works/items?workId=${workId}`);
   const itemsJson = await items.json();
   return itemsJson;
 }
