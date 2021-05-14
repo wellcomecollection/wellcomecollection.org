@@ -46,6 +46,17 @@ module "path_listener" {
   priority      = "49997"
 }
 
+module "api_path_listener" {
+  source = "../../../infrastructure/modules/alb_listener_rule"
+
+  alb_listener_https_arn = var.alb_listener_https_arn
+  alb_listener_http_arn  = var.alb_listener_http_arn
+  target_group_arn       = local.target_group_arn
+
+  path_patterns = ["/api/works*"]
+  priority      = "49996"
+}
+
 # This is used for the static assets served from _next with multiple next apps
 # See: https://github.com/zeit/next.js#multi-zones
 module "subdomain_listener" {
@@ -109,7 +120,7 @@ locals {
     local.works_data_path_chunks
   )
 
-  max_priority = 49996
+  max_priority = 49995
   min_priority = local.max_priority - length(local.works_data_path_chunks) + 1
 }
 
