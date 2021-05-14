@@ -68,7 +68,6 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
     // area on mobile, so we want to ensure things that control
     // the viewing area are also hidden when it is visible
     if (isMobile()) {
-      // await page.waitForSelector(viewerSidebar);
       const isSidebarVisibleBefore = await page.isVisible(viewerSidebar);
       const isMobilePageGridButtonVisibleBefore = await page.isVisible(
         mobilePageGridButtons
