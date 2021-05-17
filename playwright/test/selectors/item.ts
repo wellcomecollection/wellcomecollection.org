@@ -11,3 +11,7 @@ export const fullscreenButton = 'css=button >> text="Full screen"';
 export const searchWithinResultsHeader = `[data-test-id="results-header"]`;
 export const mainViewer = `[data-test-id=main-viewer] > div`;
 export const activeIndex = `[data-test-id=active-index]`;
+export const viewerSidebar = `[data-test-id="viewer-sidebar"]`;
+export const toggleInfoDesktop = `[data-test-id="toggle-info-desktop"]`;
+export const toggleInfoMobile = `[data-test-id="toggle-info-mobile"]`;
+export const mobilePageGridButtons = `[data-test-id="page-grid-buttons"] button`;
