@@ -58,7 +58,7 @@ describe(`Scenario 1: a user wants to see relevant information about where a wor
     expect(encoreLink).toBeTruthy();
   });
 
-  test.only(`works with a physical location item available to request display an access status`, async () => {
+  test(`works with a physical location item available to request display an access status`, async () => {
     await workWithRequestablePhysicalItem();
     const status = await page.waitForSelector('th:has-text("Status")');
     expect(status).toBeTruthy();
