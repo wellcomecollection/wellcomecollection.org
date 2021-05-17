@@ -21,7 +21,8 @@ module "catalogue-service-17092020" {
   }
 
    secret_env_vars = {
-    items_api_key = "catalogue_api/items/prod/api_key"
+    items_api_key_prod = "catalogue_api/items/prod/api_key"
+    items_api_key_stage = "catalogue_api/items/stage/api_key"
   }
 
   vpc_id  = local.vpc_id
