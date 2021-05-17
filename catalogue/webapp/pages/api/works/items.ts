@@ -8,8 +8,7 @@ import {
 } from '../../../services/catalogue/common';
 import hasOwnProperty from '@weco/common/utils/has-own-property';
 import { Toggles } from '@weco/toggles';
-
-const toggleCookiePrefix = 'toggle_';
+import withToggles from '@weco/common/api-routes-middleware/withToggles';
 
 export function isCatalogueApiError(
   response: ItemsWork | CatalogueApiError
@@ -27,17 +26,6 @@ function getApiKey(apiOptions): string | undefined {
   } else {
     return process.env.items_api_key_prod;
   }
-}
-
-function cookiesToToggles(cookies): Toggles {
-  const toggles = { ...cookies };
-  Object.keys(toggles).forEach(key => {
-    if (key.startsWith(toggleCookiePrefix)) {
-      toggles[key.replace(toggleCookiePrefix, '')] = toggles[key] === 'true';
-    }
-    delete toggles[key];
-  });
-  return toggles;
 }
 
 async function fetchWorkItems({
@@ -62,13 +50,16 @@ async function fetchWorkItems({
   }
 }
 
+type NextApiRequestWithToggles = NextApiRequest & {
+  toggles: Toggles;
+};
+
 const ItemsApi = async (
-  req: NextApiRequest,
+  req: NextApiRequestWithToggles,
   res: NextApiResponse
 ): Promise<void> => {
   const { workId } = req.query;
-  const cookies = req.cookies ?? {};
-  const toggles = cookiesToToggles(cookies);
+  const toggles = req.toggles;
   const id = Array.isArray(workId) ? workId[0] : workId;
   const response = await fetchWorkItems({
     toggles,
@@ -84,4 +75,4 @@ const ItemsApi = async (
   res.json(response);
 };
 
-export default ItemsApi;
+export default withToggles(ItemsApi);
