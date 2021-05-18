@@ -64,7 +64,6 @@ describe(`Scenario 1: a user wants to see relevant information about where a wor
     expect(status).toBeTruthy();
   });
 
-  // Not sure this is actually what we want
   test(`works with a physical and digital location item display a 'where to find it' section without a link`, async () => {
     await workWithPhysicalAndDigitalLocation();
     const { whereToFindIt, encoreLink } = await getWhereToFindItAndEncoreLink();
