@@ -1,9 +1,9 @@
 import { forwardRef, SyntheticEvent, ForwardedRef } from 'react';
-import { classNames, font } from '@weco/common/utils/classnames';
-import { trackEvent, GaEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import Space from '@weco/common/views/components/styled/Space';
+import { classNames, font } from '../../../utils/classnames';
+import { trackEvent, GaEvent } from '../../../utils/ga';
+import Icon from '../Icon/Icon';
+import Space from '../styled/Space';
 
 type BaseButtonProps = {
   href?: string;
