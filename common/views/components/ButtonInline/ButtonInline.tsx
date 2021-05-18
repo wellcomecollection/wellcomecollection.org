@@ -1,6 +1,6 @@
-import { forwardRef, SyntheticEvent } from 'react';
+import { AriaAttributes, forwardRef, SyntheticEvent } from 'react';
 import { classNames } from '../../../utils/classnames';
-import { GaEvent, trackEvent } from '@weco/common/utils/ga';
+import { GaEvent, trackEvent } from '../../../utils/ga';
 import styled from 'styled-components';
 import Icon from '../Icon/Icon';
 import {
@@ -19,7 +19,7 @@ export type ButtonInlineBaseProps = {
   trackingEvent?: GaEvent;
   ariaControls?: string;
   ariaExpanded?: boolean;
-  ariaLive?: 'off' | 'polite' | 'assertive';
+  ariaLive?: AriaAttributes['aria-live'];
 };
 
 export const InlineButton = styled(BaseButton)<{ isOnDark?: boolean }>`
