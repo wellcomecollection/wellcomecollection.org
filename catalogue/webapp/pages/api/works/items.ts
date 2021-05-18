@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-unfetch';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiResponse } from 'next';
 import { ItemsWork, CatalogueApiError } from '@weco/common/model/catalogue';
 import {
   catalogueApiError,
@@ -8,7 +8,9 @@ import {
 } from '../../../services/catalogue/common';
 import hasOwnProperty from '@weco/common/utils/has-own-property';
 import { Toggles } from '@weco/toggles';
-import withToggles from '@weco/common/api-routes-middleware/withToggles';
+import withToggles, {
+  NextApiRequestWithToggles,
+} from '@weco/common/api-routes-middleware/withToggles';
 
 export function isCatalogueApiError(
   response: ItemsWork | CatalogueApiError
@@ -49,10 +51,6 @@ async function fetchWorkItems({
     return catalogueApiError();
   }
 }
-
-type NextApiRequestWithToggles = NextApiRequest & {
-  toggles: Toggles;
-};
 
 const ItemsApi = async (
   req: NextApiRequestWithToggles,

@@ -1,3 +1,9 @@
+import { NextApiRequest, NextApiResponse } from 'next';
+import { Toggles } from '@weco/toggles';
+
+export type NextApiRequestWithToggles = NextApiRequest & {
+  toggles: Toggles;
+};
 const cookiePrefix = 'toggle_';
 let defaultToggleValues = {};
 
@@ -29,7 +35,10 @@ async function getDefaultToggleValues() {
 getDefaultToggleValues();
 setInterval(getDefaultToggleValues, 2 * 60 * 1000);
 const withToggles = handler => {
-  return async (req, res) => {
+  return async (
+    req: NextApiRequestWithToggles,
+    res: NextApiResponse
+  ): Promise<void> => {
     const cookies = parseCookies(req);
     const togglesCookies = cookies.filter(cookie =>
       cookie.key.startsWith(cookiePrefix)
