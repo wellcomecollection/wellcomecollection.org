@@ -5,6 +5,7 @@ import {
   catalogueApiError,
   rootUris,
   globalApiOptions,
+  GlobalApiOptions,
 } from '../../../services/catalogue/common';
 import hasOwnProperty from '@weco/common/utils/has-own-property';
 import { Toggles } from '@weco/toggles';
@@ -18,11 +19,11 @@ export function isCatalogueApiError(
   return Boolean(hasOwnProperty(response, 'type') && response.type === 'Error');
 }
 
-function getApiUrl(apiOptions, workId: string): string {
+function getApiUrl(apiOptions: GlobalApiOptions, workId: string): string {
   return `${rootUris[apiOptions.env]}/v2/works/${workId}/items`;
 }
 
-function getApiKey(apiOptions): string | undefined {
+function getApiKey(apiOptions: GlobalApiOptions): string {
   if (apiOptions.env === 'stage') {
     return process.env.items_api_key_stage;
   } else {
