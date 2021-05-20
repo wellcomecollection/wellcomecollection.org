@@ -27,10 +27,12 @@ Digirati for Node-based micro-services. This is a breakdown of each of the libra
 
 ### Frontend runtime
 
-The frontend has not yet been fleshed out, but the following have been installed in preparation for development:
+The client-side app makes use of these libraries:
 
-- [React v16.14 + React DOM v16.9](http://reactjs.org/) - For rendering the client side HTML
+- [React](http://reactjs.org/) - For rendering the client side HTML
 - [Styled components](https://styled-components.com/) - For styling components
+- [react-router-dom](https://reactrouter.com/web) - For client-side routing
+- [react-hook-form](https://react-hook-form.com/) - For form validation and error handling
 
 ### Build tools
 
@@ -138,7 +140,7 @@ Here is a basic route:
 ```ts
 import { RouteMiddleware } from './application';
 
-export const ping: RouteMiddleware = (context) => {
+export const ping: RouteMiddleware = context => {
   context.response.body = { ping: 'pong' };
 };
 ```
@@ -151,7 +153,7 @@ The first is the parameters from the url. If you had a `user_id` in the url you 
 ```ts
 import { RouteMiddleware } from './application';
 
-export const getUser: RouteMiddleware<{ user_id: string }> = (context) => {
+export const getUser: RouteMiddleware<{ user_id: string }> = context => {
   context.params.user_id; // correctly typed.
   // ...
 };
@@ -164,7 +166,7 @@ import { RouteMiddleware } from './application';
 
 type UserModel = {};
 
-export const updateUser: RouteMiddleware<{ user_id: string }, UserModel> = (context) => {
+export const updateUser: RouteMiddleware<{ user_id: string }, UserModel> = context => {
   context.requestBody; // Correctly typed to UserModel
 };
 ```
@@ -187,7 +189,7 @@ In your route you can also protect an endpoint by checking the context for the a
 ```ts
 import { RouteMiddleware } from './application';
 
-export const ping: RouteMiddleware = (context) => {
+export const ping: RouteMiddleware = context => {
   if (!context.isAuthenticated()) {
     throw new Error();
   }
@@ -249,10 +251,62 @@ All of this is handled by Passport.js and their Auth0 provider.
 
 ## Frontend code
 
-All the frontend code should live inside `./src/frontend`. At the moment it is just a plain file rendering some JSX.
+All the frontend code should live inside `./src/frontend`.
 
-A simple router can be added. Any route that does not match an API will render the React frontend, so we do not need
-to use a hash router for this.
+The route that renders the HTML for before the React component can be found at `./routes/index.ts`. This is a very minimal HTML document with a link to the webpack bundle. This is intended to be a starting point.
 
-The route that renders the HTML for before the React component can be found at `./routes/index.ts`. This is a very
-minimal HTML document with a link to the webpack bundle. This is intended to be a starting point.
+## Context path
+
+In development, the app is served at the root path (i.e. http://localhost:3000). In staging and production environments, the app is served from a sub-directory path (i.e. https://wellcomecollection.org/account).
+
+This discrepancy is handled by an environment variable `CONTEXT_PATH`, which would hold the value `account` (no leading slash) in the above example. This environment variable is used whenever linking internally in the app, e.g. linking from one UI page to another, or when redirecting to an error page from an API route.
+
+The value from the environment is used in different ways in different parts of the app:
+
+### In the back end
+
+A `withPrefix` utility function is provided to wrap all internal URLs, e.g. when redirecting unauthorised users:
+
+```ts
+// src/routes/auth.ts
+
+if (info === 'unauthorized') {
+  return ctx.redirect(withPrefix(`/error?${ctx.request.querystring}`));
+}
+if (!user) {
+  return ctx.redirect(withPrefix(`/error?error_description=${encodeURI('An unknown error occurred.')}`));
+}
+```
+
+The context path is also placed a data attribute in the HTML `#root` element into which the React app will be injected, making the value available to the client-side app:
+
+```ts
+// src/routes/assets/index.html.ts
+`
+  <div id="root" data-context-path="${prefix}"></div>
+`;
+```
+
+### In the front end
+
+The data attribute above is read at the app's entry point, and made known to React Router and the data-fetching object:
+
+```tsx
+  // src/frontend/index.tsx
+
+  const prefix = root.getAttribute('data-context-path');
+  initaliseMiddlewareClient(prefix);
+  render(
+        // ...
+        <BrowserRouter basename={prefix || ''} forceRefresh>
+```
+
+The `BrowserRouter.basename` prop should handle all internal routing ([docs](https://reactrouter.com/web/api/BrowserRouter/basename-string)). A `usePrefix` custom hook is also provided, but is not currently used anywhere.
+
+```tsx
+const ComponentWithPrefix: React.FC = () => {
+  const prefix: string = usePrefix();
+
+  return <h1>{prefix}</h1>;
+};
+```

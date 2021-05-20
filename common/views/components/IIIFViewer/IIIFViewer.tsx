@@ -463,6 +463,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     >
       <Grid ref={viewerRef}>
         <Sidebar
+          data-test-id="viewer-sidebar"
           isActiveMobile={isMobileSidebarActive}
           isActiveDesktop={isDesktopSidebarActive}
         >

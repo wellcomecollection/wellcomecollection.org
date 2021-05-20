@@ -25,6 +25,8 @@ import BookPromo from '@weco/common/views/components/BookPromo/BookPromo';
 import { font, grid } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { UiExhibition } from '@weco/common/model/exhibitions';
+import { type Page } from '@weco/common/model/pages';
+
 // $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -157,9 +159,10 @@ export function getInfoItems(exhibition: UiExhibition) {
 
 type Props = {|
   exhibition: UiExhibition,
+  pages: Page[],
 |};
 
-const Exhibition = ({ exhibition }: Props) => {
+const Exhibition = ({ exhibition, pages }: Props) => {
   const [exhibitionOfs, setExhibitionOfs] = useState([]);
   const [exhibitionAbouts, setExhibitionAbouts] = useState([]);
 
@@ -270,9 +273,15 @@ const Exhibition = ({ exhibition }: Props) => {
             contributors={exhibition.contributors}
           />
         )}
-        {exhibitionOfs.length > 0 && (
-          <SearchResults items={exhibitionOfs} title={`In this exhibition`} />
+        {/* TODO: This probably isn't going to be the final resting place for related `pages`, but it's
+        a reasonable starting place. Update this once the UX has shaken out. */}
+        {(exhibitionOfs.length > 0 || pages.length > 0) && (
+          <SearchResults
+            items={[...exhibitionOfs, ...pages]}
+            title={`In this exhibition`}
+          />
         )}
+
         {exhibition.end && !isPast(exhibition.end) && (
           <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
             <p className={`no-margin ${font('hnl', 5)}`}>
