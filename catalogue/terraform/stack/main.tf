@@ -20,6 +20,10 @@ module "catalogue-service-17092020" {
     PROD_SUBDOMAIN = var.subdomain
   }
 
+   secret_env_vars = {
+    items_api_key = "catalogue_api/items/prod/api_key"
+  }
+
   vpc_id  = local.vpc_id
   subnets = local.private_subnets
 
@@ -40,6 +44,17 @@ module "path_listener" {
 
   path_patterns = ["/works*"]
   priority      = "49997"
+}
+
+module "api_path_listener" {
+  source = "../../../infrastructure/modules/alb_listener_rule"
+
+  alb_listener_https_arn = var.alb_listener_https_arn
+  alb_listener_http_arn  = var.alb_listener_http_arn
+  target_group_arn       = local.target_group_arn
+
+  path_patterns = ["/api/works*"]
+  priority      = "49996"
 }
 
 # This is used for the static assets served from _next with multiple next apps
@@ -105,7 +120,7 @@ locals {
     local.works_data_path_chunks
   )
 
-  max_priority = 49996
+  max_priority = 49995
   min_priority = local.max_priority - length(local.works_data_path_chunks) + 1
 }
 

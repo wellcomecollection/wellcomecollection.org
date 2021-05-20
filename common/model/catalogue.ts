@@ -35,6 +35,18 @@ export type Work = {
   holdings: Holding[];
 };
 
+export type ItemsWork = {
+  id: string;
+  items: {
+    id: string;
+    status: {
+      id: string;
+      label: string;
+      type: string;
+    };
+  }[];
+};
+
 export type Holding = {
   note?: string;
   enumeration: string[];
@@ -181,7 +193,13 @@ export type Item<LocationType> = {
   type: 'Item';
 };
 
-export type PhysicalItem = Item<PhysicalLocation>;
+export type PhysicalItem = Item<PhysicalLocation> & {
+  status?: {
+    id: string;
+    label: string;
+    type: string;
+  };
+};
 
 type Date = {
   label: string;
@@ -265,14 +283,6 @@ export type Image = {
   };
   visuallySimilar?: Image[];
 };
-
-// export type CatalogueApiError = {|
-//   errorType: string,
-//   httpStatus: number,
-//   label: string,
-//   description: string,
-//   type: 'Error',
-// |};
 
 export type CatalogueAggregationBucket = {
   count: number;
