@@ -539,6 +539,20 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               </Space>
             </>
           )}
+          {digitalLocation?.accessConditions[0]?.terms && (
+            <Space
+              v={{
+                size: 'l',
+                properties: ['margin-top'],
+              }}
+            >
+              <WorkDetailsText
+                title="Access conditions"
+                noSpacing={true}
+                text={[digitalLocation?.accessConditions[0]?.terms]}
+              />
+            </Space>
+          )}
         </WorkDetailsSection>
       )}
 
