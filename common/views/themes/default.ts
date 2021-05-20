@@ -35,6 +35,51 @@ const spacingUnits = {
   '9': 46,
   '10': 64,
 };
+
+const fontSizeUnits = {
+  '1': 14,
+  '2': 15,
+  '3': 16,
+  '4': 18,
+  '5': 20,
+  '6': 22,
+  '7': 24,
+  '8': 28,
+  '9': 32,
+  '10;': 40,
+  '11': 50,
+};
+
+const fontSizesAtBreakpoints = {
+  small: {
+    0: fontSizeUnits[9],
+    1: fontSizeUnits[8],
+    2: fontSizeUnits[7],
+    3: fontSizeUnits[6],
+    4: fontSizeUnits[3],
+    5: fontSizeUnits[2],
+    6: fontSizeUnits[1],
+  },
+  medium: {
+    0: fontSizeUnits[10],
+    1: fontSizeUnits[9],
+    2: fontSizeUnits[8],
+    3: fontSizeUnits[6],
+    4: fontSizeUnits[4],
+    5: fontSizeUnits[2],
+    6: fontSizeUnits[1],
+  },
+  large: {
+    0: fontSizeUnits[11],
+    1: fontSizeUnits[10],
+    2: fontSizeUnits[9],
+    3: fontSizeUnits[7],
+    4: fontSizeUnits[5],
+    5: fontSizeUnits[3],
+    6: fontSizeUnits[1],
+  },
+};
+
 // When units are `number`s, we assume pixels
 const themeValues = {
   spacingUnit: 6,
@@ -138,13 +183,15 @@ const themeValues = {
   },
 };
 
+const breakpointNames = ['small', 'medium', 'large'];
+
 function makeSpacePropertyValues(
   size: SpaceSize,
   properties: SpaceProperty[],
   negative?: boolean,
   overrides?: SpaceOverrides
 ): string {
-  return ['small', 'medium', 'large']
+  return breakpointNames
     .map(bp => {
       return `@media (min-width: ${themeValues.sizes[bp]}px) {
       ${properties
@@ -162,6 +209,52 @@ function makeSpacePropertyValues(
     .join('');
 }
 
+function makeFontSizeClasses() {
+  return breakpointNames
+    .map(bp => {
+      return `@media (min-width: ${themeValues.sizes[bp]}px) {
+      ${Object.entries(fontSizesAtBreakpoints[bp])
+        .map(([key, value]) => {
+          return `.font-size-${key} {font-size: ${value}px}`;
+        })
+        .join(' ')}
+    }`;
+    })
+    .join(' ');
+}
+
+function overridesAtBreakpoint(bp) {
+  return Object.entries(fontSizeUnits)
+    .map(([key, value]) => {
+      return `.font-size-override-${bp}-${key} {font-size: ${value}px}`;
+    })
+    .join(' ');
+}
+
+function makeFontSizeOverrideClasses() {
+  return breakpointNames
+    .map(bp => {
+      const minMax =
+        bp === 'small'
+          ? ['small', 'medium']
+          : bp === 'medium'
+          ? ['medium', 'large']
+          : ['large'];
+
+      if (minMax.length === 2) {
+        return `@media (min-width: ${
+          themeValues.sizes[minMax[0]]
+        }px) and (max-width: ${themeValues.sizes[minMax[1]]}px) {
+        ${overridesAtBreakpoint(bp)}
+      }`;
+      } else {
+        return `@media (min-width: ${themeValues.sizes[minMax[0]]}px) {
+        ${overridesAtBreakpoint(bp)}
+      }`;
+      }
+    })
+    .join(' ');
+}
 // https://github.com/styled-components/styled-components/blob/master/docs/tips-and-tricks.md#media-templates
 // using min-width because of
 // https://zellwk.com/blog/how-to-write-mobile-first-css/
@@ -245,6 +338,8 @@ const GlobalStyle = createGlobalStyle`
       `
     )}
   `}
+  ${makeFontSizeClasses()}
+  ${makeFontSizeOverrideClasses()}
 `;
 
 export default theme;
