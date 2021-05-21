@@ -174,7 +174,7 @@ export const typography = `
     .is-keyboard & {
       &:focus {
         outline: 0;
-        box-shadow: 0 0 0 3px rgba(92, 184, 191, 0.7);
+        box-shadow: ${themeValues.focusBoxShadow};
       }
     }
   }
@@ -246,7 +246,7 @@ export const typography = `
     }
 
     *::selection {
-      background: transparentize(${themeValues.color('turquoise')}, 0.7);
+      background: ${themeValues.color('turquoise')}30;
     }
 
     ul {
@@ -274,7 +274,9 @@ export const typography = `
     a:visited:not(.link-reset) {
       text-decoration: none;
       border-bottom: 2px solid ${themeValues.color('green')};
-      transition: color 150ms ease, border-bottom 150ms ease;
+      transition: color ${themeValues.transitionProperties}, border-bottom ${
+  themeValues.transitionProperties
+};
 
       &:hover {
         color: ${themeValues.color('green')};
