@@ -246,7 +246,7 @@ export const typography = `
     }
 
     *::selection {
-      background: ${themeValues.color('turquoise')}30;
+      background: ${themeValues.color('turquoise')}4d;
     }
 
     ul {
