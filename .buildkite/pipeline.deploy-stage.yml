@@ -20,7 +20,6 @@ steps:
 
   - label: "e2e test"
     trigger: "experience-e2e-stage"
-    branches: "master"
     build:
       message: "${BUILDKITE_MESSAGE}"
       commit: "${BUILDKITE_COMMIT}"
