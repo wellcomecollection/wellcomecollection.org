@@ -66,7 +66,13 @@ const fontFamilies = {
 };
 
 const fontSizeMixin = size => {
-  return `font-size: ${fontSizeUnits[size]}px;`;
+  return breakpointNames
+    .map(name => {
+      return `@media (min-width: ${themeValues.sizes[name]}px) {
+      font-size: ${fontSizesAtBreakpoints[name][size]}px;
+    }`;
+    })
+    .join(' ');
 };
 
 const fontFamilyMixin = (family, isFull) => {
@@ -226,17 +232,17 @@ export const typography = `
   .body-text {
     h1 {
       ${fontFamilyMixin('wb', true)}
-      ${fontSizeMixin(1)}
-      }
+      ${fontSizeMixin(2)}
+    }
 
     h2 {
       ${fontFamilyMixin('wb', true)}
-      ${fontSizeMixin(2)}
+      ${fontSizeMixin(3)}
     }
 
     h3 {
       ${fontFamilyMixin('wb', true)}
-      ${fontSizeMixin(3)}
+      ${fontSizeMixin(4)}
     }
 
     *::selection {
