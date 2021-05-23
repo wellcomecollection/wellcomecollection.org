@@ -19,6 +19,12 @@ export const themeValues = {
   spacingUnit: 6,
   borderRadiusUnit: 6,
   transitionProperties: '150ms ease',
+  containerPadding: {
+    small: 18,
+    medium: 42,
+    large: 60,
+    xlarge: 60,
+  },
   sizes: {
     small: 0,
     medium: 600,
