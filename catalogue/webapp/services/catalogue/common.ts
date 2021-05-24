@@ -7,7 +7,7 @@ export const rootUris = {
   stage: 'https://api-stage.wellcomecollection.org/catalogue',
 };
 
-type GlobalApiOptions = {
+export type GlobalApiOptions = {
   env: 'prod' | 'stage';
   indexOverrideSuffix?: string;
 };

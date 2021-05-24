@@ -21,7 +21,8 @@ module "catalogue-service-17092020" {
   }
 
    secret_env_vars = {
-    items_api_key = "catalogue_api/items/prod/api_key"
+    items_api_key_prod = "catalogue_api/items/prod/api_key"
+    items_api_key_stage = "catalogue_api/items/stage/api_key"
   }
 
   vpc_id  = local.vpc_id
@@ -54,7 +55,7 @@ module "api_path_listener" {
   target_group_arn       = local.target_group_arn
 
   path_patterns = ["/api/works*"]
-  priority      = "49996"
+  priority      = "49000"
 }
 
 # This is used for the static assets served from _next with multiple next apps
@@ -120,7 +121,7 @@ locals {
     local.works_data_path_chunks
   )
 
-  max_priority = 49995
+  max_priority = 49996
   min_priority = local.max_priority - length(local.works_data_path_chunks) + 1
 }
 

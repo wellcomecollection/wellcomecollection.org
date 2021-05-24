@@ -28,11 +28,6 @@ const itemWithSearchAndStructures = async (): Promise<void> => {
   await page.goto(`${baseUrl}/works/re9cyhkt/items`);
 };
 
-const workWithPhysicalAndDigitalLocation = async (): Promise<void> => {
-  context.addCookies(requiredCookies);
-  await page.goto(`${baseUrl}/works/a235xn8e`);
-};
-
 const workWithPhysicalLocationOnly = async (): Promise<void> => {
   context.addCookies(requiredCookies);
   await page.goto(`${baseUrl}/works/ffd3zeq3`);
@@ -40,7 +35,17 @@ const workWithPhysicalLocationOnly = async (): Promise<void> => {
 
 const workWithDigitalLocationOnly = async (): Promise<void> => {
   context.addCookies(requiredCookies);
-  await page.goto(`${baseUrl}/works/m54uwqgm`);
+  await page.goto(`${baseUrl}/works/j9kukb78`);
+};
+
+const workWithDigitalLocationAndLocationNote = async (): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await page.goto(`${baseUrl}/works/a235xn8e`);
+};
+
+const workWithPhysicalAndDigitalLocation = async (): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await page.goto(`${baseUrl}/works/works/r9kpkq8e`);
 };
 
 const worksSearch = async (): Promise<void> => {
@@ -57,4 +62,5 @@ export {
   workWithPhysicalAndDigitalLocation,
   workWithPhysicalLocationOnly,
   workWithDigitalLocationOnly,
+  workWithDigitalLocationAndLocationNote,
 };
