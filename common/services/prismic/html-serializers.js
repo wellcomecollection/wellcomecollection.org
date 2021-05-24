@@ -157,13 +157,13 @@ export const defaultSerializer: HtmlSerializer = (
           <a
             key={i}
             target={target}
-            className="no-margin plain-link font-green font-HNM3-s flex-inline flex--h-baseline"
+            className="no-owl plain-link font-green font-HNM3-s flex-inline flex--h-baseline"
             href={linkUrl}
           >
             <span className="icon" style={{ top: '8px' }}>
               <canvas className="icon__canvas" height="20" width="20"></canvas>
               <svg
-                className="icon__svg no-margin"
+                className="icon__svg no-owl"
                 role="img"
                 aria-labelledby={`icon-download-title-${nameWithoutSpaces}`}
                 style={{ width: '20px', height: '20px' }}
@@ -179,13 +179,13 @@ export const defaultSerializer: HtmlSerializer = (
                 </svg>
               </svg>
             </span>
-            <span className="no-margin">
-              <span className="no-margin underline-on-hover">{children}</span>{' '}
+            <span className="no-owl">
+              <span className="no-owl underline-on-hover">{children}</span>{' '}
               <span style={{ whiteSpace: 'nowrap' }}>
-                <span className="no-margin font-pewter font-HNM4-s">
+                <span className="no-owl font-pewter font-HNM4-s">
                   {documentType}
                 </span>{' '}
-                <span className="no-margin font-pewter font-HNL4-s">
+                <span className="no-owl font-pewter font-HNL4-s">
                   {documentSize}kb
                 </span>
               </span>
