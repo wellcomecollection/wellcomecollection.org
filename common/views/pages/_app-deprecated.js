@@ -8,7 +8,7 @@ import Raven from 'raven-js';
 import { Fragment } from 'react';
 import { ThemeProvider } from 'styled-components';
 // $FlowFixMe (tsx)
-import theme from '../../views/themes/default';
+import theme, { GlobalStyle } from '../../views/themes/default';
 import { museumLd, libraryLd, objToJsonLd } from '../../utils/json-ld';
 import { wellcomeCollectionGallery } from '../../model/organization';
 import {
@@ -476,6 +476,7 @@ export default class WecoApp extends App {
                 <GlobalAlertContext.Provider value={globalAlert}>
                   <PopupDialogContext.Provider value={popupDialog}>
                     <ThemeProvider theme={theme}>
+                      <GlobalStyle />
                       <OutboundLinkTracker>
                         <Fragment>
                           <TogglesContext.Consumer>

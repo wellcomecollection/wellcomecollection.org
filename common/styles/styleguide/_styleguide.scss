@@ -14,14 +14,14 @@
 }
 
 .styleguide__icon__id {
-  @extend %font-lr;
-  @extend %font-size-6;
+  font-family: 'Lettera Regular Web', 'Courier New', Courier, Monospace;
+  font-size: 18px;
   hyphens: auto;
 }
 
 .styleguide__palette__heading {
-  @extend %font-hnm;
-  @extend %font-size-4;
+  font-family: 'helvetica neue', helvetica, arial, sans-serif;
+  font-size: 18px;
   text-transform: uppercase;
   flex-basis: 100%;
   margin-bottom: 1em;
@@ -62,17 +62,17 @@
 }
 
 .styleguide__palette__name {
-  @extend %font-lr;
-  @extend %font-size-6;
+  font-family: 'Lettera Regular Web', 'Courier New', Courier, Monospace;
+  font-size: 18px;
 }
 
 .styleguide__palette__hex {
-  @extend %font-lr;
-  @extend %font-size-6;
+  font-family: 'Lettera Regular Web', 'Courier New', Courier, Monospace;
+  font-size: 18px;
 }
 
 .styleguide__palette__code {
-  @extend %font-lr;
+  font-family: 'Lettera Regular Web', 'Courier New', Courier, Monospace;
 }
 
 .styleguide__icon-wrap {
@@ -90,8 +90,8 @@
 }
 
 .styleguide__font__name {
-  @extend %font-hnm;
-  @extend %font-size-5;
+  font-family: 'helvetica neue', helvetica, arial, sans-serif;
+  font-size: 15px;
   color: color('red');
 }
 
@@ -101,28 +101,28 @@
 }
 
 .styleguide__font__property {
-  @extend %font-hnm;
-  @extend %font-size-6;
+  font-family: 'helvetica neue', helvetica, arial, sans-serif;
+  font-size: 18px;
   display: inline;
   white-space: nowrap;
 }
 
 .styleguide__font__value {
-  @extend %font-hnm;
-  @extend %font-size-6;
+  font-family: 'helvetica neue', helvetica, arial, sans-serif;
+  font-size: 18px;
   display: inline;
   margin: 0 20px 0 0;
 }
 
 .styleguide__font__usage-title {
-  @extend %font-hnm;
-  @extend %font-size-6;
+  font-family: 'helvetica neue', helvetica, arial, sans-serif;
+  font-size: 18px;
   display: inline;
 }
 
 .styleguide__font__usage-text {
-  @extend %font-hnm;
-  @extend %font-size-6;
+  font-family: 'helvetica neue', helvetica, arial, sans-serif;
+  font-size: 18px;
   color: color('silver');
   display: inline;
 }

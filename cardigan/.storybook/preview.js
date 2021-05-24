@@ -3,7 +3,7 @@ import { configure, addDecorator, addParameters } from '@storybook/react';
 import { withKnobs } from '@storybook/addon-knobs';
 import styleguideSass from '../../common/styles/styleguide.scss';
 import { ThemeProvider } from 'styled-components';
-import theme from '../../common/views/themes/default';
+import theme, { GlobalStyle } from '../../common/views/themes/default';
 import { addReadme } from 'storybook-readme';
 import { AppContextProvider } from '../../common/views/components/AppContext/AppContext';
 
@@ -26,6 +26,7 @@ const CenterDecorator = (storyFn, { parameters }) => {
 
   return (
     <ThemeProvider theme={theme}>
+      <GlobalStyle />
       <AppContextProvider>
         <style id="styleguide-sass">{styleguideSass}</style>
         <div style={styles} className="enhanced">

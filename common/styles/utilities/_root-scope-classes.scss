@@ -448,13 +448,7 @@
   margin: 0 auto;
 }
 
-// This is for when we receive content from a CMS,
-// making it easier to style the first node
-.first-para-bold p:first-of-type {
-  @extend %font-hnm;
-  @extend %font-size-4;
-  font-weight: bold;
-}
+
 
 // For when we get HTML out of systems like Prismic
 .first-para-no-margin p:first-of-type {
@@ -494,17 +488,6 @@
 
 .clearfix {
   @include clearfix;
-}
-
-.drop-cap {
-  @extend %font-wb;
-  font-size: 3em;
-  color: color('black');
-  float: left;
-  line-height: 1em;
-  padding-right: 0.1em;
-  position: relative;
-  top: 0.05em;
 }
 
 // TODO: use this for e.g. Promo hover behaviour too

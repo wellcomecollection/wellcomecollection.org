@@ -11,7 +11,6 @@ $is-next: true;
 @import 'base/layout';
 @import 'base/container';
 @import 'base/row';
-@import 'base/typography';
 @import 'base/icons';
 @import 'base/inline_fonts';
 @import 'base/fonts';
@@ -30,7 +29,6 @@ $is-next: true;
 @import 'grids/css_grid';
 
 // Components
-@import 'components/body_text';
 @import 'components/buttons';
 @import 'components/control';
 @import 'components/captioned_image';
@@ -49,7 +47,6 @@ $is-next: true;
 @import 'components/opening_hours';
 @import 'components/page_description';
 @import 'components/prismic_toolbar';
-@import 'components/quote';
 @import 'components/scroll_to_info';
 @import 'components/segmented_control';
 @import 'components/skip_link';

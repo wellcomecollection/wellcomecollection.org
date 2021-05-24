@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
-import theme from '@weco/common/views/themes/default';
+import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 import '@weco/common/styles/styleguide.scss';
 import { initaliseMiddlewareClient } from '../utility/middleware-api-client';
 import { Registration } from './Registration/Registration';
@@ -12,7 +12,7 @@ import { ErrorPage } from './components/ErrorPage';
 import { MyAccount } from './MyAccount/MyAccount';
 import { DeleteRequested } from './MyAccount/DeleteRequested';
 
-const GlobalStyles = createGlobalStyle`
+const PageBackground = createGlobalStyle`
   body {
     background-color: #fff;
 
@@ -29,9 +29,9 @@ if (root) {
   initaliseMiddlewareClient(prefix);
   render(
     <ThemeProvider theme={theme}>
-      <style id="styleguide-sass"></style>
+      <GlobalStyle />
+      <PageBackground />
       <AppContextProvider>
-        <GlobalStyles />
         <BrowserRouter basename={prefix || ''} forceRefresh>
           <Switch>
             <Route exact path="/register" component={Registration} />
