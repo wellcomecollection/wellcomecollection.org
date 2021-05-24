@@ -252,40 +252,65 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               const locationLink =
                 holding.location && getLocationLink(holding.location);
               return (
-                <Space key={i} v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <Space
+                  key={i}
+                  v={
+                    i + 1 !== holdings.length
+                      ? { size: 'l', properties: ['margin-bottom'] }
+                      : { size: 'l', properties: [] }
+                  }
+                >
                   {holding.enumeration.length > 0 && (
-                    <ExpandableList listItems={holding.enumeration} />
+                    <Space
+                      key={i}
+                      v={{ size: 's', properties: ['margin-bottom'] }}
+                    >
+                      <ExpandableList listItems={holding.enumeration} />
+                    </Space>
                   )}
+                  <Space
+                    key={i}
+                    v={{ size: 's', properties: ['margin-bottom'] }}
+                  >
+                    {holding.location?.locationType.label && (
+                      <>
+                        <WorkDetailsText
+                          title="Location"
+                          inlineHeading={true}
+                          noSpacing={true}
+                          text={[holding.location.locationType.label]}
+                        />
+                        {locationLink && (
+                          <a
+                            className={classNames({
+                              [font('hnl', 5)]: true,
+                            })}
+                            href={locationLink.url}
+                          >
+                            {locationLink.linkText}
+                          </a>
+                        )}
+                      </>
+                    )}
 
-                  {holding.location?.locationType.label && (
-                    <>
+                    {locationShelfmark && (
                       <WorkDetailsText
-                        title="Location"
-                        text={[holding.location.locationType.label]}
+                        title="Shelfmark"
+                        inlineHeading={true}
+                        noSpacing={true}
+                        text={[`${locationLabel} ${locationShelfmark}`]}
                       />
-                      {locationLink && (
-                        <a
-                          className={classNames({
-                            [font('hnl', 5)]: true,
-                          })}
-                          href={locationLink.url}
-                        >
-                          {locationLink.linkText}
-                        </a>
-                      )}
-                    </>
-                  )}
+                    )}
 
-                  {locationShelfmark && (
-                    <WorkDetailsText
-                      title="Shelfmark"
-                      text={[`${locationLabel}${locationShelfmark}`]}
-                    />
-                  )}
-
-                  {holding.note && (
-                    <WorkDetailsText title="Note" text={[holding.note]} />
-                  )}
+                    {holding.note && (
+                      <WorkDetailsText
+                        title="Note"
+                        inlineHeading={true}
+                        noSpacing={true}
+                        text={[holding.note]}
+                      />
+                    )}
+                  </Space>
                 </Space>
               );
             })}
@@ -478,6 +503,20 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                   text={[digitalLocationInfo.license.label]}
                 />
               </Space>
+              {digitalLocation?.accessConditions[0]?.terms && (
+                <Space
+                  v={{
+                    size: 'l',
+                    properties: ['margin-top'],
+                  }}
+                >
+                  <WorkDetailsText
+                    title="Access conditions"
+                    noSpacing={true}
+                    text={[digitalLocation?.accessConditions[0]?.terms]}
+                  />
+                </Space>
+              )}
               <Space
                 v={{
                   size: 'l',
