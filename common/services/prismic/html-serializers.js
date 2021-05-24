@@ -157,13 +157,13 @@ export const defaultSerializer: HtmlSerializer = (
           <a
             key={i}
             target={target}
-            className="no-owl plain-link font-green font-HNM3-s flex-inline flex--h-baseline"
+            className="no-margin plain-link font-green font-HNM3-s flex-inline flex--h-baseline"
             href={linkUrl}
           >
             <span className="icon" style={{ top: '8px' }}>
               <canvas className="icon__canvas" height="20" width="20"></canvas>
               <svg
-                className="icon__svg no-owl"
+                className="icon__svg no-margin"
                 role="img"
                 aria-labelledby={`icon-download-title-${nameWithoutSpaces}`}
                 style={{ width: '20px', height: '20px' }}
