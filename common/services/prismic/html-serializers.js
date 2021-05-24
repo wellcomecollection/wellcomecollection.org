@@ -179,13 +179,13 @@ export const defaultSerializer: HtmlSerializer = (
                 </svg>
               </svg>
             </span>
-            <span className="no-owl">
-              <span className="no-owl underline-on-hover">{children}</span>{' '}
+            <span className="no-margin">
+              <span className="no-margin underline-on-hover">{children}</span>{' '}
               <span style={{ whiteSpace: 'nowrap' }}>
-                <span className="no-owl font-pewter font-HNM4-s">
+                <span className="no-margin font-pewter font-HNM4-s">
                   {documentType}
                 </span>{' '}
-                <span className="no-owl font-pewter font-HNL4-s">
+                <span className="no-margin font-pewter font-HNL4-s">
                   {documentSize}kb
                 </span>
               </span>
