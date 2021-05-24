@@ -503,6 +503,20 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                   text={[digitalLocationInfo.license.label]}
                 />
               </Space>
+              {digitalLocation?.accessConditions[0]?.terms && (
+                <Space
+                  v={{
+                    size: 'l',
+                    properties: ['margin-top'],
+                  }}
+                >
+                  <WorkDetailsText
+                    title="Access conditions"
+                    noSpacing={true}
+                    text={[digitalLocation?.accessConditions[0]?.terms]}
+                  />
+                </Space>
+              )}
               <Space
                 v={{
                   size: 'l',
