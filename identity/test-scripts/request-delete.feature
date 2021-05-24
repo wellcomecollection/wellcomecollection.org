@@ -35,6 +35,7 @@ Feature: Request Delete
   Scenario: WS-33-004b: close the delete request modal
     Given the User leaves the password field blank
     When the user click ‘Yes, delete my account’
+    Then the user is informed ‘Enter your current password’ and the field is highlighted
     And the user closes the box and does not select an action
     Then the user is returned to the My Account Screen
 
@@ -42,13 +43,14 @@ Feature: Request Delete
   Scenario: WS-33-004c: close out of the delete request retains the status of the request upon closing
     Given the User leaves the password field blank
     When the user click ‘Yes, delete my account’
+    Then the user is informed ‘Enter your current password’ and the field is highlighted
     And the user closes the box and does not select an action
     And the user selects ‘Request deletion’
-    Then the Screen opens with the highlighted field and ‘Enter your current password’ message appearing (Bug raised ws-188)
+    Then the delete screen modal opens with no previous error message displaying and password field empty 
 
   @manual
   Scenario:WS-33-005: Request delete with correct password and action
     Given the User enters an valid password
     When the user click ‘Yes, delete my account’
-    Then the user .. WS-179 Bug - In Progress
+    Then.....
 
