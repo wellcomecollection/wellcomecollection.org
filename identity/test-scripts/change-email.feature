@@ -43,19 +43,22 @@ Feature: Change Email Address
     When the user selects ‘update email’
     And the user enters a valid email address
     And the user selects ‘update email’
-    Then ……  Bug raised as not behaving as expected WS-186 and I don’t think captured in my previous testing or bugs
+    Then the user will be informed that an error occurred
 
   @manual
   Scenario: WS-31-005: Change email with email in use and invalid password
     Given the user enters a valid email address but it is already in use
     And the user enters a invalid password to confirm
     When the user selects ‘update email’
-    Then the modal refreshes and the original email address is displayed with no error message
-    And … Think this is addressed by WS-176 which is at Peer Review
+    Then the user is informed by a message ‘incorrect password’,
+    And the email address is rest to the original
+
 
   @manual
   Scenario: WS-31-006: Change email address with correct email but invalid password
     Given the user enters a valid email address that is not already in use
     And the user enters a incorrect password to confirm
     When the user selects ‘update email’
-    Then … There was a bug WS-175 which is in Peer Review
+    Then the user is informed by a message ‘incorrect password’,
+    And the email address is rest to the original
+
