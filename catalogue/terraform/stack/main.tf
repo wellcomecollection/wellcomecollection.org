@@ -55,7 +55,7 @@ module "api_path_listener" {
   target_group_arn       = local.target_group_arn
 
   path_patterns = ["/api/works*"]
-  priority      = "49998"
+  priority      = "49000"
 }
 
 # This is used for the static assets served from _next with multiple next apps
