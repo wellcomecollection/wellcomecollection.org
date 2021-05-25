@@ -10,7 +10,7 @@ import {
   makeFontSizeClasses,
   makeFontSizeOverrideClasses,
 } from './typography';
-import { rootScopeClasses } from './root-scope-classes';
+import { utilityClasses } from './utility-classes';
 import { themeValues, spacingUnits } from './config';
 
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
@@ -137,7 +137,7 @@ const GlobalStyle = createGlobalStyle`
       `
     )}
   `}
-  ${rootScopeClasses}
+  ${utilityClasses}
   ${makeFontSizeClasses()}
   ${makeFontSizeOverrideClasses()}
   ${typography}

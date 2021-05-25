@@ -1,6 +1,6 @@
 import { themeValues } from './config';
 import { respondTo, respondBetween, visuallyHidden, clearfix } from './mixins';
-export const rootScopeClasses = `
+export const utilityClasses = `
 
 ${[1, 2, 3, 4, 5]
   .map(width => {
