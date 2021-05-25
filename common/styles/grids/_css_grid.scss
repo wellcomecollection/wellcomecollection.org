@@ -1,22 +1,22 @@
-.css-grid__container {
-  @supports(display: grid) {
-    display: grid;
-    grid-auto-rows: minmax(min-content, max-content);
+// .css-grid__container {
+//   @supports(display: grid) {
+//     display: grid;
+//     grid-auto-rows: minmax(min-content, max-content);
 
-    @each $label, $map in $grid-config {
-      $respond: map-get($map, 'respond');
-      $min: map-get($map, 'padding');
-      $columns: '[full-start] minmax(#{$min}, 1fr) [main-start] minmax(0, #{$container-width-max - (map-get($map, 'padding') * 2)}) [main-end] minmax(#{$min}, 1fr) [full-end]';
-      /* will give something like:
-      [full-start] minmax(42px, 1fr) [main-start] minmax(0, 1254px) [main-end] minmax(42px, 1fr) [full-end]
-      */
+//     @each $label, $map in $grid-config {
+//       $respond: map-get($map, 'respond');
+//       $min: map-get($map, 'padding');
+//       $columns: '[full-start] minmax(#{$min}, 1fr) [main-start] minmax(0, #{$container-width-max - (map-get($map, 'padding') * 2)}) [main-end] minmax(#{$min}, 1fr) [full-end]';
+//       /* will give something like:
+//       [full-start] minmax(42px, 1fr) [main-start] minmax(0, 1254px) [main-end] minmax(42px, 1fr) [full-end]
+//       */
 
-      @include respond-to(nth($respond, 1)) {
-        grid-template-columns: unquote($columns);
-      }
-    }
-  }
-}
+//       @include respond-to(nth($respond, 1)) {
+//         grid-template-columns: unquote($columns);
+//       }
+//     }
+//   }
+// }
 
 @mixin max-width-grid-fallback {
   margin-left: auto;

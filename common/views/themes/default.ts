@@ -12,6 +12,7 @@ import {
 } from './typography';
 import { utilityClasses } from './utility-classes';
 import { themeValues, spacingUnits } from './config';
+import { grid } from './grid';
 
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 type SpaceProperty =
@@ -141,6 +142,7 @@ const GlobalStyle = createGlobalStyle`
   ${makeFontSizeClasses()}
   ${makeFontSizeOverrideClasses()}
   ${typography}
+  ${grid}
 `;
 
 export default theme;

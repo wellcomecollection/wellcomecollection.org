@@ -12,6 +12,8 @@ import { type UiEvent } from '../../../model/events';
 import { type Link } from '../../../model/link';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
+// $FlowFixMe (tsx)
+import CssGridContainer from '../styled/CssGridContainer';
 
 type Props = {|
   events: UiEvent[],
@@ -143,7 +145,7 @@ class EventsByMonth extends Component<Props, State> {
     return (
       <div>
         <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-          <div className="css-grid__container">
+          <CssGridContainer>
             <div className="css-grid">
               <div
                 className={classNames({
@@ -161,7 +163,7 @@ class EventsByMonth extends Component<Props, State> {
                 />
               </div>
             </div>
-          </div>
+          </CssGridContainer>
         </Space>
 
         {months.map(month => (
@@ -178,7 +180,7 @@ class EventsByMonth extends Component<Props, State> {
                 : 'none',
             }}
           >
-            <div className="css-grid__container">
+            <CssGridContainer>
               <div className="css-grid">
                 <h2
                   id={month.id}
@@ -190,7 +192,7 @@ class EventsByMonth extends Component<Props, State> {
                   {month.id}
                 </h2>
               </div>
-            </div>
+            </CssGridContainer>
             <CardGrid
               items={eventsInMonths[month.id]}
               itemsPerRow={3}

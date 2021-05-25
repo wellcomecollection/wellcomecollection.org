@@ -3,12 +3,6 @@
 .author {
   margin-bottom: 2 * $vertical-space-unit;
   padding-bottom: 0.2rem;
-
-  .grid--no-gutters & {
-    @include respond-to('large') {
-      padding-right: map-get($gutter-width, 'large');
-    }
-  }
 }
 
 .author--border-bottom {
@@ -27,12 +21,6 @@
     left: 0;
     right: 0;
     bottom: 0;
-
-    .grid--no-gutters & {
-      @include respond-to('large') {
-        right: map-get($gutter-width, 'large');
-      }
-    }
   }
 }
 

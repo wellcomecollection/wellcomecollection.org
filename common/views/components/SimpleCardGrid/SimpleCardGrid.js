@@ -8,7 +8,8 @@ import Card from '../Card/Card';
 import Layout12 from '../Layout12/Layout12';
 // $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
-
+// $FlowFixMe (tsx)
+import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 type Props = {|
   items: $ReadOnlyArray<CardType>,
   isFeaturedFirst?: boolean,
@@ -56,7 +57,7 @@ const CardGrid = ({ items, isFeaturedFirst }: Props) => {
           <CardGridFeaturedCard item={featuredCard} />
         </Space>
       )}
-      <div className="css-grid__container">
+      <CssGridContainer>
         <div className="css-grid">
           {threeCards.map((item, i) => (
             <div
@@ -74,7 +75,7 @@ const CardGrid = ({ items, isFeaturedFirst }: Props) => {
             </div>
           ))}
         </div>
-      </div>
+      </CssGridContainer>
       {featuredCard && !isFeaturedFirst && (
         <Space v={{ size: 'l', properties: ['padding-top'] }}>
           <CardGridFeaturedCard item={featuredCard} />
