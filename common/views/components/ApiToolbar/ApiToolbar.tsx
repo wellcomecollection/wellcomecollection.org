@@ -3,6 +3,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import cookies from 'next-cookies';
 import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
+import { Work, Location } from '../../../model/catalogue';
 
 type Prop = {
   id: string;
@@ -29,21 +30,38 @@ const routeProps = {
   '/work': async (query: ParsedUrlQuery): Promise<Prop[]> => {
     const { id } = query;
     const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/works/${id}?include=${includes}`;
-    const work = await fetch(apiUrl).then(res => res.json());
+    const work: Work = await fetch(apiUrl).then(res => res.json());
 
     const apiLink = {
       id: 'json',
       label: 'JSON',
       link: apiUrl,
     };
-    return [
+
+    const iiifItem = work.items
+      ?.reduce((acc, item) => {
+        return acc.concat(item.locations);
+      }, [] as Location[])
+      ?.find(location => location.locationType.id.startsWith('iiif'));
+
+    const iiifLink = iiifItem &&
+      iiifItem.type === 'DigitalLocation' && {
+        id: 'iiif',
+        label: 'IIIF',
+        link: iiifItem.url,
+      };
+
+    const links = [
       apiLink,
+      iiifLink,
       ...work.identifiers.map(id => ({
         id: id.value,
         label: id.identifierType.label,
         value: id.value,
       })),
-    ];
+    ].filter(Boolean) as Prop[];
+
+    return links;
   },
 };
 
@@ -52,15 +70,18 @@ const ApiToolbar: FunctionComponent = () => {
   const router = useRouter();
   const [props, setProps] = useState<Prop[]>([]);
   const [mini, setMini] = useState<boolean>(false);
+
   useIsomorphicLayoutEffect(() => {
     setMini(cookies({})[cookieName] === 'true');
   }, []);
+
   useEffect(() => {
     const fn = routeProps[router.route];
     if (fn) {
       fn(router.query).then(setProps);
     }
   }, []);
+
   const propValue = (prop: Prop) => {
     return `${prop.label}${prop.value ? ` : ${prop.value}` : ''}`;
   };
