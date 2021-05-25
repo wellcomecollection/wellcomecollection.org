@@ -16,7 +16,7 @@ const fontSizeUnits = {
   '11': 50,
 };
 
-const fontSizesAtBreakpoints = {
+export const fontSizesAtBreakpoints = {
   small: {
     0: fontSizeUnits[9],
     1: fontSizeUnits[8],
