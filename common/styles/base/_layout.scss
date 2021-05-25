@@ -1,8 +1,3 @@
-$tweakpoints: (
-  'header-medium': $header-medium-breakpoint,
-  'small': map-get($breakpoints, 'small')
-);
-
 * {
   &,
   &:before,
@@ -19,14 +14,6 @@ $tweakpoints: (
 
 .is-scroll-locked--to-medium {
   @include respond-between('small', 'medium') {
-    margin: 0;
-    height: 100vh;
-    overflow: hidden;
-  }
-}
-
-.is-scroll-locked--to-header-medium {
-  @include respond-between('small', 'header-medium') {
     margin: 0;
     height: 100vh;
     overflow: hidden;

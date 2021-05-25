@@ -1,103 +1,121 @@
-@for $i from 1 through 5 {
-  .border-width-#{$i} {
-    border-width: #{$i}px;
-    border-style: solid;
-  }
+import { themeValues } from './config';
+import { respondTo, respondBetween, visuallyHidden, clearfix } from './mixins';
+export const utilityClasses = `
 
-  @each $direction in $spacing-directions {
-    .border-#{$direction}-width-#{$i} {
-      border-#{$direction}-width: #{$i}px;
-      border-#{$direction}-style: solid;
+${[1, 2, 3, 4, 5]
+  .map(width => {
+    return `
+    .border-width-${width} {
+      border-width: ${width}px;
+      border-style: solid;
     }
-  }
-}
 
-// stylelint-disable sh-waqar/declaration-use-variable
-@each $color-key, $color-value in $colors {
-  .font-#{$color-key} {
-    color: nth($color-value, 1);
+    ${['top', 'right', 'bottom', 'left']
+      .map(direction => {
+        return `
+        .border-${direction}-width-${width} {
+          border-${direction}-width: ${width}px;
+          border-${direction}-style: solid;
+        }
+      `;
+      })
+      .join(' ')}
+  `;
+  })
+  .join(' ')}
+
+${Object.entries(themeValues.colors)
+  .map(([key, value]) => {
+    return `
+  .font-${key} {
+    color: ${value.base};
 
     .icon__shape {
-      fill: nth($color-value, 1);
+      fill: ${value.base};
     }
   }
-
-  .font-hover-#{$color-key}:hover,
-  .font-hover-#{$color-key}:focus {
-    color: nth($color-value, 1);
+  .font-hover-${key}:hover,
+  .font-hover-${key}:focus {
+    color: ${value.base};
+  }
+  .bg-${key} {
+    background: ${value.base};
   }
 
-  .bg-#{$color-key} {
-    background: nth($color-value, 1);
-  }
-
-  .bg-hover-#{$color-key} {
+  .bg-hover-${key} {
     &:hover,
     &:focus {
-      background: nth($color-value, 1);
+      background: ${value.base};
     }
   }
 
-  .border-color-#{$color-key} {
-    border-color: nth($color-value, 1);
+  .border-color-${key} {
+    border-color: ${value.base};
   }
 
-  .border-hover-color-#{$color-key}:hover,
-  .border-hover-color-#{$color-key}:focus {
-    border-color: nth($color-value, 1);
+  .border-hover-color-${key}:hover,
+  .border-hover-color-${key}:focus {
+    border-color: ${value.base};
   }
-}
+  `;
+  })
+  .join(' ')}
 
 .transition-bg {
-  transition: background $transition-properties;
+  transition: background ${themeValues.transitionProperties};
 }
-
-// stylelint-enable sh-waqar/declaration-use-variable
 
 .caps {
   text-transform: uppercase;
 }
 
-// This should trump other display styles
-// stylelint-disable declaration-no-important
 .is-hidden {
   display: none !important;
 }
 
 .is-hidden-s {
-  @include respond-between('small', 'medium') {
+  ${respondBetween(
+    'small',
+    'medium',
+    `
     display: none !important;
-  }
+  `
+  )}
 }
 
 .is-hidden-m {
-  @include respond-between('medium', 'large') {
+  ${respondBetween(
+    'medium',
+    'large',
+    `
     display: none !important;
-  }
+  `
+  )}
 }
 
 .is-hidden-l {
-  @include respond-between('large', 'xlarge') {
+  ${respondBetween(
+    'large',
+    'xlarge',
+    `
     display: none !important;
-  }
+  `
+  )}
 }
 
 .is-hidden-xl {
-  @include respond-to('xlarge') {
+  ${respondTo(
+    'xlarge',
+    `
     display: none !important;
-  }
+  `
+  )}
 }
-
-
-
-// stylelint-enable declaration-no-important
 
 .line-height-1.line-height-1 {
   line-height: 1;
 }
 
-// Adds momentum scrolling to iOS
-// TODO: consider removing if/when scroll snapping is implemented
 .touch-scroll {
   -webkit-overflow-scrolling: touch;
 }
@@ -116,9 +134,12 @@
 }
 
 .flex-l-up {
-  @include respond-to('large') {
+  ${respondTo(
+    'large',
+    `
     display: flex;
-  }
+  `
+  )}
 }
 
 .flex--column {
@@ -181,7 +202,7 @@
   appearance: none;
   font-family: inherit;
   letter-spacing: inherit;
-  background: color('transparent');
+  background: ${themeValues.color('transparent')};
   border: 0;
   text-align: left;
 }
@@ -226,7 +247,6 @@
   display: block;
 }
 
-// Flex for most browsers, block for IE
 .flex-ie-block {
   display: block; // IE
 
@@ -275,87 +295,135 @@
     display: block;
     width: 100%;
     height: 35px;
-    background: linear-gradient(rgba(255, 255, 255 , 0.001), color('white')); // Safari doesn't like transparent (shows as grey), so giving a value very close to transparent.
+    background: linear-gradient(rgba(255, 255, 255 , 0.001), ${themeValues.color(
+      'white'
+    )}); // Safari doesn't like transparent (shows as grey), so giving a value very close to transparent.
   }
 }
 
 .flush-container-left {
   position: absolute;
-  left: $container-padding-s;
+  left: ${themeValues.containerPadding.small}px;
 
-  @include respond-to('medium') {
-    left: $container-padding-m;
-  }
+  ${respondTo(
+    'medium',
+    `
+    left: ${themeValues.containerPadding.medium}px;
+  `
+  )}
 
-  @include respond-to('large') {
-    left: $container-padding-l;
-  }
 
-  @include respond-to('xlarge') {
-    left: calc(((100vw - #{$container-width-max}) / 2) + #{$container-padding-xl});
-  }
+  ${respondTo(
+    'large',
+    `
+    left: ${themeValues.containerPadding.large}px;
+  `
+  )}
+
+  ${respondTo(
+    'xlarge',
+    `
+    left: calc(((100vw - ${themeValues.sizes.xlarge}px) / 2) + ${themeValues.containerPadding.xlarge}px)
+  `
+  )}
 }
 
 .flush-container-right {
   position: absolute;
-  right: $container-padding-s;
+  right: ${themeValues.containerPadding.small}px;
 
-  @include respond-to('medium') {
-    right: $container-padding-m;
-  }
+  ${respondTo(
+    'medium',
+    `
+    right: ${themeValues.containerPadding.medium}px;
+  `
+  )}
 
-  @include respond-to('large') {
-    right: $container-padding-l;
-  }
 
-  @include respond-to('xlarge') {
-    right: calc(((100vw - #{$container-width-max}) / 2) + #{$container-padding-xl});
-  }
+  ${respondTo(
+    'large',
+    `
+    right: ${themeValues.containerPadding.large}px;
+  `
+  )}
+
+  ${respondTo(
+    'xlarge',
+    `
+    right: calc(((100vw - ${themeValues.sizes.xlarge}px) / 2) + ${themeValues.containerPadding.xlarge}px)
+  `
+  )}
 }
+
 
 .no-margin {
   margin: 0;
 }
 
 .no-margin-s.no-margin-s {
-  @include respond-between('small', 'medium') {
+  ${respondBetween(
+    'small',
+    'medium',
+    `
     margin: 0;
-  }
+  `
+  )}
 }
 
 .no-margin-m.no-margin-m {
-  @include respond-between('medium', 'large') {
+  ${respondBetween(
+    'medium',
+    'large',
+    `
     margin: 0;
-  }
+  `
+  )}
 }
 
 .no-margin-l.no-margin-l {
-  @include respond-to('large') {
+  ${respondTo(
+    'large',
+    `
     margin: 0;
-  }
+  `
+  )}
 }
 
 .no-padding {
   padding: 0;
 }
 
+
 .no-padding-s.no-padding-s {
-  @include respond-between('small', 'medium') {
+  ${respondBetween(
+    'small',
+    'medium',
+    `
     padding: 0;
-  }
+  `
+  )}
 }
 
 .no-padding-m.no-padding-m {
-  @include respond-between('medium', 'large') {
+  ${respondBetween(
+    'medium',
+    'large',
+    `
     padding: 0;
-  }
+  `
+  )}
 }
 
 .no-padding-l.no-padding-l {
-  @include respond-to('large') {
+  ${respondTo(
+    'large',
+    `
     padding: 0;
-  }
+  `
+  )}
 }
+
+
 
 .margin-h-auto {
   margin-left: auto;
@@ -367,7 +435,7 @@
 }
 
 .bg-transparent-black {
-  background: color('transparent-black');
+  background: ${themeValues.color('transparent-black')};
 }
 
 .bg-transparent-black--hover {
@@ -375,18 +443,18 @@
 
   &[href]:hover,
   &[href]:focus {
-    background: color('black');
+    background: ${themeValues.color('black')};
   }
 }
 
 .promo-link {
   height: 100%;
-  color: color('black');
+  color: ${themeValues.color('black')};
 
   &:hover .promo-link__title,
   &:focus .promo-link__title {
     text-decoration: underline;
-    text-decoration-color: color('green');
+    text-decoration-color: ${themeValues.color('green')};
   }
 }
 
@@ -395,21 +463,21 @@
 }
 
 .rounded-corners {
-  border-radius: $border-radius-unit;
+  border-radius: ${themeValues.borderRadiusUnit}px;
 }
 
 .rounded-diagonal {
-  border-top-left-radius: $border-radius-unit;
-  border-bottom-right-radius: $border-radius-unit;
+  border-top-left-radius: ${themeValues.borderRadiusUnit}px;
+  border-bottom-right-radius: ${themeValues.borderRadiusUnit}px;
 }
 .rounded-top {
-  border-top-left-radius: $border-radius-unit;
-  border-top-right-radius: $border-radius-unit;
+  border-top-left-radius: ${themeValues.borderRadiusUnit}px;
+  border-top-right-radius: ${themeValues.borderRadiusUnit}px;
 }
 
 .rounded-bottom {
-  border-bottom-left-radius: $border-radius-unit;
-  border-bottom-right-radius: $border-radius-unit;
+  border-bottom-left-radius: ${themeValues.borderRadiusUnit}px;
+  border-bottom-right-radius: ${themeValues.borderRadiusUnit}px;
 }
 
 .round {
@@ -448,8 +516,6 @@
   margin: 0 auto;
 }
 
-
-
 // For when we get HTML out of systems like Prismic
 .first-para-no-margin p:first-of-type {
   margin: 0;
@@ -457,7 +523,7 @@
 
 // This removes the element from the flow, as well as it's visibility
 .visually-hidden {
-  @include visually-hidden;
+  ${visuallyHidden};
 }
 
 .opacity-0 {
@@ -486,8 +552,9 @@
   max-width: 100%;
 }
 
+
 .clearfix {
-  @include clearfix;
+  ${clearfix}
 }
 
 // TODO: use this for e.g. Promo hover behaviour too
@@ -498,17 +565,15 @@
   &:focus {
     .card-link__title {
       text-decoration: underline;
-      text-decoration-color: color('green');
+      text-decoration-color: ${themeValues.color('green')};
     }
   }
 }
 
-// This is used when you want an elemnt to take the line-height of the content
-// that would be in it, but you have no content.
 .empty-filler:before {
-  content: "\200b";
+  content: "\\200b";
 }
-
 .shadow {
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.4);
 }
+`;

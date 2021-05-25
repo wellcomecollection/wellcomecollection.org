@@ -40,7 +40,7 @@ const SectionHeader = ({ title }: Props) => {
             <Space
               as="h2"
               h={{ size: 's', properties: ['margin-left'] }}
-              className={`inline no-margin`}
+              className={`inline`}
             >
               <TitleWrapper>{title}</TitleWrapper>
             </Space>
