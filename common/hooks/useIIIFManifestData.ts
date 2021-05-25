@@ -54,6 +54,10 @@ function parseManifest(manifest: IIIFManifest): IIIFManifestData {
 }
 
 const startedFetchingIds = new Set();
+const manifestDataPromises: Map<
+  string,
+  Promise<IIIFManifestData | undefined>
+> = new Map();
 const cachedManifestData: Map<string, IIIFManifestData> = new Map();
 
 const useIIIFManifestData = (work: Work): IIIFManifestData => {
@@ -62,36 +66,51 @@ const useIIIFManifestData = (work: Work): IIIFManifestData => {
     childManifestsCount: 0,
   });
 
-  useEffect(() => {
-    const fetchIIIFPresentationManifest = async (work: Work) => {
-      startedFetchingIds.add(work.id);
-      try {
-        const iiifPresentationLocation = getDigitalLocationOfType(
-          work,
-          'iiif-presentation'
-        );
+  async function fetchIIIFPresentationManifest(
+    work: Work
+  ): Promise<IIIFManifestData | undefined> {
+    startedFetchingIds.add(work.id);
+    try {
+      const iiifPresentationLocation = getDigitalLocationOfType(
+        work,
+        'iiif-presentation'
+      );
 
-        const iiifManifest =
-          iiifPresentationLocation &&
-          (await getIIIFManifest(iiifPresentationLocation.url));
+      const iiifManifest =
+        iiifPresentationLocation &&
+        (await getIIIFManifest(iiifPresentationLocation.url));
 
-        if (iiifManifest) {
-          const data = parseManifest(iiifManifest);
-          cachedManifestData.set(work.id, data);
-          setManifestData(data);
-        }
-      } catch (e) {}
-    };
+      if (iiifManifest) {
+        return parseManifest(iiifManifest);
+      }
+    } catch (e) {}
+  }
 
+  async function updateManifest(work) {
     const cachedManifest = cachedManifestData.get(work.id);
     if (cachedManifest) {
       setManifestData(cachedManifest);
+    } else {
+      // If we've started fetching a work, we can just wait for that to resolve
+      const existingPromise = manifestDataPromises.get(work.id);
+      if (existingPromise) {
+        const data = await existingPromise;
+        if (data) {
+          cachedManifestData.set(work.id, data);
+          setManifestData(data);
+        }
+      } else {
+        manifestDataPromises.set(work.id, fetchIIIFPresentationManifest(work));
+        const data = await manifestDataPromises.get(work.id);
+        if (data) {
+          cachedManifestData.set(work.id, data);
+          setManifestData(data);
+        }
+      }
     }
-
-    // If we've started fetching a work, we can just wait for that to resolve
-    if (!startedFetchingIds.has(work.id)) {
-      fetchIIIFPresentationManifest(work);
-    }
+  }
+  useEffect(() => {
+    updateManifest(work);
   }, [work.id]);
 
   return manifestData;
