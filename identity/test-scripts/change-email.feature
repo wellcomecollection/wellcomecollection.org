@@ -51,7 +51,7 @@ Feature: Change Email Address
     And the user enters a invalid password to confirm
     When the user selects ‘update email’
     Then the user is informed by a message ‘incorrect password’,
-    And the email address is rest to the original
+    And the email address is reset to the original
 
 
   @manual
@@ -60,5 +60,5 @@ Feature: Change Email Address
     And the user enters a incorrect password to confirm
     When the user selects ‘update email’
     Then the user is informed by a message ‘incorrect password’,
-    And the email address is rest to the original
+    And the email address is reset to the original
 
