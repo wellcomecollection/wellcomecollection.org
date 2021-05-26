@@ -18,6 +18,7 @@ import { Page } from '../../../model/pages';
 import { ArticleSeries } from '../../../model/article-series';
 
 import Space from '../styled/Space';
+import CssGridContainer from '../styled/CssGridContainer';
 import Moment from 'moment';
 import Card from '../Card/Card';
 import { convertItemToCardProps } from '@weco/common/model/card';
@@ -53,7 +54,7 @@ const CardGrid: FunctionComponent<Props> = ({
   const gridColumns = itemsPerRow === 4 ? 3 : 4;
   return (
     <div>
-      <div className="css-grid__container">
+      <CssGridContainer>
         <div className="css-grid">
           {items.map((item, i) => (
             <div
@@ -109,7 +110,7 @@ const CardGrid: FunctionComponent<Props> = ({
             </div>
           ))}
         </div>
-      </div>
+      </CssGridContainer>
       {links && links.length > 0 && (
         <Layout12>
           <Space v={{ size: 'm', properties: ['margin-top'] }}>

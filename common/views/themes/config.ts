@@ -1,6 +1,75 @@
 import { keyframes } from 'styled-components';
 
+export type ColumnKey =
+  | 's'
+  | 'm'
+  | 'l'
+  | 'xl'
+  | 'shiftM'
+  | 'shiftL'
+  | 'shiftXl';
+export type Breakpoint = 'small' | 'medium' | 'large' | 'xlarge';
+
 type ColorVariant = 'base' | 'light' | 'dark';
+type GridProperties = {
+  padding: number;
+  gutter: number;
+  columns: number;
+  primaryStart: number;
+  primaryEnd: number;
+  secondaryStart: number;
+  secondaryEnd: number;
+  respond: Breakpoint[];
+};
+type GridConfig = {
+  s: GridProperties;
+  m: GridProperties;
+  l: GridProperties;
+  xl: GridProperties;
+};
+
+const grid: GridConfig = {
+  s: {
+    padding: 18,
+    gutter: 18,
+    columns: 12,
+    primaryStart: 1,
+    primaryEnd: 12,
+    secondaryStart: 1,
+    secondaryEnd: 12,
+    respond: ['small', 'medium'],
+  },
+  m: {
+    padding: 42,
+    gutter: 24,
+    columns: 12,
+    primaryStart: 2,
+    primaryEnd: 11,
+    secondaryStart: 2,
+    secondaryEnd: 11,
+    respond: ['medium', 'large'],
+  },
+  l: {
+    padding: 60,
+    gutter: 30,
+    columns: 12,
+    primaryStart: 1,
+    primaryEnd: 7,
+    secondaryStart: 8,
+    secondaryEnd: 12,
+    respond: ['large', 'xlarge'],
+  },
+  xl: {
+    padding: 60,
+    gutter: 30,
+    columns: 12,
+    primaryStart: 1,
+    primaryEnd: 7,
+    secondaryStart: 8,
+    secondaryEnd: 12,
+    respond: ['xlarge'],
+  },
+};
 
 export const spacingUnits = {
   '1': 4,
@@ -119,6 +188,7 @@ export const themeValues = {
       xl: spacingUnits['10'],
     },
   },
+  grid,
   color(name: string, variant: ColorVariant = 'base'): string {
     return this.colors[name][variant];
   },

@@ -1,5 +1,4 @@
-import { themeValues } from './config';
-type Breakpoint = 'small' | 'medium' | 'large' | 'xlarge';
+import { themeValues, ColumnKey, Breakpoint } from './config';
 
 export function respondTo(breakpoint: Breakpoint, content: string): string {
   return `@media (min-width: ${themeValues.sizes[breakpoint]}px) {
@@ -39,3 +38,41 @@ export const clearfix = `
   &:after {
     clear: both;
 }`;
+
+export function gridCells(columns: number, key: ColumnKey): string {
+  return [...Array(columns).keys()]
+    .map(c => {
+      const col = c + 1;
+      return `
+      .grid__cell--${key}${col} {
+        flex-basis: ${(col / columns) * 100}%;
+        max-width: ${(col / columns) * 100}%;
+      }
+
+      .grid__cell--shift-${key}${col} {
+        margin-left: ${(col / columns) * 100}%;
+      }
+    `;
+    })
+    .join(' ');
+}
+
+export function cssGridCells(columns: number, key: ColumnKey): string {
+  return [...Array(columns).keys()]
+    .map(c => {
+      const col = c + 1;
+
+      return `
+      .css-grid__cell--${key}${col} {
+        flex-basis: ${(col / columns) * 100}%;
+        max-width: ${(col / columns) * 100}%;
+
+        @supports(display: grid) {
+          max-width: none;
+          grid-column: span ${col};
+        }
+      }
+    `;
+    })
+    .join(' ');
+}
