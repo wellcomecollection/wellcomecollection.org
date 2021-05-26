@@ -14,7 +14,7 @@ function makeGridCells(columns: number, key: ColumnKey): string {
 
         @supports(display: grid) {
           max-width: none;
-          grid-column: span ${col}
+          grid-column: span ${col};
         }
       }
     `;
@@ -75,7 +75,18 @@ function maxWidthGridFallback() {
         return respondTo(value.respond[0], respondValue);
       })
       .join(' ')}
-  `;
+
+    // we don't want to apply a max width to any nested container
+    // since this is a mixin that can be applied in a couple of places
+    // using ampersands to refer to the class in which it's used
+    & & {
+      max-width: none;
+    }
+
+    @supports (display: grid) {
+      margin: 0;
+      max-width: none;
+    }`;
 }
 
 const CssGridContainer = styled.div`
@@ -94,18 +105,6 @@ const CssGridContainer = styled.div`
         return respondTo(respond[0], `grid-template-columns: ${columns}`);
       })
       .join(' ')}
-  }
-
-  // we don't want to apply a max width to any nested container
-  // since this is a mixin that can be applied in a couple of places
-  // using ampersands to refer to the class in which it's used
-  & & {
-    max-width: none;
-  }
-
-  @supports (display: grid) {
-    margin: 0;
-    max-width: none;
   }
 
   .css-grid__cell--main {
@@ -127,7 +126,6 @@ const CssGridContainer = styled.div`
       grid-column: main;
       grid-auto-rows: minmax(0, auto);
       display: grid;
-      yo: what;
 
       ${Object.entries(themeValues.grid)
         .map(entry => {
