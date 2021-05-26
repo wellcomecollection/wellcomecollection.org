@@ -30,15 +30,16 @@ export const icons = `
 
 ${Object.entries(themeValues.colors)
   .map(([key, value]) => {
-    return `icon--${key} {
-    .icon__shape {
-      fill: ${value};
-    }
+    return `
+    .icon--${key} {
+      .icon__shape {
+        fill: ${value.base};
+      }
 
-    .icon__stroke {
-      stroke: ${value};
-    }
-  }`;
+      .icon__stroke {
+        stroke: ${value.base};
+      }
+    }`;
   })
   .join(' ')}
 
