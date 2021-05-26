@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { getArchiveLabels, getCardLabels } from '@weco/common/utils/works';
+import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 
 const WorkHeaderContainer = styled.div.attrs({
   className: classNames({
@@ -22,16 +23,15 @@ const WorkHeaderContainer = styled.div.attrs({
 
 type Props = {
   work: Work;
-  childManifestsCount?: number;
 };
 
 const WorkHeader: FunctionComponent<Props> = ({
   work,
-  childManifestsCount = 0,
 }: Props): ReactElement<Props> => {
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
   const cardLabels = getCardLabels(work);
+  const { childManifestsCount } = useIIIFManifestData(work);
 
   return (
     <WorkHeaderContainer>
