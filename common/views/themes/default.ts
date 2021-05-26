@@ -11,6 +11,7 @@ import {
   makeFontSizeOverrideClasses,
 } from './typography';
 import { utilityClasses } from './utility-classes';
+import { base } from './base';
 import { themeValues, spacingUnits } from './config';
 import { grid } from './grid';
 
@@ -139,6 +140,7 @@ const GlobalStyle = createGlobalStyle`
     )}
   `}
   ${utilityClasses}
+  ${base}
   ${makeFontSizeClasses()}
   ${makeFontSizeOverrideClasses()}
   ${typography}

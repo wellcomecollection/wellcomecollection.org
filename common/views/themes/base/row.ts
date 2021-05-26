@@ -1,36 +1,6 @@
-//* @define row
+import { themeValues } from '../config';
 
-.row--lead {
-  position: relative;
-
-  &:before {
-    position: absolute;
-    content: '';
-    background: color('smoke');
-    top: 0;
-    bottom: 0;
-    left: 0;
-  }
-
-  &.row--lead--s:before {
-    @include respond-to('small') {
-      width: map-get($container-padding, 'small');
-    }
-  }
-
-  &.row--lead--m:before {
-    @include respond-to('medium') {
-      width: map-get($container-padding, 'medium');
-    }
-  }
-
-  &.row--lead--l:before {
-    @include respond-to('large') {
-      width: map-get($container-padding, 'large');
-    }
-  }
-}
-
+export const row = `
 .row--has-wobbly-background {
   position: relative;
   z-index: 0;
@@ -44,7 +14,7 @@
   right: 0;
   height: 15%;
   transition: height 600ms ease;
-  background: color('white');
+  background: ${themeValues.color('white')};
 
   &:after {
     position: absolute;
@@ -58,3 +28,4 @@
     background-size: cover;
   }
 }
+`;

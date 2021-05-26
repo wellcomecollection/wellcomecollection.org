@@ -6,18 +6,6 @@ $is-next: true;
 // Vendor
 @import 'vendor/normalize';
 
-// Base
-@import 'base/wellcome_normalize';
-@import 'base/layout';
-@import 'base/container';
-@import 'base/row';
-@import 'base/icons';
-@import 'base/inline_fonts';
-@import 'base/fonts';
-@import 'base/responsive-defaults';
-@import 'base/transitions';
-
-
 // Components
 @import 'components/buttons';
 @import 'components/control';

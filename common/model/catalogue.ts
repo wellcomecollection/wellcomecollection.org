@@ -151,7 +151,7 @@ export type PhysicalLocation = {
   type: 'PhysicalLocation';
 };
 
-type Location = DigitalLocation | PhysicalLocation;
+export type Location = DigitalLocation | PhysicalLocation;
 
 type LocationType = {
   id: string;

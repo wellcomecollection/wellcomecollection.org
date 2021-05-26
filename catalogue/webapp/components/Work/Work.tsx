@@ -15,7 +15,6 @@ import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
 import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
-import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 
 const ArchiveDetailsContainer = styled.div`
@@ -42,7 +41,6 @@ const Work: FunctionComponent<Props> = ({
   const { link: searchLink } = useContext(SearchContext);
 
   const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
-  const { childManifestsCount } = useIIIFManifestData(work);
 
   const workData = {
     workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),
@@ -129,13 +127,9 @@ const Work: FunctionComponent<Props> = ({
               </Space>
             </div>
           </div>
-
           <div className="container">
             <div className="grid">
-              <WorkHeader
-                work={work}
-                childManifestsCount={childManifestsCount}
-              />
+              <WorkHeader work={work} />
             </div>
           </div>
 
@@ -153,10 +147,7 @@ const Work: FunctionComponent<Props> = ({
         <>
           <div className="container">
             <div className="grid">
-              <WorkHeader
-                work={work}
-                childManifestsCount={childManifestsCount}
-              />
+              <WorkHeader work={work} />
             </div>
           </div>
           <WorkDetails work={work} />

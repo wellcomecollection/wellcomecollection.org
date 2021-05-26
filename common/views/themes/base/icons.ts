@@ -1,7 +1,10 @@
+import { themeValues } from '../config';
+
+export const icons = `
 .icon {
   display: inline-block;
-  height: $icon-dimension;
-  width: $icon-dimension;
+  height: ${themeValues.iconDimension}px;
+  width: ${themeValues.iconDimension}px;
   position: relative;
   user-select: none;
 }
@@ -25,17 +28,20 @@
   width: 100%;
 }
 
-@each $color-key, $color-value in $colors {
-  .icon--#{$color-key} {
+${Object.entries(themeValues.colors)
+  .map(([key, value]) => {
+    return `icon--${key} {
     .icon__shape {
-      fill: nth($color-value, 1);
+      fill: ${value};
     }
 
     .icon__stroke {
-      stroke: nth($color-value, 1);
+      stroke: ${value};
     }
-  }
-}
+  }`;
+  })
+  .join(' ')}
+
 
 .icon--45 {
   transform: rotate(45deg);
@@ -54,8 +60,9 @@
 }
 
 .icon-rounder {
-  border: 2px solid color('currentColor');
+  border: 2px solid ${themeValues.color('currentColor')};
   border-radius: 50%;
-  width: $icon-container-dimension;
-  height: $icon-container-dimension;
+  width: 46px;
+  height: 46px;
 }
+`;
