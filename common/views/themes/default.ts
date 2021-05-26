@@ -11,6 +11,7 @@ import {
   makeFontSizeOverrideClasses,
 } from './typography';
 import { utilityClasses } from './utility-classes';
+import { base } from './base';
 import { themeValues, spacingUnits } from './config';
 
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
@@ -138,6 +139,7 @@ const GlobalStyle = createGlobalStyle`
     )}
   `}
   ${utilityClasses}
+  ${base}
   ${makeFontSizeClasses()}
   ${makeFontSizeOverrideClasses()}
   ${typography}
