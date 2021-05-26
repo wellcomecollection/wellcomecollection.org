@@ -8,6 +8,7 @@ import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import Space from '../styled/Space';
 import Layout12 from '../Layout12/Layout12';
 import FooterOpeningTimes from '../FooterOpeningTimes/FooterOpeningTimes';
+import { BodyPart } from '../Body/Body';
 
 type ContainerProps = {
   children: ReactNode;
@@ -17,13 +18,9 @@ const Container: FunctionComponent<ContainerProps> = ({
 }: ContainerProps) => (
   <SpacingSection>
     <SpacingComponent>
-      <div
-        className={classNames({
-          'body-part': true,
-        })}
-      >
+      <BodyPart>
         <Layout12>{children}</Layout12>
-      </div>
+      </BodyPart>
     </SpacingComponent>
   </SpacingSection>
 );

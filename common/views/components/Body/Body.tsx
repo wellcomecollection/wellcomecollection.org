@@ -57,6 +57,13 @@ import { convertItemToCardProps } from '@weco/common/model/card';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import VisitUsStaticContent from './VisitUsStaticContent';
 import CollectionsStaticContent from './CollectionsStaticContent';
+import styled from 'styled-components';
+
+export const BodyPart = styled.div`
+  display: block;
+  z-index: 2;
+  position: relative;
+`;
 
 const Map = dynamic(import('../Map/Map'), { ssr: false });
 
@@ -323,11 +330,7 @@ const Body: FunctionComponent<Props> = ({
             slice.weight === 'featured'
           ) && (
             <SpacingComponent>
-              <div
-                className={classNames({
-                  'body-part': true,
-                })}
-              >
+              <BodyPart>
                 {slice.type === 'text' && (
                   <LayoutWidth width={minWidth}>
                     <div className="body-text spaced-text">
@@ -528,7 +531,7 @@ const Body: FunctionComponent<Props> = ({
                     <MediaObjectList {...slice.value} />
                   </LayoutWidth>
                 )}
-              </div>
+              </BodyPart>
             </SpacingComponent>
           )}
         </Fragment>
