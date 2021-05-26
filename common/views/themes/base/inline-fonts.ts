@@ -6,3 +6,15 @@ export const inlineFonts = `
   font-weight: bold;
   font-style: normal;
 }`;
+
+/*
+https://unicode.org/charts/PDF/U0000.pdf
+U+0020: space,
+U+0022: quotation,
+U+002C: comma,
+U+002E: fullstop,
+U+0030-0039 : digits 0-9
+U+003F: question mark,
+U+0041-005A: uppercase,
+U+0061-007A: lowercase
+*/
