@@ -1,6 +1,7 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 import {ContextDecorator} from '../../../config/decorators.tsx';
 import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors/OnThisPageAnchors';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 
 <Meta title={`Global/Page types`} />
 
@@ -9,24 +10,24 @@ import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors/O
 **There are 6 page types**
 
 <ContextDecorator>
-    <OnThisPageAnchors links={[
-        {text: 'Section', url: '#section-pages'},
-        {text: 'List', url: '#list-pages'},
-        {text: 'Landing', url: '#landing-pages'},
-        {text: 'Series', url: '#series-pages'},
-        {text: 'Content', url: '#content-pages'},
-        {text: 'Season', url: '#season-pages'}
-    ]} />
+    <SpacingSection>
+        <OnThisPageAnchors links={[
+            {text: 'Section', url: '#section-pages'},
+            {text: 'List', url: '#list-pages'},
+            {text: 'Landing', url: '#landing-pages'},
+            {text: 'Series', url: '#series-pages'},
+            {text: 'Content', url: '#content-pages'},
+            {text: 'Season', url: '#season-pages'}
+        ]} />
+    </SpacingSection>
 </ContextDecorator>
 
----
 
-# Section pages
+## Section pages
 
 A section page is a linked page from the main navigation. Each section page provides an overview of the content contained within the section and enables users to link to the deeper content. This is achieved through a combination of brief introductory text, cards and can include custom functionality e.g. [What's on](https://wellcomecollection.org/whats-on) filters or [Collections](https://wellcomecollection.org/collections) search tool.
 
-## Examples of Section pages
-
+### Examples of Section pages
 - [Visit us](https://wellcomecollection.org/visit-us)
 - [What's on](https://wellcomecollection.org/whats-on)
 - [Stories](https://wellcomecollection.org/stories)
@@ -34,76 +35,62 @@ A section page is a linked page from the main navigation. Each section page prov
 - [What we do](https://wellcomecollection.org/what-we-do)
 
 
-- **Core components**
-    - [Regular cards](https://cardigan.wellcomecollection.org/?path=/story/components--eventpromo)
-    - [Banner cards](https://cardigan.wellcomecollection.org/?path=/story/components--bannercard)
-    - [Featured cards](https://cardigan.wellcomecollection.org/?path=/story/components--featuredcard)
+#### Core components
+- [Regular cards](https://cardigan.wellcomecollection.org/?path=/story/components--eventpromo)
+- [Banner cards](https://cardigan.wellcomecollection.org/?path=/story/components--bannercard)
+- [Featured cards](https://cardigan.wellcomecollection.org/?path=/story/components--featuredcard)
 
----
 
-# List pages
-
+## List pages
 List pages display cards for all content of the same type, usually linked to from a [CTA button](https://cardigan.wellcomecollection.org/?path=/story/components--buttonoutlined) e.g. `View all exhibitions` from [What's on](https://wellcomecollection.org/whats-on) or `More articles` from [Stories](https://wellcomecollection.org/stories).
 
-## Examples of List pages
-
+### Examples of List pages
 - [Articles](https://wellcomecollection.org/articles)
 - [Exhibitions](https://wellcomecollection.org/exhibitions)
 - [Past events](https://wellcomecollection.org/events/past?availableOnline=true)
 - [Books](https://wellcomecollection.org/books)
 
 
-- **Core components**
-    - [Regular cards](https://cardigan.wellcomecollection.org/?path=/story/components--eventpromo)
-    - [Book promo cards](https://cardigan.wellcomecollection.org/?path=/story/components--bookpromo) (on Books list page only)
+#### Core components
+- [Regular cards](https://cardigan.wellcomecollection.org/?path=/story/components--eventpromo)
+- [Book promo cards](https://cardigan.wellcomecollection.org/?path=/story/components--bookpromo) (on Books list page only)
 
----
 
-# Landing pages
-
+## Landing pages
 Landing pages summarise a single topic area and link to relevant content using a two-way parent child relationship (the child being *part of* its parent). They can also be used to describe an explicit content grouping.
 
-## Examples of Landing pages
-
+### Examples of Landing pages
 - [Venue hire](https://wellcomecollection.org/pages/Wuw2MSIAACtd3SsC)
 - [About us](https://wellcomecollection.org/pages/Wuw2MSIAACtd3Stq)
 
 
-- **Core components**
-    - [Pageheader](https://cardigan.wellcomecollection.org/?path=/story/components--pageheader)
-    - [Body](https://cardigan.wellcomecollection.org/?path=/story/components--body)
-    - [Regular cards](https://cardigan.wellcomecollection.org/?path=/story/components--eventpromo)
-    - [Compact cards](https://cardigan.wellcomecollection.org/?path=/story/components--compactcard)
-    - [Banner cards](https://cardigan.wellcomecollection.org/?path=/story/components--bannercard) (when using Season type)
----
+#### Core components
+- [Pageheader](https://cardigan.wellcomecollection.org/?path=/story/components--pageheader)
+- [Body](https://cardigan.wellcomecollection.org/?path=/story/components--body)
+- [Regular cards](https://cardigan.wellcomecollection.org/?path=/story/components--eventpromo)
+- [Compact cards](https://cardigan.wellcomecollection.org/?path=/story/components--compactcard)
+- [Banner cards](https://cardigan.wellcomecollection.org/?path=/story/components--bannercard) (when using Season type)
 
-# Series pages
-
+## Series pages
 A Series or Serial page summarises and collects together content from either an *event series* or a *story series/serial*
 
-## Examples of Series pages
-
+### Examples of Series pages
 [The heart of homesickness](https://wellcomecollection.org/series/X24JnhEAAMplRFYN)
 
-S*erial* page
-
+#### Serial page
 - [Inside Our Collections](https://wellcomecollection.org/series/WsSUrR8AAL3KGFPF)
 - [Exploring Research](https://wellcomecollection.org/event-series/W5Zj_CYAACQALK5B)
 
+#### Core components
+- [Pageheader](https://cardigan.wellcomecollection.org/?path=/story/components--pageheader)
+- [Body](https://cardigan.wellcomecollection.org/?path=/story/components--body)
+- [Regular cards](https://cardigan.wellcomecollection.org/?path=/story/components--eventpromo)
+- [Compact cards](https://cardigan.wellcomecollection.org/?path=/story/components--compactcard)
 
-- **Core components**
-    - [Pageheader](https://cardigan.wellcomecollection.org/?path=/story/components--pageheader)
-    - [Body](https://cardigan.wellcomecollection.org/?path=/story/components--body)
-    - [Regular cards](https://cardigan.wellcomecollection.org/?path=/story/components--eventpromo)
-    - [Compact cards](https://cardigan.wellcomecollection.org/?path=/story/components--compactcard)
----
-
-# Content pages
-
+## Content pages
 Content pages are built around a single column and are optimised for reading. Images are displayed inline and compact [Cards ](https://www.notion.so/Cards-e54ea58927164b03becec024ecbeabda)  are used within the core content to encourage a natural vertical direction. They can be grouped under a *Landing page* to establish a *part of* relationship and longer pages with more than three heading may use an [Anchor list](https://www.notion.so/Anchor-list-256805de828048d69b3d98420cc62ae6) to give visibility and access to content without needing to first scroll.
 
-## Examples of content pages
-
+### Examples of content pages
 [Accessibility](https://wellcomecollection.org/access)
 
 Example of a longer page with Anchor list
@@ -120,32 +107,27 @@ Custom header and background. Use of captioned inline images
 
 Grouped as *part of* Visit us as explained in *Landing pages*
 
-- **Core components**
-    - [Pageheader](https://cardigan.wellcomecollection.org/?path=/story/components--pageheader)
-    - [Body](https://cardigan.wellcomecollection.org/?path=/story/components--body)
-    - [Contributors](https://cardigan.wellcomecollection.org/?path=/story/components--contributors)
-    - [Anchor list](https://cardigan.wellcomecollection.org/?path=/story/components--onthispageanchors)
-    - [CompactCard](https://cardigan.wellcomecollection.org/?path=/story/components--compactcard)
----
+#### Core components
+- [Pageheader](https://cardigan.wellcomecollection.org/?path=/story/components--pageheader)
+- [Body](https://cardigan.wellcomecollection.org/?path=/story/components--body)
+- [Contributors](https://cardigan.wellcomecollection.org/?path=/story/components--contributors)
+- [Anchor list](https://cardigan.wellcomecollection.org/?path=/story/components--onthispageanchors)
+- [CompactCard](https://cardigan.wellcomecollection.org/?path=/story/components--compactcard)
 
-# Season pages
-
+## Season pages
 Seasons bring together Wellcome Collection programmed and online content around a theme, and are presented to the public as a programme of WC activity that takes place over a specific amount of time.
 
 A Season page contains a summary and links to the various content types using [Cards ](https://www.notion.so/Cards-e54ea58927164b03becec024ecbeabda)
 
-## Example of a Season page
-
+### Example of a Season page
 [What does it mean to be human, now?](https://wellcomecollection.org/seasons/X84FvhIAACUAqiqp)
 
-- **Core components**
-    - [SeasonsHeader](https://cardigan.wellcomecollection.org/?path=/story/components--seasonsheader)
-    - [EventPromo](https://cardigan.wellcomecollection.org/?path=/story/components--eventpromo)
+#### Core components
+- [SeasonsHeader](https://cardigan.wellcomecollection.org/?path=/story/components--seasonsheader)
+- [EventPromo](https://cardigan.wellcomecollection.org/?path=/story/components--eventpromo)
 
----
 
 ## To do
-
 - *Anatomy of a page*
     In Prismic-land, a ‘slice’ is a thing that can contain multiple ‘zones’, and each of those zones can contain different bits of content. And there can be any number of these zones in any order. Then when we retrieve this slice from prismic, we can take each of the zones, and decide how to render them (i.e. what component to use).
 

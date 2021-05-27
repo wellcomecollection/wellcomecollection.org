@@ -4,6 +4,7 @@ import { withKnobs } from '@storybook/addon-knobs';
 import theme, { GlobalStyle } from '../../common/views/themes/default';
 import { addReadme } from 'storybook-readme';
 import { ContextDecorator } from '../config/decorators';
+import wellcomeTheme from './wellcome-theme';
 
 addDecorator(addReadme);
 addDecorator(withKnobs);
@@ -28,5 +29,8 @@ export const parameters = {
   },
   backgrounds: {
     values: themeColors,
+  },
+  docs: {
+    theme: wellcomeTheme,
   },
 };
