@@ -1,4 +1,6 @@
 import { Meta } from '@storybook/addon-docs/blocks';
+import {ContextDecorator} from '../../../config/decorators.tsx';
+import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors/OnThisPageAnchors';
 
 <Meta title={`Global/Page types`} />
 
@@ -6,12 +8,16 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 **There are 6 page types**
 
-- [Section](#section-pages)
-- [List](#list-pages)
-- [Landing](#landing-pages)
-- [Series](#series-pages)
-- [Content](#content-pages)
-- [Season](#season-pages)
+<ContextDecorator>
+    <OnThisPageAnchors links={[
+        {text: 'Section', url: '#section-pages'},
+        {text: 'List', url: '#list-pages'},
+        {text: 'Landing', url: '#landing-pages'},
+        {text: 'Series', url: '#series-pages'},
+        {text: 'Content', url: '#content-pages'},
+        {text: 'Season', url: '#season-pages'}
+    ]} />
+</ContextDecorator>
 
 ---
 
@@ -146,6 +152,8 @@ A Season page contains a summary and links to the various content types using [C
     We make most use of this in the [`Body`](https://cardigan.wellcomecollection.org/?path=/story/components--body), which is comprised of a slice that we get from Prismic, that has multiple zones.
 
 - *Attempt at showing the relationships (needs Seasons)*
-   TODO: add image
+
+   ![Page relationships diagram](/images/page-relationships.png)
 
 [Edit this on GitHub](https://github.com/wellcometrust/wellcomecollection.org/blob/main/cardigan/stories/global/page-types/pages.stories.mdx)
+
