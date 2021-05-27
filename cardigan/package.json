@@ -16,6 +16,7 @@
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@storybook/addon-a11y": "^6.2.8",
+    "@storybook/addon-docs": "^6.2.9",
     "@storybook/addon-knobs": "^6.2.8",
     "@storybook/react": "^6.2.8",
     "@types/styled-components": "^5.1.2",
