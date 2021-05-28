@@ -3,8 +3,8 @@
   "license": "MIT",
   "version": "1.0.0",
   "scripts": {
-    "dev": "start-storybook -p 9001 -c .storybook",
-    "build": "build-storybook -c .storybook -o .dist",
+    "dev": "start-storybook -s ./public -p 9001 -c .storybook --no-manager-cache",
+    "build": "build-storybook -s ./public -c .storybook -o .dist",
     "deploy": "aws s3 sync .dist/ s3://cardigan.wellcomecollection.org --only-show-errors --acl public-read"
   },
   "devDependencies": {},
@@ -16,6 +16,7 @@
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@storybook/addon-a11y": "^6.2.8",
+    "@storybook/addon-docs": "^6.2.9",
     "@storybook/addon-knobs": "^6.2.8",
     "@storybook/react": "^6.2.8",
     "@types/styled-components": "^5.1.2",
