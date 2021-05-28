@@ -55,7 +55,6 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
         height: `${navHeight}px`,
       }}
     >
-      <span className="visually-hidden">reset focus</span>
       <div className="header__upper grid__cell">
         <div className="header__inner container">
           <div className="header__burger">
