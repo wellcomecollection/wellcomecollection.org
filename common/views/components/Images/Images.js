@@ -92,6 +92,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
     return (
       <Fragment>
         <noscript
+          className={`bg-charcoal font-white flex-inline`}
           dangerouslySetInnerHTML={{
             __html: `
           <img width='${width}'
