@@ -1,5 +1,20 @@
 import Table from '@weco/common/views/components/Table/Table';
 import { fontSizesAtBreakpoints } from '@weco/common/views/themes/typography';
+import styled from 'styled-components';
+import { classNames, font } from '@weco/common/utils/classnames';
+
+const Font = styled.div`
+  padding: 10px 0 25px;
+  border-bottom: 1px solid ${props => props.theme.color('silver')};
+`;
+
+const FontName = styled.h2.attrs({
+  className: classNames({
+    [font('hnm', 6)]: true,
+  }),
+})`
+  color: ${props => props.theme.color('red')};
+`;
 
 const TypographyScale = ({ fontFamily }) => {
   const transpose = matrix => {
@@ -47,18 +62,16 @@ const Typography = ({ text }) => {
       {fontFamilies.map(font => (
         <div key={font}>
           {sizes.map(size => (
-            <div key={size} className="styleguide__font">
-              <h2 className="styleguide__font__name">
+            <Font key={size}>
+              <FontName>
                 <code>
                   font-{font} font-size-{size}
                 </code>
-              </h2>
-              <p
-                className={`no-margin styleguide__font__example font-size-${size} font-${font}`}
-              >
+              </FontName>
+              <p className={`no-margin font-size-${size} font-${font}`}>
                 {text}
               </p>
-            </div>
+            </Font>
           ))}
         </div>
       ))}
@@ -75,5 +88,5 @@ families.args = {
 const ScaleTemplate = args => <TypographyScale {...args} />;
 export const scale = ScaleTemplate.bind({});
 scale.args = {
-  fontFamily: 'Wellcome Bold Web Subset',
+  fontFamily: 'Wellcome Bold Web',
 };

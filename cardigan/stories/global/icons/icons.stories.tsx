@@ -1,14 +1,35 @@
 import { FunctionComponent } from 'react';
-import Icon from '../../../../common/views/components/Icon/Icon';
-import * as icons from '../../../../common/icons';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import * as icons from '@weco/common/icons';
+import { font, classNames } from '@weco/common/utils/classnames';
+import styled from 'styled-components';
+
+const IconWrapper = styled.div`
+  display: inline-block;
+  margin: 0 10px 20px;
+  text-align: center;
+  width: 140px;
+
+  .icon {
+    max-width: 80px;
+  }
+`;
+
+const IconId = styled.p.attrs({
+  className: classNames({
+    [font('lr', 5)]: true,
+  }),
+})`
+  hyphens: auto;
+`;
 
 export const Icons: FunctionComponent = () => (
-  <div>
+  <>
     {Object.keys(icons).map(key => (
-      <div key={key} className="styleguide__icon">
+      <IconWrapper key={key}>
         <Icon name={key} />
-        <p className="styleguide__icon__id">{key}</p>
-      </div>
+        <IconId>{key}</IconId>
+      </IconWrapper>
     ))}
-  </div>
+  </>
 );
