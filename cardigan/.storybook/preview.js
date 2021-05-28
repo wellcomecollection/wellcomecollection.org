@@ -5,6 +5,7 @@ import theme, { GlobalStyle } from '../../common/views/themes/default';
 import { addReadme } from 'storybook-readme';
 import { ContextDecorator } from '../config/decorators';
 import wellcomeTheme from './wellcome-theme';
+import { DocsContainer } from '@storybook/addon-docs/blocks';
 
 addDecorator(addReadme);
 addDecorator(withKnobs);
@@ -32,5 +33,10 @@ export const parameters = {
   },
   docs: {
     theme: wellcomeTheme,
+    container: ({ children, context }) => (
+      <DocsContainer context={context}>
+        <ContextDecorator>{children}</ContextDecorator>
+      </DocsContainer>
+    ),
   },
 };

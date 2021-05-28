@@ -1,11 +1,8 @@
-import { storiesOf } from '@storybook/react';
+import { FunctionComponent } from 'react';
 import Icon from '../../../../common/views/components/Icon/Icon';
 import * as icons from '../../../../common/icons';
-import Readme from './README.md';
 
-const stories = storiesOf('Global', module);
-
-const Icons = () => (
+export const Icons: FunctionComponent = () => (
   <div>
     {Object.keys(icons).map(key => (
       <div key={key} className="styleguide__icon">
@@ -15,5 +12,3 @@ const Icons = () => (
     ))}
   </div>
 );
-
-stories.add('Icons', Icons, { readme: { sidebar: Readme } });

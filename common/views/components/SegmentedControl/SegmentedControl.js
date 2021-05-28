@@ -59,7 +59,6 @@ class SegmentedControl extends Component<Props, State> {
             'is-active': isActive,
           })}
         >
-          <span className="visually-hidden">reset focus</span>
           <button className="segmented-control__header plain-button no-margin no-padding">
             {items
               .filter(item => item.id === activeId)
@@ -169,7 +168,6 @@ class SegmentedControl extends Component<Props, State> {
                 </Space>
               ))}
             </ul>
-            <span className="visually-hidden">reset focus</span>
           </Space>
         </div>
         <ul

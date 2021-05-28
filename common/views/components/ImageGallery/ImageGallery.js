@@ -23,6 +23,16 @@ import { breakpoints } from '../../../utils/breakpoints';
 import { trackEvent } from '../../../utils/ga';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
+import styled from 'styled-components';
+
+const ButtonContainer = styled.div`
+  display: ${props => (props.isHidden ? 'none' : 'block')};
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(50%);
+  z-index: 2;
+`;
 
 type Props = {|
   id: string,
@@ -220,7 +230,7 @@ class ImageGallery extends Component<Props, State> {
                         className={classNames({
                           'flex flex-end': true,
                           'image-gallery-v2__close': true,
-                          'opacity-0': !isActive,
+                          'is-hidden': !isActive,
                         })}
                       >
                         <Control
@@ -287,16 +297,7 @@ class ImageGallery extends Component<Props, State> {
                   ))}
 
                   {titleStyle && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        bottom: '24px',
-                        left: '50%',
-                        transform: 'translateX(-50%) translateY(50%)',
-                        zIndex: 2,
-                        opacity: `${isActive ? 0 : 1}`,
-                      }}
-                    >
+                    <ButtonContainer isHidden={isActive}>
                       <ButtonSolid
                         ref={this.openButtonRef}
                         ariaControls={`image-gallery-${id}`}
@@ -307,7 +308,7 @@ class ImageGallery extends Component<Props, State> {
                         }}
                         text={`${items.length} images`}
                       />
-                    </div>
+                    </ButtonContainer>
                   )}
                 </Space>
               </Layout12>

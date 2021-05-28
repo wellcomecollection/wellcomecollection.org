@@ -210,7 +210,7 @@ export const typography = `
       margin-bottom: 0;
     }
 
-    * + *:not(.no-margin) {
+    * + * {
       margin-top: 1.55em;
     }
 

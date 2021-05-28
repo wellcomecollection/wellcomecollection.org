@@ -19,62 +19,6 @@
   hyphens: auto;
 }
 
-.styleguide__palette__heading {
-  font-family: 'helvetica neue', helvetica, arial, sans-serif;
-  font-size: 18px;
-  text-transform: uppercase;
-  flex-basis: 100%;
-  margin-bottom: 1em;
-}
-
-.styleguide__palette__section {
-  display: flex;
-  flex-wrap: wrap;
-  border-bottom: 3px solid color('cream');
-  padding-bottom: 15px;
-  margin-bottom: 30px;
-
-  &:last-child {
-    border: 0;
-  }
-}
-
-.styleguide__palette__block {
-  flex-basis: 25%;
-  margin-bottom: 15px;
-}
-
-.styleguide__palette__color {
-  position: relative;
-  min-width: 200px;
-  margin-right: 15px;
-  border: 1px solid color('transparent');
-
-  &--white {
-    border-color: color('silver');
-  }
-
-  &:before {
-    content: '';
-    display: block;
-    padding-top: 100%;
-  }
-}
-
-.styleguide__palette__name {
-  font-family: 'Lettera Regular Web', 'Courier New', Courier, Monospace;
-  font-size: 18px;
-}
-
-.styleguide__palette__hex {
-  font-family: 'Lettera Regular Web', 'Courier New', Courier, Monospace;
-  font-size: 18px;
-}
-
-.styleguide__palette__code {
-  font-family: 'Lettera Regular Web', 'Courier New', Courier, Monospace;
-}
-
 .styleguide__icon-wrap {
   svg {
     display: block;
