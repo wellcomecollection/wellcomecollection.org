@@ -3,22 +3,7 @@ import PrismicDOM from 'prismic-dom';
 import linkResolver from './link-resolver';
 import { Fragment, type Element } from 'react';
 import { dasherize } from '@weco/common/utils/grammar';
-import styled from 'styled-components';
-import { classNames, font } from '@weco/common/utils/classnames';
 const { Elements } = PrismicDOM.RichText;
-
-const Anchor = styled.a.attrs({
-  classname: classNames({
-    [font('hnm', 3)]: true,
-    'plain-link font-green flex-inline flex--h-baseline': true,
-  }),
-})`
-  &,
-  svg,
-  span {
-    margin: 0;
-  }
-`;
 
 export type HtmlSerializer = (
   type: string,
@@ -169,11 +154,16 @@ export const defaultSerializer: HtmlSerializer = (
 
       if (isDocument) {
         return (
-          <Anchor key={i} target={target} href={linkUrl}>
+          <a
+            key={i}
+            target={target}
+            className="no-margin plain-link font-green font-HNM3-s flex-inline flex--h-baseline"
+            href={linkUrl}
+          >
             <span className="icon" style={{ top: '8px' }}>
               <canvas className="icon__canvas" height="20" width="20"></canvas>
               <svg
-                className="icon__svg"
+                className="icon__svg no-margin"
                 role="img"
                 aria-labelledby={`icon-download-title-${nameWithoutSpaces}`}
                 style={{ width: '20px', height: '20px' }}
@@ -189,16 +179,18 @@ export const defaultSerializer: HtmlSerializer = (
                 </svg>
               </svg>
             </span>
-            <span>
-              <span className="underline-on-hover">{children}</span>{' '}
+            <span className="no-margin">
+              <span className="no-margin underline-on-hover">{children}</span>{' '}
               <span style={{ whiteSpace: 'nowrap' }}>
-                <span className="font-pewter font-HNM4-s">{documentType}</span>{' '}
-                <span className="font-pewter font-HNL4-s">
+                <span className="no-margin font-pewter font-HNM4-s">
+                  {documentType}
+                </span>{' '}
+                <span className="no-margin font-pewter font-HNL4-s">
                   {documentSize}kb
                 </span>
               </span>
             </span>
-          </Anchor>
+          </a>
         );
       } else {
         return (
