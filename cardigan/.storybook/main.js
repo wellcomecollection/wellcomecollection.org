@@ -12,7 +12,7 @@ module.exports = {
   ],
   addons: [
     'storybook-readme',
-    '@storybook/addon-knobs',
+    '@storybook/addon-controls',
     '@storybook/addon-a11y',
     '@storybook/addon-docs',
   ],
