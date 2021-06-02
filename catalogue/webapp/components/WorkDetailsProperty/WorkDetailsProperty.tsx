@@ -1,4 +1,4 @@
-import { font } from '@weco/common/utils/classnames';
+import { font, classNames } from '@weco/common/utils/classnames';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
@@ -37,7 +37,11 @@ const WorkDetailsProperty: FunctionComponent<Props> = ({
                   }
                 : { size: 's', properties: [] }
             }
-            className={`${font('hnm', 5, { small: 3, medium: 3 })} no-margin`}
+            className={classNames({
+              [font('hnm', 5, { small: 3, medium: 3 })]: true,
+              'no-margin': !inlineHeading,
+            })}
+            style={{ marginBottom: 0 }}
           >
             {title}
           </Space>
