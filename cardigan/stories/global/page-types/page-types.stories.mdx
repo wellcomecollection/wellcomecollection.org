@@ -1,5 +1,4 @@
 import { Meta } from '@storybook/addon-docs/blocks';
-import {ContextDecorator} from '../../../config/decorators.tsx';
 import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors/OnThisPageAnchors';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 
@@ -7,24 +6,16 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 
 # Page types
 
-**There are 6 page types**
-
-<ContextDecorator>
-    <SpacingSection>
-        <OnThisPageAnchors links={[
-            {text: 'Section', url: '#section-pages'},
-            {text: 'List', url: '#list-pages'},
-            {text: 'Landing', url: '#landing-pages'},
-            {text: 'Series', url: '#series-pages'},
-            {text: 'Content', url: '#content-pages'},
-            {text: 'Season', url: '#season-pages'}
-        ]} />
-    </SpacingSection>
-</ContextDecorator>
+__There are six page types__
+- [Section pages](#section-pages)
+- [List pages](#list-pages)
+- [Landing pages](#landing-pages)
+- [Series pages](#series-pages)
+- [Content pages](#content-pages)
+- [Season pages](#season-pages)
 
 
 ## Section pages
-
 A section page is a linked page from the main navigation. Each section page provides an overview of the content contained within the section and enables users to link to the deeper content. This is achieved through a combination of brief introductory text, cards and can include custom functionality e.g. [What's on](https://wellcomecollection.org/whats-on) filters or [Collections](https://wellcomecollection.org/collections) search tool.
 
 ### Examples of Section pages
@@ -137,5 +128,5 @@ A Season page contains a summary and links to the various content types using [C
 
    ![Page relationships diagram](/images/page-relationships.png)
 
-[Edit this on GitHub](https://github.com/wellcometrust/wellcomecollection.org/blob/main/cardigan/stories/global/page-types/pages.stories.mdx)
+[Edit this on GitHub](https://github.com/wellcometrust/wellcomecollection.org/blob/main/cardigan/stories/global/page-types/page-types.stories.mdx)
 

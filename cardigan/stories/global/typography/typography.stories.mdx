@@ -1,0 +1,34 @@
+import {Meta, Canvas, Story} from '@storybook/addon-docs/blocks';
+import * as stories from './typography.stories.tsx';
+
+<Meta title={`Global/Typography`} />
+
+# Typography
+
+## Scale at breakpoints
+We have seven possible sizes for type, numbered `0` to `6`, with `0` being the largest and `6` the smallest.
+
+Each of these sizes is responsive, being largest at the large breakpoint, becoming smaller at the medium breakpoint and smaller still at the smallest breakpoint.
+
+In the table below, you can see that if a font is declared to be size `0`, it will be `50px` at the large breakpoint, `40px` at the medium breakpoint and `32px` at the small breakpoint.
+
+<Canvas>
+  <Story story={stories.scale} />
+</Canvas>
+
+## Font families
+
+We use Wellcome Bold, Helvetica Neue, and Lettera on the site.
+
+<Canvas>
+  <Story story={stories.families} />
+</Canvas>
+
+## Misc
+
+<Canvas>
+  <Story story={stories.misc} />
+</Canvas>
+
+[Edit this on GitHub](https://github.com/wellcometrust/wellcomecollection.org/blob/main/cardigan/stories/global/typography/typography.stories.mdx)
+

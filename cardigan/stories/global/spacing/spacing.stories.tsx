@@ -1,9 +1,8 @@
-import { storiesOf } from '@storybook/react';
-import SpacingSection from '../../../../common/views/components/SpacingSection/SpacingSection';
-import SpacingComponent from '../../../../common/views/components/SpacingComponent/SpacingComponent';
-import Readme from './README.md';
+import { FunctionComponent } from 'react';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
-const SpacingDemo = () => {
+export const Spacing: FunctionComponent = () => {
   return (
     <div className="bg-cream font-white">
       <SpacingSection>
@@ -39,7 +38,3 @@ const SpacingDemo = () => {
     </div>
   );
 };
-
-const stories = storiesOf('Global', module);
-
-stories.add('Spacing', SpacingDemo, { readme: { sidebar: Readme } });

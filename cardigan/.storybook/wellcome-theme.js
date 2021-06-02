@@ -7,6 +7,5 @@ export default create({
   brandUrl: 'https://wellcomecollection.org',
   brandImage:
     'https://cardigan.wellcomecollection.org/cardigan-theme/assets/favicon.ico',
-  // Typography
   fontBase: '"Helvetica Neue", sans-serif',
 });
