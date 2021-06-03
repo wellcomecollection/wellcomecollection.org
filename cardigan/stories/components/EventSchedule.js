@@ -22,11 +22,12 @@ const schedule = [
           'Photograph of a forearm with fingers outstretched, against a slatted wooden background. Small human figures are draw onto the arm, one is circled.',
         crops: {},
       },
-      labels: [
+      primaryLabels: [
         {
           text: 'Performance',
         },
       ],
+      secondaryLabels: [],
       place: {
         id: 'Wn1gnioAACoAIABr',
         title: 'The Atrium',

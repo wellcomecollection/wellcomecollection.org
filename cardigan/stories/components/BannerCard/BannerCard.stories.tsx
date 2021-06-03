@@ -1,7 +1,4 @@
-import { storiesOf } from '@storybook/react';
-import BannerCard from '../../../common/views/components/BannerCard/BannerCard';
-import Readme from '../../../common/views/components/BannerCard/README.md';
-import { boolean } from '@storybook/addon-knobs';
+import BannerCard from '@weco/common/views/components/BannerCard/BannerCard';
 
 const item = {
   title: 'What does it mean to be human, now?',
@@ -162,13 +159,12 @@ const item = {
   },
 };
 
-const BannerCardExample = () => {
-  const hasDateRange = boolean('hasDateRange', true);
-  return (
-    <BannerCard
-      item={hasDateRange ? item : { ...item, start: undefined, end: undefined }}
-    />
-  );
+const Template = args => <BannerCard {...args} />;
+export const withDateRange = Template.bind({});
+withDateRange.args = {
+  item,
 };
-const stories = storiesOf('Components', module);
-stories.add('BannerCard', BannerCardExample, { readme: { sidebar: Readme } });
+export const withoutDateRange = Template.bind({});
+withoutDateRange.args = {
+  item: { ...item, start: undefined, end: undefined },
+};
