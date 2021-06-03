@@ -235,9 +235,10 @@ const Body: FunctionComponent<Props> = ({
                   <Space
                     v={{
                       size: 'xl',
-                      properties: isLast
-                        ? ['padding-top']
-                        : ['padding-top', 'padding-bottom'],
+                      properties:
+                        isLast && sectionTheme.rowBackground === 'white'
+                          ? ['padding-top']
+                          : ['padding-top', 'padding-bottom'],
                     }}
                     className={classNames({
                       'row card-theme': true,
@@ -264,7 +265,6 @@ const Body: FunctionComponent<Props> = ({
                       />
                     )}
                   </Space>
-
                   {!isLast && <WobblyEdge background={'white'} isStatic />}
                 </ConditionalWrapper>
               );
@@ -323,11 +323,7 @@ const Body: FunctionComponent<Props> = ({
             slice.weight === 'featured'
           ) && (
             <SpacingComponent>
-              <div
-                className={classNames({
-                  'body-part': true,
-                })}
-              >
+              <div>
                 {slice.type === 'text' && (
                   <LayoutWidth width={minWidth}>
                     <div className="body-text spaced-text">
