@@ -29,6 +29,7 @@ import GlobalInfoBarContext, {
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
 import TogglesContext from '../TogglesContext/TogglesContext';
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
+import { UserInfoProvider } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 
 type SiteSection =
   | 'collections'
@@ -233,7 +234,9 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
         <a className="skip-link" href="#main">
           Skip to main content
         </a>
-        <Header siteSection={siteSection} />
+        <UserInfoProvider>
+          <Header siteSection={siteSection} />
+        </UserInfoProvider>
         {globalAlert &&
           globalAlert.isShown === 'show' &&
           (!globalAlert.routeRegex ||
