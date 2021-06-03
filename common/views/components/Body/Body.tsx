@@ -235,9 +235,10 @@ const Body: FunctionComponent<Props> = ({
                   <Space
                     v={{
                       size: 'xl',
-                      properties: isLast
-                        ? ['padding-top']
-                        : ['padding-top', 'padding-bottom'],
+                      properties:
+                        isLast && sectionTheme.rowBackground === 'white'
+                          ? ['padding-top']
+                          : ['padding-top', 'padding-bottom'],
                     }}
                     className={classNames({
                       'row card-theme': true,
@@ -264,7 +265,6 @@ const Body: FunctionComponent<Props> = ({
                       />
                     )}
                   </Space>
-
                   {!isLast && <WobblyEdge background={'white'} isStatic />}
                 </ConditionalWrapper>
               );
