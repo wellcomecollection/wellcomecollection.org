@@ -18,6 +18,7 @@
     "@storybook/addon-a11y": "^6.2.8",
     "@storybook/addon-controls": "^6.2.9",
     "@storybook/addon-docs": "^6.2.9",
+    "@storybook/addon-knobs": "^6.2.9",
     "@storybook/react": "^6.2.8",
     "@types/styled-components": "^5.1.2",
     "@typescript-eslint/eslint-plugin": "^4.15.1",
