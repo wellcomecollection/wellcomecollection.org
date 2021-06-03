@@ -323,11 +323,7 @@ const Body: FunctionComponent<Props> = ({
             slice.weight === 'featured'
           ) && (
             <SpacingComponent>
-              <div
-                className={classNames({
-                  'body-part': true,
-                })}
-              >
+              <div>
                 {slice.type === 'text' && (
                   <LayoutWidth width={minWidth}>
                     <div className="body-text spaced-text">

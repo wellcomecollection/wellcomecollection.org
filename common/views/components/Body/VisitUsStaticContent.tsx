@@ -17,11 +17,7 @@ const Container: FunctionComponent<ContainerProps> = ({
 }: ContainerProps) => (
   <SpacingSection>
     <SpacingComponent>
-      <div
-        className={classNames({
-          'body-part': true,
-        })}
-      >
+      <div>
         <Layout12>{children}</Layout12>
       </div>
     </SpacingComponent>
