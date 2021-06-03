@@ -2,7 +2,7 @@ import { sized } from '../../../utils/style';
 import Image, { Props as ImageProps } from '../Image/Image';
 import { ReactElement, FunctionComponent } from 'react';
 
-type Props = {
+export type Props = {
   imageProps: ImageProps;
 };
 

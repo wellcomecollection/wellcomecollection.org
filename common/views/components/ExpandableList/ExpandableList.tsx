@@ -26,12 +26,17 @@ const ExpandableList: FunctionComponent<Props> = ({ listItems }: Props) => {
   ] = useState(false);
   const firstOfRemainingListItemRef = useRef<HTMLAnchorElement>(null);
   const showHideItemsRef = useRef<HTMLButtonElement>(null);
+  const firstRender = useRef(true);
 
   useEffect(() => {
     if (isShowingRemainingListItems) {
       firstOfRemainingListItemRef?.current?.focus();
     } else {
-      showHideItemsRef?.current?.focus();
+      if (!firstRender.current) {
+        showHideItemsRef?.current?.focus();
+      } else {
+        firstRender.current = false;
+      }
     }
   }, [isShowingRemainingListItems]);
 

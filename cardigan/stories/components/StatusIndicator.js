@@ -45,7 +45,7 @@ const StatusIndicatorExample = () => {
   return (
     <StatusIndicator
       {...getDatesForStatus()}
-      statusOverride={statusOverride.trim() !== '' ? statusOverride : null}
+      statusOverride={statusOverride?.trim() !== '' ? statusOverride : null}
     />
   );
 };

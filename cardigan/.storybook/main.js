@@ -3,13 +3,18 @@ module.exports = {
   stories: [
     '../stories/components/**/*.tsx',
     '../stories/components/*.js',
+    '../stories/components/**/*.stories.mdx',
+    '../stories/components/**/*.stories.tsx',
     '../stories/global/**/*.js',
+    '../stories/global/**/*.stories.mdx',
+    '../stories/global/**/*.stories.tsx',
     '../stories/docs/*.js',
   ],
   addons: [
     'storybook-readme',
     '@storybook/addon-knobs',
     '@storybook/addon-a11y',
+    '@storybook/addon-docs',
   ],
   webpackFinal: async (config, { configType }) => {
     config.module.rules.push({
@@ -44,8 +49,8 @@ module.exports = {
         {
           loader: 'postcss-loader',
           options: {
-            config: {
-              path: path.resolve(__dirname, '../'),
+            postcssOptions: {
+              config: path.resolve(__dirname, '../'),
             },
           },
         },

@@ -39,12 +39,16 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
   ] = useState(false);
   const firstOfRemainingOnlineResourcesRef = useRef<HTMLAnchorElement>(null);
   const showHideResourcesRef = useRef<HTMLButtonElement>(null);
-
+  const firstRender = useRef(true);
   useEffect(() => {
     if (isShowingRemainingOnlineResources) {
       firstOfRemainingOnlineResourcesRef?.current?.focus();
     } else {
-      showHideResourcesRef?.current?.focus();
+      if (!firstRender.current) {
+        showHideResourcesRef?.current?.focus();
+      } else {
+        firstRender.current = false;
+      }
     }
   }, [isShowingRemainingOnlineResources]);
 

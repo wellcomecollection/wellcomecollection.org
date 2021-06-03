@@ -69,7 +69,7 @@ In addition, although reliance on client side scripts are permitted in the guide
 |Opera Mini (extreme mode) | Basic |
 |iOS 9+ with Safari and Chrome | Full |
 |Android 4.4+ with latest version of Chrome | Full |
-|iOS 8 basic | Full |
+|iOS 8 | Basic |
 
 Support is divided into 2 categories, Basic and Full.
 

@@ -1,39 +1,42 @@
 import { default as React, Fragment } from 'react';
-import { configure, addDecorator, addParameters } from '@storybook/react';
+import { addDecorator } from '@storybook/react';
 import { withKnobs } from '@storybook/addon-knobs';
-import styleguideSass from '../../common/styles/styleguide.scss';
-import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '../../common/views/themes/default';
 import { addReadme } from 'storybook-readme';
-import { AppContextProvider } from '../../common/views/components/AppContext/AppContext';
+import { ContextDecorator } from '../config/decorators';
+import wellcomeTheme from './wellcome-theme';
+import { DocsContainer } from '@storybook/addon-docs/blocks';
 
-addParameters({
-  options: {
-    name: 'Cardigan',
-    url: 'https://cardigan.wellcomecollection.org',
-    theme: {},
-  },
-});
 addDecorator(addReadme);
 addDecorator(withKnobs);
 
-const CenterDecorator = (storyFn, { parameters }) => {
-  const story = storyFn();
+export const decorators = [
+  Story => (
+    <ContextDecorator>
+      <Story />
+    </ContextDecorator>
+  ),
+];
 
-  const styles = {
-    padding: parameters.isFullScreen ? 0 : '30px',
-  };
+const themeColors = Object.entries(theme.colors).map(([key, value]) => ({
+  name: key,
+  value: value.base,
+}));
 
-  return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <AppContextProvider>
-        <style id="styleguide-sass">{styleguideSass}</style>
-        <div style={styles} className="enhanced">
-          {story}
-        </div>
-      </AppContextProvider>
-    </ThemeProvider>
-  );
+export const parameters = {
+  options: {
+    name: 'Cardigan',
+    url: 'https://cardigan.wellcomecollection.org',
+  },
+  backgrounds: {
+    values: themeColors,
+  },
+  docs: {
+    theme: wellcomeTheme,
+    container: ({ children, context }) => (
+      <DocsContainer context={context}>
+        <ContextDecorator>{children}</ContextDecorator>
+      </DocsContainer>
+    ),
+  },
 };
-addDecorator(CenterDecorator);
