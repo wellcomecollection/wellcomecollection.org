@@ -43,7 +43,6 @@ const PageHeading = styled(Space).attrs({
     properties: ['margin-top', 'margin-bottom'],
   },
   className: classNames({
-    'no-margin': true,
     [font('wb', 1)]: true,
   }),
 })``;
