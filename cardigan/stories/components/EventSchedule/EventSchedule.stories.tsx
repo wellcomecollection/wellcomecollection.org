@@ -1,9 +1,4 @@
-import { storiesOf } from '@storybook/react';
-import EventSchedule from '../../../common/views/components/EventSchedule/EventSchedule';
-import Readme from '../../../common/views/components/EventSchedule/README.md';
-import moment from 'moment';
-
-const stories = storiesOf('Components', module);
+import EventSchedule from '@weco/common/views/components/EventSchedule/EventSchedule';
 
 const schedule = [
   {
@@ -40,38 +35,38 @@ const schedule = [
       times: [
         {
           range: {
-            startDateTime: moment('2019-04-06T11:00:00.000Z'),
-            endDateTime: moment('2019-04-06T13:00:00.000Z'),
+            startDateTime: new Date('2019-04-06T11:00:00.000Z'),
+            endDateTime: new Date('2019-04-06T13:00:00.000Z'),
           },
           isFullyBooked: false,
         },
         {
           range: {
-            startDateTime: moment('2019-04-06T14:00:00.000Z'),
-            endDateTime: moment('2019-04-06T16:00:00.000Z'),
+            startDateTime: new Date('2019-04-06T14:00:00.000Z'),
+            endDateTime: new Date('2019-04-06T16:00:00.000Z'),
           },
           isFullyBooked: false,
         },
         {
           range: {
-            startDateTime: moment('2019-04-07T11:00:00.000Z'),
-            endDateTime: moment('2019-04-07T13:00:00.000Z'),
+            startDateTime: new Date('2019-04-07T11:00:00.000Z'),
+            endDateTime: new Date('2019-04-07T13:00:00.000Z'),
           },
           isFullyBooked: false,
         },
         {
           range: {
-            startDateTime: moment('2019-04-07T14:00:00.000Z'),
-            endDateTime: moment('2019-04-07T16:00:00.000Z'),
+            startDateTime: new Date('2019-04-07T14:00:00.000Z'),
+            endDateTime: new Date('2019-04-07T16:00:00.000Z'),
           },
           isFullyBooked: false,
         },
       ],
-      displayStart: moment('2019-04-06T11:00:00.000Z'),
-      displayEnd: moment('2019-04-06T13:00:00.000Z'),
+      displayStart: new Date('2019-04-06T11:00:00.000Z'),
+      displayEnd: new Date('2019-04-06T13:00:00.000Z'),
       dateRange: {
-        firstDate: moment('2019-04-06T11:00:00.000Z'),
-        lastDate: moment('2019-04-07T16:00:00.000Z'),
+        firstDate: new Date('2019-04-06T11:00:00.000Z'),
+        lastDate: new Date('2019-04-07T16:00:00.000Z'),
         repeats: 4,
       },
       isPast: true,
@@ -81,12 +76,9 @@ const schedule = [
   },
 ];
 
-const EventScheduleExample = () => (
-  <ul className="plain-list no-margin no-padding">
-    <EventSchedule schedule={schedule} />
-  </ul>
-);
-
-stories.add('EventSchedule', EventScheduleExample, {
-  readme: { sidebar: Readme },
-});
+const Template = args => <EventSchedule {...args} />;
+export const basic = Template.bind({});
+basic.args = {
+  schedule,
+};
+basic.storyName = 'EventSchedule';
