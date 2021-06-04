@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import License from '@weco/common/views/components/License/License';
+import Readme from '@weco/common/views/components/License/README.md';
+import * as stories from './License.stories.tsx';
+
+<Meta title={`Components/License`} component={License} />
+
+# License
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />
