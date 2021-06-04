@@ -1,10 +1,7 @@
-import { storiesOf } from '@storybook/react';
-import { select } from '@storybook/addon-knobs';
-import { classNames, font } from '../../../common/utils/classnames';
-import PageHeader from '../../../common/views/components/PageHeader/PageHeader';
-import PageHeaderStandfirst from '../../../common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
-import Picture from '../../../common/views/components/Picture/Picture';
-import Readme from '../../../common/views/components/PageHeader/README.md';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
+import { classNames, font } from '@weco/common/utils/classnames';
+import Picture from '@weco/common/views/components/Picture/Picture';
 import Space from '@weco/common/views/components/styled/Space';
 import Dot from '@weco/common/views/components/Dot/Dot';
 import { UiImage } from '@weco/common/views/components/Images/Images';
@@ -234,91 +231,70 @@ const bookImage = {
     copyrightLink: null,
   },
   crops: {},
+  sizesQueries: '',
 };
-
 const EventFeaturedMedia = () => <UiImage {...eventImage} />;
 
-const PageHeaderExample = () => {
-  const pageType = select(
-    'Page type',
-    ['article', 'event', 'exhibition', 'list', 'page', 'book'],
-    'article'
-  );
-  switch (pageType) {
-    case 'article':
-      return (
-        <PageHeader
-          title={'How the magician’s assistant creates the illusion'}
-          breadcrumbs={{ items: breadcrumbItems }}
-          labels={{ labels: [{ text: 'Article' }] }}
-          HeroPicture={<Picture images={articlePictureImages} isFull={true} />}
-          ContentTypeInfo={ContentTypeInfo}
-          isContentTypeInfoBeforeMedia={true}
-        />
-      );
-    case 'event':
-      return (
-        <PageHeader
-          title={'DNA, Diversity and Difference'}
-          breadcrumbs={{ items: [{ text: 'Events', url: '#' }] }}
-          FeaturedMedia={<EventFeaturedMedia />}
-          ContentTypeInfo={<EventContentTypeInfo />}
-          isContentTypeInfoBeforeMedia={true}
-          Background={
-            <HeaderBackground
-              hasWobblyEdge={true}
-              backgroundTexture={headerBackgroundLs}
-            />
-          }
-        />
-      );
-    case 'exhibition':
-      return (
-        <PageHeader
-          title={'Being Human'}
-          breadcrumbs={{ items: [{ text: 'Exhibitions', url: '#' }] }}
-          labels={{ labels: [{ text: 'Permanent exhibition' }] }}
-          HeroPicture={
-            <Picture images={exhibitionPictureImages} isFull={true} />
-          }
-          ContentTypeInfo={<ExhibitionContentTypeInfo />}
-          isContentTypeInfoBeforeMedia={true}
-        />
-      );
-    case 'list':
-      return (
-        <PageHeader
-          title={'Books'}
-          backgroundTexture={headerBackgroundLs}
-          breadcrumbs={{ items: [] }}
-          highlightHeading={true}
-          ContentTypeInfo={
-            'We publish adventurous and unusual books that explore health, medicine and the complexities of the human condition.'
-          }
-        />
-      );
-    case 'page':
-      return (
-        <PageHeader
-          title={'Venue hire terms and conditions'}
-          backgroundTexture={headerBackgroundLs}
-          highlightHeading={true}
-          breadcrumbs={{ items: [{ text: 'Get involved', url: '#' }] }}
-        />
-      );
-    case 'book':
-      return (
-        <PageHeader
-          title={'Together'}
-          ContentTypeInfo={<BookContentTypeInfo />}
-          isContentTypeInfoBeforeMedia={true}
-          breadcrumbs={{ items: [{ text: 'Books', url: '#' }] }}
-          FeaturedMedia={<BookImage image={bookImage} />}
-        />
-      );
-  }
+const Template = args => <PageHeader {...args} />;
+
+export const article = Template.bind({});
+article.args = {
+  title: 'How the magician’s assistant creates the illusion',
+  breadcrumbs: { items: breadcrumbItems },
+  labels: { labels: [{ text: 'Article' }] },
+  HeroPicture: <Picture images={articlePictureImages} isFull={true} />,
+  ContentTypeInfo: ContentTypeInfo,
+  isContentTypeInfoBeforeMedia: true,
 };
 
-const stories = storiesOf('Components', module);
+export const event = Template.bind({});
+event.args = {
+  title: 'DNA, Diversity and Difference',
+  breadcrumbs: { items: [{ text: 'Events', url: '#' }] },
+  FeaturedMedia: <EventFeaturedMedia />,
+  ContentTypeInfo: <EventContentTypeInfo />,
+  isContentTypeInfoBeforeMedia: true,
+  Background: (
+    <HeaderBackground
+      hasWobblyEdge={true}
+      backgroundTexture={headerBackgroundLs}
+    />
+  ),
+};
 
-stories.add('PageHeader', PageHeaderExample, { readme: { sidebar: Readme } });
+export const exhibition = Template.bind({});
+exhibition.args = {
+  title: 'Being Human',
+  breadcrumbs: { items: [{ text: 'Exhibitions', url: '#' }] },
+  labels: { labels: [{ text: 'Permanent exhibition' }] },
+  HeroPicture: <Picture images={exhibitionPictureImages} isFull={true} />,
+  ContentTypeInfo: <ExhibitionContentTypeInfo />,
+  isContentTypeInfoBeforeMedia: true,
+};
+
+export const list = Template.bind({});
+list.args = {
+  title: 'Books',
+  backgroundTexture: headerBackgroundLs,
+  breadcrumbs: { items: [] },
+  highlightHeading: true,
+  ContentTypeInfo:
+    'We publish adventurous and unusual books that explore health, medicine and the complexities of the human condition.',
+};
+
+export const page = Template.bind({});
+page.args = {
+  title: 'Venue hire terms and conditions',
+  backgroundTexture: headerBackgroundLs,
+  highlightHeading: true,
+  breadcrumbs: { items: [{ text: 'Get involved', url: '#' }] },
+};
+
+export const book = Template.bind({});
+book.args = {
+  title: 'Together',
+  ContentTypeInfo: <BookContentTypeInfo />,
+  isContentTypeInfoBeforeMedia: true,
+  breadcrumbs: { items: [{ text: 'Books', url: '#' }] },
+  FeaturedMedia: <BookImage image={bookImage} />,
+};
