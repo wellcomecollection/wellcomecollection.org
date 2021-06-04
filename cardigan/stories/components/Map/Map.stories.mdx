@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import Map from '@weco/common/views/components/Map/Map';
+import Readme from '@weco/common/views/components/Map/README.md';
+import * as stories from './Map.stories.tsx';
+
+<Meta title={`Components/Map`} component={Map} />
+
+# Map
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} inline={false} height={'360px'} />
+</Canvas>
+
+<ArgsTable />
