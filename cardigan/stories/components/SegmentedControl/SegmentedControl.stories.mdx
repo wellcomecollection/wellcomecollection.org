@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
+import Readme from '@weco/common/views/components/SegmentedControl/README.md';
+import * as stories from './SegmentedControl.stories.tsx';
+
+<Meta title={`Components/SegmentedControl`} component={SegmentedControl} />
+
+# SegmentedControl
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />
