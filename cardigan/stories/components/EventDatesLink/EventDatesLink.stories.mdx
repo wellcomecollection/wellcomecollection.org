@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import EventDatesLink from '@weco/common/views/components/EventDatesLink/EventDatesLink';
+import Readme from '@weco/common/views/components/EventDatesLink/README.md';
+import * as stories from './EventDatesLink.stories.tsx';
+
+<Meta title={`Components/EventDatesLink`} component={EventDatesLink} />
+
+# EventDatesLink
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />
