@@ -1,5 +1,4 @@
 import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors/OnThisPageAnchors';
-./../common/views/components/OnThisPageAnchors/README.md';
 
 const Template = args => <OnThisPageAnchors {...args} />;
 export const basic = Template.bind({});
@@ -30,6 +29,6 @@ basic.args = {
       text: 'Sensory access',
       url: '#sensory-access',
     },
-  ]
+  ],
 };
 basic.storyName = 'OnThisPageAnchors';
