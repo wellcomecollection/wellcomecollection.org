@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
+import Readme from '@weco/common/views/components/InfoBlock/README.md';
+import * as stories from './InfoBlock.stories.tsx';
+
+<Meta title={`Components/InfoBlock`} component={InfoBlock} />
+
+# InfoBlock
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />
