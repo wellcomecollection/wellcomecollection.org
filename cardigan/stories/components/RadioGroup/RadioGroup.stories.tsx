@@ -1,11 +1,7 @@
-import { storiesOf } from '@storybook/react';
+import RadioGroup from '@weco/common/views/components/RadioGroup/RadioGroup';
 import { useState } from 'react';
-import RadioGroup from '../../../common/views/components/RadioGroup/RadioGroup';
-import Readme from '../../../common/views/components/RadioGroup/README.md';
 
-const stories = storiesOf('Components', module);
-
-const RadioGroupExample = () => {
+const Template = () => {
   const [selected, setSelected] = useState(null);
 
   return (
@@ -15,18 +11,22 @@ const RadioGroupExample = () => {
       onChange={setSelected}
       options={[
         {
+          id: '1',
           value: 'banana',
           label: 'Banana',
         },
         {
+          id: '2',
           value: 'apple',
           label: 'Apple',
         },
         {
+          id: '3',
           value: 'grapefruit',
           label: 'Grapefruit',
         },
         {
+          id: '4',
           value: 'strawberry',
           label: 'Strawberry',
         },
@@ -34,5 +34,6 @@ const RadioGroupExample = () => {
     />
   );
 };
-
-stories.add('RadioGroup', RadioGroupExample, { readme: { sidebar: Readme } });
+export const basic = Template.bind({});
+basic.args = {};
+basic.storyName = 'RadioGroup';
