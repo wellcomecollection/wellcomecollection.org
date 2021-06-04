@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import Contact from '@weco/common/views/components/Contact/Contact';
+import Readme from '@weco/common/views/components/Contact/README.md';
+import * as stories from './Contact.stories.tsx';
+
+<Meta title={`Components/Contact`} component={Contact} />
+
+# Contact
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />
