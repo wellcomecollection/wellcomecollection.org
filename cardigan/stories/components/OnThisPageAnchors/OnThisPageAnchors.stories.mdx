@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors/OnThisPageAnchors';
+import Readme from '@weco/common/views/components/OnThisPageAnchors/README.md';
+import * as stories from './OnThisPageAnchors.stories.tsx';
+
+<Meta title={`Components/OnThisPageAnchors`} component={OnThisPageAnchors} />
+
+# OnThisPageAnchors
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />
