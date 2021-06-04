@@ -1,0 +1,19 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import Readme from '@weco/common/views/components/Divider/README.md';
+import * as stories from './Divider.stories.tsx';
+
+<Meta title={`Components/Divider`} component={Divider} />
+
+# Divider
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.keyline} />
+  <Story story={stories.stub} />
+  <Story story={stories.thin} />
+  <Story story={stories.dashed} />
+</Canvas>
+
+<ArgsTable />
