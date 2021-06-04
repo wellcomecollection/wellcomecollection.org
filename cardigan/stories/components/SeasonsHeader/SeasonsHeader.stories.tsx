@@ -1,8 +1,5 @@
-import { storiesOf } from '@storybook/react';
+import SeasonsHeader from '@weco/common/views/components/SeasonsHeader/SeasonsHeader';
 import { UiImage } from '@weco/common/views/components/Images/Images';
-import SeasonsHeader from '../../../common/views/components/SeasonsHeader/SeasonsHeader';
-import Readme from '../../../common/views/components/SeasonsHeader/README.md';
-import { boolean } from '@storybook/addon-knobs';
 
 const image = {
   contentUrl:
@@ -38,20 +35,14 @@ const headerProps = {
   ],
 };
 
-const SeasonsHeaderExample = () => {
-  const hasDateRange = boolean('hasDateRange', true);
-  return (
-    <SeasonsHeader
-      labels={headerProps.labels}
-      title={headerProps.title}
-      start={hasDateRange && headerProps.start}
-      end={hasDateRange && headerProps.end}
-      standfirst={headerProps.standfirst}
-      FeaturedMedia={headerProps.FeaturedMedia}
-    />
-  );
+const Template = args => <SeasonsHeader {...args} />;
+export const basic = Template.bind({});
+basic.args = {
+  labels: headerProps.labels,
+  title: headerProps.title,
+  start: headerProps.start,
+  end: headerProps.end,
+  standfirst: headerProps.standfirst,
+  FeaturedMedia: headerProps.FeaturedMedia,
 };
-const stories = storiesOf('Components', module);
-stories.add('SeasonsHeader', SeasonsHeaderExample, {
-  readme: { sidebar: Readme },
-});
+basic.storyName = 'SeasonsHeader';
