@@ -73,6 +73,22 @@ module.exports = function(webpack, assetPrefix) {
         ]
       : [];
 
+  const redirects =
+    process.env.NODE_ENV === 'development'
+      ? [
+          {
+            source: '/account',
+            destination: 'http://localhost:3000',
+            permanent: true,
+          },
+          {
+            source: '/account/logout',
+            destination: 'http://localhost:3000/logout',
+            permanent: true,
+          },
+        ]
+      : [];
+
   return withMDX(
     withTM({
       assetPrefix: isProd
@@ -81,6 +97,9 @@ module.exports = function(webpack, assetPrefix) {
       ...withBundleAnalyzerConfig,
       async rewrites() {
         return rewrites;
+      },
+      async redirects() {
+        return redirects;
       },
     })
   );
