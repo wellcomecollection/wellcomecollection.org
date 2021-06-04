@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import { MediaObject } from '@weco/common/views/components/MediaObject/MediaObject';
+import Readme from '@weco/common/views/components/MediaObject/README.md';
+import * as stories from './MediaObject.stories.tsx';
+
+<Meta title={`Components/MediaObject`} component={MediaObject} />
+
+# MediaObject
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />
