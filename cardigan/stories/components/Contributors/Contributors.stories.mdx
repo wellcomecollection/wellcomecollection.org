@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import Contributors from '@weco/common/views/components/Contributors/Contributors';
+import Readme from '@weco/common/views/components/Contributors/README.md';
+import * as stories from './Contributors.stories.tsx';
+
+<Meta title={`Components/Contributors`} component={Contributors} />
+
+# Contributors
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />
