@@ -4,7 +4,7 @@ import { classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 const SignIn: FunctionComponent = () => {
-  const { user } = useUserInfo();
+  const { user, isLoading } = useUserInfo();
   return (
     <div style={{ textAlign: 'right' }}>
       <Space
@@ -16,12 +16,12 @@ const SignIn: FunctionComponent = () => {
           'text-align-right': true,
         })}
       >
-        {!user && <a href="/account">Login</a>}
+        {!user && !isLoading && <a href="/account">Login</a>}
         {user && (
           <>
             {`Hello ${user.firstName}`},{' '}
             <a href="/account">View your account</a> |{' '}
-            <a href="/logout">Logout</a>
+            <a href="/account/logout">Logout</a>
           </>
         )}
       </Space>
