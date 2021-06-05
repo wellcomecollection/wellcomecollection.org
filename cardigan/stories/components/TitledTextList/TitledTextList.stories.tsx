@@ -1,6 +1,4 @@
-import { storiesOf } from '@storybook/react';
-import TitledTextList from '../../../common/views/components/TitledTextList/TitledTextList';
-import Readme from '../../../common/views/components/TitledTextList/README.md';
+import TitledTextList from '@weco/common/views/components/TitledTextList/TitledTextList';
 
 const items = [
   {
@@ -37,8 +35,9 @@ const items = [
   },
 ];
 
-const TitledTextListExample = () => {
-  return <TitledTextList items={items} />;
+const Template = args => <TitledTextList {...args} />;
+export const basic = Template.bind({});
+basic.args = {
+  items,
 };
-const stories = storiesOf('Components', module);
-stories.add('TitledTextList', TitledTextListExample, { readme: { sidebar: Readme } });
+basic.storyName = 'TitledTextList';

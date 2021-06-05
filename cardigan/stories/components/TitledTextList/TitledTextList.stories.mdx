@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import TitledTextList from '@weco/common/views/components/TitledTextList/TitledTextList';
+import Readme from '@weco/common/views/components/TitledTextList/README.md';
+import * as stories from './TitledTextList.stories.tsx';
+
+<Meta title={`Components/TitledTextList`} component={TitledTextList} />
+
+# TitledTextList
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />

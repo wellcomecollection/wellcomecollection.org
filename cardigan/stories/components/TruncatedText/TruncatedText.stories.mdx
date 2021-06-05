@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
+import Readme from '@weco/common/views/components/TruncatedText/README.md';
+import * as stories from './TruncatedText.stories.tsx';
+
+<Meta title={`Components/TruncatedText`} component={TruncatedText} />
+
+# TruncatedText
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />
