@@ -1,6 +1,7 @@
 import ButtonInline from '@weco/common/views/components/ButtonInline/ButtonInline';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Control from '@weco/common/views/components/Buttons/Control/Control';
 
 const ButtonInlineTemplate = args => <ButtonInline {...args} />;
 export const buttonInline = ButtonInlineTemplate.bind({});
@@ -30,3 +31,12 @@ buttonSolid.args = {
   isBig: false,
 };
 buttonSolid.storyName = 'ButtonSolid';
+
+const ControlTemplate = args => <Control {...args} />;
+export const control = ControlTemplate.bind({});
+control.args = {
+  text: 'something for screenreaders',
+  icon: 'chevron',
+  extraClasses: 'control--light',
+};
+control.storyName = 'Control';
