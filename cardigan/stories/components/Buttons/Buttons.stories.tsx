@@ -1,5 +1,6 @@
 import ButtonInline from '@weco/common/views/components/ButtonInline/ButtonInline';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
 const ButtonInlineTemplate = args => <ButtonInline {...args} />;
 export const buttonInline = ButtonInlineTemplate.bind({});
@@ -19,3 +20,13 @@ buttonOutlined.args = {
   isOnDark: false,
 };
 buttonOutlined.storyName = 'ButtonOutlined';
+
+const ButtonSolidTemplate = args => <ButtonSolid {...args} />;
+export const buttonSolid = ButtonSolidTemplate.bind({});
+buttonSolid.args = {
+  disabled: false,
+  icon: 'eye',
+  text: 'Click me',
+  isBig: false,
+};
+buttonSolid.storyName = 'ButtonSolid';
