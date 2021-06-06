@@ -1,11 +1,10 @@
-import moment from 'moment';
-import { storiesOf } from '@storybook/react';
-import VenueHours from '../../../common/views/components/VenueHours/VenueHours';
-import Readme from '../../../common/views/components/VenueHours/README.md';
-import { openingTimes } from '../content';
-// $FlowFixMe (tsx)
-import OpeningTimesContext from '../../../common/views/components/OpeningTimesContext/OpeningTimesContext';
-import { select, boolean } from '@storybook/addon-knobs';
+import VenueHours from '@weco/common/views/components/VenueHours/VenueHours';
+import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
+import { openingTimes } from '../../content';
+
+const now = new Date();
+const threeDaysFromNow = new Date();
+threeDaysFromNow.setHours(now.getHours() + 72);
 
 const venueMap = {
   Galleries: 0,
@@ -15,21 +14,15 @@ const venueMap = {
   Shop: 4,
 };
 
-const stories = storiesOf('Components', module);
-
-const VenueHoursExample = () => {
-  const venueIndex = select(
-    'Venue',
-    ['Galleries', 'Library', 'Restaurant', 'Cafe', 'Shop'],
-    'Galleries'
-  );
+const Template = args => {
+  const venueIndex = 'Galleries';
 
   const venue =
     openingTimes.collectionOpeningTimes.placesOpeningHours[
       venueMap[venueIndex]
     ];
 
-  const hasExceptionalHours = boolean('Has exceptional upcoming hours?', false);
+  const hasExceptionalHours = false;
 
   const dummyOverrides = openingTimes.collectionOpeningTimes.placesOpeningHours.map(
     p => {
@@ -40,13 +33,13 @@ const VenueHoursExample = () => {
           exceptional: hasExceptionalHours
             ? [
                 {
-                  overrideDate: moment(),
+                  overrideDate: now,
                   overrideType: 'Cardy test',
                   opens: '10:00',
                   closes: '18:00',
                 },
                 {
-                  overrideDate: moment().add(3, 'days'),
+                  overrideDate: threeDaysFromNow,
                   overrideType: 'Cardy test',
                   opens: '10:00',
                   closes: '18:00',
@@ -81,12 +74,13 @@ const VenueHoursExample = () => {
       <VenueHours
         venue={venueWithImages}
         weight="featured"
-        isInList={boolean('Is in list?', false)}
+        isInList={args.isInList}
       />
     </OpeningTimesContext.Provider>
   );
 };
-
-stories.add('VenueHours', VenueHoursExample, {
-  readme: { sidebar: Readme },
-});
+export const basic = Template.bind({});
+basic.args = {
+  isInList: false,
+};
+basic.storyName = 'VenueHours';

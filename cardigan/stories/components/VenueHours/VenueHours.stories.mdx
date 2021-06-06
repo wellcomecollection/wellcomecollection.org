@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import VenueHours from '@weco/common/views/components/VenueHours/VenueHours';
+import Readme from '@weco/common/views/components/VenueHours/README.md';
+import * as stories from './VenueHours.stories.tsx';
+
+<Meta title={`Components/VenueHours`} component={VenueHours} />
+
+# VenueHours
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />
