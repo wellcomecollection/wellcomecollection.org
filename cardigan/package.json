@@ -34,7 +34,6 @@
     "faker": "^4.1.0",
     "husky": "^4.3.0",
     "node-sass": "^4.11.0",
-    "pa11y": "^5.1.0",
     "postcss-easy-import": "^3.0.0",
     "postcss-loader": "^3.0.0",
     "react": "^16.13.1",
