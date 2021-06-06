@@ -707,3 +707,384 @@ export function organisation() {
 }
 
 export const openingTimes = openingTimesFixture;
+
+export const article = {
+  type: 'articles',
+  id: 'YLoCLhAAACEAfyuO',
+  title: 'A dark cloud',
+  contributorsTitle: '',
+  contributors: [
+    {
+      role: {
+        id: 'XVQa_xMAACMAqbwo',
+        title: 'Illustrator',
+        describedBy: 'artwork',
+      },
+      contributor: {
+        type: 'people',
+        id: 'YJ5GbRAAACMA_XnW',
+        name: 'Weewaaz',
+        image: {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/8689f8f1-b106-46bb-84d7-97e5bce33ed3_weewaaz.png?auto=compress,format&rect=0,0,538,538&w=3200&h=3200',
+          width: 3200,
+          height: 3200,
+          alt: 'Weewaaz',
+          tasl: {
+            title: 'Weewaaz',
+          },
+          crops: {},
+        },
+        description: [
+          {
+            type: 'paragraph',
+            text:
+              'Nikolina Sika (aka Weewaaz) is a 26 year old non-binary artist and visual designer from Brisbane, Australia. You can find them working mostly digitally but often painting, embroidering and sculpting. Creating fun, funky and hopefully uplifting work for you.',
+            spans: [],
+          },
+        ],
+        twitterHandle: null,
+        sameAs: [
+          {
+            link: 'https://www.instagram.com/weewaaz/',
+            title: 'Weewaaz on Instagram',
+          },
+        ],
+      },
+      description: null,
+    },
+  ],
+  body: [
+    {
+      type: 'imageGallery',
+      weight: 'standalone',
+      value: {
+        title: '',
+        items: [
+          {
+            image: {
+              contentUrl:
+                'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png?auto=compress,format',
+              width: 6000,
+              height: 6000,
+              alt:
+                'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
+              tasl: {
+                title: 'Weewaaz',
+              },
+              crops: {
+                '32:15': {
+                  contentUrl:
+                    'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png?auto=compress,format&rect=0,1594,6000,2813&w=3200&h=1500',
+                  width: 3200,
+                  height: 1500,
+                  alt:
+                    'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
+                  tasl: {
+                    title: 'Weewaaz',
+                  },
+                  crops: {},
+                },
+                '16:9': {
+                  contentUrl:
+                    'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png?auto=compress,format&rect=0,1313,6000,3375&w=3200&h=1800',
+                  width: 3200,
+                  height: 1800,
+                  alt:
+                    'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
+                  tasl: {
+                    title: 'Weewaaz',
+                  },
+                  crops: {},
+                },
+                square: {
+                  contentUrl:
+                    'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png?auto=compress,format&rect=0,0,6000,6000&w=3200&h=3200',
+                  width: 3200,
+                  height: 3200,
+                  alt:
+                    'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
+                  tasl: {
+                    title: 'Weewaaz',
+                  },
+                  crops: {},
+                },
+              },
+            },
+            caption: [],
+          },
+        ],
+      },
+    },
+  ],
+  promo: {
+    caption: 'Do you have any dark clouds following you?',
+    image: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+      width: 3200,
+      height: 1800,
+      alt:
+        'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+      tasl: {
+        title: 'Weewaaz',
+      },
+      crops: {},
+    },
+    link: null,
+  },
+  promoText: 'Do you have any dark clouds following you?',
+  promoImage: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+    width: 3200,
+    height: 1800,
+    alt:
+      'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+    tasl: {
+      title: 'Weewaaz',
+    },
+    crops: {},
+  },
+  image: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format',
+    width: 1600,
+    height: 900,
+    alt:
+      'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+    tasl: {
+      title: 'Weewaaz',
+    },
+    crops: {
+      '32:15': {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,75,1600,750&w=3200&h=1500',
+        width: 3200,
+        height: 1500,
+        alt:
+          'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+        tasl: {
+          title: 'Weewaaz',
+        },
+        crops: {},
+      },
+      '16:9': {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+        width: 3200,
+        height: 1800,
+        alt:
+          'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+        tasl: {
+          title: 'Weewaaz',
+        },
+        crops: {},
+      },
+      square: {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
+        width: 3200,
+        height: 3200,
+        alt:
+          'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+        tasl: {
+          title: 'Weewaaz',
+        },
+        crops: {},
+      },
+    },
+  },
+  squareImage: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
+    width: 3200,
+    height: 3200,
+    alt:
+      'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+    tasl: {
+      title: 'Weewaaz',
+    },
+    crops: {},
+  },
+  widescreenImage: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+    width: 3200,
+    height: 1800,
+    alt:
+      'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+    tasl: {
+      title: 'Weewaaz',
+    },
+    crops: {},
+  },
+  metadataDescription: '',
+  labels: [
+    {
+      text: 'Comic',
+    },
+  ],
+  format: {
+    id: 'W7d_ghAAALWY3Ujc',
+    title: 'Comic',
+  },
+  datePublished: '2021-06-04T11:15:49.000Z',
+  series: [
+    {
+      id: 'YJ5KTBAAACEA_Yrk',
+      title: 'Weewaaz',
+      contributors: [
+        {
+          role: {
+            id: 'XVQa_xMAACMAqbwo',
+            title: 'Illustrator',
+            describedBy: 'artwork',
+          },
+          contributor: {
+            type: 'people',
+            id: 'YJ5GbRAAACMA_XnW',
+            name: 'Weewaaz',
+            image: {
+              contentUrl:
+                'https://images.prismic.io/wellcomecollection/8689f8f1-b106-46bb-84d7-97e5bce33ed3_weewaaz.png?auto=compress,format&rect=0,0,538,538&w=3200&h=3200',
+              width: 3200,
+              height: 3200,
+              alt: 'Weewaaz',
+              tasl: {
+                title: 'Weewaaz',
+              },
+              crops: {},
+            },
+            description: [
+              {
+                type: 'paragraph',
+                text:
+                  'Nikolina Sika (aka Weewaaz) is a 26 year old non-binary artist and visual designer from Brisbane, Australia. You can find them working mostly digitally but often painting, embroidering and sculpting. Creating fun, funky and hopefully uplifting work for you.',
+                spans: [],
+              },
+            ],
+            twitterHandle: null,
+            sameAs: [
+              {
+                link: 'https://www.instagram.com/weewaaz/',
+                title: 'Weewaaz on Instagram',
+              },
+            ],
+          },
+          description: null,
+        },
+      ],
+      body: [],
+      standfirst: null,
+      promo: {
+        caption: '',
+        image: {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+          width: 3200,
+          height: 1800,
+          alt: 'Person holding a large red love heart, smiling.',
+          tasl: {
+            title: 'Weewaaz',
+          },
+          crops: {},
+        },
+        link: null,
+      },
+      promoText: '',
+      promoImage: {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+        width: 3200,
+        height: 1800,
+        alt: 'Person holding a large red love heart, smiling.',
+        tasl: {
+          title: 'Weewaaz',
+        },
+        crops: {},
+      },
+      image: {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format',
+        width: 1600,
+        height: 900,
+        alt: 'Person holding a large red love heart, smiling.',
+        tasl: {
+          title: 'Weewaaz',
+        },
+        crops: {
+          '32:15': {
+            contentUrl:
+              'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=0,75,1600,750&w=3200&h=1500',
+            width: 3200,
+            height: 1500,
+            alt: 'Person holding a large red love heart, smiling.',
+            tasl: {
+              title: 'Weewaaz',
+            },
+            crops: {},
+          },
+          '16:9': {
+            contentUrl:
+              'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+            width: 3200,
+            height: 1800,
+            alt: 'Person holding a large red love heart, smiling.',
+            tasl: {
+              title: 'Weewaaz',
+            },
+            crops: {},
+          },
+          square: {
+            contentUrl:
+              'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
+            width: 3200,
+            height: 3200,
+            alt: 'Person holding a large red love heart, smiling.',
+            tasl: {
+              title: 'Weewaaz',
+            },
+            crops: {},
+          },
+        },
+      },
+      squareImage: {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
+        width: 3200,
+        height: 3200,
+        alt: 'Person holding a large red love heart, smiling.',
+        tasl: {
+          title: 'Weewaaz',
+        },
+        crops: {},
+      },
+      widescreenImage: {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+        width: 3200,
+        height: 1800,
+        alt: 'Person holding a large red love heart, smiling.',
+        tasl: {
+          title: 'Weewaaz',
+        },
+        crops: {},
+      },
+      labels: [
+        {
+          text: 'Series',
+        },
+      ],
+      type: 'series',
+      schedule: [],
+      color: 'green',
+      items: [],
+      seasons: [],
+    },
+  ],
+  seasons: [],
+  outroResearchLinkText: '',
+  outroReadLinkText: '',
+  outroVisitLinkText: '',
+};

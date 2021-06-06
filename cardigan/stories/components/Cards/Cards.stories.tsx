@@ -3,17 +3,18 @@ import BannerCard from '@weco/common/views/components/BannerCard/BannerCard';
 import FeaturedCard from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 import EventPromo from '@weco/common/views/components/EventPromo/EventPromo';
 import ExhibitionPromo from '@weco/common/views/components/ExhibitionPromo/ExhibitionPromo';
+import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
 
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import {
   squareImage,
   singleLineOfText,
   bannerCardItem,
+  article,
   image,
   event,
   url,
 } from '../../content';
-import { null } from 'is';
 
 const primaryLabelList = [{ text: 'Study day' }, { text: 'Schools' }];
 const secondaryLabelList = [{ text: 'Speech-to-text' }];
@@ -42,6 +43,7 @@ export const bannerCard = BannerCardTemplate.bind({});
 bannerCard.args = {
   item: bannerCardItem,
 };
+bannerCard.storyName = 'BannerCard';
 
 const FeaturedCardTemplate = args => {
   return (
@@ -71,6 +73,7 @@ featuredCard.args = {
   color: 'white',
   isReversed: false,
 };
+featuredCard.storyName = 'FeaturedCard';
 
 const EventPromoTemplate = args => <EventPromo {...args} />;
 export const eventPromo = EventPromoTemplate.bind({});
@@ -81,6 +84,7 @@ eventPromo.args = {
 eventPromo.parameters = {
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
 };
+eventPromo.storyName = 'EventPromo';
 
 const ExhibitionPromoTemplate = args => <ExhibitionPromo {...args} />;
 export const exhibitionPromo = ExhibitionPromoTemplate.bind({});
@@ -93,8 +97,19 @@ exhibitionPromo.args = {
   start: null,
   end: null,
   statusOverride: null,
-}
+};
 exhibitionPromo.parameters = {
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
 };
+exhibitionPromo.storyName = 'ExhibitionPromo';
 
+const StoryPromoTemplate = args => <StoryPromo {...args} />;
+export const storyPromo = StoryPromoTemplate.bind({});
+storyPromo.args = {
+  item: article,
+  position: 0,
+};
+storyPromo.parameters = {
+  gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
+};
+storyPromo.storyName = 'StoryPromo';

@@ -1,19 +1,16 @@
-import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Canvas, Description, ArgsTable } from '@storybook/addon-docs/blocks';
 import Avatar from '@weco/common/views/components/Avatar/Avatar';
+import Readme from '@weco/common/views/components/Avatar/README.md';
 import * as stories from './Avatar.stories.tsx';
 
 <Meta title={'Components/Avatar'} component={Avatar} />
 
 # Avatar
 
-## Purpose
-
-To display an image of an individual contributor on the site.
+<Description>{Readme}</Description>
 
 <Canvas>
   <Story story={stories.basic} />
 </Canvas>
 
 <ArgsTable />
-
-[Edit this on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/main/cardigan/stories/components/Avatar.stories.mdx)
