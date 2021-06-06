@@ -1,6 +1,8 @@
 import CompactCard from '@weco/common/views/components/CompactCard/CompactCard';
 import BannerCard from '@weco/common/views/components/BannerCard/BannerCard';
 import FeaturedCard from '@weco/common/views/components/FeaturedCard/FeaturedCard';
+import EventPromo from '@weco/common/views/components/EventPromo/EventPromo';
+import ExhibitionPromo from '@weco/common/views/components/ExhibitionPromo/ExhibitionPromo';
 
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import {
@@ -8,7 +10,10 @@ import {
   singleLineOfText,
   bannerCardItem,
   image,
+  event,
+  url,
 } from '../../content';
+import { null } from 'is';
 
 const primaryLabelList = [{ text: 'Study day' }, { text: 'Schools' }];
 const secondaryLabelList = [{ text: 'Speech-to-text' }];
@@ -66,3 +71,30 @@ featuredCard.args = {
   color: 'white',
   isReversed: false,
 };
+
+const EventPromoTemplate = args => <EventPromo {...args} />;
+export const eventPromo = EventPromoTemplate.bind({});
+eventPromo.args = {
+  position: 0,
+  event: event,
+};
+eventPromo.parameters = {
+  gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
+};
+
+const ExhibitionPromoTemplate = args => <ExhibitionPromo {...args} />;
+export const exhibitionPromo = ExhibitionPromoTemplate.bind({});
+exhibitionPromo.args = {
+  id: '1',
+  url: url,
+  format: { title: 'Permanent' },
+  image: image(),
+  title: 'Being Human',
+  start: null,
+  end: null,
+  statusOverride: null,
+}
+exhibitionPromo.parameters = {
+  gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
+};
+

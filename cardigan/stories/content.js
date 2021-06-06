@@ -6,6 +6,45 @@ export function randomNumber(min, max) {
 
 export const id = randomNumber(1000, 2000);
 
+export const interpretations = [
+  {
+    interpretationType: {
+      id: 'id',
+      title: 'British sign language interpreted',
+      description: '',
+      primaryDescription: '',
+    },
+    isPrimary: false,
+  },
+  {
+    interpretationType: {
+      id: 'id',
+      title: 'Audio described',
+      description: '',
+      primaryDescription: '',
+    },
+    isPrimary: false,
+  },
+  {
+    interpretationType: {
+      id: 'id',
+      title: 'Speech-to-Text',
+      description: '',
+      primaryDescription: '',
+    },
+    isPrimary: true,
+  },
+  {
+    interpretationType: {
+      id: 'id',
+      title: 'Hearing loop',
+      description: '',
+      primaryDescription: '',
+    },
+    isPrimary: false,
+  },
+];
+
 export const url = faker.internet.url();
 
 export const bannerCardItem = {
@@ -374,6 +413,229 @@ const smallText = () => [
 
 export const videoEmbed = {
   embedUrl: 'https://www.youtube.com/embed/VYOjWnS4cMY',
+};
+
+export const event = {
+  title: 'Event title',
+  contributorsTitle: '',
+  contributors: [],
+  body: [],
+  promo: {
+    caption:
+      'Come and hear Dr Emma Spary discuss her research on the often- overlooked role of priests in the history of pharmacy.',
+    image: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
+      width: 3200,
+      height: 1800,
+      alt:
+        'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+      tasl: {
+        title: 'Exploring Research event',
+        author: 'Steven Pocock',
+        sourceName: 'Wellcome Collection',
+        sourceLink: null,
+        license: 'CC-BY-NC',
+        copyrightHolder: null,
+        copyrightLink: null,
+      },
+      crops: {},
+    },
+    link: null,
+  },
+  promoText:
+    'Come and hear Dr Emma Spary discuss her research on the often- overlooked role of priests in the history of pharmacy.',
+  promoImage: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
+    width: 3200,
+    height: 1800,
+    alt:
+      'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+    tasl: {
+      title: 'Exploring Research event',
+      author: 'Steven Pocock',
+      sourceName: 'Wellcome Collection',
+      sourceLink: null,
+      license: 'CC-BY-NC',
+      copyrightHolder: null,
+      copyrightLink: null,
+    },
+    crops: {},
+  },
+  image: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection/a4e2a07674bb171ba0b7d7dc7dcf09f1694e13ff_sdp_20181009_0007.jpg?auto=compress,format',
+    width: 4000,
+    height: 2250,
+    alt:
+      'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+    tasl: {
+      title: 'Exploring Research event',
+      author: 'Steven Pocock',
+      sourceName: 'Wellcome Collection',
+      sourceLink: null,
+      license: 'CC-BY-NC',
+      copyrightHolder: null,
+      copyrightLink: null,
+    },
+    crops: {
+      square: {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/318dba668b46078bd957578fa5fc3b2f9b86c5a0_sdp_20181009_0007.jpg?auto=compress,format',
+        width: 3200,
+        height: 3200,
+        alt:
+          'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+        tasl: {
+          title: 'Exploring Research event',
+          author: 'Steven Pocock',
+          sourceName: 'Wellcome Collection',
+          sourceLink: null,
+          license: 'CC-BY-NC',
+          copyrightHolder: null,
+          copyrightLink: null,
+        },
+        crops: {},
+      },
+      '32:15': {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/7b01a0b1273b96cfeb8a5c37e812bd83fe96f537_sdp_20181009_0007.jpg?auto=compress,format',
+        width: 3200,
+        height: 1500,
+        alt:
+          'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+        tasl: {
+          title: 'Exploring Research event',
+          author: 'Steven Pocock',
+          sourceName: 'Wellcome Collection',
+          sourceLink: null,
+          license: 'CC-BY-NC',
+          copyrightHolder: null,
+          copyrightLink: null,
+        },
+        crops: {},
+      },
+      '16:9': {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
+        width: 3200,
+        height: 1800,
+        alt:
+          'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+        tasl: {
+          title: 'Exploring Research event',
+          author: 'Steven Pocock',
+          sourceName: 'Wellcome Collection',
+          sourceLink: null,
+          license: 'CC-BY-NC',
+          copyrightHolder: null,
+          copyrightLink: null,
+        },
+        crops: {},
+      },
+    },
+  },
+  squareImage: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection/318dba668b46078bd957578fa5fc3b2f9b86c5a0_sdp_20181009_0007.jpg?auto=compress,format',
+    width: 3200,
+    height: 3200,
+    alt:
+      'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+    tasl: {
+      title: 'Exploring Research event',
+      author: 'Steven Pocock',
+      sourceName: 'Wellcome Collection',
+      sourceLink: null,
+      license: 'CC-BY-NC',
+      copyrightHolder: null,
+      copyrightLink: null,
+    },
+    crops: {},
+  },
+  widescreenImage: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
+    width: 3200,
+    height: 1800,
+    alt:
+      'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+    tasl: {
+      title: 'Exploring Research event',
+      author: 'Steven Pocock',
+      sourceName: 'Wellcome Collection',
+      sourceLink: null,
+      license: 'CC-BY-NC',
+      copyrightHolder: null,
+      copyrightLink: null,
+    },
+    crops: {},
+  },
+  primaryLabels: [{ text: 'Seminar' }],
+  secondaryLabels: [],
+  place: {
+    id: 'WoLtUioAACkANrUM',
+    title: 'Viewing Room',
+    contributors: [],
+    body: [],
+    labels: [],
+    level: 2,
+    capacity: 20,
+    information: [
+      {
+        type: 'paragraph',
+        text:
+          'We’ll be in the Viewing Room. It’s next to the Library entrance on level 2, which you can reach by taking the lift or the stairs.',
+        spans: [],
+      },
+    ],
+  },
+  audiences: [],
+  bookingInformation: null,
+  bookingType: 'First come, first served',
+  cost: null,
+  format: { id: 'WlYVBiQAACcAWcu9', title: 'Seminar', description: null },
+  policies: [
+    {
+      id: 'W3RLAikAACcAF2oO',
+      title: 'Limited spaces available',
+      description: [
+        {
+          type: 'paragraph',
+          text:
+            'You can claim your place for this event 15 minutes before it starts. Spaces are first come, first served and may run out if we are busy.',
+          spans: [],
+        },
+      ],
+    },
+  ],
+  isDropIn: false,
+  series: [],
+  schedule: [],
+  eventbriteId: '',
+  isCompletelySoldOut: false,
+  ticketSalesStart: null,
+  times: [
+    {
+      range: {
+        startDateTime: new Date('2018-10-23T17:00:00.000Z'),
+        endDateTime: new Date('2018-10-23T18:30:00.000Z'),
+      },
+      isFullyBooked: false,
+    },
+  ],
+  displayStart: new Date('2018-10-23T17:00:00.000Z'),
+  displayEnd: new Date('2018-10-23T18:30:00.000Z'),
+  dateRange: {
+    firstDate: new Date('2018-10-23T17:00:00.000Z'),
+    lastDate: new Date('2018-10-23T18:30:00.000Z'),
+    repeats: 1,
+  },
+  isPast: false,
+  isRelaxedPerformance: false,
+  isOnline: true,
+  availableOnline: true,
 };
 
 export const imageGallery = () => {
