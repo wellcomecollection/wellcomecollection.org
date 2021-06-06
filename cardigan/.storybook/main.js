@@ -11,10 +11,10 @@ module.exports = {
     '../stories/docs/*.js',
   ],
   addons: [
-    'storybook-readme',
     '@storybook/addon-controls',
     '@storybook/addon-a11y',
     '@storybook/addon-docs',
+    '@storybook/addon-backgrounds',
   ],
   webpackFinal: async (config, { configType }) => {
     config.module.rules.push({

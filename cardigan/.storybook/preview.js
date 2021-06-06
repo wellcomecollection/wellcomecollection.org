@@ -35,6 +35,9 @@ export const parameters = {
   },
   backgrounds: {
     values: themeColors,
+    grid: {
+      disable: true,
+    },
   },
   docs: {
     theme: wellcomeTheme,

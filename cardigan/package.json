@@ -16,6 +16,7 @@
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@storybook/addon-a11y": "^6.2.8",
+    "@storybook/addon-backgrounds": "^6.2.9",
     "@storybook/addon-controls": "^6.2.9",
     "@storybook/addon-docs": "^6.2.9",
     "@storybook/react": "^6.2.8",
