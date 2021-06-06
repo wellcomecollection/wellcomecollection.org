@@ -39,6 +39,10 @@ export const parameters = {
       disable: true,
     },
   },
+  viewMode: 'docs',
+  previewTabs: {
+    'storybook/docs/panel': { index: -1 },
+  },
   docs: {
     theme: wellcomeTheme,
     container: ({ children, context }) => (
