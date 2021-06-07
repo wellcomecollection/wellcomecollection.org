@@ -130,7 +130,7 @@ const GifVideo = ({
       window.removeEventListener('resize', debounceComputeVideoWidth);
       window.removeEventListener('scroll', throttleAutoControl);
     };
-  }, []);
+  }, [autoPlayDisabled]);
 
   return (
     <figure className="gif-video no-margin text-align-center">
