@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import FreeSticker from '@weco/common/views/components/FreeSticker/FreeSticker';
+import Readme from '@weco/common/views/components/FreeSticker/README.md';
+import * as stories from './FreeSticker.stories.tsx';
+
+<Meta title={`Components/FreeSticker`} component={FreeSticker} />
+
+# FreeSticker
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />

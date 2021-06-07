@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
+import Readme from '@weco/common/views/components/ExplanatoryText/README.md';
+import * as stories from './ExplanatoryText.stories.tsx';
+
+<Meta title={`Components/ExplanatoryText`} component={ExplanatoryText} />
+
+# ExplanatoryText
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />

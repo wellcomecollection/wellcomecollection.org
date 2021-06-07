@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import EventSchedule from '@weco/common/views/components/EventSchedule/EventSchedule';
+import Readme from '@weco/common/views/components/EventSchedule/README.md';
+import * as stories from './EventSchedule.stories.tsx';
+
+<Meta title={`Components/EventSchedule`} component={EventSchedule} />
+
+# EventSchedule
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />

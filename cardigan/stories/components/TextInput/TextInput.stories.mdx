@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import Readme from '@weco/common/views/components/TextInput/README.md';
+import * as stories from './TextInput.stories.tsx';
+
+<Meta title={`Components/TextInput`} component={TextInput} />
+
+# TextInput
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />

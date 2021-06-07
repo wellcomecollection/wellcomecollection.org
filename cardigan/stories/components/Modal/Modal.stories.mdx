@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import Modal from '@weco/common/views/components/Modal/Modal';
+import Readme from '@weco/common/views/components/Modal/README.md';
+import * as stories from './Modal.stories.tsx';
+
+<Meta title={`Components/Modal`} component={Modal} />
+
+# Modal
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />

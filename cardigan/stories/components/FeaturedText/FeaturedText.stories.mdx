@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
+import Readme from '@weco/common/views/components/FeaturedText/README.md';
+import * as stories from './FeaturedText.stories.tsx';
+
+<Meta title={`Components/FeaturedText`} component={FeaturedText} />
+
+# FeaturedText
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />

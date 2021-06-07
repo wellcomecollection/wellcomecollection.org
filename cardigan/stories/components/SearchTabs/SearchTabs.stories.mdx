@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
+import Readme from '@weco/common/views/components/SearchTabs/README.md';
+import * as stories from './SearchTabs.stories.tsx';
+
+<Meta title={`Components/SearchTabs`} component={SearchTabs} />
+
+# SearchTabs
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />

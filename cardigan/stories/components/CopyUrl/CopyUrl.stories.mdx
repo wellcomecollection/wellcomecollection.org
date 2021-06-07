@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
+import Readme from '@weco/common/views/components/CopyUrl/README.md';
+import * as stories from './CopyUrl.stories.tsx';
+
+<Meta title={`Components/CopyUrl`} component={CopyUrl} />
+
+# CopyUrl
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />

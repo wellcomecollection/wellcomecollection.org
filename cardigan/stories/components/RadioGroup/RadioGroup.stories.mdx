@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import RadioGroup from '@weco/common/views/components/RadioGroup/RadioGroup';
+import Readme from '@weco/common/views/components/RadioGroup/README.md';
+import * as stories from './RadioGroup.stories.tsx';
+
+<Meta title={`Components/RadioGroup`} component={RadioGroup} />
+
+# RadioGroup
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />

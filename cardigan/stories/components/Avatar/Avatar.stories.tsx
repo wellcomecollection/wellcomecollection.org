@@ -7,7 +7,7 @@ basic.args = {
   imageProps: {
     width: 78,
     height: 78,
-    contentUrl: 'http://placekitten.com/200/200',
+    contentUrl: 'https://placekitten.com/200/200',
     alt: `A kitten`,
   },
 };

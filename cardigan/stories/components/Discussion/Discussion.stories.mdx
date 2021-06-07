@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import Discussion from '@weco/common/views/components/Discussion/Discussion';
+import Readme from '@weco/common/views/components/Discussion/README.md';
+import * as stories from './Discussion.stories.tsx';
+
+<Meta title={`Components/Discussion`} component={Discussion} />
+
+# Discussion
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />

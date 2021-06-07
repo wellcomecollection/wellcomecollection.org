@@ -1,0 +1,22 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import Quote from '@weco/common/views/components/Quote/Quote';
+import Readme from '@weco/common/views/components/Quote/README.md';
+import * as stories from './Quote.stories.tsx';
+
+<Meta title={`Components/Quote`} component={Quote} />
+
+# Quote
+
+<Description>{Readme}</Description>
+
+## Block
+<Canvas>
+  <Story story={stories.block} />
+</Canvas>
+
+## Pull/Review
+<Canvas>
+  <Story story={stories.pullOrReview} />
+</Canvas>
+
+<ArgsTable />

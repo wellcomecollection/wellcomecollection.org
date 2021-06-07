@@ -1,0 +1,14 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
+import Readme from '@weco/common/views/components/BetaBar/README.md'
+import * as stories from './BetaBar.stories.tsx';
+
+<Meta title={`Components/BetaBar`} component={BetaBar} />
+
+# BetaBar
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>

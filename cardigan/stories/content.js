@@ -6,7 +6,205 @@ export function randomNumber(min, max) {
 
 export const id = randomNumber(1000, 2000);
 
+export const interpretations = [
+  {
+    interpretationType: {
+      id: 'id',
+      title: 'British sign language interpreted',
+      description: '',
+      primaryDescription: '',
+    },
+    isPrimary: false,
+  },
+  {
+    interpretationType: {
+      id: 'id',
+      title: 'Audio described',
+      description: '',
+      primaryDescription: '',
+    },
+    isPrimary: false,
+  },
+  {
+    interpretationType: {
+      id: 'id',
+      title: 'Speech-to-Text',
+      description: '',
+      primaryDescription: '',
+    },
+    isPrimary: true,
+  },
+  {
+    interpretationType: {
+      id: 'id',
+      title: 'Hearing loop',
+      description: '',
+      primaryDescription: '',
+    },
+    isPrimary: false,
+  },
+];
+
 export const url = faker.internet.url();
+
+export const bannerCardItem = {
+  title: 'What does it mean to be human, now?',
+  start: '2021-01-05T00:00:00.000Z',
+  end: '2021-01-26T00:00:00.000Z',
+  type: 'seasons',
+  promo: {
+    caption:
+      'Our new season explores the intertwined connections between the individual, societal and global health.',
+    image: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+      width: 3200,
+      height: 1800,
+      alt:
+        'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+      tasl: {
+        title: "Alzheimer's disease",
+        author: 'Florence Winterflood',
+        sourceName: 'Wellcome Collection',
+        sourceLink: 'CC-BY-NC',
+        license: undefined,
+        copyrightHolder: undefined,
+        copyrightLink: undefined,
+      },
+      crops: {},
+    },
+    link: null,
+  },
+  promoText:
+    'Our new season explores the intertwined connections between the individual, societal and global health.',
+  promoImage: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+    width: 3200,
+    height: 1800,
+    alt:
+      'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+    tasl: {
+      title: "Alzheimer's disease",
+      author: 'Florence Winterflood',
+      sourceName: 'Wellcome Collection',
+      sourceLink: 'CC-BY-NC',
+      license: undefined,
+      copyrightHolder: undefined,
+      copyrightLink: undefined,
+    },
+    crops: {},
+  },
+  image: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format',
+    width: 1600,
+    height: 900,
+    alt:
+      'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+    tasl: {
+      title: "Alzheimer's disease",
+      author: 'Florence Winterflood',
+      sourceName: 'Wellcome Collection',
+      sourceLink: 'CC-BY-NC',
+      license: undefined,
+      copyrightHolder: undefined,
+      copyrightLink: undefined,
+    },
+    crops: {
+      '32:15': {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=0,75,1600,750&w=3200&h=1500',
+        width: 3200,
+        height: 1500,
+        alt:
+          'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+        tasl: {
+          title: "Alzheimer's disease",
+          author: 'Florence Winterflood',
+          sourceName: 'Wellcome Collection',
+          sourceLink: 'CC-BY-NC',
+          license: undefined,
+          copyrightHolder: undefined,
+          copyrightLink: undefined,
+        },
+        crops: {},
+      },
+      '16:9': {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+        width: 3200,
+        height: 1800,
+        alt:
+          'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+        tasl: {
+          title: "Alzheimer's disease",
+          author: 'Florence Winterflood',
+          sourceName: 'Wellcome Collection',
+          sourceLink: 'CC-BY-NC',
+          license: undefined,
+          copyrightHolder: undefined,
+          copyrightLink: undefined,
+        },
+        crops: {},
+      },
+      square: {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
+        width: 3200,
+        height: 3200,
+        alt:
+          'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+        tasl: {
+          title: "Alzheimer's disease",
+          author: 'Florence Winterflood',
+          sourceName: 'Wellcome Collection',
+          sourceLink: 'CC-BY-NC',
+          license: undefined,
+          copyrightHolder: undefined,
+          copyrightLink: undefined,
+        },
+        crops: {},
+      },
+    },
+  },
+  squareImage: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
+    width: 3200,
+    height: 3200,
+    alt:
+      'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+    tasl: {
+      title: "Alzheimer's disease",
+      author: 'Florence Winterflood',
+      sourceName: 'Wellcome Collection',
+      sourceLink: 'CC-BY-NC',
+      license: undefined,
+      copyrightHolder: undefined,
+      copyrightLink: undefined,
+    },
+    crops: {},
+  },
+  widescreenImage: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+    width: 3200,
+    height: 1800,
+    alt:
+      'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+    tasl: {
+      title: "Alzheimer's disease",
+      author: 'Florence Winterflood',
+      sourceName: 'Wellcome Collection',
+      sourceLink: 'CC-BY-NC',
+      license: undefined,
+      copyrightHolder: undefined,
+      copyrightLink: undefined,
+    },
+    crops: {},
+  },
+};
 
 export const image = (
   contentUrl = 'https://images.prismic.io/wellcomecollection/5b28b809814fc6d1d716b0082725b24e0a0ad6a9_ep_000012_089.jpg?auto=compress,format',
@@ -217,6 +415,229 @@ export const videoEmbed = {
   embedUrl: 'https://www.youtube.com/embed/VYOjWnS4cMY',
 };
 
+export const event = {
+  title: 'Event title',
+  contributorsTitle: '',
+  contributors: [],
+  body: [],
+  promo: {
+    caption:
+      'Come and hear Dr Emma Spary discuss her research on the often- overlooked role of priests in the history of pharmacy.',
+    image: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
+      width: 3200,
+      height: 1800,
+      alt:
+        'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+      tasl: {
+        title: 'Exploring Research event',
+        author: 'Steven Pocock',
+        sourceName: 'Wellcome Collection',
+        sourceLink: null,
+        license: 'CC-BY-NC',
+        copyrightHolder: null,
+        copyrightLink: null,
+      },
+      crops: {},
+    },
+    link: null,
+  },
+  promoText:
+    'Come and hear Dr Emma Spary discuss her research on the often- overlooked role of priests in the history of pharmacy.',
+  promoImage: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
+    width: 3200,
+    height: 1800,
+    alt:
+      'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+    tasl: {
+      title: 'Exploring Research event',
+      author: 'Steven Pocock',
+      sourceName: 'Wellcome Collection',
+      sourceLink: null,
+      license: 'CC-BY-NC',
+      copyrightHolder: null,
+      copyrightLink: null,
+    },
+    crops: {},
+  },
+  image: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection/a4e2a07674bb171ba0b7d7dc7dcf09f1694e13ff_sdp_20181009_0007.jpg?auto=compress,format',
+    width: 4000,
+    height: 2250,
+    alt:
+      'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+    tasl: {
+      title: 'Exploring Research event',
+      author: 'Steven Pocock',
+      sourceName: 'Wellcome Collection',
+      sourceLink: null,
+      license: 'CC-BY-NC',
+      copyrightHolder: null,
+      copyrightLink: null,
+    },
+    crops: {
+      square: {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/318dba668b46078bd957578fa5fc3b2f9b86c5a0_sdp_20181009_0007.jpg?auto=compress,format',
+        width: 3200,
+        height: 3200,
+        alt:
+          'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+        tasl: {
+          title: 'Exploring Research event',
+          author: 'Steven Pocock',
+          sourceName: 'Wellcome Collection',
+          sourceLink: null,
+          license: 'CC-BY-NC',
+          copyrightHolder: null,
+          copyrightLink: null,
+        },
+        crops: {},
+      },
+      '32:15': {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/7b01a0b1273b96cfeb8a5c37e812bd83fe96f537_sdp_20181009_0007.jpg?auto=compress,format',
+        width: 3200,
+        height: 1500,
+        alt:
+          'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+        tasl: {
+          title: 'Exploring Research event',
+          author: 'Steven Pocock',
+          sourceName: 'Wellcome Collection',
+          sourceLink: null,
+          license: 'CC-BY-NC',
+          copyrightHolder: null,
+          copyrightLink: null,
+        },
+        crops: {},
+      },
+      '16:9': {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
+        width: 3200,
+        height: 1800,
+        alt:
+          'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+        tasl: {
+          title: 'Exploring Research event',
+          author: 'Steven Pocock',
+          sourceName: 'Wellcome Collection',
+          sourceLink: null,
+          license: 'CC-BY-NC',
+          copyrightHolder: null,
+          copyrightLink: null,
+        },
+        crops: {},
+      },
+    },
+  },
+  squareImage: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection/318dba668b46078bd957578fa5fc3b2f9b86c5a0_sdp_20181009_0007.jpg?auto=compress,format',
+    width: 3200,
+    height: 3200,
+    alt:
+      'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+    tasl: {
+      title: 'Exploring Research event',
+      author: 'Steven Pocock',
+      sourceName: 'Wellcome Collection',
+      sourceLink: null,
+      license: 'CC-BY-NC',
+      copyrightHolder: null,
+      copyrightLink: null,
+    },
+    crops: {},
+  },
+  widescreenImage: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
+    width: 3200,
+    height: 1800,
+    alt:
+      'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+    tasl: {
+      title: 'Exploring Research event',
+      author: 'Steven Pocock',
+      sourceName: 'Wellcome Collection',
+      sourceLink: null,
+      license: 'CC-BY-NC',
+      copyrightHolder: null,
+      copyrightLink: null,
+    },
+    crops: {},
+  },
+  primaryLabels: [{ text: 'Seminar' }],
+  secondaryLabels: [],
+  place: {
+    id: 'WoLtUioAACkANrUM',
+    title: 'Viewing Room',
+    contributors: [],
+    body: [],
+    labels: [],
+    level: 2,
+    capacity: 20,
+    information: [
+      {
+        type: 'paragraph',
+        text:
+          'We’ll be in the Viewing Room. It’s next to the Library entrance on level 2, which you can reach by taking the lift or the stairs.',
+        spans: [],
+      },
+    ],
+  },
+  audiences: [],
+  bookingInformation: null,
+  bookingType: 'First come, first served',
+  cost: null,
+  format: { id: 'WlYVBiQAACcAWcu9', title: 'Seminar', description: null },
+  policies: [
+    {
+      id: 'W3RLAikAACcAF2oO',
+      title: 'Limited spaces available',
+      description: [
+        {
+          type: 'paragraph',
+          text:
+            'You can claim your place for this event 15 minutes before it starts. Spaces are first come, first served and may run out if we are busy.',
+          spans: [],
+        },
+      ],
+    },
+  ],
+  isDropIn: false,
+  series: [],
+  schedule: [],
+  eventbriteId: '',
+  isCompletelySoldOut: false,
+  ticketSalesStart: null,
+  times: [
+    {
+      range: {
+        startDateTime: new Date('2018-10-23T17:00:00.000Z'),
+        endDateTime: new Date('2018-10-23T18:30:00.000Z'),
+      },
+      isFullyBooked: false,
+    },
+  ],
+  displayStart: new Date('2018-10-23T17:00:00.000Z'),
+  displayEnd: new Date('2018-10-23T18:30:00.000Z'),
+  dateRange: {
+    firstDate: new Date('2018-10-23T17:00:00.000Z'),
+    lastDate: new Date('2018-10-23T18:30:00.000Z'),
+    repeats: 1,
+  },
+  isPast: false,
+  isRelaxedPerformance: false,
+  isOnline: true,
+  availableOnline: true,
+};
+
 export const imageGallery = () => {
   const items = Array(randomNumber(3, 5))
     .fill()
@@ -286,3 +707,384 @@ export function organisation() {
 }
 
 export const openingTimes = openingTimesFixture;
+
+export const article = {
+  type: 'articles',
+  id: 'YLoCLhAAACEAfyuO',
+  title: 'A dark cloud',
+  contributorsTitle: '',
+  contributors: [
+    {
+      role: {
+        id: 'XVQa_xMAACMAqbwo',
+        title: 'Illustrator',
+        describedBy: 'artwork',
+      },
+      contributor: {
+        type: 'people',
+        id: 'YJ5GbRAAACMA_XnW',
+        name: 'Weewaaz',
+        image: {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/8689f8f1-b106-46bb-84d7-97e5bce33ed3_weewaaz.png?auto=compress,format&rect=0,0,538,538&w=3200&h=3200',
+          width: 3200,
+          height: 3200,
+          alt: 'Weewaaz',
+          tasl: {
+            title: 'Weewaaz',
+          },
+          crops: {},
+        },
+        description: [
+          {
+            type: 'paragraph',
+            text:
+              'Nikolina Sika (aka Weewaaz) is a 26 year old non-binary artist and visual designer from Brisbane, Australia. You can find them working mostly digitally but often painting, embroidering and sculpting. Creating fun, funky and hopefully uplifting work for you.',
+            spans: [],
+          },
+        ],
+        twitterHandle: null,
+        sameAs: [
+          {
+            link: 'https://www.instagram.com/weewaaz/',
+            title: 'Weewaaz on Instagram',
+          },
+        ],
+      },
+      description: null,
+    },
+  ],
+  body: [
+    {
+      type: 'imageGallery',
+      weight: 'standalone',
+      value: {
+        title: '',
+        items: [
+          {
+            image: {
+              contentUrl:
+                'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png?auto=compress,format',
+              width: 6000,
+              height: 6000,
+              alt:
+                'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
+              tasl: {
+                title: 'Weewaaz',
+              },
+              crops: {
+                '32:15': {
+                  contentUrl:
+                    'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png?auto=compress,format&rect=0,1594,6000,2813&w=3200&h=1500',
+                  width: 3200,
+                  height: 1500,
+                  alt:
+                    'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
+                  tasl: {
+                    title: 'Weewaaz',
+                  },
+                  crops: {},
+                },
+                '16:9': {
+                  contentUrl:
+                    'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png?auto=compress,format&rect=0,1313,6000,3375&w=3200&h=1800',
+                  width: 3200,
+                  height: 1800,
+                  alt:
+                    'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
+                  tasl: {
+                    title: 'Weewaaz',
+                  },
+                  crops: {},
+                },
+                square: {
+                  contentUrl:
+                    'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png?auto=compress,format&rect=0,0,6000,6000&w=3200&h=3200',
+                  width: 3200,
+                  height: 3200,
+                  alt:
+                    'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
+                  tasl: {
+                    title: 'Weewaaz',
+                  },
+                  crops: {},
+                },
+              },
+            },
+            caption: [],
+          },
+        ],
+      },
+    },
+  ],
+  promo: {
+    caption: 'Do you have any dark clouds following you?',
+    image: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+      width: 3200,
+      height: 1800,
+      alt:
+        'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+      tasl: {
+        title: 'Weewaaz',
+      },
+      crops: {},
+    },
+    link: null,
+  },
+  promoText: 'Do you have any dark clouds following you?',
+  promoImage: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+    width: 3200,
+    height: 1800,
+    alt:
+      'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+    tasl: {
+      title: 'Weewaaz',
+    },
+    crops: {},
+  },
+  image: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format',
+    width: 1600,
+    height: 900,
+    alt:
+      'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+    tasl: {
+      title: 'Weewaaz',
+    },
+    crops: {
+      '32:15': {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,75,1600,750&w=3200&h=1500',
+        width: 3200,
+        height: 1500,
+        alt:
+          'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+        tasl: {
+          title: 'Weewaaz',
+        },
+        crops: {},
+      },
+      '16:9': {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+        width: 3200,
+        height: 1800,
+        alt:
+          'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+        tasl: {
+          title: 'Weewaaz',
+        },
+        crops: {},
+      },
+      square: {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
+        width: 3200,
+        height: 3200,
+        alt:
+          'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+        tasl: {
+          title: 'Weewaaz',
+        },
+        crops: {},
+      },
+    },
+  },
+  squareImage: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
+    width: 3200,
+    height: 3200,
+    alt:
+      'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+    tasl: {
+      title: 'Weewaaz',
+    },
+    crops: {},
+  },
+  widescreenImage: {
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+    width: 3200,
+    height: 1800,
+    alt:
+      'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+    tasl: {
+      title: 'Weewaaz',
+    },
+    crops: {},
+  },
+  metadataDescription: '',
+  labels: [
+    {
+      text: 'Comic',
+    },
+  ],
+  format: {
+    id: 'W7d_ghAAALWY3Ujc',
+    title: 'Comic',
+  },
+  datePublished: '2021-06-04T11:15:49.000Z',
+  series: [
+    {
+      id: 'YJ5KTBAAACEA_Yrk',
+      title: 'Weewaaz',
+      contributors: [
+        {
+          role: {
+            id: 'XVQa_xMAACMAqbwo',
+            title: 'Illustrator',
+            describedBy: 'artwork',
+          },
+          contributor: {
+            type: 'people',
+            id: 'YJ5GbRAAACMA_XnW',
+            name: 'Weewaaz',
+            image: {
+              contentUrl:
+                'https://images.prismic.io/wellcomecollection/8689f8f1-b106-46bb-84d7-97e5bce33ed3_weewaaz.png?auto=compress,format&rect=0,0,538,538&w=3200&h=3200',
+              width: 3200,
+              height: 3200,
+              alt: 'Weewaaz',
+              tasl: {
+                title: 'Weewaaz',
+              },
+              crops: {},
+            },
+            description: [
+              {
+                type: 'paragraph',
+                text:
+                  'Nikolina Sika (aka Weewaaz) is a 26 year old non-binary artist and visual designer from Brisbane, Australia. You can find them working mostly digitally but often painting, embroidering and sculpting. Creating fun, funky and hopefully uplifting work for you.',
+                spans: [],
+              },
+            ],
+            twitterHandle: null,
+            sameAs: [
+              {
+                link: 'https://www.instagram.com/weewaaz/',
+                title: 'Weewaaz on Instagram',
+              },
+            ],
+          },
+          description: null,
+        },
+      ],
+      body: [],
+      standfirst: null,
+      promo: {
+        caption: '',
+        image: {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+          width: 3200,
+          height: 1800,
+          alt: 'Person holding a large red love heart, smiling.',
+          tasl: {
+            title: 'Weewaaz',
+          },
+          crops: {},
+        },
+        link: null,
+      },
+      promoText: '',
+      promoImage: {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+        width: 3200,
+        height: 1800,
+        alt: 'Person holding a large red love heart, smiling.',
+        tasl: {
+          title: 'Weewaaz',
+        },
+        crops: {},
+      },
+      image: {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format',
+        width: 1600,
+        height: 900,
+        alt: 'Person holding a large red love heart, smiling.',
+        tasl: {
+          title: 'Weewaaz',
+        },
+        crops: {
+          '32:15': {
+            contentUrl:
+              'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=0,75,1600,750&w=3200&h=1500',
+            width: 3200,
+            height: 1500,
+            alt: 'Person holding a large red love heart, smiling.',
+            tasl: {
+              title: 'Weewaaz',
+            },
+            crops: {},
+          },
+          '16:9': {
+            contentUrl:
+              'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+            width: 3200,
+            height: 1800,
+            alt: 'Person holding a large red love heart, smiling.',
+            tasl: {
+              title: 'Weewaaz',
+            },
+            crops: {},
+          },
+          square: {
+            contentUrl:
+              'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
+            width: 3200,
+            height: 3200,
+            alt: 'Person holding a large red love heart, smiling.',
+            tasl: {
+              title: 'Weewaaz',
+            },
+            crops: {},
+          },
+        },
+      },
+      squareImage: {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
+        width: 3200,
+        height: 3200,
+        alt: 'Person holding a large red love heart, smiling.',
+        tasl: {
+          title: 'Weewaaz',
+        },
+        crops: {},
+      },
+      widescreenImage: {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
+        width: 3200,
+        height: 1800,
+        alt: 'Person holding a large red love heart, smiling.',
+        tasl: {
+          title: 'Weewaaz',
+        },
+        crops: {},
+      },
+      labels: [
+        {
+          text: 'Series',
+        },
+      ],
+      type: 'series',
+      schedule: [],
+      color: 'green',
+      items: [],
+      seasons: [],
+    },
+  ],
+  seasons: [],
+  outroResearchLinkText: '',
+  outroReadLinkText: '',
+  outroVisitLinkText: '',
+};

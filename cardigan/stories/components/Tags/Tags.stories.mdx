@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import Tags from '@weco/common/views/components/Tags/Tags';
+import Readme from '@weco/common/views/components/Tags/README.md';
+import * as stories from './Tags.stories.tsx';
+
+<Meta title={`Components/Tags`} component={Tags} />
+
+# Tags
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />

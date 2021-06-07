@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import Readme from '@weco/common/views/components/Pagination/README.md';
+import * as stories from './Pagination.stories.tsx';
+
+<Meta title={`Components/Pagination`} component={Pagination} />
+
+# Pagination
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />

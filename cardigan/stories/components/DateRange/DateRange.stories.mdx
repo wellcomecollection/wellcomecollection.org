@@ -1,0 +1,22 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import DateRange from '@weco/common/views/components/DateRange/DateRange';
+import Readme from '@weco/common/views/components/DateRange/README.md';
+import * as stories from './DateRange.stories.tsx';
+
+<Meta title={`Components/DateRange`} component={DateRange} />
+
+# DateRange
+
+<Description>{Readme}</Description>
+
+## Same day
+<Canvas>
+  <Story story={stories.sameDay} />
+</Canvas>
+
+## Across multiple days
+<Canvas>
+  <Story story={stories.acrossMultipleDays} />
+</Canvas>
+
+<ArgsTable />
