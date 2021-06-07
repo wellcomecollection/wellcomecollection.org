@@ -63,12 +63,44 @@ module.exports = function(webpack, assetPrefix) {
     },
   });
 
+  const rewrites =
+    process.env.NODE_ENV === 'development'
+      ? [
+          {
+            source: '/api/users/me',
+            destination: 'http://localhost:3000/api/users/me',
+          },
+        ]
+      : [];
+
+  const redirects =
+    process.env.NODE_ENV === 'development'
+      ? [
+          {
+            source: '/account',
+            destination: 'http://localhost:3000',
+            permanent: true,
+          },
+          {
+            source: '/account/logout',
+            destination: 'http://localhost:3000/logout',
+            permanent: true,
+          },
+        ]
+      : [];
+
   return withMDX(
     withTM({
       assetPrefix: isProd
         ? `https://${prodSubdomain}.wellcomecollection.org`
         : '',
       ...withBundleAnalyzerConfig,
+      async rewrites() {
+        return rewrites;
+      },
+      async redirects() {
+        return redirects;
+      },
     })
   );
 };
