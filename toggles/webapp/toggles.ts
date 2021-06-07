@@ -21,6 +21,12 @@ export default {
       defaultValue: true,
     },
     {
+      id: 'showLogin',
+      title: 'Show a link to log in',
+      description: 'Shows a link to log in on /works',
+      defaultValue: false,
+    },
+    {
       id: 'stagingApi',
       title: 'Staging API',
       defaultValue: false,
