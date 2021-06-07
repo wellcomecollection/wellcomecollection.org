@@ -25,6 +25,7 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => (
       id={`featured-card`}
       image={{
         ...item.image,
+        alt: '',
         sizesQueries:
           '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
         showTasl: false,

@@ -62,7 +62,7 @@ export function convertItemToFeaturedCardProps(
   return {
     id: item.id,
     image: item.promoImage && {
-      alt: item.promoImage.alt,
+      alt: '',
       contentUrl: item.promoImage.contentUrl,
       width: item.promoImage.width,
       height: item.promoImage.height || 9,
