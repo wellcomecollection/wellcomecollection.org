@@ -15,6 +15,7 @@ ADD ./flow-typed ./flow-typed
 ADD ./catalogue/webapp ./catalogue/webapp
 ADD ./content/webapp ./content/webapp
 ADD ./toggles/webapp ./toggles/webapp
+ADD ./identity/webapp ./identity/webapp
 
 RUN yarn setupCommon
 

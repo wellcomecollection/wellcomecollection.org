@@ -230,6 +230,10 @@ const Modal: FunctionComponent<Props> = ({
         document.documentElement.classList.remove('is-scroll-locked');
       }
     }
+
+    return () => {
+      document.documentElement.classList.remove('is-scroll-locked');
+    };
   }, [isActive]);
 
   useFocusTrap(closeButtonRef, lastFocusableRef);

@@ -748,10 +748,12 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
           };
 
         case 'contact':
-          return {
-            type: 'contact',
-            value: parseTeamToContact(slice.primary.content),
-          };
+          return slice.primary.content.isBroken === false
+            ? {
+                type: 'contact',
+                value: parseTeamToContact(slice.primary.content),
+              }
+            : undefined;
 
         case 'embed':
           const embed = slice.primary.embed;
