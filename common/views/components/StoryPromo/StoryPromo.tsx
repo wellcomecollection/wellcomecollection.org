@@ -48,6 +48,7 @@ const StoryPromo: FunctionComponent<Props> = ({
           // $FlowFixMe
           <UiImage
             {...item.promoImage}
+            alt=""
             sizesQueries={sizesQueries}
             showTasl={false}
           />

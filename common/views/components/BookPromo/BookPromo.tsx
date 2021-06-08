@@ -79,7 +79,7 @@ const BookPromo: FunctionComponent<Props> = ({
                 contentUrl={image.contentUrl}
                 width={image.width || 0}
                 height={image.height || 0}
-                alt={image.alt || ''}
+                alt=""
                 sizesQueries="(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)"
                 tasl={null}
               />
