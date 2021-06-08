@@ -32,6 +32,9 @@ export const parameters = {
   options: {
     name: 'Cardigan',
     url: 'https://cardigan.wellcomecollection.org',
+    storySort: {
+      order: ['Cardigan', 'Components', 'Global', 'Documentation'],
+    },
   },
   backgrounds: {
     values: themeColors,
