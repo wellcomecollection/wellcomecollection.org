@@ -2,10 +2,9 @@
 import { font, classNames } from '../../../utils/classnames';
 import { getLicenseInfo } from '../../../utils/licenses';
 import { trackEvent } from '../../../utils/ga';
-import { Fragment, useContext } from 'react';
+import { Fragment, useContext, useState } from 'react';
 // $FlowFixMe (tsx)
 import { AppContext } from '../../components/AppContext/AppContext';
-import { withToggler } from '../../hocs/withToggler';
 // $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 // $FlowFixMe (tsx)
@@ -111,104 +110,101 @@ function getCopyrightHtml(copyrightHolder, copyrightLink) {
   }
 }
 
-const Tasl = withToggler(
-  ({
-    isFull,
-    title,
-    author,
-    sourceName,
-    sourceLink,
-    license,
-    copyrightHolder,
-    copyrightLink,
-    toggle,
-    isActive,
-  }: Props) => {
-    const { isEnhanced } = useContext(AppContext);
-    function toggleWithAnalytics(event) {
-      event.preventDefault();
-      trackEvent({
-        category: 'Tasl',
-        action: isActive ? 'closed' : 'opened',
-        label: title || 'no title',
-      });
+const Tasl = ({
+  isFull,
+  title,
+  author,
+  sourceName,
+  sourceLink,
+  license,
+  copyrightHolder,
+  copyrightLink,
+}: Props) => {
+  const { isEnhanced } = useContext(AppContext);
+  const [isActive, setIsActive] = useState(false);
+  function toggleWithAnalytics(event) {
+    event.preventDefault();
+    trackEvent({
+      category: 'Tasl',
+      action: isActive ? 'closed' : 'opened',
+      label: title || 'no title',
+    });
 
-      toggle();
-    }
+    setIsActive(!isActive);
+  }
 
-    return (
-      [title, sourceName, copyrightHolder].some(_ => _) && (
-        <div
-          className={`
+  return (
+    [title, sourceName, copyrightHolder].some(_ => _) && (
+      <div
+        className={`
       ${isFull ? 'tasl--top' : 'tasl--bottom'}
       ${font('lr', 6)}
       ${isActive ? 'is-active' : ''}
       tasl drawer plain-text
     `}
-        >
-          {!isFull && (
-            <button
-              onClick={toggleWithAnalytics}
-              className="tasl__button plain-button absolute"
-            >
-              <span className="tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black font-white">
-                <Icon
-                  name="information"
-                  title="information"
-                  extraClasses="icon--white"
-                />
-                <span className="visually-hidden">information</span>
-              </span>
-              <span className="tasl__icon tasl__icon--close flex--v-center flex--h-center bg-transparent-black font-white">
-                <Icon name="cross" title="close" extraClasses="icon--white" />
-              </span>
-            </button>
-          )}
-
-          <Space
-            v={{
-              size: 's',
-              properties: ['padding-top', 'padding-bottom'],
-            }}
-            h={{ size: 's', properties: ['padding-left'] }}
-            className={classNames({
-              'bg-black font-white': true,
-              'is-hidden': isEnhanced && !isActive,
-            })}
-            style={{ paddingRight: '36px' }}
+      >
+        {!isFull && (
+          <button
+            onClick={toggleWithAnalytics}
+            className="tasl__button plain-button absolute"
           >
-            {getMarkup(
-              title,
-              author,
-              sourceName,
-              sourceLink,
-              license,
-              copyrightHolder,
-              copyrightLink
-            )}
-          </Space>
-          {isFull && (
-            <button
-              onClick={toggleWithAnalytics}
-              className="tasl__button absolute plain-button"
-            >
-              <span className="tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black">
-                <Icon
-                  name="information"
-                  title="information"
-                  extraClasses="icon--white"
-                />
-                <span className="visually-hidden">information</span>
-              </span>
-              <span className="tasl__icon tasl__icon--close flex--v-center flex--h-center bg-transparent-black">
-                <Icon name="cross" title="close" extraClasses="icon--white" />
-              </span>
-            </button>
+            <span className="tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black font-white">
+              <Icon
+                name="information"
+                title="information"
+                extraClasses="icon--white"
+              />
+              <span className="visually-hidden">information</span>
+            </span>
+            <span className="tasl__icon tasl__icon--close flex--v-center flex--h-center bg-transparent-black font-white">
+              <Icon name="cross" title="close" extraClasses="icon--white" />
+            </span>
+          </button>
+        )}
+
+        <Space
+          v={{
+            size: 's',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
+          h={{ size: 's', properties: ['padding-left'] }}
+          className={classNames({
+            'bg-black font-white': true,
+            'is-hidden': isEnhanced && !isActive,
+          })}
+          style={{ paddingRight: '36px' }}
+        >
+          {getMarkup(
+            title,
+            author,
+            sourceName,
+            sourceLink,
+            license,
+            copyrightHolder,
+            copyrightLink
           )}
-        </div>
-      )
-    );
-  }
-);
+        </Space>
+        {isFull && (
+          <button
+            onClick={toggleWithAnalytics}
+            className="tasl__button absolute plain-button"
+          >
+            <span className="tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black">
+              <Icon
+                name="information"
+                title="information"
+                extraClasses="icon--white"
+              />
+              <span className="visually-hidden">information</span>
+            </span>
+            <span className="tasl__icon tasl__icon--close flex--v-center flex--h-center bg-transparent-black">
+              <Icon name="cross" title="close" extraClasses="icon--white" />
+            </span>
+          </button>
+        )}
+      </div>
+    )
+  );
+};
 
 export default Tasl;
