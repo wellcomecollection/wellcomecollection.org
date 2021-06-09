@@ -141,25 +141,22 @@ const Tasl: FunctionComponent<Props> = ({
       tasl drawer plain-text
     `}
     >
-      {!isFull && (
-        <button
-          onClick={toggleWithAnalytics}
-          className="tasl__button plain-button absolute"
-        >
-          <span className="tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black font-white">
-            <Icon
-              name="information"
-              title="information"
-              extraClasses="icon--white"
-            />
-            <span className="visually-hidden">information</span>
-          </span>
-          <span className="tasl__icon tasl__icon--close flex--v-center flex--h-center bg-transparent-black font-white">
-            <Icon name="cross" title="close" extraClasses="icon--white" />
-          </span>
-        </button>
-      )}
-
+      <button
+        onClick={toggleWithAnalytics}
+        className="tasl__button plain-button absolute"
+      >
+        <span className="tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black font-white">
+          <Icon
+            name="information"
+            title="information"
+            extraClasses="icon--white"
+          />
+          <span className="visually-hidden">information</span>
+        </span>
+        <span className="tasl__icon tasl__icon--close flex--v-center flex--h-center bg-transparent-black font-white">
+          <Icon name="cross" title="close" extraClasses="icon--white" />
+        </span>
+      </button>
       <Space
         v={{
           size: 's',
@@ -182,24 +179,6 @@ const Tasl: FunctionComponent<Props> = ({
           copyrightLink,
         })}
       </Space>
-      {isFull && (
-        <button
-          onClick={toggleWithAnalytics}
-          className="tasl__button absolute plain-button"
-        >
-          <span className="tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black">
-            <Icon
-              name="information"
-              title="information"
-              extraClasses="icon--white"
-            />
-            <span className="visually-hidden">information</span>
-          </span>
-          <span className="tasl__icon tasl__icon--close flex--v-center flex--h-center bg-transparent-black">
-            <Icon name="cross" title="close" extraClasses="icon--white" />
-          </span>
-        </button>
-      )}
     </div>
   ) : null;
 };
