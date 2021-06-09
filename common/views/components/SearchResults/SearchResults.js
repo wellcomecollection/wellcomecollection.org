@@ -57,7 +57,9 @@ const SearchResults = ({
             Image={
               item.image &&
               item.image.crops &&
-              item.image.crops.square && <Image {...item.image.crops.square} />
+              item.image.crops.square && (
+                <Image {...item.image.crops.square} alt="" />
+              )
             }
             DateInfo={null}
             StatusIndicator={null}
@@ -77,7 +79,9 @@ const SearchResults = ({
             Image={
               item.image &&
               item.image.crops &&
-              item.image.crops.square && <Image {...item.image.crops.square} />
+              item.image.crops.square && (
+                <Image {...item.image.crops.square} alt="" />
+              )
             }
             DateInfo={null}
             StatusIndicator={null}
@@ -97,7 +101,9 @@ const SearchResults = ({
             Image={
               item.image &&
               item.image.crops &&
-              item.image.crops.square && <Image {...item.image.crops.square} />
+              item.image.crops.square && (
+                <Image {...item.image.crops.square} alt="" />
+              )
             }
             DateInfo={null}
             StatusIndicator={null}
@@ -143,7 +149,9 @@ const SearchResults = ({
             Image={
               item.image &&
               item.image.crops &&
-              item.image.crops.square && <Image {...item.image.crops.square} />
+              item.image.crops.square && (
+                <Image {...item.image.crops.square} alt="" />
+              )
             }
             DateInfo={null}
             StatusIndicator={null}

@@ -89,23 +89,11 @@ const CardGrid: FunctionComponent<Props> = ({
                 <EventPromo event={item} position={i} fromDate={fromDate} />
               )}
               {item.type === 'articles' && (
-                <>
-                  <code>
-                    <pre
-                      style={{
-                        fontFamily: 'source code pro',
-                        fontSize: '10px',
-                      }}
-                    >
-                      {JSON.stringify(item, null, 2)}
-                    </pre>
-                  </code>
-                  <StoryPromo
-                    item={item}
-                    position={i}
-                    hidePromoText={hidePromoText}
-                  />
-                </>
+                <StoryPromo
+                  item={item}
+                  position={i}
+                  hidePromoText={hidePromoText}
+                />
               )}
               {item.type === 'books' && (
                 <BookPromo

@@ -1,8 +1,7 @@
-import { FunctionComponent, useEffect, useState, useContext } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import PageLayout, { Props as PageLayoutProps } from '../PageLayout/PageLayout';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import { UserInfoProvider } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import SignIn from '@weco/catalogue/components/SignIn/SignIn';
 
 type Props = {
@@ -15,7 +14,7 @@ const CataloguePageLayout: FunctionComponent<Props> = ({
   ...props
 }: Props) => {
   const [isRedirectBannerVisible, setIsRedirectBannerVisible] = useState(false);
-  const { showLogin } = useContext(TogglesContext);
+  const { showLogin } = props.globalContextData.toggles;
   useEffect(() => {
     if (window.location.search.match('wellcomeImagesUrl')) {
       setIsRedirectBannerVisible(true);

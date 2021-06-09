@@ -48,7 +48,7 @@ const ArticleCard: FunctionComponent<Props> = ({
         urlOverride={article.promo?.link || null}
         Image={
           (article.image?.crops?.square && (
-            <Image {...article.image.crops.square} />
+            <Image {...article.image.crops.square} alt="" />
           )) ||
           null
         }
@@ -82,7 +82,7 @@ const ArticleCard: FunctionComponent<Props> = ({
         urlOverride={article.promo?.link || null}
         Image={
           (article.image?.crops?.square && (
-            <Image {...article.image.crops.square} />
+            <Image {...article.image.crops.square} alt="" />
           )) ||
           null
         }
