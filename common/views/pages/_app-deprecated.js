@@ -488,8 +488,8 @@ export default class WecoApp extends App {
                                     __html: `
                                     @font-face {
                                       font-family: 'Helvetica Neue Light Web';
-                                      src: url('https://i.wellcomecollection.org/assets/fonts/d460c8dd-ab48-422e-ac1c-d9b6392b605a.woff2') format('woff2'),
-                                        url('https://i.wellcomecollection.org/assets/fonts/955441c8-2039-4256-bf4a-c475c31d1c0d.woff') format('woff');
+                                      src: url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-roman.woff2') format('woff2'),
+                                        url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-roman.woff') format('woff');
                                       font-weight: normal;
                                       font-style: normal;
                                     }
@@ -500,6 +500,7 @@ export default class WecoApp extends App {
                                         url('https://i.wellcomecollection.org/assets/fonts/fd5c4818-7809-4a21-a48d-a0dc15aa47b8.woff') format('woff');
                                       font-weight: normal;
                                       font-style: normal;
+                                      ascent-override: 100%;
                                     }
                                   `,
                                   }}

@@ -56,10 +56,11 @@ const GlobalContextProvider: FunctionComponent<Props> = ({
                     __html: `
                       @font-face {
                         font-family: 'Helvetica Neue Light Web';
-                        src: url('https://i.wellcomecollection.org/assets/fonts/d460c8dd-ab48-422e-ac1c-d9b6392b605a.woff2') format('woff2'),
-                          url('https://i.wellcomecollection.org/assets/fonts/955441c8-2039-4256-bf4a-c475c31d1c0d.woff') format('woff');
+                        src: url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-roman.woff2') format('woff2'),
+                          url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-roman.woff') format('woff');
                         font-weight: normal;
                         font-style: normal;
+                        ascent-override: 125%;
                       }
 
                       @font-face {
