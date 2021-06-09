@@ -1,4 +1,5 @@
 // @flow
+// $FlowFixMe (tsx)
 import Tasl from '../Tasl/Tasl';
 import { imageSizes } from '../../../utils/image-sizes';
 import { convertImageUri } from '../../../utils/convert-image-uri';
