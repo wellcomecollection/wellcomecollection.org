@@ -176,18 +176,24 @@ const Tasl: FunctionComponent<Props> = ({
 
   return [title, sourceName, copyrightHolder].some(_ => _) ? (
     <StyledTasl positionAtTop={isFull} isEnhanced={isEnhanced}>
-      <TaslButton onClick={toggleWithAnalytics} positionAtTop={isFull}>
+      <TaslButton
+        onClick={toggleWithAnalytics}
+        positionAtTop={isFull}
+        aria-expanded={isActive}
+        aria-controls={title || sourceName || copyrightHolder || ''}
+      >
         <TaslIcon isEnhanced={isEnhanced}>
           <Icon
             name={isActive ? 'cross' : 'information'}
             extraClasses="icon--white"
           />
           <span className="visually-hidden">
-            {isActive ? 'close' : 'information'}
+            {isActive ? 'hide image information' : 'show image information'}
           </span>
         </TaslIcon>
       </TaslButton>
       <Space
+        id={title || sourceName || copyrightHolder || ''}
         v={{
           size: 's',
           properties: ['padding-top', 'padding-bottom'],
