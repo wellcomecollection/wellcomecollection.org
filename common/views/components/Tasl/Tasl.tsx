@@ -5,6 +5,48 @@ import { trackEvent } from '../../../utils/ga';
 import { AppContext } from '../../components/AppContext/AppContext';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
+import styled from 'styled-components';
+
+type StyledTaslProps = {
+  positionAtTop: boolean;
+  isEnhanced: boolean;
+};
+
+const StyledTasl = styled.div.attrs({
+  className: `${font('lr', 6)} plain-text tasl`, // Still need the tasl class as it's used with .image-gallery-v2 styles
+})<StyledTaslProps>`
+  text-align: right;
+  top: ${props => (props.positionAtTop ? 0 : 'auto')};
+  bottom: ${props => (props.positionAtTop ? 'auto' : 0)};
+  left: 0;
+  right: 0;
+  z-index: 2;
+  position: ${props => (props.isEnhanced ? 'absolute' : 'static')};
+`;
+
+type TaslButtonProps = {
+  positionAtTop: boolean;
+};
+
+const TaslButton = styled.button.attrs({
+  className: 'plain-button absolute',
+})<TaslButtonProps>`
+  right: 0;
+  top: ${props => (props.positionAtTop ? '2px' : 'auto')};
+  bottom: ${props => (props.positionAtTop ? 'auto' : '2px')};
+`;
+
+type TaslIconProps = {
+  isEnhanced: boolean;
+};
+const TaslIcon = styled.span.attrs({
+  className: 'flex--v-center flex--h-center bg-transparent-black font-white',
+})<TaslIconProps>`
+  width: ${props => `${props.theme.iconDimension}px`};
+  height: ${props => `${props.theme.iconDimension}px`};
+  border-radius: 50%;
+  display: ${props => (props.isEnhanced ? 'flex' : 'inline')};
+`;
 
 type MarkUpProps = {
   title?: string | null;
@@ -133,30 +175,18 @@ const Tasl: FunctionComponent<Props> = ({
   }
 
   return [title, sourceName, copyrightHolder].some(_ => _) ? (
-    <div
-      className={`
-      ${isFull ? 'tasl--top' : 'tasl--bottom'}
-      ${font('lr', 6)}
-      ${isActive ? 'is-active' : ''}
-      tasl drawer plain-text
-    `}
-    >
-      <button
-        onClick={toggleWithAnalytics}
-        className="tasl__button plain-button absolute"
-      >
-        <span className="tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black font-white">
+    <StyledTasl positionAtTop={isFull} isEnhanced={isEnhanced}>
+      <TaslButton onClick={toggleWithAnalytics} positionAtTop={isFull}>
+        <TaslIcon isEnhanced={isEnhanced}>
           <Icon
-            name="information"
-            title="information"
+            name={isActive ? 'cross' : 'information'}
             extraClasses="icon--white"
           />
-          <span className="visually-hidden">information</span>
-        </span>
-        <span className="tasl__icon tasl__icon--close flex--v-center flex--h-center bg-transparent-black font-white">
-          <Icon name="cross" title="close" extraClasses="icon--white" />
-        </span>
-      </button>
+          <span className="visually-hidden">
+            {isActive ? 'close' : 'information'}
+          </span>
+        </TaslIcon>
+      </TaslButton>
       <Space
         v={{
           size: 's',
@@ -179,7 +209,7 @@ const Tasl: FunctionComponent<Props> = ({
           copyrightLink,
         })}
       </Space>
-    </div>
+    </StyledTasl>
   ) : null;
 };
 
