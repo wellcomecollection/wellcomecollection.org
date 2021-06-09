@@ -1,4 +1,4 @@
-import { FunctionComponent, Fragment, useContext, useState } from 'react';
+import { FunctionComponent, useContext, useState } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import { getLicenseInfo } from '../../../utils/licenses';
 import { trackEvent } from '../../../utils/ga';
@@ -28,19 +28,19 @@ function getMarkup({
   const licenseInfo = license && getLicenseInfo(license);
 
   return (
-    <Fragment>
+    <>
       {getTitleHtml(title, author, sourceLink)}
       {getSourceHtml(sourceName, sourceLink)}
       {getCopyrightHtml(copyrightHolder, copyrightLink)}
       {licenseInfo && (
-        <Fragment>
+        <>
           <a rel="license" href={licenseInfo.url}>
             {licenseInfo.label}
           </a>
           .
-        </Fragment>
+        </>
       )}
-    </Fragment>
+    </>
   );
 }
 
@@ -51,22 +51,22 @@ function getTitleHtml(title, author, sourceLink) {
 
   if (sourceLink) {
     return (
-      <Fragment>
+      <>
         <a href={sourceLink} property="dc:title" rel="cc:attributionURL">
           {title}
           {byAuthor}
         </a>
         .{' '}
-      </Fragment>
+      </>
     );
   } else {
     return (
-      <Fragment>
+      <>
         <span property="dc:title">
           {title}
           {byAuthor}.
         </span>{' '}
-      </Fragment>
+      </>
     );
   }
 }
@@ -76,16 +76,16 @@ function getSourceHtml(sourceName, sourceLink) {
 
   if (sourceLink) {
     return (
-      <Fragment>
+      <>
         Source:{' '}
         <a href={sourceLink} rel="cc:attributionURL">
           {sourceName}
         </a>
         .{' '}
-      </Fragment>
+      </>
     );
   } else {
-    return <Fragment>Source: {sourceName}. </Fragment>;
+    return <>Source: {sourceName}. </>;
   }
 }
 
@@ -94,12 +94,12 @@ function getCopyrightHtml(copyrightHolder, copyrightLink) {
 
   if (copyrightLink) {
     return (
-      <Fragment>
+      <>
         &copy; <a href={copyrightLink}>{copyrightHolder}</a>.{' '}
-      </Fragment>
+      </>
     );
   } else {
-    return <Fragment>&copy; {copyrightHolder}. </Fragment>;
+    return <>&copy; {copyrightHolder}. </>;
   }
 }
 
