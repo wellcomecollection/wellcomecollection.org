@@ -10,6 +10,7 @@ import NextLink from 'next/link';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import convertUrlToString from '../../../utils/convert-url-to-string';
 import { LinkProps } from 'model/link-props';
+import AlignFont from '../styled/AlignFont';
 
 type ButtonInlineLinkProps = ButtonInlineBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
@@ -57,7 +58,7 @@ const ButtonInlineLink: FunctionComponent<ButtonInlineLinkProps> = ({
         href={href}
       >
         <BaseButtonInner isInline={true}>
-          {text}
+          <AlignFont>{text}</AlignFont>
           {icon && (
             <ButtonIconWrapper iconAfter={true}>
               <Icon name={icon} />

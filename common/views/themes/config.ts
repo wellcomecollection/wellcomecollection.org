@@ -188,6 +188,7 @@ export const themeValues = {
       xl: spacingUnits['10'],
     },
   },
+  fontVerticalOffset: '0.15em',
   grid,
   color(name: string, variant: ColorVariant = 'base'): string {
     return this.colors[name][variant];

@@ -60,13 +60,12 @@ const GlobalContextProvider: FunctionComponent<Props> = ({
                           url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-roman.woff') format('woff');
                         font-weight: normal;
                         font-style: normal;
-                        ascent-override: 125%;
                       }
 
                       @font-face {
                         font-family: 'Helvetica Neue Medium Web';
-                        src: url('https://i.wellcomecollection.org/assets/fonts/455d1f57-1462-4536-aefa-c13f0a67bbbe.woff2') format('woff2'),
-                          url('https://i.wellcomecollection.org/assets/fonts/fd5c4818-7809-4a21-a48d-a0dc15aa47b8.woff') format('woff');
+                        src: url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-bold.woff2') format('woff2'),
+                          url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-bold.woff') format('woff');
                         font-weight: normal;
                         font-style: normal;
                       }

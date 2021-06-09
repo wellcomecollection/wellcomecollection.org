@@ -115,7 +115,7 @@ const cls = ({
 } as any) as Classes & SizedClasses;
 
 export type GlobalStyleProps = {
-  toggles: { [key: string]: boolean };
+  toggles?: { [key: string]: boolean };
 };
 
 const GlobalStyle = createGlobalStyle<GlobalStyleProps>`

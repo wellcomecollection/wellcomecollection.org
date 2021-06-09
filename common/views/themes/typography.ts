@@ -286,7 +286,7 @@ export const typography = css<GlobalStyleProps>`
     }
 
     ${props =>
-      props?.toggles.helveticaRegular &&
+      props?.toggles?.helveticaRegular &&
       `
       a:link:not(.link-reset),
       a:visited:not(.link-reset) {

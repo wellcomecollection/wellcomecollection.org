@@ -310,7 +310,7 @@ const WecoApp: FunctionComponent<AppProps> = ({
     <>
       <AppContextProvider>
         <ThemeProvider theme={theme}>
-          <GlobalStyle toggles={pageProps.globalContextData.toggles} />
+          <GlobalStyle toggles={pageProps?.globalContextData?.toggles} />
           <OutboundLinkTracker>
             <LoadingIndicator />
             {!pageProps.err && <Component {...pageProps} />}
