@@ -47,7 +47,7 @@ export function getAuthService(
           'https://iiif.wellcomecollection.org/auth/restrictedlogin'
       );
       // If there is a mixture of restricted images and non restricted images, we show the auth service of the non restricted ones, 'e.g. open with advisory', as these can still be viewd.
-      // Individual images that are restricted won't be displayed anhyway.
+      // Individual images that are restricted won't be displayed anyway.
       return nonRestrictedService || restrictedService;
     } else {
       return iiifManifest.service.authService;
