@@ -1,4 +1,6 @@
 import { themeValues } from './config';
+import { css } from 'styled-components';
+import { GlobalStyleProps } from './default';
 
 const breakpointNames = ['small', 'medium', 'large'];
 
@@ -79,7 +81,7 @@ const fontFamilyMixin = (family, isFull) => {
   return `font-family: ${fontFamilies[family][isFull ? 'full' : 'base']}`;
 };
 
-export const typography = `
+export const typography = css<GlobalStyleProps>`
   .font-hnm,
   .font-hnl {
     font-weight: normal;
@@ -274,15 +276,33 @@ export const typography = `
     a:visited:not(.link-reset) {
       text-decoration: none;
       border-bottom: 2px solid ${themeValues.color('green')};
-      transition: color ${themeValues.transitionProperties}, border-bottom ${
-  themeValues.transitionProperties
-};
+      transition: color ${themeValues.transitionProperties},
+        border-bottom ${themeValues.transitionProperties};
 
       &:hover {
         color: ${themeValues.color('green')};
         border-bottom-color: ${themeValues.color('transparent')};
       }
     }
+
+    ${props =>
+      props?.toggles.helveticaRegular &&
+      `
+      a:link:not(.link-reset),
+      a:visited:not(.link-reset) {
+        text-decoration: underline;
+        text-decoration-color: ${themeValues.color('green')};
+        text-underline-offset: 0.1em;
+        border-bottom: none;
+        transition: color ${themeValues.transitionProperties},
+        text-decoration-color ${themeValues.transitionProperties};
+
+        &:hover {
+          color: ${themeValues.color('green')};
+          text-decoration-color: transparent;
+        }
+      }
+    `}
 
     strong,
     b {
