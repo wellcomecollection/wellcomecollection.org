@@ -25,6 +25,10 @@ const sharedRules = {
   'react/react-in-jsx-scope': 'off',
   'react-hooks/rules-of-hooks': 'error',
   'prettier/prettier': 'error',
+  'no-restricted-syntax': [
+    'error',
+    "JSXExpressionContainer[expression.callee.property.name='stringify']",
+  ],
 };
 
 module.exports = {
@@ -78,15 +82,6 @@ module.exports = {
         // This rule does not support FunctionComponent<Props> and so
         // makes using (eg) children props more of a pain than it should be
         'react/prop-types': 'off',
-      },
-    },
-    {
-      files: ['*.tsx'],
-      rules: {
-        'no-restricted-syntax': [
-          'error',
-          "JSXExpressionContainer[expression.callee.property.name='stringify']",
-        ],
       },
     },
   ],
