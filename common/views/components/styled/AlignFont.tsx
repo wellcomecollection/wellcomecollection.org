@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type Props = {
-  className: string;
+  className?: string;
   children: ReactNode;
 };
 
