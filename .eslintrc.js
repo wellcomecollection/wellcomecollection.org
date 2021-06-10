@@ -80,5 +80,14 @@ module.exports = {
         'react/prop-types': 'off',
       },
     },
+    {
+      files: ['*.tsx'],
+      rules: {
+        'no-restricted-syntax': [
+          'error',
+          "CallExpression[callee.property.name='stringify']",
+        ],
+      },
+    },
   ],
 };
