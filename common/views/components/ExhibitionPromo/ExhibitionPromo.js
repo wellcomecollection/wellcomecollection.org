@@ -33,7 +33,7 @@ const ExhibitionPromo = ({
   return (
     <CardOuter
       data-component="ExhibitionPromo"
-      data-component-state={JSON.stringify({ position: position })}
+      data-component-state={JSON.stringify({ position: position })} // eslint-disable-line no-restricted-syntax
       id={id}
       href={url}
       onClick={() => {
