@@ -1,5 +1,8 @@
 import { FunctionComponent } from 'react';
-import { useUserInfo } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
+import {
+  useUserInfo,
+  withUserInfo,
+} from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 import { classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -29,4 +32,4 @@ const SignIn: FunctionComponent = () => {
   );
 };
 
-export default SignIn;
+export default withUserInfo(SignIn);

@@ -1,7 +1,6 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import PageLayout, { Props as PageLayoutProps } from '../PageLayout/PageLayout';
 import InfoBanner from '../InfoBanner/InfoBanner';
-import { UserInfoProvider } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 import SignIn from '@weco/catalogue/components/SignIn/SignIn';
 import { prefix } from '@weco/identity/src/utility/prefix';
 
@@ -41,11 +40,7 @@ const CataloguePageLayout: FunctionComponent<Props> = ({
             )}
           </>
         )}
-        {showLogin && (
-          <UserInfoProvider>
-            <SignIn />
-          </UserInfoProvider>
-        )}
+        {showLogin && <SignIn />}
         {children}
       </PageLayout>
     </div>
