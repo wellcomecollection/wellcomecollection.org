@@ -1,0 +1,6 @@
+diff a/common/views/components/ButtonSolid/ButtonSolid.tsx b/common/views/components/ButtonSolid/ButtonSolid.tsx	(rejected hunks)
+@@ -193 +193,3 @@ const ButtonSolid = forwardRef(
+-            <pre style={{fontSize: '10px', fontFamily: 'source code pro'}}><code>{JSON.stringify(text, null, 2)}</code></pre>
++              <pre style={{ fontSize: '10px', fontFamily: 'source code pro' }}>
++                <code>{JSON.stringify(text, null, 2)}</code>
++              </pre>
