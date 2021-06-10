@@ -191,9 +191,6 @@ const ButtonSolid = forwardRef(
               })}
             >
               {text}
-              <pre style={{ fontSize: '10px', fontFamily: 'source code pro' }}>
-                <code>{JSON.stringify(text, null, 2)}</code>
-              </pre>
             </span>
           </>
         </BaseButtonInner>
