@@ -85,7 +85,7 @@ module.exports = {
       rules: {
         'no-restricted-syntax': [
           'error',
-          "CallExpression[callee.property.name='stringify']",
+          "JSXExpressionContainer[expression.callee.property.name='stringify']",
         ],
       },
     },
