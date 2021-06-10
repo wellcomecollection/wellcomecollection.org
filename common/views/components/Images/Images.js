@@ -4,6 +4,7 @@ import debounce from 'lodash.debounce';
 import { convertImageUri } from '../../../utils/convert-image-uri';
 import { classNames } from '../../../utils/classnames';
 import { imageSizes } from '../../../utils/image-sizes';
+// $FlowFixMe (tsx)
 import Tasl from '../Tasl/Tasl';
 import type { Node as ReactNode } from 'react';
 import type { ImageType } from '../../../model/image';
