@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type Props = {
+  className: string;
   children: ReactNode;
 };
 
@@ -17,9 +18,13 @@ const Align = styled.span<{ isOn: boolean }>`
   }
 `;
 
-const AlignFont: FunctionComponent<Props> = ({ children }) => {
+const AlignFont: FunctionComponent<Props> = ({ children, className }) => {
   const { helveticaRegular } = useContext(TogglesContext);
-  return <Align isOn={helveticaRegular}>{children}</Align>;
+  return (
+    <Align isOn={helveticaRegular} className={className}>
+      {children}
+    </Align>
+  );
 };
 
 export default AlignFont;
