@@ -27,7 +27,7 @@ const sharedRules = {
   'prettier/prettier': 'error',
   'no-restricted-syntax': [
     'error',
-    "JSXExpressionContainer[expression.callee.property.name='stringify']",
+    "JSXElement.children > [expression.callee.property.name='stringify']",
   ],
 };
 
