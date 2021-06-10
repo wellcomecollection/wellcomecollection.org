@@ -38,7 +38,7 @@ const EventPromo = ({
   return (
     <CardOuter
       data-component="EventPromo"
-      data-component-state={JSON.stringify({ position: position })} // eslint-disable-line no-restricted-syntax
+      data-component-state={JSON.stringify({ position: position })}
       href={(event.promo && event.promo.link) || `/events/${event.id}`}
       onClick={() => {
         trackEvent({
