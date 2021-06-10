@@ -32,7 +32,8 @@ steps:
   - wait
 
   - block: ":rocket: deploy to prod"
-    prompt: "Have you checked staging?"
+    prompt: "Have you checked the change on staging?"
+    prompt: "Have you checked the main landing pages on staging?"
 
   - label: "deploy to prod"
     trigger: "experience-deploy-prod"
