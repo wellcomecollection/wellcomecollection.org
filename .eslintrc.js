@@ -25,6 +25,10 @@ const sharedRules = {
   'react/react-in-jsx-scope': 'off',
   'react-hooks/rules-of-hooks': 'error',
   'prettier/prettier': 'error',
+  'no-restricted-syntax': [
+    'error',
+    "JSXElement.children > [expression.callee.property.name='stringify']",
+  ],
 };
 
 module.exports = {
