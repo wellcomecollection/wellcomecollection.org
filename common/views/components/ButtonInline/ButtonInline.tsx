@@ -9,6 +9,7 @@ import {
   ButtonIconWrapper,
   ButtonTypes,
 } from '../ButtonSolid/ButtonSolid';
+import AlignFont from '../styled/AlignFont';
 
 export type ButtonInlineBaseProps = {
   text: string;
@@ -72,13 +73,13 @@ const ButtonInline = forwardRef<HTMLButtonElement, ButtonInlineProps>(
       >
         <BaseButtonInner isInline={true}>
           <>
-            <span
+            <AlignFont
               className={classNames({
                 'visually-hidden': !!isTextHidden,
               })}
             >
               {text}
-            </span>
+            </AlignFont>
             {icon && (
               <ButtonIconWrapper iconAfter={true}>
                 <Icon name={icon} />

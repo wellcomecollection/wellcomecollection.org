@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
 import { trackEvent, GaEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
+import AlignFont from '../styled/AlignFont';
 import Space from '../styled/Space';
 
 type BaseButtonProps = {
@@ -185,13 +186,13 @@ const ButtonSolid = forwardRef(
                 <Icon name={icon} />
               </ButtonIconWrapper>
             )}
-            <span
+            <AlignFont
               className={classNames({
                 'visually-hidden': !!isTextHidden,
               })}
             >
               {text}
-            </span>
+            </AlignFont>
           </>
         </BaseButtonInner>
       </SolidButton>

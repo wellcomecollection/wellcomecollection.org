@@ -3,6 +3,8 @@ import { type Node, type ComponentType } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
+import AlignFont from '../styled/AlignFont';
+// $FlowFixMe (tsx)
 import Space, { type SpaceComponentProps } from '../styled/Space';
 
 const ColouredTag: ComponentType<SpaceComponentProps> = styled(Space).attrs(
@@ -42,7 +44,7 @@ const MessageBar = ({ tagText, children }: Props) => (
           properties: ['margin-right'],
         }}
       >
-        {tagText}
+        <AlignFont>{tagText}</AlignFont>
       </ColouredTag>
     )}
     {children}

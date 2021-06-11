@@ -1,10 +1,10 @@
 import { font, classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
 import Space from '../styled/Space';
+import AlignFont from '../styled/AlignFont';
 import { InlineButton } from '../ButtonInline/ButtonInline';
 import { FunctionComponent, ReactElement } from 'react';
 import { LinkProps } from '../../../model/link-props';
-
 export type TagType = {
   textParts: string[];
   linkAttributes: LinkProps;
@@ -62,25 +62,27 @@ const Tags: FunctionComponent<Props> = ({
                         'inline-block': true,
                       })}
                     >
-                      {part}
-                      {i !== arr.length - 1 && (
-                        <Space
-                          as="span"
-                          h={
-                            // If we are the first element, we always have a `|` separator
-                            i === 0 || separator !== ''
-                              ? { size: 's', properties: ['padding-left'] }
-                              : undefined
-                          }
-                          className={classNames({
-                            [font('hnl', 5)]: true,
-                            'inline-block': true,
-                          })}
-                        >
-                          {' '}
-                          {i === 0 ? '|' : separator}
-                        </Space>
-                      )}
+                      <AlignFont>
+                        {part}
+                        {i !== arr.length - 1 && (
+                          <Space
+                            as="span"
+                            h={
+                              // If we are the first element, we always have a `|` separator
+                              i === 0 || separator !== ''
+                                ? { size: 's', properties: ['padding-left'] }
+                                : undefined
+                            }
+                            className={classNames({
+                              [font('hnl', 5)]: true,
+                              'inline-block': true,
+                            })}
+                          >
+                            {' '}
+                            {i === 0 ? '|' : separator}
+                          </Space>
+                        )}
+                      </AlignFont>
                     </Space>
                   ))}
                 </InlineButton>

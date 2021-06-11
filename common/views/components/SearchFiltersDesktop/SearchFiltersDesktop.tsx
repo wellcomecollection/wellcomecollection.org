@@ -21,6 +21,7 @@ import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
 import ButtonInline from '../ButtonInline/ButtonInline';
 import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
+import AlignFont from '../styled/AlignFont';
 
 const PaletteColorPicker = dynamic(
   import('../PaletteColorPicker/PaletteColorPicker')
@@ -184,7 +185,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   [font('hnm', 5)]: true,
                 })}
               >
-                Filter by
+                <AlignFont>Filter by</AlignFont>
               </Space>
             </Space>
 
@@ -256,7 +257,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   [font('hnm', 5)]: true,
                 })}
               >
-                Show items available
+                <AlignFont>Show items available</AlignFont>
               </Space>
               <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
                 <ul
