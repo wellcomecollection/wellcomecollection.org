@@ -5,10 +5,12 @@ import {
 } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 import { classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import { useRouter } from 'next/router';
 
 const SignIn: FunctionComponent = () => {
   const { user, isLoading } = useUserInfo();
-  return (
+  const router = useRouter();
+  return router.pathname !== '/item' ? (
     <div style={{ textAlign: 'right' }}>
       <Space
         h={{
@@ -29,7 +31,7 @@ const SignIn: FunctionComponent = () => {
         )}
       </Space>
     </div>
-  );
+  ) : null;
 };
 
 export default withUserInfo(SignIn);
