@@ -24,35 +24,38 @@ const StyledSignIn = styled(Space).attrs({
 const SignIn: FunctionComponent = () => {
   const { user, isLoading } = useUserInfo();
   const router = useRouter();
-  return router.pathname !== '/item' ? (
-    <Layout12>
-      <SignInContainer>
-        <StyledSignIn
-          h={{
-            size: 'l',
-            properties: ['padding-right', 'padding-left'],
-          }}
-          v={{
-            size: 'm',
-            properties: ['padding-top', 'padding-bottom'],
-          }}
-        >
-          {!user && !isLoading && (
-            <>
-              <a href="/account">Library account sign in</a> |{' '}
-              <a href="/pages/X_2eexEAACQAZLBi">Register</a>
-            </>
-          )}
-          {user && (
-            <>
-              <a href="/account">My library account</a> |{' '}
-              <a href="/account/logout">Sign out</a>
-            </>
-          )}
-        </StyledSignIn>
-      </SignInContainer>
-    </Layout12>
-  ) : null;
+  return router.pathname !== '/item'
+    ? (!isLoading && (
+        <Layout12>
+          <SignInContainer>
+            <StyledSignIn
+              h={{
+                size: 'l',
+                properties: ['padding-right', 'padding-left'],
+              }}
+              v={{
+                size: 'm',
+                properties: ['padding-top', 'padding-bottom'],
+              }}
+            >
+              {!user && (
+                <>
+                  <a href="/account">Library account sign in</a> |{' '}
+                  <a href="/pages/X_2eexEAACQAZLBi">Register</a>
+                </>
+              )}
+              {user && (
+                <>
+                  <a href="/account">My library account</a> |{' '}
+                  <a href="/account/logout">Sign out</a>
+                </>
+              )}
+            </StyledSignIn>
+          </SignInContainer>
+        </Layout12>
+      )) ||
+        null
+    : null;
 };
 
 export default withUserInfo(SignIn);
