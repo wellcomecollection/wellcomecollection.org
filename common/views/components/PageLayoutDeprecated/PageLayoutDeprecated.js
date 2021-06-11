@@ -26,6 +26,11 @@ import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import GlobalInfoBarContext from '../GlobalInfoBarContext/GlobalInfoBarContext';
+// $FlowFixMe (tsx)
+import SignIn from '@weco/catalogue/components/SignIn/SignIn';
+// $FlowFixMe (tsx)
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 
 export type Props = {|
   title: string,
@@ -64,6 +69,8 @@ const PageLayout = ({
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
   const globalInfoBar = useContext(GlobalInfoBarContext);
+  const { showLogin } = useContext(TogglesContext);
+
   return (
     <>
       <Head>
@@ -132,7 +139,9 @@ const PageLayout = ({
           Skip to main content
         </a>
         <Header siteSection={siteSection} />
-
+        {showLogin && url.pathname.match(prismicPageIds.collections) && (
+          <SignIn />
+        )}
         <GlobalAlertContext.Consumer>
           {globalAlert =>
             globalAlert &&
