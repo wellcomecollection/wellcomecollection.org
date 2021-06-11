@@ -13,7 +13,7 @@ const Align = styled.span<{ isOn: boolean }>`
       props.isOn &&
       `
       transform: translateY(-${props.theme.fontVerticalOffset});
-      display: inline-flex;
+      display: inline-block;
     `}
   }
 `;
