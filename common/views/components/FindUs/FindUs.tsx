@@ -73,7 +73,7 @@ const FindUs: FunctionComponent = () => (
       <p
         style={{ marginLeft: '38px' }}
         className={classNames({
-          'block no-margin': true,
+          block: true,
         })}
       >
         <abbr title="telephone number">T</abbr>:{' '}
