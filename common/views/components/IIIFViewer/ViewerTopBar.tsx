@@ -9,6 +9,7 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
 import ToolbarSegmentedControl from '../ToolbarSegmentedControl/ToolbarSegmentedControl';
+import AlignFont from '../styled/AlignFont';
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs(() => ({
@@ -214,7 +215,9 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                   setIsMobileSidebarActive(!isMobileSidebarActive);
                 }}
               >
-                {isMobileSidebarActive ? 'Hide info' : 'Show info'}
+                <AlignFont>
+                  {isMobileSidebarActive ? 'Hide info' : 'Show info'}
+                </AlignFont>
               </ShameButton>
             </>
           )}
@@ -317,12 +320,14 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                   document['webkitFullscreenElement'] ? (
                     <>
                       <Icon name={'collapse'} />
-                      <span className={`btn__text`}>Exit full screen</span>
+                      <AlignFont className={`btn__text`}>
+                        Exit full screen
+                      </AlignFont>
                     </>
                   ) : (
                     <>
                       <Icon name={'expand'} />
-                      <span className={`btn__text`}>Full screen</span>
+                      <AlignFont className={`btn__text`}>Full screen</AlignFont>
                     </>
                   )}
                 </ShameButton>

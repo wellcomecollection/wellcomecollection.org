@@ -114,7 +114,11 @@ const cls = ({
   ...sizesClasses,
 } as any) as Classes & SizedClasses;
 
-const GlobalStyle = createGlobalStyle`
+export type GlobalStyleProps = {
+  toggles?: { [key: string]: boolean };
+};
+
+const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   ${css`
     .${cls.displayBlock} {
       display: block;

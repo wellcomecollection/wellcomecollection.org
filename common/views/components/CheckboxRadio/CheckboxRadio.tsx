@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
+import AlignFont from '../styled/AlignFont';
 
 const CheckboxRadioLabel = styled.label.attrs({
   className: classNames({
-    'flex-inline flex--v-start': true,
+    'flex-inline flex--v-center': true,
   }),
 })`
   cursor: pointer;
@@ -93,7 +94,7 @@ const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
         </CheckboxRadioBox>
       </CheckBoxWrapper>
       <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>
-        {text}
+        <AlignFont>{text}</AlignFont>
       </Space>
     </CheckboxRadioLabel>
   );

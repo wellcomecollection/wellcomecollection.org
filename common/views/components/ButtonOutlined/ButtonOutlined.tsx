@@ -8,6 +8,7 @@ import {
   BaseButtonInner,
   ButtonIconWrapper,
 } from '../ButtonSolid/ButtonSolid';
+import AlignFont from '../styled/AlignFont';
 
 type OutlinedButtonProps = {
   href?: string;
@@ -85,13 +86,13 @@ const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
       >
         <BaseButtonInner>
           <>
-            <span
+            <AlignFont
               className={classNames({
                 'visually-hidden': !!isTextHidden,
               })}
             >
               {text}
-            </span>
+            </AlignFont>
             {icon && (
               <ConditionalWrapper
                 condition={!isTextHidden}
