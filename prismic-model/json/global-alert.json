@@ -1,27 +1,30 @@
 {
-  "Global alert" : {
-    "text" : {
-      "type" : "StructuredText",
-      "config" : {
-        "multi" : "heading2, paragraph, strong, em, hyperlink",
-        "label" : "text",
-        "placeholder" : "text"
+  "Global alert": {
+    "text": {
+      "type": "StructuredText",
+      "config": {
+        "multi": "paragraph,hyperlink,strong,em,heading2",
+        "label": "text",
+        "placeholder": "text"
       }
     },
-    "isShown" : {
-      "type" : "Select",
-      "config" : {
-        "options" : [ "hide", "show" ],
-        "default_value" : "hide",
-        "label" : "Display",
-        "placeholder" : "Show or hide"
+    "isShown": {
+      "type": "Select",
+      "config": {
+        "label": "Display",
+        "options": [
+          "hide",
+          "show"
+        ],
+        "default_value": "hide",
+        "placeholder": "Show or hide"
       }
     },
-    "routeRegex" : {
-      "type" : "Text",
-      "config" : {
-        "label" : "Write a pipe-separated (|) list of page paths here if you only want the alert to display on certain pages. Leave empty if you want the alert to appear on all pages.",
-        "placeholder" : "path(s) to match"
+    "routeRegex": {
+      "type": "Text",
+      "config": {
+        "label": "Write a pipe-separated (|) list of page paths here if you only want the alert to display on certain pages. Leave empty if you want the alert to appear on all pages.",
+        "placeholder": "path(s) to match"
       }
     }
   }
