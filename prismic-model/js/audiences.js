@@ -1,10 +1,14 @@
 import title from './parts/title';
-import structuredText from './parts/structured-text';
+import specificStructuredText from './parts/specific-structured-text';
 
 const Audiences = {
   Audience: {
     title,
-    description: structuredText('Description', 'single'),
+    description: specificStructuredText({
+      singleOrMulti: 'single',
+      htmlTypes: ['paragraph'],
+      label: 'Description',
+    }),
   },
 };
 
