@@ -1,32 +1,32 @@
 {
-  "Interpretation" : {
-    "title" : {
-      "type" : "StructuredText",
-      "config" : {
-        "single" : "heading1",
-        "label" : "Title",
+  "Interpretation": {
+    "title": {
+      "type": "StructuredText",
+      "config": {
+        "single": "heading1",
+        "label": "Title",
         "useAsTitle": true
       }
     },
-    "abbreviation" : {
-      "type" : "StructuredText",
-      "config" : {
-        "single" : "paragraph",
-        "label" : "Abbreviation"
+    "abbreviation": {
+      "type": "StructuredText",
+      "config": {
+        "single": "paragraph",
+        "label": "Abbreviation"
       }
     },
-    "description" : {
-      "type" : "StructuredText",
-      "config" : {
-        "multi" : "paragraph, hyperlink",
-        "label" : "Message"
+    "description": {
+      "type": "StructuredText",
+      "config": {
+        "multi": "paragraph, hyperlink",
+        "label": "Message"
       }
     },
-    "primaryDescription" : {
-      "type" : "StructuredText",
-      "config" : {
-        "multi" : "paragraph, hyperlink",
-        "label" : "Message if primary interpretation"
+    "primaryDescription": {
+      "type": "StructuredText",
+      "config": {
+        "multi": "paragraph, hyperlink",
+        "label": "Message if primary interpretation"
       }
     }
   }
