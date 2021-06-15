@@ -17,6 +17,7 @@ export const fonts = `
   font-family: 'Helvetica Neue Bold Web';
   src: url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-bold.woff2') format('woff2'),
     url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-bold.woff') format('woff');
+  font-weight: bold;
 }
 
 
