@@ -21,57 +21,58 @@
         "multi" : "paragraph, em, strong, hyperlink"
       }
     },
-    "section" : {
+    "body" : {
+      "type" : "Slices",
       "fieldset" : "Section",
-      "type" : "Slices",
       "config" : {
         "choices" : {
-          "series" : {
-            "type" : "Link",
-            "fieldset" : "Series",
-            "config" : {
-              "select" : "document",
-              "label" : "Series",
-              "customtypes" : [ "series" ]
-            }
-          }
-        }
-      }
-    }
-  },
-  "Promo" : {
-    "promo" : {
-      "type" : "Slices",
-      "config" : {
-        "label" : "Promo",
-        "choices" : {
-          "editorialImage" : {
+          "contentList" : {
             "type" : "Slice",
-            "fieldset" : "Editorial image",
-            "config" : {
-              "label" : "Editorial image"
-            },
+            "fieldset" : "Content List",
+            "description" : "A list of content",
+            "icon" : "face",
+            "display" : "list",
             "non-repeat" : {
-              "caption" : {
+              "title" : {
                 "type" : "StructuredText",
                 "config" : {
-                  "label" : "Promo text",
-                  "single" : "hyperlink, strong, em"
+                  "single" : "heading1",
+                  "label" : "Title"
                 }
-              },
-              "image" : {
-                "type" : "Image",
+              }
+            },
+            "repeat" : {
+              "content" : {
+                "type" : "Link",
                 "config" : {
-                  "label" : "Promo image",
-                  "thumbnails" : [ {
-                    "name" : "16:9",
-                    "width" : 3200,
-                    "height" : 1800
-                  }, {
-                    "name" : "square",
-                    "width" : 3200,
-                    "height" : 3200
-                  } ]
+                  "select" : "document",
+                  "customtypes" : [ "articles", "webcomics", "series", "webcomic-series" ],
+                  "label" : "Content"
+                }
+              }
+            }
+          },
+          "stories" : {
+            "type" : "Slice",
+            "fieldset" : "Stories",
+            "description" : "Stories - newest to oldest",
+            "icon" : "face",
+            "display" : "list",
+            "non-repeat" : {
+              "title" : {
+                "type" : "StructuredText",
+                "config" : {
+                  "single" : "heading1",
+                  "label" : "Title"
+                }
+              }
+            },
+            "repeat" : {
+              "text" : {
+                "type" : "StructuredText",
+                "config" : {
+                  "single" : "heading1",
+                  "label" : "text"
                 }
               }
             }
