@@ -139,7 +139,7 @@ const PageLayout = ({
           Skip to main content
         </a>
         <Header siteSection={siteSection} />
-        {showLogin && url.pathname.match(prismicPageIds.collections) && (
+        {showLogin && url.pathname?.match(prismicPageIds.collections) && (
           <SignIn />
         )}
         <GlobalAlertContext.Consumer>
