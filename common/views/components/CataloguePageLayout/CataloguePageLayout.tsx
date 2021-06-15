@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import PageLayout, { Props as PageLayoutProps } from '../PageLayout/PageLayout';
 import InfoBanner from '../InfoBanner/InfoBanner';
-import SignIn from '@weco/common/views/components/SignIn/SignIn';
+import SignIn from '../SignIn/SignIn';
 import { prefix } from '@weco/identity/src/utility/prefix';
 
 type Props = {

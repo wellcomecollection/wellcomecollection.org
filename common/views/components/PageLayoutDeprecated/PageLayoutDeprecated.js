@@ -27,7 +27,7 @@ import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import GlobalInfoBarContext from '../GlobalInfoBarContext/GlobalInfoBarContext';
 // $FlowFixMe (tsx)
-import SignIn from '@weco/catalogue/components/SignIn/SignIn';
+import SignIn from '../SignIn/SignIn';
 // $FlowFixMe (tsx)
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
