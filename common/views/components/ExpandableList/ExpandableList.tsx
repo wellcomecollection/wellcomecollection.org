@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const ShowHideButton = styled.button.attrs({
   className: classNames({
     'plain-button no-margin no-padding': true,
-    [font('hnl', 5)]: true,
+    [font('hnr', 5)]: true,
   }),
 })`
   text-decoration: underline;
@@ -53,7 +53,7 @@ const ExpandableList: FunctionComponent<Props> = ({ listItems }: Props) => {
         ) => (
           <li
             className={classNames({
-              [font('hnl', 5)]: true,
+              [font('hnr', 5)]: true,
             })}
             key={index}
           >
@@ -65,7 +65,7 @@ const ExpandableList: FunctionComponent<Props> = ({ listItems }: Props) => {
             {remainingListItems.map((item, index) => (
               <li
                 className={classNames({
-                  [font('hnl', 5)]: true,
+                  [font('hnr', 5)]: true,
                 })}
                 key={index}
               >

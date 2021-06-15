@@ -13,7 +13,7 @@ type LabelContainerProps = {
 const LabelContainer = styled(Space).attrs({
   className: classNames({
     'nowrap line-height-1': true,
-    [font('hnm', 6)]: true,
+    [font('hnb', 6)]: true,
   }),
 })<LabelContainerProps>`
   color: ${props => props.theme.color(props.fontColor)};

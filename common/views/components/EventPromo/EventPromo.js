@@ -96,7 +96,7 @@ const EventPromo = ({
           )}
 
           {!isPast && (
-            <p className={`${font('hnl', 5)} no-padding no-margin`}>
+            <p className={`${font('hnr', 5)} no-padding no-margin`}>
               <EventDateRange
                 event={event}
                 splitTime={true}
@@ -106,13 +106,13 @@ const EventPromo = ({
           )}
 
           {!isPast && dateString && (
-            <p className={`${font('hnl', 5)} no-padding no-margin`}>
+            <p className={`${font('hnr', 5)} no-padding no-margin`}>
               {dateString}
             </p>
           )}
 
           {!isPast && timeString && (
-            <p className={`${font('hnl', 5)} no-padding no-margin`}>
+            <p className={`${font('hnr', 5)} no-padding no-margin`}>
               {timeString}
             </p>
           )}
@@ -120,7 +120,7 @@ const EventPromo = ({
           {!isPast && fullyBooked && (
             <Space
               v={{ size: 'm', properties: ['margin-top'] }}
-              className={`${font('hnl', 5)} flex flex--v-center`}
+              className={`${font('hnr', 5)} flex flex--v-center`}
             >
               <Space
                 as="span"
@@ -133,7 +133,7 @@ const EventPromo = ({
             </Space>
           )}
           {!isPast && event.scheduleLength > 0 && (
-            <p className={`${font('hnm', 5)} no-padding no-margin`}>
+            <p className={`${font('hnb', 5)} no-padding no-margin`}>
               {`${event.scheduleLength} ${
                 event.scheduleLength > 1 ? 'events' : 'event'
               }`}
@@ -141,11 +141,11 @@ const EventPromo = ({
           )}
 
           {!isPast && event.times.length > 1 && (
-            <p className={`${font('hnm', 6)}`}>See all dates/times</p>
+            <p className={`${font('hnb', 6)}`}>See all dates/times</p>
           )}
 
           {isPast && !event.availableOnline && (
-            <div className={`${font('hnl', 5)} flex flex--v-center`}>
+            <div className={`${font('hnr', 5)} flex flex--v-center`}>
               <Space
                 as="span"
                 h={{ size: 'xs', properties: ['margin-right'] }}
@@ -161,8 +161,8 @@ const EventPromo = ({
         {event.series.length > 0 && (
           <Space v={{ size: 'm', properties: ['margin-top'] }}>
             {event.series.map(series => (
-              <p key={series.title} className={`${font('hnm', 6)} no-margin`}>
-                <span className={font('hnl', 6)}>Part of</span> {series.title}
+              <p key={series.title} className={`${font('hnb', 6)} no-margin`}>
+                <span className={font('hnr', 6)}>Part of</span> {series.title}
               </p>
             ))}
           </Space>

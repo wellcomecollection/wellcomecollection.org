@@ -6,7 +6,7 @@ export const FieldMargin = styled.div`
   margin-bottom: 1em;
 `;
 
-export const Label = styled.label.attrs({ className: 'font-hnl fonts-loaded font-size-4' })`
+export const Label = styled.label.attrs({ className: 'font-hnr fonts-loaded font-size-4' })`
   display: block;
   font-weight: bold;
 `;
@@ -20,7 +20,7 @@ export const TextInput = styled.input<{ invalid?: FieldError }>`
   border-radius: 6px;
 `;
 
-export const InvalidFieldAlert = styled.span.attrs({ role: 'alert', className: 'font-hnl font-size-6' })`
+export const InvalidFieldAlert = styled.span.attrs({ role: 'alert', className: 'font-hnr font-size-6' })`
   color: #d1192c;
   font-weight: bold;
   font-size: 14px;

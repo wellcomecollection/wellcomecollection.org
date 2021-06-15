@@ -60,7 +60,7 @@ const SeasonsHeader: FunctionComponent<Props> = ({
                       </h1>
                     </Space>
                     {start && end && (
-                      <div className={font('hnl', 5)}>
+                      <div className={font('hnr', 5)}>
                         <DateRange
                           start={new Date(start)}
                           end={new Date(end)}

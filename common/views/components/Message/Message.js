@@ -17,7 +17,7 @@ const Message = ({ text }: Props) => (
       'border-left-width-5': true,
       'border-color-yellow': true,
       'inline-block': true,
-      [font('hnm', 5)]: true,
+      [font('hnb', 5)]: true,
     })}
   >
     {text}

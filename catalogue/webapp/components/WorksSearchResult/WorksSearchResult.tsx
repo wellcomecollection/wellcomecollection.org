@@ -112,7 +112,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
             <Details>
               <h2
                 className={classNames({
-                  [font('hnm', 4)]: true,
+                  [font('hnb', 4)]: true,
                   'card-link__title': true,
                 })}
               >

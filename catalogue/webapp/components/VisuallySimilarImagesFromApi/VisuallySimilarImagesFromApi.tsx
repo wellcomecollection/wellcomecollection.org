@@ -64,7 +64,7 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
       </Wrapper>
       <p
         className={classNames({
-          [font('hnl', 6)]: true,
+          [font('hnr', 6)]: true,
           'no-margin': true,
         })}
       >

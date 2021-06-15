@@ -38,14 +38,14 @@ const Breadcrumb: FunctionComponent<Props> = ({
             }}
             key={text}
             className={classNames({
-              [font('hnl', 5)]: true,
+              [font('hnr', 5)]: true,
               'border-left-width-1 border-color-black': i !== 0,
             })}
           >
             {prefix}{' '}
             <LinkOrSpanTag
               className={classNames({
-                [font('hnm', 5)]: Boolean(prefix),
+                [font('hnb', 5)]: Boolean(prefix),
               })}
               href={url}
             >
@@ -58,7 +58,7 @@ const Breadcrumb: FunctionComponent<Props> = ({
     {items.length === 0 && (
       <span
         className={classNames({
-          [font('hnl', 5)]: true,
+          [font('hnr', 5)]: true,
           'empty-filler': true,
         })}
         style={{ lineHeight: 1 }}

@@ -10,7 +10,7 @@ import { FunctionComponent } from 'react';
 
 const StyledFindUs = styled.div.attrs({
   className: classNames({
-    [font('hnl', 5)]: true,
+    [font('hnr', 5)]: true,
   }),
 })`
   &:hover,

@@ -128,7 +128,7 @@ const TextInputCheckmark = styled.span.attrs({
 const TextInputErrorMessage = styled.span.attrs({
   'data-test-id': 'TextInputErrorMessage',
   className: classNames({
-    'font-hnm': true,
+    'font-hnb': true,
   }),
 })`
   font-size: 14px;

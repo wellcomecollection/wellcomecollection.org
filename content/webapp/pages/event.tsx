@@ -48,7 +48,7 @@ type EventStatusProps = {
 function EventStatus({ text, color }: EventStatusProps) {
   return (
     <div className="flex">
-      <div className={`${font('hnm', 5)} flex flex--v-center`}>
+      <div className={`${font('hnb', 5)} flex flex--v-center`}>
         <Space
           as="span"
           h={{ size: 'xs', properties: ['margin-right'] }}
@@ -359,7 +359,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
                       <Space v={{ size: 's', properties: ['margin-top'] }}>
                         <p
                           className={`no-margin font-charcoal ${font(
-                            'hnl',
+                            'hnr',
                             5
                           )}`}
                         >
@@ -411,7 +411,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
                     as="a"
                     className={classNames({
                       'block font-charcoal': true,
-                      [font('hnm', 5)]: true,
+                      [font('hnb', 5)]: true,
                     })}
                   >
                     <span>{event.bookingEnquiryTeam.email}</span>
@@ -484,7 +484,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
               .filter(Boolean) as LabelField[]
           }
         >
-          <p className={`no-margin ${font('hnl', 5)}`}>
+          <p className={`no-margin ${font('hnr', 5)}`}>
             <a href="https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sng">
               Our event terms and conditions
             </a>

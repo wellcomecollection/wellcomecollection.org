@@ -11,7 +11,7 @@ import { volumesNavigationLabel } from '@weco/common/text/aria-labels';
 
 const HiddenContent = styled.div.attrs(() => ({
   className: classNames({
-    [font('hnm', 5)]: true,
+    [font('hnb', 5)]: true,
   }),
 }))`
   min-width: 200px;

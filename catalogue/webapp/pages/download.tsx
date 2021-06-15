@@ -109,7 +109,7 @@ const DownloadPage: NextPage<Props> = ({
               as="h1"
               id="work-info"
               className={classNames({
-                [font('hnm', 1)]: true,
+                [font('hnb', 1)]: true,
               })}
             >
               {title}

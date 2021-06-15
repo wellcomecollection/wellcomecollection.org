@@ -101,7 +101,7 @@ const Paginator: FunctionComponent<Props> = ({
         className={classNames({
           flex: true,
           'flex--v-center': true,
-          [font('hnm', 3)]: true,
+          [font('hnb', 3)]: true,
         })}
       >
         <TotalResultsWrapper hideMobileTotalResults={hideMobileTotalResults}>
@@ -116,7 +116,7 @@ const Paginator: FunctionComponent<Props> = ({
           'flex-inline': true,
           'flex--v-center': true,
           'font-pewter': true,
-          [font('hnl', 5)]: true,
+          [font('hnr', 5)]: true,
           'flex-end': true,
         })}
         v={{

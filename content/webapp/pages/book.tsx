@@ -103,7 +103,7 @@ export class BookPage extends Component<Props | { statusCode: number }> {
               <p
                 className={classNames({
                   'no-margin': true,
-                  [font('hnm', 3)]: true,
+                  [font('hnb', 3)]: true,
                 })}
               >
                 {book.subtitle}

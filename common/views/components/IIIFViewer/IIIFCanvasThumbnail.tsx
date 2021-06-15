@@ -73,7 +73,7 @@ const IIIFViewerThumbNumber = styled.span.attrs<ViewerThumbProps>(props => ({
     'font-white': !props.isActive,
     'font-black': props.isActive,
     'bg-yellow': props.isActive,
-    [font('hnm', 6)]: true,
+    [font('hnb', 6)]: true,
   }),
 }))<ViewerThumbProps>`
   padding: 3px 6px;

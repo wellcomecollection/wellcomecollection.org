@@ -14,7 +14,7 @@ const ColouredTag: ComponentType<SpaceComponentProps> = styled(Space).attrs(
       'inline-block': true,
       'bg-charcoal': true,
       'font-white': true,
-      [font('hnm', 6)]: true,
+      [font('hnb', 6)]: true,
     }),
   })
 )`
@@ -33,7 +33,7 @@ const MessageBar = ({ tagText, children }: Props) => (
       properties: ['padding-top', 'padding-bottom'],
     }}
     className={classNames({
-      [font('hnl', 6)]: true,
+      [font('hnr', 6)]: true,
     })}
   >
     {tagText && (

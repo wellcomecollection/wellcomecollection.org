@@ -46,7 +46,7 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
           {contributor.type === 'organisations' && contributor.url && (
             <h3
               className={classNames({
-                [font('hnm', 4)]: true,
+                [font('hnb', 4)]: true,
                 'no-margin': true,
               })}
             >
@@ -58,7 +58,7 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
           {!contributor.url && (
             <h3
               className={classNames({
-                [font('hnm', 4)]: true,
+                [font('hnb', 4)]: true,
                 'no-margin': true,
               })}
             >
@@ -66,7 +66,7 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
             </h3>
           )}
           {role && role.title && (
-            <div className={'font-pewter ' + font('hnm', 5)}>{role.title}</div>
+            <div className={'font-pewter ' + font('hnb', 5)}>{role.title}</div>
           )}
 
           {contributor.sameAs.length > 0 && (
@@ -85,7 +85,7 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
                 properties: ['margin-top'],
               }}
               className={classNames({
-                [font('hnl', 5)]: true,
+                [font('hnr', 5)]: true,
                 'spaced-text': true,
               })}
             >

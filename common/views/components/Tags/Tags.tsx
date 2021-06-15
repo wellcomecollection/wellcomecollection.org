@@ -56,7 +56,7 @@ const Tags: FunctionComponent<Props> = ({
                       key={part}
                       className={classNames({
                         [font(
-                          i === 0 && isFirstPartBold ? 'hnm' : 'hnl',
+                          i === 0 && isFirstPartBold ? 'hnb' : 'hnr',
                           5
                         )]: true,
                         'inline-block': true,
@@ -74,7 +74,7 @@ const Tags: FunctionComponent<Props> = ({
                                 : undefined
                             }
                             className={classNames({
-                              [font('hnl', 5)]: true,
+                              [font('hnr', 5)]: true,
                               'inline-block': true,
                             })}
                           >

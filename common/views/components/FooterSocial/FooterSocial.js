@@ -63,7 +63,7 @@ const FooterSocial = () => (
             properties: ['margin-bottom'],
           }}
           as="a"
-          className={`footer-social__link ${font('hnm', 6)}`}
+          className={`footer-social__link ${font('hnb', 6)}`}
           href={item.url}
         >
           <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>

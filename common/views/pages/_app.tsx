@@ -220,11 +220,11 @@ const WecoApp: FunctionComponent<AppProps> = ({
     /* eslint-enable @typescript-eslint/no-var-requires */
 
     const WB = new FontFaceObserver('Wellcome Bold Web', { weight: 'bold' });
-    const HNL = new FontFaceObserver('Helvetica Neue Light Web');
-    const HNM = new FontFaceObserver('Helvetica Neue Medium Web');
+    const HNR = new FontFaceObserver('Helvetica Neue Light Web');
+    const HNB = new FontFaceObserver('Helvetica Neue Medium Web');
     const LR = new FontFaceObserver('Lettera Regular Web');
 
-    Promise.all([WB.load(), HNL.load(), HNM.load(), LR.load()])
+    Promise.all([WB.load(), HNR.load(), HNB.load(), LR.load()])
       .then(() => {
         if (document.documentElement) {
           document.documentElement.classList.add('fonts-loaded');

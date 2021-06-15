@@ -49,30 +49,6 @@ const GlobalContextProvider: FunctionComponent<Props> = ({
         <GlobalAlertContext.Provider value={value.globalAlert}>
           <PopupDialogContext.Provider value={value.popupDialog}>
             <TogglesContext.Provider value={value.toggles}>
-              {value.toggles && value.toggles.helveticaRegular && (
-                <style
-                  type="text/css"
-                  dangerouslySetInnerHTML={{
-                    __html: `
-                      @font-face {
-                        font-family: 'Helvetica Neue Light Web';
-                        src: url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-roman.woff2') format('woff2'),
-                          url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-roman.woff') format('woff');
-                        font-weight: normal;
-                        font-style: normal;
-                      }
-
-                      @font-face {
-                        font-family: 'Helvetica Neue Medium Web';
-                        src: url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-bold.woff2') format('woff2'),
-                          url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-bold.woff') format('woff');
-                        font-weight: normal;
-                        font-style: normal;
-                      }
-                    `,
-                  }}
-                />
-              )}
               {children}
             </TogglesContext.Provider>
           </PopupDialogContext.Provider>

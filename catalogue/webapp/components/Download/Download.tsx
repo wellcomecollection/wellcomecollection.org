@@ -14,7 +14,7 @@ import { DownloadFormat } from '../DownloadLink/DownloadLink';
 
 export const DownloadOptions = styled.div.attrs(() => ({
   className: classNames({
-    [font('hnm', 4)]: true,
+    [font('hnb', 4)]: true,
   }),
 }))`
   white-space: normal;
@@ -69,7 +69,7 @@ const Download: NextPage<Props> = ({
   return (
     <div
       className={classNames({
-        [font('hnl', 5)]: true,
+        [font('hnr', 5)]: true,
         'inline-block': isEnhanced,
         relative: true,
       })}
@@ -85,7 +85,7 @@ const Download: NextPage<Props> = ({
           >
             <DownloadOptions
               className={classNames({
-                [font('hnm', 5)]: true,
+                [font('hnb', 5)]: true,
               })}
             >
               <SpacingComponent>

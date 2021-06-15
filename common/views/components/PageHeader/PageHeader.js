@@ -227,7 +227,7 @@ const PageHeader = ({
                 ) : (
                   <span
                     className={classNames({
-                      [font('hnl', 5)]: true,
+                      [font('hnr', 5)]: true,
                       flex: true,
                     })}
                   >
@@ -252,7 +252,7 @@ const PageHeader = ({
               <Space
                 v={{ size: 'm', properties: ['margin-bottom'] }}
                 className={classNames({
-                  [font('hnl', 4)]: true,
+                  [font('hnr', 4)]: true,
                 })}
               >
                 {ContentTypeInfo}
@@ -299,7 +299,7 @@ const PageHeader = ({
               properties: ['margin-top'],
             }}
             className={classNames({
-              [font('hnm', 4)]: true,
+              [font('hnb', 4)]: true,
             })}
           >
             {ContentTypeInfo}

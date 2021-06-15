@@ -63,7 +63,7 @@ const EventBookingButton = ({ event }: Props) => {
             size: 's',
             properties: ['margin-top'],
           }}
-          className={`block font-charcoal ${font('hnl', 4)}`}
+          className={`block font-charcoal ${font('hnr', 4)}`}
           href={`mailto:${team.email}?subject=${event.title}`}
         >
           {team.email}

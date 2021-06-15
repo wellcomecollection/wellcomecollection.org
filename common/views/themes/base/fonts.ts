@@ -8,24 +8,17 @@ export const fonts = `
 }
 
 @font-face {
-  font-family: 'Helvetica Neue Light Web';
-  src: local('Helvetica Neue Light'),
-    local('HelveticaNeue-Light'),
-    url('https://i.wellcomecollection.org/assets/fonts/3f289cf9-c08b-4ffc-97cc-d1230c569129.woff2') format('woff2'),
-    url('https://i.wellcomecollection.org/assets/fonts/ee81d85a-174d-4def-9af8-9d1057a2737f.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
+  font-family: 'Helvetica Neue Roman Web';
+  src: url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-roman.woff2') format('woff2'),
+    url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-roman.woff') format('woff');
 }
 
 @font-face {
-  font-family: 'Helvetica Neue Medium Web';
-  src: local('Helvetica Neue Medium'),
-    local('HelveticaNeue-Medium'),
-    url('https://i.wellcomecollection.org/assets/fonts/5393f1cf-e069-4466-bb37-f26f99fb4cf7.woff2') format('woff2'),
-    url('https://i.wellcomecollection.org/assets/fonts/26b8484e-52e3-44ac-b958-865809934ebb.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
+  font-family: 'Helvetica Neue Bold Web';
+  src: url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-bold.woff2') format('woff2'),
+    url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-bold.woff') format('woff');
 }
+
 
 /*
  * Legal Disclaimer

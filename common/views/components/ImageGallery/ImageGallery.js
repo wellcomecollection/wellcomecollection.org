@@ -285,7 +285,7 @@ class ImageGallery extends Component<Props, State> {
                                 properties: ['margin-bottom'],
                               }}
                               className={classNames({
-                                [font('hnm', 5)]: true,
+                                [font('hnb', 5)]: true,
                               })}
                             >
                               {i + 1} of {items.length}

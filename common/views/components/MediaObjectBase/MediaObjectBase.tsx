@@ -160,11 +160,11 @@ const MediaObjectBase: FunctionComponent<Props> = ({
           <div
             className={classNames({
               'spaced-text': true,
-              [font('hnl', 5)]: !descriptionIsString,
+              [font('hnr', 5)]: !descriptionIsString,
             })}
           >
             {descriptionIsString ? (
-              <p className={font('hnl', 5)}>{description}</p>
+              <p className={font('hnr', 5)}>{description}</p>
             ) : (
               description
             )}
