@@ -6,7 +6,7 @@ import { FunctionComponent, ReactElement } from 'react';
 
 const Anchor = styled.a.attrs(() => ({
   className: classNames({
-    [font('hnm', 5)]: true,
+    [font('hnb', 5)]: true,
   }),
 }))`
   color: ${props => props.theme.color('green')};

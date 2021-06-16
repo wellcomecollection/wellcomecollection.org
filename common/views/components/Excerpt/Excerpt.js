@@ -36,7 +36,7 @@ const Excerpt = ({ title, content, source, audio }: Props) => (
     {audio && <audio controls src={audio} style={{ width: '100%' }} />}
     {source && (
       <p>
-        <a href={`/books/${source.id}`} className={`${font('hnl', 4)}`}>
+        <a href={`/books/${source.id}`} className={`${font('hnr', 4)}`}>
           {source.title}
         </a>
       </p>

@@ -49,13 +49,13 @@ export const fontSizesAtBreakpoints = {
 };
 
 const fontFamilies = {
-  hnm: {
-    base: `'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'Arial Black', sans-serif;`,
-    full: `'Helvetica Neue Medium Web', 'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'Arial Black', sans-serif;`,
+  hnb: {
+    base: `'Helvetica Neue', Helvetica, Arial, sans-serif;`,
+    full: `'Helvetica Neue Bold Web', 'Helvetica Neue', Helvetica, Arial, sans-serif;`,
   },
-  hnl: {
-    base: `'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;`,
-    full: `'Helvetica Neue Light Web', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;`,
+  hnr: {
+    base: `'Helvetica Neue', Helvetica, Arial, sans-serif;`,
+    full: `'Helvetica Neue Roman Web', 'Helvetica Neue', Helvetica, Arial, sans-serif;`,
   },
   wb: {
     base: `'Wellcome Bold Web Subset', 'Arial Black', sans-serif;`,
@@ -82,24 +82,27 @@ const fontFamilyMixin = (family, isFull) => {
 };
 
 export const typography = css<GlobalStyleProps>`
-  .font-hnm,
-  .font-hnl {
+  .font-hnb {
+    font-weight: bold;
+  }
+
+  .font-hnr {
     font-weight: normal;
   }
 
-  .font-hnm {
-    ${fontFamilyMixin('hnm', false)};
+  .font-hnb {
+    ${fontFamilyMixin('hnb', false)};
 
     .fonts-loaded & {
-      ${fontFamilyMixin('hnm', true)};
+      ${fontFamilyMixin('hnb', true)};
     }
   }
 
-  .font-hnl {
-    ${fontFamilyMixin('hnl', false)};
+  .font-hnr {
+    ${fontFamilyMixin('hnr', false)};
 
     .fonts-loaded & {
-      ${fontFamilyMixin('hnl', true)}
+      ${fontFamilyMixin('hnr', true)}
     }
   }
 
@@ -124,7 +127,7 @@ export const typography = css<GlobalStyleProps>`
   }
 
   body {
-    ${fontFamilyMixin('hnl', true)}
+    ${fontFamilyMixin('hnr', true)}
     ${fontSizeMixin(4)}
     line-height: 1.5;
     color: ${themeValues.color('black')};
@@ -162,7 +165,6 @@ export const typography = css<GlobalStyleProps>`
   h6 {
     font-size: 1em;
     margin: 0 0 0.6em;
-    font-weight: normal;
   }
 
   a {
@@ -274,39 +276,21 @@ export const typography = css<GlobalStyleProps>`
 
     a:link:not(.link-reset),
     a:visited:not(.link-reset) {
-      text-decoration: none;
-      border-bottom: 2px solid ${themeValues.color('green')};
+      text-decoration: underline;
+      text-decoration-color: ${themeValues.color('green')};
+      text-underline-offset: 0.1em;
       transition: color ${themeValues.transitionProperties},
-        border-bottom ${themeValues.transitionProperties};
+        text-decoration-color ${themeValues.transitionProperties};
 
       &:hover {
         color: ${themeValues.color('green')};
-        border-bottom-color: ${themeValues.color('transparent')};
+        text-decoration-color: transparent;
       }
     }
 
-    ${props =>
-      props?.toggles?.helveticaRegular &&
-      `
-      a:link:not(.link-reset),
-      a:visited:not(.link-reset) {
-        text-decoration: underline;
-        text-decoration-color: ${themeValues.color('green')};
-        text-underline-offset: 0.1em;
-        border-bottom: none;
-        transition: color ${themeValues.transitionProperties},
-        text-decoration-color ${themeValues.transitionProperties};
-
-        &:hover {
-          color: ${themeValues.color('green')};
-          text-decoration-color: transparent;
-        }
-      }
-    `}
-
     strong,
     b {
-      ${fontFamilyMixin('hnm', true)}
+      ${fontFamilyMixin('hnb', true)}
       font-weight: normal;
     }
   }
@@ -314,7 +298,7 @@ export const typography = css<GlobalStyleProps>`
   // This is for when we receive content from a CMS,
   // making it easier to style the first node
   .first-para-bold p:first-of-type {
-    ${fontFamilyMixin('hnm', true)}
+    ${fontFamilyMixin('hnb', true)}
     ${fontSizeMixin(4)}
   }
 

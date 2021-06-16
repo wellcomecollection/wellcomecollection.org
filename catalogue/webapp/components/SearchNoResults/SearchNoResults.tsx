@@ -10,7 +10,7 @@ type Props = {
 
 const QuerySpan = styled.span.attrs({
   className: classNames({
-    [font('hnm', 2)]: true,
+    [font('hnb', 2)]: true,
   }),
 })``;
 
@@ -23,7 +23,7 @@ const SearchNoResults: FunctionComponent<Props> = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
-            <p className={font('hnl', 2)}>
+            <p className={font('hnr', 2)}>
               We couldn{`'`}t find anything that matched{' '}
               <QuerySpan>{query}</QuerySpan>
               {hasFilters && (

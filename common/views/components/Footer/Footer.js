@@ -61,7 +61,7 @@ const Footer = ({
                 properties: ['margin-bottom'],
               }}
               as="h3"
-              className={`footer__heading relative ${font('hnl', 4)}`}
+              className={`footer__heading relative ${font('hnr', 4)}`}
             >
               <span className="hidden">Wellcome collection</span>
               <a href="#" className="footer-nav__brand absolute">
@@ -86,7 +86,7 @@ const Footer = ({
               }}
               as="h3"
               className={`footer__heading hidden is-hidden-s is-hidden-m ${font(
-                'hnl',
+                'hnr',
                 5
               )}`}
             >
@@ -101,7 +101,7 @@ const Footer = ({
           <div
             className={classNames({
               [grid({ s: 12, m: 6, l: 4, xl: 4 })]: true,
-              [font('hnl', 5)]: true,
+              [font('hnr', 5)]: true,
             })}
           >
             <Space
@@ -111,7 +111,7 @@ const Footer = ({
               }}
               as="h3"
               className={`footer__heading hidden is-hidden-s is-hidden-m ${font(
-                'hnl',
+                'hnr',
                 5
               )}`}
             >
@@ -130,13 +130,13 @@ const Footer = ({
                 </Space>
                 <div
                   className={classNames({
-                    [font('hnl', 5)]: true,
+                    [font('hnr', 5)]: true,
                     'float-l': true,
                   })}
                 >
                   <h4
                     className={classNames({
-                      [font('hnm', 5)]: true,
+                      [font('hnb', 5)]: true,
                       'no-margin': true,
                     })}
                   >{`Today's opening times`}</h4>
@@ -164,7 +164,7 @@ const Footer = ({
                 properties: ['margin-top', 'padding-bottom', 'margin-bottom'],
               }}
               className={classNames({
-                [font('hnm', 6)]: true,
+                [font('hnb', 6)]: true,
                 footer__strap: true,
               })}
             >
@@ -181,7 +181,7 @@ const Footer = ({
                 properties: ['margin-top', 'padding-bottom', 'margin-bottom'],
               }}
               className={classNames({
-                [font('hnm', 6)]: true,
+                [font('hnb', 6)]: true,
                 footer__licensing: true,
               })}
             >
@@ -206,7 +206,7 @@ const Footer = ({
             <ul
               className={`plain-list footer__hygiene-list no-margin no-padding`}
             >
-              <li className={`footer__hygiene-item ${font('hnm', 6)}`}>
+              <li className={`footer__hygiene-item ${font('hnb', 6)}`}>
                 <a
                   href="https://wellcome.ac.uk/jobs"
                   className="footer__hygiene-link"
@@ -214,7 +214,7 @@ const Footer = ({
                   Jobs
                 </a>
               </li>
-              <li className={`footer__hygiene-item ${font('hnm', 6)}`}>
+              <li className={`footer__hygiene-item ${font('hnb', 6)}`}>
                 <a
                   href="https://wellcome.ac.uk/about-us/terms-use"
                   className="footer__hygiene-link"
@@ -222,7 +222,7 @@ const Footer = ({
                   Privacy
                 </a>
               </li>
-              <li className={`footer__hygiene-item ${font('hnm', 6)}`}>
+              <li className={`footer__hygiene-item ${font('hnb', 6)}`}>
                 <a
                   href="https://wellcome.ac.uk/about-us/terms-use"
                   className="footer__hygiene-link"
@@ -230,7 +230,7 @@ const Footer = ({
                   Cookies
                 </a>
               </li>
-              <li className={`footer__hygiene-item ${font('hnm', 6)}`}>
+              <li className={`footer__hygiene-item ${font('hnb', 6)}`}>
                 <a
                   href="https://wellcomecollection.org/press"
                   className="footer__hygiene-link"
@@ -238,7 +238,7 @@ const Footer = ({
                   Media office
                 </a>
               </li>
-              <li className={`footer__hygiene-item ${font('hnm', 6)}`}>
+              <li className={`footer__hygiene-item ${font('hnb', 6)}`}>
                 <a
                   href="https://developers.wellcomecollection.org"
                   className="footer__hygiene-link"
@@ -246,7 +246,7 @@ const Footer = ({
                   Developers
                 </a>
               </li>
-              <li className={`footer__hygiene-item ${font('hnm', 6)}`}>
+              <li className={`footer__hygiene-item ${font('hnb', 6)}`}>
                 <a
                   href="#top"
                   className="footer__hygiene-link footer__hygiene-link--back-to-top"

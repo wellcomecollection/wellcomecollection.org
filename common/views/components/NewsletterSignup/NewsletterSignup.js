@@ -84,7 +84,7 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
         <div className="body-text">
           <p
             className={classNames({
-              [font('hnm', 3)]: true,
+              [font('hnb', 3)]: true,
             })}
           >
             Thank you for confirming your email address
@@ -109,7 +109,7 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
         <div className="body-text">
           <p
             className={classNames({
-              [font('hnm', 3)]: true,
+              [font('hnb', 3)]: true,
             })}
           >
             You’re signed up
@@ -126,7 +126,7 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
         <div className="body-text">
           <p
             className={classNames({
-              [font('hnm', 3)]: true,
+              [font('hnb', 3)]: true,
             })}
           >
             Sorry, there’s been a problem
@@ -139,7 +139,7 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
         <div className="body-text">
           <p
             className={classNames({
-              [font('hnm', 3)]: true,
+              [font('hnb', 3)]: true,
             })}
           >
             Want to hear more from us?
@@ -200,7 +200,7 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <legend
                 className={classNames({
-                  [font('hnm', 4)]: true,
+                  [font('hnb', 4)]: true,
                 })}
               >
                 You might also be interested in receiving updates on:
@@ -250,7 +250,7 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
             </Space>
           )}
 
-          <p className={`${font('hnl', 6)}`}>
+          <p className={`${font('hnr', 6)}`}>
             We use a third-party provider,{' '}
             <a href="https://dotdigital.com/terms/privacy-policy/">
               dotdigital

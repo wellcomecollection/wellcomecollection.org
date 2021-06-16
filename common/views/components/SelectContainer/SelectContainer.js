@@ -11,7 +11,7 @@ import { classNames, font } from '../../../utils/classnames';
 
 const StyledSelect = styled.div.attrs(props => ({
   className: classNames({
-    [font('hnl', 5)]: true,
+    [font('hnr', 5)]: true,
   }),
 }))`
   position: relative;
@@ -68,7 +68,7 @@ const SelectContainer = ({ label, children }: Props) => {
           as="span"
           h={{ size: 'm', properties: ['margin-right'] }}
           className={classNames({
-            [font('hnm', 5)]: true,
+            [font('hnb', 5)]: true,
           })}
         >
           {label}

@@ -39,13 +39,6 @@ export default {
       description: 'Shows physical items and their locations on the work page',
     },
     {
-      id: 'helveticaRegular',
-      title: 'Helvetica regular',
-      defaultValue: false,
-      description:
-        'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
-    },
-    {
       id: 'apiToolbar',
       title: 'API toolbar',
       defaultValue: false,

@@ -192,7 +192,7 @@ const StyledLink = styled.a<StyledLinkProps>`
 
 const RefNumber = styled.span.attrs({
   className: classNames({
-    [font('hnl', 6)]: true,
+    [font('hnr', 6)]: true,
   }),
 })`
   line-height: 1;
@@ -691,8 +691,8 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         >
           <StyledLink
             className={classNames({
-              [font('hnm', 6)]: level === 1,
-              [font('hnl', 6)]: level > 1,
+              [font('hnb', 6)]: level === 1,
+              [font('hnr', 6)]: level > 1,
             })}
             hideFocus={!isKeyboard}
             tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}

@@ -34,11 +34,8 @@ const OpeningTimesStatic = () => (
 
     <h3>Regular opening times</h3>
 
-    <table
-      className="font-HNL5-s margin-bottom-s6"
-      style={{ borderCollapse: 'collapse' }}
-    >
-      <thead className="font-HNM5-s">
+    <table className="margin-bottom-s6" style={{ borderCollapse: 'collapse' }}>
+      <thead>
         <tr>
           <th style={cellStyles} scope="col">
             <span className="visually-hidden">Day</span>
@@ -116,11 +113,8 @@ const OpeningTimesStatic = () => (
 
     <h3 id="revised">Revised hours for the festive holiday</h3>
 
-    <table
-      className="font-HNL5-s margin-bottom-s6"
-      style={{ borderCollapse: 'collapse' }}
-    >
-      <thead className="font-HNM5-s">
+    <table className="margin-bottom-s6" style={{ borderCollapse: 'collapse' }}>
+      <thead>
         <tr>
           <th style={cellStyles} scope="col">
             <span className="visually-hidden">Day</span>
@@ -180,11 +174,8 @@ const OpeningTimesStatic = () => (
 
     <h3>Regular opening times</h3>
 
-    <table
-      className="font-HNL5-s margin-bottom-s6"
-      style={{ borderCollapse: 'collapse' }}
-    >
-      <thead className="font-HNM5-s">
+    <table className="margin-bottom-s6" style={{ borderCollapse: 'collapse' }}>
+      <thead>
         <tr>
           <th style={cellStyles} scope="col">
             <span className="visually-hidden">Day</span>
@@ -262,11 +253,8 @@ const OpeningTimesStatic = () => (
 
     <h3>Revised hours for the festive holiday</h3>
 
-    <table
-      className="font-HNL5-s margin-bottom-s6"
-      style={{ borderCollapse: 'collapse' }}
-    >
-      <thead className="font-HNM5-s">
+    <table className="margin-bottom-s6" style={{ borderCollapse: 'collapse' }}>
+      <thead>
         <tr>
           <th style={cellStyles} scope="col">
             <span className="visually-hidden">Day</span>

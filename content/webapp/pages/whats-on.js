@@ -164,7 +164,7 @@ const DateRange = ({
         }}
         as="p"
         className={classNames({
-          [font('hnl', 5)]: true,
+          [font('hnr', 5)]: true,
         })}
       >
         {period === 'today' && (
@@ -248,7 +248,7 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
                       as="span"
                       h={{ size: 'm', properties: ['margin-right'] }}
                       className={classNames({
-                        [font('hnm', 5)]: true,
+                        [font('hnb', 5)]: true,
                       })}
                     >
                       Galleries
@@ -267,7 +267,7 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
                           as="span"
                           h={{ size: 'm', properties: ['margin-right'] }}
                           className={classNames({
-                            [font('hnl', 5)]: true,
+                            [font('hnr', 5)]: true,
                           })}
                         >
                           <Fragment>
@@ -283,7 +283,7 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
                 <NextLink href={`/opening-times`} as={`/opening-times`}>
                   <a
                     className={classNames({
-                      [font('hnm', 5)]: true,
+                      [font('hnb', 5)]: true,
                     })}
                   >{`Full opening times`}</a>
                 </NextLink>
@@ -478,7 +478,7 @@ export class WhatsOnPage extends Component<Props> {
                         <Layout12>
                           <div className="flex flex--v-center flex--h-space-between">
                             <h2 className="h1">Exhibitions</h2>
-                            <span className={font('hnm', 5)}>
+                            <span className={font('hnb', 5)}>
                               Free admission
                             </span>
                           </div>
@@ -571,7 +571,7 @@ export class WhatsOnPage extends Component<Props> {
                       <Layout12>
                         <div className="flex flex--v-center flex--h-space-between">
                           <h2 className="h1">Exhibitions and Events</h2>
-                          <span className={font('hnm', 4)}>Free admission</span>
+                          <span className={font('hnb', 4)}>Free admission</span>
                         </div>
                       </Layout12>
                     </Space>

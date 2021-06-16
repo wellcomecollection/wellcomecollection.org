@@ -44,7 +44,7 @@ const Inner = styled(Space).attrs({
 const AccordionInner = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
-    [font('hnm', 5)]: true,
+    [font('hnb', 5)]: true,
   }),
 })`
   button {
@@ -100,7 +100,7 @@ const AccordionItem = ({
           <span>
             <h2
               className={classNames({
-                [font('hnm', 5)]: true,
+                [font('hnb', 5)]: true,
                 'no-margin': true,
               })}
             >
@@ -153,14 +153,14 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
     <>
       <Inner
         className={classNames({
-          [font('hnm', 5)]: true,
+          [font('hnb', 5)]: true,
         })}
       >
         {currentManifestLabel && (
           <span
             data-test-id="current-manifest"
             className={classNames({
-              [font('hnl', 5)]: true,
+              [font('hnr', 5)]: true,
             })}
           >
             {currentManifestLabel}
@@ -203,7 +203,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
           <WorkLink id={work.id} source="viewer_back_link">
             <a
               className={classNames({
-                [font('hnl', 5)]: true,
+                [font('hnr', 5)]: true,
                 'flex flex--v-center': true,
               })}
             >
@@ -226,7 +226,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
           title={'Licence and credit'}
           testId={'license-and-credit'}
         >
-          <div className={font('hnl', 6)}>
+          <div className={font('hnr', 6)}>
             {license && license.label && (
               <p>
                 <strong>Licence:</strong>{' '}

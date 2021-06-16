@@ -52,7 +52,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
               return (
                 <p
                   key={`${event.title} ${startTimeString}`}
-                  className={`${font('hnm', 5)} no-margin`}
+                  className={`${font('hnb', 5)} no-margin`}
                 >
                   <time dateTime={startTimeString}>
                     {formatTime(t.range.startDateTime)}
@@ -84,7 +84,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                 v={{ size: 's', properties: ['margin-bottom'] }}
                 as="p"
                 className={classNames({
-                  [font('hnl', 5)]: true,
+                  [font('hnr', 5)]: true,
                 })}
               >
                 {event.place.title}
@@ -93,7 +93,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
 
             <Space
               v={{ size: 'm', properties: ['margin-bottom'] }}
-              className={font('hnl', 5)}
+              className={font('hnr', 5)}
               dangerouslySetInnerHTML={{ __html: event.promoText }}
             />
 
@@ -104,7 +104,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                   properties: ['margin-top', 'margin-bottom'],
                 }}
               >
-                <p className={`${font('hnl', 5)} no-margin`}>
+                <p className={`${font('hnr', 5)} no-margin`}>
                   <a href={`/events/${event.id}`}>
                     Full event details
                     <span className={`visually-hidden`}>
@@ -134,7 +134,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                   }}
                   className={classNames({
                     'bg-yellow inline-block': true,
-                    [font('hnm', 5)]: true,
+                    [font('hnb', 5)]: true,
                   })}
                 >
                   {/* TODO: work out why the second method below will fail Flow without a null check */}

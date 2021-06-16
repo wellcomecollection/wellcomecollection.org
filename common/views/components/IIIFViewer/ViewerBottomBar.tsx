@@ -14,7 +14,7 @@ import ToolbarSegmentedControl from '../ToolbarSegmentedControl/ToolbarSegmented
 export const ShameButton = styled.button.attrs(() => ({
   className: classNames({
     'btn relative flex flex--v-center': true,
-    [font('hnm', 5)]: true,
+    [font('hnb', 5)]: true,
   }),
 }))<{ isDark?: boolean }>`
   overflow: hidden;

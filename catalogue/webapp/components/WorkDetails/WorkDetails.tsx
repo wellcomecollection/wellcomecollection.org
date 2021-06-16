@@ -283,7 +283,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                         {locationLink && (
                           <a
                             className={classNames({
-                              [font('hnl', 5)]: true,
+                              [font('hnr', 5)]: true,
                             })}
                             href={locationLink.url}
                           >
@@ -710,7 +710,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         headingText="Permanent link"
         isInArchive={isInArchive}
       >
-        <div className={`${font('hnl', 5)}`}>
+        <div className={`${font('hnr', 5)}`}>
           <CopyUrl
             id={work.id}
             url={`https://wellcomecollection.org/works/${work.id}`}

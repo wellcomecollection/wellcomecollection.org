@@ -21,7 +21,7 @@ const EventDatesLink: FunctionComponent<Props> = ({ id }: Props) => {
       className={classNames({
         'flex-inline': true,
         'flex-v-center': true,
-        [font('hnm', 5)]: true,
+        [font('hnb', 5)]: true,
       })}
     >
       <Icon name={`arrowSmall`} extraClasses="icon--black icon--90" />

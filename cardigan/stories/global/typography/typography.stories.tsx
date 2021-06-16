@@ -11,7 +11,7 @@ const Font = styled.div`
 
 const FontName = styled.h2.attrs({
   className: classNames({
-    [font('hnm', 6)]: true,
+    [font('hnb', 6)]: true,
   }),
 })`
   color: ${props => props.theme.color('red')};
@@ -55,7 +55,7 @@ const TypographyScale = ({ fontFamily }) => {
 };
 
 const sizes = [0, 1, 2, 3, 4, 5, 6];
-const fontFamilies = ['wb', 'hnm', 'hnl', 'lr'];
+const fontFamilies = ['wb', 'hnb', 'hnr', 'lr'];
 
 const Typography = ({ text }) => {
   return (
@@ -120,7 +120,7 @@ const MiscTemplate = () => (
     <div>
       <h2>Plain text link</h2>
       <div>
-        <p className="no-margin font-hnl4-s">
+        <p className="no-margin font-hnr4-s">
           Here is <a href="#">a link</a> in a block of non body text.
         </p>
       </div>

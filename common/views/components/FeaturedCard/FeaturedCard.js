@@ -123,7 +123,7 @@ const FeaturedCardArticleBody = ({ article }: FeaturedCardArticleBodyProps) => {
       {article.promoText && (
         <p
           className={classNames({
-            [font('hnl', 5)]: true,
+            [font('hnr', 5)]: true,
           })}
         >
           {article.promoText}
@@ -132,8 +132,8 @@ const FeaturedCardArticleBody = ({ article }: FeaturedCardArticleBodyProps) => {
       {article.series.length > 0 && (
         <Space v={{ size: 'l', properties: ['margin-top'] }}>
           {article.series.map(series => (
-            <p key={series.title} className={`${font('hnm', 6)} no-margin`}>
-              <span className={font('hnl', 6)}>Part of</span> {series.title}
+            <p key={series.title} className={`${font('hnb', 6)} no-margin`}>
+              <span className={font('hnr', 6)}>Part of</span> {series.title}
             </p>
           ))}
         </Space>
@@ -181,7 +181,7 @@ const FeaturedCardExhibitionBody = ({
         <Space
           as="p"
           v={{ size: 'm', properties: ['margin-bottom'] }}
-          className={`${font('hnl', 4)} no-margin no-padding`}
+          className={`${font('hnr', 4)} no-margin no-padding`}
         >
           <>
             <time dateTime={exhibition.start}>

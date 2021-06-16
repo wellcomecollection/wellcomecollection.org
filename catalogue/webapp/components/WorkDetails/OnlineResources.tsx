@@ -8,7 +8,7 @@ import styled from 'styled-components';
 const ShowHideButton = styled.button.attrs({
   className: classNames({
     'plain-button no-margin no-padding': true,
-    [font('hnl', 5)]: true,
+    [font('hnr', 5)]: true,
   }),
 })`
   text-decoration: underline;
@@ -62,7 +62,7 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
         {firstThreeOnlineResources.map(item => (
           <li
             className={classNames({
-              [font('hnl', 5)]: true,
+              [font('hnr', 5)]: true,
             })}
             key={item.location.url}
           >
@@ -78,7 +78,7 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
             {remainingOnlineResources.map((item, index) => (
               <li
                 className={classNames({
-                  [font('hnl', 5)]: true,
+                  [font('hnr', 5)]: true,
                 })}
                 key={item.location.url}
               >

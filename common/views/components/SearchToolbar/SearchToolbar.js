@@ -15,7 +15,7 @@ import TogglesContext from '../TogglesContext/TogglesContext';
 const Form = styled(Space).attrs({
   className: classNames({
     flex: true,
-    [font('hnl', 5)]: true,
+    [font('hnr', 5)]: true,
   }),
   h: {
     size: 's',
@@ -33,7 +33,7 @@ const Heading = styled(Space).attrs({
   as: 'h2',
   className: classNames({
     'no-margin': true,
-    [font('hnm', 4)]: true,
+    [font('hnb', 4)]: true,
   }),
   h: {
     size: 's',

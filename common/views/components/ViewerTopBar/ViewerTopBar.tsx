@@ -20,7 +20,7 @@ import { FunctionComponent, RefObject } from 'react';
 export const ShameButton = styled.button.attrs(() => ({
   className: classNames({
     'btn relative flex flex--v-center': true,
-    [font('hnm', 5)]: true,
+    [font('hnb', 5)]: true,
   }),
 }))<{ isDark?: boolean }>`
   overflow: hidden;
@@ -105,7 +105,7 @@ const ViewAllContainer = styled.div.attrs(() => ({
 const TitleContainer = styled.div.attrs(() => ({
   className: classNames({
     'flex flex--v-center': true,
-    [font('hnl', 5)]: true,
+    [font('hnr', 5)]: true,
   }),
 }))<{ isEnhanced?: boolean }>`
   justify-content: space-between;
@@ -183,7 +183,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({
           <WorkLink id={workId} source="viewer_back_link">
             <a
               className={classNames({
-                [font('hnm', 5)]: true,
+                [font('hnb', 5)]: true,
                 flex: true,
                 'flex-v-center': true,
                 'plain-link': true,

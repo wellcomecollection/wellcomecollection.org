@@ -200,12 +200,12 @@ const Body: FunctionComponent<Props> = ({
                   >
                     <h2 className="font-wb font-size-2">{firstItem.title}</h2>
                     {isCardType && firstItem.description && (
-                      <p className="font-hnl font-size-5">
+                      <p className="font-hnr font-size-5">
                         {firstItem.description}
                       </p>
                     )}
                     {firstItem.promo && (
-                      <p className="font-hnl font-size-5">
+                      <p className="font-hnr font-size-5">
                         {firstItem.promo.caption}
                       </p>
                     )}

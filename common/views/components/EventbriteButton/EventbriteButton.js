@@ -37,7 +37,7 @@ const EventbriteButton = ({ event }: Props) => {
           <p
             className={classNames({
               'font-charcoal no-margin': true,
-              [font('hnl', 5)]: true,
+              [font('hnr', 5)]: true,
             })}
           >
             Tickets via Eventbrite

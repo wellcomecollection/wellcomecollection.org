@@ -8,7 +8,7 @@ import { trackEvent } from '@weco/common/services/conversion/track';
 
 const DownloadLinkStyle = styled.a.attrs({
   className: classNames({
-    [font('hnm', 5)]: true,
+    [font('hnb', 5)]: true,
   }),
 })`
   display: inline-block;
@@ -63,7 +63,7 @@ const DownloadLink: FunctionComponent<Props> = ({
           as="span"
           h={{ size: 'm', properties: ['margin-left'] }}
           className={classNames({
-            [font('hnm', 5)]: true,
+            [font('hnb', 5)]: true,
             'font-pewter': true,
           })}
         >

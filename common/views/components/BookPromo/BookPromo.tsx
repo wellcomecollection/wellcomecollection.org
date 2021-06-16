@@ -123,7 +123,7 @@ const BookPromo: FunctionComponent<Props> = ({
               v={{ size: 's', properties: ['margin-top'] }}
               className={classNames({
                 'no-margin': true,
-                [font('hnm', 5)]: true,
+                [font('hnb', 5)]: true,
               })}
             >
               {subtitle}
@@ -134,7 +134,7 @@ const BookPromo: FunctionComponent<Props> = ({
             <Space v={{ size: 's', properties: ['margin-top'] }}>
               <p
                 className={classNames({
-                  [font('hnl', 5)]: true,
+                  [font('hnr', 5)]: true,
                   'no-margin': true,
                 })}
               >

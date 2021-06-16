@@ -32,7 +32,7 @@ export function cssGrid(sizes: SizeMap): string {
   return [base].concat(modifierClasses).join(' ');
 }
 
-type FontFamily = 'hnl' | 'hnm' | 'wb' | 'lr';
+type FontFamily = 'hnr' | 'hnb' | 'wb' | 'lr';
 type FontSize = 1 | 2 | 3 | 4 | 5 | 6;
 type FontSizeAll = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 type FontSizeOverrides = {|

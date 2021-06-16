@@ -198,21 +198,21 @@ const RequestLocation = ({ work }: Props) => {
                 >
                   <h2
                     className={classNames({
-                      [font('hnm', 5)]: true,
+                      [font('hnb', 5)]: true,
                     })}
                   >
                     Request items
                   </h2>
                   <p
                     className={classNames({
-                      [font('hnl', 5)]: true,
+                      [font('hnr', 5)]: true,
                     })}
                   >
                     You are about to request the following items:
                   </p>
                   <p
                     className={classNames({
-                      [font('hnm', 6)]: true,
+                      [font('hnb', 6)]: true,
                     })}
                   >
                     {work.title}
@@ -224,13 +224,13 @@ const RequestLocation = ({ work }: Props) => {
                           <li
                             key={item.id}
                             className={classNames({
-                              [font('hnm', 5)]: true,
+                              [font('hnb', 5)]: true,
                             })}
                           >
                             <Space
                               as="span"
                               className={classNames({
-                                [font('hnl', 5)]: true,
+                                [font('hnr', 5)]: true,
                               })}
                               h={{
                                 size: 's',
@@ -269,7 +269,7 @@ const RequestLocation = ({ work }: Props) => {
                             <Space
                               as="span"
                               className={classNames({
-                                [font('hnl', 5)]: true,
+                                [font('hnr', 5)]: true,
                               })}
                               h={{
                                 size: 'l',
@@ -308,7 +308,7 @@ const RequestLocation = ({ work }: Props) => {
                       <Space
                         as="span"
                         className={classNames({
-                          [font('hnl', 6)]: true,
+                          [font('hnr', 6)]: true,
                         })}
                         h={{ size: 'l', properties: ['margin-left'] }}
                       >
@@ -328,7 +328,7 @@ const RequestLocation = ({ work }: Props) => {
                   >
                     <h2
                       className={classNames({
-                        [font('hnm', 5)]: true,
+                        [font('hnb', 5)]: true,
                       })}
                     >
                       {itemsWithPhysicalLocations.filter(item => item.requested)
@@ -346,7 +346,7 @@ const RequestLocation = ({ work }: Props) => {
                           <li key={item.id}>
                             <span
                               className={classNames({
-                                [font('hnm', 5)]: true,
+                                [font('hnb', 5)]: true,
                               })}
                             >
                               {item.title}
@@ -355,7 +355,7 @@ const RequestLocation = ({ work }: Props) => {
                             <Space
                               as="span"
                               className={classNames({
-                                [font('hnl', 5)]: true,
+                                [font('hnr', 5)]: true,
                               })}
                               h={{
                                 size: 'l',

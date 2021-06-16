@@ -34,7 +34,7 @@ const InfoBox = ({ title, items, children }: Props) => {
       >
         {items.map(({ title, description, icon }, i) => (
           <Fragment key={i}>
-            <div className={font('hnm', 4)}>
+            <div className={font('hnb', 4)}>
               {icon && (title || description) && (
                 <Space
                   h={{ size: 's', properties: ['margin-right'] }}
@@ -44,7 +44,7 @@ const InfoBox = ({ title, items, children }: Props) => {
                 </Space>
               )}
               {title && (
-                <h3 className={classNames([font('hnm', 5)])}>{title}</h3>
+                <h3 className={classNames([font('hnb', 5)])}>{title}</h3>
               )}
               {description && (
                 <Space
@@ -53,7 +53,7 @@ const InfoBox = ({ title, items, children }: Props) => {
                     properties: ['margin-bottom'],
                   }}
                   className={classNames({
-                    [font('hnl', 5)]: true,
+                    [font('hnr', 5)]: true,
                   })}
                 >
                   <PrismicHtmlBlock html={description} />

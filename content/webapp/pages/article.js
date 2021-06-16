@@ -150,7 +150,7 @@ export class ArticlePage extends Component<Props, State> {
             <p
               className={classNames({
                 'no-margin': true,
-                [font('hnl', 6)]: true,
+                [font('hnr', 6)]: true,
               })}
             >
               {article.contributors.map(({ contributor, role }, i, arr) => (
@@ -165,7 +165,7 @@ export class ArticlePage extends Component<Props, State> {
                   )}
                   <span
                     className={classNames({
-                      [font('hnm', 6)]: true,
+                      [font('hnb', 6)]: true,
                     })}
                   >
                     {contributor.name}
@@ -187,7 +187,7 @@ export class ArticlePage extends Component<Props, State> {
               <span
                 className={classNames({
                   'block font-pewter': true,
-                  [font('hnl', 6)]: true,
+                  [font('hnr', 6)]: true,
                 })}
               >
                 <HTMLDate date={new Date(article.datePublished)} />
