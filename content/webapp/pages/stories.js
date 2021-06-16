@@ -86,7 +86,7 @@ export class StoriesPage extends Component<Props> {
     const articlesPromise = getArticles(ctx.req, { page }, memoizedPrismic);
     const seriesPromise = getArticleSeries(
       ctx.req,
-      { id: 'YCpm8xUAACoAaXXX' },
+      { id: 'YIBhZBAAACgA1R1B' },
       memoizedPrismic
     );
 
