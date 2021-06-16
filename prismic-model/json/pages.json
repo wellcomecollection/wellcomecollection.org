@@ -13,7 +13,9 @@
       "config": {
         "label": "Format",
         "select": "document",
-        "customtypes": [ "page-formats" ]
+        "customtypes": [
+          "page-formats"
+        ]
       }
     },
     "datePublished": {
@@ -34,31 +36,42 @@
       "type": "Slices",
       "config": {
         "labels": {
-          "collectionVenue": [ {
-            "name": "featured",
-            "display": "Featured"
-          } ],
-          "text": [ {
-            "name": "featured",
-            "display": "Featured"
-          } ],
-          "editorialImage": [ {
-            "name": "supporting",
-            "display": "Supporting"
-          }, {
-            "name": "standalone",
-            "display": "Standalone"
-          }, {
-            "name": "body",
-            "display": "Body"
-          } ],
-          "quote": [ {
-            "name": "pull",
-            "display": "Pull"
-          }, {
-            "name": "review",
-            "display": "Review"
-          } ]
+          "collectionVenue": [
+            {
+              "name": "featured",
+              "display": "Featured"
+            }
+          ],
+          "text": [
+            {
+              "name": "featured",
+              "display": "Featured"
+            }
+          ],
+          "editorialImage": [
+            {
+              "name": "supporting",
+              "display": "Supporting"
+            },
+            {
+              "name": "standalone",
+              "display": "Standalone"
+            },
+            {
+              "name": "body",
+              "display": "Body"
+            }
+          ],
+          "quote": [
+            {
+              "name": "pull",
+              "display": "Pull"
+            },
+            {
+              "name": "review",
+              "display": "Review"
+            }
+          ]
         },
         "choices": {
           "text": {
@@ -82,19 +95,23 @@
                 "type": "Image",
                 "config": {
                   "label": "Image",
-                  "thumbnails": [ {
-                    "name": "32:15",
-                    "width": 3200,
-                    "height": 1500
-                  }, {
-                    "name": "16:9",
-                    "width": 3200,
-                    "height": 1800
-                  }, {
-                    "name": "square",
-                    "width": 3200,
-                    "height": 3200
-                  } ]
+                  "thumbnails": [
+                    {
+                      "name": "32:15",
+                      "width": 3200,
+                      "height": 1500
+                    },
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
                 }
               },
               "caption": {
@@ -124,19 +141,23 @@
                 "type": "Image",
                 "config": {
                   "label": "Image",
-                  "thumbnails": [ {
-                    "name": "32:15",
-                    "width": 3200,
-                    "height": 1500
-                  }, {
-                    "name": "16:9",
-                    "width": 3200,
-                    "height": 1800
-                  }, {
-                    "name": "square",
-                    "width": 3200,
-                    "height": 3200
-                  } ]
+                  "thumbnails": [
+                    {
+                      "name": "32:15",
+                      "width": 3200,
+                      "height": 1500
+                    },
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
                 }
               },
               "caption": {
@@ -179,7 +200,45 @@
                 "type": "Select",
                 "config": {
                   "label": "Playback rate",
-                  "options": [ "0.1", "0.25", "0.5", "0.75", "1", "1.25", "1.5", "1.75", "2" ]
+                  "options": [
+                    "0.1",
+                    "0.25",
+                    "0.5",
+                    "0.75",
+                    "1",
+                    "1.25",
+                    "1.5",
+                    "1.75",
+                    "2"
+                  ]
+                }
+              },
+              "autoPlay": {
+                "type": "Boolean",
+                "config": {
+                  "default_value": true,
+                  "label": "Auto play"
+                }
+              },
+              "loop": {
+                "type": "Boolean",
+                "config": {
+                  "default_value": true,
+                  "label": "Loop video"
+                }
+              },
+              "mute": {
+                "type": "Boolean",
+                "config": {
+                  "default_value": true,
+                  "label": "Mute video"
+                }
+              },
+              "showControls": {
+                "type": "Boolean",
+                "config": {
+                  "default_value": false,
+                  "label": "Show controls"
                 }
               }
             }
@@ -240,16 +299,16 @@
             "type": "Slice",
             "fieldset": "Table",
             "non-repeat": {
-              "tableData": {
-                "type": "Text",
-                "config": {
-                  "label": "Pipe-delimeted csv"
-                }
-              },
               "caption": {
                 "type": "Text",
                 "config": {
                   "label": "Table caption (heading)"
+                }
+              },
+              "tableData": {
+                "type": "Text",
+                "config": {
+                  "label": "Pipe-delimeted csv"
                 }
               },
               "hasRowHeaders": {
@@ -309,14 +368,18 @@
                 "config": {
                   "label": "Content item",
                   "select": "document",
-                  "customtypes": [ "collection-venue" ]
+                  "customtypes": [
+                    "collection-venue"
+                  ]
                 }
               },
               "showClosingTimes": {
                 "type": "Select",
                 "config": {
                   "label": "Show closing times",
-                  "options": [ "yes" ]
+                  "options": [
+                    "yes"
+                  ]
                 }
               }
             }
@@ -330,7 +393,9 @@
                 "config": {
                   "label": "Content item",
                   "select": "document",
-                  "customtypes": [ "teams" ]
+                  "customtypes": [
+                    "teams"
+                  ]
                 }
               }
             }
@@ -368,6 +433,35 @@
               }
             }
           },
+          "tagList": {
+            "type": "Slice",
+            "fieldset": "Tag List",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading2"
+                }
+              }
+            },
+            "repeat": {
+              "link": {
+                "type": "Link",
+                "config": {
+                  "label": "Link",
+                  "select": "web",
+                  "customtypes": []
+                }
+              },
+              "linkText": {
+                "type": "Text",
+                "config": {
+                  "label": "Link text"
+                }
+              }
+            }
+          },
           "infoBlock": {
             "type": "Slice",
             "fieldset": "Info block",
@@ -375,8 +469,8 @@
               "title": {
                 "type": "StructuredText",
                 "config": {
-                  "single": "heading2",
-                  "label": "Title"
+                  "label": "Title",
+                  "single": "heading2"
                 }
               },
               "text": {
@@ -432,7 +526,9 @@
                 "config": {
                   "label": "tag",
                   "select": "document",
-                  "customtypes": [ "labels" ]
+                  "customtypes": [
+                    "labels"
+                  ]
                 }
               }
             }
@@ -456,7 +552,16 @@
                 "config": {
                   "label": "Content item",
                   "select": "document",
-                  "customtypes": [ "pages", "event-series", "books", "events", "articles", "exhibitions", "card", "seasons" ]
+                  "customtypes": [
+                    "pages",
+                    "event-series",
+                    "books",
+                    "events",
+                    "articles",
+                    "exhibitions",
+                    "card",
+                    "seasons"
+                  ]
                 }
               }
             }
@@ -504,19 +609,23 @@
                 "type": "Image",
                 "config": {
                   "label": "Image",
-                  "thumbnails": [ {
-                    "name": "32:15",
-                    "width": 3200,
-                    "height": 1500
-                  }, {
-                    "name": "16:9",
-                    "width": 3200,
-                    "height": 1800
-                  }, {
-                    "name": "square",
-                    "width": 3200,
-                    "height": 3200
-                  } ]
+                  "thumbnails": [
+                    {
+                      "name": "32:15",
+                      "width": 3200,
+                      "height": 1500
+                    },
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
                 }
               }
             }
@@ -549,19 +658,23 @@
                 "type": "Image",
                 "config": {
                   "label": "Promo image",
-                  "thumbnails": [ {
-                    "name": "32:15",
-                    "width": 3200,
-                    "height": 1500
-                  }, {
-                    "name": "16:9",
-                    "width": 3200,
-                    "height": 1800
-                  }, {
-                    "name": "square",
-                    "width": 3200,
-                    "height": 3200
-                  } ]
+                  "thumbnails": [
+                    {
+                      "name": "32:15",
+                      "width": 3200,
+                      "height": 1500
+                    },
+                    {
+                      "name": "16:9",
+                      "width": 3200,
+                      "height": 1800
+                    },
+                    {
+                      "name": "square",
+                      "width": 3200,
+                      "height": 3200
+                    }
+                  ]
                 }
               },
               "link": {
@@ -596,7 +709,9 @@
             "config": {
               "label": "Season",
               "select": "document",
-              "customtypes": [ "seasons" ],
+              "customtypes": [
+                "seasons"
+              ],
               "placeholder": "Select a Season"
             }
           }
@@ -619,7 +734,10 @@
             "config": {
               "label": "Parent page",
               "select": "document",
-              "customtypes": [ "pages", "exhibitions" ],
+              "customtypes": [
+                "pages",
+                "exhibitions"
+              ],
               "placeholder": "Select a parent page"
             }
           }
@@ -638,7 +756,9 @@
             "config": {
               "label": "Role",
               "select": "document",
-              "customtypes": [ "editorial-contributor-roles" ]
+              "customtypes": [
+                "editorial-contributor-roles"
+              ]
             }
           },
           "contributor": {
@@ -646,7 +766,10 @@
             "config": {
               "label": "Contributor",
               "select": "document",
-              "customtypes": [ "people", "organisations" ]
+              "customtypes": [
+                "people",
+                "organisations"
+              ]
             }
           },
           "description": {
