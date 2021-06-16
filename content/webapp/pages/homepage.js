@@ -21,8 +21,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import SimpleCardGrid from '@weco/common/views/components/SimpleCardGrid/SimpleCardGrid';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
-// $FlowFixMe (tsx)
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import {
@@ -124,7 +122,7 @@ export class HomePage extends Component<Props> {
     const page = this.props.page;
     const standFirst = page.body.find(slice => slice.type === 'standfirst');
     const lists = page.body.filter(slice => slice.type === 'contentList');
-    const reopeningList = lists.length === 2 ? lists[0] : null;
+    const headerList = lists.length === 2 ? lists[0] : null;
     const contentList = lists.length === 2 ? lists[1] : lists[0];
 
     return (
@@ -143,40 +141,28 @@ export class HomePage extends Component<Props> {
             <PageHeading>
               A free museum and library exploring health and human experience
             </PageHeading>
-            <TogglesContext.Consumer>
-              {({ buildingReopening }) =>
-                !buildingReopening &&
-                standFirst && (
-                  <>
-                    <CreamBox>
-                      <PageHeaderStandfirst html={standFirst.value} />
-                    </CreamBox>
-                  </>
-                )
-              }
-            </TogglesContext.Consumer>
+            {standFirst && (
+              <CreamBox>
+                <PageHeaderStandfirst html={standFirst.value} />
+              </CreamBox>
+            )}
           </SpacingSection>
         </Layout10>
-        <TogglesContext.Consumer>
-          {({ buildingReopening }) =>
-            buildingReopening &&
-            reopeningList && (
-              <SpacingSection>
-                {reopeningList.value.title && (
-                  <SpacingComponent>
-                    <SectionHeader title={reopeningList.value.title} />
-                  </SpacingComponent>
-                )}
-                <SpacingComponent>
-                  <SimpleCardGrid
-                    items={reopeningList.value.items}
-                    isFeaturedFirst={true}
-                  />
-                </SpacingComponent>
-              </SpacingSection>
-            )
-          }
-        </TogglesContext.Consumer>
+        {headerList && (
+          <SpacingSection>
+            {headerList.value.title && (
+              <SpacingComponent>
+                <SectionHeader title={headerList.value.title} />
+              </SpacingComponent>
+            )}
+            <SpacingComponent>
+              <SimpleCardGrid
+                items={headerList.value.items}
+                isFeaturedFirst={true}
+              />
+            </SpacingComponent>
+          </SpacingSection>
+        )}
 
         {nextSevenDaysEvents.concat(exhibitions).length > 2 && (
           <SpacingSection>
