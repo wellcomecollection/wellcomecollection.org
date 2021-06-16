@@ -1,6 +1,9 @@
 import { themeValues } from './config';
+import { css } from 'styled-components';
+import { GlobalStyleProps } from './default';
 import { respondTo, respondBetween, visuallyHidden, clearfix } from './mixins';
-export const utilityClasses = `
+
+export const utilityClasses = css<GlobalStyleProps>`
 
 ${[1, 2, 3, 4, 5]
   .map(width => {
@@ -438,18 +441,12 @@ ${Object.entries(themeValues.colors)
   background: ${themeValues.color('transparent-black')};
 }
 
-.bg-transparent-black--hover {
-  transition: background 0.7s ease;
-
-  &[href]:hover,
-  &[href]:focus {
-    background: ${themeValues.color('black')};
-  }
-}
-
 .promo-link {
   height: 100%;
-  color: ${themeValues.color('black')};
+  color: ${props =>
+    props.toggles?.newBlack
+      ? themeValues.color('viewerBlack')
+      : themeValues.color('black')};
 
   &:hover .promo-link__title,
   &:focus .promo-link__title {
