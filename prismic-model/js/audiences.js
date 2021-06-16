@@ -1,3 +1,4 @@
+// @flow
 import title from './parts/title';
 import specificStructuredText from './parts/specific-structured-text';
 

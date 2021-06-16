@@ -1,3 +1,4 @@
+// @flow
 const Installations = {
   Installation: {
     title: {

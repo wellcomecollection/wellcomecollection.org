@@ -4,7 +4,7 @@ export default function structuredText(
   label: string,
   singleOrMulti: SingleOrMulti = 'multi',
   extraHtmlTypes: string[] = [],
-  placeholder?: String,
+  placeholder?: string,
 ) {
   return {
     type: 'StructuredText',

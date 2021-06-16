@@ -14,7 +14,7 @@ export default function specificStructuredText({
   htmlTypes,
   placeholder,
   useAsTitle,
-}) {
+}: Props) {
   return {
     type: 'StructuredText',
     config: {

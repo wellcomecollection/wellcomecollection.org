@@ -1,3 +1,4 @@
+// @flow
 import structuredText from './parts/structured-text';
 import select from './parts/select';
 import text from './parts/text';

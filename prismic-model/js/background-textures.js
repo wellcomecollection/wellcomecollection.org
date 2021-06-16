@@ -1,3 +1,4 @@
+// @flow
 const BackgroundTexture = {
   BackgroundTexture: {
     image: {
