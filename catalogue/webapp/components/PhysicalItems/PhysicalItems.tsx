@@ -22,14 +22,6 @@ async function fetchWorkItems(
   return itemsJson;
 }
 
-function isRequestableByLocation(id: string): boolean {
-  return Boolean(id !== 'on-exhibition' && id !== 'open-shelves');
-}
-
-function isRequestableByAccessCondition(id: string): boolean {
-  return Boolean(id !== 'by-appointment' && id !== 'restricted');
-}
-
 function getFirstPhysicalLocation(item) {
   // In practice we only expect one physical location per item
   return item.locations?.find(location => location.type === 'PhysicalLocation');
@@ -40,12 +32,13 @@ function createBodyRow(
   encoreLink: string | undefined
 ): (string | ReactElement)[] | undefined {
   const physicalLocation = getFirstPhysicalLocation(item);
+  const isRequestableOnline =
+    physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
   const locationId = physicalLocation?.locationType.id;
   const locationLabel = physicalLocation && getLocationLabel(physicalLocation);
   const locationShelfmark =
     physicalLocation && getLocationShelfmark(physicalLocation);
   const shelfmark = `${locationLabel ?? ''} ${locationShelfmark ?? ''}`;
-  const accessId = physicalLocation?.accessConditions[0]?.status?.id ?? '';
   const accessLabel =
     physicalLocation?.accessConditions[0]?.status?.label ?? '';
 
@@ -54,9 +47,7 @@ function createBodyRow(
       // We don't want to display items that are on order in a table, we just show the location label
       item.status?.label,
       shelfmark,
-      isRequestableByLocation(locationId) &&
-      isRequestableByAccessCondition(accessId) &&
-      encoreLink ? (
+      isRequestableOnline && encoreLink ? (
         <ButtonOutlinedLink text="Request item" link={encoreLink} />
       ) : (
         accessLabel || physicalLocation?.locationType.label
