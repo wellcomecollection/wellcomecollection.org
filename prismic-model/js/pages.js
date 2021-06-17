@@ -16,7 +16,7 @@ const Page = {
     title,
     format: link('Format', 'document', ['page-formats']),
     datePublished: timestamp('Date published'),
-    showOnThisPage: boolean('Show \'On this page\' anchor links (even when true, this will only appear if there are more than 2 H2s in the body)', false),
+    showOnThisPage: boolean('Show "On this page" anchor links. This will only appear if there are more than 2 H2s in the body', false),
     body,
   },
   Promo: {
