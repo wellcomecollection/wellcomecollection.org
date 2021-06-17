@@ -59,7 +59,7 @@ export const ShameButton = styled.button.attrs(() => ({
 const BottomBar = styled.div`
   position: relative;
   z-index: 3;
-  background: ${props => lighten(0.14, props.theme.color('viewerBlack'))};
+  background: ${props => lighten(0.14, props.theme.color('black'))};
   color: ${props => props.theme.color('white')};
   display: flex;
   justify-content: space-between;

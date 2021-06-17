@@ -166,7 +166,7 @@ const StyledLink = styled.a<StyledLinkProps>`
   display: inline-block;
   min-height: ${`${controlHeight}px`};
   line-height: 1;
-  color: ${props => props.theme.color('viewerBlack')};
+  color: ${props => props.theme.color('black')};
   background: ${props =>
     props.theme.color(props.isCurrent ? 'yellow' : 'transparent')};
   cursor: pointer;

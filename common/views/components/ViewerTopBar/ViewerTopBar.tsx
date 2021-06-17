@@ -68,7 +68,7 @@ export const ShameButton = styled.button.attrs(() => ({
 const TopBar = styled.div`
   position: relative;
   z-index: 3;
-  background: ${props => lighten(0.14, props.theme.color('viewerBlack'))};
+  background: ${props => lighten(0.14, props.theme.color('black'))};
   color: ${props => props.theme.color('white')};
   .title {
     max-width: 30%;
@@ -98,8 +98,7 @@ const ViewAllContainer = styled.div.attrs(() => ({
 }))`
   height: 64px;
   width: 20%;
-  border-right: 1px solid
-    ${props => lighten(0.1, props.theme.color('viewerBlack'))};
+  border-right: 10px solid red;
 `;
 
 const TitleContainer = styled.div.attrs(() => ({
