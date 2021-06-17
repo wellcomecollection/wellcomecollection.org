@@ -1,6 +1,6 @@
 // @flow
 const BackgroundTexture = {
-  BackgroundTexture: {
+  'Background texture': {
     image: {
       type: "Image"
     },
