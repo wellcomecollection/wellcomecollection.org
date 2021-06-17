@@ -33,7 +33,7 @@ const IIIFViewerThumb = styled.button.attrs<ViewerThumbProps>(props => ({
   background: ${props =>
     props.isActive
       ? props.theme.color('charcoal')
-      : props.theme.color('viewerBlack')};
+      : props.theme.color('black')};
   padding: 12px 16px;
   text-align: center;
   margin: auto;

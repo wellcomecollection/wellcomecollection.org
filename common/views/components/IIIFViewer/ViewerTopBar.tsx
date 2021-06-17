@@ -108,7 +108,7 @@ const Sidebar = styled(Space).attrs({
   ${props =>
     !props.isZooming &&
     props.theme.media.medium`
-    border-right: 1px solid ${props => props.theme.color('viewerBlack')};
+    border-right: 1px solid ${props => props.theme.color('black')};
   `}
 `;
 

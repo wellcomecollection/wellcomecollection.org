@@ -309,19 +309,7 @@ const WecoApp: FunctionComponent<AppProps> = ({
   return (
     <>
       <AppContextProvider>
-        <ThemeProvider
-          theme={
-            pageProps?.globalContextData?.toggles.newBlack
-              ? {
-                  ...theme,
-                  colors: {
-                    ...theme.colors,
-                    black: theme.colors.viewerBlack,
-                  },
-                }
-              : theme
-          }
-        >
+        <ThemeProvider theme={theme}>
           <GlobalStyle toggles={pageProps?.globalContextData?.toggles} />
           <OutboundLinkTracker>
             <LoadingIndicator />

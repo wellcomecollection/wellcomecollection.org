@@ -475,19 +475,7 @@ export default class WecoApp extends App {
               <OpeningTimesContext.Provider value={parsedOpeningTimes}>
                 <GlobalAlertContext.Provider value={globalAlert}>
                   <PopupDialogContext.Provider value={popupDialog}>
-                    <ThemeProvider
-                      theme={
-                        toggles.newBlack
-                          ? {
-                              ...theme,
-                              colors: {
-                                ...theme.colors,
-                                black: theme.colors.viewerBlack,
-                              },
-                            }
-                          : theme
-                      }
-                    >
+                    <ThemeProvider theme={theme}>
                       <GlobalStyle toggles={toggles} />
                       <OutboundLinkTracker>
                         <Fragment>
