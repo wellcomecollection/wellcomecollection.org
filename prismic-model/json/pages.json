@@ -24,6 +24,13 @@
         "label": "Date published"
       }
     },
+    "showOnThisPage": {
+      "type": "Boolean",
+      "config": {
+        "default_value": false,
+        "label": "Show 'On this page' anchor links. This will only appear if there are more than 2 H2s in the body"
+      }
+    },
     "body": {
       "fieldset": "Body content",
       "type": "Slices",
@@ -735,6 +742,51 @@
             }
           }
         }
+      }
+    }
+  },
+  "Contributors": {
+    "contributors": {
+      "type": "Group",
+      "fieldset": "Contributors",
+      "config": {
+        "fields": {
+          "role": {
+            "type": "Link",
+            "config": {
+              "label": "Role",
+              "select": "document",
+              "customtypes": [
+                "editorial-contributor-roles"
+              ]
+            }
+          },
+          "contributor": {
+            "type": "Link",
+            "config": {
+              "label": "Contributor",
+              "select": "document",
+              "customtypes": [
+                "people",
+                "organisations"
+              ]
+            }
+          },
+          "description": {
+            "type": "StructuredText",
+            "config": {
+              "multi": "paragraph,hyperlink,strong,em",
+              "label": "Contributor description override"
+            }
+          }
+        }
+      }
+    },
+    "contributorsTitle": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Contributors heading override",
+        "single": "heading1"
       }
     }
   },
