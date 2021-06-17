@@ -204,8 +204,8 @@ const ItemPage: NextPage<Props> = ({
       imageAltText={''}
       hideNewsletterPromo={true}
       hideFooter={true}
-      hideInfoBar={true}
       globalContextData={globalContextData}
+      hideTopContent={true}
     >
       {tokenService && origin && (
         <IframeAuthMessage

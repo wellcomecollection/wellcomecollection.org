@@ -1,15 +1,15 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import PageLayout, { Props as PageLayoutProps } from '../PageLayout/PageLayout';
 import InfoBanner from '../InfoBanner/InfoBanner';
-import SignIn from '@weco/catalogue/components/SignIn/SignIn';
+import SignIn from '../SignIn/SignIn';
 import { prefix } from '@weco/identity/src/utility/prefix';
 
 type Props = {
-  hideInfoBar?: boolean;
+  hideTopContent?: boolean;
 } & PageLayoutProps;
 
 const CataloguePageLayout: FunctionComponent<Props> = ({
-  hideInfoBar,
+  hideTopContent = false,
   children,
   ...props
 }: Props) => {
@@ -24,7 +24,7 @@ const CataloguePageLayout: FunctionComponent<Props> = ({
   return (
     <div id="root" data-context-path={prefix}>
       <PageLayout {...props}>
-        {hideInfoBar !== true && (
+        {!hideTopContent && (
           <>
             {isRedirectBannerVisible && (
               <InfoBanner
@@ -38,9 +38,9 @@ const CataloguePageLayout: FunctionComponent<Props> = ({
                 cookieName="WC_wellcomeImagesRedirect"
               />
             )}
+            {showLogin && <SignIn />}
           </>
         )}
-        {showLogin && <SignIn />}
         {children}
       </PageLayout>
     </div>
