@@ -29,8 +29,8 @@ import GlobalInfoBarContext from '../GlobalInfoBarContext/GlobalInfoBarContext';
 // $FlowFixMe (tsx)
 import SignIn from '../SignIn/SignIn';
 // $FlowFixMe (tsx)
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import TogglesContext from '../TogglesContext/TogglesContext';
+import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
 
 export type Props = {|
   title: string,
