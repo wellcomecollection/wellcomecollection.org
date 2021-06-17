@@ -29,31 +29,27 @@ const StyledSignIn = styled(Space).attrs({
 `;
 
 const SignIn: FunctionComponent = () => {
-  const { user, isLoading } = useUserInfo();
-  const router = useRouter();
-  return router?.pathname !== '/item'
-    ? (!isLoading && (
-        <Layout12>
-          <SignInContainer>
-            <StyledSignIn>
-              {!user && (
-                <>
-                  <a href="/account">Library account sign in</a> |{' '}
-                  <a href="/pages/X_2eexEAACQAZLBi">Register</a>
-                </>
-              )}
-              {user && (
-                <>
-                  <a href="/account">My library account</a> |{' '}
-                  <a href="/account/logout">Sign out</a>
-                </>
-              )}
-            </StyledSignIn>
-          </SignInContainer>
-        </Layout12>
-      )) ||
-        null
-    : null;
+  const { user } = useUserInfo();
+  return  (
+    <Layout12>
+      <SignInContainer>
+        <StyledSignIn>
+          {!user && (
+            <>
+              <a href="/account">Library account sign in</a> |{' '}
+              <a href="/pages/X_2eexEAACQAZLBi">Register</a>
+            </>
+          )}
+          {user && (
+            <>
+              <a href="/account">My library account</a> |{' '}
+              <a href="/account/logout">Sign out</a>
+            </>
+          )}
+        </StyledSignIn>
+      </SignInContainer>
+    </Layout12>
+  )
 };
 
 export default withUserInfo(SignIn);

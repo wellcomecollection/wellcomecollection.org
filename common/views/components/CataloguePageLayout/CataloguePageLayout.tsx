@@ -6,10 +6,12 @@ import { prefix } from '@weco/identity/src/utility/prefix';
 
 type Props = {
   hideInfoBar?: boolean;
+  hideSignIn?: boolean;
 } & PageLayoutProps;
 
 const CataloguePageLayout: FunctionComponent<Props> = ({
   hideInfoBar,
+  hideSignIn,
   children,
   ...props
 }: Props) => {
@@ -40,7 +42,7 @@ const CataloguePageLayout: FunctionComponent<Props> = ({
             )}
           </>
         )}
-        {showLogin && <SignIn />}
+        {showLogin && !hideSignIn && <SignIn />}
         {children}
       </PageLayout>
     </div>

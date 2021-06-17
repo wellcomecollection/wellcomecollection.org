@@ -202,6 +202,7 @@ const ItemPage: NextPage<Props> = ({
       siteSection={'collections'}
       imageUrl={'imageContentUrl'}
       imageAltText={''}
+      hideSignIn={true}
       hideNewsletterPromo={true}
       hideFooter={true}
       hideInfoBar={true}
