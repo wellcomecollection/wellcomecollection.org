@@ -1,15 +1,11 @@
 // @flow
 import title from './parts/title';
-import specificStructuredText from './parts/specific-structured-text';
+import structuredText from './parts/structured-text';
 
 const Audiences = {
   Audience: {
     title,
-    description: specificStructuredText({
-      singleOrMulti: 'single',
-      htmlTypes: ['paragraph'],
-      label: 'Description',
-    }),
+    description: structuredText('Description', 'single'),
   },
 };
 

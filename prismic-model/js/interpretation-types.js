@@ -1,28 +1,12 @@
-import specificStructuredText from './parts/specific-structured-text';
+import title from './parts/title';
+import structuredText from './parts/structured-text';
 
 const Interpretations = {
   Interpretation: {
-    title: specificStructuredText({
-      singleOrMulti: 'single',
-      htmlTypes: ['heading1'],
-      label: 'Title',
-      useAsTitle: true,
-    }),
-    abbreviation: specificStructuredText({
-      singleOrMulti: 'single',
-      htmlTypes: ['paragraph'],
-      label: 'Abbreviation',
-    }),
-    description: specificStructuredText({
-      singleOrMulti: 'multi',
-      htmlTypes: ['paragraph, hyperlink'],
-      label: 'Message',
-    }),
-    primaryDescription: specificStructuredText({
-      singleOrMulti: 'multi',
-      htmlTypes: ['paragraph, hyperlink'],
-      label: 'Message if primary interpretation',
-    }),
+    title,
+    abbreviation: structuredText('Abbreviation', 'single'),
+    description: structuredText('Message', 'single'),
+    primaryDescription: structuredText('Message if primary interpretation', 'multi'),
   }
 };
 
