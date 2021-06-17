@@ -4,7 +4,7 @@ import select from './parts/select';
 import text from './parts/text';
 
 const GlobalAlert = {
-  "Global alert": {
+  'Global alert': {
     text: structuredText('text', 'multi', ['heading2'], 'text'),
     isShown: select('Display', [
       'hide',
