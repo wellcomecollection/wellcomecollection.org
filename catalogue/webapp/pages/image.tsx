@@ -79,7 +79,7 @@ const ImagePage: FunctionComponent<Props> = ({
       imageAltText={''}
       hideNewsletterPromo={true}
       hideFooter={true}
-      hideInfoBar={true}
+      hideTopContent={true}
       globalContextData={globalContextData}
     >
       {iiifImageLocation ? (

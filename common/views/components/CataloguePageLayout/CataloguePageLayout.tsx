@@ -5,13 +5,11 @@ import SignIn from '../SignIn/SignIn';
 import { prefix } from '@weco/identity/src/utility/prefix';
 
 type Props = {
-  hideInfoBar?: boolean;
-  hideSignIn?: boolean;
+  hideTopContent?: boolean;
 } & PageLayoutProps;
 
 const CataloguePageLayout: FunctionComponent<Props> = ({
-  hideInfoBar,
-  hideSignIn,
+  hideTopContent = false,
   children,
   ...props
 }: Props) => {
@@ -26,7 +24,7 @@ const CataloguePageLayout: FunctionComponent<Props> = ({
   return (
     <div id="root" data-context-path={prefix}>
       <PageLayout {...props}>
-        {hideInfoBar !== true && (
+        {!hideTopContent && (
           <>
             {isRedirectBannerVisible && (
               <InfoBanner
@@ -40,9 +38,9 @@ const CataloguePageLayout: FunctionComponent<Props> = ({
                 cookieName="WC_wellcomeImagesRedirect"
               />
             )}
+            {showLogin && <SignIn />}
           </>
         )}
-        {showLogin && !hideSignIn && <SignIn />}
         {children}
       </PageLayout>
     </div>
