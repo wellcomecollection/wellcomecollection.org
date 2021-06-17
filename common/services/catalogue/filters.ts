@@ -231,13 +231,13 @@ const licenseLabels = {
   inc: 'In copyright',
 };
 
-const licenseFilter = ({
+const licensesFilter = ({
   images,
   props,
 }: ImagesFilterProps): CheckboxFilter => ({
   type: 'checkbox',
   id: 'locations.license',
-  label: 'Licence',
+  label: 'Licenses',
   options: filterOptionsWithNonAggregates(
     images.aggregations?.license?.buckets.map(bucket => ({
       id: bucket.data.id,
@@ -296,7 +296,7 @@ const sourceContributorAgentsFilter = ({
 const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>
   [
     colorFilter,
-    licenseFilter,
+    licensesFilter,
     sourceGenresFilter,
     sourceContributorAgentsFilter,
   ].map(f => f(props));
