@@ -443,10 +443,7 @@ ${Object.entries(themeValues.colors)
 
 .promo-link {
   height: 100%;
-  color: ${props =>
-    props.toggles?.newBlack
-      ? themeValues.color('viewerBlack')
-      : themeValues.color('black')};
+  color: ${themeValues.color('black')};
 
   &:hover .promo-link__title,
   &:focus .promo-link__title {
