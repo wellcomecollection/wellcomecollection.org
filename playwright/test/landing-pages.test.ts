@@ -11,7 +11,7 @@ describe('Top-level landing pages', () => {
   test('the homepage renders with a status code of 200', async () => {
     const [, content] = await Promise.all([
       page.goto(homepageUrl),
-      page.waitForSelector('h1'),
+      page.textContent('h1'),
     ]);
 
     expect(content).toBe(
@@ -22,7 +22,7 @@ describe('Top-level landing pages', () => {
   test('the visit us page renders with a status code of 200', async () => {
     const [, content] = await Promise.all([
       page.goto(visitUsUrl),
-      page.waitForSelector('h1'),
+      page.textContent('h1'),
     ]);
 
     expect(content).toBe('Visit us');
@@ -31,7 +31,7 @@ describe('Top-level landing pages', () => {
   test(`the what's on page renders with a status code of 200`, async () => {
     const [, content] = await Promise.all([
       page.goto(whatsOnUrl),
-      page.waitForSelector('h1'),
+      page.textContent('h1'),
     ]);
 
     expect(content).toBe("What's on");
@@ -40,7 +40,7 @@ describe('Top-level landing pages', () => {
   test(`the stories page renders with a status code of 200`, async () => {
     const [, content] = await Promise.all([
       page.goto(storiesUrl),
-      page.waitForSelector('h1'),
+      page.textContent('h1'),
     ]);
 
     expect(content).toBe('Stories');
@@ -49,7 +49,7 @@ describe('Top-level landing pages', () => {
   test('the collections page renders with a status code of 200', async () => {
     const [, content] = await Promise.all([
       page.goto(collectionsUrl),
-      page.waitForSelector('h1'),
+      page.textContent('h1'),
     ]);
 
     expect(content).toBe('Collections');
@@ -58,7 +58,7 @@ describe('Top-level landing pages', () => {
   test('the about us page renders with a status code of 200', async () => {
     const [, content] = await Promise.all([
       page.goto(aboutUsUrl),
-      page.waitForSelector('h1'),
+      page.textContent('h1'),
     ]);
 
     expect(content).toBe('About us');
