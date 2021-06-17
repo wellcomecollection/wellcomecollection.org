@@ -9,56 +9,58 @@ import {
 
 describe('Top-level landing pages', () => {
   test('the homepage renders with a status code of 200', async () => {
-    const [, response] = await Promise.all([
+    const [, content] = await Promise.all([
       page.goto(homepageUrl),
-      page.waitForEvent('response'),
+      page.textContent('h1'),
     ]);
 
-    expect(response.ok()).toBe(true);
+    expect(content).toBe(
+      'A free museum and library exploring health and human experience'
+    );
   });
 
   test('the visit us page renders with a status code of 200', async () => {
-    const [, response] = await Promise.all([
+    const [, content] = await Promise.all([
       page.goto(visitUsUrl),
-      page.waitForEvent('response'),
+      page.textContent('h1'),
     ]);
 
-    expect(response.ok()).toBe(true);
+    expect(content).toBe('Visit us');
   });
 
   test(`the what's on page renders with a status code of 200`, async () => {
-    const [, response] = await Promise.all([
+    const [, content] = await Promise.all([
       page.goto(whatsOnUrl),
-      page.waitForEvent('response'),
+      page.textContent('h1'),
     ]);
 
-    expect(response.ok()).toBe(true);
+    expect(content).toBe("What's on");
   });
 
   test(`the stories page renders with a status code of 200`, async () => {
-    const [, response] = await Promise.all([
+    const [, content] = await Promise.all([
       page.goto(storiesUrl),
-      page.waitForEvent('response'),
+      page.textContent('h1'),
     ]);
 
-    expect(response.ok()).toBe(true);
+    expect(content).toBe('Stories');
   });
 
   test('the collections page renders with a status code of 200', async () => {
-    const [, response] = await Promise.all([
+    const [, content] = await Promise.all([
       page.goto(collectionsUrl),
-      page.waitForEvent('response'),
+      page.textContent('h1'),
     ]);
 
-    expect(response.ok()).toBe(true);
+    expect(content).toBe('Collections');
   });
 
   test('the about us page renders with a status code of 200', async () => {
-    const [, response] = await Promise.all([
+    const [, content] = await Promise.all([
       page.goto(aboutUsUrl),
-      page.waitForEvent('response'),
+      page.textContent('h1'),
     ]);
 
-    expect(response.ok()).toBe(true);
+    expect(content).toBe('About us');
   });
 });
