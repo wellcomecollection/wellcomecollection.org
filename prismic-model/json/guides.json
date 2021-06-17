@@ -24,6 +24,13 @@
         "label": "Date published"
       }
     },
+    "showOnThisPage": {
+      "type": "Boolean",
+      "config": {
+        "default_value": false,
+        "label": "Show 'On this page' anchor links (even when true, this will only appear if there are more than 2 H2s in the body)"
+      }
+    },
     "body": {
       "fieldset": "Body content",
       "type": "Slices",

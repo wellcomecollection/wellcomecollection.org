@@ -279,11 +279,11 @@ export default class WecoApp extends App {
     const FontFaceObserver = require('fontfaceobserver');
 
     const WB = new FontFaceObserver('Wellcome Bold Web', { weight: 'bold' });
-    const HNL = new FontFaceObserver('Helvetica Neue Light Web');
-    const HNM = new FontFaceObserver('Helvetica Neue Medium Web');
+    const HNR = new FontFaceObserver('Helvetica Neue Roman Web');
+    const HNB = new FontFaceObserver('Helvetica Neue Bold Web');
     const LR = new FontFaceObserver('Lettera Regular Web');
 
-    Promise.all([WB.load(), HNL.load(), HNM.load(), LR.load()])
+    Promise.all([WB.load(), HNR.load(), HNB.load(), LR.load()])
       .then(() => {
         if (document.documentElement) {
           document.documentElement.classList.add('fonts-loaded');
@@ -479,34 +479,6 @@ export default class WecoApp extends App {
                       <GlobalStyle toggles={toggles} />
                       <OutboundLinkTracker>
                         <Fragment>
-                          <TogglesContext.Consumer>
-                            {({ helveticaRegular }) =>
-                              helveticaRegular && (
-                                <style
-                                  type="text/css"
-                                  dangerouslySetInnerHTML={{
-                                    __html: `
-                                    @font-face {
-                                      font-family: 'Helvetica Neue Light Web';
-                                      src: url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-roman.woff2') format('woff2'),
-                                        url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-roman.woff') format('woff');
-                                      font-weight: normal;
-                                      font-style: normal;
-                                    }
-
-                                    @font-face {
-                                      font-family: 'Helvetica Neue Medium Web';
-                                      src: url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-bold.woff2') format('woff2'),
-                                        url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-bold.woff') format('woff');
-                                      font-weight: normal;
-                                      font-style: normal;
-                                    }
-                                  `,
-                                  }}
-                                />
-                              )
-                            }
-                          </TogglesContext.Consumer>
                           <LoadingIndicator />
                           {!pageProps.statusCode && (
                             <Component {...pageProps} />

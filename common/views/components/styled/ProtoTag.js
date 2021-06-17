@@ -3,7 +3,7 @@ import { font, classNames } from '../../../utils/classnames';
 
 const ProtoTag = styled.div.attrs(props => ({
   className: classNames({
-    [font(props.isPrimary ? 'hnm' : 'hnl', props.small ? 6 : 5)]: true,
+    [font(props.isPrimary ? 'hnb' : 'hnr', props.small ? 6 : 5)]: true,
   }),
 }))`
   cursor: pointer;

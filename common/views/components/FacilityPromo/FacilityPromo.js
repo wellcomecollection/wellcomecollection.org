@@ -64,13 +64,13 @@ const FacilityPromo = ({
             >
               {title}
             </h2>
-            <p className={`${font('hnl', 5)} no-margin no-padding`}>
+            <p className={`${font('hnr', 5)} no-margin no-padding`}>
               {description}
             </p>
 
             {metaText && (
               <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                <div className={`${font('hnm', 6)} flex flex--v-center`}>
+                <div className={`${font('hnb', 6)} flex flex--v-center`}>
                   {metaIcon && (
                     <Space
                       as="span"

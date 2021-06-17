@@ -44,7 +44,7 @@ const Tab = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   className: classNames({
     'flex-inline': true,
-    [font('hnm', 5)]: true,
+    [font('hnb', 5)]: true,
   }),
 })<TabProps>`
   background: ${props => props.theme.color('white')};
@@ -158,7 +158,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
             className={classNames({
               'visually-hidden': !shouldShowDescription,
-              [font('hnl', 5)]: true,
+              [font('hnr', 5)]: true,
             })}
             id="library-catalogue-form-description"
           >
@@ -248,7 +248,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
             className={classNames({
               'visually-hidden': !shouldShowDescription,
-              [font('hnl', 5)]: true,
+              [font('hnr', 5)]: true,
             })}
             id="images-form-description"
           >

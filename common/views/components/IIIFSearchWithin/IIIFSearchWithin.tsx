@@ -57,7 +57,7 @@ const ListItem = styled.li`
 
 const SearchResult = styled.button.attrs({
   className: classNames({
-    [font('hnl', 6)]: true,
+    [font('hnr', 6)]: true,
     'plain-button': true,
   }),
 })`
@@ -74,7 +74,7 @@ const SearchResult = styled.button.attrs({
 const HitData = styled(Space).attrs({
   as: 'span',
   className: classNames({
-    [font('hnm', 6)]: true,
+    [font('hnb', 6)]: true,
   }),
 })`
   display: block;

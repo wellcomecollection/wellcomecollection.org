@@ -118,7 +118,7 @@ const Sidebar = styled.div<{
 
   ${props => props.theme.media.medium`
     grid-area: desktop-main-start / left-edge / bottom-edge / desktop-sidebar-end;
-    border-right: 1px solid ${props.theme.color('viewerBlack')};
+    border-right: 1px solid ${props.theme.color('black')};
   `}
 
   background: ${props => props.theme.color('charcoal', 'dark')};
@@ -143,7 +143,7 @@ const Main = styled.div<{
   isResizing: boolean;
   isDesktopSidebarActive: boolean;
 }>`
-  background: ${props => props.theme.color('viewerBlack')};
+  background: ${props => props.theme.color('black')};
   color: ${props => props.theme.color('white')};
   overflow: auto;
   position: relative;

@@ -15,7 +15,7 @@ import AlignFont from '../styled/AlignFont';
 export const ShameButton = styled.button.attrs(() => ({
   className: classNames({
     'btn relative flex flex--v-center': true,
-    [font('hnm', 5)]: true,
+    [font('hnb', 5)]: true,
   }),
 }))<{ isDark?: boolean }>`
   overflow: hidden;
@@ -108,7 +108,7 @@ const Sidebar = styled(Space).attrs({
   ${props =>
     !props.isZooming &&
     props.theme.media.medium`
-    border-right: 1px solid ${props => props.theme.color('viewerBlack')};
+    border-right: 1px solid ${props => props.theme.color('black')};
   `}
 `;
 
@@ -134,7 +134,7 @@ const LeftZone = styled.div`
 
 const MiddleZone = styled.div.attrs({
   className: classNames({
-    [font('hnm', 5)]: true,
+    [font('hnb', 5)]: true,
   }),
 })`
   display: flex;

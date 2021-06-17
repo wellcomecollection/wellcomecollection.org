@@ -9,7 +9,7 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 
 const CookieNoticeStyle = styled.div.attrs({
   className: classNames({
-    [font('hnm', 4)]: true,
+    [font('hnb', 4)]: true,
   }),
 })`
   position: fixed;

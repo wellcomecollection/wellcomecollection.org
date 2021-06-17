@@ -20,7 +20,7 @@ const BackToResults: FunctionComponent = () => {
           });
         }}
         className={classNames({
-          [font('hnl', 5)]: true,
+          [font('hnr', 5)]: true,
         })}
       >
         <span>{`Back to search${query ? ' results' : ''}`}</span>

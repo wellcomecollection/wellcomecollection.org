@@ -41,7 +41,7 @@ const ButtonInner = styled(Space).attrs({
   },
   className: classNames({
     'flex flex--v-center flex--h-center': true,
-    [font('hnm', 5)]: true,
+    [font('hnb', 5)]: true,
   }),
 })<{ isActive: boolean }>`
   color: ${props => props.theme.color('white')};

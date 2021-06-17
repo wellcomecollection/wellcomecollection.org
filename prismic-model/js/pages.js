@@ -8,12 +8,15 @@ import text from './parts/text';
 import timestamp from './parts/timestamp';
 import structuredText from './parts/structured-text';
 import number from './parts/number';
+import boolean from './parts/boolean';
+import contributorsWithTitle from './parts/contributorsWithTitle';
 
 const Page = {
   Page: {
     title,
     format: link('Format', 'document', ['page-formats']),
     datePublished: timestamp('Date published'),
+    showOnThisPage: boolean('Show \'On this page\' anchor links. This will only appear if there are more than 2 H2s in the body', false),
     body,
   },
   Promo: {
@@ -36,6 +39,7 @@ const Page = {
       ),
     }),
   },
+  Contributors: contributorsWithTitle(),
   // TODO: (drupal migration) Remove this
   Migration: {
     drupalPromoImage: link('Drupal promo image', 'web'),

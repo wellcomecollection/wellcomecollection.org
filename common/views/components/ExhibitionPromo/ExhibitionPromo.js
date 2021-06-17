@@ -96,7 +96,7 @@ const ExhibitionPromo = ({
             <Space
               as="p"
               v={{ size: 'm', properties: ['margin-bottom'] }}
-              className={`${font('hnl', 5)} no-padding`}
+              className={`${font('hnr', 5)} no-padding`}
             >
               <Fragment>
                 <time dateTime={formatDate(start)}>{formatDate(start)}</time>—

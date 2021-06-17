@@ -9,7 +9,7 @@ import { LabelField } from '../../../model/label-field';
 
 const HeadingLink = styled.a.attrs({
   className: classNames({
-    [font('hnm', 4)]: true,
+    [font('hnb', 4)]: true,
   }),
 })`
   cursor: pointer;

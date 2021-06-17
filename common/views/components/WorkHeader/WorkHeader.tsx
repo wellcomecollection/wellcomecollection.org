@@ -48,7 +48,7 @@ const WorkHeader: FunctionComponent<Props> = ({
             id="work-info"
             className={classNames({
               'no-margin': true,
-              [font('hnm', 2)]: true,
+              [font('hnb', 2)]: true,
               'inline-block': true,
             })}
             // We only send a lang if it's unambiguous -- better to send
@@ -112,7 +112,7 @@ const WorkHeader: FunctionComponent<Props> = ({
             <Space v={{ size: 'm', properties: ['margin-top'] }}>
               <p
                 className={classNames({
-                  [font('hnm', 5)]: true,
+                  [font('hnb', 5)]: true,
                   'no-margin': true,
                 })}
               >

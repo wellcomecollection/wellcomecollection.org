@@ -109,8 +109,7 @@ export const themeValues = {
   },
   colors: {
     white: { base: '#ffffff', dark: '', light: '' },
-    black: { base: '#010101', dark: '', light: '' },
-    viewerBlack: { base: '#121212', dark: '', light: '' },
+    black: { base: '#121212', dark: '', light: '' },
     purple: { base: '#944aa0', dark: '', light: '' },
     teal: { base: '#006272', dark: '', light: '' },
     cyan: { base: '#298187', dark: '', light: '' },

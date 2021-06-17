@@ -1,4 +1,3 @@
-import { lighten } from 'polished';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -14,7 +13,7 @@ import ToolbarSegmentedControl from '../ToolbarSegmentedControl/ToolbarSegmented
 export const ShameButton = styled.button.attrs(() => ({
   className: classNames({
     'btn relative flex flex--v-center': true,
-    [font('hnm', 5)]: true,
+    [font('hnb', 5)]: true,
   }),
 }))<{ isDark?: boolean }>`
   overflow: hidden;
@@ -59,7 +58,7 @@ export const ShameButton = styled.button.attrs(() => ({
 const BottomBar = styled.div`
   position: relative;
   z-index: 3;
-  background: ${props => lighten(0.14, props.theme.color('viewerBlack'))};
+  background: ${props => props.theme.color('charcoal')};
   color: ${props => props.theme.color('white')};
   display: flex;
   justify-content: space-between;

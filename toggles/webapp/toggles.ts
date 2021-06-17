@@ -14,6 +14,12 @@ export default {
       defaultValue: true,
     },
     {
+      id: 'newBlack',
+      title: 'New black',
+      description: '#121212 is the new black',
+      defaultValue: false,
+    },
+    {
       id: 'buildingReopening',
       title: 'Wellcome Collection reopening UI changes',
       description:
@@ -37,13 +43,6 @@ export default {
       title: 'Show physical items on the work page',
       defaultValue: false,
       description: 'Shows physical items and their locations on the work page',
-    },
-    {
-      id: 'helveticaRegular',
-      title: 'Helvetica regular',
-      defaultValue: false,
-      description:
-        'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
     },
     {
       id: 'apiToolbar',

@@ -2,7 +2,6 @@ import { FunctionComponent, useState } from 'react';
 import { IIIFCanvas } from '@weco/common/model/iiif';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
-import { lighten } from 'polished';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import LL from '@weco/common/views/components/styled/LL';
@@ -33,14 +32,13 @@ const IIIFViewerThumb = styled.button.attrs<ViewerThumbProps>(props => ({
   border-radius: 8px;
   background: ${props =>
     props.isActive
-      ? lighten(0.14, props.theme.color('viewerBlack'))
-      : props.theme.color('viewerBlack')};
+      ? props.theme.color('charcoal')
+      : props.theme.color('black')};
   padding: 12px 16px;
   text-align: center;
   margin: auto;
   &:focus {
-    outline: ${props =>
-      `1px solid ${lighten(0.14, props.theme.color('yellow'))}`};
+    outline: ${props => `1px solid ${props.theme.color('yellow')}`};
   }
 `;
 
@@ -73,7 +71,7 @@ const IIIFViewerThumbNumber = styled.span.attrs<ViewerThumbProps>(props => ({
     'font-white': !props.isActive,
     'font-black': props.isActive,
     'bg-yellow': props.isActive,
-    [font('hnm', 6)]: true,
+    [font('hnb', 6)]: true,
   }),
 }))<ViewerThumbProps>`
   padding: 3px 6px;

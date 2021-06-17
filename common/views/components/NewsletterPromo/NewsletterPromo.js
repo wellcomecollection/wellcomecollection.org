@@ -196,7 +196,7 @@ const NewsletterPromo = () => {
                   {!isSuccess && (
                     <p
                       className={classNames({
-                        [font('hnl', 5)]: true,
+                        [font('hnr', 5)]: true,
                         'no-margin': true,
                       })}
                     >
@@ -206,7 +206,7 @@ const NewsletterPromo = () => {
                   {isSuccess && (
                     <div
                       className={classNames({
-                        [font('hnl', 5)]: true,
+                        [font('hnr', 5)]: true,
                         'spaced-text': true,
                       })}
                     >
@@ -271,7 +271,7 @@ const NewsletterPromo = () => {
               {!isSuccess && (
                 <p
                   className={classNames({
-                    [font('hnl', 6)]: true,
+                    [font('hnr', 6)]: true,
                     'no-margin': true,
                   })}
                 >
@@ -283,7 +283,7 @@ const NewsletterPromo = () => {
               v={{ size: 'l', properties: ['margin-top'] }}
               style={{ flexBasis: '100%' }}
             >
-              <p className={font('hnl', 6)} style={{ maxWidth: '800px' }}>
+              <p className={font('hnr', 6)} style={{ maxWidth: '800px' }}>
                 We use a third party provider,{' '}
                 <a href="https://dotdigital.com/terms/privacy-policy/">
                   dotdigital

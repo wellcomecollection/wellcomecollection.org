@@ -22,7 +22,7 @@ const WorkDetailsProperty: FunctionComponent<Props> = ({
       wrapper={children => <SpacingComponent>{children}</SpacingComponent>}
     >
       <div
-        className={`${font('hnl', 5, { small: 3, medium: 3 })}${
+        className={`${font('hnr', 5, { small: 3, medium: 3 })}${
           inlineHeading ? ' flex' : ''
         }`}
       >
@@ -38,7 +38,7 @@ const WorkDetailsProperty: FunctionComponent<Props> = ({
                 : { size: 's', properties: [] }
             }
             className={classNames({
-              [font('hnm', 5, { small: 3, medium: 3 })]: true,
+              [font('hnb', 5, { small: 3, medium: 3 })]: true,
               'no-margin': !inlineHeading,
             })}
             style={{ marginBottom: 0 }}

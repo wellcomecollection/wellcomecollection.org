@@ -157,7 +157,7 @@ export const defaultSerializer: HtmlSerializer = (
           <a
             key={i}
             target={target}
-            className="no-margin plain-link font-green font-HNM3-s flex-inline flex--h-baseline"
+            className="no-margin plain-link font-green flex-inline flex--h-baseline"
             href={linkUrl}
           >
             <span className="icon" style={{ top: '8px' }}>
@@ -182,12 +182,8 @@ export const defaultSerializer: HtmlSerializer = (
             <span className="no-margin">
               <span className="no-margin underline-on-hover">{children}</span>{' '}
               <span style={{ whiteSpace: 'nowrap' }}>
-                <span className="no-margin font-pewter font-HNM4-s">
-                  {documentType}
-                </span>{' '}
-                <span className="no-margin font-pewter font-HNL4-s">
-                  {documentSize}kb
-                </span>
+                <span className="no-margin font-pewter">{documentType}</span>{' '}
+                <span className="no-margin font-pewter">{documentSize}kb</span>
               </span>
             </span>
           </a>

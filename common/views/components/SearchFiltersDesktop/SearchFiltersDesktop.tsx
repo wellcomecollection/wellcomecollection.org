@@ -37,7 +37,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
       <ul
         className={classNames({
           'no-margin no-padding plain-list': true,
-          [font('hnl', 5)]: true,
+          [font('hnr', 5)]: true,
         })}
       >
         {f.options.map(({ id, label, value, count, selected }) => {
@@ -72,7 +72,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
   return (
     <Space
       className={classNames({
-        [font('hnl', 5)]: true,
+        [font('hnr', 5)]: true,
       })}
     >
       <DropdownButton label={f.label} isInline={true} id={f.id}>
@@ -182,7 +182,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
               <Space
                 h={{ size: 's', properties: ['margin-left'] }}
                 className={classNames({
-                  [font('hnm', 5)]: true,
+                  [font('hnb', 5)]: true,
                 })}
               >
                 <AlignFont>Filter by</AlignFont>
@@ -217,7 +217,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
             {modalFilters.length > 0 && (
               <Space
                 className={classNames({
-                  [font('hnl', 5)]: true,
+                  [font('hnr', 5)]: true,
                 })}
                 h={{ size: 's', properties: ['margin-left'] }}
               >
@@ -254,7 +254,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
               <Space
                 h={{ size: 's', properties: ['margin-left'] }}
                 className={classNames({
-                  [font('hnm', 5)]: true,
+                  [font('hnb', 5)]: true,
                 })}
               >
                 <AlignFont>Show items available</AlignFont>
@@ -263,7 +263,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 <ul
                   className={classNames({
                     'no-margin no-padding plain-list flex': true,
-                    [font('hnl', 5)]: true,
+                    [font('hnr', 5)]: true,
                   })}
                 >
                   {availabilitiesFilter.options
