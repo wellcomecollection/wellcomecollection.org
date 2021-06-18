@@ -12,6 +12,7 @@ import text from './parts/text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import body from './parts/body';
 import boolean from './parts/boolean';
+import number from './parts/number';
 
 const Events = {
   Event: {
@@ -77,6 +78,10 @@ const Events = {
     }),
     seasons: list('Seasons', {
       season: link('Season', 'document', ['seasons'], 'Select a Season'),
+    }),
+    parents: list('Parents', {
+      order: number('Order'),
+      parent: link('Parent', 'document', ['exhibitions'], 'Select a parent'),
     }),
   },
   Deprecated: {

@@ -12,6 +12,7 @@ import contributorsWithTitle from './parts/contributorsWithTitle';
 import body from './parts/body';
 import booleanDeprecated from './parts/boolean-deprecated';
 import singleLineText from './parts/single-line-text';
+import number from './parts/number';
 
 const Exhibitions = {
   Exhibition: {
@@ -53,6 +54,10 @@ const Exhibitions = {
   'Content relationships': {
     seasons: list('Seasons', {
       season: link('Season', 'document', ['seasons'], 'Select a Season'),
+    }),
+    parents: list('Parents', {
+      order: number('Order'),
+      parent: link('Parent', 'document', ['exhibitions'], 'Select a parent'),
     }),
   },
   Migration: {

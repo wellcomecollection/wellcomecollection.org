@@ -8,6 +8,7 @@ import list from './parts/list';
 import promo from './parts/promo';
 import timestamp from './parts/timestamp';
 import contributorsWithTitle from './parts/contributorsWithTitle';
+import number from './parts/number';
 
 const Books = {
   Book: {
@@ -35,6 +36,10 @@ const Books = {
   'Content relationships': {
     seasons: list('Seasons', {
       season: link('Season', 'document', ['seasons'], 'Select a Season'),
+    }),
+    parents: list('Parents', {
+      order: number('Order'),
+      parent: link('Parent', 'document', ['exhibitions'], 'Select a parent'),
     }),
   },
   Migration: {
