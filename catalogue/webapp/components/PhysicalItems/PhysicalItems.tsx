@@ -10,7 +10,7 @@ import {
   getLocationLabel,
   getLocationShelfmark,
 } from '@weco/common/utils/works';
-import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
+import ButtonInlineLink from '@weco/common/views/components/ButtonInlineLink/ButtonInlineLink';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import { isCatalogueApiError } from '../../pages/api/works/items';
 
@@ -48,7 +48,7 @@ function createBodyRow(
       item.status?.label,
       shelfmark,
       isRequestableOnline && encoreLink ? (
-        <ButtonOutlinedLink text="Request item" link={encoreLink} />
+        <ButtonInlineLink text="Request item" link={encoreLink} />
       ) : (
         accessLabel || physicalLocation?.locationType.label
       ),
