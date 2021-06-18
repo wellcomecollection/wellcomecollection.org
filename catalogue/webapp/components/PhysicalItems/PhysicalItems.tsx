@@ -10,7 +10,7 @@ import {
   getLocationLabel,
   getLocationShelfmark,
 } from '@weco/common/utils/works';
-import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
+import ButtonInlineLink from '@weco/common/views/components/ButtonInlineLink/ButtonInlineLink';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import { isCatalogueApiError } from '../../pages/api/works/items';
 
@@ -20,14 +20,6 @@ async function fetchWorkItems(
   const items = await fetch(`/api/works/items?workId=${workId}`);
   const itemsJson = await items.json();
   return itemsJson;
-}
-
-function isRequestableByLocation(id: string): boolean {
-  return Boolean(id !== 'on-exhibition' && id !== 'open-shelves');
-}
-
-function isRequestableByAccessCondition(id: string): boolean {
-  return Boolean(id !== 'by-appointment' && id !== 'restricted');
 }
 
 function getFirstPhysicalLocation(item) {
@@ -40,12 +32,13 @@ function createBodyRow(
   encoreLink: string | undefined
 ): (string | ReactElement)[] | undefined {
   const physicalLocation = getFirstPhysicalLocation(item);
+  const isRequestableOnline =
+    physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
   const locationId = physicalLocation?.locationType.id;
   const locationLabel = physicalLocation && getLocationLabel(physicalLocation);
   const locationShelfmark =
     physicalLocation && getLocationShelfmark(physicalLocation);
   const shelfmark = `${locationLabel ?? ''} ${locationShelfmark ?? ''}`;
-  const accessId = physicalLocation?.accessConditions[0]?.status?.id ?? '';
   const accessLabel =
     physicalLocation?.accessConditions[0]?.status?.label ?? '';
 
@@ -54,10 +47,8 @@ function createBodyRow(
       // We don't want to display items that are on order in a table, we just show the location label
       item.status?.label,
       shelfmark,
-      isRequestableByLocation(locationId) &&
-      isRequestableByAccessCondition(accessId) &&
-      encoreLink ? (
-        <ButtonOutlinedLink text="Request item" link={encoreLink} />
+      isRequestableOnline && encoreLink ? (
+        <ButtonInlineLink text="Request item" link={encoreLink} />
       ) : (
         accessLabel || physicalLocation?.locationType.label
       ),
