@@ -99,7 +99,13 @@ const ContentPage = ({
   return (
     <PageBackgroundContext.Provider value={isCreamy ? 'cream' : 'white'}>
       <article data-wio-id={id}>
-        {sectionLevelPages.includes(id) ? Header : <SpacingSection>{Header}</SpacingSection>}
+        {sectionLevelPages.includes(id) ? (
+          Header
+        ) : (
+          <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
+            {Header}
+          </Space>
+        )}
         <div
           className={classNames({
             'bg-cream': isCreamy,
@@ -139,9 +145,7 @@ const ContentPage = ({
           {RelatedContent.length > 0 && (
             <SpacingSection>
               {Children.map(RelatedContent, (child, i) => (
-                <Fragment>
-                  {child}
-                </Fragment>
+                <Fragment>{child}</Fragment>
               ))}
             </SpacingSection>
           )}
