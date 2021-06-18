@@ -84,9 +84,13 @@ const EventPromo = ({
           </Space>
 
           {event.isOnline && !event.availableOnline && (
-            <LabelsList
-              labels={[{ text: 'Online', labelColor: 'transparent' }]}
-            />
+            <Space v={{ size: 'xs', properties: ['margin-bottom'] }}>
+              {/* This extra space is to compensate for the negative margin that LabelsList is wrapped in. */}
+              {/* TODO: LabelsList should not provide its own margin: spacing responsibilities lie with the parent */}
+              <LabelsList
+                labels={[{ text: 'Online', labelColor: 'transparent' }]}
+              />
+            </Space>
           )}
 
           {event.availableOnline && (
