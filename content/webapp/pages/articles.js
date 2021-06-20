@@ -42,7 +42,7 @@ const ArticlesPage = ({ articles }: Props) => {
       <SpacingSection>
         <LayoutPaginatedResults
           showFreeAdmissionMessage={false}
-          title={'Articles'}
+          title={'Stories'}
           description={[
             {
               type: 'paragraph',
