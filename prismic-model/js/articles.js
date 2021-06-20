@@ -38,6 +38,10 @@ const Article = {
     seasons: list('Seasons', {
       season: link('Season', 'document', ['seasons'], 'Select a Season'),
     }),
+    parents: list('Parents', {
+      order: number('Order'),
+      parent: link('Parent', 'document', ['exhibitions'], 'Select a parent'),
+    }),
   },
   Migration: {
     publishDate: {
