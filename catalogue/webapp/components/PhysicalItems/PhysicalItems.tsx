@@ -40,7 +40,7 @@ function createBodyRow(
     physicalLocation && getLocationShelfmark(physicalLocation);
   const shelfmark = `${locationLabel ?? ''} ${locationShelfmark ?? ''}`;
   const accessLabel =
-    physicalLocation?.accessConditions[0]?.status?.label ?? '';
+    physicalLocation?.accessConditions?.[0]?.method?.label ?? '';
 
   if (locationId !== 'on-order') {
     return [
