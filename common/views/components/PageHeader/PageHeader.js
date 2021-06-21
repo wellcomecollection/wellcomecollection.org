@@ -195,7 +195,7 @@ const PageHeader = ({
         >
           <Space
             v={{
-              size: 's',
+              size: 'l',
               properties:
                 isContentTypeInfoBeforeMedia || hasMedia || sectionLevelPage
                   ? ['margin-bottom']
