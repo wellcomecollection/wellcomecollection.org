@@ -7,9 +7,8 @@ const withMDX = require('@next/mdx')({
 const buildHash = process.env.BUILD_HASH || 'test';
 const isProd = process.env.NODE_ENV === 'production';
 
-module.exports = function(webpack, assetPrefix) {
-  const prodSubdomain = process.env.PROD_SUBDOMAIN || assetPrefix;
-
+module.exports = function(webpack) {
+  const prodSubdomain = process.env.PROD_SUBDOMAIN || '';
   const withBundleAnalyzerConfig = withBundleAnalyzer({
     analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
     analyzeBrowser: ['browser', 'both'].includes(process.env.BUNDLE_ANALYZE),
@@ -91,9 +90,10 @@ module.exports = function(webpack, assetPrefix) {
 
   return withMDX(
     withTM({
-      assetPrefix: isProd
-        ? `https://${prodSubdomain}.wellcomecollection.org`
-        : '',
+      assetPrefix:
+        isProd && prodSubdomain
+          ? `https://${prodSubdomain}.wellcomecollection.org`
+          : '',
       ...withBundleAnalyzerConfig,
       async rewrites() {
         return rewrites;
