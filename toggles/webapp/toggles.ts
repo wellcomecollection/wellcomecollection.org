@@ -45,6 +45,13 @@ export default {
       description: 'Shows physical items and their locations on the work page',
     },
     {
+      id: 'showItemStatus',
+      title: 'Show physical item status',
+      defaultValue: false,
+      description:
+        'Shows the physical item status in the table (requires showPhysicalItems to be turned on)',
+    },
+    {
       id: 'apiToolbar',
       title: 'API toolbar',
       defaultValue: false,
