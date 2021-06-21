@@ -6,6 +6,8 @@ steps:
           env:
             - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
           command: ["yarn", "test"]
+    retry:
+      automatic: true
 
   - label: "e2e test:mobile [stage]"
     plugins:
@@ -14,3 +16,5 @@ steps:
           env:
             - PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org
           command: ["yarn", "test:mobile"]
+    retry:
+      automatic: true
