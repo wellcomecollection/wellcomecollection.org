@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 import { trackSearchResultSelected } from '@weco/common/views/components/Tracker/Tracker';
 import WorksSearchResult from '../WorksSearchResult/WorksSearchResult';
-import { grid } from '@weco/common/utils/classnames';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/ts_api';
 
@@ -10,14 +10,27 @@ type Props = {
   apiProps: CatalogueWorksApiProps;
 };
 
+const SearchResultUnorderedList = styled.ul`
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+`;
+
+const SearchResultListItem = styled.li`
+  flex-basis: 100%;
+  max-width: 100%;
+`;
+
 const WorkSearchResults: FunctionComponent<Props> = ({
   works,
   apiProps,
 }: Props) => {
   return (
-    <ul className={'grid plain-list no-padding no-margin'}>
+    <SearchResultUnorderedList>
       {works.results.map((result, i) => (
-        <li key={result.id} className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+        <SearchResultListItem key={result.id}>
           <div
             onClick={() => {
               trackSearchResultSelected(apiProps, {
@@ -35,9 +48,9 @@ const WorkSearchResults: FunctionComponent<Props> = ({
           >
             <WorksSearchResult work={result} resultPosition={i} />
           </div>
-        </li>
+        </SearchResultListItem>
       ))}
-    </ul>
+    </SearchResultUnorderedList>
   );
 };
 
