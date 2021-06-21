@@ -558,12 +558,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
       <OnlineResources work={work} />
 
-      {!digitalLocation && (locationOfWork || showEncoreLink) && (
-        <WhereToFindIt />
-      )}
-
-      {!digitalLocation && <Holdings />}
-
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection
           headingText="Selected images from this work"
@@ -701,10 +695,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         </WorkDetailsSection>
       )}
 
-      {digitalLocation && (locationOfWork || showEncoreLink) && (
-        <WhereToFindIt />
-      )}
-      {digitalLocation && <Holdings />}
+      <Holdings />
+
+      {(locationOfWork || showEncoreLink) && <WhereToFindIt />}
 
       <WorkDetailsSection
         headingText="Permanent link"
