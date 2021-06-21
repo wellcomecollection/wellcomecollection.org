@@ -65,10 +65,10 @@ export function getGlobalContextData(
 ): GlobalContextData {
   return {
     // NextJS types do not yet allow a parametrised `query` :(
-    toggles: (context.query.toggles as unknown) as Toggles,
-    globalAlert: (context.query.globalAlert as unknown) as GlobalAlert,
-    popupDialog: (context.query.popupDialog as unknown) as PopupDialog,
-    openingTimes: (context.query.openingTimes as unknown) as OpeningTimes,
+    toggles: (context.query?.toggles as unknown) as Toggles,
+    globalAlert: (context.query?.globalAlert as unknown) as GlobalAlert,
+    popupDialog: (context.query?.popupDialog as unknown) as PopupDialog,
+    openingTimes: (context.query?.openingTimes as unknown) as OpeningTimes,
   };
 }
 

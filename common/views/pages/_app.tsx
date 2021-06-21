@@ -12,6 +12,7 @@ import ErrorPage from '../components/ErrorPage/ErrorPage';
 import {
   getGlobalContextData,
   GlobalContextData,
+  WithGlobalContextData,
 } from '../components/GlobalContextProvider/GlobalContextProvider';
 import { GetServerSidePropsContext } from 'next';
 import { trackPageview } from '../../services/conversion/track';
@@ -118,10 +119,13 @@ function makeSurePageIsTallEnough() {
   });
 }
 
-const WecoApp: FunctionComponent<AppProps> = ({
+export type WecoAppProps = AppProps & WithGlobalContextData;
+
+const WecoApp: FunctionComponent<WecoAppProps> = ({
   Component,
   pageProps,
-}: AppProps) => {
+  globalContextData,
+}) => {
   // enhanced
   useEffect(() => {
     makeSurePageIsTallEnough();
@@ -148,7 +152,7 @@ const WecoApp: FunctionComponent<AppProps> = ({
       },
     ]);
     ReactGA.set({
-      dimension5: JSON.stringify(pageProps.globalContextData.toggles),
+      dimension5: JSON.stringify(globalContextData.toggles),
     });
     trackPageview();
     Router.events.on('routeChangeComplete', trackPageview);
@@ -310,7 +314,7 @@ const WecoApp: FunctionComponent<AppProps> = ({
     <>
       <AppContextProvider>
         <ThemeProvider theme={theme}>
-          <GlobalStyle toggles={pageProps?.globalContextData?.toggles} />
+          <GlobalStyle toggles={globalContextData.toggles} />
           <OutboundLinkTracker>
             <LoadingIndicator />
             {!pageProps.err && <Component {...pageProps} />}
@@ -318,7 +322,7 @@ const WecoApp: FunctionComponent<AppProps> = ({
               <ErrorPage
                 statusCode={pageProps.err.statusCode}
                 title={pageProps.err.message}
-                globalContextData={pageProps.globalContextData}
+                globalContextData={globalContextData}
               />
             )}
           </OutboundLinkTracker>
