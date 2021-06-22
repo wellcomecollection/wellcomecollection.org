@@ -37,17 +37,20 @@ import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper
 
 // The `bottom` values here are coupled to the space
 // beneath the Header in ContentPage.tsx
+export const headerSpaceSize = 'l';
 const HeroPictureBackground = styled.div`
   height: 50%;
   width: 100%;
-  bottom: -${props => props.theme.spaceAtBreakpoints.small.l}px;
+  bottom: -${props => props.theme.spaceAtBreakpoints.small[headerSpaceSize]}px;
 
   ${props => props.theme.media.medium`
-    bottom: -${props => props.theme.spaceAtBreakpoints.medium.l}px;
+    bottom: -${props =>
+      props.theme.spaceAtBreakpoints.medium[headerSpaceSize]}px;
   `}
 
   ${props => props.theme.media.large`
-    bottom: -${props => props.theme.spaceAtBreakpoints.large.l}px;
+    bottom: -${props =>
+      props.theme.spaceAtBreakpoints.large[headerSpaceSize]}px;
   `}
 `;
 
