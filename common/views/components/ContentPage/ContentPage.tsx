@@ -102,9 +102,9 @@ const ContentPage = ({
         {sectionLevelPages.includes(id) ? (
           Header
         ) : (
-          <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
+          <SpacingSection>
             {Header}
-          </Space>
+          </SpacingSection>
         )}
         <div
           className={classNames({
