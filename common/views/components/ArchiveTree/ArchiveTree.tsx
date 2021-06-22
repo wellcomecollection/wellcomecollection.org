@@ -173,6 +173,7 @@ const StyledLink = styled.a<StyledLinkProps>`
   margin-left: ${props =>
     props.hasControl ? `-${controlWidth / 2}px` : `${controlWidth / 2}px`};
   padding-top: ${props => `${props.theme.spacingUnit}px`};
+  padding-bottom: ${props => `${props.theme.spacingUnit}px`};
   padding-left: ${props =>
     props.hasControl
       ? `${circleWidth / 2 + props.theme.spacingUnit}px`
