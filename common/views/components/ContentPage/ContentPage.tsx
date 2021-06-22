@@ -102,6 +102,7 @@ const ContentPage = ({
         {sectionLevelPages.includes(id) ? (
           Header
         ) : (
+          // This space is coupled to the `bottom` value in PageHeader.js
           <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
             {Header}
           </Space>
