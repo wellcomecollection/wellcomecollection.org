@@ -25,6 +25,7 @@ import BannerCard from '../BannerCard/BannerCard';
 import Body from '../Body/Body';
 import { Season } from '../../../model/seasons';
 import { ElementFromComponent } from '../../../utils/utility-types';
+import { headerSpaceSize } from '@weco/common/views/components/PageHeader/PageHeader';
 /*eslint-disable */
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 
@@ -102,9 +103,10 @@ const ContentPage = ({
         {sectionLevelPages.includes(id) ? (
           Header
         ) : (
-          <SpacingSection>
+          // This space is coupled to the `bottom` value in PageHeader.js
+          <Space v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
             {Header}
-          </SpacingSection>
+          </Space>
         )}
         <div
           className={classNames({

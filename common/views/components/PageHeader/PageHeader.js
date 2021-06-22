@@ -35,17 +35,22 @@ import { SectionPageHeader } from '@weco/common/views/components/styled/SectionP
 // $FlowFixMe (tsx);
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
+// The `bottom` values here are coupled to the space
+// beneath the Header in ContentPage.tsx
+export const headerSpaceSize = 'l';
 const HeroPictureBackground = styled.div`
   height: 50%;
   width: 100%;
-  bottom: -${props => props.theme.spaceAtBreakpoints.small.xl}px;
+  bottom: -${props => props.theme.spaceAtBreakpoints.small[headerSpaceSize]}px;
 
   ${props => props.theme.media.medium`
-    bottom: -${props => props.theme.spaceAtBreakpoints.medium.xl}px;
+    bottom: -${props =>
+      props.theme.spaceAtBreakpoints.medium[headerSpaceSize]}px;
   `}
 
   ${props => props.theme.media.large`
-    bottom: -${props => props.theme.spaceAtBreakpoints.large.xl}px;
+    bottom: -${props =>
+      props.theme.spaceAtBreakpoints.large[headerSpaceSize]}px;
   `}
 `;
 
