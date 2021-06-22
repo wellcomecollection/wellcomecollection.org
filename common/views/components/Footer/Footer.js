@@ -17,6 +17,12 @@ import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import FooterOpeningTimes from '@weco/common/views/components/FooterOpeningTimes/FooterOpeningTimes';
 
+const NavBrand = styled.a`
+  position: absolute;
+  bottom: 0;
+  display: block;
+`;
+
 const FooterLeft = styled.div.attrs({
   className: classNames({
     'flex flex--v-start': true,
@@ -162,9 +168,9 @@ const Footer = ({
               className={`relative ${font('hnr', 4)}`}
             >
               <span className="hidden">Wellcome collection</span>
-              <a href="#" className="footer-nav__brand absolute">
+              <NavBrand href="#">
                 <FooterWellcomeLogo />
-              </a>
+              </NavBrand>
             </Space>
             <Space
               v={{
