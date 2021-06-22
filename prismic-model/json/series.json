@@ -1,5 +1,5 @@
 {
-  "Story series": {
+  "Article series": {
     "title": {
       "type": "StructuredText",
       "config": {
@@ -17,16 +17,6 @@
           "red",
           "green",
           "purple"
-        ]
-      }
-    },
-    "format": {
-      "type": "Link",
-      "config": {
-        "label": "Format",
-        "select": "document",
-        "customtypes": [
-          "article-formats"
         ]
       }
     },

@@ -13,11 +13,10 @@ import link from './parts/link';
 
 // This is called `ArticleSeries` and the filename `series`, as it was a
 // mistake we made way back when when all we were doing was articles
-const StorySeries = {
-  'Story series': {
+const ArticleSeries = {
+  'Article series': {
     title: title,
     color: select('Colour', ['teal', 'red', 'green', 'purple']),
-    format: link('Format', 'document', ['article-formats']),
     body,
   },
   Schedule: {
@@ -47,4 +46,4 @@ const StorySeries = {
   },
 };
 
-export default StorySeries;
+export default ArticleSeries;
