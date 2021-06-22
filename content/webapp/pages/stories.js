@@ -245,7 +245,7 @@ export class StoriesPage extends Component<Props> {
             <CardGrid
               items={articles.slice(5, 11)}
               itemsPerRow={3}
-              links={[{ text: 'More articles', url: '/articles' }]}
+              links={[{ text: 'More stories', url: '/articles' }]}
             />
           </SpacingComponent>
         </SpacingSection>
