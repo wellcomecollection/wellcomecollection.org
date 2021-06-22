@@ -1,9 +1,69 @@
 // @flow
-import { font, classNames } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
+import styled from 'styled-components';
+
+const Wrapper = styled(Space).attrs({
+  v: {
+    size: 'm',
+    properties: ['margin-top'],
+  },
+})`
+  display: flex;
+  flex-wrap: wrap;
+
+  ${props => props.theme.media.xlarge`
+    justify-content: space-between;
+    flex-wrap: nowrap;
+  `}
+`;
+
+const Cell = styled.div`
+  flex-basis: 100%;
+  min-width: 100%;
+
+  ${props => props.theme.media.medium`
+    flex-basis: 50%;
+    min-width: 50%;
+  `}
+
+  ${props => props.theme.media.large`
+    flex-basis: 25%;
+    min-width: 25%;
+  `}
+
+  ${props => props.theme.media.xlarge`
+    flex-basis: auto;
+    min-width: 0;
+  `}
+`;
+
+const Link = styled(Space).attrs({
+  v: {
+    size: 'l',
+    properties: ['margin-bottom'],
+  },
+  as: 'a',
+  className: font('hnb', 6),
+})`
+  color: ${props => props.theme.color('white')};
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: color 200ms ease;
+
+  &:hover,
+  &:focus {
+    color: ${props => props.theme.color('green')};
+  }
+
+  .icon__shape {
+    fill: ${props => props.theme.color('green')};
+  }
+`;
 
 const items = [
   {
@@ -46,35 +106,19 @@ const items = [
 ];
 
 const FooterSocial = () => (
-  <Space
-    v={{
-      size: 'm',
-      properties: ['margin-top'],
-    }}
-    className={classNames({
-      'footer-social': true,
-    })}
-  >
+  <Wrapper>
     {items.map(item => (
-      <div key={item.title} className="footer-social__cell">
-        <Space
-          v={{
-            size: 'l',
-            properties: ['margin-bottom'],
-          }}
-          as="a"
-          className={`footer-social__link ${font('hnb', 6)}`}
-          href={item.url}
-        >
+      <Cell key={item.title}>
+        <Link href={item.url}>
           <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
             <Icon name={item.icon} />
           </Space>
-          <span className="footer-social__title">{item.title}</span>
-          <span className="footer-social__service">{item.service}</span>
-        </Space>
-      </div>
+          <span>{item.title}</span>
+          <span className="visually-hidden">{item.service}</span>
+        </Link>
+      </Cell>
     ))}
-  </Space>
+  </Wrapper>
 );
 
 export default FooterSocial;
