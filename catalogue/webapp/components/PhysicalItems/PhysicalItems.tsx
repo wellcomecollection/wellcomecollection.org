@@ -18,13 +18,13 @@ import {
 } from '@weco/common/utils/works';
 import ButtonInlineLink from '@weco/common/views/components/ButtonInlineLink/ButtonInlineLink';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
-import { isCatalogueApiError } from '../../pages/api/works/items';
+import { isCatalogueApiError } from '../../pages/api/works/items/[workId]';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 async function fetchWorkItems(
   workId: string
 ): Promise<ItemsWork | CatalogueApiError> {
-  const items = await fetch(`/api/works/items?workId=${workId}`);
+  const items = await fetch(`/api/works/items/${workId}`);
   const itemsJson = await items.json();
   return itemsJson;
 }
