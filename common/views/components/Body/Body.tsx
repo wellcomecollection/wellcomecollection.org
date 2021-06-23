@@ -10,7 +10,6 @@ import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import SearchResults from '../SearchResults/SearchResults';
 import { CaptionedImage } from '../Images/Images';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
-import SpacingSection from '../SpacingSection/SpacingSection';
 import SectionHeader from '../SectionHeader/SectionHeader';
 import Space from '../styled/Space';
 import Quote from '../Quote/Quote';
@@ -54,7 +53,6 @@ import FeaturedCard, {
   convertCardToFeaturedCardProps,
 } from '../FeaturedCard/FeaturedCard';
 import { convertItemToCardProps } from '@weco/common/model/card';
-import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import VisitUsStaticContent from './VisitUsStaticContent';
 import CollectionsStaticContent from './CollectionsStaticContent';
 
@@ -219,13 +217,7 @@ const Body: FunctionComponent<Props> = ({
               });
 
               return (
-                <ConditionalWrapper
-                  key={index}
-                  condition={!isLast}
-                  wrapper={children => (
-                    <SpacingSection>{children}</SpacingSection>
-                  )}
-                >
+                <>
                   {!isFirst && (
                     <WobblyEdge
                       background={sectionTheme.rowBackground}
@@ -266,7 +258,7 @@ const Body: FunctionComponent<Props> = ({
                     )}
                   </Space>
                   {!isLast && <WobblyEdge background={'white'} isStatic />}
-                </ConditionalWrapper>
+                </>
               );
             })}
         </>

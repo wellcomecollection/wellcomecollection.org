@@ -114,12 +114,10 @@ const ContentPage = ({
           })}
         >
           {shouldRenderBody() && (
-            <SpacingSection>
-              <div className="basic-page">
-                <Fragment>{Body}</Fragment>
-                {id === prismicPageIds.whatWeDo && <ShameWhatWeDoHack />}
-              </div>
-            </SpacingSection>
+            <div className="basic-page">
+              <Fragment>{Body}</Fragment>
+              {id === prismicPageIds.whatWeDo && <ShameWhatWeDoHack />}
+            </div>
           )}
 
           {children && (
