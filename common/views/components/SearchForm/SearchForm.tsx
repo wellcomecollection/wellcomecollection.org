@@ -202,7 +202,7 @@ const SearchForm: FunctionComponent<Props> = ({
           )}
         </SearchInputWrapper>
       </Space>
-      {query && shouldShowFilters && (
+      {shouldShowFilters && (
         <SearchFilters
           query={query}
           linkResolver={linkResolver}
