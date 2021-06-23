@@ -29,7 +29,9 @@ type MoreFiltersProps = {
   changeHandler: () => void;
 };
 
-const ModalInner = styled.div`
+const ModalInner = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-bottom'] },
+})`
   display: flex;
   flex-direction: column;
   min-width: 320px;
