@@ -1,4 +1,10 @@
-import { FunctionComponent, ReactElement, useState, useEffect } from 'react';
+import {
+  FunctionComponent,
+  ReactElement,
+  useState,
+  useEffect,
+  useContext,
+} from 'react';
 import {
   PhysicalItem,
   ItemsWork,
@@ -13,6 +19,7 @@ import {
 import ButtonInlineLink from '@weco/common/views/components/ButtonInlineLink/ButtonInlineLink';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import { isCatalogueApiError } from '../../pages/api/works/items';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 async function fetchWorkItems(
   workId: string
@@ -29,7 +36,8 @@ function getFirstPhysicalLocation(item) {
 
 function createBodyRow(
   item: PhysicalItem,
-  encoreLink: string | undefined
+  encoreLink: string | undefined,
+  showItemStatus: boolean
 ): (string | ReactElement)[] | undefined {
   const physicalLocation = getFirstPhysicalLocation(item);
   const isRequestableOnline =
@@ -45,7 +53,7 @@ function createBodyRow(
   if (locationId !== 'on-order') {
     return [
       // We don't want to display items that are on order in a table, we just show the location label
-      item.status?.label,
+      showItemStatus && item.status?.label,
       shelfmark,
       isRequestableOnline && encoreLink ? (
         <ButtonInlineLink text="Request item" link={encoreLink} />
@@ -57,8 +65,10 @@ function createBodyRow(
   }
 }
 
-function createBodyRows(items, encoreLink) {
-  return items.map(item => createBodyRow(item, encoreLink)).filter(Boolean);
+function createBodyRows(items, encoreLink, showItemStatus) {
+  return items
+    .map(item => createBodyRow(item, encoreLink, showItemStatus))
+    .filter(Boolean);
 }
 
 type Props = {
@@ -74,13 +84,14 @@ const PhysicalItems: FunctionComponent<Props> = ({
 }: Props) => {
   const [physicalItems, setPhysicalItems] = useState(items);
   const hasStatus = physicalItems.some(item => item.status);
+  const { showItemStatus } = useContext(TogglesContext);
   const headerRow = [
-    hasStatus && 'Status',
+    hasStatus && showItemStatus && 'Status',
     'Location/Shelfmark',
     'Access',
     'Title',
   ].filter(Boolean);
-  const bodyRows = createBodyRows(physicalItems, encoreLink);
+  const bodyRows = createBodyRows(physicalItems, encoreLink, showItemStatus);
 
   const accessCondtionsTerms = items
     .map(item => {
