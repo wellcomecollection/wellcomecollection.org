@@ -3,7 +3,8 @@ type SingleOrMulti = 'single' | 'multi';
 export default function structuredText(
   label: string,
   singleOrMulti: SingleOrMulti = 'multi',
-  extraHtmlTypes: string[] = []
+  extraHtmlTypes: string[] = [],
+  placeholder?: string,
 ) {
   return {
     type: 'StructuredText',
@@ -12,6 +13,7 @@ export default function structuredText(
         .concat(extraHtmlTypes)
         .join(','),
       label: label,
+      placeholder
     },
   };
 }
