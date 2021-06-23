@@ -165,7 +165,7 @@ const ModalWindowPaddingNoOverflow = styled(BaseModalWindow).attrs<
     'shadow bg-white font-black': true,
   }),
 })<BaseModalProps>`
-  overflow: visible;
+  overflow: hidden;
   padding-left: 0px;
   padding-right: 0px;
 `;
