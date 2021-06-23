@@ -176,6 +176,7 @@ export default {
             'exhibitions',
             'card',
             'seasons',
+            'landing-pages',
           ]),
         },
       }),
