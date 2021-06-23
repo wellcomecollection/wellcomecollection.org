@@ -20,7 +20,6 @@ export function isCatalogueApiError(
 }
 
 function getApiUrl(apiOptions: GlobalApiOptions, workId: string): string {
-  console.log(`${rootUris[apiOptions.env]}/v2/works/${workId}/items`);
   return `${rootUris[apiOptions.env]}/v2/works/${workId}/items`;
 }
 
@@ -59,7 +58,6 @@ const ItemsApi = async (
   res: NextApiResponse
 ): Promise<void> => {
   const { workId } = req.query;
-  console.log(workId);
   const toggles = req.toggles;
   const id = Array.isArray(workId) ? workId[0] : workId;
   const response = await fetchWorkItems({
