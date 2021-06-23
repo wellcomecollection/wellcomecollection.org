@@ -18,6 +18,10 @@ beforeAll(async () => {
       name: 'toggle_showPhysicalItems',
       value: 'true',
     },
+    {
+      name: 'toggle_showItemStatus',
+      value: 'true',
+    },
   ];
   const overriddenCookies = defaultToggleAndTestCookies.map(cookie => {
     const matchingOverrideCookie = toggleOverrides.find(
