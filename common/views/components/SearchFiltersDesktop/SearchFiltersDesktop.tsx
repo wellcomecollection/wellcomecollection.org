@@ -5,6 +5,7 @@ import React, {
   useState,
 } from 'react';
 import { font, classNames } from '../../../utils/classnames';
+import { useControlledState } from '../../../utils/useControlledState';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
@@ -66,8 +67,8 @@ type DateRangeFilterProps = {
 };
 
 const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
-  const [from, setFrom] = useState(f.from.value);
-  const [to, setTo] = useState(f.to.value);
+  const [from, setFrom] = useControlledState(f.from.value);
+  const [to, setTo] = useControlledState(f.to.value);
 
   return (
     <Space
