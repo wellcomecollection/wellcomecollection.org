@@ -27,17 +27,16 @@ const SearchFilters: FunctionComponent<Props> = ({
 
   const activeFiltersCount = filters
     .map(f => {
-      if (f.type === 'checkbox') {
-        return f.options.filter(option => option.selected).length;
+      switch (f.type) {
+        case 'color':
+          return f.color ? 1 : 0;
+        case 'checkbox':
+          return f.options.filter(option => option.selected).length;
+        case 'dateRange':
+          return f.from.value || f.to.value ? 1 : 0;
+        default:
+          return 0;
       }
-
-      if (f.type === 'dateRange') {
-        if (f.from.value || f.to.value) {
-          return 1;
-        }
-      }
-
-      return 0;
     })
     .reduce((acc, val) => {
       return acc + val;
