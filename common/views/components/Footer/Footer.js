@@ -17,6 +17,109 @@ import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import FooterOpeningTimes from '@weco/common/views/components/FooterOpeningTimes/FooterOpeningTimes';
 
+const NavBrand = styled.a`
+  position: absolute;
+  bottom: 0;
+  display: block;
+`;
+
+const FooterLeft = styled.div.attrs({
+  className: classNames({
+    'flex flex--v-start': true,
+  }),
+})`
+  flex-wrap: wrap;
+
+  ${props => props.theme.media.medium`
+    flex-wrap: nowrap;
+  `}
+`;
+
+const FooterStrap = styled(Space).attrs({
+  v: {
+    size: 'm',
+    properties: ['margin-top', 'padding-bottom', 'margin-bottom'],
+  },
+  className: classNames({
+    'flex flex--v-center': true,
+  }),
+})`
+  min-width: 220px;
+  border-bottom: 1px solid charcoal;
+  width: 100%;
+
+  ${props => props.theme.media.medium`
+    width: auto;
+    border-bottom: 0;
+    border-right: 1px solid ${props.theme.color('charcoal')};
+    margin-right: 24px;
+    padding-right: 24px;
+  `}
+`;
+
+const StrapText = styled.div`
+  max-width: 10rem;
+`;
+
+const HygieneItem = styled.li.attrs({
+  className: classNames({
+    [font('hnb', 6)]: true,
+  }),
+})`
+  width: 100%;
+  text-align: center;
+
+  &:last-child {
+    position: absolute;
+    bottom: -45px;
+    left: 0;
+
+    ${props => props.theme.media.large`
+      position: static;
+    `}
+  }
+
+  a {
+    padding: 0.5em 0;
+    display: block;
+    text-decoration: none;
+    border-left: 1px solid ${props => props.theme.color('charcoal')};
+    transition: color 200ms ease;
+
+    &:hover {
+      color: ${props => props.theme.color('green')};
+    }
+
+    ${props => props.theme.media.xlarge`
+      padding-left: 2em;
+      padding-right: 2em;
+    `}
+
+    &.footer__hygiene-link--back-to-top {
+      display: flex;
+      align-items: center;
+      border-left: 0;
+
+      ${props => props.theme.media.large`
+        border-left: 1px solid ${props => props.theme.color('charcoal')};
+        justify-content: center;
+      `}
+
+      ${props => props.theme.media.xlarge`
+        padding-right: 0;
+      `}
+
+      .icon__shape {
+        fill: ${props => props.theme.color('currentColor')};
+      }
+    }
+  }
+
+  &:first-child a {
+    border-left: 0;
+  }
+`;
+
 const TopBorderBox = styled.div`
   @media (min-width: ${props => props.theme.sizes.large}px) {
     border-top: 1px solid ${props => props.theme.color('charcoal')};
@@ -46,10 +149,11 @@ const Footer = ({
       footer.current.classList.add('is-hidden');
   }, []);
   return (
-    <div
+    <Space
+      v={{ size: 'xl', properties: ['padding-top'] }}
       ref={footer}
       className={classNames({
-        'footer row bg-black relative': true,
+        'row bg-black relative font-white': true,
       })}
     >
       <div className="container">
@@ -61,12 +165,12 @@ const Footer = ({
                 properties: ['margin-bottom'],
               }}
               as="h3"
-              className={`footer__heading relative ${font('hnr', 4)}`}
+              className={`relative ${font('hnr', 4)}`}
             >
               <span className="hidden">Wellcome collection</span>
-              <a href="#" className="footer-nav__brand absolute">
+              <NavBrand href="#">
                 <FooterWellcomeLogo />
-              </a>
+              </NavBrand>
             </Space>
             <Space
               v={{
@@ -85,10 +189,7 @@ const Footer = ({
                 properties: ['margin-bottom'],
               }}
               as="h3"
-              className={`footer__heading hidden is-hidden-s is-hidden-m ${font(
-                'hnr',
-                5
-              )}`}
+              className={`hidden is-hidden-s is-hidden-m ${font('hnr', 5)}`}
             >
               Finding us:
             </Space>
@@ -110,10 +211,7 @@ const Footer = ({
                 properties: ['margin-bottom'],
               }}
               as="h3"
-              className={`footer__heading hidden is-hidden-s is-hidden-m ${font(
-                'hnr',
-                5
-              )}`}
+              className={`hidden is-hidden-s is-hidden-m ${font('hnr', 5)}`}
             >
               {`Opening times:`}
             </Space>
@@ -156,25 +254,24 @@ const Footer = ({
           </div>
         </div>
         <FooterSocial />
-        <div className="footer__bottom">
-          <div className="footer__left">
-            <Space
-              v={{
-                size: 'm',
-                properties: ['margin-top', 'padding-bottom', 'margin-bottom'],
-              }}
+        <Space
+          v={{ size: 'xl', properties: ['padding-bottom'] }}
+          className={classNames({
+            'flex flex--wrap flex--h-space-between flex--v-start': true,
+            'border-top-width-1 border-color-charcoal': true,
+          })}
+        >
+          <FooterLeft>
+            <FooterStrap
               className={classNames({
                 [font('hnb', 6)]: true,
-                footer__strap: true,
               })}
             >
               <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
                 <Icon name="wellcome" />
               </Space>
-              <span className="footer__strap-text">
-                The free museum and library from Wellcome
-              </span>
-            </Space>
+              <StrapText>The free museum and library from Wellcome</StrapText>
+            </FooterStrap>
             <Space
               v={{
                 size: 'm',
@@ -182,14 +279,22 @@ const Footer = ({
               }}
               className={classNames({
                 [font('hnb', 6)]: true,
-                footer__licensing: true,
+                'flex flex--v-center': true,
               })}
             >
-              <div className="footer__licensing-icons">
-                <Icon name="cc" />
-                <Icon name="ccBy" />
+              <div
+                className={classNames({
+                  flex: true,
+                })}
+              >
+                <Space h={{ size: 's', properties: ['margin-right'] }}>
+                  <Icon name="cc" />
+                </Space>
+                <Space h={{ size: 's', properties: ['margin-right'] }}>
+                  <Icon name="ccBy" />
+                </Space>
               </div>
-              <p className="footer__licensing-copy">
+              <p className="no-margin">
                 Except where otherwise noted, content on this site is licensed
                 under a{' '}
                 <a
@@ -201,52 +306,63 @@ const Footer = ({
                 </a>
               </p>
             </Space>
-          </div>
-          <nav className="footer__hygiene-nav">
-            <ul
-              className={`plain-list footer__hygiene-list no-margin no-padding`}
+          </FooterLeft>
+          <Space
+            as="nav"
+            h={{ size: 'l', properties: ['margin-bottom'] }}
+            className={classNames({
+              'relative flex-1 border-bottom-width-1 border-color-charcoal': true,
+            })}
+          >
+            <Space
+              as="ul"
+              h={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+              className={classNames({
+                'plain-list no-margin no-padding': true,
+                'flex flex--h-space-between border-top-width-1 border-color-charcoal': true,
+              })}
             >
-              <li className={`footer__hygiene-item ${font('hnb', 6)}`}>
+              <HygieneItem>
                 <a
                   href="https://wellcome.ac.uk/jobs"
                   className="footer__hygiene-link"
                 >
                   Jobs
                 </a>
-              </li>
-              <li className={`footer__hygiene-item ${font('hnb', 6)}`}>
+              </HygieneItem>
+              <HygieneItem>
                 <a
                   href="https://wellcome.ac.uk/about-us/terms-use"
                   className="footer__hygiene-link"
                 >
                   Privacy
                 </a>
-              </li>
-              <li className={`footer__hygiene-item ${font('hnb', 6)}`}>
+              </HygieneItem>
+              <HygieneItem>
                 <a
                   href="https://wellcome.ac.uk/about-us/terms-use"
                   className="footer__hygiene-link"
                 >
                   Cookies
                 </a>
-              </li>
-              <li className={`footer__hygiene-item ${font('hnb', 6)}`}>
+              </HygieneItem>
+              <HygieneItem>
                 <a
                   href="https://wellcomecollection.org/press"
                   className="footer__hygiene-link"
                 >
                   Media office
                 </a>
-              </li>
-              <li className={`footer__hygiene-item ${font('hnb', 6)}`}>
+              </HygieneItem>
+              <HygieneItem>
                 <a
                   href="https://developers.wellcomecollection.org"
                   className="footer__hygiene-link"
                 >
                   Developers
                 </a>
-              </li>
-              <li className={`footer__hygiene-item ${font('hnb', 6)}`}>
+              </HygieneItem>
+              <HygieneItem>
                 <a
                   href="#top"
                   className="footer__hygiene-link footer__hygiene-link--back-to-top"
@@ -254,12 +370,12 @@ const Footer = ({
                   <span>Back to top</span>
                   <Icon name="arrow" extraClasses="icon--270" />
                 </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
+              </HygieneItem>
+            </Space>
+          </Space>
+        </Space>
       </div>
-    </div>
+    </Space>
   );
 };
 
