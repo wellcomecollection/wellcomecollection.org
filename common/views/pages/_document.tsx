@@ -58,7 +58,7 @@ class WecoDoc extends Document {
 
   render(): ReactElement<DocumentInitialProps> {
     return (
-      <Html id="top" lang="en" className="is-keyboard">
+      <Html lang="en" className="is-keyboard">
         <Head>
           {/* GA v4 */}
           <script
@@ -80,7 +80,9 @@ class WecoDoc extends Document {
           />
         </Head>
         <body>
-          <Main />
+          <div id="top">
+            <Main />
+          </div>
           <NextScript />
         </body>
       </Html>
