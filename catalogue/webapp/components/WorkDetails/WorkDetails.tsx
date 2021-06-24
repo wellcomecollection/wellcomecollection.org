@@ -20,7 +20,7 @@ import {
   getLocationLink,
 } from '@weco/common/utils/works';
 import {
-  getVideoClickthroughService,
+  getMediaClickthroughService,
   getTokenService,
 } from '@weco/common/utils/iiif';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
@@ -114,7 +114,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     iiifPresentationDownloadOptions = [],
     iiifDownloadEnabled,
   } = useIIIFManifestData(work);
-  const authService = video && getVideoClickthroughService(video);
+  const authService = video && getMediaClickthroughService(video) || audio && getMediaClickthroughService(audio);
   const tokenService = authService && getTokenService(authService);
 
   // iiif-presentation locations don't have credit info in the work API currently, so we try and get it from the manifest

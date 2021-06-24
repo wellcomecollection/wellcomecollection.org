@@ -55,22 +55,22 @@ export function getAuthService(
   }
 }
 
-export function getVideoClickthroughService(
-  video: IIIFMediaElement
+export function getMediaClickthroughService(
+  media: IIIFMediaElement
 ): AuthService | undefined {
-  if (video?.service) {
-    if (Array.isArray(video.service)) {
-      return video.service.find(
+  if (media?.service) {
+    if (Array.isArray(media.service)) {
+      return media.service.find(
         service =>
           service.profile === 'http://iiif.io/api/auth/0/clickthrough' ||
           service.profile === 'http://iiif.io/api/auth/1/clickthrough'
       );
     } else {
       if (
-        video.service.profile === 'http://iiif.io/api/auth/0/clickthrough' ||
-        video.service.profile === 'http://iiif.io/api/auth/1/clickthrough'
+        media.service.profile === 'http://iiif.io/api/auth/0/clickthrough' ||
+        media.service.profile === 'http://iiif.io/api/auth/1/clickthrough'
       ) {
-        return video.service;
+        return media.service;
       }
     }
   }
