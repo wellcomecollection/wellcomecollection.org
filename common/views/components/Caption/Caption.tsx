@@ -33,7 +33,6 @@ const Caption: FunctionComponent<Props> = ({
           'overflow-hidden': true,
         })}
         style={{ maxWidth: '55em' }}
-        tabIndex={0}
       >
         {preCaptionNode}
         <Space
