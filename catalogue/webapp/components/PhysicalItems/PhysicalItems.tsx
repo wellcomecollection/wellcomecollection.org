@@ -34,13 +34,13 @@ function createBodyRow(
   const physicalLocation = getFirstPhysicalLocation(item);
   const isRequestableOnline =
     physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
-  const accessMethod =
+  const accessMethodLabel =
     physicalLocation?.accessConditions?.[0]?.method?.label || ' ';
-  const accessMethodColumn =
+  const accessMethod =
     isRequestableOnline && encoreLink ? (
-      <ButtonInlineLink text={accessMethod} link={encoreLink} />
+      <ButtonInlineLink text={accessMethodLabel} link={encoreLink} />
     ) : (
-      <>{accessMethod}</>
+      <>{accessMethodLabel}</>
     );
   const accessStatus =
     physicalLocation?.accessConditions?.[0]?.status?.label || ' ';
@@ -56,7 +56,7 @@ function createBodyRow(
       // We don't want to display items that are on order in a table, we just show the location label
       item.title || ' ',
       shelfmark,
-      accessMethodColumn,
+      accessMethod,
       accessStatus,
       accessTerms,
     ].filter(Boolean);
