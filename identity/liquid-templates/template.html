@@ -101,7 +101,7 @@
       .section {
         width: 100vw;
         min-height: 50vh;
-        padding: 100px;
+        padding: 50px 100px;
         display: flex;
         justify-content: center;
       }
@@ -112,17 +112,27 @@
         }
       }
       .info {
+        padding: 100px;
         background: #e8e8e8;
+      }
+      .info > div {
+        max-width: 400px;
       }
       @media (min-width: 920px) {
         .info {
+          padding-top: 20vh;
           background: none;
         }
       }
       .collections-link {
         position: absolute;
         display: flex;
-        transform: translateY(-80px);
+        transform: translateY(-60px);
+      }
+      @media (min-width: 920px) {
+        .collections-link {
+          transform: translateY(-80px);
+        }
       }
       .icon {
         height: 24px;
@@ -220,6 +230,3 @@
     </div>
   </body>
 </html>
-
-
-
