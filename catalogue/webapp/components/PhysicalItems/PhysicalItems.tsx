@@ -1,10 +1,4 @@
-import {
-  FunctionComponent,
-  ReactElement,
-  useState,
-  useEffect,
-  useContext,
-} from 'react';
+import { FunctionComponent, ReactElement, useState, useEffect } from 'react';
 import {
   PhysicalItem,
   ItemsWork,
@@ -19,7 +13,6 @@ import {
 import ButtonInlineLink from '@weco/common/views/components/ButtonInlineLink/ButtonInlineLink';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import { isCatalogueApiError } from '../../pages/api/works/items/[workId]';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 async function fetchWorkItems(
   workId: string
@@ -36,39 +29,42 @@ function getFirstPhysicalLocation(item) {
 
 function createBodyRow(
   item: PhysicalItem,
-  encoreLink: string | undefined,
-  showItemStatus: boolean
+  encoreLink: string | undefined
 ): (string | ReactElement)[] | undefined {
   const physicalLocation = getFirstPhysicalLocation(item);
   const isRequestableOnline =
     physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
+  const accessMethodLabel =
+    physicalLocation?.accessConditions?.[0]?.method?.label || ' ';
+  const accessMethod =
+    isRequestableOnline && encoreLink ? (
+      <ButtonInlineLink text={accessMethodLabel} link={encoreLink} />
+    ) : (
+      <>{accessMethodLabel}</>
+    );
+  const accessStatus =
+    physicalLocation?.accessConditions?.[0]?.status?.label || ' ';
+  const accessTerms = physicalLocation?.accessConditions[0]?.terms || ' ';
   const locationId = physicalLocation?.locationType.id;
   const locationLabel = physicalLocation && getLocationLabel(physicalLocation);
   const locationShelfmark =
     physicalLocation && getLocationShelfmark(physicalLocation);
   const shelfmark = `${locationLabel ?? ''} ${locationShelfmark ?? ''}`;
-  const accessLabel =
-    physicalLocation?.accessConditions?.[0]?.method?.label ?? '';
 
   if (locationId !== 'on-order') {
     return [
       // We don't want to display items that are on order in a table, we just show the location label
-      showItemStatus && item.status?.label,
+      item.title || ' ',
       shelfmark,
-      isRequestableOnline && encoreLink ? (
-        <ButtonInlineLink text="Request item" link={encoreLink} />
-      ) : (
-        accessLabel || physicalLocation?.locationType.label
-      ),
-      item.title || 'n/a',
+      accessMethod,
+      accessStatus,
+      accessTerms,
     ].filter(Boolean);
   }
 }
 
-function createBodyRows(items, encoreLink, showItemStatus) {
-  return items
-    .map(item => createBodyRow(item, encoreLink, showItemStatus))
-    .filter(Boolean);
+function createBodyRows(items, encoreLink) {
+  return items.map(item => createBodyRow(item, encoreLink)).filter(Boolean);
 }
 
 type Props = {
@@ -83,22 +79,14 @@ const PhysicalItems: FunctionComponent<Props> = ({
   encoreLink,
 }: Props) => {
   const [physicalItems, setPhysicalItems] = useState(items);
-  const hasStatus = physicalItems.some(item => item.status);
-  const { showItemStatus } = useContext(TogglesContext);
   const headerRow = [
-    hasStatus && showItemStatus && 'Status',
-    'Location/Shelfmark',
-    'Access',
     'Title',
+    'Location/Shelfmark',
+    'Access method',
+    'Access status',
+    'Access terms',
   ].filter(Boolean);
-  const bodyRows = createBodyRows(physicalItems, encoreLink, showItemStatus);
-
-  const accessCondtionsTerms = items
-    .map(item => {
-      const physicalLocation = getFirstPhysicalLocation(item);
-      return physicalLocation?.accessConditions[0]?.terms ?? null;
-    })
-    .filter(Boolean);
+  const bodyRows = createBodyRows(physicalItems, encoreLink);
 
   const itemsOnOrder = items
     .map(item => {
@@ -144,19 +132,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
           />
         </Space>
       )}
-      {accessCondtionsTerms[0] && (
-        <Space
-          v={{
-            size: 'l',
-            properties: ['margin-bottom'],
-          }}
-        >
-          <WorkDetailsText
-            title="Access conditions"
-            text={accessCondtionsTerms}
-          />
-        </Space>
-      )}
+
       {itemsOnOrder[0] && (
         <Space
           v={{
