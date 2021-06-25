@@ -220,8 +220,6 @@ const HeaderLink = styled.a<{ isActive: boolean }>`
   `}
 `;
 
-// isActive={link.siteSection === siteSection}
-
 export const navHeight = 85;
 
 type Props = {
