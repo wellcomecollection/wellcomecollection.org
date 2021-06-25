@@ -146,6 +146,7 @@ export const themeValues = {
 
   // Keyboard focus uses a hard box shadow of 0.7 opacity 'turquoise'
   focusBoxShadow: '0 0 0 3px rgba(92, 184, 191, 0.7)',
+  headerMediumBreakpoint: 825,
   keyframes: {
     hoverBounce: keyframes`
       0% {
