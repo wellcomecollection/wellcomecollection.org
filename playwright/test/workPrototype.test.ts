@@ -18,10 +18,6 @@ beforeAll(async () => {
       name: 'toggle_showPhysicalItems',
       value: 'true',
     },
-    {
-      name: 'toggle_showItemStatus',
-      value: 'true',
-    },
   ];
   const overriddenCookies = defaultToggleAndTestCookies.map(cookie => {
     const matchingOverrideCookie = toggleOverrides.find(
@@ -45,7 +41,7 @@ beforeAll(async () => {
 
 async function getWhereToFindItAndEncoreLink() {
   const whereToFindIt = await page.$('h2:has-text("Where to find it")');
-  const encoreLink = await page.$('a:has-text("Request item")');
+  const encoreLink = await page.$('a:has-text("Online request")');
 
   return {
     whereToFindIt,
@@ -58,22 +54,12 @@ async function getAvailableOnline() {
   return availableOnline;
 }
 
-async function getStatus() {
-  const status = await page.waitForSelector('th:has-text("Status")');
-  return status;
-}
 describe(`Scenario 1: a user wants to see relevant information about where a work's items are located and the access status of those items where applicable`, () => {
   test(`works that have a physical item location display a 'Where to find it' section with a link`, async () => {
     await workWithPhysicalLocationOnly();
     const { whereToFindIt, encoreLink } = await getWhereToFindItAndEncoreLink();
     expect(whereToFindIt).toBeTruthy();
     expect(encoreLink).toBeTruthy();
-  });
-
-  test(`works with a physical location item available to request display an access status`, async () => {
-    await workWithPhysicalLocationOnly();
-    const status = await getStatus();
-    expect(status).toBeTruthy();
   });
 
   test(`works with only a physical location don't display an 'Available online' section`, async () => {
