@@ -39,12 +39,24 @@
       * {
         box-sizing: border-box;
       }
+      /* hacky overrides of prompt styling */
       ._prompt-box-outer > div {
         box-shadow: none!important;
       }
       ._prompt-box-outer h1 {
         display: none;
       }
+      ._prompt-box-outer header {
+        padding-top: 0;
+        padding-left: 0;
+        text-align: left;
+        font-size: 16px;
+        font-family: "helvetica neue", helvetica, arial, sans-serif;
+      }
+      ._prompt-box-outer header + div {
+        padding-left: 0;
+      }
+      /* end of hacky overrides of prompt styling */
       body {
         margin: 0;
         font-family: "helvetica neue", helvetica, arial, sans-serif;
@@ -187,3 +199,6 @@
     </div>
   </body>
 </html>
+
+
+
