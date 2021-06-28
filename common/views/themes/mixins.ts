@@ -13,8 +13,8 @@ export function respondBetween(
   content: string
 ): string {
   return `@media (min-width: ${themeValues.sizes[minBreakpoint] ??
-    themeValues.tweakpoints[minBreakpoint]}px) and (max-width: ${themeValues
-    .sizes[maxBreakpoint] ?? themeValues.tweakpoints[maxBreakpoint] - 1}px) {
+    themeValues.tweakpoints[minBreakpoint]}px) and (max-width: ${(themeValues
+    .sizes[maxBreakpoint] ?? themeValues.tweakpoints[maxBreakpoint]) - 1}px) {
     ${content}
   }`;
 }
