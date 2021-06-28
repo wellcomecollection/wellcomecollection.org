@@ -265,7 +265,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
             <>
               <span data-test-id="active-index">{`${activeIndex + 1 ||
                 ''}`}</span>
-              {` / ${(canvases && canvases.length) || ''}`}{' '}
+              {`/${(canvases && canvases.length) || ''}`}{' '}
               {!(canvases[activeIndex].label.trim() === '-') &&
                 `(page ${canvases[activeIndex].label.trim()})`}
             </>
