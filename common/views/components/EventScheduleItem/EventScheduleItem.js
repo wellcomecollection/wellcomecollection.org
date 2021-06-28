@@ -50,7 +50,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
               const startTimeString = t.range.startDateTime.toString();
               const endTimeString = t.range.endDateTime.toString();
               return (
-                <p
+                <h4
                   key={`${event.title} ${startTimeString}`}
                   className={`${font('hnb', 5)} no-margin`}
                 >
@@ -61,7 +61,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                   <time dateTime={endTimeString}>
                     {formatTime(t.range.endDateTime)}
                   </time>
-                </p>
+                </h4>
               );
             })}
         </Space>
@@ -74,7 +74,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
             )}
             <Space
               v={{ size: 's', properties: ['margin-bottom'] }}
-              as="h3"
+              as="h5"
               className="h2"
             >
               {event.title}
