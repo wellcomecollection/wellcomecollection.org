@@ -43,6 +43,9 @@
         box-sizing: border-box;
       }
       /* hacky overrides of prompt styling */
+      ._prompt-box-outer {
+        width: auto!important;
+      }
       ._prompt-box-outer > div {
         box-shadow: none!important;
       }
@@ -97,26 +100,26 @@
       .section {
         width: 100vw;
         min-height: 50vh;
-        padding: 50px 100px;
+        padding: 50px 20px;
         display: flex;
         justify-content: center;
       }
       @media (min-width: 920px) {
         .section {
-          padding-top: 20vh;
+          padding: 20vh 100px;
           width: 50vw;
         }
       }
-      .info {
-        padding: 100px;
-        background: #e8e8e8;
-      }
-      .info > div {
+      .section > div {
         max-width: 400px;
+      }
+      .info {
+        padding: 100px 20px;
+        background: #e8e8e8;
       }
       @media (min-width: 920px) {
         .info {
-          padding-top: 20vh;
+          padding: 20vh 100px;
           background: none;
         }
       }
