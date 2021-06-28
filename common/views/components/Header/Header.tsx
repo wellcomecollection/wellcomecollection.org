@@ -2,6 +2,7 @@ import { FunctionComponent, useState } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
 import styled from 'styled-components';
+import { respondBetween, respondTo } from '@weco/common/views/themes/mixins';
 
 type WrapperProps = {
   isBurgerOpen: boolean;
@@ -14,25 +15,30 @@ const Wrapper = styled.div.attrs({
 })<WrapperProps>`
   ${props =>
     props.isBurgerOpen &&
+    `${respondBetween(
+      'small',
+      'headerMedium',
+      `
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
     `
-      @media(min-width: 0) and (max-width: ${props.theme
-        .headerMediumBreakpoint - 1}px) {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 10;
-      }
-    `}
+    )}
+  `}
   height: ${props => props.navHeight}px;
 `;
 
 const Burger = styled.div`
   display: block;
 
-  @media (min-width: ${props => props.theme.headerMediumBreakpoint}px) {
+  ${respondTo(
+    'headerMedium',
+    `
     display: none;
-  }
+  `
+  )}
 `;
 
 const BurgerTrigger = styled.a<{ isActive: boolean }>`
@@ -87,7 +93,9 @@ const HeaderBrand = styled.div`
   // This is to account for the burger as we want it to be dead centre.
   margin-left: -20px;
 
-  @media (min-width: ${props => props.theme.headerMediumBreakpoint}px) {
+  ${respondTo(
+    'headerMedium',
+    `
     margin-left: 0;
     flex: 0 0 auto;
     margin-right: 1.5rem;
@@ -95,7 +103,8 @@ const HeaderBrand = styled.div`
     border-right: 1px solid ${props => props.theme.color('pumice')};
     width: auto;
     display: block;
-  }
+  `
+  )}
 
   a {
     margin: 0 auto;
@@ -114,33 +123,46 @@ const HeaderNav = styled.nav<{ isActive: boolean }>`
     props.theme.grid.s.padding + props.theme.grid.s.gutter}px;
   padding-right: ${props => props.theme.grid.s.padding}px;
 
-  @media (min-width: 0) and (max-width: ${props =>
-      props.theme.headerMediumBreakpoint - 1}px) {
+  ${respondBetween(
+    'small',
+    'headerMedium',
+    `
     border-top: 1px solid ${props => props.theme.color('pumice')};
     min-height: 100vh;
-  }
+  `
+  )}
 
-  @media (min-width: ${props => props.theme.sizes.medium}px) {
+  ${respondTo(
+    'medium',
+    `
     padding-left: ${props =>
       props.theme.grid.m.padding + props.theme.grid.m.gutter}px;
     padding-right: ${props => props.theme.grid.m.padding}px;
-  }
+  `
+  )}
 
-  @media (min-width: ${props => props.theme.headerMediumBreakpoint}px) {
+  ${respondTo(
+    'headerMedium',
+    `
     position: static;
     display: block;
     margin-top: 0;
     padding-left: 0;
     padding-right: 0;
-  }
+  `
+  )}
+
 `;
 
 const HeaderList = styled.ul`
   margin-left: -0.3rem;
 
-  @media (min-width: ${props => props.theme.headerMediumBreakpoint}px) {
+  ${respondTo(
+    'headerMedium',
+    `
     display: flex;
-  }
+  `
+  )}
 `;
 
 const HeaderItem = styled.li`
@@ -149,24 +171,37 @@ const HeaderItem = styled.li`
   // TODO: the vw units below are tightly coupled to the
   // number of nav items and number of characters in them.
   // This is a stop-gap ahead of nav design rework.
-  @media (min-width: ${props => props.theme.headerMediumBreakpoint}px) {
+
+  ${respondTo(
+    'headerMedium',
+    `
     border-bottom: 0;
     margin-right: 1vw;
-  }
+  `
+  )}
 
-  @media (min-width: ${props => props.theme.sizes.large}px) {
+  ${respondTo(
+    'large',
+    `
     margin-right: 2vw;
-  }
+  `
+  )}
 
-  @media (min-width: ${props =>
-      props.theme.headerMediumBreakpoint}px) and (max-width: ${props =>
-      props.theme.sizes.large - 1}px) {
+
+  ${respondBetween(
+    'headerMedium',
+    'large',
+    `
     font-size: 1.6vw;
-  }
+  `
+  )}
 
-  @media (min-width: ${props => props.theme.sizes.xlarge}px) {
+  ${respondTo(
+    'xlarge',
+    `
     margin-right: 2rem;
-  }
+  `
+  )}
 `;
 
 const HeaderLink = styled.a<{ isActive: boolean }>`
@@ -177,10 +212,13 @@ const HeaderLink = styled.a<{ isActive: boolean }>`
   z-index: 1;
   transition: color 400ms ease;
 
-  @media (min-width: ${props => props.theme.headerMediumBreakpoint}px) {
+  ${respondTo(
+    'headerMedium',
+    `
     padding-top: 1rem;
     padding-bottom: 1rem;
-  }
+  `
+  )}
 
   &:after {
     content: '';
@@ -193,9 +231,12 @@ const HeaderLink = styled.a<{ isActive: boolean }>`
     z-index: -1;
     transition: width 200ms ease;
 
-    @media (min-width: ${props => props.theme.headerMediumBreakpoint}px) {
+    ${respondTo(
+      'headerMedium',
+      `
       bottom: 0.9rem;
-    }
+    `
+    )}
   }
 
   &:hover,
@@ -264,7 +305,10 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
 
   return (
     <Wrapper navHeight={navHeight} isBurgerOpen={isActive}>
-      <div className="relative grid__cell" style={{ padding: '15px 0 15px' }}>
+      <div
+        className="relative grid__cell"
+        style={{ paddingTop: '15px', paddingBottom: '15px' }}
+      >
         <div className="flex flex--v-center container">
           <Burger>
             <BurgerTrigger
