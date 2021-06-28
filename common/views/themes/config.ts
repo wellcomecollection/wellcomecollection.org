@@ -8,7 +8,6 @@ export type ColumnKey =
   | 'shiftM'
   | 'shiftL'
   | 'shiftXl';
-export type Breakpoint = 'small' | 'medium' | 'large' | 'xlarge';
 
 type ColorVariant = 'base' | 'light' | 'dark';
 type GridProperties = {
@@ -101,6 +100,10 @@ export const themeValues = {
     large: 960,
     xlarge: 1338,
   },
+  tweakpoints: {
+    // Occasionally we need to respond to specific breakpoints beyond the defaults
+    headerMedium: 825,
+  },
   gutter: {
     small: 18,
     medium: 24,
@@ -146,7 +149,6 @@ export const themeValues = {
 
   // Keyboard focus uses a hard box shadow of 0.7 opacity 'turquoise'
   focusBoxShadow: '0 0 0 3px rgba(92, 184, 191, 0.7)',
-  headerMediumBreakpoint: 825,
   keyframes: {
     hoverBounce: keyframes`
       0% {
@@ -194,3 +196,7 @@ export const themeValues = {
     return this.colors[name][variant];
   },
 };
+
+type BaseBreakpoint = keyof typeof themeValues.sizes;
+type TweakBreakpoint = keyof typeof themeValues.tweakpoints;
+export type Breakpoint = BaseBreakpoint | TweakBreakpoint;
