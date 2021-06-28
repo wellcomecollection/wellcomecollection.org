@@ -311,9 +311,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
         {event.schedule && event.schedule.length > 0 && (
           <Fragment>
             <h2 className="h2">Events</h2>
-            <ul className="plain-list no-margin no-padding">
               {event.schedule && <EventSchedule schedule={event.schedule} />}
-            </ul>
           </Fragment>
         )}
         {event.ticketSalesStart &&
