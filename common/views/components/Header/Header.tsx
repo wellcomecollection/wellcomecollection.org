@@ -123,23 +123,27 @@ const HeaderNav = styled.nav<{ isActive: boolean }>`
     props.theme.grid.s.padding + props.theme.grid.s.gutter}px;
   padding-right: ${props => props.theme.grid.s.padding}px;
 
-  ${respondBetween(
-    'small',
-    'headerMedium',
+  ${props => `
+    ${respondBetween(
+      'small',
+      'headerMedium',
+      `
+      border-top: 1px solid ${props.theme.color('pumice')};
+      min-height: 100vh;
     `
-    border-top: 1px solid ${props => props.theme.color('pumice')};
-    min-height: 100vh;
-  `
-  )}
+    )}
+  `}
 
-  ${respondTo(
-    'medium',
+
+  ${props => `
+    ${respondTo(
+      'medium',
+      `
+      padding-left: ${props.theme.grid.m.padding + props.theme.grid.m.gutter}px;
+      padding-right: ${props.theme.grid.m.padding}px;
     `
-    padding-left: ${props =>
-      props.theme.grid.m.padding + props.theme.grid.m.gutter}px;
-    padding-right: ${props => props.theme.grid.m.padding}px;
-  `
-  )}
+    )}
+  `}
 
   ${respondTo(
     'headerMedium',
