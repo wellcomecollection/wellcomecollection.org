@@ -272,6 +272,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   const okFiltersButtonRef = useRef<HTMLButtonElement>(null);
   const filtersModalRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(false);
+  const firstRender = useRef(true);
 
   useFocusTrap(closeFiltersButtonRef, okFiltersButtonRef);
 
@@ -307,9 +308,13 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
           focusable.setAttribute('tabIndex', '-1')
         );
 
-      openFiltersButtonRef &&
-        openFiltersButtonRef.current &&
-        openFiltersButtonRef.current.focus();
+      if (!firstRender.current) {
+        openFiltersButtonRef &&
+          openFiltersButtonRef.current &&
+          openFiltersButtonRef.current.focus();
+
+        firstRender.current = false;
+      }
     }
   }, [isActive]);
 
