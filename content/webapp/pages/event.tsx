@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Prismic from 'prismic-javascript';
 import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
@@ -65,7 +65,7 @@ function EventStatus({ text, color }: EventStatusProps) {
 function DateList(event) {
   return (
     event.times && (
-      <Fragment>
+      <>
         {event.times.map((eventTime, index) => {
           return (
             <Space
@@ -88,16 +88,16 @@ function DateList(event) {
               </div>
 
               {isDatePast(eventTime.range.endDateTime) ? (
-                <Fragment>
+                <>
                   {EventStatus({ text: 'Past', color: 'marble' })}
-                </Fragment>
+                </>
               ) : eventTime.isFullyBooked ? (
                 EventStatus({ text: 'Full', color: 'red' })
               ) : null}
             </Space>
           );
         })}
-      </Fragment>
+      </>
     )
   );
 }
@@ -249,7 +249,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
         />
       }
       ContentTypeInfo={
-        <Fragment>
+        <>
           <Space
             v={{
               size: 's',
@@ -268,7 +268,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
           {!event.isPast &&
             isEventFullyBooked(event) &&
             EventStatus({ text: 'Fully booked', color: 'red' })}
-        </Fragment>
+        </>
       }
       HeroPicture={null}
       isFree={!event.cost}
@@ -300,23 +300,23 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
             contributors={event.contributors}
           />
         )}
-        <Fragment>
+        <>
           <div
             className={`body-text border-bottom-width-1 border-color-pumice`}
           >
             <h2 id="dates">Dates</h2>
             {DateList(event)}
           </div>
-        </Fragment>
+        </>
         {event.schedule && event.schedule.length > 0 && (
-          <Fragment>
+          <>
             <h2 className="h2">Events</h2>
               {event.schedule && <EventSchedule schedule={event.schedule} />}
-          </Fragment>
+          </>
         )}
         {event.ticketSalesStart &&
           showTicketSalesStart(event.ticketSalesStart) && (
-            <Fragment>
+            <>
               <Message
                 text={`Booking opens ${formatDayDate(event.ticketSalesStart)} ${
                   event.ticketSalesStart
@@ -324,11 +324,11 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
                     : ''
                 }`}
               />
-            </Fragment>
+            </>
           )}
 
         {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) && (
-          <Fragment>
+          <>
             {event.eventbriteId && (
               <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
                 <EventbriteButton event={event} />
@@ -336,13 +336,13 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
             )}
 
             {event.thirdPartyBooking && (
-              <Fragment>
+              <>
                 {event.isCompletelySoldOut ? (
-                  <Fragment>
+                  <>
                     <ButtonSolid disabled={true} text="Fully booked" />
-                  </Fragment>
+                  </>
                 ) : (
-                  <Fragment>
+                  <>
                     <ButtonSolidLink
                       link={event.thirdPartyBooking.url}
                       trackingEvent={{
@@ -365,13 +365,13 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
                         </p>
                       </Space>
                     )}
-                  </Fragment>
+                  </>
                 )}
-              </Fragment>
+              </>
             )}
 
             {event.bookingEnquiryTeam && (
-              <Fragment>
+              <>
                 {event.isCompletelySoldOut ? (
                   <Message text={`Fully booked`} />
                 ) : (
@@ -415,13 +415,13 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
                     <span>{event.bookingEnquiryTeam.email}</span>
                   </Space>
                 </NextLink>
-              </Fragment>
+              </>
             )}
 
             {!event.eventbriteId &&
               !event.bookingEnquiryTeam &&
               !(event.schedule && event.schedule.length > 1) && (
-                <Fragment>
+                <>
                   {!event.hasEarlyRegistration && !event.cost && (
                     <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                       <Message text="Just turn up" />
@@ -432,9 +432,9 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
                       <Message text="Arrive early to register" />
                     </Space>
                   )}
-                </Fragment>
+                </>
               )}
-          </Fragment>
+          </>
         )}
 
         <InfoBox
