@@ -151,7 +151,7 @@ export class StoriesPage extends Component<Props> {
               <div className="grid">
                 <div
                   className={classNames({
-                    [grid({ s: 12, m: 12, l: 7, xl: 8 })]: true,
+                    [grid({ s: 12, m: 12, l: 7, xl: 7 })]: true,
                   })}
                 >
                   <SectionPageHeader sectionLevelPage={true}>
