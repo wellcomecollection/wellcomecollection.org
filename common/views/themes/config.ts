@@ -8,7 +8,6 @@ export type ColumnKey =
   | 'shiftM'
   | 'shiftL'
   | 'shiftXl';
-export type Breakpoint = 'small' | 'medium' | 'large' | 'xlarge';
 
 type ColorVariant = 'base' | 'light' | 'dark';
 type GridProperties = {
@@ -100,6 +99,10 @@ export const themeValues = {
     medium: 600,
     large: 960,
     xlarge: 1338,
+  },
+  tweakpoints: {
+    // Occasionally we need to respond to specific breakpoints beyond the defaults
+    headerMedium: 825,
   },
   gutter: {
     small: 18,
@@ -193,3 +196,7 @@ export const themeValues = {
     return this.colors[name][variant];
   },
 };
+
+type BaseBreakpoint = keyof typeof themeValues.sizes;
+type TweakBreakpoint = keyof typeof themeValues.tweakpoints;
+export type Breakpoint = BaseBreakpoint | TweakBreakpoint;
