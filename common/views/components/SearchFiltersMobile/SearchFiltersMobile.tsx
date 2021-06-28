@@ -9,6 +9,7 @@ import dynamic from 'next/dynamic';
 import useFocusTrap from '../../../hooks/useFocusTrap';
 import { CSSTransition } from 'react-transition-group';
 import getFocusableElements from '../../../utils/get-focusable-elements';
+import { useControlledState } from '../../../utils/useControlledState';
 import NextLink from 'next/link';
 import { toLink as worksLink } from '../WorksLink/WorksLink';
 import styled from 'styled-components';
@@ -204,8 +205,8 @@ type DateRangeFilterProps = {
   changeHandler: () => void;
 };
 const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
-  const [from, setFrom] = useState(f.from.value);
-  const [to, setTo] = useState(f.to.value);
+  const [from, setFrom] = useControlledState(f.from.value);
+  const [to, setTo] = useControlledState(f.to.value);
 
   return (
     <>
