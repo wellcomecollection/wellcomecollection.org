@@ -23,7 +23,6 @@ import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResu
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import SearchTitle from '../components/SearchTitle/SearchTitle';
 import { GetServerSideProps, NextPage } from 'next';
 import {
   appError,
@@ -40,9 +39,8 @@ import SearchContext from '@weco/common/views/components/SearchContext/SearchCon
 import { worksFilters } from '@weco/common/services/catalogue/filters';
 
 type Props = {
-  works?: CatalogueResultsList<Work>;
+  works: CatalogueResultsList<Work>;
   worksRouteProps: WorksProps;
-  shouldGetWorks: boolean;
   apiProps: CatalogueWorksApiProps;
   globalContextData: GlobalContextData;
 } & WithGlobalContextData &
@@ -56,7 +54,7 @@ const Works: NextPage<Props> = ({
 }: Props) => {
   const [loading, setLoading] = useState(false);
 
-  useHotjar(Boolean(works && works.results.length > 0));
+  useHotjar(Boolean(works.results.length > 0));
 
   const {
     query,
@@ -67,7 +65,7 @@ const Works: NextPage<Props> = ({
 
   useEffect(() => {
     trackSearch(apiProps, {
-      totalResults: works?.totalResults ?? 0,
+      totalResults: works.totalResults ?? 0,
       source: (Router.query.source || 'unspecified').toString(),
     });
   }, [worksRouteProps]);
@@ -94,12 +92,12 @@ const Works: NextPage<Props> = ({
     };
   }, []);
 
-  const filters = works ? worksFilters({ works, props: worksRouteProps }) : [];
+  const filters = worksFilters({ works, props: worksRouteProps });
 
   return (
     <Fragment>
       <Head>
-        {works?.prevPage && (
+        {works.prevPage && (
           <link
             rel="prev"
             href={convertUrlToString(
@@ -108,7 +106,7 @@ const Works: NextPage<Props> = ({
             )}
           />
         )}
-        {works?.nextPage && (
+        {works.nextPage && (
           <link
             rel="next"
             href={convertUrlToString(
@@ -138,8 +136,6 @@ const Works: NextPage<Props> = ({
           className={classNames(['row'])}
         >
           <div className="container">
-            {!works && <SearchTitle />}
-
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 <Space v={{ size: 'l', properties: ['margin-top'] }}>
@@ -159,7 +155,7 @@ const Works: NextPage<Props> = ({
           </div>
         </Space>
 
-        {works && works.results.length > 0 && (
+        {works.results.length > 0 && (
           <Fragment>
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
@@ -217,11 +213,8 @@ const Works: NextPage<Props> = ({
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container" role="main">
-                {works && (
-                  <WorksSearchResults works={works} apiProps={apiProps} />
-                )}
+                <WorksSearchResults works={works} apiProps={apiProps} />
               </div>
-
               <Space
                 v={{
                   size: 'l',
@@ -278,7 +271,7 @@ const Works: NextPage<Props> = ({
           </Fragment>
         )}
 
-        {works && works.results.length === 0 && (
+        {works.results.length === 0 && (
           <SearchNoResults
             query={query}
             hasFilters={Boolean(productionDatesFrom || productionDatesTo)}
@@ -311,16 +304,12 @@ export const getServerSideProps: GetServerSideProps<
     aggregations,
   });
 
-  const shouldGetWorks = !!props.query;
+  const works = await getWorks({
+    params: worksApiProps,
+    toggles: globalContextData.toggles,
+  });
 
-  const works = shouldGetWorks
-    ? await getWorks({
-        params: worksApiProps,
-        toggles: globalContextData.toggles,
-      })
-    : undefined;
-
-  if (works && works.type === 'Error') {
+  if (works.type === 'Error') {
     return appError(context, works.httpStatus, works.description);
   }
 
@@ -328,7 +317,6 @@ export const getServerSideProps: GetServerSideProps<
     props: removeUndefinedProps({
       works,
       worksRouteProps: props,
-      shouldGetWorks,
       apiProps: worksApiProps,
       globalContextData,
       pageview: {
