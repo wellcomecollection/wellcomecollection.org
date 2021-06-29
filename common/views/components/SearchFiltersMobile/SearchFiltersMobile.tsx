@@ -1,10 +1,10 @@
 import React, {
   useState,
   useRef,
-  useEffect,
   FunctionComponent,
   ReactElement,
 } from 'react';
+import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import dynamic from 'next/dynamic';
 import useFocusTrap from '../../../hooks/useFocusTrap';
 import { CSSTransition } from 'react-transition-group';
@@ -275,7 +275,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
 
   useFocusTrap(closeFiltersButtonRef, okFiltersButtonRef);
 
-  useEffect(() => {
+  useSkipInitialEffect(() => {
     function setPageScrollLock(value) {
       if (document.documentElement) {
         if (value) {
