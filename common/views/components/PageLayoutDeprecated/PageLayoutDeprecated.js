@@ -31,6 +31,7 @@ import SignIn from '../SignIn/SignIn';
 // $FlowFixMe (tsx)
 import TogglesContext from '../TogglesContext/TogglesContext';
 import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
+// $FlowFixMe (ts)
 import useHotjar from '@weco/common/hooks/useHotjar';
 
 export type Props = {|
