@@ -211,16 +211,16 @@ const Modal: FunctionComponent<Props> = ({
 
   useEffect(() => {
     function closeOnEscape(event: KeyboardEvent) {
-      if (event.key !== 'Escape') return;
-
-      closeModal();
+      if (event.key === 'Escape' && isActive) {
+        closeModal();
+      }
     }
     if (!removeCloseButton) {
       document.addEventListener('keydown', closeOnEscape);
 
       return () => document.removeEventListener('keydown', closeOnEscape);
     }
-  }, []);
+  }, [isActive]);
 
   useEffect(() => {
     if (document && document.documentElement) {
