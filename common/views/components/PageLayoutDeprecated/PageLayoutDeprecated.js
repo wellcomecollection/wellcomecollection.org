@@ -63,7 +63,19 @@ const PageLayout = ({
   hideNewsletterPromo = false,
   hideFooter = false,
 }: Props) => {
-  useHotjar(url === '/'); // Hotjar on the homepage only
+  const hotjarUrls = [
+    'whats-on',
+    'stories',
+    'events',
+    prismicPageIds.aboutUs,
+    prismicPageIds.getInvolved,
+    prismicPageIds.visitUs,
+    prismicPageIds.collections,
+    prismicPageIds.copyrightClearance,
+  ];
+  const shouldLoadHotjar =
+    url === '/' || hotjarUrls.some(u => url?.pathname.match(u));
+  useHotjar(shouldLoadHotjar);
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''
