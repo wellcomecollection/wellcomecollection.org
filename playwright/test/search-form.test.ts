@@ -12,3 +12,13 @@ test('stays focussed on the query input when submitted', async () => {
 
   expect(isFocussed).toBeTruthy();
 });
+
+test('search input does not have focus on initial load', async () => {
+  await worksSearch();
+  const isFocussed = await page.$eval(
+    worksSearchForm,
+    el => el === document.activeElement
+  );
+
+  expect(isFocussed).toBeFalsy();
+});
