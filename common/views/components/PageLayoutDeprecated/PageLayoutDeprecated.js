@@ -31,6 +31,7 @@ import SignIn from '../SignIn/SignIn';
 // $FlowFixMe (tsx)
 import TogglesContext from '../TogglesContext/TogglesContext';
 import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
+import useHotjar from '@weco/common/hooks/useHotjar';
 
 export type Props = {|
   title: string,
@@ -61,6 +62,7 @@ const PageLayout = ({
   hideNewsletterPromo = false,
   hideFooter = false,
 }: Props) => {
+  useHotjar(url === '/'); // Hotjar on the homepage only
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''
