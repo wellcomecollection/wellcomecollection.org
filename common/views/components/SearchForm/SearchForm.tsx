@@ -178,7 +178,6 @@ const SearchForm: FunctionComponent<Props> = ({
             name="query"
             value={inputQuery}
             setValue={setInputQuery}
-            autoFocus={inputQuery === ''}
             ref={searchInput}
             required={true}
             big={true}
