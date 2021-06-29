@@ -74,7 +74,7 @@ const PageLayout = ({
     prismicPageIds.copyrightClearance,
   ];
   const shouldLoadHotjar =
-    url === '/' || hotjarUrls.some(u => url?.pathname.match(u));
+    url === '/' || hotjarUrls.some(u => url.pathname && url.pathname.match(u));
   useHotjar(shouldLoadHotjar);
   const urlString = convertUrlToString(url);
   const fullTitle =
