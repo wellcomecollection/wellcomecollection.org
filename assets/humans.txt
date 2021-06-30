@@ -1,89 +1,89 @@
-Wellcomecollection.org has been made byÖ
+Wellcomecollection.org has been made by
 
 _______________________________________________________________________________
 
 
 /* WE ARE */
 
-	Department Head:		Tom Scott
-	Operations Officer:		Hannah Brown
+ Department Head: Tom Scott
+ Operations Officer: Hannah Brown
 
 Digital Production (digitisation)
-	Digital Production Manager:	Christy Henshaw
-	A/V Digitisation Manager:	Harkiran Dhindsa
-	Metadata Analyst:		Branwen Lloyd-Evans
-	Digitisation Services Manager:	Holly Peel
-	Digitisation Team Leader:	Rosie Curran
-	Digitisation Support Officer:	Paul Horn
-	Digitisation Support Officer:	Cassidy Phillips
-	Digitisation Support Officer:	Emilie Bell
-	Digitisation Support Officer:	Daila Malafronte
-	Digital Workflow Specialist:	Ashley Ray
+ Digital Production Manager: Christy Henshaw
+ A/V Digitisation Manager: Harkiran Dhindsa
+ Metadata Analyst: Branwen Lloyd-Evans
+ Digitisation Services Manager: Holly Peel
+ Digitisation Team Leader: Rosie Curran
+ Digitisation Support Officer: Paul Horn
+ Digitisation Support Officer: Cassidy Phillips
+ Digitisation Support Officer: Emilie Bell
+ Digitisation Support Officer: Daila Malafronte
+ Digital Workflow Specialist: Ashley Ray
 
 Digital Editorial Content
-	Digital Content Manager:	Danny Birchall
-	Digital Editor SOCIAL MEDIA:	Kirsten Riley
-	Digital Editor:			Lalita Kaplish
-	Digital Editor & Wikimedian in Residence: Alice White
-	Digital Editor:			Kate Wilkinson
-	Digital Editor:			Helen Babbs
-	Digital Editor:			Anjuli Sharma
-	Copy Editor & Proofreader:	Kate Quarry
-	Copy Editor & Proofreader:	James Machin
-	Copy Editor & Proofreader:	Richard Sheehan
+ Digital Content Manager: Danny Birchall
+ Digital Editor SOCIAL MEDIA: Kirsten Riley
+ Digital Editor: Lalita Kaplish
+ Digital Editor & Wikimedian in Residence: Alice White
+ Digital Editor: Kate Wilkinson
+ Digital Editor: Helen Babbs
+ Digital Editor: Anjuli Sharma
+ Copy Editor & Proofreader: Kate Quarry
+ Copy Editor & Proofreader: James Machin
+ Copy Editor & Proofreader: Richard Sheehan
 
 
 Photography
-	Photographic Manager: 		Richard Everett
-	Senior Photographer & Picture Editor: Ben Gilbert
-	Photographer:			Thomas S G Farnetti
-	Senior Photographer:		Laurie Auchterlonie
-	Photographer:			Steven Pocock
-	Photographer:			Thomas Cox
-	Project Photographer:		Kathleen Arundell
+ Photographic Manager:  Richard Everett
+ Senior Photographer & Picture Editor: Ben Gilbert
+ Photographer: Thomas S G Farnetti
+ Senior Photographer: Laurie Auchterlonie
+ Photographer: Steven Pocock
+ Photographer: Thomas Cox
+ Project Photographer: Kathleen Arundell
 
 Digital Experience
-	Digital Analyst:	        Tacey Laurie
-	Senior User Interface Designer:	Gareth Ormerod
-	Product Designer:		Dominique Marshall
-	User Researcher:		Alice Richmond
-	Senior Software Developer:	Gareth Estchild
-	Software Developer:		David McCormick
+ Digital Analyst: Tacey Laurie
+ Senior User Interface Designer: Gareth Ormerod
+ Product Designer: Dominique Marshall
+ User Researcher: Alice Richmond
+ Senior Software Developer: Gareth Estchild
+ Software Developer: David McCormick
 
 Digital Preservation and Data
-	Technical Product Manager:	Jonathan Tweed
-	Technical Delivery Manager:	Natalie Pollecutt
-	Name: 				James Gorrie
-	Senior Software Developer:	Alice Fuzier-Cayla
-	Senior Software Developer:	Alex Chan
-	Data Scientist:	                Harrison Pim
-	Developer:		        Jamie Parkinson
+ Technical Product Manager: Jonathan Tweed
+ Technical Delivery Manager: Natalie Pollecutt
+ Senior Software Developer: James Gorrie
+ Senior Software Developer: Alice Fuzier-Cayla
+ Senior Software Developer: Alex Chan
+ Data Scientist: Harrison Pim
+ Developer: Jamie Parkinson
 
 Access
-	Access Lead:            	Selene Burn
+ Access Lead: Selene Burn
 
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
-	Product Manager:		Jennifer Phillips-Bacher
-	Digital Editor: 		Vanessa Peterson
-	Graduate Trainee: 		Maisie Jenkins
-	Developer: 			Nick Ward
-	Access Lead:     		Orla O'Donnell
-	Graduate Trainee: 		Aisha Mazhar
-	Web comic:			Robert Bidder
-	Software Developer:		Helen Sherwood-Taylor
-	User Researcher:		Lyndsay Thackrah
-	User Insight Analyst:		Hayley Thair
-	Senior UX Designer:		Heesoo Jennings
-	Digital Content Manager:	Jennifer Trent Staves
-	Digital Workflow Specialist:	Rioghnach Ahern
-	Digitisation Services Manager:	Deborah Leem
-	Web Editor (Social Media):	Russell Dornan
-	Data Architect:			Chris Hilton
-	Visual Designer:		Tomi Lahdesmaki
-	Digital Analyst:	        Chloe Guest
-	Digital Curator:	        Dave Thompson
+ Product Manager: Jennifer Phillips-Bacher
+ Digital Editor: Vanessa Peterson
+ Graduate Trainee: Maisie Jenkins
+ Developer: Nick Ward
+ Access Lead: Orla O'Donnell
+ Graduate Trainee: Aisha Mazhar
+ Web comic: Robert Bidder
+ Software Developer: Helen Sherwood-Taylor
+ User Researcher: Lyndsay Thackrah
+ User Insight Analyst: Hayley Thair
+ Senior UX Designer: Heesoo Jennings
+ Digital Content Manager: Jennifer Trent Staves
+ Digital Workflow Specialist: Rioghnach Ahern
+ Digitisation Services Manager: Deborah Leem
+ Web Editor (Social Media): Russell Dornan
+ Data Architect: Chris Hilton
+ Visual Designer: Tomi Lahdesmaki
+ Digital Analyst: Chloe Guest
+ Digital Curator: Dave Thompson
 
 
 /* THANKS */
@@ -102,6 +102,6 @@ And everyone else who has contributed but isnít mentioned above. Thank you.
 
 
 /* SITES */
-	For readers, researchers & visitors:	wellcomecollection.org
-	For makers:				developers.wellcomecollection.org
-	For our peers:				stacks.wellcomecollection.org
+ For readers, researchers & visitors: wellcomecollection.org
+ For makers: developers.wellcomecollection.org
+ For our peers: stacks.wellcomecollection.org
