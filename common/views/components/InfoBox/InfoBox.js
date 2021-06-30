@@ -27,7 +27,7 @@ const InfoBox = ({ title, items, children }: Props) => {
           size: 'l',
           properties: ['padding-top', 'padding-bottom'],
         }}
-        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+        h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
         className={classNames({
           'bg-yellow': true,
         })}
