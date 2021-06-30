@@ -56,14 +56,27 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
             </h3>
           )}
           {!contributor.url && (
-            <h3
-              className={classNames({
-                [font('hnb', 4)]: true,
-                'no-margin': true,
-              })}
-            >
-              {contributor.name}
-            </h3>
+            <div className={`flex flex--h-baseline`}>
+              <h3
+                className={classNames({
+                  [font('hnb', 4)]: true,
+                  'no-margin': true,
+                })}
+              >
+                {contributor.name}
+              </h3>
+              {contributor.pronouns && (
+                <Space
+                  h={{ size: 's', properties: ['margin-left'] }}
+                  className={classNames({
+                    [font('hnr', 5)]: true,
+                    'font-pewter': true,
+                  })}
+                >
+                  ({contributor.pronouns})
+                </Space>
+              )}
+            </div>
           )}
           {role && role.title && (
             <div className={'font-pewter ' + font('hnb', 5)}>{role.title}</div>

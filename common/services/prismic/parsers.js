@@ -234,6 +234,7 @@ function parsePersonContributor(frag: PrismicFragment): PersonContributor {
     type: 'people',
     id: frag.id,
     name: frag.data.name || '',
+    pronouns: frag.data.pronouns || '',
     image: checkAndParseImage(image) || defaultContributorImage,
     description: frag.data.description,
     twitterHandle: null,
