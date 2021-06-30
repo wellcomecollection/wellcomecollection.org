@@ -3,6 +3,7 @@ export const peopleFields = [
   'people.image',
   'people.twitterHandle',
   'people.description',
+  'people.pronouns',
   'people.sameAs',
 ];
 export const contributorsFields = ['editorial-contributor-roles.title'];

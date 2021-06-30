@@ -6,6 +6,7 @@ import type { HTMLString } from '../services/prismic/types';
 export type Person = {|
   id: string,
   name: string,
+  pronouns: string,
   twitterHandle: ?string,
   description: ?HTMLString,
   image: ImageType,
