@@ -53,7 +53,7 @@ Digital Experience
 Digital Preservation and Data
  Technical Product Manager: Jonathan Tweed
  Technical Delivery Manager: Natalie Pollecutt
- Senior Software Developer: James Gorrie
+ Developer: James Gorrie
  Senior Software Developer: Alice Fuzier-Cayla
  Senior Software Developer: Alex Chan
  Data Scientist: Harrison Pim
