@@ -48,29 +48,33 @@ const SeasonsHeader: FunctionComponent<Props> = ({
             }}
           >
             <Layout8>
-              <TextWrapper>
-                <Space h={{ size: 'm', properties: ['padding-left'] }}>
-                  {labels && labels.labels.length > 0 && (
-                    <LabelsList {...labels} defaultLabelColor="orange" />
-                  )}
-                  <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                    <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                      <h1 className={`inline-block no-margin ${font('wb', 1)}`}>
-                        {title}
-                      </h1>
-                    </Space>
-                    {start && end && (
-                      <div className={font('hnr', 5)}>
-                        <DateRange
-                          start={new Date(start)}
-                          end={new Date(end)}
-                        />
-                      </div>
+              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <TextWrapper>
+                  <Space h={{ size: 'm', properties: ['padding-left'] }}>
+                    {labels && labels.labels.length > 0 && (
+                      <LabelsList {...labels} defaultLabelColor="orange" />
                     )}
-                    <PageHeaderStandfirst html={standfirst} />
+                    <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                      <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                        <h1
+                          className={`inline-block no-margin ${font('wb', 1)}`}
+                        >
+                          {title}
+                        </h1>
+                      </Space>
+                      {start && end && (
+                        <div className={font('hnr', 5)}>
+                          <DateRange
+                            start={new Date(start)}
+                            end={new Date(end)}
+                          />
+                        </div>
+                      )}
+                      <PageHeaderStandfirst html={standfirst} />
+                    </Space>
                   </Space>
-                </Space>
-              </TextWrapper>
+                </TextWrapper>
+              </Space>
             </Layout8>
           </Space>
         </WobblyBottom>
