@@ -1,100 +1,100 @@
-Wellcomecollection.org has been made by
+Wellcomecollection.org has been made by:
 
 _______________________________________________________________________________
 
 
 /* WE ARE */
 
- Department Head: Tom Scott
- Operations Officer: Hannah Brown
+Digital Engagement Office
+ Tom Scott
+ Hannah Brown
 
-Digital Production (digitisation)
- Digital Production Manager: Christy Henshaw
- A/V Digitisation Manager: Harkiran Dhindsa
- Metadata Analyst: Branwen Lloyd-Evans
- Digitisation Services Manager: Holly Peel
- Digitisation Team Leader: Rosie Curran
- Digitisation Support Officer: Paul Horn
- Digitisation Support Officer: Cassidy Phillips
- Digitisation Support Officer: Emilie Bell
- Digitisation Support Officer: Daila Malafronte
- Digital Workflow Specialist: Ashley Ray
+Digital Production (digitisation):
+ Christy Henshaw
+ Harkiran Dhindsa
+ Branwen Lloyd-Evans
+ Holly Peel
+ Rosie Curran
+ Paul Horn
+ Cassidy Phillips
+ Emilie Bell
+ Daila Malafronte
+ Ashley Ray
 
-Digital Editorial Content
- Digital Content Manager: Danny Birchall
- Digital Editor SOCIAL MEDIA: Kirsten Riley
- Digital Editor: Lalita Kaplish
- Digital Editor & Wikimedian in Residence: Alice White
- Digital Editor: Kate Wilkinson
- Digital Editor: Helen Babbs
- Digital Editor: Anjuli Sharma
- Copy Editor & Proofreader: Kate Quarry
- Copy Editor & Proofreader: James Machin
- Copy Editor & Proofreader: Richard Sheehan
+Digital Editorial Content:
+ Danny Birchall
+ Kirsten Riley
+ Lalita Kaplish
+ Alice White
+ Kate Wilkinson
+ Helen Babbs
+ Anjuli Sharma
+ Kate Quarry
+ James Machin
+ Richard Sheehan
 
+Photography:
+ Richard Everett
+ Ben Gilbert
+ Thomas S G Farnetti
+ Laurie Auchterlonie
+ Steven Pocock
+ Thomas Cox
+ Kathleen Arundell
 
-Photography
- Photographic Manager: Richard Everett
- Senior Photographer & Picture Editor: Ben Gilbert
- Photographer: Thomas S G Farnetti
- Senior Photographer: Laurie Auchterlonie
- Photographer: Steven Pocock
- Photographer: Thomas Cox
- Project Photographer: Kathleen Arundell
+Digital Experience:
+ Tacey Laurie
+ Gareth Ormerod
+ Gareth Estchild
+ David McCormick
+ Dominique Marshall
+ Alice Richmond
 
-Digital Experience
- Digital Analyst: Tacey Laurie
- Senior User Interface Designer: Gareth Ormerod
- Product Designer: Dominique Marshall
- User Researcher: Alice Richmond
- Senior Software Developer: Gareth Estchild
- Software Developer: David McCormick
+Digital Preservation and Data:
+ Jonathan Tweed
+ Natalie Pollecutt
+ James Gorrie
+ Alice Fuzier-Cayla
+ Alex Chan
+ Robert Kenny
+ Harrison Pim
+ Jamie Parkinson
 
-Digital Preservation and Data
- Technical Product Manager: Jonathan Tweed
- Technical Delivery Manager: Natalie Pollecutt
- Developer: James Gorrie
- Senior Software Developer: Alice Fuzier-Cayla
- Senior Software Developer: Alex Chan
- Data Scientist: Harrison Pim
- Developer: Jamie Parkinson
-
-Access
- Access Lead: Selene Burn
+Access:
+ Selene Burn
 
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
- Product Manager: Jennifer Phillips-Bacher
- Digital Editor: Vanessa Peterson
- Graduate Trainee: Maisie Jenkins
- Developer: Nick Ward
- Access Lead: Orla O'Donnell
- Graduate Trainee: Aisha Mazhar
- Web comic: Robert Bidder
- Software Developer: Helen Sherwood-Taylor
- User Researcher: Lyndsay Thackrah
- User Insight Analyst: Hayley Thair
- Senior UX Designer: Heesoo Jennings
- Digital Content Manager: Jennifer Trent Staves
- Digital Workflow Specialist: Rioghnach Ahern
- Digitisation Services Manager: Deborah Leem
- Web Editor (Social Media): Russell Dornan
- Data Architect: Chris Hilton
- Visual Designer: Tomi Lahdesmaki
- Digital Analyst: Chloe Guest
- Digital Curator: Dave Thompson
-
+ Jennifer Phillips-Bacher
+ Vanessa Peterson
+ Maisie Jenkins
+ Nick Ward
+ Orla O'Donnell
+ Aisha Mazhar
+ Robert Bidder
+ Helen Sherwood-Taylor
+ Lyndsay Thackrah
+ Hayley Thair
+ Heesoo Jennings
+ Jennifer Trent Staves
+ Rioghnach Ahern
+ Deborah Leem
+ Russell Dornan
+ Chris Hilton
+ Tomi Lahdesmaki
+ Chloe Guest
+ Dave Thompson
 
 /* THANKS */
 
-Rada Vlatkovic - Documentation Officer, Collections Information
-Tania Williams - Library Asisstant, Library Experience & Engagement
+Rada Vlatkovic
+Tania Williams
 Tom Crane - Digirati
 Adam Christie - Digirati
 Silver Oliver - Data Language
 
-Internet Archive, Townsweb Archiving and R3store Studios, Intranda and past partners and vendors. Thanks to Artifactual and all the Open Source Software developers.
+Internet Archive, Townsweb Archiving, R3store Studios, Intranda and past partners and vendors. Thanks to Artifactual and all the Open Source Software developers.
 
 Thanks to all the librarians, archivists and metadata specialists who have tended our collections information.
 
