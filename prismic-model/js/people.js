@@ -9,6 +9,7 @@ export default {
   Person: {
     name: text('Full name'),
     description: description,
+    pronouns: text('Pronouns'),
     image: image('Image'),
     sameAs: list('Same as', {
       link: text('Link'),

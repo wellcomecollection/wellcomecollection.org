@@ -13,6 +13,12 @@
         "label": "Description"
       }
     },
+    "pronouns": {
+      "type": "Text",
+      "config": {
+        "label": "Pronouns"
+      }
+    },
     "image": {
       "type": "Image",
       "config": {
