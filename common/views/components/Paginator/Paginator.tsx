@@ -115,7 +115,6 @@ const Paginator: FunctionComponent<Props> = ({
           'float-r': true,
           'flex-inline': true,
           'flex--v-center': true,
-          'font-pewter': true,
           [font('hnr', 5)]: true,
           'flex-end': true,
         })}
@@ -147,7 +146,7 @@ const Paginator: FunctionComponent<Props> = ({
               />
             </Space>
           )}
-          <span>
+          <span className={`font-pewter`}>
             Page {currentPage} of {totalPages}
           </span>
           {nextLink && next && (
