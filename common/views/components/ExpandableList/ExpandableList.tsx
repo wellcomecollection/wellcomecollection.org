@@ -1,4 +1,10 @@
-import { useEffect, useState, useRef, FunctionComponent } from 'react';
+import {
+  useEffect,
+  useState,
+  useRef,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 
@@ -14,8 +20,9 @@ const ShowHideButton = styled.button.attrs({
     text-decoration: none;
   }
 `;
+
 type Props = {
-  listItems: string[]; // TODO List of reactNodes []
+  listItems: (string | ReactElement)[];
 };
 const ExpandableList: FunctionComponent<Props> = ({ listItems }: Props) => {
   const firstThreeListItems = listItems.slice(0, 3);

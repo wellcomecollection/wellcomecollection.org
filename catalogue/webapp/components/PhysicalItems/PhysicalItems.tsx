@@ -1,10 +1,10 @@
-import { FunctionComponent, ReactElement, useState, useEffect } from 'react';
+import { FunctionComponent, useState, useEffect } from 'react';
 import {
   PhysicalItem,
   ItemsWork,
   CatalogueApiError,
 } from '@weco/common/model/catalogue';
-import Table from '@weco/common/views/components/Table/Table';
+// import Table from '@weco/common/views/components/Table/Table';
 import Space from '@weco/common/views/components/styled/Space';
 import {
   getLocationLabel,
@@ -13,6 +13,10 @@ import {
 import ButtonInlineLink from '@weco/common/views/components/ButtonInlineLink/ButtonInlineLink';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import { isCatalogueApiError } from '../../pages/api/works/items/[workId]';
+import DescriptionList, {
+  Props as DescriptionListProps,
+} from '@weco/common/views/components/DescriptionList/DescriptionList';
+import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
 
 async function fetchWorkItems(
   workId: string
@@ -27,15 +31,15 @@ function getFirstPhysicalLocation(item) {
   return item.locations?.find(location => location.type === 'PhysicalLocation');
 }
 
-function createBodyRow(
+function createDescriptionList(
   item: PhysicalItem,
   encoreLink: string | undefined
-): (string | ReactElement)[] | undefined {
+): DescriptionListProps | undefined {
   const physicalLocation = getFirstPhysicalLocation(item);
   const isRequestableOnline =
     physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
   const accessMethodLabel =
-    physicalLocation?.accessConditions?.[0]?.method?.label || ' ';
+    physicalLocation?.accessConditions?.[0]?.method?.label || '';
   const accessMethod =
     isRequestableOnline && encoreLink ? (
       <ButtonInlineLink text={accessMethodLabel} link={encoreLink} />
@@ -43,8 +47,8 @@ function createBodyRow(
       <>{accessMethodLabel}</>
     );
   const accessStatus =
-    physicalLocation?.accessConditions?.[0]?.status?.label || ' ';
-  const accessTerms = physicalLocation?.accessConditions[0]?.terms || ' ';
+    physicalLocation?.accessConditions?.[0]?.status?.label || '';
+  const accessTerms = physicalLocation?.accessConditions[0]?.terms || '';
   const locationId = physicalLocation?.locationType.id;
   const locationLabel = physicalLocation && getLocationLabel(physicalLocation);
   const locationShelfmark =
@@ -52,19 +56,22 @@ function createBodyRow(
   const shelfmark = `${locationLabel ?? ''} ${locationShelfmark ?? ''}`;
 
   if (locationId !== 'on-order') {
-    return [
-      // We don't want to display items that are on order in a table, we just show the location label
-      item.title || ' ',
-      shelfmark,
-      accessMethod,
-      accessStatus,
-      accessTerms,
-    ].filter(Boolean);
+    return {
+      title: item.title || '',
+      items: [
+        { term: 'Location/shelfmark', description: shelfmark },
+        accessMethod && { term: 'Access method', description: accessMethod },
+        accessStatus && { term: 'Access status', description: accessStatus },
+        accessTerms && { term: 'Access terms', description: accessTerms },
+      ].filter(Boolean),
+    };
   }
 }
 
-function createBodyRows(items, encoreLink) {
-  return items.map(item => createBodyRow(item, encoreLink)).filter(Boolean);
+function createDescriptionLists(items, encoreLink) {
+  return items
+    .map(item => createDescriptionList(item, encoreLink))
+    .filter(Boolean);
 }
 
 type Props = {
@@ -79,14 +86,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
   encoreLink,
 }: Props) => {
   const [physicalItems, setPhysicalItems] = useState(items);
-  const headerRow = [
-    'Title',
-    'Location/Shelfmark',
-    'Access method',
-    'Access status',
-    'Access terms',
-  ].filter(Boolean);
-  const bodyRows = createBodyRows(physicalItems, encoreLink);
+  const descriptionLists = createDescriptionLists(physicalItems, encoreLink);
 
   const itemsOnOrder = items
     .map(item => {
@@ -123,15 +123,17 @@ const PhysicalItems: FunctionComponent<Props> = ({
 
   return (
     <>
-      {Boolean(bodyRows.length) && (
-        <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-          <Table
-            hasRowHeaders={false}
-            rows={[headerRow, ...bodyRows]}
-            vAlign="middle"
-          />
-        </Space>
-      )}
+      <ExpandableList
+        listItems={descriptionLists.map((r, index) => (
+          <Space
+            key={index}
+            v={{ size: 's', properties: ['margin-bottom', 'padding-bottom'] }}
+            style={{ borderBottom: '1px dashed #ddd' }}
+          >
+            <DescriptionList title={r.title} items={r.items} />
+          </Space>
+        ))}
+      />
 
       {itemsOnOrder[0] && (
         <Space
