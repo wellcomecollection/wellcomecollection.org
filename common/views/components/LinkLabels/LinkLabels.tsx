@@ -1,23 +1,25 @@
-// @flow
 import { font, classNames } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
 
-type ItemProps = {|
-  url: ?string,
-  text: string,
-|};
+type ItemProps = {
+  url?: string | null;
+  text: string;
+};
 
-type Props = {|
-  items: ItemProps[],
-  heading?: string,
-  icon?: string,
-|};
+type Props = {
+  items: ItemProps[];
+  heading?: string;
+  icon?: string;
+};
 
-const ItemText = styled(Space).attrs(props => ({
+type LinkOrSpanSpaceAttrs = {
+  url: string | null;
+  addBorder: boolean;
+};
+
+const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
   as: props.url ? 'a' : 'span',
   href: props.url || undefined,
   h: {
@@ -31,7 +33,7 @@ const ItemText = styled(Space).attrs(props => ({
     [`${font('hnr', 5)}`]: true,
     'border-left-width-1 border-color-marble': props.addBorder,
   })
-}))``;
+}))<LinkOrSpanSpaceAttrs>``;
 
 const LinkLabels = ({ items, heading, icon }: Props) => (
   heading ? (
@@ -63,7 +65,7 @@ const LinkLabels = ({ items, heading, icon }: Props) => (
             'no-margin': true,
           })}
         >
-          <ItemText url={url} addBorder={i !== 0}>{text}</ItemText>
+          <ItemText url={url || null} addBorder={i !== 0}>{text}</ItemText>
         </dd>
       ))}
     </dl>
@@ -82,7 +84,7 @@ const LinkLabels = ({ items, heading, icon }: Props) => (
           className={classNames({
             'no-margin': true,
           })}>
-            <ItemText url={url} addBorder={i !== 0}>{text}</ItemText>
+            <ItemText url={url || null} addBorder={i !== 0}>{text}</ItemText>
         </li>
       ))}
     </ul>
