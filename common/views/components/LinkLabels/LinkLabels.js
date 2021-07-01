@@ -4,6 +4,7 @@ import { font, classNames } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
+import styled from 'styled-components';
 
 type ItemProps = {|
   url: ?string,
@@ -16,41 +17,21 @@ type Props = {|
   icon?: string,
 |};
 
-const Item = ({url, text, addBorder}) => (
-  url ? (
-    <Space
-      h={{
-        size: 's',
-        properties: [
-          'margin-right',
-          addBorder ? 'padding-left' : undefined,
-        ].filter(Boolean),
-      }}
-      as="a"
-
-      href={url}
-    >
-      {text}
-    </Space>
-  ) : (
-    <Space
-      as="span"
-      h={{
-        size: 's',
-        properties: [
-          'margin-right',
-          addBorder ? 'padding-left' : undefined,
-        ].filter(Boolean),
-      }}
-      className={classNames({
-        [`${font('hnr', 5)}`]: true,
-        'border-left-width-1 border-color-marble': addBorder,
-      })}
-    >
-      {text}
-    </Space>
-  )
-)
+const ItemText = styled(Space).attrs(props => ({
+  as: props.url ? 'a' : 'span',
+  href: props.url || undefined,
+  h: {
+    size: 's',
+    properties: [
+      'margin-right',
+      props.addBorder ? 'padding-left' : undefined,
+    ].filter(Boolean),
+  },
+  className: classNames({
+    [`${font('hnr', 5)}`]: true,
+    'border-left-width-1 border-color-marble': props.addBorder,
+  })
+}))``;
 
 const LinkLabels = ({ items, heading, icon }: Props) => (
   heading ? (
@@ -82,7 +63,7 @@ const LinkLabels = ({ items, heading, icon }: Props) => (
             'no-margin': true,
           })}
         >
-          <Item url={url} text={text} addBorder={i !== 0} />
+          <ItemText url={url} addBorder={i !== 0}>{text}</ItemText>
         </dd>
       ))}
     </dl>
@@ -101,7 +82,7 @@ const LinkLabels = ({ items, heading, icon }: Props) => (
           className={classNames({
             'no-margin': true,
           })}>
-          <Item url={url} text={text} addBorder={i !== 0} />
+            <ItemText url={url} addBorder={i !== 0}>{text}</ItemText>
         </li>
       ))}
     </ul>
