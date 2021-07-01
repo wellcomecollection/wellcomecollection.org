@@ -66,7 +66,7 @@ const SelectContainer = ({ label, children }: Props) => {
       <label>
         <Space
           as="span"
-          h={{ size: 'm', properties: ['margin-right'] }}
+          h={{ size: 's', properties: ['margin-right'] }}
           className={classNames({
             [font('hnb', 5)]: true,
           })}
