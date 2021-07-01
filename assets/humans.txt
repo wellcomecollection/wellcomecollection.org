@@ -1,86 +1,90 @@
-wellcomecollection.org has been made by:
+Wellcomecollection.org has been made by:
+
 _______________________________________________________________________________
 
 
 /* WE ARE */
 
-Digital Engagement Office:
-	Tom Scott
-	Hannah Brown
+Digital Engagement Office
+ Tom Scott
+ Hannah Brown
 
 Digital Production (digitisation):
-	Christy Henshaw
-	Harkiran Dhindsa
-	Branwen Lloyd-Evans
-	Holly Peel
-	Rosie Curran
-	Paul Horn
-	Cassidy Phillips
-	Emilie Bell
-	Daila Malafronte
-	Ashley Ray
+ Christy Henshaw
+ Harkiran Dhindsa
+ Branwen Lloyd-Evans
+ Holly Peel
+ Rosie Curran
+ Paul Horn
+ Cassidy Phillips
+ Emilie Bell
+ Daila Malafronte
+ Ashley Ray
 
 Digital Editorial Content:
-	Danny Birchall
-	Kirsten Riley	
-	Lalita Kaplish
-	Alice White
-	Kate Wilkinson 
-	Helen Babbs
-	Kate Quarry
-	James Machin
-	Richard Sheehan
-	Aisha Mazhar
-	Robert Bidder
+ Danny Birchall
+ Kirsten Riley
+ Lalita Kaplish
+ Alice White
+ Kate Wilkinson
+ Helen Babbs
+ Anjuli Sharma
+ Kate Quarry
+ James Machin
+ Richard Sheehan
 
-Photography:	
-	Richard Everett	
-	Ben Gilbert
-	Thomas S G Farnetti
-	Laurie Auchterlonie
-	Steven Pocock
-	Thomas Cox	
-	Kathleen Arundell	
+Photography:
+ Richard Everett
+ Ben Gilbert
+ Thomas S G Farnetti
+ Laurie Auchterlonie
+ Steven Pocock
+ Thomas Cox
+ Kathleen Arundell
 
 Digital Experience:
-	Jennifer Phillips-Bacher
-	Tacey Laurie
-	Gareth Ormerod 
-	Lyndsay Thackrah
-	Gareth Estchild
-	David McCormick
-	Dominique Marshall
-	Alice Richmond
+ Tacey Laurie
+ Gareth Ormerod
+ Gareth Estchild
+ David McCormick
+ Dominique Marshall
+ Alice Richmond
 
 Digital Preservation and Data:
-	Jonathan Tweed
-	Natalie Pollecutt
-	James Gorrie
-	Alice Fuzier-Cayla
-	Alex Chan
-	Robert Kenny
-	Harrison Pim
-	Jamie Parkinson	
-	Nick Ward
-	Helen Sherwood-Taylor
+ Jonathan Tweed
+ Natalie Pollecutt
+ James Gorrie
+ Alice Fuzier-Cayla
+ Alex Chan
+ Robert Kenny
+ Harrison Pim
+ Jamie Parkinson
 
 Access:
-	Selene Burn & Orla O'Donnell
+ Selene Burn
 
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
-	Hayley Thair		
-	Heesoo Jennings
-	Jennifer Trent Staves
-	Rioghnach Ahern 
-	Deborah Leem 
-	Russell Dornan
-	Chris Hilton
-	Tomi Lahdesmaki
-	Chloe Guest
-	Dave Thompson
-
+ Jennifer Phillips-Bacher
+ Vanessa Peterson
+ Maisie Jenkins
+ Nick Ward
+ Orla O'Donnell
+ Aisha Mazhar
+ Robert Bidder
+ Helen Sherwood-Taylor
+ Lyndsay Thackrah
+ Hayley Thair
+ Heesoo Jennings
+ Jennifer Trent Staves
+ Rioghnach Ahern
+ Deborah Leem
+ Russell Dornan
+ Chris Hilton
+ Tomi Lahdesmaki
+ Chloe Guest
+ Dave Thompson
 
 /* THANKS */
 
@@ -90,7 +94,7 @@ Tom Crane - Digirati
 Adam Christie - Digirati
 Silver Oliver - Data Language
 
-Internet Archive, Townsweb Archiving and R3store Studios and past partners and vendors. 
+Internet Archive, Townsweb Archiving, R3store Studios, Intranda and past partners and vendors. Thanks to Artifactual and all the Open Source Software developers.
 
 Thanks to all the librarians, archivists and metadata specialists who have tended our collections information.
 
@@ -98,6 +102,6 @@ And everyone else who has contributed but isn't mentioned above. Thank you.
 
 
 /* SITES */
-	For readers, researchers & visitors:	wellcomecollection.org
-	For makers:                           developers.wellcomecollection.org
-	For our peers:                        stacks.wellcomecollection.org
+ For readers, researchers & visitors: wellcomecollection.org
+ For makers: developers.wellcomecollection.org
+ For our peers: stacks.wellcomecollection.org
