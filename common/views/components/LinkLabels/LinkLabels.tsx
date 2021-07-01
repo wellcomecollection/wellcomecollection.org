@@ -30,7 +30,7 @@ const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
     ].filter(Boolean),
   },
   className: classNames({
-    [`${font('hnr', 5)}`]: true,
+    [font('hnr', 5)]: true,
     'border-left-width-1 border-color-marble': props.addBorder,
   })
 }))<LinkOrSpanSpaceAttrs>``;
