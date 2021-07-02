@@ -10,7 +10,6 @@ import {
   getLocationShelfmark,
 } from '@weco/common/utils/works';
 import ButtonInlineLink from '@weco/common/views/components/ButtonInlineLink/ButtonInlineLink';
-import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import { isCatalogueApiError } from '../../pages/api/works/items/[workId]';
 import DescriptionList, {
   Props as DescriptionListProps,
@@ -48,23 +47,20 @@ function createDescriptionList(
   const accessStatus =
     physicalLocation?.accessConditions?.[0]?.status?.label || '';
   const accessTerms = physicalLocation?.accessConditions[0]?.terms || '';
-  const locationId = physicalLocation?.locationType.id;
   const locationLabel = physicalLocation && getLocationLabel(physicalLocation);
   const locationShelfmark =
     physicalLocation && getLocationShelfmark(physicalLocation);
   const shelfmark = `${locationLabel ?? ''} ${locationShelfmark ?? ''}`;
 
-  if (locationId !== 'on-order') {
-    return {
-      title: item.title || '',
-      items: [
-        { term: 'Location/shelfmark', description: shelfmark },
-        accessMethod && { term: 'Access method', description: accessMethod },
-        accessStatus && { term: 'Access status', description: accessStatus },
-        accessTerms && { term: 'Access terms', description: accessTerms },
-      ].filter(Boolean),
-    };
-  }
+  return {
+    title: item.title || '',
+    items: [
+      { term: 'Location/shelfmark', description: shelfmark },
+      accessMethod && { term: 'Access method', description: accessMethod },
+      accessStatus && { term: 'Access status', description: accessStatus },
+      accessTerms && { term: 'Access terms', description: accessTerms },
+    ].filter(Boolean),
+  };
 }
 
 function createDescriptionLists(items, encoreLink) {
@@ -86,16 +82,6 @@ const PhysicalItems: FunctionComponent<Props> = ({
 }: Props) => {
   const [physicalItems, setPhysicalItems] = useState(items);
   const descriptionLists = createDescriptionLists(physicalItems, encoreLink);
-
-  const itemsOnOrder = items
-    .map(item => {
-      const physicalLocation = getFirstPhysicalLocation(item);
-      const locationId = physicalLocation?.locationType.id;
-      if (locationId === 'on-order') {
-        return physicalLocation && getLocationLabel(physicalLocation);
-      }
-    })
-    .filter(Boolean);
 
   useEffect(() => {
     const addStatusToItems = async () => {
@@ -121,31 +107,18 @@ const PhysicalItems: FunctionComponent<Props> = ({
   }, []);
 
   return (
-    <>
-      <ExpandableList
-        listItems={descriptionLists.map((r, index) => (
-          <Space
-            key={index}
-            v={{ size: 's', properties: ['margin-bottom', 'padding-bottom'] }}
-            style={{ borderBottom: '1px dashed #ddd' }}
-          >
-            <DescriptionList title={r.title} items={r.items} />
-          </Space>
-        ))}
-        initialItems={5}
-      />
-
-      {itemsOnOrder[0] && (
+    <ExpandableList
+      listItems={descriptionLists.map((r, index) => (
         <Space
-          v={{
-            size: 'l',
-            properties: ['margin-bottom'],
-          }}
+          key={index}
+          v={{ size: 's', properties: ['margin-bottom', 'padding-bottom'] }}
+          style={{ borderBottom: '1px dashed #ddd' }}
         >
-          <WorkDetailsText text={itemsOnOrder} />
+          <DescriptionList title={r.title} items={r.items} />
         </Space>
-      )}
-    </>
+      ))}
+      initialItems={5}
+    />
   );
 };
 
