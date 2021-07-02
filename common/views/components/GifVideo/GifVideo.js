@@ -44,16 +44,8 @@ const Text = styled.span.attrs({
   color: ${props => props.theme.color('white')};
 
   &:before {
-    content: 'play';
+    content: "${props => (props.isPlaying ? 'pause' : 'play')}";
   }
-
-  ${props =>
-    props.isPlaying &&
-    `
-    &:before {
-      content: 'pause';
-    }
-  `}
 `;
 type Props = {|
   playbackRate: number,
