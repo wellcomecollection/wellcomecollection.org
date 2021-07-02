@@ -24,7 +24,7 @@ const Description = styled.dd.attrs({
   margin-left: 0;
 `;
 
-type Props = {
+export type Props = {
   title: string;
   items: { term: string; description: string | ReactElement }[];
 };
