@@ -206,7 +206,7 @@ const Control = forwardRef(
             replace={replace}
             prefetch={prefetch}
           >
-            <Wrapper ref={ref} {...attrs}>
+            <Wrapper as="a" ref={ref} {...attrs}>
               <InnerControl text={text} icon={icon} />
             </Wrapper>
           </NextLink>
