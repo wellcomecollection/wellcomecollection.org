@@ -4,7 +4,6 @@ import {
   ItemsWork,
   CatalogueApiError,
 } from '@weco/common/model/catalogue';
-// import Table from '@weco/common/views/components/Table/Table';
 import Space from '@weco/common/views/components/styled/Space';
 import {
   getLocationLabel,
