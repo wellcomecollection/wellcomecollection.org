@@ -133,6 +133,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
             <DescriptionList title={r.title} items={r.items} />
           </Space>
         ))}
+        initialItems={5}
       />
 
       {itemsOnOrder[0] && (
