@@ -31,6 +31,8 @@ import SignIn from '../SignIn/SignIn';
 // $FlowFixMe (tsx)
 import TogglesContext from '../TogglesContext/TogglesContext';
 import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
+// $FlowFixMe (ts)
+import useHotjar from '@weco/common/hooks/useHotjar';
 
 export type Props = {|
   title: string,
@@ -61,6 +63,19 @@ const PageLayout = ({
   hideNewsletterPromo = false,
   hideFooter = false,
 }: Props) => {
+  const hotjarUrls = [
+    'whats-on',
+    'stories',
+    'events',
+    prismicPageIds.aboutUs,
+    prismicPageIds.getInvolved,
+    prismicPageIds.visitUs,
+    prismicPageIds.collections,
+    prismicPageIds.copyrightClearance,
+  ];
+  const shouldLoadHotjar =
+    url === '/' || hotjarUrls.some(u => url.pathname && url.pathname.match(u));
+  useHotjar(shouldLoadHotjar);
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''

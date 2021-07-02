@@ -21,9 +21,14 @@ export type Card = {|
 export function convertItemToCardProps(
   item: Article | UiEvent | Season | Page | ArticleSeries | ParentPage
 ): Card {
+  const format = item.format
+    ? item.format
+    : item.type === 'series'
+    ? { title: 'Serial' }
+    : null;
   return {
     type: 'card',
-    format: item.format || null,
+    format: format,
     title: item.title,
     order: item.type === 'pages' && item.order ? item.order : null,
     description: item.promo && item.promo.caption,

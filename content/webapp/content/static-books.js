@@ -1,8 +1,8 @@
 export const staticBooks = [
   {
     type: 'books',
-    id: 'X85VNBIAACMAq4tS',
-    title: 'Words Fail Us',
+    id: 'YKUlSxAAACMAGjAT',
+    title: 'An Extra Pair of Hands',
     contributorsTitle: '',
     contributors: [
       {
@@ -12,22 +12,22 @@ export const staticBooks = [
         },
         contributor: {
           type: 'people',
-          id: 'X85WchIAACIAq5ES',
-          name: 'Jonty Claypole',
+          id: 'YJEmaxEAACEA4ZTf',
+          name: 'Kate Mosse',
+          pronouns: '',
           image: {
             contentUrl:
-              'https://images.prismic.io/wellcomecollection/a6b0fca9-207e-4523-bf11-0a3fbc14d6e4_Jonty+Claypole.JPG?auto=compress,format&rect=439,0,1916,1916&w=3200&h=3200',
+              'https://images.prismic.io/wellcomecollection/e0e4e281-389d-4105-8972-dba7da9ba834_Black+%26+white+portrait+of+Kate+Mosse+%28c%29+Ruth+Crafer.jpg?auto=compress,format&rect=0,0,3011,3011&w=3200&h=3200',
             width: 3200,
             height: 3200,
             alt:
-              'Photographic portrait of a white man. He is wearing a white shirt and grey suit jacket. He has his arms folded and is standing in front of a large, landscape painting.',
+              'Black and white head and shoulders portrait of Kate Mosse who has a short-cropped blonde bob and is wearing a black shirt.',
             tasl: {
-              title: null,
+              title: 'Kate Mosse',
               author: null,
               sourceName: null,
               sourceLink: null,
-              license: null,
-              copyrightHolder: null,
+              copyrightHolder: 'Ruth Crafer',
               copyrightLink: null,
             },
             crops: {},
@@ -36,7 +36,7 @@ export const staticBooks = [
             {
               type: 'paragraph',
               text:
-                'Jonty Claypole is Director of BBC Arts, Chairman of the arts centre HOME in Manchester, and was listed in the Bookseller’s Top 100 Most Influential People.',
+                'Kate Mosse is a bestselling novelist, playwright and non-fiction author with sales of more than eight million copies in 38 languages. Renowned for bringing under-heard histories to life, she is a champion of women’s creativity. She is Founder Director of the Women’s Prize for Fiction, sits on the Executive Committee of Women of the World and is a Visiting Professor of Contemporary Fiction and Creative Writing at the University of Chichester. Her novel ‘The City of Tears’ was published in January 2021. ',
               spans: [],
             },
           ],
@@ -48,17 +48,38 @@ export const staticBooks = [
     ],
     body: [
       {
+        type: 'quote',
+        weight: 'default',
+        value: {
+          text: [
+            {
+              type: 'paragraph',
+              text: 'A beautiful, emotional and timely read.',
+              spans: [],
+            },
+          ],
+          citation: [
+            {
+              type: 'paragraph',
+              text: 'Matt Haig',
+              spans: [],
+            },
+          ],
+          isPullOrReview: true,
+        },
+      },
+      {
         type: 'text',
         weight: 'default',
         value: [
           {
             type: 'paragraph',
             text:
-              'In an age of polished TED Talks and overconfident political oratory, success seems to depend upon charismatic public speaking. But what if hyper-fluency is not only unachievable but undesirable?',
+              'An essential account of caring – and the grief, guilt, joy and love that accompany it, from the bestselling author of ‘Labyrinth’.',
             spans: [
               {
                 start: 0,
-                end: 194,
+                end: 130,
                 type: 'strong',
               },
             ],
@@ -72,13 +93,24 @@ export const staticBooks = [
           {
             type: 'paragraph',
             text:
-              'Jonty Claypole spent 15 years of his life in and out of extreme speech therapy. From sessions with child psychologists to lengthy stuttering boot camps and exposure therapies, he tried everything until finally being told the words he’d always feared: “We can’t cure your stutter.” Those words started him on a journey towards not only making peace with his stammer but learning to use it to his advantage.',
+              'As our population ages, more and more of us find ourselves caring for parents and loved ones – some 8.8 million people in the UK. An invisible army of carers holding families together.',
             spans: [],
           },
           {
             type: 'paragraph',
             text:
-              'Here Jonty argues that our obsession with fluency could be hindering, rather than helping, our creativity, authenticity and persuasiveness. Exploring other speech conditions, such as aphasia and Tourette’s, and telling the stories of the “creatively disfluent” – from Lewis Carroll to Kendrick Lamar – Jonty explains why it’s time for us to stop making sense, get tongue-tied and embrace the life-changing power of inarticulacy.',
+              'Here Kate Mosse tells her personal story of finding herself as a carer in middle age: first helping her mother look after her beloved father through Parkinson’s, then supporting her mother in widowhood, and finally as “an extra pair of hands” for her 90-year-old mother-in-law.',
+            spans: [],
+          },
+          {
+            type: 'paragraph',
+            text:
+              'This is a story about the gentle heroism of our carers, about small everyday acts of tenderness, and finding joy in times of crisis. It’s about juggling priorities, mind-numbing repetition, about guilt and powerlessness, about grief, and the solace of nature when we’re exhausted or at a loss. It is also about celebrating older people, about learning to live differently – and think differently about ageing.',
+            spans: [],
+          },
+          {
+            type: 'paragraph',
+            text: 'But most of all, it’s a story about love.',
             spans: [],
           },
         ],
@@ -90,74 +122,55 @@ export const staticBooks = [
           text: [
             {
               type: 'paragraph',
-              text: '“Timely”',
-              spans: [],
-            },
-          ],
-          citation: [
-            {
-              type: 'paragraph',
-              text: 'David Mitchell',
-              spans: [],
-            },
-          ],
-          isPullOrReview: false,
-        },
-      },
-      {
-        type: 'quote',
-        weight: 'default',
-        value: {
-          text: [
-            {
-              type: 'paragraph',
               text:
-                '“One of those rare books I hadn’t realised I’d been waiting for until I read it”',
-              spans: [],
+                'Read an extract from ‘An Extra Pair of Hands’, and watch a recording of an event with Kate Mosse and palliative care doctor and writer Rachel Clarke in conversation about care, ageing and everyday acts of love.',
+              spans: [
+                {
+                  start: 0,
+                  end: 15,
+                  type: 'hyperlink',
+                  data: {
+                    id: 'YKONNhAAACMAE1yR',
+                    type: 'articles',
+                    tags: [],
+                    slug: 'the-give-and-take-of-caring',
+                    lang: 'en-gb',
+                    link_type: 'Document',
+                    isBroken: false,
+                  },
+                },
+                {
+                  start: 51,
+                  end: 68,
+                  type: 'hyperlink',
+                  data: {
+                    id: 'YJEIOREAACIA4Q3D',
+                    type: 'events',
+                    tags: [],
+                    slug:
+                      'an-extra-pair-of-hands-with-kate-mosse-andrachel-clarke',
+                    lang: 'en-gb',
+                    link_type: 'Document',
+                    isBroken: false,
+                  },
+                },
+              ],
             },
           ],
-          citation: [
-            {
-              type: 'paragraph',
-              text: 'Owen Sheers',
-              spans: [],
-            },
-          ],
-          isPullOrReview: false,
-        },
-      },
-      {
-        type: 'quote',
-        weight: 'default',
-        value: {
-          text: [
-            {
-              type: 'paragraph',
-              text: '“Open-minded, thoughtful and wise… A liberating book”',
-              spans: [],
-            },
-          ],
-          citation: [
-            {
-              type: 'paragraph',
-              text: 'Colm Toibin',
-              spans: [],
-            },
-          ],
+          citation: [],
           isPullOrReview: false,
         },
       },
     ],
     promo: {
       caption:
-        'In an age of polished TED Talks and overconfident political oratory, success seems to depend upon charismatic public speaking. But what if hyper-fluency is not only unachievable but undesirable?',
+        'A deeply moving story of what it means to care for those we love by bestselling author Kate Mosse.',
       image: {
         contentUrl:
-          'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,1000,1879,1057&w=3200&h=1800',
+          'https://images.prismic.io/wellcomecollection/3c29e13f-eaf1-4b66-b08c-1c49a1706e38_An+Extra+Pair+of+Hands_book+jacket.jpg?auto=compress,format&rect=0,894,1824,1026&w=3200&h=1800',
         width: 3200,
         height: 1800,
-        alt:
-          'Book cover featuring a typographic design in pink, red, blue and green',
+        alt: 'Front cover of the book ‘An Extra Pair of Hands’ by Kate Mosse',
         tasl: {
           title: null,
           author: null,
@@ -172,14 +185,13 @@ export const staticBooks = [
       link: null,
     },
     promoText:
-      'In an age of polished TED Talks and overconfident political oratory, success seems to depend upon charismatic public speaking. But what if hyper-fluency is not only unachievable but undesirable?',
+      'A deeply moving story of what it means to care for those we love by bestselling author Kate Mosse.',
     promoImage: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,1000,1879,1057&w=3200&h=1800',
+        'https://images.prismic.io/wellcomecollection/3c29e13f-eaf1-4b66-b08c-1c49a1706e38_An+Extra+Pair+of+Hands_book+jacket.jpg?auto=compress,format&rect=0,894,1824,1026&w=3200&h=1800',
       width: 3200,
       height: 1800,
-      alt:
-        'Book cover featuring a typographic design in pink, red, blue and green',
+      alt: 'Front cover of the book ‘An Extra Pair of Hands’ by Kate Mosse',
       tasl: {
         title: null,
         author: null,
@@ -193,11 +205,10 @@ export const staticBooks = [
     },
     image: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format',
-      width: 1879,
-      height: 3057,
-      alt:
-        'Book cover featuring a typographic design in pink, red, blue and green',
+        'https://images.prismic.io/wellcomecollection/3c29e13f-eaf1-4b66-b08c-1c49a1706e38_An+Extra+Pair+of+Hands_book+jacket.jpg?auto=compress,format',
+      width: 1824,
+      height: 2813,
+      alt: 'Front cover of the book ‘An Extra Pair of Hands’ by Kate Mosse',
       tasl: {
         title: null,
         author: null,
@@ -210,11 +221,10 @@ export const staticBooks = [
       crops: {
         '32:15': {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,1088,1879,881&w=3200&h=1500',
+            'https://images.prismic.io/wellcomecollection/3c29e13f-eaf1-4b66-b08c-1c49a1706e38_An+Extra+Pair+of+Hands_book+jacket.jpg?auto=compress,format&rect=0,979,1824,855&w=3200&h=1500',
           width: 3200,
           height: 1500,
-          alt:
-            'Book cover featuring a typographic design in pink, red, blue and green',
+          alt: 'Front cover of the book ‘An Extra Pair of Hands’ by Kate Mosse',
           tasl: {
             title: null,
             author: null,
@@ -228,11 +238,10 @@ export const staticBooks = [
         },
         '16:9': {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,1000,1879,1057&w=3200&h=1800',
+            'https://images.prismic.io/wellcomecollection/3c29e13f-eaf1-4b66-b08c-1c49a1706e38_An+Extra+Pair+of+Hands_book+jacket.jpg?auto=compress,format&rect=0,894,1824,1026&w=3200&h=1800',
           width: 3200,
           height: 1800,
-          alt:
-            'Book cover featuring a typographic design in pink, red, blue and green',
+          alt: 'Front cover of the book ‘An Extra Pair of Hands’ by Kate Mosse',
           tasl: {
             title: null,
             author: null,
@@ -246,11 +255,10 @@ export const staticBooks = [
         },
         square: {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,589,1879,1879&w=3200&h=3200',
+            'https://images.prismic.io/wellcomecollection/3c29e13f-eaf1-4b66-b08c-1c49a1706e38_An+Extra+Pair+of+Hands_book+jacket.jpg?auto=compress,format&rect=0,495,1824,1824&w=3200&h=3200',
           width: 3200,
           height: 3200,
-          alt:
-            'Book cover featuring a typographic design in pink, red, blue and green',
+          alt: 'Front cover of the book ‘An Extra Pair of Hands’ by Kate Mosse',
           tasl: {
             title: null,
             author: null,
@@ -266,11 +274,10 @@ export const staticBooks = [
     },
     squareImage: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,589,1879,1879&w=3200&h=3200',
+        'https://images.prismic.io/wellcomecollection/3c29e13f-eaf1-4b66-b08c-1c49a1706e38_An+Extra+Pair+of+Hands_book+jacket.jpg?auto=compress,format&rect=0,495,1824,1824&w=3200&h=3200',
       width: 3200,
       height: 3200,
-      alt:
-        'Book cover featuring a typographic design in pink, red, blue and green',
+      alt: 'Front cover of the book ‘An Extra Pair of Hands’ by Kate Mosse',
       tasl: {
         title: null,
         author: null,
@@ -284,11 +291,10 @@ export const staticBooks = [
     },
     widescreenImage: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,1000,1879,1057&w=3200&h=1800',
+        'https://images.prismic.io/wellcomecollection/3c29e13f-eaf1-4b66-b08c-1c49a1706e38_An+Extra+Pair+of+Hands_book+jacket.jpg?auto=compress,format&rect=0,894,1824,1026&w=3200&h=1800',
       width: 3200,
       height: 1800,
-      alt:
-        'Book cover featuring a typographic design in pink, red, blue and green',
+      alt: 'Front cover of the book ‘An Extra Pair of Hands’ by Kate Mosse',
       tasl: {
         title: null,
         author: null,
@@ -306,376 +312,28 @@ export const staticBooks = [
         text: 'Book',
       },
     ],
-    subtitle: 'In Defence of Disfluency',
+    subtitle: 'A story of caring, ageing and everyday acts of love',
     orderLink:
-      'https://uk.bookshop.org/books/words-fail-us-in-defence-of-disfluency/9781788161718',
-    price: null,
-    format: 'Hardback',
-    extent: '224 pages',
-    isbn: '9781788161718',
-    reviews: [
-      {
-        text: null,
-        citation: null,
-      },
-    ],
-    datePublished: '2021-01-14T00:00:00.000Z',
-    authorName: '',
-    authorDescription: [],
-    cover: {
-      contentUrl:
-        'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format',
-      width: 1879,
-      height: 3057,
-      alt:
-        'Book cover featuring a typographic design in pink, red, blue and green',
-      tasl: {
-        title: null,
-        author: null,
-        sourceName: null,
-        sourceLink: null,
-        license: null,
-        copyrightHolder: null,
-        copyrightLink: null,
-      },
-      crops: {
-        '32:15': {
-          contentUrl:
-            'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,1088,1879,881&w=3200&h=1500',
-          width: 3200,
-          height: 1500,
-          alt:
-            'Book cover featuring a typographic design in pink, red, blue and green',
-          tasl: {
-            title: null,
-            author: null,
-            sourceName: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-          crops: {},
-        },
-        '16:9': {
-          contentUrl:
-            'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,1000,1879,1057&w=3200&h=1800',
-          width: 3200,
-          height: 1800,
-          alt:
-            'Book cover featuring a typographic design in pink, red, blue and green',
-          tasl: {
-            title: null,
-            author: null,
-            sourceName: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-          crops: {},
-        },
-        square: {
-          contentUrl:
-            'https://images.prismic.io/wellcomecollection/3326b1cd-576d-4546-9d02-8c480266b4f4_Words+Fail+Us+book+cover.jpg?auto=compress,format&rect=0,589,1879,1879&w=3200&h=3200',
-          width: 3200,
-          height: 3200,
-          alt:
-            'Book cover featuring a typographic design in pink, red, blue and green',
-          tasl: {
-            title: null,
-            author: null,
-            sourceName: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-          crops: {},
-        },
-      },
-    },
-    seasons: [],
-  },
-  {
-    type: 'books',
-    id: 'X85RdRIAACMAq3pM',
-    title: 'Intensive Care',
-    contributorsTitle: '',
-    contributors: [
-      {
-        role: {
-          id: 'WcUWeCgAAFws-nGh',
-          title: 'Author',
-        },
-        contributor: {
-          type: 'people',
-          id: 'W4kS7R4AAB4Aifta',
-          name: 'Gavin Francis',
-          image: {
-            contentUrl:
-              'https://images.prismic.io/wellcomecollection/aecb99f1e6190b259f0b733962fd302730cbd587_009_tf_170516_00080222.jpg?auto=compress,format',
-            width: 3200,
-            height: 3200,
-            alt:
-              'Photographic black and white head and shoulders portrait of author Gavin Francis.',
-            tasl: {
-              title: 'Gavin Francis',
-              author: 'Thomas SG Farnetti',
-              sourceName: 'Wellcome Collection',
-              sourceLink: null,
-              license: 'CC-BY-NC',
-              copyrightHolder: null,
-              copyrightLink: null,
-            },
-            crops: {},
-          },
-          description: [
-            {
-              type: 'paragraph',
-              text:
-                'Gavin Francis is a GP, and the author of ‘True North’ and ‘Empire Antarctica: Ice, Silence & Emperor Penguins’, and and ‘Adventures in Human Being’, which won the Saltire Prize for Non-Fiction, was a BMA book of the year and the Observer Science Book of the Year. He also writes for the Guardian, the Times, London Review of Books and Granta.',
-              spans: [],
-            },
-          ],
-          twitterHandle: null,
-          sameAs: [],
-        },
-        description: [
-          {
-            type: 'paragraph',
-            text:
-              'Gavin Francis has worked across four continents as a surgeon, emergency physician, medical officer with the British Antarctic Survey and latterly as a GP; he has described the pandemic response of 2020 as the most intense period of his 20-year career in medicine. He’s the author of the Sunday Times bestseller ‘Adventures in Human Being’, which was a BMA Book of the Year, and ‘Shapeshifters’. His books have won the SMIT Scottish Book of the Year Award, the Saltire Award for Non-Fiction and been shortlisted for the Ondaatje and Costa Prizes. He also writes for the Guardian, The Times, the London Review of Books and Granta. He lives in Edinburgh with his wife and children.',
-            spans: [],
-          },
-        ],
-      },
-    ],
-    body: [
-      {
-        type: 'text',
-        weight: 'default',
-        value: [
-          {
-            type: 'paragraph',
-            text:
-              'On the pandemic’s forgotten front lines, a doctor cares for his community – from care homes to homeless shelters, islands to the inner city.',
-            spans: [
-              {
-                start: 0,
-                end: 140,
-                type: 'strong',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        type: 'text',
-        weight: 'default',
-        value: [
-          {
-            type: 'paragraph',
-            text:
-              '‘Intensive Care’ is about how coronavirus emerged, spread across the world and changed all of our lives for ever. But it’s not, perhaps, the story you expect. ',
-            spans: [],
-          },
-          {
-            type: 'paragraph',
-            text:
-              'Gavin Francis is a GP who works in both urban and rural communities, splitting his time between Edinburgh and the islands of Orkney. When the pandemic ripped through our society, he saw how it affected every walk of life: the anxious teenager, the isolated care-home resident, the struggling furloughed worker and homeless ex-prisoner, all united by their vulnerability in the face of a global disaster. And he saw how the true cost of the virus was measured not just in infections, or deaths, or ITU beds, but in the consequences of the measures taken against it. ',
-            spans: [],
-          },
-          {
-            type: 'paragraph',
-            text:
-              'In this deeply personal account of nine months spent caring for a society in crisis, Francis will take you from rural village streets to local clinics and communal city stairways. And in telling this story, he reveals others: of loneliness and hope, illness and recovery, and of what we can achieve when we care for each other.',
-            spans: [],
-          },
-        ],
-      },
-    ],
-    promo: {
-      caption:
-        'On the pandemic’s forgotten front lines, a doctor cares for his community – from care homes to homeless shelters, islands to the inner city.',
-      image: {
-        contentUrl:
-          'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,997,1892,1064&w=3200&h=1800',
-        width: 3200,
-        height: 1800,
-        alt:
-          'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
-        tasl: {
-          title: null,
-          author: null,
-          sourceName: null,
-          sourceLink: null,
-          license: null,
-          copyrightHolder: null,
-          copyrightLink: null,
-        },
-        crops: {},
-      },
-      link: null,
-    },
-    promoText:
-      'On the pandemic’s forgotten front lines, a doctor cares for his community – from care homes to homeless shelters, islands to the inner city.',
-    promoImage: {
-      contentUrl:
-        'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,997,1892,1064&w=3200&h=1800',
-      width: 3200,
-      height: 1800,
-      alt:
-        'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
-      tasl: {
-        title: null,
-        author: null,
-        sourceName: null,
-        sourceLink: null,
-        license: null,
-        copyrightHolder: null,
-        copyrightLink: null,
-      },
-      crops: {},
-    },
-    image: {
-      contentUrl:
-        'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format',
-      width: 1892,
-      height: 3059,
-      alt:
-        'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
-      tasl: {
-        title: null,
-        author: null,
-        sourceName: null,
-        sourceLink: null,
-        license: null,
-        copyrightHolder: null,
-        copyrightLink: null,
-      },
-      crops: {
-        '32:15': {
-          contentUrl:
-            'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,1086,1892,887&w=3200&h=1500',
-          width: 3200,
-          height: 1500,
-          alt:
-            'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
-          tasl: {
-            title: null,
-            author: null,
-            sourceName: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-          crops: {},
-        },
-        '16:9': {
-          contentUrl:
-            'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,997,1892,1064&w=3200&h=1800',
-          width: 3200,
-          height: 1800,
-          alt:
-            'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
-          tasl: {
-            title: null,
-            author: null,
-            sourceName: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-          crops: {},
-        },
-        square: {
-          contentUrl:
-            'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,584,1892,1892&w=3200&h=3200',
-          width: 3200,
-          height: 3200,
-          alt:
-            'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
-          tasl: {
-            title: null,
-            author: null,
-            sourceName: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-          crops: {},
-        },
-      },
-    },
-    squareImage: {
-      contentUrl:
-        'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,584,1892,1892&w=3200&h=3200',
-      width: 3200,
-      height: 3200,
-      alt:
-        'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
-      tasl: {
-        title: null,
-        author: null,
-        sourceName: null,
-        sourceLink: null,
-        license: null,
-        copyrightHolder: null,
-        copyrightLink: null,
-      },
-      crops: {},
-    },
-    widescreenImage: {
-      contentUrl:
-        'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,997,1892,1064&w=3200&h=1800',
-      width: 3200,
-      height: 1800,
-      alt:
-        'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
-      tasl: {
-        title: null,
-        author: null,
-        sourceName: null,
-        sourceLink: null,
-        license: null,
-        copyrightHolder: null,
-        copyrightLink: null,
-      },
-      crops: {},
-    },
-    metadataDescription: '',
-    labels: [
-      {
-        text: 'Book',
-      },
-    ],
-    subtitle: 'A GP, a Community and COVID-19',
-    orderLink:
-      'https://uk.bookshop.org/books/intensive-care-a-gp-a-community-covid-19/9781788167321',
+      'https://www.waterstones.com/book/an-extra-pair-of-hands/kate-mosse//9781788169943',
     price: null,
     format: 'Hardback',
     extent: '208 pages',
-    isbn: '9781788167321',
+    isbn: '9781788162616',
     reviews: [
       {
         text: null,
         citation: null,
       },
     ],
-    datePublished: '2021-01-07T00:00:00.000Z',
+    datePublished: '2021-06-02T23:00:00.000Z',
     authorName: '',
     authorDescription: [],
     cover: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format',
-      width: 1892,
-      height: 3059,
-      alt:
-        'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
+        'https://images.prismic.io/wellcomecollection/3c29e13f-eaf1-4b66-b08c-1c49a1706e38_An+Extra+Pair+of+Hands_book+jacket.jpg?auto=compress,format',
+      width: 1824,
+      height: 2813,
+      alt: 'Front cover of the book ‘An Extra Pair of Hands’ by Kate Mosse',
       tasl: {
         title: null,
         author: null,
@@ -688,11 +346,10 @@ export const staticBooks = [
       crops: {
         '32:15': {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,1086,1892,887&w=3200&h=1500',
+            'https://images.prismic.io/wellcomecollection/3c29e13f-eaf1-4b66-b08c-1c49a1706e38_An+Extra+Pair+of+Hands_book+jacket.jpg?auto=compress,format&rect=0,979,1824,855&w=3200&h=1500',
           width: 3200,
           height: 1500,
-          alt:
-            'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
+          alt: 'Front cover of the book ‘An Extra Pair of Hands’ by Kate Mosse',
           tasl: {
             title: null,
             author: null,
@@ -706,11 +363,10 @@ export const staticBooks = [
         },
         '16:9': {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,997,1892,1064&w=3200&h=1800',
+            'https://images.prismic.io/wellcomecollection/3c29e13f-eaf1-4b66-b08c-1c49a1706e38_An+Extra+Pair+of+Hands_book+jacket.jpg?auto=compress,format&rect=0,894,1824,1026&w=3200&h=1800',
           width: 3200,
           height: 1800,
-          alt:
-            'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
+          alt: 'Front cover of the book ‘An Extra Pair of Hands’ by Kate Mosse',
           tasl: {
             title: null,
             author: null,
@@ -724,11 +380,10 @@ export const staticBooks = [
         },
         square: {
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/26221420-9a2b-4a62-95e5-c96f3daa608e_Intensive+Care_+a+GP%2C+a+community+and+Covid-19+-+Gavin+Francis+-+book+cover.jpg?auto=compress,format&rect=0,584,1892,1892&w=3200&h=3200',
+            'https://images.prismic.io/wellcomecollection/3c29e13f-eaf1-4b66-b08c-1c49a1706e38_An+Extra+Pair+of+Hands_book+jacket.jpg?auto=compress,format&rect=0,495,1824,1824&w=3200&h=3200',
           width: 3200,
           height: 3200,
-          alt:
-            'Book cover featuring a black and orange illustration and white text. The illustration shows a series of illuminated windows with the silhouettes of the people inside.',
+          alt: 'Front cover of the book ‘An Extra Pair of Hands’ by Kate Mosse',
           tasl: {
             title: null,
             author: null,
@@ -759,13 +414,13 @@ export const staticBooks = [
           type: 'people',
           id: 'X0PGiBAAACYAOX52',
           name: 'Elif Shafak',
+          pronouns: '',
           image: {
             contentUrl:
               'https://images.prismic.io/wellcomecollection/2664b181-349c-438a-ad3e-d09f6c5b0791_ElifShafak+image+c_ZeynelAbidin.jpg?auto=compress,format&rect=0,12,1677,1677&w=3200&h=3200',
             width: 3200,
             height: 3200,
-            alt:
-              'Colour photograph portrait of a woman, showing head and shoulders.',
+            alt: 'Colour photograph portrait of Elif Shafak',
             tasl: {
               title: null,
               author: null,
@@ -840,7 +495,7 @@ export const staticBooks = [
           text: [
             {
               type: 'paragraph',
-              text: '“One of the best writers in the world today.”',
+              text: 'One of the best writers in the world today.',
               spans: [],
             },
           ],
@@ -851,6 +506,43 @@ export const staticBooks = [
               spans: [],
             },
           ],
+          isPullOrReview: true,
+        },
+      },
+      {
+        type: 'quote',
+        weight: 'default',
+        value: {
+          text: [
+            {
+              type: 'paragraph',
+              text:
+                'Read an extract from ‘How to Stay Sane in an Age of Division’, and watch a recording of Elif Shafak in conversation with nurse and novelist Christie Watson about the power of stories.',
+              spans: [
+                {
+                  start: 0,
+                  end: 15,
+                  type: 'hyperlink',
+                  data: {
+                    link_type: 'Web',
+                    url:
+                      'https://wellcomecollection.org/articles/X05HXRAAAK39aDrp',
+                  },
+                },
+                {
+                  start: 67,
+                  end: 84,
+                  type: 'hyperlink',
+                  data: {
+                    link_type: 'Web',
+                    url:
+                      'https://wellcomecollection.org/events/X2ipQhMAAExK8Kam',
+                  },
+                },
+              ],
+            },
+          ],
+          citation: [],
           isPullOrReview: false,
         },
       },
@@ -1015,7 +707,7 @@ export const staticBooks = [
     ],
     subtitle: '',
     orderLink:
-      'https://blackwells.co.uk/bookshop/product/How-to-Stay-Sane-in-an-Age-of-Division-by-Elif-Shafak-author/9781788165723',
+      'https://uk.bookshop.org/books/how-to-stay-sane-in-an-age-of-division-from-the-booker-shortlisted-author-of-10-minutes-38-seconds-in-this-strange-world/9781788165723',
     price: '£5.50',
     format: 'Paperback',
     extent: '96 pages',
@@ -1089,6 +781,371 @@ export const staticBooks = [
           height: 3200,
           alt:
             'Image of the front cover of a book. The artwork is a graphic pattern of blue, green, orange and white squares and triangles. Black text in capital letters reads: How to Stay Sane in an Age of Division, Elif Shafak.',
+          tasl: {
+            title: null,
+            author: null,
+            sourceName: null,
+            sourceLink: null,
+            license: null,
+            copyrightHolder: null,
+            copyrightLink: null,
+          },
+          crops: {},
+        },
+      },
+    },
+    seasons: [],
+  },
+  {
+    type: 'books',
+    id: 'YD-kkhAAACMAKv31',
+    title: 'After the Storm',
+    contributorsTitle: '',
+    contributors: [
+      {
+        role: {
+          id: 'WcUWeCgAAFws-nGh',
+          title: 'Author',
+        },
+        contributor: {
+          type: 'people',
+          id: 'YD-lTxAAACMAKwGe',
+          name: 'Emma Jane Unsworth',
+          pronouns: '',
+          image: {
+            contentUrl:
+              'https://images.prismic.io/wellcomecollection/61dfc71c-a748-453c-96cd-b7e7a3e45746_Emma+Jane+Unsworth.jpg?auto=compress,format&rect=0,0,3744,3744&w=3200&h=3200',
+            width: 3200,
+            height: 3200,
+            alt: 'Black and white photograph of Emma Jane Unsworth',
+            tasl: {
+              title: null,
+              author: null,
+              sourceName: null,
+              sourceLink: null,
+              license: null,
+              copyrightHolder: null,
+              copyrightLink: null,
+            },
+            crops: {},
+          },
+          description: [
+            {
+              type: 'paragraph',
+              text:
+                'Emma Jane Unsworth is an award-winning novelist and screenwriter. Her first novel, ‘Animals’, is now a major motion picture, for which Unsworth wrote the screenplay. The film premiered at the Sundance Film Festival in 2019. She also writes for television and various magazines. Her latest novel, ‘Adults’, has been heralded as “hilarious” (Dolly Alderton), “tender” (Jessie Burton) and “dazzling” (Marian Keyes), and is a Sunday Times bestseller.',
+              spans: [],
+            },
+          ],
+          twitterHandle: null,
+          sameAs: [],
+        },
+        description: null,
+      },
+    ],
+    body: [
+      {
+        type: 'quote',
+        weight: 'default',
+        value: {
+          text: [
+            {
+              type: 'paragraph',
+              text:
+                'How did it come to this? I am tough, I am smart, I have lived alone. Now I am cracking, right down the middle…',
+              spans: [],
+            },
+          ],
+          citation: [],
+          isPullOrReview: true,
+        },
+      },
+      {
+        type: 'text',
+        weight: 'default',
+        value: [
+          {
+            type: 'paragraph',
+            text:
+              'Six months after the birth of her son, Emma Jane Unsworth finds herself in the eye of a storm. Nothing – from pregnancy to birth and beyond – has gone as she expected. A birth plan? It might as well have been a rough draft! Furious and exhausted, she realises her life is the complete opposite of what it used to be. She’s swapped all-night benders for grazed labia and Whac-a-Moling haemorrhoids. How did she end up here?',
+            spans: [],
+          },
+          {
+            type: 'paragraph',
+            text:
+              'In this brave and hilarious account of postnatal depression, Emma tells her story of despair and recovery. She tackles the biggest taboos around motherhood and mental health, from botched stitches and bleeding nipples to anger and shame. How do our brains adapt to pregnancy? Is postnatal depression a natural reaction to the trauma of modern motherhood? And are people’s attitudes finally changing?',
+            spans: [],
+          },
+          {
+            type: 'paragraph',
+            text:
+              'Dazzling and vital, ‘After the Storm’ is a celebration of survival, holding out a hand to women everywhere.',
+            spans: [],
+          },
+        ],
+      },
+      {
+        type: 'quote',
+        weight: 'default',
+        value: {
+          text: [
+            {
+              type: 'paragraph',
+              text:
+                'Read an extract from ‘After the Storm’, and watch a recording of an event with Emma Jane Unsworth exploring new motherhood, postnatal depression and recovery.',
+              spans: [
+                {
+                  start: 0,
+                  end: 38,
+                  type: 'hyperlink',
+                  data: {
+                    id: 'YHW4tBAAACoAqMfK',
+                    type: 'articles',
+                    tags: [],
+                    slug: 'surviving-the-storm-of-postnatal-depression',
+                    lang: 'en-gb',
+                    link_type: 'Document',
+                    isBroken: false,
+                  },
+                },
+                {
+                  start: 44,
+                  end: 61,
+                  type: 'hyperlink',
+                  data: {
+                    id: 'YIA5JRAAACkA1G9q',
+                    type: 'events',
+                    tags: [],
+                    slug:
+                      'postnatal-depression-and-new-motherhood-with-emma-jane-unsworth',
+                    lang: 'en-gb',
+                    link_type: 'Document',
+                    isBroken: false,
+                  },
+                },
+              ],
+            },
+          ],
+          citation: [],
+          isPullOrReview: false,
+        },
+      },
+    ],
+    promo: {
+      caption:
+        'In this brave and funny account of postnatal depression, Emma Jane Unsworth tells her story of despair and recovery.',
+      image: {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/f2bf2ced-3fe8-4df0-aff4-3342a138b628_After+the+Storm+book+cover.jpg?auto=compress,format&rect=0,766,1559,877&w=3200&h=1800',
+        width: 3200,
+        height: 1800,
+        alt: '‘After the Storm’ book cover',
+        tasl: {
+          title: null,
+          author: null,
+          sourceName: null,
+          sourceLink: null,
+          license: null,
+          copyrightHolder: null,
+          copyrightLink: null,
+        },
+        crops: {},
+      },
+      link: null,
+    },
+    promoText:
+      'In this brave and funny account of postnatal depression, Emma Jane Unsworth tells her story of despair and recovery.',
+    promoImage: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection/f2bf2ced-3fe8-4df0-aff4-3342a138b628_After+the+Storm+book+cover.jpg?auto=compress,format&rect=0,766,1559,877&w=3200&h=1800',
+      width: 3200,
+      height: 1800,
+      alt: '‘After the Storm’ book cover',
+      tasl: {
+        title: null,
+        author: null,
+        sourceName: null,
+        sourceLink: null,
+        license: null,
+        copyrightHolder: null,
+        copyrightLink: null,
+      },
+      crops: {},
+    },
+    image: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection/f2bf2ced-3fe8-4df0-aff4-3342a138b628_After+the+Storm+book+cover.jpg?auto=compress,format',
+      width: 1559,
+      height: 2409,
+      alt: '‘After the Storm’ book cover',
+      tasl: {
+        title: null,
+        author: null,
+        sourceName: null,
+        sourceLink: null,
+        license: null,
+        copyrightHolder: null,
+        copyrightLink: null,
+      },
+      crops: {
+        '32:15': {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/f2bf2ced-3fe8-4df0-aff4-3342a138b628_After+the+Storm+book+cover.jpg?auto=compress,format&rect=0,839,1559,731&w=3200&h=1500',
+          width: 3200,
+          height: 1500,
+          alt: '‘After the Storm’ book cover',
+          tasl: {
+            title: null,
+            author: null,
+            sourceName: null,
+            sourceLink: null,
+            license: null,
+            copyrightHolder: null,
+            copyrightLink: null,
+          },
+          crops: {},
+        },
+        '16:9': {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/f2bf2ced-3fe8-4df0-aff4-3342a138b628_After+the+Storm+book+cover.jpg?auto=compress,format&rect=0,766,1559,877&w=3200&h=1800',
+          width: 3200,
+          height: 1800,
+          alt: '‘After the Storm’ book cover',
+          tasl: {
+            title: null,
+            author: null,
+            sourceName: null,
+            sourceLink: null,
+            license: null,
+            copyrightHolder: null,
+            copyrightLink: null,
+          },
+          crops: {},
+        },
+        square: {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/f2bf2ced-3fe8-4df0-aff4-3342a138b628_After+the+Storm+book+cover.jpg?auto=compress,format&rect=0,425,1559,1559&w=3200&h=3200',
+          width: 3200,
+          height: 3200,
+          alt: '‘After the Storm’ book cover',
+          tasl: {
+            title: null,
+            author: null,
+            sourceName: null,
+            sourceLink: null,
+            license: null,
+            copyrightHolder: null,
+            copyrightLink: null,
+          },
+          crops: {},
+        },
+      },
+    },
+    squareImage: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection/f2bf2ced-3fe8-4df0-aff4-3342a138b628_After+the+Storm+book+cover.jpg?auto=compress,format&rect=0,425,1559,1559&w=3200&h=3200',
+      width: 3200,
+      height: 3200,
+      alt: '‘After the Storm’ book cover',
+      tasl: {
+        title: null,
+        author: null,
+        sourceName: null,
+        sourceLink: null,
+        license: null,
+        copyrightHolder: null,
+        copyrightLink: null,
+      },
+      crops: {},
+    },
+    widescreenImage: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection/f2bf2ced-3fe8-4df0-aff4-3342a138b628_After+the+Storm+book+cover.jpg?auto=compress,format&rect=0,766,1559,877&w=3200&h=1800',
+      width: 3200,
+      height: 1800,
+      alt: '‘After the Storm’ book cover',
+      tasl: {
+        title: null,
+        author: null,
+        sourceName: null,
+        sourceLink: null,
+        license: null,
+        copyrightHolder: null,
+        copyrightLink: null,
+      },
+      crops: {},
+    },
+    metadataDescription: '',
+    labels: [
+      {
+        text: 'Book',
+      },
+    ],
+    subtitle: 'Postnatal Depression and the Utter Weirdness of New Motherhood',
+    price: null,
+    format: 'Hardback',
+    extent: '176 pages',
+    isbn: '9781788166546',
+    reviews: [],
+    datePublished: '2021-05-05T23:00:00.000Z',
+    authorName: '',
+    authorDescription: [],
+    cover: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection/f2bf2ced-3fe8-4df0-aff4-3342a138b628_After+the+Storm+book+cover.jpg?auto=compress,format',
+      width: 1559,
+      height: 2409,
+      alt: '‘After the Storm’ book cover',
+      tasl: {
+        title: null,
+        author: null,
+        sourceName: null,
+        sourceLink: null,
+        license: null,
+        copyrightHolder: null,
+        copyrightLink: null,
+      },
+      crops: {
+        '32:15': {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/f2bf2ced-3fe8-4df0-aff4-3342a138b628_After+the+Storm+book+cover.jpg?auto=compress,format&rect=0,839,1559,731&w=3200&h=1500',
+          width: 3200,
+          height: 1500,
+          alt: '‘After the Storm’ book cover',
+          tasl: {
+            title: null,
+            author: null,
+            sourceName: null,
+            sourceLink: null,
+            license: null,
+            copyrightHolder: null,
+            copyrightLink: null,
+          },
+          crops: {},
+        },
+        '16:9': {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/f2bf2ced-3fe8-4df0-aff4-3342a138b628_After+the+Storm+book+cover.jpg?auto=compress,format&rect=0,766,1559,877&w=3200&h=1800',
+          width: 3200,
+          height: 1800,
+          alt: '‘After the Storm’ book cover',
+          tasl: {
+            title: null,
+            author: null,
+            sourceName: null,
+            sourceLink: null,
+            license: null,
+            copyrightHolder: null,
+            copyrightLink: null,
+          },
+          crops: {},
+        },
+        square: {
+          contentUrl:
+            'https://images.prismic.io/wellcomecollection/f2bf2ced-3fe8-4df0-aff4-3342a138b628_After+the+Storm+book+cover.jpg?auto=compress,format&rect=0,425,1559,1559&w=3200&h=3200',
+          width: 3200,
+          height: 3200,
+          alt: '‘After the Storm’ book cover',
           tasl: {
             title: null,
             author: null,
