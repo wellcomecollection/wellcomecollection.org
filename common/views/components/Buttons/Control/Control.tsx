@@ -3,6 +3,120 @@ import NextLink from 'next/link';
 import { LinkProps } from '../../../../model/link-props';
 import Icon from '../../Icon/Icon';
 import { GaEvent, trackEvent } from '../../../../utils/ga';
+import styled from 'styled-components';
+import { classNames } from '@weco/common/utils/classnames';
+
+const ControlInner = styled.div.attrs({
+  className: classNames({
+    'flex-inline flex--v-center flex--h-center': true,
+  }),
+})`
+  width: 100%;
+  height: 100%;
+`;
+
+type WrapperProps = {
+  ariaControls?: string;
+  ariaExpanded?: boolean;
+  colorScheme?: 'light' | 'dark' | 'on-black' | 'black-on-white';
+  tabIndex?: number;
+  id?: string;
+  disabled?: boolean;
+  extraClasses?: string;
+};
+
+const Wrapper = styled.button.attrs<WrapperProps>(props => ({
+  'aria-controls': props.ariaControls || undefined,
+  'aria-expanded': props.ariaExpanded || undefined,
+  tabIndex: props.tabIndex || undefined,
+  id: props.id || undefined,
+  disabled: props.disabled || undefined,
+  className: props.extraClasses || undefined,
+}))<WrapperProps>`
+  display: inline-block;
+  border-radius: 50%;
+  padding: 0;
+  transition: background ${props => props.theme.transitionProperties};
+  cursor: pointer;
+  width: 46px;
+  height: 46px;
+
+  ${props =>
+    props.colorScheme === 'light' &&
+    `
+    background: ${props.theme.color('white')};
+    border: 2px solid ${props.theme.color('green')};
+
+    .icon__shape {
+      fill: ${props.theme.color('green')};
+    }
+
+    &:hover,
+    &:focus {
+      background: ${props.theme.color('green')};
+
+      .icon__shape {
+        fill: ${props.theme.color('white')};
+      }
+    }
+  `}
+
+  ${props =>
+    props.colorScheme === 'dark' &&
+    `
+    border: 0;
+    background: ${props.theme.color('green')};
+
+    .icon__shape {
+      fill: ${props.theme.color('white')};
+    }
+
+    &:hover,
+    &:focus {
+      background: ${props.theme.color('black')};
+    }
+  `}
+
+  ${props =>
+    props.colorScheme === 'on-black' &&
+    `
+    border: 0;
+    border-radius: 0;
+    background: ${props.theme.color('coal')};
+
+    .icon__shape {
+      fill: ${props.theme.color('white')};
+      transition: all ${props.theme.transitionProperties};
+    }
+
+    &:hover,
+    &:focus {
+      .icon__shape {
+        fill: ${props.theme.color('yellow')};
+      }
+    }
+  `}
+
+  ${props =>
+    props.colorScheme === 'black-on-white' &&
+    `
+    background: ${props.theme.color('white')};
+    border: none;
+
+    .icon__shape {
+      fill: ${props.theme.color('charcoal')};
+    }
+
+    &:hover,
+    &:focus {
+      background: ${props.theme.color('yellow')};
+
+      .icon__shape {
+        fill: ${props.theme.color('charcoal')};
+      }
+    }
+  `}
+`;
 
 type CommonProps = {
   link?: LinkProps;
@@ -33,10 +147,10 @@ interface AnchorProps
 
 type InnerControlProps = { text: string; icon: string };
 const InnerControl = ({ text, icon }: InnerControlProps) => (
-  <span className="control__inner flex-inline flex--v-center flex--h-center">
+  <ControlInner>
     <Icon name={icon} />
     <span className="visually-hidden">{text}</span>
-  </span>
+  </ControlInner>
 );
 
 type Props = ButtonProps | AnchorProps;
@@ -63,12 +177,13 @@ const Control = forwardRef(
     ref: any
   ) => {
     const attrs = {
-      'aria-controls': ariaControls || undefined,
-      'aria-expanded': ariaExpanded || undefined,
-      tabIndex: tabIndex || undefined,
-      id: id,
-      className: `control control--${colorScheme} ${extraClasses || ''}`,
-      disabled: disabled,
+      ariaControls,
+      ariaExpanded,
+      tabIndex,
+      id,
+      colorScheme,
+      disabled,
+      extraClasses,
       onClick: handleClick,
     };
 
@@ -91,14 +206,14 @@ const Control = forwardRef(
             replace={replace}
             prefetch={prefetch}
           >
-            <a ref={ref} {...attrs}>
+            <Wrapper ref={ref} {...attrs}>
               <InnerControl text={text} icon={icon} />
-            </a>
+            </Wrapper>
           </NextLink>
         ) : (
-          <button ref={ref} {...attrs}>
+          <Wrapper ref={ref} {...attrs}>
             <InnerControl text={text} icon={icon} />
-          </button>
+          </Wrapper>
         )}
       </>
     );
