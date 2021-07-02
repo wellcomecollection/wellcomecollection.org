@@ -14,12 +14,6 @@ export default {
       defaultValue: true,
     },
     {
-      id: 'newBlack',
-      title: 'New black',
-      description: '#121212 is the new black',
-      defaultValue: false,
-    },
-    {
       id: 'buildingReopening',
       title: 'Wellcome Collection reopening UI changes',
       description:
