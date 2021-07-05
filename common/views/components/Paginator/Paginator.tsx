@@ -105,7 +105,7 @@ const Paginator: FunctionComponent<Props> = ({
         })}
       >
         <TotalResultsWrapper hideMobileTotalResults={hideMobileTotalResults} role="status">
-          {totalResults} result{totalResults !== 1 ? 's' : ''}
+          {totalResults} {totalResults !== 1 ? 'results' : 'result'}
           {query && ` for “${query}”`}
         </TotalResultsWrapper>
       </Space>
