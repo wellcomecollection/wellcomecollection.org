@@ -9,17 +9,64 @@ type Props = {
   onChangeColor: (color?: string) => void;
 };
 
-const palette: string[] = [
-  'e02020',
-  'ff47d1',
-  'fa6400',
-  'f7b500',
-  '8b572a',
-  '6dd400',
-  '22bbff',
-  '8339e8',
-  '000000',
-  'd9d3d3',
+type Hue = 'red' | 'yellow' | 'blue' | 'orange' | 'green' | 'violet' | 'red-orange' | 'yellow-orange' | 'yellow-green' | 'blue-green';
+
+type ColorSwatch = {
+  hexValue: string;
+  colorName: string | null;
+  colorHue: Hue | null;
+}
+const palette: ColorSwatch[] = [
+  {
+    hexValue: 'e02020',
+    colorName: 'red',
+    colorHue: 'red',
+  },
+  {
+    hexValue: 'ff47d1',
+    colorName: 'pink',
+    colorHue: 'red',
+  },
+  {
+    hexValue: 'fa6400',
+    colorName: 'orange',
+    colorHue: 'orange',
+  },
+  {
+    hexValue: 'f7b500',
+    colorName: 'yellow',
+    colorHue: 'yellow',
+  },
+  {
+    hexValue: '8b572a',
+    colorName: 'brown',
+    colorHue: 'orange',
+  },
+  {
+    hexValue: '6dd400',
+    colorName: 'green',
+    colorHue: 'green',
+  },
+  {
+    hexValue: '22bbff',
+    colorName: 'blue',
+    colorHue: 'blue',
+  },
+  {
+    hexValue: '8339e8',
+    colorName: 'violet',
+    colorHue: 'violet',
+  },
+  {
+    hexValue: '000000',
+    colorName: 'black',
+    colorHue: null,
+  },
+  {
+    hexValue: 'd9d3d3',
+    colorName: 'grey',
+    colorHue: null,
+  },
 ];
 
 const Wrapper = styled.div`
@@ -98,15 +145,15 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
       <Swatches>
         {palette.map(swatch => (
           <Swatch
-            key={swatch}
-            color={swatch}
-            selected={colorState === swatch}
-            onClick={() => setColorState(swatch)}
+            key={swatch.hexValue}
+            color={swatch.hexValue}
+            selected={colorState === swatch.hexValue}
+            onClick={() => setColorState(swatch.hexValue)}
           />
         ))}
       </Swatches>
       <Slider
-        hue={hexToHsv(colorState || palette[0]).h}
+        hue={hexToHsv(colorState || palette[0].hexValue).h}
         onChangeHue={h => setColorState(hsvToHex({ h, s: 80, v: 90 }))}
       />
       <TextWrapper>
