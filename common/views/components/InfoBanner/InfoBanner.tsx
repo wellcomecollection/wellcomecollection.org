@@ -58,6 +58,9 @@ const InfoBanner: FunctionComponent<Props> = ({
         properties: ['padding-top', 'padding-bottom'],
       }}
       className={`row bg-yellow`}
+      role="region"
+      aria-labelledby="note"
+      id="notification"
     >
       <div className="container">
         <div className="grid">
@@ -71,6 +74,9 @@ const InfoBanner: FunctionComponent<Props> = ({
                     className={`flex`}
                   >
                     <Icon name="information" />
+                    <span className="visually-hidden" id="note">
+                      Notification
+                    </span>
                   </Space>
                   <div className="body-text spaced-text">
                     <PrismicHtmlBlock html={text} />
@@ -81,6 +87,7 @@ const InfoBanner: FunctionComponent<Props> = ({
                 <button
                   className="no-margin no-padding plain-button pointer"
                   onClick={hideInfoBanner}
+                  aria-controls="notification"
                 >
                   <Icon name="cross" title="Close notification" />
                   <span className="visually-hidden">close notification</span>
