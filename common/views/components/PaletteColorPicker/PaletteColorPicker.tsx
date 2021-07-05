@@ -10,64 +10,51 @@ type Props = {
   onChangeColor: (color?: string) => void;
 };
 
-type Hue = 'red' | 'yellow' | 'blue' | 'orange' | 'green' | 'violet' | 'red-orange' | 'yellow-orange' | 'yellow-green' | 'blue-green';
-
 type ColorSwatch = {
   hexValue: string;
   colorName: string | null;
-  colorHue: Hue | null;
 }
 
 export const palette: ColorSwatch[] = [
   {
     hexValue: 'e02020',
     colorName: 'red',
-    colorHue: 'red',
   },
   {
     hexValue: 'ff47d1',
     colorName: 'pink',
-    colorHue: 'red',
   },
   {
     hexValue: 'fa6400',
     colorName: 'orange',
-    colorHue: 'orange',
   },
   {
     hexValue: 'f7b500',
     colorName: 'yellow',
-    colorHue: 'yellow',
   },
   {
     hexValue: '8b572a',
     colorName: 'brown',
-    colorHue: 'orange',
   },
   {
     hexValue: '6dd400',
     colorName: 'green',
-    colorHue: 'green',
   },
   {
     hexValue: '22bbff',
     colorName: 'blue',
-    colorHue: 'blue',
   },
   {
     hexValue: '8339e8',
     colorName: 'violet',
-    colorHue: 'violet',
   },
   {
     hexValue: '000000',
     colorName: 'black',
-    colorHue: null,
   },
   {
     hexValue: 'd9d3d3',
     colorName: 'grey',
-    colorHue: null,
   },
 ];
 
