@@ -81,16 +81,20 @@ const Swatches = styled.div`
   flex-wrap: wrap;
 `;
 
-const Swatch = styled.button.attrs({
+type SwatchProps = {
+  color: string;
+  ariaPressed: boolean;
+};
+
+
+const Swatch = styled.button.attrs((props: SwatchProps) => ({
   type: 'button',
   className: classNames({
     'plain-button': true,
     [font('hnr', 5)]: true,
   }),
-})<{
-  color: string;
-  selected: boolean;
-}>`
+  'aria-pressed': props.ariaPressed ? true : false,
+}))<SwatchProps>`
   position: relative;
   padding-left: 40px;
   flex: 1 0 50%;
@@ -106,7 +110,7 @@ const Swatch = styled.button.attrs({
     width: 32px;
     border-radius: 50%;
     background-color: ${({ color }) => `#${color}`};
-    border: ${({ selected }) => (selected ? '3px solid #555' : 'none')};
+    border: ${({ ariaPressed }) => (ariaPressed ? '3px solid #555' : 'none')};
   }
 `;
 
@@ -176,7 +180,7 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
           <Swatch
             key={swatch.hexValue}
             color={swatch.hexValue}
-            selected={colorState === swatch.hexValue}
+            ariaPressed={colorState === swatch.hexValue}
             onClick={() => setColorState(swatch.hexValue)}
           >
             {swatch.colorName}
