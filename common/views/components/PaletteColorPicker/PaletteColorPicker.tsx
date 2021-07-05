@@ -140,7 +140,7 @@ const TextWrapper = styled.div`
   margin-top: 8px;
 `;
 
-function getColorDisplayName(color: string | null) {
+export function getColorDisplayName(color: string | null) {
   if(color) {
     const matchingPaletteColor = palette.find(swatch => swatch.hexValue.toUpperCase() === color.toUpperCase());
     const hexValue = `#${color.toUpperCase()}`;
@@ -149,6 +149,7 @@ function getColorDisplayName(color: string | null) {
     return 'None'
   }
 }
+
 const PaletteColorPicker: FunctionComponent<Props> = ({
   name,
   color,

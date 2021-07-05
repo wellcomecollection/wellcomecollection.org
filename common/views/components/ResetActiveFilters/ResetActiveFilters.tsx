@@ -7,6 +7,7 @@ import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
 import styled from 'styled-components';
 import { Filter } from '../../../services/catalogue/filters';
+import { getColorDisplayName } from '../../components/PaletteColorPicker/PaletteColorPicker';
 
 type ResetActiveFilters = {
   query: string;
@@ -203,7 +204,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                     <a>
                       <CancelFilter>
                         {f.label}
-                        <ColorSwatch color={`#${f.color}`} />
+                        <ColorSwatch color={`#${f.color}`}><span className="visually-hidden">{getColorDisplayName(f.color)}</span></ColorSwatch>
                       </CancelFilter>
                     </a>
                   </NextLink>
