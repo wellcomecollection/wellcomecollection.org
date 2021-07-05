@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import HueSlider from './HueSlider';
 import { hexToHsv, hsvToHex } from './conversions';
+import { classNames, font } from '../../../utils/classnames';
 
 type Props = {
   name: string;
@@ -16,7 +17,8 @@ type ColorSwatch = {
   colorName: string | null;
   colorHue: Hue | null;
 }
-const palette: ColorSwatch[] = [
+
+export const palette: ColorSwatch[] = [
   {
     hexValue: 'e02020',
     colorName: 'red',
@@ -79,17 +81,33 @@ const Swatches = styled.div`
   flex-wrap: wrap;
 `;
 
-const Swatch = styled.button.attrs({ type: 'button' })<{
+const Swatch = styled.button.attrs({
+  type: 'button',
+  className: classNames({
+    'plain-button': true,
+    [font('hnr', 5)]: true,
+  }),
+})<{
   color: string;
   selected: boolean;
 }>`
-  height: 32px;
-  width: 32px;
-  border-radius: 50%;
-  display: inline-block;
-  background-color: ${({ color }) => `#${color}`};
-  margin: 4px;
-  border: ${({ selected }) => (selected ? '3px solid #555' : 'none')};
+  position: relative;
+  padding-left: 40px;
+  flex: 1 0 50%;
+  line-height: normal;
+  margin-bottom: 8px;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 0;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    background-color: ${({ color }) => `#${color}`};
+    border: ${({ selected }) => (selected ? '3px solid #555' : 'none')};
+  }
 `;
 
 const Slider = styled(HueSlider)`
@@ -118,6 +136,15 @@ const TextWrapper = styled.div`
   margin-top: 8px;
 `;
 
+function getColorDisplayName(color: string | null) {
+  if(color) {
+    const matchingPaletteColor = palette.find(swatch => swatch.hexValue.toUpperCase() === color.toUpperCase());
+    const hexValue = `#${color.toUpperCase()}`;
+    return matchingPaletteColor ? matchingPaletteColor.colorName : hexValue;
+  } else {
+    return 'None'
+  }
+}
 const PaletteColorPicker: FunctionComponent<Props> = ({
   name,
   color,
@@ -139,6 +166,8 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
     }
   }, [colorState]);
 
+  const matchingPaletteColor = colorState && palette.find(swatch => swatch.hexValue.toUpperCase() === colorState.toUpperCase());
+
   return (
     <Wrapper>
       <input type="hidden" name={name} value={colorState || ''} />
@@ -149,7 +178,9 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
             color={swatch.hexValue}
             selected={colorState === swatch.hexValue}
             onClick={() => setColorState(swatch.hexValue)}
-          />
+          >
+            {swatch.colorName}
+          </Swatch>
         ))}
       </Swatches>
       <Slider
@@ -158,7 +189,7 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
       />
       <TextWrapper>
         <ColorLabel active={!!colorState}>
-          {colorState ? `#${colorState.toUpperCase()}` : 'None'}
+          {getColorDisplayName(colorState || null)}
         </ColorLabel>
         <ClearButton onClick={() => setColorState(undefined)}>
           Clear
