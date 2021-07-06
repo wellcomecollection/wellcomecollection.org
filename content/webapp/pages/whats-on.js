@@ -60,6 +60,24 @@ import { type FeaturedText as FeaturedTextType } from '@weco/common/model/text';
 // $FlowFixMe (tsx)
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 
+const segmentedControlItems = [
+  {
+    id: 'current-and-coming-up',
+    url: '/whats-on',
+    text: 'Everything',
+  },
+  {
+    id: 'today',
+    url: '/whats-on/today',
+    text: 'Today',
+  },
+  {
+    id: 'this-weekend',
+    url: '/whats-on/this-weekend',
+    text: 'This weekend',
+  },
+];
+
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
   events: PaginatedResults<UiEvent>,
@@ -319,23 +337,7 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
               ariaCurrentText="page"
               id={'whatsOnFilter'}
               activeId={activeId}
-              items={[
-                {
-                  id: 'current-and-coming-up',
-                  url: '/whats-on',
-                  text: 'Everything',
-                },
-                {
-                  id: 'today',
-                  url: '/whats-on/today',
-                  text: 'Today',
-                },
-                {
-                  id: 'this-weekend',
-                  url: '/whats-on/this-weekend',
-                  text: 'This weekend',
-                },
-              ]}
+              items={segmentedControlItems}
             />
           </Space>
         </div>
@@ -438,9 +440,11 @@ export class WhatsOnPage extends Component<Props> {
     });
     const firstExhibition = exhibitions[0];
 
+    const titleText = segmentedControlItems.find(item => item.id === period);
+
     return (
       <PageLayout
-        title={`What's on`}
+        title={`What's on${` - ${titleText.text}`}`}
         description={pageDescription}
         url={{ pathname: `/whats-on` }}
         jsonLd={[...exhibitions.map(exhibitionLd), ...events.map(eventLd)]}
