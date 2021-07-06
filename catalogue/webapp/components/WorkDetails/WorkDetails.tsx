@@ -114,7 +114,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     iiifPresentationDownloadOptions = [],
     iiifDownloadEnabled,
   } = useIIIFManifestData(work);
-  const authService = video && getMediaClickthroughService(video) || audio && getMediaClickthroughService(audio);
+  const authService =
+    (video && getMediaClickthroughService(video)) ||
+    (audio && getMediaClickthroughService(audio));
   const tokenService = authService && getTokenService(authService);
 
   // iiif-presentation locations don't have credit info in the work API currently, so we try and get it from the manifest
@@ -618,7 +620,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               ],
               linkAttributes: worksLink(
                 {
-                  query: `"${contributor.agent.label}"`,
+                  'contributors.agent.label': [contributor.agent.label],
                 },
                 'work_details/contributors'
               ),
@@ -661,7 +663,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 textParts: g.concepts.map(c => c.label),
                 linkAttributes: worksLink(
                   {
-                    query: `"${g.label}"`,
+                    'genres.label': [g.label],
                   },
                   'work_details/genres'
                 ),
@@ -685,7 +687,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 textParts: s.concepts.map(c => c.label),
                 linkAttributes: worksLink(
                   {
-                    query: `"${s.label}"`,
+                    'subjects.label': [s.label],
                   },
                   'work_details/subjects'
                 ),
