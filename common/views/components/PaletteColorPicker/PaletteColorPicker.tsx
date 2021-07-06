@@ -87,6 +87,7 @@ const Swatch = styled.button.attrs((props: SwatchProps) => ({
   flex: 1 0 50%;
   line-height: normal;
   margin-bottom: 8px;
+  cursor: pointer;
 
   &:before {
     content: '';
