@@ -50,7 +50,7 @@ describe('Image search', () => {
     await page.waitForNavigation();
     await expectItemIsVisible(searchResultsContainer);
     await expectItemsIsVisible(imagesResultsListItem, 1);
-
+    await page.click('body');
     await clickActionClickSearchResultItem(1);
     await expectItemIsVisible(modalexpandedImageViewMoreButton);
 
