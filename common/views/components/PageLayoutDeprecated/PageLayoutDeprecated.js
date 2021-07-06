@@ -64,17 +64,15 @@ const PageLayout = ({
   hideFooter = false,
 }: Props) => {
   const hotjarUrls = [
-    'whats-on',
     'stories',
     'events',
     prismicPageIds.aboutUs,
     prismicPageIds.getInvolved,
-    prismicPageIds.visitUs,
-    prismicPageIds.collections,
     prismicPageIds.copyrightClearance,
   ];
-  const shouldLoadHotjar =
-    url === '/' || hotjarUrls.some(u => url.pathname && url.pathname.match(u));
+  const shouldLoadHotjar = hotjarUrls.some(
+    u => url.pathname && url.pathname.match(u)
+  );
   useHotjar(shouldLoadHotjar);
   const urlString = convertUrlToString(url);
   const fullTitle =
