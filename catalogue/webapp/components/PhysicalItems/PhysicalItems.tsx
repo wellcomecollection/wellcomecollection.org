@@ -15,6 +15,7 @@ import DescriptionList, {
   Props as DescriptionListProps,
 } from '@weco/common/views/components/DescriptionList/DescriptionList';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
+import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 
 async function fetchWorkItems(
   workId: string
@@ -63,7 +64,7 @@ function createDescriptionList(
       accessTerms && { term: 'Access terms', description: accessTerms },
       accessNote && {
         term: 'Access note',
-        description: <span dangerouslySetInnerHTML={{ __html: accessNote }} />,
+        description: <WorkTitle title={accessNote} />, // TODO: Rename WorkTitle to e.g. ApiHtml
       },
     ].filter(Boolean),
   };
