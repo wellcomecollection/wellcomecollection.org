@@ -34,6 +34,7 @@ function createDescriptionList(
   encoreLink: string | undefined
 ): DescriptionListProps | undefined {
   const physicalLocation = getFirstPhysicalLocation(item);
+  const itemNote = item.note;
   const isRequestableOnline =
     physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
   const accessMethodLabel =
@@ -59,6 +60,7 @@ function createDescriptionList(
       accessMethod && { term: 'Access method', description: accessMethod },
       accessStatus && { term: 'Access status', description: accessStatus },
       accessTerms && { term: 'Access terms', description: accessTerms },
+      itemNote && { term: 'Item note', description: itemNote },
     ].filter(Boolean),
   };
 }
@@ -111,7 +113,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
       listItems={descriptionLists.map((r, index) => (
         <Space
           key={index}
-          v={{ size: 's', properties: ['margin-bottom', 'padding-bottom'] }}
+          v={{ size: 'm', properties: ['margin-bottom', 'padding-bottom'] }}
           style={{ borderBottom: '1px dashed #ddd' }}
         >
           <DescriptionList title={r.title} items={r.items} />
