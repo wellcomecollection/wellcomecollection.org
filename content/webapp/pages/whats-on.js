@@ -316,6 +316,7 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
             })}
           >
             <SegmentedControl
+              ariaCurrentText="page"
               id={'whatsOnFilter'}
               activeId={activeId}
               items={[
