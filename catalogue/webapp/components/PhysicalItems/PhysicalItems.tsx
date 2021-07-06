@@ -34,7 +34,6 @@ function createDescriptionList(
   encoreLink: string | undefined
 ): DescriptionListProps | undefined {
   const physicalLocation = getFirstPhysicalLocation(item);
-  const itemNote = item.note;
   const isRequestableOnline =
     physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
   const accessMethodLabel =
@@ -47,6 +46,7 @@ function createDescriptionList(
     );
   const accessStatus =
     physicalLocation?.accessConditions?.[0]?.status?.label || '';
+  const accessNote = physicalLocation?.accessConditions?.[0]?.note;
   const accessTerms = physicalLocation?.accessConditions[0]?.terms || '';
   const locationLabel = physicalLocation && getLocationLabel(physicalLocation);
   const locationShelfmark =
@@ -55,12 +55,16 @@ function createDescriptionList(
 
   return {
     title: item.title || '',
+    subheading: item.note || '',
     items: [
       { term: 'Location/shelfmark', description: shelfmark },
       accessMethod && { term: 'Access method', description: accessMethod },
       accessStatus && { term: 'Access status', description: accessStatus },
       accessTerms && { term: 'Access terms', description: accessTerms },
-      itemNote && { term: 'Item note', description: itemNote },
+      accessNote && {
+        term: 'Access note',
+        description: <span dangerouslySetInnerHTML={{ __html: accessNote }} />, // TODO: Rename WorkTitle to e.g. ApiHtml
+      },
     ].filter(Boolean),
   };
 }
@@ -116,7 +120,11 @@ const PhysicalItems: FunctionComponent<Props> = ({
           v={{ size: 'm', properties: ['margin-bottom', 'padding-bottom'] }}
           style={{ borderBottom: '1px dashed #ddd' }}
         >
-          <DescriptionList title={r.title} items={r.items} />
+          <DescriptionList
+            title={r.title}
+            subheading={r.subheading}
+            items={r.items}
+          />
         </Space>
       ))}
       initialItems={5}
