@@ -111,7 +111,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
       listItems={descriptionLists.map((r, index) => (
         <Space
           key={index}
-          v={{ size: 's', properties: ['margin-bottom', 'padding-bottom'] }}
+          v={{ size: 'm', properties: ['margin-bottom', 'padding-bottom'] }}
           style={{ borderBottom: '1px dashed #ddd' }}
         >
           <DescriptionList title={r.title} items={r.items} />
