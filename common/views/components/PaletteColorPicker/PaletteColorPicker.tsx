@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import HueSlider from './HueSlider';
 import { hexToHsv, hsvToHex } from './conversions';
+import { classNames, font } from '../../../utils/classnames';
 
 type Props = {
   name: string;
@@ -9,17 +10,52 @@ type Props = {
   onChangeColor: (color?: string) => void;
 };
 
-const palette: string[] = [
-  'e02020',
-  'ff47d1',
-  'fa6400',
-  'f7b500',
-  '8b572a',
-  '6dd400',
-  '22bbff',
-  '8339e8',
-  '000000',
-  'd9d3d3',
+type ColorSwatch = {
+  hexValue: string;
+  colorName: string | null;
+}
+
+export const palette: ColorSwatch[] = [
+  {
+    hexValue: 'e02020',
+    colorName: 'red',
+  },
+  {
+    hexValue: 'ff47d1',
+    colorName: 'pink',
+  },
+  {
+    hexValue: 'fa6400',
+    colorName: 'orange',
+  },
+  {
+    hexValue: 'f7b500',
+    colorName: 'yellow',
+  },
+  {
+    hexValue: '8b572a',
+    colorName: 'brown',
+  },
+  {
+    hexValue: '6dd400',
+    colorName: 'green',
+  },
+  {
+    hexValue: '22bbff',
+    colorName: 'blue',
+  },
+  {
+    hexValue: '8339e8',
+    colorName: 'violet',
+  },
+  {
+    hexValue: '000000',
+    colorName: 'black',
+  },
+  {
+    hexValue: 'd9d3d3',
+    colorName: 'grey',
+  },
 ];
 
 const Wrapper = styled.div`
@@ -32,17 +68,38 @@ const Swatches = styled.div`
   flex-wrap: wrap;
 `;
 
-const Swatch = styled.button.attrs({ type: 'button' })<{
+type SwatchProps = {
   color: string;
-  selected: boolean;
-}>`
-  height: 32px;
-  width: 32px;
-  border-radius: 50%;
-  display: inline-block;
-  background-color: ${({ color }) => `#${color}`};
-  margin: 4px;
-  border: ${({ selected }) => (selected ? '3px solid #555' : 'none')};
+  ariaPressed: boolean;
+};
+
+
+const Swatch = styled.button.attrs((props: SwatchProps) => ({
+  type: 'button',
+  className: classNames({
+    'plain-button': true,
+    [font('hnr', 5)]: true,
+  }),
+  'aria-pressed': props.ariaPressed ? true : false,
+}))<SwatchProps>`
+  position: relative;
+  padding-left: 40px;
+  flex: 1 0 50%;
+  line-height: normal;
+  margin-bottom: 8px;
+  cursor: pointer;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 0;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    background-color: ${({ color }) => `#${color}`};
+    border: ${({ ariaPressed }) => (ariaPressed ? '3px solid #555' : 'none')};
+  }
 `;
 
 const Slider = styled(HueSlider)`
@@ -71,6 +128,16 @@ const TextWrapper = styled.div`
   margin-top: 8px;
 `;
 
+export function getColorDisplayName(color: string | null) {
+  if(color) {
+    const matchingPaletteColor = palette.find(swatch => swatch.hexValue.toUpperCase() === color.toUpperCase());
+    const hexValue = `#${color.toUpperCase()}`;
+    return matchingPaletteColor ? matchingPaletteColor.colorName : hexValue;
+  } else {
+    return 'None'
+  }
+}
+
 const PaletteColorPicker: FunctionComponent<Props> = ({
   name,
   color,
@@ -92,26 +159,30 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
     }
   }, [colorState]);
 
+  const matchingPaletteColor = colorState && palette.find(swatch => swatch.hexValue.toUpperCase() === colorState.toUpperCase());
+
   return (
     <Wrapper>
       <input type="hidden" name={name} value={colorState || ''} />
       <Swatches>
         {palette.map(swatch => (
           <Swatch
-            key={swatch}
-            color={swatch}
-            selected={colorState === swatch}
-            onClick={() => setColorState(swatch)}
-          />
+            key={swatch.hexValue}
+            color={swatch.hexValue}
+            ariaPressed={colorState === swatch.hexValue}
+            onClick={() => setColorState(swatch.hexValue)}
+          >
+            {swatch.colorName}
+          </Swatch>
         ))}
       </Swatches>
       <Slider
-        hue={hexToHsv(colorState || palette[0]).h}
+        hue={hexToHsv(colorState || palette[0].hexValue).h}
         onChangeHue={h => setColorState(hsvToHex({ h, s: 80, v: 90 }))}
       />
       <TextWrapper>
         <ColorLabel active={!!colorState}>
-          {colorState ? `#${colorState.toUpperCase()}` : 'None'}
+          {getColorDisplayName(colorState || null)}
         </ColorLabel>
         <ClearButton onClick={() => setColorState(undefined)}>
           Clear
