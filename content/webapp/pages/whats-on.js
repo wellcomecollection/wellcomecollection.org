@@ -440,11 +440,12 @@ export class WhatsOnPage extends Component<Props> {
     });
     const firstExhibition = exhibitions[0];
 
-    const titleText = segmentedControlItems.find(item => item.id === period);
+    const extraTitleText = segmentedControlItems.find(item => item.id === period);
+    const pageTitle = extraTitleText ? `What's on${` - ${extraTitleText.text}`}` : `What's on`;
 
     return (
       <PageLayout
-        title={`What's on${` - ${titleText.text}`}`}
+        title={pageTitle}
         description={pageDescription}
         url={{ pathname: `/whats-on` }}
         jsonLd={[...exhibitions.map(exhibitionLd), ...events.map(eventLd)]}
