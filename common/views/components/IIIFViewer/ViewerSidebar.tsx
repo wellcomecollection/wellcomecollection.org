@@ -199,6 +199,20 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
           </div>
         )}
 
+        {work.referenceNumber && (
+          <div data-test-id="reference-number">
+            <LinkLabels
+              heading={'Reference'}
+              items={[
+                {
+                  text: work.referenceNumber,
+                  url: null,
+                },
+              ]}
+            />
+          </div>
+        )}
+
         <Space v={{ size: 'm', properties: ['margin-top'] }}>
           <WorkLink id={work.id} source="viewer_back_link">
             <a
