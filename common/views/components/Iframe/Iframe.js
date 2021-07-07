@@ -8,6 +8,79 @@ import Icon from '../Icon/Icon';
 // $FlowFixMe (tsx)
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import type { ImageType } from '../../../model/image';
+import styled from 'styled-components';
+
+export const IframeContainer = styled.div`
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  position: relative;
+
+  .overlay {
+    position: absolute;
+    display: none;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    transition: background 600ms ease;
+
+    .enhanced & {
+      display: block;
+    }
+  }
+
+  .trigger {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    &:hover,
+    &:focus {
+      .overlay {
+        background: ${props => props.theme.color('transparent')};
+      }
+    }
+
+    .enhanced & {
+      cursor: pointer;
+    }
+  }
+
+  .launch {
+    position: absolute;
+    display: none;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+
+    .enhanced & {
+      display: block;
+    }
+  }
+
+  .close {
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.6);
+    width: ${props => props.theme.iconDimension}px;
+    height: ${props => props.theme.iconDimension}px;
+  }
+
+  .iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+`;
 
 type Props = {|
   image: ImageType,
@@ -47,21 +120,16 @@ class Iframe extends Component<Props, State> {
     };
 
     return (
-      <div
-        className={classNames({
-          'iframe-container relative': true,
-          'js-iframe-container': Boolean(image.contentUrl),
-        })}
-      >
+      <IframeContainer>
         {image.contentUrl && (
           <Fragment>
             {!this.state.iframeShowing && (
               <span
-                className="iframe-container__trigger plain-button no-padding no-visible-focus absolute"
+                className="trigger plain-button no-padding no-visible-focus"
                 onClick={this.toggleIframeDisplay}
               >
-                <span className="iframe-container__overlay absolute" />
-                <span className="iframe-container__launch absolute">
+                <span className="overlay" />
+                <span className="launch">
                   <ButtonSolid text="Launch" ariaLive="polite" />
                 </span>
               </span>
@@ -70,7 +138,7 @@ class Iframe extends Component<Props, State> {
             {this.state.iframeShowing && (
               <button
                 className={classNames({
-                  'iframe-container__close icon-rounder plain-button pointer no-padding absolute': true,
+                  'close icon-rounder plain-button pointer no-padding absolute': true,
                   'is-hidden': !this.state.iframeShowing,
                 })}
                 onClick={this.toggleIframeDisplay}
@@ -82,7 +150,7 @@ class Iframe extends Component<Props, State> {
         )}
         {this.state.iframeShowing && (
           <iframe
-            className="iframe-container__iframe absolute"
+            className="iframe"
             ref={this.iframeRef}
             src={src}
             frameBorder="0"
@@ -94,7 +162,7 @@ class Iframe extends Component<Props, State> {
             onmousewheel="true"
           />
         )}
-      </div>
+      </IframeContainer>
     );
   }
 }

@@ -33,17 +33,22 @@ export const CardOuter = styled.a.attrs(() => ({
 `;
 
 export const CardBody = styled(Space).attrs(() => ({
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  v: { size: 'm', properties: ['padding-top'] },
+  h: {
+    size: 'm',
+    properties: ['padding-left', 'padding-right'],
+    overrides: { small: 5, medium: 5, large: 5 },
+  },
   className: 'flex flex--column flex-1',
 }))`
   justify-content: space-between;
 
   ${props =>
-    props.theme.makeSpacePropertyValues(
-      'm',
-      ['padding-left', 'padding-right'],
-      false
-    )}
+    props.theme.makeSpacePropertyValues('l', ['padding-bottom'], false, {
+      small: 8,
+      medium: 8,
+      large: 8,
+    })}
 
   .card-theme.card-theme--transparent & {
     padding-left: 0;

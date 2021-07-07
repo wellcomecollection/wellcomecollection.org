@@ -26,10 +26,15 @@ const Description = styled.dd.attrs({
 
 export type Props = {
   title: string;
+  subheading: string;
   items: { term: string; description: string | ReactElement }[];
 };
 
-const DescriptionList: FunctionComponent<Props> = ({ title, items }) => {
+const DescriptionList: FunctionComponent<Props> = ({
+  title,
+  subheading,
+  items,
+}) => {
   return (
     <>
       <h3
@@ -39,6 +44,7 @@ const DescriptionList: FunctionComponent<Props> = ({ title, items }) => {
       >
         {title}
       </h3>
+      {subheading && <p>{subheading}</p>}
       <List>
         {items.map(({ term, description }) => (
           <>

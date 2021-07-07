@@ -191,6 +191,7 @@ export type Item<LocationType> = {
   title?: string;
   locations: LocationType[];
   type: 'Item';
+  note?: string;
 };
 
 export type PhysicalItem = Item<PhysicalLocation> & {

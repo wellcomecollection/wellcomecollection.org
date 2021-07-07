@@ -46,6 +46,7 @@ function createDescriptionList(
     );
   const accessStatus =
     physicalLocation?.accessConditions?.[0]?.status?.label || '';
+  const accessNote = physicalLocation?.accessConditions?.[0]?.note;
   const accessTerms = physicalLocation?.accessConditions[0]?.terms || '';
   const locationLabel = physicalLocation && getLocationLabel(physicalLocation);
   const locationShelfmark =
@@ -54,11 +55,16 @@ function createDescriptionList(
 
   return {
     title: item.title || '',
+    subheading: item.note || '',
     items: [
       { term: 'Location/shelfmark', description: shelfmark },
       accessMethod && { term: 'Access method', description: accessMethod },
       accessStatus && { term: 'Access status', description: accessStatus },
       accessTerms && { term: 'Access terms', description: accessTerms },
+      accessNote && {
+        term: 'Access note',
+        description: <span dangerouslySetInnerHTML={{ __html: accessNote }} />, // TODO: Rename WorkTitle to e.g. ApiHtml
+      },
     ].filter(Boolean),
   };
 }
@@ -111,10 +117,14 @@ const PhysicalItems: FunctionComponent<Props> = ({
       listItems={descriptionLists.map((r, index) => (
         <Space
           key={index}
-          v={{ size: 's', properties: ['margin-bottom', 'padding-bottom'] }}
+          v={{ size: 'm', properties: ['margin-bottom', 'padding-bottom'] }}
           style={{ borderBottom: '1px dashed #ddd' }}
         >
-          <DescriptionList title={r.title} items={r.items} />
+          <DescriptionList
+            title={r.title}
+            subheading={r.subheading}
+            items={r.items}
+          />
         </Space>
       ))}
       initialItems={5}
