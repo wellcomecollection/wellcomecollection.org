@@ -13,7 +13,7 @@ type Props = {|
   activeId: ?string,
   onActiveIdChange?: (id: string) => void,
   extraClasses?: string,
-  ariaCurrentText: string
+  ariaCurrentText?: string
 |};
 
 type State = {|
