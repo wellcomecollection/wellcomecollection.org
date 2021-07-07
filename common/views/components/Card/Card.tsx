@@ -36,7 +36,7 @@ export const CardPostBody = styled(Space).attrs({
   v: {
     size: 'm',
     properties: ['padding-bottom'],
-    overrides: { small: 4, medium: 4, large: 4 },
+    overrides: { small: 5, medium: 5, large: 5 },
   },
   h: {
     size: 'm',
