@@ -305,7 +305,7 @@ const SearchTabs: FunctionComponent<Props> = ({
       <BaseTabsWrapper>
         <BaseTabs
           tabs={tabs}
-          label={'Tabs for search'}
+          label={'Search'}
           activeTabIndex={activeTabIndex}
           onTabClick={onTabClick}
         />
