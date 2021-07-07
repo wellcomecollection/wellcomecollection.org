@@ -10,7 +10,7 @@ import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import Space from '../styled/Space';
-import { CardOuter, CardBody } from '../Card/Card';
+import { CardOuter, CardBody, CardPostBody } from '../Card/Card';
 
 type Props = {
   item: Article;
@@ -93,17 +93,16 @@ const StoryPromo: FunctionComponent<Props> = ({
             </p>
           )}
         </div>
-
-        {item.series.length > 0 && (
-          <Space v={{ size: 'l', properties: ['margin-top'] }}>
-            {item.series.map(series => (
-              <p key={series.title} className={`${font('hnb', 6)} no-margin`}>
-                <span className={font('hnr', 6)}>Part of</span> {series.title}
-              </p>
-            ))}
-          </Space>
-        )}
       </CardBody>
+      {item.series.length > 0 && (
+        <CardPostBody>
+          {item.series.map(series => (
+            <p key={series.title} className={`${font('hnb', 6)} no-margin`}>
+              <span className={font('hnr', 6)}>Part of</span> {series.title}
+            </p>
+          ))}
+        </CardPostBody>
+      )}
     </CardOuter>
   );
 };
