@@ -1,6 +1,45 @@
 import React from 'react';
 import debounce from 'lodash.debounce';
 import prefixedPropertyStyleObject from '../../../utils/prefixed-property-style-object';
+import styled from 'styled-components';
+
+const Edge = styled.div<{
+  background: string;
+  isRotated: boolean;
+}>`
+  height: 10vw;
+  margin-top: -10vw;
+  position: relative;
+  top: 2px;
+  z-index: 2;
+  transition: -webkit-clip-path 2000ms ease-in-out, clip-path 2000ms ease-in-out;
+  display: none;
+
+  @media (min-width: ${props => props.theme.sizes.large}px) {
+    max-height: 60px;
+    margin-top: -60px;
+  }
+
+  @supports ((clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0))) {
+    .enhanced & {
+      display: block;
+
+      @media screen and (prefers-reduced-motion: reduce) {
+        display: none;
+      }
+    }
+  }
+
+  background: ${props => props.theme.color(props.background)};
+
+  ${props =>
+    props.isRotated &&
+    `
+    transform: rotate(180deg);
+    margin-top: 0;
+    top: -2px;
+  `}
+`;
 
 function randomIntFromInterval(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -8,6 +47,7 @@ function randomIntFromInterval(min: number, max: number): number {
 
 type Props = {
   background: string;
+  isRotated?: boolean;
   intensity?: number;
   points?: number;
   isValley?: boolean;
@@ -101,15 +141,11 @@ class WobblyEdge extends React.Component<Props, State> {
   }
 
   render() {
-    // TODO: remove `js-wobbly-edge` and data-attributes once 100% Reactified
+    // TODO: remove data-attributes once 100% Reactified
     return (
-      <div
-        className={`wobbly-edge wobbly-edge--${this.props.background} ${
-          this.props.extraClasses ? this.props.extraClasses : ''
-        } js-wobbly-edge`}
-        data-max-intensity={this.intensity}
-        data-number-of-points={this.points}
-        data-is-valley={this.props.isValley}
+      <Edge
+        background={this.props.background}
+        isRotated={this.props.isRotated || false}
         style={this.state.styleObject}
       />
     );
