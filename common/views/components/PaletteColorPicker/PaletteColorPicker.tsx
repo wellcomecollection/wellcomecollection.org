@@ -106,7 +106,7 @@ const Slider = styled(HueSlider)`
   margin-top: 15px;
 `;
 
-const ColorLabel = styled.label<{ active: boolean }>`
+const ColorLabel = styled.span<{ active: boolean }>`
   font-style: italic;
   color: ${({ active }) => (active ? '#121212' : '#565656')};
   font-size: 14px;
@@ -181,7 +181,7 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
         onChangeHue={h => setColorState(hsvToHex({ h, s: 80, v: 90 }))}
       />
       <TextWrapper>
-        <ColorLabel active={!!colorState}>
+        <ColorLabel active={!!colorState} role="status">
           {getColorDisplayName(colorState || null)}
         </ColorLabel>
         <ClearButton onClick={() => setColorState(undefined)}>
