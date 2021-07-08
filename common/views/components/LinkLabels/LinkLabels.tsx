@@ -32,10 +32,10 @@ const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
   className: classNames({
     [font('hnr', 5)]: true,
     'border-left-width-1 border-color-marble': props.addBorder,
-  })
+  }),
 }))<LinkOrSpanSpaceAttrs>``;
 
-const LinkLabels = ({ items, heading, icon }: Props) => (
+const LinkLabels = ({ items, heading, icon }: Props) =>
   heading ? (
     <dl
       className={classNames({
@@ -43,21 +43,22 @@ const LinkLabels = ({ items, heading, icon }: Props) => (
         'flex--wrap': true,
         'no-margin': true,
         [font('hnb', 5)]: true,
-      })}>
-        <Space
-          as="dt"
-          h={{ size: 's', properties: ['margin-right'] }}
-          className={classNames({
-            flex: true,
-          })}
-        >
-          {icon && (
-            <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
-              <Icon name={icon} />
-            </Space>
-          )}
-          {heading}
-        </Space>
+      })}
+    >
+      <Space
+        as="dt"
+        h={{ size: 's', properties: ['margin-right'] }}
+        className={classNames({
+          flex: true,
+        })}
+      >
+        {icon && (
+          <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
+            <Icon name={icon} />
+          </Space>
+        )}
+        {heading}
+      </Space>
       {items.map(({ url, text }, i) => (
         <dd
           key={`${url || text}-${i}`}
@@ -65,30 +66,36 @@ const LinkLabels = ({ items, heading, icon }: Props) => (
             'no-margin': true,
           })}
         >
-          <ItemText url={url || null} addBorder={i !== 0}>{text}</ItemText>
+          <ItemText url={url || null} addBorder={i !== 0}>
+            {text}
+          </ItemText>
         </dd>
       ))}
     </dl>
   ) : (
-    <ul className={classNames({
-      flex: true,
-      'plain-list': true,
-      'flex--wrap': true,
-      'no-margin': true,
-      'no-padding': true,
-      [font('hnb', 5)]: true,
-    })}>
+    <ul
+      className={classNames({
+        flex: true,
+        'plain-list': true,
+        'flex--wrap': true,
+        'no-margin': true,
+        'no-padding': true,
+        [font('hnb', 5)]: true,
+      })}
+    >
       {items.map(({ url, text }, i) => (
         <li
           key={`${url || text}-${i}`}
           className={classNames({
             'no-margin': true,
-          })}>
-            <ItemText url={url || null} addBorder={i !== 0}>{text}</ItemText>
+          })}
+        >
+          <ItemText url={url || null} addBorder={i !== 0}>
+            {text}
+          </ItemText>
         </li>
       ))}
     </ul>
-  )
-);
+  );
 
 export default LinkLabels;

@@ -7,6 +7,7 @@ export const smallImageDownload = `${itemDownloadsModal} li:nth-of-type(1) a`;
 export const fullItemDownload = `${itemDownloadsModal} li:nth-of-type(3) a`;
 export const workContributors = `[data-test-id="work-contributors"]`;
 export const workDates = `[data-test-id="work-dates"]`;
+export const referenceNumber = `[data-test-id="reference-number"]`;
 export const fullscreenButton = 'css=button >> text="Full screen"';
 export const searchWithinResultsHeader = `[data-test-id="results-header"]`;
 export const mainViewer = `[data-test-id=main-viewer] > div`;
