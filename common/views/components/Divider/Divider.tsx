@@ -2,7 +2,7 @@ import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 
 type Props = {
-  color?: string;
+  color: string;
   isStub?: boolean;
   isKeyline?: boolean;
   isThin?: boolean;
