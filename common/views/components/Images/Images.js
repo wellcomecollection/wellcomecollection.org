@@ -138,7 +138,6 @@ export type UiCaptionedImageProps = {|
   extraClasses?: string,
   preCaptionNode?: ReactNode,
   setTitleStyle?: (value: number) => void,
-  shameNoMaxHeight?: boolean, // FIXME: remove once we're totally React
 |};
 
 type UiCaptionedImageState = {|
@@ -183,7 +182,6 @@ export class CaptionedImage extends Component<
       extraClasses,
       image,
       sizesQueries,
-      shameNoMaxHeight,
     } = this.props;
     const { computedImageWidth, isWidthAuto, isEnhanced } = this.state;
     const uiImageProps = { ...image, sizesQueries };
@@ -202,7 +200,6 @@ export class CaptionedImage extends Component<
             setIsWidthAuto={this.setIsWidthAuto}
             isWidthAuto={isWidthAuto}
             setComputedImageWidth={this.setComputedImageWidth}
-            extraClasses={shameNoMaxHeight ? 'shame-no-max-height' : ''}
           />
         </div>
         {isWidthAuto && (
