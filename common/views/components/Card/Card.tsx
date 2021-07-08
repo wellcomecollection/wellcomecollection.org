@@ -32,6 +32,19 @@ export const CardOuter = styled.a.attrs(() => ({
   }
 `;
 
+export const CardPostBody = styled(Space).attrs({
+  v: {
+    size: 'm',
+    properties: ['padding-bottom'],
+    overrides: { small: 5, medium: 5, large: 5 },
+  },
+  h: {
+    size: 'm',
+    properties: ['padding-left', 'padding-right'],
+    overrides: { small: 5, medium: 5, large: 5 },
+  },
+})``;
+
 export const CardBody = styled(Space).attrs(() => ({
   v: { size: 'm', properties: ['padding-top'] },
   h: {
