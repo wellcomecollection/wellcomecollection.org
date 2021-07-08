@@ -13,6 +13,7 @@ type Props = {|
   activeId: ?string,
   onActiveIdChange?: (id: string) => void,
   extraClasses?: string,
+  ariaCurrentText?: string
 |};
 
 type State = {|
@@ -220,6 +221,7 @@ class SegmentedControl extends Component<Props, State> {
                   }
                 }}
                 href={item.url}
+                aria-current={item.id === activeId ? (this.props.ariaCurrentText || true) : null}
                 className={classNames({
                   'is-active bg-black font-white bg-hover-pewter':
                     item.id === activeId,

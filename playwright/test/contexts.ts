@@ -48,6 +48,11 @@ const workWithPhysicalAndDigitalLocation = async (): Promise<void> => {
   await page.goto(`${baseUrl}/works/works/r9kpkq8e`);
 };
 
+const itemWithReferenceNumber = async (): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await page.goto(`${baseUrl}/works/qqra7v28/items`);
+};
+
 const worksSearch = async (): Promise<void> => {
   context.addCookies(requiredCookies);
   await page.goto(`${baseUrl}/works`);
@@ -59,6 +64,7 @@ export {
   multiVolumeItem,
   worksSearch,
   itemWithSearchAndStructures,
+  itemWithReferenceNumber,
   workWithPhysicalAndDigitalLocation,
   workWithPhysicalLocationOnly,
   workWithDigitalLocationOnly,
