@@ -39,7 +39,7 @@ class AsyncSearchResults extends Component<Props, State> {
         {!(this.state.items && this.state.items.length > 0) && (
           <div
             data-component="ContentListItems"
-            className="async-content component-list-placeholder"
+            className="component-list-placeholder"
             data-endpoint={
               '/async/search?query=' + encodeURIComponent(this.props.query)
             }

@@ -220,7 +220,7 @@ const PageHeader = ({
                     {asyncBreadcrumbsRoute && (
                       <div
                         data-component="AsyncBreadcrumb"
-                        className="async-content breadcrumb-placeholder"
+                        className="breadcrumb-placeholder"
                         data-endpoint={asyncBreadcrumbsRoute}
                         data-prefix-endpoint="false"
                         data-modifiers=""
