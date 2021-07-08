@@ -173,7 +173,7 @@ const EventPromo = ({
           h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           v={{ size: 'm', properties: ['padding-bottom'] }}
         >
-          <Divider extraClasses={`divider--keyline divider--white`} />
+          <Divider color={`white`} isKeyline={true} />
           <Space v={{ size: 's', properties: ['padding-top'] }}>
             <LabelsList
               labels={event.secondaryLabels}

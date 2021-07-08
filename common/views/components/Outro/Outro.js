@@ -67,7 +67,7 @@ const Outro = ({
 
   return (
     <div>
-      <Divider extraClasses={`divider--stub divider--black`} />
+      <Divider color={`black`} isStub={true} />
       <Space
         v={{
           size: 'm',

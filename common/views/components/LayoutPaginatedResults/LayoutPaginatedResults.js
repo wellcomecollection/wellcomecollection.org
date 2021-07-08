@@ -91,7 +91,7 @@ const LayoutPaginatedResults = ({
             ? paginatedResults.totalResults
             : null}
         </Space>
-        <Divider extraClasses={'divider--keyline divider--pumice'} />
+        <Divider color={`pumice`} isKeyline={true} />
       </Layout12>
     )}
     {showFreeAdmissionMessage && (

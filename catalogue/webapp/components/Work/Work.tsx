@@ -134,7 +134,7 @@ const Work: FunctionComponent<Props> = ({
           </div>
 
           <div className="container">
-            <Divider extraClasses="divider--pumice divider--keyline" />
+            <Divider color={`pumice`} isKeyline={true} />
             <ArchiveDetailsContainer>
               <ArchiveTree work={work} />
               <Space v={{ size: 'l', properties: ['padding-top'] }}>
