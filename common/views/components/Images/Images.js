@@ -12,6 +12,40 @@ import type { CaptionedImage as CaptionedImageType } from '../../../model/captio
 // $FlowFixMe (tsx)
 import Caption from '../Caption/Caption';
 import LL from '../styled/LL';
+import styled from 'styled-components';
+
+const CaptionedImageFigure = styled.div`
+  margin: 0;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+
+  .image {
+    max-height: 80vh;
+    max-width: 100%;
+
+  }
+
+  .caption {
+    text-align: left;
+  }
+
+  noscript .image {
+    max-height: none;
+  }
+
+  ${props =>
+    props.isBody &&
+    `
+    text-align: left;
+
+    .caption {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  `}
+}`;
+
 export type UiImageProps = {|
   ...ImageType,
   sizesQueries: string,
@@ -135,7 +169,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
 export type UiCaptionedImageProps = {|
   ...CaptionedImageType,
   sizesQueries: string,
-  extraClasses?: string,
+  isBody?: boolean,
   preCaptionNode?: ReactNode,
   setTitleStyle?: (value: number) => void,
   shameNoMaxHeight?: boolean, // FIXME: remove once we're totally React
@@ -180,8 +214,8 @@ export class CaptionedImage extends Component<
     const {
       caption,
       preCaptionNode,
-      extraClasses,
       image,
+      isBody,
       sizesQueries,
       shameNoMaxHeight,
     } = this.props;
@@ -189,7 +223,7 @@ export class CaptionedImage extends Component<
     const uiImageProps = { ...image, sizesQueries };
 
     return (
-      <figure className={`captioned-image ${extraClasses || ''}`}>
+      <CaptionedImageFigure className={`captioned-image`} isBody={isBody}>
         <div
           style={{
             display: isWidthAuto ? 'inline-block' : undefined,
@@ -220,7 +254,7 @@ export class CaptionedImage extends Component<
             preCaptionNode={preCaptionNode}
           />
         )}
-      </figure>
+      </CaptionedImageFigure>
     );
   }
 }
