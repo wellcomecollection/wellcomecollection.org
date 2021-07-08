@@ -156,7 +156,7 @@ const DropdownButton: FunctionComponent<Props> = ({
           focusable.setAttribute('tabIndex', '-1')
         );
     }
-  }, [isActive]);
+  }, [isActive, children]);
 
   return (
     <DropdownWrapper ref={dropdownWrapperRef}>

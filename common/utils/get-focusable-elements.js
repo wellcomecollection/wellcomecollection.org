@@ -4,7 +4,7 @@
 const getFocusableElements = (el: HTMLElement): HTMLElement[] => {
   return [
     ...el.querySelectorAll(
-      'button, [href]:not([tabindex="-1"]), input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      'button, [href]:not([tabindex="-1"]), input, select, textarea, [tabindex]:not([tabindex="-1"]), [role=slider]'
     ),
   ];
 };
