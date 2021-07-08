@@ -1,8 +1,0 @@
-.logo-svg {
-  width: 6.5rem;
-
-  @include respond-to('header-medium') {
-    width: 128px;
-    height: 42px;
-  }
-}
