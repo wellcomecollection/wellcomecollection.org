@@ -6,15 +6,10 @@ $is-next: false !default;
 
 // Non Critical
 @import 'components/divider';
-@import 'components/framed_header';
-@import 'components/feature_flags';
-@import 'components/is_preview';
 @import 'components/opening_hours';
-@import 'components/pre';
 @import 'components/prismic_toolbar';
 @import 'components/sort_search';
 @import 'components/tabs';
-@import 'components/tweet';
 
 // TODO: Remove this
 @import 'shame';
