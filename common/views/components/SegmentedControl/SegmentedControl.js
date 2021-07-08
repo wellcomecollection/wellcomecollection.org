@@ -6,6 +6,86 @@ import Icon from '../Icon/Icon';
 import { trackEvent } from '../../../utils/ga';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
+import styled from 'styled-components';
+
+const Wrapper = styled.div.attrs({})`
+  .segmented-control__drawer {
+    display: none;
+
+    .enhanced & {
+      display: block;
+
+      @media (min-width: ${props => props.theme.sizes.medium}px) {
+        display: none;
+      }
+    }
+  }
+
+  ${props =>
+    props.isActive &&
+    `
+    .segmented-control__button-text {
+      display: none;
+    }
+  `}
+
+  .segmented-control__close {
+    display: ${props => (props.isActive ? 'block' : 'none')};
+  }
+
+  .segmented-control__header {
+    width: 100%;
+
+    ${props =>
+      props.isActive &&
+      `
+      width: auto;
+      position: fixed;
+      top: 24px;
+      right: 18px;
+      z-index: 2;
+    `}
+  }
+
+  .segmented-control__body {
+    display: ${props => (props.isActive ? 'block' : 'none')};
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .segmented-control__list {
+    display: flex;
+
+    .enhanced & {
+      display: none;
+
+      @media (min-width: ${props => props.theme.sizes.medium}px) {
+        display: flex;
+      }
+    }
+  }
+
+  &.segmented-control__list--inline {
+    .enhanced & {
+      @media (min-width: ${props => props.theme.sizes.medium}px) {
+        display: inline-block;
+      }
+    }
+  }
+
+  .segmented-control__item {
+    flex: 1;
+  }
+
+  .segmented-control__link {
+    width: 100%;
+    text-align: center;
+  }
+`;
 
 type Props = {|
   id: string,
@@ -13,6 +93,7 @@ type Props = {|
   activeId: ?string,
   onActiveIdChange?: (id: string) => void,
   extraClasses?: string,
+  ariaCurrentText?: string,
 |};
 
 type State = {|
@@ -47,16 +128,10 @@ class SegmentedControl extends Component<Props, State> {
     const { activeId, isActive } = this.state;
 
     return (
-      <div
-        className={classNames({
-          'segmented-control': true,
-          [extraClasses || '']: Boolean(extraClasses),
-        })}
-      >
+      <Wrapper className={extraClasses} isActive={isActive}>
         <div
           className={classNames({
             'segmented-control__drawer': true,
-            'is-active': isActive,
           })}
         >
           <button className="segmented-control__header plain-button no-margin no-padding">
@@ -220,6 +295,11 @@ class SegmentedControl extends Component<Props, State> {
                   }
                 }}
                 href={item.url}
+                aria-current={
+                  item.id === activeId
+                    ? this.props.ariaCurrentText || true
+                    : null
+                }
                 className={classNames({
                   'is-active bg-black font-white bg-hover-pewter':
                     item.id === activeId,
@@ -236,7 +316,7 @@ class SegmentedControl extends Component<Props, State> {
             </li>
           ))}
         </ul>
-      </div>
+      </Wrapper>
     );
   }
 }
