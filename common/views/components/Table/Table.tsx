@@ -289,15 +289,17 @@ const Table: FunctionComponent<Props> = ({
         <ScrollButtons isActive={isOverflown}>
           <ScrollButtonWrap isLeft isActive={isLeftActive} ref={leftButtonRef}>
             <Control
+              colorScheme="light"
               icon="arrow"
-              extraClasses="icon--180 bg-white font-green border-width-2 border-color-green"
+              extraClasses="icon--180 bg-white font-green"
               text=""
             />
           </ScrollButtonWrap>
           <ScrollButtonWrap isActive={isRightActive} ref={rightButtonRef}>
             <Control
+              colorScheme="light"
               icon="arrow"
-              extraClasses="bg-white font-green border-width-2 border-color-green"
+              extraClasses="bg-white font-green"
               text=""
             />
           </ScrollButtonWrap>

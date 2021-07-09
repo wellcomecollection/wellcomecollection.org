@@ -1,7 +1,31 @@
 import { font, classNames } from '../../../utils/classnames';
 import { breadcrumbsLd } from '../../../utils/json-ld';
-import Space, { HorizontalSpaceProperty } from '../styled/Space';
+import Space from '../styled/Space';
 import { FunctionComponent, ReactElement } from 'react';
+import styled from 'styled-components';
+
+type ItemWrapperProps = {
+  isFirst: boolean;
+};
+
+const ItemWrapper = styled(Space).attrs<ItemWrapperProps>(props => ({
+  h: {
+    size: 'm',
+    properties: [
+      'padding-right',
+      !props.isFirst ? 'padding-left' : undefined,
+    ].filter(Boolean),
+  },
+  className: classNames({
+    [font('hnr', 5)]: true,
+  }),
+}))<ItemWrapperProps>`
+  ${props =>
+    !props.isFirst &&
+    `
+  border-left: 1px solid ${props.theme.color('black')};
+`}
+`;
 
 export type Breadcrumbs = {
   text: string;
@@ -27,21 +51,7 @@ const Breadcrumb: FunctionComponent<Props> = ({
       .map(({ text, url, prefix }, i) => {
         const LinkOrSpanTag = url ? 'a' : 'span';
         return (
-          <Space
-            as={prefix ? 'b' : 'span'}
-            h={{
-              size: 'm',
-              properties: [
-                'padding-right',
-                i !== 0 ? 'padding-left' : undefined,
-              ].filter(Boolean) as HorizontalSpaceProperty[],
-            }}
-            key={text}
-            className={classNames({
-              [font('hnr', 5)]: true,
-              'border-left-width-1 border-color-black': i !== 0,
-            })}
-          >
+          <ItemWrapper isFirst={i === 0} key={text} as={prefix ? 'b' : 'span'}>
             {prefix}{' '}
             <LinkOrSpanTag
               className={classNames({
@@ -51,7 +61,7 @@ const Breadcrumb: FunctionComponent<Props> = ({
             >
               {text}
             </LinkOrSpanTag>
-          </Space>
+          </ItemWrapper>
         );
       })}
     {/* We do this so that the page doesn't bounce around if we don't have any breadcrumbs */}

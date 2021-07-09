@@ -17,6 +17,46 @@ import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import FooterOpeningTimes from '@weco/common/views/components/FooterOpeningTimes/FooterOpeningTimes';
 
+const FooterNavWrapper = styled(Space).attrs({
+  v: {
+    size: 'm',
+    properties: ['padding-top', 'padding-bottom'],
+  },
+})`
+  border-top: 1px solid ${props => props.theme.color('charcoal')};
+  border-bottom: 1px solid ${props => props.theme.color('charcoal')};
+`;
+
+const HygieneNav = styled(Space).attrs({
+  as: 'nav',
+  h: { size: 'l', properties: ['margin-bottom'] },
+  className: classNames({
+    'relative flex-1': true,
+  }),
+})`
+  border-bottom: 1px solid ${props => props.theme.color('charcoal')};
+`;
+
+const HygieneList = styled(Space).attrs({
+  as: 'ul',
+  h: { size: 'l', properties: ['margin-top', 'margin-bottom'] },
+  className: classNames({
+    'plain-list no-margin no-padding': true,
+    'flex flex--h-space-between': true,
+  }),
+})`
+  border-top: 1px solid ${props => props.theme.color('charcoal')};
+`;
+
+const FooterBottom = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-bottom'] },
+  className: classNames({
+    'flex flex--wrap flex--h-space-between flex--v-start': true,
+  }),
+})`
+  border-top: 1px solid ${props => props.theme.color('charcoal')};
+`;
+
 const NavBrand = styled.a`
   position: absolute;
   bottom: 0;
@@ -172,15 +212,9 @@ const Footer = ({
                 <FooterWellcomeLogo />
               </NavBrand>
             </Space>
-            <Space
-              v={{
-                size: 'm',
-                properties: ['padding-top', 'padding-bottom'],
-              }}
-              className="border-top-width-1 border-bottom-width-1 border-color-charcoal"
-            >
+            <FooterNavWrapper>
               <FooterNav />
-            </Space>
+            </FooterNavWrapper>
           </div>
           <div className={`${grid({ s: 12, m: 6, l: 4 })}`}>
             <Space
@@ -254,13 +288,7 @@ const Footer = ({
           </div>
         </div>
         <FooterSocial />
-        <Space
-          v={{ size: 'xl', properties: ['padding-bottom'] }}
-          className={classNames({
-            'flex flex--wrap flex--h-space-between flex--v-start': true,
-            'border-top-width-1 border-color-charcoal': true,
-          })}
-        >
+        <FooterBottom>
           <FooterLeft>
             <FooterStrap
               className={classNames({
@@ -307,21 +335,8 @@ const Footer = ({
               </p>
             </Space>
           </FooterLeft>
-          <Space
-            as="nav"
-            h={{ size: 'l', properties: ['margin-bottom'] }}
-            className={classNames({
-              'relative flex-1 border-bottom-width-1 border-color-charcoal': true,
-            })}
-          >
-            <Space
-              as="ul"
-              h={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
-              className={classNames({
-                'plain-list no-margin no-padding': true,
-                'flex flex--h-space-between border-top-width-1 border-color-charcoal': true,
-              })}
-            >
+          <HygieneNav>
+            <HygieneList>
               <HygieneItem>
                 <a
                   href="https://wellcome.ac.uk/jobs"
@@ -371,9 +386,9 @@ const Footer = ({
                   <Icon name="arrow" extraClasses="icon--270" />
                 </a>
               </HygieneItem>
-            </Space>
-          </Space>
-        </Space>
+            </HygieneList>
+          </HygieneNav>
+        </FooterBottom>
       </div>
     </Space>
   );

@@ -15,25 +15,27 @@ import {
 import type { UiEvent } from '../../../model/events';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
+import styled from 'styled-components';
 
 type Props = {|
   event: UiEvent,
   isNotLinked: boolean,
 |};
 
+const GridWrapper = styled(Space).attrs({
+  v: {
+    size: 'l',
+    properties: ['margin-bottom', 'padding-bottom'],
+  },
+})`
+  border-bottom: 1px solid ${props => props.theme.color('smoke')};
+`;
+
 const EventScheduleItem = ({ event, isNotLinked }: Props) => {
   const waitForTicketSales =
     event.ticketSalesStart && !isTimePast(event.ticketSalesStart);
   return (
-    <Space
-      v={{
-        size: 'l',
-        properties: ['margin-bottom', 'padding-bottom'],
-      }}
-      className={classNames({
-        'border-color-smoke border-bottom-width-1': true,
-      })}
-    >
+    <GridWrapper>
       <div className="grid">
         <Space
           v={{
@@ -182,7 +184,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
           </div>
         </div>
       </div>
-    </Space>
+    </GridWrapper>
   );
 };
 

@@ -51,9 +51,11 @@ const FiltersHeader = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
-    'border-color-pumice border-bottom-width-1 relative': true,
+    relative: true,
   }),
-})``;
+})`
+  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+`;
 
 const CloseFiltersButton = styled(Space).attrs({
   h: { size: 'm', properties: ['left'] },
@@ -134,10 +136,9 @@ const FiltersBody = styled(Space).attrs({
 
 const FilterSection = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
-  className: classNames({
-    'border-bottom-width-1 border-color-pumice': true,
-  }),
-})``;
+})`
+  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+`;
 
 const FiltersScrollable = styled.div.attrs({
   className: classNames({
@@ -153,9 +154,10 @@ const FiltersFooter = styled(Space).attrs({
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
-    'bg-white border-color-pumice border-top-width-1 flex flex--v-center flex--h-space-between': true,
+    'bg-white flex flex--v-center flex--h-space-between': true,
   }),
 })`
+  border-top: 1px solid ${props => props.theme.color('pumice')};
   position: fixed;
   bottom: 0;
   left: 0;

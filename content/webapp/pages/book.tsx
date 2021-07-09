@@ -13,6 +13,11 @@ import { defaultContributorImage } from '@weco/common/services/prismic/parsers';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import BookImage from '@weco/common/views/components/BookImage/BookImage';
+import styled from 'styled-components';
+
+const MetadataWrapper = styled.div`
+  border-top: 1px solid ${props => props.theme.color('smoke')};
+`;
 
 type Props = {
   book: Book;
@@ -182,9 +187,9 @@ export class BookPage extends Component<Props | { statusCode: number }> {
           seasons={book.seasons}
         >
           <Fragment>
-            <div className={`border-top-width-1 border-color-smoke`}>
+            <MetadataWrapper>
               <BookMetadata book={book} />
-            </div>
+            </MetadataWrapper>
             {book.orderLink && (
               <ButtonSolidLink link={book.orderLink} text="Buy the book" />
             )}

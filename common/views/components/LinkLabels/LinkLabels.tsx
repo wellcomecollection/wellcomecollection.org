@@ -1,3 +1,4 @@
+import { FunctionComponent } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
@@ -31,11 +32,20 @@ const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
   },
   className: classNames({
     [font('hnr', 5)]: true,
-    'border-left-width-1 border-color-marble': props.addBorder,
   }),
-}))<LinkOrSpanSpaceAttrs>``;
+}))<LinkOrSpanSpaceAttrs>`
+  ${props =>
+    props.addBorder &&
+    `
+    border-left: 1px solid ${props.theme.color('marble')};
+  `}
+`;
 
-const LinkLabels = ({ items, heading, icon }: Props) =>
+const LinkLabels: FunctionComponent<Props> = ({
+  items,
+  heading,
+  icon,
+}: Props) =>
   heading ? (
     <dl
       className={classNames({

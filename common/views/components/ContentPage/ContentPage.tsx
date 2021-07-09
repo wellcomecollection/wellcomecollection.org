@@ -26,6 +26,7 @@ import Body from '../Body/Body';
 import { Season } from '../../../model/seasons';
 import { ElementFromComponent } from '../../../utils/utility-types';
 import { headerSpaceSize } from '@weco/common/views/components/PageHeader/PageHeader';
+import styled from 'styled-components';
 /*eslint-disable */
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 
@@ -43,12 +44,15 @@ type Props = {
   seasons?: Season[];
 };
 
+const ShameBorder = styled(Space).attrs({
+  v: { size: 'l', properties: ['margin-top'] },
+})`
+  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+`;
 // FIXME: obviously we can't carry on like this!
 const ShameWhatWeDoHack = () => (
   <Layout8>
-    <Space v={{ size: 'l', properties: ['margin-top'] }}>
-      <div className="border-bottom-width-1 border-color-pumice"></div>
-    </Space>
+    <ShameBorder />
     <CompactCard
       url="/user-panel"
       title="Join our user panel"

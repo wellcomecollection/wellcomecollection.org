@@ -1,11 +1,18 @@
 import Space from '@weco/common/views/components/styled/Space';
-import { classNames } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { HTMLString, PrismicLink } from '../../../services/prismic/types';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import { parseLink } from '@weco/common/services/prismic/parsers';
 import { dasherize } from '@weco/common/utils/grammar';
 import { FunctionComponent, ReactElement } from 'react';
+import styled from 'styled-components';
+
+const Wrapper = styled(Space).attrs({
+  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+})`
+  border-left: 16px solid ${props => props.theme.color('yellow')};
+`;
+
 type Props = {
   title: string;
   text: HTMLString;
@@ -22,13 +29,7 @@ const InfoBlock: FunctionComponent<Props> = ({
   const parsedLink = parseLink(link);
 
   return (
-    <Space
-      h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
-      className={classNames({
-        'border-color-yellow': true,
-      })}
-      style={{ borderLeftWidth: '16px', borderLeftStyle: 'solid' }}
-    >
+    <Wrapper>
       <h2 id={dasherize(title)} className="h2">
         {title}
       </h2>
@@ -40,7 +41,7 @@ const InfoBlock: FunctionComponent<Props> = ({
           <ButtonOutlinedLink link={parsedLink} text={linkText} />
         </Space>
       )}
-    </Space>
+    </Wrapper>
   );
 };
 

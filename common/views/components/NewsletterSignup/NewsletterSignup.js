@@ -10,6 +10,23 @@ import Space from '../styled/Space';
 import useValidation from '../../../hooks/useValidation';
 // $FlowFixMe (tsx)
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
+import styled from 'styled-components';
+
+const ErrorBox = styled(Space).attrs({
+  v: {
+    size: 's',
+    properties: [
+      'padding-top',
+      'padding-bottom',
+      'margin-top',
+      'margin-bottom',
+    ],
+  },
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+})`
+  border: 1px solid ${props => props.theme.color('red')};
+  color: ${props => props.theme.color('red')};
+`;
 
 type Props = {|
   isSuccess?: boolean,
@@ -231,26 +248,11 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
             <ButtonSolid text="Subscribe" />
           </Space>
 
-          <div role="status">
-            {isCheckboxError && isSubmitAttempted && (
-              <Space
-                as="p"
-                v={{
-                  size: 's',
-                  properties: [
-                    'padding-top',
-                    'padding-bottom',
-                    'margin-top',
-                    'margin-bottom',
-                  ],
-                }}
-                h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-                className={`border-width-1 border-color-red font-red`}
-              >
-                Please select at least one option.
-              </Space>
-            )}
-          </div>
+          {isCheckboxError && isSubmitAttempted && (
+            <div role="status">
+              <ErrorBox as="p">Please select at least one option.</ErrorBox>
+            </div>
+          )}
 
           <p className={`${font('hnr', 6)}`}>
             We use a third-party provider,{' '}

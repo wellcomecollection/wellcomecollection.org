@@ -10,9 +10,11 @@ type WrapperProps = {
 };
 const Wrapper = styled.div.attrs({
   className: classNames({
-    'grid bg-white border-color-pumice border-bottom-width-1': true,
+    'grid bg-white': true,
   }),
 })<WrapperProps>`
+  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+
   ${props =>
     props.isBurgerOpen &&
     `${respondBetween(

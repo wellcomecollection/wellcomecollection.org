@@ -50,10 +50,9 @@ const ModalInner = styled(Space).attrs({
 const FilterSection = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  className: classNames({
-    'border-bottom-width-1 border-color-pumice': true,
-  }),
-})``;
+})`
+  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+`;
 
 const List = styled.ul.attrs({
   className: classNames({
@@ -71,9 +70,10 @@ const FiltersFooter = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
-    'bg-white border-color-pumice border-top-width-1 flex flex--v-center flex--h-space-between': true,
+    'bg-white flex flex--v-center flex--h-space-between': true,
   }),
 })`
+  border-top: 1px solid ${props => props.theme.color('pumice')};
   position: fixed;
   bottom: 0;
   left: 0;
@@ -85,9 +85,10 @@ const FiltersHeader = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
-    'border-color-pumice border-bottom-width-1 absolute': true,
+    absolute: true,
   }),
 })`
+  border-bottom: 1px solid ${props => props.theme.color('pumice')};
   text-align: center;
   top: 0px;
   left: 0px;

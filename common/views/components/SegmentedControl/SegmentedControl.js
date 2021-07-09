@@ -8,6 +8,83 @@ import { trackEvent } from '../../../utils/ga';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 
+const DrawerItem = styled(Space).attrs({
+  v: {
+    size: 'm',
+    properties: ['padding-top', 'padding-bottom'],
+  },
+  as: 'li',
+  className: classNames({
+    [font('wb', 4)]: true,
+    'segmented-control__drawer-item': true,
+  }),
+})`
+  border-bottom: 1px solid ${props => props.theme.color('smoke')};
+
+  ${props =>
+    props.isFirst &&
+    `
+    border-top: 1px solid ${props.theme.color('smoke')};
+  `}
+`;
+
+const List = styled.ul.attrs({
+  className: classNames({
+    'segmented-control__list': true,
+    'no-margin': true,
+    'no-padding': true,
+    'plain-list': true,
+    'rounded-diagonal': true,
+    'overflow-hidden': true,
+  }),
+})`
+  border: 1px solid ${props => props.theme.color('black')};
+`;
+
+const Item = styled.li.attrs({
+  className: classNames({
+    [font('wb', 6)]: true,
+    'segmented-control__item': true,
+    'line-height-1': true,
+    flex: true,
+  }),
+})`
+  border-right: 1px solid ${props => props.theme.color('black')};
+
+  ${props =>
+    props.isLast &&
+    `
+    border-right: 0;
+  `}
+`;
+
+const ItemInner = styled(Space).attrs(props => ({
+  as: 'a',
+  v: {
+    size: 'm',
+    properties: ['padding-top', 'padding-bottom'],
+  },
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+
+  className: classNames({
+    'is-active bg-black font-white': props.isActive,
+    'bg-white font-black': !props.isActive,
+    block: true,
+    'plain-link': true,
+    'segmented-control__link': true,
+    'transition-bg': true,
+    'no-visible-focus': true,
+  }),
+}))`
+  &:hover,
+  &:focus {
+    background: ${props =>
+      props.isActive
+        ? props.theme.color('pewter')
+        : props.theme.color('pumice')};
+  }
+`;
+
 const Wrapper = styled.div.attrs({})`
   .segmented-control__drawer {
     display: none;
@@ -194,21 +271,7 @@ class SegmentedControl extends Component<Props, State> {
 
             <ul className="segmented-control__drawer-list no-margin no-padding plain-list">
               {items.map((item, i) => (
-                <Space
-                  v={{
-                    size: 'm',
-                    properties: ['padding-top', 'padding-bottom'],
-                  }}
-                  as="li"
-                  key={item.id}
-                  className={classNames({
-                    [font('wb', 4)]: true,
-                    'border-top-width-1': i === 0,
-                    'segmented-control__drawer-item': true,
-                    'border-bottom-width-1': true,
-                    'border-color-smoke': true,
-                  })}
-                >
+                <DrawerItem isFirst={i === 0} key={item.id}>
                   <a
                     onClick={e => {
                       const url = e.target.getAttribute('href');
@@ -240,42 +303,16 @@ class SegmentedControl extends Component<Props, State> {
                   >
                     {item.text}
                   </a>
-                </Space>
+                </DrawerItem>
               ))}
             </ul>
           </Space>
         </div>
-        <ul
-          className={classNames({
-            'segmented-control__list': true,
-            'no-margin': true,
-            'no-padding': true,
-            'plain-list': true,
-            'border-width-1': true,
-            'border-color-black': true,
-            'rounded-diagonal': true,
-            'overflow-hidden': true,
-          })}
-        >
+        <List>
           {items.map((item, i) => (
-            <li
-              key={item.id}
-              className={classNames({
-                [font('wb', 6)]: true,
-                'border-right-width-1 border-right-color-black':
-                  i !== items.length - 1,
-                'segmented-control__item': true,
-                'line-height-1': true,
-                flex: true,
-              })}
-            >
-              <Space
-                v={{
-                  size: 'm',
-                  properties: ['padding-top', 'padding-bottom'],
-                }}
-                h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-                as="a"
+            <Item key={item.id} isLast={i === items.length - 1}>
+              <ItemInner
+                isActive={item.id === activeId}
                 onClick={e => {
                   const url = e.target.getAttribute('href');
                   const isHash = url.startsWith('#');
@@ -300,22 +337,12 @@ class SegmentedControl extends Component<Props, State> {
                     ? this.props.ariaCurrentText || true
                     : null
                 }
-                className={classNames({
-                  'is-active bg-black font-white bg-hover-pewter':
-                    item.id === activeId,
-                  'bg-white font-black bg-hover-pumice': item.id !== activeId,
-                  block: true,
-                  'plain-link': true,
-                  'segmented-control__link': true,
-                  'transition-bg': true,
-                  'no-visible-focus': true,
-                })}
               >
                 {item.text}
-              </Space>
-            </li>
+              </ItemInner>
+            </Item>
           ))}
-        </ul>
+        </List>
       </Wrapper>
     );
   }
