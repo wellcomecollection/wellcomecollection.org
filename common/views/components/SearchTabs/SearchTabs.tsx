@@ -131,6 +131,7 @@ const SearchTabs: FunctionComponent<Props> = ({
                   className={classNames({
                     'plain-link': true,
                   })}
+                  aria-current={isActive ? "page" : undefined}
                 >
                   {children}
                 </a>
@@ -221,6 +222,7 @@ const SearchTabs: FunctionComponent<Props> = ({
                   className={classNames({
                     'plain-link': true,
                   })}
+                  aria-current={isActive ? "page" : undefined}
                 >
                   {children}
                 </a>
