@@ -5,22 +5,6 @@ import { respondTo, respondBetween, visuallyHidden, clearfix } from './mixins';
 
 export const utilityClasses = css<GlobalStyleProps>`
 
-${[1, 2, 3, 4, 5]
-  .map(width => {
-    return `
-    ${['top', 'right', 'bottom', 'left']
-      .map(direction => {
-        return `
-        .border-${direction}-width-${width} {
-          border-${direction}-width: ${width}px;
-          border-${direction}-style: solid;
-        }
-      `;
-      })
-      .join(' ')}
-  `;
-  })
-  .join(' ')}
 
 ${Object.entries(themeValues.colors)
   .map(([key, value]) => {
@@ -32,30 +16,9 @@ ${Object.entries(themeValues.colors)
       fill: ${value.base};
     }
   }
-  .font-hover-${key}:hover,
-  .font-hover-${key}:focus {
-    color: ${value.base};
-  }
   .bg-${key} {
     background: ${value.base};
-  }
-
-  .bg-hover-${key} {
-    &:hover,
-    &:focus {
-      background: ${value.base};
-    }
-  }
-
-  .border-color-${key} {
-    border-color: ${value.base};
-  }
-
-  .border-hover-color-${key}:hover,
-  .border-hover-color-${key}:focus {
-    border-color: ${value.base};
-  }
-  `;
+  }`;
   })
   .join(' ')}
 

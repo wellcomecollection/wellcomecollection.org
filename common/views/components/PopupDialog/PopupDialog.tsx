@@ -39,9 +39,10 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
   },
   className: classNames({
     [font('hnb', 5)]: true,
-    'plain-button line-height-1 flex-inline flex--v-center bg-hover-purple font-purple font-hover-white': true,
+    'plain-button line-height-1 flex-inline flex--v-center': true,
   }),
 }))<PopupDialogOpenProps>`
+  color: ${props => props.theme.color('purple')};
   position: fixed;
   transform: ${props =>
     props.isActive || !props.shouldStartAnimation
@@ -61,6 +62,8 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
   &:focus {
     outline: 0;
     border: 0;
+    color: ${props => props.theme.color('white')};
+    background: ${props => props.theme.color('purple')};
 
     .icon__shape {
       fill: ${props => props.theme.color('white')};
@@ -137,9 +140,10 @@ const PopupDialogCTA = styled(Space).attrs({
   },
   className: classNames({
     [font('hnb', 5, { small: 3, medium: 3 })]: true,
-    'bg-purple font-white font-hover-purple bg-hover-white rounded-corners inline-block': true,
+    'bg-purple rounded-corners inline-block': true,
   }),
 })`
+  color: ${props => props.theme.color('white')};
   transition: all 500ms ease;
   border: 2px solid transparent;
   text-decoration: none;
@@ -147,7 +151,9 @@ const PopupDialogCTA = styled(Space).attrs({
   &:hover,
   &:focus {
     outline: 0;
+    color: ${props => props.theme.color('purple')};
     border-color: ${props => props.theme.color('purple')};
+    background: ${props => props.theme.color('white')};
   }
 `;
 

@@ -58,6 +58,33 @@ const Item = styled.li.attrs({
   `}
 `;
 
+const ItemInner = styled(Space).attrs(props => ({
+  as: 'a',
+  v: {
+    size: 'm',
+    properties: ['padding-top', 'padding-bottom'],
+  },
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+
+  className: classNames({
+    'is-active bg-black font-white': props.isActive,
+    'bg-white font-black': !props.isActive,
+    block: true,
+    'plain-link': true,
+    'segmented-control__link': true,
+    'transition-bg': true,
+    'no-visible-focus': true,
+  }),
+}))`
+  &:hover,
+  &:focus {
+    background: ${props =>
+      props.isActive
+        ? props.theme.color('pewter')
+        : props.theme.color('pumice')};
+  }
+`;
+
 const Wrapper = styled.div.attrs({})`
   .segmented-control__drawer {
     display: none;
@@ -284,13 +311,8 @@ class SegmentedControl extends Component<Props, State> {
         <List>
           {items.map((item, i) => (
             <Item key={item.id} isLast={i === items.length - 1}>
-              <Space
-                v={{
-                  size: 'm',
-                  properties: ['padding-top', 'padding-bottom'],
-                }}
-                h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-                as="a"
+              <ItemInner
+                isActive={item.id === activeId}
                 onClick={e => {
                   const url = e.target.getAttribute('href');
                   const isHash = url.startsWith('#');
@@ -315,19 +337,9 @@ class SegmentedControl extends Component<Props, State> {
                     ? this.props.ariaCurrentText || true
                     : null
                 }
-                className={classNames({
-                  'is-active bg-black font-white bg-hover-pewter':
-                    item.id === activeId,
-                  'bg-white font-black bg-hover-pumice': item.id !== activeId,
-                  block: true,
-                  'plain-link': true,
-                  'segmented-control__link': true,
-                  'transition-bg': true,
-                  'no-visible-focus': true,
-                })}
               >
                 {item.text}
-              </Space>
+              </ItemInner>
             </Item>
           ))}
         </List>
