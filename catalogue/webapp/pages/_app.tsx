@@ -2,7 +2,6 @@ import NextApp, { NextWebVitalsMetric, AppContext } from 'next/app';
 import App, { WecoAppProps } from '@weco/common/views/pages/_app';
 import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
 import { gtagReportWebVitals } from '@weco/common/utils/gtag';
-import '../styles.scss';
 import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 export function reportWebVitals(metric: NextWebVitalsMetric): void {

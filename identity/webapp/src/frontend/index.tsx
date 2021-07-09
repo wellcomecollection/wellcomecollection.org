@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
-import '@weco/common/styles/styleguide.scss';
 import { initaliseMiddlewareClient } from '../utility/middleware-api-client';
 import { Registration } from './Registration/Registration';
 import { AccountValidated } from './Registration/AccountValidated';
