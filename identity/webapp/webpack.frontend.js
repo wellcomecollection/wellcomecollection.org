@@ -77,25 +77,16 @@ module.exports = {
           'style-loader',
           // Translates CSS into CommonJS
           'css-loader',
-          // Compiles Sass to CSS
-          {
-            loader: 'sass-loader',
-            options: {
-              implementation: require('node-sass'),
-              additionalData: '$is-next: true;',
-              sassOptions: {
-                includePaths: ['../../common/styles'],
-              },
-            },
-          },
         ],
       },
     ],
   },
 
-  plugins: [new Dotenv({
-    systemvars: true,
-  })],
+  plugins: [
+    new Dotenv({
+      systemvars: true,
+    }),
+  ],
 
   // Add problem packages to alias.
   resolve: {

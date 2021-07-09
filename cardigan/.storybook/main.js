@@ -36,24 +36,6 @@ module.exports = {
       },
     });
 
-    config.module.rules.push({
-      test: /\.scss$/,
-      include: [path.resolve(__dirname, '../../common/styles')],
-      use: [
-        {
-          loader: 'css-loader',
-        },
-        {
-          loader: 'postcss-loader',
-          options: {
-            postcssOptions: {
-              config: path.resolve(__dirname, '../'),
-            },
-          },
-        },
-        'sass-loader',
-      ],
-    });
     return config;
   },
 };

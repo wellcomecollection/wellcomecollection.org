@@ -29,22 +29,6 @@ module.exports = function(webpack) {
       },
     },
     webpack(config, options) {
-      config.module.rules.push({
-        test: /\.scss$/,
-        use: [
-          {
-            loader: 'css-loader',
-          },
-          'postcss-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              includePaths: [path.join(__dirname, '../styles')],
-            },
-          },
-        ],
-      });
-
       config.plugins.push(
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new webpack.NormalModuleReplacementPlugin(
