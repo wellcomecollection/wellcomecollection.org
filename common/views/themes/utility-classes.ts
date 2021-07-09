@@ -520,6 +520,19 @@ ${Object.entries(themeValues.colors)
   ${visuallyHidden};
 }
 
+.visually-hidden-focusable {
+  &:active,
+  &:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+    white-space: inherit;
+  }
+}
+
 .opacity-0 {
   opacity: 0;
 }

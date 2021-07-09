@@ -148,7 +148,7 @@ const PageLayout = ({
 
       <div>
         <CookieNotice />
-        <a className="skip-link" href="#main">
+        <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
         </a>
         <Header siteSection={siteSection} />
