@@ -8,11 +8,6 @@ export const utilityClasses = css<GlobalStyleProps>`
 ${[1, 2, 3, 4, 5]
   .map(width => {
     return `
-    .border-width-${width} {
-      border-width: ${width}px;
-      border-style: solid;
-    }
-
     ${['top', 'right', 'bottom', 'left']
       .map(direction => {
         return `

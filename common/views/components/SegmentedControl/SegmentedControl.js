@@ -8,6 +8,19 @@ import { trackEvent } from '../../../utils/ga';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 
+const List = styled.ul.attrs({
+  className: classNames({
+    'segmented-control__list': true,
+    'no-margin': true,
+    'no-padding': true,
+    'plain-list': true,
+    'rounded-diagonal': true,
+    'overflow-hidden': true,
+  }),
+})`
+  border: 1px solid ${props => props.theme.color('black')};
+`;
+
 const Wrapper = styled.div.attrs({})`
   .segmented-control__drawer {
     display: none;
@@ -245,18 +258,7 @@ class SegmentedControl extends Component<Props, State> {
             </ul>
           </Space>
         </div>
-        <ul
-          className={classNames({
-            'segmented-control__list': true,
-            'no-margin': true,
-            'no-padding': true,
-            'plain-list': true,
-            'border-width-1': true,
-            'border-color-black': true,
-            'rounded-diagonal': true,
-            'overflow-hidden': true,
-          })}
-        >
+        <List>
           {items.map((item, i) => (
             <li
               key={item.id}
@@ -315,7 +317,7 @@ class SegmentedControl extends Component<Props, State> {
               </Space>
             </li>
           ))}
-        </ul>
+        </List>
       </Wrapper>
     );
   }
