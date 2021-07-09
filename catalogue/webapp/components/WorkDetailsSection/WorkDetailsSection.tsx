@@ -20,7 +20,7 @@ const WorkDetailsSection: FunctionComponent<Props> = ({
     <>
       {withDivider && (
         <>
-          <Divider extraClasses="divider--pumice divider--keyline" />
+          <Divider color={`pumice`} isKeyline={true} />
           <SpacingComponent />
         </>
       )}

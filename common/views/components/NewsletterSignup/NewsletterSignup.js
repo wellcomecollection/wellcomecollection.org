@@ -249,7 +249,9 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
           </Space>
 
           {isCheckboxError && isSubmitAttempted && (
-            <ErrorBox as="p">Please select at least one option.</ErrorBox>
+            <div role="status">
+              <ErrorBox as="p">Please select at least one option.</ErrorBox>
+            </div>
           )}
 
           <p className={`${font('hnr', 6)}`}>

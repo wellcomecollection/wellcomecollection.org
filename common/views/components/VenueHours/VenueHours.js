@@ -91,13 +91,9 @@ const VenueHours = ({ venue, weight }: Props) => {
       {isFeatured && (
         <>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <Divider
-              extraClasses={classNames({
-                'divider--keyline': true,
-                'divider--pumice': true,
-                'is-hidden-s': true,
-              })}
-            />
+            <span className="is-hidden-s">
+              <Divider color={`pumice`} isKeyline={true} />
+            </span>
           </Space>
           <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }} s>
             {venue.image && venue.image?.url && (
