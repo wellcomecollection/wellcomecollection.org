@@ -147,7 +147,6 @@ export const themeValues = {
     currentColor: { base: 'currentColor', dark: '', light: '' },
   },
 
-  // Keyboard focus uses a hard box shadow of 0.7 opacity 'turquoise'
   focusBoxShadow: '0 0 0 3px rgba(43, 136, 143, 1)',
   keyframes: {
     hoverBounce: keyframes`
