@@ -18,6 +18,16 @@ type Props = {
   onClick: (event: SyntheticEvent<HTMLAnchorElement>) => void;
 };
 
+const StyledLink = styled.a`
+  .is-keyboard &:focus {
+    box-shadow: none;
+
+    img {
+      box-shadow: ${props => props.theme.focusBoxShadow};
+    }
+  }
+`;
+
 const ImageWrap = styled(Space).attrs({
   h: { size: 'l', properties: ['margin-right'] },
   v: { size: 'l', properties: ['margin-bottom'] },
@@ -48,25 +58,25 @@ const ImageCard = ({ id, image, onClick, workId }: Props) => {
   const { isEnhanced } = useContext(AppContext);
 
   return (
-    <NextLink {...imageLink({ id, workId }, 'images_search_result')}>
-      <a
-        onClick={event => {
-          trackEvent({
-            category: 'ImageCard',
-            action: 'open ExpandedImage modal',
-            label: id,
-          });
+    <ImageWrap>
+      <NextLink {...imageLink({ id, workId }, 'images_search_result')} passHref>
+        <StyledLink
+          onClick={event => {
+            trackEvent({
+              category: 'ImageCard',
+              action: 'open ExpandedImage modal',
+              label: id,
+            });
 
-          onClick(event);
-        }}
-        id={id}
-        title={isEnhanced ? 'Open modal window' : undefined}
-      >
-        <ImageWrap>
-          <Image {...image} />
-        </ImageWrap>
-      </a>
-    </NextLink>
+            onClick(event);
+          }}
+          id={id}
+          title={isEnhanced ? 'Open modal window' : undefined}
+        >
+            <Image {...image} />
+        </StyledLink>
+      </NextLink>
+    </ImageWrap>
   );
 };
 
