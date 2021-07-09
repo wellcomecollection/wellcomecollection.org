@@ -14,10 +14,50 @@ import AlignFont from '../styled/AlignFont';
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs(() => ({
   className: classNames({
-    'btn relative flex flex--v-center': true,
+    'relative flex flex--v-center': true,
     [font('hnb', 5)]: true,
   }),
 }))<{ isDark?: boolean }>`
+  line-height: 1.5;
+  border-radius: ${props => props.theme.borderRadiusUnit}px;
+  text-decoration: none;
+  text-align: center;
+  transition: all ${props => props.theme.transitionProperties};
+  border: 0;
+  white-space: nowrap;
+  padding: 6px 12px;
+
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
+    cursor: pointer;
+  }
+
+  &[disabled],
+  &.disabled {
+    background: ${props => props.theme.color('pewter')};
+    border-color: ${props => props.theme.color('pewter')};
+    cursor: not-allowed;
+  }
+
+  &.disabled {
+    pointer-events: none;
+  }
+
+  .icon {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .icon__shape {
+    transition: fill ${props => props.theme.transitionProperties};
+    fill: ${props => props.theme.color('currentColor')};
+  }
+
+  .icon__stroke {
+    transition: stroke ${props => props.theme.transitionProperties};
+    stroke: ${props => props.theme.color('currentColor')};
+  }
+
   overflow: hidden;
 
   ${props =>
