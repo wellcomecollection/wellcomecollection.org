@@ -27,6 +27,16 @@ const FooterNavWrapper = styled(Space).attrs({
   border-bottom: 1px solid ${props => props.theme.color('charcoal')};
 `;
 
+const HygieneNav = styled(Space).attrs({
+  as: 'nav',
+  h: { size: 'l', properties: ['margin-bottom'] },
+  className: classNames({
+    'relative flex-1': true,
+  }),
+})`
+  border-bottom: 1px solid ${props => props.theme.color('charcoal')};
+`;
+
 const HygieneWrapper = styled(Space).attrs({
   h: { size: 'l', properties: ['margin-top', 'margin-bottom'] },
   className: classNames({
@@ -324,13 +334,7 @@ const Footer = ({
               </p>
             </Space>
           </FooterLeft>
-          <Space
-            as="nav"
-            h={{ size: 'l', properties: ['margin-bottom'] }}
-            className={classNames({
-              'relative flex-1 border-bottom-width-1 border-color-charcoal': true,
-            })}
-          >
+          <HygieneNav>
             <HygieneWrapper as="ul">
               <HygieneItem>
                 <a
@@ -382,7 +386,7 @@ const Footer = ({
                 </a>
               </HygieneItem>
             </HygieneWrapper>
-          </Space>
+          </HygieneNav>
         </FooterBottom>
       </div>
     </Space>

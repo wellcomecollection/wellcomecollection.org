@@ -47,6 +47,12 @@ const TimeWrapper = styled(Space).attrs({
   border-top: 1px solid ${props => props.theme.color('pumice')};
 `;
 
+const DateWrapper = styled.div.attrs({
+  className: 'body-text',
+})`
+  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+`;
+
 type Props = {
   jsonEvent: UiEvent;
 };
@@ -302,14 +308,10 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
             contributors={event.contributors}
           />
         )}
-        <>
-          <div
-            className={`body-text border-bottom-width-1 border-color-pumice`}
-          >
-            <h2 id="dates">Dates</h2>
-            {DateList(event)}
-          </div>
-        </>
+        <DateWrapper>
+          <h2 id="dates">Dates</h2>
+          {DateList(event)}
+        </DateWrapper>
         {event.schedule && event.schedule.length > 0 && (
           <>
             <h2 className="h2">Events</h2>
