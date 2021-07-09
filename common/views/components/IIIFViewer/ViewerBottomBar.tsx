@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -8,52 +7,7 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
 import ToolbarSegmentedControl from '../ToolbarSegmentedControl/ToolbarSegmentedControl';
-
-// TODO: update this with a more considered button from our system
-export const ShameButton = styled.button.attrs(() => ({
-  className: classNames({
-    'btn relative flex flex--v-center': true,
-    [font('hnb', 5)]: true,
-  }),
-}))<{ isDark?: boolean }>`
-  overflow: hidden;
-
-  ${props =>
-    props.isDark &&
-    `
-    border: 2px solid ${props.theme.color('transparent')};
-    color: ${props.theme.color('white')};
-    background: transparent;
-    outline: none;
-    transition: all ${props.theme.transitionProperties};
-
-    .btn__text {
-      position: absolute;
-      right: 100%;
-      @media (min-width: ${props.theme.sizes.large}px) {
-        position: static;
-      }
-    }
-
-    &:not([disabled]):hover {
-      border: 2px solid ${props.theme.color('white')};
-    }
-  `}
-
-  ${props =>
-    !props.isDark &&
-    `
-    background: ${props.theme.color('white')};
-    color: ${props.theme.color('green')};
-    border: 1px solid ${props.theme.color('green')};
-
-    &:not([disabled]):hover,
-    &:not([disabled]):focus {
-      background: ${props.theme.color('green')};
-      color: ${props.theme.color('white')};
-    }
-  `}
-`;
+import { ShameButton } from './ViewerTopBar';
 
 const BottomBar = styled.div`
   position: relative;

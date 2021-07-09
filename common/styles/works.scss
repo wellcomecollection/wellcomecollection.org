@@ -3,14 +3,7 @@ $is-next: true;
 // Utilities
 @import 'utilities/all';
 
-// Vendor
-@import 'vendor/normalize';
-
 // Components
-@import 'components/buttons';
-@import 'components/captioned_image';
-@import 'components/divider';
 @import 'components/promo';
 @import 'components/skip_link';
 @import 'components/tabs';
-@import 'components/wobbly_edge';

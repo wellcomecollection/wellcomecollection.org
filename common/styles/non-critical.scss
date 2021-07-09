@@ -5,9 +5,5 @@ $is-next: false !default;
 @import 'utilities/all';
 
 // Non Critical
-@import 'components/divider';
 @import 'components/sort_search';
 @import 'components/tabs';
-
-// TODO: Remove this
-@import 'shame';

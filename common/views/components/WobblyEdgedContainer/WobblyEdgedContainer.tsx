@@ -18,7 +18,7 @@ const WobblyEdgedContainer: FunctionComponent<Props> = ({
   return (
     <div className="bg-cream relative">
       <WobblyEdgeContainer>
-        <WobblyEdge extraClasses="wobbly-edge--rotated" background={'white'} />
+        <WobblyEdge isRotated={true} background={'white'} />
       </WobblyEdgeContainer>
       <Space v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
         <Layout8>{children}</Layout8>

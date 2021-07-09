@@ -1,3 +1,4 @@
+import { normalize } from './normalize';
 import { wellcomeNormalize } from './wellcome-normalize';
 import { layout } from './layout';
 import { container } from './container';
@@ -7,6 +8,7 @@ import { inlineFonts } from './inline-fonts';
 import { fonts } from './fonts';
 
 export const base = [
+  normalize,
   wellcomeNormalize,
   layout,
   container,
