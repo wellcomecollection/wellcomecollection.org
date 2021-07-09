@@ -83,6 +83,43 @@ export const spacingUnits = {
   '10': 64,
 };
 
+export const colors = {
+  white: { base: '#ffffff', dark: '', light: '' },
+  black: { base: '#121212', dark: '', light: '' },
+  purple: { base: '#944aa0', dark: '', light: '' },
+  teal: { base: '#006272', dark: '', light: '' },
+  cyan: { base: '#298187', dark: '', light: '' },
+  turquoise: { base: '#5cb8bf', dark: '', light: '' },
+  red: { base: '#e01b2f', dark: '', light: '' },
+  orange: { base: '#e87500', dark: '', light: '' },
+  yellow: { base: '#ffce3c', dark: '', light: '#fff5d8' },
+  brown: { base: '#815e48', dark: '', light: '' },
+  cream: { base: '#f0ede3', dark: '', light: '' },
+  green: { base: '#007868', dark: '#146a5c', light: '' },
+  charcoal: { base: '#323232', dark: '#2e2e2e', light: '' },
+  pewter: { base: '#6b6b6b', dark: '', light: '' },
+  silver: { base: '#8f8f8f', dark: '', light: '' },
+  marble: { base: '#bcbab5', dark: '', light: '' },
+  pumice: { base: '#d9d6ce', dark: '', light: '' },
+  smoke: { base: '#e8e8e8', dark: '', light: '' },
+  // The following 'black' is only to be used for the item viewer
+  coal: { base: '#1f1f1f', dark: '', light: '' },
+  //
+  transparent: {
+    base: 'transparent',
+    dark: 'transparent',
+    light: 'transparent',
+  },
+  'transparent-black': {
+    base: 'rgba(29, 29, 29, 0.61)',
+    dark: '',
+    light: '',
+  },
+  // Opacity value explanation; We use transparent to provide a background to white text which overlays a variety of images (therefore unknown colour contrast).  This opacity is the lightest we can go, while still providing sufficient contrast to pass WCAG guidlines, when it is displayed above a white background, i.e. worst case scenario.
+  inherit: { base: 'inherit', dark: '', light: '' },
+  currentColor: { base: 'currentColor', dark: '', light: '' },
+};
+
 export const themeValues = {
   spacingUnit: 6,
   borderRadiusUnit: 6,
@@ -110,43 +147,6 @@ export const themeValues = {
     large: 30,
     xlarge: 30,
   },
-  colors: {
-    white: { base: '#ffffff', dark: '', light: '' },
-    black: { base: '#121212', dark: '', light: '' },
-    purple: { base: '#944aa0', dark: '', light: '' },
-    teal: { base: '#006272', dark: '', light: '' },
-    cyan: { base: '#298187', dark: '', light: '' },
-    turquoise: { base: '#5cb8bf', dark: '', light: '' },
-    red: { base: '#e01b2f', dark: '', light: '' },
-    orange: { base: '#e87500', dark: '', light: '' },
-    yellow: { base: '#ffce3c', dark: '', light: '#fff5d8' },
-    brown: { base: '#815e48', dark: '', light: '' },
-    cream: { base: '#f0ede3', dark: '', light: '' },
-    green: { base: '#007868', dark: '#146a5c', light: '' },
-    charcoal: { base: '#323232', dark: '#2e2e2e', light: '' },
-    pewter: { base: '#6b6b6b', dark: '', light: '' },
-    silver: { base: '#8f8f8f', dark: '', light: '' },
-    marble: { base: '#bcbab5', dark: '', light: '' },
-    pumice: { base: '#d9d6ce', dark: '', light: '' },
-    smoke: { base: '#e8e8e8', dark: '', light: '' },
-    // The following 'black' is only to be used for the item viewer
-    coal: { base: '#1f1f1f', dark: '', light: '' },
-    //
-    transparent: {
-      base: 'transparent',
-      dark: 'transparent',
-      light: 'transparent',
-    },
-    'transparent-black': {
-      base: 'rgba(29, 29, 29, 0.61)',
-      dark: '',
-      light: '',
-    },
-    // Opacity value explanation; We use transparent to provide a background to white text which overlays a variety of images (therefore unknown colour contrast).  This opacity is the lightest we can go, while still providing sufficient contrast to pass WCAG guidlines, when it is displayed above a white background, i.e. worst case scenario.
-    inherit: { base: 'inherit', dark: '', light: '' },
-    currentColor: { base: 'currentColor', dark: '', light: '' },
-  },
-
   focusBoxShadow: '0 0 0 3px rgba(43, 136, 143, 1)',
   keyframes: {
     hoverBounce: keyframes`
@@ -191,7 +191,8 @@ export const themeValues = {
   },
   fontVerticalOffset: '0.15em',
   grid,
-  color(name: string, variant: ColorVariant = 'base'): string {
+  colors,
+  color(name: PaletteColor, variant: ColorVariant = 'base'): string {
     return this.colors[name][variant];
   },
 };
@@ -199,3 +200,4 @@ export const themeValues = {
 type BaseBreakpoint = keyof typeof themeValues.sizes;
 type TweakBreakpoint = keyof typeof themeValues.tweakpoints;
 export type Breakpoint = BaseBreakpoint | TweakBreakpoint;
+export type PaletteColor = keyof typeof colors;
