@@ -218,6 +218,7 @@ const PageHeader = ({
                   <>
                     {!asyncBreadcrumbsRoute && <Breadcrumb {...breadcrumbs} />}
                     {asyncBreadcrumbsRoute && (
+                      // TODO: this should be display: none until enhanced
                       <div
                         data-component="AsyncBreadcrumb"
                         className="breadcrumb-placeholder"
