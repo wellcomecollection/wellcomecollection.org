@@ -372,10 +372,7 @@ class ImageGallery extends Component<Props, State> {
                 >
                   {isStandalone && (
                     <div className="absolute standalone-wobbly-edge">
-                      <WobblyEdge
-                        extraClasses="wobbly-edge--rotated"
-                        background={'white'}
-                      />
+                      <WobblyEdge isRotated={true} background={'white'} />
                     </div>
                   )}
                   {!isActive && (

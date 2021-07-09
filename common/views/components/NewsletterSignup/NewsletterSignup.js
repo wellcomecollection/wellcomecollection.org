@@ -231,24 +231,26 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
             <ButtonSolid text="Subscribe" />
           </Space>
 
-          {isCheckboxError && isSubmitAttempted && (
-            <Space
-              as="p"
-              v={{
-                size: 's',
-                properties: [
-                  'padding-top',
-                  'padding-bottom',
-                  'margin-top',
-                  'margin-bottom',
-                ],
-              }}
-              h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-              className={`border-width-1 border-color-red font-red`}
-            >
-              Please select at least one option.
-            </Space>
-          )}
+          <div role="status">
+            {isCheckboxError && isSubmitAttempted && (
+              <Space
+                as="p"
+                v={{
+                  size: 's',
+                  properties: [
+                    'padding-top',
+                    'padding-bottom',
+                    'margin-top',
+                    'margin-bottom',
+                  ],
+                }}
+                h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+                className={`border-width-1 border-color-red font-red`}
+              >
+                Please select at least one option.
+              </Space>
+            )}
+          </div>
 
           <p className={`${font('hnr', 6)}`}>
             We use a third-party provider,{' '}
