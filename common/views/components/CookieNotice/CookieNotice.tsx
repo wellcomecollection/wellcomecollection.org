@@ -25,6 +25,16 @@ const CookieNoticeStyle = styled.div.attrs({
   }
 `;
 
+const CloseCookieNotice = styled.button`
+  display: flex;
+  align-items: center;
+  margin-left: 1em;
+  cursor: pointer;
+  appearance: none;
+  background: none;
+  border: 0;
+`;
+
 const CookieNotice: FunctionComponent = () => {
   const [shouldRender, setShouldRender] = useState(true);
   function hideCookieNotice() {
@@ -62,13 +72,10 @@ const CookieNotice: FunctionComponent = () => {
                 Read our policy
               </a>
             </div>
-            <button
-              className="cookie-notification__close js-info-banner-close"
-              onClick={hideCookieNotice}
-            >
+            <CloseCookieNotice onClick={hideCookieNotice}>
               <Icon name="clear" />
               <span className="visually-hidden">Close cookie notification</span>
-            </button>
+            </CloseCookieNotice>
           </div>
         </Space>
       </Layout12>

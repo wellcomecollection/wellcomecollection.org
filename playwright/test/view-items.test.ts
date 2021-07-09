@@ -1,4 +1,8 @@
-import { multiVolumeItem, itemWithSearchAndStructures } from './contexts';
+import {
+  multiVolumeItem,
+  itemWithSearchAndStructures,
+  itemWithReferenceNumber,
+} from './contexts';
 import { isMobile } from './actions/common';
 import { volumesNavigationLabel, searchWithinLabel } from './text/aria-labels';
 import {
@@ -18,6 +22,7 @@ import {
   mobilePageGridButtons,
   toggleInfoDesktop,
   toggleInfoMobile,
+  referenceNumber,
 } from './selectors/item';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleAndTestCookies } from './helpers/utils';
@@ -120,16 +125,14 @@ describe.skip('Scenario 2: A user wants to use the content offline', () => {
 });
 
 describe('Scenario 3: A user wants information about the item they are viewing', () => {
-  beforeAll(async () => {
-    await multiVolumeItem();
-  });
-
   test('the item has a title', async () => {
+    await multiVolumeItem();
     const title = await page.textContent('h1');
     expect(title).toBe('Practica seu Lilium medicinae / [Bernard de Gordon].');
   });
 
   test('the item has contributor information', async () => {
+    await multiVolumeItem();
     const contributors = await page.textContent(workContributors);
     expect(contributors).toBe(
       'Bernard, de Gordon, approximately 1260-approximately 1318.'
@@ -137,9 +140,16 @@ describe('Scenario 3: A user wants information about the item they are viewing',
   });
 
   test('the item has date information', async () => {
+    await multiVolumeItem();
     const dates = await page.textContent(workDates);
     // TODO: this text isn't very explanitory and should probably be updated in the DOM
     expect(dates).toBe('Date1496[7]');
+  });
+
+  test('the item has reference number information', async () => {
+    await itemWithReferenceNumber();
+    const dates = await page.textContent(referenceNumber);
+    expect(dates).toBe('ReferenceWA/HMM/BU/1');
   });
 });
 

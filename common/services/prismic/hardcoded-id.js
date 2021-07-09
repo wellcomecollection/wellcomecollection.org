@@ -35,6 +35,8 @@ export const prismicPageIds = {
   whatsOn: 'YD_IQxAAACUAK6HG',
   getInvolved: 'YDaZmxMAACIAT9u8',
   stories: 'YD_E-BAAACEAK5LX',
+  aboutUs: 'Wuw2MSIAACtd3Stq',
+  copyrightClearance: 'YGSEhxAAACgAXL4E',
 };
 
 export const getNameFromCollectionVenue = (id: string) => {

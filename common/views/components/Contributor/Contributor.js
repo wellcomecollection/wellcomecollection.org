@@ -3,6 +3,7 @@ import { font, grid, classNames } from '../../../utils/classnames';
 import Image from '../Image/Image';
 // $FlowFixMe (tsx)
 import Avatar from '../Avatar/Avatar';
+// $FlowFixMe (tsx)
 import LinkLabels from '../LinkLabels/LinkLabels';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import type { Contributor as ContributorType } from '../../../model/contributors';

@@ -1,4 +1,10 @@
-import { useEffect, useState, useRef, FunctionComponent } from 'react';
+import {
+  useEffect,
+  useState,
+  useRef,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 
@@ -14,12 +20,17 @@ const ShowHideButton = styled.button.attrs({
     text-decoration: none;
   }
 `;
+
 type Props = {
-  listItems: string[]; // TODO List of reactNodes []
+  listItems: (string | ReactElement)[];
+  initialItems?: number;
 };
-const ExpandableList: FunctionComponent<Props> = ({ listItems }: Props) => {
-  const firstThreeListItems = listItems.slice(0, 3);
-  const remainingListItems = listItems.slice(3);
+const ExpandableList: FunctionComponent<Props> = ({
+  listItems,
+  initialItems = 3,
+}: Props) => {
+  const firstListItems = listItems.slice(0, initialItems);
+  const remainingListItems = listItems.slice(initialItems);
   const [
     isShowingRemainingListItems,
     setIsShowingRemainingListItems,
@@ -47,7 +58,7 @@ const ExpandableList: FunctionComponent<Props> = ({ listItems }: Props) => {
           'plain-list no-margin no-padding': true,
         })}
       >
-        {firstThreeListItems.map((
+        {firstListItems.map((
           item,
           index // TODO way of getting better key?
         ) => (

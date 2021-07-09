@@ -30,7 +30,7 @@ export const ErrorAlert = styled(AlertBox)`
 
 export const SuccessMessage = styled(AlertBox)`
   background-color: rgba(0, 120, 108, 0.1);
-  color: #00786c;
+  color: ${props => props.theme.color('green')};
 `;
 
 export const Checkbox = styled(CheckboxRadio).attrs({ type: 'checkbox' })``;

@@ -10,6 +10,43 @@ import Tasl from '../Tasl/Tasl';
 import Caption from '../Caption/Caption';
 import type { HTMLString } from '../../../services/prismic/types';
 import type { Tasl as TaslType } from '../../../model/tasl';
+import styled from 'styled-components';
+
+const Video = styled.video`
+  max-height: 80vh;
+  max-width: 100%;
+  display: block;
+`;
+
+const PlayPause = styled.button.attrs({
+  'aria-label': 'play/pause button',
+  className: classNames({
+    'no-margin no-padding plain-button absolute': true,
+  }),
+})`
+  background: transparent;
+  border: 0;
+  appearance: none;
+  top: 6px;
+  left: 6px;
+  transition: opacity 600ms ease;
+`;
+
+const Text = styled.span.attrs({
+  className: classNames({
+    [font('lr', 5)]: true,
+  }),
+})`
+  display: block;
+  background: ${props => props.theme.color('charcoal')};
+  padding: 6px;
+  border-radius: ${props => props.theme.borderRadiusUnit}px;
+  color: ${props => props.theme.color('white')};
+
+  &:before {
+    content: "${props => (props.isPlaying ? 'pause' : 'play')}";
+  }
+`;
 type Props = {|
   playbackRate: number,
   videoUrl: string,
@@ -136,9 +173,8 @@ const GifVideo = ({
   return (
     <figure className="gif-video no-margin text-align-center">
       <div className="gif-video__inner relative inline-block">
-        <video
+        <Video
           ref={videoRef}
-          className="gif-video__video block"
           preload="metadata"
           muted={mute}
           loop={loop}
@@ -147,23 +183,11 @@ const GifVideo = ({
         >
           <source src={`${videoUrl}#t=0.1`} type="video/mp4" />
           <p>{"Your browser doesn't support video"}</p>
-        </video>
+        </Video>
         {canPlay && !showControls && (
-          <button
-            className={classNames({
-              'no-margin no-padding plain-button gif-video__play-pause absolute': true,
-            })}
-            aria-label="play/pause button"
-            onClick={manualControlGif}
-          >
-            <span
-              className={classNames({
-                [font('lr', 5)]: true,
-                'gif-video__text block': true,
-                'gif-video__text--is-playing': isPlaying,
-              })}
-            />
-          </button>
+          <PlayPause onClick={manualControlGif}>
+            <Text isPlaying={isPlaying} />
+          </PlayPause>
         )}
         {tasl &&
           (tasl.title ||

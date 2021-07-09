@@ -25,6 +25,191 @@ import { trackEvent } from '../../../utils/ga';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 
+const GalleryTitle = styled(Space).attrs(props => ({
+  v: { size: 'm', properties: ['margin-bottom'] },
+  as: 'span',
+  style: props.titleStyle,
+  className: classNames({
+    'flex flex--v-top': true,
+  }),
+}))`
+  ${props =>
+    props.isEnhanced &&
+    `
+    opacity: 0;
+  `}
+`;
+
+const Gallery = styled.div.attrs({
+  className: 'row relative',
+})`
+  .caption {
+    display: none;
+  }
+
+  .tasl {
+    display: none;
+  }
+
+  ${props =>
+    props.isActive &&
+    `
+    .caption {
+      display: block;
+    }
+
+    .tasl {
+      display: inherit;
+    }
+
+    color: ${props.theme.color('white')};
+    background: linear-gradient(
+      ${props.theme.color('cream')} 100px,
+      ${props.theme.color('charcoal')} 100px
+    );
+
+    @media (min-width: ${props.theme.sizes.medium}px) {
+      background: linear-gradient(
+        ${props.theme.color('cream')} 200px,
+        ${props.theme.color('charcoal')} 200px
+      );
+
+      ${props.isStandalone &&
+        `
+        background: ${props.theme.color('charcoal')};
+      `}
+    }
+
+    .captioned-image__image-container {
+      background: ${props.theme.color('charcoal')};
+
+      &:before {
+        display: none;
+      }
+      &:hover:before {
+        opacity: 0;
+      }
+    }
+  `}
+
+  .captioned-image__image-container {
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      opacity: 0;
+      background: ${props => props.theme.color('charcoal')};
+      transition: opacity 400ms ease;
+    }
+
+    &:hover:before {
+      opacity: 0.3;
+    }
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 100px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    transition: all 400ms ease;
+
+    @include respond-to('medium') {
+      top: 200px;
+    }
+  }
+
+  transition: all 400ms ease;
+
+  ${props =>
+    props.isStandalone &&
+    `
+    background: ${props.theme.color('charcoal')};
+
+    &:before {
+      top: 0;
+
+      @media (min-width: ${props.theme.sizes.medium}px) {
+        top: 0;
+      }
+    }
+  `}
+
+  .close-wrapper {
+    display: none;
+
+    .enhanced & {
+      display: inherit;
+      top: 100px;
+      bottom: 0;
+      width: 100%;
+      pointer-events: none;
+
+      @media (min-width: ${props => props.theme.sizes.medium}px) {
+        top: 200px;
+      }
+    }
+  }
+
+  .close {
+    position: sticky;
+    top: 18px;
+    transform: translateX(calc((100vw - 100%) / 2));
+    z-index: 3;
+    pointer-events: all;
+  }
+
+  .background {
+    top: 100px;
+    opacity: 0;
+    transition: opacity 400ms ease;
+
+    @media (min-width: ${props => props.theme.sizes.medium}px) {
+      top: 200px;
+
+      ${props =>
+        props.isStandalone &&
+        `
+        top: 0;
+      `}
+
+      ${props =>
+        props.isActive &&
+        `
+        opacity: 0.1;
+      `}
+    }
+
+    ${props =>
+      props.isActive &&
+      `
+      opacity: 0.1;
+    `}
+
+    ${props =>
+      props.isStandalone &&
+      `
+      top: 0;
+    `}
+  }
+
+  .standalone-wobbly-edge {
+    top: 0;
+    width: 100%;
+    z-index: 2;
+  }
+
+  .wobbly-edge-wrapper {
+    bottom: -2px;
+    width: 100%;
+  }
+`;
+
 const ButtonContainer = styled.div`
   display: ${props => (props.isHidden ? 'none' : 'block')};
   position: absolute;
@@ -140,14 +325,7 @@ class ImageGallery extends Component<Props, State> {
         {theme => (
           <Fragment>
             {!isStandalone && (
-              <Space
-                v={{ size: 'm', properties: ['margin-bottom'] }}
-                as="span"
-                style={titleStyle}
-                className={classNames({
-                  'flex flex--v-top image-gallery-v2-title': true,
-                })}
-              >
+              <GalleryTitle titleStyle={titleStyle}>
                 <Space
                   as="span"
                   h={{ size: 's', properties: ['margin-right'] }}
@@ -161,19 +339,16 @@ class ImageGallery extends Component<Props, State> {
                 >
                   {title || 'In pictures'}
                 </h2>
-              </Space>
+              </GalleryTitle>
             )}
-            <div
+            <Gallery
+              isActive={isActive}
+              isStandalone={isStandalone}
               id={`image-gallery-${id}`}
-              className={classNames({
-                'image-gallery-v2--standalone': isStandalone,
-                'image-gallery-v2 row relative': true,
-                'is-active': isActive,
-              })}
             >
               <div
                 className={classNames({
-                  'absolute image-gallery-v2__background': true,
+                  'absolute background': true,
                 })}
                 style={{
                   bottom: 0,
@@ -196,7 +371,7 @@ class ImageGallery extends Component<Props, State> {
                   })}
                 >
                   {isStandalone && (
-                    <div className="absolute image-gallery-v2__standalone-wobbly-edge">
+                    <div className="absolute standalone-wobbly-edge">
                       <WobblyEdge
                         extraClasses="wobbly-edge--rotated"
                         background={'white'}
@@ -205,7 +380,7 @@ class ImageGallery extends Component<Props, State> {
                   )}
                   {!isActive && (
                     <Fragment>
-                      <div className="image-gallery-v2__wobbly-edge absolute">
+                      <div className="wobbly-edge-wrapper absolute">
                         <WobblyEdge background={theme} />
                       </div>
                     </Fragment>
@@ -218,7 +393,7 @@ class ImageGallery extends Component<Props, State> {
                         properties: ['padding-top'],
                       }}
                       className={classNames({
-                        'image-gallery-v2__close-wrapper absolute': true,
+                        'close-wrapper absolute': true,
                       })}
                     >
                       <Space
@@ -229,7 +404,7 @@ class ImageGallery extends Component<Props, State> {
                         h={{ size: 'm', properties: ['padding-right'] }}
                         className={classNames({
                           'flex flex-end': true,
-                          'image-gallery-v2__close': true,
+                          close: true,
                           'is-hidden': !isActive,
                         })}
                       >
@@ -312,7 +487,7 @@ class ImageGallery extends Component<Props, State> {
                   )}
                 </Space>
               </Layout12>
-            </div>
+            </Gallery>
           </Fragment>
         )}
       </PageBackgroundContext.Consumer>

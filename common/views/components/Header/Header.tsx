@@ -93,18 +93,20 @@ const HeaderBrand = styled.div`
   // This is to account for the burger as we want it to be dead centre.
   margin-left: -20px;
 
-  ${respondTo(
-    'headerMedium',
+  ${props => `
+    ${respondTo(
+      'headerMedium',
+      `
+      margin-left: 0;
+      flex: 0 0 auto;
+      margin-right: 1.5rem;
+      padding-right: 1.5rem;
+      border-right: 1px solid ${props.theme.color('pumice')};
+      width: auto;
+      display: block;
     `
-    margin-left: 0;
-    flex: 0 0 auto;
-    margin-right: 1.5rem;
-    padding-right: 1.5rem;
-    border-right: 1px solid ${props => props.theme.color('pumice')};
-    width: auto;
-    display: block;
-  `
-  )}
+    )}
+  `}
 
   a {
     margin: 0 auto;

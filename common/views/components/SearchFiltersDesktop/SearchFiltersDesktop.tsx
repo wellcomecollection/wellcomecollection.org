@@ -24,6 +24,8 @@ import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import AlignFont from '../styled/AlignFont';
 
+export const dateRegex = /^\d{4}$|^$/;
+
 const PaletteColorPicker = dynamic(
   import('../PaletteColorPicker/PaletteColorPicker')
 );
@@ -89,7 +91,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
               onChange={event => {
                 const val = `${event.currentTarget.value}`;
                 setFrom(val);
-                if (val.match(/^\d{4}$/)) {
+                if (val.match(dateRegex)) {
                   changeHandler();
                 }
               }}
@@ -105,7 +107,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
             onChange={event => {
               const val = `${event.currentTarget.value}`;
               setTo(val);
-              if (val.match(/^\d{4}$/)) {
+              if (val.match(dateRegex)) {
                 changeHandler();
               }
             }}

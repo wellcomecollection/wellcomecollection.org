@@ -149,17 +149,14 @@ const DropdownButton: FunctionComponent<Props> = ({
 
     if (isActive) {
       focusables &&
-        focusables.forEach(focusable => focusable.removeAttribute('tabIndex'));
-      const firstFocusable = focusables && focusables[0];
-
-      firstFocusable && firstFocusable.focus();
+        focusables.forEach(focusable => focusable.setAttribute('tabIndex', '0'));
     } else {
       focusables &&
         focusables.forEach(focusable =>
           focusable.setAttribute('tabIndex', '-1')
         );
     }
-  }, [isActive]);
+  }, [isActive, children]);
 
   return (
     <DropdownWrapper ref={dropdownWrapperRef}>

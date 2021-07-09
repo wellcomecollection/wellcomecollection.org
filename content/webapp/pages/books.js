@@ -14,7 +14,7 @@ type Props = {|
 |};
 
 const pageDescription =
-  'We publish adventurous and unusual books that explore health, medicine and the complexities of the human condition.';
+  'We publish thought-provoking books exploring health and human experiences.';
 export class BooksPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { page = 1, memoizedPrismic } = ctx.query;

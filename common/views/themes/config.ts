@@ -122,7 +122,7 @@ export const themeValues = {
     yellow: { base: '#ffce3c', dark: '', light: '#fff5d8' },
     brown: { base: '#815e48', dark: '', light: '' },
     cream: { base: '#f0ede3', dark: '', light: '' },
-    green: { base: '#00786c', dark: '#146a5c', light: '' },
+    green: { base: '#007868', dark: '#146a5c', light: '' },
     charcoal: { base: '#323232', dark: '#2e2e2e', light: '' },
     pewter: { base: '#6b6b6b', dark: '', light: '' },
     silver: { base: '#8f8f8f', dark: '', light: '' },
@@ -147,8 +147,7 @@ export const themeValues = {
     currentColor: { base: 'currentColor', dark: '', light: '' },
   },
 
-  // Keyboard focus uses a hard box shadow of 0.7 opacity 'turquoise'
-  focusBoxShadow: '0 0 0 3px rgba(92, 184, 191, 0.7)',
+  focusBoxShadow: '0 0 0 3px rgba(43, 136, 143, 1)',
   keyframes: {
     hoverBounce: keyframes`
       0% {
