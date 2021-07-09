@@ -24,7 +24,7 @@ const DrawerItem = styled(Space).attrs({
   ${props =>
     props.isFirst &&
     `
-    border-top: 1px solid ${props => props.theme.color('smoke')};
+    border-top: 1px solid ${props.theme.color('smoke')};
   `}
 `;
 
