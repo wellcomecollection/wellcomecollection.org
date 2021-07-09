@@ -86,7 +86,6 @@ type Props = {
   activeTabIndex?: number;
   shouldShowFilters: boolean;
   showSortBy: boolean;
-  disableLink?: boolean;
   worksFilters: Filter[];
   imagesFilters: Filter[];
 };
@@ -99,12 +98,10 @@ const SearchTabs: FunctionComponent<Props> = ({
   activeTabIndex,
   shouldShowFilters,
   showSortBy,
-  disableLink = false,
   worksFilters,
   imagesFilters,
 }: Props): ReactElement<Props> => {
   const { isKeyboard, isEnhanced } = useContext(AppContext);
-  const tabCondition = (!disableLink && isEnhanced) || !isEnhanced;
 
   const tabs: TabType[] = [
     {
@@ -112,7 +109,7 @@ const SearchTabs: FunctionComponent<Props> = ({
       tab: function TabWithDisplayName(isActive, isFocused) {
         return (
           <ConditionalWrapper
-            condition={tabCondition}
+            condition={!isEnhanced}
             wrapper={children => (
               <NextLink
                 scroll={false}
@@ -202,7 +199,7 @@ const SearchTabs: FunctionComponent<Props> = ({
       tab: function TabWithDisplayName(isActive, isFocused) {
         return (
           <ConditionalWrapper
-            condition={tabCondition}
+            condition={!isEnhanced}
             wrapper={children => (
               <NextLink
                 scroll={false}
