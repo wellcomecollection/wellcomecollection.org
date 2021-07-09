@@ -188,7 +188,7 @@ const Tasl: FunctionComponent<Props> = ({
             extraClasses="icon--white"
           />
           <span className="visually-hidden">
-            {isActive ? 'hide image information' : 'show image information'}
+            {isActive ? `hide credit information for image '${title}'` : `show credit information for image '${title}'`}
           </span>
         </TaslIcon>
       </TaslButton>
