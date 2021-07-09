@@ -342,7 +342,7 @@ const Body: FunctionComponent<Props> = ({
                     <CaptionedImage
                       {...slice.value}
                       sizesQueries={''}
-                      extraClasses={'captioned-image--body'}
+                      isBody={true}
                     />
                   </Layout6>
                 )}

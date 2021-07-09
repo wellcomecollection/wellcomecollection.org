@@ -12,7 +12,7 @@ import Moment from 'moment';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
 // $FlowFixMe (tsx)
-import { CardOuter, CardBody } from '../Card/Card';
+import { CardOuter, CardBody, CardPostBody } from '../Card/Card';
 /* $FlowFixMe (tsx) */
 import Divider from '../Divider/Divider';
 /* $FlowFixMe (ts) */
@@ -157,17 +157,16 @@ const EventPromo = ({
             </div>
           )}
         </div>
-
-        {event.series.length > 0 && (
-          <Space v={{ size: 'm', properties: ['margin-top'] }}>
-            {event.series.map(series => (
-              <p key={series.title} className={`${font('hnb', 6)} no-margin`}>
-                <span className={font('hnr', 6)}>Part of</span> {series.title}
-              </p>
-            ))}
-          </Space>
-        )}
       </CardBody>
+      {event.series.length > 0 && (
+        <CardPostBody>
+          {event.series.map(series => (
+            <p key={series.title} className={`${font('hnb', 6)} no-margin`}>
+              <span className={font('hnr', 6)}>Part of</span> {series.title}
+            </p>
+          ))}
+        </CardPostBody>
+      )}
       {event.secondaryLabels.length > 0 && (
         <Space
           h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}

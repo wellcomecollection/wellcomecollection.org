@@ -237,9 +237,13 @@ const TextInput = forwardRef(
             </TextInputCheckmark>
           )}
         </TextInputWrap>
-        {errorMessage && !isValid && showValidity && (
-          <TextInputErrorMessage>{errorMessage}</TextInputErrorMessage>
-        )}
+        <div role="status">
+          {errorMessage && !isValid && showValidity && (
+            <TextInputErrorMessage>
+                {errorMessage}
+            </TextInputErrorMessage>
+          )}
+        </div>
       </div>
     );
   }
