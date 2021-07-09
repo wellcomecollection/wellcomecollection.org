@@ -37,7 +37,8 @@ const HygieneNav = styled(Space).attrs({
   border-bottom: 1px solid ${props => props.theme.color('charcoal')};
 `;
 
-const HygieneWrapper = styled(Space).attrs({
+const HygieneList = styled(Space).attrs({
+  as: 'ul',
   h: { size: 'l', properties: ['margin-top', 'margin-bottom'] },
   className: classNames({
     'plain-list no-margin no-padding': true,
@@ -335,7 +336,7 @@ const Footer = ({
             </Space>
           </FooterLeft>
           <HygieneNav>
-            <HygieneWrapper as="ul">
+            <HygieneList>
               <HygieneItem>
                 <a
                   href="https://wellcome.ac.uk/jobs"
@@ -385,7 +386,7 @@ const Footer = ({
                   <Icon name="arrow" extraClasses="icon--270" />
                 </a>
               </HygieneItem>
-            </HygieneWrapper>
+            </HygieneList>
           </HygieneNav>
         </FooterBottom>
       </div>
