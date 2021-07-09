@@ -3,6 +3,13 @@ import { font, classNames } from '../../../utils/classnames';
 import { ReactElement, FunctionComponent } from 'react';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '../styled/Space';
+import styled from 'styled-components';
+
+const CaptionWrapper = styled(Space).attrs({
+  h: { size: 'm', properties: ['padding-left'] },
+})`
+  border-left: 1px solid ${props => props.theme.color('currentColor')};
+`;
 
 type Props = {
   caption: HTMLString;
@@ -35,13 +42,9 @@ const Caption: FunctionComponent<Props> = ({
         style={{ maxWidth: '55em' }}
       >
         {preCaptionNode}
-        <Space
-          h={{ size: 'm', properties: ['padding-left'] }}
-          className={`border-left-width-1`}
-          style={{ borderColor: 'currentColor' }}
-        >
+        <CaptionWrapper>
           <PrismicHtmlBlock html={caption} />
-        </Space>
+        </CaptionWrapper>
         <style>{'.caption p { display: inline; }'}</style>
       </div>
     </Space>

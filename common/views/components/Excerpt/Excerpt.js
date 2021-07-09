@@ -1,9 +1,21 @@
 // @flow
 import { Fragment } from 'react';
 import type { Book } from '../../../model/books';
-import { font } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
+import styled from 'styled-components';
+
+const Pre = styled(Space).attrs({
+  as: 'pre',
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  className: classNames({
+    [font('lr', 5)]: true,
+    pre: true,
+  }),
+})`
+  border-left: 5px solid ${props => props.theme.color('smoke')};
+`;
 
 type Props = {|
   title: string,
@@ -21,16 +33,7 @@ const Excerpt = ({ title, content, source, audio }: Props) => (
           properties: ['margin-bottom', 'padding-top', 'padding-bottom'],
         }}
       >
-        <Space
-          as="pre"
-          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-          className={`${font(
-            'lr',
-            5
-          )} pre  border-color-smoke border-left-width-5`}
-        >
-          {content}
-        </Space>
+        <Pre>{content}</Pre>
       </Space>
     </div>
     {audio && <audio controls src={audio} style={{ width: '100%' }} />}

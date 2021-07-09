@@ -1,6 +1,14 @@
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import { FunctionComponent, ReactElement } from 'react';
+import styled from 'styled-components';
+
+const Wrapper = styled(Space).attrs({
+  h: { size: 'm', properties: ['padding-left'] },
+  className: 'body-text',
+})`
+  border-left: 5px solid ${props => props.theme.color('turquoise')};
+`;
 
 type Props = {
   title: string;
@@ -16,12 +24,7 @@ const Contact: FunctionComponent<Props> = ({
   email,
 }: Props): ReactElement => {
   return (
-    <Space
-      h={{ size: 'm', properties: ['padding-left'] }}
-      className={classNames({
-        'border-color-turquoise border-left-width-5 body-text': true,
-      })}
-    >
+    <Wrapper>
       <span
         className={classNames({
           block: true,
@@ -68,7 +71,7 @@ const Contact: FunctionComponent<Props> = ({
           </a>
         </div>
       )}
-    </Space>
+    </Wrapper>
   );
 };
 
