@@ -226,7 +226,6 @@ const DateRange = ({
                 properties: ['margin-top', 'margin-bottom'],
               }}
             >
-              <Divider extraClasses={'divider--dashed'} />
             </Space>
           </Fragment>
         )} */}
@@ -440,8 +439,12 @@ export class WhatsOnPage extends Component<Props> {
     });
     const firstExhibition = exhibitions[0];
 
-    const extraTitleText = segmentedControlItems.find(item => item.id === period);
-    const pageTitle = extraTitleText ? `What's on${` - ${extraTitleText.text}`}` : `What's on`;
+    const extraTitleText = segmentedControlItems.find(
+      item => item.id === period
+    );
+    const pageTitle = extraTitleText
+      ? `What's on${` - ${extraTitleText.text}`}`
+      : `What's on`;
 
     return (
       <PageLayout
