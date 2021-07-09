@@ -8,6 +8,26 @@ import { trackEvent } from '../../../utils/ga';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 
+const DrawerItem = styled(Space).attrs({
+  v: {
+    size: 'm',
+    properties: ['padding-top', 'padding-bottom'],
+  },
+  as: 'li',
+  className: classNames({
+    [font('wb', 4)]: true,
+    'segmented-control__drawer-item': true,
+  }),
+})`
+  border-bottom: 1px solid ${props => props.theme.color('smoke')};
+
+  ${props =>
+    props.isFirst &&
+    `
+    border-top: 1px solid ${props => props.theme.color('smoke')};
+  `}
+`;
+
 const List = styled.ul.attrs({
   className: classNames({
     'segmented-control__list': true,
@@ -207,21 +227,7 @@ class SegmentedControl extends Component<Props, State> {
 
             <ul className="segmented-control__drawer-list no-margin no-padding plain-list">
               {items.map((item, i) => (
-                <Space
-                  v={{
-                    size: 'm',
-                    properties: ['padding-top', 'padding-bottom'],
-                  }}
-                  as="li"
-                  key={item.id}
-                  className={classNames({
-                    [font('wb', 4)]: true,
-                    'border-top-width-1': i === 0,
-                    'segmented-control__drawer-item': true,
-                    'border-bottom-width-1': true,
-                    'border-color-smoke': true,
-                  })}
-                >
+                <DrawerItem isFirst={i === 0} key={item.id}>
                   <a
                     onClick={e => {
                       const url = e.target.getAttribute('href');
@@ -253,7 +259,7 @@ class SegmentedControl extends Component<Props, State> {
                   >
                     {item.text}
                   </a>
-                </Space>
+                </DrawerItem>
               ))}
             </ul>
           </Space>

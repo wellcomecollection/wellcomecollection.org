@@ -12,6 +12,11 @@ import ArticleCard from '../ArticleCard/ArticleCard';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
+import styled from 'styled-components';
+
+const Result = styled.div`
+  border-top: 1px solid ${props => props.theme.color('pumice')};
+`;
 
 type Props = {|
   title?: string,
@@ -43,7 +48,7 @@ const SearchResults = ({
     )}
 
     {items.map((item, index) => (
-      <div className={`border-top-width-1 border-color-pumice`} key={item.id}>
+      <Result key={item.id}>
         {item.type === 'pages' && (
           <CompactCard
             url={`/pages/${item.id}`}
@@ -158,7 +163,7 @@ const SearchResults = ({
             xOfY={{ x: index + 1, y: items.length }}
           />
         )}
-      </div>
+      </Result>
     ))}
   </Fragment>
 );

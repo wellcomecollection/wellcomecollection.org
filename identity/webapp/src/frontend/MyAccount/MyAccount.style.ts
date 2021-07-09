@@ -86,7 +86,8 @@ export const StatusAlert = styled.div.attrs({ role: 'alert' })<{ type: keyof typ
   gap: 0.5em;
 `;
 
-export const Section = styled.section.attrs({ className: 'border-top-width-1 border-color-pumice' })`
+export const Section = styled.section`
+  border-top: 1px solid ${props => props.theme.color('pumice')};
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 1em;

@@ -35,6 +35,17 @@ import EventDatesLink from '@weco/common/views/components/EventDatesLink/EventDa
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
 import { GetServerSideProps, NextPage } from 'next';
+import styled from 'styled-components';
+
+const TimeWrapper = styled(Space).attrs({
+  v: {
+    size: 'm',
+    properties: ['padding-top', 'padding-bottom'],
+  },
+  className: 'flex flex--h-space-between',
+})`
+  border-top: 1px solid ${props => props.theme.color('pumice')};
+`;
 
 type Props = {
   jsonEvent: UiEvent;
@@ -68,14 +79,7 @@ function DateList(event) {
       <>
         {event.times.map((eventTime, index) => {
           return (
-            <Space
-              v={{
-                size: 'm',
-                properties: ['padding-top', 'padding-bottom'],
-              }}
-              key={index}
-              className={`flex flex--h-space-between border-top-width-1 border-color-pumice`}
-            >
+            <TimeWrapper key={index}>
               <div
                 className={`${
                   isDatePast(eventTime.range.endDateTime) ? 'font-pewter' : ''
@@ -88,13 +92,11 @@ function DateList(event) {
               </div>
 
               {isDatePast(eventTime.range.endDateTime) ? (
-                <>
-                  {EventStatus({ text: 'Past', color: 'marble' })}
-                </>
+                <>{EventStatus({ text: 'Past', color: 'marble' })}</>
               ) : eventTime.isFullyBooked ? (
                 EventStatus({ text: 'Full', color: 'red' })
               ) : null}
-            </Space>
+            </TimeWrapper>
           );
         })}
       </>
@@ -311,7 +313,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
         {event.schedule && event.schedule.length > 0 && (
           <>
             <h2 className="h2">Events</h2>
-              {event.schedule && <EventSchedule schedule={event.schedule} />}
+            {event.schedule && <EventSchedule schedule={event.schedule} />}
           </>
         )}
         {event.ticketSalesStart &&

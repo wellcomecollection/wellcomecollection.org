@@ -23,6 +23,10 @@ type Props = {
   resultPosition: number;
 };
 
+const Wrapper = styled.div`
+  border-top: 1px solid ${props => props.theme.color('pumice')};
+`;
+
 const Container = styled.div`
   ${props => props.theme.media.medium`
     display: flex;
@@ -75,12 +79,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   const cardLabels = getCardLabels(work);
 
   return (
-    <div
-      className={classNames({
-        'border-color-pumice': true,
-        'border-top-width-1': true,
-      })}
-    >
+    <Wrapper>
       <WorkLink
         id={work.id}
         resultPosition={resultPosition}
@@ -179,7 +178,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
           </Container>
         </Space>
       </WorkLink>
-    </div>
+    </Wrapper>
   );
 };
 export default WorkSearchResult;

@@ -153,9 +153,10 @@ const FiltersFooter = styled(Space).attrs({
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
-    'bg-white border-color-pumice border-top-width-1 flex flex--v-center flex--h-space-between': true,
+    'bg-white flex flex--v-center flex--h-space-between': true,
   }),
 })`
+  border-top: 1px solid ${props => props.theme.color('pumice')};
   position: fixed;
   bottom: 0;
   left: 0;
