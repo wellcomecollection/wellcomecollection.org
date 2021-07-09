@@ -36,6 +36,7 @@ steps:
 
   - label: "deploy to prod"
     trigger: "experience-deploy-prod"
+    async: true
     build:
       message: "${BUILDKITE_MESSAGE}"
       commit: "${BUILDKITE_COMMIT}"
