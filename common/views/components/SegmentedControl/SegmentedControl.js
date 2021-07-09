@@ -41,6 +41,23 @@ const List = styled.ul.attrs({
   border: 1px solid ${props => props.theme.color('black')};
 `;
 
+const Item = styled.li.attrs({
+  className: classNames({
+    [font('wb', 6)]: true,
+    'segmented-control__item': true,
+    'line-height-1': true,
+    flex: true,
+  }),
+})`
+  border-right: 1px solid ${props => props.theme.color('black')};
+
+  ${props =>
+    props.isLast &&
+    `
+    border-right: 0;
+  `}
+`;
+
 const Wrapper = styled.div.attrs({})`
   .segmented-control__drawer {
     display: none;
@@ -266,17 +283,7 @@ class SegmentedControl extends Component<Props, State> {
         </div>
         <List>
           {items.map((item, i) => (
-            <li
-              key={item.id}
-              className={classNames({
-                [font('wb', 6)]: true,
-                'border-right-width-1 border-right-color-black':
-                  i !== items.length - 1,
-                'segmented-control__item': true,
-                'line-height-1': true,
-                flex: true,
-              })}
-            >
+            <Item key={item.id} isLast={i === items.length - 1}>
               <Space
                 v={{
                   size: 'm',
@@ -321,7 +328,7 @@ class SegmentedControl extends Component<Props, State> {
               >
                 {item.text}
               </Space>
-            </li>
+            </Item>
           ))}
         </List>
       </Wrapper>
