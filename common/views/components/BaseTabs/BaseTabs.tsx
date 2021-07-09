@@ -146,31 +146,36 @@ const Tabs: FunctionComponent<Props> = ({
 
   return (
     <>
-      <TabList ref={tabListRef} aria-label={label}>
-        {tabs.map(({ id, tab }) => (
-          <Tab
-            key={`${id}${prefixButton}`}
-            id={`${id}${prefixButton}`}
-            tabPanelId={id}
+      {isEnhanced &&
+        <TabList ref={tabListRef} aria-label={label}>
+          {tabs.map(({ id, tab }) => (
+            <Tab
+              key={`${id}${prefixButton}`}
+              id={`${id}${prefixButton}`}
+              tabPanelId={id}
+              isActive={id === activeId}
+              onClick={() => handleTabClick(id)}
+              onBlur={() => setFocusedId(undefined)}
+              onFocus={() => setFocusedId(id)}
+              onKeyDown={handleKeyDown}
+            >
+              {tab(id === activeId, id === focusedId)}
+            </Tab>
+          ))}
+        </TabList>
+      }
+      {tabs.map(({ id, tab, tabPanel }) => (
+        <>
+          {!isEnhanced && tab(id === activeId, false)}
+          <TabPanel
+            key={id}
+            id={id}
             isActive={id === activeId}
-            onClick={() => handleTabClick(id)}
-            onBlur={() => setFocusedId(undefined)}
-            onFocus={() => setFocusedId(id)}
-            onKeyDown={handleKeyDown}
+            isEnhanced={isEnhanced}
           >
-            {tab(id === activeId, id === focusedId)}
-          </Tab>
-        ))}
-      </TabList>
-      {tabs.map(({ id, tabPanel }) => (
-        <TabPanel
-          key={id}
-          id={id}
-          isActive={id === activeId}
-          isEnhanced={isEnhanced}
-        >
-          {tabPanel}
-        </TabPanel>
+            {tabPanel}
+          </TabPanel>
+        </>
       ))}
     </>
   );
