@@ -69,9 +69,9 @@ const ExplanatoryText = ({ id, controlText, children }: Props) => {
             <IconContainer open={showContent}>
               <Icon
                 name="plus"
-                extraClasses={`${
-                  showContent ? 'icon--45' : ''
-                } icon--white icon--match-text`}
+                rotate={showContent ? 45 : undefined}
+                matchText={true}
+                color={'white'}
               />
             </IconContainer>
           </Space>

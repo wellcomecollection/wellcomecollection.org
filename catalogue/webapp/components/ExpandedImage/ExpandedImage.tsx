@@ -323,7 +323,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
           onClick={() => setExpandedImage(undefined)}
         >
           <span className="visually-hidden">Close modal window</span>
-          <Icon name="cross" extraClasses={`icon--currentColor`} />
+          <Icon name="cross" color={'currentColor'} />
         </CloseButton>
         <ModalInner>
           {iiifImageLocation && expandedImageLink && (

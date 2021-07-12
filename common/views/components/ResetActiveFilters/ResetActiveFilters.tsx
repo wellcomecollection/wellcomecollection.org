@@ -43,16 +43,14 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
       }}
     >
       <Space
+        className={'v-align-middle'}
         as="span"
         h={{
           size: 'xs',
           properties: ['margin-right'],
         }}
       >
-        <Icon
-          name="cross"
-          extraClasses="icon--match-text icon--silver v-align-middle"
-        />
+        <Icon name="cross" matchText={true} color={'silver'} />
       </Space>
       <span className="visually-hidden">remove </span>
       {text || children}
@@ -204,7 +202,11 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                     <a>
                       <CancelFilter>
                         {f.label}
-                        <ColorSwatch color={`#${f.color}`}><span className="visually-hidden">{getColorDisplayName(f.color)}</span></ColorSwatch>
+                        <ColorSwatch color={`#${f.color}`}>
+                          <span className="visually-hidden">
+                            {getColorDisplayName(f.color)}
+                          </span>
+                        </ColorSwatch>
                       </CancelFilter>
                     </a>
                   </NextLink>

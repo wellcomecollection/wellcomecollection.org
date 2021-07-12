@@ -237,7 +237,7 @@ class SegmentedControl extends Component<Props, State> {
                     onClick={() => this.setState({ isActive: true })}
                   >
                     <span>{item.text}</span>
-                    <Icon name="chevron" extraClasses="icon--white" />
+                    <Icon name="chevron" color={'white'} />
                   </Space>
                   <span
                     className="segmented-control__close"

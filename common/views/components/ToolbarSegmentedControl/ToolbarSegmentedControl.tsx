@@ -71,9 +71,7 @@ const ToolbarSegmentedControl: FunctionComponent<Props> = ({
             <ButtonInner isActive={activeId === item.id}>
               <Icon
                 name={item.icon}
-                extraClasses={
-                  activeId === item.id ? 'icon--yellow' : 'icon--pewter'
-                }
+                color={activeId === item.id ? 'yellow' : 'pewter'}
               />
               <Space
                 h={
