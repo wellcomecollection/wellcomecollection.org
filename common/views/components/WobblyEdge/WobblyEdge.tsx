@@ -141,7 +141,6 @@ class WobblyEdge extends React.Component<Props, State> {
   }
 
   render() {
-    // TODO: remove data-attributes once 100% Reactified
     return (
       <Edge
         background={this.props.background}
