@@ -28,7 +28,9 @@ const BetaMessage: FunctionComponent<Props> = ({
   }, []);
   return (
     <StyledBetaMessage>
-      <Icon name="underConstruction" extraClasses="margin-right-s2" />
+      <span className="margin-right-s2">
+        <Icon name="underConstruction" />
+      </span>
       <p className="no-margin">{message}</p>
     </StyledBetaMessage>
   );
