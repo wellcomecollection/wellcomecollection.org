@@ -31,6 +31,7 @@ const Tab = styled.button.attrs((props: TabProps) => ({
   'aria-selected': props.isActive,
   'aria-controls': props.tabPanelId,
 }))<TabProps>`
+  cursor: pointer;
   &:focus {
     outline: 0;
   }
