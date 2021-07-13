@@ -40,6 +40,16 @@ type Props = {
   filters: Filter[];
 };
 
+type FormProps = {
+  isEnhanced: boolean
+}
+
+const StyledForm = styled(Space).attrs((props: FormProps) => ({
+  as: 'form',
+  v: props.isEnhanced ? {} : { size: 'l', properties: ['margin-bottom'] },
+}))<FormProps>`
+`;
+
 const SearchInputWrapper = styled.div`
   font-size: 20px;
 
