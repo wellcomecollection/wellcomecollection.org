@@ -97,6 +97,7 @@ const AccordionItem = ({
           className={classNames({
             'plain-button no-margin no-padding': true,
           })}
+          aria-expanded={isActive ? 'true' : 'false'} aria-controls={title}
         >
           <span>
             <h2
@@ -115,6 +116,7 @@ const AccordionItem = ({
         </button>
       </AccordionInner>
       <AccordionInner
+        id={title}
         className={classNames({
           'is-hidden': !isActive,
         })}
