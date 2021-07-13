@@ -56,6 +56,7 @@ const AccordionInner = styled(Space).attrs({
     &:active,
     &:focus {
       outline: 0;
+      box-shadow: ${props => props.theme.focusBoxShadow};
     }
 
     span {
