@@ -43,7 +43,12 @@ export const CardPostBody = styled(Space).attrs({
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
-})``;
+})`
+  .card-theme.card-theme--transparent & {
+    padding-left: 0;
+    padding-right: 0;
+  }
+`;
 
 export const CardBody = styled(Space).attrs(() => ({
   v: { size: 'm', properties: ['padding-top'] },
