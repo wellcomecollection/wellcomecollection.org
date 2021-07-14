@@ -21,8 +21,38 @@ const NavLoginWrapper = styled.div`
   )}
 `;
 
+const MobileLogin = styled.div`
+  ${respondTo(
+    'headerMedium',
+    `
+    display: none;
+  `
+  )}
+  display: flex;
+  margin-top: 10px;
+
+  a {
+    position: relative;
+
+    &:first-child {
+      margin-right: 10px;
+      padding-right: 10px;
+
+      &:after {
+        position: absolute;
+        right: 0;
+        content: '|';
+      }
+    }
+  }
+`;
+
 const DesktopLogin = styled.div`
   display: none;
+
+  a {
+    display: block;
+  }
 
   ${respondTo(
     'headerMedium',
@@ -161,7 +191,8 @@ const HeaderNav = styled.nav<{ isActive: boolean }>`
       'headerMedium',
       `
       border-top: 1px solid ${props.theme.color('pumice')};
-      min-height: 100vh;
+      height: calc(100vh - 84px);
+      overflow: auto;
     `
     )}
   `}
@@ -233,7 +264,7 @@ const HeaderItem = styled.li`
 `;
 
 const HeaderLink = styled.a<{ isActive: boolean }>`
-  padding: 2rem 0.3rem;
+  padding: 1.4rem 0.3rem;
   display: inline-block;
   text-decoration: none;
   position: relative;
@@ -243,7 +274,6 @@ const HeaderLink = styled.a<{ isActive: boolean }>`
   ${respondTo(
     'headerMedium',
     `
-    padding-top: 1rem;
     padding-bottom: 1rem;
   `
   )}
@@ -251,7 +281,7 @@ const HeaderLink = styled.a<{ isActive: boolean }>`
   &:after {
     content: '';
     position: absolute;
-    bottom: 1.9rem;
+    bottom: 1.3rem;
     height: 0.6rem;
     left: 0;
     width: 0;
@@ -381,6 +411,12 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
                     </HeaderLink>
                   </HeaderItem>
                 ))}
+                <MobileLogin>
+                  <Space h={{ size: 's', properties: ['margin-right'] }}>
+                    <Icon name={'user'} />
+                  </Space>
+                  <SignIn />
+                </MobileLogin>
               </HeaderList>
             </HeaderNav>
             <DesktopLogin>

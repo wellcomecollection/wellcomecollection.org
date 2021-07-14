@@ -1,45 +1,32 @@
 import { FunctionComponent } from 'react';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
-import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import {
   useUserInfo,
   withUserInfo,
 } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 
-const AccountLink = styled.a.attrs({
-  className: classNames({
-    block: true,
-    [font('hnr', 5)]: true,
-  }),
-})``;
-
 const SignIn: FunctionComponent = () => {
   const { user } = useUserInfo();
   return (
-    <>
+    <div
+      className={classNames({
+        [font('hnr', 5)]: true,
+      })}
+    >
       {!user && (
         <>
-          <AccountLink href="/account">Sign in to library account</AccountLink>
-          <AccountLink
-            className="block"
-            href={`/pages/${prismicPageIds.register}`}
-          >
-            Register
-          </AccountLink>
+          <a href="/account">Sign in to library account</a>
+          <a href={`/pages/${prismicPageIds.register}`}>Register</a>
         </>
       )}
       {user && (
         <>
-          <AccountLink className="block" href="/account">
-            My library account
-          </AccountLink>
-          <AccountLink className="block" href="/account/logout">
-            Sign out
-          </AccountLink>
+          <a href="/account">My library account</a>
+          <a href="/account/logout">Sign out</a>
         </>
       )}
-    </>
+    </div>
   );
 };
 
