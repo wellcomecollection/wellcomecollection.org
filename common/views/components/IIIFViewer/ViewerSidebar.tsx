@@ -6,27 +6,28 @@ import {
   ReactNode,
 } from 'react';
 import NextLink from 'next/link';
-import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
+import WorkLink from '../WorkLink/WorkLink';
 import { FixedSizeList } from 'react-window';
 import Icon from '../Icon/Icon';
 import styled from 'styled-components';
 import Space from '../styled/Space';
 import AlignFont from '../styled/AlignFont';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, font } from '../../../utils/classnames';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import {
   getProductionDates,
   getDigitalLocationOfType,
-} from '@weco/common/utils/works';
-import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
-import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
+} from '../../../utils/works';
+import getAugmentedLicenseInfo from '../../../utils/licenses';
+import useIIIFManifestData from '../../../hooks/useIIIFManifestData';
 import ViewerStructures from './ViewerStructures';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
-import { DigitalLocation } from '@weco/common/model/catalogue';
+import { DigitalLocation } from '../../../model/catalogue';
 import MultipleManifestList from './MultipleManifestList';
 import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import { getSearchService } from '../../../utils/iiif';
-import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
+import WorkTitle from '../WorkTitle/WorkTitle';
+import { toHtmlId } from '../../../utils/string';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -56,6 +57,7 @@ const AccordionInner = styled(Space).attrs({
     &:active,
     &:focus {
       outline: 0;
+      box-shadow: ${props => props.theme.focusBoxShadow};
     }
 
     span {
@@ -96,6 +98,7 @@ const AccordionItem = ({
           className={classNames({
             'plain-button no-margin no-padding': true,
           })}
+          aria-expanded={isActive ? 'true' : 'false'} aria-controls={toHtmlId(title)}
         >
           <span>
             <h2
@@ -114,6 +117,7 @@ const AccordionItem = ({
         </button>
       </AccordionInner>
       <AccordionInner
+        id={toHtmlId(title)}
         className={classNames({
           'is-hidden': !isActive,
         })}
