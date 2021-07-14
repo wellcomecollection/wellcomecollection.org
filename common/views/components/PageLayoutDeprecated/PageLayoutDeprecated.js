@@ -8,6 +8,7 @@ import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
 // $FlowFixMe (tsx)
 import Header from '../Header/Header';
+// $FlowFixMe (tsx)
 import HeaderPrototype from '../Header/HeaderPrototype';
 // $FlowFixMe (tsx)
 import InfoBanner from '../InfoBanner/InfoBanner';
