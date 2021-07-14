@@ -5,7 +5,6 @@ import {
   useContext,
   FunctionComponent,
   ReactElement,
-  RefObject,
 } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
@@ -39,8 +38,6 @@ type Props = {
   shouldShowFilters: boolean;
   showSortBy: boolean;
   filters: Filter[];
-  searchForm: RefObject<HTMLFormElement>;
-  submit: (RefObject) => {};
 };
 
 type FormProps = {
@@ -96,17 +93,22 @@ const SearchForm: FunctionComponent<Props> = ({
   shouldShowFilters,
   showSortBy,
   filters,
-  searchForm,
-  submit,
 }: Props): ReactElement<Props> => {
   const { isEnhanced } = useContext(AppContext);
-
+  const searchForm = useRef<HTMLFormElement>(null);
   // This is the query used by the input, that is then eventually passed to the
   // Router
   const [inputQuery, setInputQuery] = useState(query);
   const searchInput = useRef<HTMLInputElement>(null);
   const [forceState, setForceState] = useState(false);
   const [portalSortOrder, setPortalSortOrder] = useState(sortOrder);
+
+  function submit() {
+    searchForm.current &&
+      searchForm.current.dispatchEvent(
+        new window.Event('submit', { cancelable: true })
+      );
+  }
 
   useEffect(() => {
     // This has been added in as the rerendering of createPortal does not trigger
@@ -131,7 +133,7 @@ const SearchForm: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (portalSortOrder !== sortOrder) {
-      submit(searchForm);
+      submit();
     }
   }, [portalSortOrder]);
 
@@ -214,7 +216,7 @@ const SearchForm: FunctionComponent<Props> = ({
           query={query}
           linkResolver={linkResolver}
           searchForm={searchForm}
-          changeHandler={() => {submit(searchForm)}}
+          changeHandler={submit}
           filters={filters}
         />
       )}

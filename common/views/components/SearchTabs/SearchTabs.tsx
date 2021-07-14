@@ -3,7 +3,7 @@ import BaseTabs, { TabType } from '../BaseTabs/BaseTabs';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Space from '../styled/Space';
-import { useContext, FunctionComponent, ReactElement, useRef, RefObject } from 'react';
+import { useContext, FunctionComponent, ReactElement } from 'react';
 import { AppContext } from '../AppContext/AppContext';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -90,13 +90,6 @@ type Props = {
   imagesFilters: Filter[];
 };
 
-function submit(form: RefObject<HTMLFormElement>) {
-  form.current &&
-    form.current.dispatchEvent(
-      new window.Event('submit', { cancelable: true })
-    );
-}
-
 const SearchTabs: FunctionComponent<Props> = ({
   query,
   sort,
@@ -109,8 +102,6 @@ const SearchTabs: FunctionComponent<Props> = ({
   imagesFilters,
 }: Props): ReactElement<Props> => {
   const { isKeyboard, isEnhanced } = useContext(AppContext);
-  const searchWorksForm = useRef<HTMLFormElement>(null);
-  const searchImagesForm = useRef<HTMLFormElement>(null);
 
   const tabs: TabType[] = [
     {
@@ -174,8 +165,6 @@ const SearchTabs: FunctionComponent<Props> = ({
             online access.
           </Space>
           <SearchForm
-            searchForm={searchWorksForm}
-            submit={submit}
             query={query}
             sort={sort}
             sortOrder={sortOrder}
@@ -267,8 +256,6 @@ const SearchTabs: FunctionComponent<Props> = ({
             more.
           </Space>
           <SearchForm
-            searchForm={searchImagesForm}
-            submit={submit}
             query={query}
             sort={undefined}
             sortOrder={undefined}
@@ -302,11 +289,6 @@ const SearchTabs: FunctionComponent<Props> = ({
   ];
 
   function onTabClick(id: string) {
-    if(id === 'tab-images'){
-      submit(searchImagesForm)
-    } else {
-      submit(searchWorksForm)
-    }
     trackEvent({
       category: 'SearchTabs',
       action: 'click tab',
