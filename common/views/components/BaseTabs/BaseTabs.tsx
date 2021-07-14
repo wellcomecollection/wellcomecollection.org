@@ -147,6 +147,9 @@ const Tabs: FunctionComponent<Props> = ({
 
   return (
     <>
+      {/* if isEnhanced then we want to create the tablist to control the panels,
+      if not then the tabs will be appear above there respective panel (see below)
+      */}
       {isEnhanced &&
         <TabList ref={tabListRef} aria-label={label}>
           {tabs.map(({ id, tab }) => (
@@ -167,6 +170,7 @@ const Tabs: FunctionComponent<Props> = ({
       }
       {tabs.map(({ id, tab, tabPanel }) => (
         <>
+          {/* if it's not enhanced the tab appears above its related panel */}
           {!isEnhanced && tab(id === activeId, false)}
           <TabPanel
             key={id}
