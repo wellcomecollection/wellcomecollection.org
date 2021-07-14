@@ -40,7 +40,7 @@ type Props = {
   showSortBy: boolean;
   filters: Filter[];
   searchForm: RefObject<HTMLFormElement>;
-  submit: (RefObject) => void;
+  submit: (RefObject) => {};
 };
 
 type FormProps = {
