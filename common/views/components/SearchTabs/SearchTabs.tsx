@@ -3,7 +3,7 @@ import BaseTabs, { TabType } from '../BaseTabs/BaseTabs';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Space from '../styled/Space';
-import { useContext, FunctionComponent, ReactElement } from 'react';
+import { useContext, FunctionComponent, ReactElement, useRef } from 'react';
 import { AppContext } from '../AppContext/AppContext';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -90,6 +90,8 @@ type Props = {
   imagesFilters: Filter[];
 };
 
+type SearchFormType = HTMLFormElement & {submit: () => void}
+
 const SearchTabs: FunctionComponent<Props> = ({
   query,
   sort,
@@ -102,6 +104,8 @@ const SearchTabs: FunctionComponent<Props> = ({
   imagesFilters,
 }: Props): ReactElement<Props> => {
   const { isKeyboard, isEnhanced } = useContext(AppContext);
+  const searchImagesFormRef = useRef<SearchFormType>();
+  const searchWorksFormRef = useRef<SearchFormType>();
 
   const tabs: TabType[] = [
     {
@@ -165,6 +169,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             online access.
           </Space>
           <SearchForm
+            ref={searchWorksFormRef}
             query={query}
             sort={sort}
             sortOrder={sortOrder}
@@ -256,6 +261,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             more.
           </Space>
           <SearchForm
+            ref={searchImagesFormRef}
             query={query}
             sort={undefined}
             sortOrder={undefined}
@@ -289,6 +295,11 @@ const SearchTabs: FunctionComponent<Props> = ({
   ];
 
   function onTabClick(id: string) {
+    if(id === 'tab-images'){
+      searchImagesFormRef?.current?.submit();
+    } else {
+      searchWorksFormRef?.current?.submit();
+    }
     trackEvent({
       category: 'SearchTabs',
       action: 'click tab',
