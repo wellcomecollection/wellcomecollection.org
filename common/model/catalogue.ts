@@ -36,15 +36,9 @@ export type Work = {
 };
 
 export type ItemsWork = {
-  id: string;
-  items: {
-    id: string;
-    status: {
-      id: string;
-      label: string;
-      type: string;
-    };
-  }[];
+  type: 'ItemsList';
+  totalResults: number;
+  results: Item<Location>[];
 };
 
 export type Holding = {
