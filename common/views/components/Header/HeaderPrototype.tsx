@@ -421,6 +421,10 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
             </HeaderNav>
             <DesktopLogin>
               <DropdownButton
+                // FIXME: If we go with this approach, the DropdownButton should probably
+                // be able to take an optional icon
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
                 label={
                   <div className="flex flex--v-center">
                     <div style={{ transform: 'translateY(0.15em)' }}>
