@@ -8,6 +8,7 @@ import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
 // $FlowFixMe (tsx)
 import Header from '../Header/Header';
+import HeaderPrototype from '../Header/HeaderPrototype';
 // $FlowFixMe (tsx)
 import InfoBanner from '../InfoBanner/InfoBanner';
 // $FlowFixMe(tsx)
@@ -26,8 +27,6 @@ import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import GlobalInfoBarContext from '../GlobalInfoBarContext/GlobalInfoBarContext';
-// $FlowFixMe (tsx)
-import SignIn from '../SignIn/SignIn';
 // $FlowFixMe (tsx)
 import TogglesContext from '../TogglesContext/TogglesContext';
 import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
@@ -151,10 +150,11 @@ const PageLayout = ({
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
         </a>
-        <Header siteSection={siteSection} />
-        {showLogin &&
-          url.pathname &&
-          url.pathname.match(prismicPageIds.collections) && <SignIn />}
+        {showLogin ? (
+          <HeaderPrototype siteSection={siteSection} />
+        ) : (
+          <Header siteSection={siteSection} />
+        )}
         <GlobalAlertContext.Consumer>
           {globalAlert =>
             globalAlert &&

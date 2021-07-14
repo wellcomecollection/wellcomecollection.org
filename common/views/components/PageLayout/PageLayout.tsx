@@ -5,6 +5,7 @@ import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
 // $FlowFixMe (tsx)
 import Header from '../Header/Header';
+import HeaderPrototype from '../Header/HeaderPrototype';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import CookieNotice from '../CookieNotice/CookieNotice';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
@@ -69,7 +70,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
   hideFooter = false,
   excludeRoleMain = false,
 }: ComponentProps) => {
-  const { apiToolbar } = useContext(TogglesContext);
+  const { apiToolbar, showLogin } = useContext(TogglesContext);
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''
@@ -233,7 +234,11 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
         </a>
-        <Header siteSection={siteSection} />
+        {showLogin ? (
+          <HeaderPrototype siteSection={siteSection} />
+        ) : (
+          <Header siteSection={siteSection} />
+        )}
         {globalAlert &&
           globalAlert.isShown === 'show' &&
           (!globalAlert.routeRegex ||

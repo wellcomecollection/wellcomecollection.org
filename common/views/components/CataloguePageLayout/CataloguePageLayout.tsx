@@ -1,7 +1,6 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import PageLayout, { Props as PageLayoutProps } from '../PageLayout/PageLayout';
 import InfoBanner from '../InfoBanner/InfoBanner';
-import SignIn from '../SignIn/SignIn';
 import { prefix } from '@weco/identity/src/utility/prefix';
 
 type Props = {
@@ -14,7 +13,6 @@ const CataloguePageLayout: FunctionComponent<Props> = ({
   ...props
 }: Props) => {
   const [isRedirectBannerVisible, setIsRedirectBannerVisible] = useState(false);
-  const { showLogin } = props.globalContextData.toggles;
   useEffect(() => {
     if (window.location.search.match('wellcomeImagesUrl')) {
       setIsRedirectBannerVisible(true);
@@ -38,7 +36,6 @@ const CataloguePageLayout: FunctionComponent<Props> = ({
                 cookieName="WC_wellcomeImagesRedirect"
               />
             )}
-            {showLogin && <SignIn />}
           </>
         )}
         {children}
