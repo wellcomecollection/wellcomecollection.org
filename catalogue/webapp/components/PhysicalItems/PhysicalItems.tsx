@@ -91,10 +91,10 @@ const PhysicalItems: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const addStatusToItems = async () => {
-      const work = await fetchWorkItems(workId);
-      if (!isCatalogueApiError(work)) {
+      const items = await fetchWorkItems(workId);
+      if (!isCatalogueApiError(items)) {
         const mergedItems = physicalItems.map(currentItem => {
-          const matchingItem = work.items?.find(
+          const matchingItem = items.results?.find(
             item => item.id === currentItem.id
           );
           return {
