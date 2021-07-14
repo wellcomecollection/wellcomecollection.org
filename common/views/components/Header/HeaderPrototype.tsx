@@ -169,6 +169,7 @@ const HeaderBrand = styled.div`
   `}
 
   a {
+    display: inline-block;
     margin: 0 auto;
   }
 `;
@@ -385,7 +386,7 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
             </BurgerTrigger>
           </Burger>
           <HeaderBrand>
-            <a href="/" className="header__brand-link">
+            <a href="/">
               <WellcomeCollectionBlack />
             </a>
           </HeaderBrand>
