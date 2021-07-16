@@ -90,8 +90,6 @@ type Props = {
   imagesFilters: Filter[];
 };
 
-type SearchFormType = HTMLFormElement & {submit: () => void}
-
 const SearchTabs: FunctionComponent<Props> = ({
   query,
   sort,
@@ -104,8 +102,8 @@ const SearchTabs: FunctionComponent<Props> = ({
   imagesFilters,
 }: Props): ReactElement<Props> => {
   const { isKeyboard, isEnhanced } = useContext(AppContext);
-  const searchImagesFormRef = useRef<SearchFormType>();
-  const searchWorksFormRef = useRef<SearchFormType>();
+  const searchImagesFormRef = useRef<HTMLFormElement>();
+  const searchWorksFormRef = useRef<HTMLFormElement>();
 
   const tabs: TabType[] = [
     {
