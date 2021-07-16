@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-    <!-- {%- auth0:head -%} -->
+    {%- auth0:head -%}
     <link
     rel="apple-touch-icon"
     sizes="180x180"
@@ -63,6 +63,12 @@
       ._prompt-box-outer header + div {
         padding-left: 0;
         padding-right: 0;
+      }
+      ._prompt-box-outer * {
+        text-align: left!important;
+      }
+      ._prompt-box-outer button {
+        width: auto!important;
       }
       /* end of hacky overrides of prompt styling */
       body {
@@ -152,8 +158,18 @@
       }
       @media (min-width: 803px) {
         .container {
+          margin-top: 72px;
           border: 1px solid #d9d6ce;
           border-radius: 8px;
+        }
+      }
+      .container-inner {
+        max-width: 500px;
+        margin: 30px auto;
+      }
+      @media (min-width: 803px) {
+        .container-inner {
+          margin: 68px auto;
         }
       }
       h1 {
@@ -168,6 +184,7 @@
         font-size: 16px;
         color: #121212;
         text-decoration: underline;
+        font-weight: normal!important;
       }
       body a:hover {
         text-decoration: none;
@@ -188,8 +205,8 @@
       @media (min-width: 803px) {
         .hidden-large {
           display: none;
+        }
       }
-
     </style>
     <title>{{ prompt.screen.texts.pageTitle }}</title>
   </head>
@@ -209,10 +226,14 @@
     </div>
   </div>
     <div class="container">
-      <h1>{{ prompt.screen.texts.pageTitle }}</h1>
-      <!-- {%- auth0:widget -%} -->
-      <!-- {% if prompt.name == "login" or prompt.name == "signup" %} -->
-      <!-- {% endif %} -->
+      <div class="container-inner">
+        <h1>{{ prompt.screen.texts.pageTitle }}</h1>
+        {%- auth0:widget -%}
+        {% if prompt.name == "login" or prompt.name == "signup" %}
+        <!-- TODO check text and whether to capitalise Library-->
+        <p><strong>Not a Library member?</strong> <a href="https://wellcomecollection.org/pages/X_2eexEAACQAZLBi">Read more about joining the library</a></p>
+        {% endif %}
+      </div>
     </div>
   </body>
 </html>
