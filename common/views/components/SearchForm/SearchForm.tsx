@@ -32,14 +32,14 @@ import { LinkProps } from '../../../model/link-props';
 import { Filter } from '../../../services/catalogue/filters';
 import { formDataAsUrlQuery } from '../../../utils/forms';
 
-type FormProps = {
+type StyledFormProps = {
   isEnhanced: boolean
 }
 
-const StyledForm = styled(Space).attrs((props: FormProps) => ({
+const StyledForm = styled(Space).attrs((props: StyledFormProps) => ({
   as: 'form',
   v: props.isEnhanced ? {} : { size: 'l', properties: ['margin-bottom'] },
-}))<FormProps>`
+}))<StyledFormProps>`
 `;
 
 const SearchInputWrapper = styled.div`
