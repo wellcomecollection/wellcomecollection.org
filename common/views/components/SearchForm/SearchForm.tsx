@@ -3,12 +3,9 @@ import {
   useState,
   useEffect,
   useContext,
-  FunctionComponent,
   ReactElement,
   forwardRef,
   useImperativeHandle,
-  ForwardedRef,
-  RefObject,
 } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
