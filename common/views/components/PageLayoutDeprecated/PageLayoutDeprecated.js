@@ -30,7 +30,6 @@ import Space from '../styled/Space';
 import GlobalInfoBarContext from '../GlobalInfoBarContext/GlobalInfoBarContext';
 // $FlowFixMe (tsx)
 import TogglesContext from '../TogglesContext/TogglesContext';
-import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
 // $FlowFixMe (ts)
 import useHotjar from '@weco/common/hooks/useHotjar';
 
@@ -63,13 +62,7 @@ const PageLayout = ({
   hideNewsletterPromo = false,
   hideFooter = false,
 }: Props) => {
-  const hotjarUrls = [
-    'stories',
-    'events',
-    prismicPageIds.aboutUs,
-    prismicPageIds.getInvolved,
-    prismicPageIds.copyrightClearance,
-  ];
+  const hotjarUrls = ['events'];
   const shouldLoadHotjar = hotjarUrls.some(
     u => url.pathname && url.pathname.match(u)
   );
