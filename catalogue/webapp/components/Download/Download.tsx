@@ -79,7 +79,7 @@ const Download: NextPage<Props> = ({
         <>
           <DropdownButton
             label="Downloads"
-            isInline={isInline}
+            buttonType={isInline ? 'inline' : 'outlined'}
             isOnDark={useDarkControl}
             id={ariaControlsId}
           >

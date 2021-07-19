@@ -1,5 +1,4 @@
 import { FunctionComponent } from 'react';
-import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import { font, classNames } from '@weco/common/utils/classnames';
 import {
   useUserInfo,
@@ -11,18 +10,17 @@ const SignIn: FunctionComponent = () => {
   return (
     <div
       className={classNames({
-        [font('hnr', 5)]: true,
+        [font('hnr', 6)]: true,
       })}
     >
       {!user && (
         <>
-          <a href="/account">Sign in to library account</a>
-          <a href={`/pages/${prismicPageIds.register}`}>Register</a>
+          <a href="/account">Sign in to Library account</a>
         </>
       )}
       {user && (
         <>
-          <a href="/account">My library account</a>
+          <a href="/account">Library account details</a>
           <a href="/account/logout">Sign out</a>
         </>
       )}

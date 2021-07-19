@@ -36,7 +36,7 @@ type CheckboxFilterProps = {
 };
 const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
   return (
-    <DropdownButton label={f.label} isInline={true} id={f.id}>
+    <DropdownButton label={f.label} buttonType={'inline'} id={f.id}>
       <ul
         className={classNames({
           'no-margin no-padding plain-list': true,
@@ -78,7 +78,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
         [font('hnr', 5)]: true,
       })}
     >
-      <DropdownButton label={f.label} isInline={true} id={f.id}>
+      <DropdownButton label={f.label} buttonType={'inline'} id={f.id}>
         <>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <NumberInput
@@ -124,7 +124,7 @@ type ColorFilterProps = {
 };
 const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
   return (
-    <DropdownButton label={'Colours'} isInline={true} id="images.color">
+    <DropdownButton label={'Colours'} buttonType={'inline'} id="images.color">
       <PaletteColorPicker
         name={f.id}
         color={f.color}

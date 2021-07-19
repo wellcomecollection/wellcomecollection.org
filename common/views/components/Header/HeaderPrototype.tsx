@@ -29,10 +29,15 @@ const MobileLogin = styled.div`
   `
   )}
   display: flex;
-  margin-top: 10px;
+  margin-top: 1.4rem;
 
   a {
     position: relative;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
 
     &:first-child {
       margin-right: 10px;
@@ -44,14 +49,31 @@ const MobileLogin = styled.div`
         content: '|';
       }
     }
+
+    &:last-child {
+      &:after {
+        display: none;
+      }
+    }
   }
 `;
 
 const DesktopLogin = styled.div`
   display: none;
+  transform: translateY(4px);
 
   a {
     display: block;
+    text-decoration: none;
+    margin-bottom: 16px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   ${respondTo(
@@ -413,8 +435,13 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
                   </HeaderItem>
                 ))}
                 <MobileLogin>
-                  <Space h={{ size: 's', properties: ['margin-right'] }}>
-                    <Icon name={'user'} />
+                  <Space
+                    h={{ size: 's', properties: ['margin-right'] }}
+                    className={classNames({
+                      [font('hnr', 4)]: true,
+                    })}
+                  >
+                    <Icon name={'user'} extraClasses={`icon--match-text`} />
                   </Space>
                   <SignIn />
                 </MobileLogin>
@@ -428,18 +455,26 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
                 // @ts-ignore
                 label={
                   <div className="flex flex--v-center">
-                    <div style={{ transform: 'translateY(0.15em)' }}>
-                      <Icon name={'user'} />
+                    <div
+                      style={{ transform: 'translateY(0.1em)' }}
+                      className={classNames({
+                        [font('hnr', 4)]: true,
+                      })}
+                    >
+                      <Icon name={'user'} extraClasses={'icon--match-text'} />
                     </div>
                     <Space
                       h={{ size: 's', properties: ['margin-left'] }}
-                      className="is-hidden-s is-hidden-m is-hidden-l"
+                      className={classNames({
+                        [font('hnr', 6)]: true,
+                        'is-hidden-s is-hidden-m is-hidden-l': true,
+                      })}
                     >
                       Library sign in
                     </Space>
                   </div>
                 }
-                isInline={true}
+                buttonType={'borderless'}
               >
                 <SignIn />
               </DropdownButton>
