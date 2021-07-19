@@ -7,6 +7,10 @@ import DropdownButton from '@weco/common/views/components/DropdownButton/Dropdow
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SignIn from '@weco/common/views/components/SignIn/SignIn';
 import Space from '@weco/common/views/components/styled/Space';
+import {
+  useUserInfo,
+  withUserInfo,
+} from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 
 const NavLoginWrapper = styled.div`
   display: flex;
@@ -383,6 +387,8 @@ export const links = [
 
 const Header: FunctionComponent<Props> = ({ siteSection }) => {
   const [isActive, setIsActive] = useState(false);
+  const { user, isLoading } = useUserInfo();
+  const displayName = user && `${user.firstName} ${user.lastName.slice(0, 1)}`;
 
   return (
     <Wrapper navHeight={navHeight} isBurgerOpen={isActive}>
@@ -434,51 +440,55 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
                     </HeaderLink>
                   </HeaderItem>
                 ))}
-                <MobileLogin>
-                  <Space
-                    h={{ size: 's', properties: ['margin-right'] }}
-                    className={classNames({
-                      [font('hnr', 4)]: true,
-                    })}
-                  >
-                    <Icon name={'user'} extraClasses={`icon--match-text`} />
-                  </Space>
-                  <SignIn />
-                </MobileLogin>
-              </HeaderList>
-            </HeaderNav>
-            <DesktopLogin>
-              <DropdownButton
-                // FIXME: If we go with this approach, the DropdownButton should probably
-                // be able to take an optional icon
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                label={
-                  <div className="flex flex--v-center">
-                    <div
-                      style={{ transform: 'translateY(0.1em)' }}
+                {!isLoading && (
+                  <MobileLogin>
+                    <Space
+                      h={{ size: 's', properties: ['margin-right'] }}
                       className={classNames({
                         [font('hnr', 4)]: true,
                       })}
                     >
-                      <Icon name={'user'} extraClasses={'icon--match-text'} />
-                    </div>
-                    <Space
-                      h={{ size: 's', properties: ['margin-left'] }}
-                      className={classNames({
-                        [font('hnr', 6)]: true,
-                        'is-hidden-s is-hidden-m is-hidden-l': true,
-                      })}
-                    >
-                      Library sign in
+                      <Icon name={'user'} extraClasses={`icon--match-text`} />
                     </Space>
-                  </div>
-                }
-                buttonType={'borderless'}
-              >
-                <SignIn />
-              </DropdownButton>
-            </DesktopLogin>
+                    <SignIn user={user} />
+                  </MobileLogin>
+                )}
+              </HeaderList>
+            </HeaderNav>
+            {!isLoading && (
+              <DesktopLogin>
+                <DropdownButton
+                  // FIXME: If we go with this approach, the DropdownButton should probably
+                  // be able to take an optional icon
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
+                  label={
+                    <div className="flex flex--v-center">
+                      <div
+                        style={{ transform: 'translateY(0.1em)' }}
+                        className={classNames({
+                          [font('hnr', 4)]: true,
+                        })}
+                      >
+                        <Icon name={'user'} extraClasses={'icon--match-text'} />
+                      </div>
+                      <Space
+                        h={{ size: 's', properties: ['margin-left'] }}
+                        className={classNames({
+                          [font('hnr', 6)]: true,
+                          'is-hidden-s is-hidden-m is-hidden-l': true,
+                        })}
+                      >
+                        {displayName || 'Library sign in'}
+                      </Space>
+                    </div>
+                  }
+                  buttonType={'borderless'}
+                >
+                  <SignIn user={user} />
+                </DropdownButton>
+              </DesktopLogin>
+            )}
           </NavLoginWrapper>
         </div>
       </div>
@@ -486,4 +496,4 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
   );
 };
 
-export default Header;
+export default withUserInfo(Header);
