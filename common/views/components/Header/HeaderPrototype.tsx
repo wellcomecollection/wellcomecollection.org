@@ -455,7 +455,7 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
                         [font('hnr', 4)]: true,
                       })}
                     >
-                      <Icon name={'user'} extraClasses={`icon--match-text`} />
+                      <Icon name={'user'} matchText={true} />
                     </Space>
                     <SignIn user={user} />
                   </MobileLogin>
@@ -477,7 +477,7 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
                           [font('hnr', 4)]: true,
                         })}
                       >
-                        <Icon name={'user'} extraClasses={'icon--match-text'} />
+                        <Icon name={'user'} matchText={true} />
                       </div>
                       <Space
                         h={{ size: 's', properties: ['margin-left'] }}
