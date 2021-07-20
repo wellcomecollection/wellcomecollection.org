@@ -72,3 +72,14 @@ curl --request PUT \
     "description": "Your password has been reset. Please sign in using your new password."
   }
 }'
+
+6)
+EMAIL VERIFIED:
+curl --request PUT \
+  --url 'https://stage.account.wellcomecollection.org/api/v2/prompts/email-verification/custom-text/en' \
+  --header 'authorization: Bearer MGMT_API_ACCESS_TOKEN' \
+  --header 'content-type: application/json' \
+  --data '{ "email-verification-result": {
+    "verifiedDescription": "Thank you for verifying your email address. The library team will review your application and will confirm your membership within the next 72 hours. In the meantime, you can browse through our digital collections or sign in to your account below. Reminder: you will need to email a form of personal identification (ID) and proof of address to the Library team in order to confirm your details."
+  }
+}'
