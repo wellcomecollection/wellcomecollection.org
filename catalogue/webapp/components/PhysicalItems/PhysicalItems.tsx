@@ -27,11 +27,31 @@ function getFirstPhysicalLocation(item) {
   return item.locations?.find(location => location.type === 'PhysicalLocation');
 }
 
+function getColorForLocation(label: string): string | undefined {
+  switch (label) {
+    case 'Journals':
+      return 'green';
+    case 'History of Medicine':
+      return 'red';
+    case 'Medical Collection':
+      return 'orange';
+    case 'Quick Reference':
+    case 'Student Loan':
+      return 'purple';
+    default:
+      return undefined;
+  }
+}
+
 function createPhysicalItem(
   item: PhysicalItem,
   encoreLink: string | undefined
 ): PhysicalItemProps | undefined {
   const physicalLocation = getFirstPhysicalLocation(item);
+  const isOnOpenShelves = physicalLocation?.locationType?.id === 'open-shelves';
+  const color = isOnOpenShelves
+    ? getColorForLocation(physicalLocation.label)
+    : undefined;
   const isRequestableOnline =
     physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
   const accessMethodLabel =
@@ -50,6 +70,7 @@ function createPhysicalItem(
     accessMethod: accessMethodLabel,
     requestItemUrl: isRequestableOnline ? encoreLink : undefined,
     accessNote: accessNote,
+    color: color,
   };
 }
 
