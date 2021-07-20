@@ -204,7 +204,6 @@ const HeaderNav = styled.nav<{ isActive: boolean }>`
   display: ${props => (props.isActive ? 'block' : 'none')};
   background: ${props => props.theme.color('white')};
   position: absolute;
-  z-index: 1;
   top: 100%;
   left: 0;
   right: 0;
