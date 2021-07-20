@@ -73,7 +73,7 @@ curl --request PUT \
   }
 }'
 
-6)
+6) N.B won't update as too much text max char limit is 200
 EMAIL VERIFIED:
 curl --request PUT \
   --url 'https://stage.account.wellcomecollection.org/api/v2/prompts/email-verification/custom-text/en' \
