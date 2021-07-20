@@ -10,4 +10,4 @@ jobs:
           build-script: "build-webapps"
           clean-script: "clean"
           pattern: "**/webapp/.next/static/chunks/**/*.js"
-          strip-hash: "\\w\\[-\\.](\\w{20})\\.js$"
+          strip-hash: "\\b[-\\.](\\w{20})\\.js$"
