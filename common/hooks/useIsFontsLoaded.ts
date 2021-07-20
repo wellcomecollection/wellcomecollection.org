@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-const useIsFontsLoaded = (): void => {
+const useIsFontsLoaded = (): boolean => {
+  const [isFontsLoaded, setIsFontsLoaded] = useState(false);
   useEffect(() => {
     // This needs to be dynamically required as it's only on the client-side
     /* eslint-disable @typescript-eslint/no-var-requires */
@@ -14,12 +15,12 @@ const useIsFontsLoaded = (): void => {
 
     Promise.all([WB.load(), HNR.load(), HNB.load(), LR.load()])
       .then(() => {
-        if (document.documentElement) {
-          document.documentElement.classList.add('fonts-loaded');
-        }
+        setIsFontsLoaded(true);
       })
       .catch(console.log);
   }, []);
+
+  return isFontsLoaded;
 };
 
 export default useIsFontsLoaded;

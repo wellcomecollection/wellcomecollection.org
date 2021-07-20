@@ -90,37 +90,23 @@ export const typography = css<GlobalStyleProps>`
     font-weight: normal;
   }
 
-  .font-hnb {
-    ${fontFamilyMixin('hnb', false)};
-
-    .fonts-loaded & {
-      ${fontFamilyMixin('hnb', true)};
+  ${props => `
+    .font-hnb {
+      ${fontFamilyMixin('hnb', !!props.isFontsLoaded)};
     }
-  }
 
-  .font-hnr {
-    ${fontFamilyMixin('hnr', false)};
-
-    .fonts-loaded & {
-      ${fontFamilyMixin('hnr', true)}
+    .font-hhr {
+      ${fontFamilyMixin('hnr', !!props.isFontsLoaded)};
     }
-  }
 
-  .font-wb {
-    ${fontFamilyMixin('wb', false)};
-
-    .fonts-loaded & {
-      ${fontFamilyMixin('wb', true)}
+    .font-wb {
+      ${fontFamilyMixin('wb', !!props.isFontsLoaded)};
     }
-  }
 
-  .font-lr {
-    ${fontFamilyMixin('lr', false)};
-
-    .fonts-loaded & {
-      ${fontFamilyMixin('lr', true)}
+    .font-lr {
+      ${fontFamilyMixin('lr', !!props.isFontsLoaded)};
     }
-  }
+  `}
 
   html {
     font-size: 100%;

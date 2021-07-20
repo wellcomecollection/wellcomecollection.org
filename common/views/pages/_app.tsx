@@ -217,9 +217,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     lazysizes.init();
   }, []);
 
-  // fonts
-  useIsFontsLoaded();
-
   // prismic warnings
   // TODO: This should be componentized
   useEffect(() => {
@@ -297,7 +294,10 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     <>
       <AppContextProvider>
         <ThemeProvider theme={theme}>
-          <GlobalStyle toggles={globalContextData.toggles} />
+          <GlobalStyle
+            toggles={globalContextData.toggles}
+            isFontsLoaded={useIsFontsLoaded()}
+          />
           <OutboundLinkTracker>
             <LoadingIndicator />
             {!pageProps.err && <Component {...pageProps} />}
