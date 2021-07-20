@@ -4,6 +4,7 @@ import { withKnobs } from '@storybook/addon-knobs';
 import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
 import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
+import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 
 addDecorator(withKnobs);
 
@@ -12,7 +13,7 @@ const CenterDecorator = (storyFn, { parameters }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyle />
+      <GlobalStyle isFontsLoaded={useIsFontsLoaded()} />
       <AppContextProvider>{story}</AppContextProvider>
     </ThemeProvider>
   );
