@@ -71,11 +71,13 @@
         width: auto!important;
       }
       ._prompt-box-outer div {
-        padding-left: 0!important;
         min-height: auto!important;
       }
-      ._prompt-box-outer .success-email {
+      ._prompt-box-outer .success-email, ._prompt-box-outer .error-cross, ._prompt-box-outer .success-lock { /* these are icons */
         display: none;
+      }
+      ._prompt-box-outer [data-event-id] {
+        padding-left: 0!important;
       }
       /* end of hacky overrides of prompt styling */
       body {
@@ -173,6 +175,7 @@
       .container-inner {
         max-width: 500px;
         margin: 30px auto;
+        padding: 0 30px;
       }
       @media (min-width: 803px) {
         .container-inner {
