@@ -1,0 +1,12 @@
+name: Bundle size
+on: [pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: preactjs/compressed-size-action@v2
+        with:
+          build-script: "build-webapps"
+          pattern: "**/webapp/.next/static/chunks/**/*.js"
+          strip-hash: "\\w\\[-\\.](\\w{20})\\.js$"
