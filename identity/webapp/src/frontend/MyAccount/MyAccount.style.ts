@@ -23,7 +23,7 @@ export const DetailWrapper = styled.dl`
   text-overflow: ellipsis;
 `;
 
-export const DetailLabel = styled.dt.attrs({ className: 'font-hnr fonts-loaded font-size-4' })`
+export const DetailLabel = styled.dt.attrs({ className: 'font-hnr font-size-4' })`
   display: block;
   font-weight: bold;
 `;
@@ -103,7 +103,7 @@ export const Section = styled.section`
   }
 `;
 
-export const SectionHeading = styled.h2.attrs({ className: 'font-hnr fonts-loaded font-size-3' })`
+export const SectionHeading = styled.h2.attrs({ className: 'font-hnr font-size-3' })`
   font-weight: bold;
   margin: 0;
 `;
