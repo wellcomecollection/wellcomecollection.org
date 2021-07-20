@@ -25,7 +25,11 @@ const NavLoginWrapper = styled.div`
   )}
 `;
 
-const MobileLogin = styled.div`
+const MobileLogin = styled.div.attrs({
+  className: classNames({
+    [font('hnr', 5)]: true,
+  }),
+})`
   ${respondTo(
     'headerMedium',
     `
@@ -43,9 +47,9 @@ const MobileLogin = styled.div`
       text-decoration: underline;
     }
 
-    &:first-child {
-      margin-right: 10px;
-      padding-right: 10px;
+    &:first-of-type {
+      margin-right: 1em;
+      padding-right: 1em;
 
       &:after {
         position: absolute;
@@ -54,7 +58,7 @@ const MobileLogin = styled.div`
       }
     }
 
-    &:last-child {
+    &:last-of-type {
       &:after {
         display: none;
       }
@@ -62,7 +66,11 @@ const MobileLogin = styled.div`
   }
 `;
 
-const DesktopLogin = styled.div`
+const DesktopLogin = styled.div.attrs({
+  className: classNames({
+    [font('hnr', 6)]: true,
+  }),
+})`
   display: none;
   transform: translateY(4px);
 
