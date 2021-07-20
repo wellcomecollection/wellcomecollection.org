@@ -24,7 +24,7 @@ const EventDatesLink: FunctionComponent<Props> = ({ id }: Props) => {
         [font('hnb', 5)]: true,
       })}
     >
-      <Icon name={`arrowSmall`} extraClasses="icon--black icon--90" />
+      <Icon name={`arrowSmall`} color={'black'} rotate={90} />
       <span>{`See all dates`}</span>
     </a>
   );

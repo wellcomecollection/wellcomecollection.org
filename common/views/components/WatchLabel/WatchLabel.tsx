@@ -39,7 +39,7 @@ const WatchLabel: FunctionComponent<Props> = ({ text }: Props) => (
     })}
   >
     <WatchIconWrapper>
-      <Icon name={`play`} extraClasses={`icon--match-text`} />
+      <Icon name={`play`} matchText={true} />
     </WatchIconWrapper>
     {text && <WatchText>{text}</WatchText>}
   </div>

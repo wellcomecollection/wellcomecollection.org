@@ -298,7 +298,7 @@ const PopupDialog: FunctionComponent<Props> = ({
             overrides: { medium: 2, large: 2 },
           }}
         >
-          <Icon name="chat" extraClasses="icon--purple" />
+          <Icon name="chat" color={'purple'} />
         </Space>
         {openButtonText}
       </PopupDialogOpen>
@@ -322,7 +322,7 @@ const PopupDialog: FunctionComponent<Props> = ({
             });
           }}
         >
-          <Icon name="clear" title="Close dialog" extraClasses="icon--purple" />
+          <Icon name="clear" title="Close dialog" color={'purple'} />
         </PopupDialogClose>
         <Space
           h={{

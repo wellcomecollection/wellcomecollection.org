@@ -111,10 +111,7 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
       <ul>
         {firstCrumb && (
           <li className={'flex'}>
-            <Icon
-              extraClasses={`icon--match-text icon--currentColor`}
-              name={`archive`}
-            />
+            <Icon matchText={true} color={'currentColor'} name={`archive`} />
             <ArchiveWorkLink id={firstCrumb.id}>
               <a className="crumb-inner">
                 <WorkTitle title={firstCrumb.title} />
@@ -135,7 +132,8 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
                     return (
                       <li key={crumb.id} className={`flex`}>
                         <Icon
-                          extraClasses={`icon--match-text icon--currentColor`}
+                          matchText={true}
+                          color={'currentColor'}
                           name={
                             'folder'
                             // TODO: no longer way of knowing if has children
@@ -165,7 +163,8 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
               return (
                 <li key={crumb.id} className={'flex'}>
                   <Icon
-                    extraClasses={`icon--match-text icon--currentColor`}
+                    matchText={true}
+                    color={'currentColor'}
                     name={
                       'folder'
                       // TODO: no longer way of knowing if has children
@@ -187,7 +186,8 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
         {lastCrumb && (
           <li className={'flex'}>
             <Icon
-              extraClasses={`icon--match-text icon--currentColor`}
+              matchText={true}
+              color={'currentColor'}
               name={
                 'folder'
                 // TODO: no longer way of knowing if has children

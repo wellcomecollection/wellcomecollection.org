@@ -7,6 +7,7 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '../../../utils/image-sizes';
 import { trackEvent } from '@weco/common/utils/ga';
 import Space from '../styled/Space';
+import Rotator from '../styled/Rotator';
 import Paginator, {
   PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction,
   PaginatorRenderFunctionProps,
@@ -90,49 +91,46 @@ export const PaginatorButtons = (
       >
         {prevLink && (
           <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-            <Control
-              scroll={false}
-              replace={true}
-              link={prevLink}
-              colorScheme="light"
-              icon="arrow"
-              text="Previous page"
-              tabIndex={isTabbable ? 0 : -1}
-              extraClasses={classNames({
-                'icon--270': true,
-              })}
-              clickHandler={() => {
-                trackEvent({
-                  category: 'Control',
-                  action: 'clicked work viewer previous page link',
-                  label: `${workId} | page: ${currentPage}`,
-                });
-              }}
-            />
+            <Rotator rotate={270}>
+              <Control
+                scroll={false}
+                replace={true}
+                link={prevLink}
+                colorScheme="light"
+                icon="arrow"
+                text="Previous page"
+                tabIndex={isTabbable ? 0 : -1}
+                clickHandler={() => {
+                  trackEvent({
+                    category: 'Control',
+                    action: 'clicked work viewer previous page link',
+                    label: `${workId} | page: ${currentPage}`,
+                  });
+                }}
+              />
+            </Rotator>
           </Space>
         )}
         {nextLink && (
           <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-            <Control
-              scroll={false}
-              replace={true}
-              link={nextLink}
-              colorScheme="light"
-              icon="arrow"
-              text="Next page"
-              tabIndex={isTabbable ? 0 : -1}
-              extraClasses={classNames({
-                icon: true,
-                'icon--90': true,
-              })}
-              clickHandler={() => {
-                trackEvent({
-                  category: 'Control',
-                  action: 'clicked work viewer next page link',
-                  label: `${workId} | page: ${currentPage}`,
-                });
-              }}
-            />
+            <Rotator rotate={90}>
+              <Control
+                scroll={false}
+                replace={true}
+                link={nextLink}
+                colorScheme="light"
+                icon="arrow"
+                text="Next page"
+                tabIndex={isTabbable ? 0 : -1}
+                clickHandler={() => {
+                  trackEvent({
+                    category: 'Control',
+                    action: 'clicked work viewer next page link',
+                    label: `${workId} | page: ${currentPage}`,
+                  });
+                }}
+              />
+            </Rotator>
           </Space>
         )}
       </div>

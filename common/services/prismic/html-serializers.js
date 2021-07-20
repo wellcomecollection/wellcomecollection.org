@@ -160,13 +160,36 @@ export const defaultSerializer: HtmlSerializer = (
             className="no-margin plain-link font-green flex-inline flex--h-baseline"
             href={linkUrl}
           >
-            <span className="icon" style={{ top: '8px' }}>
-              <canvas className="icon__canvas" height="20" width="20"></canvas>
+            <span
+              style={{
+                top: '8px',
+                display: 'inline-block',
+                height: '24px',
+                width: '24px',
+                position: 'relative',
+                userSelect: 'none',
+              }}
+            >
+              <canvas
+                height="20"
+                width="20"
+                style={{
+                  display: 'block',
+                  height: '100%',
+                  visibility: 'hidden',
+                }}
+              ></canvas>
               <svg
                 className="icon__svg no-margin"
                 role="img"
                 aria-labelledby={`icon-download-title-${nameWithoutSpaces}`}
-                style={{ width: '20px', height: '20px' }}
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  left: '0',
+                  position: 'absolute',
+                  top: '0',
+                }}
               >
                 <title id={`icon-download-title-${nameWithoutSpaces}`}>
                   download

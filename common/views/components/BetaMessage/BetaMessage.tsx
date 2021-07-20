@@ -3,6 +3,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import { font, classNames } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
 
 const StyledBetaMessage = styled.div.attrs(() => ({
   className: classNames({
@@ -28,7 +29,9 @@ const BetaMessage: FunctionComponent<Props> = ({
   }, []);
   return (
     <StyledBetaMessage>
-      <Icon name="underConstruction" extraClasses="margin-right-s2" />
+      <Space h={{ size: 's', properties: ['margin-right'] }}>
+        <Icon name="underConstruction" />
+      </Space>
       <p className="no-margin">{message}</p>
     </StyledBetaMessage>
   );

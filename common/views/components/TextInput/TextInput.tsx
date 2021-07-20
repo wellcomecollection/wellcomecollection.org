@@ -233,15 +233,13 @@ const TextInput = forwardRef(
           />
           {isValid && showValidity && (
             <TextInputCheckmark>
-              <Icon name={`check`} extraClasses={`icon--green`} />
+              <Icon name={`check`} color={'green'} />
             </TextInputCheckmark>
           )}
         </TextInputWrap>
         <div role="status">
           {errorMessage && !isValid && showValidity && (
-            <TextInputErrorMessage>
-                {errorMessage}
-            </TextInputErrorMessage>
+            <TextInputErrorMessage>{errorMessage}</TextInputErrorMessage>
           )}
         </div>
       </div>

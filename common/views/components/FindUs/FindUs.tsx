@@ -43,7 +43,9 @@ const FindUs: FunctionComponent = () => (
       >
         <span className="flex">
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-            <Icon name="location" extraClasses={`float-l`} />
+            <span className="float-l">
+              <Icon name="location" />
+            </span>
           </Space>
           <Space v={{ size: 'm', properties: ['margin-bottom'] }} as="p">
             <span className="block">
