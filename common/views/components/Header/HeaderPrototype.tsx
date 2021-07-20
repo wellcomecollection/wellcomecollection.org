@@ -388,7 +388,7 @@ export const links = [
 const Header: FunctionComponent<Props> = ({ siteSection }) => {
   const [isActive, setIsActive] = useState(false);
   const { user, isLoading } = useUserInfo();
-  const displayName = user && `${user.firstName} ${user.lastName.slice(0, 1)}`;
+  const displayName = user && `${user.firstName} ${user.lastName.slice(0, 1)}…`;
 
   return (
     <Wrapper navHeight={navHeight} isBurgerOpen={isActive}>
