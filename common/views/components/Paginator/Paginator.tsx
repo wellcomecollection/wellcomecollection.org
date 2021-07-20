@@ -3,6 +3,7 @@ import { LinkProps } from '../../../model/link-props';
 import { classNames, font } from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
 import Space from '../styled/Space';
+import Rotator from '../styled/Rotator';
 import styled from 'styled-components';
 
 type PageChangeFunction = (event: Event, page: number) => Promise<void>;
@@ -104,7 +105,10 @@ const Paginator: FunctionComponent<Props> = ({
           [font('hnb', 3)]: true,
         })}
       >
-        <TotalResultsWrapper hideMobileTotalResults={hideMobileTotalResults} role="status">
+        <TotalResultsWrapper
+          hideMobileTotalResults={hideMobileTotalResults}
+          role="status"
+        >
           {totalResults} {totalResults !== 1 ? 'results' : 'result'}
           {query && ` for “${query}”`}
         </TotalResultsWrapper>
@@ -132,18 +136,17 @@ const Paginator: FunctionComponent<Props> = ({
         >
           {prevLink && prev && (
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-              <Control
-                link={prevLink}
-                clickHandler={event => {
-                  onPageChange(event, prev);
-                }}
-                colorScheme="light"
-                extraClasses={classNames({
-                  'icon--180': true,
-                })}
-                icon="arrow"
-                text={`Previous (page ${prev})`}
-              />
+              <Rotator rotate={180}>
+                <Control
+                  link={prevLink}
+                  clickHandler={event => {
+                    onPageChange(event, prev);
+                  }}
+                  colorScheme="light"
+                  icon="arrow"
+                  text={`Previous (page ${prev})`}
+                />
+              </Rotator>
             </Space>
           )}
           <span className={`font-pewter`}>

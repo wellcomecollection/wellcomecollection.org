@@ -19,9 +19,6 @@ const DownloadLinkStyle = styled.a.attrs({
   .icon__shape {
     fill: currentColor;
   }
-  .icon__canvas {
-    height: 1.3em;
-  }
 `;
 
 export type DownloadFormat = 'PDF' | 'PLAIN' | 'JPG' | 'MP4' | 'MP3';

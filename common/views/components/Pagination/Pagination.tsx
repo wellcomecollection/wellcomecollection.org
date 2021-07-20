@@ -2,6 +2,7 @@ import { FunctionComponent } from 'react';
 import { font } from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
 import Space from '../styled/Space';
+import Rotator from '../styled/Rotator';
 
 export type Props = {
   total: number;
@@ -33,21 +34,22 @@ const Pagination: FunctionComponent<Props> = ({
   >
     {prevPage && prevQueryString && (
       <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-        <Control
-          link={{
-            // TODO: Fix the type checking here
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore: Works but should be of LinkProps Type
-            href: prevQueryString,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore: Works but should be of LinkProps Type
-            as: prevQueryString,
-          }}
-          colorScheme="light"
-          extraClasses={`icon--180`}
-          icon="arrow"
-          text={`Previous (page ${prevPage})`}
-        />
+        <Rotator rotate={180}>
+          <Control
+            link={{
+              // TODO: Fix the type checking here
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore: Works but should be of LinkProps Type
+              href: prevQueryString,
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore: Works but should be of LinkProps Type
+              as: prevQueryString,
+            }}
+            colorScheme="light"
+            icon="arrow"
+            text={`Previous (page ${prevPage})`}
+          />
+        </Rotator>
       </Space>
     )}
 

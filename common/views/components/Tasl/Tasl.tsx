@@ -183,12 +183,11 @@ const Tasl: FunctionComponent<Props> = ({
         aria-controls={title || sourceName || copyrightHolder || ''}
       >
         <TaslIcon isEnhanced={isEnhanced}>
-          <Icon
-            name={isActive ? 'cross' : 'information'}
-            extraClasses="icon--white"
-          />
+          <Icon name={isActive ? 'cross' : 'information'} color={'white'} />
           <span className="visually-hidden">
-            {isActive ? `hide credit information for image '${title}'` : `show credit information for image '${title}'`}
+            {isActive
+              ? `hide credit information for image '${title}'`
+              : `show credit information for image '${title}'`}
           </span>
         </TaslIcon>
       </TaslButton>

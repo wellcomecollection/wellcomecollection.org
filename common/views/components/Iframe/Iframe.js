@@ -1,10 +1,9 @@
 // @flow
 import { Component, Fragment, createRef } from 'react';
-import { classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';
 // $FlowFixMe (tsx)
-import Icon from '../Icon/Icon';
+import Control from '../Buttons/Control/Control';
 // $FlowFixMe (tsx)
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import type { ImageType } from '../../../model/image';
@@ -65,12 +64,10 @@ export const IframeContainer = styled.div`
   }
 
   .close {
+    position: absolute;
     top: 12px;
     right: 12px;
     z-index: 2;
-    background: rgba(0, 0, 0, 0.6);
-    width: ${props => props.theme.iconDimension}px;
-    height: ${props => props.theme.iconDimension}px;
   }
 
   .iframe {
@@ -136,15 +133,13 @@ class Iframe extends Component<Props, State> {
             )}
             <UiImage {...imageObject} />
             {this.state.iframeShowing && (
-              <button
-                className={classNames({
-                  'close icon-rounder plain-button pointer no-padding absolute': true,
-                  'is-hidden': !this.state.iframeShowing,
-                })}
-                onClick={this.toggleIframeDisplay}
-              >
-                <Icon name="clear" title="Close" extraClasses="icon--white" />
-              </button>
+              <Control
+                colorScheme="light"
+                text="Close"
+                icon="cross"
+                clickHandler={this.toggleIframeDisplay}
+                extraClasses={'close'}
+              />
             )}
           </Fragment>
         )}

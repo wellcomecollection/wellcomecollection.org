@@ -678,10 +678,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       <div className="flex-inline">
         {isEnhanced && level > 1 && hasControl && (
           <TreeControl highlightCondition={highlightCondition}>
-            <Icon
-              extraClasses={item.openStatus ? '' : 'icon--270'}
-              name="chevron"
-            />
+            <Icon rotate={item.openStatus ? undefined : 270} name="chevron" />
           </TreeControl>
         )}
         <WorkLink

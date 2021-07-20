@@ -14,6 +14,7 @@ import {
 } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
+import Rotator from '../styled/Rotator';
 import Control from '../Buttons/Control/Control';
 
 const ControlsWrap = styled.div`
@@ -288,12 +289,14 @@ const Table: FunctionComponent<Props> = ({
       <ControlsWrap ref={controlsRef}>
         <ScrollButtons isActive={isOverflown}>
           <ScrollButtonWrap isLeft isActive={isLeftActive} ref={leftButtonRef}>
-            <Control
-              colorScheme="light"
-              icon="arrow"
-              extraClasses="icon--180 bg-white font-green"
-              text=""
-            />
+            <Rotator rotate={180}>
+              <Control
+                colorScheme="light"
+                icon="arrow"
+                extraClasses="bg-white font-green"
+                text=""
+              />
+            </Rotator>
           </ScrollButtonWrap>
           <ScrollButtonWrap isActive={isRightActive} ref={rightButtonRef}>
             <Control

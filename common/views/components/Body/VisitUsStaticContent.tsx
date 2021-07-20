@@ -46,7 +46,9 @@ const VisitUsStaticContent: FunctionComponent = () => {
         >
           <div className="flex">
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-              <Icon name="clock" extraClasses={`float-l`} />
+              <span className="float-l">
+                <Icon name="clock" />
+              </span>
             </Space>
             <div
               className={classNames({

@@ -383,7 +383,7 @@ const Footer = ({
                   className="footer__hygiene-link footer__hygiene-link--back-to-top"
                 >
                   <span>Back to top</span>
-                  <Icon name="arrow" extraClasses="icon--270" />
+                  <Icon name="arrow" rotate={270} />
                 </a>
               </HygieneItem>
             </HygieneList>

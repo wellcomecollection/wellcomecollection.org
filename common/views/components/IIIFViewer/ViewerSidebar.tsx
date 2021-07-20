@@ -111,7 +111,8 @@ const AccordionItem = ({
             </h2>
             <Icon
               name={'chevron'}
-              extraClasses={isActive ? 'icon--white' : 'icon--270 icon--white'}
+              color={'white'}
+              rotate={isActive ? undefined : 270}
             />
           </span>
         </button>
@@ -230,10 +231,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
                 h={{ size: 's', properties: ['margin-left'] }}
                 className="flex flex--v-center"
               >
-                <Icon
-                  name={`arrow`}
-                  extraClasses={`icon--match-text icon--white`}
-                />
+                <Icon name={`arrow`} matchText={true} color={'white'} />
               </Space>
             </a>
           </WorkLink>
