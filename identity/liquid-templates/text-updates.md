@@ -12,7 +12,8 @@ curl --request PUT \
   --header 'content-type: application/json' \
   --data '{ "login": {
     "pageTitle": "Log in to Wellcome Library",
-    "description": " "
+    "description": " ",
+    "buttonText": "Log in"
   }
 }'
 
