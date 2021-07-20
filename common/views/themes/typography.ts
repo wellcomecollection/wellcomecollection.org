@@ -95,7 +95,7 @@ export const typography = css<GlobalStyleProps>`
       ${fontFamilyMixin('hnb', !!props.isFontsLoaded)};
     }
 
-    .font-hhr {
+    .font-hnr {
       ${fontFamilyMixin('hnr', !!props.isFontsLoaded)};
     }
 
