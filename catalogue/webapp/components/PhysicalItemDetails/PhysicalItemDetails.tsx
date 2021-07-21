@@ -11,10 +11,12 @@ const Wrapper = styled.div`
 
 const Row = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
-})`
+})``;
+
+const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, min-content));
-  grid-column-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(100px, max-content));
+  grid-column-gap: 30px;
 `;
 
 const DetailHeading = styled.h3.attrs({
@@ -42,6 +44,7 @@ const Color = styled(Space).attrs({
   width: 1em;
   height: 1em;
   display: inline-flex;
+  transform: translateY(0.1em);
   background: ${props => props.color};
 `;
 
@@ -66,27 +69,33 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 }) => {
   return (
     <Wrapper>
+      {(title || itemNote) && (
+        <Row>
+          <Box>
+            <DetailHeading>{title}</DetailHeading>
+            {itemNote && (
+              <span dangerouslySetInnerHTML={{ __html: itemNote }} />
+            )}
+          </Box>
+        </Row>
+      )}
       <Row>
-        <Box>
-          <DetailHeading>{title}</DetailHeading>
-          {itemNote && <span dangerouslySetInnerHTML={{ __html: itemNote }} />}
-        </Box>
-      </Row>
-      <Row>
-        <Box>
-          <DetailHeading>Location</DetailHeading>
-          <span>{locationAndShelfmark}</span>
-          {color && <Color color={color} />}
-        </Box>
-        <Box>
-          <DetailHeading>Access</DetailHeading>
-          {accessMethod && <span>{accessMethod}</span>}
-        </Box>
-        <Box isCentered>
-          {requestItemUrl && (
-            <ButtonInlineLink text={'Request item'} link={requestItemUrl} />
-          )}
-        </Box>
+        <Grid>
+          <Box>
+            <DetailHeading>Location</DetailHeading>
+            <span>{locationAndShelfmark}</span>
+            {color && <Color color={color} />}
+          </Box>
+          <Box>
+            <DetailHeading>Access</DetailHeading>
+            {accessMethod && <span>{accessMethod}</span>}
+          </Box>
+          <Box isCentered>
+            {requestItemUrl && (
+              <ButtonInlineLink text={'Request item'} link={requestItemUrl} />
+            )}
+          </Box>
+        </Grid>
       </Row>
       {accessNote && (
         <Row>
