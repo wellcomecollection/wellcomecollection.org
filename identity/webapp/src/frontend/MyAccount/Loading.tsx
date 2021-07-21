@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import LL from '@weco/common/views/components/styled/LL';
 
 const Centered = styled.div`
   height: 100%;
@@ -7,8 +8,11 @@ const Centered = styled.div`
   place-items: center;
 `;
 
-export const Loading: React.FC = () => (
+export const Loading = () => (
   <Centered>
-    <progress aria-label="Loading"></progress>
+    <>
+      <LL lighten={false} />
+      <span className="visually-hidden" role="status">Loading</span>
+    </>
   </Centered>
 );
