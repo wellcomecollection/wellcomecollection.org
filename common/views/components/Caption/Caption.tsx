@@ -8,6 +8,7 @@ import styled from 'styled-components';
 const CaptionWrapper = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left'] },
 })`
+  text-align: left;
   border-left: 1px solid ${props => props.theme.color('currentColor')};
 `;
 
