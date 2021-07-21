@@ -49,9 +49,9 @@ type TabPanelProps = {
 };
 const TabPanel = styled.div.attrs((props: TabPanelProps) => ({
   id: props.id,
-  role: 'tabpanel',
+  role: props.isEnhanced ? 'tabpanel' : undefined,
   hidden: !props.isActive,
-  'aria-expanded': props.isActive,
+  'aria-expanded': props.isEnhanced ? props.isActive : undefined,
 }))<TabPanelProps>``;
 
 export type TabType = {
