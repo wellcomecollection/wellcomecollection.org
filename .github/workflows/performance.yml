@@ -1,7 +1,8 @@
-name: Bundle size
+name: Performance
 on: [pull_request]
 jobs:
-  diff:
+  bundle_size_diff:
+    name: Bundle size diff
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
