@@ -27,17 +27,21 @@ function getFirstPhysicalLocation(item) {
   return item.locations?.find(location => location.type === 'PhysicalLocation');
 }
 
+// FIXME: These hex values are screengrabbed from a photo of a sign in the building
+// They're not like anything we've got in the palette (not to mention they're
+// quite hard to tell apart for people with less-than-perfect colour vision).
 function getColorForLocation(label: string): string | undefined {
   switch (label) {
     case 'Journals':
-      return 'green';
+      return '#720013';
     case 'History of Medicine':
-      return 'red';
+    case 'History of Medicine Collection':
+      return '#9b3700';
     case 'Medical Collection':
-      return 'orange';
+      return '#a96900';
     case 'Quick Reference':
-    case 'Student Loan':
-      return 'purple';
+    case 'Quick Ref. Collection':
+      return '#00407e';
     default:
       return undefined;
   }

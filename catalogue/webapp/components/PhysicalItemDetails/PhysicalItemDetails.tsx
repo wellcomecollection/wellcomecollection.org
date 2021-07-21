@@ -42,7 +42,7 @@ const Color = styled(Space).attrs({
   width: 1em;
   height: 1em;
   display: inline-flex;
-  background: ${props => props.theme.color(props.color)};
+  background: ${props => props.color};
 `;
 
 export type Props = {
