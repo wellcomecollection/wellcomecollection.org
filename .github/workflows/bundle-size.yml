@@ -9,5 +9,5 @@ jobs:
         with:
           build-script: "build-webapps"
           clean-script: "clean"
-          pattern: "**/webapp/{.next/static/chunks,lib}/**/*.js"
+          pattern: "**/webapp/{.next/static/chunks,lib/frontend/build}/**/*.js"
           strip-hash: "\\b[-\\.](\\w{20})\\.js$"
