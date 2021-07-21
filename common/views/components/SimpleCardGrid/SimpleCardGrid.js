@@ -30,7 +30,17 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => (
           '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
         showTasl: false,
       }}
-      labels={item.format ? [{ text: item.format.title }] : []}
+      labels={
+        item.format
+          ? [
+              {
+                text: item.format.title,
+                labelColor:
+                  item.format.title === 'Season' ? 'orange' : undefined,
+              },
+            ]
+          : []
+      }
       link={{
         url: item.link || '',
         text: item.title || '',
