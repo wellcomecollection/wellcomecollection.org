@@ -7,6 +7,7 @@ import {
   useEffect,
   ReactElement,
   FunctionComponent,
+  Fragment,
 } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import styled from 'styled-components';
@@ -169,7 +170,7 @@ const Tabs: FunctionComponent<Props> = ({
         </TabList>
       }
       {tabs.map(({ id, tab, tabPanel }) => (
-        <>
+        <Fragment key={id}>
           {/* if it's not enhanced the tab appears above its related panel */}
           {!isEnhanced && tab(id === activeId, false)}
           <TabPanel
@@ -180,7 +181,7 @@ const Tabs: FunctionComponent<Props> = ({
           >
             {tabPanel}
           </TabPanel>
-        </>
+        </Fragment>
       ))}
     </>
   );
