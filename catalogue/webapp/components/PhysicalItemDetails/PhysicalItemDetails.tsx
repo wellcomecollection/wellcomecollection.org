@@ -14,9 +14,11 @@ const Row = styled(Space).attrs({
 })``;
 
 const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, max-content));
-  grid-column-gap: 30px;
+  ${props => props.theme.media.medium`
+    display: grid;
+    grid-template-columns: 200px 150px 125px;
+    grid-column-gap: 30px;
+  `}
 `;
 
 const DetailHeading = styled.h3.attrs({
