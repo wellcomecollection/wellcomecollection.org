@@ -124,7 +124,7 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
             <div style={{ position: 'relative', top: '-5px' }}>
               <DropdownButton
                 label="…"
-                isInline={true}
+                buttonType={'inline'}
                 id="archive-breadcrumbs"
               >
                 <ul>
