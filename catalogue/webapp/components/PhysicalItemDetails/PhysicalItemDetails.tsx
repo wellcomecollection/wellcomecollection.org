@@ -17,7 +17,7 @@ const Row = styled(Space).attrs({
 const Grid = styled.div<{ isArchive: boolean }>`
   ${props => props.theme.media[props.isArchive ? 'large' : 'medium']`
     display: grid;
-    grid-template-columns: minmax(120px, 200px) 150px 125px;
+    grid-template-columns: minmax(120px, 200px) minmax(100px, 150px) 125px;
     grid-column-gap: 30px;
   `}
 `;
