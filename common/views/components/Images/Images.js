@@ -26,10 +26,6 @@ const CaptionedImageFigure = styled.div`
 
   }
 
-  .caption {
-    text-align: left;
-  }
-
   noscript .image {
     max-height: none;
   }
@@ -210,13 +206,7 @@ export class CaptionedImage extends Component<
   };
 
   render() {
-    const {
-      caption,
-      preCaptionNode,
-      image,
-      isBody,
-      sizesQueries,
-    } = this.props;
+    const { caption, preCaptionNode, image, isBody, sizesQueries } = this.props;
     const { computedImageWidth, isWidthAuto, isEnhanced } = this.state;
     const uiImageProps = { ...image, sizesQueries };
 
