@@ -3,7 +3,7 @@ import BaseTabs, { TabType } from '../BaseTabs/BaseTabs';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Space from '../styled/Space';
-import { useContext, FunctionComponent, ReactElement } from 'react';
+import { useContext, FunctionComponent, ReactElement, useRef } from 'react';
 import { AppContext } from '../AppContext/AppContext';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -86,7 +86,6 @@ type Props = {
   activeTabIndex?: number;
   shouldShowFilters: boolean;
   showSortBy: boolean;
-  disableLink?: boolean;
   worksFilters: Filter[];
   imagesFilters: Filter[];
 };
@@ -99,12 +98,12 @@ const SearchTabs: FunctionComponent<Props> = ({
   activeTabIndex,
   shouldShowFilters,
   showSortBy,
-  disableLink = false,
   worksFilters,
   imagesFilters,
 }: Props): ReactElement<Props> => {
   const { isKeyboard, isEnhanced } = useContext(AppContext);
-  const tabCondition = (!disableLink && isEnhanced) || !isEnhanced;
+  const searchImagesFormRef = useRef<HTMLFormElement>();
+  const searchWorksFormRef = useRef<HTMLFormElement>();
 
   const tabs: TabType[] = [
     {
@@ -112,7 +111,7 @@ const SearchTabs: FunctionComponent<Props> = ({
       tab: function TabWithDisplayName(isActive, isFocused) {
         return (
           <ConditionalWrapper
-            condition={tabCondition}
+            condition={!isEnhanced}
             wrapper={children => (
               <NextLink
                 scroll={false}
@@ -134,6 +133,7 @@ const SearchTabs: FunctionComponent<Props> = ({
                   className={classNames({
                     'plain-link': true,
                   })}
+                  aria-current={isActive ? "page" : undefined}
                 >
                   {children}
                 </a>
@@ -167,6 +167,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             online access.
           </Space>
           <SearchForm
+            ref={searchWorksFormRef}
             query={query}
             sort={sort}
             sortOrder={sortOrder}
@@ -202,7 +203,7 @@ const SearchTabs: FunctionComponent<Props> = ({
       tab: function TabWithDisplayName(isActive, isFocused) {
         return (
           <ConditionalWrapper
-            condition={tabCondition}
+            condition={!isEnhanced}
             wrapper={children => (
               <NextLink
                 scroll={false}
@@ -224,6 +225,7 @@ const SearchTabs: FunctionComponent<Props> = ({
                   className={classNames({
                     'plain-link': true,
                   })}
+                  aria-current={isActive ? "page" : undefined}
                 >
                   {children}
                 </a>
@@ -257,6 +259,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             more.
           </Space>
           <SearchForm
+            ref={searchImagesFormRef}
             query={query}
             sort={undefined}
             sortOrder={undefined}
@@ -290,6 +293,11 @@ const SearchTabs: FunctionComponent<Props> = ({
   ];
 
   function onTabClick(id: string) {
+    if(id === 'tab-images'){
+      searchImagesFormRef?.current?.submit();
+    } else {
+      searchWorksFormRef?.current?.submit();
+    }
     trackEvent({
       category: 'SearchTabs',
       action: 'click tab',

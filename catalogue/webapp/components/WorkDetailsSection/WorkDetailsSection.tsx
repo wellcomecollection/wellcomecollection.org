@@ -6,19 +6,17 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
   headingText?: string;
-  withDivider?: boolean;
   isInArchive?: boolean;
 }>;
 
 const WorkDetailsSection: FunctionComponent<Props> = ({
   headingText,
   children,
-  withDivider = true,
   isInArchive,
 }: Props) => {
   return (
     <>
-      {withDivider && (
+      {!isInArchive && (
         <>
           <Divider color={`pumice`} isKeyline={true} />
           <SpacingComponent />
@@ -27,7 +25,7 @@ const WorkDetailsSection: FunctionComponent<Props> = ({
       <SpacingSection>
         <div
           className={classNames({
-            grid: true,
+            grid: !isInArchive,
           })}
         >
           <div
@@ -38,12 +36,6 @@ const WorkDetailsSection: FunctionComponent<Props> = ({
                 l: 4,
                 xl: 4,
               })]: !isInArchive,
-              [grid({
-                s: 12,
-                m: 12,
-                l: 12,
-                xl: 12,
-              })]: isInArchive,
             })}
           >
             {headingText && (
@@ -66,12 +58,6 @@ const WorkDetailsSection: FunctionComponent<Props> = ({
                 l: 8,
                 xl: 7,
               })]: !isInArchive,
-              [grid({
-                s: 12,
-                m: 12,
-                l: 12,
-                xl: 12,
-              })]: isInArchive,
             })}
           >
             {children}

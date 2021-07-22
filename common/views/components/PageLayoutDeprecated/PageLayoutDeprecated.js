@@ -30,8 +30,6 @@ import Space from '../styled/Space';
 import GlobalInfoBarContext from '../GlobalInfoBarContext/GlobalInfoBarContext';
 // $FlowFixMe (tsx)
 import TogglesContext from '../TogglesContext/TogglesContext';
-// $FlowFixMe (ts)
-import useHotjar from '@weco/common/hooks/useHotjar';
 
 export type Props = {|
   title: string,
@@ -62,11 +60,6 @@ const PageLayout = ({
   hideNewsletterPromo = false,
   hideFooter = false,
 }: Props) => {
-  const hotjarUrls = ['events'];
-  const shouldLoadHotjar = hotjarUrls.some(
-    u => url.pathname && url.pathname.match(u)
-  );
-  useHotjar(shouldLoadHotjar);
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''

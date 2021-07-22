@@ -93,6 +93,7 @@ const DropdownButton: FunctionComponent<Props> = ({
   id,
 }: Props): ReactElement<Props> => {
   const [isActive, setIsActive] = useState(false);
+  const [focusables, setFocusables] = useState<HTMLElement[]>([]);
   const { isEnhanced } = useContext(AppContext);
   const dropdownWrapperRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -142,19 +143,16 @@ const DropdownButton: FunctionComponent<Props> = ({
   });
 
   useEffect(() => {
-    const focusables =
-      dropdownRef &&
+    dropdownRef &&
       dropdownRef.current &&
-      getFocusableElements(dropdownRef.current);
+      setFocusables(getFocusableElements(dropdownRef.current));
+  }, [children]);
 
+  useEffect(() => {
     if (isActive) {
-      focusables &&
-        focusables.forEach(focusable => focusable.setAttribute('tabIndex', '0'));
+      focusables.forEach(focusable => focusable.setAttribute('tabIndex', '0'));
     } else {
-      focusables &&
-        focusables.forEach(focusable =>
-          focusable.setAttribute('tabIndex', '-1')
-        );
+      focusables.forEach(focusable => focusable.setAttribute('tabIndex', '-1'));
     }
   }, [isActive, children]);
 

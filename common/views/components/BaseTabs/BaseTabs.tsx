@@ -7,6 +7,7 @@ import {
   useEffect,
   ReactElement,
   FunctionComponent,
+  Fragment,
 } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import styled from 'styled-components';
@@ -31,6 +32,7 @@ const Tab = styled.button.attrs((props: TabProps) => ({
   'aria-selected': props.isActive,
   'aria-controls': props.tabPanelId,
 }))<TabProps>`
+  cursor: pointer;
   &:focus {
     outline: 0;
   }
@@ -47,9 +49,9 @@ type TabPanelProps = {
 };
 const TabPanel = styled.div.attrs((props: TabPanelProps) => ({
   id: props.id,
-  role: 'tabpanel',
+  role: props.isEnhanced ? 'tabpanel' : undefined,
   hidden: !props.isActive,
-  'aria-expanded': props.isActive,
+  'aria-expanded': props.isEnhanced ? props.isActive : undefined,
 }))<TabPanelProps>``;
 
 export type TabType = {
@@ -146,31 +148,40 @@ const Tabs: FunctionComponent<Props> = ({
 
   return (
     <>
-      <TabList ref={tabListRef} aria-label={label}>
-        {tabs.map(({ id, tab }) => (
-          <Tab
-            key={`${id}${prefixButton}`}
-            id={`${id}${prefixButton}`}
-            tabPanelId={id}
+      {/* if isEnhanced then we want to create the tablist to control the panels,
+      if not then the tabs will be appear above there respective panel (see below)
+      */}
+      {isEnhanced &&
+        <TabList ref={tabListRef} aria-label={label}>
+          {tabs.map(({ id, tab }) => (
+            <Tab
+              key={`${id}${prefixButton}`}
+              id={`${id}${prefixButton}`}
+              tabPanelId={id}
+              isActive={id === activeId}
+              onClick={() => handleTabClick(id)}
+              onBlur={() => setFocusedId(undefined)}
+              onFocus={() => setFocusedId(id)}
+              onKeyDown={handleKeyDown}
+            >
+              {tab(id === activeId, id === focusedId)}
+            </Tab>
+          ))}
+        </TabList>
+      }
+      {tabs.map(({ id, tab, tabPanel }) => (
+        <Fragment key={id}>
+          {/* if it's not enhanced the tab appears above its related panel */}
+          {!isEnhanced && tab(id === activeId, false)}
+          <TabPanel
+            key={id}
+            id={id}
             isActive={id === activeId}
-            onClick={() => handleTabClick(id)}
-            onBlur={() => setFocusedId(undefined)}
-            onFocus={() => setFocusedId(id)}
-            onKeyDown={handleKeyDown}
+            isEnhanced={isEnhanced}
           >
-            {tab(id === activeId, id === focusedId)}
-          </Tab>
-        ))}
-      </TabList>
-      {tabs.map(({ id, tabPanel }) => (
-        <TabPanel
-          key={id}
-          id={id}
-          isActive={id === activeId}
-          isEnhanced={isEnhanced}
-        >
-          {tabPanel}
-        </TabPanel>
+            {tabPanel}
+          </TabPanel>
+        </Fragment>
       ))}
     </>
   );
