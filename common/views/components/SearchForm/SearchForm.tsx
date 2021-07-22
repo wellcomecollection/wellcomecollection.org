@@ -3,8 +3,9 @@ import {
   useState,
   useEffect,
   useContext,
-  FunctionComponent,
   ReactElement,
+  forwardRef,
+  useImperativeHandle,
 } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
@@ -28,17 +29,15 @@ import { LinkProps } from '../../../model/link-props';
 import { Filter } from '../../../services/catalogue/filters';
 import { formDataAsUrlQuery } from '../../../utils/forms';
 
-type Props = {
-  query: string;
-  sort?: string;
-  sortOrder?: string;
-  linkResolver: (params: ParsedUrlQuery) => LinkProps;
-  ariaDescribedBy: string;
-  isImageSearch: boolean;
-  shouldShowFilters: boolean;
-  showSortBy: boolean;
-  filters: Filter[];
-};
+type StyledFormProps = {
+  isEnhanced: boolean
+}
+
+const StyledForm = styled(Space).attrs((props: StyledFormProps) => ({
+  as: 'form',
+  v: props.isEnhanced ? {} : { size: 'l', properties: ['margin-bottom'] },
+}))<StyledFormProps>`
+`;
 
 const SearchInputWrapper = styled.div`
   font-size: 20px;
@@ -73,7 +72,19 @@ const SearchSortOrderWrapper = styled.div`
   color: ${props => props.theme.color('black')};
 `;
 
-const SearchForm: FunctionComponent<Props> = ({
+type Props = {
+  query: string;
+  sort?: string;
+  sortOrder?: string;
+  linkResolver: (params: ParsedUrlQuery) => LinkProps;
+  ariaDescribedBy: string;
+  isImageSearch: boolean;
+  shouldShowFilters: boolean;
+  showSortBy: boolean;
+  filters: Filter[];
+};
+
+const SearchForm = forwardRef(({
   query,
   sort,
   sortOrder,
@@ -83,7 +94,8 @@ const SearchForm: FunctionComponent<Props> = ({
   shouldShowFilters,
   showSortBy,
   filters,
-}: Props): ReactElement<Props> => {
+}: Props,
+  ref): ReactElement<Props> => {
   const { isEnhanced } = useContext(AppContext);
   const searchForm = useRef<HTMLFormElement>(null);
   // This is the query used by the input, that is then eventually passed to the
@@ -99,6 +111,10 @@ const SearchForm: FunctionComponent<Props> = ({
         new window.Event('submit', { cancelable: true })
       );
   }
+
+  useImperativeHandle(ref, () => ({
+    submit
+  }))
 
   useEffect(() => {
     // This has been added in as the rerendering of createPortal does not trigger
@@ -281,5 +297,6 @@ const SearchForm: FunctionComponent<Props> = ({
       </SearchButtonWrapper>
     </form>
   );
-};
+});
+
 export default SearchForm;
