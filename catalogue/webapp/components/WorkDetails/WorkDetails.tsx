@@ -46,6 +46,7 @@ import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 import IIIFClickthrough from '@weco/common/views/components/IIIFClickthrough/IIIFClickthrough';
 import OnlineResources from './OnlineResources';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
+import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
 type Props = {
   work: Work;
 };
@@ -74,6 +75,7 @@ function getItemLinkState({
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const { showPhysicalItems, showHoldingsOnWork } = useContext(TogglesContext);
+  const isArchive = useContext(IsArchiveContext);
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
 
@@ -202,15 +204,10 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     video,
   });
 
-  const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
-
   const holdings = getHoldings(work);
 
   const WhereToFindIt = () => (
-    <WorkDetailsSection
-      headingText="Where to find it"
-      isInArchive={isInArchive}
-    >
+    <WorkDetailsSection headingText="Where to find it">
       {locationOfWork && (
         <WorkDetailsText
           title={locationOfWork.noteType.label}
@@ -245,7 +242,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     return (
       <>
         {showHoldingsOnWork && holdings.length > 0 ? (
-          <WorkDetailsSection headingText="Holdings" isInArchive={isInArchive}>
+          <WorkDetailsSection headingText="Holdings">
             {holdings.map((holding, i) => {
               const locationLabel =
                 holding.location && getLocationLabel(holding.location);
@@ -325,10 +322,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const Content = () => (
     <>
       {digitalLocation && itemLinkState !== 'useNoLink' && (
-        <WorkDetailsSection
-          headingText="Available online"
-          isInArchive={isInArchive}
-        >
+        <WorkDetailsSection headingText="Available online">
           <ConditionalWrapper
             condition={Boolean(tokenService)}
             wrapper={children =>
@@ -561,10 +555,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       <OnlineResources work={work} />
 
       {work.images && work.images.length > 0 && (
-        <WorkDetailsSection
-          headingText="Selected images from this work"
-          isInArchive={isInArchive}
-        >
+        <WorkDetailsSection headingText="Selected images from this work">
           <ButtonOutlinedLink
             text={
               work.images.length > 1
@@ -581,10 +572,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         </WorkDetailsSection>
       )}
 
-      <WorkDetailsSection
-        headingText="About this work"
-        isInArchive={isInArchive}
-      >
+      <WorkDetailsSection headingText="About this work">
         {work.alternativeTitles.length > 0 && (
           <WorkDetailsText
             title="Also known as"
@@ -680,7 +668,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         )}
       </WorkDetailsSection>
       {work.subjects.length > 0 && (
-        <WorkDetailsSection headingText="Subjects" isInArchive={isInArchive}>
+        <WorkDetailsSection headingText="Subjects">
           <WorkDetailsTags
             tags={work.subjects.map(s => {
               return {
@@ -701,10 +689,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
       {(locationOfWork || showEncoreLink) && <WhereToFindIt />}
 
-      <WorkDetailsSection
-        headingText="Permanent link"
-        isInArchive={isInArchive}
-      >
+      <WorkDetailsSection headingText="Permanent link">
         <div className={`${font('hnr', 5)}`}>
           <CopyUrl
             id={work.id}
@@ -714,7 +699,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       </WorkDetailsSection>
 
       {isbnIdentifiers.length > 0 && (
-        <WorkDetailsSection headingText="Identifiers" isInArchive={isInArchive}>
+        <WorkDetailsSection headingText="Identifiers">
           {isbnIdentifiers.length > 0 && (
             <WorkDetailsList
               title="ISBN"
@@ -732,7 +717,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     </>
   );
 
-  return isInArchive ? (
+  return isArchive ? (
     <Space h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}>
       <Content />
     </Space>

@@ -1,8 +1,9 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 import ButtonInlineLink from '@weco/common/views/components/ButtonInlineLink/ButtonInlineLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
+import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
 
 const Wrapper = styled.div`
   border-bottom: 1px solid ${props => props.theme.color('pumice')};
@@ -13,10 +14,10 @@ const Row = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
 })``;
 
-const Grid = styled.div`
-  ${props => props.theme.media.medium`
+const Grid = styled.div<{ isArchive: boolean }>`
+  ${props => props.theme.media[props.isArchive ? 'large' : 'medium']`
     display: grid;
-    grid-template-columns: 200px 150px 125px;
+    grid-template-columns: minmax(120px, 200px) 150px 125px;
     grid-column-gap: 30px;
   `}
 `;
@@ -69,6 +70,8 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   accessNote,
   color,
 }) => {
+  const isArchive = useContext(IsArchiveContext);
+
   return (
     <Wrapper>
       {(title || itemNote) && (
@@ -82,7 +85,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         </Row>
       )}
       <Row>
-        <Grid>
+        <Grid isArchive={isArchive}>
           <Box>
             <DetailHeading>Location</DetailHeading>
             <span>{locationAndShelfmark}</span>

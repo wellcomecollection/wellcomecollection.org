@@ -4,8 +4,9 @@ import DropdownButton from '../DropdownButton/DropdownButton';
 import Icon from '../Icon/Icon';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import { getArchiveAncestorArray } from '@weco/common/utils/works';
-import { FunctionComponent, ReactNode } from 'react';
+import { FunctionComponent, ReactNode, useContext } from 'react';
 import WorkLink from '../WorkLink/WorkLink';
+import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
 
 const ArchiveBreadcrumbNav = styled.nav`
   * {
@@ -104,9 +105,9 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
     alternativeTitles: work.alternativeTitles,
     referenceNumber: work.referenceNumber,
   };
-  const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
+  const isArchive = useContext(IsArchiveContext);
 
-  return isInArchive ? (
+  return isArchive ? (
     <ArchiveBreadcrumbNav>
       <ul>
         {firstCrumb && (

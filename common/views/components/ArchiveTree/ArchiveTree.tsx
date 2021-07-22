@@ -21,6 +21,7 @@ import { RelatedWork, Work } from '@weco/common/model/catalogue';
 import Modal, { ModalContext } from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { Toggles } from '@weco/toggles';
+import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
 
 const TreeContainer = styled.div`
   border-right: 1px solid ${props => props.theme.color('pumice')};
@@ -841,6 +842,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
   const [archiveTree, setArchiveTree] = useState(createBasicTree({ work }));
   const [tabbableId, setTabbableId] = useState<string>();
   const openButtonRef = useRef(null);
+  const isArchive = useContext(IsArchiveContext);
 
   useEffect(() => {
     const elementToFocus = tabbableId && document.getElementById(tabbableId);
@@ -850,9 +852,6 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
   }, [archiveTree, tabbableId]);
 
   const selected = useRef<HTMLAnchorElement>(null);
-  const isInArchive =
-    (work.parts && work.parts.length > 0) ||
-    (work.partOf && work.partOf.length > 0);
 
   useEffect(() => {
     async function setupTree() {
@@ -879,7 +878,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
     initialLoad.current = false;
   }, [work.id]);
 
-  return isInArchive ? (
+  return isArchive ? (
     <>
       {windowSize === 'small' && isEnhanced ? (
         <>
