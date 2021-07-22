@@ -12,3 +12,37 @@ jobs:
           clean-script: "clean"
           pattern: "**/webapp/{.next/static/chunks,lib/frontend/build}/**/*.js"
           strip-hash: "\\b[-\\.](\\w{20})\\.js$"
+
+  lighthouse_catalogue:
+    name: Catalogue lighthouse report
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build app
+        run: |
+          yarn install --production
+          yarn workspace @weco/catalogue run build
+      - uses: treosh/lighthouse-ci-action@v8
+        with:
+          urls: |
+            http://localhost:3000/works
+            http://localhost:3000/works/kxvgmysq
+            http://localhost:3000/works/kxvgmysq/items
+          configPath: "./catalogue/webapp/lighthouserc.js"
+          serverBaseUrl: lighthouse.wellcomecollection.org
+          serverToken: ${{ secrets.LHCI_BUILD_TOKEN }}
+
+#  lighthouse_content:
+#    name: Content webapp lighthouse report
+#    runs-on: ubuntu-20.04
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Build app
+#        run: |
+#          yarn install --production
+#          yarn workspace @weco/content run build
+#      - uses: treosh/lighthouse-ci-action@v8
+#        with:
+#          configPath: "./content/webapp/lighthouserc.js"
+#          uploadArtifacts: true
+
