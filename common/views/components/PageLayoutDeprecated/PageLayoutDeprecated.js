@@ -30,6 +30,7 @@ import Space from '../styled/Space';
 import GlobalInfoBarContext from '../GlobalInfoBarContext/GlobalInfoBarContext';
 // $FlowFixMe (tsx)
 import TogglesContext from '../TogglesContext/TogglesContext';
+import { prefix } from '@weco/identity/src/utility/prefix';
 
 export type Props = {|
   title: string,
@@ -132,7 +133,7 @@ const PageLayout = ({
         )}
       </Head>
 
-      <div>
+      <div id="root" data-context-path={prefix}>
         <CookieNotice />
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
