@@ -41,7 +41,7 @@ beforeAll(async () => {
 
 async function getWhereToFindItAndEncoreLink() {
   const whereToFindIt = await page.$('h2:has-text("Where to find it")');
-  const encoreLink = await page.$('a:has-text("Online request")');
+  const encoreLink = await page.$('a:has-text("Request item")');
 
   return {
     whereToFindIt,
