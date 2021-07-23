@@ -123,7 +123,7 @@ const Wrapper = styled.div.attrs({
   }),
 })<WrapperProps>`
   position: relative;
-  z-index: 1;
+  z-index: 6;
   border-bottom: 1px solid ${props => props.theme.color('pumice')};
 
   ${props =>
