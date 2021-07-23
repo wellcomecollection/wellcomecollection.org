@@ -105,6 +105,8 @@ const Wrapper = styled.div.attrs({
     'grid bg-white': true,
   }),
 })<WrapperProps>`
+  position: relative;
+  z-index: 1;
   border-bottom: 1px solid ${props => props.theme.color('pumice')};
 
   ${props =>
