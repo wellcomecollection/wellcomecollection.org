@@ -12,13 +12,20 @@ import {
   withUserInfo,
 } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 
-const FreeStickerPortal = styled.div.attrs({
+const FreeStickerPortal = styled.div.attrs<{ isHidden: boolean }>(props => ({
   id: 'free-sticker-portal',
-})`
+  className: classNames({
+    'is-hidden-s': props.isHidden,
+  }),
+}))`
   position: absolute;
-  right: 100px;
+  right: ${props => props.theme.grid.s.gutter}px;
   top: 100%;
   z-index: 83;
+
+  ${props => props.theme.media.medium`
+    right: 100px;
+  `}
 `;
 
 const NavLoginWrapper = styled.div`
@@ -509,7 +516,7 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
               </DesktopLogin>
             )}
           </NavLoginWrapper>
-          <FreeStickerPortal />
+          <FreeStickerPortal isHidden={isActive} />
         </div>
       </div>
     </Wrapper>
