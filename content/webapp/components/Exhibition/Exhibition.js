@@ -203,6 +203,7 @@ const Exhibition = ({ exhibition, pages }: Props) => {
     image: exhibition.image,
     squareImage: exhibition.squareImage,
     widescreenImage: exhibition.widescreenImage,
+    superWidescreenImage: exhibition.superWidescreenImage,
     labels: exhibition.labels,
     metadataDescription: exhibition.metadataDescription,
   };

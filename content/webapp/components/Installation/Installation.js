@@ -48,6 +48,7 @@ const Installation = ({ installation }: Props) => {
     image: installation.image,
     squareImage: installation.squareImage,
     widescreenImage: installation.widescreenImage,
+    superWidescreenImage: installation.superWidescreenImage,
     labels: installation.labels,
     metadataDescription: installation.metadataDescription,
   });

@@ -86,6 +86,7 @@ export class ArticleSeriesPage extends Component<Props> {
       image: series.image,
       squareImage: series.squareImage,
       widescreenImage: series.widescreenImage,
+      superWidescreenImage: series.superWidescreenImage,
       labels: series.labels,
       metadataDescription: series.metadataDescription,
     };
