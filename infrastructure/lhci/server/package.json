@@ -1,0 +1,14 @@
+{
+  "name": "@weco/lhci-server",
+  "version": "1.0.0",
+  "description": "Wellcome Collection Lighthouse CI Server",
+  "license": "MIT",
+  "scripts": {
+    "start": "pm2-runtime start ./src/server.js"
+  },
+  "dependencies": {
+    "@lhci/server": "^0.8.0",
+    "mysql2": "^2.2.5",
+    "pm2": "^5.1.0"
+  }
+}
