@@ -16,6 +16,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
 import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
+import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -40,7 +41,7 @@ const Work: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   const { link: searchLink } = useContext(SearchContext);
 
-  const isInArchive = work.parts.length > 0 || work.partOf.length > 0;
+  const isArchive = work.parts.length > 0 || work.partOf.length > 0;
 
   const workData = {
     workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),
@@ -62,98 +63,103 @@ const Work: FunctionComponent<Props> = ({
       : null;
 
   return (
-    <CataloguePageLayout
-      title={work.title}
-      description={work.description || work.title}
-      url={{ pathname: `/works/${work.id}`, query: {} }}
-      openGraphType={'website'}
-      jsonLd={workLd(work)}
-      siteSection={'collections'}
-      imageUrl={imageUrl}
-      imageAltText={work.title}
-      hideNewsletterPromo={true}
-      globalContextData={globalContextData}
-    >
-      <div className="container">
-        <div className="grid">
-          <div
-            className={classNames({
-              [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-            })}
-          >
-            <Space v={{ size: 'l', properties: ['margin-top'] }}>
-              <SearchTabs
-                query={searchLink.as.query?.query?.toString() || ''}
-                sort={searchLink.as.query?.sort?.toString()}
-                sortOrder={searchLink.as.query?.sortOrder?.toString()}
-                worksFilters={[]}
-                imagesFilters={[]}
-                shouldShowDescription={false}
-                shouldShowFilters={false}
-                showSortBy={false}
-              />
+    <IsArchiveContext.Provider value={isArchive}>
+      <CataloguePageLayout
+        title={work.title}
+        description={work.description || work.title}
+        url={{ pathname: `/works/${work.id}`, query: {} }}
+        openGraphType={'website'}
+        jsonLd={workLd(work)}
+        siteSection={'collections'}
+        imageUrl={imageUrl}
+        imageAltText={work.title}
+        hideNewsletterPromo={true}
+        globalContextData={globalContextData}
+      >
+        <div className="container">
+          <div className="grid">
+            <div
+              className={classNames({
+                [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
+              })}
+            >
+              <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                <SearchTabs
+                  query={searchLink.as.query?.query?.toString() || ''}
+                  sort={searchLink.as.query?.sort?.toString()}
+                  sortOrder={searchLink.as.query?.sortOrder?.toString()}
+                  worksFilters={[]}
+                  imagesFilters={[]}
+                  shouldShowDescription={false}
+                  shouldShowFilters={false}
+                  showSortBy={false}
+                />
+              </Space>
+            </div>
+          </div>
+          <div className="grid">
+            <Space
+              v={{
+                size: 's',
+                properties: ['padding-top', 'padding-bottom'],
+              }}
+              className={classNames({
+                [grid({ s: 12 })]: true,
+              })}
+            >
+              <BackToResults />
             </Space>
           </div>
         </div>
-        <div className="grid">
-          <Space
-            v={{
-              size: 's',
-              properties: ['padding-top', 'padding-bottom'],
-            }}
-            className={classNames({
-              [grid({ s: 12 })]: true,
-            })}
-          >
-            <BackToResults />
-          </Space>
-        </div>
-      </div>
 
-      {isInArchive ? (
-        <>
-          <div className="container">
-            <div className="grid">
-              <Space
-                v={{
-                  size: 's',
-                  properties: ['padding-top', 'padding-bottom'],
-                }}
-                className={classNames({
-                  [grid({ s: 12 })]: true,
-                })}
-              >
-                <ArchiveBreadcrumb work={work} />
-              </Space>
+        {isArchive ? (
+          <>
+            <div className="container">
+              <div className="grid">
+                <Space
+                  v={{
+                    size: 's',
+                    properties: ['padding-top', 'padding-bottom'],
+                  }}
+                  className={classNames({
+                    [grid({ s: 12 })]: true,
+                  })}
+                >
+                  <ArchiveBreadcrumb work={work} />
+                </Space>
+              </div>
             </div>
-          </div>
-          <div className="container">
-            <div className="grid">
-              <WorkHeader work={work} />
+            <div className="container">
+              <div className="grid">
+                <WorkHeader work={work} />
+              </div>
             </div>
-          </div>
 
-          <div className="container">
-            <Divider color={`pumice`} isKeyline={true} />
-            <ArchiveDetailsContainer>
-              <ArchiveTree work={work} />
-              <Space v={{ size: 'l', properties: ['padding-top'] }}>
-                <WorkDetails work={work} />
-              </Space>
-            </ArchiveDetailsContainer>
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="container">
-            <div className="grid">
-              <WorkHeader work={work} />
+            <div className="container">
+              <Divider color={`pumice`} isKeyline={true} />
+              <ArchiveDetailsContainer>
+                <ArchiveTree work={work} />
+                <Space
+                  v={{ size: 'xl', properties: ['padding-top'] }}
+                  className={`flex-1`}
+                >
+                  <WorkDetails work={work} />
+                </Space>
+              </ArchiveDetailsContainer>
             </div>
-          </div>
-          <WorkDetails work={work} />
-        </>
-      )}
-    </CataloguePageLayout>
+          </>
+        ) : (
+          <>
+            <div className="container">
+              <div className="grid">
+                <WorkHeader work={work} />
+              </div>
+            </div>
+            <WorkDetails work={work} />
+          </>
+        )}
+      </CataloguePageLayout>
+    </IsArchiveContext.Provider>
   );
 };
 

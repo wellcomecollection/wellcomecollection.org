@@ -10,8 +10,9 @@
     "cardigan": "pushd cardigan && yarn dev",
     "catalogue": "pushd catalogue/webapp && yarn dev",
     "content": "pushd content/webapp && yarn dev",
-    "deployCatalogue": "pushd deploy && ./deploy_service.js -s catalogue",
-    "deployContent": "pushd deploy && ./deploy_service.js -s content"
+    "build-webapps": "echo '@weco/catalogue @weco/content @weco/identity @weco/identity-admin' | xargs -n 1 | xargs -I% yarn workspace % run build",
+    "clean": "rimraf '**/.next **/lib'",
+    "clean-deps": "rimraf '**/node_modules'"
   },
   "repository": {
     "type": "git",
@@ -49,6 +50,7 @@
     "pa11y": "^5.1.0",
     "pa11y-reporter-html": "^1.0.0",
     "prettier": "^1.16.4",
+    "rimraf": "^3.0.2",
     "typescript": "^4.1.5"
   },
   "dependencies": {
