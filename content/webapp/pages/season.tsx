@@ -28,7 +28,9 @@ const SeasonPage = ({
     <SeasonsHeader
       labels={{ labels: season.labels }}
       title={season.title}
-      FeaturedMedia={<UiImage {...season.widescreenImage} sizesQueries="" />}
+      FeaturedMedia={
+        <UiImage {...season.superWidescreenImage} sizesQueries="" />
+      }
       standfirst={season?.standfirst}
       start={season.start}
       end={season.end}

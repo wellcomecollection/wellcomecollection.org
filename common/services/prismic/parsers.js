@@ -898,13 +898,25 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
               image['16:9'] &&
               isImageLink(image['16:9']) &&
               parseImage(image['16:9']);
+            const superWidescreenImage =
+              image['32:15'] && parseImage(image['32:15']);
 
-            return { image: originalImage, squareImage, widescreenImage };
+            return {
+              image: originalImage,
+              squareImage,
+              widescreenImage,
+              superWidescreenImage,
+            };
           })
           .find(_ => _)
       : {}; // just get the first one;
 
-  const { image, squareImage, widescreenImage } = promoImages;
+  const {
+    image,
+    squareImage,
+    widescreenImage,
+    superWidescreenImage,
+  } = promoImages;
   const body = data.body ? parseBody(data.body) : [];
   const standfirst = body.find(slice => slice.type === 'standfirst');
   const metadataDescription = asText(data.metadataDescription);
@@ -922,6 +934,7 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
     image,
     squareImage,
     widescreenImage,
+    superWidescreenImage,
     metadataDescription,
     // we pass an empty array here to be overriden by each content type
     // TODO: find a way to enforce this.
