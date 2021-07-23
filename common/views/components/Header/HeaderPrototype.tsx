@@ -12,6 +12,15 @@ import {
   withUserInfo,
 } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 
+const FreeStickerPortal = styled.div.attrs({
+  id: 'free-sticker-portal',
+})`
+  position: absolute;
+  right: 100px;
+  top: 100%;
+  z-index: 83;
+`;
+
 const NavLoginWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -71,6 +80,7 @@ const DesktopLogin = styled.div.attrs({
     [font('hnr', 6)]: true,
   }),
 })`
+  z-index: 84;
   display: none;
   transform: translateY(4px);
 
@@ -498,8 +508,8 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
                 </DropdownButton>
               </DesktopLogin>
             )}
-            <div id="free-sticker-portal" />
           </NavLoginWrapper>
+          <FreeStickerPortal />
         </div>
       </div>
     </Wrapper>
