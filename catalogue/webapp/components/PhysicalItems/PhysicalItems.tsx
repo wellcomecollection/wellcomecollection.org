@@ -1,19 +1,17 @@
 import { FunctionComponent, useState, useEffect } from 'react';
+import PhysicalItemDetails, {
+  Props as PhysicalItemProps,
+} from '../PhysicalItemDetails/PhysicalItemDetails';
 import {
   PhysicalItem,
   ItemsWork,
   CatalogueApiError,
 } from '@weco/common/model/catalogue';
-import Space from '@weco/common/views/components/styled/Space';
 import {
   getLocationLabel,
   getLocationShelfmark,
 } from '@weco/common/utils/works';
-import ButtonInlineLink from '@weco/common/views/components/ButtonInlineLink/ButtonInlineLink';
 import { isCatalogueApiError } from '../../pages/api/works/items/[workId]';
-import DescriptionList, {
-  Props as DescriptionListProps,
-} from '@weco/common/views/components/DescriptionList/DescriptionList';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
 
 async function fetchWorkItems(
@@ -29,49 +27,60 @@ function getFirstPhysicalLocation(item) {
   return item.locations?.find(location => location.type === 'PhysicalLocation');
 }
 
-function createDescriptionList(
+// FIXME: These hex values are screengrabbed from a photo of a sign in the building
+// They're not like anything we've got in the palette (not to mention they're
+// quite hard to tell apart for people with less-than-perfect colour vision).
+function getColorForLocation(label: string): string | undefined {
+  switch (label) {
+    case 'Journals':
+      return '#720013';
+    case 'History of Medicine':
+    case 'History of Medicine Collection':
+      return '#9b3700';
+    case 'Medical Collection':
+      return '#a96900';
+    case 'Quick Reference':
+    case 'Quick Ref. Collection':
+      return '#00407e';
+    default:
+      return undefined;
+  }
+}
+
+function createPhysicalItem(
   item: PhysicalItem,
   encoreLink: string | undefined
-): DescriptionListProps | undefined {
+): PhysicalItemProps | undefined {
   const physicalLocation = getFirstPhysicalLocation(item);
+  const isOnOpenShelves = physicalLocation?.locationType?.id === 'open-shelves';
+  const color = isOnOpenShelves
+    ? getColorForLocation(physicalLocation.label)
+    : undefined;
   const isRequestableOnline =
     physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
   const accessMethodLabel =
     physicalLocation?.accessConditions?.[0]?.method?.label || '';
-  const accessMethod =
-    isRequestableOnline && encoreLink ? (
-      <ButtonInlineLink text={accessMethodLabel} link={encoreLink} />
-    ) : (
-      <>{accessMethodLabel}</>
-    );
-  const accessStatus =
-    physicalLocation?.accessConditions?.[0]?.status?.label || '';
   const accessNote = physicalLocation?.accessConditions?.[0]?.note;
-  const accessTerms = physicalLocation?.accessConditions[0]?.terms || '';
   const locationLabel = physicalLocation && getLocationLabel(physicalLocation);
   const locationShelfmark =
     physicalLocation && getLocationShelfmark(physicalLocation);
-  const shelfmark = `${locationLabel ?? ''} ${locationShelfmark ?? ''}`;
+  const locationAndShelfmark = `${locationLabel ?? ''} ${locationShelfmark ??
+    ''}`;
 
   return {
     title: item.title || '',
-    subheading: item.note || '',
-    items: [
-      { term: 'Location/shelfmark', description: shelfmark },
-      accessMethod && { term: 'Access method', description: accessMethod },
-      accessStatus && { term: 'Access status', description: accessStatus },
-      accessTerms && { term: 'Access terms', description: accessTerms },
-      accessNote && {
-        term: 'Access note',
-        description: <span dangerouslySetInnerHTML={{ __html: accessNote }} />, // TODO: Rename WorkTitle to e.g. ApiHtml
-      },
-    ].filter(Boolean),
+    itemNote: item.note || '',
+    locationAndShelfmark: locationAndShelfmark,
+    accessMethod: accessMethodLabel,
+    requestItemUrl: isRequestableOnline ? encoreLink : undefined,
+    accessNote: accessNote,
+    color: color,
   };
 }
 
-function createDescriptionLists(items, encoreLink) {
+function createPhysicalItems(items, encoreLink) {
   return items
-    .map(item => createDescriptionList(item, encoreLink))
+    .map(item => createPhysicalItem(item, encoreLink))
     .filter(Boolean);
 }
 
@@ -87,7 +96,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
   encoreLink,
 }: Props) => {
   const [physicalItems, setPhysicalItems] = useState(items);
-  const descriptionLists = createDescriptionLists(physicalItems, encoreLink);
+  const itemsToRender = createPhysicalItems(physicalItems, encoreLink);
 
   useEffect(() => {
     const addStatusToItems = async () => {
@@ -114,18 +123,8 @@ const PhysicalItems: FunctionComponent<Props> = ({
 
   return (
     <ExpandableList
-      listItems={descriptionLists.map((r, index) => (
-        <Space
-          key={index}
-          v={{ size: 'm', properties: ['margin-bottom', 'padding-bottom'] }}
-          style={{ borderBottom: '1px dashed #ddd' }}
-        >
-          <DescriptionList
-            title={r.title}
-            subheading={r.subheading}
-            items={r.items}
-          />
-        </Space>
+      listItems={itemsToRender.map((props, index) => (
+        <PhysicalItemDetails {...props} key={index} />
       ))}
       initialItems={5}
     />
