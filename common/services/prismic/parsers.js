@@ -899,7 +899,9 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
               isImageLink(image['16:9']) &&
               parseImage(image['16:9']);
             const superWidescreenImage =
-              image['32:15'] && parseImage(image['32:15']);
+              image['32:15'] &&
+              isImageLink(image['32:15']) &&
+              parseImage(image['32:15']);
 
             return {
               image: originalImage,
