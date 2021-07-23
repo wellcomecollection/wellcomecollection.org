@@ -17,7 +17,7 @@ const FreeStickerPortal = styled.div.attrs<{ isHidden: boolean }>(props => ({
   className: classNames({
     'is-hidden-s': props.isHidden,
   }),
-}))`
+}))<{ isHidden: boolean }>`
   position: absolute;
   right: ${props => props.theme.grid.s.gutter}px;
   top: 100%;
