@@ -8,7 +8,7 @@ resource "aws_service_discovery_private_dns_namespace" "namespace" {
 }
 
 module "lhci_server" {
-  source    = "../modules/service"
+  source    = "../../infrastructure/modules/service"
   namespace = "lighthouse-ci"
 
   namespace_id = aws_service_discovery_private_dns_namespace.namespace.id
