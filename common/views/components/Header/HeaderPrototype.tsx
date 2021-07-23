@@ -7,6 +7,10 @@ import DropdownButton from '@weco/common/views/components/DropdownButton/Dropdow
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SignIn from '@weco/common/views/components/SignIn/SignIn';
 import Space from '@weco/common/views/components/styled/Space';
+import {
+  useUserInfo,
+  withUserInfo,
+} from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 
 const NavLoginWrapper = styled.div`
   display: flex;
@@ -21,7 +25,11 @@ const NavLoginWrapper = styled.div`
   )}
 `;
 
-const MobileLogin = styled.div`
+const MobileLogin = styled.div.attrs({
+  className: classNames({
+    [font('hnr', 5)]: true,
+  }),
+})`
   ${respondTo(
     'headerMedium',
     `
@@ -29,14 +37,19 @@ const MobileLogin = styled.div`
   `
   )}
   display: flex;
-  margin-top: 10px;
+  margin-top: 1.4rem;
 
   a {
     position: relative;
+    text-decoration: none;
 
-    &:first-child {
-      margin-right: 10px;
-      padding-right: 10px;
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:first-of-type {
+      margin-right: 1em;
+      padding-right: 1em;
 
       &:after {
         position: absolute;
@@ -44,14 +57,35 @@ const MobileLogin = styled.div`
         content: '|';
       }
     }
+
+    &:last-of-type {
+      &:after {
+        display: none;
+      }
+    }
   }
 `;
 
-const DesktopLogin = styled.div`
+const DesktopLogin = styled.div.attrs({
+  className: classNames({
+    [font('hnr', 6)]: true,
+  }),
+})`
   display: none;
+  transform: translateY(4px);
 
   a {
     display: block;
+    text-decoration: none;
+    margin-bottom: 16px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   ${respondTo(
@@ -178,7 +212,6 @@ const HeaderNav = styled.nav<{ isActive: boolean }>`
   display: ${props => (props.isActive ? 'block' : 'none')};
   background: ${props => props.theme.color('white')};
   position: absolute;
-  z-index: 1;
   top: 100%;
   left: 0;
   right: 0;
@@ -361,6 +394,8 @@ export const links = [
 
 const Header: FunctionComponent<Props> = ({ siteSection }) => {
   const [isActive, setIsActive] = useState(false);
+  const { user, isLoading } = useUserInfo();
+  const displayName = user && `${user.firstName} ${user.lastName.slice(0, 1)}…`;
 
   return (
     <Wrapper navHeight={navHeight} isBurgerOpen={isActive}>
@@ -412,38 +447,55 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
                     </HeaderLink>
                   </HeaderItem>
                 ))}
-                <MobileLogin>
-                  <Space h={{ size: 's', properties: ['margin-right'] }}>
-                    <Icon name={'user'} />
-                  </Space>
-                  <SignIn />
-                </MobileLogin>
+                {!isLoading && (
+                  <MobileLogin>
+                    <Space
+                      h={{ size: 's', properties: ['margin-right'] }}
+                      className={classNames({
+                        [font('hnr', 4)]: true,
+                      })}
+                    >
+                      <Icon name={'user'} matchText={true} />
+                    </Space>
+                    <SignIn user={user} />
+                  </MobileLogin>
+                )}
               </HeaderList>
             </HeaderNav>
-            <DesktopLogin>
-              <DropdownButton
-                // FIXME: If we go with this approach, the DropdownButton should probably
-                // be able to take an optional icon
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                label={
-                  <div className="flex flex--v-center">
-                    <div style={{ transform: 'translateY(0.15em)' }}>
-                      <Icon name={'user'} />
+            {!isLoading && (
+              <DesktopLogin>
+                <DropdownButton
+                  // FIXME: If we go with this approach, the DropdownButton should probably
+                  // be able to take an optional icon
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
+                  label={
+                    <div className="flex flex--v-center">
+                      <div
+                        style={{ transform: 'translateY(0.1em)' }}
+                        className={classNames({
+                          [font('hnr', 4)]: true,
+                        })}
+                      >
+                        <Icon name={'user'} matchText={true} />
+                      </div>
+                      <Space
+                        h={{ size: 's', properties: ['margin-left'] }}
+                        className={classNames({
+                          [font('hnr', 6)]: true,
+                          'is-hidden-s is-hidden-m is-hidden-l': true,
+                        })}
+                      >
+                        {displayName || 'Library sign in'}
+                      </Space>
                     </div>
-                    <Space
-                      h={{ size: 's', properties: ['margin-left'] }}
-                      className="is-hidden-s is-hidden-m is-hidden-l"
-                    >
-                      Library sign in
-                    </Space>
-                  </div>
-                }
-                isInline={true}
-              >
-                <SignIn />
-              </DropdownButton>
-            </DesktopLogin>
+                  }
+                  buttonType={'borderless'}
+                >
+                  <SignIn user={user} />
+                </DropdownButton>
+              </DesktopLogin>
+            )}
           </NavLoginWrapper>
         </div>
       </div>
@@ -451,4 +503,4 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
   );
 };
 
-export default Header;
+export default withUserInfo(Header);

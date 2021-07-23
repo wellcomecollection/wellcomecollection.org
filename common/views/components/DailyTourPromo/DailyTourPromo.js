@@ -69,6 +69,7 @@ export const data = {
   promoText: null,
   squareImage: null,
   widescreenImage: null,
+  superWidescreenImage: null,
   ticketSalesStart: null,
   displayEnd: new Date(),
   displayStart: new Date(),

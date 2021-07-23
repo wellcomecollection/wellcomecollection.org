@@ -68,12 +68,14 @@ export const UserInfoProvider: React.FC = ({ children }) => {
   );
 };
 
-export const withUserInfo = (WrappedComponent: React.ComponentType): React.FC => {
+export const withUserInfo = <P extends Record<string, unknown>>(
+  WrappedComponent: React.ComponentType<P>
+): React.FC<P> => {
   const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
-  const ComponentWithUserInfo = () => (
+  const ComponentWithUserInfo = (props: P) => (
     <UserInfoProvider>
-      <WrappedComponent />
+      <WrappedComponent {...props} />
     </UserInfoProvider>
   );
 

@@ -16,6 +16,7 @@ import Space from '../styled/Space';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import ButtonInline from '../ButtonInline/ButtonInline';
 import ButtonOutlined from '../ButtonOutlined/ButtonOutlined';
+import ButtonBorderless from '../ButtonBorderless/ButtonBorderless';
 import { AppContext } from '../AppContext/AppContext';
 
 const DropdownWrapper = styled.div.attrs({
@@ -80,7 +81,7 @@ const Popper = styled('div')<{ isVisible: boolean }>`
 type Props = {
   label: string;
   children: ReactNode;
-  isInline: boolean | null;
+  buttonType?: 'outlined' | 'inline' | 'borderless';
   isOnDark?: boolean;
   id: string;
 };
@@ -88,7 +89,7 @@ type Props = {
 const DropdownButton: FunctionComponent<Props> = ({
   label,
   children,
-  isInline,
+  buttonType = 'outlined',
   isOnDark,
   id,
 }: Props): ReactElement<Props> => {
@@ -158,10 +159,10 @@ const DropdownButton: FunctionComponent<Props> = ({
 
   return (
     <DropdownWrapper ref={dropdownWrapperRef}>
-      {isInline ? (
-        <ButtonInline {...buttonProps} />
-      ) : (
-        <ButtonOutlined {...buttonProps} />
+      {buttonType === 'inline' && <ButtonInline {...buttonProps} />}
+      {buttonType === 'outlined' && <ButtonOutlined {...buttonProps} />}
+      {buttonType === 'borderless' && (
+        <ButtonBorderless {...buttonProps} isActive={isActive} />
       )}
       {isEnhanced && (
         <Popper
