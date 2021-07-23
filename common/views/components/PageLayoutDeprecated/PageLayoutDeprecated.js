@@ -30,6 +30,7 @@ import Space from '../styled/Space';
 import GlobalInfoBarContext from '../GlobalInfoBarContext/GlobalInfoBarContext';
 // $FlowFixMe (tsx)
 import TogglesContext from '../TogglesContext/TogglesContext';
+// $FlowFixMe (tsx)
 import { prefix } from '@weco/identity/src/utility/prefix';
 
 export type Props = {|
