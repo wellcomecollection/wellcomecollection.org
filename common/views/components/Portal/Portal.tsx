@@ -6,11 +6,11 @@ type Props = {
   children: ReactElement;
 };
 
-const SearchFormSortByPortal: FunctionComponent<Props> = ({
+const Portal: FunctionComponent<Props> = ({
   id,
   children,
 }: Props): ReactElement<Props> => {
-  const mount = document.getElementById(id);
+  const mount = document && document.getElementById(id);
   const [element] = useState(document.createElement('div'));
 
   useEffect(() => {
@@ -23,4 +23,4 @@ const SearchFormSortByPortal: FunctionComponent<Props> = ({
   return createPortal(children, element);
 };
 
-export default SearchFormSortByPortal;
+export default Portal;

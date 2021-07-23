@@ -26,6 +26,7 @@ import WobblyBottom from '../WobblyBottom/WobblyBottom';
 // $FlowFixMe (ts)
 import { breakpoints } from '../../../utils/breakpoints';
 import type { Node, Element, ElementProps } from 'react';
+import { useContext } from 'react';
 import type { GenericContentFields } from '../../../model/generic-content-fields';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
@@ -34,6 +35,8 @@ import styled from 'styled-components';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 // $FlowFixMe (tsx);
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import Portal from '@weco/common/views/components/Portal/Portal';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 // The `bottom` values here are coupled to the space
 // beneath the Header in ContentPage.tsx
@@ -166,6 +169,7 @@ const PageHeader = ({
   TitleTopper,
   sectionLevelPage,
 }: Props) => {
+  const { isEnhanced } = useContext(AppContext);
   const Heading =
     highlightHeading && !sectionLevelPage ? (
       <HighlightedHeading text={title} />
@@ -188,12 +192,10 @@ const PageHeader = ({
         }}
       >
         {Background}
-        {isFree && (
-          <Layout10>
-            <div className="relative">
-              <FreeSticker />
-            </div>
-          </Layout10>
+        {isFree && isEnhanced && (
+          <Portal id="free-sticker-portal">
+            <FreeSticker />
+          </Portal>
         )}
         <Layout
           gridSizes={sectionLevelPage ? gridSize12 : sectionLevelPageGridLayout}

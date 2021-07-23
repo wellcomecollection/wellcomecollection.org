@@ -498,6 +498,7 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
                 </DropdownButton>
               </DesktopLogin>
             )}
+            <div id="free-sticker-portal" />
           </NavLoginWrapper>
         </div>
       </div>
