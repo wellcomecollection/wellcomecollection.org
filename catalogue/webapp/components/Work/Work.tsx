@@ -137,7 +137,10 @@ const Work: FunctionComponent<Props> = ({
             <Divider color={`pumice`} isKeyline={true} />
             <ArchiveDetailsContainer>
               <ArchiveTree work={work} />
-              <Space v={{ size: 'l', properties: ['padding-top'] }}>
+              <Space
+                v={{ size: 'xl', properties: ['padding-top'] }}
+                className={`flex-1`}
+              >
                 <WorkDetails work={work} />
               </Space>
             </ArchiveDetailsContainer>

@@ -733,11 +733,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   );
 
   return isInArchive ? (
-    <div className="container">
-      <div className="grid">
-        <Content />
-      </div>
-    </div>
+    <Space h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}>
+      <Content />
+    </Space>
   ) : (
     <Layout12>
       <Content />
