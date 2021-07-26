@@ -30,14 +30,13 @@ import { Filter } from '../../../services/catalogue/filters';
 import { formDataAsUrlQuery } from '../../../utils/forms';
 
 type StyledFormProps = {
-  isEnhanced: boolean
-}
+  isEnhanced: boolean;
+};
 
 const StyledForm = styled(Space).attrs((props: StyledFormProps) => ({
   as: 'form',
   v: props.isEnhanced ? {} : { size: 'l', properties: ['margin-bottom'] },
-}))<StyledFormProps>`
-`;
+}))<StyledFormProps>``;
 
 const SearchInputWrapper = styled.div`
   font-size: 20px;
@@ -84,219 +83,225 @@ type Props = {
   filters: Filter[];
 };
 
-const SearchForm = forwardRef(({
-  query,
-  sort,
-  sortOrder,
-  linkResolver,
-  ariaDescribedBy,
-  isImageSearch,
-  shouldShowFilters,
-  showSortBy,
-  filters,
-}: Props,
-  ref): ReactElement<Props> => {
-  const { isEnhanced } = useContext(AppContext);
-  const searchForm = useRef<HTMLFormElement>(null);
-  // This is the query used by the input, that is then eventually passed to the
-  // Router
-  const [inputQuery, setInputQuery] = useState(query);
-  const searchInput = useRef<HTMLInputElement>(null);
-  const [forceState, setForceState] = useState(false);
-  const [portalSortOrder, setPortalSortOrder] = useState(sortOrder);
-
-  function submit() {
-    searchForm.current &&
-      searchForm.current.dispatchEvent(
-        new window.Event('submit', { cancelable: true })
-      );
-  }
-
-  useImperativeHandle(ref, () => ({
-    submit
-  }))
-
-  useEffect(() => {
-    // This has been added in as the rerendering of createPortal does not trigger
-    // Manually force this to trigger to rerender so the createPortal gets created
-    // The refresh or going to another page does not retrigger the createPortal call
-    // This is referred inside the paginator component
-    // Adhoc: Added set timeout for some reason allows it to work.
-    setTimeout(() => {
-      !forceState && setForceState(true);
-    }, 0);
-  }, []);
-
-  // We need to make sure that the changes to `query` affect `inputQuery` as
-  // when we navigate between pages which all contain `SearchForm`, each
-  // instance of that component maintains it's own state so they go out of sync.
-  // TODO: Think about if this is worth it.
-  useEffect(() => {
-    if (query !== inputQuery) {
-      setInputQuery(query);
-    }
-  }, [query]);
-
-  useEffect(() => {
-    if (portalSortOrder !== sortOrder) {
-      submit();
-    }
-  }, [portalSortOrder]);
-
-  function updateUrl(form: HTMLFormElement) {
-    const urlQuery = formDataAsUrlQuery(form);
-
-    // TODO: remove sortOrder
-    // We do this as the JS form uses a portal, due to the control being
-    // outside of the for to obtain this value.
-    const sort =
-      portalSortOrder === 'asc' || portalSortOrder === 'desc'
-        ? 'production.dates'
-        : undefined;
-
-    const link = linkResolver({
-      ...urlQuery,
-      sortOrder: portalSortOrder,
+const SearchForm = forwardRef(
+  (
+    {
+      query,
       sort,
-    });
+      sortOrder,
+      linkResolver,
+      ariaDescribedBy,
+      isImageSearch,
+      shouldShowFilters,
+      showSortBy,
+      filters,
+    }: Props,
+    ref
+  ): ReactElement<Props> => {
+    const { isEnhanced } = useContext(AppContext);
+    const searchForm = useRef<HTMLFormElement>(null);
+    // This is the query used by the input, that is then eventually passed to the
+    // Router
+    const [inputQuery, setInputQuery] = useState(query);
+    const searchInput = useRef<HTMLInputElement>(null);
+    const [forceState, setForceState] = useState(false);
+    const [portalSortOrder, setPortalSortOrder] = useState(sortOrder);
 
-    return Router.push(link.href, link.as);
-  }
+    function submit() {
+      searchForm.current &&
+        searchForm.current.dispatchEvent(
+          new window.Event('submit', { cancelable: true })
+        );
+    }
 
-  return (
-    <form
-      role="search"
-      ref={searchForm}
-      className="relative"
-      action={isImageSearch ? '/images' : '/works'}
-      aria-describedby={ariaDescribedBy}
-      onSubmit={event => {
-        event.preventDefault();
+    useImperativeHandle(ref, () => ({
+      submit,
+    }));
 
-        trackEvent({
-          category: 'SearchForm',
-          action: 'submit search',
-          label: query,
-        });
+    useEffect(() => {
+      // This has been added in as the rerendering of createPortal does not trigger
+      // Manually force this to trigger to rerender so the createPortal gets created
+      // The refresh or going to another page does not retrigger the createPortal call
+      // This is referred inside the paginator component
+      // Adhoc: Added set timeout for some reason allows it to work.
+      setTimeout(() => {
+        !forceState && setForceState(true);
+      }, 0);
+    }, []);
 
-        updateUrl(event.currentTarget);
-        return false;
-      }}
-    >
-      <Space
-        h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
-        v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+    // We need to make sure that the changes to `query` affect `inputQuery` as
+    // when we navigate between pages which all contain `SearchForm`, each
+    // instance of that component maintains it's own state so they go out of sync.
+    // TODO: Think about if this is worth it.
+    useEffect(() => {
+      if (query !== inputQuery) {
+        setInputQuery(query);
+      }
+    }, [query]);
+
+    useEffect(() => {
+      if (portalSortOrder !== sortOrder) {
+        submit();
+      }
+    }, [portalSortOrder]);
+
+    function updateUrl(form: HTMLFormElement) {
+      const urlQuery = formDataAsUrlQuery(form);
+
+      // TODO: remove sortOrder
+      // We do this as the JS form uses a portal, due to the control being
+      // outside of the for to obtain this value.
+      const sort =
+        portalSortOrder === 'asc' || portalSortOrder === 'desc'
+          ? 'production.dates'
+          : undefined;
+
+      const link = linkResolver({
+        ...urlQuery,
+        sortOrder: portalSortOrder,
+        sort,
+      });
+
+      return Router.push(link.href, link.as);
+    }
+
+    return (
+      <form
+        role="search"
+        ref={searchForm}
+        className="relative"
+        action={isImageSearch ? '/images' : '/works'}
+        aria-describedby={ariaDescribedBy}
+        onSubmit={event => {
+          event.preventDefault();
+
+          trackEvent({
+            category: 'SearchForm',
+            action: 'submit search',
+            label: query,
+          });
+
+          updateUrl(event.currentTarget);
+          return false;
+        }}
       >
-        <SearchInputWrapper className="relative">
-          <TextInput
-            id={`${isImageSearch ? 'images' : 'works'}-search-input`}
-            label={isImageSearch ? 'Search for images' : 'Search the catalogue'}
-            name="query"
-            value={inputQuery}
-            setValue={setInputQuery}
-            ref={searchInput}
-            required={true}
-            big={true}
-            placeholder={''}
-            ariaLabel={
-              isImageSearch ? searchFormInputImage : searchFormInputCatalogue
-            }
-          />
-
-          {inputQuery && (
-            <ClearSearch
-              inputRef={searchInput}
+        <Space
+          h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
+          v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+        >
+          <SearchInputWrapper className="relative">
+            <TextInput
+              id={`${isImageSearch ? 'images' : 'works'}-search-input`}
+              label={
+                isImageSearch ? 'Search for images' : 'Search the catalogue'
+              }
+              name="query"
+              value={inputQuery}
               setValue={setInputQuery}
-              gaEvent={{
-                category: 'SearchForm',
-                action: 'clear search',
-                label: 'works-search',
-              }}
-              right={102}
+              ref={searchInput}
+              required={true}
+              big={true}
+              placeholder={''}
+              ariaLabel={
+                isImageSearch ? searchFormInputImage : searchFormInputCatalogue
+              }
             />
-          )}
-        </SearchInputWrapper>
-      </Space>
-      {shouldShowFilters && (
-        <SearchFilters
-          query={query}
-          linkResolver={linkResolver}
-          searchForm={searchForm}
-          changeHandler={submit}
-          filters={filters}
-        />
-      )}
-      {!isImageSearch && isEnhanced && (
-        <SearchFormSortByPortal id="sort-select-portal">
-          <SearchSortOrderWrapper>
-            <Select
-              name="portalSortOrder"
-              label="Sort by:"
-              value={portalSortOrder || ''}
-              options={[
-                {
-                  value: '',
-                  text: 'Relevance',
-                },
-                {
-                  value: 'asc',
-                  text: 'Oldest to newest',
-                },
-                {
-                  value: 'desc',
-                  text: 'Newest to oldest',
-                },
-              ]}
-              onChange={event => {
-                setPortalSortOrder(event.currentTarget.value);
-              }}
-            />
-          </SearchSortOrderWrapper>
-        </SearchFormSortByPortal>
-      )}
-      <noscript>
-        {!isImageSearch && showSortBy && (
-          <>
-            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-              <SelectUncontrolled
-                name="sort"
-                label="Sort by"
-                defaultValue={sort || ''}
+
+            {inputQuery && (
+              <ClearSearch
+                inputRef={searchInput}
+                setValue={setInputQuery}
+                gaEvent={{
+                  category: 'SearchForm',
+                  action: 'clear search',
+                  label: 'works-search',
+                }}
+                right={102}
+              />
+            )}
+          </SearchInputWrapper>
+        </Space>
+        {shouldShowFilters && (
+          <SearchFilters
+            query={query}
+            linkResolver={linkResolver}
+            searchForm={searchForm}
+            changeHandler={submit}
+            filters={filters}
+          />
+        )}
+        {!isImageSearch && isEnhanced && (
+          <SearchFormSortByPortal id="sort-select-portal">
+            <SearchSortOrderWrapper>
+              <Select
+                name="portalSortOrder"
+                label="Sort by:"
+                value={portalSortOrder || ''}
                 options={[
                   {
                     value: '',
                     text: 'Relevance',
                   },
                   {
-                    value: 'production.dates',
-                    text: 'Production dates',
+                    value: 'asc',
+                    text: 'Oldest to newest',
+                  },
+                  {
+                    value: 'desc',
+                    text: 'Newest to oldest',
+                  },
+                ]}
+                onChange={event => {
+                  setPortalSortOrder(event.currentTarget.value);
+                }}
+              />
+            </SearchSortOrderWrapper>
+          </SearchFormSortByPortal>
+        )}
+        <noscript>
+          {!isImageSearch && showSortBy && (
+            <>
+              <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+                <SelectUncontrolled
+                  name="sort"
+                  label="Sort by"
+                  defaultValue={sort || ''}
+                  options={[
+                    {
+                      value: '',
+                      text: 'Relevance',
+                    },
+                    {
+                      value: 'production.dates',
+                      text: 'Production dates',
+                    },
+                  ]}
+                />
+              </Space>
+              <SelectUncontrolled
+                name="sortOrder"
+                label="Sort order"
+                defaultValue={sortOrder || ''}
+                options={[
+                  {
+                    value: 'asc',
+                    text: 'Ascending',
+                  },
+                  {
+                    value: 'desc',
+                    text: 'Descending',
                   },
                 ]}
               />
-            </Space>
-            <SelectUncontrolled
-              name="sortOrder"
-              label="Sort order"
-              defaultValue={sortOrder || ''}
-              options={[
-                {
-                  value: 'asc',
-                  text: 'Ascending',
-                },
-                {
-                  value: 'desc',
-                  text: 'Descending',
-                },
-              ]}
-            />
-          </>
-        )}
-      </noscript>
-      <SearchButtonWrapper>
-        <ButtonSolid text="Search" isTextHidden={false} isBig={true} />
-      </SearchButtonWrapper>
-    </form>
-  );
-});
+            </>
+          )}
+        </noscript>
+        <SearchButtonWrapper>
+          <ButtonSolid text="Search" isTextHidden={false} isBig={true} />
+        </SearchButtonWrapper>
+      </form>
+    );
+  }
+);
 
 export default SearchForm;

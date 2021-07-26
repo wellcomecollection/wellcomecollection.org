@@ -133,7 +133,7 @@ const SearchTabs: FunctionComponent<Props> = ({
                   className={classNames({
                     'plain-link': true,
                   })}
-                  aria-current={isActive ? "page" : undefined}
+                  aria-current={isActive ? 'page' : undefined}
                 >
                   {children}
                 </a>
@@ -225,7 +225,7 @@ const SearchTabs: FunctionComponent<Props> = ({
                   className={classNames({
                     'plain-link': true,
                   })}
-                  aria-current={isActive ? "page" : undefined}
+                  aria-current={isActive ? 'page' : undefined}
                 >
                   {children}
                 </a>
@@ -293,7 +293,7 @@ const SearchTabs: FunctionComponent<Props> = ({
   ];
 
   function onTabClick(id: string) {
-    if(id === 'tab-images'){
+    if (id === 'tab-images') {
       searchImagesFormRef?.current?.submit();
     } else {
       searchWorksFormRef?.current?.submit();

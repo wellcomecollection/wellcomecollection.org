@@ -151,7 +151,7 @@ const Tabs: FunctionComponent<Props> = ({
       {/* if isEnhanced then we want to create the tablist to control the panels,
       if not then the tabs will be appear above there respective panel (see below)
       */}
-      {isEnhanced &&
+      {isEnhanced && (
         <TabList ref={tabListRef} aria-label={label}>
           {tabs.map(({ id, tab }) => (
             <Tab
@@ -168,7 +168,7 @@ const Tabs: FunctionComponent<Props> = ({
             </Tab>
           ))}
         </TabList>
-      }
+      )}
       {tabs.map(({ id, tab, tabPanel }) => (
         <Fragment key={id}>
           {/* if it's not enhanced the tab appears above its related panel */}
