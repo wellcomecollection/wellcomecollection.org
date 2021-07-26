@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { Container as LayoutContainer } from '../components/Layout.style';
+import Space from '@weco/common/views/components/styled/Space';
 
 export const Container = styled(LayoutContainer)`
   max-width: 1024px;
@@ -87,7 +88,10 @@ export const Section = styled.section`
   }
 `;
 
-export const SectionHeading = styled.h2.attrs({ className: 'font-hnr font-size-3' })`
+export const SectionHeading = styled(Space).attrs({
+  as: 'h2',
+  v: { size: 'm', properties: ['margin-bottom'] },
+  className: 'font-wb font-size-3',
+})`
   font-weight: bold;
-  margin: 0;
 `;
