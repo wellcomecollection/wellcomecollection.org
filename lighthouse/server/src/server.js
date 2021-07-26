@@ -36,6 +36,8 @@ async function main() {
   const server = await app.listen(serverPort);
   console.log(`Server listening on ${serverPort}`);
 
+  // The below is taken from https://github.com/GoogleChrome/lighthouse-ci/blob/main/packages/server/src/server.js#L81-L93
+
   // Node default socket timeout is 2 minutes.
   // Some LHCI API operations (computing statistics) can take longer than that under heavy load.
   // Set the timeout even higher to allow for these requests to complete.
