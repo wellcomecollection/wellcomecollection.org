@@ -70,8 +70,9 @@ const Profile: React.FC = () => {
             </Intro>
           </Space>
         </Layout12>
-        {/* TODO remove from small screen */}
-        <WobblyEdge background="cream" isStatic />
+        <div className="is-hidden-s">
+          <WobblyEdge background="cream" isStatic />
+        </div>
       </Header>
       <Layout10>
         {isLoading && <Loading />}
