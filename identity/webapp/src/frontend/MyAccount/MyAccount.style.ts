@@ -7,15 +7,10 @@ export const Container = styled(LayoutContainer)`
   max-width: 1024px;
 `;
 
-export const Wrapper = styled.div`
-  max-width: 48em;
-  margin: 0 auto;
-  padding: 1em;
-
-  @media screen and (min-width: 600px) {
-    padding: 1em 2em;
-  }
-`;
+export const Wrapper = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+})``;
 
 const OutlinedDangerButtonModifier = css`
   color: #d1192c;
@@ -28,9 +23,7 @@ const OutlinedDangerButtonModifier = css`
 `;
 
 export const Button = styled(OutlinedButton)`
-  width: 100%;
   justify-content: center;
-  height: 55px;
 
   ${props => props.isDangerous && OutlinedDangerButtonModifier}
 `;
@@ -65,7 +58,7 @@ export const StatusAlert = styled.div.attrs({ role: 'alert' })<{ type: keyof typ
   ${props => colours[props.type]}
   padding: 1em;
   border-radius: 6px;
-  margin-bottom: 1em;
+  padding-bottom: 1em;
   display: flex;
   align-items: center;
   gap: 0.5em;
@@ -90,7 +83,7 @@ export const Section = styled.section`
 
 export const SectionHeading = styled(Space).attrs({
   as: 'h2',
-  v: { size: 'm', properties: ['margin-bottom'] },
+  v: { size: 'm', properties: ['padding-bottom'] },
   className: 'font-wb font-size-3',
 })`
   font-weight: bold;

@@ -16,11 +16,33 @@ import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
+import styled from 'styled-components';
+import { font } from '@weco/common/utils/classnames';
+
+const StyledDl = styled(Space).attrs({
+  as: 'dl',
+  v: {
+    size: 'l',
+    properties: ['margin-bottom'],
+  },
+})`
+  margin-top: 0;
+`;
+
+const StyledDd = styled(Space).attrs({
+  as: 'dd',
+  v: {
+    size: 'm',
+    properties: ['margin-bottom'],
+  },
+})`
+  margin-left: 0;
+`;
 
 const Detail: React.FC<{ label: string; value?: string }> = ({ label, value }) => (
   <>
-    <dt>{label}</dt>
-    <dd>{value}</dd>
+    <dt className={font('hnb', 5)}>{label}</dt>
+    <StyledDd className={`${font('hnl', 5)}`}>{value}</StyledDd>
   </>
 );
 
@@ -86,10 +108,19 @@ const Profile: React.FC = () => {
             <SectionHeading>Personal details</SectionHeading>
             <Container>
               <Wrapper>
-                <>
+                <StyledDl>
                   <Detail label="Name" value={`${user?.firstName} ${user?.lastName}`} />
+                  <Detail label="Email" value={user?.email} />
                   <Detail label="Library card number" value={user?.barcode} />
-                  <Detail label="Email address" value={user?.email} />
+                  {/* Membership expiry date? */}
+                </StyledDl>
+                <Space
+                  as="span"
+                  h={{
+                    size: 'l',
+                    properties: ['margin-right'],
+                  }}
+                >
                   <ChangeDetailsModal
                     id="change-email"
                     buttonText="Change Email"
@@ -100,33 +131,31 @@ const Profile: React.FC = () => {
                   >
                     <ChangeEmail />
                   </ChangeDetailsModal>
-                  <ChangeDetailsModal
-                    id="change-password"
-                    buttonText="Change password"
-                    onComplete={() => {
-                      setIsPasswordUpdated(true);
-                    }}
-                  >
-                    <ChangePassword />
-                  </ChangeDetailsModal>
-                </>
+                </Space>
+                <ChangeDetailsModal
+                  id="change-password"
+                  buttonText="Change password"
+                  onComplete={() => {
+                    setIsPasswordUpdated(true);
+                  }}
+                >
+                  <ChangePassword />
+                </ChangeDetailsModal>
               </Wrapper>
             </Container>
 
             <SectionHeading>Delete library account</SectionHeading>
             <Container>
               <Wrapper>
-                <>
-                  <span>Request a deletion of your account</span>
-                  <ChangeDetailsModal
-                    id="delete-account"
-                    buttonText="Request deletion"
-                    isDangerous
-                    onComplete={logoutOnDeletionRequest}
-                  >
-                    <DeleteAccount />
-                  </ChangeDetailsModal>
-                </>
+                <p className={font('hnb', 5)}>Request a deletion of your account</p>
+                <ChangeDetailsModal
+                  id="delete-account"
+                  buttonText="Request deletion"
+                  isDangerous
+                  onComplete={logoutOnDeletionRequest}
+                >
+                  <DeleteAccount />
+                </ChangeDetailsModal>
               </Wrapper>
             </Container>
           </>

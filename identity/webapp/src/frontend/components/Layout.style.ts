@@ -7,7 +7,6 @@ export const Container = styled(Space).attrs({
   background-color: white;
   border: 1px solid #d9d6ce; // TODO use value from theme
   border-radius: 10px; // TODO use value from theme
-  padding-top: 1em; // TODO use value from theme
 `;
 
 export const Wrapper = styled.div`
