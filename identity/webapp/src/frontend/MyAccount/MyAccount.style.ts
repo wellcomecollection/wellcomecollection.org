@@ -16,22 +16,6 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const DetailWrapper = styled.dl`
-  margin: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-`;
-
-export const DetailLabel = styled.dt.attrs({ className: 'font-hnr fonts-loaded font-size-4' })`
-  display: block;
-  font-weight: bold;
-`;
-
-export const DetailValue = styled.dd`
-  margin: 0;
-`;
-
 const OutlinedDangerButtonModifier = css`
   color: #d1192c;
   border-color: #d1192c;
@@ -84,23 +68,6 @@ export const StatusAlert = styled.div.attrs({ role: 'alert' })<{ type: keyof typ
   display: flex;
   align-items: center;
   gap: 0.5em;
-`;
-
-export const Section = styled.section`
-  border-top: 1px solid ${props => props.theme.color('pumice')};
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 1em;
-  align-items: center;
-  padding: 1em 0;
-
-  @media screen and (min-width: 600px) {
-    grid-template-columns: 3fr 2fr;
-  }
-
-  & > h2 {
-    grid-column: 1 / -1;
-  }
 `;
 
 export const SectionHeading = styled.h2.attrs({ className: 'font-hnr fonts-loaded font-size-3' })`
