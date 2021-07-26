@@ -36,6 +36,7 @@ import { GlobalInfoBarContextProvider } from '../components/GlobalInfoBarContext
 
 type State = {|
   togglesContext: {},
+  isFontsLoaded: boolean,
 |};
 
 const isServer = typeof window === 'undefined';
@@ -206,6 +207,7 @@ export default class WecoApp extends App {
 
   state: State = {
     togglesContext: toggles,
+    isFontsLoaded: false,
   };
 
   componentWillUnmount() {
@@ -285,9 +287,7 @@ export default class WecoApp extends App {
 
     Promise.all([WB.load(), HNR.load(), HNB.load(), LR.load()])
       .then(() => {
-        if (document.documentElement) {
-          document.documentElement.classList.add('fonts-loaded');
-        }
+        this.setState({ isFontsLoaded: true });
       })
       .catch(console.log);
 
@@ -369,7 +369,7 @@ export default class WecoApp extends App {
   }
 
   render() {
-    const { togglesContext } = this.state;
+    const { togglesContext, isFontsLoaded } = this.state;
     const {
       Component,
       pageProps,
@@ -476,7 +476,10 @@ export default class WecoApp extends App {
                 <GlobalAlertContext.Provider value={globalAlert}>
                   <PopupDialogContext.Provider value={popupDialog}>
                     <ThemeProvider theme={theme}>
-                      <GlobalStyle toggles={toggles} />
+                      <GlobalStyle
+                        toggles={toggles}
+                        isFontsLoaded={isFontsLoaded}
+                      />
                       <OutboundLinkTracker>
                         <Fragment>
                           <LoadingIndicator />
