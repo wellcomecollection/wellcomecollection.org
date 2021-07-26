@@ -16,6 +16,7 @@ import {
 } from '../components/GlobalContextProvider/GlobalContextProvider';
 import { GetServerSidePropsContext } from 'next';
 import { trackPageview } from '../../services/conversion/track';
+import useIsFontsLoaded from '../../hooks/useIsFontsLoaded';
 
 declare global {
   interface Window {
@@ -216,27 +217,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     lazysizes.init();
   }, []);
 
-  // fonts
-  useEffect(() => {
-    // This needs to be dynamically required as it's only on the client-side
-    /* eslint-disable @typescript-eslint/no-var-requires */
-    const FontFaceObserver = require('fontfaceobserver');
-    /* eslint-enable @typescript-eslint/no-var-requires */
-
-    const WB = new FontFaceObserver('Wellcome Bold Web', { weight: 'bold' });
-    const HNR = new FontFaceObserver('Helvetica Neue Roman Web');
-    const HNB = new FontFaceObserver('Helvetica Neue Bold Web');
-    const LR = new FontFaceObserver('Lettera Regular Web');
-
-    Promise.all([WB.load(), HNR.load(), HNB.load(), LR.load()])
-      .then(() => {
-        if (document.documentElement) {
-          document.documentElement.classList.add('fonts-loaded');
-        }
-      })
-      .catch(console.log);
-  }, []);
-
   // prismic warnings
   // TODO: This should be componentized
   useEffect(() => {
@@ -314,7 +294,10 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     <>
       <AppContextProvider>
         <ThemeProvider theme={theme}>
-          <GlobalStyle toggles={globalContextData.toggles} />
+          <GlobalStyle
+            toggles={globalContextData.toggles}
+            isFontsLoaded={useIsFontsLoaded()}
+          />
           <OutboundLinkTracker>
             <LoadingIndicator />
             {!pageProps.err && <Component {...pageProps} />}

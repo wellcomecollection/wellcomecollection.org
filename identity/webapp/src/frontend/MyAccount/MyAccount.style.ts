@@ -70,7 +70,24 @@ export const StatusAlert = styled.div.attrs({ role: 'alert' })<{ type: keyof typ
   gap: 0.5em;
 `;
 
-export const SectionHeading = styled.h2.attrs({ className: 'font-hnr fonts-loaded font-size-3' })`
+export const Section = styled.section`
+  border-top: 1px solid ${props => props.theme.color('pumice')};
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1em;
+  align-items: center;
+  padding: 1em 0;
+
+  @media screen and (min-width: 600px) {
+    grid-template-columns: 3fr 2fr;
+  }
+
+  & > h2 {
+    grid-column: 1 / -1;
+  }
+`;
+
+export const SectionHeading = styled.h2.attrs({ className: 'font-hnr font-size-3' })`
   font-weight: bold;
   margin: 0;
 `;

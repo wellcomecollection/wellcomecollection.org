@@ -6,7 +6,7 @@ export const FieldMargin = styled.div`
   margin-bottom: 1em;
 `;
 
-export const Label = styled.label.attrs({ className: 'font-hnr fonts-loaded font-size-4' })`
+export const Label = styled.label.attrs({ className: 'font-hnr font-size-4' })`
   display: block;
   font-weight: bold;
 `;

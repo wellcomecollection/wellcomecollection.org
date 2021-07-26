@@ -131,6 +131,7 @@ export class ArticlePage extends Component<Props, State> {
       image: article.image,
       squareImage: article.squareImage,
       widescreenImage: article.widescreenImage,
+      superWidescreenImage: article.superWidescreenImage,
       labels: article.labels,
       metadataDescription: article.metadataDescription,
     };

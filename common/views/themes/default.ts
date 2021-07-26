@@ -116,6 +116,7 @@ const cls = ({
 
 export type GlobalStyleProps = {
   toggles?: { [key: string]: boolean };
+  isFontsLoaded?: boolean;
 };
 
 const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
