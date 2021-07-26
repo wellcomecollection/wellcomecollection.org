@@ -39,10 +39,6 @@ const Profile: React.FC = () => {
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   const logoutOnDeletionRequest = () => {
     history.replace(`/logout?returnTo=${encodeURIComponent('/delete-requested')}`);
   };
@@ -78,57 +74,62 @@ const Profile: React.FC = () => {
         <WobblyEdge background="cream" isStatic />
       </Header>
       <Layout10>
-        <SectionHeading>Personal details</SectionHeading>
-        <Container>
-          <Wrapper>
+        {isLoading && <Loading />}
+        {!isLoading && (
+          <>
             {!user?.emailValidated && (
               <AccountStatus type="info">You have not yet validated your email address</AccountStatus>
             )}
             {isEmailUpdated && <AccountStatus type="success">Email updated</AccountStatus>}
             {isPasswordUpdated && <AccountStatus type="success">Password updated</AccountStatus>}
-            <>
-              <Detail label="Name" value={`${user?.firstName} ${user?.lastName}`} />
-              <Detail label="Library card number" value={user?.barcode} />
-              <Detail label="Email address" value={user?.email} />
-              <ChangeDetailsModal
-                id="change-email"
-                buttonText="Change Email"
-                onComplete={(newUserInfo?: UpdateUserSchema) => {
-                  if (newUserInfo) update(newUserInfo);
-                  setIsEmailUpdated(true);
-                }}
-              >
-                <ChangeEmail />
-              </ChangeDetailsModal>
-              <ChangeDetailsModal
-                id="change-password"
-                buttonText="Change password"
-                onComplete={() => {
-                  setIsPasswordUpdated(true);
-                }}
-              >
-                <ChangePassword />
-              </ChangeDetailsModal>
-            </>
-          </Wrapper>
-        </Container>
+            <SectionHeading>Personal details</SectionHeading>
+            <Container>
+              <Wrapper>
+                <>
+                  <Detail label="Name" value={`${user?.firstName} ${user?.lastName}`} />
+                  <Detail label="Library card number" value={user?.barcode} />
+                  <Detail label="Email address" value={user?.email} />
+                  <ChangeDetailsModal
+                    id="change-email"
+                    buttonText="Change Email"
+                    onComplete={(newUserInfo?: UpdateUserSchema) => {
+                      if (newUserInfo) update(newUserInfo);
+                      setIsEmailUpdated(true);
+                    }}
+                  >
+                    <ChangeEmail />
+                  </ChangeDetailsModal>
+                  <ChangeDetailsModal
+                    id="change-password"
+                    buttonText="Change password"
+                    onComplete={() => {
+                      setIsPasswordUpdated(true);
+                    }}
+                  >
+                    <ChangePassword />
+                  </ChangeDetailsModal>
+                </>
+              </Wrapper>
+            </Container>
 
-        <SectionHeading>Delete library account</SectionHeading>
-        <Container>
-          <Wrapper>
-            <>
-              <span>Request a deletion of your account</span>
-              <ChangeDetailsModal
-                id="delete-account"
-                buttonText="Request deletion"
-                isDangerous
-                onComplete={logoutOnDeletionRequest}
-              >
-                <DeleteAccount />
-              </ChangeDetailsModal>
-            </>
-          </Wrapper>
-        </Container>
+            <SectionHeading>Delete library account</SectionHeading>
+            <Container>
+              <Wrapper>
+                <>
+                  <span>Request a deletion of your account</span>
+                  <ChangeDetailsModal
+                    id="delete-account"
+                    buttonText="Request deletion"
+                    isDangerous
+                    onComplete={logoutOnDeletionRequest}
+                  >
+                    <DeleteAccount />
+                  </ChangeDetailsModal>
+                </>
+              </Wrapper>
+            </Container>
+          </>
+        )}
       </Layout10>
     </PageWrapper>
   );
