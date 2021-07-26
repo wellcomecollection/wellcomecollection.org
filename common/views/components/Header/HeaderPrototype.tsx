@@ -277,7 +277,7 @@ const HeaderItem = styled.li`
     'headerMedium',
     `
     border-bottom: 0;
-    margin-right: 0.6vw;
+    margin-right: calc(3vw - 20px);
   `
   )}
 
