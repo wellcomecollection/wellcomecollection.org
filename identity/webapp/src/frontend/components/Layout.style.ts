@@ -15,13 +15,13 @@ export const Wrapper = styled.div`
 `;
 
 export const Header = styled(Space)`
-background: ${props => props.theme.color('white')};
+  background: ${props => props.theme.color('white')};
 `;
 
 export const Title = styled.h1.attrs({ className: 'font-wb font-size-0' })``;
 
 export const Intro = styled(Space).attrs({
-  as: 'p'
+  as: 'p',
 })`
   max-width: 66.6667%; // TODO add media queries
 `;
