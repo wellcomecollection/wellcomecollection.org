@@ -88,3 +88,23 @@ export const SectionHeading = styled(Space).attrs({
 })`
   font-weight: bold;
 `;
+
+export const StyledDl = styled(Space).attrs({
+  as: 'dl',
+  v: {
+    size: 'l',
+    properties: ['margin-bottom'],
+  },
+})`
+  margin-top: 0;
+`;
+
+export const StyledDd = styled(Space).attrs({
+  as: 'dd',
+  v: {
+    size: 'm',
+    properties: ['margin-bottom'],
+  },
+})`
+  margin-left: 0;
+`;

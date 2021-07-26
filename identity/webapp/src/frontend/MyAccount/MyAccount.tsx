@@ -5,7 +5,7 @@ import { useUserInfo, withUserInfo } from './UserInfoContext';
 import { ChangeDetailsModal } from './ChangeDetailsModal';
 import { PageWrapper } from '../components/PageWrapper';
 import { Container, Title, Header, Intro } from '../components/Layout.style';
-import { SectionHeading, StatusAlert, Wrapper } from './MyAccount.style';
+import { SectionHeading, StatusAlert, Wrapper, StyledDl, StyledDd } from './MyAccount.style';
 import { Loading } from './Loading';
 import { ChangeEmail } from './ChangeEmail';
 import { ChangePassword } from './ChangePassword';
@@ -16,30 +16,28 @@ import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
-import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 
-const StyledDl = styled(Space).attrs({
-  as: 'dl',
-  v: {
-    size: 'l',
-    properties: ['margin-bottom'],
-  },
-})`
-  margin-top: 0;
-`;
+type DetailProps = {
+  label: string;
+  value?: string;
+};
 
-const StyledDd = styled(Space).attrs({
-  as: 'dd',
-  v: {
-    size: 'm',
-    properties: ['margin-bottom'],
-  },
-})`
-  margin-left: 0;
-`;
+type DetailListProps = {
+  listItems: DetailProps[];
+};
 
-const Detail: React.FC<{ label: string; value?: string }> = ({ label, value }) => (
+const DetailList: React.FC<DetailListProps> = ({ listItems }) => {
+  return (
+    <StyledDl>
+      {listItems.map(item => (
+        <Detail key={item.label} label={item.label} value={item.value} />
+      ))}
+    </StyledDl>
+  );
+};
+
+const Detail: React.FC<DetailProps> = ({ label, value }) => (
   <>
     <dt className={font('hnb', 5)}>{label}</dt>
     <StyledDd className={`${font('hnl', 5)}`}>{value}</StyledDd>
@@ -67,8 +65,6 @@ const Profile: React.FC = () => {
 
   return (
     <PageWrapper>
-      {/* get rid of classname enhanced */}
-      {/* make into it's own component */}
       <Header
         className="enhanced"
         v={{
@@ -108,12 +104,14 @@ const Profile: React.FC = () => {
             <SectionHeading>Personal details</SectionHeading>
             <Container>
               <Wrapper>
-                <StyledDl>
-                  <Detail label="Name" value={`${user?.firstName} ${user?.lastName}`} />
-                  <Detail label="Email" value={user?.email} />
-                  <Detail label="Library card number" value={user?.barcode} />
-                  {/* Membership expiry date? */}
-                </StyledDl>
+                <DetailList
+                  listItems={[
+                    { label: 'Name', value: `${user?.firstName} ${user?.lastName}` },
+                    { label: 'Email', value: user?.email },
+                    { label: 'Library card number', value: user?.barcode },
+                    /* Membership expiry date? */
+                  ]}
+                />
                 <Space
                   as="span"
                   h={{
