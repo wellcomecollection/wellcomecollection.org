@@ -3,19 +3,20 @@ locals {
   mysql_port = 3306
 }
 
-resource "aws_rds_cluster" "lchi_db" {
+resource "aws_rds_cluster" "lhci_db" {
   cluster_identifier = "lhci-cluster"
   engine             = "aurora-mysql"
   engine_mode        = "serverless"
-  engine_version     = "5.7.mysql_aurora.2.10.0"
+  engine_version     = "5.7.mysql_aurora.2.07.1"
   port               = local.mysql_port
 
   database_name   = local.db_name
-  master_password = aws_secretsmanager_secret_version.db_password.secret_string
-  master_username = aws_secretsmanager_secret_version.db_username.secret_string
+  master_password = data.aws_secretsmanager_secret_version.db_password.secret_string
+  master_username = data.aws_secretsmanager_secret_version.db_username.secret_string
 
   vpc_security_group_ids = [aws_security_group.lhci_db.id]
   db_subnet_group_name   = aws_db_subnet_group.lhci.id
+  skip_final_snapshot    = true
 
   scaling_configuration {
     auto_pause   = true
