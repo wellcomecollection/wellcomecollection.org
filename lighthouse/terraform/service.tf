@@ -22,10 +22,10 @@ module "lhci_server" {
   }
 
   secret_env_vars = {
-    DB_USER        = "ci/lighthouse/database/username"
-    DB_PASSWORD    = "ci/lighthouse/database/password"
-    ADMIN_USER     = "ci/lighthouse/admin/username"
-    ADMIN_PASSWORD = "ci/lighthouse/admin/password"
+    DB_USER        = "lighthouse/database/username"
+    DB_PASSWORD    = "lighthouse/database/password"
+    ADMIN_USER     = "lighthouse/admin/username"
+    ADMIN_PASSWORD = "lighthouse/admin/password"
   }
 
   security_group_ids = [
