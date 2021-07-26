@@ -5,6 +5,9 @@ services:
     build: .
     ports:
      - "8888:8888"
+    volumes:
+      - "./src:/app/src"
+    command: "yarn start --watch"
     environment:
       PORT: 8888
       DB_HOST: db
@@ -12,6 +15,8 @@ services:
       DB_PORT: 3306
       DB_USER: lhci_user
       DB_PASSWORD: lhci_password
+      ADMIN_USER: admin
+      ADMIN_PASSWORD: secret
   db:
     image: mysql:5.7
     restart: always

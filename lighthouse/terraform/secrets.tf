@@ -21,3 +21,11 @@ resource "aws_secretsmanager_secret" "lhci_build_token" {
 resource "aws_secretsmanager_secret" "lhci_admin_token" {
   name = "ci/lighthouse/admin_token"
 }
+
+resource "aws_secretsmanager_secret" "lhci_admin_username" {
+  name = "ci/lighthouse/admin/username"
+}
+
+resource "aws_secretsmanager_secret" "lhci_admin_password" {
+  name = "ci/lighthouse/admin/password"
+}
