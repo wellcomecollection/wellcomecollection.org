@@ -13,14 +13,6 @@ const Row = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
 })``;
 
-const Grid = styled.div`
-  ${props => props.theme.media.medium`
-    display: grid;
-    grid-template-columns: 200px 150px 125px;
-    grid-column-gap: 30px;
-  `}
-`;
-
 const DetailHeading = styled.h3.attrs({
   className: classNames({
     [font('hnb', 5, { small: 3, medium: 3 })]: true,
@@ -40,6 +32,19 @@ const Box = styled(Space).attrs<{ isCentered?: boolean }>(props => ({
     align-self: center;
   `}
 `;
+
+const Grid = styled.div`
+  ${props => props.theme.media.medium`
+    display: grid;
+    grid-template-columns: max-content 130px 125px;
+    grid-column-gap: 25px;
+
+    ${Box}:first-child {
+      min-width: 240px;
+    }
+  `}
+`;
+
 const Color = styled(Space).attrs({
   h: { size: 's', properties: ['margin-left'] },
 })<{ color: string }>`
