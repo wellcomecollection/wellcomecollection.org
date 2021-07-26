@@ -29,7 +29,7 @@ jobs:
             http://localhost:3000/works/kxvgmysq
             http://localhost:3000/works/kxvgmysq/items
           configPath: "./catalogue/webapp/lighthouserc.js"
-          serverBaseUrl: lighthouse.wellcomecollection.org
+          serverBaseUrl: "https://lighthouse.wellcomecollection.org"
           serverToken: ${{ secrets.LHCI_BUILD_TOKEN }}
 
 #  lighthouse_content:
