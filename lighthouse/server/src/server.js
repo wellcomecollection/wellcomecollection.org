@@ -17,6 +17,10 @@ const basicAuthMiddleware = basicAuth({
   users: { [adminUser]: adminPassword },
 });
 
+// 2 minute timeout to acquire a connection, to account for
+// Aurora Serverless warmup worst case scenario
+const sqlConnectionTimeout = 2 * 60 * 1000;
+
 async function main() {
   const app = express();
   const { app: lhciApp } = await createApp({
@@ -24,6 +28,14 @@ async function main() {
       storageMethod: 'sql',
       sqlDialect: 'mysql',
       sqlConnectionUrl: dbUrl,
+      sqlDialectOptions: {
+        connectTimeout: sqlConnectionTimeout,
+      },
+      sequelizeOptions: {
+        pool: {
+          acquire: sqlConnectionTimeout,
+        },
+      },
     },
   });
 
