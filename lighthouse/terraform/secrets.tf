@@ -14,4 +14,10 @@ data "aws_secretsmanager_secret_version" "db_password" {
   secret_id = aws_secretsmanager_secret.db_password.id
 }
 
+resource "aws_secretsmanager_secret" "lhci_build_token" {
+  name = "ci/lighthouse/build_token"
+}
 
+resource "aws_secretsmanager_secret" "lhci_admin_token" {
+  name = "ci/lighthouse/admin_token"
+}
