@@ -14,14 +14,6 @@ const Row = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
 })``;
 
-const Grid = styled.div<{ isArchive: boolean }>`
-  ${props => props.theme.media[props.isArchive ? 'large' : 'medium']`
-    display: grid;
-    grid-template-columns: minmax(120px, 200px) minmax(100px, 150px) 125px;
-    grid-column-gap: 30px;
-  `}
-`;
-
 const DetailHeading = styled.h3.attrs({
   className: classNames({
     [font('hnb', 5, { small: 3, medium: 3 })]: true,
@@ -39,6 +31,18 @@ const Box = styled(Space).attrs<{ isCentered?: boolean }>(props => ({
     props.isCentered &&
     `
     align-self: center;
+  `}
+`;
+
+const Grid = styled.div<{ isArchive: boolean }>`
+  ${props => props.theme.media[props.isArchive ? 'large' : 'medium']`
+    display: grid;
+    grid-template-columns: max-content 130px 125px;
+    grid-column-gap: 25px;
+
+    ${Box}:first-child {
+      min-width: 240px;
+    }
   `}
 `;
 
