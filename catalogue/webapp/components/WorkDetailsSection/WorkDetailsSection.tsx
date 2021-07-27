@@ -2,21 +2,22 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import { classNames, grid, font } from '@weco/common/utils/classnames';
-import { FunctionComponent, PropsWithChildren } from 'react';
+import { FunctionComponent, PropsWithChildren, useContext } from 'react';
+import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
 
 type Props = PropsWithChildren<{
   headingText?: string;
-  isInArchive?: boolean;
 }>;
 
 const WorkDetailsSection: FunctionComponent<Props> = ({
   headingText,
   children,
-  isInArchive,
 }: Props) => {
+  const isArchive = useContext(IsArchiveContext);
+
   return (
     <>
-      {!isInArchive && (
+      {!isArchive && (
         <>
           <Divider color={`pumice`} isKeyline={true} />
           <SpacingComponent />
@@ -25,7 +26,7 @@ const WorkDetailsSection: FunctionComponent<Props> = ({
       <SpacingSection>
         <div
           className={classNames({
-            grid: !isInArchive,
+            grid: !isArchive,
           })}
         >
           <div
@@ -35,7 +36,7 @@ const WorkDetailsSection: FunctionComponent<Props> = ({
                 m: 12,
                 l: 4,
                 xl: 4,
-              })]: !isInArchive,
+              })]: !isArchive,
             })}
           >
             {headingText && (
@@ -57,7 +58,7 @@ const WorkDetailsSection: FunctionComponent<Props> = ({
                 m: 12,
                 l: 8,
                 xl: 7,
-              })]: !isInArchive,
+              })]: !isArchive,
             })}
           >
             {children}
