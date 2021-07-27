@@ -46,16 +46,6 @@ const Grid = styled.div<{ isArchive: boolean }>`
   `}
 `;
 
-const Color = styled(Space).attrs({
-  h: { size: 's', properties: ['margin-left'] },
-})<{ color: string }>`
-  width: 1em;
-  height: 1em;
-  display: inline-flex;
-  transform: translateY(0.1em);
-  background: ${props => props.color};
-`;
-
 export type Props = {
   title: string;
   itemNote?: string;
@@ -63,7 +53,6 @@ export type Props = {
   accessMethod?: string;
   requestItemUrl?: string;
   accessNote?: string;
-  color?: string;
 };
 
 const PhysicalItemDetails: FunctionComponent<Props> = ({
@@ -73,7 +62,6 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   accessMethod,
   requestItemUrl,
   accessNote,
-  color,
 }) => {
   const isArchive = useContext(IsArchiveContext);
 
@@ -94,7 +82,6 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           <Box>
             <DetailHeading>Location</DetailHeading>
             <span>{locationAndShelfmark}</span>
-            {color && <Color color={color} />}
           </Box>
           <Box>
             <DetailHeading>Access</DetailHeading>

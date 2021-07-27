@@ -27,35 +27,11 @@ function getFirstPhysicalLocation(item) {
   return item.locations?.find(location => location.type === 'PhysicalLocation');
 }
 
-// FIXME: These hex values are screengrabbed from a photo of a sign in the building
-// They're not like anything we've got in the palette (not to mention they're
-// quite hard to tell apart for people with less-than-perfect colour vision).
-function getColorForLocation(label: string): string | undefined {
-  switch (label) {
-    case 'Journals':
-      return '#720013';
-    case 'History of Medicine':
-    case 'History of Medicine Collection':
-      return '#9b3700';
-    case 'Medical Collection':
-      return '#a96900';
-    case 'Quick Reference':
-    case 'Quick Ref. Collection':
-      return '#00407e';
-    default:
-      return undefined;
-  }
-}
-
 function createPhysicalItem(
   item: PhysicalItem,
   encoreLink: string | undefined
 ): PhysicalItemProps | undefined {
   const physicalLocation = getFirstPhysicalLocation(item);
-  const isOnOpenShelves = physicalLocation?.locationType?.id === 'open-shelves';
-  const color = isOnOpenShelves
-    ? getColorForLocation(physicalLocation.label)
-    : undefined;
   const isRequestableOnline =
     physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
   const accessMethodLabel =
@@ -74,7 +50,6 @@ function createPhysicalItem(
     accessMethod: accessMethodLabel,
     requestItemUrl: isRequestableOnline ? encoreLink : undefined,
     accessNote: accessNote,
-    color: color,
   };
 }
 
