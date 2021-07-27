@@ -5,14 +5,25 @@ import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
 
-const Wrapper = styled.div`
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
-  margin-bottom: 20px;
-`;
-
 const Row = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
 })``;
+
+const Wrapper = styled(Space).attrs({
+  v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
+})<{ noUnderline: boolean }>`
+  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+
+  ${props =>
+    props.noUnderline &&
+    `
+    border-bottom: 0;
+  `}
+
+  ${Row}:last-of-type {
+    margin-bottom: 0;
+  }
+`;
 
 const DetailHeading = styled.h3.attrs({
   className: classNames({
@@ -32,41 +43,45 @@ const Box = styled(Space).attrs<{ isCentered?: boolean }>(props => ({
     `
     align-self: center;
   `}
+
+  ${props => props.theme.media.medium`
+    margin-bottom: 0;
+  `}
 `;
 
 const Grid = styled.div<{ isArchive: boolean }>`
   ${props => props.theme.media[props.isArchive ? 'large' : 'medium']`
     display: grid;
-    grid-template-columns: max-content 130px 125px;
+    grid-template-columns: 160px 130px 125px;
     grid-column-gap: 25px;
-
-    ${Box}:first-child {
-      min-width: 240px;
-    }
   `}
 `;
 
 export type Props = {
   title: string;
   itemNote?: string;
-  locationAndShelfmark: string;
+  location: string;
+  shelfmark: string;
   accessMethod?: string;
   requestItemUrl?: string;
   accessNote?: string;
+  isLast: boolean;
 };
 
 const PhysicalItemDetails: FunctionComponent<Props> = ({
   title,
   itemNote,
-  locationAndShelfmark,
+  location,
+  shelfmark,
   accessMethod,
   requestItemUrl,
   accessNote,
+  isLast,
 }) => {
   const isArchive = useContext(IsArchiveContext);
 
   return (
-    <Wrapper>
+    <Wrapper noUnderline={isLast}>
       {(title || itemNote) && (
         <Row>
           <Box>
@@ -81,7 +96,8 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         <Grid isArchive={isArchive}>
           <Box>
             <DetailHeading>Location</DetailHeading>
-            <span>{locationAndShelfmark}</span>
+            <span className={`inline-block`}>{location}</span>
+            <span className={`inline-block`}>{shelfmark}</span>
           </Box>
           <Box>
             <DetailHeading>Access</DetailHeading>
@@ -97,6 +113,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       {accessNote && (
         <Row>
           <Box>
+            <DetailHeading>Item note</DetailHeading>
             <span dangerouslySetInnerHTML={{ __html: accessNote }} />
           </Box>
         </Row>
