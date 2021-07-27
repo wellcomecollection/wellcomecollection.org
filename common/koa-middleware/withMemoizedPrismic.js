@@ -13,7 +13,10 @@ async function getMemoizedPrismic() {
 }
 
 setInterval(getMemoizedPrismic, oneMinute);
-module.exports = function withPrismicAPI(ctx, next) {
+module.exports = async function withPrismicAPI(ctx, next) {
+  if (!memoizedPrismic) {
+    await getMemoizedPrismic();
+  }
   ctx.memoizedPrismic = memoizedPrismic;
   return next();
 };
