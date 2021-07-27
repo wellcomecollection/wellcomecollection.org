@@ -30,7 +30,7 @@ function getFirstPhysicalLocation(item) {
 function createPhysicalItem(
   item: PhysicalItem,
   encoreLink: string | undefined
-): PhysicalItemProps | undefined {
+): Omit<PhysicalItemProps, 'isLast'> | undefined {
   const physicalLocation = getFirstPhysicalLocation(item);
   const isRequestableOnline =
     physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
