@@ -1,5 +1,5 @@
 import { markdownTable } from 'markdown-table';
-import core from '@actions/core';
+import * as core from '@actions/core';
 
 try {
   const manifestJson = core.getInput('lhci_manifest')

@@ -1,7 +1,7 @@
 name: Create Lighthouse table
 description: Creates a Markdown table of Lighthouse summary figures
 inputs:
-  lchi_manifest:
+  lhci_manifest:
     description: A JSON string of the LHCI manifest
     required: true
 outputs:
