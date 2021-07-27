@@ -8,12 +8,12 @@ const withPrismicPreviewStatus = require('./withPrismicPreviewStatus');
 const withMemoizedPrismic = require('./withMemoizedPrismic');
 
 const withCachedValues = compose([
+  withMemoizedPrismic,
   withGlobalAlert,
   withPopupDialog,
   withOpeningtimes,
   withToggles,
   withPrismicPreviewStatus,
-  withMemoizedPrismic,
 ]);
 
 async function route(path, page, router, app, extraParams = {}) {
