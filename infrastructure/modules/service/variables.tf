@@ -5,7 +5,9 @@ variable "subnets" {
 variable "cluster_arn" {}
 
 variable "namespace" {}
-variable "namespace_id" {}
+variable "namespace_id" {
+  default = null
+}
 
 variable "vpc_id" {}
 
@@ -19,12 +21,12 @@ variable "security_group_ids" {
 }
 
 variable "env_vars" {
-  type = map(string)
+  type    = map(string)
   default = {}
 }
 
 variable "secret_env_vars" {
-  type = map(string)
+  type    = map(string)
   default = {}
 }
 

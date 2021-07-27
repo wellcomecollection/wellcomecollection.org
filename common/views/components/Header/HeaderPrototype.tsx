@@ -102,7 +102,7 @@ type WrapperProps = {
 };
 const Wrapper = styled.div.attrs({
   className: classNames({
-    'grid bg-white': true,
+    'grid bg-white flex--v-center': true,
   }),
 })<WrapperProps>`
   border-bottom: 1px solid ${props => props.theme.color('pumice')};
@@ -308,6 +308,7 @@ const HeaderLink = styled.a<{ isActive: boolean }>`
   ${respondTo(
     'headerMedium',
     `
+    padding-top: 1rem;
     padding-bottom: 1rem;
   `
   )}
@@ -399,10 +400,7 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
 
   return (
     <Wrapper navHeight={navHeight} isBurgerOpen={isActive}>
-      <div
-        className="relative grid__cell"
-        style={{ paddingTop: '15px', paddingBottom: '15px' }}
-      >
+      <div className="relative grid__cell">
         <div className="flex flex--v-center container">
           <Burger>
             <BurgerTrigger
