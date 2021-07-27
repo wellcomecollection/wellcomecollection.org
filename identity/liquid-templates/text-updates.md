@@ -11,9 +11,9 @@ curl --request PUT \
   --header 'authorization: Bearer MGMT_API_ACCESS_TOKEN' \
   --header 'content-type: application/json' \
   --data '{ "login": {
-    "pageTitle": "Log in to Wellcome Library",
+    "pageTitle": "Sign in to your library account",
     "description": " ",
-    "buttonText": "Log in"
+    "buttonText": "Sign in"
   }
 }'
 
