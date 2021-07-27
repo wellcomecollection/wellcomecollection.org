@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
+import { grid } from '@weco/common/utils/classnames';
 
 export const Container = styled(Space).attrs({
   v: { size: 'xl', properties: ['margin-bottom'] },
 })`
   background-color: white;
-  border: 1px solid #d9d6ce; // TODO use value from theme
-  border-radius: 10px; // TODO use value from theme
+  border: 1px solid ${props => props.theme.color('pumice')};
+  border-radius: 10px;
 `;
 
 export const Wrapper = styled.div`
@@ -21,6 +22,7 @@ export const Title = styled.h1.attrs({ className: 'font-wb font-size-0' })``;
 
 export const Intro = styled(Space).attrs({
   as: 'p',
+  className: grid({ s: 12, m: 12, l: 8, xl: 8 }),
 })`
-  max-width: 66.6667%; // TODO add media queries
+  padding-left: 0;
 `;
