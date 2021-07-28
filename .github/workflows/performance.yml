@@ -18,11 +18,14 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - name: Build app
+      - name: Build apps
         run: |
-          yarn install --production
+          yarn install --production --frozen-lockfile
           yarn workspace @weco/catalogue run build
           yarn workspace @weco/content run build
+
+          cd .github/actions/lighthouse_table
+          yarn install --production --frozen-lockfile
       - name: Run Lighthouse
         id: lhci
         uses: treosh/lighthouse-ci-action@v8
