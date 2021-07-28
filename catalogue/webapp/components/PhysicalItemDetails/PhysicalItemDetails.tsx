@@ -11,13 +11,11 @@ const Row = styled(Space).attrs({
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
-})<{ noUnderline: boolean }>`
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
-
+})<{ underline: boolean }>`
   ${props =>
-    props.noUnderline &&
+    props.underline &&
     `
-    border-bottom: 0;
+    border-bottom: 1px solid ${props => props.theme.color('pumice')};
   `}
 
   ${Row}:last-of-type {
@@ -65,10 +63,9 @@ export type Props = {
   accessMethod?: string;
   requestItemUrl?: string;
   accessNote?: string;
-  isLast: boolean;
 };
 
-const PhysicalItemDetails: FunctionComponent<Props> = ({
+const PhysicalItemDetails: FunctionComponent<Props & { isLast: boolean }> = ({
   title,
   itemNote,
   location,
@@ -81,7 +78,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const isArchive = useContext(IsArchiveContext);
 
   return (
-    <Wrapper noUnderline={isLast}>
+    <Wrapper underline={!isLast}>
       {(title || itemNote) && (
         <Row>
           <Box>
@@ -113,7 +110,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       {accessNote && (
         <Row>
           <Box>
-            <DetailHeading>Item note</DetailHeading>
+            <DetailHeading>Note</DetailHeading>
             <span dangerouslySetInnerHTML={{ __html: accessNote }} />
           </Box>
         </Row>
