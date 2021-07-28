@@ -15,7 +15,7 @@ const Wrapper = styled(Space).attrs({
   ${props =>
     props.underline &&
     `
-    border-bottom: 1px solid ${props => props.theme.color('pumice')};
+    border-bottom: 1px solid ${props.theme.color('pumice')};
   `}
 
   ${Row}:last-of-type {
@@ -93,7 +93,7 @@ const PhysicalItemDetails: FunctionComponent<Props & { isLast: boolean }> = ({
         <Grid isArchive={isArchive}>
           <Box>
             <DetailHeading>Location</DetailHeading>
-            <span className={`inline-block`}>{location}</span>
+            <span className={`inline-block`}>{location}</span>{' '}
             <span className={`inline-block`}>{shelfmark}</span>
           </Box>
           <Box>
