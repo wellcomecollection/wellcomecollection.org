@@ -1,6 +1,6 @@
 import { FunctionComponent, useState, useEffect } from 'react';
 import PhysicalItemDetails, {
-  Props as PhysicalItemProps,
+  Props as PhysicalItemDetailsProps,
 } from '../PhysicalItemDetails/PhysicalItemDetails';
 import {
   PhysicalItem,
@@ -30,7 +30,7 @@ function getFirstPhysicalLocation(item) {
 function createPhysicalItem(
   item: PhysicalItem,
   encoreLink: string | undefined
-): PhysicalItemProps | undefined {
+): PhysicalItemDetailsProps | undefined {
   const physicalLocation = getFirstPhysicalLocation(item);
   const isRequestableOnline =
     physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
@@ -40,13 +40,12 @@ function createPhysicalItem(
   const locationLabel = physicalLocation && getLocationLabel(physicalLocation);
   const locationShelfmark =
     physicalLocation && getLocationShelfmark(physicalLocation);
-  const locationAndShelfmark = `${locationLabel ?? ''} ${locationShelfmark ??
-    ''}`;
 
   return {
     title: item.title || '',
     itemNote: item.note || '',
-    locationAndShelfmark: locationAndShelfmark,
+    location: locationLabel || '',
+    shelfmark: locationShelfmark || '',
     accessMethod: accessMethodLabel,
     requestItemUrl: isRequestableOnline ? encoreLink : undefined,
     accessNote: accessNote,
@@ -99,7 +98,11 @@ const PhysicalItems: FunctionComponent<Props> = ({
   return (
     <ExpandableList
       listItems={itemsToRender.map((props, index) => (
-        <PhysicalItemDetails {...props} key={index} />
+        <PhysicalItemDetails
+          {...props}
+          isLast={index === itemsToRender.length - 1}
+          key={index}
+        />
       ))}
       initialItems={5}
     />
