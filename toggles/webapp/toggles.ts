@@ -35,7 +35,7 @@ export default {
     {
       id: 'showPhysicalItems',
       title: 'Show physical items on the work page',
-      defaultValue: false,
+      defaultValue: true,
       description: 'Shows physical items and their locations on the work page',
     },
     {
