@@ -165,6 +165,14 @@ type AccessCondition = {
   terms?: string;
   to?: string;
   type: 'AccessCondition';
+  method?: AccessMethod;
+  note?: string;
+};
+
+type AccessMethod = {
+  id: string;
+  label: string;
+  type: 'AccessMethod';
 };
 
 type AccessStatus = {
