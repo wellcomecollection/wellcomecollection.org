@@ -1,5 +1,5 @@
-import { markdownTable } from 'markdown-table';
-import * as core from '@actions/core';
+const markdownTable = require('markdown-table');
+const core = require('@actions/core');
 
 const getPath = (fullUrl) => (new URL(fullUrl)).pathname
 
