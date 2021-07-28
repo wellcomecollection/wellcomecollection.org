@@ -1,5 +1,6 @@
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import styled, { css } from 'styled-components';
+import Space from '@weco/common/views/components/styled/Space';
 
 export const ExternalLink = styled.a`
   white-space: nowrap;
@@ -31,6 +32,13 @@ export const ErrorAlert = styled(AlertBox)`
 export const SuccessMessage = styled(AlertBox)`
   background-color: rgba(0, 120, 108, 0.1);
   color: ${props => props.theme.color('green')};
+`;
+
+export const HighlightMessage = styled(Space).attrs({
+  as: 'p',
+  h: { size: 'm', properties: ['padding-left'] },
+})`
+  border-left: 13px solid ${props => props.theme.color('yellow')};
 `;
 
 export const Checkbox = styled(CheckboxRadio).attrs({ type: 'checkbox' })``;
