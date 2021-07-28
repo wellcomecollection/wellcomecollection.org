@@ -9,9 +9,11 @@ import {
   FunctionComponent,
   Fragment,
 } from 'react';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { AppContext } from '../AppContext/AppContext';
 import styled from 'styled-components';
-import { classNames } from '@weco/common/utils/classnames';
+import { classNames } from '../../../utils/classnames';
+import Space from '../styled/Space';
+import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
 const TabList = styled.div.attrs({
   role: 'tablist',
@@ -50,7 +52,7 @@ type TabPanelProps = {
 const TabPanel = styled.div.attrs((props: TabPanelProps) => ({
   id: props.id,
   role: props.isEnhanced ? 'tabpanel' : undefined,
-  hidden: !props.isActive,
+  hidden: props.isEnhanced ? !props.isActive : false,
   'aria-expanded': props.isEnhanced ? props.isActive : undefined,
 }))<TabPanelProps>``;
 
@@ -149,9 +151,9 @@ const Tabs: FunctionComponent<Props> = ({
   return (
     <>
       {/* if isEnhanced then we want to create the tablist to control the panels,
-      if not then the tabs will be appear above there respective panel (see below)
+      if not then the tabs will be appear above their respective panel (see below)
       */}
-      {isEnhanced &&
+      {isEnhanced && (
         <TabList ref={tabListRef} aria-label={label}>
           {tabs.map(({ id, tab }) => (
             <Tab
@@ -168,19 +170,28 @@ const Tabs: FunctionComponent<Props> = ({
             </Tab>
           ))}
         </TabList>
-      }
+      )}
       {tabs.map(({ id, tab, tabPanel }) => (
         <Fragment key={id}>
           {/* if it's not enhanced the tab appears above its related panel */}
-          {!isEnhanced && tab(id === activeId, false)}
-          <TabPanel
-            key={id}
-            id={id}
-            isActive={id === activeId}
-            isEnhanced={isEnhanced}
+          {!isEnhanced && tab(id === activeId || !isEnhanced, false)}
+          <ConditionalWrapper
+            condition={!isEnhanced}
+            wrapper={children => (
+              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                {children}
+              </Space>
+            )}
           >
-            {tabPanel}
-          </TabPanel>
+            <TabPanel
+              key={id}
+              id={id}
+              isActive={id === activeId}
+              isEnhanced={isEnhanced}
+            >
+              {tabPanel}
+            </TabPanel>
+          </ConditionalWrapper>
         </Fragment>
       ))}
     </>
