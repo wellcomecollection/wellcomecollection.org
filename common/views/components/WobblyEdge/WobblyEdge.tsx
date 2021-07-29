@@ -1,4 +1,11 @@
-import { FunctionComponent, ReactElement, useState, useEffect } from 'react';
+import {
+  FunctionComponent,
+  ReactElement,
+  useState,
+  useEffect,
+  useContext,
+} from 'react';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import debounce from 'lodash.debounce';
 import prefixedPropertyStyleObject from '../../../utils/prefixed-property-style-object';
 import styled from 'styled-components';
@@ -6,6 +13,7 @@ import styled from 'styled-components';
 const Edge = styled.div<{
   background: string;
   isRotated: boolean;
+  isEnhanced: boolean;
 }>`
   height: 10vw;
   margin-top: -10vw;
@@ -20,15 +28,17 @@ const Edge = styled.div<{
     margin-top: -60px;
   }
 
-  @supports ((clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0))) {
-    .enhanced & {
+  ${props =>
+    props.isEnhanced &&
+    `
+    @supports ((clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0))) {
       display: block;
 
       @media screen and (prefers-reduced-motion: reduce) {
         display: none;
       }
     }
-  }
+  `}
 
   background: ${props => props.theme.color(props.background)};
 
@@ -58,7 +68,7 @@ const WobblyEdge: FunctionComponent<Props> = ({
   background,
   isRotated,
   intensity = 50,
-  points = 5,
+  points = 75,
   isValley,
   isStatic,
 }: Props): ReactElement => {
@@ -67,6 +77,7 @@ const WobblyEdge: FunctionComponent<Props> = ({
     prefixedPropertyStyleObject('clipPath', makePolygonPoints(0, 0))
   );
   let timer;
+  const { isEnhanced } = useContext(AppContext);
 
   function makePolygonPoints(totalPoints: number, intensity: number): string {
     // Determine whether wobbly edge should be a mountain or a valley
@@ -131,6 +142,7 @@ const WobblyEdge: FunctionComponent<Props> = ({
       background={background}
       isRotated={isRotated || false}
       style={styleObject}
+      isEnhanced={isEnhanced}
     />
   );
 };

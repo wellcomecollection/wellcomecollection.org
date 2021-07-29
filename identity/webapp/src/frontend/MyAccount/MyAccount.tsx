@@ -66,7 +66,6 @@ const Profile: React.FC = () => {
   return (
     <PageWrapper>
       <Header
-        className="enhanced"
         v={{
           size: 'l',
           properties: ['margin-bottom'],
@@ -89,7 +88,7 @@ const Profile: React.FC = () => {
           </Space>
         </Layout12>
         <div className="is-hidden-s">
-          <WobblyEdge background="cream" isStatic />
+          <WobblyEdge background="cream" />
         </div>
       </Header>
       <Layout10>
