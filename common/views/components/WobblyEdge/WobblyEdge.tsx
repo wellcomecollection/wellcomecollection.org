@@ -68,7 +68,7 @@ const WobblyEdge: FunctionComponent<Props> = ({
   background,
   isRotated,
   intensity = 50,
-  points = 75,
+  points = 5,
   isValley,
   isStatic,
 }: Props): ReactElement => {
