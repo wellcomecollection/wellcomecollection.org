@@ -51,7 +51,7 @@ type Props = {
   work: Work;
 };
 
-// At the moment we aren't set up to cope with access conditions 'open-with-advisory, 'restricted',
+// At the moment we aren't set up to cope with access conditions,
 // 'permission-required', so we pass them off to the UV on the library site
 // If we have audio or video, then we show it in situ and don't link to the Item page
 type ItemLinkState = 'useItemLink' | 'useLibraryLink' | 'useNoLink';
@@ -193,8 +193,15 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     return ![...orderedNotes, locationOfWork].some(n => n === note);
   });
 
-  const showDownloadOptions =
-    iiifDownloadEnabled !== undefined ? iiifDownloadEnabled : true;
+  function determineDownloadVisibility(iiifDownloadEnabled) {
+    if (digitalLocationInfo?.accessCondition === 'open-with-advisory') {
+      return false;
+    } else {
+      return iiifDownloadEnabled !== undefined ? iiifDownloadEnabled : true;
+    }
+  }
+
+  const showDownloadOptions = determineDownloadVisibility(iiifDownloadEnabled);
 
   const itemLinkState = getItemLinkState({
     accessCondition: digitalLocationInfo?.accessCondition,

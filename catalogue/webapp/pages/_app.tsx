@@ -29,6 +29,10 @@ export default function CatalogueApp(props: WecoAppProps) {
 // require different prefixes).
 CatalogueApp.getInitialProps = async (appContext: AppContext) => {
   const globalContextData = getGlobalContextData(appContext.ctx);
+
+  // TODO don't store things like this on `ctx.query`
+  delete appContext.ctx.query.memoizedPrismic; // We need to remove memoizedPrismic value here otherwise we hit circular object issues with JSON.stringify
+
   const initialProps = await NextApp.getInitialProps(appContext);
   return { ...initialProps, globalContextData };
 };

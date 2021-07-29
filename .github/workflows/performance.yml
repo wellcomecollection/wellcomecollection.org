@@ -1,0 +1,53 @@
+name: Performance
+on: [pull_request]
+jobs:
+  bundle_size_diff:
+    name: Bundle size diff
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: preactjs/compressed-size-action@v2
+        with:
+          build-script: "build-webapps"
+          clean-script: "clean"
+          pattern: "**/webapp/{.next/static/chunks,lib/frontend/build}/**/*.js"
+          strip-hash: "\\b[-\\.](\\w{20})\\.js$"
+
+  lighthouse_reports:
+    name: Lighthouse reports
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build apps
+        run: |
+          yarn install --production --frozen-lockfile
+          yarn workspace @weco/catalogue run build
+          yarn workspace @weco/content run build
+
+          cd .github/actions/lighthouse_table
+          yarn install --production --frozen-lockfile
+      - name: Run Lighthouse
+        id: lhci
+        uses: treosh/lighthouse-ci-action@v8
+        with:
+          urls: |
+            http://localhost:3000/works
+            http://localhost:3000/works/kxvgmysq
+            http://localhost:3000/works/kxvgmysq/items
+            http://localhost:3001/whats-on
+            http://localhost:3001/articles
+            http://localhost:3001/series/X24JnhEAAMplRFYN
+            http://localhost:3001/articles/YCppthUAACgAaYI5
+          configPath: "./lighthouserc.js"
+      - name: Create summary table
+        id: table
+        uses: ./.github/actions/lighthouse_table
+        with:
+          lhci_manifest: ${{ steps.lhci.outputs.manifest }}
+      - name: PR comment with results
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            ### Lighthouse scores
+
+            ${{ steps.table.outputs.table }}
