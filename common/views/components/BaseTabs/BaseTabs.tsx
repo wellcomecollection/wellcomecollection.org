@@ -52,7 +52,7 @@ type TabPanelProps = {
 const TabPanel = styled.div.attrs((props: TabPanelProps) => ({
   id: props.id,
   role: props.isEnhanced ? 'tabpanel' : undefined,
-  hidden: props.isEnhanced ? !props.isActive : false,
+  hidden: !props.isActive,
   'aria-expanded': props.isEnhanced ? props.isActive : undefined,
 }))<TabPanelProps>``;
 
@@ -174,7 +174,9 @@ const Tabs: FunctionComponent<Props> = ({
       {tabs.map(({ id, tab, tabPanel }) => (
         <Fragment key={id}>
           {/* if it's not enhanced the tab appears above its related panel */}
-          {!isEnhanced && tab(id === activeId || !isEnhanced, false)}
+          {!isEnhanced && (
+            <noscript>{tab(id === activeId || !isEnhanced, false)}</noscript>
+          )}
           <ConditionalWrapper
             condition={!isEnhanced}
             wrapper={children => (
@@ -191,6 +193,16 @@ const Tabs: FunctionComponent<Props> = ({
             >
               {tabPanel}
             </TabPanel>
+            <noscript>
+              <TabPanel
+                key={id}
+                id={`${id}-2`}
+                isActive={id !== activeId}
+                isEnhanced={isEnhanced}
+              >
+                {tabPanel}
+              </TabPanel>
+            </noscript>
           </ConditionalWrapper>
         </Fragment>
       ))}
