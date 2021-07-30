@@ -13,7 +13,7 @@ type Props = {
 type ColorSwatch = {
   hexValue: string;
   colorName: string | null;
-}
+};
 
 export const palette: ColorSwatch[] = [
   {
@@ -73,14 +73,13 @@ type SwatchProps = {
   ariaPressed: boolean;
 };
 
-
 const Swatch = styled.button.attrs((props: SwatchProps) => ({
   type: 'button',
   className: classNames({
     'plain-button': true,
     [font('hnr', 5)]: true,
   }),
-  'aria-pressed': props.ariaPressed ? true : false,
+  'aria-pressed': !!props.ariaPressed,
 }))<SwatchProps>`
   position: relative;
   padding-left: 40px;
@@ -129,12 +128,14 @@ const TextWrapper = styled.div`
 `;
 
 export function getColorDisplayName(color: string | null) {
-  if(color) {
-    const matchingPaletteColor = palette.find(swatch => swatch.hexValue.toUpperCase() === color.toUpperCase());
+  if (color) {
+    const matchingPaletteColor = palette.find(
+      swatch => swatch.hexValue.toUpperCase() === color.toUpperCase()
+    );
     const hexValue = `#${color.toUpperCase()}`;
     return matchingPaletteColor ? matchingPaletteColor.colorName : hexValue;
   } else {
-    return 'None'
+    return 'None';
   }
 }
 
@@ -159,7 +160,11 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
     }
   }, [colorState]);
 
-  const matchingPaletteColor = colorState && palette.find(swatch => swatch.hexValue.toUpperCase() === colorState.toUpperCase());
+  const matchingPaletteColor =
+    colorState &&
+    palette.find(
+      swatch => swatch.hexValue.toUpperCase() === colorState.toUpperCase()
+    );
 
   return (
     <Wrapper>

@@ -6,15 +6,10 @@ const LL = styled.div`
   left: 50%;
   top: 50%;
   transform: translateX(-50%) translateY(-50%);
-  display: none;
   width: 50px;
   height: 80px;
   animation: animate-ll;
   ${props => props.small && 'zoom: 0.5;'}
-
-  .enhanced & {
-    display: block;
-  }
 
   &:before,
   &:after {

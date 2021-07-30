@@ -98,7 +98,8 @@ const AccordionItem = ({
           className={classNames({
             'plain-button no-margin no-padding': true,
           })}
-          aria-expanded={isActive ? 'true' : 'false'} aria-controls={toHtmlId(title)}
+          aria-expanded={isActive ? 'true' : 'false'}
+          aria-controls={toHtmlId(title)}
         >
           <span>
             <h2
