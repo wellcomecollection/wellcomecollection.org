@@ -3,8 +3,8 @@ module "prod" {
 
   namespace = "prod"
 
-  vpc_id   = local.identity_vpc_id
-  subnets  = local.identity_public_subnets
+  vpc_id   = local.prod_identity_vpc_id
+  subnets  = local.prod_identity_public_subnets
   cert_arn = module.wellcomecollection_cert_identity.arn
 }
 
@@ -13,7 +13,11 @@ module "stage" {
 
   namespace = "stage"
 
-  vpc_id   = local.identity_vpc_id
-  subnets  = local.identity_public_subnets
+  vpc_id   = local.stage_identity_vpc_id
+  subnets  = local.stage_identity_public_subnets
   cert_arn = module.wellcomecollection_cert_identity.arn
+
+  providers = {
+    aws = aws.stage
+  }
 }

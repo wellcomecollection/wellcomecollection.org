@@ -1,5 +1,14 @@
 provider "aws" {
-  region  = var.aws_region
+  region = var.aws_region
+
+  assume_role {
+    role_arn = "arn:aws:iam::770700576653:role/identity-developer"
+  }
+}
+
+provider "aws" {
+  alias  = "stage"
+  region = var.aws_region
 
   assume_role {
     role_arn = "arn:aws:iam::770700576653:role/identity-developer"
@@ -14,8 +23,6 @@ provider "aws" {
     role_arn = "arn:aws:iam::760097843905:role/platform-developer"
   }
 }
-
-
 
 provider "aws" {
   region = "eu-west-1"
