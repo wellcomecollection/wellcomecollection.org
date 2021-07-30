@@ -1,5 +1,5 @@
 resource "aws_route53_record" "prod" {
-  provider = aws.dns
+  provider = aws.dns_prod
 
   name    = "account-admin.wellcomecollection.org"
   type    = "CNAME"
@@ -11,7 +11,7 @@ resource "aws_route53_record" "prod" {
 }
 
 resource "aws_route53_record" "stage" {
-  provider = aws.dns
+  provider = aws.dns_stage
 
   name    = "account-admin-stage.wellcomecollection.org"
   type    = "CNAME"

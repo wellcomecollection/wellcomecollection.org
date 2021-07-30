@@ -9,7 +9,7 @@ locals {
 }
 
 data "aws_route53_zone" "zone" {
-  provider = aws.dns
+  provider = aws.dns_prod
 
   name = "wellcomecollection.org."
 }
