@@ -2,7 +2,8 @@
   "name": "liquid-templates",
   "version": "1.0.0",
   "scripts": {
-    "deploy": "ts-node ./deploy"
+    "deploy-stage": "ts-node ./deploy stage",
+    "deploy-prod": "ts-node ./deploy prod"
   },
   "devDependencies": {
     "@types/node": "12.19.0",
