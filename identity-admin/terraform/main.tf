@@ -46,4 +46,8 @@ module "identity-admin-stage" {
 
   private_subnets = local.stage_private_subnets
   vpc_id          = local.stage_vpc_id
+
+  providers = {
+    aws = aws.stage
+  }
 }
