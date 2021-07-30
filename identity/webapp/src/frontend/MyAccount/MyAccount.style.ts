@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { Container as LayoutContainer } from '../components/Layout.style';
 import Space from '@weco/common/views/components/styled/Space';
+import { font } from '@weco/common/utils/classnames';
 
 export const Container = styled(LayoutContainer)`
   max-width: 1024px;
@@ -34,7 +35,7 @@ export const ModalContainer = styled.aside`
   }
 `;
 
-export const ModalTitle = styled.h2.attrs({ className: 'font-wb font-size-3' })``;
+export const ModalTitle = styled.h2.attrs({ className: font('wb', 3) })``;
 
 const colours = {
   success: css`
@@ -84,7 +85,7 @@ export const Section = styled.section`
 export const SectionHeading = styled(Space).attrs({
   as: 'h2',
   v: { size: 'm', properties: ['padding-bottom'] },
-  className: 'font-wb font-size-3',
+  className: font('wb', 3),
 })`
   font-weight: bold;
 `;

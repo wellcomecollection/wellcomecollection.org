@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import { grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 
 export const Container = styled(Space).attrs({
   v: { size: 'xl', properties: ['margin-bottom'] },
@@ -18,7 +19,7 @@ export const Header = styled(Space)`
   background: ${props => props.theme.color('white')};
 `;
 
-export const Title = styled.h1.attrs({ className: 'font-wb font-size-0' })``;
+export const Title = styled.h1.attrs({ className: font('wb', 0) })``;
 
 export const Intro = styled(Space).attrs({
   as: 'p',
