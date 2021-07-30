@@ -81,9 +81,9 @@ const Profile: React.FC = () => {
             <Title>Library account</Title>
             <Intro>
               {/* TODO get real text */}
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis magni reprehenderit at cum repudiandae
+              {/* Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis magni reprehenderit at cum repudiandae
               architecto eaque facere optio culpa, quasi amet, nobis ipsa quaerat error debitis maxime minima veritatis.
-              Corrupti?
+              Corrupti? */}
             </Intro>
           </Space>
         </Layout12>
