@@ -27,12 +27,7 @@ curl --request PUT \
   --url 'https://stage.account.wellcomecollection.org/api/v2/prompts/login/custom-text/en' \
   --header 'authorization: Bearer MGMT_API_ACCESS_TOKEN' \
   --header 'content-type: application/json' \
-  --data '{ "login": {
-    "pageTitle": "Log in to Wellcome Library",
-    "description": " ",
-    "buttonText": "Log in"
-  }
-}'
+  --data @prompt/login.json
 ```
 
 ### Forgotten password
