@@ -6,9 +6,7 @@ import {
 
 async function getWhereToFindItAndEncoreLink() {
   const whereToFindIt = await page.$('h2:has-text("Where to find it")');
-  const encoreLink = await page.$(
-    'a:has-text("Access this item on the Wellcome Library website")'
-  );
+  const encoreLink = await page.$('a:has-text("Request item")');
 
   return {
     whereToFindIt,
