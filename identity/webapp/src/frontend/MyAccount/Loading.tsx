@@ -12,11 +12,9 @@ const Centered = styled.div`
 
 export const Loading: React.FC = () => (
   <Centered>
-    <>
-      <LL lighten={false} />
-      <span className="visually-hidden" role="status">
-        Loading
-      </span>
-    </>
+    <LL lighten={false} />
+    <span className="visually-hidden" role="status">
+      Loading
+    </span>
   </Centered>
 );
