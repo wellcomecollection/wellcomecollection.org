@@ -37,7 +37,6 @@ export const DangerButtonModifier = css`
 `;
 
 export const Button = styled(SolidButton)`
-  width: 100%;
   justify-content: center;
 
   ${props => props.isDangerous && DangerButtonModifier}
