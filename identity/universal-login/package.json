@@ -1,0 +1,19 @@
+{
+  "name": "liquid-templates",
+  "version": "1.0.0",
+  "scripts": {
+    "deploy-stage": "ts-node ./deploy stage",
+    "deploy-prod": "ts-node ./deploy prod"
+  },
+  "devDependencies": {
+    "@types/node": "12.19.0",
+    "aws-sdk": "^2.956.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.5"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "fs": "^0.0.1-security"
+  }
+}
