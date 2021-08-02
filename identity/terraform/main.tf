@@ -44,4 +44,8 @@ module "identity-stage" {
   secret_env_vars = local.service_env["stage"]["secret_env_vars"]
 
   subdomain = "identity.www-stage"
+
+  providers = {
+    aws = aws.stage
+  }
 }

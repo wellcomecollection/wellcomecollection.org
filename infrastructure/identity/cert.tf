@@ -6,7 +6,7 @@ module "wellcomecollection_cert_identity" {
   zone_id = data.aws_route53_zone.zone.id
 
   providers = {
-    aws.dns = aws.dns
+    aws.dns = aws.dns_prod
   }
 
   subject_alternative_names = [

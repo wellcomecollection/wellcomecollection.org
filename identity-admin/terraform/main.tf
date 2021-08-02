@@ -20,8 +20,8 @@ module "identity-admin-prod" {
   env_vars        = local.service_env["prod"]["env_vars"]
   secret_env_vars = local.service_env["prod"]["secret_env_vars"]
 
-  private_subnets = local.private_subnets
-  vpc_id          = local.vpc_id
+  private_subnets = local.prod_private_subnets
+  vpc_id          = local.prod_vpc_id
 }
 
 module "identity-admin-stage" {
@@ -44,6 +44,10 @@ module "identity-admin-stage" {
   env_vars        = local.service_env["stage"]["env_vars"]
   secret_env_vars = local.service_env["stage"]["secret_env_vars"]
 
-  private_subnets = local.private_subnets
-  vpc_id          = local.vpc_id
+  private_subnets = local.stage_private_subnets
+  vpc_id          = local.stage_vpc_id
+
+  providers = {
+    aws = aws.stage
+  }
 }

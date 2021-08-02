@@ -22,9 +22,13 @@ locals {
 
   nginx_image = "760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/nginx_experience:78090f62ee23a39a1b4e929f25417bfa128c2aa8"
 
-  vpc_id          = data.terraform_remote_state.infra_shared.outputs.identity_vpc_id
-  private_subnets = data.terraform_remote_state.infra_shared.outputs.identity_vpc_private_subnets
-  public_subnets  = data.terraform_remote_state.infra_shared.outputs.identity_vpc_public_subnets
+  prod_vpc_id          = data.terraform_remote_state.infra_shared.outputs.identity_prod_vpc_id
+  prod_private_subnets = data.terraform_remote_state.infra_shared.outputs.identity_prod_vpc_private_subnets
+  prod_public_subnets  = data.terraform_remote_state.infra_shared.outputs.identity_prod_vpc_public_subnets
+
+  stage_vpc_id          = data.terraform_remote_state.infra_shared.outputs.identity_stage_vpc_id
+  stage_private_subnets = data.terraform_remote_state.infra_shared.outputs.identity_stage_vpc_private_subnets
+  stage_public_subnets  = data.terraform_remote_state.infra_shared.outputs.identity_stage_vpc_public_subnets
 
   service_env_names = ["stage", "prod"]
 
