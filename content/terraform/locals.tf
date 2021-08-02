@@ -1,6 +1,6 @@
 locals {
   default_tags = {
-    TerraformConfigurationURL = "https://github.com/wellcomecollection/wellcomecollection.org/tree/main/catalogue/terraform"
+    TerraformConfigurationURL = "https://github.com/wellcomecollection/wellcomecollection.org/tree/main/content/terraform"
     Department                = "Digital Platform"
     Division                  = "Culture and Society"
     Use                       = "Content Webapp"
