@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import Info2 from '@weco/common/icons/components/Info2';
 import { PageWrapper } from '../components/PageWrapper';
 import { Container, Title, Wrapper } from '../components/Layout.style';
-import { ErrorAlert, SuccessMessage } from './Registration.style';
+import { HighlightMessage } from './Registration.style';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 
 export const AccountValidated = (): JSX.Element => {
   const { search } = useLocation();
@@ -21,23 +21,22 @@ export const AccountValidated = (): JSX.Element => {
           {success ? (
             <>
               <Title>Email verified</Title>
-              <SpacingComponent />
-              <SuccessMessage>
-                <Info2 />
-                {message}
-              </SuccessMessage>
-              <SpacingComponent />
-              <Link to="/">Continue to Sign in</Link>
+              <p>Thank you for verifying your email address.</p>
+              <p>
+                The library team will review your application and will confirm your membership within the next 72 hours.
+                In the meantime, you can browse through <a href="/collections">our digital collections</a> or sign in to
+                your account below.
+              </p>
+              <HighlightMessage>
+                <strong>Reminder:</strong> you will need to email a form of personal identification (ID) and proof of
+                address to the Library team in order to confirm your details.
+              </HighlightMessage>
+              <ButtonSolidLink link="/account" text="Continue to Sign in" />
             </>
           ) : (
             <>
               <Title>Failed to verify email</Title>
-              <SpacingComponent />
-              <ErrorAlert>
-                <Info2 />
-                {message}
-              </ErrorAlert>
-              <SpacingComponent />
+              <p>{message}</p>
               <div>
                 If you need help, please{' '}
                 <a
