@@ -1,4 +1,26 @@
 locals {
+  default_tags = {
+    TerraformConfigurationURL = "https://github.com/wellcomecollection/wellcomecollection.org/tree/main/catalogue/terraform"
+    Department                = "Digital Platform"
+    Division                  = "Culture and Society"
+    Use                       = "Catalogue Webapp"
+  }
+
+  default_prod_tags = merge(
+    local.default_tags,
+    {
+      Environment = "Production"
+    }
+  )
+
+
+  default_stage_tags = merge(
+    local.default_tags,
+    {
+      Environment = "Staging"
+    }
+  )
+
   prod_cluster_arn  = data.terraform_remote_state.experience_shared.outputs.prod_cluster_arn
   prod_namespace_id = data.terraform_remote_state.experience_shared.outputs.prod_namespace_id
 

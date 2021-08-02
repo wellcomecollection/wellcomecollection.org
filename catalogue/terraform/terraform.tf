@@ -1,5 +1,9 @@
 terraform {
-  required_version = ">= 0.9"
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+    }
+  }
 
   backend "s3" {
     key            = "build-state/catalogue.tfstate"

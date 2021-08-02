@@ -38,4 +38,8 @@ module "content-stage" {
   service_egress_security_group_id = local.stage_service_egress_security_group_id
 
   subdomain = "content.www-stage"
+
+  providers = {
+    aws = aws.stage
+  }
 }
