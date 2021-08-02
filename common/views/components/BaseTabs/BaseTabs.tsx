@@ -52,7 +52,7 @@ type TabPanelProps = {
 const TabPanel = styled.div.attrs((props: TabPanelProps) => ({
   id: props.id,
   role: props.isEnhanced ? 'tabpanel' : undefined,
-  hidden: !props.isActive,
+  hidden: props.isEnhanced ? !props.isActive : undefined,
   'aria-expanded': props.isEnhanced ? props.isActive : undefined,
 }))<TabPanelProps>``;
 
@@ -193,16 +193,6 @@ const Tabs: FunctionComponent<Props> = ({
             >
               {tabPanel}
             </TabPanel>
-            <noscript>
-              <TabPanel
-                key={id}
-                id={`${id}-2`}
-                isActive={id !== activeId}
-                isEnhanced={isEnhanced}
-              >
-                {tabPanel}
-              </TabPanel>
-            </noscript>
           </ConditionalWrapper>
         </Fragment>
       ))}
