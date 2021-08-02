@@ -218,7 +218,7 @@ export class CaptionedImage extends Component<
           }}
           className="captioned-image__image-container relative"
         >
-          {!isWidthAuto && <LL />}
+          {!isWidthAuto && isEnhanced && <LL />}
           <UiImage
             {...uiImageProps}
             setIsWidthAuto={this.setIsWidthAuto}

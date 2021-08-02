@@ -73,7 +73,7 @@ const ImageCard = ({ id, image, onClick, workId }: Props) => {
           id={id}
           title={isEnhanced ? 'Open modal window' : undefined}
         >
-            <Image {...image} />
+          <Image {...image} />
         </StyledLink>
       </NextLink>
     </ImageWrap>

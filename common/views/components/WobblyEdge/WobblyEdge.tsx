@@ -1,4 +1,11 @@
-import React from 'react';
+import {
+  FunctionComponent,
+  ReactElement,
+  useState,
+  useEffect,
+  useContext,
+} from 'react';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import debounce from 'lodash.debounce';
 import prefixedPropertyStyleObject from '../../../utils/prefixed-property-style-object';
 import styled from 'styled-components';
@@ -6,6 +13,7 @@ import styled from 'styled-components';
 const Edge = styled.div<{
   background: string;
   isRotated: boolean;
+  isEnhanced: boolean;
 }>`
   height: 10vw;
   margin-top: -10vw;
@@ -20,15 +28,17 @@ const Edge = styled.div<{
     margin-top: -60px;
   }
 
-  @supports ((clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0))) {
-    .enhanced & {
+  ${props =>
+    props.isEnhanced &&
+    `
+    @supports ((clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0))) {
       display: block;
 
       @media screen and (prefers-reduced-motion: reduce) {
         display: none;
       }
     }
-  }
+  `}
 
   background: ${props => props.theme.color(props.background)};
 
@@ -52,79 +62,27 @@ type Props = {
   points?: number;
   isValley?: boolean;
   isStatic?: boolean;
-  extraClasses?: string;
 };
 
-type State = {
-  isActive: boolean;
-  styleObject: Record<string, unknown>;
-};
+const WobblyEdge: FunctionComponent<Props> = ({
+  background,
+  isRotated,
+  intensity = 50,
+  points = 5,
+  isValley,
+  isStatic,
+}: Props): ReactElement => {
+  const [isActive, setIsActive] = useState(false);
+  const [styleObject, setStyleObject] = useState(
+    prefixedPropertyStyleObject('clipPath', makePolygonPoints(0, 0))
+  );
+  let timer;
+  const { isEnhanced } = useContext(AppContext);
 
-class WobblyEdge extends React.Component<Props, State> {
-  timer: any;
-  intensity: number;
-  points: number;
-
-  constructor(props: Props) {
-    super(props);
-    this.intensity = props.intensity || 50;
-    this.points = props.points || 5;
-    this.timer = null;
-    this.state = {
-      isActive: false,
-      styleObject: prefixedPropertyStyleObject(
-        'clipPath',
-        this.makePolygonPoints(0, 0)
-      ),
-    };
-  }
-
-  updatePoints = () => {
-    if (!this.state.isActive) {
-      this.setState({
-        styleObject: prefixedPropertyStyleObject(
-          'clipPath',
-          this.makePolygonPoints(this.points, this.intensity)
-        ),
-        isActive: true,
-      });
-    }
-
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
-
-    this.timer = setTimeout(() => {
-      this.setState({
-        styleObject: prefixedPropertyStyleObject(
-          'clipPath',
-          this.makePolygonPoints(this.points, this.intensity)
-        ),
-        isActive: false,
-      });
-    }, 150);
-  };
-
-  debounceUpdatePoints = debounce(this.updatePoints, 500);
-
-  componentDidMount() {
-    this.updatePoints();
-
-    if (this.props.isStatic) return;
-
-    window.addEventListener('scroll', this.debounceUpdatePoints);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.debounceUpdatePoints);
-
-    clearTimeout(this.timer);
-  }
-
-  makePolygonPoints(totalPoints: number, intensity: number): string {
+  function makePolygonPoints(totalPoints: number, intensity: number): string {
     // Determine whether wobbly edge should be a mountain or a valley
-    const first = this.props.isValley ? '0% 100%, 0% 0%,' : '0% 100%,';
-    const last = this.props.isValley ? ',100% 0%, 100% 100%' : ',100% 100%';
+    const first = isValley ? '0% 100%, 0% 0%,' : '0% 100%,';
+    const last = isValley ? ',100% 0%, 100% 100%' : ',100% 100%';
     const innerPoints = [...Array(totalPoints)].reduce((acc, curr, index) => {
       const xMean = (100 / totalPoints) * index;
       const xShift = 100 / totalPoints / 2;
@@ -140,15 +98,53 @@ class WobblyEdge extends React.Component<Props, State> {
     return `polygon(${first.concat(innerPoints.join(','), last)})`;
   }
 
-  render() {
-    return (
-      <Edge
-        background={this.props.background}
-        isRotated={this.props.isRotated || false}
-        style={this.state.styleObject}
-      />
-    );
+  function updatePoints() {
+    if (!isActive) {
+      setStyleObject(
+        prefixedPropertyStyleObject(
+          'clipPath',
+          makePolygonPoints(points, intensity)
+        )
+      );
+      setIsActive(true);
+    }
+
+    if (timer) {
+      clearTimeout(timer);
+    }
+
+    timer = setTimeout(() => {
+      setStyleObject(
+        prefixedPropertyStyleObject(
+          'clipPath',
+          makePolygonPoints(points, intensity)
+        )
+      );
+      setIsActive(false);
+    }, 150);
   }
-}
+
+  const debounceUpdatePoints = debounce(updatePoints, 500);
+
+  useEffect(() => {
+    updatePoints();
+    if (!isStatic) {
+      window.addEventListener('scroll', debounceUpdatePoints);
+    }
+    return () => {
+      window.removeEventListener('scroll', debounceUpdatePoints);
+      clearTimeout(timer);
+    };
+  }, []);
+
+  return (
+    <Edge
+      background={background}
+      isRotated={isRotated || false}
+      style={styleObject}
+      isEnhanced={isEnhanced}
+    />
+  );
+};
 
 export default WobblyEdge;
