@@ -72,7 +72,6 @@ const DesktopLogin = styled.div.attrs({
   }),
 })`
   display: none;
-  transform: translateY(4px);
 
   a {
     display: block;
