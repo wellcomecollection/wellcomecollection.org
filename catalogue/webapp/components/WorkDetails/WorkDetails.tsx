@@ -237,7 +237,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       )}
       {showPhysicalItems && physicalItems && (
         <PhysicalItems
-          workId={work.id}
+          work={work}
           items={physicalItems}
           encoreLink={encoreLink}
         />

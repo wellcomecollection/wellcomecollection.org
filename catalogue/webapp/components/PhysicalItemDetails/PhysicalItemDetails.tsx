@@ -1,14 +1,18 @@
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent, useContext, useRef, useState } from 'react';
 import styled from 'styled-components';
+import ButtonInline from '@weco/common/views/components/ButtonInline/ButtonInline';
 import ButtonInlineLink from '@weco/common/views/components/ButtonInlineLink/ButtonInlineLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
-import { PhysicalItem, PhysicalLocation } from '@weco/common/model/catalogue';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import {
   getLocationLabel,
   getLocationShelfmark,
+  getFirstPhysicalLocation,
 } from '@weco/common/utils/works';
+import ConfirmItemRequest from '../ConfirmItemRequest/ConfirmItemRequest';
 
 const Row = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -62,23 +66,21 @@ const Grid = styled.div<{ isArchive: boolean }>`
 
 export type Props = {
   item: PhysicalItem;
+  work: Work;
   encoreLink?: string;
   isLast: boolean;
 };
 
-function getFirstPhysicalLocation(
-  item: PhysicalItem
-): PhysicalLocation | undefined {
-  // In practice we only expect one physical location per item
-  return item.locations?.find(location => location.type === 'PhysicalLocation');
-}
-
 const PhysicalItemDetails: FunctionComponent<Props> = ({
   item,
+  work,
   encoreLink,
   isLast,
 }) => {
+  const openButtonRef = useRef<HTMLButtonElement>(null);
+  const [isActive, setIsActive] = useState(false);
   const isArchive = useContext(IsArchiveContext);
+  const { showLogin } = useContext(TogglesContext);
   const physicalLocation = getFirstPhysicalLocation(item);
   const isRequestableOnline =
     physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
@@ -120,7 +122,30 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           </Box>
           <Box isCentered>
             {requestItemUrl && (
-              <ButtonInlineLink text={'Request item'} link={requestItemUrl} />
+              <>
+                {showLogin ? (
+                  <>
+                    <ButtonInline
+                      ref={openButtonRef}
+                      text={'Request item'}
+                      clickHandler={() => setIsActive(true)}
+                    />
+                    <ConfirmItemRequest
+                      openButtonRef={openButtonRef}
+                      isActive={isActive}
+                      setIsActive={setIsActive}
+                      id={'test'}
+                      item={item}
+                      work={work}
+                    />
+                  </>
+                ) : (
+                  <ButtonInlineLink
+                    text={'Request item'}
+                    link={requestItemUrl}
+                  />
+                )}
+              </>
             )}
           </Box>
         </Grid>
