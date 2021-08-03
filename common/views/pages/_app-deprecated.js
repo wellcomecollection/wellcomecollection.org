@@ -383,6 +383,7 @@ export default class WecoApp extends App {
       'Array.prototype.includes',
       'Array.prototype.includes',
       'Object.entries',
+      'Object.fromEntries',
       'WeakMap',
       'URL',
     ];

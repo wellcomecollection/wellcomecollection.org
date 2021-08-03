@@ -104,6 +104,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
     'Array.prototype.includes',
     'Array.prototype.includes',
     'Object.entries',
+    'Object.fromEntries',
     'WeakMap',
     'URL',
   ];
