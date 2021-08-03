@@ -22,6 +22,7 @@ const useIsFontsLoaded = (): boolean => {
       })
       .catch(console.log);
     return () => {
+      // We can't cancel promises, so using the isMounted value to prevent the component from trying to update the state if it's been unmounted.
       isMounted = false;
     };
   }, []);
