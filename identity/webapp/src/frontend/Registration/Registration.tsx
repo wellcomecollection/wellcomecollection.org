@@ -15,6 +15,8 @@ import { usePageTitle } from '../hooks/usePageTitle';
 import { validEmailPattern, validPasswordPattern } from '../components/ValidationPatterns';
 import { PasswordRules } from '../components/PasswordInput';
 import { PasswordInput } from './PasswordInput';
+import Layout10 from '@weco/common/views/components/Layout10/Layout10';
+import Space from '@weco/common/views/components/styled/Space';
 
 const scrollToTop = () => window.scrollTo(0, 0);
 
@@ -55,169 +57,174 @@ export function Registration(): JSX.Element {
 
   return (
     <PageWrapper>
-      <Container>
-        <Wrapper>
-          <Title>Register for a library account</Title>
-          {registrationError && (
-            <>
-              <ErrorAlert aria-labelledby="error-text">
-                <Info2 />
-                {registrationError === RegistrationError.EMAIL_ALREADY_EXISTS && (
-                  <span id="error-text">
-                    An account with this email address already exists, please <Link to="/">sign in</Link>.
-                  </span>
-                )}
-                {registrationError === RegistrationError.PASSWORD_TOO_COMMON && 'Password is too common'}
-                {registrationError === RegistrationError.UNKNOWN && 'An unknown error occurred'}
-              </ErrorAlert>
-              <SpacingComponent />
-            </>
-          )}
-          <p>
-            An account lets you order items from the library&apos;s closed stores and access our online subscription
-            collections.
-          </p>
-          <p>
-            The first time you come to the library, you&apos;ll need to complete your <a href="">library membership</a>.
-          </p>
-
-          <form onSubmit={handleSubmit(createUser)} noValidate>
-            <Controller
-              name="firstName"
-              control={control}
-              defaultValue=""
-              rules={{ required: 'Enter your first name.' }}
-              render={({ onChange, value, name }, { invalid, isDirty }) => (
-                <WellcomeTextInput
-                  required
-                  id={name}
-                  label="First name"
-                  value={value}
-                  setValue={onChange}
-                  isValid={!invalid}
-                  setIsValid={() => trigger('firstName')}
-                  showValidity={isDirty || formState.isSubmitted}
-                  errorMessage={formState.errors.firstName?.message}
-                />
+      <Layout10>
+        <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+          <Container>
+            <Wrapper>
+              <Title>Register for a library account</Title>
+              {registrationError && (
+                <>
+                  <ErrorAlert aria-labelledby="error-text">
+                    <Info2 />
+                    {registrationError === RegistrationError.EMAIL_ALREADY_EXISTS && (
+                      <span id="error-text">
+                        An account with this email address already exists, please <Link to="/">sign in</Link>.
+                      </span>
+                    )}
+                    {registrationError === RegistrationError.PASSWORD_TOO_COMMON && 'Password is too common'}
+                    {registrationError === RegistrationError.UNKNOWN && 'An unknown error occurred'}
+                  </ErrorAlert>
+                  <SpacingComponent />
+                </>
               )}
-            />
-            <SpacingComponent />
+              <p>
+                An account lets you order items from the library&apos;s closed stores and access our online subscription
+                collections.
+              </p>
+              <p>
+                The first time you come to the library, you&apos;ll need to complete your{' '}
+                <a href="">library membership</a>.
+              </p>
 
-            <Controller
-              name="lastName"
-              control={control}
-              defaultValue=""
-              rules={{ required: 'Enter your last name.' }}
-              render={({ onChange, value, name }, { invalid, isDirty }) => (
-                <WellcomeTextInput
-                  required
-                  id={name}
-                  label="Last name"
-                  value={value}
-                  setValue={onChange}
-                  isValid={!invalid}
-                  setIsValid={() => trigger('lastName')}
-                  showValidity={isDirty || formState.isSubmitted}
-                  errorMessage={formState.errors.lastName?.message}
+              <form onSubmit={handleSubmit(createUser)} noValidate>
+                <Controller
+                  name="firstName"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: 'Enter your first name.' }}
+                  render={({ onChange, value, name }, { invalid, isDirty }) => (
+                    <WellcomeTextInput
+                      required
+                      id={name}
+                      label="First name"
+                      value={value}
+                      setValue={onChange}
+                      isValid={!invalid}
+                      setIsValid={() => trigger('firstName')}
+                      showValidity={isDirty || formState.isSubmitted}
+                      errorMessage={formState.errors.firstName?.message}
+                    />
+                  )}
                 />
-              )}
-            />
-            <SpacingComponent />
+                <SpacingComponent />
 
-            <Controller
-              name="email"
-              control={control}
-              defaultValue=""
-              rules={{
-                required: 'Enter an email address.',
-                pattern: {
-                  value: validEmailPattern,
-                  message: 'Enter a valid email address.',
-                },
-              }}
-              render={({ onChange, value, name }, { invalid, isDirty }) => (
-                <WellcomeTextInput
-                  required
-                  id={name}
-                  label="Email address"
-                  value={value}
-                  setValue={onChange}
-                  isValid={!invalid}
-                  setIsValid={() => trigger('email')}
-                  showValidity={isDirty || formState.isSubmitted}
-                  errorMessage={formState.errors.email?.message}
+                <Controller
+                  name="lastName"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: 'Enter your last name.' }}
+                  render={({ onChange, value, name }, { invalid, isDirty }) => (
+                    <WellcomeTextInput
+                      required
+                      id={name}
+                      label="Last name"
+                      value={value}
+                      setValue={onChange}
+                      isValid={!invalid}
+                      setIsValid={() => trigger('lastName')}
+                      showValidity={isDirty || formState.isSubmitted}
+                      errorMessage={formState.errors.lastName?.message}
+                    />
+                  )}
                 />
-              )}
-            />
-            <SpacingComponent />
+                <SpacingComponent />
 
-            <Controller
-              name="password"
-              control={control}
-              defaultValue=""
-              rules={{
-                required: 'Enter a password.',
-                pattern: {
-                  value: validPasswordPattern,
-                  message: 'Enter a valid password.',
-                },
-              }}
-              render={({ onChange, value, name }, { invalid, isDirty }) => {
-                return (
-                  <PasswordInput
-                    required
-                    id={name}
-                    type="password"
-                    label="Password"
-                    value={value}
-                    setValue={onChange}
-                    isValid={!invalid}
-                    setIsValid={() => trigger('password')}
-                    showValidity={isDirty || formState.isSubmitted}
-                    errorMessage={formState.errors.password?.message}
-                  />
-                );
-              }}
-            />
-            <PasswordRules />
-            <SpacingComponent />
-
-            <Controller
-              name="termsAndConditions"
-              control={control}
-              defaultValue={false}
-              rules={{ required: 'Accept the terms to continue.' }}
-              render={({ value, onChange }) => (
-                <Checkbox
-                  onChange={(e: React.FormEvent<HTMLInputElement>) => onChange(e.currentTarget.checked)}
-                  checked={value}
-                  text={
-                    <CheckboxLabel>
-                      I have read and agree to the{' '}
-                      <ExternalLink
-                        href="https://wellcome.org/about-us/governance/privacy-and-terms"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Privacy and Terms
-                      </ExternalLink>{' '}
-                      for Wellcome
-                    </CheckboxLabel>
-                  }
+                <Controller
+                  name="email"
+                  control={control}
+                  defaultValue=""
+                  rules={{
+                    required: 'Enter an email address.',
+                    pattern: {
+                      value: validEmailPattern,
+                      message: 'Enter a valid email address.',
+                    },
+                  }}
+                  render={({ onChange, value, name }, { invalid, isDirty }) => (
+                    <WellcomeTextInput
+                      required
+                      id={name}
+                      label="Email address"
+                      value={value}
+                      setValue={onChange}
+                      isValid={!invalid}
+                      setIsValid={() => trigger('email')}
+                      showValidity={isDirty || formState.isSubmitted}
+                      errorMessage={formState.errors.email?.message}
+                    />
+                  )}
                 />
-              )}
-            />
-            <ErrorMessage
-              errors={formState.errors}
-              name="termsAndConditions"
-              render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
-            />
-            <SpacingComponent />
-            {isLoading ? <InProgress>Creating account…</InProgress> : <Button type="submit">Create account</Button>}
-            <Cancel onClick={history.goBack} />
-          </form>
-        </Wrapper>
-      </Container>
+                <SpacingComponent />
+
+                <Controller
+                  name="password"
+                  control={control}
+                  defaultValue=""
+                  rules={{
+                    required: 'Enter a password.',
+                    pattern: {
+                      value: validPasswordPattern,
+                      message: 'Enter a valid password.',
+                    },
+                  }}
+                  render={({ onChange, value, name }, { invalid, isDirty }) => {
+                    return (
+                      <PasswordInput
+                        required
+                        id={name}
+                        type="password"
+                        label="Password"
+                        value={value}
+                        setValue={onChange}
+                        isValid={!invalid}
+                        setIsValid={() => trigger('password')}
+                        showValidity={isDirty || formState.isSubmitted}
+                        errorMessage={formState.errors.password?.message}
+                      />
+                    );
+                  }}
+                />
+                <PasswordRules />
+                <SpacingComponent />
+
+                <Controller
+                  name="termsAndConditions"
+                  control={control}
+                  defaultValue={false}
+                  rules={{ required: 'Accept the terms to continue.' }}
+                  render={({ value, onChange }) => (
+                    <Checkbox
+                      onChange={(e: React.FormEvent<HTMLInputElement>) => onChange(e.currentTarget.checked)}
+                      checked={value}
+                      text={
+                        <CheckboxLabel>
+                          I have read and agree to the{' '}
+                          <ExternalLink
+                            href="https://wellcome.org/about-us/governance/privacy-and-terms"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Privacy and Terms
+                          </ExternalLink>{' '}
+                          for Wellcome
+                        </CheckboxLabel>
+                      }
+                    />
+                  )}
+                />
+                <ErrorMessage
+                  errors={formState.errors}
+                  name="termsAndConditions"
+                  render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
+                />
+                <SpacingComponent />
+                {isLoading ? <InProgress>Creating account…</InProgress> : <Button type="submit">Create account</Button>}
+                <Cancel onClick={history.goBack} />
+              </form>
+            </Wrapper>
+          </Container>
+        </Space>
+      </Layout10>
     </PageWrapper>
   );
 }
