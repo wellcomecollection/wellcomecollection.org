@@ -46,14 +46,14 @@ const Tab = styled.button.attrs((props: TabProps) => ({
 
 type TabPanelProps = {
   id: string;
-  isActive: boolean;
+  isHidden: boolean;
   isEnhanced: boolean;
 };
 const TabPanel = styled.div.attrs((props: TabPanelProps) => ({
   id: props.id,
   role: props.isEnhanced ? 'tabpanel' : undefined,
-  hidden: props.isEnhanced ? !props.isActive : undefined,
-  'aria-expanded': props.isEnhanced ? props.isActive : undefined,
+  hidden: props.isEnhanced ? props.isHidden : undefined,
+  'aria-expanded': props.isEnhanced ? !props.isHidden : undefined,
 }))<TabPanelProps>``;
 
 export type TabType = {
@@ -188,7 +188,7 @@ const Tabs: FunctionComponent<Props> = ({
             <TabPanel
               key={id}
               id={id}
-              isActive={id === activeId}
+              isHidden={id !== activeId}
               isEnhanced={isEnhanced}
             >
               {tabPanel}
