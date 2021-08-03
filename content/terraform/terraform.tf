@@ -1,4 +1,10 @@
 terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+    }
+  }
+
 
   backend "s3" {
     key            = "build-state/content.tfstate"

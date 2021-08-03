@@ -38,4 +38,8 @@ module "catalogue-stage" {
   service_egress_security_group_id = local.stage_service_egress_security_group_id
 
   subdomain = "works.www-stage"
+
+  providers = {
+    aws = aws.stage
+  }
 }
