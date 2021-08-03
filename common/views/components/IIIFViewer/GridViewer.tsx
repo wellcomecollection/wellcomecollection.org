@@ -18,6 +18,7 @@ import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarCon
 import { IIIFCanvas, SearchResults } from '@weco/common/model/iiif';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { scrollViewer } from './MainViewer';
 
 const Defs = styled.svg`
   position: absolute;
@@ -48,6 +49,7 @@ type CellProps = {
     setActiveIndex: (i: number) => void;
     canvases: IIIFCanvas[];
     searchResults: SearchResults;
+    mainAreaWidth: number;
   };
 };
 
@@ -62,6 +64,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
     setActiveIndex,
     canvases,
     searchResults,
+    mainAreaWidth,
   } = data;
   const itemIndex = rowIndex * columnCount + columnIndex;
   const currentCanvas = canvases[itemIndex];
@@ -85,9 +88,12 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
             <IIIFCanvasThumbnail
               canvas={currentCanvas}
               clickHandler={() => {
-                mainViewerRef &&
-                  mainViewerRef.current &&
-                  mainViewerRef.current.scrollToItem(itemIndex, 'start');
+                scrollViewer(
+                  currentCanvas,
+                  itemIndex,
+                  mainViewerRef?.current,
+                  mainAreaWidth
+                );
                 setActiveIndex(itemIndex);
                 setGridVisible(false);
               }}
@@ -226,6 +232,7 @@ const GridViewer: FunctionComponent<Props> = ({
             setActiveIndex,
             canvases,
             searchResults,
+            mainAreaWidth,
           }}
           onScroll={({ scrollTop }) => setNewScrollOffset(scrollTop)}
           ref={grid}
