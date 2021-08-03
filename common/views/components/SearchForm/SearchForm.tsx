@@ -115,9 +115,12 @@ const SearchForm = forwardRef(
       // The refresh or going to another page does not retrigger the createPortal call
       // This is referred inside the paginator component
       // Adhoc: Added set timeout for some reason allows it to work.
-      setTimeout(() => {
+      const delayTimer = setTimeout(() => {
         !forceState && setForceState(true);
       }, 0);
+      return () => {
+        clearTimeout(delayTimer);
+      };
     }, []);
 
     // We need to make sure that the changes to `query` affect `inputQuery` as
