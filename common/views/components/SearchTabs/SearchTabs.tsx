@@ -265,7 +265,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             sortOrder={undefined}
             linkResolver={params => {
               const queryWithSource = propsToQuery(params);
-              const { ...queryWithoutSource } = {
+              const { source = undefined, ...queryWithoutSource } = {
                 ...queryWithSource,
               };
 
