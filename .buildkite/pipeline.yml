@@ -1,12 +1,3 @@
-- label: "Create stage deployment"
-  #  branches: "main" TODO change back before merge and move to end
-  branches: "lhci-integration"
-  plugins:
-    - wellcomecollection/github-deployments#v0.2.2:
-        assume_role: "arn:aws:iam::130871440101:role/experience-ci"
-        environment: stage
-        ref: "${BUILDKITE_COMMIT}"
-
 - label: ":docker: Build"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
@@ -226,3 +217,11 @@
           - AWS_SESSION_TOKEN
 
 - wait
+
+- label: "Create stage deployment"
+  branches: "main"
+  plugins:
+    - wellcomecollection/github-deployments#v0.2.2:
+        assume_role: "arn:aws:iam::130871440101:role/experience-ci"
+        environment: stage
+        ref: "${BUILDKITE_COMMIT}"
