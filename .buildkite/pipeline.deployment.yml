@@ -1,5 +1,6 @@
 steps:
   - label: "Fake deployment"
+    if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco"
     command: "echo \"Deploying $BUILDKITE_COMMIT to $BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT\""
 #  - label: "Deploy to $$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT"
 #    concurrency: 1
@@ -21,5 +22,6 @@ steps:
   - wait
 
   - label: "Trigger e2e tests"
+    if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco"
     command: ".buildkite/scripts/trigger-e2e.sh"
 
