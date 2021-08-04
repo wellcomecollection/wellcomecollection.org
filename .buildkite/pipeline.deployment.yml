@@ -1,8 +1,7 @@
 steps:
-  - label: "Fake deployment"
+  - label: "Deploy to $BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco"
-    command: "echo \"Deploying $BUILDKITE_COMMIT to $BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT\""
-#  - label: "Deploy to $$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT"
+    command: echo "Deploying $BUILDKITE_COMMIT"
 #    concurrency: 1
 #    concurrency_group: "experience-deploy"
 #    plugins:
@@ -25,3 +24,14 @@ steps:
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco"
     command: ".buildkite/scripts/trigger-e2e.sh"
 
+  - block: ":rocket: deploy to prod"
+    if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "stage"
+    prompt: "Have you checked the change and main landing pages on staging?"
+
+  - label: "Deploy to prod"
+    if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "stage"
+    plugins:
+      - wellcomecollection/github-deployments#v0.2.2:
+          assume_role: "arn:aws:iam::130871440101:role/experience-ci"
+          environment: prod
+          ref: "${BUILDKITE_COMMIT}"
