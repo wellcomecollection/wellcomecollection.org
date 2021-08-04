@@ -12,8 +12,6 @@ import {
 import { AppContext } from '../AppContext/AppContext';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
-import Space from '../styled/Space';
-import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
 const TabList = styled.div.attrs({
   role: 'tablist',
@@ -52,7 +50,7 @@ type TabPanelProps = {
 const TabPanel = styled.div.attrs((props: TabPanelProps) => ({
   id: props.id,
   role: props.isEnhanced ? 'tabpanel' : undefined,
-  hidden: props.isEnhanced ? props.isHidden : undefined,
+  hidden: props.isHidden,
   'aria-expanded': props.isEnhanced ? !props.isHidden : undefined,
 }))<TabPanelProps>``;
 
@@ -150,52 +148,33 @@ const Tabs: FunctionComponent<Props> = ({
 
   return (
     <>
-      {/* if isEnhanced then we want to create the tablist to control the panels,
-      if not then the tabs will be appear above their respective panel (see below)
-      */}
-      {isEnhanced && (
-        <TabList ref={tabListRef} aria-label={label}>
-          {tabs.map(({ id, tab }) => (
-            <Tab
-              key={`${id}${prefixButton}`}
-              id={`${id}${prefixButton}`}
-              tabPanelId={id}
-              isActive={id === activeId}
-              onClick={() => handleTabClick(id)}
-              onBlur={() => setFocusedId(undefined)}
-              onFocus={() => setFocusedId(id)}
-              onKeyDown={handleKeyDown}
-            >
-              {tab(id === activeId, id === focusedId)}
-            </Tab>
-          ))}
-        </TabList>
-      )}
-      {tabs.map(({ id, tab, tabPanel }) => (
-        <Fragment key={id}>
-          {/* if it's not enhanced the tab appears above its related panel */}
-          {!isEnhanced && (
-            <noscript>{tab(id === activeId || !isEnhanced, false)}</noscript>
-          )}
-          <ConditionalWrapper
-            condition={!isEnhanced}
-            wrapper={children => (
-              <noscript>
-                <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                  {children}
-                </Space>
-              </noscript>
-            )}
+      <TabList ref={tabListRef} aria-label={label}>
+        {tabs.map(({ id, tab }) => (
+          <Tab
+            key={`${id}${prefixButton}`}
+            id={`${id}${prefixButton}`}
+            tabPanelId={id}
+            isActive={id === activeId}
+            onClick={() => handleTabClick(id)}
+            onBlur={() => setFocusedId(undefined)}
+            onFocus={() => setFocusedId(id)}
+            onKeyDown={handleKeyDown}
           >
-            <TabPanel
-              key={id}
-              id={id}
-              isHidden={id !== activeId}
-              isEnhanced={isEnhanced}
-            >
-              {tabPanel}
-            </TabPanel>
-          </ConditionalWrapper>
+            {tab(id === activeId, id === focusedId)}
+          </Tab>
+        ))}
+      </TabList>
+
+      {tabs.map(({ id, tabPanel }) => (
+        <Fragment key={id}>
+          <TabPanel
+            key={id}
+            id={id}
+            isHidden={id !== activeId}
+            isEnhanced={isEnhanced}
+          >
+            {tabPanel}
+          </TabPanel>
         </Fragment>
       ))}
     </>
