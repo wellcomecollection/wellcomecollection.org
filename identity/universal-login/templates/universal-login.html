@@ -202,7 +202,11 @@
         <!-- TODO check text and whether to capitalise Library-->
         <p><strong>Not a Library member?</strong> <a href="https://wellcomecollection.org/pages/X_2eexEAACQAZLBi">Read more about joining the library</a></p>
         {% endif %}
+        {% if prompt.screen.name == "reset-password-success" %}
+        <p><a href="https://wellcomecollection.org/account">Back to library account sign in</a></p>
+        {% endif %}
       </div>
     </div>
   </body>
 </html>
+
