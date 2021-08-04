@@ -55,7 +55,10 @@ const colours = {
   `,
 };
 
-export const StatusAlert = styled.div.attrs({ role: 'alert' })<{ type: keyof typeof colours }>`
+export const StatusAlert = styled(Space).attrs({
+  role: 'alert',
+  v: { size: 'l', properties: ['margin-bottom'] },
+})<{ type: keyof typeof colours }>`
   ${props => colours[props.type]}
   padding: 1em;
   border-radius: 6px;

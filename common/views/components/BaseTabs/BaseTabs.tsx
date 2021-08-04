@@ -180,9 +180,11 @@ const Tabs: FunctionComponent<Props> = ({
           <ConditionalWrapper
             condition={!isEnhanced}
             wrapper={children => (
-              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                {children}
-              </Space>
+              <noscript>
+                <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                  {children}
+                </Space>
+              </noscript>
             )}
           >
             <TabPanel
