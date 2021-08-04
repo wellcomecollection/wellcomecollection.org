@@ -166,16 +166,14 @@ const Tabs: FunctionComponent<Props> = ({
       </TabList>
 
       {tabs.map(({ id, tabPanel }) => (
-        <Fragment key={id}>
-          <TabPanel
-            key={id}
-            id={id}
-            isHidden={id !== activeId}
-            isEnhanced={isEnhanced}
-          >
-            {tabPanel}
-          </TabPanel>
-        </Fragment>
+        <TabPanel
+          key={id}
+          id={id}
+          isHidden={id !== activeId}
+          isEnhanced={isEnhanced}
+        >
+          {tabPanel}
+        </TabPanel>
       ))}
     </>
   );
