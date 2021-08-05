@@ -68,7 +68,7 @@ describe('Scenario 5: researcher initiates item request', () => {
     expect(remainingRequests).toBeTruthy();
   });
 
-  test.only('Researcher can cancel request', async () => {
+  test('Researcher can cancel request', async () => {
     await page.click('button:has-text("Cancel request")');
     const requestButtons = await page.$$('button:has-text("Request item")');
     expect(requestButtons.length).toBe(2);
