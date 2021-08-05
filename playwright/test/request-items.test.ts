@@ -1,3 +1,24 @@
+import { workWithPhysicalLocationOnly } from './contexts';
+import { baseUrl } from './helpers/urls';
+import { makeDefaultToggleAndTestCookies } from './helpers/utils';
+
+const domain = new URL(baseUrl).host;
+
+beforeAll(async () => {
+  const defaultToggleAndTestCookies = await makeDefaultToggleAndTestCookies(
+    domain
+  );
+  await context.addCookies([
+    {
+      name: 'toggle_showItemRequestFlow',
+      value: 'true',
+      domain: domain,
+      path: '/',
+    },
+    ...defaultToggleAndTestCookies,
+  ]);
+});
+
 describe('Scenario 1: researcher is logged out', () => {
   test('Link to login/registration is displayed', () => {
     // Log out
@@ -27,10 +48,11 @@ describe('Scenario 3: researcher is a library member', () => {
 });
 
 describe('Scenario 4: researcher is logged in', () => {
-  test('Items display their requestability', () => {
-    // Log in
-    // Go to work page with requestable items
-    // Expect request button for each requestable item
+  test.only('Items display their requestability', async () => {
+    // TODO: Log in instead of setting toggle
+    await workWithPhysicalLocationOnly();
+    const requestButtons = await page.$$('button:has-text("Request item")');
+    expect(requestButtons.length).toBe(2);
   });
 });
 
