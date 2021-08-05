@@ -27,6 +27,13 @@ export default {
       defaultValue: false,
     },
     {
+      id: 'showItemRequestFlow',
+      title: 'Show item request user flow',
+      description:
+        'Makes the Request item button call the items API and show the relevant request/confirm modal flow',
+      defaultValue: false,
+    },
+    {
       id: 'stagingApi',
       title: 'Staging API',
       defaultValue: false,

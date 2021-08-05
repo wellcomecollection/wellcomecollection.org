@@ -80,7 +80,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const openButtonRef = useRef<HTMLButtonElement>(null);
   const [isActive, setIsActive] = useState(false);
   const isArchive = useContext(IsArchiveContext);
-  const { showLogin } = useContext(TogglesContext);
+  const { showItemRequestFlow } = useContext(TogglesContext);
   const physicalLocation = getFirstPhysicalLocation(item);
   const isRequestableOnline =
     physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
@@ -123,7 +123,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           <Box isCentered>
             {requestItemUrl && (
               <>
-                {showLogin ? (
+                {showItemRequestFlow ? (
                   <>
                     <ButtonInline
                       ref={openButtonRef}
