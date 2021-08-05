@@ -1,6 +1,5 @@
-import { FunctionComponent, useContext, useRef, useState } from 'react';
+import { FunctionComponent, useContext, useState } from 'react';
 import styled from 'styled-components';
-import ButtonInline from '@weco/common/views/components/ButtonInline/ButtonInline';
 import ButtonInlineLink from '@weco/common/views/components/ButtonInlineLink/ButtonInlineLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -77,7 +76,6 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   encoreLink,
   isLast,
 }) => {
-  const openButtonRef = useRef<HTMLButtonElement>(null);
   const [isActive, setIsActive] = useState(false);
   const isArchive = useContext(IsArchiveContext);
   const { showItemRequestFlow } = useContext(TogglesContext);
@@ -124,21 +122,13 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
             {requestItemUrl && (
               <>
                 {showItemRequestFlow ? (
-                  <>
-                    <ButtonInline
-                      ref={openButtonRef}
-                      text={'Request item'}
-                      clickHandler={() => setIsActive(true)}
-                    />
-                    <ConfirmItemRequest
-                      openButtonRef={openButtonRef}
-                      isActive={isActive}
-                      setIsActive={setIsActive}
-                      id={'test'}
-                      item={item}
-                      work={work}
-                    />
-                  </>
+                  <ConfirmItemRequest
+                    isActive={isActive}
+                    setIsActive={setIsActive}
+                    id={'test'}
+                    item={item}
+                    work={work}
+                  />
                 ) : (
                   <ButtonInlineLink
                     text={'Request item'}

@@ -1,9 +1,10 @@
-import { FunctionComponent, RefObject, useState } from 'react';
+import { FunctionComponent, useState, useRef } from 'react';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import ButtonInline from '@weco/common/views/components/ButtonInline/ButtonInline';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
@@ -49,7 +50,6 @@ type Props = {
   isActive: boolean;
   setIsActive: (value: boolean) => void;
   id: string;
-  openButtonRef: RefObject<HTMLButtonElement>;
 };
 
 type RequestDialogProps = {
@@ -185,6 +185,7 @@ const ErrorDialog: FunctionComponent<ErrorDialogProps> = ({ setIsActive }) => (
 );
 
 const ConfirmItemRequest: FunctionComponent<Props> = props => {
+  const openButtonRef = useRef<HTMLButtonElement>(null);
   const { item, work, setIsActive, ...modalProps } = props;
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -214,20 +215,32 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
   }
 
   return (
-    <Modal {...modalProps} setIsActive={innerSetIsActive}>
-      {isLoading && <LL />}
-      {isError && <ErrorDialog setIsActive={innerSetIsActive} />}
-      {isConfirmed && !isError && <ConfirmedDialog work={work} item={item} />}
-      {!isConfirmed && !isError && (
-        <RequestDialog
-          isLoading={isLoading}
-          work={work}
-          item={item}
-          confirmRequest={confirmRequest}
-          setIsActive={innerSetIsActive}
-        />
-      )}
-    </Modal>
+    <>
+      <ButtonInline
+        ref={openButtonRef}
+        text={'Request item'}
+        clickHandler={() => setIsActive(true)}
+      />
+
+      <Modal
+        {...modalProps}
+        setIsActive={innerSetIsActive}
+        openButtonRef={openButtonRef}
+      >
+        {isLoading && <LL />}
+        {isError && <ErrorDialog setIsActive={innerSetIsActive} />}
+        {isConfirmed && !isError && <ConfirmedDialog work={work} item={item} />}
+        {!isConfirmed && !isError && (
+          <RequestDialog
+            isLoading={isLoading}
+            work={work}
+            item={item}
+            confirmRequest={confirmRequest}
+            setIsActive={innerSetIsActive}
+          />
+        )}
+      </Modal>
+    </>
   );
 };
 
