@@ -1,0 +1,33 @@
+name: Lighthouse integration
+
+on: [deployment_status]
+
+jobs:
+  run_lighthouse:
+    name: Lighthouse report
+    runs-on: ubuntu-20.04
+    if: |
+      github.event.deployment.task == "deploy:weco" &&
+      github.event.deployment_status.state == "success"
+    steps:
+       - uses: actions/checkout@v2
+       - name: Create URLs list
+         id: urls
+         run: |
+           # prepend the deployment URL to all the paths
+           URLS=$(awk '{print "${{ github.event.deployment_status.target_url }}" $0}' .github/actions/workflows/lighthouse_integration_paths.txt)
+
+           # escape the newlines as per:
+           # https://trstringer.com/github-actions-multiline-strings/
+           URLS="${URLS//'%'/'%25'}"
+           URLS="${URLS//$'\n'/'%0A'}"
+           URLS="${URLS//$'\r'/'%0D'}"
+
+           # set the step output
+           echo "::set-output name=list::$URLS"
+       - name: Run report and upload results
+         uses: treosh/lighthouse-ci-action@v8
+         with:
+           urls: ${{ steps.urls.outputs.list }}
+           serverBaseUrl: https://lighthouse.wellcomecollection.org
+           serverToken: ${{ secrets.LHCI_BUILD_TOKEN }}
