@@ -221,7 +221,7 @@
 - label: "Create stage deployment"
   branches: "main"
   plugins:
-    - wellcomecollection/github-deployments#v0.2.2:
+    - wellcomecollection/github-deployments#v0.2.4:
         assume_role: "arn:aws:iam::130871440101:role/experience-ci"
         environment: stage
         ref: "${BUILDKITE_COMMIT}"
