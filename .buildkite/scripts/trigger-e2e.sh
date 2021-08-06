@@ -16,9 +16,8 @@ TRIGGER_STEP="steps:
   - trigger: \"experience-e2e\"
     label: \"e2e test\"
     build:
-      message: ${BUILDKITE_MESSAGE}
+      message: \"Deployment to ${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT}\"
       commit: ${BUILDKITE_COMMIT}
-      branch: ${BUILDKITE_BRANCH}
       env:
         BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT: ${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT}
         PLAYWRIGHT_BASE_URL: ${ENVIRONMENT_URL}
