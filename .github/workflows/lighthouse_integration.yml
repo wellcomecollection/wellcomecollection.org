@@ -14,7 +14,7 @@ jobs:
         id: urls
         run: |
           # prepend the deployment URL to all the paths
-          URLS=$(awk '{print "${{ github.event.deployment_status.target_url }}" $0}' .github/actions/workflows/lighthouse_integration_paths.txt)
+          URLS=$(awk '{print "${{ github.event.deployment.environment_url }}" $0}' .github/workflows/lighthouse_integration_paths.txt)
 
           # escape the newlines as per:
           # https://trstringer.com/github-actions-multiline-strings/
