@@ -218,15 +218,10 @@
 
 - wait
 
-- label: "deploy to stage"
-  trigger: "experience-deploy-stage"
+- label: "Create stage deployment"
   branches: "main"
-  async: true
-  build:
-    message: "${BUILDKITE_MESSAGE}"
-    commit: "${BUILDKITE_COMMIT}"
-    branch: "${BUILDKITE_BRANCH}"
-    env:
-      BUILDKITE_PULL_REQUEST: "${BUILDKITE_PULL_REQUEST}"
-      BUILDKITE_PULL_REQUEST_BASE_BRANCH: "${BUILDKITE_PULL_REQUEST_BASE_BRANCH}"
-      BUILDKITE_PULL_REQUEST_REPO: "${BUILDKITE_PULL_REQUEST_REPO}"
+  plugins:
+    - wellcomecollection/github-deployments#v0.2.4:
+        assume_role: "arn:aws:iam::130871440101:role/experience-ci"
+        environment: stage
+        ref: "${BUILDKITE_COMMIT}"

@@ -1,0 +1,36 @@
+steps:
+  - label: "Deploy to $BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT"
+    if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco"
+    concurrency: 1
+    concurrency_group: "experience-deploy"
+    plugins:
+      - docker#v3.5.0:
+          image: 760097843905.dkr.ecr.eu-west-1.amazonaws.com/wellcome/weco-deploy:5.6.16
+          workdir: /repo
+          mount-ssh-agent: true
+          command: [
+              "--confirm",
+              "--project-id", "experience",
+              "release-deploy",
+              "--from-label", "ref.$BUILDKITE_COMMIT",
+              "--environment-id", "$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT",
+              "--description", $BUILDKITE_BUILD_URL,
+              "--confirmation-wait-for", 3540 ] # Session times out at 3600s / 1 hour
+
+  - wait
+
+  - label: "Trigger e2e tests"
+    if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco"
+    command: ".buildkite/scripts/trigger-e2e.sh"
+
+  - block: ":rocket: Create prod deployment"
+    if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "stage"
+    prompt: "Have you checked the change and main landing pages on staging?"
+
+  - label: "Create prod deployment"
+    if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "stage"
+    plugins:
+      - wellcomecollection/github-deployments#v0.2.2:
+          assume_role: "arn:aws:iam::130871440101:role/experience-ci"
+          environment: prod
+          ref: "${BUILDKITE_COMMIT}"
