@@ -7,7 +7,8 @@ jobs:
     name: Lighthouse report
     runs-on: ubuntu-20.04
     if: |
-      ${{ github.event.deployment.task == 'deploy:weco' && github.event.deployment_status.state == 'success' }}
+      github.event.deployment.task == 'deploy:weco' &&
+      github.event.deployment_status.state == 'success'
     steps:
       - uses: actions/checkout@v2
       - name: Create URLs list
@@ -21,6 +22,10 @@ jobs:
           URLS="${URLS//'%'/'%25'}"
           URLS="${URLS//$'\n'/'%0A'}"
           URLS="${URLS//$'\r'/'%0D'}"
+
+          # say what we're going to do
+          echo "Reporting on:"
+          echo $URLS
 
           # set the step output
           echo "::set-output name=list::$URLS"

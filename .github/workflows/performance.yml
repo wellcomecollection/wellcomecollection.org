@@ -38,7 +38,7 @@ jobs:
             http://localhost:3001/articles
             http://localhost:3001/series/X24JnhEAAMplRFYN
             http://localhost:3001/articles/YCppthUAACgAaYI5
-          configPath: "./lighthouserc.js"
+          configPath: "./lighthouse/lighthouserc.local-servers.js"
       - name: Create summary table
         id: table
         uses: ./.github/actions/lighthouse_table
