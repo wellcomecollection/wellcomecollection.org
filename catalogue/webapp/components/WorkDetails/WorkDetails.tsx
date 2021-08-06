@@ -271,38 +271,30 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                       key={i}
                       v={{ size: 's', properties: ['margin-bottom'] }}
                     >
-                      <ExpandableList listItems={holding.enumeration} />
+                      <ExpandableList
+                        listItems={holding.enumeration}
+                        initialItems={10}
+                      />
                     </Space>
                   )}
                   <Space
                     key={i}
                     v={{ size: 's', properties: ['margin-bottom'] }}
                   >
-                    {holding.location?.locationType.label && (
-                      <>
-                        <WorkDetailsText
-                          title="Location"
-                          inlineHeading={true}
-                          noSpacing={true}
-                          text={[holding.location.locationType.label]}
-                        />
-                        {locationLink && (
-                          <a
-                            className={classNames({
-                              [font('hnr', 5)]: true,
-                            })}
-                            href={locationLink.url}
-                          >
-                            {locationLink.linkText}
-                          </a>
-                        )}
-                      </>
+                    {locationLink && (
+                      <a
+                        className={classNames({
+                          [font('hnr', 5)]: true,
+                        })}
+                        href={locationLink.url}
+                      >
+                        {locationLink.linkText}
+                      </a>
                     )}
 
                     {locationShelfmark && (
                       <WorkDetailsText
-                        title="Shelfmark"
-                        inlineHeading={true}
+                        title="Location"
                         noSpacing={true}
                         text={[`${locationLabel} ${locationShelfmark}`]}
                       />
