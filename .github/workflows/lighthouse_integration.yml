@@ -1,7 +1,6 @@
 name: Lighthouse integration
 
-on: [deployment_status]
-
+on: deployment_status
 jobs:
   run_lighthouse:
     name: Lighthouse report
@@ -13,22 +12,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Create URLs list
         id: urls
-        run: |
-          # prepend the deployment URL to all the paths
-          URLS=$(awk '{print "${{ github.event.deployment.environment_url }}" $0}' .github/workflows/lighthouse_integration_paths.txt)
-
-          # escape the newlines as per:
-          # https://trstringer.com/github-actions-multiline-strings/
-          URLS="${URLS//'%'/'%25'}"
-          URLS="${URLS//$'\n'/'%0A'}"
-          URLS="${URLS//$'\r'/'%0D'}"
-
-          # say what we're going to do
-          echo "Reporting on:"
-          echo $URLS
-
-          # set the step output
-          echo "::set-output name=list::$URLS"
+        run: ./.github/scripts/get-lighthouse-urls.sh
+        env:
+          DEPLOYMENT_ID: ${{ github.event.deployment.id }}
+          DEPLOYMENT_STATUS_ID: ${{ github.event.deployment_status.id }}
       - name: Run report and upload results
         uses: treosh/lighthouse-ci-action@v8
         with:
