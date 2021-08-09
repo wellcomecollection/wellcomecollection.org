@@ -215,21 +215,24 @@ const PageHeader = ({
                 }}
               >
                 {breadcrumbs.items.length > 0 ? (
-                  <>
-                    {!asyncBreadcrumbsRoute && <Breadcrumb {...breadcrumbs} />}
-                    {asyncBreadcrumbsRoute && (
-                      // TODO: this should be display: none until enhanced
-                      <div
-                        data-component="AsyncBreadcrumb"
-                        className="breadcrumb-placeholder"
-                        data-endpoint={asyncBreadcrumbsRoute}
-                        data-prefix-endpoint="false"
-                        data-modifiers=""
-                      >
-                        <Breadcrumb {...breadcrumbs} />
-                      </div>
-                    )}
-                  </>
+                  <Space
+                    v={{ size: 'm', properties: ['margin-bottom'] }}
+                    data-component={
+                      asyncBreadcrumbsRoute ? 'AsyncBreadcrumb' : undefined
+                    }
+                    className={
+                      asyncBreadcrumbsRoute
+                        ? 'breadcrumb-placeholder'
+                        : undefined
+                    }
+                    data-endpoint={asyncBreadcrumbsRoute || undefined}
+                    data-prefix-endpoint={
+                      asyncBreadcrumbsRoute ? 'false' : undefined
+                    }
+                    data-modifiers={asyncBreadcrumbsRoute ? '' : undefined}
+                  >
+                    <Breadcrumb {...breadcrumbs} />
+                  </Space>
                 ) : (
                   <span
                     className={classNames({
