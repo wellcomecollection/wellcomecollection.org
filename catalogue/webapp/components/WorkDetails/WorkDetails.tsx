@@ -47,9 +47,26 @@ import IIIFClickthrough from '@weco/common/views/components/IIIFClickthrough/III
 import OnlineResources from './OnlineResources';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
+import styled from 'styled-components';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import AlignFont from '@weco/common/views/components/styled/AlignFont';
+
 type Props = {
   work: Work;
 };
+
+const SignInNotice = styled(Space).attrs({
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background: ${props => props.theme.color('smoke')};
+  display: flex;
+  align-items: flex-start;
+
+  .icon {
+    transform: translateY(0.1em);
+  }
+`;
 
 // At the moment we aren't set up to cope with access conditions,
 // 'permission-required', so we pass them off to the UV on the library site
@@ -74,7 +91,7 @@ function getItemLinkState({
 }
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
-  const { showHoldingsOnWork } = useContext(TogglesContext);
+  const { showHoldingsOnWork, showLogin } = useContext(TogglesContext);
   const isArchive = useContext(IsArchiveContext);
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
@@ -213,8 +230,26 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   const holdings = getHoldings(work);
 
-  const WhereToFindIt = () => (
+  type WhereToFindItProps = {
+    showLogin: boolean;
+  };
+  const WhereToFindIt = ({ showLogin }: WhereToFindItProps) => (
     <WorkDetailsSection headingText="Where to find it">
+      {showLogin && (
+        <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <SignInNotice>
+            <Space h={{ size: 's', properties: ['margin-right'] }}>
+              <Icon name="memberCard" />
+            </Space>
+            <AlignFont>
+              <span className={font('hnb', 5)}>Library members:</span>{' '}
+              <a href="/account" className={font('hnr', 5)}>
+                sign in to your library account to request items
+              </a>
+            </AlignFont>
+          </SignInNotice>
+        </Space>
+      )}
       {locationOfWork && (
         <WorkDetailsText
           title={locationOfWork.noteType.label}
@@ -680,7 +715,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
       <Holdings />
 
-      {(locationOfWork || showEncoreLink) && <WhereToFindIt />}
+      {(locationOfWork || showEncoreLink) && (
+        <WhereToFindIt showLogin={showLogin} />
+      )}
 
       <WorkDetailsSection headingText="Permanent link">
         <div className={`${font('hnr', 5)}`}>
