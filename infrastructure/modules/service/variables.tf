@@ -40,6 +40,11 @@ variable "nginx_memory" {
   type    = number
 }
 
+variable "nginx_container_tag" {
+  default = null
+  type    = string
+}
+
 variable "app_cpu" {
   default = 512
   type    = number

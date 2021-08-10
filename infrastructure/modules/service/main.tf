@@ -38,6 +38,7 @@ module "nginx_container" {
 
   forward_port      = var.container_port
   log_configuration = module.log_router_container.container_log_configuration
+  container_tag     = var.nginx_container_tag
 }
 
 module "app_container" {
