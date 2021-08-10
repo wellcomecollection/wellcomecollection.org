@@ -74,7 +74,7 @@ function getItemLinkState({
 }
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
-  const { showPhysicalItems, showHoldingsOnWork } = useContext(TogglesContext);
+  const { showHoldingsOnWork } = useContext(TogglesContext);
   const isArchive = useContext(IsArchiveContext);
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
@@ -221,21 +221,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           text={locationOfWork.contents}
         />
       )}
-      {showEncoreLink && !showPhysicalItems && (
-        <Space
-          v={{
-            size: 'l',
-            properties: ['margin-bottom'],
-          }}
-        >
-          <WorkDetailsText
-            text={[
-              `<a href="${encoreLink}">Access this item on the Wellcome Library website</a>`,
-            ]}
-          />
-        </Space>
-      )}
-      {showPhysicalItems && physicalItems && (
+      {physicalItems && (
         <PhysicalItems
           workId={work.id}
           items={physicalItems}

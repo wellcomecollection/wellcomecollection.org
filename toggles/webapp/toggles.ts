@@ -33,12 +33,6 @@ export default {
       description: 'Use the staging catalogue API',
     },
     {
-      id: 'showPhysicalItems',
-      title: 'Show physical items on the work page',
-      defaultValue: true,
-      description: 'Shows physical items and their locations on the work page',
-    },
-    {
       id: 'apiToolbar',
       title: 'API toolbar',
       defaultValue: false,
