@@ -1,5 +1,5 @@
 steps:
-  - label: "e2e test:desktop [$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT]"
+  - label: "e2e test:desktop [$DEPLOYMENT_ENVIRONMENT]"
     plugins:
       - docker-compose#v3.5.0:
           run: e2e
@@ -10,7 +10,7 @@ steps:
     retry:
       automatic: true
 
-  - label: "e2e test:mobile [$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT]"
+  - label: "e2e test:mobile [$DEPLOYMENT_ENVIRONMENT]"
     plugins:
       - docker-compose#v3.5.0:
           run: e2e
