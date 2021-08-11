@@ -305,7 +305,6 @@ async function getRequest(userId) {
     if (!response.ok) {
       // ... error handling
     }
-
     const json = await response.json();
     console.log(json);
   } catch (e) {
@@ -317,7 +316,11 @@ async function postRequest(userId) {
   try {
     const response = await fetch(`/users/${userId}/item-requests`, {
       method: 'POST',
-      body: JSON.stringify({ greeting: 'hello' }),
+      body: JSON.stringify({
+        workId: 'f242ps6b',
+        itemId: 'x2vpgxxs',
+        type: 'Item',
+      }),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -534,8 +537,12 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
       {/* TODO don't commit */}
       {user && (
         <>
-          <button onClick={() => postRequest(user.userId)}>Test POST</button>
-          <button onClick={() => getRequest(user.userId)}>Test GET</button>
+          <button onClick={() => postRequest(user.userId)}>
+            Test make request
+          </button>
+          <button onClick={() => getRequest(user.userId)}>
+            Test get requests
+          </button>
         </>
       )}
     </Wrapper>
