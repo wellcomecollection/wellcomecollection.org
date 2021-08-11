@@ -300,7 +300,7 @@ const HeaderItem = styled.li`
 
 async function getRequest() {
   try {
-    const response = await fetch(`/api/test`);
+    const response = await fetch(`/users/${'userIdHere'}/item-requests`);
 
     if (!response.ok) {
       // ... error handling
@@ -315,7 +315,7 @@ async function getRequest() {
 
 async function postRequest() {
   try {
-    const response = await fetch(`/api/test`, {
+    const response = await fetch(`/users/${'userIdHere'}/item-requests`, {
       method: 'POST',
       body: JSON.stringify({ greeting: 'hello' }),
       headers: {
@@ -325,8 +325,8 @@ async function postRequest() {
     if (!response.ok) {
       // ... error handling
     }
-    const json = await response.text();
-    console.log(response);
+    const json = await response.json();
+    console.log(json);
   } catch (e) {
     console.log(e);
   }
