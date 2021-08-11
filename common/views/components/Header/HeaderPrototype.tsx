@@ -298,9 +298,9 @@ const HeaderItem = styled.li`
   )}
 `;
 
-async function getRequest() {
+async function getRequest(userId) {
   try {
-    const response = await fetch(`/users/${'userIdHere'}/item-requests`);
+    const response = await fetch(`/users/${userId}/item-requests`);
 
     if (!response.ok) {
       // ... error handling
@@ -313,9 +313,9 @@ async function getRequest() {
   }
 }
 
-async function postRequest() {
+async function postRequest(userId) {
   try {
-    const response = await fetch(`/users/${'userIdHere'}/item-requests`, {
+    const response = await fetch(`/users/${userId}/item-requests`, {
       method: 'POST',
       body: JSON.stringify({ greeting: 'hello' }),
       headers: {
@@ -432,7 +432,6 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
   const [isActive, setIsActive] = useState(false);
   const { user, isLoading } = useUserInfo();
   const displayName = user && `${user.firstName} ${user.lastName.slice(0, 1)}…`;
-
   return (
     <Wrapper navHeight={navHeight} isBurgerOpen={isActive}>
       <div className="relative grid__cell">
@@ -533,8 +532,12 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
         </div>
       </div>
       {/* TODO don't commit */}
-      <button onClick={postRequest}>Test POST</button>
-      <button onClick={getRequest}>Test GET</button>
+      {user && (
+        <>
+          <button onClick={() => postRequest(user.userId)}>Test POST</button>
+          <button onClick={() => getRequest(user.userId)}>Test GET</button>
+        </>
+      )}
     </Wrapper>
   );
 };

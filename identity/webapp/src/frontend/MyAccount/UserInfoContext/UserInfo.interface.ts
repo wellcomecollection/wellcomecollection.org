@@ -4,4 +4,5 @@ export type UserInfo = {
   email: string;
   emailValidated: boolean;
   barcode: string;
+  userId: string;
 };
