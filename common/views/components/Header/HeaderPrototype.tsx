@@ -328,8 +328,8 @@ async function postRequest(userId) {
     if (!response.ok) {
       // ... error handling
     }
-    const json = await response.json();
-    console.log(json);
+    const text = await response.text();
+    console.log(text, response.status);
   } catch (e) {
     console.log(e);
   }
