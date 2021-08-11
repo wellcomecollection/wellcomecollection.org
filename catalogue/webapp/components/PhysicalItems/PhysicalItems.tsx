@@ -3,6 +3,7 @@ import PhysicalItemDetails from '../PhysicalItemDetails/PhysicalItemDetails';
 import {
   PhysicalItem,
   ItemsWork,
+  Work,
   CatalogueApiError,
 } from '@weco/common/model/catalogue';
 import { isCatalogueApiError } from '../../pages/api/works/items/[workId]';
@@ -17,13 +18,13 @@ async function fetchWorkItems(
 }
 
 type Props = {
-  workId: string;
+  work: Work;
   items: PhysicalItem[];
   encoreLink: string | undefined;
 };
 
 const PhysicalItems: FunctionComponent<Props> = ({
-  workId,
+  work,
   items,
   encoreLink,
 }: Props) => {
@@ -31,7 +32,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const addStatusToItems = async () => {
-      const items = await fetchWorkItems(workId);
+      const items = await fetchWorkItems(work.id);
       if (!isCatalogueApiError(items)) {
         const mergedItems = physicalItems.map(currentItem => {
           const matchingItem = items.results?.find(
@@ -57,6 +58,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
       listItems={physicalItems.map((item, index) => (
         <PhysicalItemDetails
           item={item}
+          work={work}
           encoreLink={encoreLink}
           isLast={index === physicalItems.length - 1}
           key={index}

@@ -1,3 +1,24 @@
+import { workWithPhysicalLocationOnly } from './contexts';
+import { baseUrl } from './helpers/urls';
+import { makeDefaultToggleAndTestCookies } from './helpers/utils';
+
+const domain = new URL(baseUrl).host;
+
+beforeAll(async () => {
+  const defaultToggleAndTestCookies = await makeDefaultToggleAndTestCookies(
+    domain
+  );
+  await context.addCookies([
+    {
+      name: 'toggle_showItemRequestFlow',
+      value: 'true',
+      domain: domain,
+      path: '/',
+    },
+    ...defaultToggleAndTestCookies,
+  ]);
+});
+
 describe('Scenario 1: researcher is logged out', () => {
   test('Link to login/registration is displayed', () => {
     // Log out
@@ -27,45 +48,44 @@ describe('Scenario 3: researcher is a library member', () => {
 });
 
 describe('Scenario 4: researcher is logged in', () => {
-  test('Items display their requestability', () => {
-    // Log in
-    // Go to work page with requestable items
-    // Expect request button for each requestable item
+  test('Items display their requestability', async () => {
+    // TODO: Log in instead of setting toggle
+    await workWithPhysicalLocationOnly();
+    const requestButtons = await page.$$('button:has-text("Request item")');
+    expect(requestButtons.length).toBe(2);
   });
 });
 
 describe('Scenario 5: researcher initiates item request', () => {
-  beforeAll(() => {
-    // Log in
-    // Go to work page with requestable items
-    // Click request button
+  beforeAll(async () => {
+    // TODO: Log in instead of setting toggle
+    await workWithPhysicalLocationOnly();
+    await page.click('button:has-text("Request item")');
   });
 
-  test('Account indicates number of remaining requests', () => {
-    // Expect x of y requests remaining
+  test('Account indicates number of remaining requests', async () => {
+    const remainingRequests = await page.$(':has-text("7/15 items remaining")');
+    expect(remainingRequests).toBeTruthy();
   });
 
-  test('Researcher can cancel request', () => {
-    // Click cancel request button
-    // Expect item not to have been requested
-    // Expect to see request button for item
+  test('Researcher can cancel request', async () => {
+    await page.click('button:has-text("Cancel request")');
+    const requestButtons = await page.$$('button:has-text("Request item")');
+    expect(requestButtons.length).toBe(2);
   });
 });
 
 describe('Scenario 6: researcher confirms item request', () => {
-  beforeAll(() => {
-    // Log in
-    // Go to work page with requestable items
-    // Click request button
+  beforeAll(async () => {
+    // TODO: Log in instead of setting toggle
+    await workWithPhysicalLocationOnly();
+    await page.click('button:has-text("Request item")');
   });
 
-  test('Researcher can confirm request', () => {
-    // Expect
-    // Click confirm button
-    // Expect item to have been requested
-    // Expect success message
-    // Expect location/duration information
-    // Expect process for collection information
-    // Expect book a ticket button
+  test('Researcher can confirm request', async () => {
+    await page.click('button:has-text("Confirm request")');
+    await page.waitForSelector(':has-text("Request confirmed")');
+    await page.waitForSelector(':has-text("6/15 items remaining")');
+    await page.waitForSelector('a:has-text("Book a ticket")');
   });
 });
