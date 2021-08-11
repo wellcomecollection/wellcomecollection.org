@@ -12,6 +12,7 @@ import PopupDialogContext, {
 import TogglesContext from '../TogglesContext/TogglesContext';
 import { parseCollectionVenues } from '../../../services/prismic/opening-times';
 import { Toggles } from '@weco/toggles';
+import { ApmContextProvider } from '../ApmContext/ApmContext';
 
 export type GlobalContextData = {
   toggles: Toggles;
@@ -45,15 +46,17 @@ const GlobalContextProvider: FunctionComponent<Props> = ({
     value.openingTimes && parseCollectionVenues(value.openingTimes);
   return (
     <Context.Provider value={value}>
-      <OpeningTimesContext.Provider value={parsedOpeningTimes}>
-        <GlobalAlertContext.Provider value={value.globalAlert}>
-          <PopupDialogContext.Provider value={value.popupDialog}>
-            <TogglesContext.Provider value={value.toggles}>
-              {children}
-            </TogglesContext.Provider>
-          </PopupDialogContext.Provider>
-        </GlobalAlertContext.Provider>
-      </OpeningTimesContext.Provider>
+      <ApmContextProvider>
+        <OpeningTimesContext.Provider value={parsedOpeningTimes}>
+          <GlobalAlertContext.Provider value={value.globalAlert}>
+            <PopupDialogContext.Provider value={value.popupDialog}>
+              <TogglesContext.Provider value={value.toggles}>
+                {children}
+              </TogglesContext.Provider>
+            </PopupDialogContext.Provider>
+          </GlobalAlertContext.Provider>
+        </OpeningTimesContext.Provider>
+      </ApmContextProvider>
     </Context.Provider>
   );
 };
@@ -65,10 +68,10 @@ export function getGlobalContextData(
 ): GlobalContextData {
   return {
     // NextJS types do not yet allow a parametrised `query` :(
-    toggles: (context.query?.toggles as unknown) as Toggles,
-    globalAlert: (context.query?.globalAlert as unknown) as GlobalAlert,
-    popupDialog: (context.query?.popupDialog as unknown) as PopupDialog,
-    openingTimes: (context.query?.openingTimes as unknown) as OpeningTimes,
+    toggles: context.query?.toggles as unknown as Toggles,
+    globalAlert: context.query?.globalAlert as unknown as GlobalAlert,
+    popupDialog: context.query?.popupDialog as unknown as PopupDialog,
+    openingTimes: context.query?.openingTimes as unknown as OpeningTimes,
   };
 }
 

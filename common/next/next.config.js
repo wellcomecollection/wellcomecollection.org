@@ -7,7 +7,7 @@ const withMDX = require('@next/mdx')({
 const buildHash = process.env.BUILD_HASH || 'test';
 const isProd = process.env.NODE_ENV === 'production';
 
-module.exports = function(webpack) {
+module.exports = function (webpack) {
   const prodSubdomain = process.env.PROD_SUBDOMAIN || '';
   const withBundleAnalyzerConfig = withBundleAnalyzer({
     analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
@@ -46,6 +46,12 @@ module.exports = function(webpack) {
     },
   });
 
+  const apmConfig = {
+    environment: process.env.APM_ENVIRONMENT,
+    serverUrl: process.env.APM_SERVER_URL,
+    centralConfig: true,
+  };
+
   const rewrites =
     process.env.NODE_ENV === 'development'
       ? [
@@ -78,6 +84,9 @@ module.exports = function(webpack) {
         isProd && prodSubdomain
           ? `https://${prodSubdomain}.wellcomecollection.org`
           : '',
+      publicRuntimeConfig: {
+        apmConfig,
+      },
       ...withBundleAnalyzerConfig,
       async rewrites() {
         return rewrites;
