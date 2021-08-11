@@ -29,6 +29,7 @@ export class TypedRouter<
   static PATCH = 'patch';
   static PUT = 'put';
   static DELETE = 'delete';
+  static GETPOST = 'getpost';
 
   private router = new Router({ prefix });
 
@@ -38,6 +39,12 @@ export class TypedRouter<
       const [method, path, func, schemaName] = routes[route];
 
       switch (method) {
+        case TypedRouter.GETPOST:
+          // @ts-ignore
+          this.router.get(route, path, func);
+          // @ts-ignore
+          this.router.post(route, path, koaBody(), requestBody(schemaName), func);
+          break;
         case TypedRouter.PUT:
           // @ts-ignore
           this.router.put(route, path, koaBody(), requestBody(schemaName), func);
