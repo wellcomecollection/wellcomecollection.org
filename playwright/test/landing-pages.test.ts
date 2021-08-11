@@ -6,11 +6,12 @@ import {
   collectionsUrl,
   aboutUsUrl,
 } from './helpers/urls';
+import { gotoWithoutCache } from './contexts';
 
 describe('Top-level landing pages', () => {
   test('the homepage renders with a status code of 200', async () => {
     const [, content] = await Promise.all([
-      page.goto(homepageUrl),
+      gotoWithoutCache(homepageUrl),
       page.textContent('h1'),
     ]);
 
@@ -21,7 +22,7 @@ describe('Top-level landing pages', () => {
 
   test('the visit us page renders with a status code of 200', async () => {
     const [, content] = await Promise.all([
-      page.goto(visitUsUrl),
+      gotoWithoutCache(visitUsUrl),
       page.textContent('h1'),
     ]);
 
@@ -30,7 +31,7 @@ describe('Top-level landing pages', () => {
 
   test(`the what's on page renders with a status code of 200`, async () => {
     const [, content] = await Promise.all([
-      page.goto(whatsOnUrl),
+      gotoWithoutCache(whatsOnUrl),
       page.textContent('h1'),
     ]);
 
@@ -39,7 +40,7 @@ describe('Top-level landing pages', () => {
 
   test(`the stories page renders with a status code of 200`, async () => {
     const [, content] = await Promise.all([
-      page.goto(storiesUrl),
+      gotoWithoutCache(storiesUrl),
       page.textContent('h1'),
     ]);
 
@@ -48,7 +49,7 @@ describe('Top-level landing pages', () => {
 
   test('the collections page renders with a status code of 200', async () => {
     const [, content] = await Promise.all([
-      page.goto(collectionsUrl),
+      gotoWithoutCache(collectionsUrl),
       page.textContent('h1'),
     ]);
 
@@ -57,7 +58,7 @@ describe('Top-level landing pages', () => {
 
   test('the about us page renders with a status code of 200', async () => {
     const [, content] = await Promise.all([
-      page.goto(aboutUsUrl),
+      gotoWithoutCache(aboutUsUrl),
       page.textContent('h1'),
     ]);
 
