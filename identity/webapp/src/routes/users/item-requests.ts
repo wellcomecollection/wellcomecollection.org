@@ -30,8 +30,10 @@ async function fetchItemRequests({ accessToken, apiKey = '', userId }) {
     };
   } catch (error) {
     return {
-      status: 500,
-      body: {},
+      status: error.statusCode || error.status || 500,
+      body: {
+        message: error.message,
+      },
     };
   }
 }
