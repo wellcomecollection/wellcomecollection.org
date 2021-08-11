@@ -8,17 +8,11 @@ import { baseUrl } from './helpers/urls';
 
 const domain = new URL(baseUrl).host;
 
-// Turn on the showPhysicalItems toggle
 beforeAll(async () => {
   const defaultToggleAndTestCookies = await makeDefaultToggleAndTestCookies(
     domain
   );
-  const toggleOverrides = [
-    {
-      name: 'toggle_showPhysicalItems',
-      value: 'true',
-    },
-  ];
+  const toggleOverrides = [];
   const overriddenCookies = defaultToggleAndTestCookies.map(cookie => {
     const matchingOverrideCookie = toggleOverrides.find(
       override => override.name === cookie.name
