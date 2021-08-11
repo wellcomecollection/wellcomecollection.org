@@ -55,12 +55,13 @@ module.exports = app
     route('/works/:workId/images', '/image', router, app);
     route('/works/:workId/download', '/download', router, app);
 
-    router.get('/works/management/healthcheck', async ctx => {
-      ctx.status = 200;
+    router.get('/works/management/healthcheck', async (ctx) => {
+      ctx.status = 201;
       ctx.body = 'ok';
     });
 
     router.get('*', handleAllRoute(handle));
+    router.post('/users/:userId/item-requests', handleAllRoute(handle));
 
     server.use(async (ctx, next) => {
       ctx.res.statusCode = 200;
@@ -70,7 +71,7 @@ module.exports = app
     server.use(router.routes());
     return server;
   })
-  .catch(ex => {
+  .catch((ex) => {
     console.error(ex.stack);
     process.exit(1);
   });
