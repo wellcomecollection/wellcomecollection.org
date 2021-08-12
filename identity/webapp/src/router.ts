@@ -49,6 +49,8 @@ export const router = new TypedRouter({
   'update-user-password': [TypedRouter.PUT, '/api/users/me/password', updatePassword, 'UpdatePasswordSchema'],
   'delete-user': [TypedRouter.PUT, '/api/users/me/deletion-request', requestDelete, 'RequestDeleteSchema'],
 
+  'item-requests': [TypedRouter.GETPOST, '/api/users/:user_id/item-requests', itemRequests],
+
   // Proxy APIs - todo
   'get-user': [TypedRouter.GET, '/api/users/:user_id', stubApi],
   'get-users': [TypedRouter.GET, '/api/users', stubApi],
@@ -61,9 +63,6 @@ export const router = new TypedRouter({
 
   // Local route overrides.
   ...loginRoutes,
-
-  // Requesting Proxy APIs
-  'item-requests': [TypedRouter.GETPOST, '/users/:user_id/item-requests', itemRequests],
 
   // Frontend fallback route.
   frontend: [TypedRouter.GET, '(.*)', indexPage],

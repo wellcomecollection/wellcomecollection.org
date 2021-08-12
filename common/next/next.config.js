@@ -54,8 +54,9 @@ module.exports = function (webpack) {
             destination: 'http://localhost:3000/api/users/me',
           },
           {
-            source: '/users/:user_id/item-requests',
-            destination: 'http://localhost:3000/users/:user_id/item-requests',
+            source: '/api/users/:user_id/item-requests',
+            destination:
+              'http://localhost:3000/api/users/:user_id/item-requests',
           },
         ]
       : [];
