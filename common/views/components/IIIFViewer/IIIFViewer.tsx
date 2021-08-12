@@ -19,7 +19,7 @@ import {
   getDownloadOptionsFromManifest,
 } from '@weco/common/utils/iiif';
 import ViewerSidebar from './ViewerSidebar';
-import MainViewer from './MainViewer';
+import MainViewer, { scrollViewer } from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import ItemViewerContext, {
@@ -301,7 +301,12 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         // it was before and scroll to the right place.
         if (previousActiveIndex !== activeIndex) {
           setActiveIndex(previousActiveIndex);
-          mainViewerRef?.current?.scrollToItem(previousActiveIndex, 'start');
+          scrollViewer(
+            canvases[previousActiveIndex],
+            previousActiveIndex,
+            mainViewerRef?.current,
+            mainArea.contentRect.width
+          );
         }
 
         previousActiveIndex = undefined;

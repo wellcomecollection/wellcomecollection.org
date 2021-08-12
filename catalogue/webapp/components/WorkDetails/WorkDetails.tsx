@@ -47,9 +47,26 @@ import IIIFClickthrough from '@weco/common/views/components/IIIFClickthrough/III
 import OnlineResources from './OnlineResources';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
+import styled from 'styled-components';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import AlignFont from '@weco/common/views/components/styled/AlignFont';
+
 type Props = {
   work: Work;
 };
+
+const SignInNotice = styled(Space).attrs({
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background: ${props => props.theme.color('turquoise', 'light')};
+  display: flex;
+  align-items: flex-start;
+
+  .icon {
+    transform: translateY(0.1em);
+  }
+`;
 
 // At the moment we aren't set up to cope with access conditions,
 // 'permission-required', so we pass them off to the UV on the library site
@@ -74,7 +91,7 @@ function getItemLinkState({
 }
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
-  const { showPhysicalItems, showHoldingsOnWork } = useContext(TogglesContext);
+  const { showHoldingsOnWork, showLogin } = useContext(TogglesContext);
   const isArchive = useContext(IsArchiveContext);
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
@@ -213,31 +230,35 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   const holdings = getHoldings(work);
 
-  const WhereToFindIt = () => (
+  type WhereToFindItProps = {
+    showLogin: boolean;
+  };
+  const WhereToFindIt = ({ showLogin }: WhereToFindItProps) => (
     <WorkDetailsSection headingText="Where to find it">
+      {showLogin && (
+        <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <SignInNotice>
+            <Space h={{ size: 's', properties: ['margin-right'] }}>
+              <Icon name="memberCard" />
+            </Space>
+            <AlignFont>
+              <span className={font('hnb', 5)}>Library members:</span>{' '}
+              <a href="/account" className={font('hnr', 5)}>
+                sign in to your library account to request items
+              </a>
+            </AlignFont>
+          </SignInNotice>
+        </Space>
+      )}
       {locationOfWork && (
         <WorkDetailsText
           title={locationOfWork.noteType.label}
           text={locationOfWork.contents}
         />
       )}
-      {showEncoreLink && !showPhysicalItems && (
-        <Space
-          v={{
-            size: 'l',
-            properties: ['margin-bottom'],
-          }}
-        >
-          <WorkDetailsText
-            text={[
-              `<a href="${encoreLink}">Access this item on the Wellcome Library website</a>`,
-            ]}
-          />
-        </Space>
-      )}
-      {showPhysicalItems && physicalItems && (
+      {physicalItems && (
         <PhysicalItems
-          workId={work.id}
+          work={work}
           items={physicalItems}
           encoreLink={encoreLink}
         />
@@ -271,38 +292,30 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                       key={i}
                       v={{ size: 's', properties: ['margin-bottom'] }}
                     >
-                      <ExpandableList listItems={holding.enumeration} />
+                      <ExpandableList
+                        listItems={holding.enumeration}
+                        initialItems={10}
+                      />
                     </Space>
                   )}
                   <Space
                     key={i}
                     v={{ size: 's', properties: ['margin-bottom'] }}
                   >
-                    {holding.location?.locationType.label && (
-                      <>
-                        <WorkDetailsText
-                          title="Location"
-                          inlineHeading={true}
-                          noSpacing={true}
-                          text={[holding.location.locationType.label]}
-                        />
-                        {locationLink && (
-                          <a
-                            className={classNames({
-                              [font('hnr', 5)]: true,
-                            })}
-                            href={locationLink.url}
-                          >
-                            {locationLink.linkText}
-                          </a>
-                        )}
-                      </>
+                    {locationLink && (
+                      <a
+                        className={classNames({
+                          [font('hnr', 5)]: true,
+                        })}
+                        href={locationLink.url}
+                      >
+                        {locationLink.linkText}
+                      </a>
                     )}
 
                     {locationShelfmark && (
                       <WorkDetailsText
-                        title="Shelfmark"
-                        inlineHeading={true}
+                        title="Location"
                         noSpacing={true}
                         text={[`${locationLabel} ${locationShelfmark}`]}
                       />
@@ -694,7 +707,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
       <Holdings />
 
-      {(locationOfWork || showEncoreLink) && <WhereToFindIt />}
+      {(locationOfWork || showEncoreLink) && (
+        <WhereToFindIt showLogin={showLogin} />
+      )}
 
       <WorkDetailsSection headingText="Permanent link">
         <div className={`${font('hnr', 5)}`}>

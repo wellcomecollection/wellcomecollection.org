@@ -340,3 +340,9 @@ export function getLocationLink(
     };
   }
 }
+
+export function getFirstPhysicalLocation(
+  item: PhysicalItem
+): PhysicalLocation | undefined {
+  return item.locations?.find(location => location.type === 'PhysicalLocation');
+}

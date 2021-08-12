@@ -73,6 +73,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "page",
         "result",
         "toggle",
+        "cachebust",
         "uri",
       ]
 
@@ -135,6 +136,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "subjects.label",
         "contributors.agent.label",
         "toggle",
+        "cachebust",
         "workType",
       ])
 
@@ -206,6 +208,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "query",
         "source",
         "toggle",
+        "cachebust",
       ]
 
       cookies {

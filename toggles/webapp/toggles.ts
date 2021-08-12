@@ -27,16 +27,17 @@ export default {
       defaultValue: false,
     },
     {
+      id: 'showItemRequestFlow',
+      title: 'Show item request user flow',
+      description:
+        'Makes the Request item button call the items API and show the relevant request/confirm modal flow',
+      defaultValue: false,
+    },
+    {
       id: 'stagingApi',
       title: 'Staging API',
       defaultValue: false,
       description: 'Use the staging catalogue API',
-    },
-    {
-      id: 'showPhysicalItems',
-      title: 'Show physical items on the work page',
-      defaultValue: true,
-      description: 'Shows physical items and their locations on the work page',
     },
     {
       id: 'apiToolbar',

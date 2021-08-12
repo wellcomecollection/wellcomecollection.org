@@ -12,6 +12,7 @@ jobs:
           clean-script: "clean"
           pattern: "**/webapp/{.next/static/chunks,lib/frontend/build}/**/*.js"
           strip-hash: "\\b[-\\.](\\w{20})\\.js$"
+          minimum-change-threshold: 512 # Only report changes for > 0.5kb
 
   lighthouse_reports:
     name: Lighthouse reports

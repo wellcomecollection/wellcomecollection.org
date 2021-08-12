@@ -1,4 +1,5 @@
 import { imagesUrl } from './helpers/urls';
+import { gotoWithoutCache } from './contexts';
 import {
   fillActionSearchInput,
   pressActionEnterSearchInput,
@@ -30,7 +31,7 @@ import { searchResultsContainer } from './selectors/search';
 
 describe('Image search', () => {
   beforeEach(async () => {
-    await page.goto(imagesUrl);
+    await gotoWithoutCache(imagesUrl);
   });
   test('Search by term, filter by colour, check results, view image details, view expanded image', async () => {
     const expectedValue = 'art of science';
