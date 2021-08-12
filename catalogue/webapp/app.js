@@ -56,7 +56,7 @@ module.exports = app
     route('/works/:workId/download', '/download', router, app);
 
     router.get('/works/management/healthcheck', async (ctx) => {
-      ctx.status = 201;
+      ctx.status = 200;
       ctx.body = 'ok';
     });
 
