@@ -8,7 +8,7 @@ export const itemRequests: RouteMiddleware<{ user_id: string }> = async context 
       `/users/${context.params.user_id}/item-requests`,
       context.state,
       context.requestBody,
-      false
+      true
     );
     context.response.status = status;
   }
