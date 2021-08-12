@@ -19,7 +19,7 @@ beforeAll(async () => {
   ]);
 });
 
-describe('Scenario 1: researcher is logged out', () => {
+describe.skip('Scenario 1: researcher is logged out', () => {
   test('Link to login/registration is displayed', () => {
     // Log out
     // Go to item page with requestable items
@@ -27,7 +27,7 @@ describe('Scenario 1: researcher is logged out', () => {
   });
 });
 
-describe('Scenario 2: researcher is not a library member', () => {
+describe.skip('Scenario 2: researcher is not a library member', () => {
   test('Information about registering for library membership is displayed', () => {
     // Log out
     // Go to login/register page
@@ -36,7 +36,7 @@ describe('Scenario 2: researcher is not a library member', () => {
   });
 });
 
-describe('Scenario 3: researcher is a library member', () => {
+describe.skip('Scenario 3: researcher is a library member', () => {
   test('Researcher can log in', () => {
     // Log out
     // Go to Login/register page
@@ -47,7 +47,7 @@ describe('Scenario 3: researcher is a library member', () => {
   });
 });
 
-describe('Scenario 4: researcher is logged in', () => {
+describe.skip('Scenario 4: researcher is logged in', () => {
   test('Items display their requestability', async () => {
     // TODO: Log in instead of setting toggle
     await workWithPhysicalLocationOnly();
@@ -56,7 +56,7 @@ describe('Scenario 4: researcher is logged in', () => {
   });
 });
 
-describe('Scenario 5: researcher initiates item request', () => {
+describe.skip('Scenario 5: researcher initiates item request', () => {
   beforeAll(async () => {
     // TODO: Log in instead of setting toggle
     await workWithPhysicalLocationOnly();
@@ -75,7 +75,7 @@ describe('Scenario 5: researcher initiates item request', () => {
   });
 });
 
-describe('Scenario 6: researcher confirms item request', () => {
+describe.skip('Scenario 6: researcher confirms item request', () => {
   beforeAll(async () => {
     // TODO: Log in instead of setting toggle
     await workWithPhysicalLocationOnly();
