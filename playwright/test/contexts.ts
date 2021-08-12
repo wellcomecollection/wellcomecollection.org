@@ -1,4 +1,9 @@
 import { baseUrl, useStageApis } from './helpers/urls';
+import { Response } from 'playwright';
+
+export function gotoWithoutCache(url: string): Promise<null | Response> {
+  return page.goto(`${url}?cachebust=${Date.now()}`);
+}
 
 const createCookie = (name: string) => {
   return {
@@ -20,42 +25,42 @@ const requiredCookies = useStageApis
 
 const multiVolumeItem = async (): Promise<void> => {
   context.addCookies(requiredCookies);
-  await page.goto(`${baseUrl}/works/mg56yqa4/items`);
+  await gotoWithoutCache(`${baseUrl}/works/mg56yqa4/items`);
 };
 
 const itemWithSearchAndStructures = async (): Promise<void> => {
   context.addCookies(requiredCookies);
-  await page.goto(`${baseUrl}/works/re9cyhkt/items`);
+  await gotoWithoutCache(`${baseUrl}/works/re9cyhkt/items`);
 };
 
 const workWithPhysicalLocationOnly = async (): Promise<void> => {
   context.addCookies(requiredCookies);
-  await page.goto(`${baseUrl}/works/ffd3zeq3`);
+  await gotoWithoutCache(`${baseUrl}/works/ffd3zeq3`);
 };
 
 const workWithDigitalLocationOnly = async (): Promise<void> => {
   context.addCookies(requiredCookies);
-  await page.goto(`${baseUrl}/works/j9kukb78`);
+  await gotoWithoutCache(`${baseUrl}/works/j9kukb78`);
 };
 
 const workWithDigitalLocationAndLocationNote = async (): Promise<void> => {
   context.addCookies(requiredCookies);
-  await page.goto(`${baseUrl}/works/a235xn8e`);
+  await gotoWithoutCache(`${baseUrl}/works/a235xn8e`);
 };
 
 const workWithPhysicalAndDigitalLocation = async (): Promise<void> => {
   context.addCookies(requiredCookies);
-  await page.goto(`${baseUrl}/works/works/r9kpkq8e`);
+  await gotoWithoutCache(`${baseUrl}/works/works/r9kpkq8e`);
 };
 
 const itemWithReferenceNumber = async (): Promise<void> => {
   context.addCookies(requiredCookies);
-  await page.goto(`${baseUrl}/works/qqra7v28/items`);
+  await gotoWithoutCache(`${baseUrl}/works/qqra7v28/items`);
 };
 
 const worksSearch = async (): Promise<void> => {
   context.addCookies(requiredCookies);
-  await page.goto(`${baseUrl}/works`);
+  await gotoWithoutCache(`${baseUrl}/works`);
 };
 
 export const isMobile = Boolean(deviceName);
