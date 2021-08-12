@@ -80,10 +80,15 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const isArchive = useContext(IsArchiveContext);
   const { showItemRequestFlow } = useContext(TogglesContext);
   const physicalLocation = getFirstPhysicalLocation(item);
+  console.log(physicalLocation?.accessConditions?.[0]?.status?.label);
+  const isOpenShelves = physicalLocation?.locationType.id === 'open-shelves';
   const isRequestableOnline =
     physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
   const accessMethod =
     physicalLocation?.accessConditions?.[0]?.method?.label || '';
+  const accessStatus =
+    physicalLocation?.accessConditions?.[0]?.status?.label ||
+    (isRequestableOnline ? 'Open' : '');
   const accessNote = physicalLocation?.accessConditions?.[0]?.note;
   const locationLabel = physicalLocation && getLocationLabel(physicalLocation);
   const locationShelfmark =
@@ -114,30 +119,40 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
             <span className={`inline-block`}>{location}</span>{' '}
             <span className={`inline-block`}>{shelfmark}</span>
           </Box>
-          <Box>
-            <DetailHeading>Access</DetailHeading>
-            {accessMethod && <span>{accessMethod}</span>}
-          </Box>
-          <Box isCentered>
-            {requestItemUrl && (
-              <>
-                {showItemRequestFlow ? (
-                  <ConfirmItemRequest
-                    isActive={isActive}
-                    setIsActive={setIsActive}
-                    id={'test'}
-                    item={item}
-                    work={work}
-                  />
-                ) : (
-                  <ButtonInlineLink
-                    text={'Request item'}
-                    link={requestItemUrl}
-                  />
+          {!isOpenShelves && (
+            <>
+              <Box>
+                {accessStatus && (
+                  <>
+                    <DetailHeading>Access</DetailHeading>
+                    <span>{accessStatus}</span>
+                  </>
                 )}
-              </>
-            )}
-          </Box>
+              </Box>
+              <Box isCentered>
+                {requestItemUrl ? (
+                  <>
+                    {showItemRequestFlow ? (
+                      <ConfirmItemRequest
+                        isActive={isActive}
+                        setIsActive={setIsActive}
+                        id={'test'}
+                        item={item}
+                        work={work}
+                      />
+                    ) : (
+                      <ButtonInlineLink
+                        text={'Request item'}
+                        link={requestItemUrl}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <>{accessMethod}</>
+                )}
+              </Box>
+            </>
+          )}
         </Grid>
       </Row>
       {accessNote && (
