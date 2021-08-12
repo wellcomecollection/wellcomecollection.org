@@ -12,8 +12,6 @@ import {
   withUserInfo,
 } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 
-import fetch from 'isomorphic-unfetch'; // TODO don't commit
-
 const NavLoginWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -298,43 +296,6 @@ const HeaderItem = styled.li`
   )}
 `;
 
-async function getRequest(userId) {
-  try {
-    const response = await fetch(`/users/${userId}/item-requests`);
-
-    if (!response.ok) {
-      // ... error handling
-    }
-    const json = await response.json();
-    console.log(json);
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-async function postRequest(userId) {
-  try {
-    const response = await fetch(`/users/${userId}/item-requests`, {
-      method: 'POST',
-      body: JSON.stringify({
-        workId: 'f242ps6b',
-        itemId: 'x2vpgxxs',
-        type: 'Item',
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!response.ok) {
-      // ... error handling
-    }
-    const text = await response.text();
-    console.log(text, response.status);
-  } catch (e) {
-    console.log(e);
-  }
-}
-
 const HeaderLink = styled.a<{ isActive: boolean }>`
   padding: 1.4rem 0.3rem;
   display: inline-block;
@@ -534,17 +495,6 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
           </NavLoginWrapper>
         </div>
       </div>
-      {/* TODO don't commit */}
-      {user && (
-        <>
-          <button onClick={() => postRequest(user.userId)}>
-            Test make request
-          </button>
-          <button onClick={() => getRequest(user.userId)}>
-            Test get requests
-          </button>
-        </>
-      )}
     </Wrapper>
   );
 };
