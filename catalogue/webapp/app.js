@@ -55,7 +55,7 @@ module.exports = app
     route('/works/:workId/images', '/image', router, app);
     route('/works/:workId/download', '/download', router, app);
 
-    router.get('/works/management/healthcheck', async (ctx) => {
+    router.get('/works/management/healthcheck', async ctx => {
       ctx.status = 200;
       ctx.body = 'ok';
     });
@@ -71,7 +71,7 @@ module.exports = app
     server.use(router.routes());
     return server;
   })
-  .catch((ex) => {
+  .catch(ex => {
     console.error(ex.stack);
     process.exit(1);
   });

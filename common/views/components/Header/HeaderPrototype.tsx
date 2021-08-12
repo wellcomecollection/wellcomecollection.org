@@ -106,9 +106,9 @@ const Wrapper = styled.div.attrs({
 })<WrapperProps>`
   position: relative;
   z-index: 6;
-  border-bottom: 1px solid ${(props) => props.theme.color('pumice')};
+  border-bottom: 1px solid ${props => props.theme.color('pumice')};
 
-  ${(props) =>
+  ${props =>
     props.isBurgerOpen &&
     `${respondBetween(
       'small',
@@ -122,7 +122,7 @@ const Wrapper = styled.div.attrs({
     `
     )}
   `}
-  height: ${(props) => props.navHeight}px;
+  height: ${props => props.navHeight}px;
 `;
 
 const Burger = styled.div`
@@ -149,7 +149,7 @@ const BurgerTrigger = styled.a<{ isActive: boolean }>`
     left: 0;
     right: 0;
     height: 2px;
-    background: ${(props) => props.theme.color('black')};
+    background: ${props => props.theme.color('black')};
     transition: transform 400ms ease;
     transform-origin: center center;
 
@@ -161,7 +161,7 @@ const BurgerTrigger = styled.a<{ isActive: boolean }>`
       top: 100%;
     }
 
-    ${(props) =>
+    ${props =>
       props.isActive &&
       `
         &:first-child {
@@ -188,7 +188,7 @@ const HeaderBrand = styled.div`
   // This is to account for the burger as we want it to be dead centre.
   margin-left: -20px;
 
-  ${(props) => `
+  ${props => `
     ${respondTo(
       'headerMedium',
       `
@@ -210,17 +210,17 @@ const HeaderBrand = styled.div`
 `;
 
 const HeaderNav = styled.nav<{ isActive: boolean }>`
-  display: ${(props) => (props.isActive ? 'block' : 'none')};
-  background: ${(props) => props.theme.color('white')};
+  display: ${props => (props.isActive ? 'block' : 'none')};
+  background: ${props => props.theme.color('white')};
   position: absolute;
   top: 100%;
   left: 0;
   right: 0;
-  padding-left: ${(props) =>
+  padding-left: ${props =>
     props.theme.grid.s.padding + props.theme.grid.s.gutter}px;
-  padding-right: ${(props) => props.theme.grid.s.padding}px;
+  padding-right: ${props => props.theme.grid.s.padding}px;
 
-  ${(props) => `
+  ${props => `
     ${respondBetween(
       'small',
       'headerMedium',
@@ -232,7 +232,7 @@ const HeaderNav = styled.nav<{ isActive: boolean }>`
     )}
   `}
 
-  ${(props) => `
+  ${props => `
     ${respondTo(
       'medium',
       `
@@ -266,7 +266,7 @@ const HeaderList = styled.ul`
 `;
 
 const HeaderItem = styled.li`
-  border-bottom: 1px solid ${(props) => props.theme.color('pumice')};
+  border-bottom: 1px solid ${props => props.theme.color('pumice')};
 
   // TODO: the vw units below are tightly coupled to the
   // number of nav items and number of characters in them.
@@ -319,7 +319,7 @@ const HeaderLink = styled.a<{ isActive: boolean }>`
     height: 0.6rem;
     left: 0;
     width: 0;
-    background: ${(props) => props.theme.color('yellow')};
+    background: ${props => props.theme.color('yellow')};
     z-index: -1;
     transition: width 200ms ease;
 
@@ -344,7 +344,7 @@ const HeaderLink = styled.a<{ isActive: boolean }>`
     }
   }
 
-  ${(props) =>
+  ${props =>
     props.isActive &&
     `
     &:after {
@@ -406,7 +406,7 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
               href="#footer-nav-1"
               id="header-burger-trigger"
               aria-label="menu"
-              onClick={(event) => {
+              onClick={event => {
                 event.preventDefault();
                 setIsActive(!isActive);
               }}
