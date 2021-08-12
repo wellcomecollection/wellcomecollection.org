@@ -7,7 +7,7 @@ const withMDX = require('@next/mdx')({
 const buildHash = process.env.BUILD_HASH || 'test';
 const isProd = process.env.NODE_ENV === 'production';
 
-module.exports = function(webpack) {
+module.exports = function (webpack) {
   const prodSubdomain = process.env.PROD_SUBDOMAIN || '';
   const withBundleAnalyzerConfig = withBundleAnalyzer({
     analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
@@ -52,6 +52,11 @@ module.exports = function(webpack) {
           {
             source: '/api/users/me',
             destination: 'http://localhost:3000/api/users/me',
+          },
+          {
+            source: '/api/users/:user_id/item-requests',
+            destination:
+              'http://localhost:3000/api/users/:user_id/item-requests',
           },
         ]
       : [];

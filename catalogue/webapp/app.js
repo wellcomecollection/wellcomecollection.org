@@ -61,6 +61,7 @@ module.exports = app
     });
 
     router.get('*', handleAllRoute(handle));
+    router.post('/api/users/:userId/item-requests', handleAllRoute(handle));
 
     server.use(async (ctx, next) => {
       ctx.res.statusCode = 200;

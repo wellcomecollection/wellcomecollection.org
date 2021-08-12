@@ -232,7 +232,6 @@ const HeaderNav = styled.nav<{ isActive: boolean }>`
     )}
   `}
 
-
   ${props => `
     ${respondTo(
       'medium',
@@ -253,7 +252,6 @@ const HeaderNav = styled.nav<{ isActive: boolean }>`
     padding-right: 0;
   `
   )}
-
 `;
 
 const HeaderList = styled.ul`
@@ -398,7 +396,6 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
   const [isActive, setIsActive] = useState(false);
   const { user, isLoading } = useUserInfo();
   const displayName = user && `${user.firstName} ${user.lastName.slice(0, 1)}…`;
-
   return (
     <Wrapper navHeight={navHeight} isBurgerOpen={isActive}>
       <div className="relative grid__cell">

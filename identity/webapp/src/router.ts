@@ -11,6 +11,7 @@ import { registerUser } from './routes/api/register-user';
 import { getCurrentUser } from './routes/api/get-current-user';
 import { updateCurrentUser } from './routes/api/update-current-user';
 import { requestDelete } from './routes/api/request-delete';
+import { itemRequests } from './routes/users/item-requests';
 
 const loginRoutes =
   process.env.NODE_ENV === 'production' || config.authMethod === 'auth0'
@@ -20,7 +21,7 @@ const loginRoutes =
     : localAuthRoutes;
 
 // For stubs.
-const stubApi: RouteMiddleware = (context) => {
+const stubApi: RouteMiddleware = context => {
   context.response.body = { error: 'not implemented' };
   context.response.status = 200;
 };
@@ -47,6 +48,8 @@ export const router = new TypedRouter({
   'update-current-user': [TypedRouter.PUT, '/api/users/me', updateCurrentUser],
   'update-user-password': [TypedRouter.PUT, '/api/users/me/password', updatePassword, 'UpdatePasswordSchema'],
   'delete-user': [TypedRouter.PUT, '/api/users/me/deletion-request', requestDelete, 'RequestDeleteSchema'],
+
+  'item-requests': [TypedRouter.GETPOST, '/api/users/:user_id/item-requests', itemRequests],
 
   // Proxy APIs - todo
   'get-user': [TypedRouter.GET, '/api/users/:user_id', stubApi],
