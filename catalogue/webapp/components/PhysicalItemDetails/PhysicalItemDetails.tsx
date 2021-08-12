@@ -80,7 +80,6 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const isArchive = useContext(IsArchiveContext);
   const { showItemRequestFlow } = useContext(TogglesContext);
   const physicalLocation = getFirstPhysicalLocation(item);
-  console.log(physicalLocation?.accessConditions?.[0]?.status?.label);
   const isOpenShelves = physicalLocation?.locationType.id === 'open-shelves';
   const isRequestableOnline =
     physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
