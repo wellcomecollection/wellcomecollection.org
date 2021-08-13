@@ -17,7 +17,7 @@ import {
 import { GetServerSidePropsContext } from 'next';
 import { trackPageview } from '../../services/conversion/track';
 import useIsFontsLoaded from '../../hooks/useIsFontsLoaded';
-
+import { UserInfoProvider } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 declare global {
   interface Window {
     prismic: any;
@@ -228,7 +228,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
       const prismicScript = document.createElement('script');
       prismicScript.src = '//static.cdn.prismic.io/prismic.min.js';
       document.head && document.head.appendChild(prismicScript);
-      (function() {
+      (function () {
         const validationBar = document.createElement('div');
         validationBar.style.position = 'fixed';
         validationBar.style.width = '375px';
@@ -265,7 +265,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
         }
 
         if (validationFails.length > 0) {
-          validationFails.forEach(function(validationFail) {
+          validationFails.forEach(function (validationFail) {
             const div = document.createElement('div');
             div.style.marginBottom = '6px';
             div.innerHTML = validationFail;
@@ -293,23 +293,25 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   return (
     <>
       <AppContextProvider>
-        <ThemeProvider theme={theme}>
-          <GlobalStyle
-            toggles={globalContextData.toggles}
-            isFontsLoaded={useIsFontsLoaded()}
-          />
-          <OutboundLinkTracker>
-            <LoadingIndicator />
-            {!pageProps.err && <Component {...pageProps} />}
-            {pageProps.err && (
-              <ErrorPage
-                statusCode={pageProps.err.statusCode}
-                title={pageProps.err.message}
-                globalContextData={globalContextData}
-              />
-            )}
-          </OutboundLinkTracker>
-        </ThemeProvider>
+        <UserInfoProvider>
+          <ThemeProvider theme={theme}>
+            <GlobalStyle
+              toggles={globalContextData.toggles}
+              isFontsLoaded={useIsFontsLoaded()}
+            />
+            <OutboundLinkTracker>
+              <LoadingIndicator />
+              {!pageProps.err && <Component {...pageProps} />}
+              {pageProps.err && (
+                <ErrorPage
+                  statusCode={pageProps.err.statusCode}
+                  title={pageProps.err.message}
+                  globalContextData={globalContextData}
+                />
+              )}
+            </OutboundLinkTracker>
+          </ThemeProvider>
+        </UserInfoProvider>
       </AppContextProvider>
     </>
   );

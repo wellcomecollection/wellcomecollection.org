@@ -24,7 +24,10 @@ export const UserInfoProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(userInfoReducer, initialState);
 
   const withPrefix = (path: string) => {
-    const root = typeof document !== 'undefined' ? document.getElementById('root') : undefined;
+    const root =
+      typeof document !== 'undefined'
+        ? document.getElementById('root')
+        : undefined;
     return `${(root && root.getAttribute('data-context-path')) || ''}${path}`;
   };
 
@@ -51,7 +54,8 @@ export const UserInfoProvider: React.FC = ({ children }) => {
     }
   }, [state.status]);
 
-  const update = (newUserInfo: Partial<UserInfo>) => dispatch({ type: 'UPDATE', payload: newUserInfo });
+  const update = (newUserInfo: Partial<UserInfo>) =>
+    dispatch({ type: 'UPDATE', payload: newUserInfo });
 
   return (
     <UserInfoContext.Provider
@@ -71,7 +75,8 @@ export const UserInfoProvider: React.FC = ({ children }) => {
 export const withUserInfo = <P extends Record<string, unknown>>(
   WrappedComponent: React.ComponentType<P>
 ): React.FC<P> => {
-  const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
+  const displayName =
+    WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
   const ComponentWithUserInfo = (props: P) => (
     <UserInfoProvider>

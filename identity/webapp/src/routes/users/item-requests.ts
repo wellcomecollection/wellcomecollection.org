@@ -1,7 +1,9 @@
 import { RouteMiddleware } from '../../types/application';
 import { callRemoteApi } from '../../utility/api-caller';
 
-export const itemRequests: RouteMiddleware<{ user_id: string }> = async context => {
+export const itemRequests: RouteMiddleware<{
+  user_id: string;
+}> = async context => {
   if (context.request.method === 'POST') {
     const { status } = await callRemoteApi(
       'POST',
@@ -10,6 +12,7 @@ export const itemRequests: RouteMiddleware<{ user_id: string }> = async context 
       context.requestBody,
       true
     );
+    console.log(context.params.user_id);
     context.response.status = status;
   }
 

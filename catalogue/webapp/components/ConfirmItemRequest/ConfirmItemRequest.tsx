@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, useRef } from 'react';
+import { FunctionComponent, useState, useRef, useEffect } from 'react';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
+import { useUserInfo } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 
 const Header = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -49,7 +50,10 @@ type Props = {
   item: PhysicalItem;
   isActive: boolean;
   setIsActive: (value: boolean) => void;
-  id: string;
+};
+
+type UserHolds = {
+  results: Record<string, unknown>[];
 };
 
 type RequestDialogProps = {
@@ -58,6 +62,7 @@ type RequestDialogProps = {
   item: PhysicalItem;
   confirmRequest: () => void;
   setIsActive: (value: boolean) => void;
+  userHolds?: UserHolds;
 };
 
 const RequestDialog: FunctionComponent<RequestDialogProps> = ({
@@ -66,11 +71,16 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
   item,
   confirmRequest,
   setIsActive,
+  userHolds,
 }) => (
   <Request isLoading={isLoading}>
     <Header>
       <span className={`h2`}>Request item</span>
-      <Remaining>7/15 items remaining</Remaining>
+      {userHolds && (
+        <Remaining>
+          {15 - userHolds.results.length}/15 items remaining
+        </Remaining>
+      )}
     </Header>
     <p
       className={classNames({
@@ -108,16 +118,22 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
 type ConfirmedDialogProps = {
   work: Work;
   item: PhysicalItem;
+  userHolds?: UserHolds;
 };
 
 const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
   work,
   item,
+  userHolds,
 }) => (
   <>
     <Header>
       <span className={`h2`}>Request confirmed</span>
-      <Remaining>6/15 items remaining</Remaining>
+      {userHolds && (
+        <Remaining>
+          {15 - userHolds.results.length}/15 items remaining
+        </Remaining>
+      )}
     </Header>
     <p
       className={classNames({
@@ -185,11 +201,30 @@ const ErrorDialog: FunctionComponent<ErrorDialogProps> = ({ setIsActive }) => (
 );
 
 const ConfirmItemRequest: FunctionComponent<Props> = props => {
+  const userInfo = useUserInfo();
+  const user = userInfo.user;
+  const isUserLoading = userInfo.isLoading;
   const openButtonRef = useRef<HTMLButtonElement>(null);
   const { item, work, setIsActive, ...modalProps } = props;
+  const [isLoading, setIsLoading] = useState(isUserLoading);
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false); // TODO: implement this if something goes wrong with API call
+  const [userHolds, setUserHolds] = useState<UserHolds | undefined>();
+
+  useEffect(() => {
+    if (!user) return;
+
+    fetch(`/api/users/${user.userId}/item-requests`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then(response => {
+      if (!response.ok) return;
+
+      response.json().then(setUserHolds);
+    });
+  }, [isConfirmed]);
 
   function innerSetIsActive(value: boolean) {
     if (value) {
@@ -203,15 +238,35 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
     }
   }
 
-  function confirmRequest() {
-    setIsLoading(true);
-    // setIsError(true); // uncomment to test the error UI
+  async function confirmRequest() {
+    if (!user) return;
 
-    setTimeout(() => {
-      // TODO: the items api request goes here
-      setIsConfirmed(true);
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/api/users/${user.userId}/item-requests`, {
+        method: 'POST',
+        body: JSON.stringify({
+          workId: work.id,
+          itemId: item.id,
+          type: 'Item',
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) {
+        setIsError(true);
+        setIsLoading(false);
+        // TODO: something to Sentry?
+      } else {
+        setIsConfirmed(true);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setIsError(true);
       setIsLoading(false);
-    }, 2000);
+      // TODO: error to Sentry?
+    }
   }
 
   return (
@@ -224,12 +279,15 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
 
       <Modal
         {...modalProps}
+        id="confirm-request-modal"
         setIsActive={innerSetIsActive}
         openButtonRef={openButtonRef}
       >
         {isLoading && <LL />}
         {isError && <ErrorDialog setIsActive={innerSetIsActive} />}
-        {isConfirmed && !isError && <ConfirmedDialog work={work} item={item} />}
+        {isConfirmed && !isError && (
+          <ConfirmedDialog work={work} item={item} userHolds={userHolds} />
+        )}
         {!isConfirmed && !isError && (
           <RequestDialog
             isLoading={isLoading}
@@ -237,6 +295,7 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
             item={item}
             confirmRequest={confirmRequest}
             setIsActive={innerSetIsActive}
+            userHolds={userHolds}
           />
         )}
       </Modal>

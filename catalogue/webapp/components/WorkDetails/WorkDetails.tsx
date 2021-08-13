@@ -50,6 +50,7 @@ import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsA
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
+import { useUserInfo } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 
 type Props = {
   work: Work;
@@ -92,6 +93,7 @@ function getItemLinkState({
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const { showHoldingsOnWork, showLogin } = useContext(TogglesContext);
+  const { user, isLoading } = useUserInfo();
   const isArchive = useContext(IsArchiveContext);
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
@@ -235,7 +237,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   };
   const WhereToFindIt = ({ showLogin }: WhereToFindItProps) => (
     <WorkDetailsSection headingText="Where to find it">
-      {showLogin && (
+      {showLogin && !isLoading && !user && (
         <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
           <SignInNotice>
             <Space h={{ size: 's', properties: ['margin-right'] }}>
@@ -386,8 +388,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     action: 'follow view link',
                     label: work.id,
                   }}
-                  link={`https://wellcomelibrary.org/item/${sierraIdFromManifestUrl ||
-                    ''}`}
+                  link={`https://wellcomelibrary.org/item/${
+                    sierraIdFromManifestUrl || ''
+                  }`}
                 />
               </Space>
             )}

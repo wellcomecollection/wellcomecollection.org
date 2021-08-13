@@ -12,6 +12,7 @@ import {
   getFirstPhysicalLocation,
 } from '@weco/common/utils/works';
 import ConfirmItemRequest from '../ConfirmItemRequest/ConfirmItemRequest';
+import { useUserInfo } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 
 const Row = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -76,6 +77,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   encoreLink,
   isLast,
 }) => {
+  const { user, isLoading } = useUserInfo();
   const [isActive, setIsActive] = useState(false);
   const isArchive = useContext(IsArchiveContext);
   const { showItemRequestFlow } = useContext(TogglesContext);
@@ -122,13 +124,16 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
             {requestItemUrl && (
               <>
                 {showItemRequestFlow ? (
-                  <ConfirmItemRequest
-                    isActive={isActive}
-                    setIsActive={setIsActive}
-                    id={'test'}
-                    item={item}
-                    work={work}
-                  />
+                  <>
+                    {user && !isLoading && (
+                      <ConfirmItemRequest
+                        isActive={isActive}
+                        setIsActive={setIsActive}
+                        item={item}
+                        work={work}
+                      />
+                    )}
+                  </>
                 ) : (
                   <ButtonInlineLink
                     text={'Request item'}
