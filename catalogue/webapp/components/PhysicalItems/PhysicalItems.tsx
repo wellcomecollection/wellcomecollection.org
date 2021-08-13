@@ -33,17 +33,12 @@ const PhysicalItems: FunctionComponent<Props> = ({
   useEffect(() => {
     const addStatusToItems = async () => {
       const items = await fetchWorkItems(work.id);
+
       if (!isCatalogueApiError(items)) {
-        const mergedItems = physicalItems.map(currentItem => {
-          const matchingItem = items.results?.find(
-            item => item.id === currentItem.id
-          );
-          return {
-            ...matchingItem,
-            ...currentItem,
-          };
-        });
-        setPhysicalItems(mergedItems);
+        const itemsWithPhysicalLocation = items.results.filter(i =>
+          i.locations?.some(location => location.type === 'PhysicalLocation')
+        );
+        setPhysicalItems(itemsWithPhysicalLocation as PhysicalItem[]);
       }
       // else {
       // tell the user something about not being able to retrieve the status of the item(s)

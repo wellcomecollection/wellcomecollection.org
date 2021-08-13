@@ -77,20 +77,33 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   encoreLink,
   isLast,
 }) => {
-  console.log(item);
   const { user, isLoading } = useUserInfo();
   const [isActive, setIsActive] = useState(false);
   const isArchive = useContext(IsArchiveContext);
   const { showItemRequestFlow } = useContext(TogglesContext);
   const physicalLocation = getFirstPhysicalLocation(item);
+  const isOpenShelves = physicalLocation?.locationType.id === 'open-shelves';
   const isRequestableOnline =
     physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
   const accessMethod =
     physicalLocation?.accessConditions?.[0]?.method?.label || '';
+  const accessMethodId =
+    physicalLocation?.accessConditions?.[0]?.method?.id || '';
+  const accessStatusId =
+    physicalLocation?.accessConditions?.[0]?.status?.id || '';
+  const accessStatus =
+    physicalLocation?.accessConditions?.[0]?.status?.label ||
+    (isRequestableOnline ? 'Open' : '');
   const accessNote = physicalLocation?.accessConditions?.[0]?.note;
   const locationLabel = physicalLocation && getLocationLabel(physicalLocation);
   const locationShelfmark =
     physicalLocation && getLocationShelfmark(physicalLocation);
+
+  const hideButtonStatusIds = ['temporarily-unavailable'];
+  const hideButtonMethodIds = ['not-requestable'];
+  const hideButton =
+    hideButtonStatusIds.some(i => i === accessStatusId) ||
+    hideButtonMethodIds.some(i => i === accessMethodId);
 
   const title = item.title || '';
   const itemNote = item.note || '';
@@ -117,33 +130,49 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
             <span className={`inline-block`}>{location}</span>{' '}
             <span className={`inline-block`}>{shelfmark}</span>
           </Box>
-          <Box>
-            <DetailHeading>Access</DetailHeading>
-            {accessMethod && <span>{accessMethod}</span>}
-          </Box>
-          <Box isCentered>
-            {requestItemUrl && (
-              <>
-                {showItemRequestFlow ? (
+          {!isOpenShelves && (
+            <>
+              <Box>
+                {accessStatus && (
                   <>
-                    {user && !isLoading && (
-                      <ConfirmItemRequest
-                        isActive={isActive}
-                        setIsActive={setIsActive}
-                        item={item}
-                        work={work}
-                      />
+                    <DetailHeading>Access</DetailHeading>
+                    <span>{accessStatus}</span>
+                  </>
+                )}
+              </Box>
+              <Box isCentered>
+                {hideButton ? (
+                  // TODO: fairly sure displaying this `accessMethod` here isn't what we want
+                  // (at least not all the time) but it is useful to see e.g. 'Not requestable'
+                  <>{accessMethod}</>
+                ) : (
+                  <>
+                    {showItemRequestFlow ? (
+                      <>
+                        {user && !isLoading && (
+                          <ConfirmItemRequest
+                            isActive={isActive}
+                            setIsActive={setIsActive}
+                            item={item}
+                            work={work}
+                          />
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        {requestItemUrl && (
+                          <ButtonInlineLink
+                            text={'Request item'}
+                            link={requestItemUrl}
+                          />
+                        )}
+                      </>
                     )}
                   </>
-                ) : (
-                  <ButtonInlineLink
-                    text={'Request item'}
-                    link={requestItemUrl}
-                  />
                 )}
-              </>
-            )}
-          </Box>
+              </Box>
+            </>
+          )}
         </Grid>
       </Row>
       {accessNote && (

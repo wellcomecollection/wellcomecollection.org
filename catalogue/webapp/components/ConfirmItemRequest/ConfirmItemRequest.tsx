@@ -192,6 +192,7 @@ const ErrorDialog: FunctionComponent<ErrorDialogProps> = ({ setIsActive }) => (
       <span className={`h2`}>Request failed</span>
     </Header>
     <p className="no-margin">
+      {/* TODO: get error code and construct appropriate message from response */}
       There was a problem requesting this item. Please try again.
     </p>
     <CTAs>
@@ -208,7 +209,7 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
   const { item, work, setIsActive, ...modalProps } = props;
   const [isLoading, setIsLoading] = useState(isUserLoading);
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const [isError, setIsError] = useState(false); // TODO: implement this if something goes wrong with API call
+  const [isError, setIsError] = useState(false);
   const [userHolds, setUserHolds] = useState<UserHolds | undefined>();
   const [isRequested, setIsRequested] = useState(false);
   const [isReady, setIsReady] = useState(false);
@@ -226,6 +227,11 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
 
       response.json().then(setUserHolds);
     });
+    // TODO: work out why this doesn't update the remaining userHolds.length
+    // once the user confirms (maybe just that the new request isn't immediately
+    // reflected in the response?). And decide whether it would be better instead
+    // to just decrement the hold number when isConfirmed is set to `true`
+    // (one less call to the API)
   }, [isConfirmed]);
 
   useEffect(() => {
@@ -281,6 +287,12 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
   return isReady ? (
     <>
       {isRequested ? (
+        // TODO: you currently will only see this immediately after requesting,
+        // and not if you revisit this page after a successful request, because
+        // this ConfirmRequest component won't render once the status/method
+        // disallow it from what's in the items API response. You'll then see a
+        // 'Item is in use by another reader' note, even if that reader is you.
+        // Is this ok?
         <span>You have this item on hold</span>
       ) : (
         <>
