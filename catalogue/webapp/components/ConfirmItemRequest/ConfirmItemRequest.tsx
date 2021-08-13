@@ -53,7 +53,7 @@ type Props = {
 };
 
 type UserHolds = {
-  results: Record<string, unknown>[];
+  results: { item: { id: string } }[];
 };
 
 type RequestDialogProps = {
@@ -210,6 +210,8 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [isError, setIsError] = useState(false); // TODO: implement this if something goes wrong with API call
   const [userHolds, setUserHolds] = useState<UserHolds | undefined>();
+  const [isRequested, setIsRequested] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -225,6 +227,13 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
       response.json().then(setUserHolds);
     });
   }, [isConfirmed]);
+
+  useEffect(() => {
+    if (userHolds) {
+      setIsRequested(userHolds.results.some(r => r.item.id === item.id));
+      setIsReady(true);
+    }
+  }, [userHolds]);
 
   function innerSetIsActive(value: boolean) {
     if (value) {
@@ -269,37 +278,45 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
     }
   }
 
-  return (
+  return isReady ? (
     <>
-      <ButtonInline
-        ref={openButtonRef}
-        text={'Request item'}
-        clickHandler={() => setIsActive(true)}
-      />
-
-      <Modal
-        {...modalProps}
-        id="confirm-request-modal"
-        setIsActive={innerSetIsActive}
-        openButtonRef={openButtonRef}
-      >
-        {isLoading && <LL />}
-        {isError && <ErrorDialog setIsActive={innerSetIsActive} />}
-        {isConfirmed && !isError && (
-          <ConfirmedDialog work={work} item={item} userHolds={userHolds} />
-        )}
-        {!isConfirmed && !isError && (
-          <RequestDialog
-            isLoading={isLoading}
-            work={work}
-            item={item}
-            confirmRequest={confirmRequest}
-            setIsActive={innerSetIsActive}
-            userHolds={userHolds}
+      {isRequested ? (
+        <span>You have this item on hold</span>
+      ) : (
+        <>
+          <ButtonInline
+            ref={openButtonRef}
+            text={'Request item'}
+            clickHandler={() => setIsActive(true)}
           />
-        )}
-      </Modal>
+
+          <Modal
+            {...modalProps}
+            id="confirm-request-modal"
+            setIsActive={innerSetIsActive}
+            openButtonRef={openButtonRef}
+          >
+            {isLoading && <LL />}
+            {isError && <ErrorDialog setIsActive={innerSetIsActive} />}
+            {isConfirmed && !isError && (
+              <ConfirmedDialog work={work} item={item} userHolds={userHolds} />
+            )}
+            {!isConfirmed && !isError && (
+              <RequestDialog
+                isLoading={isLoading}
+                work={work}
+                item={item}
+                confirmRequest={confirmRequest}
+                setIsActive={innerSetIsActive}
+                userHolds={userHolds}
+              />
+            )}
+          </Modal>
+        </>
+      )}
     </>
+  ) : (
+    <span>Loading…</span>
   );
 };
 

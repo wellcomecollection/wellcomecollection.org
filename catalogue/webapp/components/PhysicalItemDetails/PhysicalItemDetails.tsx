@@ -77,6 +77,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   encoreLink,
   isLast,
 }) => {
+  console.log(item);
   const { user, isLoading } = useUserInfo();
   const [isActive, setIsActive] = useState(false);
   const isArchive = useContext(IsArchiveContext);
