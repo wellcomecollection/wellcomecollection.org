@@ -113,11 +113,19 @@ const TableTbody = styled.tbody``;
 
 const TableTr = styled.tr`
   ${TableTbody} & {
-    border-bottom: 1px dotted ${props => props.theme.color('silver')};
+    border-bottom: ${props =>
+      props.withBorder
+        ? `1px dotted
+      ${props => props.theme.color('silver')}`
+        : 'none'};
   }
 
   ${TableTbody}.has-row-headers & {
-    border-top: 1px dotted ${props => props.theme.color('silver')};
+    border-top: ${props =>
+      props.withBorder
+        ? `1px dotted
+      ${props => props.theme.color('silver')}`
+        : 'none'};
   }
 `;
 
@@ -127,7 +135,10 @@ const TableTh = styled(Space).attrs({
   h: { size: 's', properties: ['padding-left', 'padding-right'] },
 })`
   font-weight: bold;
-  background: ${props => props.theme.color('pumice')};
+  background: ${props =>
+    props.plain
+      ? props.theme.color('transparent')
+      : props.theme.color('pumice')};
   white-space: nowrap;
 
   ${TableTbody}.has-row-headers & {
@@ -150,6 +161,7 @@ type TableRow = {
   items: (string | ReactElement)[];
   hasHeader: boolean;
   vAlign: 'top' | 'middle' | 'bottom';
+  withBorder: boolean;
 };
 
 type Props = {
@@ -157,18 +169,26 @@ type Props = {
   hasRowHeaders: boolean;
   caption?: string;
   vAlign?: 'top' | 'middle' | 'bottom';
+  plain?: boolean;
+  withBorder?: boolean;
 };
 
-const TableRow = ({ items, hasHeader, vAlign }: TableRow) => {
+const TableRow = ({ items, hasHeader, vAlign, withBorder }: TableRow) => {
   return (
-    <TableTr>
+    <TableTr withBorder={withBorder}>
       {items.map((item, index) => (
         <Fragment key={index}>
           {hasHeader && index === 0 ? (
             isValidElement(item) ? (
-              <TableTh scope="row">{item}</TableTh>
+              <TableTh scope="row" plain={plain}>
+                {item}
+              </TableTh>
             ) : (
-              <TableTh scope="row" dangerouslySetInnerHTML={{ __html: item }} />
+              <TableTh
+                scope="row"
+                plain={plain}
+                dangerouslySetInnerHTML={{ __html: item }}
+              />
             )
           ) : isValidElement(item) ? (
             <TableTd vAlign={vAlign}>{item}</TableTd>
@@ -189,6 +209,8 @@ const Table: FunctionComponent<Props> = ({
   hasRowHeaders,
   caption,
   vAlign = 'top',
+  plain = false,
+  withBorder = true,
 }: Props): ReactElement<Props> => {
   const leftButtonRef = useRef(null);
   const rightButtonRef = useRef(null);
@@ -315,12 +337,13 @@ const Table: FunctionComponent<Props> = ({
                 <TableTr>
                   {headerRow.map((item, index) =>
                     isValidElement ? (
-                      <TableTh key={index} scope="col">
+                      <TableTh key={index} plain={plain} scope="col">
                         {item}
                       </TableTh>
                     ) : (
                       <TableTh
                         key={index}
+                        plain={plain}
                         scope="col"
                         dangerouslySetInnerHTML={{ __html: item }}
                       />
@@ -340,6 +363,7 @@ const Table: FunctionComponent<Props> = ({
                   items={row}
                   hasHeader={hasRowHeaders}
                   vAlign={vAlign}
+                  withBorder={withBorder}
                 />
               ))}
             </TableTbody>
