@@ -35,7 +35,7 @@ export type Work = {
   holdings: Holding[];
 };
 
-export type ItemsWork = {
+export type ItemsList = {
   type: 'ItemsList';
   totalResults: number;
   results: Item<Location>[];

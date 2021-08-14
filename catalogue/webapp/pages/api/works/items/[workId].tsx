@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-unfetch';
 import { NextApiResponse } from 'next';
-import { ItemsWork, CatalogueApiError } from '@weco/common/model/catalogue';
+import { ItemsList, CatalogueApiError } from '@weco/common/model/catalogue';
 import {
   catalogueApiError,
   rootUris,
@@ -14,7 +14,7 @@ import withToggles, {
 } from '@weco/common/api-routes-middleware/withToggles';
 
 export function isCatalogueApiError(
-  response: ItemsWork | CatalogueApiError
+  response: ItemsList | CatalogueApiError
 ): response is CatalogueApiError {
   return Boolean(hasOwnProperty(response, 'type') && response.type === 'Error');
 }
@@ -37,7 +37,7 @@ async function fetchWorkItems({
 }: {
   workId: string;
   toggles: Toggles;
-}): Promise<ItemsWork | CatalogueApiError> {
+}): Promise<ItemsList | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
   const apiUrl = getApiUrl(apiOptions, workId);
   try {
