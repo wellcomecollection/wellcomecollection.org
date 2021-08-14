@@ -77,7 +77,7 @@ type IdentifierType = {
   type: 'IdentifierType';
 };
 
-type Identifier = {
+export type Identifier = {
   value: string;
   identifierType: IdentifierType;
   type: 'Identifier';
