@@ -31,21 +31,28 @@ const PhysicalItems: FunctionComponent<Props> = ({
   const [physicalItems, setPhysicalItems] = useState(items);
 
   useEffect(() => {
-    const addStatusToItems = async () => {
+    let isMounted = true;
+    const updateItemsStatus = async () => {
       const items = await fetchWorkItems(work.id);
 
       if (!isCatalogueApiError(items)) {
         const itemsWithPhysicalLocation = items.results.filter(i =>
           i.locations?.some(location => location.type === 'PhysicalLocation')
         );
-        setPhysicalItems(itemsWithPhysicalLocation as PhysicalItem[]);
+        if (isMounted) {
+          setPhysicalItems(itemsWithPhysicalLocation as PhysicalItem[]);
+        }
       }
       // else {
       // tell the user something about not being able to retrieve the status of the item(s)
       // we may find we run into 429s from our rate limiting, so worth bearing in mind that we might want to handle that as a separate case
       // }
     };
-    addStatusToItems();
+    updateItemsStatus();
+    return () => {
+      // We can't cancel promises, so using the isMounted value to prevent the component from trying to update the state if it's been unmounted.
+      isMounted = false;
+    };
   }, []);
 
   return (

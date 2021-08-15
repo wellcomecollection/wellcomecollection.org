@@ -216,6 +216,7 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
 
   useEffect(() => {
     if (!user) return;
+    let isMounted = true;
 
     fetch(`/api/users/${user.userId}/item-requests`, {
       method: 'GET',
@@ -225,8 +226,15 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
     }).then(response => {
       if (!response.ok) return;
 
-      response.json().then(setUserHolds);
+      if (isMounted) {
+        response.json().then(setUserHolds);
+      }
     });
+
+    return () => {
+      // We can't cancel promises, so using the isMounted value to prevent the component from trying to update the state if it's been unmounted.
+      isMounted = false;
+    };
     // TODO: work out why this doesn't update the remaining userHolds.length
     // once the user confirms (maybe just that the new request isn't immediately
     // reflected in the response?). And decide whether it would be better instead
