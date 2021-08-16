@@ -20,16 +20,21 @@ export function useUserInfo(): UserInfoContext {
   return contextState;
 }
 
+export const withPrefix = (path: string): string => {
+  const root =
+    typeof document !== 'undefined'
+      ? document.getElementById('root')
+      : undefined;
+  const prefix = root && root.getAttribute('data-context-path');
+  if (prefix && prefix !== '') {
+    return `/${prefix}${path}`;
+  } else {
+    return path;
+  }
+};
+
 export const UserInfoProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(userInfoReducer, initialState);
-
-  const withPrefix = (path: string) => {
-    const root =
-      typeof document !== 'undefined'
-        ? document.getElementById('root')
-        : undefined;
-    return `${(root && root.getAttribute('data-context-path')) || ''}${path}`;
-  };
 
   useEffect(() => {
     dispatch({ type: 'FETCH' });

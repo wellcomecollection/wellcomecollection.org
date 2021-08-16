@@ -11,6 +11,7 @@ import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { useUserInfo } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
+import { withPrefix } from '@weco/identity/src/frontend/MyAccount/UserInfoContext/UserInfoContext';
 
 const Header = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -218,7 +219,7 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
     if (!user) return;
     let isMounted = true;
 
-    fetch(`/api/users/${user.userId}/item-requests`, {
+    fetch(withPrefix(`/api/users/${user.userId}/item-requests`), {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -266,17 +267,21 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
 
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/users/${user.userId}/item-requests`, {
-        method: 'POST',
-        body: JSON.stringify({
-          workId: work.id,
-          itemId: item.id,
-          type: 'Item',
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await fetch(
+        withPrefix(`/api/users/${user.userId}/item-requests`),
+        {
+          // TODO withPrefix
+          method: 'POST',
+          body: JSON.stringify({
+            workId: work.id,
+            itemId: item.id,
+            type: 'Item',
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
       if (!response.ok) {
         setIsError(true);
         setIsLoading(false);

@@ -8,11 +8,12 @@ import {
 } from '@weco/common/model/catalogue';
 import { isCatalogueApiError } from '../../pages/api/works/items/[workId]';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
+import { withPrefix } from '@weco/identity/src/frontend/MyAccount/UserInfoContext/UserInfoContext';
 
 async function fetchWorkItems(
   workId: string
 ): Promise<ItemsWork | CatalogueApiError> {
-  const items = await fetch(`/api/works/items/${workId}`);
+  const items = await fetch(withPrefix(`/api/works/items/${workId}`));
   const itemsJson = await items.json();
   return itemsJson;
 }
@@ -48,7 +49,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
       // we may find we run into 429s from our rate limiting, so worth bearing in mind that we might want to handle that as a separate case
       // }
     };
-    updateItemsStatus();
+    updateItemsStatus(); // The items api has more up to date statuses than the catalogue api
     return () => {
       // We can't cancel promises, so using the isMounted value to prevent the component from trying to update the state if it's been unmounted.
       isMounted = false;
