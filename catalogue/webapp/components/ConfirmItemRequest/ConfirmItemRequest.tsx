@@ -13,6 +13,8 @@ import LL from '@weco/common/views/components/styled/LL';
 import { useUserInfo } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 import { withPrefix } from '@weco/identity/src/frontend/MyAccount/UserInfoContext/UserInfoContext';
 
+export const allowedRequests = 15;
+
 const Header = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
 })`
@@ -79,7 +81,9 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
       <span className={`h2`}>Request item</span>
       {userHolds && (
         <Remaining>
-          {15 - userHolds.results.length}/15 items remaining
+          {`${
+            allowedRequests - userHolds.results.length
+          }/${allowedRequests} items remaining`}
         </Remaining>
       )}
     </Header>
@@ -132,7 +136,9 @@ const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
       <span className={`h2`}>Request confirmed</span>
       {userHolds && (
         <Remaining>
-          {15 - userHolds.results.length}/15 items remaining
+          {`${
+            allowedRequests - userHolds.results.length
+          }/${allowedRequests} items remaining`}
         </Remaining>
       )}
     </Header>
