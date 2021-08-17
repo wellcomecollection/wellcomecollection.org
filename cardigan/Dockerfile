@@ -19,7 +19,6 @@ ADD ./identity/webapp ./identity/webapp
 
 RUN yarn setupCommon
 
-ADD ./docs ./docs
 ADD ./cardigan ./cardigan
 
 WORKDIR /usr/src/app/webapp/cardigan
