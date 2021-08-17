@@ -208,21 +208,26 @@ const ErrorDialog: FunctionComponent<ErrorDialogProps> = ({ setIsActive }) => (
   </>
 );
 
+type RequestingState = null | 'requesting' | 'confirmed' | 'error';
+
 const ConfirmItemRequest: FunctionComponent<Props> = props => {
   const userInfo = useUserInfo();
   const user = userInfo.user;
-  const isUserLoading = userInfo.isLoading;
   const openButtonRef = useRef<HTMLButtonElement>(null);
   const { item, work, setIsActive, ...modalProps } = props;
-  const [isLoading, setIsLoading] = useState(isUserLoading);
-  const [isConfirmed, setIsConfirmed] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [requestingState, setRequestingState] = useState<RequestingState>(null);
   const [userHolds, setUserHolds] = useState<UserHolds | undefined>();
-  const [isRequested, setIsRequested] = useState(false);
+  const [isHeldByUser, setIsHeldByUser] = useState(false);
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    if (!user) return;
+    if (
+      !user ||
+      requestingState === 'requesting' ||
+      requestingState === 'error'
+    )
+      return;
+
     let isMounted = true;
 
     fetch(withPrefix(`/api/users/${user.userId}/item-requests`), {
@@ -247,11 +252,11 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
     // reflected in the response?). And decide whether it would be better instead
     // to just decrement the hold number when isConfirmed is set to `true`
     // (one less call to the API)
-  }, [isConfirmed]);
+  }, [requestingState]);
 
   useEffect(() => {
     if (userHolds) {
-      setIsRequested(userHolds.results.some(r => r.item.id === item.id));
+      setIsHeldByUser(userHolds.results.some(r => r.item.id === item.id));
       setIsReady(true);
     }
   }, [userHolds]);
@@ -259,24 +264,21 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
   function innerSetIsActive(value: boolean) {
     if (value) {
       setIsActive(true);
-    } else if (isLoading) {
+    } else if (requestingState === 'requesting') {
       // disable close dialog button during api call
     } else {
       setIsActive(false);
-      setIsConfirmed(false);
-      setIsError(false);
+      setRequestingState(null);
     }
   }
 
   async function confirmRequest() {
     if (!user) return;
-
-    setIsLoading(true);
+    setRequestingState('requesting');
     try {
       const response = await fetch(
         withPrefix(`/api/users/${user.userId}/item-requests`),
         {
-          // TODO withPrefix
           method: 'POST',
           body: JSON.stringify({
             workId: work.id,
@@ -289,23 +291,44 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
         }
       );
       if (!response.ok) {
-        setIsError(true);
-        setIsLoading(false);
+        setRequestingState('error');
         // TODO: something to Sentry?
       } else {
-        setIsConfirmed(true);
-        setIsLoading(false);
+        setRequestingState('confirmed');
       }
     } catch (error) {
-      setIsError(true);
-      setIsLoading(false);
+      setRequestingState('error');
       // TODO: error to Sentry?
+    }
+  }
+
+  function renderModalContent(requestingState: RequestingState) {
+    switch (requestingState) {
+      case 'requesting':
+        return <LL />;
+      case 'error':
+        return <ErrorDialog setIsActive={innerSetIsActive} />;
+      case 'confirmed':
+        return (
+          <ConfirmedDialog work={work} item={item} userHolds={userHolds} />
+        );
+      default:
+        return (
+          <RequestDialog
+            isLoading={requestingState === 'requesting'}
+            work={work}
+            item={item}
+            confirmRequest={confirmRequest}
+            setIsActive={innerSetIsActive}
+            userHolds={userHolds}
+          />
+        );
     }
   }
 
   return isReady ? (
     <>
-      {isRequested ? (
+      {isHeldByUser ? (
         // TODO: you currently will only see this immediately after requesting,
         // and not if you revisit this page after a successful request, because
         // this ConfirmRequest component won't render once the status/method
@@ -327,21 +350,7 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
             setIsActive={innerSetIsActive}
             openButtonRef={openButtonRef}
           >
-            {isLoading && <LL />}
-            {isError && <ErrorDialog setIsActive={innerSetIsActive} />}
-            {isConfirmed && !isError && (
-              <ConfirmedDialog work={work} item={item} userHolds={userHolds} />
-            )}
-            {!isConfirmed && !isError && (
-              <RequestDialog
-                isLoading={isLoading}
-                work={work}
-                item={item}
-                confirmRequest={confirmRequest}
-                setIsActive={innerSetIsActive}
-                userHolds={userHolds}
-              />
-            )}
+            {renderModalContent(requestingState)}
           </Modal>
         </>
       )}
