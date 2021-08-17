@@ -10,8 +10,8 @@ import styled from 'styled-components';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
-import { useUserInfo } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 import { withPrefix } from '@weco/identity/src/frontend/MyAccount/UserInfoContext/UserInfoContext';
+import { UserInfo } from '@weco/identity/src/frontend/MyAccount/UserInfoContext/UserInfo.interface';
 
 export const allowedRequests = 15;
 
@@ -53,10 +53,8 @@ type Props = {
   item: PhysicalItem;
   isActive: boolean;
   setIsActive: (value: boolean) => void;
-};
-
-type UserHolds = {
-  results: { item: { id: string } }[];
+  user: UserInfo;
+  initialHoldNumber: number;
 };
 
 type RequestDialogProps = {
@@ -65,7 +63,6 @@ type RequestDialogProps = {
   item: PhysicalItem;
   confirmRequest: () => void;
   setIsActive: (value: boolean) => void;
-  userHolds: UserHolds | undefined;
   currentHoldNumber: number;
 };
 
@@ -75,19 +72,16 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
   item,
   confirmRequest,
   setIsActive,
-  userHolds,
   currentHoldNumber,
 }) => (
   <Request isLoading={isLoading}>
     <Header>
       <span className={`h2`}>Request item</span>
-      {userHolds && (
-        <Remaining>
-          {`${
-            allowedRequests - currentHoldNumber
-          }/${allowedRequests} items remaining`}
-        </Remaining>
-      )}
+      <Remaining>
+        {`${
+          allowedRequests - currentHoldNumber
+        }/${allowedRequests} items remaining`}
+      </Remaining>
     </Header>
     <p
       className={classNames({
@@ -125,26 +119,22 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
 type ConfirmedDialogProps = {
   work: Work;
   item: PhysicalItem;
-  userHolds: UserHolds | undefined;
   currentHoldNumber: number;
 };
 
 const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
   work,
   item,
-  userHolds,
   currentHoldNumber,
 }) => (
   <>
     <Header>
       <span className={`h2`}>Request confirmed</span>
-      {userHolds && (
-        <Remaining>
-          {`${
-            allowedRequests - currentHoldNumber
-          }/${allowedRequests} items remaining`}
-        </Remaining>
-      )}
+      <Remaining>
+        {`${
+          allowedRequests - currentHoldNumber
+        }/${allowedRequests} items remaining`}
+      </Remaining>
     </Header>
     <p
       className={classNames({
@@ -215,56 +205,11 @@ const ErrorDialog: FunctionComponent<ErrorDialogProps> = ({ setIsActive }) => (
 type RequestingState = null | 'requesting' | 'confirmed' | 'error';
 
 const ConfirmItemRequest: FunctionComponent<Props> = props => {
-  const userInfo = useUserInfo();
-  const user = userInfo.user;
   const openButtonRef = useRef<HTMLButtonElement>(null);
-  const { item, work, setIsActive, ...modalProps } = props;
+  const { item, work, setIsActive, user, initialHoldNumber, ...modalProps } =
+    props;
   const [requestingState, setRequestingState] = useState<RequestingState>(null);
-  const [userHolds, setUserHolds] = useState<UserHolds | undefined>();
-  const [isHeldByUser, setIsHeldByUser] = useState(false);
-  const [isReady, setIsReady] = useState(false);
-  const [currentHoldNumber, setCurrentHoldNumber] = useState(0);
-
-  useEffect(() => {
-    setCurrentHoldNumber(userHolds?.results.length ?? 0);
-  }, [userHolds]);
-
-  useEffect(() => {
-    if (
-      !user ||
-      requestingState === 'requesting' ||
-      requestingState === 'error'
-    )
-      return;
-
-    let isMounted = true;
-
-    fetch(withPrefix(`/api/users/${user.userId}/item-requests`), {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then(response => {
-      if (!response.ok) return;
-
-      if (isMounted) {
-        response.json().then(setUserHolds);
-      }
-    });
-
-    return () => {
-      // We can't cancel promises, so using the isMounted value to prevent the component from trying to update the state if it's been unmounted.
-      isMounted = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (userHolds) {
-      setIsHeldByUser(userHolds.results.some(r => r.item.id === item.id));
-      setIsReady(true);
-    }
-  }, [userHolds]);
-
+  const [currentHoldNumber, setCurrentHoldNumber] = useState(initialHoldNumber);
   function innerSetIsActive(value: boolean) {
     if (value) {
       setIsActive(true);
@@ -272,9 +217,12 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
       // disable close dialog button during api call
     } else {
       setIsActive(false);
-      setRequestingState(null);
     }
   }
+
+  useEffect(() => {
+    setCurrentHoldNumber(initialHoldNumber);
+  }, [initialHoldNumber]);
 
   async function confirmRequest() {
     if (!user) return;
@@ -319,7 +267,6 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
           <ConfirmedDialog
             work={work}
             item={item}
-            userHolds={userHolds}
             currentHoldNumber={currentHoldNumber}
           />
         );
@@ -331,44 +278,31 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
             item={item}
             confirmRequest={confirmRequest}
             setIsActive={innerSetIsActive}
-            userHolds={userHolds}
             currentHoldNumber={currentHoldNumber}
           />
         );
     }
   }
 
-  return isReady ? (
-    <>
-      {isHeldByUser ? (
-        // TODO: you currently will only see this immediately after requesting,
-        // and not if you revisit this page after a successful request, because
-        // this ConfirmRequest component won't render once the status/method
-        // disallow it from what's in the items API response. You'll then see a
-        // 'Item is in use by another reader' note, even if that reader is you.
-        // Is this ok?
-        <span>You have this item on hold</span>
-      ) : (
-        <>
-          <ButtonInline
-            ref={openButtonRef}
-            text={'Request item'}
-            clickHandler={() => setIsActive(true)}
-          />
-
-          <Modal
-            {...modalProps}
-            id="confirm-request-modal"
-            setIsActive={innerSetIsActive}
-            openButtonRef={openButtonRef}
-          >
-            {renderModalContent(requestingState)}
-          </Modal>
-        </>
-      )}
-    </>
+  return requestingState === 'confirmed' ? (
+    <span>You have this item on hold</span>
   ) : (
-    <span>Loading…</span>
+    <>
+      <ButtonInline
+        ref={openButtonRef}
+        text={'Request item'}
+        clickHandler={() => setIsActive(true)}
+      />
+
+      <Modal
+        {...modalProps}
+        id="confirm-request-modal"
+        setIsActive={innerSetIsActive}
+        openButtonRef={openButtonRef}
+      >
+        {renderModalContent(requestingState)}
+      </Modal>
+    </>
   );
 };
 

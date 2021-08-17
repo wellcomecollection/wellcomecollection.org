@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext, useState } from 'react';
+import { FunctionComponent, useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ButtonInlineLink from '@weco/common/views/components/ButtonInlineLink/ButtonInlineLink';
 import Space from '@weco/common/views/components/styled/Space';
@@ -13,6 +13,7 @@ import {
 } from '@weco/common/utils/works';
 import ConfirmItemRequest from '../ConfirmItemRequest/ConfirmItemRequest';
 import { useUserInfo } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
+import { withPrefix } from '@weco/identity/src/frontend/MyAccount/UserInfoContext/UserInfoContext';
 
 const Row = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -71,6 +72,10 @@ export type Props = {
   isLast: boolean;
 };
 
+type UserHolds = {
+  results: { item: { id: string } }[];
+};
+
 const PhysicalItemDetails: FunctionComponent<Props> = ({
   item,
   work,
@@ -104,12 +109,40 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const hideButton =
     hideButtonStatusIds.some(i => i === accessStatusId) ||
     hideButtonMethodIds.some(i => i === accessMethodId);
+  const [userHolds, setUserHolds] = useState<UserHolds | undefined>();
+
+  useEffect(() => {
+    if (!user) return;
+
+    let isMounted = true;
+
+    fetch(withPrefix(`/api/users/${user.userId}/item-requests`), {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then(response => {
+      if (!response.ok) return;
+
+      if (isMounted) {
+        response.json().then(setUserHolds);
+      }
+    });
+
+    return () => {
+      // We can't cancel promises, so using the isMounted value to prevent the component from trying to update the state if it's been unmounted.
+      isMounted = false;
+    };
+  }, []);
 
   const title = item.title || '';
   const itemNote = item.note || '';
   const location = locationLabel || '';
   const shelfmark = locationShelfmark || '';
   const requestItemUrl = isRequestableOnline ? encoreLink : undefined;
+  const isHeldByUser = userHolds
+    ? userHolds.results.some(r => r.item.id === item.id)
+    : false;
 
   return (
     <Wrapper underline={!isLast}>
@@ -144,7 +177,11 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
                 {hideButton ? (
                   // TODO: fairly sure displaying this `accessMethod` here isn't what we want
                   // (at least not all the time) but it is useful to see e.g. 'Not requestable'
-                  <>{accessMethod}</>
+                  isHeldByUser ? (
+                    <span>You have this item on hold</span>
+                  ) : (
+                    <>{accessMethod}</>
+                  )
                 ) : (
                   <>
                     {showItemRequestFlow ? (
@@ -155,6 +192,8 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
                             setIsActive={setIsActive}
                             item={item}
                             work={work}
+                            user={user}
+                            initialHoldNumber={userHolds?.results.length ?? 0}
                           />
                         )}
                       </>
@@ -175,14 +214,15 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           )}
         </Grid>
       </Row>
-      {accessNote && (
-        <Row>
-          <Box>
-            <DetailHeading>Note</DetailHeading>
-            <span dangerouslySetInnerHTML={{ __html: accessNote }} />
-          </Box>
-        </Row>
-      )}
+      {accessNote &&
+        !isHeldByUser && ( // if the user currently has this item on hold, we don't want to show the note that says another user has it
+          <Row>
+            <Box>
+              <DetailHeading>Note</DetailHeading>
+              <span dangerouslySetInnerHTML={{ __html: accessNote }} />
+            </Box>
+          </Row>
+        )}
     </Wrapper>
   );
 };
