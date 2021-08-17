@@ -92,7 +92,7 @@ function getItemLinkState({
 }
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
-  const { showHoldingsOnWork, showLogin } = useContext(TogglesContext);
+  const { showHoldingsOnWork, enableRequesting } = useContext(TogglesContext);
   const { user, isLoading } = useUserInfo();
   const isArchive = useContext(IsArchiveContext);
 
@@ -233,11 +233,11 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const holdings = getHoldings(work);
 
   type WhereToFindItProps = {
-    showLogin: boolean;
+    enableRequesting: boolean;
   };
-  const WhereToFindIt = ({ showLogin }: WhereToFindItProps) => (
+  const WhereToFindIt = ({ enableRequesting }: WhereToFindItProps) => (
     <WorkDetailsSection headingText="Where to find it">
-      {showLogin && !isLoading && !user && (
+      {enableRequesting && !isLoading && !user && (
         <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
           <SignInNotice>
             <Space h={{ size: 's', properties: ['margin-right'] }}>
@@ -711,7 +711,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       <Holdings />
 
       {(locationOfWork || showEncoreLink) && (
-        <WhereToFindIt showLogin={showLogin} />
+        <WhereToFindIt enableRequesting={enableRequesting} />
       )}
 
       <WorkDetailsSection headingText="Permanent link">

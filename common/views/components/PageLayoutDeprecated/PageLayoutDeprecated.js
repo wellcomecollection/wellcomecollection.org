@@ -70,7 +70,7 @@ const PageLayout = ({
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
   const globalInfoBar = useContext(GlobalInfoBarContext);
-  const { showLogin } = useContext(TogglesContext);
+  const { enableRequesting } = useContext(TogglesContext);
 
   return (
     <>
@@ -139,7 +139,7 @@ const PageLayout = ({
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
         </a>
-        {showLogin ? (
+        {enableRequesting ? (
           <HeaderPrototype siteSection={siteSection} />
         ) : (
           <Header siteSection={siteSection} />

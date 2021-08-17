@@ -85,7 +85,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const { user, isLoading } = useUserInfo();
   const [isActive, setIsActive] = useState(false);
   const isArchive = useContext(IsArchiveContext);
-  const { showItemRequestFlow } = useContext(TogglesContext);
+  const { enableRequesting } = useContext(TogglesContext);
   const physicalLocation = getFirstPhysicalLocation(item);
   const isOpenShelves = physicalLocation?.locationType.id === 'open-shelves';
   const isRequestableOnline =
@@ -184,7 +184,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
                   )
                 ) : (
                   <>
-                    {showItemRequestFlow ? (
+                    {enableRequesting ? (
                       <>
                         {user && !isLoading && (
                           <ConfirmItemRequest
