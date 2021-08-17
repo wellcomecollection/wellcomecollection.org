@@ -6,7 +6,8 @@ import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { articleLd } from '@weco/common/utils/json-ld';
 import { classNames, grid } from '@weco/common/utils/classnames';
-import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+// $FlowFixMe (tsx)
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 // $FlowFixMe (tsx)
 import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
 // $FlowFixMe (tsx)
@@ -33,11 +34,14 @@ import {
 import { type FeaturedText as FeaturedTextType } from '@weco/common/model/text';
 // $FlowFixMe (tsx)
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
+// $FlowFixMe
+import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 type Props = {|
   articles: PaginatedResults<Article>,
   series: ArticleSeries,
   featuredText: ?FeaturedTextType,
+  globalContextData: any,
 |};
 
 const SerialisedSeries = ({ series }: any) => {
@@ -82,6 +86,7 @@ const pageDescription =
   'Our words and pictures explore the connections between science, medicine, life and art. Dive into a story no matter where in the world you are.';
 export class StoriesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
+    const globalContextData = getGlobalContextData(ctx);
     const { page = 1, memoizedPrismic } = ctx.query;
     const articlesPromise = getArticles(ctx.req, { page }, memoizedPrismic);
     const seriesPromise = getArticleSeries(
@@ -108,6 +113,7 @@ export class StoriesPage extends Component<Props> {
         articles,
         series,
         featuredText,
+        globalContextData,
       };
     } else {
       return { statusCode: 404 };
@@ -118,7 +124,7 @@ export class StoriesPage extends Component<Props> {
     const series = this.props.series;
     const articles = this.props.articles.results;
     const firstArticle = articles[0];
-    const { featuredText } = this.props;
+    const { globalContextData, featuredText } = this.props;
     return (
       <PageLayout
         title={'Stories'}
@@ -136,6 +142,7 @@ export class StoriesPage extends Component<Props> {
           firstArticle && firstArticle.image && firstArticle.image.alt
         }
         rssUrl={'https://rss.wellcomecollection.org/stories'}
+        globalContextData={globalContextData}
       >
         <SpacingSection>
           <Space

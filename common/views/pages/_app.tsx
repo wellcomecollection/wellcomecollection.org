@@ -143,7 +143,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   // GA v3
   useEffect(() => {
-    function trackPageview() {
+    function trackGaPageview() {
       ReactGA.pageview(`${window.location.pathname}${window.location.search}`);
     }
     ReactGA.initialize([
@@ -152,13 +152,14 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
         titleCase: false,
       },
     ]);
+
     ReactGA.set({
       dimension5: JSON.stringify(globalContextData.toggles),
     });
-    trackPageview();
-    Router.events.on('routeChangeComplete', trackPageview);
+    trackGaPageview();
+    Router.events.on('routeChangeComplete', trackGaPageview);
     return () => {
-      Router.events.off('routeChangeComplete', trackPageview);
+      Router.events.off('routeChangeComplete', trackGaPageview);
     };
   }, []);
 
@@ -228,7 +229,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
       const prismicScript = document.createElement('script');
       prismicScript.src = '//static.cdn.prismic.io/prismic.min.js';
       document.head && document.head.appendChild(prismicScript);
-      (function() {
+      (function () {
         const validationBar = document.createElement('div');
         validationBar.style.position = 'fixed';
         validationBar.style.width = '375px';
@@ -265,7 +266,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
         }
 
         if (validationFails.length > 0) {
-          validationFails.forEach(function(validationFail) {
+          validationFails.forEach(function (validationFail) {
             const div = document.createElement('div');
             div.style.marginBottom = '6px';
             div.innerHTML = validationFail;

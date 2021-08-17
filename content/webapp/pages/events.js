@@ -6,7 +6,8 @@ import {
   orderEventsByNextAvailableDate,
 } from '@weco/common/services/prismic/events';
 import { eventLd } from '@weco/common/utils/json-ld';
-import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+// $FlowFixMe (tsx)
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import type { UiEvent } from '@weco/common/model/events';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
@@ -21,17 +22,21 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 // $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
+// $FlowFixMe
+import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 type Props = {|
   displayTitle: string,
   events: PaginatedResults<UiEvent>,
   period: ?Period,
+  globalContextData: any,
 |};
 
 const pageDescription =
   'Our events are now taking place online. Choose from an inspiring range of free talks, discussions and more.';
 export class EventsPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
+    const globalContextData = getGlobalContextData(ctx);
     const {
       page = 1,
       memoizedPrismic,
@@ -59,6 +64,7 @@ export class EventsPage extends Component<Props> {
         title,
         period,
         displayTitle: title,
+        globalContextData,
       };
     } else {
       return { statusCode: 404 };
@@ -66,7 +72,7 @@ export class EventsPage extends Component<Props> {
   };
 
   render() {
-    const { events, displayTitle, period } = this.props;
+    const { globalContextData, events, displayTitle, period } = this.props;
     const convertedEvents = events.results.map(convertJsonToDates);
     const convertedPaginatedResults = ({
       ...events,
@@ -91,6 +97,7 @@ export class EventsPage extends Component<Props> {
           convertImageUri(firstEvent.image.contentUrl, 800)
         }
         imageAltText={firstEvent && firstEvent.image && firstEvent.image.alt}
+        globalContextData={globalContextData}
       >
         <SpacingSection>
           <LayoutPaginatedResults

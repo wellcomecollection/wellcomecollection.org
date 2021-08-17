@@ -4,7 +4,8 @@ import { getExhibitionRelatedContent } from '@weco/common/services/prismic/exhib
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
-import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+// $FlowFixMe (tsx)
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 // $FlowFixMe (tsx)
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader, {
@@ -136,8 +137,7 @@ function getAccessibilityItems() {
       description: [
         {
           type: 'paragraph',
-          text:
-            'Large-print guides, transcripts and magnifiers are available in the gallery',
+          text: 'Large-print guides, transcripts and magnifiers are available in the gallery',
           spans: [],
         },
       ],
@@ -160,9 +160,10 @@ export function getInfoItems(exhibition: UiExhibition) {
 type Props = {|
   exhibition: UiExhibition,
   pages: Page[],
+  globalContextData: any,
 |};
 
-const Exhibition = ({ exhibition, pages }: Props) => {
+const Exhibition = ({ exhibition, pages, globalContextData }: Props) => {
   const [exhibitionOfs, setExhibitionOfs] = useState([]);
   const [exhibitionAbouts, setExhibitionAbouts] = useState([]);
 
@@ -261,6 +262,7 @@ const Exhibition = ({ exhibition, pages }: Props) => {
         exhibition.image && convertImageUri(exhibition.image.contentUrl, 800)
       }
       imageAltText={exhibition.image && exhibition.image.alt}
+      globalContextData={globalContextData}
     >
       <ContentPage
         id={exhibition.id}
