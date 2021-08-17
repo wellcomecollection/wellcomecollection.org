@@ -14,6 +14,10 @@ import {
 import ConfirmItemRequest from '../ConfirmItemRequest/ConfirmItemRequest';
 import { useUserInfo } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 import { withPrefix } from '@weco/identity/src/frontend/MyAccount/UserInfoContext/UserInfoContext';
+import {
+  unrequestableStatusIds,
+  unrequestableMethodIds,
+} from '../WorkDetails/WorkDetails';
 
 const Row = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -103,12 +107,9 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const locationLabel = physicalLocation && getLocationLabel(physicalLocation);
   const locationShelfmark =
     physicalLocation && getLocationShelfmark(physicalLocation);
-
-  const hideButtonStatusIds = ['temporarily-unavailable'];
-  const hideButtonMethodIds = ['not-requestable'];
   const hideButton =
-    hideButtonStatusIds.some(i => i === accessStatusId) ||
-    hideButtonMethodIds.some(i => i === accessMethodId);
+    unrequestableStatusIds.some(i => i === accessStatusId) ||
+    unrequestableMethodIds.some(i => i === accessMethodId);
   const [userHolds, setUserHolds] = useState<UserHolds | undefined>();
 
   useEffect(() => {

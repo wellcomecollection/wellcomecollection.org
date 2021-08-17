@@ -18,6 +18,7 @@ import {
   getLocationLabel,
   getLocationShelfmark,
   getLocationLink,
+  getFirstPhysicalLocation,
 } from '@weco/common/utils/works';
 import {
   getMediaClickthroughService,
@@ -90,6 +91,9 @@ function getItemLinkState({
     return 'useItemLink';
   }
 }
+
+export const unrequestableStatusIds = ['temporarily-unavailable'];
+export const unrequestableMethodIds = ['not-requestable', 'open-shelves'];
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const { showHoldingsOnWork, enableRequesting } = useContext(TogglesContext);
@@ -183,6 +187,16 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const encoreLink = sierraWorkId && getEncoreLink(sierraWorkId);
 
   const physicalItems = getItemsWithPhysicalLocation(work);
+  const showLibraryLogin = physicalItems.some(item => {
+    const physicalLocation = getFirstPhysicalLocation(item); // ok because there is only one physical location in reality
+    const methodId = physicalLocation?.accessConditions?.[0]?.method?.id || '';
+    const statusId = physicalLocation?.accessConditions?.[0]?.status?.id || '';
+    return !(
+      unrequestableStatusIds.includes(statusId) ||
+      unrequestableMethodIds.includes(methodId)
+    );
+  });
+
   const showEncoreLink = encoreLink && physicalItems.length > 0;
 
   const locationOfWork = work.notes.find(
@@ -237,7 +251,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   };
   const WhereToFindIt = ({ enableRequesting }: WhereToFindItProps) => (
     <WorkDetailsSection headingText="Where to find it">
-      {enableRequesting && !isLoading && !user && (
+      {enableRequesting && !isLoading && !user && showLibraryLogin && (
         <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
           <SignInNotice>
             <Space h={{ size: 's', properties: ['margin-right'] }}>
