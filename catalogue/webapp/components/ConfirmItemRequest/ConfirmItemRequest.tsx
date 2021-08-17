@@ -65,7 +65,8 @@ type RequestDialogProps = {
   item: PhysicalItem;
   confirmRequest: () => void;
   setIsActive: (value: boolean) => void;
-  userHolds?: UserHolds;
+  userHolds: UserHolds | undefined;
+  currentHoldNumber: number;
 };
 
 const RequestDialog: FunctionComponent<RequestDialogProps> = ({
@@ -75,6 +76,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
   confirmRequest,
   setIsActive,
   userHolds,
+  currentHoldNumber,
 }) => (
   <Request isLoading={isLoading}>
     <Header>
@@ -82,7 +84,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
       {userHolds && (
         <Remaining>
           {`${
-            allowedRequests - userHolds.results.length
+            allowedRequests - currentHoldNumber
           }/${allowedRequests} items remaining`}
         </Remaining>
       )}
@@ -123,13 +125,15 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
 type ConfirmedDialogProps = {
   work: Work;
   item: PhysicalItem;
-  userHolds?: UserHolds;
+  userHolds: UserHolds | undefined;
+  currentHoldNumber: number;
 };
 
 const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
   work,
   item,
   userHolds,
+  currentHoldNumber,
 }) => (
   <>
     <Header>
@@ -137,7 +141,7 @@ const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
       {userHolds && (
         <Remaining>
           {`${
-            allowedRequests - userHolds.results.length
+            allowedRequests - currentHoldNumber
           }/${allowedRequests} items remaining`}
         </Remaining>
       )}
@@ -219,6 +223,11 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
   const [userHolds, setUserHolds] = useState<UserHolds | undefined>();
   const [isHeldByUser, setIsHeldByUser] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const [currentHoldNumber, setCurrentHoldNumber] = useState(0);
+
+  useEffect(() => {
+    setCurrentHoldNumber(userHolds?.results.length ?? 0);
+  }, [userHolds]);
 
   useEffect(() => {
     if (
@@ -247,12 +256,7 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
       // We can't cancel promises, so using the isMounted value to prevent the component from trying to update the state if it's been unmounted.
       isMounted = false;
     };
-    // TODO: work out why this doesn't update the remaining userHolds.length
-    // once the user confirms (maybe just that the new request isn't immediately
-    // reflected in the response?). And decide whether it would be better instead
-    // to just decrement the hold number when isConfirmed is set to `true`
-    // (one less call to the API)
-  }, [requestingState]);
+  }, []);
 
   useEffect(() => {
     if (userHolds) {
@@ -295,6 +299,8 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
         // TODO: something to Sentry?
       } else {
         setRequestingState('confirmed');
+        setCurrentHoldNumber(currentHoldNumber + 1);
+        // Getting the users current holds, following a successful request, in order to update this number doesn't work because the response we get isn't yet up to date, so changing it manually
       }
     } catch (error) {
       setRequestingState('error');
@@ -310,7 +316,12 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
         return <ErrorDialog setIsActive={innerSetIsActive} />;
       case 'confirmed':
         return (
-          <ConfirmedDialog work={work} item={item} userHolds={userHolds} />
+          <ConfirmedDialog
+            work={work}
+            item={item}
+            userHolds={userHolds}
+            currentHoldNumber={currentHoldNumber}
+          />
         );
       default:
         return (
@@ -321,6 +332,7 @@ const ConfirmItemRequest: FunctionComponent<Props> = props => {
             confirmRequest={confirmRequest}
             setIsActive={innerSetIsActive}
             userHolds={userHolds}
+            currentHoldNumber={currentHoldNumber}
           />
         );
     }
