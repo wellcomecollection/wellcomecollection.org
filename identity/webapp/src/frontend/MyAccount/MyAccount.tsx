@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { FC, ComponentProps, useState, useEffect } from 'react';
 import Info2 from '@weco/common/icons/components/Info2';
 
 import { useUserInfo, withUserInfo } from './UserInfoContext';
@@ -37,7 +37,7 @@ type DetailListProps = {
   listItems: DetailProps[];
 };
 
-const DetailList: React.FC<DetailListProps> = ({ listItems }) => {
+const DetailList: FC<DetailListProps> = ({ listItems }) => {
   return (
     <StyledDl>
       {listItems.map(item => (
@@ -47,14 +47,14 @@ const DetailList: React.FC<DetailListProps> = ({ listItems }) => {
   );
 };
 
-const Detail: React.FC<DetailProps> = ({ label, value }) => (
+const Detail: FC<DetailProps> = ({ label, value }) => (
   <>
     <dt className={font('hnb', 5)}>{label}</dt>
     <StyledDd className={`${font('hnl', 5)}`}>{value}</StyledDd>
   </>
 );
 
-const AccountStatus: React.FC<React.ComponentProps<typeof StatusAlert>> = ({
+const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
   type,
   children,
 }) => {
@@ -76,7 +76,7 @@ async function fetchRequestedItems(userId): Promise<RequestsList | undefined> {
   }
 }
 
-const Profile: React.FC = () => {
+const Profile: FC = () => {
   const history = useHistory();
   const { user, isLoading, update } = useUserInfo();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
