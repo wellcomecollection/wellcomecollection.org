@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+import React, { FC, ComponentProps, useState, useEffect } from 'react';
 import Info2 from '@weco/common/icons/components/Info2';
 
 import { useUserInfo, withUserInfo } from './UserInfoContext';
 import { ChangeDetailsModal } from './ChangeDetailsModal';
 import { PageWrapper } from '../components/PageWrapper';
 import { Container, Title, Header, Intro } from '../components/Layout.style';
-import { SectionHeading, StatusAlert, Wrapper, StyledDl, StyledDd } from './MyAccount.style';
+import {
+  SectionHeading,
+  StatusAlert,
+  Wrapper,
+  StyledDl,
+  StyledDd,
+  ProgressBar,
+  ProgressIndicator,
+} from './MyAccount.style';
 import { Loading } from './Loading';
 import { ChangeEmail } from './ChangeEmail';
 import { ChangePassword } from './ChangePassword';
@@ -16,7 +24,9 @@ import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
+import Table from '@weco/common/views/components/Table/Table';
 import { font } from '@weco/common/utils/classnames';
+import { RequestsList } from '@weco/common/model/requesting';
 
 type DetailProps = {
   label: string;
@@ -27,7 +37,7 @@ type DetailListProps = {
   listItems: DetailProps[];
 };
 
-const DetailList: React.FC<DetailListProps> = ({ listItems }) => {
+const DetailList: FC<DetailListProps> = ({ listItems }) => {
   return (
     <StyledDl>
       {listItems.map(item => (
@@ -37,14 +47,17 @@ const DetailList: React.FC<DetailListProps> = ({ listItems }) => {
   );
 };
 
-const Detail: React.FC<DetailProps> = ({ label, value }) => (
+const Detail: FC<DetailProps> = ({ label, value }) => (
   <>
     <dt className={font('hnb', 5)}>{label}</dt>
     <StyledDd className={`${font('hnl', 5)}`}>{value}</StyledDd>
   </>
 );
 
-const AccountStatus: React.FC<React.ComponentProps<typeof StatusAlert>> = ({ type, children }) => {
+const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
+  type,
+  children,
+}) => {
   return (
     <StatusAlert type={type}>
       <Info2 height="32" width="32" fill="currentColor" />
@@ -53,14 +66,38 @@ const AccountStatus: React.FC<React.ComponentProps<typeof StatusAlert>> = ({ typ
   );
 };
 
-const Profile: React.FC = () => {
+async function fetchRequestedItems(userId): Promise<RequestsList | undefined> {
+  try {
+    const response = await fetch(`/api/users/${userId}/item-requests`);
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+const Profile: FC = () => {
   const history = useHistory();
   const { user, isLoading, update } = useUserInfo();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
+  const [requests, setRequests] = useState<RequestsList>();
+  const allowedRequests = 10;
+
+  useEffect(() => {
+    async function fetchRequests() {
+      if (user && user.userId) {
+        const items = await fetchRequestedItems(user.userId);
+        setRequests(items);
+      }
+    }
+    fetchRequests();
+  }, [user]);
 
   const logoutOnDeletionRequest = () => {
-    history.replace(`/logout?returnTo=${encodeURIComponent('/delete-requested')}`);
+    history.replace(
+      `/logout?returnTo=${encodeURIComponent('/delete-requested')}`
+    );
   };
 
   return (
@@ -96,16 +133,25 @@ const Profile: React.FC = () => {
         {!isLoading && (
           <>
             {!user?.emailValidated && (
-              <AccountStatus type="info">You have not yet validated your email address</AccountStatus>
+              <AccountStatus type="info">
+                You have not yet validated your email address
+              </AccountStatus>
             )}
-            {isEmailUpdated && <AccountStatus type="success">Email updated</AccountStatus>}
-            {isPasswordUpdated && <AccountStatus type="success">Password updated</AccountStatus>}
+            {isEmailUpdated && (
+              <AccountStatus type="success">Email updated</AccountStatus>
+            )}
+            {isPasswordUpdated && (
+              <AccountStatus type="success">Password updated</AccountStatus>
+            )}
             <SectionHeading>Personal details</SectionHeading>
             <Container>
               <Wrapper>
                 <DetailList
                   listItems={[
-                    { label: 'Name', value: `${user?.firstName} ${user?.lastName}` },
+                    {
+                      label: 'Name',
+                      value: `${user?.firstName} ${user?.lastName}`,
+                    },
                     { label: 'Email', value: user?.email },
                     { label: 'Library card number', value: user?.barcode },
                     /* Membership expiry date? */
@@ -141,10 +187,48 @@ const Profile: React.FC = () => {
               </Wrapper>
             </Container>
 
+            {requests && (
+              <>
+                <SectionHeading>Item requests</SectionHeading>
+                <Container>
+                  <Wrapper>
+                    <Space
+                      as="p"
+                      className={`${font('hnb', 5)}`}
+                      v={{ size: 's', properties: ['margin-bottom'] }}
+                    >{`${
+                      allowedRequests - requests?.totalResults
+                    } of ${allowedRequests} requests remaining`}</Space>
+                    <ProgressBar>
+                      <ProgressIndicator
+                        percentage={
+                          (requests.totalResults / allowedRequests) * 100
+                        }
+                      />
+                    </ProgressBar>
+                    <Table
+                      plain={true}
+                      withBorder={false}
+                      rows={[
+                        ['Title', 'Status', 'Pickup location'],
+                        ...requests.results.map(result => [
+                          `${result.item.title ? result.item.title : ''}`,
+                          result.status.label,
+                          result.pickupLocation.label,
+                        ]),
+                      ]}
+                    />
+                  </Wrapper>
+                </Container>
+              </>
+            )}
+
             <SectionHeading>Delete library account</SectionHeading>
             <Container>
               <Wrapper>
-                <p className={font('hnb', 5)}>Request a deletion of your account</p>
+                <p className={font('hnb', 5)}>
+                  Request a deletion of your account
+                </p>
                 <ChangeDetailsModal
                   id="delete-account"
                   buttonText="Request deletion"

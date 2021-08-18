@@ -2,7 +2,7 @@ import { FunctionComponent, useState, useEffect } from 'react';
 import PhysicalItemDetails from '../PhysicalItemDetails/PhysicalItemDetails';
 import {
   PhysicalItem,
-  ItemsWork,
+  ItemsList,
   Work,
   CatalogueApiError,
 } from '@weco/common/model/catalogue';
@@ -12,7 +12,7 @@ import { withPrefix } from '@weco/identity/src/frontend/MyAccount/UserInfoContex
 
 async function fetchWorkItems(
   workId: string
-): Promise<ItemsWork | CatalogueApiError> {
+): Promise<ItemsList | CatalogueApiError> {
   const items = await fetch(withPrefix(`/api/works/items/${workId}`));
   const itemsJson = await items.json();
   return itemsJson;
