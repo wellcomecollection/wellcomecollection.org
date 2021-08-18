@@ -1,4 +1,4 @@
-import type { ApmBase } from '@elastic/apm-rum';
+import { ApmBase } from '@elastic/apm-rum';
 import getConfig from 'next/config';
 import { createContext, FunctionComponent } from 'react';
 import useApmRum from './useApmRum';
