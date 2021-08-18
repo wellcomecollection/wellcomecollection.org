@@ -26,7 +26,8 @@ import {
   readingRoomPromo,
   dailyTourPromo,
 } from '@weco/common/data/facility-promos';
-import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+// $FlowFixMe (tsx)
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 // $FlowFixMe (tsx)
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
@@ -59,6 +60,8 @@ import { defaultSerializer } from '@weco/common/services/prismic/html-serializer
 import { type FeaturedText as FeaturedTextType } from '@weco/common/model/text';
 // $FlowFixMe (tsx)
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
+// $FlowFixMe
+import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 const segmentedControlItems = [
   {
@@ -87,6 +90,7 @@ type Props = {|
   tryTheseTooPromos: any[],
   eatShopPromos: any[],
   featuredText: FeaturedTextType,
+  globalContextData: any,
 |};
 
 function getListHeader(openingTimes: any) {
@@ -349,6 +353,7 @@ const pageDescription =
   'Discover all of the exhibitions, events and more on offer at Wellcome Collection, a free museum and library exploring health and human experience.';
 export class WhatsOnPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
+    const globalContextData = getGlobalContextData(ctx);
     const period = ctx.query.period || 'current-and-coming-up';
     const { memoizedPrismic } = ctx.query;
 
@@ -385,17 +390,13 @@ export class WhatsOnPage extends Component<Props> {
       memoizedPrismic
     );
 
-    const [
-      exhibitions,
-      events,
-      availableOnlineEvents,
-      whatsOnPage,
-    ] = await Promise.all([
-      exhibitionsPromise,
-      eventsPromise,
-      availableOnlineEventsPromise,
-      whatsOnPagePromise,
-    ]);
+    const [exhibitions, events, availableOnlineEvents, whatsOnPage] =
+      await Promise.all([
+        exhibitionsPromise,
+        eventsPromise,
+        availableOnlineEventsPromise,
+        whatsOnPagePromise,
+      ]);
     const dateRange = getMomentsForPeriod(period);
     const featuredText = whatsOnPage && getPageFeaturedText(whatsOnPage);
 
@@ -411,6 +412,7 @@ export class WhatsOnPage extends Component<Props> {
         cafePromo,
         dailyTourPromo,
         featuredText,
+        globalContextData,
       };
     } else {
       return { statusCode: 404 };
@@ -419,6 +421,7 @@ export class WhatsOnPage extends Component<Props> {
 
   render() {
     const {
+      globalContextData,
       period,
       dateRange,
       tryTheseTooPromos,
@@ -427,9 +430,8 @@ export class WhatsOnPage extends Component<Props> {
     } = this.props;
 
     const events = this.props.events.results.map(convertJsonToDates);
-    const availableOnlineEvents = this.props.availableOnlineEvents.results.map(
-      convertJsonToDates
-    );
+    const availableOnlineEvents =
+      this.props.availableOnlineEvents.results.map(convertJsonToDates);
     const exhibitions = this.props.exhibitions.results.map(exhibition => {
       return {
         start: exhibition.start && new Date(exhibition.start),
@@ -462,6 +464,7 @@ export class WhatsOnPage extends Component<Props> {
         imageAltText={
           firstExhibition && firstExhibition.image && firstExhibition.image.alt
         }
+        globalContextData={globalContextData}
       >
         <OpeningTimesContext.Consumer>
           {openingTimes => (

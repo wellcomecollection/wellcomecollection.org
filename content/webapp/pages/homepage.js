@@ -11,7 +11,8 @@ import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+// $FlowFixMe (tsx)
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { type Article } from '@weco/common/model/articles';
 import type { Page as PageType } from '@weco/common/model/pages';
 import { type PaginatedResults } from '@weco/common/services/prismic/types';
@@ -33,6 +34,8 @@ import { type UiEvent } from '@weco/common/model/events';
 // $FlowFixMe (tsx)
 import { convertJsonToDates } from './event';
 import { convertItemToCardProps } from '@weco/common/model/card';
+// $FlowFixMe
+import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -57,6 +60,7 @@ type Props = {|
   events: PaginatedResults<UiEvent>,
   articles: PaginatedResults<Article>,
   page: PageType,
+  globalContextData: any,
 |};
 
 const pageDescription =
@@ -65,6 +69,7 @@ const pageImage =
   'https://images.prismic.io/wellcomecollection/fc1e68b0528abbab8429d95afb5cfa4c74d40d52_tf_180516_2060224.jpg?auto=compress,format&w=800';
 export class HomePage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
+    const globalContextData = getGlobalContextData(ctx);
     const { id, memoizedPrismic } = ctx.query;
     const articlesPromise = await getArticles(
       ctx.req,
@@ -100,6 +105,7 @@ export class HomePage extends Component<Props> {
         page,
         exhibitions,
         events,
+        globalContextData,
       };
     } else {
       return { statusCode: 404 };
@@ -124,6 +130,7 @@ export class HomePage extends Component<Props> {
     const lists = page.body.filter(slice => slice.type === 'contentList');
     const headerList = lists.length === 2 ? lists[0] : null;
     const contentList = lists.length === 2 ? lists[1] : lists[0];
+    const { globalContextData } = this.props;
 
     return (
       <PageLayout
@@ -135,6 +142,7 @@ export class HomePage extends Component<Props> {
         siteSection={null}
         imageUrl={pageImage}
         imageAltText={''}
+        globalContextData={globalContextData}
       >
         <Layout10>
           <SpacingSection>

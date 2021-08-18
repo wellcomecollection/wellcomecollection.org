@@ -2,7 +2,8 @@
 import { useEffect, useState } from 'react';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+// $FlowFixMe (tsx)
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusIndicator/DateAndStatusIndicator';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 // $FlowFixMe(tsx)
@@ -23,9 +24,10 @@ import { getExhibitExhibition } from '@weco/common/services/prismic/exhibitions'
 
 type Props = {|
   installation: UiExhibition,
+  globalContextData: any,
 |};
 
-const Installation = ({ installation }: Props) => {
+const Installation = ({ installation, globalContextData }: Props) => {
   const [partOf, setPartOf] = useState(null);
   useEffect(() => {
     getExhibitExhibition(null, installation.id).then(partOf => {
@@ -114,6 +116,7 @@ const Installation = ({ installation }: Props) => {
         convertImageUri(installation.image.contentUrl, 800)
       }
       imageAltText={installation.image && installation.image.alt}
+      globalContextData={globalContextData}
     >
       <ContentPage
         id={installation.id}

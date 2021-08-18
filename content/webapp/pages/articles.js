@@ -8,18 +8,22 @@ import type {
 import { getArticles } from '@weco/common/services/prismic/articles';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { articleLd } from '@weco/common/utils/json-ld';
-import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+// $FlowFixMe (tsx)
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+// $FlowFixMe
+import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 type Props = {|
   articles: PaginatedResults<Article>,
+  globalContextData: any,
 |};
 
 const pageDescription =
   'Our words and pictures explore the connections between science, medicine, life and art. Dive into one no matter where in the world you are.';
 
-const ArticlesPage = ({ articles }: Props) => {
+const ArticlesPage = ({ articles, globalContextData }: Props) => {
   const firstArticle = articles.results[0];
 
   return (
@@ -38,6 +42,7 @@ const ArticlesPage = ({ articles }: Props) => {
       imageAltText={
         firstArticle && firstArticle.image && firstArticle.image.alt
       }
+      globalContextData={globalContextData}
     >
       <SpacingSection>
         <LayoutPaginatedResults
@@ -61,11 +66,13 @@ const ArticlesPage = ({ articles }: Props) => {
 ArticlesPage.getInitialProps = async (
   ctx: Context
 ): Promise<?Props | PrismicApiError> => {
+  const globalContextData = getGlobalContextData(ctx);
   const { page = 1, memoizedPrismic } = ctx.query;
   const articles = await getArticles(ctx.req, { page }, memoizedPrismic);
 
   return {
     articles,
+    globalContextData,
   };
 };
 
