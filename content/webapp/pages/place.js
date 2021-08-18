@@ -2,7 +2,8 @@
 import type { Context } from 'next';
 import { Component } from 'react';
 import { getPlace } from '@weco/common/services/prismic/places';
-import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+// $FlowFixMe (tsx)
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 // $FlowFixMe (tsx)
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 // $FlowFixMe(tsx)
@@ -13,19 +14,24 @@ import Body from '@weco/common/views/components/Body/Body';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { Place } from '@weco/common/model/places';
+// $FlowFixMe
+import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 type Props = {|
   place: Place,
+  globalContextData: any,
 |};
 
 export class PlacePage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
+    const globalContextData = getGlobalContextData(ctx);
     const { id, memoizedPrismic } = ctx.query;
     const place = await getPlace(ctx.req, id, memoizedPrismic);
 
     if (place) {
       return {
         place,
+        globalContextData,
       };
     } else {
       return { statusCode: 404 };
@@ -33,7 +39,7 @@ export class PlacePage extends Component<Props> {
   };
 
   render() {
-    const { place } = this.props;
+    const { globalContextData, place } = this.props;
     const image = place.promo && place.promo.image;
     const tasl = image && {
       isFull: false,
@@ -83,6 +89,7 @@ export class PlacePage extends Component<Props> {
         siteSection={'visit-us'}
         imageUrl={place.image && convertImageUri(place.image.contentUrl, 800)}
         imageAltText={place.image && place.image.alt}
+        globalContextData={globalContextData}
       >
         <ContentPage
           id={place.id}

@@ -1,6 +1,6 @@
 import { NextPageContext } from 'next';
 import { FunctionComponent, ReactElement } from 'react';
-import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -12,6 +12,10 @@ import {
 import { Page } from '@weco/common/model/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { Format } from '@weco/common/model/format';
+import {
+  getGlobalContextData,
+  WithGlobalContextData,
+} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 const pageDescription = 'Guides intro text...';
 const displayTitle = 'Guides';
@@ -52,23 +56,25 @@ type Props = {
   guides: PaginatedResults<Page>;
   guideFormats: Format[];
   formatId: string | string[] | null;
-};
+} & WithGlobalContextData;
 
 const GuidePage = ({
   guides,
   guideFormats,
   formatId,
+  globalContextData,
 }: Props): ReactElement<Props> => {
   return (
     <PageLayout
       title={'Guides'}
       description={pageDescription}
       url={{ pathname: '/guides' }}
-      jsonLd={{}}
+      jsonLd={{ '@type': 'Webpage' }}
       openGraphType={'website'}
-      siteSection={'whatwedo'}
-      imageUrl={null}
-      imageAltText={null}
+      siteSection={'what-we-do'}
+      imageUrl={undefined}
+      imageAltText={undefined}
+      globalContextData={globalContextData}
     >
       <SpacingSection>
         <LayoutPaginatedResults
@@ -94,8 +100,9 @@ const GuidePage = ({
 GuidePage.getInitialProps = async (
   ctx: NextPageContext
 ): Promise<Props | { statusCode: number }> => {
+  const globalContextData = getGlobalContextData(ctx);
   const { format } = ctx.query;
-  const { memoizedPrismic } = (ctx.query.memoizedPrismic as unknown) as Record<
+  const { memoizedPrismic } = ctx.query.memoizedPrismic as unknown as Record<
     string,
     unknown
   >;
@@ -121,6 +128,7 @@ GuidePage.getInitialProps = async (
       guides,
       guideFormats,
       formatId: format || null,
+      globalContextData,
     };
   } else {
     return { statusCode: 404 };

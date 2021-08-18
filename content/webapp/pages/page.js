@@ -1,7 +1,8 @@
 // @flow
 import type { Context } from 'next';
 import { Component } from 'react';
-import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+// $FlowFixMe (tsx)
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 // $FlowFixMe (tsx)
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 // $FlowFixMe (tsx)
@@ -41,12 +42,15 @@ import { PageFormatIds } from '@weco/common/model/content-format-id';
 import { links } from '@weco/common/views/components/Header/Header';
 // $FlowFixMe (tsx)
 import { type Props as LabelsListProps } from '@weco/common/views/components/LabelsList/LabelsList';
+// $FlowFixMe
+import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 type Props = {|
   page: PageType,
   siblings: SiblingsGroup[],
   children: SiblingsGroup,
   ordersInParents: any[],
+  globalContextData: any,
 |};
 
 type OrderInParent = {|
@@ -58,8 +62,9 @@ type OrderInParent = {|
 
 export class Page extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
+    const globalContextData = getGlobalContextData(ctx);
     const { id, memoizedPrismic } = ctx.query;
-    const page = await getPage(ctx.req, id, memoizedPrismic);
+    const page: ?PageType = await getPage(ctx.req, id, memoizedPrismic);
     if (page) {
       const siblings = await getPageSiblings(page, ctx.req, memoizedPrismic);
       const ordersInParents =
@@ -78,6 +83,7 @@ export class Page extends Component<Props> {
         siblings,
         children,
         ordersInParents,
+        globalContextData,
       };
     } else {
       return { statusCode: 404 };
@@ -91,7 +97,8 @@ export class Page extends Component<Props> {
       return { labels: [{ text: title }] };
     }
 
-    const { page, siblings, children, ordersInParents } = this.props;
+    const { globalContextData, page, siblings, children, ordersInParents } =
+      this.props;
     const DateInfo = page.datePublished && (
       <HTMLDate date={new Date(page.datePublished)} />
     );
@@ -236,6 +243,7 @@ export class Page extends Component<Props> {
         siteSection={page.siteSection ?? null}
         imageUrl={page.image && convertImageUri(page.image.contentUrl, 800)}
         imageAltText={page.image && page.image.alt}
+        globalContextData={globalContextData}
       >
         <ContentPage
           id={page.id}

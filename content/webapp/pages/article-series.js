@@ -2,7 +2,8 @@
 import type { Context } from 'next';
 import { Component } from 'react';
 import { getArticleSeries } from '@weco/common/services/prismic/article-series';
-import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+// $FlowFixMe (tsx)
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 // $FlowFixMe (tsx)
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
@@ -20,14 +21,18 @@ import type { Article } from '@weco/common/model/articles';
 import { seasonsFields } from '@weco/common/services/prismic/fetch-links';
 /* $FlowFixMe (tsx) */
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+// $FlowFixMe
+import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 type Props = {|
   series: ArticleSeries,
   articles: Article[],
+  globalContextData: any,
 |};
 
 export class ArticleSeriesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
+    const globalContextData = getGlobalContextData(ctx);
     const { id, memoizedPrismic } = ctx.query;
     const seriesAndArticles = await getArticleSeries(
       ctx.req,
@@ -51,6 +56,7 @@ export class ArticleSeriesPage extends Component<Props> {
         imageUrl: series.image && convertImageUri(series.image.contentUrl, 800),
         siteSection: 'stories',
         analyticsCategory: 'editorial',
+        globalContextData,
       };
     } else {
       return { statusCode: 404 };
@@ -58,7 +64,7 @@ export class ArticleSeriesPage extends Component<Props> {
   };
 
   render() {
-    const { series, articles } = this.props;
+    const { globalContextData, series, articles } = this.props;
     const breadcrumbs = {
       items: [
         {
@@ -123,6 +129,7 @@ export class ArticleSeriesPage extends Component<Props> {
         openGraphType={'website'}
         imageUrl={series.image && convertImageUri(series.image.contentUrl, 800)}
         imageAltText={series.image && series.image.alt}
+        globalContextData={globalContextData}
       >
         <ContentPage
           id={series.id}

@@ -143,7 +143,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   // GA v3
   useEffect(() => {
-    function trackPageview() {
+    function trackGaPageview() {
       ReactGA.pageview(`${window.location.pathname}${window.location.search}`);
     }
     ReactGA.initialize([
@@ -152,13 +152,14 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
         titleCase: false,
       },
     ]);
+
     ReactGA.set({
       dimension5: JSON.stringify(globalContextData.toggles),
     });
-    trackPageview();
-    Router.events.on('routeChangeComplete', trackPageview);
+    trackGaPageview();
+    Router.events.on('routeChangeComplete', trackGaPageview);
     return () => {
-      Router.events.off('routeChangeComplete', trackPageview);
+      Router.events.off('routeChangeComplete', trackGaPageview);
     };
   }, []);
 

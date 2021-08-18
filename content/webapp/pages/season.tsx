@@ -1,7 +1,7 @@
 import { NextPageContext } from 'next';
 import { ReactElement } from 'react';
 import { SeasonWithContent } from '@weco/common/model/seasons';
-import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import SeasonsHeader from '@weco/common/views/components/SeasonsHeader/SeasonsHeader';
 import { UiImage } from '@weco/common/views/components/Images/Images';
@@ -13,7 +13,12 @@ import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { convertJsonToDates } from './event';
+import {
+  getGlobalContextData,
+  WithGlobalContextData,
+} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
+type Props = SeasonWithContent & WithGlobalContextData;
 const SeasonPage = ({
   season,
   articles,
@@ -23,7 +28,8 @@ const SeasonPage = ({
   pages,
   articleSeries,
   projects,
-}: SeasonWithContent): ReactElement<SeasonWithContent> => {
+  globalContextData,
+}: Props): ReactElement<Props> => {
   const Header = (
     <SeasonsHeader
       labels={{ labels: season.labels }}
@@ -65,6 +71,7 @@ const SeasonPage = ({
       openGraphType={'website'}
       imageUrl={season.image && convertImageUri(season.image.contentUrl, 800)}
       imageAltText={season?.image?.alt}
+      globalContextData={globalContextData}
     >
       <ContentPage
         id={season.id}
@@ -85,9 +92,10 @@ const SeasonPage = ({
 
 SeasonPage.getInitialProps = async (
   ctx: NextPageContext
-): Promise<SeasonWithContent | { statusCode: number }> => {
+): Promise<Props | { statusCode: number }> => {
+  const globalContextData = getGlobalContextData(ctx);
   const { id } = ctx.query;
-  const { memoizedPrismic } = (ctx.query.memoizedPrismic as unknown) as Record<
+  const { memoizedPrismic } = ctx.query.memoizedPrismic as unknown as Record<
     string,
     unknown
   >;
@@ -100,7 +108,7 @@ SeasonPage.getInitialProps = async (
   });
 
   if (seasonWithContent) {
-    return seasonWithContent;
+    return { ...seasonWithContent, globalContextData };
   } else {
     return { statusCode: 404 };
   }

@@ -17,11 +17,13 @@ module "catalogue-service-17092020" {
   ]
 
   env_vars = {
-    PROD_SUBDOMAIN = var.subdomain
+    PROD_SUBDOMAIN  = var.subdomain
+    APM_ENVIRONMENT = var.env_suffix
   }
 
-   secret_env_vars = {
-    items_api_key_prod = "catalogue_api/items/prod/api_key"
+  secret_env_vars = {
+    APM_SERVER_URL      = "elasticsearch/logging/apm_server_url"
+    items_api_key_prod  = "catalogue_api/items/prod/api_key"
     items_api_key_stage = "catalogue_api/items/stage/api_key"
   }
 
