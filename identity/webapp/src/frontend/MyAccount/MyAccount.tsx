@@ -27,6 +27,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import Table from '@weco/common/views/components/Table/Table';
 import { font } from '@weco/common/utils/classnames';
 import { RequestsList } from '@weco/common/model/requesting';
+import { allowedRequests } from '@weco/catalogue/components/ConfirmItemRequest/ConfirmItemRequest';
 
 type DetailProps = {
   label: string;
@@ -82,7 +83,6 @@ const Profile: FC = () => {
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
   const [requests, setRequests] = useState<RequestsList>();
-  const allowedRequests = 10;
 
   useEffect(() => {
     async function fetchRequests() {
