@@ -225,12 +225,12 @@ const ConfirmItemRequest: FunctionComponent<Props> = ({
   const [requestingState, setRequestingState] = useState<RequestingState>();
   const [currentHoldNumber, setCurrentHoldNumber] = useState(initialHoldNumber);
   function innerSetIsActive(value: boolean) {
+    if (requestingState === 'requesting') return; // we don't want the modal to close during an api call
     if (value) {
       setIsActive(true);
-    } else if (requestingState === 'requesting') {
-      // disable close dialog button during api call
     } else {
       setIsActive(false);
+      setRequestingState(undefined);
     }
   }
 
