@@ -81,7 +81,7 @@ const Profile: React.FC = () => {
   const { user, isLoading, update } = useUserInfo();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
-  const [requests, setRequests] = useState<RequestsList | undefined>();
+  const [requests, setRequests] = useState<RequestsList>();
   const allowedRequests = 10;
 
   useEffect(() => {
