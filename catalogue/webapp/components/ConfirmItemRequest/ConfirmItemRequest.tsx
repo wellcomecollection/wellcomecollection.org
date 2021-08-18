@@ -202,7 +202,7 @@ const ErrorDialog: FunctionComponent<ErrorDialogProps> = ({ setIsActive }) => (
       <span className={`h2`}>Request failed</span>
     </Header>
     <p className="no-margin">
-      {/* TODO: get error code and construct appropriate message from response */}
+      {/* TODO: get error code and construct appropriate message from response - see #6916 */}
       There was a problem requesting this item. Please try again.
     </p>
     <CTAs>
