@@ -211,7 +211,7 @@ const ErrorDialog: FunctionComponent<ErrorDialogProps> = ({ setIsActive }) => (
   </>
 );
 
-type RequestingState = null | 'requesting' | 'confirmed' | 'error';
+type RequestingState = undefined | 'requesting' | 'confirmed' | 'error';
 
 const ConfirmItemRequest: FunctionComponent<Props> = ({
   item,
@@ -222,7 +222,7 @@ const ConfirmItemRequest: FunctionComponent<Props> = ({
   ...modalProps
 }) => {
   const openButtonRef = useRef<HTMLButtonElement>(null);
-  const [requestingState, setRequestingState] = useState<RequestingState>(null);
+  const [requestingState, setRequestingState] = useState<RequestingState>();
   const [currentHoldNumber, setCurrentHoldNumber] = useState(initialHoldNumber);
   function innerSetIsActive(value: boolean) {
     if (value) {
