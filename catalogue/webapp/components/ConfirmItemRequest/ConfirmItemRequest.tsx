@@ -13,8 +13,6 @@ import LL from '@weco/common/views/components/styled/LL';
 import { withPrefix } from '@weco/identity/src/frontend/MyAccount/UserInfoContext/UserInfoContext';
 import { UserInfo } from '@weco/identity/src/frontend/MyAccount/UserInfoContext/UserInfo.interface';
 
-export const allowedRequests = 15;
-
 const Header = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
 })`
@@ -48,6 +46,19 @@ const CTAs = styled(Space).attrs({
   v: { size: 'l', properties: ['margin-top'] },
 })``;
 
+export const allowedRequests = 15;
+
+const RemainingRequests: FunctionComponent<{
+  allowedHoldRequests: number;
+  currentHoldRequests: number;
+}> = ({ allowedHoldRequests, currentHoldRequests }) => (
+  <Remaining>
+    {`${
+      allowedHoldRequests - currentHoldRequests
+    }/${allowedHoldRequests} items remaining`}
+  </Remaining>
+);
+
 type Props = {
   work: Work;
   item: PhysicalItem;
@@ -77,11 +88,10 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
   <Request isLoading={isLoading}>
     <Header>
       <span className={`h2`}>Request item</span>
-      <Remaining>
-        {`${
-          allowedRequests - currentHoldNumber
-        }/${allowedRequests} items remaining`}
-      </Remaining>
+      <RemainingRequests
+        allowedHoldRequests={allowedRequests}
+        currentHoldRequests={currentHoldNumber}
+      />
     </Header>
     <p
       className={classNames({
@@ -130,11 +140,10 @@ const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
   <>
     <Header>
       <span className={`h2`}>Request confirmed</span>
-      <Remaining>
-        {`${
-          allowedRequests - currentHoldNumber
-        }/${allowedRequests} items remaining`}
-      </Remaining>
+      <RemainingRequests
+        allowedHoldRequests={allowedRequests}
+        currentHoldRequests={currentHoldNumber}
+      />
     </Header>
     <p
       className={classNames({
