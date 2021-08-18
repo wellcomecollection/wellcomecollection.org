@@ -1,15 +1,5 @@
-import { setConfig } from 'next/config';
 import { whatsOn } from '@weco/common/test/fixtures/pages/whats-on';
 import { mountWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
-
-const apmConfig = {
-  environment: 'dev',
-  serverUrl: 'https://apm',
-  centralConfig: true,
-};
-setConfig({
-  publicRuntimeConfig: { ...apmConfig },
-});
 
 // We pull in the page after we've set the config
 const WhatsOnPage = require('../../pages/whats-on').default;
