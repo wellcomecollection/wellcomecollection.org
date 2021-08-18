@@ -4,6 +4,21 @@ import { Container as LayoutContainer } from '../components/Layout.style';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 
+export const ProgressBar = styled(Space).attrs({
+  v: { size: 'm', properties: ['margin-bottom'] },
+})`
+  background-color: ${props => props.theme.color('white')};
+  border-radius: 7px; /* (height of inner div) / 2 + padding */
+  border: 2px solid black;
+  width: 300px;
+`;
+
+export const ProgressIndicator = styled.div<{ percentage: number }>`
+  background-color: ${props => props.theme.color('black')};
+  width: ${props => `${props.percentage}%`};
+  height: 10px;
+`;
+
 export const Container = styled(LayoutContainer)`
   max-width: 1024px;
 `;
