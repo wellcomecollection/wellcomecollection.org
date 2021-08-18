@@ -14,7 +14,7 @@ type RequestStatus = {
 
 type RequestItem = {
   item: {
-    id?: string;
+    id: string;
     identifiers?: Identifier[];
     title?: string;
     locations: PhysicalLocation[];
