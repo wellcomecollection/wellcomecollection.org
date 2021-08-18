@@ -40,6 +40,7 @@ import {
   getGlobalContextData,
   WithGlobalContextData,
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import { WithGaDimensions } from '@weco/common/views/pages/_app';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -59,7 +60,8 @@ const DateWrapper = styled.div.attrs({
 
 type Props = {
   jsonEvent: UiEvent;
-} & WithGlobalContextData;
+} & WithGlobalContextData &
+  WithGaDimensions;
 
 // TODO: Probably use the StatusIndicator?
 type EventStatusProps = {
@@ -534,6 +536,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
     props: {
       jsonEvent: JSON.parse(JSON.stringify(event)),
       globalContextData,
+      gaDimensions: {
+        partOf: event.seasons
+          .map(season => season.id)
+          .concat(event.series.map(series => series.id)),
+      },
     },
   };
 };

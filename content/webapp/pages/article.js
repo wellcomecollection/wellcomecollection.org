@@ -34,6 +34,7 @@ import { getGlobalContextData } from '@weco/common/views/components/GlobalContex
 type Props = {|
   article: Article,
   globalContextData: any,
+  gaDimensions: any,
 |};
 
 type State = {|
@@ -62,6 +63,11 @@ export class ArticlePage extends Component<Props, State> {
       return {
         article,
         globalContextData,
+        gaDimensions: {
+          partOf: article.seasons
+            .map(season => season.id)
+            .concat(article.series.map(series => series.id)),
+        },
       };
     } else {
       return { statusCode: 404 };

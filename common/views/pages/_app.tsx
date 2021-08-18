@@ -41,6 +41,18 @@ export type WithPageview = {
   pageview: Pageview;
 };
 
+type GaDimensions = {
+  partOf: string[];
+};
+
+export type WithGaDimensions = {
+  gaDimensions: GaDimensions;
+};
+
+const gaDimensionKeys = {
+  partOf: 'dimension3',
+};
+
 export function appError(
   context: GetServerSidePropsContext,
   statusCode: number,
@@ -152,6 +164,21 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
         titleCase: false,
       },
     ]);
+
+    // This allows us to send a gaDimensions prop from a data fetching method
+    // e.g. `getServerSideProps` and store it in the page views.
+    // TODO: Probably best moving this into the PageLayout so it's called explicitly.
+    if (pageProps.gaDimensions) {
+      const {
+        gaDimensions: { partOf },
+      } = pageProps as WithGaDimensions;
+
+      partOf &&
+        partOf.length > 0 &&
+        ReactGA.set({
+          [gaDimensionKeys.partOf]: partOf.join(','),
+        });
+    }
 
     ReactGA.set({
       dimension5: JSON.stringify(globalContextData.toggles),

@@ -12,6 +12,7 @@ type Props = {|
   exhibition: UiExhibition,
   pages: Page[],
   globalContextData: any,
+  gaDimensions: any,
 |};
 
 const ExhibitionPage = ({ exhibition, pages, globalContextData }: Props) => {
@@ -47,6 +48,9 @@ ExhibitionPage.getInitialProps = async (ctx: Context) => {
       exhibition,
       pages: pages?.results || [],
       globalContextData,
+      gaDimensions: {
+        partOf: exhibition.seasons.map(season => season.id),
+      },
     };
   } else {
     return { statusCode: 404 };

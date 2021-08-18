@@ -18,6 +18,7 @@ import {
   getGlobalContextData,
   WithGlobalContextData,
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import { WithGaDimensions } from '@weco/common/views/pages/_app';
 
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('smoke')};
@@ -25,7 +26,8 @@ const MetadataWrapper = styled.div`
 
 type Props = {
   book: Book;
-} & WithGlobalContextData;
+} & WithGlobalContextData &
+  WithGaDimensions;
 
 // FIXME: This is nonsense
 type BookMetadataProps = { book: Book };
@@ -79,6 +81,9 @@ export class BookPage extends Component<Props | { statusCode: number }> {
       return {
         book,
         globalContextData,
+        gaDimensions: {
+          partOf: book.seasons.map(season => season.id),
+        },
       };
     } else {
       return { statusCode: 404 };
