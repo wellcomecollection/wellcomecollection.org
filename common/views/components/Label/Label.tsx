@@ -50,7 +50,10 @@ const Label: FunctionComponent<Props> = ({
         overrides: { large: 2 },
       }}
       fontColor={
-        label.textColor || (label.labelColor === 'black' ? 'yellow' : 'black')
+        label.textColor ||
+        (label.labelColor === 'black' || defaultLabelColor === 'black'
+          ? 'yellow'
+          : 'black')
       }
       labelColor={label.labelColor || defaultLabelColor}
     >
