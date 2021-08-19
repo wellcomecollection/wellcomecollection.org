@@ -35,7 +35,7 @@ export type Work = {
   holdings: Holding[];
 };
 
-export type ItemsWork = {
+export type ItemsList = {
   type: 'ItemsList';
   totalResults: number;
   results: Item<Location>[];
@@ -77,7 +77,7 @@ type IdentifierType = {
   type: 'IdentifierType';
 };
 
-type Identifier = {
+export type Identifier = {
   value: string;
   identifierType: IdentifierType;
   type: 'Identifier';

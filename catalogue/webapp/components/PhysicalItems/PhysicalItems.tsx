@@ -2,7 +2,7 @@ import { FunctionComponent, useState, useEffect } from 'react';
 import PhysicalItemDetails from '../PhysicalItemDetails/PhysicalItemDetails';
 import {
   PhysicalItem,
-  ItemsWork,
+  ItemsList,
   Work,
   CatalogueApiError,
 } from '@weco/common/model/catalogue';
@@ -11,7 +11,7 @@ import ExpandableList from '@weco/common/views/components/ExpandableList/Expanda
 
 async function fetchWorkItems(
   workId: string
-): Promise<ItemsWork | CatalogueApiError> {
+): Promise<ItemsList | CatalogueApiError> {
   const items = await fetch(`/api/works/items/${workId}`);
   const itemsJson = await items.json();
   return itemsJson;
