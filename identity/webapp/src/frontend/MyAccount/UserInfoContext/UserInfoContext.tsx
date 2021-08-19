@@ -25,12 +25,7 @@ export const withPrefix = (path: string): string => {
     typeof document !== 'undefined'
       ? document.getElementById('root')
       : undefined;
-  const prefix = root && root.getAttribute('data-context-path');
-  if (prefix && prefix !== '') {
-    return `/${prefix}${path}`;
-  } else {
-    return path;
-  }
+  return `${(root && root.getAttribute('data-context-path')) || ''}${path}`;
 };
 
 export const UserInfoProvider: React.FC = ({ children }) => {
