@@ -246,41 +246,40 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   const holdings = getHoldings(work);
 
-  type WhereToFindItProps = {
-    enableRequesting: boolean;
+  const WhereToFindIt = () => {
+    return (
+      <WorkDetailsSection headingText="Where to find it">
+        {enableRequesting && !isLoading && !user && showLibraryLogin && (
+          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+            <SignInNotice>
+              <Space h={{ size: 's', properties: ['margin-right'] }}>
+                <Icon name="memberCard" />
+              </Space>
+              <AlignFont>
+                <span className={font('hnb', 5)}>Library members:</span>{' '}
+                <a href="/account" className={font('hnr', 5)}>
+                  sign in to your library account to request items
+                </a>
+              </AlignFont>
+            </SignInNotice>
+          </Space>
+        )}
+        {locationOfWork && (
+          <WorkDetailsText
+            title={locationOfWork.noteType.label}
+            text={locationOfWork.contents}
+          />
+        )}
+        {physicalItems && (
+          <PhysicalItems
+            work={work}
+            items={physicalItems}
+            encoreLink={encoreLink}
+          />
+        )}
+      </WorkDetailsSection>
+    );
   };
-  const WhereToFindIt = ({ enableRequesting }: WhereToFindItProps) => (
-    <WorkDetailsSection headingText="Where to find it">
-      {enableRequesting && !isLoading && !user && showLibraryLogin && (
-        <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-          <SignInNotice>
-            <Space h={{ size: 's', properties: ['margin-right'] }}>
-              <Icon name="memberCard" />
-            </Space>
-            <AlignFont>
-              <span className={font('hnb', 5)}>Library members:</span>{' '}
-              <a href="/account" className={font('hnr', 5)}>
-                sign in to your library account to request items
-              </a>
-            </AlignFont>
-          </SignInNotice>
-        </Space>
-      )}
-      {locationOfWork && (
-        <WorkDetailsText
-          title={locationOfWork.noteType.label}
-          text={locationOfWork.contents}
-        />
-      )}
-      {physicalItems && (
-        <PhysicalItems
-          work={work}
-          items={physicalItems}
-          encoreLink={encoreLink}
-        />
-      )}
-    </WorkDetailsSection>
-  );
 
   const Holdings = () => {
     return (
@@ -724,9 +723,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
       <Holdings />
 
-      {(locationOfWork || showEncoreLink) && (
-        <WhereToFindIt enableRequesting={enableRequesting} />
-      )}
+      {(locationOfWork || showEncoreLink) && <WhereToFindIt />}
 
       <WorkDetailsSection headingText="Permanent link">
         <div className={`${font('hnr', 5)}`}>
