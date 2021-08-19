@@ -4,7 +4,6 @@ import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/Butto
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
-import ButtonInline from '@weco/common/views/components/ButtonInline/ButtonInline';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
@@ -303,7 +302,7 @@ const ConfirmItemRequest: FunctionComponent<Props> = ({
     <span>You have this item on hold</span>
   ) : (
     <>
-      <ButtonInline
+      <ButtonOutlined
         ref={openButtonRef}
         text={'Request item'}
         clickHandler={() => setIsActive(true)}
