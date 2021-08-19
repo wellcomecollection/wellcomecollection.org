@@ -4,8 +4,6 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const withTM = require('next-transpile-modules')([
   '@weco/common',
   '@weco/identity',
-  '@weco/content',
-  '@weco/catalogue',
 ]);
 const withMDX = require('@next/mdx')({
   extension: /\.(md|mdx)$/,

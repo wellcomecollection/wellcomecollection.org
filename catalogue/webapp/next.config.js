@@ -1,3 +1,3 @@
-const { createConfig } = require('@weco/common/next/next.config');
+const { createConfig } = require('@weco/common/next/common-config');
 
 module.exports = createConfig();
