@@ -37,6 +37,7 @@ const Label: FunctionComponent<Props> = ({
   label,
   defaultLabelColor = 'yellow',
 }: Props) => {
+  console.log(label);
   return (
     <LabelContainer
       v={{
@@ -50,7 +51,10 @@ const Label: FunctionComponent<Props> = ({
         overrides: { large: 2 },
       }}
       fontColor={
-        label.textColor || (label.labelColor === 'black' ? 'yellow' : 'black')
+        label.textColor ||
+        (label.labelColor === 'black' || defaultLabelColor === 'black'
+          ? 'yellow'
+          : 'black')
       }
       labelColor={label.labelColor || defaultLabelColor}
     >
