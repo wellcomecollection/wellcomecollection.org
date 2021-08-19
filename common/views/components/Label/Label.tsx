@@ -37,7 +37,6 @@ const Label: FunctionComponent<Props> = ({
   label,
   defaultLabelColor = 'yellow',
 }: Props) => {
-  console.log(label);
   return (
     <LabelContainer
       v={{
