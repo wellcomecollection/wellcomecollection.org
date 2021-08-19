@@ -125,23 +125,13 @@ export function getHeroPicture(
   );
 }
 
-function addFreeLabel(labelsList) {
+function addFreeLabel(labelListProps) {
   const freeLabel = {
     text: 'Free',
     labelColor: 'black',
   };
-  if (labelsList) {
-    return {
-      ...labelsList,
-      ...{
-        labels: [freeLabel, ...labelsList.labels],
-      },
-    };
-  } else {
-    return {
-      labels: [freeLabel],
-    };
-  }
+  const labels = [freeLabel, ...(labelListProps?.labels ?? [])];
+  return { ...(labelListProps ?? {}), labels };
 }
 
 type Props = {|
