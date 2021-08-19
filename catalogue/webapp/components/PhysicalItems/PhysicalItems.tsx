@@ -8,12 +8,11 @@ import {
 } from '@weco/common/model/catalogue';
 import { isCatalogueApiError } from '../../pages/api/works/items/[workId]';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
-import { withPrefix } from '@weco/identity/src/frontend/MyAccount/UserInfoContext/UserInfoContext';
 
 async function fetchWorkItems(
   workId: string
 ): Promise<ItemsList | CatalogueApiError> {
-  const items = await fetch(withPrefix(`/api/works/items/${workId}`));
+  const items = await fetch(`/api/works/items/${workId}`);
   const itemsJson = await items.json();
   return itemsJson;
 }
