@@ -39,6 +39,12 @@ export default {
       defaultValue: false,
       description: 'A toolbar to help us navigate the secret depths of the API',
     },
+    {
+      id: 'tei',
+      title: 'Tei visible',
+      defaultValue: false,
+      description: 'Makes Tei visible',
+    },
   ] as const,
   tests: [] as ABTest[],
 };

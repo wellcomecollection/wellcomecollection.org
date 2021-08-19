@@ -65,13 +65,19 @@ export async function getWorks({
   pageSize = 25,
 }: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
+  let index;
+  if (toggles?.tei) {
+    const elasticConfigResponse = await fetch(
+      'https://api.wellcomecollection.org/catalogue/v2/_elasticConfig'
+    );
+    const elasticConfig = await elasticConfigResponse.json();
+    index = `${elasticConfig.worksIndex}-tei-on`;
+  }
   const extendedParams = {
     ...params,
     pageSize,
     include: worksIncludes,
-    _index: apiOptions.indexOverrideSuffix
-      ? `works-${apiOptions.indexOverrideSuffix}`
-      : undefined,
+    _index: index,
   };
   const filterQueryString = queryString(extendedParams);
   const url = `${rootUris[apiOptions.env]}/v2/works${filterQueryString}`;
@@ -93,11 +99,17 @@ export async function getWork({
   toggles,
 }: GetWorkProps): Promise<WorkResponse> {
   const apiOptions = globalApiOptions(toggles);
+  let index;
+  if (toggles?.tei) {
+    const elasticConfigResponse = await fetch(
+      'https://api.wellcomecollection.org/catalogue/v2/_elasticConfig'
+    );
+    const elasticConfig = await elasticConfigResponse.json();
+    index = `${elasticConfig.worksIndex}-tei-on`;
+  }
   const params = {
     include: workIncludes,
-    _index: apiOptions.indexOverrideSuffix
-      ? `works-${apiOptions.indexOverrideSuffix}`
-      : null,
+    _index: index,
   };
   const query = queryString(params);
   const url = `${rootUris[apiOptions.env]}/v2/works/${id}${query}`;

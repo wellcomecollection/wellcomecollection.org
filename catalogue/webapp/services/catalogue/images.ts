@@ -39,12 +39,18 @@ export async function getImages({
   pageSize = 25,
 }: GetImagesProps): Promise<CatalogueResultsList<Image> | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
+  let index;
+  if (toggles?.tei) {
+    const elasticConfigResponse = await fetch(
+      'https://api.wellcomecollection.org/catalogue/v2/_elasticConfig'
+    );
+    const elasticConfig = await elasticConfigResponse.json();
+    index = `${elasticConfig.imagesIndex}-tei-on`;
+  }
   const extendedParams = {
     ...params,
     pageSize,
-    _index: apiOptions.indexOverrideSuffix
-      ? `images-${apiOptions.indexOverrideSuffix}`
-      : null,
+    _index: index,
   };
   const filterQueryString = queryString(extendedParams);
   const url = `${rootUris[apiOptions.env]}/v2/images${filterQueryString}`;
@@ -64,11 +70,17 @@ export async function getImage({
   include = [],
 }: GetImageProps): Promise<Image | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
+  let index;
+  if (toggles?.tei) {
+    const elasticConfigResponse = await fetch(
+      'https://api.wellcomecollection.org/catalogue/v2/_elasticConfig'
+    );
+    const elasticConfig = await elasticConfigResponse.json();
+    index = `${elasticConfig.imagesIndex}-tei-on`;
+  }
   const params = {
     include: include,
-    _index: apiOptions.indexOverrideSuffix
-      ? `images-${apiOptions.indexOverrideSuffix}`
-      : null,
+    _index: index,
   };
   const query = queryString(params);
   const url = `${rootUris[apiOptions.env]}/v2/images/${id}${query}`;
