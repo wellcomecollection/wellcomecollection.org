@@ -236,7 +236,7 @@ const ConfirmItemRequest: FunctionComponent<Props> = ({
 
   useEffect(() => {
     setCurrentHoldNumber(initialHoldNumber);
-  }, [initialHoldNumber]);
+  }, [initialHoldNumber]); // This will update when the PhysicalItemDetails component renders and the userHolds are updated
 
   async function confirmRequest() {
     if (!user) return;
@@ -262,7 +262,8 @@ const ConfirmItemRequest: FunctionComponent<Props> = ({
       } else {
         setRequestingState('confirmed');
         setCurrentHoldNumber(currentHoldNumber + 1);
-        // Getting the users current holds, following a successful request, in order to update this number doesn't work because the response we get isn't yet up to date, so changing it manually
+        // If we get the users current holds, immediately following a successful request, the api response isn't updated quickly enough to include the new request
+        // We therefore increment the currentHoldNumber manually following a successful request
       }
     } catch (error) {
       setRequestingState('error');
