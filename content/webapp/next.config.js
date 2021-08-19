@@ -1,4 +1,3 @@
-const webpack = require('webpack');
-const config = require('@weco/common/next/next.config');
+const { createConfig } = require('@weco/common/next/next.config');
 
-module.exports = config(webpack);
+module.exports = createConfig();
