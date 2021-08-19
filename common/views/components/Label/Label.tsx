@@ -30,12 +30,12 @@ const LabelContainer = styled(Space).attrs({
 
 export type Props = {
   label: LabelType;
-  labelColor?: LabelColor;
+  defaultLabelColor?: LabelColor;
 };
 
 const Label: FunctionComponent<Props> = ({
   label,
-  labelColor = 'yellow',
+  defaultLabelColor = 'yellow',
 }: Props) => {
   return (
     <LabelContainer
@@ -49,8 +49,10 @@ const Label: FunctionComponent<Props> = ({
         properties: ['padding-left', 'padding-right'],
         overrides: { large: 2 },
       }}
-      fontColor={labelColor === 'black' ? 'yellow' : 'black'}
-      labelColor={labelColor}
+      fontColor={
+        label.textColor || (label.labelColor === 'black' ? 'yellow' : 'black')
+      }
+      labelColor={label.labelColor || defaultLabelColor}
     >
       <AlignFont>{label.text}</AlignFont>
     </LabelContainer>

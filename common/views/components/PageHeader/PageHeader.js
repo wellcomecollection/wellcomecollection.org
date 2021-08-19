@@ -129,6 +129,7 @@ function addFreeLabel(labelListProps) {
   const freeLabel = {
     text: 'Free',
     labelColor: 'black',
+    textColor: 'white',
   };
   const labels = [freeLabel, ...(labelListProps?.labels ?? [])];
   return { ...(labelListProps ?? {}), labels };
