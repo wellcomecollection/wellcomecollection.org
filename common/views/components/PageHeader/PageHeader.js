@@ -11,7 +11,6 @@ import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Picture from '../Picture/Picture';
 // $FlowFixMe(tsx)
 import HeaderBackground from '../HeaderBackground/HeaderBackground';
-import FreeSticker from '../FreeSticker/FreeSticker';
 import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
 // $FlowFixMe (tsx)
 import Layout10 from '../Layout10/Layout10';
@@ -126,6 +125,25 @@ export function getHeroPicture(
   );
 }
 
+function addFreeLabel(labelsList) {
+  const freeLabel = {
+    text: 'Free',
+    labelColor: 'black',
+  };
+  if (labelsList) {
+    return {
+      ...labelsList,
+      ...{
+        labels: [freeLabel, ...labelsList.labels],
+      },
+    };
+  } else {
+    return {
+      labels: [freeLabel],
+    };
+  }
+}
+
 type Props = {|
   breadcrumbs: ElementProps<typeof Breadcrumb>,
   labels: ?ElementProps<typeof LabelsList>,
@@ -176,6 +194,8 @@ const PageHeader = ({
     );
 
   const hasMedia = FeaturedMedia || HeroPicture;
+  const amendedLabels = isFree ? addFreeLabel(labels) : labels;
+
   return (
     <>
       <div
@@ -188,13 +208,6 @@ const PageHeader = ({
         }}
       >
         {Background}
-        {isFree && (
-          <Layout10>
-            <div className="relative">
-              <FreeSticker />
-            </div>
-          </Layout10>
-        )}
         <Layout
           gridSizes={sectionLevelPage ? gridSize12 : sectionLevelPageGridLayout}
         >
@@ -267,8 +280,9 @@ const PageHeader = ({
                 {ContentTypeInfo}
               </Space>
             )}
-
-            {labels && labels.labels.length > 0 && <LabelsList {...labels} />}
+            {amendedLabels && amendedLabels.labels.length > 0 && (
+              <LabelsList {...amendedLabels} />
+            )}
           </Space>
         </Layout>
 
