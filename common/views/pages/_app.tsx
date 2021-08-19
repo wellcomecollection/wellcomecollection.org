@@ -17,7 +17,6 @@ import {
 import { GetServerSidePropsContext } from 'next';
 import { trackPageview } from '../../services/conversion/track';
 import useIsFontsLoaded from '../../hooks/useIsFontsLoaded';
-
 declare global {
   interface Window {
     prismic: any;

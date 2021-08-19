@@ -70,7 +70,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
   hideFooter = false,
   excludeRoleMain = false,
 }: ComponentProps) => {
-  const { apiToolbar, showLogin } = useContext(TogglesContext);
+  const { apiToolbar, enableRequesting } = useContext(TogglesContext);
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''
@@ -235,7 +235,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
         </a>
-        {showLogin ? (
+        {enableRequesting ? (
           <HeaderPrototype siteSection={siteSection} />
         ) : (
           <Header siteSection={siteSection} />

@@ -18,6 +18,7 @@ import {
   getLocationLabel,
   getLocationShelfmark,
   getLocationLink,
+  getFirstPhysicalLocation,
 } from '@weco/common/utils/works';
 import {
   getMediaClickthroughService,
@@ -50,6 +51,7 @@ import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsA
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
+import { useUserInfo } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 
 type Props = {
   work: Work;
@@ -90,8 +92,12 @@ function getItemLinkState({
   }
 }
 
+export const unrequestableStatusIds = ['temporarily-unavailable'];
+export const unrequestableMethodIds = ['not-requestable', 'open-shelves'];
+
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
-  const { showHoldingsOnWork, showLogin } = useContext(TogglesContext);
+  const { showHoldingsOnWork, enableRequesting } = useContext(TogglesContext);
+  const { user, isLoading } = useUserInfo();
   const isArchive = useContext(IsArchiveContext);
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
@@ -181,6 +187,16 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const encoreLink = sierraWorkId && getEncoreLink(sierraWorkId);
 
   const physicalItems = getItemsWithPhysicalLocation(work);
+  const showLibraryLogin = physicalItems.some(item => {
+    const physicalLocation = getFirstPhysicalLocation(item); // ok because there is only one physical location in reality
+    const methodId = physicalLocation?.accessConditions?.[0]?.method?.id || '';
+    const statusId = physicalLocation?.accessConditions?.[0]?.status?.id || '';
+    return !(
+      unrequestableStatusIds.includes(statusId) ||
+      unrequestableMethodIds.includes(methodId)
+    );
+  });
+
   const showEncoreLink = encoreLink && physicalItems.length > 0;
 
   const locationOfWork = work.notes.find(
@@ -230,41 +246,40 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   const holdings = getHoldings(work);
 
-  type WhereToFindItProps = {
-    showLogin: boolean;
+  const WhereToFindIt = () => {
+    return (
+      <WorkDetailsSection headingText="Where to find it">
+        {enableRequesting && !isLoading && !user && showLibraryLogin && (
+          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+            <SignInNotice>
+              <Space h={{ size: 's', properties: ['margin-right'] }}>
+                <Icon name="memberCard" />
+              </Space>
+              <AlignFont>
+                <span className={font('hnb', 5)}>Library members:</span>{' '}
+                <a href="/account" className={font('hnr', 5)}>
+                  sign in to your library account to request items
+                </a>
+              </AlignFont>
+            </SignInNotice>
+          </Space>
+        )}
+        {locationOfWork && (
+          <WorkDetailsText
+            title={locationOfWork.noteType.label}
+            text={locationOfWork.contents}
+          />
+        )}
+        {physicalItems && (
+          <PhysicalItems
+            work={work}
+            items={physicalItems}
+            encoreLink={encoreLink}
+          />
+        )}
+      </WorkDetailsSection>
+    );
   };
-  const WhereToFindIt = ({ showLogin }: WhereToFindItProps) => (
-    <WorkDetailsSection headingText="Where to find it">
-      {showLogin && (
-        <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-          <SignInNotice>
-            <Space h={{ size: 's', properties: ['margin-right'] }}>
-              <Icon name="memberCard" />
-            </Space>
-            <AlignFont>
-              <span className={font('hnb', 5)}>Library members:</span>{' '}
-              <a href="/account" className={font('hnr', 5)}>
-                sign in to your library account to request items
-              </a>
-            </AlignFont>
-          </SignInNotice>
-        </Space>
-      )}
-      {locationOfWork && (
-        <WorkDetailsText
-          title={locationOfWork.noteType.label}
-          text={locationOfWork.contents}
-        />
-      )}
-      {physicalItems && (
-        <PhysicalItems
-          work={work}
-          items={physicalItems}
-          encoreLink={encoreLink}
-        />
-      )}
-    </WorkDetailsSection>
-  );
 
   const Holdings = () => {
     return (
@@ -386,8 +401,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     action: 'follow view link',
                     label: work.id,
                   }}
-                  link={`https://wellcomelibrary.org/item/${sierraIdFromManifestUrl ||
-                    ''}`}
+                  link={`https://wellcomelibrary.org/item/${
+                    sierraIdFromManifestUrl || ''
+                  }`}
                 />
               </Space>
             )}
@@ -707,9 +723,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
       <Holdings />
 
-      {(locationOfWork || showEncoreLink) && (
-        <WhereToFindIt showLogin={showLogin} />
-      )}
+      {(locationOfWork || showEncoreLink) && <WhereToFindIt />}
 
       <WorkDetailsSection headingText="Permanent link">
         <div className={`${font('hnr', 5)}`}>

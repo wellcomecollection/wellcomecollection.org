@@ -21,16 +21,10 @@ export default {
       defaultValue: true,
     },
     {
-      id: 'showLogin',
-      title: 'Show a link to log in',
-      description: 'Shows a link to log in on /works',
-      defaultValue: false,
-    },
-    {
-      id: 'showItemRequestFlow',
-      title: 'Show item request user flow',
+      id: 'enableRequesting',
+      title: 'Enables login and requesting functionality',
       description:
-        'Makes the Request item button call the items API and show the relevant request/confirm modal flow',
+        'Puts login links in the headers and enables requesting functionality on works pages ',
       defaultValue: false,
     },
     {
