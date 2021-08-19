@@ -28,6 +28,7 @@ type Props = {|
   series: ArticleSeries,
   articles: Article[],
   globalContextData: any,
+  gaDimensions: any,
 |};
 
 export class ArticleSeriesPage extends Component<Props> {
@@ -57,6 +58,9 @@ export class ArticleSeriesPage extends Component<Props> {
         siteSection: 'stories',
         analyticsCategory: 'editorial',
         globalContextData,
+        gaDimensions: {
+          partOf: series.seasons.map<string>(season => season.id),
+        },
       };
     } else {
       return { statusCode: 404 };

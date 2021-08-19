@@ -51,6 +51,7 @@ type Props = {|
   children: SiblingsGroup,
   ordersInParents: any[],
   globalContextData: any,
+  gaDimensions: any,
 |};
 
 type OrderInParent = {|
@@ -84,6 +85,9 @@ export class Page extends Component<Props> {
         children,
         ordersInParents,
         globalContextData,
+        gaDimensions: {
+          partOf: page.seasons.map<string>(season => season.id),
+        },
       };
     } else {
       return { statusCode: 404 };
