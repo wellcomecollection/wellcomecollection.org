@@ -1,6 +1,6 @@
 import { FunctionComponent, useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import ButtonInlineLink from '@weco/common/views/components/ButtonInlineLink/ButtonInlineLink';
+import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
@@ -201,7 +201,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
                     ) : (
                       <>
                         {requestItemUrl && (
-                          <ButtonInlineLink
+                          <ButtonOutlinedLink
                             text={'Request item'}
                             link={requestItemUrl}
                           />
