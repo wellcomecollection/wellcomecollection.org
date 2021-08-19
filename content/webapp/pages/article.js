@@ -8,7 +8,8 @@ import { getArticle } from '@weco/common/services/prismic/articles';
 import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
-import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+// $FlowFixMe
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 // $FlowFixMe (tsx)
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
@@ -27,9 +28,13 @@ import { articleLd } from '@weco/common/utils/json-ld';
 import { ArticleFormatIds } from '@weco/common/model/content-format-id';
 // $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
+// $FlowFixMe
+import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 type Props = {|
   article: Article,
+  globalContextData: any,
+  gaDimensions: any,
 |};
 
 type State = {|
@@ -50,11 +55,19 @@ export class ArticlePage extends Component<Props, State> {
   static getInitialProps = async (
     ctx: Context
   ): Promise<?Props | PrismicApiError> => {
+    const globalContextData = getGlobalContextData(ctx);
     const { id, memoizedPrismic } = ctx.query;
     const article = await getArticle(ctx.req, id, memoizedPrismic);
+
     if (article) {
       return {
         article,
+        globalContextData,
+        gaDimensions: {
+          partOf: article.seasons
+            .map(season => season.id)
+            .concat(article.series.map(series => series.id)),
+        },
       };
     } else {
       return { statusCode: 404 };
@@ -76,7 +89,8 @@ export class ArticlePage extends Component<Props, State> {
   }
 
   render() {
-    const { article } = this.props;
+    const { globalContextData, article } = this.props;
+
     const breadcrumbs = {
       items: [
         {
@@ -272,6 +286,7 @@ export class ArticlePage extends Component<Props, State> {
           article.image && convertImageUri(article.image.contentUrl, 800)
         }
         imageAltText={article.image && article.image.alt}
+        globalContextData={globalContextData}
       >
         <ContentPage
           id={article.id}

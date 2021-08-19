@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
 import Prismic from 'prismic-javascript';
-import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import Body from '@weco/common/views/components/Body/Body';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';
@@ -36,6 +36,11 @@ import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
 import { GetServerSideProps, NextPage } from 'next';
 import styled from 'styled-components';
+import {
+  getGlobalContextData,
+  WithGlobalContextData,
+} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import { WithGaDimensions } from '@weco/common/views/pages/_app';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -55,7 +60,8 @@ const DateWrapper = styled.div.attrs({
 
 type Props = {
   jsonEvent: UiEvent;
-};
+} & WithGlobalContextData &
+  WithGaDimensions;
 
 // TODO: Probably use the StatusIndicator?
 type EventStatusProps = {
@@ -147,7 +153,10 @@ export function convertJsonToDates(jsonEvent: UiEvent): UiEvent {
   };
 }
 
-const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
+const EventPage: NextPage<Props> = ({
+  jsonEvent,
+  globalContextData,
+}: Props) => {
   const [scheduledIn, setScheduledIn] = useState<UiEvent>();
   const getScheduledIn = async () => {
     const scheduledIn = await getEvents(null, {
@@ -293,7 +302,8 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
       openGraphType={'website'}
       siteSection={'whats-on'}
       imageUrl={event.image && convertImageUri(event.image.contentUrl, 800)}
-      imageAltText={event.image && event.image.alt}
+      imageAltText={event?.image?.alt}
+      globalContextData={globalContextData}
     >
       <ContentPage
         id={event.id}
@@ -509,6 +519,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async context => {
+  const globalContextData = getGlobalContextData(context);
   const { id, memoizedPrismic } = context.query;
   const event = await getEvent(context.req, { id }, memoizedPrismic);
 
@@ -522,7 +533,15 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
   // which we could pick out explicitly, or do this.
   // See: https://github.com/vercel/next.js/discussions/11209#discussioncomment-35915
   return {
-    props: { jsonEvent: JSON.parse(JSON.stringify(event)) },
+    props: {
+      jsonEvent: JSON.parse(JSON.stringify(event)),
+      globalContextData,
+      gaDimensions: {
+        partOf: event.seasons
+          .map(season => season.id)
+          .concat(event.series.map(series => series.id)),
+      },
+    },
   };
 };
 

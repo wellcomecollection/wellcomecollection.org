@@ -38,7 +38,9 @@ module "nginx_container" {
 
   forward_port      = var.container_port
   log_configuration = module.log_router_container.container_log_configuration
-  container_tag     = var.nginx_container_tag
+
+  // This has an increased max request body size
+  container_tag = "c82bd543f3189c6680dd72a30123ac340bdfcde5"
 }
 
 module "app_container" {

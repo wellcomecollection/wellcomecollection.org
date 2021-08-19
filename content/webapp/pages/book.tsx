@@ -2,7 +2,7 @@ import { NextPageContext } from 'next';
 import { Book } from '@weco/common/model/books';
 import { Fragment, Component } from 'react';
 import { getBook } from '@weco/common/services/prismic/books';
-import PageLayoutDeprecated from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Body from '@weco/common/views/components/Body/Body';
@@ -14,6 +14,11 @@ import { font, grid, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import BookImage from '@weco/common/views/components/BookImage/BookImage';
 import styled from 'styled-components';
+import {
+  getGlobalContextData,
+  WithGlobalContextData,
+} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import { WithGaDimensions } from '@weco/common/views/pages/_app';
 
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('smoke')};
@@ -21,10 +26,12 @@ const MetadataWrapper = styled.div`
 
 type Props = {
   book: Book;
-};
+} & WithGlobalContextData &
+  WithGaDimensions;
 
 // FIXME: This is nonsense
-const BookMetadata = ({ book }: Props) => (
+type BookMetadataProps = { book: Book };
+const BookMetadata = ({ book }: BookMetadataProps) => (
   <Space
     v={{
       size: 'm',
@@ -66,11 +73,18 @@ export class BookPage extends Component<Props | { statusCode: number }> {
   static getInitialProps = async (
     ctx: NextPageContext
   ): Promise<Props | { statusCode: number }> => {
+    const globalContextData = getGlobalContextData(ctx);
     const { id, memoizedPrismic } = ctx.query;
     const book = await getBook(ctx.req, id, memoizedPrismic);
 
     if (book) {
-      return { book };
+      return {
+        book,
+        globalContextData,
+        gaDimensions: {
+          partOf: book.seasons.map(season => season.id),
+        },
+      };
     } else {
       return { statusCode: 404 };
     }
@@ -79,7 +93,7 @@ export class BookPage extends Component<Props | { statusCode: number }> {
   render() {
     if (!('book' in this.props)) return null;
 
-    const { book } = this.props;
+    const { globalContextData, book } = this.props;
     const FeaturedMedia = book.cover && (
       <BookImage image={{ ...book.cover, sizesQueries: '' }} />
     );
@@ -169,7 +183,7 @@ export class BookPage extends Component<Props | { statusCode: number }> {
         : [];
 
     return (
-      <PageLayoutDeprecated
+      <PageLayout
         title={book.title}
         description={book.metadataDescription || book.promoText || ''}
         url={{ pathname: `/books/${book.id}`, query: {} }}
@@ -177,7 +191,8 @@ export class BookPage extends Component<Props | { statusCode: number }> {
         openGraphType={'book'}
         siteSection={null}
         imageUrl={book.image && convertImageUri(book.image.contentUrl, 800)}
-        imageAltText={book.image && book.image.alt}
+        imageAltText={book.image && book.image.alt ? book.image.alt : undefined}
+        globalContextData={globalContextData}
       >
         <ContentPage
           id={book.id}
@@ -195,7 +210,7 @@ export class BookPage extends Component<Props | { statusCode: number }> {
             )}
           </Fragment>
         </ContentPage>
-      </PageLayoutDeprecated>
+      </PageLayout>
     );
   }
 }

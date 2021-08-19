@@ -36,9 +36,6 @@ module "lhci_server" {
 
   subnets = local.private_subnets
   vpc_id  = local.vpc_id
-
-  // This has an increased max request body size
-  nginx_container_tag = "c82bd543f3189c6680dd72a30123ac340bdfcde5"
 }
 
 module "path_listener" {

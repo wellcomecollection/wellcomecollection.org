@@ -2,25 +2,31 @@
 import type { Context } from 'next';
 import { Component } from 'react';
 import NewsletterSignup from '@weco/common/views/components/NewsletterSignup/NewsletterSignup';
-import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+// $FlowFixMe (tsx)
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { grid } from '@weco/common/utils/classnames';
 // $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
+// $FlowFixMe
+import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 type Props = {|
   result: ?string,
+  globalContextData: any,
 |};
 export class NewsletterPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
+    const globalContextData = getGlobalContextData(ctx);
     const { result } = ctx.query;
 
     return {
       result,
+      globalContextData,
     };
   };
   render() {
-    const { result } = this.props;
+    const { globalContextData, result } = this.props;
 
     return (
       <PageLayout
@@ -37,6 +43,7 @@ export class NewsletterPage extends Component<Props> {
           'https://iiif.wellcomecollection.org/image/V0019283.jpg/full/800,/0/default.jpg'
         }
         imageAltText={''}
+        globalContextData={globalContextData}
       >
         <PageHeader
           breadcrumbs={{ items: [] }}

@@ -3,24 +3,29 @@ import type { Context } from 'next';
 import { Component } from 'react';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
-import PageLayout from '@weco/common/views/components/PageLayoutDeprecated/PageLayoutDeprecated';
+// $FlowFixMe (tsx)
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import type { UiExhibition } from '@weco/common/model/exhibitions';
 import type { Period } from '@weco/common/model/periods';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+// $FlowFixMe
+import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
   period: ?Period,
   displayTitle: string,
+  globalContextData: any,
 |};
 
 const pageDescription =
   'Explore the connections between science, medicine, life and art through our permanent and temporary exhibitions. Admission is always free.';
 export class ExhibitionsPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
+    const globalContextData = getGlobalContextData(ctx);
     const { page = 1, period, memoizedPrismic } = ctx.query;
     const exhibitions = await getExhibitions(
       ctx.req,
@@ -33,6 +38,7 @@ export class ExhibitionsPage extends Component<Props> {
         exhibitions,
         displayTitle: title,
         period,
+        globalContextData,
       };
     } else {
       return { statusCode: 404 };
@@ -40,7 +46,7 @@ export class ExhibitionsPage extends Component<Props> {
   };
 
   render() {
-    const { exhibitions, period, displayTitle } = this.props;
+    const { globalContextData, exhibitions, period, displayTitle } = this.props;
     const firstExhibition = exhibitions[0];
 
     return (
@@ -59,6 +65,7 @@ export class ExhibitionsPage extends Component<Props> {
         imageAltText={
           firstExhibition && firstExhibition.image && firstExhibition.image.alt
         }
+        globalContextData={globalContextData}
       >
         <SpacingSection>
           <LayoutPaginatedResults
