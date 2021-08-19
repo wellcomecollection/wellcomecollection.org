@@ -17,7 +17,6 @@ import {
 import { GetServerSidePropsContext } from 'next';
 import { trackPageview } from '../../services/conversion/track';
 import useIsFontsLoaded from '../../hooks/useIsFontsLoaded';
-import { UserInfoProvider } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
 declare global {
   interface Window {
     prismic: any;
@@ -294,25 +293,23 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   return (
     <>
       <AppContextProvider>
-        <UserInfoProvider>
-          <ThemeProvider theme={theme}>
-            <GlobalStyle
-              toggles={globalContextData.toggles}
-              isFontsLoaded={useIsFontsLoaded()}
-            />
-            <OutboundLinkTracker>
-              <LoadingIndicator />
-              {!pageProps.err && <Component {...pageProps} />}
-              {pageProps.err && (
-                <ErrorPage
-                  statusCode={pageProps.err.statusCode}
-                  title={pageProps.err.message}
-                  globalContextData={globalContextData}
-                />
-              )}
-            </OutboundLinkTracker>
-          </ThemeProvider>
-        </UserInfoProvider>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle
+            toggles={globalContextData.toggles}
+            isFontsLoaded={useIsFontsLoaded()}
+          />
+          <OutboundLinkTracker>
+            <LoadingIndicator />
+            {!pageProps.err && <Component {...pageProps} />}
+            {pageProps.err && (
+              <ErrorPage
+                statusCode={pageProps.err.statusCode}
+                title={pageProps.err.message}
+                globalContextData={globalContextData}
+              />
+            )}
+          </OutboundLinkTracker>
+        </ThemeProvider>
       </AppContextProvider>
     </>
   );
