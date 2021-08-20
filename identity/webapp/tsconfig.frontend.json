@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "composite": true,
     "baseUrl": "src",
     "lib": ["dom", "es2020"],
     "typeRoots": ["../../node_modules/@types", "node_modules/@types"],
@@ -19,7 +20,10 @@
     "noImplicitAny": false,
     "downlevelIteration": true,
     "noUnusedLocals": false,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@weco/common": ["../../common"]
+    }
   },
   "exclude": [
     "node_modules",
@@ -29,5 +33,9 @@
     "**/*.stories.tsx",
     "__tests__/"
   ],
-  "references": []
+  "references": [
+    {
+      "path": "../../common"
+    }
+  ]
 }

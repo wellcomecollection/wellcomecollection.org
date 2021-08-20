@@ -25,3 +25,5 @@ out/
 
 .DS_Store
 .idea
+
+tsconfig.tsbuildinfo

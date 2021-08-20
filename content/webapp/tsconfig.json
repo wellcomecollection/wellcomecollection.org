@@ -1,14 +1,13 @@
 {
   "compilerOptions": {
+    "composite": true,
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "baseUrl": ".",
-    "paths": {},
     "allowJs": false,
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -16,8 +15,19 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "strictNullChecks": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "paths": {
+      "@weco/common": [
+        "../../common"
+      ]
+    },
+    "noEmit": true
   },
   "exclude": ["node_modules"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "references": [
+    {
+      "path": "../../common"
+    }
+  ]
 }

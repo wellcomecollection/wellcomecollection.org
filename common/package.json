@@ -25,7 +25,6 @@
     "@types/lodash.groupby": "^4.6.6",
     "@types/react-window": "^1.8.2",
     "@types/uuid": "^8.3.0",
-    "@weco/identity": "0.1.0",
     "@weco/next-plugin-transpile-modules": "^2.0.1",
     "@weco/toggles": "1.0.0",
     "babel-core": "^7.0.0-bridge.0",
