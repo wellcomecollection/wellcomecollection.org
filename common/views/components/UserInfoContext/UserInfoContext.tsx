@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import { initialState, userInfoReducer, UserInfoState } from './reducer';
-import { UserInfo } from '@weco/common/model/user';
-import { withAppPathPrefix } from '../../../utility/app-path-prefix';
+import { UserInfo } from '../../../model/user';
+import { withAppPathPrefix } from '../../../utils/identity-path-prefix';
 
 type UserInfoContext = UserInfoState & {
   isLoading: boolean;

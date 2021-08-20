@@ -10,7 +10,7 @@ import { AccountValidated } from './Registration/AccountValidated';
 import { ErrorPage } from './components/ErrorPage';
 import { MyAccount } from './MyAccount/MyAccount';
 import { DeleteRequested } from './MyAccount/DeleteRequested';
-import { getAppPathPrefix } from '../utility/app-path-prefix';
+import { getAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 
 const PageBackground = createGlobalStyle`
   body {

@@ -51,7 +51,7 @@ import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsA
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
-import { useUserInfo } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
+import { useUserInfo } from '@weco/common/views/components/UserInfoContext';
 
 type Props = {
   work: Work;

@@ -1,7 +1,7 @@
 import {
   withAppPathPrefix,
   getAppPathPrefix,
-} from '../utility/app-path-prefix';
+} from '@weco/common/utils/identity-path-prefix';
 import { RouteMiddleware } from '../types/application';
 import buildHtml from './assets/index.html';
 

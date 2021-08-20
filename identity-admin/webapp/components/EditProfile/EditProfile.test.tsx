@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { rest } from 'msw';
-import { UserInfoProvider } from '../../context/UserInfoContext';
+import { UserInfoProvider } from '@weco/common/views/components/UserInfoContext';
 import { User } from '../../interfaces';
 import { mockUser } from '../../__mocks__/UserInfo.mock';
 import { server } from '../../__mocks__/server';

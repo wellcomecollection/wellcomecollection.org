@@ -17,7 +17,7 @@ import styled from 'styled-components';
 import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
-import { UserInfoProvider } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
+import { UserInfoProvider } from '@weco/common/views/components/UserInfoContext';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;

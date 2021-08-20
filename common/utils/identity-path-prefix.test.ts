@@ -1,4 +1,4 @@
-import { withAppPathPrefix } from './app-path-prefix';
+import { withAppPathPrefix } from './identity-path-prefix';
 
 describe('withAppPathPrefix (server)', () => {
   const OLD_ENV = process.env;

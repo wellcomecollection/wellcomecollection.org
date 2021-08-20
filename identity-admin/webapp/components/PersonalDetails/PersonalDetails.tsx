@@ -1,6 +1,6 @@
 import React from 'react';
 import { useUpdateUserInfo } from '../../hooks/useUpdateUserInfo';
-import { useUserInfo } from '../../context/UserInfoContext';
+import { useUserInfo } from '@weco/common/views/components/UserInfoContext';
 import { Loading, Section } from './PersonalDetails.style';
 import { EditedUser } from '../../interfaces';
 import { UpdateDetailsForm } from './UpdateDetailsForm';

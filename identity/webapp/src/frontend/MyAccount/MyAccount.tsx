@@ -1,7 +1,10 @@
 import React, { FC, ComponentProps, useState, useEffect } from 'react';
 import Info2 from '@weco/common/icons/components/Info2';
 
-import { useUserInfo, withUserInfo } from './UserInfoContext';
+import {
+  useUserInfo,
+  withUserInfo,
+} from '@weco/common/views/components/UserInfoContext';
 import { ChangeDetailsModal } from './ChangeDetailsModal';
 import { PageWrapper } from '../components/PageWrapper';
 import { Container, Title, Header, Intro } from '../components/Layout.style';
@@ -28,7 +31,7 @@ import Table from '@weco/common/views/components/Table/Table';
 import { font } from '@weco/common/utils/classnames';
 import { RequestsList } from '@weco/common/model/requesting';
 import { allowedRequests } from '@weco/catalogue/components/ConfirmItemRequest/ConfirmItemRequest';
-import { withAppPathPrefix } from '../../utility/app-path-prefix';
+import { withAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 
 type DetailProps = {
   label: string;

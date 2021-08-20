@@ -1,7 +1,7 @@
 import { TypedRouter } from '../../utility/typed-router';
 import koaPassport from 'koa-passport';
 import { RouteMiddleware } from '../../types/application';
-import { withAppPathPrefix } from '../../utility/app-path-prefix';
+import { withAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 
 export const localAuthRoutes: any = {
   login: [

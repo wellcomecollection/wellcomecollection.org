@@ -6,7 +6,7 @@ const getServerAppPathPrefix = () =>
 const getClientAppPathPrefix = () =>
   document?.getElementById('root')?.getAttribute('data-context-path') || '';
 
-export const getAppPathPrefix = () =>
+export const getAppPathPrefix = (): string | undefined =>
   isServer() ? getServerAppPathPrefix() : getClientAppPathPrefix();
 
 export const withAppPathPrefix = (path: string): string => {

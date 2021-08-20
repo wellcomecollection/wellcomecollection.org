@@ -1,4 +1,4 @@
-import { UserInfo } from '@weco/common/model/user';
+import { UserInfo } from '../../../model/user';
 
 export type UserInfoState = {
   status: 'loading' | 'success' | 'failure' | 'idle';

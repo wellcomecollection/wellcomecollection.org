@@ -12,8 +12,8 @@ import {
   getFirstPhysicalLocation,
 } from '@weco/common/utils/works';
 import ConfirmItemRequest from '../ConfirmItemRequest/ConfirmItemRequest';
-import { useUserInfo } from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
-import { withPrefix } from '@weco/identity/src/frontend/MyAccount/UserInfoContext/UserInfoContext';
+import { useUserInfo } from '@weco/common/views/components/UserInfoContext';
+import { withAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 import {
   unrequestableStatusIds,
   unrequestableMethodIds,
@@ -117,7 +117,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 
     let isMounted = true;
 
-    fetch(withPrefix(`/api/users/${user.userId}/item-requests`), {
+    fetch(withAppPathPrefix(`/api/users/${user.userId}/item-requests`), {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

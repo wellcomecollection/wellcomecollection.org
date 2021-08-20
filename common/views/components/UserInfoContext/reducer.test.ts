@@ -1,20 +1,26 @@
-import { mockUser } from '../../mocks/user';
+import { mockUser } from '../../../test/fixtures/identity/user';
 import { initialState, userInfoReducer } from './reducer';
 
 describe('userInfoReducer', () => {
   it('returns a loading state when fetching user data', () => {
-    expect(userInfoReducer(initialState, { type: 'FETCH' })).toEqual({ status: 'loading' });
+    expect(userInfoReducer(initialState, { type: 'FETCH' })).toEqual({
+      status: 'loading',
+    });
   });
 
   it('returns a state with a user when fetching resolves', () => {
-    expect(userInfoReducer(initialState, { type: 'RESOLVE', payload: mockUser })).toEqual({
+    expect(
+      userInfoReducer(initialState, { type: 'RESOLVE', payload: mockUser })
+    ).toEqual({
       status: 'success',
       user: mockUser,
     });
   });
 
   it('returns an error state when fetching rejects', () => {
-    expect(userInfoReducer(initialState, { type: 'REJECT', error: 'Uh-oh!' })).toEqual({
+    expect(
+      userInfoReducer(initialState, { type: 'REJECT', error: 'Uh-oh!' })
+    ).toEqual({
       status: 'failure',
       error: 'Uh-oh!',
     });
@@ -28,8 +34,16 @@ describe('userInfoReducer', () => {
   });
 
   it('manually updates the user', () => {
-    const resolvedState = userInfoReducer(initialState, { type: 'RESOLVE', payload: mockUser });
-    expect(userInfoReducer(resolvedState, { type: 'UPDATE', payload: { email: 'new@email.com' } })).toEqual({
+    const resolvedState = userInfoReducer(initialState, {
+      type: 'RESOLVE',
+      payload: mockUser,
+    });
+    expect(
+      userInfoReducer(resolvedState, {
+        type: 'UPDATE',
+        payload: { email: 'new@email.com' },
+      })
+    ).toEqual({
       status: resolvedState.status,
       user: {
         ...mockUser,

@@ -4,7 +4,7 @@ import { Info } from '../Info';
 import Layout from '../../components/Layout';
 import { PersonalDetails } from '../PersonalDetails';
 import { UsageData } from '../UsageData';
-import { useUserInfo } from '../../context/UserInfoContext';
+import { useUserInfo } from '@weco/common/views/components/UserInfoContext';
 import {
   LogoutLink,
   MainScreenLink,

@@ -1,6 +1,6 @@
 import { RouteMiddleware } from '../types/application';
 import koaPassport from 'koa-passport';
-import { withAppPathPrefix } from '../utility/app-path-prefix';
+import { withAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 import { config } from '../config';
 import * as querystring from 'query-string';
 import { URL } from 'url';

@@ -29,7 +29,7 @@ import GlobalInfoBarContext, {
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
 import TogglesContext from '../TogglesContext/TogglesContext';
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
-import { getAppPathPrefix } from '@weco/identity/src/utility/app-path-prefix';
+import { getAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 
 type SiteSection =
   | 'collections'

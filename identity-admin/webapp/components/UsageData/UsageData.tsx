@@ -1,5 +1,5 @@
 import React from 'react';
-import { useUserInfo } from '../../context/UserInfoContext';
+import { useUserInfo } from '@weco/common/views/components/UserInfoContext';
 import { humanDate, prettyDate } from '../../utils/dates';
 import { UsageDetail, UsageDetailsList, Label, Value } from './UsageData.style';
 

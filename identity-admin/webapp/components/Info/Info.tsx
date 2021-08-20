@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useUserInfo } from '../../context/UserInfoContext';
+import { useUserInfo } from '@weco/common/views/components/UserInfoContext';
 import {
   AccountDetailsList,
   AccountDetailsLabel,

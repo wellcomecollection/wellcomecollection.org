@@ -2,7 +2,7 @@ import Router from '@koa/router';
 import koaBody from 'koa-body';
 import { requestBody } from '../middleware/request-body';
 import { RouteMiddleware } from '../types/application';
-import { getAppPathPrefix } from './app-path-prefix';
+import { getAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 
 export type RouteWithParams<Props, Body = any> =
   | [string, string, RouteMiddleware<Props, Body>]

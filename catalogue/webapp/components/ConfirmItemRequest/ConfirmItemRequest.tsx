@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
-import { withAppPathPrefix } from '@weco/identity/src/utility/app-path-prefix';
+import { withAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 import { UserInfo } from '@weco/common/model/user';
 
 const Header = styled(Space).attrs({

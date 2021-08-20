@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useUserInfo } from '../../context/UserInfoContext';
+import { useUserInfo } from '@weco/common/views/components/UserInfoContext';
 import { DeleteAccount } from './DeleteAccount';
 import { AccountAction } from './AccountAction';
 import { useResendActivationEmail } from '../../hooks/useResendActivationEmail';
@@ -40,11 +40,10 @@ export function AccountActions({
   return (
     <DropdownMenu deleteModalRef={deleteModalRef}>
       {close => {
-        const handleClickThenClose = (
-          onClick: () => Promise<void>
-        ) => async () => {
-          await onClick().then(close);
-        };
+        const handleClickThenClose =
+          (onClick: () => Promise<void>) => async () => {
+            await onClick().then(close);
+          };
         return (
           <ul>
             {!user?.emailValidated && (
