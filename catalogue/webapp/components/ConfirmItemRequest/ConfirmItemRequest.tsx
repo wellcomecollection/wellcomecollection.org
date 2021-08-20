@@ -229,7 +229,9 @@ const ConfirmItemRequest: FunctionComponent<Props> = ({
       setIsActive(true);
     } else {
       setIsActive(false);
-      setRequestingState(undefined);
+      if (requestingState !== 'confirmed') {
+        setRequestingState(undefined);
+      }
     }
   }
 
@@ -298,7 +300,7 @@ const ConfirmItemRequest: FunctionComponent<Props> = ({
     }
   }
 
-  return requestingState === 'confirmed' ? (
+  return requestingState === 'confirmed' && !modalProps.isActive ? (
     <span>You have this item on hold</span>
   ) : (
     <>
