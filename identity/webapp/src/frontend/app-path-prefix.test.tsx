@@ -1,12 +1,10 @@
 import React from 'react';
-import { render, screen } from '../test-utils';
-import { usePrefix } from './usePrefix';
+import { render, screen } from './test-utils';
+import { getAppPathPrefix } from '../utility/app-path-prefix';
 
-const ComponentWithPrefix = () => {
-  const prefix = usePrefix();
-
-  return <div data-test-id="dummy-div">{prefix}</div>;
-};
+const ComponentWithPrefix = () => (
+  <div data-test-id="dummy-div">{getAppPathPrefix()}</div>
+);
 
 const renderComponent = (contextPath?: string) => {
   const root = document.createElement('div');
@@ -14,10 +12,12 @@ const renderComponent = (contextPath?: string) => {
   if (contextPath) {
     root.setAttribute('data-context-path', contextPath);
   }
-  return render(<ComponentWithPrefix />, { container: document.body.appendChild(root) });
+  return render(<ComponentWithPrefix />, {
+    container: document.body.appendChild(root),
+  });
 };
 
-describe('usePrefix', () => {
+describe('getAppPathPrefix (frontend)', () => {
   it('returns the prefix string when one is present', () => {
     renderComponent('/batman');
     expect(screen.getByTestId('dummy-div')).toHaveTextContent('/batman');

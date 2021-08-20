@@ -1,13 +1,13 @@
 import { TypedRouter } from '../../utility/typed-router';
 import koaPassport from 'koa-passport';
 import { RouteMiddleware } from '../../types/application';
-import { withPrefix } from '../../utility/prefix';
+import { withAppPathPrefix } from '../../utility/app-path-prefix';
 
 export const localAuthRoutes: any = {
   login: [
     TypedRouter.GET,
     '/login',
-    ((ctx) => {
+    (ctx => {
       ctx.response.body = `
       <form method="post" action="/login">
         <input type="text" name="username" />
@@ -21,7 +21,7 @@ export const localAuthRoutes: any = {
   callback: [
     TypedRouter.GET,
     '/callback',
-    ((ctx) => {
+    (ctx => {
       ctx.status = 404;
     }) as RouteMiddleware,
   ],
@@ -29,7 +29,7 @@ export const localAuthRoutes: any = {
   logout: [
     TypedRouter.GET,
     '/logout',
-    ((ctx) => {
+    (ctx => {
       ctx.logout();
       ctx.redirect('/');
     }) as RouteMiddleware,
@@ -40,7 +40,7 @@ export const localAuthRoutes: any = {
     TypedRouter.POST,
     '/login',
     koaPassport.authenticate('local', {
-      successRedirect: withPrefix('/'),
+      successRedirect: withAppPathPrefix('/'),
       failureRedirect: '/',
     }),
   ],

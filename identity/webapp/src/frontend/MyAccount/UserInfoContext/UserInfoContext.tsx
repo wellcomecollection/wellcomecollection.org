@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import { initialState, userInfoReducer, UserInfoState } from './reducer';
 import { UserInfo } from './UserInfo.interface';
+import { withAppPathPrefix } from '../../../utility/app-path-prefix';
 
 type UserInfoContext = UserInfoState & {
   isLoading: boolean;
@@ -20,14 +21,6 @@ export function useUserInfo(): UserInfoContext {
   return contextState;
 }
 
-export const withPrefix = (path: string): string => {
-  const root =
-    typeof document !== 'undefined'
-      ? document.getElementById('root')
-      : undefined;
-  return `${(root && root.getAttribute('data-context-path')) || ''}${path}`;
-};
-
 export const UserInfoProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(userInfoReducer, initialState);
 
@@ -39,7 +32,7 @@ export const UserInfoProvider: React.FC = ({ children }) => {
     if (state.status === 'loading') {
       let cancelled = false;
       axios
-        .get<UserInfo>(withPrefix('/api/users/me'))
+        .get<UserInfo>(withAppPathPrefix('/api/users/me'))
         .then(({ data }) => {
           if (cancelled) return;
           dispatch({ type: 'RESOLVE', payload: data });

@@ -28,7 +28,7 @@ import Table from '@weco/common/views/components/Table/Table';
 import { font } from '@weco/common/utils/classnames';
 import { RequestsList } from '@weco/common/model/requesting';
 import { allowedRequests } from '@weco/catalogue/components/ConfirmItemRequest/ConfirmItemRequest';
-import { withPrefix } from './UserInfoContext/UserInfoContext';
+import { withAppPathPrefix } from '../../utility/app-path-prefix';
 
 type DetailProps = {
   label: string;
@@ -71,7 +71,7 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 async function fetchRequestedItems(userId): Promise<RequestsList | undefined> {
   try {
     const response = await fetch(
-      withPrefix(`/api/users/${userId}/item-requests`)
+      withAppPathPrefix(`/api/users/${userId}/item-requests`)
     );
     const json = await response.json();
     return json;

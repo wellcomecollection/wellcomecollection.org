@@ -1,6 +1,6 @@
-import { withPrefix } from './prefix';
+import { withAppPathPrefix } from './app-path-prefix';
 
-describe('withPrefix', () => {
+describe('withAppPathPrefix (server)', () => {
   const OLD_ENV = process.env;
 
   beforeEach(() => {
@@ -14,11 +14,11 @@ describe('withPrefix', () => {
 
   it('returns the original path when no context_path is defined', () => {
     process.env.CONTEXT_PATH = undefined;
-    expect(withPrefix('/home')).toBe('/home');
+    expect(withAppPathPrefix('/home')).toBe('/home');
   });
 
   it('adds the context_path prefix when set in env', () => {
     process.env.CONTEXT_PATH = 'myApp';
-    expect(withPrefix('/home')).toBe('/myApp/home');
+    expect(withAppPathPrefix('/home')).toBe('/myApp/home');
   });
 });

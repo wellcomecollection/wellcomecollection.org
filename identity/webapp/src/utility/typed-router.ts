@@ -2,7 +2,7 @@ import Router from '@koa/router';
 import koaBody from 'koa-body';
 import { requestBody } from '../middleware/request-body';
 import { RouteMiddleware } from '../types/application';
-import { prefix } from './prefix';
+import { getAppPathPrefix } from './app-path-prefix';
 
 export type RouteWithParams<Props, Body = any> =
   | [string, string, RouteMiddleware<Props, Body>]
@@ -22,7 +22,9 @@ export type GetBody<
 
 export class TypedRouter<
   Routes extends string,
-  MappedRoutes extends { [key in Routes]: RouteWithParams<GetRoute<MappedRoutes, Routes>> }
+  MappedRoutes extends {
+    [key in Routes]: RouteWithParams<GetRoute<MappedRoutes, Routes>>;
+  }
 > {
   static GET = 'get';
   static POST = 'post';
@@ -31,7 +33,7 @@ export class TypedRouter<
   static DELETE = 'delete';
   static GETPOST = 'getpost';
 
-  private router = new Router({ prefix });
+  private router = new Router({ prefix: getAppPathPrefix() });
 
   constructor(routes: MappedRoutes) {
     const routeNames = Object.keys(routes) as Routes[];
@@ -43,19 +45,43 @@ export class TypedRouter<
           // @ts-ignore
           this.router.get(route, path, func);
           // @ts-ignore
-          this.router.post(route, path, koaBody(), requestBody(schemaName), func);
+          this.router.post(
+            route,
+            path,
+            koaBody(),
+            requestBody(schemaName),
+            func
+          );
           break;
         case TypedRouter.PUT:
           // @ts-ignore
-          this.router.put(route, path, koaBody(), requestBody(schemaName), func);
+          this.router.put(
+            route,
+            path,
+            koaBody(),
+            requestBody(schemaName),
+            func
+          );
           break;
         case TypedRouter.POST:
           // @ts-ignore
-          this.router.post(route, path, koaBody(), requestBody(schemaName), func);
+          this.router.post(
+            route,
+            path,
+            koaBody(),
+            requestBody(schemaName),
+            func
+          );
           break;
         case TypedRouter.PATCH:
           // @ts-ignore
-          this.router.patch(route, path, koaBody(), requestBody(schemaName), func);
+          this.router.patch(
+            route,
+            path,
+            koaBody(),
+            requestBody(schemaName),
+            func
+          );
           break;
         case TypedRouter.GET:
           // @ts-ignore
