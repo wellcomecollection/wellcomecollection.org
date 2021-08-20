@@ -1,4 +1,4 @@
-import { UserInfo } from '../MyAccount/UserInfoContext/UserInfo.interface';
+import { UserInfo } from '@weco/common/model/user';
 
 export const mockUser: UserInfo = {
   userId: '7654321',

@@ -25,7 +25,7 @@
     "@hookform/error-message": "^0.0.5",
     "@koa/router": "^10.0.0",
     "@types/styled-components": "^5.1.5",
-    "@weco": "git+https://github.com/wellcomecollection/wellcomecollection.org.git",
+    "@weco/common": "1.0.0",
     "ajv": "^6.12.6",
     "dotenv": "^8.2.0",
     "koa": "^2.13.0",

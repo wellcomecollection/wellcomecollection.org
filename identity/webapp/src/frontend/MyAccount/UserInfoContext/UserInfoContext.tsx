@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import { initialState, userInfoReducer, UserInfoState } from './reducer';
-import { UserInfo } from './UserInfo.interface';
+import { UserInfo } from '@weco/common/model/user';
 import { withAppPathPrefix } from '../../../utility/app-path-prefix';
 
 type UserInfoContext = UserInfoState & {

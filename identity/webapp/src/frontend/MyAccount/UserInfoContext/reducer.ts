@@ -1,4 +1,4 @@
-import { UserInfo } from './UserInfo.interface';
+import { UserInfo } from '@weco/common/model/user';
 
 export type UserInfoState = {
   status: 'loading' | 'success' | 'failure' | 'idle';
@@ -13,7 +13,10 @@ type UserInfoAction =
   | { type: 'CANCEL' }
   | { type: 'UPDATE'; payload: Partial<UserInfo> };
 
-export function userInfoReducer(state: UserInfoState, action: UserInfoAction): UserInfoState {
+export function userInfoReducer(
+  state: UserInfoState,
+  action: UserInfoAction
+): UserInfoState {
   switch (action.type) {
     case 'FETCH': {
       return {
