@@ -122,12 +122,12 @@ const LayoutPaginatedResults: FC<Props> = ({
               prevPage={
                 paginatedResults.currentPage > 1
                   ? paginatedResults.currentPage - 1
-                  : null
+                  : undefined
               }
               nextPage={
                 paginatedResults.currentPage < paginatedResults.totalPages
                   ? paginatedResults.currentPage + 1
-                  : null
+                  : undefined
               }
               prevQueryString={
                 `/${paginationRoot}` +
