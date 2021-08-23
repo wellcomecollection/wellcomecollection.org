@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "composite": true,
     "target": "es5",
     "lib": [
       "dom",
@@ -20,11 +19,7 @@
     "jsx": "preserve",
     "strictNullChecks": true,
     "downlevelIteration": true,
-    "paths": {
-      "@weco/common": [
-        "../../common"
-      ]
-    },
+    "paths": {},
     "noEmit": true
   },
   "exclude": [
@@ -35,10 +30,5 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
-  "references": [
-    {
-      "path": "../../common"
-    }
   ]
 }

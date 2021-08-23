@@ -1,5 +1,5 @@
 const path = require('path');
-const withTM = require('next-transpile-modules')(['@weco/common']);
+const withTM = require('next-transpile-modules')(['@weco']);
 const withBundleAnalyzer = require('@next/bundle-analyzer');
 const withMDX = require('@next/mdx')({
   extension: /\.(md|mdx)$/,
