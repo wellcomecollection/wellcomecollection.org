@@ -3,8 +3,12 @@ const isServer = () => typeof window === 'undefined';
 const getServerAppPathPrefix = () =>
   process.env.CONTEXT_PATH ? `/${process.env.CONTEXT_PATH}` : undefined;
 
-const getClientAppPathPrefix = () =>
-  document?.getElementById('root')?.getAttribute('data-context-path') || '';
+const getClientAppPathPrefix = () => {
+  const contextPath = document
+    ?.getElementById('root')
+    ?.getAttribute('data-context-path');
+  return contextPath ? `/${contextPath}` : undefined;
+};
 
 export const getAppPathPrefix = (): string | undefined =>
   isServer() ? getServerAppPathPrefix() : getClientAppPathPrefix();

@@ -1,4 +1,8 @@
-import { withAppPathPrefix } from './identity-path-prefix';
+/**
+ * @jest-environment node
+ */
+
+import { withAppPathPrefix } from '../../utils/identity-path-prefix';
 
 describe('withAppPathPrefix (server)', () => {
   const OLD_ENV = process.env;
