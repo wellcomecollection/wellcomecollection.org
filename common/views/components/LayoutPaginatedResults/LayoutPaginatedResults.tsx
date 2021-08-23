@@ -1,12 +1,6 @@
-// @flow
-import { type Node } from 'react';
-// $FlowFixMe (tsx)
 import CardGrid from '../CardGrid/CardGrid';
-// $FlowFixMe (tsx)
 import Layout12 from '../Layout12/Layout12';
-// $FlowFixMe (tsx)
 import Divider from '../Divider/Divider';
-// $FlowFixMe (tsx)
 import Pagination from '../Pagination/Pagination';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import { classNames, font } from '../../../utils/classnames';
@@ -20,11 +14,10 @@ import type {
   HTMLString,
 } from '../../../services/prismic/types';
 import SpacingSection from '../SpacingSection/SpacingSection';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import PageHeader from '../PageHeader/PageHeader';
-// $FlowFixMe(ts)
 import { headerBackgroundLs } from '../../../../common/utils/backgrounds';
+import { FC } from 'react';
 
 type PaginatedResultsTypes =
   | PaginatedResults<UiExhibition>
@@ -32,17 +25,17 @@ type PaginatedResultsTypes =
   | PaginatedResults<Book>
   | PaginatedResults<Article>;
 
-type Props = {|
-  title: string,
-  description: ?HTMLString,
-  paginationRoot: string,
-  paginatedResults: PaginatedResultsTypes,
-  period?: Period,
-  showFreeAdmissionMessage: boolean,
-  children?: Node,
-|};
+type Props = {
+  title: string;
+  description?: HTMLString;
+  paginationRoot: string;
+  paginatedResults: PaginatedResultsTypes;
+  period?: Period;
+  showFreeAdmissionMessage: boolean;
+  children?: Node;
+};
 
-const LayoutPaginatedResults = ({
+const LayoutPaginatedResults: FC<Props> = ({
   title,
   description,
   paginatedResults,
@@ -50,7 +43,7 @@ const LayoutPaginatedResults = ({
   period,
   showFreeAdmissionMessage,
   children,
-}: Props) => (
+}) => (
   <>
     <SpacingSection>
       <PageHeader
