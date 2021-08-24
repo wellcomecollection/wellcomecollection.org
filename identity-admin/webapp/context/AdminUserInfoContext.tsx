@@ -3,25 +3,29 @@ import { useRouter } from 'next/router';
 import { User } from '../interfaces';
 import axios from 'axios';
 
-export type UserInfoContextState = {
+export type AdminUserInfoContextState = {
   user?: User;
   isLoading: boolean;
   error?: { message: string };
   refetch?: () => void;
 };
 
-const UserInfoContext = React.createContext<UserInfoContextState | null>(null);
+const AdminUserInfoContext = React.createContext<AdminUserInfoContextState | null>(
+  null
+);
 
-export function useUserInfo(): UserInfoContextState {
-  const contextState = useContext(UserInfoContext);
+export function useAdminUserInfo(): AdminUserInfoContextState {
+  const contextState = useContext(AdminUserInfoContext);
   if (contextState === null) {
     throw new Error('useUserInfo must be used with a UserInfoProvider');
   }
   return contextState;
 }
 
-export const UserInfoProvider: React.FC = ({ children }) => {
-  const [state, setState] = useState<UserInfoContextState>({ isLoading: true });
+export const AdminUserInfoProvider: React.FC = ({ children }) => {
+  const [state, setState] = useState<AdminUserInfoContextState>({
+    isLoading: true,
+  });
   const router = useRouter();
   const { userId } = router.query;
 
@@ -40,18 +44,18 @@ export const UserInfoProvider: React.FC = ({ children }) => {
   }, [userId]);
 
   return (
-    <UserInfoContext.Provider value={{ ...state, refetch: fetchUser }}>
+    <AdminUserInfoContext.Provider value={{ ...state, refetch: fetchUser }}>
       {children}
-    </UserInfoContext.Provider>
+    </AdminUserInfoContext.Provider>
   );
 };
 
 export const TestUserInfoProvider: React.FC<{
-  value: UserInfoContextState;
+  value: AdminUserInfoContextState;
 }> = props => {
   return (
-    <UserInfoContext.Provider value={props.value}>
+    <AdminUserInfoContext.Provider value={props.value}>
       {props.children}
-    </UserInfoContext.Provider>
+    </AdminUserInfoContext.Provider>
   );
 };

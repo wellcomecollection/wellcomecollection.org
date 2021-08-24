@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "composite": true,
     "baseUrl": "src",
     "lib": ["dom", "es2020"],
     "typeRoots": ["../../node_modules/@types", "./node_modules/@types"],
@@ -9,8 +10,7 @@
     "module": "commonjs",
     "declaration": true,
     "moduleResolution": "node",
-    "outDir": "./lib",
-    "noEmitOnError": false,
+    "noEmit": true,
     "strict": true,
     "sourceMap": true,
     "skipLibCheck": true,
@@ -19,7 +19,14 @@
     "noImplicitAny": false,
     "downlevelIteration": true,
     "noUnusedLocals": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@weco/common": ["../../common/lib"]
+    }
   },
-  "references": []
+  "references": [
+    {
+      "path": "../../common"
+    }
+  ]
 }

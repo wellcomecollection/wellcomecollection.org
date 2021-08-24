@@ -1,4 +1,4 @@
-import { UserInfo } from '../MyAccount/UserInfoContext/UserInfo.interface';
+import { UserInfo } from '../../../model/user';
 
 export const mockUser: UserInfo = {
   userId: '7654321',

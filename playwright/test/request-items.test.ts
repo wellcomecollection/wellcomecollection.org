@@ -10,7 +10,7 @@ beforeAll(async () => {
   );
   await context.addCookies([
     {
-      name: 'toggle_showItemRequestFlow',
+      name: 'toggle_enableRequesting',
       value: 'true',
       domain: domain,
       path: '/',

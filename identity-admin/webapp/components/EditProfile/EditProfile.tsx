@@ -4,7 +4,7 @@ import { Info } from '../Info';
 import Layout from '../../components/Layout';
 import { PersonalDetails } from '../PersonalDetails';
 import { UsageData } from '../UsageData';
-import { useUserInfo } from '../../context/UserInfoContext';
+import { useAdminUserInfo } from '../../context/AdminUserInfoContext';
 import {
   LogoutLink,
   MainScreenLink,
@@ -14,7 +14,7 @@ import {
 import { Arrow } from '../Icons/Arrow';
 
 export function EditProfile(): JSX.Element {
-  const { isLoading, error } = useUserInfo();
+  const { isLoading, error } = useAdminUserInfo();
 
   return (
     <Layout title="Account administration">

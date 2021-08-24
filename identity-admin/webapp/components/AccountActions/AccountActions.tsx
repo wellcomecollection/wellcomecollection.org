@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useUserInfo } from '../../context/UserInfoContext';
+import { useAdminUserInfo } from '../../context/AdminUserInfoContext';
 import { DeleteAccount } from './DeleteAccount';
 import { AccountAction } from './AccountAction';
 import { useResendActivationEmail } from '../../hooks/useResendActivationEmail';
@@ -17,7 +17,7 @@ type AccountActionsProps = {
 export function AccountActions({
   onComplete,
 }: AccountActionsProps): JSX.Element {
-  const { user, isLoading } = useUserInfo();
+  const { user, isLoading } = useAdminUserInfo();
   const { resendActivationEmail } = useResendActivationEmail();
   const { resetPassword } = useResetPassword();
   const { blockAccount } = useBlockAccount();

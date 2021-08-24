@@ -1,5 +1,10 @@
 import { config } from '../config';
-import axios, { AxiosInstance, AxiosResponse, Method, AxiosRequestConfig } from 'axios';
+import axios, {
+  AxiosInstance,
+  AxiosResponse,
+  Method,
+  AxiosRequestConfig,
+} from 'axios';
 import { ApplicationState } from '../types/application';
 
 const identityInstance: AxiosInstance = axios.create({
@@ -45,7 +50,7 @@ export async function callRemoteApi(
     };
   }
 
-  return identityInstance.request(request).catch(function(error) {
+  return identityInstance.request(request).catch(function (error) {
     console.error(error);
     return error.response;
   });

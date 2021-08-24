@@ -2,13 +2,13 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ChangeEmail } from './ChangeEmail';
-import { UserInfoProvider } from './UserInfoContext';
+import { UserInfoProvider } from '@weco/common/views/components/UserInfoContext';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 import { server } from '../mocks/server';
 import { rest } from 'msw';
-import { mockUser } from '../mocks/user';
+import { mockUser } from '@weco/common/test/fixtures/identity/user';
 
 const defaultProps: ChangeDetailsModalContentProps = {
   onComplete: () => null,
@@ -28,13 +28,19 @@ const renderComponent = (props: Partial<ChangeDetailsModalContentProps> = {}) =>
 describe('ChangeEmail', () => {
   it('renders correctly', async () => {
     renderComponent();
-    await waitFor(() => expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument());
-    expect(screen.queryByRole('heading', { name: /change email/i })).toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
+    );
+    expect(
+      screen.queryByRole('heading', { name: /change email/i })
+    ).toBeInTheDocument();
   });
 
   it("displays a text input with the user's existing email", async () => {
     renderComponent();
-    expect(await screen.findByLabelText(/email address/i)).toHaveValue(mockUser.email);
+    expect(await screen.findByLabelText(/email address/i)).toHaveValue(
+      mockUser.email
+    );
   });
 
   it('allows the user to enter an email address', async () => {
@@ -47,7 +53,9 @@ describe('ChangeEmail', () => {
 
   it('allows the user to confirm their password', async () => {
     renderComponent();
-    const confirmPasswordInput = await screen.findByLabelText(/confirm password/i);
+    const confirmPasswordInput = await screen.findByLabelText(
+      /confirm password/i
+    );
     userEvent.type(confirmPasswordInput, 'Superman1938');
     expect(confirmPasswordInput).toHaveValue('Superman1938');
   });
@@ -62,7 +70,9 @@ describe('ChangeEmail', () => {
     userEvent.click(screen.getByRole('button', { name: /update email/i }));
     expect(await screen.findByRole('progressbar')).toBeInTheDocument();
     await waitFor(() =>
-      expect(onComplete).toBeCalledWith(expect.objectContaining({ email: 'clarkkent@dailybugle.com' }))
+      expect(onComplete).toBeCalledWith(
+        expect.objectContaining({ email: 'clarkkent@dailybugle.com' })
+      )
     );
   });
 
@@ -93,9 +103,14 @@ describe('ChangeEmail', () => {
       renderComponent();
       userEvent.clear(await screen.findByLabelText(/email address/i));
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-      userEvent.type(screen.getByLabelText(/confirm password/i), 'Superman1938');
+      userEvent.type(
+        screen.getByLabelText(/confirm password/i),
+        'Superman1938'
+      );
       userEvent.click(screen.getByRole('button', { name: /update email/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(/enter an email address/i);
+      expect(await screen.findByRole('alert')).toHaveTextContent(
+        /enter an email address/i
+      );
     });
 
     it('when the email is missing an @', async () => {
@@ -104,9 +119,14 @@ describe('ChangeEmail', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.clear(emailAddressInput);
       userEvent.type(emailAddressInput, 'clarkkent.com'); // no @
-      userEvent.type(screen.getByLabelText(/confirm password/i), 'Superman1938');
+      userEvent.type(
+        screen.getByLabelText(/confirm password/i),
+        'Superman1938'
+      );
       userEvent.click(screen.getByRole('button', { name: /update email/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(/enter a valid email address/i);
+      expect(await screen.findByRole('alert')).toHaveTextContent(
+        /enter a valid email address/i
+      );
     });
 
     it('when the email is missing a dot', async () => {
@@ -115,14 +135,22 @@ describe('ChangeEmail', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.clear(emailAddressInput);
       userEvent.type(emailAddressInput, 'clarkkent@dailybugle'); // no dot
-      userEvent.type(screen.getByLabelText(/confirm password/i), 'Superman1938');
+      userEvent.type(
+        screen.getByLabelText(/confirm password/i),
+        'Superman1938'
+      );
       userEvent.click(screen.getByRole('button', { name: /update email/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(/enter a valid email address/i);
+      expect(await screen.findByRole('alert')).toHaveTextContent(
+        /enter a valid email address/i
+      );
     });
 
     it("when the email hasn't changed", async () => {
       renderComponent();
-      userEvent.type(await screen.findByLabelText(/confirm password/i), 'Superman1938');
+      userEvent.type(
+        await screen.findByLabelText(/confirm password/i),
+        'Superman1938'
+      );
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.click(screen.getByRole('button', { name: /update email/i }));
       expect(await screen.findByRole('alert')).toHaveTextContent(
@@ -136,7 +164,10 @@ describe('ChangeEmail', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.clear(emailAddressInput);
       userEvent.type(emailAddressInput, mockUser.email);
-      userEvent.type(screen.getByLabelText(/confirm password/i), 'Superman1938');
+      userEvent.type(
+        screen.getByLabelText(/confirm password/i),
+        'Superman1938'
+      );
       userEvent.click(screen.getByRole('button', { name: /update email/i }));
       expect(await screen.findByRole('alert')).toHaveTextContent(
         /you must enter a new email address to update your library account/i
@@ -150,7 +181,9 @@ describe('ChangeEmail', () => {
       userEvent.clear(emailAddressInput);
       userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
       userEvent.click(screen.getByRole('button', { name: /update email/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(/enter your password/i);
+      expect(await screen.findByRole('alert')).toHaveTextContent(
+        /enter your password/i
+      );
     });
   });
 
@@ -166,9 +199,14 @@ describe('ChangeEmail', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.clear(emailAddressInput);
       userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
-      userEvent.type(screen.getByLabelText(/confirm password/i), 'Superman1938');
+      userEvent.type(
+        screen.getByLabelText(/confirm password/i),
+        'Superman1938'
+      );
       userEvent.click(screen.getByRole('button', { name: /update email/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(/incorrect password/i);
+      expect(await screen.findByRole('alert')).toHaveTextContent(
+        /incorrect password/i
+      );
     });
 
     it('when the users account is brute force restricted', async () => {
@@ -182,9 +220,14 @@ describe('ChangeEmail', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.clear(emailAddressInput);
       userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
-      userEvent.type(screen.getByLabelText(/confirm password/i), 'Superman1938');
+      userEvent.type(
+        screen.getByLabelText(/confirm password/i),
+        'Superman1938'
+      );
       userEvent.click(screen.getByRole('button', { name: /update email/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(/your account has been blocked/i);
+      expect(await screen.findByRole('alert')).toHaveTextContent(
+        /your account has been blocked/i
+      );
     });
 
     it('when the email address is in use', async () => {
@@ -198,9 +241,14 @@ describe('ChangeEmail', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.clear(emailAddressInput);
       userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
-      userEvent.type(screen.getByLabelText(/confirm password/i), 'Superman1938');
+      userEvent.type(
+        screen.getByLabelText(/confirm password/i),
+        'Superman1938'
+      );
       userEvent.click(screen.getByRole('button', { name: /update email/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(/email address already in use/i);
+      expect(await screen.findByRole('alert')).toHaveTextContent(
+        /email address already in use/i
+      );
     });
 
     it('when another error occurs', async () => {
@@ -214,9 +262,14 @@ describe('ChangeEmail', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.clear(emailAddressInput);
       userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
-      userEvent.type(screen.getByLabelText(/confirm password/i), 'Superman1938');
+      userEvent.type(
+        screen.getByLabelText(/confirm password/i),
+        'Superman1938'
+      );
       userEvent.click(screen.getByRole('button', { name: /update email/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(/an unknown error occurred/i);
+      expect(await screen.findByRole('alert')).toHaveTextContent(
+        /an unknown error occurred/i
+      );
     });
   });
 });

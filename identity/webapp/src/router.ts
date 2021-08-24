@@ -35,7 +35,11 @@ export const router = new TypedRouter({
 
   // Frontend bundles.
   'assets-bundles': [TypedRouter.GET, '/assets/bundle.js', frontendBundles],
-  'assets-sub-bundles': [TypedRouter.GET, '/assets/:bundleName', frontendBundles],
+  'assets-sub-bundles': [
+    TypedRouter.GET,
+    '/assets/:bundleName',
+    frontendBundles,
+  ],
 
   // Auth0 + Passport routes.
   login: [TypedRouter.GET, '/login', loginAction],
@@ -43,22 +47,53 @@ export const router = new TypedRouter({
   callback: [TypedRouter.GET, '/callback', authCallback],
 
   // Proxy apis - implemented
-  'create-user': [TypedRouter.POST, '/api/user/create', registerUser, 'RegisterUserSchema'],
+  'create-user': [
+    TypedRouter.POST,
+    '/api/user/create',
+    registerUser,
+    'RegisterUserSchema',
+  ],
   'get-current-user': [TypedRouter.GET, '/api/users/me', getCurrentUser],
   'update-current-user': [TypedRouter.PUT, '/api/users/me', updateCurrentUser],
-  'update-user-password': [TypedRouter.PUT, '/api/users/me/password', updatePassword, 'UpdatePasswordSchema'],
-  'delete-user': [TypedRouter.PUT, '/api/users/me/deletion-request', requestDelete, 'RequestDeleteSchema'],
+  'update-user-password': [
+    TypedRouter.PUT,
+    '/api/users/me/password',
+    updatePassword,
+    'UpdatePasswordSchema',
+  ],
+  'delete-user': [
+    TypedRouter.PUT,
+    '/api/users/me/deletion-request',
+    requestDelete,
+    'RequestDeleteSchema',
+  ],
 
-  'item-requests': [TypedRouter.GETPOST, '/api/users/:user_id/item-requests', itemRequests],
+  'item-requests': [
+    TypedRouter.GETPOST,
+    '/api/users/:user_id/item-requests',
+    itemRequests,
+  ],
 
   // Proxy APIs - todo
   'get-user': [TypedRouter.GET, '/api/users/:user_id', stubApi],
   'get-users': [TypedRouter.GET, '/api/users', stubApi],
   'lock-user-account': [TypedRouter.PUT, '/api/users/:user_id/lock', stubApi],
   'post-users': [TypedRouter.POST, '/api/users', stubApi],
-  'reset-user-password': [TypedRouter.PUT, '/api/users/:user_id/reset-password', stubApi],
-  'send-user-verification': [TypedRouter.PUT, '/api/users/:user_id/send-verification', stubApi],
-  'unlock-user-account': [TypedRouter.PUT, '/api/users/:user_id/unlock', stubApi],
+  'reset-user-password': [
+    TypedRouter.PUT,
+    '/api/users/:user_id/reset-password',
+    stubApi,
+  ],
+  'send-user-verification': [
+    TypedRouter.PUT,
+    '/api/users/:user_id/send-verification',
+    stubApi,
+  ],
+  'unlock-user-account': [
+    TypedRouter.PUT,
+    '/api/users/:user_id/unlock',
+    stubApi,
+  ],
   'update-user': [TypedRouter.PUT, '/api/users/:user_id', stubApi],
 
   // Local route overrides.

@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import { initialState, userInfoReducer, UserInfoState } from './reducer';
-import { UserInfo } from './UserInfo.interface';
+import { UserInfo } from '../../../model/user';
+import { withAppPathPrefix } from '../../../utils/identity-path-prefix';
 
 type UserInfoContext = UserInfoState & {
   isLoading: boolean;
@@ -23,11 +24,6 @@ export function useUserInfo(): UserInfoContext {
 export const UserInfoProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(userInfoReducer, initialState);
 
-  const withPrefix = (path: string) => {
-    const root = typeof document !== 'undefined' ? document.getElementById('root') : undefined;
-    return `${(root && root.getAttribute('data-context-path')) || ''}${path}`;
-  };
-
   useEffect(() => {
     dispatch({ type: 'FETCH' });
   }, []);
@@ -36,7 +32,7 @@ export const UserInfoProvider: React.FC = ({ children }) => {
     if (state.status === 'loading') {
       let cancelled = false;
       axios
-        .get<UserInfo>(withPrefix('/api/users/me'))
+        .get<UserInfo>(withAppPathPrefix('/api/users/me'))
         .then(({ data }) => {
           if (cancelled) return;
           dispatch({ type: 'RESOLVE', payload: data });
@@ -51,7 +47,8 @@ export const UserInfoProvider: React.FC = ({ children }) => {
     }
   }, [state.status]);
 
-  const update = (newUserInfo: Partial<UserInfo>) => dispatch({ type: 'UPDATE', payload: newUserInfo });
+  const update = (newUserInfo: Partial<UserInfo>) =>
+    dispatch({ type: 'UPDATE', payload: newUserInfo });
 
   return (
     <UserInfoContext.Provider
@@ -71,7 +68,8 @@ export const UserInfoProvider: React.FC = ({ children }) => {
 export const withUserInfo = <P extends Record<string, unknown>>(
   WrappedComponent: React.ComponentType<P>
 ): React.FC<P> => {
-  const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
+  const displayName =
+    WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
   const ComponentWithUserInfo = (props: P) => (
     <UserInfoProvider>

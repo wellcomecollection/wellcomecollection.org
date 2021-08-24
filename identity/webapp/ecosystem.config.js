@@ -4,7 +4,8 @@ module.exports = {
       ? [
           {
             name: 'server',
-            script: 'lib/index.js',
+            script: 'ts-node',
+            args: 'src/index.ts',
             instances: 1,
             autorestart: true,
             watch: false,
@@ -17,7 +18,8 @@ module.exports = {
       : [
           {
             name: 'server',
-            script: 'lib/index.js',
+            script: 'ts-node',
+            args: 'src/index.ts',
             instances: 1,
             autorestart: true,
             watch: ['lib'],

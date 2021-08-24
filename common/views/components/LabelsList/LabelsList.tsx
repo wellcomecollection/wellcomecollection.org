@@ -33,10 +33,7 @@ const LabelsList: FunctionComponent<Props> = ({
         as="li"
         key={`${label.text}-${i}`}
       >
-        <Label
-          label={label}
-          labelColor={label.labelColor || defaultLabelColor}
-        />
+        <Label label={label} defaultLabelColor={defaultLabelColor} />
       </Space>
     ))}
   </Space>

@@ -24,7 +24,9 @@ const renderComponent = (props: Partial<ChangeDetailsModalContentProps> = {}) =>
 describe('DeleteAccount', () => {
   it('renders correctly', () => {
     renderComponent();
-    expect(screen.getByRole('heading', { name: /delete this account/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: /delete this account/i })
+    ).toBeInTheDocument();
   });
 
   it('allows the user to enter their password', () => {
@@ -38,7 +40,9 @@ describe('DeleteAccount', () => {
     const onComplete = jest.fn();
     renderComponent({ onComplete });
     userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
-    userEvent.click(screen.getByRole('button', { name: /yes, delete my account/i }));
+    userEvent.click(
+      screen.getByRole('button', { name: /yes, delete my account/i })
+    );
     expect(await screen.findByRole('progressbar')).toBeInTheDocument();
     await waitFor(() => expect(onComplete).toBeCalled());
   });
@@ -46,7 +50,9 @@ describe('DeleteAccount', () => {
   it('allows the user to cancel the operation', () => {
     const onCancel = jest.fn();
     renderComponent({ onCancel });
-    userEvent.click(screen.getByRole('link', { name: /no, take me back to my account/i }));
+    userEvent.click(
+      screen.getByRole('link', { name: /no, take me back to my account/i })
+    );
     expect(onCancel).toHaveBeenCalled();
   });
 
@@ -71,8 +77,12 @@ describe('DeleteAccount', () => {
     it('with an empty current password field', async () => {
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-      userEvent.click(screen.getByRole('button', { name: /yes, delete my account/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(/enter your current password/i);
+      userEvent.click(
+        screen.getByRole('button', { name: /yes, delete my account/i })
+      );
+      expect(await screen.findByRole('alert')).toHaveTextContent(
+        /enter your current password/i
+      );
     });
   });
 
@@ -86,8 +96,12 @@ describe('DeleteAccount', () => {
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
-      userEvent.click(screen.getByRole('button', { name: /yes, delete my account/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(/incorrect password/i);
+      userEvent.click(
+        screen.getByRole('button', { name: /yes, delete my account/i })
+      );
+      expect(await screen.findByRole('alert')).toHaveTextContent(
+        /incorrect password/i
+      );
     });
 
     it('when the users account is brute force restricted', async () => {
@@ -99,8 +113,12 @@ describe('DeleteAccount', () => {
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
-      userEvent.click(screen.getByRole('button', { name: /yes, delete my account/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(/your account has been blocked/i);
+      userEvent.click(
+        screen.getByRole('button', { name: /yes, delete my account/i })
+      );
+      expect(await screen.findByRole('alert')).toHaveTextContent(
+        /your account has been blocked/i
+      );
     });
 
     it('when another error occurs', async () => {
@@ -112,8 +130,12 @@ describe('DeleteAccount', () => {
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
-      userEvent.click(screen.getByRole('button', { name: /yes, delete my account/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(/an unknown error occurred/i);
+      userEvent.click(
+        screen.getByRole('button', { name: /yes, delete my account/i })
+      );
+      expect(await screen.findByRole('alert')).toHaveTextContent(
+        /an unknown error occurred/i
+      );
     });
   });
 });

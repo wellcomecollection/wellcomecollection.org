@@ -11,12 +11,11 @@
   "scripts": {
     "start": "NODE_ENV=production pm2-runtime start ecosystem.config.js",
     "start:dev": "NODE_ENV=development pm2-dev start ecosystem.config.js",
-    "watch:server": "yarn build:ts --watch",
     "watch:client": "yarn build:frontend --watch",
-    "build": "NODE_ENV=production yarn build:schema && NODE_ENV=production yarn build:ts && NODE_ENV=production yarn build:frontend",
-    "build:ts": "tsc -p .",
+    "build": "yarn typecheck && NODE_ENV=production yarn build:schema && NODE_ENV=production yarn build:frontend",
     "build:schema": "node generate-schemas.js",
     "build:frontend": "webpack --config webpack.frontend.js --entry ./src/frontend/index.tsx --output-path lib/frontend/build",
+    "typecheck": "tsc --build tsconfig.json",
     "storybook": "start-storybook -p 4009",
     "build-storybook": "build-storybook",
     "test": "jest"
@@ -25,7 +24,7 @@
     "@hookform/error-message": "^0.0.5",
     "@koa/router": "^10.0.0",
     "@types/styled-components": "^5.1.5",
-    "@weco": "git+https://github.com/wellcomecollection/wellcomecollection.org.git",
+    "@weco/common": "1.0.0",
     "ajv": "^6.12.6",
     "dotenv": "^8.2.0",
     "koa": "^2.13.0",
@@ -45,7 +44,8 @@
     "react-dom": "^16.1.0",
     "react-hook-form": "^6.15.4",
     "react-router-dom": "^5.2.0",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "ts-node": "^10.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.13",
@@ -106,7 +106,6 @@
     "style-loader": "^2.0.0",
     "ts-jest": "^26.5.0",
     "ts-loader": "^8.0.11",
-    "ts-node": "^8.6.2",
     "typescript": "^4.3.5",
     "typescript-json-schema": "^0.42.0",
     "typescript-plugin-styled-components": "^1.4.4",

@@ -1,6 +1,6 @@
 import { RouteMiddleware } from '../types/application';
 import koaPassport from 'koa-passport';
-import { withPrefix } from '../utility/prefix';
+import { withAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 import { config } from '../config';
 import * as querystring from 'query-string';
 import { URL } from 'url';
@@ -17,10 +17,16 @@ export const authCallback: RouteMiddleware = (ctx, next) => {
       ctx.app.emit('error', err, ctx);
     }
     if (info === 'unauthorized') {
-      return ctx.redirect(withPrefix(`/error?${ctx.request.querystring}`));
+      return ctx.redirect(
+        withAppPathPrefix(`/error?${ctx.request.querystring}`)
+      );
     }
     if (!user) {
-      return ctx.redirect(withPrefix(`/error?error_description=${encodeURI('An unknown error occurred.')}`));
+      return ctx.redirect(
+        withAppPathPrefix(
+          `/error?error_description=${encodeURI('An unknown error occurred.')}`
+        )
+      );
     }
     ctx.login(user, loginError => {
       if (loginError) {
@@ -28,7 +34,7 @@ export const authCallback: RouteMiddleware = (ctx, next) => {
         ctx.body = loginError.message;
         ctx.app.emit('error', err, ctx);
       }
-      return ctx.redirect(withPrefix('/'));
+      return ctx.redirect(withAppPathPrefix('/'));
     });
   })(ctx, next);
 };
