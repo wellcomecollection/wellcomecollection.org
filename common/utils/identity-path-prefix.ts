@@ -1,17 +1,22 @@
 const isServer = () => typeof window === 'undefined';
 
-const getServerAppPathPrefix = () =>
-  process.env.CONTEXT_PATH ? `/${process.env.CONTEXT_PATH}` : undefined;
+const getServerContextPath = (): string | undefined =>
+  process.env.CONTEXT_PATH || process.env.NEXT_PUBLIC_CONTEXT_PATH;
 
-const getClientAppPathPrefix = () => {
-  const contextPath = document
+const getClientContextPath = (): string | undefined => {
+  const maybeNullish = document
     ?.getElementById('root')
     ?.getAttribute('data-context-path');
-  return contextPath ? `/${contextPath}` : undefined;
+  return maybeNullish || undefined;
 };
 
-export const getAppPathPrefix = (): string | undefined =>
-  isServer() ? getServerAppPathPrefix() : getClientAppPathPrefix();
+export const getContextPath = (): string | undefined =>
+  isServer() ? getServerContextPath() : getClientContextPath();
+
+export const getAppPathPrefix = (): string | undefined => {
+  const contextPath = getContextPath();
+  return contextPath ? `/${contextPath}` : undefined;
+};
 
 export const withAppPathPrefix = (path: string): string => {
   const prefix = getAppPathPrefix();

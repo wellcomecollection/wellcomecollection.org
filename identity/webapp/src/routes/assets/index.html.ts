@@ -135,7 +135,7 @@ const logoSvg = `
 </svg>
 `;
 
-export default function buildHtml(bundle: string, prefix = ''): string {
+export default function buildHtml(bundle: string, contextPath = ''): string {
   return `
 <html lang="en">
   <head>
@@ -202,7 +202,7 @@ export default function buildHtml(bundle: string, prefix = ''): string {
         </div>
       </div>
     </noscript>
-    <div id="root" data-context-path="${prefix}"></div>
+    <div id="root" data-context-path="${contextPath}"></div>
     <script type="application/javascript" src="${bundle}"></script>
   </body>
 </html>

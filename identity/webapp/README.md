@@ -283,6 +283,6 @@ The context path is also placed a data attribute in the HTML `#root` element int
 ```ts
 // src/routes/assets/index.html.ts
 `
-  <div id="root" data-context-path="${prefix}"></div>
+  <div id="root" data-context-path="${contextPath}"></div>
 `;
 ```
