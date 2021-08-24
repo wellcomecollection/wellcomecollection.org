@@ -10,7 +10,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import {
   useUserInfo,
   withUserInfo,
-} from '@weco/identity/src/frontend/MyAccount/UserInfoContext';
+} from '@weco/common/views/components/UserInfoContext';
 
 const NavLoginWrapper = styled.div`
   display: flex;

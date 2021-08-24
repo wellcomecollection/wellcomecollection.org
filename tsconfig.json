@@ -1,0 +1,17 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./identity/webapp"
+    },
+    {
+      "path": "./catalogue/webapp"
+    },
+    {
+      "path": "./content/webapp"
+    },
+    {
+      "path": "./common"
+    }
+  ]
+}

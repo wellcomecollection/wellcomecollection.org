@@ -1,5 +1,5 @@
 import { rest } from 'msw';
-import { mockUser } from './user';
+import { mockUser } from '@weco/common/test/fixtures/identity/user';
 
 export const handlers = [
   rest.post('/api/user/create', (req, res, ctx) => {

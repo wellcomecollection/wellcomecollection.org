@@ -1,12 +1,12 @@
 import React from 'react';
 import { useUpdateUserInfo } from '../../hooks/useUpdateUserInfo';
-import { useUserInfo } from '../../context/UserInfoContext';
+import { useAdminUserInfo } from '../../context/AdminUserInfoContext';
 import { Loading, Section } from './PersonalDetails.style';
 import { EditedUser } from '../../interfaces';
 import { UpdateDetailsForm } from './UpdateDetailsForm';
 
 export function PersonalDetails(): JSX.Element {
-  const { user, isLoading, refetch } = useUserInfo();
+  const { user, isLoading, refetch } = useAdminUserInfo();
 
   const { updateUserInfo, isLoading: isUpdating } = useUpdateUserInfo();
 

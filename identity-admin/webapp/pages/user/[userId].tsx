@@ -1,13 +1,13 @@
 import React from 'react';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { EditProfile } from '../../components/EditProfile';
-import { UserInfoProvider } from '../../context/UserInfoContext';
+import { AdminUserInfoProvider } from '../../context/AdminUserInfoContext';
 
 function UserPage(): JSX.Element {
   return (
-    <UserInfoProvider>
+    <AdminUserInfoProvider>
       <EditProfile />
-    </UserInfoProvider>
+    </AdminUserInfoProvider>
   );
 }
 

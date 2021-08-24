@@ -9,8 +9,8 @@ import styled from 'styled-components';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
-import { withPrefix } from '@weco/identity/src/frontend/MyAccount/UserInfoContext/UserInfoContext';
-import { UserInfo } from '@weco/identity/src/frontend/MyAccount/UserInfoContext/UserInfo.interface';
+import { withAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
+import { UserInfo } from '@weco/common/model/user';
 
 const Header = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -244,7 +244,7 @@ const ConfirmItemRequest: FunctionComponent<Props> = ({
     setRequestingState('requesting');
     try {
       const response = await fetch(
-        withPrefix(`/api/users/${user.userId}/item-requests`),
+        withAppPathPrefix(`/api/users/${user.userId}/item-requests`),
         {
           method: 'POST',
           body: JSON.stringify({

@@ -10,6 +10,7 @@ import { AccountValidated } from './Registration/AccountValidated';
 import { ErrorPage } from './components/ErrorPage';
 import { MyAccount } from './MyAccount/MyAccount';
 import { DeleteRequested } from './MyAccount/DeleteRequested';
+import { getAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 
 const PageBackground = createGlobalStyle`
   body {
@@ -21,10 +22,11 @@ const PageBackground = createGlobalStyle`
   }
 `;
 
-const root = typeof document !== 'undefined' ? document.getElementById('root') : undefined;
+const root =
+  typeof document !== 'undefined' ? document.getElementById('root') : undefined;
 
 if (root) {
-  const prefix = root.getAttribute('data-context-path');
+  const prefix = getAppPathPrefix();
   initaliseMiddlewareClient(prefix);
   render(
     <ThemeProvider theme={theme}>

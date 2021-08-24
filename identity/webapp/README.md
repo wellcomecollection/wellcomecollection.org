@@ -278,35 +278,11 @@ if (!user) {
 }
 ```
 
-The context path is also placed a data attribute in the HTML `#root` element into which the React app will be injected, making the value available to the client-side app:
+The context path is also placed a data attribute in the HTML `#root` element into which the React app will be injected, making the value available to the client-side app via the same functions:
 
 ```ts
 // src/routes/assets/index.html.ts
 `
-  <div id="root" data-context-path="${prefix}"></div>
+  <div id="root" data-context-path="${contextPath}"></div>
 `;
-```
-
-### In the front end
-
-The data attribute above is read at the app's entry point, and made known to React Router and the data-fetching object:
-
-```tsx
-  // src/frontend/index.tsx
-
-  const prefix = root.getAttribute('data-context-path');
-  initaliseMiddlewareClient(prefix);
-  render(
-        // ...
-        <BrowserRouter basename={prefix || ''} forceRefresh>
-```
-
-The `BrowserRouter.basename` prop should handle all internal routing ([docs](https://reactrouter.com/web/api/BrowserRouter/basename-string)). A `usePrefix` custom hook is also provided, but is not currently used anywhere.
-
-```tsx
-const ComponentWithPrefix: React.FC = () => {
-  const prefix: string = usePrefix();
-
-  return <h1>{prefix}</h1>;
-};
 ```

@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { rest } from 'msw';
-import { UserInfoProvider } from '../../context/UserInfoContext';
+import { AdminUserInfoProvider } from '../../context/AdminUserInfoContext';
 import { User } from '../../interfaces';
 import { mockUser } from '../../__mocks__/UserInfo.mock';
 import { server } from '../../__mocks__/server';
@@ -23,9 +23,9 @@ const renderPage = (userOverride: Partial<User> = {}) => {
     })
   );
   return render(
-    <UserInfoProvider>
+    <AdminUserInfoProvider>
       <EditProfile />
-    </UserInfoProvider>
+    </AdminUserInfoProvider>
   );
 };
 
