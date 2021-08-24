@@ -1,5 +1,5 @@
 import React from 'react';
-import { useUserInfo } from '@weco/common/views/components/UserInfoContext';
+import { useAdminUserInfo } from '../../context/AdminUserInfoContext';
 import { humanDate, prettyDate } from '../../utils/dates';
 import { UsageDetail, UsageDetailsList, Label, Value } from './UsageData.style';
 
@@ -15,7 +15,7 @@ function TimeBasedDetail(props: { label: string; date?: string }) {
 }
 
 export function UsageData(): JSX.Element {
-  const { user, isLoading } = useUserInfo();
+  const { user, isLoading } = useAdminUserInfo();
 
   if (isLoading) {
     return <p>Loading...</p>;

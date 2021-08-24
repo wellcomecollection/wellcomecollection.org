@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useUserInfo } from '@weco/common/views/components/UserInfoContext';
+import { useAdminUserInfo } from '../../context/AdminUserInfoContext';
 import {
   AccountDetailsList,
   AccountDetailsLabel,
@@ -13,7 +13,7 @@ import { UserStatus } from './UserStatus';
 import { AccountActionStatus, AccountActionState } from './AccountActionStatus';
 
 export function Info(): JSX.Element {
-  const { user, isLoading } = useUserInfo();
+  const { user, isLoading } = useAdminUserInfo();
   const [actionStatus, setActionStatus] = useState<AccountActionState | null>(
     null
   );
