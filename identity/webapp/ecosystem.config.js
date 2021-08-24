@@ -4,7 +4,7 @@ module.exports = {
       ? [
           {
             name: 'server',
-            script: 'ts-node',
+            script: 'ts-node-transpile-only',
             args: 'src/index.ts',
             instances: 1,
             autorestart: true,
