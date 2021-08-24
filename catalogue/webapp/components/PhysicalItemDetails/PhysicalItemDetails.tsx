@@ -164,16 +164,23 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
             <span className={`inline-block`}>{location}</span>{' '}
             <span className={`inline-block`}>{shelfmark}</span>
           </Box>
-          {!isOpenShelves && (
-            <>
-              <Box>
-                {accessStatus && (
+          <Box>
+            {(isOpenShelves || accessStatus) && (
+              <>
+                <Box>
                   <>
                     <DetailHeading>Access</DetailHeading>
-                    <span>{accessStatus}</span>
+                    <span>
+                      {isOpenShelves && 'Open shelves'}
+                      {!isOpenShelves && accessStatus}
+                    </span>
                   </>
-                )}
-              </Box>
+                </Box>
+              </>
+            )}
+          </Box>
+          {!isOpenShelves && (
+            <>
               <Box isCentered>
                 {hideButton ? (
                   // TODO: fairly sure displaying this `accessMethod` here isn't what we want
