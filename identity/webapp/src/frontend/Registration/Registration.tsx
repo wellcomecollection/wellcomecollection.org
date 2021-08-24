@@ -4,7 +4,14 @@ import { ErrorMessage } from '@hookform/error-message';
 import { Link, useHistory } from 'react-router-dom';
 import { AccountCreated } from './AccountCreated';
 import { PageWrapper } from '../components/PageWrapper';
-import { Cancel, Checkbox, ErrorAlert, ExternalLink, CheckboxLabel, InProgress } from './Registration.style';
+import {
+  Cancel,
+  Checkbox,
+  ErrorAlert,
+  ExternalLink,
+  CheckboxLabel,
+  InProgress,
+} from './Registration.style';
 import { InvalidFieldAlert, Button } from '../components/Form.style';
 import { Container, Title, Wrapper } from '../components/Layout.style';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -12,7 +19,10 @@ import WellcomeTextInput from '@weco/common/views/components/TextInput/TextInput
 import Info2 from '@weco/common/icons/components/Info2';
 import { useRegisterUser, RegistrationError } from './useRegisterUser';
 import { usePageTitle } from '../hooks/usePageTitle';
-import { validEmailPattern, validPasswordPattern } from '../components/ValidationPatterns';
+import {
+  validEmailPattern,
+  validPasswordPattern,
+} from '../components/ValidationPatterns';
 import { PasswordRules } from '../components/PasswordInput';
 import { PasswordInput } from './PasswordInput';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
@@ -29,10 +39,16 @@ type RegistrationInputs = {
 };
 
 export function Registration(): JSX.Element {
-  const { control, trigger, handleSubmit, formState, setError } = useForm<RegistrationInputs>({
-    defaultValues: { password: '' },
-  });
-  const { registerUser, isLoading, isSuccess, error: registrationError } = useRegisterUser();
+  const { control, trigger, handleSubmit, formState, setError } =
+    useForm<RegistrationInputs>({
+      defaultValues: { password: '' },
+    });
+  const {
+    registerUser,
+    isLoading,
+    isSuccess,
+    error: registrationError,
+  } = useRegisterUser();
   const history = useHistory();
 
   usePageTitle('Register for a library account');
@@ -40,7 +56,10 @@ export function Registration(): JSX.Element {
   useEffect(() => {
     scrollToTop();
     if (registrationError === RegistrationError.EMAIL_ALREADY_EXISTS) {
-      setError('email', { type: 'manual', message: 'Email address already in use.' });
+      setError('email', {
+        type: 'manual',
+        message: 'Email address already in use.',
+      });
     }
   }, [registrationError, setError]);
 
@@ -66,24 +85,29 @@ export function Registration(): JSX.Element {
                 <>
                   <ErrorAlert aria-labelledby="error-text">
                     <Info2 />
-                    {registrationError === RegistrationError.EMAIL_ALREADY_EXISTS && (
+                    {registrationError ===
+                      RegistrationError.EMAIL_ALREADY_EXISTS && (
                       <span id="error-text">
-                        An account with this email address already exists, please <Link to="/">sign in</Link>.
+                        An account with this email address already exists,
+                        please <Link to="/">sign in</Link>.
                       </span>
                     )}
-                    {registrationError === RegistrationError.PASSWORD_TOO_COMMON && 'Password is too common'}
-                    {registrationError === RegistrationError.UNKNOWN && 'An unknown error occurred'}
+                    {registrationError ===
+                      RegistrationError.PASSWORD_TOO_COMMON &&
+                      'Password is too common'}
+                    {registrationError === RegistrationError.UNKNOWN &&
+                      'An unknown error occurred'}
                   </ErrorAlert>
                   <SpacingComponent />
                 </>
               )}
               <p>
-                An account lets you order items from the library&apos;s closed stores and access our online subscription
-                collections.
+                An account lets you order items from the library&apos;s closed
+                stores and access our online subscription collections.
               </p>
               <p>
-                The first time you come to the library, you&apos;ll need to complete your{' '}
-                <a href="">library membership</a>.
+                The first time you come to the library, you&apos;ll need to
+                complete your <a href="">library membership</a>.
               </p>
 
               <form onSubmit={handleSubmit(createUser)} noValidate>
@@ -194,7 +218,9 @@ export function Registration(): JSX.Element {
                   rules={{ required: 'Accept the terms to continue.' }}
                   render={({ value, onChange }) => (
                     <Checkbox
-                      onChange={(e: React.FormEvent<HTMLInputElement>) => onChange(e.currentTarget.checked)}
+                      onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                        onChange(e.currentTarget.checked)
+                      }
                       checked={value}
                       text={
                         <CheckboxLabel>
@@ -215,10 +241,16 @@ export function Registration(): JSX.Element {
                 <ErrorMessage
                   errors={formState.errors}
                   name="termsAndConditions"
-                  render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
+                  render={({ message }) => (
+                    <InvalidFieldAlert>{message}</InvalidFieldAlert>
+                  )}
                 />
                 <SpacingComponent />
-                {isLoading ? <InProgress>Creating account…</InProgress> : <Button type="submit">Create account</Button>}
+                {isLoading ? (
+                  <InProgress>Creating account…</InProgress>
+                ) : (
+                  <Button type="submit">Create account</Button>
+                )}
                 <Cancel onClick={history.goBack} />
               </form>
             </Wrapper>

@@ -11,7 +11,10 @@ export enum UpdateUserError { // eslint-disable-line no-shadow
 }
 
 type UseUpdateUserMutation = {
-  updateUser: (userDetails: UpdateUserSchema, onComplete: (newUserDetails: UpdateUserSchema) => void) => void;
+  updateUser: (
+    userDetails: UpdateUserSchema,
+    onComplete: (newUserDetails: UpdateUserSchema) => void
+  ) => void;
   isLoading: boolean;
   isSuccess: boolean;
   error?: UpdateUserError;

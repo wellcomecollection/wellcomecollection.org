@@ -36,7 +36,11 @@ export async function createApp(router: TypedRouter<any, any>): Promise<Koa> {
     if (file.endsWith('.json')) {
       const name = path.basename(file, '.json');
       app.context.ajv.addSchema(
-        JSON.parse(readFileSync(path.resolve(__dirname, '..', 'schemas', file)).toString('utf-8')),
+        JSON.parse(
+          readFileSync(path.resolve(__dirname, '..', 'schemas', file)).toString(
+            'utf-8'
+          )
+        ),
         name
       );
     }
