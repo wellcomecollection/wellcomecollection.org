@@ -7,12 +7,7 @@ type LogoProps = {
 
 export const Logo: React.FC<LogoProps> = ({ width = 128, height = 42 }) => {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
-      viewBox="0 0 166.549 56"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 166.549 56">
       <title>Wellcome Collection</title>
       <polygon
         fill="black"

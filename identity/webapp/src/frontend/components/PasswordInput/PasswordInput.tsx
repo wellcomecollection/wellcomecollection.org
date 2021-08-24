@@ -15,21 +15,13 @@ export const PasswordInput: React.FC<PasswordInputProps> = props => {
   const { field, meta } = useController(props);
   const { showPolicy = false } = props;
 
-  const toggleVisibility = () =>
-    setIsVisible(currentlyVisible => !currentlyVisible);
+  const toggleVisibility = () => setIsVisible(currentlyVisible => !currentlyVisible);
 
   return (
     <>
       <Border invalid={meta.invalid}>
-        <Input
-          id={props.id || props.name}
-          type={isVisible ? 'text' : 'password'}
-          {...field}
-        />
-        <ShowPasswordButton
-          onClick={toggleVisibility}
-          aria-label={isVisible ? 'Hide password' : 'Show password'}
-        >
+        <Input id={props.id || props.name} type={isVisible ? 'text' : 'password'} {...field} />
+        <ShowPasswordButton onClick={toggleVisibility} aria-label={isVisible ? 'Hide password' : 'Show password'}>
           {isVisible ? <ClosedEye /> : <OpenEye />}
         </ShowPasswordButton>
       </Border>

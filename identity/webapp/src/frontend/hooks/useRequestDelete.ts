@@ -23,11 +23,7 @@ export function useRequestDelete(): UseRequestDeleteMutation {
 
   const requestDelete = (requestDeleteBody: RequestDeleteSchema) => {
     setIsLoading(true);
-    callMiddlewareApi(
-      'PUT',
-      '/api/users/me/deletion-request',
-      requestDeleteBody
-    )
+    callMiddlewareApi('PUT', '/api/users/me/deletion-request', requestDeleteBody)
       .then(() => {
         setIsSuccess(true);
       })

@@ -27,16 +27,13 @@ export const AccountValidated = (): JSX.Element => {
                   <Title>Email verified</Title>
                   <p>Thank you for verifying your email address.</p>
                   <p>
-                    The library team will review your application and will
-                    confirm your membership within the next 72 hours. In the
-                    meantime, you can browse through{' '}
-                    <a href="/collections">our digital collections</a> or sign
-                    in to your account below.
+                    The library team will review your application and will confirm your membership within the next 72
+                    hours. In the meantime, you can browse through <a href="/collections">our digital collections</a> or
+                    sign in to your account below.
                   </p>
                   <HighlightMessage>
-                    <strong>Reminder:</strong> you will need to email a form of
-                    personal identification (ID) and proof of address to the
-                    Library team in order to confirm your details.
+                    <strong>Reminder:</strong> you will need to email a form of personal identification (ID) and proof
+                    of address to the Library team in order to confirm your details.
                   </HighlightMessage>
                   <ButtonSolidLink link="/account" text="Continue to Sign in" />
                 </>

@@ -11,8 +11,7 @@ export const ShowPasswordButton = styled.button.attrs({ type: 'button' })`
 export const Border = styled.div<{ invalid: boolean }>`
   display: flex;
   width: 100%;
-  border: ${props =>
-    props.invalid ? 'solid 2px #d1192c' : 'solid 1px #8f8f8f'};
+  border: ${props => (props.invalid ? 'solid 2px #d1192c' : 'solid 1px #8f8f8f')};
   margin: 0.333em 0;
   border-radius: 6px;
 `;

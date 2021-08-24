@@ -21,9 +21,7 @@ export interface ApplicationContext {
 export type RouteMiddleware<Params = any, Body = any> = Koa.Middleware<
   ApplicationState,
   ApplicationContext &
-    Omit<RouterParamContext<ApplicationState, ApplicationContext>, 'params'> & {
-      params: Params;
-    } & {
+    Omit<RouterParamContext<ApplicationState, ApplicationContext>, 'params'> & { params: Params } & {
       requestBody: Body;
       login: (...args: any[]) => any;
     }

@@ -6,7 +6,7 @@ export const frontendBundles: RouteMiddleware<{
   slug: string;
   bundleId: string;
   bundleName?: string;
-}> = async context => {
+}> = async (context) => {
   if ((context.params.bundleName || '').match(/\.\./)) {
     context.status = 404;
     return;

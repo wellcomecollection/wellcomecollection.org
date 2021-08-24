@@ -17,15 +17,7 @@ module.exports = {
     'prettier/@typescript-eslint',
   ],
 
-  plugins: [
-    '@typescript-eslint',
-    'prettier',
-    'react-hooks',
-    'react',
-    'json-format',
-    'jest',
-    'jest-dom',
-  ],
+  plugins: ['@typescript-eslint', 'prettier', 'react-hooks', 'react', 'json-format', 'jest', 'jest-dom'],
   parser: '@typescript-eslint/parser',
 
   parserOptions: {
@@ -73,11 +65,7 @@ module.exports = {
     'no-shadow': ERROR,
     'no-unused-expressions': ERROR,
     'no-useless-concat': OFF,
-    quotes: [
-      ERROR,
-      'single',
-      { avoidEscape: true, allowTemplateLiterals: true },
-    ],
+    quotes: [ERROR, 'single', { avoidEscape: true, allowTemplateLiterals: true }],
     'space-before-blocks': ERROR,
     'space-before-function-paren': OFF,
   },

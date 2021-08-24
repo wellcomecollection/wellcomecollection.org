@@ -63,10 +63,7 @@ export const InProgress = styled.div.attrs({ role: 'progressbar' })`
   user-select: none;
 `;
 
-export const Cancel = styled.button.attrs({
-  type: 'button',
-  children: 'Cancel',
-})`
+export const Cancel = styled.button.attrs({ type: 'button', children: 'Cancel' })`
   ${FullWidthElementBase}
   width: fit-content;
   margin: 0 auto;

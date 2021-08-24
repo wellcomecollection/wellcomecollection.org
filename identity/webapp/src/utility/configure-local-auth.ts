@@ -3,9 +3,7 @@ import { config } from '../config';
 
 export function configureLocalAuth() {
   if (process.env.NODE_ENV === 'production' || !config.testUser) {
-    throw new Error(
-      `Local authentication not supported outside of dev environment`
-    );
+    throw new Error(`Local authentication not supported outside of dev environment`);
   }
 
   koaPassport.serializeUser(function (user, done) {
@@ -23,11 +21,7 @@ export function configureLocalAuth() {
   const LocalStrategy = require('passport-local').Strategy;
   koaPassport.use(
     new LocalStrategy(function (username: string, password: string, done: any) {
-      if (
-        config.testUser &&
-        username === config.testUser.username &&
-        password === config.testUser.password
-      ) {
+      if (config.testUser && username === config.testUser.username && password === config.testUser.password) {
         done(null, config.testUser);
       } else {
         done(null, false);

@@ -9,10 +9,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 if (isProduction) {
   // Required environment variables.
-  if (
-    !process.env.KOA_SESSION_KEYS ||
-    process.env.KOA_SESSION_KEYS.trim() === ''
-  ) {
+  if (!process.env.KOA_SESSION_KEYS || process.env.KOA_SESSION_KEYS.trim() === '') {
     throw new Error(`Missing environment variable KOA_SESSION_KEYS`);
   }
   if (!process.env.AUTH0_CALLBACK_URL) {
@@ -26,22 +23,17 @@ export const port: any = process.env.SERVER_PORT || 3000;
 
 export const config = {
   // Random values used for signing cookies used for the session. Can be comma separated list.
-  sessionKeys: process.env.KOA_SESSION_KEYS
-    ? process.env.KOA_SESSION_KEYS.split(',')
-    : ['local_value'],
+  sessionKeys: process.env.KOA_SESSION_KEYS ? process.env.KOA_SESSION_KEYS.split(',') : ['local_value'],
 
   // Method, set to local for testing.
-  authMethod: (isProduction ? 'auth0' : process.env.AUTH_METHOD || 'local') as
-    | 'auth0'
-    | 'local',
+  authMethod: (isProduction ? 'auth0' : process.env.AUTH_METHOD || 'local') as 'auth0' | 'local',
 
   // Auth0 configuration.
   auth0: {
     domain: process.env.AUTH0_DOMAIN,
     clientID: process.env.AUTH0_CLIENT_ID,
     clientSecret: process.env.AUTH0_CLIENT_SECRET,
-    callbackURL:
-      process.env.AUTH0_CALLBACK_URL || `http://localhost:${port}/callback`,
+    callbackURL: process.env.AUTH0_CALLBACK_URL || `http://localhost:${port}/callback`,
   } as StrategyOption,
 
   session: {

@@ -23,16 +23,12 @@ const renderPage = (location: string) =>
 describe('AccountValidated', () => {
   it('displays a title on successful validation', () => {
     renderPage('/validated?success=true');
-    expect(
-      screen.getByRole('heading', { name: /email verified/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /email verified/i })).toBeInTheDocument();
   });
 
   it('displays a title on failed validation', () => {
     renderPage('/validated?success=false');
-    expect(
-      screen.getByRole('heading', { name: /failed to verify email/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /failed to verify email/i })).toBeInTheDocument();
   });
 
   it('displays a success message', () => {
@@ -45,12 +41,8 @@ describe('AccountValidated', () => {
   });
 
   it('displays a failure message', () => {
-    renderPage(
-      '/validated?message=This%20URL%20can%20be%20used%20only%20once&success=false'
-    );
-    expect(screen.getByRole('alert')).toHaveTextContent(
-      'This URL can be used only once'
-    );
+    renderPage('/validated?message=This%20URL%20can%20be%20used%20only%20once&success=false');
+    expect(screen.getByRole('alert')).toHaveTextContent('This URL can be used only once');
   });
 
   it('shows a link to login on success', () => {

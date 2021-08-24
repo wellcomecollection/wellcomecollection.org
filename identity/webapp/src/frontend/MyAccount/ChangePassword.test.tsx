@@ -24,9 +24,7 @@ const renderComponent = (props: Partial<ChangeDetailsModalContentProps> = {}) =>
 describe('ChangePassword', () => {
   it('renders correctly', () => {
     renderComponent();
-    expect(
-      screen.getByRole('heading', { name: /change password/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /change password/i })).toBeInTheDocument();
   });
 
   it('allows the user to enter their current password', () => {
@@ -55,10 +53,7 @@ describe('ChangePassword', () => {
     renderComponent({ onComplete });
     userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
     userEvent.type(screen.getByLabelText(/^new password/i), 'Superman1938');
-    userEvent.type(
-      screen.getByLabelText(/retype new password/i),
-      'Superman1938'
-    );
+    userEvent.type(screen.getByLabelText(/retype new password/i), 'Superman1938');
     userEvent.click(screen.getByRole('button', { name: /update password/i }));
     expect(await screen.findByRole('progressbar')).toBeInTheDocument();
     await waitFor(() => expect(onComplete).toBeCalled());
@@ -92,28 +87,18 @@ describe('ChangePassword', () => {
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.type(screen.getByLabelText(/^new password/i), 'Superman1938');
-      userEvent.type(
-        screen.getByLabelText(/retype new password/i),
-        'Superman1938'
-      );
+      userEvent.type(screen.getByLabelText(/retype new password/i), 'Superman1938');
       userEvent.click(screen.getByRole('button', { name: /update password/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(
-        /enter your current password/i
-      );
+      expect(await screen.findByRole('alert')).toHaveTextContent(/enter your current password/i);
     });
 
     it('with an empty new password field', async () => {
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
-      userEvent.type(
-        screen.getByLabelText(/retype new password/i),
-        'Superman1938'
-      );
+      userEvent.type(screen.getByLabelText(/retype new password/i), 'Superman1938');
       userEvent.click(screen.getByRole('button', { name: /update password/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(
-        /enter your new password/i
-      );
+      expect(await screen.findByRole('alert')).toHaveTextContent(/enter your new password/i);
     });
 
     it('with an invalid new password field', async () => {
@@ -121,14 +106,9 @@ describe('ChangePassword', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
       userEvent.type(screen.getByLabelText(/^new password/i), 'superman');
-      userEvent.type(
-        screen.getByLabelText(/retype new password/i),
-        'Superman2021'
-      );
+      userEvent.type(screen.getByLabelText(/retype new password/i), 'Superman2021');
       userEvent.click(screen.getByRole('button', { name: /update password/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(
-        /enter a valid password/i
-      );
+      expect(await screen.findByRole('alert')).toHaveTextContent(/enter a valid password/i);
     });
 
     it('with an empty confirmation field', async () => {
@@ -137,9 +117,7 @@ describe('ChangePassword', () => {
       userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
       userEvent.type(screen.getByLabelText(/^new password/i), 'Superman1938');
       userEvent.click(screen.getByRole('button', { name: /update password/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(
-        /confirm your new password/i
-      );
+      expect(await screen.findByRole('alert')).toHaveTextContent(/confirm your new password/i);
     });
 
     it('when the new password is too short', async () => {
@@ -149,9 +127,7 @@ describe('ChangePassword', () => {
       userEvent.type(screen.getByLabelText(/^new password/i), 'Supes1');
       userEvent.type(screen.getByLabelText(/retype new password/i), 'Supes1');
       userEvent.click(screen.getByRole('button', { name: /update password/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(
-        /enter a valid password/i
-      );
+      expect(await screen.findByRole('alert')).toHaveTextContent(/enter a valid password/i);
     });
 
     it('when the new password is missing a capital letter', async () => {
@@ -159,14 +135,9 @@ describe('ChangePassword', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
       userEvent.type(screen.getByLabelText(/^new password/i), 'superman1');
-      userEvent.type(
-        screen.getByLabelText(/retype new password/i),
-        'superman1'
-      );
+      userEvent.type(screen.getByLabelText(/retype new password/i), 'superman1');
       userEvent.click(screen.getByRole('button', { name: /update password/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(
-        /enter a valid password/i
-      );
+      expect(await screen.findByRole('alert')).toHaveTextContent(/enter a valid password/i);
     });
 
     it('when the new password is missing a small letter', async () => {
@@ -174,14 +145,9 @@ describe('ChangePassword', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
       userEvent.type(screen.getByLabelText(/^new password/i), 'SUPERMAN1');
-      userEvent.type(
-        screen.getByLabelText(/retype new password/i),
-        'SUPERMAN1'
-      );
+      userEvent.type(screen.getByLabelText(/retype new password/i), 'SUPERMAN1');
       userEvent.click(screen.getByRole('button', { name: /update password/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(
-        /enter a valid password/i
-      );
+      expect(await screen.findByRole('alert')).toHaveTextContent(/enter a valid password/i);
     });
 
     it('when the new password is missing a number', async () => {
@@ -191,9 +157,7 @@ describe('ChangePassword', () => {
       userEvent.type(screen.getByLabelText(/^new password/i), 'Superman');
       userEvent.type(screen.getByLabelText(/retype new password/i), 'Superman');
       userEvent.click(screen.getByRole('button', { name: /update password/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(
-        /enter a valid password/i
-      );
+      expect(await screen.findByRole('alert')).toHaveTextContent(/enter a valid password/i);
     });
 
     it('when the new password does not match the confirmation', async () => {
@@ -201,14 +165,9 @@ describe('ChangePassword', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
       userEvent.type(screen.getByLabelText(/^new password/i), 'Superman1938');
-      userEvent.type(
-        screen.getByLabelText(/retype new password/i),
-        'Superman2021'
-      );
+      userEvent.type(screen.getByLabelText(/retype new password/i), 'Superman2021');
       userEvent.click(screen.getByRole('button', { name: /update password/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(
-        /passwords do not match/i
-      );
+      expect(await screen.findByRole('alert')).toHaveTextContent(/passwords do not match/i);
     });
   });
 
@@ -223,14 +182,9 @@ describe('ChangePassword', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
       userEvent.type(screen.getByLabelText(/^new password/i), 'Superman1938');
-      userEvent.type(
-        screen.getByLabelText(/retype new password/i),
-        'Superman1938'
-      );
+      userEvent.type(screen.getByLabelText(/retype new password/i), 'Superman1938');
       userEvent.click(screen.getByRole('button', { name: /update password/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(
-        /incorrect password/i
-      );
+      expect(await screen.findByRole('alert')).toHaveTextContent(/incorrect password/i);
     });
 
     it('when the users account is brute force restricted', async () => {
@@ -243,14 +197,9 @@ describe('ChangePassword', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
       userEvent.type(screen.getByLabelText(/^new password/i), 'Superman1938');
-      userEvent.type(
-        screen.getByLabelText(/retype new password/i),
-        'Superman1938'
-      );
+      userEvent.type(screen.getByLabelText(/retype new password/i), 'Superman1938');
       userEvent.click(screen.getByRole('button', { name: /update password/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(
-        /your account has been blocked/i
-      );
+      expect(await screen.findByRole('alert')).toHaveTextContent(/your account has been blocked/i);
     });
 
     it('when the new password does not meet the Auth0 policy requirements', async () => {
@@ -263,14 +212,9 @@ describe('ChangePassword', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
       userEvent.type(screen.getByLabelText(/^new password/i), 'Superman1938');
-      userEvent.type(
-        screen.getByLabelText(/retype new password/i),
-        'Superman1938'
-      );
+      userEvent.type(screen.getByLabelText(/retype new password/i), 'Superman1938');
       userEvent.click(screen.getByRole('button', { name: /update password/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(
-        /password does not meet the policy/i
-      );
+      expect(await screen.findByRole('alert')).toHaveTextContent(/password does not meet the policy/i);
     });
 
     it('when another error occurs', async () => {
@@ -283,14 +227,9 @@ describe('ChangePassword', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
       userEvent.type(screen.getByLabelText(/^new password/i), 'Superman1938');
-      userEvent.type(
-        screen.getByLabelText(/retype new password/i),
-        'Superman1938'
-      );
+      userEvent.type(screen.getByLabelText(/retype new password/i), 'Superman1938');
       userEvent.click(screen.getByRole('button', { name: /update password/i }));
-      expect(await screen.findByRole('alert')).toHaveTextContent(
-        /an unknown error occurred/i
-      );
+      expect(await screen.findByRole('alert')).toHaveTextContent(/an unknown error occurred/i);
     });
   });
 });

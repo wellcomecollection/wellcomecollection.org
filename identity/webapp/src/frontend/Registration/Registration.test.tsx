@@ -35,9 +35,7 @@ describe('Registration', () => {
 
   it('sets the document title', () => {
     renderComponent();
-    expect(document.title).toEqual(
-      'Register for a library account | Wellcome Collection'
-    );
+    expect(document.title).toEqual('Register for a library account | Wellcome Collection');
   });
 
   it('shows a page title', () => {
@@ -68,9 +66,7 @@ describe('Registration', () => {
     const emailAddressInput = screen.getByLabelText(/email address/i);
     expect(emailAddressInput).toBeInTheDocument();
     userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
-    await waitFor(() =>
-      expect(emailAddressInput).toHaveValue('clarkkent@dailybugle.com')
-    );
+    await waitFor(() => expect(emailAddressInput).toHaveValue('clarkkent@dailybugle.com'));
   });
 
   it('allows the user to enter a password', async () => {
@@ -85,94 +81,58 @@ describe('Registration', () => {
     renderComponent();
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
-    userEvent.type(
-      screen.getByLabelText(/email address/i),
-      'clarkkent@dailybugle.com'
-    );
+    userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
     userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     expect(await screen.findByRole('progressbar')).toBeInTheDocument();
     await waitFor(() => {
-      expect(
-        screen.getByRole('heading', {
-          name: /activate your library account/i,
-          level: 1,
-        })
-      ).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /activate your library account/i, level: 1 })).toBeInTheDocument();
     });
   });
 
   it('does not submit with an empty first name field', async () => {
     renderComponent();
-    expect(
-      screen.queryByText(/enter your first name/i)
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/enter your first name/i)).not.toBeInTheDocument();
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
-    userEvent.type(
-      screen.getByLabelText(/email address/i),
-      'clarkkent@dailybugle.com'
-    );
+    userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
     userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
-    expect(
-      await screen.findByText(/enter your first name/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole('heading', { name: /account created/i, level: 1 })
-    ).not.toBeInTheDocument();
+    expect(await screen.findByText(/enter your first name/i)).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
   it('does not submit with an empty last name field', async () => {
     renderComponent();
     expect(screen.queryByText(/enter your last name/i)).not.toBeInTheDocument();
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
-    userEvent.type(
-      screen.getByLabelText(/email address/i),
-      'clarkkent@dailybugle.com'
-    );
+    userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
     userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
-    expect(
-      await screen.findByText(/enter your last name/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole('heading', { name: /account created/i, level: 1 })
-    ).not.toBeInTheDocument();
+    expect(await screen.findByText(/enter your last name/i)).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
   it('does not submit with an empty email field', async () => {
     renderComponent();
-    const createAccountButton = screen.getByRole('button', {
-      name: /create account/i,
-    });
-    expect(
-      screen.queryByText(/enter an email address/i)
-    ).not.toBeInTheDocument();
+    const createAccountButton = screen.getByRole('button', { name: /create account/i });
+    expect(screen.queryByText(/enter an email address/i)).not.toBeInTheDocument();
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
     userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(createAccountButton);
-    expect(
-      await screen.findByText(/enter an email address/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole('heading', { name: /account created/i, level: 1 })
-    ).not.toBeInTheDocument();
+    expect(await screen.findByText(/enter an email address/i)).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
   it('does not submit when the email is missing an @', async () => {
     renderComponent();
-    const createAccountButton = screen.getByRole('button', {
-      name: /create account/i,
-    });
+    const createAccountButton = screen.getByRole('button', { name: /create account/i });
     const emailAddressInput = screen.getByLabelText(/email address/i);
-    expect(
-      screen.queryByText(/enter a valid email address/i)
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/enter a valid email address/i)).not.toBeInTheDocument();
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
     userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
@@ -180,23 +140,15 @@ describe('Registration', () => {
 
     userEvent.type(emailAddressInput, 'clarkkent.com'); // no @
     userEvent.click(createAccountButton);
-    expect(
-      await screen.findByText(/enter a valid email address/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole('heading', { name: /account created/i, level: 1 })
-    ).not.toBeInTheDocument();
+    expect(await screen.findByText(/enter a valid email address/i)).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
   it('does not submit when the email is missing a dot', async () => {
     renderComponent();
-    const createAccountButton = screen.getByRole('button', {
-      name: /create account/i,
-    });
+    const createAccountButton = screen.getByRole('button', { name: /create account/i });
     const emailAddressInput = screen.getByLabelText(/email address/i);
-    expect(
-      screen.queryByText(/enter a valid email address/i)
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/enter a valid email address/i)).not.toBeInTheDocument();
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
     userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
@@ -204,140 +156,85 @@ describe('Registration', () => {
 
     userEvent.type(emailAddressInput, 'clarkkent@dailybugle'); // no dot
     userEvent.click(createAccountButton);
-    expect(
-      await screen.findByText(/enter a valid email address/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole('heading', { name: /account created/i, level: 1 })
-    ).not.toBeInTheDocument();
+    expect(await screen.findByText(/enter a valid email address/i)).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
   it('does not submit with an empty password field', async () => {
     renderComponent();
-    const createAccountButton = screen.getByRole('button', {
-      name: /create account/i,
-    });
+    const createAccountButton = screen.getByRole('button', { name: /create account/i });
     expect(screen.queryByText(/enter a password/i)).not.toBeInTheDocument();
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
-    userEvent.type(
-      screen.getByLabelText(/email address/i),
-      'clarkkent@dailybugle.com'
-    );
+    userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
     userEvent.click(screen.getByRole('checkbox'));
     userEvent.click(createAccountButton);
     expect(await screen.findByText(/enter a password/i)).toBeInTheDocument();
-    expect(
-      screen.queryByRole('heading', { name: /account created/i, level: 1 })
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
   it('does not submit when the password is too short', async () => {
     renderComponent();
-    const createAccountButton = screen.getByRole('button', {
-      name: /create account/i,
-    });
+    const createAccountButton = screen.getByRole('button', { name: /create account/i });
     const passwordInput = screen.getByLabelText(/^password$/i);
-    expect(
-      screen.queryByText(/enter a valid password/i)
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/enter a valid password/i)).not.toBeInTheDocument();
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
-    userEvent.type(
-      screen.getByLabelText(/email address/i),
-      'clarkkent@dailybugle.com'
-    );
+    userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
     userEvent.click(screen.getByRole('checkbox'));
 
     userEvent.type(passwordInput, 'Supes1'); // too short
     userEvent.click(createAccountButton);
-    expect(
-      await screen.findByText(/enter a valid password/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole('heading', { name: /account created/i, level: 1 })
-    ).not.toBeInTheDocument();
+    expect(await screen.findByText(/enter a valid password/i)).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
   it('does not submit when the password is missing a capital letter', async () => {
     renderComponent();
-    const createAccountButton = screen.getByRole('button', {
-      name: /create account/i,
-    });
+    const createAccountButton = screen.getByRole('button', { name: /create account/i });
     const passwordInput = screen.getByLabelText(/^password$/i);
-    expect(
-      screen.queryByText(/enter a valid password/i)
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/enter a valid password/i)).not.toBeInTheDocument();
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
-    userEvent.type(
-      screen.getByLabelText(/email address/i),
-      'clarkkent@dailybugle.com'
-    );
+    userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
     userEvent.click(screen.getByRole('checkbox'));
 
     userEvent.type(passwordInput, 'superman1'); // no capital
     userEvent.click(createAccountButton);
-    expect(
-      await screen.findByText(/enter a valid password/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole('heading', { name: /account created/i, level: 1 })
-    ).not.toBeInTheDocument();
+    expect(await screen.findByText(/enter a valid password/i)).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
   it('does not submit when the password is missing a small letter', async () => {
     renderComponent();
-    const createAccountButton = screen.getByRole('button', {
-      name: /create account/i,
-    });
+    const createAccountButton = screen.getByRole('button', { name: /create account/i });
     const passwordInput = screen.getByLabelText(/^password$/i);
-    expect(
-      screen.queryByText(/enter a valid password/i)
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/enter a valid password/i)).not.toBeInTheDocument();
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
-    userEvent.type(
-      screen.getByLabelText(/email address/i),
-      'clarkkent@dailybugle.com'
-    );
+    userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
     userEvent.click(screen.getByRole('checkbox'));
 
     userEvent.type(passwordInput, 'SUPERMAN1'); // no lower case
     userEvent.click(createAccountButton);
-    expect(
-      await screen.findByText(/enter a valid password/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole('heading', { name: /account created/i, level: 1 })
-    ).not.toBeInTheDocument();
+    expect(await screen.findByText(/enter a valid password/i)).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
   it('does not submit when the password is missing a number', async () => {
     renderComponent();
-    const createAccountButton = screen.getByRole('button', {
-      name: /create account/i,
-    });
+    const createAccountButton = screen.getByRole('button', { name: /create account/i });
     const passwordInput = screen.getByLabelText(/^password$/i);
-    expect(
-      screen.queryByText(/enter a valid password/i)
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/enter a valid password/i)).not.toBeInTheDocument();
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
-    userEvent.type(
-      screen.getByLabelText(/email address/i),
-      'clarkkent@dailybugle.com'
-    );
+    userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
     userEvent.click(screen.getByRole('checkbox'));
 
     userEvent.type(passwordInput, 'ManOfSteel'); // no number
     userEvent.click(createAccountButton);
-    expect(
-      await screen.findByText(/enter a valid password/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole('heading', { name: /account created/i, level: 1 })
-    ).not.toBeInTheDocument();
+    expect(await screen.findByText(/enter a valid password/i)).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
   it('does not submit if the user does not accept the terms', async () => {
@@ -345,18 +242,11 @@ describe('Registration', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
-    userEvent.type(
-      screen.getByLabelText(/email address/i),
-      'clarkkent@dailybugle.com'
-    );
+    userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
     userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
-    expect(await screen.findByRole('alert')).toHaveTextContent(
-      /accept the terms to continue/i
-    );
-    expect(
-      screen.queryByRole('heading', { name: /account created/i, level: 1 })
-    ).not.toBeInTheDocument();
+    expect(await screen.findByRole('alert')).toHaveTextContent(/accept the terms to continue/i);
+    expect(screen.queryByRole('heading', { name: /account created/i, level: 1 })).not.toBeInTheDocument();
   });
 
   it('shows an error message when the email address is attached to an extant account', async () => {
@@ -369,21 +259,14 @@ describe('Registration', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
-    userEvent.type(
-      screen.getByLabelText(/email address/i),
-      'clarkkent@dailybugle.com'
-    );
+    userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
     userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     userEvent.click(screen.getByRole('checkbox'));
     expect(
-      await screen.findByRole('alert', {
-        name: /an account with this email address already exists, please sign in/i,
-      })
+      await screen.findByRole('alert', { name: /an account with this email address already exists, please sign in/i })
     ).toBeInTheDocument();
-    expect(
-      await screen.findByText('Email address already in use.')
-    ).toBeInTheDocument();
+    expect(await screen.findByText('Email address already in use.')).toBeInTheDocument();
   });
 
   it('shows an error message when a common password is used', async () => {
@@ -396,16 +279,11 @@ describe('Registration', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
-    userEvent.type(
-      screen.getByLabelText(/email address/i),
-      'clarkkent@dailybugle.com'
-    );
+    userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
     userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     userEvent.click(screen.getByRole('checkbox'));
-    expect(await screen.findByRole('alert')).toHaveTextContent(
-      /password is too common/i
-    );
+    expect(await screen.findByRole('alert')).toHaveTextContent(/password is too common/i);
   });
 
   it('shows an error message when a server error occurs', async () => {
@@ -418,16 +296,11 @@ describe('Registration', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     userEvent.type(screen.getByLabelText(/first name/i), 'Clark');
     userEvent.type(screen.getByLabelText(/last name/i), 'Kent');
-    userEvent.type(
-      screen.getByLabelText(/email address/i),
-      'clarkkent@dailybugle.com'
-    );
+    userEvent.type(screen.getByLabelText(/email address/i), 'clarkkent@dailybugle.com');
     userEvent.type(screen.getByLabelText(/^password$/i), 'Superman1938');
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     userEvent.click(screen.getByRole('checkbox'));
-    expect(await screen.findByRole('alert')).toHaveTextContent(
-      /an unknown error occurred/i
-    );
+    expect(await screen.findByRole('alert')).toHaveTextContent(/an unknown error occurred/i);
   });
 
   it('takes user back when Cancel link is clicked', () => {

@@ -1,19 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ErrorMessage } from '@hookform/error-message';
 import { PasswordInput } from '../components/PasswordInput';
-import {
-  FieldMargin,
-  Label,
-  InvalidFieldAlert,
-  Button,
-} from '../components/Form.style';
+import { FieldMargin, Label, InvalidFieldAlert, Button } from '../components/Form.style';
 import { useForm } from 'react-hook-form';
 import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
-import {
-  UpdatePasswordError,
-  useUpdatePassword,
-} from '../hooks/useUpdatePassword';
+import { UpdatePasswordError, useUpdatePassword } from '../hooks/useUpdatePassword';
 import { Loading } from './Loading';
 import { validPasswordPattern } from '../components/ValidationPatterns';
 
@@ -23,10 +15,7 @@ type ChangePasswordInputs = {
   confirmation: string;
 };
 
-export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
-  onComplete,
-  isActive,
-}) => {
+export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({ onComplete, isActive }) => {
   const defaultValues: ChangePasswordInputs = useMemo(
     () => ({
       password: '',
@@ -36,20 +25,10 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
     []
   );
   const { updatePassword, isLoading, error } = useUpdatePassword();
-  const {
-    control,
-    getValues,
-    setError,
-    formState,
-    handleSubmit,
-    trigger,
-    reset,
-  } = useForm<ChangePasswordInputs>({
+  const { control, getValues, setError, formState, handleSubmit, trigger, reset } = useForm<ChangePasswordInputs>({
     defaultValues,
   });
-  const [submissionErrorMessage, setSubmissionErrorMessage] = useState<
-    string | null
-  >(null);
+  const [submissionErrorMessage, setSubmissionErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     reset(defaultValues);
@@ -58,23 +37,15 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
   useEffect(() => {
     switch (error) {
       case UpdatePasswordError.INCORRECT_PASSWORD: {
-        setError('password', {
-          type: 'manual',
-          message: 'Incorrect password.',
-        });
+        setError('password', { type: 'manual', message: 'Incorrect password.' });
         break;
       }
       case UpdatePasswordError.BRUTE_FORCE_BLOCKED: {
-        setSubmissionErrorMessage(
-          'Your account has been blocked after multiple consecutive login attempts.'
-        );
+        setSubmissionErrorMessage('Your account has been blocked after multiple consecutive login attempts.');
         break;
       }
       case UpdatePasswordError.DID_NOT_MEET_POLICY: {
-        setError('newPassword', {
-          type: 'manual',
-          message: 'Password does not meet the policy.',
-        });
+        setError('newPassword', { type: 'manual', message: 'Password does not meet the policy.' });
         break;
       }
       case UpdatePasswordError.UNKNOWN: {
@@ -91,9 +62,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
   return (
     <ModalContainer>
       <ModalTitle>Change password</ModalTitle>
-      {submissionErrorMessage && (
-        <StatusAlert type="failure">{submissionErrorMessage}</StatusAlert>
-      )}
+      {submissionErrorMessage && <StatusAlert type="failure">{submissionErrorMessage}</StatusAlert>}
       <form onSubmit={handleSubmit(data => updatePassword(data, onComplete))}>
         <FieldMargin>
           <Label htmlFor="change-password-current">Current password</Label>
@@ -106,9 +75,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
           <ErrorMessage
             errors={formState.errors}
             name="password"
-            render={({ message }) => (
-              <InvalidFieldAlert>{message}</InvalidFieldAlert>
-            )}
+            render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
           />
         </FieldMargin>
         <FieldMargin>
@@ -129,9 +96,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
           <ErrorMessage
             errors={formState.errors}
             name="newPassword"
-            render={({ message }) => (
-              <InvalidFieldAlert>{message}</InvalidFieldAlert>
-            )}
+            render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
           />
         </FieldMargin>
         <FieldMargin>
@@ -145,10 +110,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
               validate: async value => {
                 const isNewPasswordValid = await trigger('newPassword');
                 if (isNewPasswordValid) {
-                  return (
-                    value === getValues('newPassword') ||
-                    'Passwords do not match'
-                  );
+                  return value === getValues('newPassword') || 'Passwords do not match';
                 }
                 return true;
               },
@@ -157,9 +119,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
           <ErrorMessage
             errors={formState.errors}
             name="confirmation"
-            render={({ message }) => (
-              <InvalidFieldAlert>{message}</InvalidFieldAlert>
-            )}
+            render={({ message }) => <InvalidFieldAlert>{message}</InvalidFieldAlert>}
           />
         </FieldMargin>
         <Button type="submit">Update password</Button>
