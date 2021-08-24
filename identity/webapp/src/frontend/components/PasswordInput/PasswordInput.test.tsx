@@ -6,7 +6,9 @@ import { useForm } from 'react-hook-form';
 
 const renderComponent = (props: Partial<PasswordInputProps> = {}) => {
   const Form = () => {
-    const { control } = useForm<{ password: string }>({ defaultValues: { password: '' } });
+    const { control } = useForm<{ password: string }>({
+      defaultValues: { password: '' },
+    });
     return (
       <>
         <label htmlFor="password">Password</label>
@@ -24,7 +26,12 @@ describe('PasswordInput', () => {
   });
 
   it('optionally shows the policy rules', () => {
-    const rules = ['One lowercase character', 'One uppercase character', 'One number', '8 characters minimum'];
+    const rules = [
+      'One lowercase character',
+      'One uppercase character',
+      'One number',
+      '8 characters minimum',
+    ];
     renderComponent({ showPolicy: true });
     const listItems = screen.getAllByRole('listitem');
     listItems.forEach((listItem, i) => {

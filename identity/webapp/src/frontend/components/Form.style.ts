@@ -16,11 +16,15 @@ export const TextInput = styled.input<{ invalid?: FieldError }>`
   height: 55px;
   margin: 0.333em 0;
   padding: 0.7em;
-  border: ${props => (props.invalid ? 'solid 2px #d1192c' : 'solid 1px #8f8f8f')};
+  border: ${props =>
+    props.invalid ? 'solid 2px #d1192c' : 'solid 1px #8f8f8f'};
   border-radius: 6px;
 `;
 
-export const InvalidFieldAlert = styled.span.attrs({ role: 'alert', className: 'font-hnr font-size-6' })`
+export const InvalidFieldAlert = styled.span.attrs({
+  role: 'alert',
+  className: 'font-hnr font-size-6',
+})`
   color: #d1192c;
   font-weight: bold;
   font-size: 14px;
