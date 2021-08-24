@@ -6,7 +6,7 @@
     "url": "git@github.com:/wellcomecollection/identity.git",
     "directory": "packages/apps/account-management"
   },
-  "author": "Stephen Fraser <stephen.fraser@digirati.com>",
+  "author": "Wellcome Collection <digital@wellcomecollection.org>",
   "license": "MIT",
   "scripts": {
     "start": "NODE_ENV=production pm2-runtime start ecosystem.config.js",
