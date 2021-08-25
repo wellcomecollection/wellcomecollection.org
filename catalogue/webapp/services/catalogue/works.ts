@@ -14,18 +14,19 @@ import {
   queryString,
   rootUris,
   notFound,
+  getTeiIndexName,
 } from './common';
 import { Toggles } from '@weco/toggles';
 
 type GetWorkProps = {
   id: string;
-  toggles?: Toggles;
+  toggles: Toggles;
 };
 
 type GetWorksProps = {
   params: CatalogueWorksApiProps;
   pageSize?: number;
-  toggles?: Toggles;
+  toggles: Toggles;
 };
 
 const worksIncludes = [
@@ -65,14 +66,8 @@ export async function getWorks({
   pageSize = 25,
 }: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
-  let index;
-  if (toggles?.tei) {
-    const elasticConfigResponse = await fetch(
-      'https://api.wellcomecollection.org/catalogue/v2/_elasticConfig'
-    );
-    const elasticConfig = await elasticConfigResponse.json();
-    index = `${elasticConfig.worksIndex}-tei-on`;
-  }
+  const index = await getTeiIndexName(toggles, 'works');
+
   const extendedParams = {
     ...params,
     pageSize,
@@ -99,14 +94,8 @@ export async function getWork({
   toggles,
 }: GetWorkProps): Promise<WorkResponse> {
   const apiOptions = globalApiOptions(toggles);
-  let index;
-  if (toggles?.tei) {
-    const elasticConfigResponse = await fetch(
-      'https://api.wellcomecollection.org/catalogue/v2/_elasticConfig'
-    );
-    const elasticConfig = await elasticConfigResponse.json();
-    index = `${elasticConfig.worksIndex}-tei-on`;
-  }
+  const index = await getTeiIndexName(toggles, 'works');
+
   const params = {
     include: workIncludes,
     _index: index,

@@ -11,6 +11,7 @@ import {
   queryString,
   catalogueApiError,
   notFound,
+  getTeiIndexName,
 } from './common';
 import { Toggles } from '@weco/toggles';
 
@@ -39,14 +40,8 @@ export async function getImages({
   pageSize = 25,
 }: GetImagesProps): Promise<CatalogueResultsList<Image> | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
-  let index;
-  if (toggles?.tei) {
-    const elasticConfigResponse = await fetch(
-      'https://api.wellcomecollection.org/catalogue/v2/_elasticConfig'
-    );
-    const elasticConfig = await elasticConfigResponse.json();
-    index = `${elasticConfig.imagesIndex}-tei-on`;
-  }
+  const index = await getTeiIndexName(toggles, 'images');
+
   const extendedParams = {
     ...params,
     pageSize,
@@ -70,14 +65,8 @@ export async function getImage({
   include = [],
 }: GetImageProps): Promise<Image | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
-  let index;
-  if (toggles?.tei) {
-    const elasticConfigResponse = await fetch(
-      'https://api.wellcomecollection.org/catalogue/v2/_elasticConfig'
-    );
-    const elasticConfig = await elasticConfigResponse.json();
-    index = `${elasticConfig.imagesIndex}-tei-on`;
-  }
+  const index = await getTeiIndexName(toggles, 'images');
+
   const params = {
     include: include,
     _index: index,
