@@ -63,7 +63,9 @@ export const getTeiIndexName = async (
 ): Promise<string | undefined> => {
   const indexName = toggles.tei
     ? await getElasticConfig().then(config =>
-        index === 'works' ? config.worksIndex : config.imagesIndex
+        index === 'works'
+          ? `${config.worksIndex}-tei-on`
+          : `${config.imagesIndex}-tei-on`
       )
     : undefined;
 
