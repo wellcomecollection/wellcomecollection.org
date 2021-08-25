@@ -21,7 +21,7 @@ import { Season } from '../../../model/seasons';
 import { ElementFromComponent } from '../../../utils/utility-types';
 import { headerSpaceSize } from '@weco/common/views/components/PageHeader/PageHeader';
 import styled from 'styled-components';
-import { MultiContent } from 'model/multi-content';
+import { MultiContent } from '../../../model/multi-content';
 /*eslint-disable */
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 

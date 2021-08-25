@@ -21,6 +21,7 @@ export function isPreview(req: ?Request): boolean {
 
 export async function getPrismicApi(req: ?Request) {
   if (req && isPreview(req)) {
+    console.info('isPrvoew');
     const api = await Prismic.getApi(apiUri, { req });
     return api;
   } else {
