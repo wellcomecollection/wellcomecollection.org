@@ -40,11 +40,11 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
       query_string = true
 
       query_string_cache_keys = [
+        "cachebust",
         "current",
         "page",
         "result",
         "toggle",
-        "cachebust",
         "uri",
       ]
 
@@ -171,15 +171,15 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
       query_string = true
 
       query_string_cache_keys = [
+        "cachebust",
         "color",
         "locations.license",
-        "source.genres.label",
-        "source.contributors.agent.label",
         "page",
         "query",
         "source",
+        "source.contributors.agent.label",
+        "source.genres.label",
         "toggle",
-        "cachebust",
       ]
 
       cookies {

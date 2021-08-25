@@ -9,11 +9,19 @@ terraform {
   }
 }
 
-# Make sure we're using AWS as provider
 provider "aws" {
   region  = "us-east-1"
   assume_role {
     role_arn = "arn:aws:iam::130871440101:role/experience-developer"
+  }
+
+  default_tags {
+    tags = {
+      TerraformConfigurationURL = "https://github.com/wellcomecollection/wellcomecollection.org/tree/main/cache"
+      Department                = "Digital Platform"
+      Division                  = "Culture and Society"
+      Use                       = "Front-end CloudFront distributions"
+    }
   }
 }
 
