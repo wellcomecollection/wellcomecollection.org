@@ -4,8 +4,10 @@ module.exports = {
       ? [
           {
             name: 'server',
-            script: 'ts-node-transpile-only',
-            args: 'src/index.ts',
+            script: 'src/index.ts',
+            interpreter: 'ts-node-transpile-only',
+            // See https://github.com/Unitech/pm2/issues/3503
+            node_args: ['--require=tsconfig-paths/register'],
             instances: 1,
             autorestart: true,
             watch: false,

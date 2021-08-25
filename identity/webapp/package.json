@@ -45,7 +45,8 @@
     "react-hook-form": "^6.15.4",
     "react-router-dom": "^5.2.0",
     "styled-components": "^5.2.1",
-    "ts-node": "^10.2.1"
+    "ts-node": "^10.2.1",
+    "tsconfig-paths": "^3.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.13",
