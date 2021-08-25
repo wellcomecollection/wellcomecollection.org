@@ -14,6 +14,7 @@ resource "aws_cloudwatch_metric_alarm" "cloudfront_prod_5xx" {
 
   dimensions = {
     DistributionId = aws_cloudfront_distribution.wellcomecollection_org.id
+    Region         = "Global"
   }
 
   alarm_actions = [local.cloudfront_error_topic_arn]
@@ -31,6 +32,7 @@ resource "aws_cloudwatch_metric_alarm" "cloudfront_stage_5xx" {
 
   dimensions = {
     DistributionId = aws_cloudfront_distribution.stage_wc_org.id
+    Region         = "Global"
   }
 
   alarm_actions = [local.cloudfront_error_topic_arn]
