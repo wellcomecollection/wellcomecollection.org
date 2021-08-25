@@ -257,7 +257,17 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               </Space>
               <AlignFont>
                 <span className={font('hnb', 5)}>Library members:</span>{' '}
-                <a href="/account" className={font('hnr', 5)}>
+                <a
+                  href="/account"
+                  className={font('hnr', 5)}
+                  onClick={event => {
+                    // This is a very hacked together piece of work that allows us to read this cookie
+                    // and respond to it in the idnetity app
+                    event.preventDefault();
+                    document.cookie = `returnTo=${window.location.pathname}; path=/`;
+                    window.location.href = event.currentTarget.href;
+                  }}
+                >
                   sign in to your library account to request items
                 </a>
               </AlignFont>
