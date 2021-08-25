@@ -157,13 +157,6 @@ const TableTd = styled(Space).attrs({
   height: 53px; // Make rows the same height with/without ButtonInline
 `;
 
-type TableRow = {
-  items: (string | ReactElement)[];
-  hasHeader: boolean;
-  vAlign: 'top' | 'middle' | 'bottom';
-  withBorder: boolean;
-};
-
 type Props = {
   rows: (string | ReactElement)[][];
   hasRowHeaders: boolean;
@@ -173,7 +166,20 @@ type Props = {
   withBorder?: boolean;
 };
 
-const TableRow = ({ items, hasHeader, vAlign, withBorder }: TableRow) => {
+type TableRowProps = {
+  items: (string | ReactElement)[];
+  hasHeader: boolean;
+  vAlign: 'top' | 'middle' | 'bottom';
+  withBorder: boolean;
+};
+
+const TableRow = ({
+  items,
+  hasHeader,
+  vAlign,
+  withBorder,
+  plain,
+}: TableRowProps) => {
   return (
     <TableTr withBorder={withBorder}>
       {items.map((item, index) => (
@@ -364,6 +370,7 @@ const Table: FunctionComponent<Props> = ({
                   hasHeader={hasRowHeaders}
                   vAlign={vAlign}
                   withBorder={withBorder}
+                  plain={plain}
                 />
               ))}
             </TableTbody>
