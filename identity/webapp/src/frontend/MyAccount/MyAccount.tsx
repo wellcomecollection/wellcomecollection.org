@@ -83,6 +83,16 @@ async function fetchRequestedItems(userId): Promise<RequestsList | undefined> {
   }
 }
 
+// The table display is weird / should not be scrollable
+// This should be sorted out in CSS rather than doing this.
+const truncateTitle_REMOVE_THIS_FUNCTION_ASAP = (
+  str: string,
+  maxLength = 60
+) => {
+  const truncated = str.slice(0, maxLength);
+  return str.length > maxLength ? `${truncated}...` : str;
+};
+
 const Profile: FC = () => {
   const history = useHistory();
   const { user, isLoading, update } = useUserInfo();
@@ -218,7 +228,9 @@ const Profile: FC = () => {
                       rows={[
                         ['Title', 'Status', 'Pickup location'],
                         ...requests.results.map(result => [
-                          `${result.item.title ? result.item.title : ''}`,
+                          truncateTitle_REMOVE_THIS_FUNCTION_ASAP(
+                            result.item.title || result.workTitle || ''
+                          ),
                           result.status.label,
                           result.pickupLocation.label,
                         ]),

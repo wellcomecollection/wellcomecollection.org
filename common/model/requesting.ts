@@ -20,6 +20,7 @@ type RequestItem = {
     locations: PhysicalLocation[];
     type: 'Item';
   };
+  workTitle?: string;
   pickupLocation: PickupLocation;
   status: RequestStatus;
   type: 'Request';
