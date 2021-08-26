@@ -193,18 +193,14 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
                 ) : (
                   <>
                     {enableRequesting ? (
-                      <>
-                        {user && !isLoading && (
-                          <ConfirmItemRequest
-                            isActive={isActive}
-                            setIsActive={setIsActive}
-                            item={item}
-                            work={work}
-                            user={user}
-                            initialHoldNumber={userHolds?.results.length ?? 0}
-                          />
-                        )}
-                      </>
+                      <ConfirmItemRequest
+                        isActive={isActive}
+                        setIsActive={setIsActive}
+                        item={item}
+                        work={work}
+                        user={isLoading ? undefined : user}
+                        initialHoldNumber={userHolds?.results.length ?? 0}
+                      />
                     ) : (
                       <>
                         {requestItemUrl && (
