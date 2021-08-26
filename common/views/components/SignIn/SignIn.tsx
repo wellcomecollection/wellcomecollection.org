@@ -18,12 +18,12 @@ const SignIn: FunctionComponent<Props> = ({ user }) => {
             window.location.href = event.currentTarget.href;
           }}
         >
-          Sign in to Library account
+          Sign in to your library account
         </a>
       )}
       {user && (
         <>
-          <a href="/account">Library account details</a>
+          <a href="/account">Library account</a>
           <a href="/account/logout">Sign out</a>
         </>
       )}
