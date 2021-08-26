@@ -182,7 +182,7 @@ const Profile: FC = () => {
                 >
                   <ChangeDetailsModal
                     id="change-email"
-                    buttonText="Change Email"
+                    buttonText="Change email"
                     onComplete={(newUserInfo?: UpdateUserSchema) => {
                       if (newUserInfo) update(newUserInfo);
                       setIsEmailUpdated(true);
