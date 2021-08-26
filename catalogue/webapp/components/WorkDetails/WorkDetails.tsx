@@ -262,7 +262,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                   className={font('hnr', 5)}
                   onClick={event => {
                     // This is a very hacked together piece of work that allows us to read this cookie
-                    // and respond to it in the idnetity app
+                    // and respond to it in the identity app
                     event.preventDefault();
                     document.cookie = `returnTo=${window.location.pathname}; path=/`;
                     window.location.href = event.currentTarget.href;
