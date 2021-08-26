@@ -38,7 +38,7 @@ const OutlinedDangerButtonModifier = css`
   }
 `;
 
-export const Button = styled(OutlinedButton)`
+export const Button = styled(OutlinedButton)<{ isDangerous?: boolean }>`
   justify-content: center;
 
   ${props => props.isDangerous && OutlinedDangerButtonModifier}
