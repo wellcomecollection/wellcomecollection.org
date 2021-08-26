@@ -203,11 +203,16 @@ const Profile: FC = () => {
               </Wrapper>
             </Container>
 
-            {requests && (
-              <>
-                <SectionHeading>Item requests</SectionHeading>
-                <Container>
-                  <Wrapper>
+            <SectionHeading>Item requests</SectionHeading>
+            <Container>
+              <Wrapper>
+                {requests && requests.totalResults === 0 && (
+                  <p className={`${font('hnr', 4)}`}>
+                    Any item requests you make will appear here.
+                  </p>
+                )}
+                {requests && requests.totalResults !== 0 && (
+                  <>
                     <Space
                       as="p"
                       className={`${font('hnb', 5)}`}
@@ -248,10 +253,10 @@ const Profile: FC = () => {
                         contact the library team.
                       </a>
                     </Space>
-                  </Wrapper>
-                </Container>
-              </>
-            )}
+                  </>
+                )}
+              </Wrapper>
+            </Container>
 
             <SectionHeading>Delete library account</SectionHeading>
             <Container>
