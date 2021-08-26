@@ -14,6 +14,7 @@ type ErrorParams = {
 
 export const ErrorPage = (): JSX.Element => {
   const { error, error_description } = useLocationQuery<ErrorParams>();
+
   return (
     <PageWrapper>
       <Layout10>
@@ -21,9 +22,7 @@ export const ErrorPage = (): JSX.Element => {
           <Container>
             <Wrapper>
               <h1 className="font-wb font-size-1">An error occurred</h1>
-              <h2 className="font-size-3">
-                <pre>{error}</pre>
-              </h2>
+
               <p className="font-hnr font-size-4">{error_description}</p>
               <SpacingComponent />
               <OutlinedButton>
@@ -32,7 +31,7 @@ export const ErrorPage = (): JSX.Element => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Visit our help desk
+                  Contact us
                 </a>
               </OutlinedButton>
             </Wrapper>
