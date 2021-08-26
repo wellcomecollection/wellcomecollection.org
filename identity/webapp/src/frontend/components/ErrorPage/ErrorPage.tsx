@@ -27,7 +27,7 @@ export const ErrorPage = (): JSX.Element => {
               <SpacingComponent />
               <OutlinedButton>
                 <a
-                  href="https://wellcomelibrary.org/using-the-library/services-and-facilities/contact-us/"
+                  href="mailto:library@wellcomecollection.org"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
