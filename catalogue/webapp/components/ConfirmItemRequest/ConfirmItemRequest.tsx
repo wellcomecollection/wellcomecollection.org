@@ -144,19 +144,6 @@ const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
         currentHoldRequests={currentHoldNumber}
       />
     </Header>
-    <p
-      className={classNames({
-        [font('hnb', 5)]: true,
-        'no-margin': true,
-      })}
-    >
-      You have successfully requested:
-    </p>
-    <p>
-      {work.title && <span className="block">{work.title}</span>}
-      {item.title && <span>{item.title}</span>}
-    </p>
-
     <p>
       It will be available to pick up from the library (Rare Materials Room, 2nd
       Floor) for two weeks.
@@ -170,7 +157,7 @@ const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
         Before your visit:
       </span>{' '}
       you will need to book a time slot for a library and museum ticket{' '}
-      <em>(with material access)</em> at least 72 hours in advance of any visit.
+      <em>(with rare materials room access)</em> at least 72 hours in advance of any visit.
     </BeforeYourVisit>
     <CTAs>
       <Space
