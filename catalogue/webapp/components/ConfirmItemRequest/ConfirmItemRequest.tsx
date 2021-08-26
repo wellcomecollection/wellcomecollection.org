@@ -157,7 +157,7 @@ const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
         Before your visit:
       </span>{' '}
       you will need to book a time slot for a library and museum ticket{' '}
-      <em>(with material access)</em> at least 72 hours in advance of any visit.
+      <em>(with rare materials room access)</em> at least 72 hours in advance of any visit.
     </BeforeYourVisit>
     <CTAs>
       <Space
