@@ -13,7 +13,7 @@ type ErrorParams = {
 };
 
 export const ErrorPage = (): JSX.Element => {
-  const { error, error_description } = useLocationQuery<ErrorParams>();
+  const { error_description } = useLocationQuery<ErrorParams>();
 
   return (
     <PageWrapper>
