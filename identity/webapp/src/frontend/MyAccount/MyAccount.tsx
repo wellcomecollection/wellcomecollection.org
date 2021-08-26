@@ -236,6 +236,18 @@ const Profile: FC = () => {
                         ]),
                       ]}
                     />
+                    <Space
+                      className={`${font('hnb', 5)}`}
+                      v={{
+                        size: 'l',
+                        properties: ['margin-top'],
+                      }}
+                    >
+                      If you wish to cancel a hold, please{' '}
+                      <a href="mailto:library@wellcomecollection.org">
+                        contact the library team.
+                      </a>
+                    </Space>
                   </Wrapper>
                 </Container>
               </>
