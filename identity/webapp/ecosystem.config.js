@@ -24,9 +24,9 @@ module.exports = {
             args: 'src/index.ts',
             instances: 1,
             autorestart: true,
-            watch: ['lib'],
+            watch: ['src'],
             watch_options: {
-              ignored: 'frontend/admin/build/**',
+              ignored: 'src/frontend',
               awaitWriteFinish: {
                 stabilityThreshold: 2000,
                 pollInterval: 100,
