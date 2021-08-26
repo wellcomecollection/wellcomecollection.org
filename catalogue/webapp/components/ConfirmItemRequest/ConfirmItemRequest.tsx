@@ -63,7 +63,7 @@ type Props = {
   item: PhysicalItem;
   isActive: boolean;
   setIsActive: (value: boolean) => void;
-  user: UserInfo;
+  user?: UserInfo;
   initialHoldNumber: number;
 };
 
@@ -157,7 +157,8 @@ const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
         Before your visit:
       </span>{' '}
       you will need to book a time slot for a library and museum ticket{' '}
-      <em>(with rare materials room access)</em> at least 72 hours in advance of any visit.
+      <em>(with rare materials room access)</em> at least 72 hours in advance of
+      any visit.
     </BeforeYourVisit>
     <CTAs>
       <Space
@@ -292,6 +293,7 @@ const ConfirmItemRequest: FunctionComponent<Props> = ({
   ) : (
     <>
       <ButtonOutlined
+        disabled={!user}
         ref={openButtonRef}
         text={'Request item'}
         clickHandler={() => setIsActive(true)}
