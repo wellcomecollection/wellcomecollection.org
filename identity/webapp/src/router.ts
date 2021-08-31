@@ -68,8 +68,13 @@ export const router = new TypedRouter({
     'RequestDeleteSchema',
   ],
 
-  'item-requests': [
-    TypedRouter.GETPOST,
+  'get-item-requests': [
+    TypedRouter.GET,
+    '/api/users/:user_id/item-requests',
+    itemRequests,
+  ],
+  'post-item-requests': [
+    TypedRouter.POST,
     '/api/users/:user_id/item-requests',
     itemRequests,
   ],
