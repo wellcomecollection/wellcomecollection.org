@@ -1,7 +1,11 @@
 import Router = require('@koa/router');
 import koaBody from 'koa-body';
 import { requestBody } from '../middleware/request-body';
-import { RouteMiddleware } from '../types/application';
+import {
+  ApplicationState,
+  RouteContext,
+  RouteMiddleware,
+} from '../types/application';
 import { getAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 
 export type RouteWithParams<Props, Body = any> =
@@ -32,7 +36,9 @@ export class TypedRouter<
   static PUT = 'put';
   static DELETE = 'delete';
 
-  private router = new Router({ prefix: getAppPathPrefix() });
+  private router = new Router<ApplicationState, RouteContext>({
+    prefix: getAppPathPrefix(),
+  });
 
   constructor(routes: MappedRoutes) {
     const routeNames = Object.keys(routes) as Routes[];
