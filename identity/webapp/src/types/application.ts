@@ -8,7 +8,7 @@ export interface ApplicationState {
   // JWT.
   // Role.
   // etc...
-  user: any;
+  user?: any;
 }
 
 export interface ApplicationContext {

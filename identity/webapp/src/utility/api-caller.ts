@@ -14,7 +14,10 @@ const identityInstance: AxiosInstance = axios.create({
   },
 });
 
-type ContextState = ApplicationState | { user: { accessToken: string } };
+type ContextState = ApplicationState | { user?: { accessToken?: string } };
+
+const isAuthenticated = (contextState: ContextState): boolean =>
+  !!contextState.user?.accessToken;
 
 export async function callRemoteApi(
   method: Method,
@@ -30,7 +33,7 @@ export async function callRemoteApi(
     validateStatus: (status: number) => status >= 200 && status < 300,
   };
 
-  if (authenticate) {
+  if (authenticate && isAuthenticated(contextState)) {
     request = {
       ...request,
       headers: {
