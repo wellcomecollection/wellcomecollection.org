@@ -139,8 +139,8 @@ const ConfirmedDialog: FC<ConfirmedDialogProps> = ({ currentHoldNumber }) => (
       />
     </Header>
     <p>
-      It will be available to pick up from the library (Rare Materials Room, 2nd
-      Floor) for two weeks.
+      Your request will be available to pick up from the library (Rare Materials
+      Room, 2nd Floor) for two weeks.
     </p>
     <BeforeYourVisit>
       <span
@@ -150,9 +150,9 @@ const ConfirmedDialog: FC<ConfirmedDialogProps> = ({ currentHoldNumber }) => (
       >
         Before your visit:
       </span>{' '}
-      You will need to book a time slot for a library and museum ticket{' '}
-      <em>(with rare materials room access)</em> at least 72 hours in advance of
-      any visit.
+      You will need to book a library and museum ticket (
+      <em>with rare materials room access</em>) by 10am the day before your
+      visit.
     </BeforeYourVisit>
     <CTAs>
       <Space
