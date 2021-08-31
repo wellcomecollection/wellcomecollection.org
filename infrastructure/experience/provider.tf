@@ -3,7 +3,7 @@ locals {
     TerraformConfigurationURL = "https://github.com/wellcomecollection/wellcomecollection.org/tree/main/infrastructure/experience"
     Department                = "Digital Platform"
     Division                  = "Culture and Society"
-    Use                       = "Identity APIs"
+    Use                       = "Experience infrastructure"
     Environment               = "Production"
   }
 }
@@ -26,5 +26,9 @@ provider "aws" {
 
   assume_role {
     role_arn = "arn:aws:iam::267269328833:role/wellcomecollection-assume_role_hosted_zone_update"
+  }
+
+  default_tags {
+    tags = local.default_tags
   }
 }
