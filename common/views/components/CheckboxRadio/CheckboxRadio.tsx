@@ -1,4 +1,9 @@
-import { FunctionComponent, SyntheticEvent, ReactElement } from 'react';
+import {
+  FunctionComponent,
+  SyntheticEvent,
+  ReactElement,
+  ReactNode,
+} from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
@@ -69,12 +74,12 @@ const CheckBoxWrapper = styled.div`
 
 type CheckboxRadioProps = {
   type: 'checkbox' | 'radio';
-  id: string;
-  text: string;
+  id?: string;
+  text: ReactNode;
   checked: boolean;
-  name: string;
+  name?: string;
   onChange: (event: SyntheticEvent<HTMLInputElement>) => void;
-  value: string;
+  value?: string;
   ariaLabel?: string;
 };
 

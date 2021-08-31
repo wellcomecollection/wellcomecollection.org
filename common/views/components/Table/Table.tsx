@@ -159,7 +159,7 @@ const TableTd = styled(Space).attrs({
 
 type Props = {
   rows: (string | ReactElement)[][];
-  hasRowHeaders: boolean;
+  hasRowHeaders?: boolean;
   caption?: string;
   vAlign?: 'top' | 'middle' | 'bottom';
   plain?: boolean;

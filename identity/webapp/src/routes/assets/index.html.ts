@@ -173,8 +173,6 @@ export default function buildHtml(bundle: string, contextPath = ''): string {
       href="https://i.wellcomecollection.org/assets/icons/safari-pinned-tab.svg"
       color="#000000"
     />
-    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
   </head>
   <body>
     <noscript>
