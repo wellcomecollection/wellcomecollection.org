@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, useRef, useEffect } from 'react';
+import { FC, useState, useRef, useEffect } from 'react';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
@@ -47,7 +47,7 @@ const CTAs = styled(Space).attrs({
 
 export const allowedRequests = 15;
 
-const RemainingRequests: FunctionComponent<{
+const RemainingRequests: FC<{
   allowedHoldRequests: number;
   currentHoldRequests: number;
 }> = ({ allowedHoldRequests, currentHoldRequests }) => (
@@ -76,7 +76,7 @@ type RequestDialogProps = {
   currentHoldNumber: number;
 };
 
-const RequestDialog: FunctionComponent<RequestDialogProps> = ({
+const RequestDialog: FC<RequestDialogProps> = ({
   isLoading,
   work,
   item,
@@ -126,16 +126,10 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
 );
 
 type ConfirmedDialogProps = {
-  work: Work;
-  item: PhysicalItem;
   currentHoldNumber: number;
 };
 
-const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
-  work,
-  item,
-  currentHoldNumber,
-}) => (
+const ConfirmedDialog: FC<ConfirmedDialogProps> = ({ currentHoldNumber }) => (
   <>
     <Header>
       <span className={`h2`}>Request confirmed</span>
@@ -156,7 +150,7 @@ const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
       >
         Before your visit:
       </span>{' '}
-      you will need to book a time slot for a library and museum ticket{' '}
+      You will need to book a time slot for a library and museum ticket{' '}
       <em>(with rare materials room access)</em> at least 72 hours in advance of
       any visit.
     </BeforeYourVisit>
@@ -183,7 +177,7 @@ type ErrorDialogProps = {
   setIsActive: (value: boolean) => void;
 };
 
-const ErrorDialog: FunctionComponent<ErrorDialogProps> = ({ setIsActive }) => (
+const ErrorDialog: FC<ErrorDialogProps> = ({ setIsActive }) => (
   <>
     <Header>
       <span className={`h2`}>Request failed</span>
@@ -200,7 +194,7 @@ const ErrorDialog: FunctionComponent<ErrorDialogProps> = ({ setIsActive }) => (
 
 type RequestingState = undefined | 'requesting' | 'confirmed' | 'error';
 
-const ConfirmItemRequest: FunctionComponent<Props> = ({
+const ConfirmItemRequest: FC<Props> = ({
   item,
   work,
   setIsActive,
@@ -267,13 +261,7 @@ const ConfirmItemRequest: FunctionComponent<Props> = ({
       case 'error':
         return <ErrorDialog setIsActive={innerSetIsActive} />;
       case 'confirmed':
-        return (
-          <ConfirmedDialog
-            work={work}
-            item={item}
-            currentHoldNumber={currentHoldNumber}
-          />
-        );
+        return <ConfirmedDialog currentHoldNumber={currentHoldNumber} />;
       default:
         return (
           <RequestDialog
