@@ -16,10 +16,12 @@ try {
     ContentType: 'application/json',
   };
 
-  s3.putObject(params, function(err) {
+  s3.putObject(params, function (err) {
     if (err) console.log(err, err.stack);
     else console.log('Finished uploading toggles.json');
   });
 } catch (e) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   console.error('Error:', e.stack);
 }
