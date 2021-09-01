@@ -27,7 +27,7 @@ import { ChangeEmail } from '../src/frontend/MyAccount/ChangeEmail';
 import { ChangePassword } from '../src/frontend/MyAccount/ChangePassword';
 import { DeleteAccount } from '../src/frontend/MyAccount/DeleteAccount';
 import { UpdateUserSchema } from '../src/types/schemas/update-user';
-import { useHistory } from 'react-router';
+import { useRouter } from 'next/router';
 import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
@@ -99,7 +99,7 @@ const truncateTitle_REMOVE_THIS_FUNCTION_ASAP = (
 };
 
 const Profile: FC = () => {
-  const history = useHistory();
+  const router = useRouter();
   const { user, isLoading, update } = useUserInfo();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
@@ -116,7 +116,7 @@ const Profile: FC = () => {
   }, [user]);
 
   const logoutOnDeletionRequest = () => {
-    history.replace(
+    router.replace(
       `/logout?returnTo=${encodeURIComponent('/delete-requested')}`
     );
   };
