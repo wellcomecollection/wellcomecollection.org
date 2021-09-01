@@ -1,6 +1,5 @@
-// @flow
+import { FC } from 'react';
 import { grid, font } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
 
@@ -26,11 +25,11 @@ const TitleWrapper = styled.span`
   }
 `;
 
-type Props = {|
-  title: string,
-|};
+type Props = {
+  title: string;
+};
 
-const SectionHeader = ({ title }: Props) => {
+const SectionHeader: FC<Props> = ({ title }) => {
   return (
     <div className={`row ${font('wb', 2)}`}>
       <div className="container">

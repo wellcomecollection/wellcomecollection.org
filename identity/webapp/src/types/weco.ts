@@ -4,3 +4,5 @@ declare module '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 declare module '@weco/common/views/components/ButtonSolid/ButtonSolid';
 declare module '@weco/common/views/components/SectionHeader/SectionHeader';
 declare module '@weco/common/views/components/SpacingComponent/SpacingComponent';
+
+export {};
