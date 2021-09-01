@@ -2,9 +2,9 @@ import NextApp, { AppContext, NextWebVitalsMetric } from 'next/app';
 import { gtagReportWebVitals } from '@weco/common/utils/gtag';
 import App, { WecoAppProps } from '@weco/common/views/pages/_app';
 import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
-// export function reportWebVitals(metric: NextWebVitalsMetric): void {
-//   gtagReportWebVitals(metric);
-// }
+export function reportWebVitals(metric: NextWebVitalsMetric): void {
+  gtagReportWebVitals(metric);
+}
 
 export default function ContentApp(props: WecoAppProps) {
   return <App {...props} />;
