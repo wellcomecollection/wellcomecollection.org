@@ -218,6 +218,9 @@ export function Registration(): JSX.Element {
                   rules={{ required: 'Accept the terms to continue.' }}
                   render={({ value, onChange }) => (
                     <Checkbox
+                      name={'termsAndConditions'}
+                      id={'termsAndConditions'}
+                      value={value}
                       onChange={(e: React.FormEvent<HTMLInputElement>) =>
                         onChange(e.currentTarget.checked)
                       }

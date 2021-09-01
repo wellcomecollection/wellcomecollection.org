@@ -70,7 +70,7 @@ const CheckBoxWrapper = styled.div`
 type CheckboxRadioProps = {
   type: 'checkbox' | 'radio';
   id: string;
-  text: string;
+  text: string | ReactElement;
   checked: boolean;
   name: string;
   onChange: (event: SyntheticEvent<HTMLInputElement>) => void;
