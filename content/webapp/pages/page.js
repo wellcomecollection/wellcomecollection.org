@@ -35,7 +35,9 @@ import {
 // $FlowFixMe (ts)
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+// $FlowFixMe
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+// $FlowFixMe
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import { PageFormatIds } from '@weco/common/model/content-format-id';
 // $FlowFixMe (tsx)
