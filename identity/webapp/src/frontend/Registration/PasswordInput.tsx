@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import WellcomeTextInput from '@weco/common/views/components/TextInput/TextInput';
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
-import OpenEye from '@weco/common/icons/components/Eye';
-import ClosedEye from '@weco/common/icons/components/A11yVisual';
+import Icon from '@weco/common/views/components/Icon/Icon';
 
 const PasswordInputContainer = styled.div`
   display: flex;
@@ -25,13 +24,11 @@ export const PasswordInput: React.FC<PasswordInputProps> = props => {
 
   const toggleIsVisible = () => setIsVisible(wasVisible => !wasVisible);
 
-  const VisibilityIcon = isVisible ? ClosedEye : OpenEye;
-
   return (
     <PasswordInputContainer>
       <WellcomeTextInput {...props} type={isVisible ? 'text' : 'password'} />
       <VisibilityButton onClick={toggleIsVisible}>
-        <VisibilityIcon width="24" height="24" />
+        <Icon name={isVisible ? 'a11yVisual' : 'eye'} />
       </VisibilityButton>
     </PasswordInputContainer>
   );

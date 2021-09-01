@@ -1,4 +1,6 @@
-const WellcomeCollectionBlack = () => (
+import { FC } from 'react';
+
+const WellcomeCollectionBlack: FC = () => (
   <svg
     width="128"
     height="42"

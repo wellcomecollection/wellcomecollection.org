@@ -1,6 +1,4 @@
-// @flow
-
-import type { Node } from 'react';
+import type { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 
 const SpacingComponentEl = styled.div.attrs({
@@ -20,11 +18,11 @@ const SpacingComponentEl = styled.div.attrs({
   }
 `;
 
-type Props = {|
-  children?: Node,
-|};
+type Props = {
+  children?: ReactNode;
+};
 
-const SpacingComponent = ({ children }: Props) => {
+const SpacingComponent: FC<Props> = ({ children }) => {
   return <SpacingComponentEl>{children}</SpacingComponentEl>;
 };
 

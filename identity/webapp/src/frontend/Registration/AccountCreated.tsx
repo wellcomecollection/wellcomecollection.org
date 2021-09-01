@@ -1,6 +1,6 @@
 import React from 'react';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import Info2 from '@weco/common/icons/components/Info2';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import { PageWrapper } from '../components/PageWrapper';
 import { SuccessMessage } from './Registration.style';
 import { Container, Wrapper } from '../components/Layout.style';
@@ -18,7 +18,7 @@ export const AccountCreated: React.FC = () => {
                 Activate your library account
               </h1>
               <SuccessMessage>
-                <Info2 />
+                <Icon name={`info2`} />
                 Your library account has been created. Before you can sign in,
                 you&apos;ll need to verify your email address.
               </SuccessMessage>

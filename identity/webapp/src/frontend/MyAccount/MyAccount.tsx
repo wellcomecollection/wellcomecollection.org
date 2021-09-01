@@ -1,6 +1,5 @@
 import React, { FC, ComponentProps, useState, useEffect } from 'react';
-import Info2 from '@weco/common/icons/components/Info2';
-
+import Icon from '@weco/common/views/components/Icon/Icon';
 import {
   useUserInfo,
   withUserInfo,
@@ -65,7 +64,7 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 }) => {
   return (
     <StatusAlert type={type}>
-      <Info2 height="32" width="32" fill="currentColor" />
+      <Icon name={`info2`} color={`currentColor`} />
       {children}
     </StatusAlert>
   );
