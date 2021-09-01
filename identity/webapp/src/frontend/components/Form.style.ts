@@ -40,7 +40,7 @@ export const DangerButtonModifier = css`
   }
 `;
 
-export const Button = styled(SolidButton)`
+export const Button = styled(SolidButton)<{isDangerous?: boolean}>`
   justify-content: center;
 
   ${props => props.isDangerous && DangerButtonModifier}
