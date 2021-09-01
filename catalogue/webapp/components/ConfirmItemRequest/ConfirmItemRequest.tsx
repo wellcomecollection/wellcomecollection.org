@@ -140,7 +140,7 @@ const ConfirmedDialog: FC<ConfirmedDialogProps> = ({ currentHoldNumber }) => (
     </Header>
     <p>
       Your request will be available to pick up from the library (Rare Materials
-      Room, 2nd Floor) for two weeks.
+      Room, 3rd Floor) for two weeks.
     </p>
     <BeforeYourVisit>
       <span
