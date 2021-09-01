@@ -85,6 +85,7 @@ module.exports = function (webpack) {
 
   return withMDX(
     withTM({
+      webpack5: false,
       assetPrefix:
         isProd && prodSubdomain
           ? `https://${prodSubdomain}.wellcomecollection.org`
