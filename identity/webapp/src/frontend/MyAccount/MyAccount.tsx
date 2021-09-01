@@ -227,6 +227,7 @@ const Profile: FC = () => {
                       />
                     </ProgressBar>
                     <Table
+                      hasRowHeaders={false}
                       plain={true}
                       withBorder={false}
                       rows={[
