@@ -56,7 +56,7 @@ type Props = {
 
 // At the moment we aren't set up to cope with access conditions,
 // 'permission-required', so we pass them off to the UV on the library site
-// If we have audio or video, then we show it in situ/S and don't link to the Item page
+// If we have audio or video, then we show it in situ and don't link to the Item page
 type ItemLinkState = 'useItemLink' | 'useLibraryLink' | 'useNoLink';
 function getItemLinkState({
   accessCondition,
