@@ -1,14 +1,4 @@
-// @flow
-export type SizeMap = { [string]: number };
-
-export function withModifiers(
-  className: string,
-  modifiers: { [string]: boolean } = {}
-): string {
-  return Object.keys(modifiers).reduce((acc, curr) => {
-    return modifiers[curr] ? ` ${acc} ${className}--${curr}` : ` ${acc}`;
-  }, className);
-}
+export type SizeMap = Record<string, number>;
 
 export function grid(sizes: SizeMap): string {
   const base = 'grid__cell';
@@ -35,17 +25,17 @@ export function cssGrid(sizes: SizeMap): string {
 type FontFamily = 'hnr' | 'hnb' | 'wb' | 'lr';
 type FontSize = 1 | 2 | 3 | 4 | 5 | 6;
 type FontSizeAll = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-type FontSizeOverrides = {|
-  small?: FontSizeAll,
-  medium?: FontSizeAll,
-  large?: FontSizeAll,
-|};
+type FontSizeOverrides = {
+  small?: FontSizeAll;
+  medium?: FontSizeAll;
+  large?: FontSizeAll;
+};
 
 export function font(
   family: FontFamily,
   size: FontSize,
   overrides?: FontSizeOverrides
-) {
+): string {
   const overrideClasses =
     overrides &&
     Object.keys(overrides).reduce((acc, key) => {
@@ -56,7 +46,7 @@ export function font(
   return `font-${family} font-size-${size} ${overrideClasses || ''}`;
 }
 
-type ClassNames = string[] | { [string]: boolean };
+type ClassNames = string[] | Record<string, boolean>;
 export function classNames(classNames: ClassNames): string {
   if (Array.isArray(classNames)) {
     return classNames.join(' ');
@@ -65,7 +55,7 @@ export function classNames(classNames: ClassNames): string {
   }
 }
 
-export function conditionalClassNames(obj: { [string]: boolean }): string {
+export function conditionalClassNames(obj: Record<string, boolean>): string {
   return Object.keys(obj)
     .map(key => {
       if (obj[key]) {
