@@ -1,5 +1,6 @@
 // @flow
 import { Fragment } from 'react';
+// $FlowFixMe (ts)
 import { font, classNames } from '../../../utils/classnames';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 // $FlowFixMe (tsx)

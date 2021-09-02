@@ -1,6 +1,7 @@
 // @flow
 import { Fragment } from 'react';
 import type { Book } from '../../../model/books';
+// $FlowFixMe (ts)
 import { font, classNames } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';

@@ -5,6 +5,7 @@ import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import EventDateRange from '../EventDateRange/EventDateRange';
+// $FlowFixMe (ts)
 import { classNames, font } from '../../../utils/classnames';
 
 type Props = {|

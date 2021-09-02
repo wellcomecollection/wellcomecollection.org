@@ -1,6 +1,7 @@
 // @flow
 import { type Weight } from '@weco/common/services/prismic/parsers';
 import { useContext, type ComponentType } from 'react';
+// $FlowFixMe (ts)
 import { classNames, font } from '@weco/common/utils/classnames';
 import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 import styled from 'styled-components';

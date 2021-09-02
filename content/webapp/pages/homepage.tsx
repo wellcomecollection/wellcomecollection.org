@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import styled from 'styled-components';
+// $FlowFixMe (ts)
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getArticles } from '@weco/common/services/prismic/articles';
 import { articleLd } from '@weco/common/utils/json-ld';

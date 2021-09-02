@@ -1,5 +1,6 @@
 // @flow
 import { Fragment } from 'react';
+// $FlowFixMe (ts)
 import { font, classNames } from '@weco/common/utils/classnames';
 
 const cellStyles = {
