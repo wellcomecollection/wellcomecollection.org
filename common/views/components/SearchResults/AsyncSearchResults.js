@@ -1,6 +1,7 @@
 // @flow
 import { Component, Fragment } from 'react';
 import SearchResults from '../SearchResults/SearchResults';
+// $FlowFixMe (ts)
 import { grid } from '../../../utils/classnames';
 import { search } from '../../../services/prismic/search';
 import type { MultiContent } from '../../../model/multi-content';

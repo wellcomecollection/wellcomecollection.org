@@ -4,6 +4,7 @@ import { Component } from 'react';
 import sortBy from 'lodash.sortby';
 import { london } from '../../../utils/format-date';
 import { getEarliestFutureDateRange } from '../../../utils/dates';
+// $FlowFixMe (ts)
 import { classNames, cssGrid } from '../../../utils/classnames';
 import SegmentedControl from '../SegmentedControl/SegmentedControl';
 // $FlowFixMe (tsx)

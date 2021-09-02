@@ -2,6 +2,7 @@
 import { useState, useContext } from 'react';
 // $FlowFixMe (tsx)
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+// $FlowFixMe (ts)
 import { font, classNames } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
