@@ -60,7 +60,7 @@ const DetailList: FC<DetailListProps> = ({ listItems }) => {
 const Detail: FC<DetailProps> = ({ label, value }) => (
   <>
     <dt className={font('hnb', 5)}>{label}</dt>
-    <StyledDd className={`${font('hnl', 5)}`}>{value}</StyledDd>
+    <StyledDd className={`${font('hnr', 5)}`}>{value}</StyledDd>
   </>
 );
 
