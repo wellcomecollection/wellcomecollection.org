@@ -6,7 +6,7 @@ export function reportWebVitals(metric: NextWebVitalsMetric): void {
   gtagReportWebVitals(metric);
 }
 
-export default function ContentApp(props: WecoAppProps) {
+export default function IdentityApp(props: WecoAppProps) {
   return <App {...props} />;
 }
 
@@ -21,7 +21,7 @@ export default function ContentApp(props: WecoAppProps) {
 // fixed asset prefixes, which is not compatible with using the same
 // application images in staging and production environments (which
 // require different prefixes).
-ContentApp.getInitialProps = async (appContext: AppContext) => {
+IdentityApp.getInitialProps = async (appContext: AppContext) => {
   const globalContextData = getGlobalContextData(appContext.ctx);
   const initialProps = await NextApp.getInitialProps(appContext);
   // TODO don't store things like this on `ctx.query`
