@@ -14,7 +14,7 @@
     "watch:client": "yarn build:frontend --watch",
     "build": "yarn typecheck && NODE_ENV=production yarn build:schema && NODE_ENV=production yarn build:frontend",
     "build:schema": "node generate-schemas.js",
-    "build:frontend": "webpack --config webpack.frontend.js --entry ./src/frontend/index.tsx --output-path lib/frontend/build",
+    "build:frontend": "webpack --config webpack.frontend.js",
     "typecheck": "tsc --build tsconfig.json",
     "storybook": "start-storybook -p 4009",
     "build-storybook": "build-storybook",

@@ -24,8 +24,6 @@ export const indexPage: RouteMiddleware = context => {
     context.isAuthenticated() ||
     unAuthenticatedPages.includes(context.request.URL.pathname)
   ) {
-    console.log('current user ->', context.state.user);
-
     // This cookie is set on the login button before we do the auth dance
     // Hack, indeed.
     const returnTo = context.cookies.get('returnTo');

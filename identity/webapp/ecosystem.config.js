@@ -26,11 +26,7 @@ module.exports = {
             autorestart: true,
             watch: ['src'],
             watch_options: {
-              ignored: 'src/frontend',
-              awaitWriteFinish: {
-                stabilityThreshold: 2000,
-                pollInterval: 100,
-              },
+              ignored: 'src/frontend/**',
             },
             node_args: '--expose-gc --inspect=0.0.0.0:9229',
             max_memory_restart: '2G',
