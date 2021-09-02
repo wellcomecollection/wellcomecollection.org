@@ -10,7 +10,7 @@
     "cardigan": "pushd cardigan && yarn dev",
     "catalogue": "pushd catalogue/webapp && yarn dev",
     "content": "pushd content/webapp && yarn dev",
-    "build-webapps": "echo '@weco/catalogue @weco/content @weco/identity @weco/identity-admin' | xargs -n 1 | xargs -I% yarn workspace % run build",
+    "build-webapps": "echo '@weco/catalogue @weco/content @weco/identity' | xargs -n 1 | xargs -I% yarn workspace % run build",
     "clean": "rimraf '**/.next **/lib'",
     "clean-deps": "rimraf '**/node_modules'"
   },
@@ -63,7 +63,6 @@
     "catalogue/webapp",
     "content/webapp",
     "identity/webapp",
-    "identity-admin/webapp",
     "toggles/webapp"
   ],
   "lint-staged": {
