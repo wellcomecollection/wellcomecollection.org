@@ -1,5 +1,6 @@
 // @flow
 import { Fragment } from 'react';
+// $FlowFixMe (ts)
 import { grid, font, classNames } from '../../../utils/classnames';
 import EventBookingButton from '../EventBookingButton/EventBookingButton';
 import EventbriteButton from '../EventbriteButton/EventbriteButton';

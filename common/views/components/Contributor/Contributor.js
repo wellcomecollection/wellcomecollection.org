@@ -1,4 +1,5 @@
 // @flow
+// $FlowFixMe (ts)
 import { font, grid, classNames } from '../../../utils/classnames';
 import Image from '../Image/Image';
 // $FlowFixMe (tsx)

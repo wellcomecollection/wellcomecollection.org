@@ -3,6 +3,7 @@
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import { type HTMLString } from '../../../services/prismic/types';
 import { type HtmlSerializer } from '../../../services/prismic/html-serializers';
+// $FlowFixMe (ts)
 import { font, classNames } from '../../../utils/classnames';
 
 type Props = {|

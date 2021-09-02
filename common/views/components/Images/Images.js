@@ -2,6 +2,7 @@
 import { Fragment, Component, createRef } from 'react';
 import debounce from 'lodash.debounce';
 import { convertImageUri } from '../../../utils/convert-image-uri';
+// $FlowFixMe (ts)
 import { classNames } from '../../../utils/classnames';
 import { imageSizes } from '../../../utils/image-sizes';
 // $FlowFixMe (tsx)

@@ -6,6 +6,7 @@ import { type Period } from '@weco/common/model/periods';
 import { type PaginatedResults } from '@weco/common/services/prismic/types';
 import NextLink from 'next/link';
 import { Component, Fragment } from 'react';
+// $FlowFixMe (ts)
 import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import {
