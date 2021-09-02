@@ -69,8 +69,8 @@ const IIIFViewerThumbNumber = styled.span.attrs<ViewerThumbProps>(props => ({
   className: classNames({
     'line-height-1': true,
     'font-white': !props.isActive,
-    'font-black': props.isActive,
-    'bg-yellow': props.isActive,
+    'font-black': !!props.isActive,
+    'bg-yellow': !!props.isActive,
     [font('hnb', 6)]: true,
   }),
 }))<ViewerThumbProps>`
