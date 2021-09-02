@@ -118,7 +118,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
       </Space>
       <ButtonOutlined
         disabled={isLoading}
-        text={`Cancel request`}
+        text={`Cancel`}
         clickHandler={() => setIsActive(false)}
       />
     </CTAs>
