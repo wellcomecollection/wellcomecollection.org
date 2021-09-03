@@ -2,9 +2,6 @@ const webpack = require('webpack');
 const path = require('path');
 const withTM = require('next-transpile-modules')(['@weco']);
 const withBundleAnalyzer = require('@next/bundle-analyzer');
-const withMDX = require('@next/mdx')({
-  extension: /\.(md|mdx)$/,
-});
 const buildHash = process.env.BUILD_HASH || 'test';
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -29,22 +26,6 @@ const config = function (webpack) {
         openAnalyzer: false,
       },
     },
-    webpack(config, options) {
-      config.plugins.push(
-        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-        new webpack.NormalModuleReplacementPlugin(
-          /moment-timezone\/data\/packed\/latest\.json/,
-          path.join(__dirname, 'timezones.json')
-        )
-      );
-
-      config.module.rules.push({
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      });
-
-      return config;
-    },
   });
 
   const apmConfig = {
@@ -68,8 +49,7 @@ const config = function (webpack) {
         ]
       : [];
 
-  return withMDX(
-    withTM({
+  return withTM({
       webpack5: false,
       assetPrefix:
         isProd && prodSubdomain
@@ -83,7 +63,6 @@ const config = function (webpack) {
         return rewrites;
       },
     })
-  );
 };
 
 module.exports = config(webpack);
