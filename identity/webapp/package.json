@@ -39,6 +39,7 @@
     "koa-send": "^5.0.1",
     "koa-session": "^6.1.0",
     "next": "11.1.2",
+    "next-transpile-modules": "^8.0.0",
     "passport": "^0.4.1",
     "passport-auth0": "^1.4.0",
     "passport-local": "^1.0.0",
@@ -53,7 +54,6 @@
     "tsconfig-paths": "^3.11.0"
   },
   "devDependencies": {
-    "eslint-config-next": "11.1.2",
     "@babel/core": "^7.12.13",
     "@babel/plugin-proposal-decorators": "^7.12.12",
     "@babel/plugin-transform-react-jsx": "^7.12.13",
@@ -89,6 +89,7 @@
     "css-loader": "5.0.1",
     "dotenv-webpack": "^6.0.0",
     "eslint": "7.32.0",
+    "eslint-config-next": "11.1.2",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-import": "^2.22.1",

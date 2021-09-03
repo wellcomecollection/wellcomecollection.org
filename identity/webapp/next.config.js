@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const withTM = require('next-transpile-modules')(['@weco']);
+const withTM = require('next-transpile-modules')(['@weco/common', '@weco/catalogue']);
 const withBundleAnalyzer = require('@next/bundle-analyzer');
 const buildHash = process.env.BUILD_HASH || 'test';
 const isProd = process.env.NODE_ENV === 'production';
@@ -50,7 +50,6 @@ const config = function (webpack) {
       : [];
 
   return withTM({
-      webpack5: false,
       assetPrefix:
         isProd && prodSubdomain
           ? `https://${prodSubdomain}.wellcomecollection.org`
