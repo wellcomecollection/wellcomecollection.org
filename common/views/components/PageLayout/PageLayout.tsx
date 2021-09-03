@@ -30,6 +30,7 @@ import GlobalInfoBarContext, {
 import TogglesContext from '../TogglesContext/TogglesContext';
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
 import { getContextPath } from '@weco/common/utils/identity-path-prefix';
+import Favicons from '../Favicons/Favicons';
 
 export type SiteSection =
   | 'collections'
@@ -162,37 +163,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
           )}`}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="https://i.wellcomecollection.org/assets/icons/apple-touch-icon.png"
-        />
-        <link
-          rel="shortcut icon"
-          href="https://i.wellcomecollection.org/assets/icons/favicon.ico"
-          type="image/ico"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          href="https://i.wellcomecollection.org/assets/icons/favicon-32x32.png"
-          sizes="32x32"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          href="https://i.wellcomecollection.org/assets/icons/favicon-16x16.png"
-          sizes="16x16"
-        />
-        <link
-          rel="manifest"
-          href="https://i.wellcomecollection.org/assets/icons/manifest.json"
-        />
-        <link
-          rel="mask-icon"
-          href="https://i.wellcomecollection.org/assets/icons/safari-pinned-tab.svg"
-          color="#000000"
-        />
+        <Favicons />
         <script
           src="https://i.wellcomecollection.org/assets/libs/picturefill.min.js"
           async
