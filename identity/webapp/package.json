@@ -19,7 +19,7 @@
     "storybook": "start-storybook -p 4009",
     "build-storybook": "build-storybook",
     "test": "jest",
-    "dev": "next dev -p 3001",
+    "dev": "NODE_ENV=development node server.js",
     "build:next": "next build",
     "start:next": "next start",
     "lint:next": "next lint"
