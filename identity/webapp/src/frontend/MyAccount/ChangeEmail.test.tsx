@@ -28,12 +28,12 @@ const renderComponent = (props: Partial<ChangeDetailsModalContentProps> = {}) =>
 describe('ChangeEmail', () => {
   it('renders correctly', async () => {
     renderComponent();
-    await waitFor(() =>
-      expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
-    );
-    expect(
-      screen.queryByRole('heading', { name: /change email/i })
-    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole('heading', { name: /change email/i })
+      ).toBeInTheDocument();
+    });
   });
 
   it("displays a text input with the user's existing email", async () => {
@@ -68,7 +68,7 @@ describe('ChangeEmail', () => {
     userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
     userEvent.type(screen.getByLabelText(/confirm password/i), 'Superman1938');
     userEvent.click(screen.getByRole('button', { name: /update email/i }));
-    expect(await screen.findByRole('progressbar')).toBeInTheDocument();
+    expect(await screen.findByText(/Loading/)).toBeInTheDocument();
     await waitFor(() =>
       expect(onComplete).toBeCalledWith(
         expect.objectContaining({ email: 'clarkkent@dailybugle.com' })
