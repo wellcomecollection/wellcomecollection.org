@@ -35,15 +35,6 @@ describe('AccountValidated', () => {
     ).toBeInTheDocument();
   });
 
-  it('displays a success message', () => {
-    renderPage(
-      '/validated?message=Your%20email%20was%20verified.%20You%20can%20continue%20using%20the%20application.&success=true'
-    );
-    expect(screen.getByRole('alert')).toHaveTextContent(
-      'Your email was verified. You can continue using the application.'
-    );
-  });
-
   it('displays a failure message', () => {
     renderPage(
       '/validated?message=This%20URL%20can%20be%20used%20only%20once&success=false'
