@@ -39,7 +39,9 @@ describe('AccountValidated', () => {
     renderPage(
       '/validated?message=This%20URL%20can%20be%20used%20only%20once&success=false'
     );
-    expect(screen.getByText('This URL can be used only once')).toBeTruthy();
+    expect(
+      screen.getByText('This URL can be used only once')
+    ).toBeInTheDocument();
   });
 
   it('shows a link to login on success', () => {

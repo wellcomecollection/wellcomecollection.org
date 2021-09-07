@@ -217,9 +217,8 @@ const Profile: FC = () => {
                       as="p"
                       className={`${font('hnb', 5)}`}
                       v={{ size: 's', properties: ['margin-bottom'] }}
-                    >{`${
-                      allowedRequests - requests?.totalResults
-                    } of ${allowedRequests} requests remaining`}</Space>
+                    >{`${allowedRequests -
+                      requests?.totalResults} of ${allowedRequests} requests remaining`}</Space>
                     <ProgressBar>
                       <ProgressIndicator
                         percentage={
