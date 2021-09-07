@@ -1,1 +1,9 @@
-*   @davidpmccormick @gestchild @jamesgorrie
+# These are default codeowners, later rules take precedence
+*	@davidpmccormick @gestchild @jamesgorrie
+
+# To ensure only properly audited changes are run in CI, we require reviews
+# from @wellcomecollection/buildkite-admin when updating pipeline config
+
+/CODEOWNERS	@wellcomecollection/buildkite-admin
+/.buildkite/    @wellcomecollection/buildkite-admin
+/builds/      	@wellcomecollection/buildkite-admin
