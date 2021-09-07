@@ -1,5 +1,5 @@
 # These are default codeowners, later rules take precedence
-*	@davidpmccormick @gestchild @jamesgorrie
+*	@wellcomecollection/js-ts-reviewers
 
 # To ensure only properly audited changes are run in CI, we require reviews
 # from @wellcomecollection/buildkite-admin when updating pipeline config
