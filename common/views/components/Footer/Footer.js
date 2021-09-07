@@ -1,5 +1,6 @@
 // @flow
 import { useRef, useEffect } from 'react';
+// $FlowFixMe (ts)
 import { font, grid, classNames } from '../../../utils/classnames';
 import FooterWellcomeLogo from '../FooterWellcomeLogo/FooterWellcomeLogo';
 // $FlowFixMe(tsx)

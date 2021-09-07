@@ -1,5 +1,6 @@
 // @flow
 import { Component, Fragment } from 'react';
+// $FlowFixMe (ts)
 import { classNames, font } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';

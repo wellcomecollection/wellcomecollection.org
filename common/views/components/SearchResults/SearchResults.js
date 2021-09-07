@@ -1,6 +1,7 @@
 // @flow
 import { Fragment } from 'react';
 import type { MultiContent } from '../../../model/multi-content';
+// $FlowFixMe (ts)
 import { grid } from '../../../utils/classnames';
 import { formatDate } from '../../../utils/format-date';
 import Image from '../Image/Image';

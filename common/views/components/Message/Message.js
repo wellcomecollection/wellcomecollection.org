@@ -1,4 +1,5 @@
 // @flow
+// $FlowFixMe (ts)
 import { classNames, font } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';

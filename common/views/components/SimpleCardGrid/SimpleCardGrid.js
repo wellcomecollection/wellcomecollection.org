@@ -1,4 +1,5 @@
 // @flow
+// $FlowFixMe (ts)
 import { classNames, cssGrid } from '../../../utils/classnames';
 import type { Card as CardType } from '@weco/common/model/card';
 import FeaturedCard from '../FeaturedCard/FeaturedCard';
