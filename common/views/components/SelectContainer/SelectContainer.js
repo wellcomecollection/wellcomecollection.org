@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import Space from '../styled/Space';
 // $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
+// $FlowFixMe (ts)
 import { classNames, font } from '../../../utils/classnames';
 
 const StyledSelect = styled.div.attrs(props => ({

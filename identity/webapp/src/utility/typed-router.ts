@@ -1,7 +1,11 @@
-import Router from '@koa/router';
+import Router = require('@koa/router');
 import koaBody from 'koa-body';
 import { requestBody } from '../middleware/request-body';
-import { RouteMiddleware } from '../types/application';
+import {
+  ApplicationState,
+  RouteContext,
+  RouteMiddleware,
+} from '../types/application';
 import { getAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 
 export type RouteWithParams<Props, Body = any> =
@@ -31,9 +35,10 @@ export class TypedRouter<
   static PATCH = 'patch';
   static PUT = 'put';
   static DELETE = 'delete';
-  static GETPOST = 'getpost';
 
-  private router = new Router({ prefix: getAppPathPrefix() });
+  private router = new Router<ApplicationState, RouteContext>({
+    prefix: getAppPathPrefix(),
+  });
 
   constructor(routes: MappedRoutes) {
     const routeNames = Object.keys(routes) as Routes[];
@@ -41,20 +46,7 @@ export class TypedRouter<
       const [method, path, func, schemaName] = routes[route];
 
       switch (method) {
-        case TypedRouter.GETPOST:
-          // @ts-ignore
-          this.router.get(route, path, func);
-          // @ts-ignore
-          this.router.post(
-            route,
-            path,
-            koaBody(),
-            requestBody(schemaName),
-            func
-          );
-          break;
         case TypedRouter.PUT:
-          // @ts-ignore
           this.router.put(
             route,
             path,
@@ -64,7 +56,6 @@ export class TypedRouter<
           );
           break;
         case TypedRouter.POST:
-          // @ts-ignore
           this.router.post(
             route,
             path,
@@ -74,7 +65,6 @@ export class TypedRouter<
           );
           break;
         case TypedRouter.PATCH:
-          // @ts-ignore
           this.router.patch(
             route,
             path,
@@ -84,11 +74,9 @@ export class TypedRouter<
           );
           break;
         case TypedRouter.GET:
-          // @ts-ignore
           this.router.get(route, path, func);
           break;
         case TypedRouter.DELETE:
-          // @ts-ignore
           this.router.delete(route, path, func);
           break;
       }

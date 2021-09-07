@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
+// $FlowFixMe (ts)
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 // $FlowFixMe (tsx)
@@ -44,7 +45,7 @@ const Text = styled.span.attrs({
   color: ${props => props.theme.color('white')};
 
   &:before {
-    content: "${props => (props.isPlaying ? 'pause' : 'play')}";
+    content: '${props => (props.isPlaying ? 'pause' : 'play')}';
   }
 `;
 type Props = {|

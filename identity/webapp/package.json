@@ -6,7 +6,7 @@
     "url": "git@github.com:/wellcomecollection/identity.git",
     "directory": "packages/apps/account-management"
   },
-  "author": "Stephen Fraser <stephen.fraser@digirati.com>",
+  "author": "Wellcome Collection <digital@wellcomecollection.org>",
   "license": "MIT",
   "scripts": {
     "start": "NODE_ENV=production pm2-runtime start ecosystem.config.js",
@@ -14,7 +14,7 @@
     "watch:client": "yarn build:frontend --watch",
     "build": "yarn typecheck && NODE_ENV=production yarn build:schema && NODE_ENV=production yarn build:frontend",
     "build:schema": "node generate-schemas.js",
-    "build:frontend": "webpack --config webpack.frontend.js --entry ./src/frontend/index.tsx --output-path lib/frontend/build",
+    "build:frontend": "webpack --config webpack.frontend.js",
     "typecheck": "tsc --build tsconfig.json",
     "storybook": "start-storybook -p 4009",
     "build-storybook": "build-storybook",
@@ -45,7 +45,8 @@
     "react-hook-form": "^6.15.4",
     "react-router-dom": "^5.2.0",
     "styled-components": "^5.2.1",
-    "ts-node": "^10.2.1"
+    "ts-node": "^10.2.1",
+    "tsconfig-paths": "^3.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.13",

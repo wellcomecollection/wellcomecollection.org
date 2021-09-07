@@ -14,18 +14,19 @@ import {
   queryString,
   rootUris,
   notFound,
+  getTeiIndexName,
 } from './common';
 import { Toggles } from '@weco/toggles';
 
 type GetWorkProps = {
   id: string;
-  toggles?: Toggles;
+  toggles: Toggles;
 };
 
 type GetWorksProps = {
   params: CatalogueWorksApiProps;
   pageSize?: number;
-  toggles?: Toggles;
+  toggles: Toggles;
 };
 
 const worksIncludes = [
@@ -65,13 +66,13 @@ export async function getWorks({
   pageSize = 25,
 }: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
+  const index = await getTeiIndexName(toggles, 'works');
+
   const extendedParams = {
     ...params,
     pageSize,
     include: worksIncludes,
-    _index: apiOptions.indexOverrideSuffix
-      ? `works-${apiOptions.indexOverrideSuffix}`
-      : undefined,
+    _index: index,
   };
   const filterQueryString = queryString(extendedParams);
   const url = `${rootUris[apiOptions.env]}/v2/works${filterQueryString}`;
@@ -93,11 +94,11 @@ export async function getWork({
   toggles,
 }: GetWorkProps): Promise<WorkResponse> {
   const apiOptions = globalApiOptions(toggles);
+  const index = await getTeiIndexName(toggles, 'works');
+
   const params = {
     include: workIncludes,
-    _index: apiOptions.indexOverrideSuffix
-      ? `works-${apiOptions.indexOverrideSuffix}`
-      : null,
+    _index: index,
   };
   const query = queryString(params);
   const url = `${rootUris[apiOptions.env]}/v2/works/${id}${query}`;

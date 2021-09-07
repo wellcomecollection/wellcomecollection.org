@@ -6,6 +6,7 @@ import { type Period } from '@weco/common/model/periods';
 import { type PaginatedResults } from '@weco/common/services/prismic/types';
 import NextLink from 'next/link';
 import { Component, Fragment } from 'react';
+// $FlowFixMe (ts)
 import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import {
@@ -390,13 +391,17 @@ export class WhatsOnPage extends Component<Props> {
       memoizedPrismic
     );
 
-    const [exhibitions, events, availableOnlineEvents, whatsOnPage] =
-      await Promise.all([
-        exhibitionsPromise,
-        eventsPromise,
-        availableOnlineEventsPromise,
-        whatsOnPagePromise,
-      ]);
+    const [
+      exhibitions,
+      events,
+      availableOnlineEvents,
+      whatsOnPage,
+    ] = await Promise.all([
+      exhibitionsPromise,
+      eventsPromise,
+      availableOnlineEventsPromise,
+      whatsOnPagePromise,
+    ]);
     const dateRange = getMomentsForPeriod(period);
     const featuredText = whatsOnPage && getPageFeaturedText(whatsOnPage);
 
@@ -430,8 +435,9 @@ export class WhatsOnPage extends Component<Props> {
     } = this.props;
 
     const events = this.props.events.results.map(convertJsonToDates);
-    const availableOnlineEvents =
-      this.props.availableOnlineEvents.results.map(convertJsonToDates);
+    const availableOnlineEvents = this.props.availableOnlineEvents.results.map(
+      convertJsonToDates
+    );
     const exhibitions = this.props.exhibitions.results.map(exhibition => {
       return {
         start: exhibition.start && new Date(exhibition.start),

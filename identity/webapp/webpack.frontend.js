@@ -1,4 +1,6 @@
-const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
+const webpack = require('webpack');
+const createStyledComponentsTransformer = require('typescript-plugin-styled-components')
+  .default;
 const Dotenv = require('dotenv-webpack');
 const styledComponentsTransformer = createStyledComponentsTransformer({
   displayName: true,
@@ -13,7 +15,9 @@ const browserTargets = {
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
   devtool: process.env.NODE_ENV !== 'production' ? 'inline-source-map' : false,
+  entry: './src/frontend/index.tsx',
   output: {
+    path: __dirname + '/lib/frontend/build',
     // Will be available on the router at `/assets/bundle.js`
     filename: 'bundle.js',
     pathinfo: false,
@@ -86,16 +90,17 @@ module.exports = {
     new Dotenv({
       systemvars: true,
     }),
+    // Components in @weco/common do not necessarily import React, as
+    // doing so is not required in Next.js projects. Providing it here
+    // fixes that without having to load an additional copy of React from
+    // a CDN
+    new webpack.ProvidePlugin({
+      React: 'react',
+    }),
   ],
 
   // Add problem packages to alias.
   resolve: {
     extensions: ['.js', '.ts', '.tsx'],
-  },
-
-  // We could use React from CDN.
-  externals: {
-    react: 'React',
-    'react-dom': 'ReactDOM',
   },
 };

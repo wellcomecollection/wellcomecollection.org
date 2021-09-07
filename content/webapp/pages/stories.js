@@ -5,6 +5,7 @@ import { getArticles } from '@weco/common/services/prismic/articles';
 import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { articleLd } from '@weco/common/utils/json-ld';
+// $FlowFixMe (ts)
 import { classNames, grid } from '@weco/common/utils/classnames';
 // $FlowFixMe (tsx)
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -91,7 +92,7 @@ export class StoriesPage extends Component<Props> {
     const articlesPromise = getArticles(ctx.req, { page }, memoizedPrismic);
     const seriesPromise = getArticleSeries(
       ctx.req,
-      { id: 'YIBhZBAAACgA1R1B' },
+      { id: 'YNGfPhIAACIAkSRB' },
       memoizedPrismic
     );
 

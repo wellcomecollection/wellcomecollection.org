@@ -31,7 +31,7 @@ import TogglesContext from '../TogglesContext/TogglesContext';
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
 import { getContextPath } from '@weco/common/utils/identity-path-prefix';
 
-type SiteSection =
+export type SiteSection =
   | 'collections'
   | 'what-we-do'
   | 'visit-us'

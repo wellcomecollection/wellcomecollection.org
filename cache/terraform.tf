@@ -9,11 +9,19 @@ terraform {
   }
 }
 
-# Make sure we're using AWS as provider
 provider "aws" {
   region  = "us-east-1"
   assume_role {
     role_arn = "arn:aws:iam::130871440101:role/experience-developer"
+  }
+
+  default_tags {
+    tags = {
+      TerraformConfigurationURL = "https://github.com/wellcomecollection/wellcomecollection.org/tree/main/cache"
+      Department                = "Digital Platform"
+      Division                  = "Culture and Society"
+      Use                       = "Front-end CloudFront distributions"
+    }
   }
 }
 
@@ -49,6 +57,17 @@ data "terraform_remote_state" "assets" {
     key      = "build-state/router.tfstate"
     region   = "eu-west-1"
     role_arn = "arn:aws:iam::130871440101:role/experience-read_only"
+  }
+}
+
+data "terraform_remote_state" "monitoring" {
+  backend = "s3"
+
+  config = {
+    bucket   = "wellcomecollection-platform-infra"
+    key      = "terraform/monitoring.tfstate"
+    region   = "eu-west-1"
+    role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
   }
 }
 

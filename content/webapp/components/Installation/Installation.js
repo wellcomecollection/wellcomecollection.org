@@ -18,6 +18,7 @@ import PageHeader, {
 import type { UiExhibition } from '@weco/common/model/exhibitions';
 import { getInfoItems } from '../Exhibition/Exhibition';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
+// $FlowFixMe (ts)
 import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { getExhibitExhibition } from '@weco/common/services/prismic/exhibitions';

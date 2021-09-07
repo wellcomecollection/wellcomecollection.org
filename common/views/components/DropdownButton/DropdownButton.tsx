@@ -16,7 +16,7 @@ import Space from '../styled/Space';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import ButtonInline from '../ButtonInline/ButtonInline';
 import ButtonOutlined from '../ButtonOutlined/ButtonOutlined';
-import ButtonBorderless from '../ButtonBorderless/ButtonBorderless';
+import { BorderlessButton } from '../BorderlessClickable/BorderlessClickable';
 import { AppContext } from '../AppContext/AppContext';
 
 const DropdownWrapper = styled.div.attrs({
@@ -76,6 +76,10 @@ const Popper = styled('div')<{ isVisible: boolean }>`
   max-width: calc(100vw - 20px);
   z-index: ${props => (props.isVisible ? 1 : -1)};
   opacity: ${props => (props.isVisible ? 1 : 0)};
+
+  ${props => props.theme.media.large`
+    max-width: calc(50vw - 20px);
+  `}
 `;
 
 type Props = {
@@ -115,17 +119,6 @@ const DropdownButton: FunctionComponent<Props> = ({
     }
   );
 
-  const buttonProps = {
-    isActive: isActive,
-    clickHandler: () => setIsActive(!isActive),
-    icon: 'chevron',
-    text: label,
-    type: ButtonTypes.button,
-    isOnDark: isOnDark,
-    ariaControls: id,
-    ariaExpanded: isActive,
-  };
-
   useEffect(() => {
     function hideDropdownOnDocClick(event: MouseEvent) {
       if (
@@ -157,12 +150,30 @@ const DropdownButton: FunctionComponent<Props> = ({
     }
   }, [isActive, children]);
 
+  const buttonProps = {
+    isActive: isActive,
+    clickHandler: () => setIsActive(!isActive),
+    icon: 'chevron',
+    text: label,
+    type: ButtonTypes.button,
+    isOnDark: isOnDark,
+    ariaControls: id,
+    ariaExpanded: isActive,
+  };
   return (
     <DropdownWrapper ref={dropdownWrapperRef}>
       {buttonType === 'inline' && <ButtonInline {...buttonProps} />}
       {buttonType === 'outlined' && <ButtonOutlined {...buttonProps} />}
       {buttonType === 'borderless' && (
-        <ButtonBorderless {...buttonProps} isActive={isActive} />
+        <BorderlessButton
+          aria-controls={id}
+          aria-expanded={isActive}
+          isActive={isActive}
+          clickHandler={() => setIsActive(!isActive)}
+          icon="chevron"
+          type="button"
+          text={label}
+        />
       )}
       {isEnhanced && (
         <Popper

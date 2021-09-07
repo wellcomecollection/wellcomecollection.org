@@ -1,10 +1,4 @@
-import {
-  Children,
-  Fragment,
-  createContext,
-  ReactNode,
-  ReactElement,
-} from 'react';
+import { Children, Fragment, createContext, ReactNode } from 'react';
 import Contributors from '../Contributors/Contributors';
 import Layout8 from '../Layout8/Layout8';
 import Layout12 from '../Layout12/Layout12';
@@ -27,6 +21,7 @@ import { Season } from '../../../model/seasons';
 import { ElementFromComponent } from '../../../utils/utility-types';
 import { headerSpaceSize } from '@weco/common/views/components/PageHeader/PageHeader';
 import styled from 'styled-components';
+import { MultiContent } from '../../../model/multi-content';
 /*eslint-disable */
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 
@@ -40,7 +35,14 @@ type Props = {
   children?: ReactNode;
   contributorProps?: typeof Contributors;
   RelatedContent?: ReactNode[];
-  outroProps?: ReactElement<typeof Outro> | null | undefined;
+  outroProps?: {
+    researchLinkText?: string;
+    researchItem?: MultiContent;
+    readLinkText?: string;
+    readItem?: MultiContent;
+    visitLinkText?: string;
+    visitItem?: MultiContent;
+  };
   seasons?: Season[];
 };
 

@@ -13,7 +13,7 @@ type Props = {
   item: CardType;
 };
 
-export const CardOuter = styled.a.attrs(() => ({
+export const CardOuter = styled.a.attrs<{ className?: string }>(() => ({
   className:
     'plain-link promo-link rounded-corners overflow-hidden flex-ie-block flex--column',
 }))`

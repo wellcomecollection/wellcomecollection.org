@@ -1,6 +1,7 @@
 // @flow
 import { type Node, type ComponentType } from 'react';
 import styled from 'styled-components';
+// $FlowFixMe (ts)
 import { classNames, font } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
 import AlignFont from '../styled/AlignFont';

@@ -11,6 +11,7 @@ import {
   queryString,
   catalogueApiError,
   notFound,
+  getTeiIndexName,
 } from './common';
 import { Toggles } from '@weco/toggles';
 
@@ -39,12 +40,12 @@ export async function getImages({
   pageSize = 25,
 }: GetImagesProps): Promise<CatalogueResultsList<Image> | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
+  const index = await getTeiIndexName(toggles, 'images');
+
   const extendedParams = {
     ...params,
     pageSize,
-    _index: apiOptions.indexOverrideSuffix
-      ? `images-${apiOptions.indexOverrideSuffix}`
-      : null,
+    _index: index,
   };
   const filterQueryString = queryString(extendedParams);
   const url = `${rootUris[apiOptions.env]}/v2/images${filterQueryString}`;
@@ -64,11 +65,11 @@ export async function getImage({
   include = [],
 }: GetImageProps): Promise<Image | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
+  const index = await getTeiIndexName(toggles, 'images');
+
   const params = {
     include: include,
-    _index: apiOptions.indexOverrideSuffix
-      ? `images-${apiOptions.indexOverrideSuffix}`
-      : null,
+    _index: index,
   };
   const query = queryString(params);
   const url = `${rootUris[apiOptions.env]}/v2/images/${id}${query}`;

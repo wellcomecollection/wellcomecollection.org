@@ -20,11 +20,6 @@ services:
     build:
       context: .
       dockerfile: identity/Dockerfile
-  identity-admin:
-    image: uk.ac.wellcome/identity-admin_webapp:${CONTAINER_TAG:-test}
-    build:
-      context: .
-      dockerfile: identity-admin/Dockerfile
   cardigan:
     build:
       context: .

@@ -10,6 +10,7 @@ import { type Label } from '../../../../common/model/labels';
 import { type Link } from '../../../../common/model/link';
 // $FlowFixMe(tsx)
 import PartNumberIndicator from '../../components/PartNumberIndicator/PartNumberIndicator';
+// $FlowFixMe (ts)
 import { grid, classNames, font } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';

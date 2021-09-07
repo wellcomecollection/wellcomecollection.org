@@ -164,16 +164,23 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
             <span className={`inline-block`}>{location}</span>{' '}
             <span className={`inline-block`}>{shelfmark}</span>
           </Box>
-          {!isOpenShelves && (
-            <>
-              <Box>
-                {accessStatus && (
+          <Box>
+            {(isOpenShelves || accessStatus) && (
+              <>
+                <Box>
                   <>
                     <DetailHeading>Access</DetailHeading>
-                    <span>{accessStatus}</span>
+                    <span>
+                      {isOpenShelves && 'Open shelves'}
+                      {!isOpenShelves && accessStatus}
+                    </span>
                   </>
-                )}
-              </Box>
+                </Box>
+              </>
+            )}
+          </Box>
+          {!isOpenShelves && (
+            <>
               <Box isCentered>
                 {hideButton ? (
                   // TODO: fairly sure displaying this `accessMethod` here isn't what we want
@@ -186,18 +193,14 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
                 ) : (
                   <>
                     {enableRequesting ? (
-                      <>
-                        {user && !isLoading && (
-                          <ConfirmItemRequest
-                            isActive={isActive}
-                            setIsActive={setIsActive}
-                            item={item}
-                            work={work}
-                            user={user}
-                            initialHoldNumber={userHolds?.results.length ?? 0}
-                          />
-                        )}
-                      </>
+                      <ConfirmItemRequest
+                        isActive={isActive}
+                        setIsActive={setIsActive}
+                        item={item}
+                        work={work}
+                        user={isLoading ? undefined : user}
+                        initialHoldNumber={userHolds?.results.length ?? 0}
+                      />
                     ) : (
                       <>
                         {requestItemUrl && (

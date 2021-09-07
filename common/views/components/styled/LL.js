@@ -1,15 +1,16 @@
 import styled from 'styled-components';
 
+// We could use `zoom` for props.small, but it isn't supported in Firefox
+// see: https://bugzilla.mozilla.org/show_bug.cgi?id=390936
 const LL = styled.div`
   position: absolute;
   opacity: 0.2;
   left: 50%;
   top: 50%;
   transform: translateX(-50%) translateY(-50%);
-  width: 50px;
-  height: 80px;
+  width: ${props => (props.small ? '25px' : '50px')};
+  height: ${props => (props.small ? '40px' : '80px')};
   animation: animate-ll;
-  ${props => props.small && 'zoom: 0.5;'}
 
   &:before,
   &:after {
@@ -17,7 +18,7 @@ const LL = styled.div`
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 20px;
+    width: ${props => (props.small ? '10px' : '20px')};
     background: ${props =>
       props.theme.color(props.lighten ? 'silver' : 'black')};
   }
