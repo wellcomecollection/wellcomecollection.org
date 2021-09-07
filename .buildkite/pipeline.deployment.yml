@@ -16,6 +16,8 @@ steps:
               "--environment-id", "$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT",
               "--description", $BUILDKITE_BUILD_URL,
               "--confirmation-wait-for", 3540 ] # Session times out at 3600s / 1 hour
+    agents:
+      queue: nano
 
   - wait
 
