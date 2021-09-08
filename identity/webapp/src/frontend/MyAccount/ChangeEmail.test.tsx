@@ -68,7 +68,6 @@ describe('ChangeEmail', () => {
     userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
     userEvent.type(screen.getByLabelText(/confirm password/i), 'Superman1938');
     userEvent.click(screen.getByRole('button', { name: /update email/i }));
-    expect(await screen.findByText(/Loading/)).toBeInTheDocument();
     await waitFor(() =>
       expect(onComplete).toBeCalledWith(
         expect.objectContaining({ email: 'clarkkent@dailybugle.com' })

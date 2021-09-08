@@ -43,7 +43,6 @@ describe('DeleteAccount', () => {
     userEvent.click(
       screen.getByRole('button', { name: /yes, delete my account/i })
     );
-    expect(await screen.findByText(/Loading/)).toBeInTheDocument();
     await waitFor(() => expect(onComplete).toBeCalled());
   });
 
