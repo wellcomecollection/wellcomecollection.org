@@ -36,7 +36,8 @@ export class TypedRouter<
   static PUT = 'put';
   static DELETE = 'delete';
 
-  private router = new Router<ApplicationState, RouteContext>({
+  // This is exposed for now before TypedRouter gets removed
+  router = new Router<ApplicationState, RouteContext>({
     prefix: getAppPathPrefix(),
   });
 

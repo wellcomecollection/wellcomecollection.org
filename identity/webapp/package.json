@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "start": "NODE_ENV=production pm2-runtime start ecosystem.config.js",
-    "start:dev": "NODE_ENV=development pm2-dev start ecosystem.config.js",
+    "start:dev": "NODE_ENV=development ts-node ./src/index.ts",
     "watch:client": "yarn build:frontend --watch",
     "build": "yarn typecheck && NODE_ENV=production yarn build:schema && NODE_ENV=production yarn build:frontend",
     "build:schema": "node generate-schemas.js",

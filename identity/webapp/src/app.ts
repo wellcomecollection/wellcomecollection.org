@@ -3,6 +3,7 @@ import json from 'koa-json';
 import logger from 'koa-logger';
 import Ajv from 'ajv';
 import * as path from 'path';
+import next from 'next';
 import { readdirSync, readFileSync } from 'fs';
 import { errorHandler } from './middleware/error-handler';
 import { TypedRouter } from './utility/typed-router';
@@ -12,6 +13,10 @@ import { config } from './config';
 import { configureAuth0 } from './utility/configure-auth0';
 
 export async function createApp(router: TypedRouter<any, any>): Promise<Koa> {
+  const nextApp = next({ dev: process.env.NODE_ENV !== 'production' });
+  const nextHandler = nextApp.getRequestHandler();
+  await nextApp.prepare();
+
   const app = new Koa();
 
   app.context.routes = router;
@@ -49,7 +54,13 @@ export async function createApp(router: TypedRouter<any, any>): Promise<Koa> {
   app.use(json({ pretty: process.env.NODE_ENV !== 'production' }));
   app.use(logger());
   app.use(errorHandler);
-  app.use(router.routes()).use(router.allowedMethods());
+
+  const koaRouter = router.router;
+  koaRouter.all('(.*)', async ctx => {
+    await nextHandler(ctx.req, ctx.res);
+    ctx.respond = false;
+  });
+  app.use(koaRouter.routes()).use(koaRouter.allowedMethods());
 
   process.on('SIGINT', async () => {
     // Close any connections and clean up.

@@ -1,7 +1,5 @@
 import { TypedRouter } from './utility/typed-router';
 import { ping, pingPost } from './routes/ping';
-import { frontendBundles } from './routes/assets/frontend-bundle';
-import { indexPage } from './routes/index';
 import { localAuthRoutes } from './routes/local/local-auth';
 import { config } from './config';
 import { authCallback, loginAction, logoutAction } from './routes/auth';
@@ -32,14 +30,6 @@ export const router = new TypedRouter({
 
   // Example: Post body matching JSON Schema (will be validated)
   'ping-post': [TypedRouter.POST, '/ping', pingPost, 'example'],
-
-  // Frontend bundles.
-  'assets-bundles': [TypedRouter.GET, '/assets/bundle.js', frontendBundles],
-  'assets-sub-bundles': [
-    TypedRouter.GET,
-    '/assets/:bundleName',
-    frontendBundles,
-  ],
 
   // Auth0 + Passport routes.
   login: [TypedRouter.GET, '/login', loginAction],
@@ -103,7 +93,4 @@ export const router = new TypedRouter({
 
   // Local route overrides.
   ...loginRoutes,
-
-  // Frontend fallback route.
-  frontend: [TypedRouter.GET, '(.*)', indexPage],
 });
