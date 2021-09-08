@@ -60,7 +60,11 @@ describe('ChangePassword', () => {
       'Superman1938'
     );
     userEvent.click(screen.getByRole('button', { name: /update password/i }));
-    expect(await screen.findByText(/Loading/)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/Loading/, undefined, {
+        timeout: 5000,
+      })
+    ).toBeInTheDocument();
     await waitFor(() => expect(onComplete).toBeCalled());
   });
 
