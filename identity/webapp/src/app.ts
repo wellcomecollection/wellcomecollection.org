@@ -13,7 +13,9 @@ import { config } from './config';
 import { configureAuth0 } from './utility/configure-auth0';
 
 export async function createApp(router: TypedRouter<any, any>): Promise<Koa> {
-  const nextApp = next({ dev: process.env.NODE_ENV !== 'production' });
+  const nextApp = next({
+    dev: process.env.NODE_ENV !== 'production',
+  });
   const nextHandler = nextApp.getRequestHandler();
   await nextApp.prepare();
 

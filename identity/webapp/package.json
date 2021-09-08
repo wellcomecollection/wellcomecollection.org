@@ -10,18 +10,15 @@
   "license": "MIT",
   "scripts": {
     "start": "NODE_ENV=production pm2-runtime start ecosystem.config.js",
-    "start:dev": "NODE_ENV=development ts-node ./src/index.ts",
+    "start:dev": "NODE_ENV=development pm2-dev start ecosystem.config.js",
     "watch:client": "yarn build:frontend --watch",
-    "build": "yarn typecheck && NODE_ENV=production yarn build:schema && NODE_ENV=production yarn build:frontend",
+    "build": "NODE_ENV=production yarn build:schema && yarn build:next",
     "build:schema": "node generate-schemas.js",
-    "build:frontend": "webpack --config webpack.frontend.js",
+    "build:next": "next build",
     "typecheck": "tsc --build tsconfig.json",
     "storybook": "start-storybook -p 4009",
     "build-storybook": "build-storybook",
     "test": "jest",
-    "dev": "next dev -p 3001",
-    "build:next": "next build",
-    "start:next": "next start",
     "lint:next": "next lint"
   },
   "dependencies": {
