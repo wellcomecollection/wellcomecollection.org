@@ -20,7 +20,6 @@ terraform.plan
 
 # Privates
 .env
-.env.local
 
 # Next export
 out/
