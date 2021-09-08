@@ -22,9 +22,9 @@ const renderComponent = () =>
   );
 
 describe('MyAccount', () => {
-  it('shows an indicator while loading user data', async () => {
+  it('shows an indicator while loading user data', () => {
     renderComponent();
-    const loading = await screen.getByText(/Loading/);
+    const loading = screen.getByText(/Loading/);
     expect(loading).toBeInTheDocument();
   });
 
