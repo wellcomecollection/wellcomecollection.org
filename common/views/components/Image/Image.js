@@ -1,5 +1,6 @@
 // @flow
 import type { Tasl } from '../../../model/tasl';
+// $FlowFixMe (ts)
 import { classNames } from '../../../utils/classnames';
 import { convertImageUri } from '../../../utils/convert-image-uri';
 import { imageSizes, supportedSizes } from '../../../utils/image-sizes';

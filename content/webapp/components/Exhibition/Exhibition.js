@@ -23,6 +23,7 @@ import Body from '@weco/common/views/components/Body/Body';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 // $FlowFixMe (tsx)
 import BookPromo from '@weco/common/views/components/BookPromo/BookPromo';
+// $FlowFixMe (ts)
 import { font, grid } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { UiExhibition } from '@weco/common/model/exhibitions';
@@ -137,7 +138,8 @@ function getAccessibilityItems() {
       description: [
         {
           type: 'paragraph',
-          text: 'Large-print guides, transcripts and magnifiers are available in the gallery',
+          text:
+            'Large-print guides, transcripts and magnifiers are available in the gallery',
           spans: [],
         },
       ],

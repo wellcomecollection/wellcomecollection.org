@@ -1,4 +1,5 @@
 // @flow
+// $FlowFixMe (ts)
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';

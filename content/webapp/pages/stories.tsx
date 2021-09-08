@@ -87,7 +87,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const articlesPromise = getArticles(context.req, { page }, memoizedPrismic);
     const seriesPromise = getArticleSeries(
       context.req,
-      { id: 'YIBhZBAAACgA1R1B' },
+      { id: 'YNGfPhIAACIAkSRB' },
       memoizedPrismic
     );
 

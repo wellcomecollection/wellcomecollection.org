@@ -11,6 +11,7 @@
           - catalogue
           - content
           - edge_lambdas
+          - identity
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
 - wait
@@ -43,6 +44,16 @@
         login: true
     - docker-compose#v3.5.0:
         run: content
+        command: ["yarn", "test"]
+
+- label: "test identity"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        run: identity
         command: ["yarn", "test"]
 
 - label: "test edge_lambdas"
@@ -110,6 +121,18 @@
           - AWS_ACCESS_KEY_ID
           - AWS_SECRET_ACCESS_KEY
           - AWS_SESSION_TOKEN
+
+- label: "deploy identity (ecr image)"
+  branches: "main"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        push:
+          - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:ref.${BUILDKITE_COMMIT}
+          - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:latest
 
 - label: "deploy dash"
   branches: "main"

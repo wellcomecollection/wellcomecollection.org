@@ -22,9 +22,9 @@ const renderComponent = () =>
   );
 
 describe('MyAccount', () => {
-  it('shows an indicator while loading user data', () => {
+  it('shows an indicator while loading user data', async () => {
     renderComponent();
-    const loading = screen.getByLabelText(/loading/i);
+    const loading = await screen.getByText(/Loading/);
     expect(loading).toBeInTheDocument();
   });
 
@@ -32,7 +32,7 @@ describe('MyAccount', () => {
     renderComponent();
     const heading = await screen.findByRole('heading', { level: 1 });
     expect(heading).toBeInTheDocument();
-    expect(heading).toHaveTextContent(/my account/i);
+    expect(heading).toHaveTextContent(/Library account/i);
   });
 
   it('informs the user when their email has not been validated', async () => {

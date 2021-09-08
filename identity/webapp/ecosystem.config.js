@@ -24,13 +24,9 @@ module.exports = {
             args: 'src/index.ts',
             instances: 1,
             autorestart: true,
-            watch: ['lib'],
+            watch: ['src'],
             watch_options: {
-              ignored: 'frontend/admin/build/**',
-              awaitWriteFinish: {
-                stabilityThreshold: 2000,
-                pollInterval: 100,
-              },
+              ignored: 'src/frontend/**',
             },
             node_args: '--expose-gc --inspect=0.0.0.0:9229',
             max_memory_restart: '2G',

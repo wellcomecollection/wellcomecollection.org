@@ -48,27 +48,11 @@ import IIIFClickthrough from '@weco/common/views/components/IIIFClickthrough/III
 import OnlineResources from './OnlineResources';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
-import styled from 'styled-components';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import AlignFont from '@weco/common/views/components/styled/AlignFont';
-import { useUserInfo } from '@weco/common/views/components/UserInfoContext';
+import SignInBar from '../SignInBar/SignInBar';
 
 type Props = {
   work: Work;
 };
-
-const SignInNotice = styled(Space).attrs({
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-})`
-  background: ${props => props.theme.color('turquoise', 'light')};
-  display: flex;
-  align-items: flex-start;
-
-  .icon {
-    transform: translateY(0.1em);
-  }
-`;
 
 // At the moment we aren't set up to cope with access conditions,
 // 'permission-required', so we pass them off to the UV on the library site
@@ -97,17 +81,18 @@ export const unrequestableMethodIds = ['not-requestable', 'open-shelves'];
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const { showHoldingsOnWork, enableRequesting } = useContext(TogglesContext);
-  const { user, isLoading } = useUserInfo();
   const isArchive = useContext(IsArchiveContext);
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
 
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
     'iiif-presentation'
   );
+
   const digitalLocation: DigitalLocation | undefined =
     iiifPresentationLocation || iiifImageLocation;
 
@@ -115,14 +100,17 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     width: number;
     height: number;
   }>();
+
   const fetchImageJson = async () => {
     try {
       const imageJson =
         iiifImageLocation &&
         (await fetch(iiifImageLocation.url).then(resp => resp.json()));
+
       setImageJson(imageJson);
     } catch (e) {}
   };
+
   useEffect(() => {
     fetchImageJson();
   }, []);
@@ -139,15 +127,18 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     iiifPresentationDownloadOptions = [],
     iiifDownloadEnabled,
   } = useIIIFManifestData(work);
+
   const authService =
     (video && getMediaClickthroughService(video)) ||
     (audio && getMediaClickthroughService(audio));
+
   const tokenService = authService && getTokenService(authService);
 
   // iiif-presentation locations don't have credit info in the work API currently, so we try and get it from the manifest
   const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
 
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
+
   const iiifImageDownloadOptions = iiifImageLocationUrl
     ? getDownloadOptionsFromImageUrl({
         url: iiifImageLocationUrl,
@@ -187,10 +178,12 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const encoreLink = sierraWorkId && getEncoreLink(sierraWorkId);
 
   const physicalItems = getItemsWithPhysicalLocation(work);
-  const showLibraryLogin = physicalItems.some(item => {
+
+  const hasRequestableItems = physicalItems.some(item => {
     const physicalLocation = getFirstPhysicalLocation(item); // ok because there is only one physical location in reality
     const methodId = physicalLocation?.accessConditions?.[0]?.method?.id || '';
     const statusId = physicalLocation?.accessConditions?.[0]?.status?.id || '';
+
     return !(
       unrequestableStatusIds.includes(statusId) ||
       unrequestableMethodIds.includes(methodId)
@@ -249,29 +242,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const WhereToFindIt = () => {
     return (
       <WorkDetailsSection headingText="Where to find it">
-        {enableRequesting && !isLoading && !user && showLibraryLogin && (
+        {enableRequesting && hasRequestableItems && (
           <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-            <SignInNotice>
-              <Space h={{ size: 's', properties: ['margin-right'] }}>
-                <Icon name="memberCard" />
-              </Space>
-              <AlignFont>
-                <span className={font('hnb', 5)}>Library members:</span>{' '}
-                <a
-                  href="/account"
-                  className={font('hnr', 5)}
-                  onClick={event => {
-                    // This is a very hacked together piece of work that allows us to read this cookie
-                    // and respond to it in the idnetity app
-                    event.preventDefault();
-                    document.cookie = `returnTo=${window.location.pathname}; path=/`;
-                    window.location.href = event.currentTarget.href;
-                  }}
-                >
-                  sign in to your library account to request items
-                </a>
-              </AlignFont>
-            </SignInNotice>
+            <SignInBar />
           </Space>
         )}
         {locationOfWork && (

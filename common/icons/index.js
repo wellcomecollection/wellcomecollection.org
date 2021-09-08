@@ -18,7 +18,6 @@ import ccBy from './components/CcBy';
 import ccNc from './components/CcNc';
 import ccNd from './components/CcNd';
 import ccPdm from './components/CcPdm';
-import ccSa from './components/CcSa';
 import ccZero from './components/CcZero';
 import chat from './components/Chat';
 import check from './components/Check';
@@ -34,7 +33,6 @@ import comments from './components/Comments';
 import cookies from './components/Cookies';
 import copyEmail from './components/CopyEmail';
 import cross from './components/Cross';
-import detailView from './components/DetailView';
 import digitalImage from './components/DigitalImage';
 import document from './components/Document';
 import download from './components/Download';
@@ -79,7 +77,6 @@ import refresh from './components/Refresh';
 import request from './components/Request';
 import rotate360 from './components/Rotate360';
 import rotateLeft from './components/RotateLeft';
-import rotatePageRight from './components/RotatePageRight';
 import rotateRight from './components/RotateRight';
 import saveTo from './components/SaveTo';
 import scroll from './components/Scroll';
@@ -91,7 +88,6 @@ import snowflake from './components/Snowflake';
 import sort from './components/Sort';
 import soundcloud from './components/Soundcloud';
 import speechToText from './components/SpeechToText';
-import statusIndicator from './components/StatusIndicator';
 import threeD from './components/ThreeD';
 import ticket from './components/Ticket';
 import ticketAvailable from './components/TicketAvailable';
@@ -133,7 +129,6 @@ export {
   ccNc,
   ccNd,
   ccPdm,
-  ccSa,
   ccZero,
   chat,
   check,
@@ -149,7 +144,6 @@ export {
   cookies,
   copyEmail,
   cross,
-  detailView,
   digitalImage,
   document,
   download,
@@ -194,7 +188,6 @@ export {
   request,
   rotate360,
   rotateLeft,
-  rotatePageRight,
   rotateRight,
   saveTo,
   scroll,
@@ -206,7 +199,6 @@ export {
   sort,
   soundcloud,
   speechToText,
-  statusIndicator,
   threeD,
   ticket,
   ticketAvailable,

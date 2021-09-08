@@ -55,7 +55,7 @@ const DetailList: FC<DetailListProps> = ({ listItems }) => {
 const Detail: FC<DetailProps> = ({ label, value }) => (
   <>
     <dt className={font('hnb', 5)}>{label}</dt>
-    <StyledDd className={`${font('hnl', 5)}`}>{value}</StyledDd>
+    <StyledDd className={`${font('hnr', 5)}`}>{value}</StyledDd>
   </>
 );
 
@@ -182,7 +182,7 @@ const Profile: FC = () => {
                 >
                   <ChangeDetailsModal
                     id="change-email"
-                    buttonText="Change Email"
+                    buttonText="Change email"
                     onComplete={(newUserInfo?: UpdateUserSchema) => {
                       if (newUserInfo) update(newUserInfo);
                       setIsEmailUpdated(true);
@@ -203,18 +203,22 @@ const Profile: FC = () => {
               </Wrapper>
             </Container>
 
-            {requests && (
-              <>
-                <SectionHeading>Item requests</SectionHeading>
-                <Container>
-                  <Wrapper>
+            <SectionHeading>Item requests</SectionHeading>
+            <Container>
+              <Wrapper>
+                {requests && requests.totalResults === 0 && (
+                  <p className={`${font('hnr', 4)}`}>
+                    Any item requests you make will appear here.
+                  </p>
+                )}
+                {requests && requests.totalResults !== 0 && (
+                  <>
                     <Space
                       as="p"
                       className={`${font('hnb', 5)}`}
                       v={{ size: 's', properties: ['margin-bottom'] }}
-                    >{`${
-                      allowedRequests - requests?.totalResults
-                    } of ${allowedRequests} requests remaining`}</Space>
+                    >{`${allowedRequests -
+                      requests?.totalResults} of ${allowedRequests} requests remaining`}</Space>
                     <ProgressBar>
                       <ProgressIndicator
                         percentage={
@@ -236,10 +240,22 @@ const Profile: FC = () => {
                         ]),
                       ]}
                     />
-                  </Wrapper>
-                </Container>
-              </>
-            )}
+                    <Space
+                      className={`${font('hnb', 5)}`}
+                      v={{
+                        size: 'l',
+                        properties: ['margin-top'],
+                      }}
+                    >
+                      If you wish to cancel a hold, please{' '}
+                      <a href="mailto:library@wellcomecollection.org">
+                        contact the library team.
+                      </a>
+                    </Space>
+                  </>
+                )}
+              </Wrapper>
+            </Container>
 
             <SectionHeading>Delete library account</SectionHeading>
             <Container>

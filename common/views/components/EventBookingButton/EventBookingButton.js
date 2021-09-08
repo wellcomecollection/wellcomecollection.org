@@ -5,6 +5,7 @@ import { Fragment } from 'react';
 // $FlowFixMe (tsx)
 import ButtonSolidLink from '../ButtonSolidLink/ButtonSolidLink';
 import Message from '../Message/Message';
+// $FlowFixMe (ts)
 import { font } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';

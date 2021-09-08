@@ -482,7 +482,7 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
                           'is-hidden-s is-hidden-m is-hidden-l': true,
                         })}
                       >
-                        {displayName || 'Library sign in'}
+                        {displayName || 'Library account'}
                       </Space>
                     </div>
                   }

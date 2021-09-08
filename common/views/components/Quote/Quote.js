@@ -1,5 +1,6 @@
 // @flow
 import type { HTMLString } from '../../../services/prismic/types';
+// $FlowFixMe (ts)
 import { font, classNames } from '../../../utils/classnames';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 // $FlowFixMe (tsx)
