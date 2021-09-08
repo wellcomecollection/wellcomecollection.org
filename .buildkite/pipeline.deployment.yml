@@ -24,6 +24,8 @@ steps:
   - label: "Trigger e2e tests"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco"
     command: ".buildkite/scripts/trigger-e2e.sh"
+    agents:
+      queue: nano
 
   - block: ":rocket: Create prod deployment"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "stage"

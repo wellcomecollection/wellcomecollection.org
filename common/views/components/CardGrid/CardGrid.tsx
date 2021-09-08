@@ -2,12 +2,9 @@ import { classNames, cssGrid } from '../../../utils/classnames';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import EventPromo from '../EventPromo/EventPromo';
 import DailyTourPromo from '../DailyTourPromo/DailyTourPromo';
-
 import BookPromo from '../BookPromo/BookPromo';
-
 import Layout12 from '../Layout12/Layout12';
 import StoryPromo from '../StoryPromo/StoryPromo';
-
 import MoreLink from '../MoreLink/MoreLink';
 import { Link } from '../../../model/link';
 import { Exhibition, UiExhibition } from '../../../model/exhibitions';
@@ -16,13 +13,13 @@ import { Book } from '../../../model/books';
 import { Article } from '../../../model/articles';
 import { Page } from '../../../model/pages';
 import { ArticleSeries } from '../../../model/article-series';
-
 import Space from '../styled/Space';
 import CssGridContainer from '../styled/CssGridContainer';
 import Moment from 'moment';
 import Card from '../Card/Card';
 import { convertItemToCardProps } from '@weco/common/model/card';
 import { FunctionComponent } from 'react';
+import { ArticleScheduleItem } from '../../../model/article-schedule-items';
 
 // TODO: This should be MultiContent
 type ContentTypes =
@@ -32,7 +29,8 @@ type ContentTypes =
   | Book
   | Article
   | Page
-  | ArticleSeries;
+  | ArticleSeries
+  | ArticleScheduleItem;
 
 type Props = {
   items: readonly ContentTypes[];
@@ -66,7 +64,8 @@ const CardGrid: FunctionComponent<Props> = ({
                   l: gridColumns,
                   xl: gridColumns,
                 })]: true,
-                'card-theme card-theme--transparent': itemsHaveTransparentBackground,
+                'card-theme card-theme--transparent':
+                  itemsHaveTransparentBackground,
               })}
             >
               {item.id === 'tours' && <DailyTourPromo />}
