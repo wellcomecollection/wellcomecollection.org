@@ -1,10 +1,7 @@
 const path = require('path');
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const withTM = require('next-transpile-modules')([
-  '@weco/common',
-  '@weco/identity',
-]);
+const withTM = require('next-transpile-modules')(['@weco/common']);
 const withMDX = require('@next/mdx')({
   extension: /\.(md|mdx)$/,
 });
