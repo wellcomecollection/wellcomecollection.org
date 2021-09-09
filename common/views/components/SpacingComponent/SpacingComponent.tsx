@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import styled from 'styled-components';
 
 const SpacingComponentEl = styled.div.attrs({
@@ -18,11 +18,7 @@ const SpacingComponentEl = styled.div.attrs({
   }
 `;
 
-type Props = {
-  children?: ReactNode;
-};
-
-const SpacingComponent: FC<Props> = ({ children }) => {
+const SpacingComponent: FC = ({ children }) => {
   return <SpacingComponentEl>{children}</SpacingComponentEl>;
 };
 
