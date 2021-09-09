@@ -20,7 +20,7 @@ type Test = {
 
 // This is mutable for testing
 export let tests: Test[] = [];
-export const setTests = function(newTests: Test[]): void {
+export const setTests = function (newTests: Test[]): void {
   tests = newTests;
 };
 
@@ -80,9 +80,10 @@ export const request = (event: CloudFrontRequestEvent): void => {
           return { key: `toggle_${test.id}`, value: val };
         }
       } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : error;
         console.log(
           `Toggles request: a/b test when() broke with error:`,
-          error.message
+          errorMessage
         );
 
         if (process.env.NODE_ENV === 'test') {
