@@ -136,6 +136,8 @@ export const themeValues = {
     medium: 600,
     large: 960,
     xlarge: 1338,
+    headerMedium: 825,
+    headerLarge: 1040,
   },
   tweakpoints: {
     // Occasionally we need to respond to specific breakpoints beyond the defaults

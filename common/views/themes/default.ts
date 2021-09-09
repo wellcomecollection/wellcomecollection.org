@@ -106,13 +106,13 @@ const sizesClasses = Object.keys(themeValues.sizes).reduce((acc, size) => {
   };
 }, {});
 
-// I know this is the case, but typescript and `.keys` and `.reduce` doesn't play all that nice
-// TODO: Make sure the implementation meets these types
+// We know these types to be true but typescript and `.keys` and `.reduce` doesn't play all that nice
+// TODO: Remove type coersion
 // see: https://fettblog.eu/typescript-better-object-keys/
-const cls = ({
+const cls = {
   ...classes,
   ...sizesClasses,
-} as any) as Classes & SizedClasses;
+} as any as Classes & SizedClasses;
 
 export type GlobalStyleProps = {
   toggles?: { [key: string]: boolean };

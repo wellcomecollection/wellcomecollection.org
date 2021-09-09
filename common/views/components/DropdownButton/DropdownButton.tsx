@@ -88,6 +88,7 @@ type Props = {
   buttonType?: 'outlined' | 'inline' | 'borderless';
   isOnDark?: boolean;
   id: string;
+  iconLeft: string;
 };
 
 const DropdownButton: FunctionComponent<Props> = ({
@@ -96,6 +97,7 @@ const DropdownButton: FunctionComponent<Props> = ({
   buttonType = 'outlined',
   isOnDark,
   id,
+  iconLeft,
 }: Props): ReactElement<Props> => {
   const [isActive, setIsActive] = useState(false);
   const [focusables, setFocusables] = useState<HTMLElement[]>([]);
@@ -171,6 +173,7 @@ const DropdownButton: FunctionComponent<Props> = ({
           isActive={isActive}
           clickHandler={() => setIsActive(!isActive)}
           icon="chevron"
+          iconLeft={iconLeft}
           type="button"
           text={label}
         />

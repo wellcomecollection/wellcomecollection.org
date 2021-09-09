@@ -66,9 +66,9 @@ type BaseButtonInnerProps = {
 };
 
 const BaseButtonInnerSpan = styled.span<BaseButtonInnerProps>``;
-export const BaseButtonInner = styled(BaseButtonInnerSpan).attrs<
-  BaseButtonInnerProps
->(props => ({
+export const BaseButtonInner = styled(
+  BaseButtonInnerSpan
+).attrs<BaseButtonInnerProps>(props => ({
   className: classNames({
     [font(props.isInline ? 'hnr' : 'hnb', 5)]: true,
     'flex flex--v-center': true,
@@ -80,9 +80,9 @@ export const BaseButtonInner = styled(BaseButtonInnerSpan).attrs<
 type ButtonIconWrapperAttrsProps = {
   iconAfter?: boolean;
 };
-export const ButtonIconWrapper = styled(Space).attrs<
-  ButtonIconWrapperAttrsProps
->(props => ({
+export const ButtonIconWrapper = styled(
+  Space
+).attrs<ButtonIconWrapperAttrsProps>(props => ({
   as: 'span',
   h: {
     size: 'xs',

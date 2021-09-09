@@ -3,7 +3,7 @@ import { withAppPathPrefix } from '../../../utils/identity-path-prefix';
 import { UserInfo } from '../../../model/user';
 import TogglesContext from '../TogglesContext/TogglesContext';
 
-type State = 'initial' | 'loading' | 'signedin' | 'signedout' | 'failed';
+export type State = 'initial' | 'loading' | 'signedin' | 'signedout' | 'failed';
 type Props = {
   user: UserInfo | undefined;
   state: State;

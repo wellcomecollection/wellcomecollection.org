@@ -1,4 +1,4 @@
-import { ComponentProps, FC, SyntheticEvent } from 'react';
+import { ComponentProps, FC, ReactNode, SyntheticEvent } from 'react';
 import styled from 'styled-components';
 import {
   BaseButton,
@@ -34,8 +34,8 @@ export const BorderlessClickableStyle = styled(BaseButton)<StyleProps>`
 
 type Props = {
   icon?: string;
-  iconPosition?: 'left' | 'right';
-  text: string;
+  iconLeft?: string;
+  text: ReactNode;
   isTextHidden?: boolean;
   isActive?: boolean;
 };
@@ -44,7 +44,7 @@ type BorderlessClickableProps = Props & { as: ClickableElement };
 export const BorderlessClickable: FC<BorderlessClickableProps> = ({
   as,
   icon,
-  iconPosition = 'right',
+  iconLeft,
   text,
   isTextHidden,
   isActive,
@@ -54,9 +54,9 @@ export const BorderlessClickable: FC<BorderlessClickableProps> = ({
     <BorderlessClickableStyle as={as} isActive={isActive} {...elementProps}>
       <BaseButtonInner isInline={true}>
         <>
-          {icon && iconPosition === 'left' && (
-            <ButtonIconWrapper iconAfter={true}>
-              <Icon name={icon} />
+          {iconLeft && (
+            <ButtonIconWrapper iconAfter={false}>
+              <Icon name={iconLeft} />
             </ButtonIconWrapper>
           )}
           <AlignFont
@@ -66,7 +66,7 @@ export const BorderlessClickable: FC<BorderlessClickableProps> = ({
           >
             {text}
           </AlignFont>
-          {icon && iconPosition === 'right' && (
+          {icon && (
             <ButtonIconWrapper iconAfter={true}>
               <Icon name={icon} />
             </ButtonIconWrapper>
@@ -80,7 +80,7 @@ export const BorderlessClickable: FC<BorderlessClickableProps> = ({
 type BorderlessLinkProps = Props & ComponentProps<'a'>;
 const BorderlessLink: FC<BorderlessLinkProps> = ({
   icon,
-  iconPosition,
+  iconLeft,
   text,
   isTextHidden,
   isActive,
@@ -90,7 +90,7 @@ const BorderlessLink: FC<BorderlessLinkProps> = ({
     <BorderlessClickable
       as="a"
       icon={icon}
-      iconPosition={iconPosition}
+      iconLeft={iconLeft}
       text={text}
       isTextHidden={isTextHidden}
       isActive={isActive}
@@ -106,7 +106,7 @@ type BorderlessButtonProps = Props &
   };
 const BorderlessButton: FC<BorderlessButtonProps> = ({
   icon,
-  iconPosition,
+  iconLeft,
   text,
   isTextHidden,
   clickHandler,
@@ -123,7 +123,7 @@ const BorderlessButton: FC<BorderlessButtonProps> = ({
     <BorderlessClickable
       as="button"
       icon={icon}
-      iconPosition={iconPosition}
+      iconLeft={iconLeft}
       text={text}
       isTextHidden={isTextHidden}
       isActive={isActive}
