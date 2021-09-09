@@ -29,7 +29,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import Table from '@weco/common/views/components/Table/Table';
 import { font } from '@weco/common/utils/classnames';
 import { RequestsList } from '@weco/common/model/requesting';
-import { allowedRequests } from '@weco/catalogue/components/ConfirmItemRequest/ConfirmItemRequest';
+import { allowedRequests } from '@weco/common/values/requests';
 import { withAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 
 type DetailProps = {
