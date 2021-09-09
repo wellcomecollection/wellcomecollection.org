@@ -1,10 +1,9 @@
-import { FC, useState, useContext } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '../../../utils/classnames';
 import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
 import { respondBetween, respondTo } from '../../themes/mixins';
 import { withUserInfo } from '../UserInfoContext';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import DesktopSignIn from './DesktopSignIn';
 import MobileSignIn from './MobileSignIn';
 
