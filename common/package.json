@@ -7,6 +7,11 @@
     "test:updateSnapshots": "yarn test -- --updateSnapshot"
   },
   "license": "MIT",
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "next": "^11.1.0"
+  },
   "dependencies": {
     "@babel/core": "^7.2.0",
     "@babel/polyfill": "^7.0.0",
@@ -52,7 +57,6 @@
     "lscache": "^1.1.0",
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
-    "next": "^11.1.0",
     "next-cookies": "^2.0.3",
     "next-transpile-modules": "^8.0.0",
     "nprogress": "^0.2.0",
@@ -62,8 +66,6 @@
     "prismic-reactjs": "^1.1.2",
     "prop-types": "^15.7.2",
     "raven-js": "^3.26.3",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
     "react-ga": "^3.3.0",
     "react-is": "^17.0.2",
     "react-popper": "^2.2.3",
