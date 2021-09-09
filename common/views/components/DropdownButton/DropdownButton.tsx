@@ -83,12 +83,12 @@ const Popper = styled('div')<{ isVisible: boolean }>`
 `;
 
 type Props = {
+  id: string;
   label: string;
   children: ReactNode;
   buttonType?: 'outlined' | 'inline' | 'borderless';
   isOnDark?: boolean;
-  id: string;
-  iconLeft: string;
+  iconLeft?: string;
 };
 
 const DropdownButton: FunctionComponent<Props> = ({
