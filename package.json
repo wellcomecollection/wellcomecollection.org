@@ -6,7 +6,7 @@
     "lint": "eslint ./.eslintrc.js catalogue/ common/ content/ toggles/ dash/ --fix",
     "compile:tsc": "tsc --build ./tsconfig.json",
     "compile:flow": "flow",
-    "setupCommon": "yarn install --production && yarn flow",
+    "setupCommon": "yarn install --frozen-lockfile && yarn flow",
     "cardigan": "pushd cardigan && yarn dev",
     "catalogue": "pushd catalogue/webapp && yarn dev",
     "content": "pushd content/webapp && yarn dev",

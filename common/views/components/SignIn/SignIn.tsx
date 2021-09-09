@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { UserInfo } from '@weco/identity/src/frontend/hooks/useUserInfo';
+import type { UserInfo } from '@weco/identity/src/frontend/hooks/useUserInfo';
 type Props = {
   user?: UserInfo;
 };
