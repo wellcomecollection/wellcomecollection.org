@@ -16,7 +16,7 @@ import { InvalidFieldAlert, Button } from '../components/Form.style';
 import { Container, Title, Wrapper } from '../components/Layout.style';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WellcomeTextInput from '@weco/common/views/components/TextInput/TextInput';
-import Info2 from '@weco/common/icons/components/Info2';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import { useRegisterUser, RegistrationError } from './useRegisterUser';
 import { usePageTitle } from '../hooks/usePageTitle';
 import {
@@ -84,7 +84,7 @@ export function Registration(): JSX.Element {
               {registrationError && (
                 <>
                   <ErrorAlert aria-labelledby="error-text">
-                    <Info2 />
+                    <Icon name={`info2`} />
                     {registrationError ===
                       RegistrationError.EMAIL_ALREADY_EXISTS && (
                       <span id="error-text">
@@ -218,6 +218,9 @@ export function Registration(): JSX.Element {
                   rules={{ required: 'Accept the terms to continue.' }}
                   render={({ value, onChange }) => (
                     <Checkbox
+                      name={'termsAndConditions'}
+                      id={'termsAndConditions'}
+                      value={value}
                       onChange={(e: React.FormEvent<HTMLInputElement>) =>
                         onChange(e.currentTarget.checked)
                       }

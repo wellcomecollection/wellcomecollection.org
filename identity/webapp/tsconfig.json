@@ -2,8 +2,15 @@
   "compilerOptions": {
     "composite": true,
     "baseUrl": "src",
-    "lib": ["dom", "es2020"],
-    "typeRoots": ["../../node_modules/@types", "./node_modules/@types"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es2020"
+    ],
+    "typeRoots": [
+      "../../node_modules/@types",
+      "./node_modules/@types"
+    ],
     "target": "es2018",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -21,12 +28,25 @@
     "noUnusedLocals": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@weco/common": ["../../common/lib"]
-    }
+      "@weco/common": [
+        "../../common/lib"
+      ]
+    },
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true
   },
   "references": [
     {
       "path": "../../common"
     }
+  ],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
