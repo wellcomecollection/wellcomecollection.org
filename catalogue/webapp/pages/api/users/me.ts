@@ -1,5 +1,7 @@
-const signedOut = { message: 'Unauthorized' };
-const signedIn = {
+import type { NextApiRequest, NextApiResponse } from 'next';
+
+const signedOutResp = { message: 'Unauthorized' };
+const signedInResp = {
   userId: 1111111,
   barcode: '1111111',
   firstName: 'Naomi Parker',
@@ -14,7 +16,14 @@ const signedIn = {
   totalLogins: 20,
 };
 
-export default function handler(_, res) {
-  res.status(200).json(signedIn);
-  // res.status(401).json(signedOut);
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  // This is just for development purposes.
+  // /api/users/me is served from the identity webapp
+  const signedIn = req.cookies.signedIn === 'true';
+
+  if (signedIn) {
+    res.status(200).json(signedInResp);
+  } else {
+    res.status(401).json(signedOutResp);
+  }
 }
