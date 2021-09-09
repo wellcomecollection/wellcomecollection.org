@@ -106,21 +106,23 @@ describe('Scenario 2: A user wants to use the content offline', () => {
   });
 
   test('downloading an image of the current canvas', async () => {
-    const [newPage] = await Promise.all([
-      context.waitForEvent('page'),
-      page.click(smallImageDownload),
-    ]);
+    const smallImageDownloadElement = await page.waitForSelector(
+      smallImageDownload
+    );
+    const imageDownloadUrl = await smallImageDownloadElement.getAttribute(
+      'href'
+    );
 
-    expect(newPage.url()).toBe(smallImageDownloadUrl);
+    expect(imageDownloadUrl).toBe(smallImageDownloadUrl);
   });
 
   test('downloading the entire item', async () => {
-    const [newPage] = await Promise.all([
-      context.waitForEvent('page'),
-      page.click(fullItemDownload),
-    ]);
+    const fullItemDownloadElement = await page.waitForSelector(
+      fullItemDownload
+    );
+    const fullDownloadUrl = await fullItemDownloadElement.getAttribute('href');
 
-    expect(newPage.url()).toBe(fullItemDownloadUrl);
+    expect(fullDownloadUrl).toBe(fullItemDownloadUrl);
   });
 });
 
