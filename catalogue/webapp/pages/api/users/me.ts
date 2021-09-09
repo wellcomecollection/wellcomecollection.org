@@ -15,6 +15,6 @@ const signedIn = {
 };
 
 export default function handler(_, res) {
-  // res.status(200).json(signedIn);
-  res.status(401).json(signedOut);
+  res.status(200).json(signedIn);
+  // res.status(401).json(signedOut);
 }

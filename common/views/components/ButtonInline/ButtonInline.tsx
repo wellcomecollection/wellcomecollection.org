@@ -1,4 +1,4 @@
-import { AriaAttributes, forwardRef, SyntheticEvent } from 'react';
+import { AriaAttributes, forwardRef, ReactNode, SyntheticEvent } from 'react';
 import { classNames } from '../../../utils/classnames';
 import { GaEvent, trackEvent } from '../../../utils/ga';
 import styled from 'styled-components';
@@ -12,7 +12,7 @@ import {
 import AlignFont from '../styled/AlignFont';
 
 export type ButtonInlineBaseProps = {
-  text: string;
+  text: ReactNode;
   icon?: string;
   type?: ButtonTypes;
   isOnDark?: boolean;

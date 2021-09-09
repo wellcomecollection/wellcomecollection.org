@@ -321,7 +321,6 @@ export const links = [
 
 const Header: FC<Props> = ({ siteSection }) => {
   const [isActive, setIsActive] = useState(false);
-  const { enableRequesting } = useContext(TogglesContext);
 
   return (
     <Wrapper navHeight={navHeight} isBurgerOpen={isActive}>
@@ -370,10 +369,10 @@ const Header: FC<Props> = ({ siteSection }) => {
                     </HeaderLink>
                   </HeaderItem>
                 ))}
-                {enableRequesting && <MobileSignIn />}
+                <MobileSignIn />
               </HeaderList>
             </HeaderNav>
-            {enableRequesting && <DesktopSignIn />}
+            <DesktopSignIn />
           </NavLoginWrapper>
         </div>
       </div>

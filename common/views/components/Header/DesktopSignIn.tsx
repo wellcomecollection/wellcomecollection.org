@@ -6,7 +6,7 @@ import { BorderlessLink } from '../BorderlessClickable/BorderlessClickable';
 import AlignFont from '../styled/AlignFont';
 
 const DesktopSignIn: FC = () => {
-  const { state } = useUser();
+  const { state, user } = useUser();
 
   return state === 'initial' ? null : (
     <>
@@ -57,6 +57,33 @@ const DesktopSignIn: FC = () => {
             </DropdownButton>
           </span>
         </>
+      )}
+      {state === 'signedin' && user && (
+        <DropdownButton
+          label={
+            <span
+              className={classNames({
+                [font('hnr', 6)]: true,
+              })}
+            >
+              {user.firstName} {user.lastName}
+            </span>
+          }
+          iconLeft="user"
+          id="signedin-dropdown"
+          buttonType="borderless"
+        >
+          <span
+            className={classNames({
+              [font('hnr', 6)]: true,
+            })}
+          >
+            <AlignFont>
+              <a href="/account">Library account</a>
+              <a href="/account/logout">Sign out</a>
+            </AlignFont>
+          </span>
+        </DropdownButton>
       )}
     </>
   );
