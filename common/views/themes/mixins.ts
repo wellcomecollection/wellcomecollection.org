@@ -1,8 +1,7 @@
 import { themeValues, ColumnKey, Breakpoint } from './config';
 
 export function respondTo(breakpoint: Breakpoint, content: string): string {
-  return `@media (min-width: ${themeValues.sizes[breakpoint] ??
-    themeValues.tweakpoints[breakpoint]}px) {
+  return `@media (min-width: ${themeValues.sizes[breakpoint]}px) {
    ${content}
  }`;
 }
@@ -12,9 +11,9 @@ export function respondBetween(
   maxBreakpoint: Breakpoint,
   content: string
 ): string {
-  return `@media (min-width: ${themeValues.sizes[minBreakpoint] ??
-    themeValues.tweakpoints[minBreakpoint]}px) and (max-width: ${(themeValues
-    .sizes[maxBreakpoint] ?? themeValues.tweakpoints[maxBreakpoint]) - 1}px) {
+  return `@media (min-width: ${
+    themeValues.sizes[minBreakpoint]
+  }px) and (max-width: ${themeValues.sizes[maxBreakpoint] - 1}px) {
     ${content}
   }`;
 }

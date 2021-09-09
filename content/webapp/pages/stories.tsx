@@ -108,7 +108,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     if (articles && articles.results) {
       return {
         props: removeUndefinedProps({
-          articles,
+          articles: articles.results,
           series,
           featuredText,
           globalContextData,
